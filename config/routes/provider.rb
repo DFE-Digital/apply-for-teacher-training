@@ -96,11 +96,12 @@ namespace :provider_interface, path: '/provider' do
       get '/study-mode', to: 'study_mode#edit'
       post '/study-mode', to: 'study_mode#update'
 
+      # Routes for the conditions step
+      get '/conditions', to: 'conditions#edit'
+      post '/conditions', to: 'conditions#update'
+
       # Routes for the check your answers step
       resource :check, only: :show
-
-      # Routes for the conditions step
-      # get '/conditions', to: 'conditions#edit'
 
       # Routes for the final submission to confirm the deferral
       # resource :confirm, only: :create, controller: :confirm

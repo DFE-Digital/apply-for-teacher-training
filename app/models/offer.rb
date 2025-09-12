@@ -22,4 +22,8 @@ class Offer < ApplicationRecord
   def all_conditions_text
     conditions.map(&:text)
   end
+
+  def all_conditions_met?
+    conditions.all?(&:met?)
+  end
 end
