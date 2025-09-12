@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_02_104318) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_10_102132) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -256,6 +256,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_02_104318) do
     t.jsonb "editable_sections"
     t.boolean "university_degree"
     t.boolean "adviser_interruption_response"
+    t.datetime "previous_teacher_training_completed_at"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["recruitment_cycle_year"], name: "index_application_forms_on_recruitment_cycle_year"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
@@ -820,6 +821,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_02_104318) do
     t.index ["recruitment_cycle_year"], name: "index_pool_invites_on_recruitment_cycle_year"
   end
 
+  create_table "previous_teacher_trainings", force: :cascade do |t|
+    t.bigint "application_form_id", null: false
+    t.bigint "provider_id"
+    t.string "status", default: "draft", null: false
+    t.string "started"
+    t.string "provider_name"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.text "details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_form_id"], name: "index_previous_teacher_trainings_on_application_form_id"
+    t.index ["provider_id"], name: "index_previous_teacher_trainings_on_provider_id"
+  end
+
   create_table "provider_agreements", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
@@ -1193,6 +1209,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_02_104318) do
   add_foreign_key "pool_invites", "courses", on_delete: :cascade
   add_foreign_key "pool_invites", "provider_users", column: "invited_by_id"
   add_foreign_key "pool_invites", "providers", on_delete: :cascade
+  add_foreign_key "previous_teacher_trainings", "application_forms", on_delete: :cascade
+  add_foreign_key "previous_teacher_trainings", "providers"
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
   add_foreign_key "provider_pool_actions", "application_forms", on_delete: :cascade
