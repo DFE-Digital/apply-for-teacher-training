@@ -16,8 +16,8 @@
             label: { text: t('.page_title'), size: 'xl' },
             caption: { text: @course_form.application_choice.application_form.full_name, size: 'xl' },
             data: { controller: 'autocomplete' },
-            ),
-          ) %>
+          ),
+        ) %>
       <% else %>
         <%= form.govuk_collection_radio_buttons(
               :course_id,
