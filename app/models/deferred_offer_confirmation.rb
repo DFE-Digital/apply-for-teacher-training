@@ -1,12 +1,33 @@
 class DeferredOfferConfirmation < ApplicationRecord
   class CourseForm < DeferredOfferConfirmation
     validates :course_id, presence: true
+    validate :no_raw_input
+
+    attr_accessor :course_id_raw
 
     def courses_for_select
-      offer.provider.courses
+      @courses_for_select ||= offer.provider.courses
            .where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
            .includes(:provider, :accredited_provider)
            .order(:name)
+    end
+
+    def course_options
+      @course_options ||= courses_for_select.map do |course|
+        [course.name_and_code, course.id]
+      end.unshift([nil, nil])
+    end
+
+  private
+
+    def no_raw_input
+      return if courses_for_select.size <= 20
+      return if course_id.blank?
+      return if course_options.any? do |name, id|
+        course_id_raw == name && id == course_id.to_i
+      end
+
+      errors.add(:course_id, :blank)
     end
   end
 
@@ -30,6 +51,35 @@ class DeferredOfferConfirmation < ApplicationRecord
 
     def study_modes_for_select
       StudyModeForm.study_modes.map { |id, value| SelectOption.new(id: id, name: value.humanize) }
+    end
+  end
+
+  class LocationForm < DeferredOfferConfirmation
+    validates :site_id, presence: true
+    validate :no_raw_input
+
+    attr_accessor :site_id_raw
+
+    def locations_for_select
+      provider_sites = offer.provider.sites.order(:name)
+
+      if provider_sites.count > 20
+        provider_sites.map { |site| ["#{site.name} - #{site.full_address}", site.id] }.unshift([nil, nil])
+      else
+        provider_sites
+      end
+    end
+
+  private
+
+    def no_raw_input
+      return if site_id_raw.nil?
+      return if site_id.blank?
+      return if locations_for_select.any? do |name, id|
+        site_id_raw == name && id == site_id.to_i
+      end
+
+      errors.add(:site_id, :blank)
     end
   end
 

@@ -1,18 +1,18 @@
-class ProviderInterface::DeferredOffer::CoursesController < ProviderInterface::ProviderInterfaceController
+class ProviderInterface::DeferredOffer::LocationController < ProviderInterface::ProviderInterfaceController
   def edit
-    @course_form = DeferredOfferConfirmation::CourseForm.find_or_initialize_by(
+    @location_form = DeferredOfferConfirmation::LocationForm.find_or_initialize_by(
       provider_user: current_provider_user,
       offer: offer,
     )
   end
 
   def update
-    @course_form = DeferredOfferConfirmation::CourseForm.find_or_initialize_by(
+    @location_form = DeferredOfferConfirmation::LocationForm.find_or_initialize_by(
       provider_user: current_provider_user,
       offer: offer,
     )
 
-    if @course_form.update(course_form_params)
+    if @location_form.update(location_form_params)
       redirect_to provider_interface_deferred_offer_check_path(application_choice)
     else
       render :edit, status: :unprocessable_entity
@@ -21,8 +21,8 @@ class ProviderInterface::DeferredOffer::CoursesController < ProviderInterface::P
 
 private
 
-  def course_form_params
-    params.expect(deferred_offer_confirmation_course_form: %i[course_id course_id_raw])
+  def location_form_params
+    params.expect(deferred_offer_confirmation_location_form: %i[site_id site_id_raw])
   end
 
   def offer

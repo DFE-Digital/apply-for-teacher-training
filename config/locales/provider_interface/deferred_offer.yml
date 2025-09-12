@@ -21,6 +21,12 @@ en:
           study_mode:
             fieldset_hint: You should confirm a place for this candidate on the original course that they accepted an offer for. If you cannot do this you must discuss the change with the candidate before you confirm their deferred offer.
           submit: Change study type
+      location:
+        edit:
+          page_title: Change location
+          site_id:
+            fieldset_hint: You should confirm a place for this candidate on the original course that they accepted an offer for. If you cannot do this you must discuss the change with the candidate before you confirm their deferred offer.
+          submit: Change location
       conditions:
         show:
           page_title: Confirm status of conditions
@@ -50,6 +56,10 @@ en:
           attributes:
             study_mode:
               blank: Select a study type
+        deferred_offer_confirmation/location_form:
+          attributes:
+            site_id:
+              blank: Select a location
         deferred_offer_confirmation/conditions_form:
           attributes:
             condition_status:

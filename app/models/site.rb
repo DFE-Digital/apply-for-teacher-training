@@ -28,6 +28,7 @@ class Site < ApplicationRecord
       .compact_blank
       .join(join_by)
   end
+  alias description full_address
 
   def name_and_address(join_by = ', ')
     if full_address.present?
