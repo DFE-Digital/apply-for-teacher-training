@@ -22,7 +22,7 @@ class ProviderInterface::DeferredOffer::CoursesController < ProviderInterface::P
 private
 
   def course_form_params
-    params.expect(deferred_offer_confirmation_course_form: [:course_id])
+    params.expect(deferred_offer_confirmation_course_form: %i[course_id course_id_raw])
   end
 
   def offer

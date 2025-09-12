@@ -1,12 +1,33 @@
 class DeferredOfferConfirmation < ApplicationRecord
   class CourseForm < DeferredOfferConfirmation
     validates :course_id, presence: true
+    validate :no_raw_input
+
+    attr_accessor :course_id_raw
 
     def courses_for_select
-      offer.provider.courses
+      @courses_for_select ||= offer.provider.courses
            .where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
            .includes(:provider, :accredited_provider)
            .order(:name)
+    end
+
+    def course_options
+      @course_options ||= courses_for_select.map do |course|
+        [course.name_and_code, course.id]
+      end.unshift([nil, nil])
+    end
+
+  private
+
+    def no_raw_input
+      return if courses_for_select.size <= 20
+      return if course_id.blank?
+      return if course_options.any? do |name, id|
+        course_id_raw == name && id == course_id.to_i
+      end
+
+      errors.add(:course_id, :blank)
     end
   end
 
