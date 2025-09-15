@@ -59,14 +59,5 @@ RSpec.describe DeferOffer do
 
       expect(CandidateMailer).to have_received(:deferred_offer).once.with(application_choice)
     end
-
-    it 'notifies on the state change' do
-      application_choice = create(:application_choice, :recruited)
-      allow(StateChangeNotifier).to receive(:call)
-
-      described_class.new(actor: create(:support_user), application_choice:).save!
-
-      expect(StateChangeNotifier).to have_received(:call).with(:defer_offer, application_choice:)
-    end
   end
 end

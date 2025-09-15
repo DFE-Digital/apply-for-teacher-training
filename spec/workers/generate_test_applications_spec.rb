@@ -21,13 +21,9 @@ RSpec.describe GenerateTestApplications do
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle))
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle))
 
-    slack_request = stub_request(:post, 'https://example.com')
 
-    ClimateControl.modify(STATE_CHANGE_SLACK_URL: 'https://example.com') do
       described_class.new.perform
-    end
 
-    expect(slack_request).not_to have_been_made
 
     expect(ApplicationChoice.pluck(:status)).to include(
       'unsubmitted',
@@ -63,9 +59,7 @@ RSpec.describe GenerateTestApplications do
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
 
-    ClimateControl.modify(STATE_CHANGE_SLACK_URL: 'https://example.com') do
       described_class.new.perform
-    end
 
     expect(
       ApplicationForm
@@ -84,9 +78,7 @@ RSpec.describe GenerateTestApplications do
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
 
-    ClimateControl.modify(STATE_CHANGE_SLACK_URL: 'https://example.com') do
       described_class.new.perform(true)
-    end
 
     expect(ApplicationChoice.pluck(:status)).to include(
       'awaiting_provider_decision',

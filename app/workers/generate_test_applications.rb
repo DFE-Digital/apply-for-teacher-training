@@ -102,9 +102,7 @@ class GenerateTestApplications
       create(recruitment_cycle_year: current_year, states: %i[offer], courses_to_apply_to: current_cycle_courses)
     end
 
-    StateChangeNotifier.disable_notifications do
-      ProcessStaleApplications.new.call
-    end
+    ProcessStaleApplications.new.call
   end
 
 private

@@ -5,7 +5,7 @@ RSpec.describe RefereeInterface::ConfirmRefuseFeedbackForm do
     let(:application_reference) { create(:reference, :feedback_requested) }
 
     context 'when the form is valid' do
-      it 'updates the reference to feedback_refused and sets the feedback_refused_at to the current time and sends a slack message' do
+      it 'updates the reference to feedback_refused and sets the feedback_refused_at to the current time' do
         form = described_class.new
         form.save(application_reference)
 

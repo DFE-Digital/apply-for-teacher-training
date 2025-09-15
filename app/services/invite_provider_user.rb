@@ -14,9 +14,8 @@ class InviteProviderUser
     invite_user_to_dfe_sign_in
   end
 
+  # @deprecated
   def notify
-    lookup_provider_user
-    send_slack_notification
   end
 
   def dfe_invite_url
@@ -40,14 +39,6 @@ private
 
     response = HTTP.auth(auth_string).post dfe_invite_url, json: request_params
     raise DfeSignInAPIError, response unless response.status.success?
-  end
-
-  def send_slack_notification
-    providers = @provider_user.providers.map(&:name).to_sentence
-    message = ":technologist: Provider user #{@provider_user.first_name} has been invited to join #{providers}"
-    url = Rails.application.routes.url_helpers.support_interface_provider_user_url(@provider_user)
-
-    SlackNotificationWorker.perform_async(message, url)
   end
 
   def lookup_provider_user

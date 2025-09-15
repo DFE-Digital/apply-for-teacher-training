@@ -1,23 +1,14 @@
 class UpdateDuplicateMatches
-  def initialize(matches: GetDuplicateMatches.call, send_email: true, block_submission: true, notify_slack_at: nil)
+  def initialize(matches: GetDuplicateMatches.call, send_email: true, block_submission: true)
     @matches = matches
     @send_email = send_email
     @block_submission = block_submission
-    @notify_slack_at = notify_slack_at
   end
 
   def save!
     @matches.each do |match|
       save_match(match)
     end
-
-    message = <<~MSG
-      \n#{Rails.application.routes.url_helpers.support_interface_duplicate_matches_url}
-      :face_with_monocle: There #{new_match_count == 1 ? 'is' : 'are'} #{new_match_count} new duplicate candidate #{'match'.pluralize(new_match_count)} today :face_with_monocle:
-      :female-detective: In total there #{total_match_count == 1 ? 'is' : 'are'} #{total_match_count} #{'match'.pluralize(total_match_count)} :male-detective:
-    MSG
-
-    SlackNotificationWorker.perform_async(message) if @notify_slack_at.blank? || Time.zone.now.hour == @notify_slack_at
   end
 
 private
@@ -63,14 +54,6 @@ private
   def notify_candidate(candidate, duplicate_match)
     SupportInterface::SendDuplicateMatchEmail.new(candidate).call
     duplicate_match.update!(candidate_last_contacted_at: Time.zone.now)
-  end
-
-  def new_match_count
-    @new_match_count ||= DuplicateMatch.where('created_at > ?', 1.day.ago).count
-  end
-
-  def total_match_count
-    @total_match_count ||= DuplicateMatch.where(recruitment_cycle_year: current_year).count
   end
 
   def process_match(candidate, duplicate_match)

@@ -25,7 +25,6 @@ class DeferOffer
       end
 
       CandidateMailer.deferred_offer(application_choice).deliver_later
-      StateChangeNotifier.call(:defer_offer, application_choice:)
     end
   end
 

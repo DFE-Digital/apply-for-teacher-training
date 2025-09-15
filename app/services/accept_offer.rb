@@ -26,30 +26,18 @@ class AcceptOffer
       ProviderMailer.offer_accepted(provider_user, application_choice).deliver_later
     end
 
-    candidate = application_form.candidate
-    accepted_invite = candidate.published_pool_invites_current_cycle.find_by(course_id: application_choice.course.id)
-
-    if accepted_invite.present?
-      SupportInterface::Candidates::AcceptedInviteSlackNotification.call(
-        invite: accepted_invite,
-        application_form:,
-      )
-    end
-
     CandidateMailer.offer_accepted(application_choice).deliver_later
   end
 
 protected
 
   def withdraw_and_decline_associated_application_choices!
-    StateChangeNotifier.disable_notifications do
-      other_application_choices_with_offers.each do |application_choice|
-        DeclineOffer.new(application_choice:).save!
-      end
+    other_application_choices_with_offers.each do |application_choice|
+      DeclineOffer.new(application_choice:).save!
+    end
 
-      application_choices_awaiting_provider_decision.each do |application_choice|
-        WithdrawApplication.new(application_choice:).save!
-      end
+    application_choices_awaiting_provider_decision.each do |application_choice|
+      WithdrawApplication.new(application_choice:).save!
     end
   end
 

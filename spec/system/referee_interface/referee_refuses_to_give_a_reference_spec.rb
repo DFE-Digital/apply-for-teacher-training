@@ -13,7 +13,6 @@ RSpec.describe 'Refusing to give a reference' do
     when_i_select_no_to_giving_a_reference
     and_i_see_the_confirmation_page
     and_i_confirm_that_i_wont_give_a_reference
-    and_a_slack_notification_is_sent
     then_an_email_is_sent_to_the_candidate
     then_i_see_the_thank_you_page
   end
@@ -52,10 +51,6 @@ RSpec.describe 'Refusing to give a reference' do
 
   def and_i_confirm_that_i_wont_give_a_reference
     click_link_or_button 'Yes, I am unable to give a reference'
-  end
-
-  def and_a_slack_notification_is_sent
-    expect_slack_message_with_text ":sadparrot: A referee declined to give feedback for #{@application.first_name}’s application"
   end
 
   def then_an_email_is_sent_to_the_candidate
