@@ -14,10 +14,6 @@ class InviteProviderUser
     invite_user_to_dfe_sign_in
   end
 
-  # @deprecated
-  def notify
-  end
-
   def dfe_invite_url
     "#{@dsi_api_url}/services/apply/invitations"
   end
