@@ -21,9 +21,7 @@ RSpec.describe GenerateTestApplications do
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle))
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle))
 
-
-      described_class.new.perform
-
+    described_class.new.perform
 
     expect(ApplicationChoice.pluck(:status)).to include(
       'unsubmitted',
@@ -59,7 +57,7 @@ RSpec.describe GenerateTestApplications do
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
 
-      described_class.new.perform
+    described_class.new.perform
 
     expect(
       ApplicationForm
@@ -78,7 +76,7 @@ RSpec.describe GenerateTestApplications do
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
     create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
 
-      described_class.new.perform(true)
+    described_class.new.perform(true)
 
     expect(ApplicationChoice.pluck(:status)).to include(
       'awaiting_provider_decision',
