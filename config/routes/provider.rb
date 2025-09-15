@@ -89,8 +89,8 @@ namespace :provider_interface, path: '/provider' do
       post '/course', to: 'courses#update'
 
       # Routes for the location selection step
-      # get '/location', to: 'location#edit'
-      # post '/location', to: 'location#update'
+      get '/location', to: 'location#edit'
+      post '/location', to: 'location#update'
 
       # Routes for the study mode selection step
       get '/study-mode', to: 'study_mode#edit'
