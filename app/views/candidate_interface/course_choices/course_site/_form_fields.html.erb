@@ -14,10 +14,33 @@
 <p class="govuk-body"><%= t('course_choices.course_site.select_preferred_placement') %></p>
 <p class="govuk-body"><%= t('course_choices.course_site.training_provider_will_contact_you') %></p>
 
-<%= f.govuk_radio_buttons_fieldset :course_option_id, legend: { text: t('page_titles.which_location'), size: 'l', tag: 'h1' } do %>
-  <% @wizard.current_step.available_sites.each_with_index do |option, i| %>
-    <%= f.govuk_radio_button :course_option_id, option.id, label: { text: option.site.name }, hint: { text: option.site.full_address }, link_errors: i.zero? %>
+<% if @wizard.current_step.course_options.size < 20 %>
+  <%= f.govuk_radio_buttons_fieldset(
+    :course_option_id,
+    legend: { text: t('page_titles.which_location'), size: 'l' },
+  ) do %>
+    <% @wizard.current_step.available_sites.each_with_index do |option, i| %>
+      <%= f.govuk_radio_button(
+            :course_option_id,
+            option.id,
+            label: { text: option.site.name },
+            hint: { text: option.site.full_address },
+            link_errors: i.zero?,
+          ) %>
+    <% end %>
   <% end %>
+<% else %>
+  <%= render DfE::Autocomplete::View.new(
+    f,
+    attribute_name: :course_option_id,
+    form_field:
+      f.govuk_select(
+        :course_option_id,
+        options_for_select(@wizard.current_step.site_options_for_select, @wizard.current_step.course_option_id.to_s),
+        data: { controller: 'autocomplete' },
+        label: { text: t('page_titles.which_location'), size: 'l' },
+      ),
+  ) %>
 <% end %>
 
 <%= f.govuk_submit t('continue') %>

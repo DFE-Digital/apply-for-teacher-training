@@ -2,14 +2,24 @@ module CandidateInterface
   module CourseChoices
     class WhichCourseAreYouApplyingToStep < DfE::Wizard::Step
       include CandidateInterface::Concerns::CourseSelectionStepHelper
+      include CandidateInterface::Concerns::FreeTextInputHelper
 
-      attr_accessor :provider_id, :course_id
+      attr_accessor :provider_id, :course_id, :course_id_raw
+      alias_attribute :value, :course_id
+      alias_attribute :raw_input, :course_id_raw
+      alias_attribute :valid_options, :select_course_options
+
       validates :provider_id, :course_id, presence: true
+      validate :no_free_text_input
 
       validates_with CourseSelectionValidator, on: :course_choice
 
       def self.permitted_params
-        %i[provider_id course_id]
+        %i[provider_id course_id course_id_raw]
+      end
+
+      def no_free_text_input
+        errors.add(:course_id, :blank) if invalid_raw_data?
       end
 
       def available_courses
@@ -21,7 +31,11 @@ module CandidateInterface
       end
 
       def dropdown_available_courses
-        ::CandidateInterface::PickCourseForm.new(provider_id:, available_courses:).dropdown_available_courses
+        @dropdown_available_courses ||= ::CandidateInterface::PickCourseForm.new(provider_id:, available_courses:).dropdown_available_courses
+      end
+
+      def select_course_options
+        dropdown_available_courses.pluck(:name, :id).unshift([nil, nil])
       end
 
       def previous_step
@@ -29,7 +43,7 @@ module CandidateInterface
       end
 
       def previous_step_path_arguments
-        { provider_id: }
+        { provider_id:, course_id: }.compact_blank
       end
 
       def next_step

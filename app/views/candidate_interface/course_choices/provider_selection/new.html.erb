@@ -5,14 +5,19 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @wizard.current_step, url: @wizard.current_step_path do |f| %>
       <%= f.govuk_error_summary %>
+      <%= f.hidden_field :course_id %>
 
-      <%= f.govuk_collection_select(
+      <%= render DfE::Autocomplete::View.new(
+        f,
+        attribute_name: :provider_id,
+        form_field:
+          f.govuk_select(
             :provider_id,
-            select_provider_options(@wizard.current_step.available_providers),
-            :id,
-            :name,
+            options_for_select(@wizard.current_step.select_provider_options, @wizard.current_step.provider_id),
+            data: { controller: 'autocomplete' },
             label: { text: t('page_titles.which_provider'), size: 'xl', tag: 'h1' },
-          ) %>
+          ),
+      ) %>
 
       <%= f.govuk_submit t('continue') %>
     <% end %>
