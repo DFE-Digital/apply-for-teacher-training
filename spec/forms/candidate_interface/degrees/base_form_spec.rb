@@ -465,8 +465,39 @@ RSpec.describe CandidateInterface::Degrees::BaseForm do
             equivalent_level: nil,
             type: application_qualification.qualification_type,
             other_type: nil,
-            grade: 'Other',
+            grade: 'Yes',
             other_grade: application_qualification.grade,
+            completed: 'Yes',
+            subject: application_qualification.subject,
+            university: application_qualification.institution_name,
+            start_year: application_qualification.start_year,
+            award_year: application_qualification.award_year,
+            enic_reason: nil,
+            enic_reference: application_qualification.enic_reference,
+            comparable_uk_degree: application_qualification.comparable_uk_degree,
+          }
+
+          expect(base_form.as_json).to include(stores.stringify_keys)
+        end
+      end
+
+      context 'non-uk degree with not_applicable grade' do
+        let(:application_qualification) do
+          create(:non_uk_degree_qualification, grade: 'N/A', id: 1, enic_reason: nil)
+        end
+
+        it 'rehydrates the degree base_form' do
+          stores = {
+            id: 1,
+            uk_or_non_uk: 'non_uk',
+            country: application_qualification.institution_country,
+            application_form_id: application_qualification.application_form.id,
+            degree_level: nil,
+            equivalent_level: nil,
+            type: application_qualification.qualification_type,
+            other_type: nil,
+            grade: 'No',
+            other_grade: nil,
             completed: 'Yes',
             subject: application_qualification.subject,
             university: application_qualification.institution_name,
