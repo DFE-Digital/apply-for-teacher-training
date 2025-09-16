@@ -1,0 +1,31 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @form.errors.any?) %>
+<% content_for(
+  :before_content,
+  govuk_back_link_to(
+    @back_path || new_candidate_interface_previous_teacher_training_date_path(@previous_teacher_training),
+  ),
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @form,
+      url: candidate_interface_previous_teacher_training_details_path(
+        @previous_teacher_training,
+      ),
+      method: :post,
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_text_area(
+        :details,
+        label: { text: t('.title'), size: 'xl' },
+        hint: { text: t('.hint_html') },
+        rows: 10,
+        max_words: 200,
+      ) %>
+
+      <%= f.govuk_submit %>
+    <% end %>
+  </div>
+</div>
