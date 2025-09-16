@@ -96,20 +96,20 @@ module ApplicationHelper
     Time.zone.now.iso8601(6)
   end
 
-  def start_date_field_to_attribute(key)
+  def start_date_field_to_attribute(key, start_date_param_name = 'start_date')
     case key
-    when 'start_date(3i)' then 'start_date_day'
-    when 'start_date(2i)' then 'start_date_month'
-    when 'start_date(1i)' then 'start_date_year'
+    when "#{start_date_param_name}(3i)" then 'start_date_day'
+    when "#{start_date_param_name}(2i)" then 'start_date_month'
+    when "#{start_date_param_name}(1i)" then 'start_date_year'
     else key
     end
   end
 
-  def end_date_field_to_attribute(key)
+  def end_date_field_to_attribute(key, end_date_param_name = 'end_date')
     case key
-    when 'end_date(3i)' then 'end_date_day'
-    when 'end_date(2i)' then 'end_date_month'
-    when 'end_date(1i)' then 'end_date_year'
+    when "#{end_date_param_name}(3i)" then 'end_date_day'
+    when "#{end_date_param_name}(2i)" then 'end_date_month'
+    when "#{end_date_param_name}(1i)" then 'end_date_year'
     else key
     end
   end
