@@ -1,0 +1,15 @@
+<%= form_with(model: form, url:, method:) do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <%= f.govuk_collection_radio_buttons(
+    :started,
+    @form.options,
+    :value,
+    :name,
+    bold_labels: false,
+    legend: { text: title, size: 'xl' },
+    hint: proc { body },
+  ) %>
+
+  <%= f.govuk_submit %>
+<% end %>

@@ -1,0 +1,35 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @form.errors.any?) %>
+<% content_for(
+  :before_content,
+  govuk_back_link_to(
+    @back_path || edit_candidate_interface_previous_teacher_trainings_path(@previous_teacher_training),
+  ),
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @form,
+      url: candidate_interface_previous_teacher_training_names_path(
+        @previous_teacher_training,
+        return_to: @back_path.present? ? 'review' : nil,
+      ),
+      method: :post,
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= render DfE::Autocomplete::View.new(
+        f,
+        attribute_name: :provider_name,
+        form_field: f.govuk_select(
+          :provider_name,
+          options_for_select(dfe_autocomplete_options(@form.providers), f.object.provider_name),
+          label: { text: t('.title'), size: 'xl' },
+          hint: proc { t('.body') },
+        ),
+      ) %>
+
+    <%= f.govuk_submit %>
+    <% end %>
+  </div>
+</div>
