@@ -98,6 +98,63 @@ RSpec.describe DuplicateApplication do
     end
   end
 
+  context 'when a candidate published started previous_teacher_training' do
+    it 'does duplicate previous_teacher_training' do
+      previous_teacher_training = create(
+        :previous_teacher_training,
+        status: 'published',
+        application_form: @original_application_form,
+      )
+
+      expect(duplicate_application_form.published_previous_teacher_training)
+        .to have_attributes(
+          status: 'published',
+          started: 'yes',
+          started_at: previous_teacher_training.started_at,
+          ended_at: previous_teacher_training.ended_at,
+          provider_name: previous_teacher_training.provider_name,
+          details: previous_teacher_training.details,
+        )
+      expect(duplicate_application_form.previous_teacher_training_completed).to be(true)
+    end
+  end
+
+  context 'when a candidate published not started previous_teacher_training' do
+    it 'does duplicate previous_teacher_training' do
+      create(
+        :previous_teacher_training,
+        :not_started,
+        status: 'published',
+        application_form: @original_application_form,
+      )
+
+      expect(duplicate_application_form.published_previous_teacher_training)
+        .to have_attributes(
+          status: 'published',
+          started: 'no',
+          started_at: nil,
+          ended_at: nil,
+          provider_name: nil,
+          details: nil,
+        )
+      expect(duplicate_application_form.previous_teacher_training_completed).to be(true)
+    end
+  end
+
+  context 'when a candidate did not publish previous_teacher_training' do
+    it 'does not duplicate previous_teacher_training' do
+      @original_application_form.previous_teacher_trainings.delete_all
+      create(
+        :previous_teacher_training,
+        status: 'draft',
+        application_form: @original_application_form,
+      )
+
+      expect(duplicate_application_form.published_previous_teacher_training).to be_nil
+      expect(duplicate_application_form.previous_teacher_training_completed).to be(false)
+    end
+  end
+
   context 'when candidates does not have degrees' do
     it 'does not set university degree' do
       expect(duplicate_application_form.university_degree).to be_nil

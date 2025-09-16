@@ -1,5 +1,7 @@
 module CandidateInterface
   class ApplicationFormPresenter
+    include Rails.application.routes.url_helpers
+
     ErrorMessage = Struct.new(:message, :anchor)
 
     attr_reader :application_form
@@ -17,6 +19,7 @@ module CandidateInterface
              :phase,
              :personal_details_completed,
              :no_degree_and_degree_not_completed?,
+             :previous_teacher_training_completed,
              :support_reference, to: :application_form
 
     def initialize(application_form)
@@ -45,6 +48,7 @@ module CandidateInterface
         [:volunteering, volunteering_completed?],
         [:safeguarding, safeguarding_completed?],
         [:equality_and_diversity, equality_and_diversity_completed?],
+        [:previous_teacher_training, previous_teacher_training_completed?],
 
         # "Qualifications" section
         [:degrees, degrees_completed?],
@@ -307,8 +311,22 @@ module CandidateInterface
       application_form.safeguarding_issues_completed
     end
 
+    def path_to_previous_teacher_training
+      if application_form.published_previous_teacher_training&.reviewable?
+        candidate_interface_previous_teacher_training_path(
+          application_form.published_previous_teacher_training,
+        )
+      else
+        start_candidate_interface_previous_teacher_trainings_path
+      end
+    end
+
     def equality_and_diversity_completed?
       application_form.equality_and_diversity_completed
+    end
+
+    def previous_teacher_training_completed?
+      application_form.previous_teacher_training_completed
     end
 
     def safeguarding_valid?
