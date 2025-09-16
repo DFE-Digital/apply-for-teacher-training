@@ -16,6 +16,18 @@ module CandidateInterface
         %i[provider_id course_id study_mode course_option_id course_option_id_raw]
       end
 
+      def set_course_option_id
+        # This handles if the user has changed course,
+        # the previously selected site will still display,
+        # but the course_option_id will be valid for the newly selected course
+        return '' if @course_option_id.blank?
+
+        site = CourseOption.find_by(id: @course_option_id)&.site
+        return '' if site.blank?
+
+        @course_option_id = course_options.find_by(site:)&.id || ''
+      end
+
       def no_free_text_input
         errors.add(:course_option_id, :blank) if invalid_raw_data?
       end
@@ -35,7 +47,7 @@ module CandidateInterface
       def site_options_for_select
         available_sites.map do |course_option|
           [
-            "#{course_option.site.name} - #{course_option.site.full_address}",
+            course_option.site.name_and_address(' - '),
             course_option.id,
           ]
         end.unshift([nil, nil])

@@ -17,7 +17,7 @@ module CandidateInterface
 
       def select_provider_options
         @select_provider_options ||= available_providers.map do |provider|
-          ["#{provider.name} (#{provider.code})", provider.id]
+          [provider.name_and_code, provider.id]
         end.unshift([nil, nil])
       end
 
