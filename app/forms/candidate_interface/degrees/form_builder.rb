@@ -73,7 +73,7 @@ module CandidateInterface
     def uk_grade
       if map_to_uk_grade?
         application_qualification.grade
-      else
+      elsif !application_qualification.international
         OTHER_GRADE
       end
     end
