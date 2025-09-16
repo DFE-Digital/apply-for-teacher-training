@@ -1,6 +1,0 @@
-.terraform
-*.tf
-*.tfvars
-*.tfstate
-*.env
-*token*

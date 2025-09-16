@@ -75,7 +75,7 @@ kubetail -n bat-qa apply-qa-*
 
 ```sh
 kubectl -n bat-qa get deployments
-kubectl -n bat-qa exec -ti deployment/apply-loadtest -- sh
+kubectl -n bat-qa exec -ti deployment/apply-qa -- sh
 ```
 
 Alternatively you can enter directly on a pod:
@@ -109,7 +109,7 @@ kubectl -n bat-qa describe pods apply-somenumber-of-the-pod
 The app:
 
 ```sh
-kubectl -n bat-qa scale deployment/apply-loadtest --replicas 2
+kubectl -n bat-qa scale deployment/apply-qa --replicas 2
 ```
 
 The Nginx:
@@ -121,13 +121,13 @@ kubectl scale deployment/ingress-nginx-controller --replicas 2
 ### Enter on console
 
 ```sh
-kubectl -n bat-qa exec -ti apply-loadtest-some-pod-number -- bundle exec rails c
+kubectl -n bat-qa exec -ti apply-qa-some-pod-number -- bundle exec rails c
 ```
 
 ### Running tasks
 
 ```sh
-kubectl -n bat-qa exec -ti apply-loadtest-some-pod-number -- bundle exec rake -T
+kubectl -n bat-qa exec -ti apply-qa-some-pod-number -- bundle exec rake -T
 ```
 
 ### Access the DB
@@ -137,10 +137,10 @@ make install-konduit
 bin/konduit.sh -n bat-production -x apply-production -- psql
 ```
 
-Example of loading test:
+Example of accessing the database:
 
 ```sh
-bin/konduit.sh apply-loadtest -- psql
+bin/konduit.sh apply-qa -- psql
 ```
 
 ## Using Makefile

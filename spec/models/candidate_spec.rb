@@ -456,33 +456,6 @@ RSpec.describe Candidate do
     end
   end
 
-  describe '#load_tester?' do
-    context 'environment is production' do
-      before { allow(HostingEnvironment).to receive(:production?).and_return true }
-
-      it 'returns false regardless of the email address pattern' do
-        candidate = build(:candidate, email_address: 'someone@loadtest.example.com')
-        expect(candidate).not_to be_load_tester
-        candidate.email_address = 'someone@example.com'
-        expect(candidate).not_to be_load_tester
-      end
-    end
-
-    context 'environment is not production' do
-      before { allow(HostingEnvironment).to receive(:production?).and_return false }
-
-      it 'returns true if email address is for load testing' do
-        candidate = build(:candidate, email_address: 'someone@loadtest.example.com')
-        expect(candidate).to be_load_tester
-      end
-
-      it 'returns false if email is not for load testing' do
-        candidate = build(:candidate, email_address: 'someone@example.com')
-        expect(candidate).not_to be_load_tester
-      end
-    end
-  end
-
   describe '#pseudonymised_id' do
     it 'returns the pseudonymised id based on the candidate id' do
       candidate = build_stubbed(:candidate, id: 0)
