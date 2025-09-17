@@ -122,7 +122,9 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l" id="introduction">1. Introduction</h2>
 
-    <p class="govuk-body">These statistics cover applications for courses in England starting in the <%= @presenter.academic_year_name %> academic year. To allow for comparison statistics covering the <%= @presenter.current_cycle_name %> academic year are also included.</p>
+    <p class="govuk-body">
+      This report contains data collected during the <%= @presenter.current_cycle_name %> recruitment cycle for applications in the academic year starting in <%= @presenter.academic_year_start_month %>. Statistics covering the <%= @presenter.previous_cycle_name %>, for courses starting in the <%= @presenter.previous_academic_year_name %>, are also included to allow for comparison.
+    </p>
 
     <% if @presenter.first_year_of_continuous_applications? %>
       <p class="govuk-body">New definitions and methodology have been introduced for the 2024 to 2025 academic year
@@ -137,24 +139,28 @@
         statistics below.</p>
     <% end %>
 
-    <% if @presenter.current_cycle? %>
-      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.current_cycle_name} academic year for course applications in England.", publications_monthly_report_itt_path(@presenter.previous_year) %></p>
-    <% else %>
-      <p class="govuk-body"><%= govuk_link_to "View statistics for the #{@presenter.next_year} to #{@presenter.next_year + 1} academic year for course applications in England.", publications_monthly_report_itt_path(@presenter.next_year) %></p>
-    <% end %>
-
-    <p class="govuk-body">Statistics are also not comparable to previous figures published by UCAS, which used a different methodology and included candidates applying to providers in Wales.</p>
+    <p class="govuk-body">Statistics are not comparable to previous figures published by UCAS, which used a different methodology and included candidates applying to providers in Wales.</p>
 
     <% if @presenter.pre_tda? %>
       <p class="govuk-body">Teacher training applications made directly to providers are not included. Undergraduate
         teacher training is also not included. Applications to train to teach in Further Education are also not
         included.</p>
     <% else %>
-      <p class="govuk-body">Teacher training applications made directly to providers are not included. Undergraduate
-        teacher training is also not included except for TDA. Applications to train to teach in Further Education are
-        also not included.</p>
+      <p class="govuk-body">
+        The following applications are not included in these statistics:
+        <%= govuk_list(
+            [
+              'teacher training applications made directly to providers',
+              'undergraduate teacher training except for teacher degree apprenticeships (TDA)',
+              'applications to train to teach in Further Education',
+            ],
+            type: :bullet,
+          ) %>
+      </p>
     <% end %>
-    <p class="govuk-body">There will be monthly updates throughout the recruitment cycle.</p>
+    <p class="govuk-body">
+      There will be monthly updates throughout the recruitment cycle, which runs from <%= @presenter.full_cycle_dates %>.
+    </p>
   </div>
 </div>
 
@@ -168,7 +174,13 @@
 
     <p class="govuk-body">For example, if a candidate’s initial <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> applications had been rejected, they may have submitted a fifth application. Before this date, they would have been included in the count of candidates with rejected applications. After this date, they would not be included in this count. If that fifth application were also rejected, they would then be included in the count of rejected applications again. </p>
 
-    <p class="govuk-body">Each recruitment cycle does not start on the same date each calendar year. The figures for 'last cycle' include data up to and including the date which was the same number of days from the first day of the previous cycle as the publication date is from the first day of the current cycle. This means days in last cycle will not be the same calendar date as days in this cycle. For example, day one of last cycle was on <%= @presenter.previous_timetable.find_opens_at.to_fs(:govuk_date) %>, but day one of the current cycle was <%= @presenter.report_timetable.find_opens_at.to_fs(:govuk_date) %>.</p>
+    <p class="govuk-body">
+      The data is collected throughout the recruitment cycle which runs a year before the academic year that the applicants will start training in. The data is from the <%= @presenter.current_cycle_name %> recruitment cycle which covers application for courses starting in the <%= @presenter.academic_year_name %> academic year.
+    </p>
+
+    <p class="govuk-body">
+      Each recruitment cycle does not start on the same date each calendar year. The figures for 'last cycle' include data up to and including the date which was the same number of days from the first day of the previous cycle as the publication date is from the first day of this cycle. This means days in last cycle will not be the same calendar date as days in this cycle. For example, day one of last cycle was on <%= @presenter.previous_timetable.find_opens_at.to_fs(:govuk_date) %>, but day one of this cycle was <%= @presenter.report_timetable.find_opens_at.to_fs(:govuk_date) %>.
+    </p>
   </div>
 
   <div class="govuk-grid-column-full">
@@ -237,7 +249,7 @@
         <li>for undergraduate teacher training (except TDA)</li>
       <% end %>
     </ul>
-    <p class="govuk-body">Candidates may make different applications to more than one route into teaching. These candidates are counted under all routes that apply. This means that the total of these rows does not equal the total in the ‘Candidate headline statistics’ section.</p>
+    <p class="govuk-body">Candidates may make different applications to more than one route into teaching. These candidates are counted under all routes that they apply to. This means that the total of these rows does not equal the total in the ‘Candidate headline statistics’ section.</p>
   </div>
 </div>
 
@@ -297,7 +309,7 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l govuk-!-padding-top-4" id="footnotes">12. Footnotes</h2>
 
-    <p class="govuk-body">The Apply for teacher training (Apply) service is the only service for postgraduate Initial Teacher Training (ITT) applications in England to Higher Education Institution (HEI), School Centred Initial Teacher Training (SCITT)-based, School Direct, School Direct (salaried) and Teaching Apprenticeship courses.</p>
+    <p class="govuk-body">The Apply for teacher training (Apply) service is the only service for initial teacher training (ITT) applications in England to Higher Education Institution (HEI), School Centred Initial Teacher Training (SCITT)-based, School Direct (salaried) and Teaching Apprenticeship courses.</p>
 
     <% if @presenter.previous_cycle_url.present? %>
       <p class="govuk-body">
