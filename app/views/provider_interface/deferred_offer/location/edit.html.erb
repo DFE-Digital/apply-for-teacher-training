@@ -10,13 +10,17 @@
         <%= render DfE::Autocomplete::View.new(
           form,
           attribute_name: :site_id,
-          form_field: form.govuk_select(
-              :site_id,
-              options_for_select(@location_form.locations_for_select, @location_form.site_id),
-              label: { text: t('.page_title'), size: 'xl' },
-              caption: { text: @location_form.application_choice.application_form.full_name, size: 'xl' },
-              data: { controller: 'autocomplete' },
-            ),
+          form_field: form.govuk_collection_select(
+            :site_id,
+            @location_form.locations_for_select,
+            :id,
+            :name_and_address,
+            options: { prompt: '' },
+            caption: { text: @location_form.application_choice.application_form.full_name, size: 'xl' },
+            label: { text: t('.page_title'), size: 'xl' },
+            hint: { text: t('.site_id.fieldset_hint') },
+            data: { controller: 'autocomplete' },
+          ),
         ) %>
       <% else %>
         <%= form.govuk_collection_radio_buttons(
@@ -26,9 +30,9 @@
               :name,
               :description,
               bold_labels: false,
-              legend: { text: t('.page_title'), size: 'xl' },
               caption: { text: @location_form.application_choice.application_form.full_name, size: 'xl' },
-              hint: proc { t('.site_id.fieldset_hint') },
+              legend: { text: t('.page_title'), size: 'xl' },
+              hint: { text: t('.site_id.fieldset_hint') },
             ) %>
       <% end %>
 
