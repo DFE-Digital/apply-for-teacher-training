@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_17_125509) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_18_120635) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -412,8 +412,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_125509) do
   create_table "candidate_location_preferences", force: :cascade do |t|
     t.string "name", null: false
     t.float "within", null: false
-    t.float "latitude"
-    t.float "longitude"
+    t.decimal "latitude", precision: 12, scale: 8
+    t.decimal "longitude", precision: 12, scale: 8
     t.bigint "candidate_preference_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
