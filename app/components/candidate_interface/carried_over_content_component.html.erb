@@ -11,6 +11,6 @@
   <%= t('carried_over_content_component.apply_opens', application_form_academic_year_range_name:, date_and_time_apply_opens:) %>
 </p>
 
-<% if application_form_after_find_opens? %>
+<% if show_button? %>
   <%= govuk_button_link_to t('carried_over_content_component.add_application_choice'), candidate_interface_course_choices_do_you_know_the_course_path %>
 <% end %>

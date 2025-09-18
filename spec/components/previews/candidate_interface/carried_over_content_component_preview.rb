@@ -12,13 +12,13 @@ module CandidateInterface
   end
 
   class AfterFindOpensComponent < CandidateInterface::CarriedOverContentComponent
-    def application_form_after_find_opens?
+    def show_button?
       true
     end
   end
 
   class BeforeFindOpensComponent < CandidateInterface::CarriedOverContentComponent
-    def application_form_after_find_opens?
+    def show_button?
       false
     end
   end

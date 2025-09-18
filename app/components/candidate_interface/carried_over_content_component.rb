@@ -4,10 +4,15 @@ module CandidateInterface
              :academic_year_range_name,
              :apply_opens_at,
              :find_opens_at,
+             :can_submit_more_choices?,
              to: :@application_form, prefix: :application_form
 
     def initialize(application_form:)
       @application_form = application_form
+    end
+
+    def show_button?
+      application_form_after_find_opens? && application_form_can_submit_more_choices?
     end
 
     def date_and_time_find_opens
