@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplicationFormPresenter do
+  include Rails.application.routes.url_helpers
+
   describe 'delegating methods to application form' do
     let(:application_form_spy) { spy }
 
@@ -726,6 +728,42 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         presenter = described_class.new(application_form)
 
         expect(presenter.can_submit_more_applications?).to be false
+      end
+    end
+  end
+
+  describe '#path_to_previous_teacher_training' do
+    context 'when path_to_previous_teacher_training is reviewable' do
+      it 'returns the review path' do
+        application_form = create(:application_form)
+        training = create(
+          :previous_teacher_training,
+          :published,
+          application_form:,
+        )
+        presenter = described_class.new(application_form)
+
+        expect(presenter.path_to_previous_teacher_training).to eq(
+          candidate_interface_previous_teacher_training_path(
+            training,
+          ),
+        )
+      end
+    end
+
+    context 'when path_to_previous_teacher_training is not reviewable' do
+      it 'returns the start path' do
+        application_form = create(:application_form)
+        create(
+          :previous_teacher_training,
+          application_form:,
+          started_at: nil,
+        )
+        presenter = described_class.new(application_form)
+
+        expect(presenter.path_to_previous_teacher_training).to eq(
+          start_candidate_interface_previous_teacher_trainings_path,
+        )
       end
     end
   end
