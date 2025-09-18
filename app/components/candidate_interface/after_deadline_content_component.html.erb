@@ -1,16 +1,43 @@
-<%= content_for :title, t('page_titles.your_applications') %>
+<% content_for :title, t('page_titles.start_carry_over_between_cycles') %>
 
 <h1 class="govuk-heading-l">
-  <%= t('after_deadline_content_component.title') %>
+  <%= t('page_titles.start_carry_over_between_cycles') %>
 </h1>
+
 <p class="govuk-body">
-  <%= t('after_deadline_content_component.deadline_has_passed', academic_year:) %>
+  <%= t(
+        '.application_deadline_has_passed_for_academic_year',
+        academic_year: academic_year,
+        start_month_year: application_form_start_month_year,
+      ) %>
 </p>
-<% if show_decline_by_default_text? %>
+
+<% application_choices_conditional_content.each do |paragraph| %>
   <p class="govuk-body">
-    <%= t('after_deadline_content_component.respond_to_offers', decline_by_default_date: decline_by_default_at.to_fs(:govuk_date_time_time_first)) %>
+    <%= paragraph %>
   </p>
 <% end %>
-<p class="govuk-body">
-  <%= t('after_deadline_content_component.apply_opens', apply_opens_date:, next_academic_year:) %>
-</p>
+
+<% if carry_over? %>
+  <h2 class="govuk-heading-m">
+    <%= t('.what_happens_next', next_academic_year: next_academic_cycle) %>
+  </h2>
+
+  <p class="govuk-body">
+    <%= find_opens_text %>
+    <%= apply_opens_text %>
+  </p>
+
+  <p class="govuk-body">
+    <%= t('.before_you_can_apply_again') %>
+    <%= govuk_list(
+          [
+            t('.confirm_references'),
+            t('.enter_equality_and_diversity'),
+          ],
+          type: :bullet,
+        ) %>
+  </p>
+
+  <%= govuk_button_to t('.button_update_your_details'), candidate_interface_carry_over_path %>
+<% end %>

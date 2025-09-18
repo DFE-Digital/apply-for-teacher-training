@@ -8,6 +8,12 @@ en:
         preferred_teaching_subject_id: We’re asking this so that a dedicated adviser can be assigned to you.
   candidate_interface:
     details:
+      index:
+        before_you_can_apply: 'Before you can apply again, you need to:'
+        confirm_references_html: '%{references_link} are up to date'
+        references_link_text: confirm your references
+        enter_equality_and_diversity_html: enter or reconfirm your %{equality_and_diversity_information_link}.
+        equality_and_diversity_link_text: equality and diversity information
       adviser_call_to_action:
         available:
           heading: Get a teacher training adviser

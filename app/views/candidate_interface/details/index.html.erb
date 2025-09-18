@@ -33,6 +33,33 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <% if @application_form_presenter.show_references_and_equality_and_diversity_inset? %>
+      <%= govuk_inset_text do %>
+        <p class="govuk-body">
+          <%= t('.before_you_can_apply') %>
+          <%= govuk_list(
+                [
+                  t(
+                    '.confirm_references_html',
+                    references_link: govuk_link_to(
+                      t('.references_link_text'),
+                      candidate_interface_references_review_path,
+                    ),
+                  ),
+                  t(
+                    '.enter_equality_and_diversity_html',
+                    equality_and_diversity_information_link: govuk_link_to(
+                      t('.equality_and_diversity_link_text'),
+                      candidate_interface_start_equality_and_diversity_path,
+                    ),
+                  ),
+                ],
+                type: :bullet,
+              ) %>
+        </p>
+      <% end %>
+    <% end %>
+
     <p class="govuk-body">
       <% message = 'Your details will be shared with the training provider when you apply.' %>
 
@@ -84,7 +111,7 @@
         <% if current_application.application_choices.any? %>
           <p class="govuk-body">You can apply to courses now.</p>
         <% else %>
-          <p class="govuk-body">You can now start applying to courses.</p>
+          <p class="govuk-body">You can start applying to courses.</p>
         <% end %>
         <%= govuk_button_link_to t('section_items.add_application'), candidate_interface_course_choices_do_you_know_the_course_path %>
       </div>

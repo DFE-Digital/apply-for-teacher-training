@@ -135,7 +135,7 @@ private
   end
 
   def then_i_see_my_declined_application
-    expect(page).to have_content 'The application deadline has passed'
+    expect(page).to have_content 'The recruitment deadline has now passed'
     expect(page).to have_content 'Declined'
   end
 
@@ -146,10 +146,8 @@ private
 
   def then_i_cannot_carry_over_my_application
     expect(page).to have_current_path candidate_interface_application_choices_path
-    relative_next_timetable = @application_form.recruitment_cycle_timetable.relative_next_timetable
-    apply_reopens_date = relative_next_timetable.apply_opens_at.to_fs(:day_and_month)
     expect(page).to have_content(
-      "If your application(s) are not successful, or you do not accept any offers, you will be able to apply for courses starting in the #{relative_next_timetable.academic_year_range_name} academic year from #{apply_reopens_date}.",
+      'You must respond to your offers before this time. They will be declined on your behalf if you don’t.',
     )
   end
   alias_method :and_i_cannot_carry_over_my_application, :then_i_cannot_carry_over_my_application

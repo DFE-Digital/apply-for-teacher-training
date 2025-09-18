@@ -11,13 +11,14 @@ class ApplicationForm < ApplicationRecord
 
   has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
   delegate :apply_deadline_at,
+           :reject_by_default_at,
+           :decline_by_default_at,
            :apply_opens_at,
            :find_opens_at,
            :after_apply_deadline?,
            :after_find_opens?,
            :before_apply_opens?,
            :cycle_range_name_with_current_indicator,
-           :decline_by_default_at,
            :between_cycles?,
            :next_available_academic_year_range,
            :apply_reopens_at,

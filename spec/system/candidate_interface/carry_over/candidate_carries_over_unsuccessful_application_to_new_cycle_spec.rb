@@ -133,7 +133,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
   def then_i_see_the_carry_over_content_for_between_cycles
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_content 'The application deadline has passed'
+    expect(page).to have_content 'The recruitment deadline has now passed'
 
     within 'form.button_to[action="/candidate/application/carry-over"]' do
       expect(page).to have_button 'Update your details'

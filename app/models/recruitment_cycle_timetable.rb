@@ -48,6 +48,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
     current_timetable.between_cycles?
   end
 
+  def self.apply_open?
+    current_timetable.apply_open?
+  end
+
   def self.next_timetable
     where('find_opens_at > ?', Time.zone.now).order(:recruitment_cycle_year).first
   end
@@ -188,6 +192,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
 
   def before_apply_opens?
     Time.zone.now.before? apply_opens_at
+  end
+
+  def before_find_opens?
+    Time.zone.now.before? find_opens_at
   end
 
   def apply_open?
