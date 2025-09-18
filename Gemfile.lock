@@ -831,7 +831,7 @@ GEM
     workflow (3.1.1)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    yabeda (0.13.2)
+    yabeda (0.14.0)
       anyway_config (>= 1.0, < 3)
       concurrent-ruby
       dry-initializer
@@ -844,7 +844,7 @@ GEM
       prometheus-client (>= 3.0, < 5.0)
       rack
       yabeda (~> 0.10)
-    yabeda-puma-plugin (0.7.1)
+    yabeda-puma-plugin (0.8.0)
       json
       puma
       yabeda (~> 0.5)
