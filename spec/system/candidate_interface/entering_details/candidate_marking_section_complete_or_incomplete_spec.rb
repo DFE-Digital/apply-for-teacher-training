@@ -170,7 +170,7 @@ RSpec.describe 'Marking section as complete or incomplete' do
   end
 
   def then_i_see_the_complete_details_text_for_application_without_choices
-    expect(page).to have_text('You can now start applying to courses.')
+    expect(page).to have_text('You can start applying to courses.')
   end
 
   def then_i_dont_see_the_complete_details_text

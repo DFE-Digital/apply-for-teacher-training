@@ -106,10 +106,10 @@ private
   end
 
   def then_i_cannot_carry_over_my_application
-    apply_reopens_date = I18n.l(@timetable.apply_reopens_at.to_date, format: :no_year).strip
+    reject_by_default = @timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first)
     expect(page).to have_current_path candidate_interface_application_choices_path
     expect(page).to have_content(
-      "If your application(s) are not successful, or you do not accept any offers, you will be able to apply for courses starting in the #{@timetable.next_available_academic_year_range} academic year from #{apply_reopens_date}.",
+      "If you don’t hear back from training providers about your applications before #{reject_by_default} then they will be rejected automatically.",
     )
   end
   alias_method :and_i_cannot_carry_over_my_application, :then_i_cannot_carry_over_my_application
