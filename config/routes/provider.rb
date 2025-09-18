@@ -105,6 +105,7 @@ namespace :provider_interface, path: '/provider' do
 
       # Routes for the final submission to confirm the deferral
       # resource :confirm, only: :create, controller: :confirm
+      root 'root#show'
     end
 
     resource :decision, only: %i[new create], as: :application_choice_decision

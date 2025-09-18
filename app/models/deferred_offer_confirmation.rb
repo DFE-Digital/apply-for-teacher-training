@@ -9,23 +9,18 @@ class DeferredOfferConfirmation < ApplicationRecord
       @courses_for_select ||= offer.provider.courses
            .where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
            .includes(:provider, :accredited_provider)
+           .distinct
            .order(:name)
-    end
-
-    def course_options
-      @course_options ||= courses_for_select.map do |course|
-        [course.name_and_code, course.id]
-      end.unshift([nil, nil])
     end
 
   private
 
     def no_raw_input
-      return if courses_for_select.size <= 20
+      return if courses_for_select.size < 20
       return if course_id.blank?
-      return if course_options.any? do |name, id|
-        course_id_raw == name && id == course_id.to_i
-      end
+
+      selected_course = courses_for_select.find_by(id: course_id)
+      return if selected_course && selected_course.name_and_code == course_id_raw
 
       errors.add(:course_id, :blank)
     end
@@ -50,7 +45,7 @@ class DeferredOfferConfirmation < ApplicationRecord
          scopes: false
 
     def study_modes_for_select
-      StudyModeForm.study_modes.map { |id, value| SelectOption.new(id: id, name: value.humanize) }
+      course_study_modes.map { |course_study_mode| SelectOption.new(id: course_study_mode, name: course_study_mode.humanize) }
     end
   end
 
@@ -61,23 +56,18 @@ class DeferredOfferConfirmation < ApplicationRecord
     attr_accessor :site_id_raw
 
     def locations_for_select
-      provider_sites = offer.provider.sites.order(:name)
-
-      if provider_sites.count > 20
-        provider_sites.map { |site| ["#{site.name} - #{site.full_address}", site.id] }.unshift([nil, nil])
-      else
-        provider_sites
-      end
+      course_sites.distinct.order(:name)
     end
 
   private
 
     def no_raw_input
+      return if locations_for_select.size < 20
       return if site_id_raw.nil?
       return if site_id.blank?
-      return if locations_for_select.any? do |name, id|
-        site_id_raw == name && id == site_id.to_i
-      end
+
+      selected_location = locations_for_select.find_by(id: site_id)
+      return if selected_location && selected_location.name_and_address == site_id_raw
 
       errors.add(:site_id, :blank)
     end
@@ -102,8 +92,64 @@ class DeferredOfferConfirmation < ApplicationRecord
   delegate :name_and_code, to: :provider, prefix: true, allow_nil: true
   delegate :name_and_code, to: :course, prefix: true, allow_nil: true
   delegate :name_and_address, to: :location, prefix: true, allow_nil: true
+  delegate :site, :study_mode, :course, to: :offer, prefix: true
+  delegate :study_modes, :sites, to: :course, prefix: true
+
+  validate :course_option_available, on: :submit
+  validates :course, presence: { on: :submit }
+  validates :location, presence: { on: :submit }
+  validates :study_mode, presence: { on: :submit }
+
+  after_initialize do
+    if course_id.nil? && site_id.nil? && study_mode.nil?
+      self.course_id ||= offer.course.id
+      self.site_id ||= offer.site.id
+      self.study_mode ||= offer.study_mode
+    end
+  end
+
+  before_save do
+    return if course.blank?
+
+    self.location = nil unless location_in_cycle?
+    self.study_mode = nil unless study_mode_in_cycle?
+  end
 
   def study_mode_humanized
     study_mode&.humanize
+  end
+
+private
+
+  def course_option_available
+    if course_id.present? && !course_in_cycle?
+      errors.add(:course, :not_in_cycle)
+    end
+
+    if site_id.present? && !location_in_cycle?
+      errors.add(:location, :not_available_for_course)
+    end
+
+    if study_mode.present? && !study_mode_in_cycle?
+      errors.add(:study_mode, :not_available_for_course)
+    end
+  end
+
+  def course_in_cycle?
+    return false if course_id.nil?
+
+    provider.courses.current_cycle.exists?(id: course_id)
+  end
+
+  def location_in_cycle?
+    return false if site_id.nil? || course.nil?
+
+    course.sites.exists?(id: site_id)
+  end
+
+  def study_mode_in_cycle?
+    return false if study_mode.nil? || course.nil?
+
+    course.study_modes.include?(study_mode)
   end
 end
