@@ -328,6 +328,7 @@ FactoryBot.define do
       volunteering_completed { true }
       work_history_completed { true }
       equality_and_diversity_completed { true }
+      previous_teacher_training_completed { true }
       # The form isn't completed if the nationality is not British/Irish
       # without the efl_completed
       #
@@ -376,6 +377,8 @@ FactoryBot.define do
 
         volunteering_experience = build_list(:application_volunteering_experience, evaluator.volunteering_experiences_count)
         application_form.application_volunteering_experiences << volunteering_experience
+
+        create(:previous_teacher_training, status: 'published', application_form:)
 
         application_form.update!(updated_at: original_updated_at)
       end

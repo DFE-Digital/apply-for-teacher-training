@@ -80,6 +80,9 @@ RSpec.describe 'International candidate submits the application' do
     click_link_or_button 'Equality and diversity questions'
     candidate_fills_in_diversity_information(school_meals: false)
 
+    click_link_or_button t('page_titles.previous_teacher_training')
+    candidate_fills_in_previous_teacher_training
+
     candidate_provides_two_referees
     receive_references
     mark_references_as_complete
