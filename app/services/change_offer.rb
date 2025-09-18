@@ -30,7 +30,6 @@ class ChangeOffer
         end
 
         CandidateMailer.changed_offer(application_choice).deliver_later
-        StateChangeNotifier.call(:change_an_offer, application_choice:)
       end
     else
       raise ValidationException, offer.errors.map(&:message)

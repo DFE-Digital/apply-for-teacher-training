@@ -7,20 +7,6 @@ RSpec.describe Clockwork, :clockwork do
     TestSuiteTimeMachine.travel_permanently_to(Time.zone.now.change(hour: 0, min: 0, sec: 0))
   end
 
-  describe 'stats summary' do
-    it 'only posts on weekdays' do
-      start_time = Time.zone.now.beginning_of_week
-      end_time = Time.zone.now.end_of_week
-      Clockwork::Test.run(
-        start_time:,
-        end_time:,
-        tick_speed: 1.hour,
-      )
-
-      expect(Clockwork::Test).to have_run('SendStatsSummaryToSlack').exactly(4).times
-    end
-  end
-
   [
     { worker: ChaseReferences, task: 'ChaseReferences' },
   ].each do |worker|

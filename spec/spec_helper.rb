@@ -49,7 +49,6 @@ require_relative 'support/capybara'
 require 'support/test_helpers/one_login_helper'
 
 ENV['SERVICE_TYPE'] = 'test' # this is used for logging
-ENV['STATE_CHANGE_SLACK_URL'] = nil # ensure tests send no Slack notifications
 
 RSpec.configure do |config|
   # RSpec-retry configuration, retry and log any indeterminate tests.

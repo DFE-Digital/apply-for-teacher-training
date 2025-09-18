@@ -4,50 +4,14 @@ RSpec.describe UpdateDuplicateMatches, :sidekiq do
   let(:candidate1) { create(:candidate, email_address: 'exemplar1@example.com') }
   let(:candidate2) { create(:candidate, email_address: 'exemplar2@example.com') }
 
-  let(:expected_slack_message) do
-    <<~MSG
-      \n#{Rails.application.routes.url_helpers.support_interface_duplicate_matches_url}
-      :face_with_monocle: There is 1 new duplicate candidate match today :face_with_monocle:
-      :female-detective: In total there are 2 matches :male-detective:
-    MSG
-  end
-
   before do
     travel_temporarily_to(Time.zone.local(2020, 8, 23, 12)) do
       create(:application_form, :duplicate_candidates, candidate: candidate1, submitted_at: Time.zone.now)
       create(:application_form, :duplicate_candidates, candidate: candidate2)
-      allow(SlackNotificationWorker).to receive(:perform_async)
     end
   end
 
   describe '#save!' do
-    context 'when notify_slack_at is not set' do
-      it 'notifies slack' do
-        described_class.new.save!
-        expect(SlackNotificationWorker).to have_received(:perform_async)
-      end
-    end
-
-    context 'when notify_slack_at is set, but at a different time' do
-      it 'does not notify slack' do
-        travel_temporarily_to(Time.zone.local(2020, 8, 23, 10)) do
-          described_class.new(notify_slack_at: 13).save!
-        end
-
-        expect(SlackNotificationWorker).not_to have_received(:perform_async)
-      end
-    end
-
-    context 'when notify_slack_at is set, at the same time' do
-      it 'notifies slack' do
-        travel_temporarily_to(Time.zone.local(2020, 8, 23, 10)) do
-          described_class.new(notify_slack_at: 10).save!
-        end
-
-        expect(SlackNotificationWorker).to have_received(:perform_async)
-      end
-    end
-
     context 'when existing duplicate match' do
       before do
         described_class.new.save!
@@ -99,22 +63,6 @@ RSpec.describe UpdateDuplicateMatches, :sidekiq do
         described_class.new.save!
         expect(candidate1.reload.submission_blocked).to be(true)
         expect(candidate2.reload.submission_blocked).to be(true)
-      end
-
-      it 'sends a slack message' do
-        application_form1 = create(:application_form, :duplicate_candidates, submitted_at: Time.zone.now)
-        application_form2 = create(:application_form, :duplicate_candidates)
-
-        create(:duplicate_match,
-               candidates: [application_form1.candidate, application_form2.candidate],
-               last_name: 'Thompsun',
-               date_of_birth: '1998-08-08',
-               postcode: 'W6 9BH',
-               created_at: 2.days.ago)
-
-        described_class.new.save!
-
-        expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_slack_message)
       end
     end
 

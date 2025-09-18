@@ -13,12 +13,10 @@ RSpec.describe 'Feature flags', :with_audited do
     when_i_activate_the_feature
     then_the_feature_is_activated
     and_i_can_see_the_activation_in_the_audit_trail
-    and_a_slack_notification_about_the_activation_is_sent
 
     when_i_deactivate_the_feature
     then_the_feature_is_deactivated
     and_i_can_see_the_deactivation_in_the_audit_trail
-    and_a_slack_notification_about_the_deactivation_is_sent
   end
 
   def given_i_am_a_support_user
@@ -60,10 +58,6 @@ RSpec.describe 'Feature flags', :with_audited do
     expect(page).to have_content('Changed to active by user@apply-support.com')
   end
 
-  def and_a_slack_notification_about_the_activation_is_sent
-    expect_slack_message_with_text(':flags: Feature ‘DfE sign in fallback‘ was activated')
-  end
-
   def when_i_deactivate_the_feature
     within(dfe_sign_in_fallback_summary_card) { click_link_or_button 'Deactivate' }
   end
@@ -75,10 +69,6 @@ RSpec.describe 'Feature flags', :with_audited do
 
   def and_i_can_see_the_deactivation_in_the_audit_trail
     expect(page).to have_content('Changed to inactive by user@apply-support.com')
-  end
-
-  def and_a_slack_notification_about_the_deactivation_is_sent
-    expect_slack_message_with_text(':flags: Feature ‘DfE sign in fallback‘ was deactivated')
   end
 
   def dfe_sign_in_fallback_summary_card

@@ -18,7 +18,7 @@ RSpec.describe SaveAndInviteProviderUser do
       provider_permissions: [],
     )
   end
-  let(:invite_service) { instance_double(InviteProviderUser, call!: true, notify: true) }
+  let(:invite_service) { instance_double(InviteProviderUser, call!: true) }
 
   describe '#initialize' do
     it 'requires a form, create service and invite service' do

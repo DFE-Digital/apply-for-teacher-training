@@ -1,5 +1,0 @@
-en:
-  slack_notifications:
-    sign_up:
-      minor_milestone: ':sparkles: The %{candidate_number} candidate just signed up'
-      major_milestone: ':ultrafastparrot: The %{candidate_number} candidate just signed up'

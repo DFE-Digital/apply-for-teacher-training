@@ -197,29 +197,27 @@ private
         return application_choices
       end
 
-      StateChangeNotifier.disable_notifications do
-        fast_forward
+      fast_forward
 
-        @application_form.update!(submitted_at: Time.zone.now)
+      @application_form.update!(submitted_at: Time.zone.now)
 
-        @application_form.application_choices.each do |choice|
-          CandidateInterface::SubmitApplicationChoice.new(choice).call
+      @application_form.application_choices.each do |choice|
+        CandidateInterface::SubmitApplicationChoice.new(choice).call
 
-          choice.update_columns(
-            sent_to_provider_at: time,
-            updated_at: time,
-          )
+        choice.update_columns(
+          sent_to_provider_at: time,
+          updated_at: time,
+        )
 
-          choice.audits.last&.update_columns(created_at: time)
-        end
+        choice.audits.last&.update_columns(created_at: time)
+      end
 
-        @application_form.update_columns(submitted_at: time, updated_at: time)
+      @application_form.update_columns(submitted_at: time, updated_at: time)
 
-        states.zip(application_choices).each do |state, application_choice|
-          maybe_add_note(application_choice.reload)
-          put_application_choice_in_state(application_choice.reload, state, incomplete_references)
-          maybe_add_note(application_choice.reload)
-        end
+      states.zip(application_choices).each do |state, application_choice|
+        maybe_add_note(application_choice.reload)
+        put_application_choice_in_state(application_choice.reload, state, incomplete_references)
+        maybe_add_note(application_choice.reload)
       end
 
       @application_form.application_choices.update(updated_at: Time.zone.now, audit_comment: 'This application was automatically generated')
