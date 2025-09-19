@@ -112,6 +112,8 @@ Rails.application.configure do
   config.hosts << "host.docker.internal"
   # Allow Github Codespaces
   config.hosts << ".preview.app.github.dev"
+  config.hosts << ".app.github.dev"
+
 
   # Controls whether the PostgresqlAdapter should decode dates automatically with manual queries.
   #
