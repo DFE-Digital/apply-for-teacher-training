@@ -1,0 +1,29 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @form.errors.any?) %>
+<% content_for(
+  :before_content,
+  govuk_back_link_to(
+    @back_path || new_candidate_interface_previous_teacher_training_name_path(@previous_teacher_training),
+  ),
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @form,
+      url: candidate_interface_previous_teacher_training_dates_path(
+        @previous_teacher_training,
+        return_to: @back_path.present? ? 'review' : nil,
+      ),
+      method: :post,
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-4"><%= t('.title') %> </h1>
+
+      <%= f.govuk_date_field :started_at, omit_day: true, legend: { text: t('.start_date'), size: 'm' } %>
+      <%= f.govuk_date_field :ended_at, omit_day: true, legend: { text: t('.end_date'), size: 'm' } %>
+
+      <%= f.govuk_submit %>
+    <% end %>
+  </div>
+</div>

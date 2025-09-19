@@ -1,8 +1,38 @@
 class PreviousTeacherTraining < ApplicationRecord
   belongs_to :application_form
+  belongs_to :provider, optional: true
 
   enum :started, {
     yes: 'yes',
     no: 'no',
-  }
+  }, prefix: true
+
+  enum :status, {
+    draft: 'draft',
+    published: 'published',
+  }, default: 'draft'
+
+  def create_draft_dup
+    dup_record = dup
+    dup_record.status = 'draft'
+
+    dup_record.save!
+    dup_record
+  end
+
+  def reviewable?
+    return true if started_yes? && [provider_name, started_at, details].all?(&:present?)
+    return true if started_no? && [provider_name, started_at, details].all?(&:nil?)
+
+    false
+  end
+
+  def formatted_dates
+    result = "From #{started_at.to_fs(:month_and_year)}"
+    if ended_at.present?
+      result += " to #{ended_at.to_fs(:month_and_year)}"
+    end
+
+    result
+  end
 end

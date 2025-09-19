@@ -1,0 +1,18 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(@form.back_path(params) || application_form_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render(
+      'form',
+      form: @form,
+      url: update_candidate_interface_previous_teacher_trainings_path(
+        @previous_teacher_training,
+        return_to: @form.back_path(params).present? ? 'review' : nil,
+      ),
+      method: :put,
+      title: t('.title'),
+      body: t('.body'),
+    ) %>
+  </div>
+</div>
