@@ -68,12 +68,28 @@ module Publications
         report_timetable.recruitment_cycle_year
       end
 
+      def academic_year_start_month
+        "September #{current_year}"
+      end
+
       def academic_year_name
         report_timetable.academic_year_range_name
       end
 
       def current_cycle_name
         report_timetable.cycle_range_name
+      end
+
+      def full_cycle_dates
+        "#{report_timetable.find_opens_at.to_fs(:govuk_date)} to #{report_timetable.find_closes_at.to_fs(:govuk_date)}"
+      end
+
+      def previous_cycle_name
+        previous_timetable.cycle_range_name
+      end
+
+      def previous_academic_year_name
+        previous_timetable.academic_year_range_name
       end
 
       def current_cycle_verbose_name
