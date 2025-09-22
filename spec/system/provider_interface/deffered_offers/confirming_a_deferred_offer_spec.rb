@@ -92,8 +92,8 @@ RSpec.describe 'Provider confirms a deferred offer' do
 
   def then_i_can_see_the_details_of_the_deferred_offer
     expect(page).to have_current_path provider_interface_deferred_offer_check_path(@deferred_application_choice)
-    expect(page).to have_css(:h1, text: 'John Doe')
-    expect(page).to have_css(:h1, text: 'Check offered course details')
+    expect(page).to have_css('h1', text: 'John Doe')
+    expect(page).to have_css('h1', text: 'Check offered course details')
 
     within '#check_provider' do
       expect(page).to have_content('Provider')
@@ -119,7 +119,7 @@ RSpec.describe 'Provider confirms a deferred offer' do
       expect(page).to have_link('Change location', href: provider_interface_deferred_offer_location_path(@deferred_application_choice))
     end
 
-    expect(page).to have_css(:h2, text: 'Conditions of offer')
+    expect(page).to have_css('h2', text: 'Conditions of offer')
 
     within '#check_conditions' do
       expect(page).to have_content('You must obtain a degree')
@@ -135,8 +135,8 @@ RSpec.describe 'Provider confirms a deferred offer' do
   end
 
   def and_i_select_a_different_course
-    choose 'Secondary (SC1) – Provider Deferring'
-    click_on 'Continue'
+    choose 'Secondary (SC1)'
+    click_on 'Change course'
   end
 
   def then_i_can_see_the_updated_course_on_the_check_page
