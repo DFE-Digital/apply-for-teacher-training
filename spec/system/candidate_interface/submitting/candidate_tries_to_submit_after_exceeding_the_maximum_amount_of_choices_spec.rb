@@ -49,7 +49,7 @@ RSpec.describe 'Candidate submits an application up to 4 choices' do
   end
 
   def and_i_am_unable_to_add_any_further_choices
-    expect(page).to have_content 'You cannot submit any more applications at the moment.'
+    expect(page).to have_content 'You cannot create any more applications at the moment.'
   end
 
   def when_i_click(button)
