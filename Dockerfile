@@ -1,4 +1,5 @@
 # To use or update to a ruby version, change {BASE_RUBY_IMAGE}
+#pointless change
 ARG BASE_RUBY_IMAGE=ruby:3.4.4-alpine3.20
 
 # Stage 1: gems-node-modules, build gems and node modules.
