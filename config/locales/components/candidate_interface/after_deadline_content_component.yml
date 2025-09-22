@@ -1,8 +1,30 @@
 en:
-  after_deadline_content_component:
-    title: The application deadline has passed
-    deadline_has_passed: The application deadline has passed for courses starting in the %{academic_year} academic year.
-    respond_to_offers: You have until %{decline_by_default_date} to respond to your offers. After this time they will be rejected.
-    apply_opens: >
-      If your application(s) are not successful, or you do not accept any offers, you will be able to apply for courses
-      starting in the %{next_academic_year} academic year from %{apply_opens_date}.
+  candidate_interface:
+    after_deadline_content_component:
+      title: The application deadline has passed
+      deadline_has_passed: The application deadline has passed for courses starting in the %{academic_year} academic year.
+      respond_to_offers: You have until %{decline_by_default_date} to respond to your offers. After this time they will be rejected.
+      apply_opens: >
+        If your application(s) are not successful, or you do not accept any offers, you will be able to apply for courses
+        starting in the %{next_academic_year} academic year from %{apply_opens_date}.
+      reject_by_default_warning_text_html: >
+        <b>%{reject_by_default_at}</b><br>Applications that are awaiting provider decision or interviewing will be rejected automatically.
+      reject_by_default_explanation: >
+        Some of your applications have been rejected automatically. This is because training providers did not respond
+        to them before the deadline of %{reject_by_default_at}.
+      decline_by_default_warning_html: >
+        <b>%{decline_by_default_at}</b><br>You must respond to your offers before this time. They will be declined on your behalf if you don’t.
+      decline_by_default_explanation: >
+        Any offers that you had received have been declined on your behalf because you did not respond before the
+        deadline of %{decline_by_default_at}. Contact the training provider if you need to discuss this.
+      when_find_opens_html: You will be able to view courses on %{find_link} from %{find_opens_at}.
+      find_link_text: Find teacher training courses
+      when_apply_opens: You can apply for courses from %{apply_opens_at}.
+      application_deadline_has_passed_for_academic_year: >
+        The deadline for applying to courses in the %{academic_year} academic year has passed. You can no longer apply to
+        courses starting in %{start_month_year}.
+      what_happens_next: Apply to courses in the %{next_academic_year} academic year
+      before_you_can_apply_again: 'Before you can apply again, you need to:'
+      confirm_references: confirm your references are up to date
+      enter_equality_and_diversity: enter or reconfirm your equality and diversity information.
+      button_update_your_details: Update your details

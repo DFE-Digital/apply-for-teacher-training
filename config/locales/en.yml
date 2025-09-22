@@ -353,7 +353,7 @@ en:
       withdrawal_reasons_report: Withdrawal reasons
     start_apply_again: Do you want to apply again?
     start_carry_over: Continue your application
-    start_carry_over_between_cycles: The application deadline has passed
+    start_carry_over_between_cycles: The recruitment deadline has now passed
     pick_choice_to_replace: Some of your choices are not available anymore
     pick_replacement_action: Update course choice
     confirm_replacement_course_choice: Your updated course choice
@@ -386,7 +386,7 @@ en:
     check_and_submit: Check and submit
     previous_applications: Previous applications
   section_items:
-    add_application: Add application
+    add_application: Choose a course
     choose_course: Choose your course
     choose_courses: Choose your courses
     review_references: Review your references

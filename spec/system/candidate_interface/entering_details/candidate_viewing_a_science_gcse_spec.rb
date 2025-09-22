@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Candidate viewing Science GCSE' do
   include CandidateHelper
 
-  it 'Candidate views a Science GCSE only when a primary course is chosen' do
+  it 'Candidate views a Science GCSE only when a primary course is chosen', time: mid_cycle do
     given_i_am_signed_in_with_one_login
     and_i_am_on_your_application_page
     then_i_dont_see_science_gcse
@@ -69,7 +69,7 @@ RSpec.describe 'Candidate viewing Science GCSE' do
 
   def choose_a_secondary_course
     visit candidate_interface_application_choices_path
-    click_link_or_button t('section_items.add_application')
+    click_link_or_button 'Add application'
     candidate_fills_in_secondary_course_choice
   end
 

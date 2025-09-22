@@ -338,6 +338,12 @@ module CandidateInterface
         can_add_course_choice? # The apply deadline for this form has not passed
     end
 
+    def show_references_and_equality_and_diversity_inset?
+      # This is shown primary when an application is carried over,
+      # when these sections may have been previously completed, but need to be revisited in the new year
+      incomplete_sections.map(&:name).sort == %i[equality_and_diversity references_selected]
+    end
+
   private
 
     def show_review_volunteering?
