@@ -11,8 +11,8 @@ en:
     courses_fill_up_quickly: Courses can fill up quickly, so you should apply as soon as you are ready rather than putting it off.
     read_how_the_application_process_works: Read how the application process works
     add_application: Add application
-    you_cannot_add_any_more_applications: You cannot submit any more applications at the moment.
-    you_can_add_more_applications_if: "You can submit another application if one of your applications is either:"
+    you_cannot_add_any_more_applications: You cannot create any more applications at the moment.
+    you_can_add_more_applications_if: "You can create another application if one of your applications is either:"
     once_you_have_reached_the_limit: >
       Once you have a total of %{max_number_of_applications} applications that are in one of the states described above, you will not be able to submit any more applications until %{next_year}.
     rejected_by_provider: rejected by the training provider,
