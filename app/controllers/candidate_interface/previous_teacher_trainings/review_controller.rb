@@ -2,7 +2,7 @@ module CandidateInterface
   module PreviousTeacherTrainings
     class ReviewController < CandidateInterfaceController
       before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
-      before_action :previous_teacher_training
+      before_action :set_previous_teacher_training
       before_action :set_section_policy
 
       def show
@@ -23,7 +23,7 @@ module CandidateInterface
 
     private
 
-      def previous_teacher_training
+      def set_previous_teacher_training
         @previous_teacher_training = current_application.previous_teacher_trainings.find_by(
           id: params.require(:id),
         )

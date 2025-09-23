@@ -2,13 +2,13 @@ module CandidateInterface
   module PreviousTeacherTrainings
     class DatesController < CandidateInterfaceController
       before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
-      before_action :previous_teacher_training
+      before_action :set_previous_teacher_training
       before_action :set_back_path
       before_action :check_policy
 
       def new
         if @previous_teacher_training.published?
-          @previous_teacher_training = @previous_teacher_training.create_draft_dup
+          @previous_teacher_training = @previous_teacher_training.create_draft_dup!
         end
 
         @form = DatesForm.new(@previous_teacher_training)
@@ -29,7 +29,7 @@ module CandidateInterface
 
     private
 
-      def previous_teacher_training
+      def set_previous_teacher_training
         @previous_teacher_training = current_application.previous_teacher_trainings.find_by(
           id: params.require(:previous_teacher_training_id),
         )

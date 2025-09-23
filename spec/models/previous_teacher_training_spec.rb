@@ -9,7 +9,7 @@ RSpec.describe PreviousTeacherTraining do
     it 'creates a draft duplication of a published previous_teacher_training' do
       previous_teacher_training = create(:previous_teacher_training, status: 'published')
 
-      expect { previous_teacher_training.create_draft_dup }.to change(described_class.draft, :count).by(1)
+      expect { previous_teacher_training.create_draft_dup! }.to change(described_class.draft, :count).by(1)
     end
   end
 

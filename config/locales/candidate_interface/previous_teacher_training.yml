@@ -4,10 +4,10 @@ en:
       start:
         new:
           title: Have you started a teacher training course before?
-          body: Training providers need to find out more about any previous teacher training courses that you have been on. This is for safeguarding reasons.
         edit:
           title: Have you started a teacher training course before?
-          body: Training providers need to find out more about any previous teacher training courses that you have been on. This is for safeguarding reasons.
+        form:
+          body: training providers need to find out more about any previous teacher training courses that you have been on. this is for safeguarding reasons.
       names:
         new:
           title: Name of the training provider

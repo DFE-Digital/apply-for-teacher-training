@@ -12,7 +12,7 @@ class PreviousTeacherTraining < ApplicationRecord
     published: 'published',
   }, default: 'draft'
 
-  def create_draft_dup
+  def create_draft_dup!
     dup_record = dup
     dup_record.status = 'draft'
 
