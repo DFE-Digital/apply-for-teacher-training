@@ -138,18 +138,22 @@ private
   def course_in_cycle?
     return false if course_id.nil?
 
-    provider.courses.current_cycle.exists?(id: course_id)
+    validating_course.present?
   end
 
   def location_in_cycle?
-    return false if site_id.nil? || course.nil?
+    return false if site_id.nil? || validating_course.nil?
 
-    course.sites.exists?(id: site_id)
+    validating_course.sites.exists?(code: location.code)
   end
 
   def study_mode_in_cycle?
-    return false if study_mode.nil? || course.nil?
+    return false if study_mode.nil? || validating_course.nil?
 
-    course.study_modes.include?(study_mode)
+    validating_course.course_options.exists?(study_mode: study_mode)
+  end
+
+  def validating_course
+    @validating_course ||= provider.courses.current_cycle.find_by(code: course.code)
   end
 end
