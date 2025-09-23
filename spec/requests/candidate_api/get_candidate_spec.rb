@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'GET /candidate-api/:versions/candidates/:candidate_id' do
   include CandidateAPISpecHelper
 
-  versions = %w[v1.1 v1.2 v1.3]
+  versions = %w[v1.1 v1.2 v1.3 v1.4]
 
   versions.each do |version|
     context "for version #{version}" do
@@ -62,6 +62,18 @@ RSpec.describe 'GET /candidate-api/:versions/candidates/:candidate_id' do
 
         expect(response).to have_http_status(:not_found)
         expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse', version.to_s)
+      end
+
+      it 'returns a Candidate who signed up before the current cycle and have carried over to the next cycle' do
+        candidate = create(:candidate, created_at: 4.years.ago)
+        _application_form_in_next_cycle = create(:application_form,
+                                                 candidate: candidate,
+                                                 recruitment_cycle_year: RecruitmentCycleTimetable.current_year + 1)
+        candidate_id_param = "C#{candidate.id}"
+
+        get_api_request "/candidate-api/#{version}/candidates/#{candidate_id_param}", token: candidate_api_token
+
+        expect(response).to have_http_status(:success)
       end
     end
   end
