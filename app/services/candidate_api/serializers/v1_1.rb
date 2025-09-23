@@ -4,8 +4,7 @@ module CandidateAPI
       def index_query(updated_since:)
         Candidate
         .left_outer_joins(:application_forms)
-        .where(application_forms: { recruitment_cycle_year: current_timetable.recruitment_cycle_year })
-        .or(Candidate.where('candidates.created_at > ? ', previous_timetable.apply_deadline_at))
+          .where('application_forms.recruitment_cycle_year >= ? OR candidates.created_at > ?', current_timetable.recruitment_cycle_year, previous_timetable.apply_deadline_at)
         .distinct
         .includes(application_forms: :application_choices)
         .where('candidate_api_updated_at > ?', updated_since)
@@ -15,8 +14,7 @@ module CandidateAPI
       def find_query(candidate_id:)
         Candidate
           .left_outer_joins(:application_forms)
-          .where(application_forms: { recruitment_cycle_year: current_timetable.recruitment_cycle_year })
-          .or(Candidate.where('candidates.created_at > ? ', previous_timetable.apply_deadline_at))
+          .where('application_forms.recruitment_cycle_year >= ? OR candidates.created_at > ?', current_timetable.recruitment_cycle_year, previous_timetable.apply_deadline_at)
           .includes(application_forms: :application_choices)
           .find(candidate_id)
       end
