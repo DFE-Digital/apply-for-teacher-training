@@ -206,4 +206,20 @@ RSpec.describe DuplicateApplication do
       expect(duplicate_application_form.application_references).to all(be_feedback_provided.or(be_not_requested_yet))
     end
   end
+
+  context 'when application form has safeguarding status as never asked' do
+    before do
+      @original_application_form.update!(
+        safeguarding_issues_status: 'never_asked',
+        safeguarding_issues_completed: true,
+        safeguarding_issues_completed_at: 1.second.ago,
+      )
+    end
+
+    it 'reverts safeguarding issues completed status to false and removes the status' do
+      expect(duplicate_application_form.safeguarding_issues_completed).to be_nil
+      expect(duplicate_application_form.safeguarding_issues_completed_at).to be_nil
+      expect(duplicate_application_form.safeguarding_issues_status).to eq 'not_answered_yet'
+    end
+  end
 end
