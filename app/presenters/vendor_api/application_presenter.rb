@@ -67,8 +67,21 @@ module VendorAPI
           further_information: application_form.further_information,
           safeguarding_issues_status: application_form.safeguarding_issues_status,
           safeguarding_issues_details_url:,
+          previous_teacher_training: [previous_teacher_training],
           anonymised:,
         },
+      }
+    end
+
+    def previous_teacher_training
+      training = application_form.published_previous_teacher_training
+
+      {
+        started: training&.started == 'yes',
+        provider_name: training&.provider_name,
+        started_at: training&.started_at,
+        ended_at: training&.ended_at,
+        details: training&.details,
       }
     end
 
