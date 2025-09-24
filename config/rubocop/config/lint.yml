@@ -2,7 +2,6 @@
 
 Lint/AmbiguousBlockAssociation:
   Exclude:
-    - 'spec/support/slack_notifications.rb'
     - 'spec/requests/vendor_api/api_authentication_spec.rb'
 
 Lint/DeprecatedOpenSSLConstant:

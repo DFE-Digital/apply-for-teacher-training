@@ -78,7 +78,6 @@ RSpec.describe InviteProviderUser, :sidekiq do
 
   describe '#call! if API response is not successful' do
     before do
-      allow(SlackNotificationWorker).to receive(:perform_async)
       dsi_api_response(success: false)
     end
 
@@ -88,20 +87,6 @@ RSpec.describe InviteProviderUser, :sidekiq do
 
     it 'does not queue an email' do
       expect(ProviderMailer.deliveries.count).to be 0
-    end
-
-    it 'does not notify slack' do
-      expect(SlackNotificationWorker).not_to have_received(:perform_async)
-    end
-  end
-
-  describe '#notify' do
-    before do
-      described_class.new(provider_user:).notify
-    end
-
-    it 'sends a slack message' do
-      expect_slack_message_with_text(":technologist: Provider user Firstname has been invited to join #{provider.name}")
     end
   end
 end
