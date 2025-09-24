@@ -118,6 +118,14 @@ class DuplicateApplication
         )
         new_application_form.update!(previous_teacher_training_completed: true)
       end
+
+      if original_application_form.never_asked?
+        new_application_form.update!(
+          safeguarding_issues_completed: nil,
+          safeguarding_issues_status: 'not_answered_yet',
+          safeguarding_issues_completed_at: nil,
+        )
+      end
     end
   end
 
