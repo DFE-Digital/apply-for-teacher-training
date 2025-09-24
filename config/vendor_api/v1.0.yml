@@ -551,7 +551,7 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/PreviousTeacherTraining"
-          description: The previous teacher training of the candidate, if they have one.
+          description: The previous teacher training declaration of the candidate, including details if the candidate has previous started training.
         anonymised:
           type: boolean
           description: Indicates if a candidate has been removed from the Apply service
