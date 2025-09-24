@@ -14,6 +14,8 @@ en:
         references_link_text: confirm your references
         enter_equality_and_diversity_html: enter or reconfirm your %{equality_and_diversity_information_link}.
         equality_and_diversity_link_text: equality and diversity information
+        enter_previous_teacher_training_html: enter %{previous_teacher_training_link}
+        previous_teacher_training_link_text: whether you have started teacher training in the past
       adviser_call_to_action:
         available:
           heading: Get a teacher training adviser

@@ -33,7 +33,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <% if @application_form_presenter.show_references_and_equality_and_diversity_inset? %>
+    <% if @application_form_presenter.show_sections_not_carried_over_inset? %>
       <%= govuk_inset_text do %>
         <p class="govuk-body">
           <%= t('.before_you_can_apply') %>
@@ -51,6 +51,13 @@
                     equality_and_diversity_information_link: govuk_link_to(
                       t('.equality_and_diversity_link_text'),
                       candidate_interface_start_equality_and_diversity_path,
+                    ),
+                  ),
+                  t(
+                    '.enter_previous_teacher_training_html',
+                    previous_teacher_training_link: govuk_link_to(
+                      t('.previous_teacher_training_link_text'),
+                      @application_form_presenter.path_to_previous_teacher_training,
                     ),
                   ),
                 ],
