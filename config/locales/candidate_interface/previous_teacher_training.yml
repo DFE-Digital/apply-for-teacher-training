@@ -1,0 +1,78 @@
+en:
+  candidate_interface:
+    previous_teacher_trainings:
+      start:
+        new:
+          title: Have you started a teacher training course before?
+        edit:
+          title: Have you started a teacher training course before?
+        form:
+          body: Training providers need to find out more about any previous teacher training courses that you have been on. this is for safeguarding reasons.
+      names:
+        new:
+          title: Name of the training provider
+          body: If you have started more than one course before, give details of the most recent one.
+      dates:
+        new:
+          title: Training dates
+          start_date: Course start date
+          end_date: Date you left the course
+      details:
+        new:
+          title: Give details about any previous teacher training courses
+          hint_html: |
+            Provide information about:
+              <ul>
+              <li>whether you completed the course or not</li>
+              <li>the name and grade of any qualifications you gained if relevant</li>
+              <li>the reasons why you left or did not complete the course</li>
+              <li>the names of any other training providers you have started training with other than the one listed on the previous screen</li>
+              </ul>
+              Training providers that you submit an application to may want to discuss this information with you. They can also request that you provide a reference from the previous training providers in your application.
+      review:
+        show:
+          title: Check your previous teacher training
+          qts_guidance_html: If you have qualified teacher status (QTS) or qualified teacher learning and skills (QTLS), do not apply for ITT. Find out how to %{return_to_teaching}.
+          started_teacher_training: Have you started a teacher training course before?
+          change_started_teacher_training: whether you started a teacher training course before
+          provider_name: Name of the training provider
+          change_provider_name: the name of the training provider
+          training_dates: Training dates
+          change_training_dates: training dates
+          details: Details
+          change_details: details of your previous teacher training
+          change: Change
+          submit: Submit
+  activemodel:
+    errors:
+      models:
+        candidate_interface/previous_teacher_trainings/start_form:
+          attributes:
+            started:
+              blank: Select whether you have started a teacher training course before
+        candidate_interface/previous_teacher_trainings/names_form:
+          attributes:
+            provider_name:
+              blank: Enter the name of the training provider
+        candidate_interface/previous_teacher_trainings/dates_form:
+          attributes:
+            started_at:
+              blank_date: Enter the date that you started the training course
+              blank_date_fields: Enter the %{fields} that you started the training course
+              before: Enter a course start date that is before the date you have left the course
+              future: Date that you started the training course must be in the past
+              invalid_date_month_and_year: Enter a real course start date, for example 5 2019
+            ended_at:
+              blank_date: Enter the date that you left the training course
+              blank_date_fields: Enter the %{fields} that you left the training course
+              invalid_date_month_and_year: Enter a real course leave date, for example 5 2019
+              future: Date that you left the training course must be in the past
+        candidate_interface/previous_teacher_trainings/details_form:
+          attributes:
+            details:
+              blank: Enter details about your previous teacher training courses
+              too_many_words: Your answer must be %{maximum} words or less. You have %{count} words too many.
+        candidate_interface/previous_teacher_trainings/review_form:
+          attributes:
+            completed:
+              blank: Select whether you have completed this section

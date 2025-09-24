@@ -126,6 +126,14 @@
         path: application_form_presenter.safeguarding_valid? ? candidate_interface_review_safeguarding_path : candidate_interface_new_safeguarding_path,
       )) %>
     </li>
+
+    <li class="app-task-list__item">
+      <%= render(TaskListItemComponent.new(
+        text: t('page_titles.previous_teacher_training'),
+        completed: application_form_presenter.previous_teacher_training_completed,
+        path: application_form_presenter.path_to_previous_teacher_training,
+      )) %>
+    </li>
   </ol>
 </section>
 

@@ -16,6 +16,7 @@ module CandidateHelper
     interview_preferences
     references_selected
     equality_and_diversity
+    previous_teacher_training
   ].freeze
 
   def create_and_sign_in_candidate(candidate: current_candidate)
@@ -65,6 +66,9 @@ module CandidateHelper
 
     click_link_or_button t('page_titles.suitability_to_work_with_children')
     candidate_fills_in_safeguarding_issues
+
+    click_link_or_button t('page_titles.previous_teacher_training')
+    candidate_fills_in_previous_teacher_training
 
     click_link_or_button t('page_titles.degree')
     candidate_fills_in_their_degree
@@ -479,6 +483,9 @@ module CandidateHelper
     click_link_or_button t('page_titles.suitability_to_work_with_children')
     candidate_fills_in_safeguarding_issues
 
+    click_link_or_button t('page_titles.previous_teacher_training')
+    candidate_fills_in_previous_teacher_training
+
     click_link_or_button t('page_titles.degree')
     candidate_fills_in_their_degree
 
@@ -599,6 +606,13 @@ module CandidateHelper
     click_link_or_button t('continue')
     choose t('application_form.completed_radio')
     click_link_or_button t('continue')
+  end
+
+  def candidate_fills_in_previous_teacher_training
+    choose('No')
+    click_link_or_button('Continue')
+    choose('Yes, I have completed this section')
+    click_link_or_button('Continue')
   end
 
   def candidate_fills_in_restructured_work_experience

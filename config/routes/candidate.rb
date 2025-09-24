@@ -14,6 +14,19 @@ namespace :candidate_interface, path: '/candidate' do
     get '/' => redirect('/')
   end
 
+  resources :previous_teacher_trainings, only: %i[show update], path: 'previous-teacher-training', controller: 'previous_teacher_trainings/review' do
+    collection do
+      get 'start', to: 'previous_teacher_trainings/start#new'
+      post 'create', to: 'previous_teacher_trainings/start#create', as: :create
+      get ':previous_teacher_training_id/edit', to: 'previous_teacher_trainings/start#edit', as: :edit
+      put ':previous_teacher_training_id/update', to: 'previous_teacher_trainings/start#update', as: :update
+    end
+
+    resources :names, only: %i[new create], controller: 'previous_teacher_trainings/names', path: 'provider-name'
+    resources :dates, only: %i[new create], controller: 'previous_teacher_trainings/dates', path: 'training-dates'
+    resources :details, only: %i[new create], controller: 'previous_teacher_trainings/details', path: 'training-details'
+  end
+
   resources :account_recovery_requests, only: %i[new create], path: 'account-recovery-requests'
 
   resources :invites, only: %i[index edit update], path: 'application-sharing' do

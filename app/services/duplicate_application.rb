@@ -107,6 +107,17 @@ class DuplicateApplication
           end
         end
       end
+
+      original_previous_teacher_training = original_application_form.published_previous_teacher_training
+
+      if original_previous_teacher_training.nil?
+        new_application_form.update!(previous_teacher_training_completed: false)
+      else
+        new_application_form.create_published_previous_teacher_training!(
+          original_previous_teacher_training.attributes.except(*IGNORED_ATTRIBUTES),
+        )
+        new_application_form.update!(previous_teacher_training_completed: true)
+      end
     end
   end
 
