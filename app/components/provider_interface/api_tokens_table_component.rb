@@ -40,6 +40,7 @@ module ProviderInterface
 
     def created_by_cell(token)
       created_audit = token.audits.find_by(action: 'create')
+      return t('.default_user') if created_audit.blank?
 
       if created_audit.user.present? && created_audit.user_type == 'ProviderUser'
         created_audit.user.email_address
