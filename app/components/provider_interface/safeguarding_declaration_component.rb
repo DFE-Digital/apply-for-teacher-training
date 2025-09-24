@@ -37,10 +37,6 @@ module ProviderInterface
       end
     end
 
-    def hiding_safeguarding_issues?
-      application_choice.application_form.never_asked?
-    end
-
     def safeguarding_information
       if current_user_has_permission_to_view_safeguarding_information?
         application_choice.application_form.safeguarding_issues

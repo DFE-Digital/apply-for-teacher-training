@@ -97,8 +97,8 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
           safeguarding_issues: nil,
           safeguarding_issues_status: 'never_asked',
         )
-        expect(result.text).not_to include('Criminal record and professional misconduct')
-        expect(result.text).not_to include('Never asked')
+        expect(result.text).to include('Safeguarding')
+        expect(result.text).to include('No')
       end
     end
 
