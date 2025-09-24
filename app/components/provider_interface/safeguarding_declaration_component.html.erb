@@ -1,9 +1,9 @@
 <%= render ProviderInterface::PermissionsDebugCommentComponent.new(auth_analysis: @analysis) %>
 
-<% unless hiding_safeguarding_issues? %>
-  <section class="app-section govuk-!-width-two-thirds">
-    <h3 class="govuk-heading-m" id="criminal-convictions-and-professional-misconduct">Criminal record and professional misconduct</h3>
+<section class="app-section govuk-!-width-two-thirds">
+  <h3 class="govuk-heading-m" id="criminal-convictions-and-professional-misconduct">
+    <%= t('provider_interface.safeguarding_declaration_component.safeguarding_heading_title') %>
+  </h3>
 
-    <%= render SummaryListComponent.new(rows: rows) %>
-  </section>
-<% end %>
+  <%= render SummaryListComponent.new(rows:) %>
+</section>

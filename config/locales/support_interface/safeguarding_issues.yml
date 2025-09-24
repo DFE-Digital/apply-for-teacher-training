@@ -5,3 +5,10 @@ en:
       not_answered_yet: Not answered yet.
       never_asked: Never asked.
       no_safeguarding_issues_to_declare: The candidate has declared no criminal convictions or other safeguarding issues.
+      criminal_convictions_heading: Criminal convictions and professional misconduct
+      previous_training_heading: Previous teacher training
+      have_you_started: Have you started an initial teacher training course (ITT) before?
+      name_of_training_provider: Name of the training provider
+      training_dates: Training dates
+      details: Details
+

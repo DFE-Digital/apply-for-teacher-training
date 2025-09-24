@@ -24,7 +24,7 @@ module ProviderInterface
         rows << { key: I18n.t('provider_interface.safeguarding_declaration_component.safeguarding_information'), value: safeguarding_information }
       end
 
-      rows
+      previous_training_rows(rows)
     end
 
   private
@@ -37,16 +37,28 @@ module ProviderInterface
       end
     end
 
-    def hiding_safeguarding_issues?
-      application_choice.application_form.never_asked?
-    end
-
     def safeguarding_information
       if current_user_has_permission_to_view_safeguarding_information?
         application_choice.application_form.safeguarding_issues
       else
-        I18n.t('provider_interface.safeguarding_declaration_component.cannot_see_safeguarding_information')
+        t('provider_interface.safeguarding_declaration_component.cannot_see_safeguarding_information')
       end
+    end
+
+    def previous_training_rows(rows)
+      return rows if previous_training_record.blank?
+
+      rows << { key: t('provider_interface.safeguarding_declaration_component.have_you_started'), value: previous_training_record.started.capitalize }
+
+      if previous_training_record.started_yes?
+        rows.tap do |collection|
+          collection << { key: t('provider_interface.safeguarding_declaration_component.name_of_training_provider'), value: previous_training_record.provider_name }
+          collection << { key: t('provider_interface.safeguarding_declaration_component.training_dates'), value: previous_training_record.formatted_dates }
+          collection << { key: t('provider_interface.safeguarding_declaration_component.details'), value: previous_training_record.details }
+        end
+      end
+
+      rows
     end
 
     def current_user_has_permission_to_view_safeguarding_information?
@@ -54,7 +66,15 @@ module ProviderInterface
     end
 
     def safeguarding_issues_declared?
-      application_choice.application_form.has_safeguarding_issues_to_declare?
+      application_form.has_safeguarding_issues_to_declare?
+    end
+
+    def application_form
+      @application_form ||= application_choice.application_form
+    end
+
+    def previous_training_record
+      @previous_training_record ||= @application_form.published_previous_teacher_training
     end
   end
 end

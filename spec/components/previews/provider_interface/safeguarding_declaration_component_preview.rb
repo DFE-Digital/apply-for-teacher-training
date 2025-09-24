@@ -8,9 +8,26 @@ module ProviderInterface
       render_component
     end
 
+    def can_view__with_previous_training
+      find_user_and_course safeguarding_access: true
+      build_application_choice :minimum_info
+      FactoryBot.create(
+        :previous_teacher_training,
+        :published,
+        application_form: @application_choice.application_form,
+      )
+      render_component
+    end
+
     def can_view__with_no_safeguarding_issues
       find_user_and_course safeguarding_access: true
       build_application_choice :minimum_info
+      FactoryBot.create(
+        :previous_teacher_training,
+        :not_started,
+        :published,
+        application_form: @application_choice.application_form,
+      )
       render_component
     end
 

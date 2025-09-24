@@ -26,6 +26,8 @@ class PreviousTeacherTraining < ApplicationRecord
   end
 
   def formatted_dates
+    return '' if started_at.blank? || ended_at.blank?
+
     "From #{started_at.to_fs(:month_and_year)} to #{ended_at.to_fs(:month_and_year)}"
   end
 end
