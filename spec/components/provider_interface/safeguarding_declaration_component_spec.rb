@@ -56,7 +56,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
     )
 
     if previous_training_status == 'no'
-      create(:previous_teacher_training, :started_no, application_form:)
+      create(:previous_teacher_training, :not_started, :published, application_form:)
     end
 
     if previous_training_status == 'yes'

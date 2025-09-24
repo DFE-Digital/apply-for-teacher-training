@@ -31,12 +31,12 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   end
 
   def and_i_will_not_see_the_safeguarding_declaration_details
-    expect(page).to have_content('Criminal record and professional misconduct')
+    expect(page).to have_content('Safeguarding')
     expect(page).to have_no_content('View information disclosed by the candidate')
   end
 
   def then_i_will_see_the_safeguarding_declaration_section
-    expect(page).to have_content('Criminal record and professional misconduct')
+    expect(page).to have_content('Safeguarding')
     expect(page).to have_content(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare'))
   end
 
