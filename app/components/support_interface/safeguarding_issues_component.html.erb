@@ -1,2 +1,23 @@
-<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Criminal convictions and professional misconduct</h2>
-<p class="govuk-body"><%= message %></p>
+<section id="safeguarding-section" class="app-section govuk-!-width-two-thirds">
+  <% if previous_training_record.present? %>
+    <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">
+      <%= t('support_interface.safeguarding_issues_component.previous_training_heading') %>
+    </h2>
+
+    <%= govuk_summary_list(actions: false) do |summary_list| %>
+      <% training_rows.each do |training_row| %>
+        <% summary_list.with_row do |row| %>
+          <% row.with_key(text: training_row[:key]) %>
+          <% row.with_value(text: training_row[:value]) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">
+    <%= t('support_interface.safeguarding_issues_component.criminal_convictions_heading') %>
+  </h2>
+  <p class="govuk-body">
+    <%= message %>
+  </p>
+</section>

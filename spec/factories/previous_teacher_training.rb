@@ -17,5 +17,9 @@ FactoryBot.define do
       ended_at { nil }
       details { nil }
     end
+
+    trait :published do
+      status { 'published' }
+    end
   end
 end
