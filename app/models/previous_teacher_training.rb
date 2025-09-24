@@ -21,10 +21,8 @@ class PreviousTeacherTraining < ApplicationRecord
   end
 
   def reviewable?
-    return true if started_yes? && [provider_name, started_at, details].all?(&:present?)
-    return true if started_no? && [provider_name, started_at, details].all?(&:nil?)
-
-    false
+    (started_yes? && [provider_name, started_at, details].all?(&:present?)) ||
+      (started_no? && [provider_name, started_at, details].all?(&:nil?))
   end
 
   def formatted_dates

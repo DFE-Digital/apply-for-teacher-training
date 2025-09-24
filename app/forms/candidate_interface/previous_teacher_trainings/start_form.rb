@@ -23,7 +23,7 @@ module CandidateInterface
       def save
         return if invalid?
 
-        if started == 'no'
+        if started == PreviousTeacherTraining.starteds[:no]
           previous_teacher_training.assign_attributes(
             # Add new columns here
             provider_name: nil,
