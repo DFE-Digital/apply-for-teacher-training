@@ -46,6 +46,7 @@ class DeleteApplication
     application_references
     application_work_history_breaks
     application_feedback
+    previous_teacher_trainings
   ].freeze
 
   def initialize(actor:, application_form:, zendesk_url:, force: false)
@@ -71,6 +72,7 @@ class DeleteApplication
         application_form.candidate.update!(email_address: "deleted-application-#{reference}@example.com")
         application_form.candidate.one_login_auth&.delete
         application_form.candidate.sessions&.destroy_all
+        application_form.candidate_pool_application&.delete
 
         application_form.own_and_associated_audits.destroy_all
         add_audit_event_for_deletion!

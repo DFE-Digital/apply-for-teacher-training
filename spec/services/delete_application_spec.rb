@@ -70,6 +70,14 @@ RSpec.describe DeleteApplication do
       expect { session.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
+    it 'deletes candidate_pool_application' do
+      candidate_pool_application = create(:candidate_pool_application, application_form:)
+
+      service.call!
+
+      expect { candidate_pool_application.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
     it 'replaces all audits with a single entry documenting the deletion' do
       service.call!
 
