@@ -41,7 +41,8 @@ RSpec.describe 'Provider with two providers reports index' do
     expect(page).to have_css('h3', text: @provider.name)
     expect(page).to have_link('Status of active applications', href: provider_interface_reports_provider_status_of_active_applications_path(provider_id: @provider))
     expect(page).to have_link('Sex, disability, ethnicity and age of candidates', href: provider_interface_reports_provider_diversity_report_path(provider_id: @provider))
-    expect(page).to have_link('Withdrawals', href: provider_interface_reports_withdrawal_reports_path).twice
+    expect(page).to have_link('Withdrawal reasons', href: provider_interface_reports_provider_withdrawal_reasons_report_path(@provider))
+    expect(page).to have_link('Withdrawal reasons', href: provider_interface_reports_provider_withdrawal_reasons_report_path(@second_provider))
     expect(page).to have_css('h3', text: @second_provider.name)
     expect(page).to have_link('Status of active applications', href: provider_interface_reports_provider_status_of_active_applications_path(provider_id: @second_provider))
     expect(page).to have_link('Sex, disability, ethnicity and age of candidates', href: provider_interface_reports_provider_diversity_report_path(provider_id: @second_provider))

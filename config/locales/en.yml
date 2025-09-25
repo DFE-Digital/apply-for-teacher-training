@@ -351,7 +351,7 @@ en:
       export_application_data: Export application data
       reports: Reports
       diversity_report: Sex, disability, ethnicity and age of candidates
-      withdrawal_report: Withdrawals
+      withdrawal_report: Withdrawal reasons
       withdrawal_reports: Withdrawal reports
       withdrawal_reasons_report: Withdrawal reasons
     start_apply_again: Do you want to apply again?

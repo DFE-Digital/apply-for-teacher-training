@@ -36,8 +36,7 @@ private
 
   def when_i_navigate_to_the_withdrawal_reasons_report
     click_on 'Reports'
-    click_on 'Withdrawals'
-    click_on 'Withdrawal reasons: from January 2025'
+    click_on 'Withdrawal reasons'
   end
 
   def then_i_see_the_report_without_data
