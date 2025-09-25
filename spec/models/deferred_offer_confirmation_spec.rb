@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe DeferredOfferConfirmation do
-  subject(:deferred_offer_confirmation) { DeferredOfferConfirmation.new(provider_user: build(:provider_user), offer: create(:offer)) }
+  subject(:deferred_offer_confirmation) { described_class.new(provider_user: build(:provider_user), offer: create(:offer)) }
 
   describe 'associations' do
     it { is_expected.to belong_to(:provider_user) }
@@ -41,7 +41,7 @@ RSpec.describe DeferredOfferConfirmation do
     it { is_expected.to delegate_method(:conditions).to(:offer) }
     it { is_expected.to delegate_method(:provider).to(:offer) }
     it { is_expected.to delegate_method(:name_and_code).to(:provider).with_prefix.allow_nil }
-    it { is_expected.to delegate_method(:name_and_code).to(:course).with_prefix.allow_nil }
+    it { is_expected.to delegate_method(:name_and_code).to(:validating_course).with_prefix(:course).allow_nil }
     it { is_expected.to delegate_method(:name_and_address).to(:location).with_prefix.allow_nil }
   end
 
@@ -51,7 +51,7 @@ RSpec.describe DeferredOfferConfirmation do
       application_choice = create(:application_choice, current_course_option: course_option)
       offer = create(:offer, application_choice:)
 
-      deferred_offer_confirmation = DeferredOfferConfirmation.new(
+      deferred_offer_confirmation = described_class.new(
         provider_user: build(:provider_user),
         offer: offer,
       )
@@ -66,7 +66,7 @@ RSpec.describe DeferredOfferConfirmation do
       application_choice = create(:application_choice, current_course_option: course_option)
       offer = create(:offer, application_choice:)
 
-      deferred_offer_confirmation = DeferredOfferConfirmation.new(
+      deferred_offer_confirmation = described_class.new(
         provider_user: build(:provider_user),
         offer: offer,
         course_id: 1,
@@ -84,7 +84,7 @@ RSpec.describe DeferredOfferConfirmation do
       application_choice = create(:application_choice, current_course_option: course_option)
       offer = create(:offer, application_choice:)
 
-      deferred_offer_confirmation = DeferredOfferConfirmation.new(
+      deferred_offer_confirmation = described_class.new(
         provider_user: build(:provider_user),
         offer: offer,
         course_id: 1,
@@ -102,7 +102,7 @@ RSpec.describe DeferredOfferConfirmation do
       application_choice = create(:application_choice, current_course_option: course_option)
       offer = create(:offer, application_choice:)
 
-      deferred_offer_confirmation = DeferredOfferConfirmation.new(
+      deferred_offer_confirmation = described_class.new(
         provider_user: build(:provider_user),
         offer: offer,
         course_id: course_option.course.id,
@@ -120,7 +120,7 @@ RSpec.describe DeferredOfferConfirmation do
         application_choice = create(:application_choice, current_course_option: course_option)
         offer = create(:offer, application_choice:)
 
-        deferred_offer_confirmation = DeferredOfferConfirmation.new(
+        deferred_offer_confirmation = described_class.new(
           provider_user: build(:provider_user),
           offer: offer,
           course_id: course_option.course.id,
@@ -137,7 +137,7 @@ RSpec.describe DeferredOfferConfirmation do
         application_choice = create(:application_choice, current_course_option: course_option)
         offer = create(:offer, application_choice:)
 
-        deferred_offer_confirmation = DeferredOfferConfirmation.new(
+        deferred_offer_confirmation = described_class.new(
           provider_user: build(:provider_user),
           offer: offer,
           course_id: course_option.course.id,
@@ -160,7 +160,7 @@ RSpec.describe DeferredOfferConfirmation do
         application_choice = create(:application_choice, current_course_option: course_option_previous_cycle)
         offer = create(:offer, application_choice:)
 
-        deferred_offer_confirmation = DeferredOfferConfirmation.new(
+        deferred_offer_confirmation = described_class.new(
           provider_user: build(:provider_user),
           offer: offer,
           course_id: course_option_previous_cycle.course.id,
@@ -185,7 +185,7 @@ RSpec.describe DeferredOfferConfirmation do
         application_choice = create(:application_choice, current_course_option: course_option_previous_cycle)
         offer = create(:offer, application_choice:)
 
-        deferred_offer_confirmation = DeferredOfferConfirmation.new(
+        deferred_offer_confirmation = described_class.new(
           provider_user: build(:provider_user),
           offer: offer,
           course_id: course_option_previous_cycle.course.id,
@@ -208,7 +208,7 @@ RSpec.describe DeferredOfferConfirmation do
         application_choice = create(:application_choice, current_course_option: course_option_previous_cycle)
         offer = create(:offer, application_choice:)
 
-        deferred_offer_confirmation = DeferredOfferConfirmation.new(
+        deferred_offer_confirmation = described_class.new(
           provider_user: build(:provider_user),
           offer: offer,
           course_id: course_option_previous_cycle.course.id,
@@ -233,7 +233,7 @@ RSpec.describe DeferredOfferConfirmation do
         application_choice = create(:application_choice, current_course_option: course_option_previous_cycle)
         offer = create(:offer, application_choice:)
 
-        deferred_offer_confirmation = DeferredOfferConfirmation.new(
+        deferred_offer_confirmation = described_class.new(
           provider_user: build(:provider_user),
           offer: offer,
           course_id: course_option_previous_cycle.course.id,

@@ -45,7 +45,7 @@ class DeferredOfferConfirmation < ApplicationRecord
          scopes: false
 
     def study_modes_for_select
-      course_study_modes.map { |course_study_mode| SelectOption.new(id: course_study_mode, name: course_study_mode.humanize) }
+      validating_course_study_modes.map { |course_study_mode| SelectOption.new(id: course_study_mode, name: course_study_mode.humanize) }
     end
   end
 
@@ -56,7 +56,7 @@ class DeferredOfferConfirmation < ApplicationRecord
     attr_accessor :site_id_raw
 
     def locations_for_select
-      course_sites.distinct.order(:name)
+      validating_course_sites.distinct.order(:name)
     end
 
   private
@@ -90,10 +90,10 @@ class DeferredOfferConfirmation < ApplicationRecord
 
   delegate :application_choice, :conditions, :provider, to: :offer
   delegate :name_and_code, to: :provider, prefix: true, allow_nil: true
-  delegate :name_and_code, to: :course, prefix: true, allow_nil: true
+  delegate :name_and_code, to: :validating_course, prefix: :course, allow_nil: true
   delegate :name_and_address, to: :location, prefix: true, allow_nil: true
   delegate :site, :study_mode, :course, to: :offer, prefix: true
-  delegate :study_modes, :sites, to: :course, prefix: true
+  delegate :study_modes, :sites, to: :validating_course, prefix: true
 
   validate :course_option_available, on: :submit
   validates :course, presence: { on: :submit }
@@ -154,6 +154,8 @@ private
   end
 
   def validating_course
-    @validating_course ||= provider.courses.current_cycle.find_by(code: course.code)
+    return @validating_course if defined?(@validating_course)
+
+    @validating_course = provider.courses.current_cycle.find_by(code: course.code)
   end
 end
