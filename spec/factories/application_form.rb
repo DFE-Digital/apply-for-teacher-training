@@ -345,6 +345,8 @@ FactoryBot.define do
 
         references_count { 2 }
         references_state { :feedback_provided }
+
+        previous_teacher_training_started { true }
       end
 
       after(:create) do |application_form, evaluator|
@@ -378,7 +380,20 @@ FactoryBot.define do
         volunteering_experience = build_list(:application_volunteering_experience, evaluator.volunteering_experiences_count)
         application_form.application_volunteering_experiences << volunteering_experience
 
-        create(:previous_teacher_training, status: 'published', application_form:)
+        if evaluator.previous_teacher_training_started
+          create(
+            :previous_teacher_training,
+            status: 'published',
+            application_form:,
+          )
+        else
+          create(
+            :previous_teacher_training,
+            :not_started,
+            status: 'published',
+            application_form:,
+          )
+        end
 
         application_form.update!(updated_at: original_updated_at)
       end
@@ -433,6 +448,11 @@ FactoryBot.define do
           updated_at: CycleTimetableHelper.mid_cycle,
         )
       end
+    end
+
+    trait :not_started_previous_teacher_training do
+      completed
+      previous_teacher_training_started { false }
     end
 
     factory :completed_application_form do
