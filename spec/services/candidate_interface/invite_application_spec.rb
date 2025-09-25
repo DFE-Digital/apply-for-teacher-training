@@ -104,5 +104,62 @@ RSpec.describe CandidateInterface::InviteApplication do
       expect(invite.reload.application_choice_id).to be_nil
       expect(invite.reload.not_responded?).to be(true)
     end
+
+    context 'when there is a declined reason' do
+      it 'removed choice from invite and sets it back to declined' do
+        create(:pool_invite_decline_reason, invite:)
+        described_class.unlink_invites_from_choice(application_choice:)
+
+        expect(invite.reload.application_choice_id).to be_nil
+        expect(invite.reload.declined?).to be(true)
+      end
+    end
+  end
+
+  describe '#calculate_candidate_decision' do
+    context 'with decline reason but no application choice' do
+      it 'returns declined' do
+        create(:pool_invite_decline_reason, invite:)
+        invite_application = described_class.new(
+          application_choice:,
+          invite:,
+        )
+
+        expect(invite_application.calculate_candidate_decision(invite)).to eq('declined')
+      end
+    end
+
+    context 'when application choice is nil and no decline reason' do
+      it 'returns not_responded' do
+        invite_application = described_class.new(
+          application_choice:,
+          invite:,
+        )
+
+        expect(invite_application.calculate_candidate_decision(invite)).to eq('not_responded')
+      end
+    end
+
+    context 'when application choice present' do
+      let!(:invite) {
+        create(
+          :pool_invite,
+          :sent_to_candidate,
+          application_form:,
+          application_choice:,
+        )
+      }
+
+      it 'returns accepted' do
+        invite_application = described_class.new(
+          application_choice:,
+          invite:,
+        )
+
+        expect(
+          invite_application.calculate_candidate_decision(invite),
+        ).to eq('accepted')
+      end
+    end
   end
 end
