@@ -6,6 +6,12 @@ module CandidateInterface
     before_action :redirect_to_root_path_if_flag_is_inactive
 
     def new
+      @back_path = if just_submitted?
+                     candidate_interface_application_choices_path
+                   else
+                     candidate_interface_invites_path
+                   end
+      @submit_params = { submit_application: just_submitted? }.compact_blank
       @preference_form = PoolOptInsForm.new(current_candidate:)
     end
 
@@ -36,6 +42,11 @@ module CandidateInterface
           redirect_to candidate_interface_invites_path
         end
       else
+        @back_path = if just_submitted?
+                       candidate_interface_application_choices_path
+                     else
+                       candidate_interface_invites_path
+                     end
         render :new
       end
     end
@@ -62,6 +73,10 @@ module CandidateInterface
     end
 
   private
+
+    def just_submitted?
+      params[:submit_application] == 'true'
+    end
 
     def request_params
       params.fetch(:candidate_interface_pool_opt_ins_form, {}).permit(
