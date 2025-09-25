@@ -1,33 +1,129 @@
 <p class="govuk-body">
-  You can choose to make your application details visible to training providers
-  who you have not submitted an application to.
-</p>
-<p class="govuk-body">
-  They can search a list of candidates and view your application details.
-  If they think you are suitable for their course, they can invite you to apply directly.
+  Training providers can search a list of candidates who have chosen to share their application details with them. If they find someone suitable, they can invite them to apply.
 </p>
 
 <% if submit_application %>
-  <%= govuk_button_to('Continue', path_to_continue, method: :get) %>
-<% end %>
-
-<div class="<%= app_card_class %>">
-  <h2 class="govuk-heading-m">How this works with the current application process</h2>
-  <p class="govuk-body">
-    This feature should be used alongside <%= govuk_link_to 'the current application process', candidate_interface_guidance_path %>.
-    You must continue to choose courses and submit applications yourself.
-  </p>
-  <p class="govuk-body">
-    You can still submit up to 4 application choices at a time.
-    If a provider invites you to apply and you submit an application, it will count towards your total.
-  </p>
-  <p class="govuk-body">
-    You can change your decision to share your application details at any time.
-  </p>
-</div>
-
-<% if !submit_application %>
+ <%= govuk_button_to('Continue', path_to_continue, method: :get) %>
+<% else %>
   <p class="govuk-body">
     <%= govuk_link_to(t('candidate_interface.manage_preferences_component.change_sharing_details'), path_to_continue) %>
   </p>
+<% end %>
+
+<%= govuk_accordion do |accordion| %>
+  <% accordion.with_section(heading_text: 'What is application sharing?') do %>
+    <p class="govuk-body">
+      Sometimes training providers have spaces on their courses that they have not yet filled. When this happens they can search a list of candidates who have applied to other courses to see if there are any that would be a good fit for them.
+    </p>
+    <p class="govuk-body">
+      Application sharing is a way for you to appear in this list of candidates.
+    </p>
+    <p class="govuk-body">
+      You can choose to make your details visible to any training provider whilst also specifying locations and funding types that you are interested in.
+    </p>
+    <p class="govuk-body">
+      When a training provider filters the list of candidates, they will see people who:
+      <%= govuk_list(
+            [
+              'have said they can train in their area',
+              'have applied for courses in the subject they are recruiting for',
+              'are interested in the funding type of the course they are recruiting for',
+              'have specified full- or part-time courses',
+            ],
+            type: :bullet,
+          ) %>
+    </p>
+    <p class="govuk-body">
+      If a training provider finds a candidate whose details seem like a good fit for the course they are recruiting for, they can send them an invitation to apply.
+    </p>
+    <p class="govuk-body">
+      You can decide whether you want to submit an application or not. If you do then the provider will treat it the same as other applications they receive and decide whether to offer you an interview or not.
+    </p>
+  <% end %>
+  <% accordion.with_section(heading_text: 'What information can training providers see?') do %>
+    <p class="govuk-body">
+      Application details that the provider can see include:
+      <%= govuk_list(
+            [
+              'your qualifications',
+              'work history and unpaid experience',
+              'your most recent personal statement',
+              'basic information about where you have applied to before, including the name of the training provider and the subject you applied for',
+            ],
+            type: :bullet,
+          ) %>
+    </p>
+    <p class="govuk-body">
+      Training providers cannot see:
+      <%= govuk_list(
+            [
+              'your full name or date of birth',
+              'any personal statements apart from your most recent one',
+              'reasons why your past applications ended without success',
+              'any initial teacher training (ITT) courses you have started in the past',
+            ],
+            type: :bullet,
+          ) %>
+    </p>
+    <p class="govuk-body">
+      If you submit an application following an invitation, they will be able to see your full application details including your name. They will still not be able to see reasons why your past applications ended without success.
+    </p>
+    <p class="govuk-body">
+      Your information will be shared until you change your mind or are accepted onto a course. At the start of the next recruitment cycle you will be asked to opt-in again.
+    </p>
+  <% end %>
+  <% accordion.with_section(heading_text: 'When are my details visible to other training providers?') do %>
+    <p class="govuk-body">
+      Training providers can only invite you to apply if you do not have an application in progress with another training provider.
+    </p>
+    <p class="govuk-body">
+      This means you will be visible in the list when all of your application choices are:
+      <%= govuk_list(
+            [
+              'rejected by the training provider',
+              'withdrawn by you or the training provider',
+              'inactive - this means you have not heard back from the provider for 30 working days since submitting your application.',
+            ],
+            type: :bullet,
+          ) %>
+    </p>
+    <p class="govuk-body">
+      When you submit a new application choice, we will hide you from the list until the training provider has made a decision. This is to give the course you have just applied to time to review your application properly.
+    </p>
+  <% end %>
+  <% accordion.with_section(heading_text: 'How many applications can I submit?') do %>
+    <p class="govuk-body">
+      Application sharing works alongside the <%= govuk_link_to('current applications process', candidate_interface_guidance_path) %>. You can submit a maximum of 4 applications at a time. When an application becomes inactive, is rejected or withdrawn, you can submit another choice, up to a maximum of 15 total applications in a single recruitment cycle.
+    </p>
+    <p class="govuk-body">
+      If you are invited to apply to a course and you submit an application, it will count towards your total application choices.
+    </p>
+  <% end %>
+  <% accordion.with_section(heading_text: 'Should I stop applying to courses myself?') do %>
+    <p class="govuk-body">
+      No. Being invited to apply does not guarantee you a place on a course. The training provider will still review your full application in the same way they would if you had applied to them without being invited to.
+    </p>
+    <p class="govuk-body">
+      They will only invite you to an interview if your application meets their criteria.
+    </p>
+    <p class="govuk-body">
+      You should continue to find courses that you are interested in and submit applications yourself. Do not wait to be invited by training providers.
+    </p>
+  <% end %>
+  <% accordion.with_section(heading_text: 'Can I change my mind?') do %>
+    <p class="govuk-body">
+      Yes. You can change:
+      <%= govuk_list(
+            [
+              'whether other training providers can see your application details',
+              'your location preferences',
+              'your funding preferences',
+            ],
+            type: :bullet,
+          ) %>
+      <span class="govuk-body">
+        at any time from the <%= govuk_link_to('application sharing page', candidate_interface_invites_path) %>.
+      </span>
+    </p>
+  <% end %>
 <% end %>
