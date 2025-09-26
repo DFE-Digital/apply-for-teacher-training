@@ -87,7 +87,7 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
       )
 
       expect(page).to have_link(
-        'Update your preferences',
+        'Change',
         href: candidate_interface_draft_preference_publish_preferences_path(preference),
       )
     end
@@ -107,7 +107,7 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
       )
 
       expect(page).to have_link(
-        'Update your preferences',
+        'Change',
         href: new_candidate_interface_pool_opt_in_path,
       )
     end
@@ -128,7 +128,7 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
       )
 
       expect(page).to have_link(
-        'Update your preferences',
+        'Change',
         href: edit_candidate_interface_pool_opt_in_path(
           preference,
         ),

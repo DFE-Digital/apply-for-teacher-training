@@ -15,6 +15,6 @@ class CandidateInterface::ApplicationVisibilityComponent < ViewComponent::Base
   end
 
   def invisible?
-    current_candidate.application_forms&.last&.awaiting_provider_decisions? || current_candidate.application_forms&.last&.offered?
+    current_candidate.application_forms.last&.awaiting_provider_decisions?
   end
 end

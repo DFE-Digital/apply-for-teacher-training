@@ -31,7 +31,7 @@ RSpec.describe 'Candidate adds preferences' do
     given_i_am_on_the_share_details_page
     and_i_click('Back')
 
-    when_i_click('Update your preferences')
+    when_i_click('Change')
     then_i_am_redirected_to_opt_in_page
     when_i_click('Continue')
     then_i_get_an_error('Select whether to make your application details visible to other training providers')
@@ -110,7 +110,7 @@ RSpec.describe 'Candidate adds preferences' do
     given_i_am_on_the_share_details_page
     and_i_click('Back')
 
-    when_i_click('Update your preferences')
+    when_i_click('Change')
     then_i_am_redirected_to_opt_in_page
     and_i_opt_in_to_find_a_candidate
     when_i_click('Continue')
@@ -146,7 +146,7 @@ RSpec.describe 'Candidate adds preferences' do
     given_i_am_on_the_share_details_page
     and_i_click('Back')
 
-    when_i_click('Update your preferences')
+    when_i_click('Change')
     then_i_am_redirected_to_opt_in_page
     when_i_click('Continue')
     then_i_get_an_error('Select whether to make your application details visible to other training providers')
@@ -173,7 +173,7 @@ RSpec.describe 'Candidate adds preferences' do
     given_i_am_on_the_share_details_page
     and_i_click('Back')
 
-    when_i_click('Update your preferences')
+    when_i_click('Change')
     then_i_am_redirected_to_opt_in_page
     when_i_click('Continue')
     then_i_get_an_error('Select whether to make your application details visible to other training providers')
@@ -262,7 +262,7 @@ RSpec.describe 'Candidate adds preferences' do
     given_i_am_on_the_share_details_page
     and_i_click('Back')
 
-    when_i_click('Update your preferences')
+    when_i_click('Change')
     then_i_am_redirected_to_opt_in_page
 
     when_i_opt_in_to_find_a_candidate
@@ -324,7 +324,7 @@ RSpec.describe 'Candidate adds preferences' do
 
   def and_i_navigate_to_update_my_preferences
     visit candidate_interface_invites_path
-    when_i_click('Update your preferences')
+    when_i_click('Change')
     and_i_click_the_relevant_change_link
     then_i_see_my_location_preferences_page_including_the_dynamic_location
   end
