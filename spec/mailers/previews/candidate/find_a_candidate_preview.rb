@@ -85,4 +85,20 @@ class Candidate::FindACandidatePreview < ActionMailer::Preview
 
     CandidateMailer.invites_chaser([invite, second_invite])
   end
+
+  def pool_opt_in
+    candidate = FactoryBot.create(:candidate)
+    application_form = FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      candidate:,
+      first_name: 'Fred',
+    )
+    FactoryBot.create(
+      :candidate_preference,
+      application_form:,
+    )
+
+    CandidateMailer.pool_opt_in(application_form)
+  end
 end
