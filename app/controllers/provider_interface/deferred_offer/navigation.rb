@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ProviderInterface::DeferredOffer::Navigation
   extend ActiveSupport::Concern
 
