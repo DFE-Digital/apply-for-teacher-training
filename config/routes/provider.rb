@@ -46,11 +46,9 @@ namespace :provider_interface, path: '/provider' do
   namespace :reports do
     resources :hesa_exports, only: :show, path: 'hesa-exports', param: :year, constraints: ValidRecruitmentCycleYear
     resources :hesa_exports, only: :index, path: 'hesa-exports'
-    resources :withdrawal_reports, only: :index, path: 'withdrawal-reports'
     resources :providers, only: [], path: '' do
       resource :status_of_active_applications, only: :show, path: 'status-of-active-applications'
       resource :diversity_report, only: :show, path: 'diversity-report'
-      resource :withdrawal_report, only: :show, path: 'withdrawal-report'
       resource :withdrawal_reasons_report, only: :show, path: 'withdrawal-reasons-report'
       resource :recruitment_performance_report, only: :show, path: 'recruitment-performance-report'
     end

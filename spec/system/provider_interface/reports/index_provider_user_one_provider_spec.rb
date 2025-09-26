@@ -25,7 +25,7 @@ RSpec.describe 'Provider reports index' do
     expect(page).to have_css('h2', text: 'Application data for this recruitment cycle')
     expect(page).to have_link('Status of active applications', href: provider_interface_reports_provider_status_of_active_applications_path(provider_id: @provider))
     expect(page).to have_link('Sex, disability, ethnicity and age of candidates', href: provider_interface_reports_provider_diversity_report_path(provider_id: @provider))
-    expect(page).to have_link('Withdrawals', href: provider_interface_reports_withdrawal_reports_path)
+    expect(page).to have_link('Withdrawal reasons', href: provider_interface_reports_provider_withdrawal_reasons_report_path(@provider))
     expect(page).to have_css('h2', text: 'Download and export')
     expect(page).to have_link('Export application data', href: provider_interface_new_application_data_export_path)
     expect(page).to have_link('Export data for Higher Education Statistics Agency (HESA)', href: provider_interface_reports_hesa_exports_path)
