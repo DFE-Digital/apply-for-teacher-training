@@ -90,7 +90,7 @@ class DeferredOfferConfirmation < ApplicationRecord
 
   delegate :application_choice, :conditions, :provider, to: :offer
   delegate :name_and_code, to: :provider, prefix: true, allow_nil: true
-  delegate :name_and_code, to: :validating_course, prefix: :course, allow_nil: true
+  delegate :name_and_code, to: :course, prefix: true, allow_nil: true
   delegate :name_and_address, to: :location, prefix: true, allow_nil: true
   delegate :site, :study_mode, :course, to: :offer, prefix: true
   delegate :study_modes, :sites, to: :validating_course, prefix: true
