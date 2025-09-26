@@ -12,9 +12,9 @@
             :id,
             :name,
             bold_labels: false,
-            legend: { text: t('.page_title'), size: 'xl' },
             caption: { text: @study_mode_form.application_choice.application_form.full_name, size: 'xl' },
-            hint: proc { t('.study_mode.fieldset_hint') },
+            legend: { text: t('.page_title'), size: 'xl' },
+            hint: { text: t('.study_mode.fieldset_hint') },
           ) %>
 
       <%= form.govuk_submit t('.submit') %>
