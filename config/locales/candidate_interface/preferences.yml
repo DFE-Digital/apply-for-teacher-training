@@ -82,6 +82,7 @@ en:
           <p>So that the course you have just applied to has time to review your application properly, we will hide you from the list until they have made a decision.</p>
           <p>You can change your mind at any time.</p>
       edit:
+        caption: Application sharing
         title: Do you want to make your application details visible to other training providers?
       create:
         opt_out_message: You are not sharing your application details with providers you have not applied to

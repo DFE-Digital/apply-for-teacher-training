@@ -261,6 +261,6 @@ RSpec.describe 'Candidate submits the application' do
     expect(page).to have_current_path(new_candidate_interface_pool_opt_in_path(submit_application: true))
 
     expect(page).to have_content('Application submitted')
-    expect(page).to have_content('Do you want to make your application details visible to other training providers?')
+    expect(page).to have_content('Do you want to be invited to similar courses?')
   end
 end

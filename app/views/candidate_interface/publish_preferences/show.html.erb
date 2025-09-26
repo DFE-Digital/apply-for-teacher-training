@@ -55,7 +55,7 @@
         <% end %>
       <% end %>
 
-      <% if @preference.funding_type.present? %>
+        <% if @preference.funding_type.present? %>
         <% summary_list.with_row do |row| %>
           <% row.with_key { t('.funding_type') } %>
           <% row.with_value { t(".#{@preference.funding_type}_funding_type") } %>
