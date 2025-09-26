@@ -76,8 +76,8 @@ RSpec.describe 'Candidate adds preferences' do
         value: 'Yes',
       },
       {
-        label: 'Would you consider fee-funded courses?',
-        value: 'No',
+        label: 'What funding types are you interested in?',
+        value: 'Salaried courses only',
       },
     ]
 

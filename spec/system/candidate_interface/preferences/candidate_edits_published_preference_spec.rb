@@ -203,7 +203,7 @@ RSpec.describe 'Candidate edits published preference' do
   end
 
   def then_i_am_redirected_to_fee_funding_page
-    expect(page).to have_content('Would you consider fee-funded courses?')
+    expect(page).to have_content('What funding types are you interested in?')
   end
 
   def and_the_funding_type_is_checked
@@ -212,7 +212,7 @@ RSpec.describe 'Candidate edits published preference' do
   end
 
   def when_i_check_no_only_salary_courses
-    choose 'No, I am only interested in salaried or apprenticeship routes into teaching'
+    choose 'I am only interested in salaried courses or apprenticeships'
   end
 
   def and_only_interested_in_salary_courses
