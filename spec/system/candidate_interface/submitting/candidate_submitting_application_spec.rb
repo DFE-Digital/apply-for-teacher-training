@@ -87,7 +87,7 @@ RSpec.describe 'Candidate submits the application' do
     when_i_click_to_review_my_application
     when_i_continue_without_editing
     when_i_click_to_submit_my_application
-    then_i_am_redirected_to_share_details_page
+    then_i_am_redirected_to_preference_opt_in_form
   end
 
   def when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice
@@ -244,10 +244,10 @@ RSpec.describe 'Candidate submits the application' do
     FeatureFlag.deactivate(:candidate_preferences)
   end
 
-  def then_i_am_redirected_to_share_details_page
-    expect(page).to have_current_path(candidate_interface_share_details_path(submit_application: true))
+  def then_i_am_redirected_to_preference_opt_in_form
+    expect(page).to have_current_path(new_candidate_interface_pool_opt_in_path(submit_application: true))
 
     expect(page).to have_content('Application submitted')
-    expect(page).to have_content('Increase your chances of success by sharing your application details')
+    expect(page).to have_content('Do you want to make your application details visible to other training providers?')
   end
 end

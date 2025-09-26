@@ -12,7 +12,7 @@ RSpec.describe 'Candidate submits application with feedback form previously comp
     and_the_feedback_form_was_previously_submitted
     then_i_submit_my_application
     then_i_do_not_see_the_feedback_form
-    and_i_see_the_application_dashboard_and_success_message
+    and_i_see_the_preference_opt_in_page_and_success_message
   end
 
   def given_i_complete_my_application
@@ -33,8 +33,8 @@ RSpec.describe 'Candidate submits application with feedback form previously comp
     expect(page).to have_no_content('How satisfied are you with this service? (optional)')
   end
 
-  def and_i_see_the_application_dashboard_and_success_message
-    expect(page).to have_current_path(candidate_interface_share_details_path(submit_application: true))
+  def and_i_see_the_preference_opt_in_page_and_success_message
+    expect(page).to have_current_path(new_candidate_interface_pool_opt_in_path(submit_application: true))
     expect(page).to have_content('Application submitted')
   end
 end

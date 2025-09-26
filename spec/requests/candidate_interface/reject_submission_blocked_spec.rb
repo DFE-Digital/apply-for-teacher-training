@@ -53,7 +53,7 @@ RSpec.describe 'Block submission from blocked candidates' do
                  submit_answer: true,
                },
              }
-        expect(response).to redirect_to(candidate_interface_share_details_path(submit_application: true))
+        expect(response).to redirect_to(new_candidate_interface_pool_opt_in_path(submit_application: true))
         follow_redirect!
         expect(response.body).to include(t('application_form.submit_application_success.title'))
       end

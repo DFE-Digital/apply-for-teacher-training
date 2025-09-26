@@ -29,6 +29,7 @@ RSpec.describe 'Candidate adds preferences' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
+    and_i_click('Back')
 
     when_i_click('Update your preferences')
     then_i_am_redirected_to_opt_in_page
@@ -107,6 +108,7 @@ RSpec.describe 'Candidate adds preferences' do
     given_i_am_signed_in(funding_type: 'fee')
     and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
+    and_i_click('Back')
 
     when_i_click('Update your preferences')
     then_i_am_redirected_to_opt_in_page
@@ -142,6 +144,7 @@ RSpec.describe 'Candidate adds preferences' do
     given_i_am_signed_in
     and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
+    and_i_click('Back')
 
     when_i_click('Update your preferences')
     then_i_am_redirected_to_opt_in_page
@@ -168,6 +171,7 @@ RSpec.describe 'Candidate adds preferences' do
     given_i_am_signed_in(funding_type: 'fee')
     and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
+    and_i_click('Back')
 
     when_i_click('Update your preferences')
     then_i_am_redirected_to_opt_in_page
@@ -256,6 +260,7 @@ RSpec.describe 'Candidate adds preferences' do
     given_courses_exist
     and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
+    and_i_click('Back')
 
     when_i_click('Update your preferences')
     then_i_am_redirected_to_opt_in_page
@@ -473,7 +478,7 @@ RSpec.describe 'Candidate adds preferences' do
   def given_i_am_on_the_share_details_page
     visit candidate_interface_share_details_path
 
-    expect(page).to have_content('Increase your chances of success by sharing your application details')
+    expect(page).to have_content('Application sharing How application sharing works')
   end
 
   def then_i_am_redirected_to_opt_in_page

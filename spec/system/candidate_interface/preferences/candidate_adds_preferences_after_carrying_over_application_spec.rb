@@ -11,6 +11,7 @@ RSpec.describe 'Candidate adds preferences' do
     given_i_am_signed_in
     given_i_have_a_duplicate_preference_form
     given_i_am_on_the_share_details_page
+    and_i_click('Back')
 
     when_i_click('Update your preferences')
     then_i_am_redirected_to_review_page
@@ -100,6 +101,6 @@ RSpec.describe 'Candidate adds preferences' do
   def given_i_am_on_the_share_details_page
     visit candidate_interface_share_details_path
 
-    expect(page).to have_content('Increase your chances of success by sharing your application details')
+    expect(page).to have_content('Application sharing How application sharing works')
   end
 end

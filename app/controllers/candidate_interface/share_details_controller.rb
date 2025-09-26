@@ -2,14 +2,7 @@ module CandidateInterface
   class ShareDetailsController < CandidateInterfaceController
     before_action :redirect_to_root_path_if_flag_is_inactive
 
-    def index
-      @submit_application = params[:submit_application] == 'true'
-      @back_path = if @submit_application
-                     candidate_interface_application_choices_path
-                   else
-                     candidate_interface_invites_path
-                   end
-    end
+    def index; end
 
   private
 
