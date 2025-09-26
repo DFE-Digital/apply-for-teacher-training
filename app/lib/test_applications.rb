@@ -116,9 +116,7 @@ private
     end
 
     Audited.audit_class.as_user(candidate) do
-      traits = [%i[with_safeguarding_issues_disclosed
-                   with_safeguarding_issues_never_asked
-                   minimum_info].sample]
+      traits = [%i[with_safeguarding_issues_disclosed minimum_info].sample]
 
       simulate_signin(candidate)
 
