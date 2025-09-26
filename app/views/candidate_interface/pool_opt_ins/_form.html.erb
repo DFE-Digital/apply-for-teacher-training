@@ -7,7 +7,6 @@
     </span>
   <% end %>
 
-
   <%= f.govuk_radio_buttons_fieldset(:pool_status, legend: { text: t('.title') }, hint: -> { content_for(:fieldset_hint) }) do %>
     <%= f.govuk_radio_button :pool_status, :opt_in, label: { text: 'Yes' }, link_errors: true %>
     <%= f.govuk_radio_button :pool_status, :opt_out, label: { text: 'No' } do %>
