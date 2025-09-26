@@ -6,11 +6,17 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l govuk-!-margin-bottom-4">
-        <%= t('.heading', provider: @invite.provider_name) %>
-      </h1>
 
-      <%= f.govuk_check_boxes_fieldset(:reasons, legend: nil) do %>
+      <% content_for(:fieldset_legend) do %>
+        <h1 class="govuk-heading-l">
+          <span class="govuk-caption-l">
+            <%= t('.caption') %>
+          </span>
+          <%= t('.heading', provider: @invite.provider_name) %>
+        </h1>
+      <% end %>
+
+      <%= f.govuk_check_boxes_fieldset(:reasons, legend: -> { content_for(:fieldset_legend) }) do %>
         <%= f.govuk_check_box(:reasons, 'location_not_convenient', label: { text: t('.reasons.location_not_convenient') }, link_errors: true) %>
         <%= f.govuk_check_box(:reasons, 'wrong_subject', label: { text: t('.reasons.wrong_subject') }) %>
         <%= f.govuk_check_box(:reasons, 'only_salaried', label: { text: t('.reasons.only_salaried') }) %>

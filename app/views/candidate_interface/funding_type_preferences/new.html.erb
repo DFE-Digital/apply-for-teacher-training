@@ -23,6 +23,24 @@
       <% end %>
 
       <%= f.govuk_radio_buttons_fieldset(:training_locations, legend: -> { content_for(:fieldset_legend) }) do %>
+        <%= govuk_warning_text(text: t('.warning')) %>
+
+        <p class='govuk-body'>
+          <%= t(
+            '.funding_information_html',
+            link: govuk_link_to(
+              t('.funding_information'),
+              t('get_into_teaching.url_funding_and_support'),
+              new_tab: true,
+            ),
+          ) %>
+        </p>
+
+        <%= f.govuk_radio_button :funding_type, :fee, label: { text: t('.fee') }, link_errors: true %>
+        <%= f.govuk_radio_button :funding_type, :salary, label: { text: t('.salary') } %>
+      <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset(:training_locations, legend: -> { content_for(:fieldset_legend) }) do %>
         <%= f.govuk_radio_button :funding_type, :fee, label: { text: t('.fee') }, link_errors: true %>
         <%= f.govuk_radio_button :funding_type, :salary, label: { text: t('.salary') }, hint: { text: t('.warning') } %>
       <% end %>

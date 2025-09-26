@@ -5,6 +5,7 @@ en:
         success_opt_out: You are not sharing your application details with providers you have not applied to
       show:
         title: Check your application sharing preferences
+        caption: Application sharing
         share_information: Do you want to be invited to apply to similar courses?
         where_can_you_train: Where can you train?
         specific: In specific locations
@@ -35,6 +36,7 @@ en:
       show:
         duplicated_preference_explanation: These preferences are based on your settings from the last recruitment cycle.
         title: Check your application sharing preferences
+        caption: Application sharing
         share_information: Do you want to be invited to apply to similar courses?
         where_can_you_train: Where can you train?
         specific: In specific locations
@@ -80,9 +82,11 @@ en:
         title: Do you want to make your application details visible to other training providers?
         body: When you have no applications that are waiting for a decision from a provider, other providers will be able to see your application details and invite you to apply to their courses.
         reason_for_opting_out: Why do you not want to share your application details with other providers? (Optional)
+        caption: Application sharing
     location_preferences:
       index:
         title: Areas you can train in
+        caption: Application sharing
         body: Training providers will use the locations you enter here to search for candidates near their courses. You should add all locations that you can train in.
         select_locations: Add, change or remove areas
         location: from city, town, or postcode
@@ -101,12 +105,14 @@ en:
         title: Update the area where you can train
         submit_text: Update training area
       form:
+        caption: Application sharing
         within: I can travel up to
         name: from city, town or postcode
         miles: miles
         enter_distance_in_miles: Enter distance in miles
       show:
         title: Do you want to remove this training area?
+        caption: Application sharing
         location: Area
         remove: Yes, remove training area
     funding_type_preferences:
