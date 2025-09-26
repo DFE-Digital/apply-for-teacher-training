@@ -89,7 +89,7 @@ RSpec.describe 'Candidate adds preferences' do
 
     then_i_am_redirected_funding_type_page
     when_i_click('Continue')
-    then_i_get_an_error('Select if you would consider a fee-funded course')
+    then_i_get_an_error('Select what funding types you are interested in')
 
     when_i_check_yes_fee_funding_courses
     when_i_click('Continue')
@@ -546,11 +546,11 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def then_i_am_redirected_funding_type_page
-    expect(page).to have_content('Would you consider fee-funded courses?')
+    expect(page).to have_content('What funding types are you interested in?')
   end
 
   def when_i_check_yes_fee_funding_courses
-    choose 'Yes, I would apply to a fee-funded course'
+    choose 'I am interested in both courses with fees to pay and salaried courses'
   end
 
   def and_the_funding_type_is_checked
