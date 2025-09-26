@@ -469,7 +469,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def then_i_am_redirected_to_opt_in_page
-    expect(page).to have_content('Do you want to make your application details visible to other training providers?')
+    expect(page).to have_content('Would you like to share your application details with other training providers?')
   end
 
   def then_i_am_redirected_to_training_locations
