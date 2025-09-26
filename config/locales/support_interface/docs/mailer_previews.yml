@@ -124,6 +124,7 @@ en:
             candidate_invite: Find a candidate invitation email.
             candidate_invite_limit_reached: Find a candidate invitation email when candidate reaches the maximum invites allowed.
             invites_chaser: Chaser email for candidates to respond to their invites if they are out of the pool because they didn't respond
+            pool_opt_in: Email sent the first time the candidate opts into the pool
           provider_mailer:
             application_submitted: Missing description
             application_submitted_with_safeguarding_issues: Missing description

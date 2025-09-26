@@ -18,6 +18,7 @@ module CandidateInterface
         end
         current_candidate.published_preferences.where.not(id: @preference.id).destroy_all
         current_candidate.duplicated_preferences.where.not(id: @preference.id).destroy_all
+        PreferencesEmail.call(preference: @preference)
       end
 
       flash[:success] = if @preference.opt_in?
