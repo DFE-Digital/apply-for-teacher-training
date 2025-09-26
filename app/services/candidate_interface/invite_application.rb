@@ -21,10 +21,9 @@ module CandidateInterface
       )
 
       if invite.present? && application_choice.persisted?
-        invite.update!(
-          application_choice_id: application_choice.id,
-          candidate_decision: 'accepted',
-        )
+        invite.application_choice_id = application_choice.id
+        invite.candidate_decision = calculate_candidate_decision(invite)
+        invite.save!
       end
     end
 
@@ -33,10 +32,9 @@ module CandidateInterface
     end
 
     def accept_and_link_to_choice!
-      @invite.update!(
-        application_choice:,
-        candidate_decision: 'accepted',
-      )
+      @invite.application_choice_id = application_choice.id
+      @invite.candidate_decision = calculate_candidate_decision(@invite)
+      @invite.save!
     end
 
     def self.unlink_invites_from_choice(application_choice:)
@@ -44,10 +42,23 @@ module CandidateInterface
     end
 
     def unlink_invites_from_choice
-      application_choice.published_invites.update_all(
-        application_choice_id: nil,
-        candidate_decision: 'not_responded',
-      )
+      ActiveRecord::Base.transaction do
+        application_choice.published_invites.each do |invite|
+          invite.application_choice_id = nil
+          invite.candidate_decision = calculate_candidate_decision(invite)
+          invite.save!
+        end
+      end
+    end
+
+    def calculate_candidate_decision(invite)
+      if invite.application_choice_id.nil? && invite.invite_decline_reasons.any?
+        'declined'
+      elsif invite.application_choice_id.nil?
+        'not_responded'
+      elsif invite.application_choice.present?
+        'accepted'
+      end
     end
 
   private
@@ -56,12 +67,18 @@ module CandidateInterface
       # When a candidate creates a draft choice for invited course and changes course to a non invited course
       # We then need to remove the link between the choice and the invite
       if application_choice.current_course == application_choice.original_course
-        application_choice.published_invites.where.not(
-          course_id: application_choice.current_course.id,
-        ).update_all(
-          application_choice_id: nil,
-          candidate_decision: 'not_responded',
-        )
+
+        ActiveRecord::Base.transaction do
+          invites = application_choice.published_invites.where.not(
+            course_id: application_choice.current_course.id,
+          )
+
+          invites.each do |invite|
+            invite.application_choice_id = nil
+            invite.candidate_decision = calculate_candidate_decision(invite)
+            invite.save!
+          end
+        end
       end
     end
   end
