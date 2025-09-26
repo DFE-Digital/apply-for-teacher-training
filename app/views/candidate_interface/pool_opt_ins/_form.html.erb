@@ -1,16 +1,14 @@
 <%= form_with model: preference_form, url:, method: do |f| %>
   <%= f.govuk_error_summary %>
 
-  <% content_for(:fieldset_legend) do %>
-    <h1 class="govuk-heading-l">
-      <span class="govuk-caption-l">
-        <%= t('.caption') %>
-      </span>
-      <%= t('.title') %>
-    </h1>
+  <% content_for(:fieldset_hint) do %>
+    <span class="radio-buttons-fieldset-hint">
+      <%= t('.hint_html', link: govuk_link_to(t('.link_text'), candidate_interface_share_details_path)) %>
+    </span>
   <% end %>
 
-  <%= f.govuk_radio_buttons_fieldset(:pool_status, legend: -> { content_for(:fieldset_legend) }, hint: { text: t('.body'), class: 'radio-buttons-fieldset-hint' }) do %>
+
+  <%= f.govuk_radio_buttons_fieldset(:pool_status, legend: { text: t('.title') }, hint: -> { content_for(:fieldset_hint) }) do %>
     <%= f.govuk_radio_button :pool_status, :opt_in, label: { text: 'Yes' }, link_errors: true %>
     <%= f.govuk_radio_button :pool_status, :opt_out, label: { text: 'No' } do %>
       <%= f.govuk_text_area(

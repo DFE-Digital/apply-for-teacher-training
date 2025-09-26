@@ -72,6 +72,15 @@ en:
         sharing_application_guidance: Find out more about how application sharing works  
       new:
         title: Do you want to make your application details visible to other training providers?
+        header: Do you want to be invited to similar courses?
+        caption: Application sharing
+        body_html: |
+          <p>You can choose to make your application details visible to other training providers who have spaces on their courses.</p>
+          <p>If a training provider sees your details and thinks you are suitable for their course, they can send you an email inviting you to submit an application - you can choose if you want to apply or not.</p>
+          <p>You can set location preferences for courses that you want to be invited to.</p>
+          <p>You will appear in search results for courses that are similar to ones you have applied to in the past.</p>
+          <p>So that the course you have just applied to has time to review your application properly, we will hide you from the list until they have made a decision.</p>
+          <p>You can change your mind at any time.</p>
       edit:
         title: Do you want to make your application details visible to other training providers?
       create:
@@ -79,8 +88,10 @@ en:
       update:
         opt_out_message: You are not sharing your application details with providers you have not applied to
       form:
-        title: Do you want to make your application details visible to other training providers?
-        body: When you have no applications that are waiting for a decision from a provider, other providers will be able to see your application details and invite you to apply to their courses.
+        title: Would you like to share your application details with other training providers?
+        hint_html: |
+         %{link}
+        link_text: Read more about how application sharing works
         reason_for_opting_out: Why do you not want to share your application details with other providers? (Optional)
         caption: Application sharing
     location_preferences:
