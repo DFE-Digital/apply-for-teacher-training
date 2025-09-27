@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CandidateInterface::InterviewBookingsComponent < ViewComponent::Base
   attr_accessor :interview
 

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Publications
   class DataTableComponent < ViewComponent::Base
     attr_reader :caption, :title, :data

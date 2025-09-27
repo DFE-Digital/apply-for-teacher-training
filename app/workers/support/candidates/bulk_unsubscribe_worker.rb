@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Support::Candidates::BulkUnsubscribeWorker
   include Sidekiq::Worker
 

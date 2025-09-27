@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CandidateInterface::ProviderContactInformationComponent < ViewComponent::Base
   def initialize(provider:)
     @provider = provider

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CandidateInterface::ChoicesControllerMatcher
   APPLICATION_CHOICE_CONTROLLER_PATHS = [
     'candidate_interface/course_choices', # the course choice wizard
