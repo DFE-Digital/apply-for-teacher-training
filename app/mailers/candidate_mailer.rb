@@ -555,6 +555,20 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def pool_opt_in(application_form)
+    @share_details_url = candidate_interface_share_details_url
+    @update_preferences_url = candidate_interface_draft_preference_publish_preferences_url(
+      application_form.published_preference,
+    )
+    @application_sharing_url = candidate_interface_invites_url
+
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.pool_opt_in.subject'),
+      layout: false,
+    )
+  end
+
 private
 
   def email_for_candidate(application_form, args = {})
