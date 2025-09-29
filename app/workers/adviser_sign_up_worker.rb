@@ -14,6 +14,8 @@ class AdviserSignUpWorker
     return if sign_up_request.sent_to_adviser?
 
     @application_form = sign_up_request.application_form
+    return if degree.blank?
+
     preferred_teaching_subject = sign_up_request.teaching_subject
     @preferred_teaching_subject_id = preferred_teaching_subject.external_identifier
 

@@ -93,19 +93,13 @@ RSpec.describe AdviserSignUpWorker do
       end
     end
 
-    context 'when the applicable degree is international' do
-      let(:application_form) { create(:completed_application_form, :with_international_adviser_qualifications) }
+    context 'when the degree is international' do
+      let(:application_form) { create(:completed_application_form, :with_international_degree) }
 
-      it 'sends the international degree type' do
-        expect_sign_up(degree_type_id: constants.fetch(:degree_types, :international))
-      end
+      it 'does not send the international degree type' do
+        perform
 
-      it 'sends nil for uk_degree_grade_id if the grade is not recognised' do
-        degree.update(grade: '100%')
-        expect_sign_up(
-          degree_type_id: anything,
-          uk_degree_grade_id: nil,
-        )
+        expect(api_double).not_to have_received(:sign_up_teacher_training_adviser_candidate)
       end
     end
 

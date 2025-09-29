@@ -6,14 +6,6 @@ class Adviser::ApplicationFormValidations
     'Upper second-class honours (2:1)',
     'Lower second-class honours (2:2)',
   ].freeze
-  APPLICABLE_DOMESTIC_DEGREE_LEVELS = %w[bachelor master doctor].freeze
-  APPLICABLE_INTERNATIONAL_DEGREE_LEVELS = %w[
-    bachelor_honours_degree
-    postgraduate_certificate_or_diploma
-    masters_degree
-    doctor_of_philosophy
-    post_doctoral_award
-  ].freeze
 
   attr_reader :application_form, :candidate
 

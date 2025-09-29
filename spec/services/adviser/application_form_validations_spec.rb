@@ -108,24 +108,13 @@ RSpec.describe Adviser::ApplicationFormValidations, type: :model do
     end
 
     context 'when the candidate has an international degree' do
+      let(:application_form) { create(:completed_application_form) }
+
       before do
-        create(:non_uk_degree_qualification,
-               :adviser_sign_up_applicable,
-               application_form:)
+        create(:non_uk_degree_qualification, application_form:)
       end
 
-      it 'does not need GCSEs' do
-        expect(validations).not_to have_error_on(:maths_gcse)
-        expect(validations).not_to have_error_on(:english_gcse)
-        expect(validations).not_to have_error_on(:science_gcse)
-      end
-
-      context 'when the application form is valid' do
-        let(:application_form) { create(:completed_application_form) }
-
-        it { is_expected.to be_valid }
-        it { expect(validations.applicable_degree_for_adviser).to be_international }
-      end
+      it { is_expected.not_to be_valid }
     end
   end
 end

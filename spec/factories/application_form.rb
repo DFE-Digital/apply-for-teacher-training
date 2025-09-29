@@ -51,13 +51,13 @@ FactoryBot.define do
       end
     end
 
-    trait :with_international_adviser_qualifications do
+    trait :with_international_degree do
       application_qualifications do
         [
           association(:gcse_qualification, application_form: instance, subject: 'maths'),
           association(:gcse_qualification, application_form: instance, subject: 'english'),
           association(:gcse_qualification, application_form: instance, subject: 'science'),
-          association(:non_uk_degree_qualification, :adviser_sign_up_applicable, predicted_grade: true, application_form: instance),
+          association(:non_uk_degree_qualification, predicted_grade: true, application_form: instance),
         ]
       end
     end

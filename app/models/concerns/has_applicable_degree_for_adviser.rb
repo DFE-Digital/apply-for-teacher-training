@@ -7,22 +7,14 @@ module HasApplicableDegreeForAdviser
     'Lower second-class honours (2:2)',
   ].freeze
 
-  APPLICABLE_INTERNATIONAL_DEGREE_LEVELS = %w[
-    bachelor_honours_degree
-    postgraduate_certificate_or_diploma
-    masters_degree
-    doctor_of_philosophy
-    post_doctoral_award
-  ].freeze
-
-  APPLICABLE_DOMESTIC_DEGREE_LEVELS = %w[bachelor master doctor].freeze
+  APPLICABLE_DOMESTIC_DEGREE_LEVELS = %w[bachelor].freeze
 
   included do
     def applicable_degree_for_adviser
       @applicable_degree_for_adviser ||= application_qualifications
                                            .degrees
                                            .reject(&:incomplete_degree_information?)
-                                           .reject(&method(:international_without_equivalency?))
+                                           .reject(&method(:international_degree?))
                                            .select(&method(:applicable_degree_grade?))
                                            .select(&method(:applicable_degree_level?))
                                            .min_by(&method(:highest_grade_first))
@@ -31,20 +23,16 @@ module HasApplicableDegreeForAdviser
 
 private
 
-  def international_without_equivalency?(degree)
-    degree.international? && !degree.enic_reference
+  def international_degree?(degree)
+    degree.international?
   end
 
   def applicable_degree_grade?(degree)
-    degree.international? || degree.grade.in?(APPLICABLE_DOMESTIC_DEGREE_GRADES)
+    degree.grade.in?(APPLICABLE_DOMESTIC_DEGREE_GRADES)
   end
 
   def applicable_degree_level?(degree)
-    if degree.international?
-      degree.comparable_uk_degree.in?(APPLICABLE_INTERNATIONAL_DEGREE_LEVELS)
-    else
-      degree.qualification_level.in?(APPLICABLE_DOMESTIC_DEGREE_LEVELS)
-    end
+    degree.qualification_level.in?(APPLICABLE_DOMESTIC_DEGREE_LEVELS)
   end
 
   def highest_grade_first(degree)

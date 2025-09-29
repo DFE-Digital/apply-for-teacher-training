@@ -1539,10 +1539,7 @@ RSpec.describe ApplicationForm do
     end
 
     it 'excludes international degrees without equivalency details' do
-      create(:non_uk_degree_qualification,
-             :adviser_sign_up_applicable,
-             enic_reference: nil,
-             application_form:)
+      create(:non_uk_degree_qualification, enic_reference: nil, application_form:)
 
       expect(application_form.applicable_degree_for_adviser).to be_nil
     end
@@ -1563,7 +1560,6 @@ RSpec.describe ApplicationForm do
              application_form:)
 
       create(:non_uk_degree_qualification,
-             :adviser_sign_up_applicable,
              comparable_uk_degree: 'bachelor_ordinary_degree',
              application_form:)
 
@@ -1584,12 +1580,10 @@ RSpec.describe ApplicationForm do
       expect(application_form.applicable_degree_for_adviser).to eq(first_class_domestic_degree)
     end
 
-    it 'returns an applicable international degree' do
-      applicable_international_degree = create(:non_uk_degree_qualification,
-                                               :adviser_sign_up_applicable,
-                                               application_form:)
+    it 'does not return international degree' do
+      create(:non_uk_degree_qualification, application_form:)
 
-      expect(application_form.applicable_degree_for_adviser).to eq(applicable_international_degree)
+      expect(application_form.applicable_degree_for_adviser).to be_nil
     end
 
     it 'returns a domestic degree if there are international degrees as well' do
@@ -1598,9 +1592,7 @@ RSpec.describe ApplicationForm do
                                            application_form:,
                                            grade: 'First-class honours')
 
-      create(:non_uk_degree_qualification,
-             :adviser_sign_up_applicable,
-             application_form:)
+      create(:non_uk_degree_qualification, application_form:)
 
       expect(application_form.applicable_degree_for_adviser).to eq(first_class_domestic_degree)
     end

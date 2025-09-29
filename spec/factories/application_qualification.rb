@@ -121,7 +121,7 @@ FactoryBot.define do
 
       trait :adviser_sign_up_applicable do
         grade { Adviser::ApplicationFormValidations::APPLICABLE_DOMESTIC_DEGREE_GRADES.sample }
-        qualification_level { Adviser::ApplicationFormValidations::APPLICABLE_DOMESTIC_DEGREE_LEVELS.sample }
+        qualification_level { HasApplicableDegreeForAdviser::APPLICABLE_DOMESTIC_DEGREE_LEVELS.sample }
       end
 
       trait :bachelor do
@@ -146,10 +146,6 @@ FactoryBot.define do
       enic_reference { '4000228363' }
       enic_reason { 'obtained' }
       comparable_uk_degree { 'bachelor_ordinary_degree' }
-
-      trait :adviser_sign_up_applicable do
-        comparable_uk_degree { Adviser::ApplicationFormValidations::APPLICABLE_INTERNATIONAL_DEGREE_LEVELS.sample }
-      end
     end
 
     factory :other_qualification do
