@@ -2,6 +2,10 @@ en:
   candidate_mailer:
     pool_opt_in:
       subject: You have opted-in to application sharing
+    pool_opt_out:
+      subject: You have opted-out of application sharing
+    pool_re_opt_in:
+      subject: You have opted-in to application sharing
     reference_received:
       subject: "%{referee_name} has given you a reference"
     application_choice_submitted:
