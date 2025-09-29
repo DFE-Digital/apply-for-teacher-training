@@ -556,8 +556,6 @@ class CandidateMailer < ApplicationMailer
   end
 
   def pool_opt_in(application_form)
-    return if application_form.emails.where(mail_template: 'pool_opt_in').present?
-
     @share_details_url = candidate_interface_share_details_url
     @update_preferences_url = candidate_interface_draft_preference_publish_preferences_url(
       application_form.published_preference,
