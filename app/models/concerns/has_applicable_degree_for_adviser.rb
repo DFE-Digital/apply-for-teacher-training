@@ -27,6 +27,16 @@ module HasApplicableDegreeForAdviser
                                            .select(&method(:applicable_degree_level?))
                                            .min_by(&method(:highest_grade_first))
     end
+
+    def applicable_degree_for_quickfire_sign_up
+      @applicable_degree_for_quickfire_sign_up ||= application_qualifications
+          .degrees
+          .reject(&:incomplete_degree_information?)
+          .reject(&method(:international_degree?))
+          .select(&method(:applicable_quickfire_degree_grade?))
+          .select(&method(:applicable_quickfire_degree_level?))
+          .min_by(&method(:highest_grade_first))
+    end
   end
 
 private
@@ -35,8 +45,16 @@ private
     degree.international? && !degree.enic_reference
   end
 
+  def international_degree?(degree)
+    degree.international?
+  end
+
   def applicable_degree_grade?(degree)
     degree.international? || degree.grade.in?(APPLICABLE_DOMESTIC_DEGREE_GRADES)
+  end
+
+  def applicable_quickfire_degree_grade?(degree)
+    degree.grade.in?(APPLICABLE_DOMESTIC_DEGREE_GRADES)
   end
 
   def applicable_degree_level?(degree)
@@ -45,6 +63,10 @@ private
     else
       degree.qualification_level.in?(APPLICABLE_DOMESTIC_DEGREE_LEVELS)
     end
+  end
+
+  def applicable_quickfire_degree_level?(degree)
+    degree.qualification_level == 'bachelor'
   end
 
   def highest_grade_first(degree)

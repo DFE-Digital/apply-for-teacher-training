@@ -46,7 +46,7 @@ FactoryBot.define do
           association(:gcse_qualification, application_form: instance, subject: 'maths'),
           association(:gcse_qualification, application_form: instance, subject: 'english'),
           association(:gcse_qualification, application_form: instance, subject: 'science'),
-          association(:degree_qualification, :adviser_sign_up_applicable, application_form: instance),
+          association(:degree_qualification, :adviser_quickfire_sign_up_applicable, application_form: instance),
         ]
       end
     end

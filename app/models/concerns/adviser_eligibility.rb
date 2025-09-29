@@ -22,6 +22,13 @@ module AdviserEligibility
       eligible_and_unassigned_a_teaching_training_adviser?
     end
 
+    def eligible_for_quickfire_sign_up?
+      refresh_adviser_status
+
+      validations = Adviser::ApplicationFormValidations.new(self)
+      validations.valid?(:quickfire)
+    end
+
     def already_assigned_to_an_adviser?
       refresh_adviser_status
 
@@ -36,8 +43,9 @@ module AdviserEligibility
   end
 
   def meets_conditions_for_adviser_interruption?
-    eligible_to_sign_up_for_a_teaching_training_adviser? && FeatureFlag.active?(:adviser_sign_up) &&
-      adviser_interruption_response != false
+    FeatureFlag.active?(:adviser_sign_up) &&
+      adviser_interruption_response != false &&
+      eligible_for_quickfire_sign_up?
   end
 
 private
