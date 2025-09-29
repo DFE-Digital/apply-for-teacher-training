@@ -58,7 +58,7 @@ Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: comma
 
 Style/FrozenStringLiteralComment:
-  Enabled: false
+  EnforcedStyle: never
 
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma

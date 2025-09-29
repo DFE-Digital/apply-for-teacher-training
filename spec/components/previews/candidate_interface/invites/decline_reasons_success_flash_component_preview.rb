@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CandidateInterface::Invites::DeclineReasonsSuccessFlashComponentPreview < ViewComponent::Preview
   include ViewComponent::TestHelpers
 

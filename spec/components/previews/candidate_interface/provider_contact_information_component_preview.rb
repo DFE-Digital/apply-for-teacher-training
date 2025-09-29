@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CandidateInterface::ProviderContactInformationComponentPreview < ViewComponent::Preview
   def default
     provider = Provider.new(email_address: 'email@gmail.com', phone_number: '0800 123 4567')

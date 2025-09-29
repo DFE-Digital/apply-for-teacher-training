@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 return unless defined? SemanticLogger
 
 unless Rails.env.local?

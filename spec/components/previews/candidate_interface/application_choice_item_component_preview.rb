@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CandidateInterface::ApplicationChoiceItemComponentPreview < ViewComponent::Preview
   def unsubmitted
     render_component(:unsubmitted)

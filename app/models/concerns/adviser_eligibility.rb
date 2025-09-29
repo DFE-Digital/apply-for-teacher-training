@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module AdviserEligibility
   extend ActiveSupport::Concern
 
