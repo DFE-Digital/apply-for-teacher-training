@@ -35,6 +35,7 @@ module HasApplicableDegreeForAdviser
           .reject(&method(:international_degree?))
           .select(&method(:applicable_quickfire_degree_grade?))
           .select(&method(:applicable_quickfire_degree_level?))
+          .select(&method(:applicable_quickfire_degree_subject?))
           .min_by(&method(:highest_grade_first))
     end
   end
@@ -67,6 +68,10 @@ private
 
   def applicable_quickfire_degree_level?(degree)
     degree.qualification_level == 'bachelor'
+  end
+
+  def applicable_quickfire_degree_subject?(degree)
+    Adviser::SubjectMatchCheck.quickfire_subject_match?(degree)
   end
 
   def highest_grade_first(degree)
