@@ -101,7 +101,7 @@ RSpec.describe 'Candidate adds preferences' do
     when_i_click('Continue')
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_to_invites_path_with_success_message
+    then_i_am_redirected_to_confirmation_page
   end
 
   scenario 'Candidate opts in to find a candidate with specific locations and applied to fee funded courses' do
@@ -137,7 +137,7 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_review_page
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_to_invites_path_with_success_message
+    then_i_am_redirected_to_confirmation_page
   end
 
   scenario 'Candidate opts in to find a candidate for anywhere in England' do
@@ -164,7 +164,7 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_review_page_without_locations
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_to_invites_path_with_success_message
+    then_i_am_redirected_to_confirmation_page
   end
 
   scenario 'Candidate opts in to find a candidate for anywhere in England and applied to fee funded courses' do
@@ -187,7 +187,7 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_review_page_without_locations
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_to_invites_path_with_success_message
+    then_i_am_redirected_to_confirmation_page
   end
 
   scenario 'Candidate edits radius on a dynamic location with invalid site data' do
@@ -277,7 +277,7 @@ RSpec.describe 'Candidate adds preferences' do
     when_i_check_yes_fee_funding_courses
     when_i_click('Continue')
     and_i_click('Submit preferences')
-    then_i_am_redirected_to_invites_path_with_success_message
+    then_i_am_redirected_to_confirmation_page
   end
 
   def and_i_opt_in_to_find_a_candidate
@@ -433,9 +433,9 @@ RSpec.describe 'Candidate adds preferences' do
     expect(page).to have_current_path(candidate_interface_invites_path)
   end
 
-  def then_i_am_redirected_to_invites_path_with_success_message
-    expect(page).to have_current_path(candidate_interface_invites_path)
-    expect(page).to have_content('You are sharing your application details with providers you have not applied to')
+  def then_i_am_redirected_to_confirmation_page
+    expect(page).to have_current_path(show_candidate_interface_pool_opt_ins_path)
+    expect(page).to have_content('You have chosen to share your application details')
   end
 
   def then_i_get_an_error(error_message)

@@ -21,11 +21,7 @@ module CandidateInterface
         PreferencesEmail.call(preference: @preference)
       end
 
-      flash[:success] = if @preference.opt_in?
-                          t('.success_opt_in')
-                        else
-                          t('.success_opt_out')
-                        end
+      flash[:success] = t('.success_opt_out') if @preference.opt_out?
 
       # This will have no effect if the candidate has not been sent the email
       exp = FieldTest::Experiment.find('find_a_candidate/candidate_feature_launch_email')
@@ -35,7 +31,7 @@ module CandidateInterface
         exp.convert(current_candidate, goal: :opt_out)
       end
 
-      redirect_to candidate_interface_invites_path
+      redirect_to show_candidate_interface_pool_opt_ins_path
     end
 
   private
