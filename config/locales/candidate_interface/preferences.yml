@@ -2,7 +2,6 @@ en:
   candidate_interface:
     publish_preferences:
       create:
-        success_opt_in: You are sharing your application details with providers you have not applied to
         success_opt_out: You are not sharing your application details with providers you have not applied to
       show:
         title: Check your application sharing preferences
@@ -56,16 +55,23 @@ en:
         fee_funding_type: Courses with fees to pay and salaried courses
         salary_funding_type: Salaried courses only
     pool_opt_ins:
+      show:
+        title: You have chosen to share your application details
+        panel_body: You have also set your preferences
+        email_html: We have sent a confirmation email to %{email_address}
+        guidance: So that the course you have just applied to has time to review your application properly, we will not share your details until they have made a decision.  
+        change_preferences: Change your application sharing preferences
+        what_happens_next: What happens next? 
+        pool_visibility_criteria_1: If all of the applications that you have submitted yourself are unsuccessful, your details will be visible to other training providers.
+        pool_visibility_criteria_2: If a training provider sees your information and thinks you could be a good fit for a course that they have spaces on, they can send you an invitation to apply.
+        pool_visibility_criteria_3: If you want to apply to the course, you can draft and submit an application.
+        pool_visibility_criteria_4: The provider will review your application and decide whether to invite you to interview.
+        application_guidance: Do not wait to be invited to apply to courses. You should continue to search for and apply to courses yourself.
+        sharing_application_guidance: Find out more about how application sharing works  
       new:
         title: Do you want to make your application details visible to other training providers?
       edit:
         title: Do you want to make your application details visible to other training providers?
-      show:
-        title: Check your application sharing preferences
-        share_information: Do you want to be invited to apply to similar courses?
-        preferred_locations: Areas you can train in
-        change: Change
-        submit: Submit preferences
       create:
         opt_out_message: You are not sharing your application details with providers you have not applied to
       update:

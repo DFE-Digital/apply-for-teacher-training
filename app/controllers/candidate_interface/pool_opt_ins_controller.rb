@@ -5,6 +5,8 @@ module CandidateInterface
     before_action :set_back_path, only: %i[edit update]
     before_action :redirect_to_root_path_if_flag_is_inactive
 
+    def show; end
+
     def new
       @back_path = if just_submitted?
                      candidate_interface_application_choices_path

@@ -16,7 +16,7 @@ RSpec.describe 'Candidate adds preferences' do
     when_i_click('Update your preferences')
     then_i_am_redirected_to_review_page
     when_i_click('Submit preferences')
-    then_i_am_redirected_to_application_choices_with_success_message
+    then_i_am_redirected_to_confirmation_page
     and_my_duplicate_preference_is_published
   end
 
@@ -89,9 +89,9 @@ RSpec.describe 'Candidate adds preferences' do
     end
   end
 
-  def then_i_am_redirected_to_application_choices_with_success_message
-    expect(page).to have_current_path(candidate_interface_invites_path)
-    expect(page).to have_content('You are sharing your application details with providers you have not applied to')
+  def then_i_am_redirected_to_confirmation_page
+    expect(page).to have_current_path(show_candidate_interface_pool_opt_ins_path)
+    expect(page).to have_content('You have chosen to share your application details')
   end
 
   def and_my_duplicate_preference_is_published

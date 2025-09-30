@@ -1,0 +1,45 @@
+<% content_for :browser_title, t('.title') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= govuk_panel(title_text: t('.title'), text: t('.panel_body')) %>
+
+    <p class="govuk-body">
+      <%= t('.email_html', email_address: govuk_mail_to(current_candidate.email_address)) %>
+    </p>
+
+    <p class="govuk-body">
+      <%= t('.guidance') %>
+    </p>
+
+    <p class="govuk-body">
+      <%= govuk_link_to(
+        t('.change_preferences'),
+        candidate_interface_draft_preference_publish_preferences_path(
+          current_application.published_preference,
+        ),
+      ) %>
+    </p>
+
+    <h2 class='govuk-heading-m'><%= t('.what_happens_next') %></h2>
+
+    <%= govuk_list(
+      [
+        t('.pool_visibility_criteria_1'),
+        t('.pool_visibility_criteria_2'),
+        t('.pool_visibility_criteria_3'),
+        t('.pool_visibility_criteria_4'),
+      ],
+      type: :bullet,
+    ) %>
+
+    <%= govuk_inset_text(text: t('.application_guidance')) %>
+
+    <p class="govuk-body">
+      <%= govuk_link_to(
+        t('.sharing_application_guidance'),
+        candidate_interface_share_details_path,
+      ) %>
+    </p>
+  </div>
+</div>

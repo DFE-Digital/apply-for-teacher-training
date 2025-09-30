@@ -36,7 +36,11 @@ namespace :candidate_interface, path: '/candidate' do
 
   resources :share_details, only: :index, path: 'share-details'
 
-  resources :pool_opt_ins, only: %i[new create edit update], path: 'preferences-opt-in'
+  resources :pool_opt_ins, only: %i[new create edit update], path: 'preferences-opt-in' do
+    collection do
+      get 'show', as: :show
+    end
+  end
   resources :draft_preferences, only: %i[show update], path: 'preferences' do
     resources :training_locations, only: %i[new create], path: 'training-locations'
     resources :location_preferences, path: 'location-preferences'

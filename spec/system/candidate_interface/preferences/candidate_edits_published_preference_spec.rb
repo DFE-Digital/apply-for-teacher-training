@@ -52,7 +52,7 @@ RSpec.describe 'Candidate edits published preference' do
     when_i_click('Continue')
     then_i_am_redirected_to_preference_review_page
     when_i_click('Submit preferences')
-    then_i_am_redirected_on_the_invites_path
+    then_i_am_redirected_to_the_confirmation_page
     and_the_candidate_preference_id_is_changed
   end
 
@@ -70,7 +70,7 @@ RSpec.describe 'Candidate edits published preference' do
     then_i_am_redirected_to_preference_review_page
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_on_the_invites_path
+    then_i_am_redirected_to_the_confirmation_page
     and_the_candidate_preference_id_is_changed
     and_there_are_no_location_preferences
   end
@@ -90,7 +90,7 @@ RSpec.describe 'Candidate edits published preference' do
     then_i_am_redirected_to_preference_review_page
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_on_the_invites_path
+    then_i_am_redirected_to_the_confirmation_page
     and_the_candidate_preference_id_is_changed
     and_only_interested_in_salary_courses
   end
@@ -110,28 +110,25 @@ RSpec.describe 'Candidate edits published preference' do
     then_i_am_redirected_to_preference_review_page
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_on_the_invites_path
+    then_i_am_redirected_to_the_confirmation_page
     and_the_candidate_preference_id_is_changed
     and_only_interested_in_salary_courses
   end
 
   def given_i_am_signed_in(funding_type: 'fee')
     given_i_am_signed_in_with_one_login
-    @application = create(
-      :application_form,
-      :completed,
-      candidate: @current_candidate,
-    )
+
     course = create(:course, provider:, funding_type:)
     @choice = create(
       :application_choice,
       :awaiting_provider_decision,
-      application_form: @application,
+      application_form: @current_candidate.current_application,
       course_option: create(:course_option, course:),
     )
     @existing_candidate_preference = create(
       :candidate_preference,
       candidate: @current_candidate,
+      application_form: @current_candidate.current_application,
       status: 'published',
       training_locations: 'specific',
       dynamic_location_preferences: true,
@@ -180,6 +177,10 @@ RSpec.describe 'Candidate edits published preference' do
 
   def then_i_am_redirected_on_the_invites_path
     expect(page).to have_current_path(candidate_interface_invites_path)
+  end
+
+  def then_i_am_redirected_to_the_confirmation_page
+    expect(page).to have_current_path(show_candidate_interface_pool_opt_ins_path)
   end
 
   def and_the_candidate_preference_id_is_changed
