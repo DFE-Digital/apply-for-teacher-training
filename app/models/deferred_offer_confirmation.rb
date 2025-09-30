@@ -2,7 +2,7 @@ class DeferredOfferConfirmation < ApplicationRecord
   class CourseForm < DeferredOfferConfirmation
     validates :course_id, presence: true
 
-    attr_reader :course_id_raw
+    attr_accessor :course_id_raw
     validate :no_raw_input
 
     def courses_for_select
@@ -15,14 +15,12 @@ class DeferredOfferConfirmation < ApplicationRecord
     def default_value_for_select
       return course_id_raw if course_id_raw.present?
 
-      course_available_for_select? ? course_id : nil
+      course_available_for_select? ? (course_id_raw || course_id) : nil
     end
 
     def course_available_for_select?
       courses_for_select.pluck(:id).include?(course_id)
     end
-
-    def course_not_available_for_select? = !course_available_for_select?
 
   private
 
