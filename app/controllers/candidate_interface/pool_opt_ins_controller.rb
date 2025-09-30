@@ -39,6 +39,8 @@ module CandidateInterface
           )
         else
           flash[:success] = t('.opt_out_message')
+          PreferencesEmail.call(preference: @preference_form.preference)
+
           redirect_to candidate_interface_invites_path
         end
       else
@@ -65,6 +67,8 @@ module CandidateInterface
           )
         else
           flash[:success] = t('.opt_out_message')
+          PreferencesEmail.call(preference: @preference)
+
           redirect_to candidate_interface_invites_path
         end
       else

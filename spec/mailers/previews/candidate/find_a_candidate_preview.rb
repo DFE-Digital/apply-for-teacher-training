@@ -101,4 +101,38 @@ class Candidate::FindACandidatePreview < ActionMailer::Preview
 
     CandidateMailer.pool_opt_in(application_form)
   end
+
+  def pool_opt_out
+    candidate = FactoryBot.create(:candidate)
+    application_form = FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      candidate:,
+      first_name: 'Fred',
+    )
+    FactoryBot.create(
+      :candidate_preference,
+      pool_status: 'opt_out',
+      application_form:,
+    )
+
+    CandidateMailer.pool_opt_out(application_form)
+  end
+
+  def pool_re_opt_in
+    candidate = FactoryBot.create(:candidate)
+    application_form = FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      candidate:,
+      first_name: 'Fred',
+    )
+    FactoryBot.create(:email, mail_template: 'pool_re_opt_in')
+    FactoryBot.create(
+      :candidate_preference,
+      application_form:,
+    )
+
+    CandidateMailer.pool_re_opt_in(application_form)
+  end
 end

@@ -27,12 +27,12 @@ RSpec.describe CandidateInterface::PreferencesEmail do
         )
       end
 
-      before { allow(CandidateMailer).to receive(:pool_opt_in).and_return(mailer) }
+      before { allow(CandidateMailer).to receive(:pool_re_opt_in).and_return(mailer) }
 
-      it 'calls CandidateMailer.pool_opt_in' do
+      it 'calls CandidateMailer.pool_re_opt_in' do
         described_class.call(preference:)
 
-        expect(CandidateMailer).not_to have_received(:pool_opt_in).with(
+        expect(CandidateMailer).to have_received(:pool_re_opt_in).with(
           preference.application_form,
         )
       end
@@ -41,12 +41,12 @@ RSpec.describe CandidateInterface::PreferencesEmail do
     context 'when opt_out' do
       let(:preference) { create(:candidate_preference, pool_status: 'opt_out') }
 
-      before { allow(CandidateMailer).to receive(:pool_opt_in).and_return(mailer) }
+      before { allow(CandidateMailer).to receive(:pool_opt_out).and_return(mailer) }
 
-      it 'calls CandidateMailer.pool_opt_in' do
+      it 'calls CandidateMailer.pool_opt_out' do
         described_class.call(preference:)
 
-        expect(CandidateMailer).not_to have_received(:pool_opt_in).with(
+        expect(CandidateMailer).to have_received(:pool_opt_out).with(
           preference.application_form,
         )
       end

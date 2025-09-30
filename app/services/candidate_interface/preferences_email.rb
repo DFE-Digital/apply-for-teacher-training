@@ -14,6 +14,10 @@ module CandidateInterface
     def call
       if preference.opt_in? && send_first_opt_in_email?
         CandidateMailer.pool_opt_in(application_form).deliver_later
+      elsif preference.opt_out?
+        CandidateMailer.pool_opt_out(application_form).deliver_later
+      elsif preference.opt_in?
+        CandidateMailer.pool_re_opt_in(application_form).deliver_later
       end
     end
 
