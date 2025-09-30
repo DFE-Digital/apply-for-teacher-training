@@ -442,12 +442,30 @@ application_choice.update!(
 
 Providers may need to revert a rejection so that they can offer a different course or if it was done in error.
 
-The rejection can be reverted via the Support UI when viewing the application
-choice.
+The rejection can be reverted via the Support UI when viewing the application choice.
 
 If a candidate has had a course rejected in error but wishes to replace their course option with another offered by a _different_ provider,
 then following reverting the rejection via the Support UI, you will need to [withdraw the course option via the console](#change-providercourse),
 before adding a new course choice via the Support UI.
+
+#### Reverting a rejection by default
+
+If a provider contacts us after the reject by default deadline to revert a rejection, you'll no longer have the option to revert the rejection in the Support UI.
+
+You should use an adapted version of the revert rejection service to set the status back to `awaiting_provider_decision` and clear the reject by default values. The provider will need to act quickly to remake their offer and have the candidate accept it so they can reach recruited status.
+
+```ruby
+      @application_choice.update!(
+        status: :awaiting_provider_decision,
+        rejected_at: nil,
+        structured_rejection_reasons: nil,
+        rejected_by_default: false,
+        reject_by_default_at: nil,
+        rejection_reason: nil,
+        rejection_reasons_type: nil,
+        audit_comment: "Support request to revert rejection: ZENDESK_URL",
+      )
+```
 
 ### Revert a withdrawn offer
 
