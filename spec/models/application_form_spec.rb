@@ -1606,6 +1606,48 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#applicable_degree_for_quickfire_sign_up' do
+    let(:application_form) { create(:application_form) }
+
+    it 'includes uk degrees with the correct grade, level and subject' do
+      applicable_degree = create(
+        :degree_qualification,
+        :adviser_quickfire_sign_up_applicable,
+        application_form:,
+      )
+      expect(application_form.applicable_degree_for_quickfire_sign_up).to eq applicable_degree
+    end
+
+    it 'excludes all international degrees' do
+      create(:non_uk_degree_qualification, :adviser_sign_up_applicable, application_form:)
+
+      expect(application_form.applicable_degree_for_quickfire_sign_up).to be_nil
+    end
+
+    it 'excludes any domestic degree that is not bachelor level' do
+      create(
+        :degree_qualification,
+        :adviser_quickfire_sign_up_applicable,
+        application_form:,
+        qualification_level: 'master',
+      )
+
+      expect(application_form.applicable_degree_for_quickfire_sign_up).to be_nil
+    end
+
+    it 'excludes any domestic degree that does not have the required subject' do
+      create(
+        :degree_qualification,
+        :adviser_quickfire_sign_up_applicable,
+        application_form:,
+        subject: 'English',
+        degree_subject_uuid: nil,
+      )
+
+      expect(application_form.applicable_degree_for_quickfire_sign_up).to be_nil
+    end
+  end
+
   describe '.requires_visa_sponsorship' do
     let!(:skilled_worker) { create(:application_form, right_to_work_or_study: 'yes', immigration_status: 'skilled_worker_visa') }
     let!(:student) { create(:application_form, right_to_work_or_study: 'yes', immigration_status: 'student_visa') }

@@ -124,6 +124,12 @@ FactoryBot.define do
         qualification_level { Adviser::ApplicationFormValidations::APPLICABLE_DOMESTIC_DEGREE_LEVELS.sample }
       end
 
+      trait :adviser_quickfire_sign_up_applicable do
+        grade { Adviser::ApplicationFormValidations::APPLICABLE_DOMESTIC_DEGREE_GRADES.sample }
+        degree_subject_uuid { SUBJECT_UUIDS_FOR_QUICKFIRE_SIGN_UP.sample }
+        qualification_level { 'bachelor' }
+      end
+
       trait :bachelor do
         qualification_level { 'bachelor' }
         qualification_type {
