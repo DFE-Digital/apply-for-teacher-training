@@ -19,7 +19,7 @@ class DeferredOfferConfirmation < ApplicationRecord
     end
 
     def course_available_for_select?
-      courses_for_select.exists?(course_id)
+      courses_for_select.exists?(id: course_id)
     end
 
   private
