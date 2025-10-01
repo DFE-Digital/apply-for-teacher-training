@@ -18,10 +18,6 @@ class DeferredOfferConfirmation < ApplicationRecord
       course_available_for_select? ? (course_id_raw || course_id) : nil
     end
 
-    def course_available_for_select?
-      courses_for_select.exists?(id: course_id)
-    end
-
   private
 
     def no_raw_input
@@ -32,6 +28,10 @@ class DeferredOfferConfirmation < ApplicationRecord
       return if selected_course && selected_course.name_and_code == course_id_raw
 
       errors.add(:course_id, :blank)
+    end
+
+    def course_available_for_select?
+      courses_for_select.exists?(id: course_id)
     end
   end
 
@@ -74,11 +74,11 @@ class DeferredOfferConfirmation < ApplicationRecord
       location_available_for_select? ? (site_id_raw || site_id) : nil
     end
 
+  private
+
     def location_available_for_select?
       locations_for_select.exists?(id: site_id)
     end
-
-  private
 
     def no_raw_input
       return if locations_for_select.size < 20
