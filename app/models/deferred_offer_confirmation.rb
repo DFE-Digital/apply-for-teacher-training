@@ -1,9 +1,9 @@
 class DeferredOfferConfirmation < ApplicationRecord
   class CourseForm < DeferredOfferConfirmation
-    validates :course_id, presence: true
-
     attr_accessor :course_id_raw
     validate :no_raw_input
+
+    validates :course_id, presence: true
 
     def courses_for_select
       @courses_for_select ||= offer.provider.courses
@@ -59,20 +59,29 @@ class DeferredOfferConfirmation < ApplicationRecord
   end
 
   class LocationForm < DeferredOfferConfirmation
-    validates :site_id, presence: true
+    attr_accessor :site_id_raw
     validate :no_raw_input
 
-    attr_accessor :site_id_raw
+    validates :site_id, presence: true
 
     def locations_for_select
-      validating_course_sites.distinct.order(:name)
+      course_sites.order(:name)
+    end
+
+    def default_value_for_select
+      return site_id_raw if site_id_raw.present?
+
+      location_available_for_select? ? (site_id_raw || site_id) : nil
+    end
+
+    def location_available_for_select?
+      locations_for_select.pluck(:id).include?(site_id)
     end
 
   private
 
     def no_raw_input
       return if locations_for_select.size < 20
-      return if site_id_raw.nil?
       return if site_id.blank?
 
       selected_location = locations_for_select.find_by(id: site_id)
@@ -102,7 +111,7 @@ class DeferredOfferConfirmation < ApplicationRecord
   delegate :name_and_code, to: :course, prefix: true, allow_nil: true
   delegate :name_and_address, to: :location, prefix: true, allow_nil: true
   delegate :site, :study_mode, :course, to: :offer, prefix: true
-  delegate :study_modes, :sites, to: :validating_course, prefix: true
+  delegate :study_modes, :sites, to: :course, prefix: true
 
   validate :course_option_available, on: :submit
   validates :course, presence: { on: :submit }
