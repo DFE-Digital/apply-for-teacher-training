@@ -23,7 +23,6 @@ RSpec.describe 'Providers views candidate pool list' do
   scenario 'View candidates' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_user_exists
-    and_provider_is_opted_in_to_candidate_pool
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_find_candidates_page
@@ -68,7 +67,6 @@ RSpec.describe 'Providers views candidate pool list' do
     scenario 'Provider inputs a wrong location in the filters' do
       given_i_am_a_provider_user_with_dfe_sign_in
       and_provider_user_exists
-      and_provider_is_opted_in_to_candidate_pool
       and_i_sign_in_to_the_provider_interface
 
       when_i_visit_the_find_candidates_page
@@ -76,17 +74,6 @@ RSpec.describe 'Providers views candidate pool list' do
 
       then_i_see_an_error
     end
-  end
-
-  scenario 'Provider cannot view candidates if not invited' do
-    given_i_am_a_provider_user_with_dfe_sign_in
-    and_provider_user_exists
-    and_i_sign_in_to_the_provider_interface
-
-    when_i_visit_the_find_candidates_page
-
-    then_i_am_redirected_to_the_applications_page
-    and_find_candidates_is_not_in_my_navigation
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -143,10 +130,6 @@ RSpec.describe 'Providers views candidate pool list' do
       needs_visa: true,
       course_funding_type_fee: true,
     )
-  end
-
-  def and_provider_is_opted_in_to_candidate_pool
-    create(:candidate_pool_provider_opt_in, provider: current_provider)
   end
 
   def when_i_visit_the_find_candidates_page

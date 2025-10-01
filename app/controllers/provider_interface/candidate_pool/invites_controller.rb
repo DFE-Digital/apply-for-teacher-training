@@ -3,7 +3,6 @@ module ProviderInterface
     class InvitesController < ProviderInterfaceController
       include Pagy::Backend
 
-      before_action :redirect_to_applications_unless_provider_opted_in
       before_action :set_invite, only: :show
       before_action :redirect_if_candidate_in_pool, only: :show
       before_action :set_back_link, only: :show
@@ -43,12 +42,6 @@ module ProviderInterface
         pool_candidate = Pool::Candidates.application_forms_for_provider.find_by(candidate_id: @invite.candidate_id)
 
         redirect_to provider_interface_candidate_pool_candidate_path(@invite.candidate_id) if pool_candidate.present?
-      end
-
-      def redirect_to_applications_unless_provider_opted_in
-        opt_in = CandidatePoolProviderOptIn.find_by(provider_id: current_provider_user.provider_ids)
-
-        redirect_to provider_interface_applications_path if opt_in.blank?
       end
 
       def filter_params

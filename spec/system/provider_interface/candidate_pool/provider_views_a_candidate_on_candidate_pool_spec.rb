@@ -10,7 +10,6 @@ RSpec.describe 'Providers views candidate pool details' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_user_exists
     and_there_are_candidates_for_candidate_pool
-    and_provider_is_opted_in_to_candidate_pool
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_find_candidates_page
@@ -31,7 +30,6 @@ RSpec.describe 'Providers views candidate pool details' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_user_exists
     and_there_are_candidates_for_candidate_pool
-    and_provider_is_opted_in_to_candidate_pool
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_find_candidates_page_with_bad_pagination
@@ -80,10 +78,6 @@ RSpec.describe 'Providers views candidate pool details' do
       submitted_at: 1.year.ago,
       candidate: declined_candidate,
     )
-  end
-
-  def and_provider_is_opted_in_to_candidate_pool
-    create(:candidate_pool_provider_opt_in, provider: current_provider)
   end
 
   def when_i_visit_the_find_candidates_page

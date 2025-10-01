@@ -15,7 +15,6 @@ RSpec.describe GenerateCandidatePoolData do
       create(:application_choice, :declined, application_form: declined_application_form)
 
       expect { described_class.call }.to change(CandidatePreference, :count).from(0).to(2)
-        .and change(CandidatePoolProviderOptIn, :count).from(0).to(2)
         .and change(CandidatePoolApplication, :count).from(0).to(2)
     end
 
@@ -28,7 +27,6 @@ RSpec.describe GenerateCandidatePoolData do
         create(:application_choice, :declined, application_form: declined_application_form)
 
         expect { described_class.call }.to not_change(CandidatePreference, :count)
-          .and not_change(CandidatePoolProviderOptIn, :count)
           .and not_change(CandidatePoolApplication, :count)
       end
     end

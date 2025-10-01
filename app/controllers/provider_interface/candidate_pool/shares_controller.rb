@@ -1,7 +1,6 @@
 module ProviderInterface
   module CandidatePool
     class SharesController < ProviderInterfaceController
-      before_action :redirect_to_applications_unless_provider_opted_in
       before_action :set_candidate
       before_action :set_back_link
 
@@ -29,12 +28,6 @@ module ProviderInterface
                        else
                          provider_interface_candidate_pool_candidate_url(@candidate)
                        end
-      end
-
-      def redirect_to_applications_unless_provider_opted_in
-        invites = CandidatePoolProviderOptIn.find_by(provider_id: current_provider_user.provider_ids)
-
-        redirect_to provider_interface_applications_path if invites.blank?
       end
     end
   end

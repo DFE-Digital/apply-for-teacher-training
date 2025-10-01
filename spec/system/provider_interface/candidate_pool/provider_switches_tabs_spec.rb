@@ -6,7 +6,6 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
 
   before do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_provider_is_opted_in_to_candidate_pool
     and_provider_has_open_course
     set_viewed_application_form
     set_not_seen_application_form
@@ -124,12 +123,6 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
       dfe_sign_in_uid: @provider_user.dfe_sign_in_uid,
     )
     @provider_user.provider_permissions.update_all(make_decisions: true)
-  end
-
-  def and_provider_is_opted_in_to_candidate_pool
-    @provider_user.providers.each do |provider|
-      create(:candidate_pool_provider_opt_in, provider:)
-    end
   end
 
   def and_provider_has_open_course
