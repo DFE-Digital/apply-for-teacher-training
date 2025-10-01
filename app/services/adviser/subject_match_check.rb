@@ -26,7 +26,7 @@ private
   def try_synonyms
     relevant_subjects.any? do |relevant_subject|
       subject_name.in?(relevant_subject.match_synonyms.map(&:downcase)) || # Exact match on any of the synonyms
-        subject_name.in?(relevant_subject.suggestion_synonyms.map(&:downcase)) # || # Exact match on any of the suggestions
+        subject_name.in?(relevant_subject.suggestion_synonyms.map(&:downcase)) # Exact match on any of the suggestions
     end
   end
 
