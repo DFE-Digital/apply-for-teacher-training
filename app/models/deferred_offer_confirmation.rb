@@ -127,7 +127,7 @@ class DeferredOfferConfirmation < ApplicationRecord
   end
 
   before_save do
-    return if course.blank?
+    next if course.blank?
 
     self.location = nil unless location_in_cycle?
     self.study_mode = nil unless study_mode_in_cycle?
