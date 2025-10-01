@@ -23,7 +23,7 @@ module CandidateInterface
         ApplicationStateChange.new(application_choice).send_to_provider!
 
         SendNewApplicationEmailToProvider.new(application_choice:).call
-        CandidateMailer.application_choice_submitted(application_choice).deliver_later
+        CandidateMailer.application_choice_submitted(application_choice).deliver_later(wait: wait_time)
 
         LocationPreferences.add_dynamic_location(
           preference: application_form.candidate.published_preferences.last,
@@ -38,5 +38,9 @@ module CandidateInterface
     alias effective_date current_time
     alias submitted_at current_time
     alias sent_to_provider_at current_time
+
+    def wait_time
+      rand(1..7).minutes
+    end
   end
 end
