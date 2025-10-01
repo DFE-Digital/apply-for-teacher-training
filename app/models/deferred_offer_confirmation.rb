@@ -19,7 +19,7 @@ class DeferredOfferConfirmation < ApplicationRecord
     end
 
     def course_available_for_select?
-      courses_for_select.pluck(:id).include?(course_id)
+      courses_for_select.exists?(course_id)
     end
 
   private
@@ -75,7 +75,7 @@ class DeferredOfferConfirmation < ApplicationRecord
     end
 
     def location_available_for_select?
-      locations_for_select.pluck(:id).include?(site_id)
+      locations_for_select.exists?(id: site_id)
     end
 
   private
