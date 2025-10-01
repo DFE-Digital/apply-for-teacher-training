@@ -120,9 +120,9 @@ class DeferredOfferConfirmation < ApplicationRecord
 
   after_initialize do
     if course_id.nil? && site_id.nil? && study_mode.nil?
-      self.course_id ||= offer.course.id
-      self.site_id ||= offer.site.id
-      self.study_mode ||= offer.study_mode
+      self.course_id = provider.courses.current_cycle.find_by(code: offer_course.code)&.id || offer_course.id
+      self.site_id = course.sites.find_by(code: offer_site.code)&.id || offer_site.id
+      self.study_mode = offer.study_mode
     end
   end
 
