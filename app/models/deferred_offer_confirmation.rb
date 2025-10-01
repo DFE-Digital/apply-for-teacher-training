@@ -54,7 +54,7 @@ class DeferredOfferConfirmation < ApplicationRecord
          scopes: false
 
     def study_modes_for_select
-      validating_course_study_modes.map { |course_study_mode| SelectOption.new(id: course_study_mode, name: course_study_mode.humanize) }
+      course_study_modes.map { |course_study_mode| SelectOption.new(id: course_study_mode, name: course_study_mode.humanize) }
     end
   end
 
@@ -65,7 +65,7 @@ class DeferredOfferConfirmation < ApplicationRecord
     validates :site_id, presence: true
 
     def locations_for_select
-      course_sites.order(:name)
+      course_sites.distinct.order(:name)
     end
 
     def default_value_for_select
