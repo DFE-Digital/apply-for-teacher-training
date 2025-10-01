@@ -126,6 +126,7 @@ FactoryBot.define do
 
       trait :adviser_quickfire_sign_up_applicable do
         grade { Adviser::ApplicationFormValidations::APPLICABLE_DOMESTIC_DEGREE_GRADES.sample }
+        degree_subject_uuid { SUBJECT_UUIDS_FOR_QUICKFIRE_SIGN_UP.sample }
         qualification_level { 'bachelor' }
       end
 
