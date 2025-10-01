@@ -15,7 +15,6 @@ RSpec.describe 'Providers invites candidates' do
     and_provider_user_exists
     and_provider_has_courses(3)
     and_there_are_candidates_for_candidate_pool
-    and_provider_is_opted_in_to_candidate_pool
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_candidate_pool_show_page
@@ -60,7 +59,6 @@ RSpec.describe 'Providers invites candidates' do
     and_provider_user_exists
     and_provider_has_courses(3)
     and_there_are_candidates_for_candidate_pool
-    and_provider_is_opted_in_to_candidate_pool
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_find_candidates_not_seen_page
@@ -87,7 +85,6 @@ RSpec.describe 'Providers invites candidates' do
     and_provider_has_courses(3)
     and_there_are_candidates_for_candidate_pool
     and_provider_has_invites
-    and_provider_is_opted_in_to_candidate_pool
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_find_candidates_invited_page
@@ -113,7 +110,6 @@ RSpec.describe 'Providers invites candidates' do
     and_provider_user_exists
     and_provider_has_courses(21)
     and_there_are_candidates_for_candidate_pool
-    and_provider_is_opted_in_to_candidate_pool
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_candidate_pool_show_page
@@ -139,7 +135,6 @@ RSpec.describe 'Providers invites candidates' do
     and_provider_user_exists
     and_provider_has_courses(3)
     and_there_are_candidates_for_candidate_pool
-    and_provider_is_opted_in_to_candidate_pool
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_candidate_pool_show_page
@@ -176,7 +171,6 @@ RSpec.describe 'Providers invites candidates' do
     and_provider_user_exists
     and_provider_has_courses(3)
     and_there_are_candidates_for_candidate_pool
-    and_provider_is_opted_in_to_candidate_pool
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_candidate_pool_show_page
@@ -248,10 +242,6 @@ RSpec.describe 'Providers invites candidates' do
       submitted_at: 1.day.ago,
     )
     create(:candidate_pool_application, application_form: rejected_candidate_form)
-  end
-
-  def and_provider_is_opted_in_to_candidate_pool
-    create(:candidate_pool_provider_opt_in, provider: current_provider)
   end
 
   def when_i_visit_the_candidate_pool_show_page

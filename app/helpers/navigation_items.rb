@@ -136,13 +136,11 @@ class NavigationItems
           ),
         }
 
-        if CandidatePoolProviderOptIn.find_by(provider_id: current_provider_user.provider_ids).present?
-          items << {
-            text: 'Find candidates',
-            href: provider_interface_candidate_pool_root_path,
-            active: active?(current_controller, %w[candidates draft_invites invites not_seen shares]),
-          }
-        end
+        items << {
+          text: 'Find candidates',
+          href: provider_interface_candidate_pool_root_path,
+          active: active?(current_controller, %w[candidates draft_invites invites not_seen shares]),
+        }
 
         items << {
           text: 'Interview schedule',

@@ -50,7 +50,6 @@ RSpec.describe 'Invited candidate list' do
   scenario 'I can navigate to a candidate that is currently in the pool' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_user_exists
-    and_provider_is_opted_in_to_candidate_pool
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_invited_candidates_page
@@ -74,7 +73,6 @@ RSpec.describe 'Invited candidate list' do
   scenario 'Provider user with existing filters views list of candidates' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_user_exists
-    and_provider_is_opted_in_to_candidate_pool
     and_i_sign_in_to_the_provider_interface
     and_i_have_an_existing_filter
 
@@ -85,7 +83,6 @@ RSpec.describe 'Invited candidate list' do
   scenario 'Visiting a page that is out of range' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_user_exists
-    and_provider_is_opted_in_to_candidate_pool
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_invited_candidates_page_with_bad_pagination
@@ -100,10 +97,6 @@ private
 
   def and_provider_user_exists
     provider_user_exists_in_apply_database(provider_code: current_provider.code)
-  end
-
-  def and_provider_is_opted_in_to_candidate_pool
-    create(:candidate_pool_provider_opt_in, provider: current_provider)
   end
 
   def when_i_visit_the_invited_candidates_page

@@ -6,10 +6,6 @@ class GenerateCandidatePoolData
   def call
     return if HostingEnvironment.production?
 
-    CandidatePoolProviderOptIn.insert_all(
-      Provider.ids.map { |provider_id| { provider_id: } },
-    )
-
     application_forms = Pool::Candidates.new.curated_application_forms
 
     locations = [

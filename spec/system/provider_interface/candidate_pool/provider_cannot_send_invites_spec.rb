@@ -79,7 +79,6 @@ private
   def and_those_providers_have_courses_for_the_pool
     @provider_user.providers.each do |provider|
       create_list(:course, 3, :open, provider:)
-      create(:candidate_pool_provider_opt_in, provider:)
     end
   end
 
