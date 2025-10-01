@@ -148,7 +148,7 @@ jobs:
           ]
         feature-flags: [on, off]
         # Use these offsets as the end of cycle approaches
-        offset-date: [real_world, before_apply_reopens, after_apply_reopens]
+        offset-date: [real_world, after_apply_reopens]
         # Use these offsets through mid-cycle
         # offset-date: [real_world]
 
