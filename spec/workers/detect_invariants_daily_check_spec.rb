@@ -217,6 +217,17 @@ RSpec.describe DetectInvariantsDailyCheck do
           end
         end
       end
+
+      context 'when it is before reports are generated' do
+        it 'does not send an alert' do
+          first_generation_date = Publications::MonthlyStatistics::Timetable.new.schedules.first.generation_date
+          travel_temporarily_to(first_generation_date - 1.day) do
+            described_class.new.perform
+
+            expect(Sentry).not_to have_received(:capture_exception).with(exception)
+          end
+        end
+      end
     end
   end
 end
