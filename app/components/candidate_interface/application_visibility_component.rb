@@ -13,7 +13,19 @@ class CandidateInterface::ApplicationVisibilityComponent < ViewComponent::Base
     application_form.published_preference&.opt_in?
   end
 
-  def invisible?
-    application_form&.awaiting_provider_decisions?
+  def pool_opt_out_or_no_preference?
+    application_form.published_preference&.opt_out? || application_form.published_preference.nil?
+  end
+
+  def waiting_for_provider_decision?
+    application_form&.awaiting_provider_decisions? # this includes 'interviewing' status
+  end
+
+  def offer?
+    application_form&.offered?
+  end
+
+  def visible_to_providers?
+    application_form.candidate_pool_application.present?
   end
 end
