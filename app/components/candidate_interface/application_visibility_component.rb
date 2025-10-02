@@ -1,8 +1,7 @@
 class CandidateInterface::ApplicationVisibilityComponent < ViewComponent::Base
-  attr_reader :current_candidate, :application_form
+  attr_reader :application_form
 
-  def initialize(current_candidate:, application_form:)
-    @current_candidate = current_candidate
+  def initialize(application_form:)
     @application_form = application_form
   end
 
@@ -11,10 +10,10 @@ class CandidateInterface::ApplicationVisibilityComponent < ViewComponent::Base
   end
 
   def pool_opt_in?
-    current_candidate.published_preferences&.last&.opt_in?
+    application_form.published_preference&.opt_in?
   end
 
   def invisible?
-    current_candidate.application_forms.last&.awaiting_provider_decisions?
+    application_form&.awaiting_provider_decisions?
   end
 end

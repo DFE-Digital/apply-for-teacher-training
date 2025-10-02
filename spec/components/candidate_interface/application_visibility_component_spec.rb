@@ -7,7 +7,7 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
         FeatureFlag.activate(:candidate_preferences)
         application_form = create(:application_form, :with_accepted_offer)
 
-        component = described_class.new(current_candidate: application_form.candidate, application_form:)
+        component = described_class.new(application_form:)
         result = render_inline(component)
 
         expect(result.to_html).not_to be_blank
@@ -19,7 +19,7 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
         FeatureFlag.deactivate(:candidate_preferences)
         application_form = create(:application_form, :with_accepted_offer)
 
-        component = described_class.new(current_candidate: application_form.candidate, application_form:)
+        component = described_class.new(application_form:)
         result = render_inline(component)
 
         expect(result.to_html).to be_blank
@@ -31,7 +31,7 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
         FeatureFlag.activate(:candidate_preferences)
         application_form = create(:application_form)
 
-        component = described_class.new(current_candidate: application_form.candidate, application_form:)
+        component = described_class.new(application_form:)
         result = render_inline(component)
 
         expect(result.to_html).to be_blank
@@ -41,30 +41,28 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
 
   describe '#pool_opt_in?' do
     it 'returns true when candidate has opted in' do
-      candidate = create(:candidate)
+      application_form = create(:application_form)
       _preference = create(
         :candidate_preference,
         pool_status: 'opt_in',
         status: 'published',
-        candidate:,
+        application_form:,
       )
-      application_form = build(:application_form)
 
-      component = described_class.new(current_candidate: candidate, application_form:)
+      component = described_class.new(application_form:)
       expect(component.pool_opt_in?).to be true
     end
 
     it 'returns false when candidate has opted out' do
-      candidate = create(:candidate)
+      application_form = create(:application_form)
       _preference = create(
         :candidate_preference,
         pool_status: 'opt_out',
         status: 'published',
-        candidate:,
+        application_form:,
       )
-      application_form = build(:application_form)
 
-      component = described_class.new(current_candidate: candidate, application_form:)
+      component = described_class.new(application_form:)
       expect(component.pool_opt_in?).to be false
     end
   end
@@ -72,17 +70,16 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
   describe 'invisible?' do
     it 'displays opted in but not visible if the application form is opted in and has choices awaiting decision' do
       FeatureFlag.activate(:candidate_preferences)
-      candidate = create(:candidate)
+      application_form = create(:application_form)
       _preference = create(
         :candidate_preference,
         pool_status: 'opt_in',
         status: 'published',
-        candidate:,
+        application_form:,
       )
-      application_form = create(:application_form, candidate:)
       _application_choice_awaiting_provider_decision = create(:application_choice, :awaiting_provider_decision, application_form:)
 
-      render_inline(described_class.new(current_candidate: candidate, application_form:))
+      render_inline(described_class.new(application_form:))
 
       expect(page).to have_content('Your application details are not currently visible to other providers. You have submitted applications that are waiting for a decision.')
       expect(page).to have_content('When all your applications are rejected, withdrawn or inactive, providers will be able to view your application details and invite you to apply. However, you should continue to apply to courses yourself. Do not wait to be invited.')
@@ -90,17 +87,16 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
 
     it 'displays opted in but not visible if the application form is opted in and has choices with a status of interviewing' do
       FeatureFlag.activate(:candidate_preferences)
-      candidate = create(:candidate)
+      application_form = create(:application_form)
       _preference = create(
         :candidate_preference,
         pool_status: 'opt_in',
         status: 'published',
-        candidate:,
+        application_form:,
       )
-      application_form = create(:application_form, candidate:)
       _application_choice_awaiting_provider_decision = create(:application_choice, :interviewing, application_form:)
 
-      render_inline(described_class.new(current_candidate: candidate, application_form:))
+      render_inline(described_class.new(application_form:))
 
       expect(page).to have_content('Your application details are not currently visible to other providers. You have submitted applications that are waiting for a decision.')
       expect(page).to have_content('When all your applications are rejected, withdrawn or inactive, providers will be able to view your application details and invite you to apply. However, you should continue to apply to courses yourself. Do not wait to be invited.')
@@ -108,17 +104,16 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
 
     it 'displays opted in and visible if the application form is opted in and has no applications awaiting decisions' do
       FeatureFlag.activate(:candidate_preferences)
-      candidate = create(:candidate)
+      application_form = create(:application_form)
       _preference = create(
         :candidate_preference,
         pool_status: 'opt_in',
         status: 'published',
-        candidate:,
+        application_form:,
       )
-      application_form = create(:application_form, candidate:)
       _withdrawn_application_choice = create(:application_choice, :withdrawn, application_form:)
 
-      render_inline(described_class.new(current_candidate: candidate, application_form:))
+      render_inline(described_class.new(application_form:))
 
       expect(page).to have_content('Your application details are currently visible to other providers. You have no submitted applications that are waiting for a decision.')
       expect(page).to have_content('Because all your applications are rejected, withdrawn or inactive, providers can view your application details and invite you to apply. However, you should continue to apply to courses yourself. Do not wait to be invited.')
@@ -126,17 +121,16 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
 
     it 'displays opted out if the application form is opted out' do
       FeatureFlag.activate(:candidate_preferences)
-      candidate = create(:candidate)
+      application_form = create(:application_form)
       _preference = create(
         :candidate_preference,
         pool_status: 'opt_out',
         status: 'published',
-        candidate:,
+        application_form:,
       )
-      application_form = create(:application_form, candidate:)
       _any_application_choice = create(:application_choice, :awaiting_provider_decision, application_form:)
 
-      render_inline(described_class.new(current_candidate: candidate, application_form:))
+      render_inline(described_class.new(application_form:))
 
       expect(page).to have_content('Your application details are not currently visible to other providers. You are not sharing your application details with other providers.')
     end
