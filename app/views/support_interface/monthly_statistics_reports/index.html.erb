@@ -1,6 +1,16 @@
-<%= render 'support_interface/performance/performance_navigation', title: 'Monthly statistics reports' %>
+<%= render 'support_interface/performance/performance_navigation', title: t('.title') %>
+<h2 class="govuk-heading-m">
+  <%= t('.title') %>
+</h2>
+
+<% if show_report_not_generated_warning? %>
+  <%= govuk_warning_text(text: t('.warning', generation_date: latest_past_generation_date.to_fs(:govuk_date))) %>
+<% end %>
 
 <table class="govuk-table">
+  <caption class="govuk-table__caption govuk-visually-hidden">
+    <%= t('.caption') %>
+  </caption>
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">Month</th>

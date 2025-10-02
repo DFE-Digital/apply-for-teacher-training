@@ -1,0 +1,7 @@
+en:
+  support_interface:
+    monthly_statistics_reports:
+      index:
+        title: Monthly statistics reports
+        caption: List of monthly statistics reports
+        warning: A report failed to generate on %{generation_date}
