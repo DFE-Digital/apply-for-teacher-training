@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_01_131721) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_02_144132) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -761,17 +761,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_01_131721) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "pool_dismissals", force: :cascade do |t|
-    t.bigint "candidate_id", null: false
-    t.bigint "provider_id", null: false
-    t.bigint "dismissed_by_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["candidate_id"], name: "index_pool_dismissals_on_candidate_id"
-    t.index ["dismissed_by_id"], name: "index_pool_dismissals_on_dismissed_by_id"
-    t.index ["provider_id"], name: "index_pool_dismissals_on_provider_id"
-  end
-
   create_table "pool_eligible_application_forms", force: :cascade do |t|
     t.bigint "application_form_id", null: false
     t.datetime "created_at", null: false
@@ -1193,9 +1182,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_01_131721) do
   add_foreign_key "offer_conditions", "offers", on_delete: :cascade
   add_foreign_key "offers", "application_choices", on_delete: :cascade
   add_foreign_key "one_login_auths", "candidates", on_delete: :cascade
-  add_foreign_key "pool_dismissals", "candidates", on_delete: :cascade
-  add_foreign_key "pool_dismissals", "provider_users", column: "dismissed_by_id"
-  add_foreign_key "pool_dismissals", "providers", on_delete: :cascade
   add_foreign_key "pool_eligible_application_forms", "application_forms", on_delete: :cascade
   add_foreign_key "pool_invite_decline_reasons", "pool_invites", column: "invite_id", on_delete: :cascade
   add_foreign_key "pool_invites", "candidates", on_delete: :cascade
