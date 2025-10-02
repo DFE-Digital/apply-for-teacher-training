@@ -19,7 +19,9 @@ class DetectInvariantsDailyCheck
                                            .new
                                            .generated_schedules
                                            .last
-                                           .generation_date
+                                            &.generation_date
+
+    return if latest_past_generation_date.nil? # We don't have any generation dates in the past.
 
     report = Publications::MonthlyStatistics::MonthlyStatisticsReport.find_by(
       generation_date: latest_past_generation_date,
