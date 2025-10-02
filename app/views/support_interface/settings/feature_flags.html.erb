@@ -1,5 +1,14 @@
 <%= render 'settings_navigation', title: 'Feature flags' %>
 
+<% if @obsolete_features.any? %>
+  <%= govuk_warning_text do %>
+    <p class="govuk-body">
+      <%= t('.obsolete_features') %>
+      <%= govuk_list(@obsolete_features) %>
+    </p>
+  <% end %>
+<% end %>
+
 <% FeatureFlag::FEATURES.each do |feature_name, feature_flag| %>
   <%= render SummaryCardComponent.new(editable: true, border: true, rows: [
     {
