@@ -5,3 +5,4 @@ en:
         title: Monthly statistics reports
         caption: List of monthly statistics reports
         warning: A report failed to generate on %{generation_date}
+        next_generation_date: The next report will be generated on %{generation_date}.
