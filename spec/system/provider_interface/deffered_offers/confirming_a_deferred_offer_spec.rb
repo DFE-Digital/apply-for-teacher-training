@@ -33,7 +33,7 @@ RSpec.describe 'Provider confirms a deferred offer' do
     when_i_visit_a_application_with_status_offer_deferred_from_previous_cycle
     and_i_click_confirm_deferred_offer
 
-    and_i_select_a_different_location
+    and_i_select_a_different_location_and_continue
 
     then_i_can_see_the_updated_location_on_the_check_page
     click_on 'Continue'
@@ -297,7 +297,7 @@ RSpec.describe 'Provider confirms a deferred offer' do
 
   def and_i_select_a_different_location_and_continue
     choose 'Other site'
-    click_on 'Change location'
+    click_on 'Continue'
   end
 
   def then_i_can_see_the_updated_location_on_the_check_page

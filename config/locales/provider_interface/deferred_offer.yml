@@ -32,6 +32,9 @@ en:
           site_id:
             fieldset_hint: You should confirm a place for this candidate on the original course that they accepted an offer for. If you cannot do this you must discuss the change with the candidate before you confirm their deferred offer.
           submit: Change location
+          banner:
+            heading: "%{location_name} is not available for this course in the current cycle"
+            text: Choose a different location before you can confirm the offer. You should already have discussed this change with the candidate.
       conditions:
         show:
           page_title: Confirm status of conditions
