@@ -4,7 +4,7 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
   include Rails.application.routes.url_helpers
 
   describe '#render' do
-    context 'when candidate preference feature flag is enabled' do
+    context 'when sent applications' do
       it 'renders the component' do
         application_form = create(:application_form, :with_accepted_offer)
 
@@ -15,18 +15,7 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
       end
     end
 
-    context 'when candidate preference feature flag is not enabled' do
-      it 'renders the component' do
-        application_form = create(:application_form, :with_accepted_offer)
-
-        component = described_class.new(current_candidate: application_form.candidate, application_form:)
-        result = render_inline(component)
-
-        expect(result.to_html).to be_blank
-      end
-    end
-
-    context 'when candidate preference feature flag is enabled but no sent applications' do
+    context 'when no sent applications' do
       it 'renders the component' do
         application_form = create(:application_form)
 
