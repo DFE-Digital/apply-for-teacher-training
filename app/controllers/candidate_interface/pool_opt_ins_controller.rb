@@ -3,6 +3,7 @@ module CandidateInterface
     before_action :redirect_to_review_for_duplicate_preferences, only: :new
     before_action :set_preference, only: %i[edit update]
     before_action :set_back_path, only: %i[edit update]
+    before_action :redirect_to_root_path_if_submitted_applications
 
     def show; end
 
@@ -108,6 +109,10 @@ module CandidateInterface
       if params[:return_to] == 'review'
         @back_path = candidate_interface_draft_preference_path(@preference)
       end
+    end
+
+    def redirect_to_root_path_if_submitted_applications
+      redirect_to root_path unless current_application.submitted_applications?
     end
   end
 end
