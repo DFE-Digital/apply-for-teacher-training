@@ -120,8 +120,11 @@ class DeferredOfferConfirmation < ApplicationRecord
 
   after_initialize do
     if course_id.nil? && site_id.nil? && study_mode.nil?
-      self.course_id = provider.courses.current_cycle.find_by(code: offer_course.code)&.id || offer_course.id
-      self.site_id = course.sites.find_by(code: offer_site.code)&.id || offer_site.id
+      offered_course_in_current_cycle = provider.courses.current_cycle.find_by(code: offer_course.code)
+      offered_site_in_current_cycle = offered_course_in_current_cycle&.sites&.find_by(code: offer_site.code)
+
+      self.course_id = offered_course_in_current_cycle&.id || offer_course.id
+      self.site_id = offered_site_in_current_cycle&.id
       self.study_mode = offer.study_mode
     end
   end
@@ -129,7 +132,7 @@ class DeferredOfferConfirmation < ApplicationRecord
   before_save do
     next if course.blank?
 
-    self.location = nil unless location_in_cycle?
+    self.site_id = course.sites.find_by(code: offer_site.code)&.id unless location_in_cycle?
     self.study_mode = nil unless study_mode_in_cycle?
   end
 
