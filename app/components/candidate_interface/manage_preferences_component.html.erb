@@ -1,8 +1,18 @@
 <div class="govuk-grid-column-three-quarters govuk-!-margin-top-4">
-  <h2 class="govuk-heading-m"><%= t('.title') %> </h2>
+  <h2 class="govuk-heading-m"><%= t('.title') %></h2>
   <% if pool_opt_in? %>
-    <p class="govuk-body"><%= t('.body_opt_in_html', link: govuk_link_to('Change', path_to_change_preferences)) %></p>
+    <p class="govuk-body">
+      <%= t('.body_opt_in_html') %>
+      <% unless application_form.withdrawn_no_longer_training? %>
+        - <%= govuk_link_to('Change', path_to_change_preferences) %>
+      <% end %>
+    </p>
   <% else %>
-    <p class="govuk-body"><%= t('.body_opt_out_html', link: govuk_link_to('Change', path_to_change_preferences)) %></p>
+    <p class="govuk-body">
+      <%= t('.body_opt_out_html') %>
+      <% unless application_form.withdrawn_no_longer_training? %>
+        - <%= govuk_link_to('Change', path_to_change_preferences) %>
+      <% end %>
+    </p>
   <% end %>
 </div>

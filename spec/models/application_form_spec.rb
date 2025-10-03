@@ -557,6 +557,42 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#withdrawn_no_longer_training?' do
+    let(:application_form) { create(:application_form) }
+
+    context 'when a withdrawn application choice has a matching withdrawal reason' do
+      before do
+        withdrawn_choice = create(:application_choice, status: 'withdrawn', application_form:)
+        create(:withdrawal_reason, application_choice: withdrawn_choice, reason: 'do-not-want-to-train-anymore.another_career_path_or_accepted_a_job_offer')
+      end
+
+      it 'returns true' do
+        expect(application_form.withdrawn_no_longer_training?).to be(true)
+      end
+    end
+
+    context 'when no withdrawn application choices have a matching withdrawal reason' do
+      before do
+        withdrawn_choice = create(:application_choice, status: 'withdrawn', application_form:)
+        create(:withdrawal_reason, application_choice: withdrawn_choice, reason: 'applying_to_another_provider.accepted_another_offer')
+      end
+
+      it 'returns false' do
+        expect(application_form.withdrawn_no_longer_training?).to be(false)
+      end
+    end
+
+    context 'when there are no withdrawn application choices' do
+      before do
+        create(:application_choice, status: 'rejected', application_form:)
+      end
+
+      it 'returns false' do
+        expect(application_form.withdrawn_no_longer_training?).to be(false)
+      end
+    end
+  end
+
   describe '#selected_incorrect_number_of_references?' do
     it 'is true when < 2 selections' do
       application_form = create(:application_form)
