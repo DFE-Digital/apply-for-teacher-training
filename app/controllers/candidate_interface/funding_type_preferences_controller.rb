@@ -1,7 +1,6 @@
 module CandidateInterface
   class FundingTypePreferencesController < CandidateInterfaceController
     before_action :set_preference
-    before_action :redirect_to_root_path_if_flag_is_inactive
     before_action :set_back_path
 
     def new
@@ -42,10 +41,6 @@ module CandidateInterface
       if @preference.blank?
         redirect_to candidate_interface_invites_path
       end
-    end
-
-    def redirect_to_root_path_if_flag_is_inactive
-      redirect_to root_path unless FeatureFlag.active?(:candidate_preferences)
     end
 
     def set_back_path

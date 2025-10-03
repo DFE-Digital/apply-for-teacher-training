@@ -2,7 +2,6 @@ module CandidateInterface
   class DynamicLocationPreferencesController < CandidateInterfaceController
     before_action :set_preference
     before_action :set_back_path, only: :new
-    before_action :redirect_to_root_path_if_flag_is_inactive
 
     def new
       if @preference.published?
@@ -53,10 +52,6 @@ module CandidateInterface
       params.fetch(:candidate_interface_dynamic_location_preferences_form, {}).permit(
         :dynamic_location_preferences,
       )
-    end
-
-    def redirect_to_root_path_if_flag_is_inactive
-      redirect_to root_path unless FeatureFlag.active?(:candidate_preferences)
     end
   end
 end

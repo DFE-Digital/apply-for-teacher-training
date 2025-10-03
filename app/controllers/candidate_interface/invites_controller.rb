@@ -2,7 +2,6 @@ module CandidateInterface
   class InvitesController < CandidateInterfaceController
     before_action CarryOverFilter
     before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
-    before_action :redirect_if_feature_off_and_no_submitted_application
     before_action :set_invite, only: %i[edit update]
 
     def index
@@ -39,12 +38,6 @@ module CandidateInterface
 
     def invite_response_form_params
       params.fetch(:candidate_interface_fac_invite_response_form, {}).permit(:apply_for_this_course)
-    end
-
-    def redirect_if_feature_off_and_no_submitted_application
-      unless FeatureFlag.active?(:candidate_preferences) && current_application.submitted_applications?
-        redirect_to root_path
-      end
     end
   end
 end
