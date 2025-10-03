@@ -5,7 +5,6 @@ RSpec.describe 'Candidate submits an application up to 4 choices' do
 
   before do
     given_courses_exist
-    FeatureFlag.activate(:candidate_preferences)
   end
 
   scenario 'when candidate has a conditions not met and only one free slot' do

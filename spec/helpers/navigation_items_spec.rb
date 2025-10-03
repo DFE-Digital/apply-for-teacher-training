@@ -1,9 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe NavigationItems do
-  before { FeatureFlag.activate(:candidate_preferences) }
-  after { FeatureFlag.deactivate(:candidate_preferences) }
-
   let(:current_application) { current_candidate.current_application }
 
   describe '.candidate_primary_navigation' do

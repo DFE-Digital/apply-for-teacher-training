@@ -1,13 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Candidate edits published preference' do
-  after { FeatureFlag.deactivate(:candidate_preferences) }
-
   let(:provider) { create(:provider) }
 
   scenario 'Candidate edits share preferences' do
     given_i_am_signed_in
-    and_feature_flag_is_enabled
 
     given_i_am_on_the_invites_page
     when_i_click('Update your preferences')
@@ -23,7 +20,6 @@ RSpec.describe 'Candidate edits published preference' do
 
   scenario 'Candidate adds a reason for opting out' do
     given_i_am_signed_in
-    and_feature_flag_is_enabled
 
     given_i_am_on_the_invites_page
     when_i_click('Update your preferences')
@@ -40,7 +36,6 @@ RSpec.describe 'Candidate edits published preference' do
 
   scenario 'Candidate edits dynamic location preferences' do
     given_i_am_signed_in
-    and_feature_flag_is_enabled
 
     given_i_am_on_the_invites_page
     when_i_click('Update your preferences')
@@ -58,7 +53,6 @@ RSpec.describe 'Candidate edits published preference' do
 
   scenario 'Candidate edits training locations' do
     given_i_am_signed_in
-    and_feature_flag_is_enabled
 
     given_i_am_on_the_invites_page
     when_i_click('Update your preferences')
@@ -77,7 +71,6 @@ RSpec.describe 'Candidate edits published preference' do
 
   scenario 'Candidate edits funding_type' do
     given_i_am_signed_in(funding_type: 'salary')
-    and_feature_flag_is_enabled
 
     given_i_am_on_the_invites_page
     when_i_click('Update your preferences')
@@ -98,7 +91,6 @@ RSpec.describe 'Candidate edits published preference' do
   scenario 'Candidate edits funding_type without setting it in the first place' do
     given_i_am_signed_in(funding_type: 'salary')
     and_candidate_preference_funding_type_is_nil
-    and_feature_flag_is_enabled
 
     given_i_am_on_the_invites_page
     when_i_click('Update your preferences')
@@ -137,10 +129,6 @@ RSpec.describe 'Candidate edits published preference' do
       :candidate_location_preference,
       candidate_preference: @existing_candidate_preference,
     )
-  end
-
-  def and_feature_flag_is_enabled
-    FeatureFlag.activate(:candidate_preferences)
   end
 
   def given_i_am_on_the_invites_page

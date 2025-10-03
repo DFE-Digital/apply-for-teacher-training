@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Candidate submits the application' do
   include CandidateHelper
 
-  before do
-    FeatureFlag.activate(:candidate_preferences)
-  end
-
   scenario 'Candidate with a completed application' do
     given_i_am_signed_in_with_one_login
 

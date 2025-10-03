@@ -45,8 +45,6 @@ RSpec.describe 'Block submission from blocked candidates' do
 
     context 'when tries to submit' do
       it 'redirects to your applications' do
-        FeatureFlag.activate(:candidate_preferences)
-
         post candidate_interface_course_choices_submit_course_choice_path(choice.id),
              params: {
                candidate_interface_course_choices_submit_application_form: {
@@ -62,8 +60,6 @@ RSpec.describe 'Block submission from blocked candidates' do
     context 'when candidate_preferences feature flag is off' do
       context 'when tries to submit' do
         it 'redirects to your applications' do
-          FeatureFlag.deactivate(:candidate_preferences)
-
           post candidate_interface_course_choices_submit_course_choice_path(choice.id),
                params: {
                  candidate_interface_course_choices_submit_application_form: {

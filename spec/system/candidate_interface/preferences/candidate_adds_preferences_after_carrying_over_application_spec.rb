@@ -5,8 +5,6 @@ RSpec.describe 'Candidate adds preferences' do
 
   let(:provider) { create(:provider) }
 
-  before { FeatureFlag.activate(:candidate_preferences) }
-
   scenario 'Candidate opts in to find a candidate with specific locations' do
     given_i_am_signed_in
     given_i_have_a_duplicate_preference_form

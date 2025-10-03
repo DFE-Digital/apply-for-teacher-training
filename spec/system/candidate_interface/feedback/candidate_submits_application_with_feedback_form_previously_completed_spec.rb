@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Candidate submits application with feedback form previously completed' do
   include CandidateHelper
 
-  before do
-    FeatureFlag.activate(:candidate_preferences)
-  end
-
   it 'Candidate submits application, skips feedback and goes straight to the application dashboard' do
     given_i_complete_my_application
     and_the_feedback_form_was_previously_submitted

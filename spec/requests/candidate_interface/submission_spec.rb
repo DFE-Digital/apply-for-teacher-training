@@ -12,7 +12,6 @@ RSpec.describe 'Submit to continuous apps' do
     let(:application_form) { create(:application_form, :completed, :with_degree, submitted_at: nil) }
 
     before do
-      FeatureFlag.activate(:candidate_preferences)
       post candidate_interface_course_choices_submit_course_choice_path(choice.id)
     end
 
@@ -28,7 +27,6 @@ RSpec.describe 'Submit to continuous apps' do
 
     context 'when candidate preferences FeatureFlag is off' do
       before do
-        FeatureFlag.deactivate(:candidate_preferences)
         post candidate_interface_course_choices_submit_course_choice_path(choice.id)
       end
 
