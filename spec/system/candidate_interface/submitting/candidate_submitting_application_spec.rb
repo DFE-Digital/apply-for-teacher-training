@@ -27,6 +27,12 @@ RSpec.describe 'Candidate submits the application' do
     and_i_continue_with_my_application
     and_i_choose_to_submit
     then_i_can_see_my_application_has_been_successfully_submitted
+
+    and_i_am_redirected_to_pool_opt_in_page
+    and_i_say_no_to_sharing_details
+    then_i_am_redirected_to_invites
+
+    when_i_click_on_your_applications
     and_i_am_redirected_to_the_application_dashboard
     and_my_application_is_submitted
     then_i_can_see_my_submitted_application
@@ -150,6 +156,25 @@ RSpec.describe 'Candidate submits the application' do
 
   def then_i_can_see_my_application_has_been_successfully_submitted
     expect(page).to have_content 'Application submitted'
+  end
+
+  def and_i_am_redirected_to_pool_opt_in_page
+    expect(page).to have_content(
+      'Do you want to make your application details visible to other training providers?',
+    )
+  end
+
+  def and_i_say_no_to_sharing_details
+    choose 'No'
+    click_link_or_button('Continue')
+  end
+
+  def then_i_am_redirected_to_invites
+    expect(page).to have_content('You are not sharing your application details with providers you have not applied to')
+  end
+
+  def when_i_click_on_your_applications
+    click_link_or_button('Your applications')
   end
 
   def and_i_am_redirected_to_the_application_dashboard
