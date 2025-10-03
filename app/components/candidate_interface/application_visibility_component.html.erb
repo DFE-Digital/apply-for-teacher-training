@@ -1,4 +1,4 @@
-<div class="govuk-grid-column-two-thirds govuk-!-margin-top-4">
+<div class="govuk-!-margin-top-4">
   <h2 class="govuk-heading-m"><%= t('.title') %> </h2>
 
   <% if pool_opt_out_or_no_preference? %>
@@ -12,6 +12,4 @@
   <% elsif offer? %>
     <%= t('.opt_in_and_has_offer_html') %>
   <% end %>
-
-  <p class="govuk-body"><%= govuk_link_to(t('.how_sharing_works'), candidate_interface_share_details_path) %></p>
 </div>
