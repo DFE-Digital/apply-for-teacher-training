@@ -11,7 +11,7 @@ RSpec.describe 'Candidate adds preferences' do
     given_i_am_on_the_share_details_page
     and_i_click('Back')
 
-    when_i_click('Update your preferences')
+    when_i_click('Change')
     then_i_am_redirected_to_review_page
     when_i_click('Submit preferences')
     then_i_am_redirected_to_confirmation_page

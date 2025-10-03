@@ -3,6 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l"><%= t('.caption') %></span>
     <h1 class="govuk-heading-l"><%= t('.title') %></h1>
 
     <%= govuk_summary_list do |summary_list| %>
@@ -54,7 +55,7 @@
         <% end %>
       <% end %>
 
-      <% if @preference.funding_type.present? %>
+        <% if @preference.funding_type.present? %>
         <% summary_list.with_row do |row| %>
           <% row.with_key { t('.funding_type') } %>
           <% row.with_value { t(".#{@preference.funding_type}_funding_type") } %>

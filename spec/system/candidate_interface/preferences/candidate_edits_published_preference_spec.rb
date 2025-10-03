@@ -7,7 +7,7 @@ RSpec.describe 'Candidate edits published preference' do
     given_i_am_signed_in
 
     given_i_am_on_the_invites_page
-    when_i_click('Update your preferences')
+    when_i_click('Change')
     then_i_am_redirected_to_preference_review_page
 
     when_i_click_change_share_preference
@@ -22,7 +22,7 @@ RSpec.describe 'Candidate edits published preference' do
     given_i_am_signed_in
 
     given_i_am_on_the_invites_page
-    when_i_click('Update your preferences')
+    when_i_click('Change')
     then_i_am_redirected_to_preference_review_page
 
     when_i_click_change_share_preference
@@ -38,7 +38,7 @@ RSpec.describe 'Candidate edits published preference' do
     given_i_am_signed_in
 
     given_i_am_on_the_invites_page
-    when_i_click('Update your preferences')
+    when_i_click('Change')
     then_i_am_redirected_to_preference_review_page
 
     when_i_navigate_to_dynamic_locations
@@ -55,7 +55,7 @@ RSpec.describe 'Candidate edits published preference' do
     given_i_am_signed_in
 
     given_i_am_on_the_invites_page
-    when_i_click('Update your preferences')
+    when_i_click('Change')
     and_i_click('Change where you would like to train')
     then_i_am_redirected_to_the_training_locations_page
 
@@ -73,7 +73,7 @@ RSpec.describe 'Candidate edits published preference' do
     given_i_am_signed_in(funding_type: 'salary')
 
     given_i_am_on_the_invites_page
-    when_i_click('Update your preferences')
+    when_i_click('Change')
     and_i_click('Change whether you would consider fee-funded courses')
     then_i_am_redirected_to_fee_funding_page
     and_the_funding_type_is_checked
@@ -93,7 +93,7 @@ RSpec.describe 'Candidate edits published preference' do
     and_candidate_preference_funding_type_is_nil
 
     given_i_am_on_the_invites_page
-    when_i_click('Update your preferences')
+    when_i_click('Change')
     and_i_click('Select whether you would consider fee-funded courses')
     then_i_am_redirected_to_fee_funding_page
 

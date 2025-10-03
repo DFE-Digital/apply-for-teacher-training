@@ -7,6 +7,7 @@ en:
       edit:
         title: Invite from %{provider} - Application sharing
         heading: Your invite from %{provider}
+        caption: Application sharing
         provider_message: "%{provider} included this message:"
         course: Course
         fee: Course fee

@@ -445,6 +445,12 @@ class ApplicationForm < ApplicationRecord
       application_choices.map(&:status).map(&:to_sym).all? { |status| ApplicationStateChange::UNSUCCESSFUL_STATES.include?(status) }
   end
 
+  def withdrawn_no_longer_training?
+    application_choices
+      .where(status: 'withdrawn')
+      .any? { |choice| choice.withdrawal_reasons.any? { |r| r.reason.include?('do-not-want-to-train-anymore') } }
+  end
+
   def provider_decision_made?
     application_choices.present? &&
       application_choices.map(&:status).map(&:to_sym).all? { |status| (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange::UNSUCCESSFUL_STATES).include?(status) }

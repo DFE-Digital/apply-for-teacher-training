@@ -4,6 +4,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
+    <span class="govuk-caption-l"><%= t('.caption') %></span>
     <h1 class="govuk-heading-l"><%= t('.title') %></h1>
     <% if @preference.duplicated? %>
       <p class="govuk-body"><%= t('.duplicated_preference_explanation') %></p>

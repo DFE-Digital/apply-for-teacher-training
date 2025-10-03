@@ -1,0 +1,15 @@
+<div class="govuk-!-margin-top-4">
+  <h2 class="govuk-heading-m"><%= t('.title') %> </h2>
+
+  <% if pool_opt_out_or_no_preference? %>
+    <%= t('.opt_out_html') %>
+  <% elsif visible_to_providers? %>
+    <%= t('.opt_in_and_visible_html') %>
+  <% elsif waiting_for_provider_decision? %>
+    <%= t('.opt_in_and_waiting_for_decision_html') %>
+  <% elsif application_form.withdrawn_no_longer_training? %>
+    <%= t('.opt_in_and_withdrawn_no_longer_training_html', link: govuk_link_to('contact support', 'mailto:becomingateacher@digital.education.gov.uk')) %>
+  <% elsif offer? %>
+    <%= t('.opt_in_and_has_offer_html') %>
+  <% end %>
+</div>
