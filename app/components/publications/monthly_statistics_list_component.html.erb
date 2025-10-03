@@ -1,0 +1,33 @@
+<%= govuk_table do |table| %>
+  <% table.with_caption(text: t('.caption', cycle_range_name:), size: 'l') %>
+
+  <% table.with_head do |head| %>
+    <% head.with_row do |row| %>
+      <% row.with_cell(text: t('.month')) %>
+      <% row.with_cell(text: t('.published_date')) %>
+    <% end %>
+  <% end %>
+
+  <% table.with_body do |body| %>
+
+    <% if next_report.present? %>
+      <% body.with_row do |row| %>
+        <% row.with_cell(text: next_report.generation_date.to_fs(:month_and_year), html_attributes: { class: 'govuk-hint' }) %>
+        <% row.with_cell(text: t('.expected', date: next_report.publication_date.to_fs(:govuk_date)), html_attributes: { class: 'govuk-hint' }) %>
+      <% end %>
+    <% end %>
+
+    <% reports.each do |report| %>
+      <% body.with_row do |row| %>
+        <% row.with_cell do %>
+          <%= govuk_link_to(
+                report.generation_date.to_fs(:month_and_year),
+                publications_monthly_report_at_path(month: report.month),
+              ) %>
+        <% end %>
+        <% row.with_cell(text: report.publication_date.to_fs(:govuk_date)) %>
+      <% end %>
+    <% end %>
+
+  <% end %>
+<% end %>

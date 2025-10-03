@@ -1,11 +1,11 @@
 module Publications
   class MonthlyStatisticsController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
-    before_action MonthlyStatisticsRedirectFilter, only: %i[latest by_month download by_year]
+    before_action MonthlyStatisticsRedirectFilter, only: %i[index by_month download by_year]
 
-    def latest
-      @report = MonthlyStatistics::MonthlyStatisticsReport.latest_published_report
-      render_report
+    def index
+      @current_timetable = RecruitmentCycleTimetable.current_timetable
+      @previous_timetable = @current_timetable.relative_previous_timetable
     end
 
     def by_month

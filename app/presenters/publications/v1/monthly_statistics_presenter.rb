@@ -82,7 +82,7 @@ module Publications
       end
 
       def monthly_statistics_timetables
-        ::Publications::MonthlyStatistics::Timetable.new
+        ::Publications::MonthlyStatistics::Timetable.new(recruitment_cycle_timetable: report_timetable)
       end
     end
   end
