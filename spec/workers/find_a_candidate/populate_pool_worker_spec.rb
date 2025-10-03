@@ -145,35 +145,86 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
       }.not_to(change { CandidatePoolApplication.count })
     end
 
-    it 'removes existing CandidatePoolApplication records before inserting new ones' do
+    it 'removes candidates not eligible for the pool' do
       application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
       create(
         :candidate_preference,
         candidate: application_form.candidate,
       )
+
       create(:candidate_pool_application, application_form: application_form)
-      stub_application_forms_in_the_pool(ApplicationForm.none)
+      needs_deleting = create(:candidate_pool_application)
+      stub_application_forms_in_the_pool(application_form.id)
 
       expect {
         described_class.new.perform
-      }.to change { CandidatePoolApplication.count }.from(1).to(0)
+      }.to(change { CandidatePoolApplication.count }.from(2).to(1))
+      expect(CandidatePoolApplication.exists?(needs_deleting.id)).to be(false)
     end
 
-    it 'removes existing and adds new CandidatePoolApplication records' do
-      existing_application_in_pool = create(:application_form, :completed, submitted_application_choices_count: 1)
-      new_application_for_pool = create(:application_form, :completed, submitted_application_choices_count: 1)
+    it 'updates CandidatePoolApplication records with new information' do
+      application_form = create(
+        :application_form,
+        :completed,
+        right_to_work_or_study: :no,
+      )
+      tda_option = create(
+        :course_option,
+        course: create(:course, program_type: 'teacher_degree_apprenticeship'),
+        study_mode: 'part_time',
+      )
+      higher_education_option = create(
+        :course_option,
+        course: create(:course, program_type: 'higher_education_programme'),
+        study_mode: 'full_time',
+      )
+      create(
+        :application_choice,
+        status: :awaiting_provider_decision,
+        application_form: application_form,
+        course_option: tda_option,
+      )
+      create(
+        :application_choice,
+        status: :awaiting_provider_decision,
+        application_form: application_form,
+        course_option: higher_education_option,
+      )
+      subject_ids = Subject.ids
       create(
         :candidate_preference,
-        candidate: new_application_for_pool.candidate,
+        application_form: application_form,
+        funding_type: 'fee',
       )
-      create(:candidate_pool_application, application_form: existing_application_in_pool)
-      stub_application_forms_in_the_pool(new_application_for_pool.id)
+      existing_pool_application = create(
+        :candidate_pool_application,
+        application_form: application_form,
+        course_funding_type_fee: false,
+        rejected_provider_ids: [1],
+        needs_visa: false,
+        subject_ids: [1],
+        course_type_undergraduate: false,
+        course_type_postgraduate: false,
+        study_mode_part_time: false,
+        study_mode_full_time: false,
+      )
+      stub_application_forms_in_the_pool(application_form.id)
 
-      expect {
-        described_class.new.perform
-      }.not_to(change { CandidatePoolApplication.count })
-
-      expect(CandidatePoolApplication.last.application_form).to eq(new_application_for_pool)
+      expect { described_class.new.perform }
+        .to change { existing_pool_application.reload.course_funding_type_fee }.from(false).to(true)
+        .and change { existing_pool_application.reload.rejected_provider_ids }.from([1]).to([])
+        .and change { existing_pool_application.reload.rejected_provider_ids }.from([1]).to([])
+        .and change { existing_pool_application.reload.needs_visa }.from(false).to(true)
+        .and change { existing_pool_application.reload.subject_ids }.from([1]).to(subject_ids)
+        .and change { existing_pool_application.reload.course_type_undergraduate }.from(false).to(true)
+        .and change { existing_pool_application.reload.course_type_postgraduate }.from(false).to(true)
+        .and change { existing_pool_application.reload.study_mode_part_time }.from(false).to(true)
+        .and change { existing_pool_application.reload.study_mode_full_time }.from(false).to(true)
+        .and change(existing_pool_application.reload, :updated_at)
+        .and not_change(existing_pool_application.reload, :id)
+        .and not_change(existing_pool_application.reload, :application_form_id)
+        .and not_change(existing_pool_application.reload, :candidate_id)
+        .and not_change(existing_pool_application.reload, :created_at)
     end
 
     context 'when the candidate has applied to a full-time course' do
