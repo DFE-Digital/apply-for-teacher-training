@@ -106,9 +106,9 @@ RSpec.describe 'Provider confirms a deferred offer' do
     when_i_visit_a_application_with_status_offer_deferred_from_previous_cycle
     and_i_click_confirm_deferred_offer
 
-    and_i_select_a_different_course
-    and_i_select_a_different_location
-    and_i_select_a_different_study_mode
+    and_i_select_a_different_course_and_continue
+    and_i_select_a_different_location_and_continue
+    and_i_select_a_different_study_mode_and_continue
 
     then_i_can_see_the_updated_course_on_the_check_page
     then_i_can_see_the_updated_location_on_the_check_page
@@ -224,19 +224,19 @@ RSpec.describe 'Provider confirms a deferred offer' do
     within '#check_course' do
       expect(page).to have_content('Course')
       expect(page).to have_content('Primary (PR1)')
-      expect(page).to have_link('Change course', href: provider_interface_deferred_offer_course_path(@deferred_application_choice))
+      expect(page).to have_link('Change course', href: provider_interface_deferred_offer_course_path(@deferred_application_choice, return_to: 'review'))
     end
 
     within '#check_study_mode' do
       expect(page).to have_content('Full time or part time')
       expect(page).to have_content('Part time')
-      expect(page).to have_link('Change full time or part time', href: provider_interface_deferred_offer_study_mode_path(@deferred_application_choice))
+      expect(page).to have_link('Change full time or part time', href: provider_interface_deferred_offer_study_mode_path(@deferred_application_choice, return_to: 'review'))
     end
 
     within '#check_location' do
       expect(page).to have_content('Location')
       expect(page).to have_content('Main site, 123 Fake Street, E1 1AA')
-      expect(page).to have_link('Change location', href: provider_interface_deferred_offer_location_path(@deferred_application_choice))
+      expect(page).to have_link('Change location', href: provider_interface_deferred_offer_location_path(@deferred_application_choice, return_to: 'review'))
     end
 
     expect(page).to have_css('h2', text: 'Conditions of offer')
@@ -259,17 +259,16 @@ RSpec.describe 'Provider confirms a deferred offer' do
     click_on 'Change course'
   end
 
+  def and_i_select_a_different_course_and_continue
+    choose 'Secondary (SC1)'
+    click_on 'Continue'
+  end
+
   def then_i_can_see_the_updated_course_on_the_check_page
     within '#check_course' do
       expect(page).to have_content('Course')
       expect(page).to have_content('Secondary (SC1)')
-      expect(page).to have_link('Change course', href: provider_interface_deferred_offer_course_path(@deferred_application_choice))
-    end
-  end
-
-  def when_i_click_select_full_time_or_part_time
-    within '#check_study_mode' do
-      click_on 'Select full time or part time'
+      expect(page).to have_link('Change course', href: provider_interface_deferred_offer_course_path(@deferred_application_choice, return_to: 'review'))
     end
   end
 
@@ -278,17 +277,16 @@ RSpec.describe 'Provider confirms a deferred offer' do
     click_on 'Change study type'
   end
 
+  def and_i_select_a_different_study_mode_and_continue
+    choose 'Full time'
+    click_on 'Change study type'
+  end
+
   def then_i_can_see_the_updated_study_mode_on_the_check_page
     within '#check_study_mode' do
       expect(page).to have_content('Full time or part time')
       expect(page).to have_content('Full time')
-      expect(page).to have_link('Change full time or part time', href: provider_interface_deferred_offer_study_mode_path(@deferred_application_choice))
-    end
-  end
-
-  def when_i_click_select_location
-    within '#check_location' do
-      click_on 'Select location'
+      expect(page).to have_link('Change full time or part time', href: provider_interface_deferred_offer_study_mode_path(@deferred_application_choice, return_to: 'review'))
     end
   end
 
@@ -297,11 +295,16 @@ RSpec.describe 'Provider confirms a deferred offer' do
     click_on 'Change location'
   end
 
+  def and_i_select_a_different_location_and_continue
+    choose 'Other site'
+    click_on 'Change location'
+  end
+
   def then_i_can_see_the_updated_location_on_the_check_page
     within '#check_location' do
       expect(page).to have_content('Location')
       expect(page).to have_content('Other site, 567 Really Fake Lane, F2 2BB')
-      expect(page).to have_link('Change location', href: provider_interface_deferred_offer_location_path(@deferred_application_choice))
+      expect(page).to have_link('Change location', href: provider_interface_deferred_offer_location_path(@deferred_application_choice, return_to: 'review'))
     end
   end
 
