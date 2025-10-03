@@ -2,5 +2,5 @@ en:
   candidate_interface:
     manage_preferences_component:
       title: Sharing your application details
-      body_opt_in_html: You have chosen to share your application details with other providers - %{link}
-      body_opt_out_html: You have chosen not to share your application details with other providers - %{link}
+      body_opt_in_html: You have chosen to share your application details with other providers
+      body_opt_out_html: You have chosen not to share your application details with other providers

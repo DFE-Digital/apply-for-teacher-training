@@ -17,6 +17,11 @@ en:
         <br>You have no submitted applications that are waiting for a decision.</p>
 
         <p class="govuk-body">Because all your applications are rejected, withdrawn or inactive, providers can view your application details and invite you to apply. However, you should continue to apply to courses yourself. Do not wait to be invited.</p>
+      opt_in_and_withdrawn_no_longer_training_html: |
+        <p class="govuk-body">Your application details are <b>not</b> currently visible to other providers.
+        <br>You have withdrawn an application with the reason 'I do not want to train to teach anymore'.</p>
+
+        <p class="govuk-body">We have stopped sharing your application details with other providers. If you want to change this you can %{link}.</p>
       opt_out_html: |
         <p class="govuk-body">Your application details are <b>not</b> currently visible to other providers.
         <br>You are not sharing your application details with other providers.</p>

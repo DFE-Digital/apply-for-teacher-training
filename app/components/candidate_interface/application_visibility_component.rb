@@ -18,11 +18,11 @@ class CandidateInterface::ApplicationVisibilityComponent < ViewComponent::Base
   end
 
   def waiting_for_provider_decision?
-    application_form&.awaiting_provider_decisions? # this includes 'interviewing' status
+    application_form.awaiting_provider_decisions? # this includes 'interviewing' status
   end
 
   def offer?
-    application_form&.offered?
+    application_form.offered?
   end
 
   def visible_to_providers?
