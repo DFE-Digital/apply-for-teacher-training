@@ -57,10 +57,22 @@ class FindACandidate::PopulatePoolWorker
           course_funding_type_fee
         )
         #{applications.to_sql}
+        ON CONFLICT(application_form_id)
+        DO UPDATE SET
+          candidate_id = EXCLUDED.candidate_id,
+          study_mode_full_time = EXCLUDED.study_mode_full_time,
+          study_mode_part_time = EXCLUDED.study_mode_part_time,
+          course_type_postgraduate = EXCLUDED.course_type_postgraduate,
+          course_type_undergraduate = EXCLUDED.course_type_undergraduate,
+          subject_ids = EXCLUDED.subject_ids,
+          rejected_provider_ids = EXCLUDED.rejected_provider_ids,
+          needs_visa = EXCLUDED.needs_visa,
+          updated_at = EXCLUDED.updated_at,
+          course_funding_type_fee = EXCLUDED.course_funding_type_fee
       SQL
 
       CandidatePoolApplication.transaction do
-        CandidatePoolApplication.delete_all
+        CandidatePoolApplication.where.not(application_form_id: applications.ids).delete_all
         ActiveRecord::Base.connection.execute(insert_all_from_eligible_sql)
       end
     end
