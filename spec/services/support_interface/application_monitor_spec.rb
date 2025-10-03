@@ -7,6 +7,41 @@ RSpec.describe SupportInterface::ApplicationMonitor do
   let(:visible_course) { create(:course, :open, :with_course_options) }
   let(:hidden_course) { create(:course, :open, exposed_in_find: false) }
 
+  describe '#applications_with_mismatched_recruitment_cycle_years' do
+    let(:application_form) { create(:application_form) }
+    let(:next_year_course) do
+      create(
+        :course,
+        :open,
+        :with_course_options,
+        recruitment_cycle_year: application_form.recruitment_cycle_year + 1,
+      )
+    end
+    let(:same_year_course) do
+      create(
+        :course,
+        :open,
+        :with_course_options,
+        recruitment_cycle_year: application_form.recruitment_cycle_year,
+      )
+    end
+
+    it 'does not return form if the choice is deferred' do
+      create(:application_choice, application_form:, offer_deferred_at: Time.zone.now, course: next_year_course)
+      expect(described_class.new.applications_with_mismatched_recruitment_cycle_years).to eq []
+    end
+
+    it 'does not include form if the choice is for the current year' do
+      create(:application_choice, application_form:, offer_deferred_at: nil, course: same_year_course)
+      expect(described_class.new.applications_with_mismatched_recruitment_cycle_years).to eq []
+    end
+
+    it 'returns form if the choice is for a different year and not deferred' do
+      create(:application_choice, application_form:, offer_deferred_at: nil, course: next_year_course)
+      expect(described_class.new.applications_with_mismatched_recruitment_cycle_years).to include application_form
+    end
+  end
+
   describe '#applications_to_closed_courses' do
     it 'returns applications to courses that have been closed' do
       closed_course_option                  = create(:course_option, course: closed_course)

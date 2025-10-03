@@ -1,0 +1,8 @@
+en:
+  support_interface:
+    performance:
+      mismatched_recruitment_cycle_year:
+        title: Applications with mismatched cycle years
+        explainer: >
+          These candidates have selected a course with a recruitment cycle year that does not
+          match that of their application form. These choices are not deferred.

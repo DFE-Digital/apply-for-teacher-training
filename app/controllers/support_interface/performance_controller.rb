@@ -15,6 +15,12 @@ module SupportInterface
       @pagy, @course_options = pagy(@course_options, limit: PAGY_PER_PAGE)
     end
 
+    def mismatched_recruitment_cycle_year
+      @monitor = SupportInterface::ApplicationMonitor.new
+      @application_forms = @monitor.applications_with_mismatched_recruitment_cycle_years
+      @pagy, @application_forms = pagy(@application_forms, limit: PAGY_PER_PAGE)
+    end
+
     def courses_dashboard; end
 
     def service_performance_dashboard

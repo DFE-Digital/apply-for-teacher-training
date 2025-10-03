@@ -195,6 +195,7 @@ namespace :support_interface, path: '/support' do
     get '/reasons-for-rejection/application-choices' => 'performance#reasons_for_rejection_application_choices', as: :reasons_for_rejection_application_choices
     get '/service' => 'performance#service_performance_dashboard', as: :service_performance_dashboard
 
+    get '/mismatched-recruitment-cycle-year', to: 'performance#mismatched_recruitment_cycle_year', as: :mismatched_recruitment_cycle_year
     get '/course-options', to: 'performance#course_options', as: :course_options
     get '/unavailable-choices' => 'performance#unavailable_choices', as: :unavailable_choices
     get '/unavailable-choices/closed-courses' => 'performance#unavailable_choices_closed_courses', as: :unavailable_choices_closed_courses
