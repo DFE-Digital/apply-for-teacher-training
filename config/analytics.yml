@@ -75,13 +75,6 @@ shared:
     - invite_id
     - created_at
     - updated_at
-  pool_dismissals:
-    - id
-    - candidate_id
-    - provider_id
-    - dismissed_by_id
-    - created_at
-    - updated_at
   one_login_auths:
     - id
     - candidate_id

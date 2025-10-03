@@ -10,7 +10,6 @@ RSpec.describe Candidate do
     it { is_expected.to have_many(:degree_qualifications).through(:application_forms) }
     it { is_expected.to have_many(:sessions) }
     it { is_expected.to have_many(:session_errors) }
-    it { is_expected.to have_many(:pool_dismissals).dependent(:destroy) }
     it { is_expected.to have_many(:pool_invites).dependent(:destroy) }
     it { is_expected.to have_many(:preferences).dependent(:destroy) }
     it { is_expected.to have_many(:published_preferences).conditions(status: 'published').dependent(:destroy) }
