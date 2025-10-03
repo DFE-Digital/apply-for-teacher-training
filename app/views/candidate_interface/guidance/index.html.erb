@@ -53,7 +53,7 @@
              <%= simple_format(t('.start_applying', max_courses: ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES)) %>
 
               <% if current_candidate.present? %>
-                <% if current_application.submitted_applications? && FeatureFlag.active?(:candidate_preferences) %>
+                <% if current_application.submitted_applications? %>
                   <%= t('.if_unsuccessful_html', link: govuk_link_to('choose to share your details', candidate_interface_share_details_path)) %>
                 <% else %>
                   <%= t('.if_unsuccessful_html', link: 'choose to share your details') %>

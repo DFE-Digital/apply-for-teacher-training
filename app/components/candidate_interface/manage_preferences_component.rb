@@ -7,7 +7,7 @@ class CandidateInterface::ManagePreferencesComponent < ViewComponent::Base
   end
 
   def render?
-    FeatureFlag.active?(:candidate_preferences) && application_form.submitted_applications?
+    application_form.submitted_applications?
   end
 
   def pool_opt_in?

@@ -4,10 +4,6 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
   include CandidateHelper
 
   context 'candidate preferences feature flag is activated' do
-    before do
-      FeatureFlag.activate(:candidate_preferences)
-    end
-
     it 'candidate can submit in next cycle after dismissing candidate preferences' do
       given_i_am_signed_in_with_one_login
       when_i_have_an_unsubmitted_application_without_a_course
@@ -35,10 +31,6 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
   end
 
   context 'candidate preferences feature flag is deactivated' do
-    before do
-      FeatureFlag.deactivate(:candidate_preferences)
-    end
-
     it 'Candidate can submit in next cycle with cycle switcher after apply opens', time: mid_cycle do
       given_i_am_signed_in_with_one_login
       when_i_have_an_unsubmitted_application_without_a_course
@@ -173,6 +165,14 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
 
     click_on 'Review application'
     click_on 'Confirm and submit application'
+
+    expect(page).to have_content(
+      'Do you want to make your application details visible to other training providers?',
+    )
+    choose 'No'
+    click_on 'Continue'
+
+    click_on 'Your applications'
 
     expect(page).to have_content('You can add 3 more applications')
   end

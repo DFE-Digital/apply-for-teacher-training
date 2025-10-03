@@ -3,7 +3,6 @@ module CandidateInterface
     before_action :set_preference
     before_action :set_location_preference, only: %i[edit update show destroy]
     before_action :set_back_path, only: %i[index]
-    before_action :redirect_to_root_path_if_flag_is_inactive
 
     def index
       if @preference.published?
@@ -90,10 +89,6 @@ module CandidateInterface
       if params[:return_to] == 'review'
         @back_path = candidate_interface_draft_preference_path(@preference)
       end
-    end
-
-    def redirect_to_root_path_if_flag_is_inactive
-      redirect_to root_path unless FeatureFlag.active?(:candidate_preferences) && current_application.submitted_applications?
     end
   end
 end

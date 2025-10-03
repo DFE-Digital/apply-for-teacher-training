@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Carry over application and submit new application choices' do
   include CandidateHelper
 
-  before do
-    FeatureFlag.activate(:candidate_preferences)
-  end
-
   it 'Candidate carries over unsubmitted application with a course to new cycle', time: mid_cycle do
     given_i_am_signed_in_with_one_login
     when_i_have_an_unsubmitted_application

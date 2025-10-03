@@ -23,11 +23,8 @@ RSpec.describe 'Candidate adds preferences' do
     allow(client).to receive(:autocomplete).and_return(api_response)
   end
 
-  after { FeatureFlag.deactivate(:candidate_preferences) }
-
   scenario 'Candidate opts in to find a candidate with specific locations' do
     given_i_am_signed_in
-    and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
     and_i_click('Back')
 
@@ -106,7 +103,6 @@ RSpec.describe 'Candidate adds preferences' do
 
   scenario 'Candidate opts in to find a candidate with specific locations and applied to fee funded courses' do
     given_i_am_signed_in(funding_type: 'fee')
-    and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
     and_i_click('Back')
 
@@ -142,7 +138,6 @@ RSpec.describe 'Candidate adds preferences' do
 
   scenario 'Candidate opts in to find a candidate for anywhere in England' do
     given_i_am_signed_in
-    and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
     and_i_click('Back')
 
@@ -169,7 +164,6 @@ RSpec.describe 'Candidate adds preferences' do
 
   scenario 'Candidate opts in to find a candidate for anywhere in England and applied to fee funded courses' do
     given_i_am_signed_in(funding_type: 'fee')
-    and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
     and_i_click('Back')
 
@@ -201,7 +195,6 @@ RSpec.describe 'Candidate adds preferences' do
 
   scenario 'Candidate opts out of find a candidate' do
     given_i_am_signed_in
-    and_feature_flag_is_enabled
 
     visit new_candidate_interface_pool_opt_in_path
     and_i_opt_out_to_find_a_candidate
@@ -212,7 +205,6 @@ RSpec.describe 'Candidate adds preferences' do
 
   scenario 'Candidate opts out of find a candidate and gives a reason' do
     given_i_am_signed_in
-    and_feature_flag_is_enabled
 
     visit new_candidate_interface_pool_opt_in_path
     and_i_opt_out_to_find_a_candidate
@@ -258,7 +250,6 @@ RSpec.describe 'Candidate adds preferences' do
   def given_i_am_a_candidate_who_has_opted_in_with_a_dynamic_location
     given_i_am_signed_in
     given_courses_exist
-    and_feature_flag_is_enabled
     given_i_am_on_the_share_details_page
     and_i_click('Back')
 
@@ -469,10 +460,6 @@ RSpec.describe 'Candidate adds preferences' do
   def and_i_edit_a_location
     fill_in('I can travel up to', with: updated_location[:within])
     fill_in('from city, town or postcode', with: updated_location[:name])
-  end
-
-  def and_feature_flag_is_enabled
-    FeatureFlag.activate(:candidate_preferences)
   end
 
   def given_i_am_on_the_share_details_page

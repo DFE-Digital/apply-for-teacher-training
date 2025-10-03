@@ -3,9 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Candidate views their invites' do
   include CandidateHelper
 
-  before { FeatureFlag.activate(:candidate_preferences) }
-  after { FeatureFlag.deactivate(:candidate_preferences) }
-
   scenario 'after apply deadline', time: after_apply_deadline do
     given_i_am_signed_in_without_in_flight_applications
     when_i_go_to_application_sharing

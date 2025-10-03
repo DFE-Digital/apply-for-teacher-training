@@ -38,7 +38,7 @@ class NavigationItems
           },
         ]
 
-        if FeatureFlag.active?(:candidate_preferences) && current_candidate.current_application.submitted_applications?
+        if current_candidate.current_application.submitted_applications?
           items << {
             text: t('page_titles.application_sharing'),
             href: candidate_interface_invites_path,

@@ -4,10 +4,6 @@ RSpec.describe 'International candidate submits the application' do
   include CandidateHelper
   include EFLHelper
 
-  before do
-    FeatureFlag.activate(:candidate_preferences)
-  end
-
   it 'International candidate completes and submits an application' do
     given_i_am_signed_in_with_one_login
 

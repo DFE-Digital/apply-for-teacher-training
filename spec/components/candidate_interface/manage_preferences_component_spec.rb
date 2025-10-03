@@ -4,9 +4,8 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
   include Rails.application.routes.url_helpers
 
   describe '#render' do
-    context 'when candidate preference feature flag is enabled' do
+    context 'when sent applications' do
       it 'renders the component' do
-        FeatureFlag.activate(:candidate_preferences)
         application_form = create(:application_form, :with_accepted_offer)
 
         component = described_class.new(current_candidate: application_form.candidate, application_form:)
@@ -16,21 +15,8 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
       end
     end
 
-    context 'when candidate preference feature flag is not enabled' do
+    context 'when no sent applications' do
       it 'renders the component' do
-        FeatureFlag.deactivate(:candidate_preferences)
-        application_form = create(:application_form, :with_accepted_offer)
-
-        component = described_class.new(current_candidate: application_form.candidate, application_form:)
-        result = render_inline(component)
-
-        expect(result.to_html).to be_blank
-      end
-    end
-
-    context 'when candidate preference feature flag is enabled but no sent applications' do
-      it 'renders the component' do
-        FeatureFlag.activate(:candidate_preferences)
         application_form = create(:application_form)
 
         component = described_class.new(current_candidate: application_form.candidate, application_form:)
@@ -73,7 +59,6 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
 
   describe '#path_to_change_preferences' do
     it 'returns the published show path if the candidate has a published preference' do
-      FeatureFlag.activate(:candidate_preferences)
       candidate = create(:candidate)
       preference = create(
         :candidate_preference,
@@ -93,7 +78,6 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
     end
 
     it 'returns the new opt in path if the candidate does not have a published preference' do
-      FeatureFlag.activate(:candidate_preferences)
       candidate = create(:candidate)
       _preference = create(
         :candidate_preference,
@@ -113,7 +97,6 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
     end
 
     it 'returns the edit opt in path if the published preference is opted out' do
-      FeatureFlag.activate(:candidate_preferences)
       candidate = create(:candidate)
       preference = create(
         :candidate_preference,
