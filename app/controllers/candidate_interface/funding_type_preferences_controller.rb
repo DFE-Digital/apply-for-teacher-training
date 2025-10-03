@@ -36,7 +36,7 @@ module CandidateInterface
     end
 
     def set_preference
-      @preference = current_candidate.preferences.find_by(id: params.expect(:draft_preference_id))
+      @preference = current_application.preferences.find_by(id: params.expect(:draft_preference_id))
 
       if @preference.blank?
         redirect_to candidate_interface_invites_path
