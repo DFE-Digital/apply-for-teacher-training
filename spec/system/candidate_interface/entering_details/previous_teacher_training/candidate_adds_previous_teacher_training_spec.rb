@@ -119,7 +119,7 @@ RSpec.describe 'Previous teacher training' do
 
     summary_list = [
       {
-        label: 'Have you started a teacher training course before?',
+        label: 'Have you started an initial teacher training (ITT) course in England before?',
         value: 'Yes',
       },
       {

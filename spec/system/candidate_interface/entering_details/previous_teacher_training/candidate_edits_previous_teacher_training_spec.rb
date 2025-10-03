@@ -167,7 +167,7 @@ RSpec.describe 'Edit previous teacher training' do
     published_record = @application_form.published_previous_teacher_training
     summary_list = [
       {
-        label: 'Have you started a teacher training course before?',
+        label: 'Have you started an initial teacher training (ITT) course in England before?',
         value: published_record.started.capitalize,
       },
       {
@@ -199,7 +199,7 @@ RSpec.describe 'Edit previous teacher training' do
     published_record = @application_form.published_previous_teacher_training
     summary_list = [
       {
-        label: 'Have you started a teacher training course before?',
+        label: 'Have you started an initial teacher training (ITT) course in England before?',
         value: published_record.started.capitalize,
       },
     ]

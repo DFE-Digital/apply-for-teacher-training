@@ -43,10 +43,17 @@ module CandidateInterface
         end
 
         context 'with invalid form' do
-          it 'returns nil' do
+          it 'when provider name is nil, it returns nil' do
             form.provider_name = nil
 
             expect(form.save).to be_nil
+          end
+
+          it 'when provide name is too long, it returns nil' do
+            form.provider_name = 'z' * 101
+
+            expect(form.save).to be_nil
+            expect(form.errors[:provider_name]).to eq ['Enter a training provider name that is fewer than 100 characters']
           end
         end
       end

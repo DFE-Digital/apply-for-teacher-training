@@ -5,7 +5,7 @@ module CandidateInterface
 
       attr_accessor :provider_name, :previous_teacher_training
 
-      validates :provider_name, presence: true
+      validates :provider_name, presence: true, length: { maximum: 100 }
 
       def initialize(previous_teacher_training)
         @previous_teacher_training = previous_teacher_training

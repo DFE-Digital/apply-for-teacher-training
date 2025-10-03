@@ -1,6 +1,18 @@
 <%= form_with(model: form, url:, method:) do |f| %>
   <%= f.govuk_error_summary %>
 
+  <% content_for(:hint) do %>
+    <p class="govuk-body govuk-hint">
+      <%= t('.body') %>
+    </p>
+    <%= govuk_inset_text(
+          text: t(
+            '.hint_html',
+            link: govuk_link_to(t('.link_text'), candidate_interface_review_other_qualifications_path),
+          ),
+        ) %>
+  <% end %>
+
   <%= f.govuk_collection_radio_buttons(
     :started,
     @form.options,
@@ -8,7 +20,7 @@
     :name,
     bold_labels: false,
     legend: { text: t('candidate_interface.previous_teacher_trainings.start.new.title'), size: 'xl' },
-    hint: proc { t('.body') },
+    hint: -> { content_for(:hint) },
   ) %>
 
   <%= f.govuk_submit %>
