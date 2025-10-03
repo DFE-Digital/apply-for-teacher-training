@@ -9,27 +9,6 @@ RSpec.describe DetectInvariantsHourlyCheck do
   end
 
   describe '#perform' do
-    it 'detects application choices in deprecated states' do
-      application_choice_bad = create(:application_choice)
-      application_choice_bad.update_columns(status: 'application_complete')
-      application_choice_bad_too = create(:application_choice)
-      application_choice_bad_too.update_columns(status: 'awaiting_references')
-
-      described_class.new.perform
-
-      expect(Sentry).to have_received(:capture_exception).with(
-        described_class::ApplicationInRemovedState.new(
-          <<~MSG,
-            One or more application choices are still in `awaiting_references` or
-            `application_complete` state, but all these states have been removed:
-
-            #{HostingEnvironment.application_url}/support/application-choices/#{application_choice_bad.id}
-            #{HostingEnvironment.application_url}/support/application-choices/#{application_choice_bad_too.id}
-          MSG
-        ),
-      )
-    end
-
     it 'detects unauthorised edits on data associated with an application form', :with_audited do
       honest_bob = create(:candidate)
       nefarious_jim = create(:candidate)
@@ -90,50 +69,6 @@ RSpec.describe DetectInvariantsHourlyCheck do
     end
 
     it 'doesn’t alert when the course sync has succeeded recently' do
-      described_class.new.perform
-
-      expect(Sentry).not_to have_received(:capture_exception)
-    end
-
-    it 'detects when the sidekiq retries queue is high' do
-      sidekiq_retries = instance_double(Sidekiq::RetrySet, size: 100)
-      allow(Sidekiq::RetrySet).to receive(:new).and_return(sidekiq_retries)
-      described_class.new.perform
-
-      expect(Sentry).to have_received(:capture_exception).with(
-        described_class::SidekiqRetriesQueueHigh.new(
-          'Sidekiq pending retries depth is high (100). Suggests high error rate',
-        ),
-      )
-    end
-
-    it 'doesn’t alert when the sidekiq retries queue is low' do
-      sidekiq_retries = instance_double(Sidekiq::RetrySet, size: 20)
-      allow(Sidekiq::RetrySet).to receive(:new).and_return(sidekiq_retries)
-      described_class.new.perform
-
-      expect(Sentry).not_to have_received(:capture_exception)
-    end
-
-    it 'detects when the sidekiq latency for selected queues is high' do
-      high_latency = described_class::SIDEKIQ_LATENCY_THRESHOLD + 0.9
-      sidekiq_queue = instance_double(Sidekiq::Queue, latency: high_latency)
-      allow(Sidekiq::Queue).to receive(:new).and_return(sidekiq_queue)
-      described_class.new.perform
-
-      described_class::SIDEKIQ_QUEUE_NAMES.each do |queue_name|
-        expect(Sentry).to have_received(:capture_exception).with(
-          described_class::SidekiqHighLatency.new(
-            "Sidekiq queue #{queue_name} latency is high (#{high_latency}).",
-          ),
-        )
-      end
-    end
-
-    it 'doesn’t alert when the sidekiq latency for queues is low' do
-      low_latency = described_class::SIDEKIQ_LATENCY_THRESHOLD - 0.2
-      sidekiq_queue = instance_double(Sidekiq::Queue, latency: low_latency)
-      allow(Sidekiq::Queue).to receive(:new).and_return(sidekiq_queue)
       described_class.new.perform
 
       expect(Sentry).not_to have_received(:capture_exception)

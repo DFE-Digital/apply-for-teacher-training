@@ -67,6 +67,33 @@ RSpec.describe Publications::MonthlyStatistics::Timetable do
     end
   end
 
+  describe '#ungenerated_schedules' do
+    subject(:ungenerated_schedules) { described_class.new.ungenerated_schedules }
+
+    let(:all_schedules) { described_class.new.schedules }
+
+    it 'returns only those schedules where the generation date is in the future' do
+      first_schedule = all_schedules.first
+      travel_temporarily_to(first_schedule.generation_date + 1.day) do
+        expect(ungenerated_schedules.count).to eq all_schedules.count - 1
+        expect(ungenerated_schedules.first.generation_date).to eq(all_schedules.second.generation_date)
+      end
+    end
+  end
+
+  describe '#next_generation_date' do
+    subject(:next_generation_date) { described_class.new.next_generation_date }
+
+    let(:all_schedules) { described_class.new.schedules }
+    let(:next_cycle_schedules) { described_class.new(recruitment_cycle_timetable: next_timetable).schedules }
+
+    it 'returns the first generation date of the next cycle if after the last generation date' do
+      travel_temporarily_to(all_schedules.last.generation_date + 1.day) do
+        expect(next_generation_date).to eq next_cycle_schedules.first.generation_date
+      end
+    end
+  end
+
   describe '#generate_today?' do
     subject(:generate_today?) { described_class.new.generate_today? }
 

@@ -1,0 +1,5 @@
+en:
+  support_interface:
+    settings:
+      feature_flags:
+        obsolete_features: These feature flags are obsolete and should be removed from the database.

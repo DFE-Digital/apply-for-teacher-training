@@ -33,6 +33,14 @@ module SupportInterface
       redirect_to support_interface_notify_template_path
     end
 
+    def feature_flags
+      feature_names = FeatureFlag::FEATURES.map(&:first)
+      @obsolete_features = Feature
+                             .where.not(name: feature_names)
+                             .order(:name)
+                             .map(&:name)
+    end
+
   private
 
     def actually_email_providers!(client, user_hashes, template, pdf_handle)

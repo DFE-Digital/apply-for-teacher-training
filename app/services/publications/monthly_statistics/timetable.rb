@@ -20,6 +20,12 @@ module Publications
       end
     end
 
+    def ungenerated_schedules
+      schedules.filter do |schedule|
+        schedule.generation_date.after? Time.zone.today
+      end
+    end
+
     def next_publication_date
       if unpublished_schedules.blank?
         MonthlyStatistics::Timetable.new(
@@ -27,6 +33,16 @@ module Publications
         ).next_publication_date
       else
         unpublished_schedules.first.publication_date
+      end
+    end
+
+    def next_generation_date
+      if ungenerated_schedules.blank?
+        MonthlyStatistics::Timetable.new(
+          recruitment_cycle_timetable: next_recruitment_cycle_for_publishing_stats,
+        ).next_generation_date
+      else
+        ungenerated_schedules.first.generation_date
       end
     end
 

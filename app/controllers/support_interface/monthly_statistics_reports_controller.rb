@@ -14,5 +14,24 @@ module SupportInterface
                      @csv_export_types_and_sizes = MonthlyStatistics::V1::CalculateDownloadSizes.new(@report).call
                    end
     end
+
+  private
+
+    def show_report_not_generated_warning?
+      latest_past_generation_date.present? &&
+        Publications::MonthlyStatistics::MonthlyStatisticsReport.find_by(
+          generation_date: latest_past_generation_date,
+        ).blank?
+    end
+    helper_method :show_report_not_generated_warning?
+
+    def latest_past_generation_date
+      @latest_past_generation_date ||= Publications::MonthlyStatistics::Timetable
+        .new
+        .generated_schedules
+        .last
+        &.generation_date
+    end
+    helper_method :latest_past_generation_date
   end
 end

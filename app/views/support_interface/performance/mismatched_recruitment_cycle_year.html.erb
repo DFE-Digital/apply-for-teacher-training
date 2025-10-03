@@ -1,0 +1,23 @@
+<% content_for :title, t('.title') %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <% content_for :before_content do %>
+      <%= breadcrumbs({
+                        Performance: support_interface_performance_path,
+                        t('.title') => nil,
+                      }) %>
+    <% end %>
+
+    <p class="govuk-body">
+      <%= t('.explainer') %>
+    </p>
+
+    <%= render SupportInterface::ApplicationsTableComponent.new(
+      application_forms: @application_forms,
+      row_heading_level: 2,
+    ) %>
+
+    <%= govuk_pagination(pagy: @pagy) %>
+  </div>
+</div>
