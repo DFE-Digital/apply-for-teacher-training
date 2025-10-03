@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :candidate_preference do
     application_form factory: %i[application_form]
-    candidate { application_form.candidate }
     pool_status { 'opt_in' }
     dynamic_location_preferences { true }
     status { 'published' }
