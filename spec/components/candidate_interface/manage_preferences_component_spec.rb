@@ -25,6 +25,48 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
         expect(result.to_html).to be_blank
       end
     end
+
+    context 'when application is withdrawn and no longer training to teach' do
+      it 'does not render the Change link' do
+        FeatureFlag.activate(:candidate_preferences)
+        candidate = create(:candidate)
+        _preference = create(
+          :candidate_preference,
+          status: 'published',
+          pool_status: 'opt_in',
+          candidate:,
+        )
+        application_form = create(:application_form, candidate:)
+
+        withdrawn_choice = create(:application_choice, status: 'withdrawn', application_form:)
+        create(:withdrawal_reason, application_choice: withdrawn_choice, reason: 'do-not-want-to-train-anymore.another_career_path_or_accepted_a_job_offer')
+
+        render_inline(described_class.new(current_candidate: candidate, application_form:))
+
+        expect(page).to have_no_link('Change')
+      end
+    end
+
+    context 'when application is withdrawn but still training to teach' do
+      it 'renders the Change link' do
+        FeatureFlag.activate(:candidate_preferences)
+        candidate = create(:candidate)
+        _preference = create(
+          :candidate_preference,
+          status: 'published',
+          pool_status: 'opt_in',
+          candidate:,
+        )
+        application_form = create(:application_form, candidate:)
+
+        withdrawn_choice = create(:application_choice, status: 'withdrawn', application_form:)
+        create(:withdrawal_reason, application_choice: withdrawn_choice, reason: 'applying_to_another_provider.accepted_another_offer')
+
+        render_inline(described_class.new(current_candidate: candidate, application_form:))
+
+        expect(page).to have_link('Change')
+      end
+    end
   end
 
   describe '#pool_opt_in?' do
