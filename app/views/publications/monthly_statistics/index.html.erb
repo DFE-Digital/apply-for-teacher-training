@@ -1,0 +1,25 @@
+<%= content_for :title, t('.title') %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <%= t('.heading') %>
+    </h1>
+
+    <p class="govuk-body">
+      <%= t(
+            '.body',
+            current_year_range: @current_timetable.cycle_range_name,
+            current_year_academic_start_month: @current_timetable.apply_deadline_at.to_fs(:month_and_year),
+            previous_year_range: @previous_timetable.cycle_range_name,
+            previous_academic_year_range: @previous_timetable.academic_year_range_name,
+          ) %>
+    </p>
+    <div class="govuk-!-padding-top-3">
+      <%= render Publications::MonthlyStatisticsListComponent.new(@current_timetable) %>
+    </div>
+
+    <div class="govuk-!-padding-top-3">
+      <%= render Publications::MonthlyStatisticsListComponent.new(@previous_timetable) %>
+    </div>
+  </div>
+</div>
