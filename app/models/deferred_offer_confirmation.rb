@@ -1,16 +1,21 @@
 class DeferredOfferConfirmation < ApplicationRecord
   class CourseForm < DeferredOfferConfirmation
-    validates :course_id, presence: true
+    attr_accessor :course_id_raw
     validate :no_raw_input
 
-    attr_accessor :course_id_raw
+    validates :course_id, presence: true
 
     def courses_for_select
       @courses_for_select ||= offer.provider.courses
            .where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
            .includes(:provider, :accredited_provider)
-           .distinct
            .order(:name)
+    end
+
+    def default_value_for_select
+      return course_id_raw if course_id_raw.present?
+
+      course_available_for_select? ? (course_id_raw || course_id) : nil
     end
 
   private
@@ -23,6 +28,10 @@ class DeferredOfferConfirmation < ApplicationRecord
       return if selected_course && selected_course.name_and_code == course_id_raw
 
       errors.add(:course_id, :blank)
+    end
+
+    def course_available_for_select?
+      courses_for_select.exists?(id: course_id)
     end
   end
 
@@ -45,25 +54,34 @@ class DeferredOfferConfirmation < ApplicationRecord
          scopes: false
 
     def study_modes_for_select
-      validating_course_study_modes.map { |course_study_mode| SelectOption.new(id: course_study_mode, name: course_study_mode.humanize) }
+      course_study_modes.map { |course_study_mode| SelectOption.new(id: course_study_mode, name: course_study_mode.humanize) }
     end
   end
 
   class LocationForm < DeferredOfferConfirmation
-    validates :site_id, presence: true
+    attr_accessor :site_id_raw
     validate :no_raw_input
 
-    attr_accessor :site_id_raw
+    validates :site_id, presence: true
 
     def locations_for_select
-      validating_course_sites.distinct.order(:name)
+      course_sites.distinct.order(:name)
+    end
+
+    def default_value_for_select
+      return site_id_raw if site_id_raw.present?
+
+      location_available_for_select? ? (site_id_raw || site_id) : nil
     end
 
   private
 
+    def location_available_for_select?
+      locations_for_select.exists?(id: site_id)
+    end
+
     def no_raw_input
       return if locations_for_select.size < 20
-      return if site_id_raw.nil?
       return if site_id.blank?
 
       selected_location = locations_for_select.find_by(id: site_id)
@@ -90,10 +108,10 @@ class DeferredOfferConfirmation < ApplicationRecord
 
   delegate :application_choice, :conditions, :provider, to: :offer
   delegate :name_and_code, to: :provider, prefix: true, allow_nil: true
-  delegate :name_and_code, to: :validating_course, prefix: :course, allow_nil: true
+  delegate :name_and_code, to: :course, prefix: true, allow_nil: true
   delegate :name_and_address, to: :location, prefix: true, allow_nil: true
   delegate :site, :study_mode, :course, to: :offer, prefix: true
-  delegate :study_modes, :sites, to: :validating_course, prefix: true
+  delegate :study_modes, :sites, to: :course, prefix: true
 
   validate :course_option_available, on: :submit
   validates :course, presence: { on: :submit }
@@ -102,14 +120,14 @@ class DeferredOfferConfirmation < ApplicationRecord
 
   after_initialize do
     if course_id.nil? && site_id.nil? && study_mode.nil?
-      self.course_id ||= offer.course.id
-      self.site_id ||= offer.site.id
-      self.study_mode ||= offer.study_mode
+      self.course_id = provider.courses.current_cycle.find_by(code: offer_course.code)&.id || offer_course.id
+      self.site_id = course.sites.find_by(code: offer_site.code)&.id || offer_site.id
+      self.study_mode = offer.study_mode
     end
   end
 
   before_save do
-    return if course.blank?
+    next if course.blank?
 
     self.location = nil unless location_in_cycle?
     self.study_mode = nil unless study_mode_in_cycle?

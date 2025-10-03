@@ -41,7 +41,7 @@ RSpec.describe DeferredOfferConfirmation do
     it { is_expected.to delegate_method(:conditions).to(:offer) }
     it { is_expected.to delegate_method(:provider).to(:offer) }
     it { is_expected.to delegate_method(:name_and_code).to(:provider).with_prefix.allow_nil }
-    it { is_expected.to delegate_method(:name_and_code).to(:validating_course).with_prefix(:course).allow_nil }
+    it { is_expected.to delegate_method(:name_and_code).to(:course).with_prefix.allow_nil }
     it { is_expected.to delegate_method(:name_and_address).to(:location).with_prefix.allow_nil }
   end
 

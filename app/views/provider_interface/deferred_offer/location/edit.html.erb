@@ -15,12 +15,13 @@
             @location_form.locations_for_select,
             :id,
             :name_and_address,
-            options: { prompt: '' },
+            options: { include_blank: '' },
             caption: { text: @location_form.application_choice.application_form.full_name, size: 'xl' },
             label: { text: t('.page_title'), size: 'xl' },
             hint: { text: t('.site_id.fieldset_hint') },
             data: { controller: 'autocomplete' },
           ),
+          html_attributes: { 'data-default-value': @location_form.default_value_for_select },
         ) %>
       <% else %>
         <%= form.govuk_collection_radio_buttons(
