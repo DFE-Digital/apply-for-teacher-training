@@ -1,0 +1,12 @@
+en:
+  shared:
+    publications:
+      monthly_statistics:
+        v1:
+          caption: Initial teacher training application reports
+          view_previous: View previous month
+          view_next: View next month
+        v2:
+          caption: Initial teacher training application reports
+          view_previous: View previous month
+          view_next: View next month

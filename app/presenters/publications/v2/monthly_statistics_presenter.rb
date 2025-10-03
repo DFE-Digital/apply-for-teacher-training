@@ -136,6 +136,22 @@ module Publications
         @previous_timetable ||= report_timetable.relative_previous_timetable
       end
 
+      def next_report
+        @next_report ||= Publications::MonthlyStatistics::MonthlyStatisticsReport
+                           .published
+                           .where('publication_date > ?', report.publication_date)
+                           .order(publication_date: :asc)
+                           .first
+      end
+
+      def previous_report
+        @previous_report ||= Publications::MonthlyStatistics::MonthlyStatisticsReport
+                               .published
+                               .where('publication_date < ?', report.publication_date)
+                               .order(publication_date: :desc)
+                               .first
+      end
+
     private
 
       def statistics_data_for(section_name, status_merge: false)
@@ -157,7 +173,7 @@ module Publications
       end
 
       def monthly_statistics_timetables
-        ::Publications::MonthlyStatistics::Timetable.new
+        ::Publications::MonthlyStatistics::Timetable.new(recruitment_cycle_timetable: report_timetable)
       end
     end
   end
