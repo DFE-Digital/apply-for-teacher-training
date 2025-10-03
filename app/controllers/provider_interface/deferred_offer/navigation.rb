@@ -2,7 +2,13 @@ module ProviderInterface::DeferredOffer::Navigation
   extend ActiveSupport::Concern
 
   included do
+    helper_method :return_to_review?
+
   private
+
+    def return_to_review?
+      params[:return_to] == 'review'
+    end
 
     def next_step_path(deferred_offer_confirmation)
       deferred_offer_confirmation.valid?(:submit)
