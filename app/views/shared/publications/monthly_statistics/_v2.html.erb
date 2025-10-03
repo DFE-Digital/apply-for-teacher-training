@@ -1,4 +1,5 @@
 <%= content_for :title, t('page_titles.monthly_statistics', academic_year_name: @presenter.academic_year_name) %>
+<% content_for :before_content, govuk_back_link_to(publications_monthly_reports_path) %>
 
 <% if @presenter.draft? %>
   <%= govuk_notification_banner(title_text: 'Draft report') do |notification_banner| %>
@@ -11,10 +12,24 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-l">Statistics</span>
     <h1 class="govuk-heading-l">
-      Initial teacher training applications for courses starting in the <%= @presenter.academic_year_name %> academic year
+      <span class="govuk-caption-l">
+        <%= t('.caption') %>
+      </span>
+      <%= @presenter.generation_date.to_fs(:month_and_year) %>
     </h1>
+
+    <p class="govuk-body">
+      <div class="flex-content">
+        <% if @presenter.previous_report.present? %>
+            <%= govuk_link_to(t('.view_previous'), publications_monthly_report_at_path(month: @presenter.previous_report.month)) %>
+        <% end %>
+
+        <% if @presenter.next_report.present? %>
+            <%= govuk_link_to(t('.view_next'), publications_monthly_report_at_path(month: @presenter.next_report.month)) %>
+        <% end %>
+      </div>
+    </p>
   </div>
 </div>
 
@@ -320,6 +335,18 @@
     <p class="govuk-body">
       If you have any feedback on the monthly ITT statistical reports,
       get in touch at <%= bat_contact_mail_to %>.
+    </p>
+
+    <p class="govuk-body">
+    <div class="flex-content">
+      <% if @presenter.previous_report.present? %>
+        <%= govuk_link_to(t('.view_previous'), publications_monthly_report_at_path(month: @presenter.previous_report.month)) %>
+      <% end %>
+
+      <% if @presenter.next_report.present? %>
+        <%= govuk_link_to(t('.view_next'), publications_monthly_report_at_path(month: @presenter.next_report.month)) %>
+      <% end %>
+    </div>
     </p>
   </div>
 </div>
