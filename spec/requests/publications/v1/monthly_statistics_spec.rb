@@ -33,11 +33,14 @@ RSpec.describe 'Monthly Statistics', time: Time.zone.local(2022, 11, 29) do
         FeatureFlag.deactivate(:monthly_statistics_redirected)
       end
 
-      it 'renders the report for 2022-11' do
+      it 'renders list of the existing reports and future publication' do
         get '/publications/monthly-statistics/'
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include('to 22 November 2022')
+        expect(response.body).to include('These reports contain data collected during the 2022 to 2023 recruitment cycle for applications in the academic year starting in September 2023. Statistics covering the 2021 to 2022 recruitment cycle, for courses starting in the 2022 to 2023 are also included to allow for comparison.')
+        expect(response.body).to include('Expected 26 December 2022')
+      end
 
+      it 'renders the report for 2022-11' do
         get '/publications/monthly-statistics/2022-10'
         expect(response).to have_http_status(:ok)
         expect(response.body).to include('to 18 October 2022')
