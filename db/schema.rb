@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_02_162146) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_06_125919) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -445,7 +445,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_162146) do
     t.string "pool_status"
     t.string "status", default: "draft", null: false
     t.boolean "dynamic_location_preferences"
-    t.bigint "candidate_id", null: false
+    t.bigint "candidate_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "opt_out_reason"
