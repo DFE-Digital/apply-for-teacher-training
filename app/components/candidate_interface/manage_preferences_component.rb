@@ -10,18 +10,22 @@ class CandidateInterface::ManagePreferencesComponent < ViewComponent::Base
   end
 
   def pool_opt_in?
-    application_form.published_preferences&.last&.opt_in?
+    application_form.published_preference&.opt_in?
   end
 
 private
 
   def path_to_change_preferences
-    if application_form.published_preferences.last&.opt_out?
-      edit_candidate_interface_pool_opt_in_path(application_form.published_preferences.last)
-    elsif application_form.published_preferences.blank?
+    if application_form.published_preference&.opt_out?
+      edit_candidate_interface_pool_opt_in_path(
+        application_form.published_preference,
+      )
+    elsif application_form.published_preference.blank?
       new_candidate_interface_pool_opt_in_path
     else
-      candidate_interface_draft_preference_publish_preferences_path(application_form.published_preferences.last)
+      candidate_interface_draft_preference_publish_preferences_path(
+        application_form.published_preference,
+      )
     end
   end
 end
