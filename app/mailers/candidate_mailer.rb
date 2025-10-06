@@ -629,12 +629,14 @@ private
   end
 
   def candidate_preferences_link(candidate)
-    if candidate.published_preferences.last&.opt_out?
-      edit_candidate_interface_pool_opt_in_url(candidate.published_preferences.last)
-    elsif candidate.published_preferences.blank?
+    application_form = candidate.current_application
+
+    if application_form.published_preference&.opt_out?
+      edit_candidate_interface_pool_opt_in_url(application_form.published_preference)
+    elsif application_form.published_preference.blank?
       new_candidate_interface_pool_opt_in_url
     else
-      candidate_interface_draft_preference_publish_preferences_url(candidate.published_preferences.last)
+      candidate_interface_draft_preference_publish_preferences_url(application_form.published_preference)
     end
   end
 
