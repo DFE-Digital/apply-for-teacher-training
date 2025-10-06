@@ -1,10 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::LocationPreferences do
-  let(:preference) { create(:candidate_preference) }
-  let(:application_form) do
-    create(:application_form, :completed, candidate: preference&.candidate || create(:candidate))
+  let(:preference) do
+    create(
+      :candidate_preference,
+      application_form: create(:application_form, :completed),
+    )
   end
+  let(:application_form) { preference.application_form }
   let(:provider) { create(:provider) }
   let!(:application_choice) do
     create(
@@ -31,14 +34,17 @@ RSpec.describe CandidateInterface::LocationPreferences do
     end
 
     context 'with international candidate' do
-      let(:application_form) do
+      let(:preference) do
         create(
-          :application_form,
-          :international_address,
-          :completed,
-          candidate: preference.candidate,
+          :candidate_preference,
+          application_form: create(
+            :application_form,
+            :international_address,
+            :completed,
+          ),
         )
       end
+      let(:application_form) { preference.application_form }
 
       it 'adds default location preferences only for the choice' do
         expect { described_class.add_default_location_preferences(preference:) }.to(
@@ -50,14 +56,17 @@ RSpec.describe CandidateInterface::LocationPreferences do
     end
 
     context 'when application_form.geocode is nil' do
-      let(:application_form) do
+      let(:preference) do
         create(
-          :application_form,
-          :international_address,
-          :completed,
-          candidate: preference.candidate,
+          :candidate_preference,
+          application_form: create(
+            :application_form,
+            :international_address,
+            :completed,
+          ),
         )
       end
+      let(:application_form) { preference.application_form }
 
       it 'adds default location preferences only for the choice' do
         allow(application_form).to receive(:geocode).and_return(nil)
@@ -84,6 +93,7 @@ RSpec.describe CandidateInterface::LocationPreferences do
 
     context 'when preference is nil' do
       let(:preference) { nil }
+      let(:application_form) { create(:application_form, :completed) }
 
       it 'does not add a location preference from application_choice' do
         expect { described_class.add_dynamic_location(preference:, application_choice:) }.to(
