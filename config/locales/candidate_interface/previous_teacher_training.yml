@@ -3,15 +3,17 @@ en:
     previous_teacher_trainings:
       start:
         new:
-          title: Have you started a teacher training course before?
+          title: Have you started an initial teacher training (ITT) course in England before?
         edit:
-          title: Have you started a teacher training course before?
+          title: Have you started an initial teacher training (ITT) course in England before?
         form:
-          body: Training providers need to find out more about any previous teacher training courses that you have been on. this is for safeguarding reasons.
+          body: Training providers need to know about ITT courses you have started before for safeguarding reasons.
+          hint_html: Do not enter any successfully completed teaching qualifications here. Select ‘no’ and enter them in the %{link} section instead.
+          link_text: other qualifications
       names:
         new:
           title: Name of the training provider
-          body: If you have started more than one course before, give details of the most recent one.
+          body: For example, University of East Anglia or Teach First. If you have started more than one course before, give details of the most recent one.
       dates:
         new:
           title: Training dates
@@ -33,7 +35,7 @@ en:
         show:
           title: Check your previous teacher training
           qts_guidance_html: If you have qualified teacher status (QTS) or qualified teacher learning and skills (QTLS), do not apply for ITT. Find out how to %{return_to_teaching}.
-          started_teacher_training: Have you started a teacher training course before?
+          started_teacher_training: Have you started an initial teacher training (ITT) course in England before?
           change_started_teacher_training: whether you started a teacher training course before
           provider_name: Name of the training provider
           change_provider_name: the name of the training provider
@@ -54,6 +56,7 @@ en:
           attributes:
             provider_name:
               blank: Enter the name of the training provider
+              too_long: Enter a training provider name that is fewer than 100 characters
         candidate_interface/previous_teacher_trainings/dates_form:
           attributes:
             started_at:
