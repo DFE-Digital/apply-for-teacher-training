@@ -4,10 +4,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
   describe '#peform after the apply deadline,', time: after_apply_deadline do
     it 'does not create any CandidatePoolApplication records' do
       application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
-      create(
-        :candidate_preference,
-        candidate: application_form.candidate,
-      )
+      create(:candidate_preference, application_form:)
       stub_application_forms_in_the_pool(application_form.id)
 
       expect {
@@ -29,10 +26,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
   describe '#peform before apply opens,', time: before_apply_opens do
     it 'does not create any CandidatePoolApplication records' do
       application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
-      create(
-        :candidate_preference,
-        candidate: application_form.candidate,
-      )
+      create(:candidate_preference, application_form:)
       stub_application_forms_in_the_pool(application_form.id)
 
       expect {
@@ -54,10 +48,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
   describe '#peform after apply opens but before candidate pool opens', time: RecruitmentCycleTimetable.current_timetable.apply_opens_at + 1.day do
     it 'does not create any CandidatePoolApplication records' do
       application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
-      create(
-        :candidate_preference,
-        candidate: application_form.candidate,
-      )
+      create(:candidate_preference, application_form:)
       stub_application_forms_in_the_pool(application_form.id)
 
       expect {
@@ -80,10 +71,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     context 'without pool_invites' do
       it 'creates CandidatePoolApplication records' do
         application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         stub_application_forms_in_the_pool(application_form.id)
 
         expect {
@@ -97,10 +85,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     context 'with 1 not_responded pool_invite' do
       it 'creates CandidatePoolApplication records' do
         application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         create(:pool_invite, :sent_to_candidate, application_form:)
 
         stub_application_forms_in_the_pool(application_form.id)
@@ -116,10 +101,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     context 'with 2 not_responded pool_invite' do
       it 'does not create CandidatePoolApplication records' do
         application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         create(:pool_invite, :sent_to_candidate, application_form:)
         create(:pool_invite, :sent_to_candidate, application_form:)
 
@@ -133,10 +115,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
 
     it 'does not create duplicate CandidatePoolApplication records' do
       application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
-      create(
-        :candidate_preference,
-        candidate: application_form.candidate,
-      )
+      create(:candidate_preference, application_form:)
       create(:candidate_pool_application, application_form: application_form)
       stub_application_forms_in_the_pool(application_form.id)
 
@@ -147,10 +126,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
 
     it 'removes candidates not eligible for the pool' do
       application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
-      create(
-        :candidate_preference,
-        candidate: application_form.candidate,
-      )
+      create(:candidate_preference, application_form:)
 
       create(:candidate_pool_application, application_form: application_form)
       needs_deleting = create(:candidate_pool_application)
@@ -232,7 +208,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         application_form = create(:application_form)
         create(
           :candidate_preference,
-          candidate: application_form.candidate,
+          application_form:,
         )
         course_option = create(:course_option, study_mode: 'full_time')
         _application_choice = create(:application_choice,
@@ -251,10 +227,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     context 'when the candidate has applied to a part-time course' do
       it 'sets study_mode_part_time to true' do
         application_form = create(:application_form)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         course_option = create(:course_option, study_mode: 'part_time')
         _application_choice = create(:application_choice,
                                      status: :awaiting_provider_decision,
@@ -272,10 +245,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     context 'when the candidate has applied to both full-time and part-time courses' do
       it 'sets both study_mode_full_time and study_mode_part_time to true' do
         application_form = create(:application_form)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         full_time_course_option = create(:course_option, study_mode: 'full_time')
         part_time_course_option = create(:course_option, study_mode: 'part_time')
         _application_choice1 = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form, course_option: full_time_course_option)
@@ -292,10 +262,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
       context 'when one of the application choices is unsubmitted' do
         it 'does not set the study mode based on the unsubmitted choice' do
           application_form = create(:application_form)
-          create(
-            :candidate_preference,
-            candidate: application_form.candidate,
-          )
+          create(:candidate_preference, application_form:)
           full_time_course_option = create(:course_option, study_mode: 'full_time')
           part_time_course_option = create(:course_option, study_mode: 'part_time')
           _submitted_full_time_application = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form, course_option: full_time_course_option)
@@ -314,10 +281,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     context 'when the candidate has applied to a postgraduate course' do
       it 'sets course_type_postgraduate to true' do
         application_form = create(:application_form)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         course_option = create(:course_option, course: create(:course, program_type: 'higher_education_programme'))
         create(:application_choice, status: :awaiting_provider_decision, application_form: application_form, course_option: course_option)
 
@@ -333,10 +297,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     context 'when the candidate has applied to an undergraduate course' do
       it 'sets course_type_undergraduate to true' do
         application_form = create(:application_form)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         course_option = create(:course_option, course: create(:course, program_type: 'teacher_degree_apprenticeship'))
         create(:application_choice,
                status: :awaiting_provider_decision,
@@ -354,10 +315,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     context 'when the candidate has applied to both postgraduate and undergraduate courses' do
       it 'sets both course_type_postgraduate and course_type_undergraduate to true' do
         application_form = create(:application_form)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         postgraduate_course_option = create(:course_option, course: create(:course, program_type: 'higher_education_programme'))
         undergraduate_course_option = create(:course_option, course: create(:course, program_type: 'teacher_degree_apprenticeship'))
         create(:application_choice, status: :awaiting_provider_decision, application_form: application_form, course_option: postgraduate_course_option)
@@ -374,10 +332,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
       context 'when one of the application choices is unsubmitted' do
         it 'does not set the course type based on the unsubmitted choice' do
           application_form = create(:application_form)
-          create(
-            :candidate_preference,
-            candidate: application_form.candidate,
-          )
+          create(:candidate_preference, application_form:)
           postgraduate_course_option = create(:course_option, course: create(:course, program_type: 'higher_education_programme'))
           undergraduate_course_option = create(:course_option, course: create(:course, program_type: 'teacher_degree_apprenticeship'))
           _submitted_postgraduate_application = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form, course_option: postgraduate_course_option)
@@ -396,10 +351,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     context 'populating subject_ids' do
       it 'sets subject_ids to the subjects of the courses' do
         application_form = create(:application_form)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         subject = create(:subject)
         course_option = create(:course_option, course: create(:course, subjects: [subject]))
         create(:application_choice, status: :awaiting_provider_decision, application_form: application_form, course_option: course_option)
@@ -413,10 +365,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
 
       it 'sets subject_ids to unique subjects of all courses' do
         application_form = create(:application_form)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         subject1 = create(:subject, id: 999991) # id set to ensure we're not picking up some other id
         subject2 = create(:subject, id: 999992) # id set to ensure we're not picking up some other id
         course_option1 = create(:course_option, course: create(:course, subjects: [subject1]))
@@ -436,10 +385,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
       context 'when one of the application choices is unsubmitted' do
         it 'does not set the subject ids based on the unsubmitted choice' do
           application_form = create(:application_form)
-          create(
-            :candidate_preference,
-            candidate: application_form.candidate,
-          )
+          create(:candidate_preference, application_form:)
           subject1 = create(:subject, id: 999991) # id set to ensure we're not picking up some other id
           subject2 = create(:subject, id: 999992) # id set to ensure we're not picking up some other id
           course_option1 = create(:course_option, course: create(:course, subjects: [subject1]))
@@ -461,10 +407,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         application_form = create(:application_form, :completed,
                                   submitted_application_choices_count: 1,
                                   right_to_work_or_study: nil)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         stub_application_forms_in_the_pool(application_form.id)
 
         described_class.new.perform
@@ -479,10 +422,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         application_form = create(:application_form, :completed,
                                   submitted_application_choices_count: 1,
                                   right_to_work_or_study: :decide_later)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         stub_application_forms_in_the_pool(application_form.id)
 
         described_class.new.perform
@@ -497,10 +437,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         application_form = create(:application_form, :completed,
                                   submitted_application_choices_count: 1,
                                   right_to_work_or_study: :no)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         stub_application_forms_in_the_pool(application_form.id)
 
         described_class.new.perform
@@ -517,10 +454,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
                                     submitted_application_choices_count: 1,
                                     right_to_work_or_study: :yes,
                                     immigration_status: 'student_visa')
-          create(
-            :candidate_preference,
-            candidate: application_form.candidate,
-          )
+          create(:candidate_preference, application_form:)
           stub_application_forms_in_the_pool(application_form.id)
 
           described_class.new.perform
@@ -536,10 +470,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
                                     submitted_application_choices_count: 1,
                                     right_to_work_or_study: :yes,
                                     immigration_status: 'skilled_worker_visa')
-          create(
-            :candidate_preference,
-            candidate: application_form.candidate,
-          )
+          create(:candidate_preference, application_form:)
           stub_application_forms_in_the_pool(application_form.id)
 
           described_class.new.perform
@@ -555,10 +486,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
                                     submitted_application_choices_count: 1,
                                     right_to_work_or_study: :yes,
                                     immigration_status: 'eu_settled')
-          create(
-            :candidate_preference,
-            candidate: application_form.candidate,
-          )
+          create(:candidate_preference, application_form:)
           stub_application_forms_in_the_pool(application_form.id)
 
           described_class.new.perform
@@ -572,10 +500,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
     context 'rejected_provider_ids' do
       it 'sets to [] when there are no rejections' do
         application_form = create(:application_form, :completed, submitted_application_choices_count: 1)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         stub_application_forms_in_the_pool(application_form.id)
 
         expect(application_form.application_choices.rejected).to eq []
@@ -588,10 +513,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
 
       it 'does not include provider ids from choices with other statuses' do
         application_form = create(:application_form, :completed)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         rejected_choice = create(:application_choice, :rejected, application_form:)
         another_reject_choice = create(:application_choice, :rejected, application_form:)
         create(:application_choice, :withdrawn, application_form:)
@@ -611,10 +533,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         second_rejected_course = create(:course, provider:)
 
         application_form = create(:application_form, :completed)
-        create(
-          :candidate_preference,
-          candidate: application_form.candidate,
-        )
+        create(:candidate_preference, application_form:)
         create(:application_choice, :rejected, application_form:, course_option: build(:course_option, course: first_rejected_course))
         create(:application_choice, :rejected, application_form:, course_option: build(:course_option, course: second_rejected_course))
 
@@ -643,7 +562,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         )
         create(
           :candidate_preference,
-          candidate: application_form.candidate,
+          application_form:,
           funding_type: 'fee',
         )
 
@@ -673,12 +592,12 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         )
         create(
           :candidate_preference,
-          candidate: application_form.candidate,
+          application_form:,
           funding_type: nil,
         )
         create(
           :candidate_preference,
-          candidate: application_form.candidate,
+          application_form:,
           funding_type: 'fee',
         )
 
@@ -713,7 +632,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         )
         create(
           :candidate_preference,
-          candidate: application_form.candidate,
+          application_form:,
           funding_type: nil,
         )
 
@@ -748,7 +667,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         )
         create(
           :candidate_preference,
-          candidate: application_form.candidate,
+          application_form:,
           funding_type: 'salary',
         )
 
@@ -778,7 +697,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         )
         create(
           :candidate_preference,
-          candidate: application_form.candidate,
+          application_form:,
           funding_type: nil,
         )
 

@@ -11,8 +11,6 @@ RSpec.describe Candidate do
     it { is_expected.to have_many(:sessions) }
     it { is_expected.to have_many(:session_errors) }
     it { is_expected.to have_many(:pool_invites).dependent(:destroy) }
-    it { is_expected.to have_many(:preferences).dependent(:destroy) }
-    it { is_expected.to have_many(:published_preferences).conditions(status: 'published').dependent(:destroy) }
     it { is_expected.to have_one(:one_login_auth).dependent(:destroy) }
     it { is_expected.to have_one(:account_recovery_request).dependent(:destroy) }
   end
@@ -101,8 +99,6 @@ RSpec.describe Candidate do
       application_work_history_break = create(:application_work_history_break, breakable: application_form)
       application_qualification = create(:application_qualification, application_form:)
       application_reference = create(:reference, application_form:)
-      preference = create(:candidate_preference, candidate:)
-      location_preference = create(:candidate_location_preference, candidate_preference: preference)
 
       candidate.delete
 
@@ -114,8 +110,6 @@ RSpec.describe Candidate do
       expect { application_work_history_break.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { application_qualification.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { application_reference.reload }.to raise_error(ActiveRecord::RecordNotFound)
-      expect { preference.reload }.to raise_error(ActiveRecord::RecordNotFound)
-      expect { location_preference.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
