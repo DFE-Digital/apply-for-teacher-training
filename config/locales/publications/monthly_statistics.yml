@@ -5,5 +5,5 @@ en:
         title: Initial teacher training application reports
         heading: Initial teacher training application reports
         body: >
-          These reports contain data collected during the %{current_year_range} recruitment cycle for applications in the academic year starting in %{current_year_academic_start_month}.
-          Statistics covering the %{previous_year_range} recruitment cycle, for courses starting in the %{previous_academic_year_range} are also included to allow for comparison.
+          These reports contain data collected during the %{current_year_range} recruitment cycle for courses starting in the academic year starting in %{current_year_academic_start_month}.
+          Statistics covering the %{previous_year_range} recruitment cycle, for courses starting in the %{previous_academic_year_range} academic year are also included to allow for comparison.
