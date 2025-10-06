@@ -30,6 +30,7 @@ RSpec.describe 'Monthly statistics page' do
 
     scenario 'User can download a CSV from the monthly statistics page' do
       given_i_visit_the_monthly_statistics_page
+      and_i_navigate_to_the_sept_report
       and_i_see_the_monthly_statistics
       when_i_click_a_link
       then_a_csv_downloads
@@ -38,6 +39,9 @@ RSpec.describe 'Monthly statistics page' do
 
   def given_i_visit_the_monthly_statistics_page
     visit '/publications/monthly-statistics'
+  end
+
+  def and_i_navigate_to_the_sept_report
     click_on 'September 2023'
   end
 
