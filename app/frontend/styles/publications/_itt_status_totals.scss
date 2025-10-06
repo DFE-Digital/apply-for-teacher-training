@@ -11,6 +11,10 @@
     color: govuk-colour("blue");
   }
 
+  &__count-data {
+    margin-left: 0;
+  }
+
   &--grey {
     background-color: $app-grey;
   }

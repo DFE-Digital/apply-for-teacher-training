@@ -61,16 +61,17 @@ RSpec.describe 'V2 Monthly Statistics', time: Time.zone.local(2023, 11, 29) do
         FeatureFlag.deactivate(:monthly_statistics_redirected)
       end
 
-      it 'renders the latest report for current time' do
+      it 'renders a list of reports and next expected generation date' do
         get '/publications/monthly-statistics'
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include('This report contains data collected during the 2023 to 2024 recruitment cycle for applications in the academic year starting in September 2024.')
+        expect(response.body).to include('These reports contain data collected during the 2023 to 2024 recruitment cycle for courses starting in the academic year starting in September 2024. Statistics covering the 2022 to 2023 recruitment cycle, for courses starting in the 2023 to 2024 academic year are also included to allow for comparison.')
+        expect(response.body).to include('Expected 25 December 2023')
       end
 
       it 'renders the latest report for 2024' do
         get '/publications/monthly-statistics/ITT2024'
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include('This report contains data collected during the 2023 to 2024 recruitment cycle for applications in the academic year starting in September 2024.')
+        expect(response.body).to include('This report contains data collected during the 2023 to 2024 recruitment cycle for courses starting in the academic year starting in September 2024.')
       end
 
       it 'renders 404 for future cycles' do
@@ -81,7 +82,7 @@ RSpec.describe 'V2 Monthly Statistics', time: Time.zone.local(2023, 11, 29) do
       it 'renders the report for 2023-11' do
         get '/publications/monthly-statistics/2023-11'
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include('This report contains data collected during the 2023 to 2024 recruitment cycle for applications in the academic year starting in September 2024.')
+        expect(response.body).to include('This report contains data collected during the 2023 to 2024 recruitment cycle for courses starting in the academic year starting in September 2024.')
       end
 
       it 'returns application by age group csv for 2023-11' do

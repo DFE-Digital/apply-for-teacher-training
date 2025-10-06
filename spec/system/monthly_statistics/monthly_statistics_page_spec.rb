@@ -30,6 +30,7 @@ RSpec.describe 'Monthly statistics page' do
 
     scenario 'User can download a CSV from the monthly statistics page' do
       given_i_visit_the_monthly_statistics_page
+      and_i_navigate_to_the_sept_report
       and_i_see_the_monthly_statistics
       when_i_click_a_link
       then_a_csv_downloads
@@ -40,12 +41,16 @@ RSpec.describe 'Monthly statistics page' do
     visit '/publications/monthly-statistics'
   end
 
+  def and_i_navigate_to_the_sept_report
+    click_on 'September 2023'
+  end
+
   def then_i_am_redirected_to_the_temporarily_unavailable_page
     expect(page).to have_current_path('/publications/monthly-statistics/temporarily-unavailable')
   end
 
   def and_i_see_the_monthly_statistics
-    expect(page).to have_content "Initial teacher training applications for courses starting in the #{current_timetable.academic_year_range_name} academic year"
+    expect(page).to have_content 'Initial teacher training application reports September 2023'
   end
 
   def when_i_click_a_link

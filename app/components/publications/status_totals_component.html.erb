@@ -1,17 +1,17 @@
 <div class="itt-status-totals itt-status-totals--grey">
   <div>
-    <h2 class="govuk-heading-m"><%= title %></h2>
+    <h3 class="govuk-heading-m"><%= title %></h3>
     <p class="govuk-body-s"><%= summary %></p>
   </div>
-  <div>
+  <dl>
     <div class="govuk-!-display-inline-block govuk-!-margin-right-9">
-      <h3 class="govuk-heading-s itt-status-totals__count-header"><%= heading_one %></h3>
-      <span class="govuk-heading-s"><%= status_total_one.to_fs(:delimited) %></span>
+      <dt class="govuk-heading-s itt-status-totals__count-header"><%= heading_one %></dt>
+      <dd class="govuk-heading-s itt-status-totals__count-data"><%= status_total_one.to_fs(:delimited) %></dd>
     </div>
 
     <div class="govuk-!-display-inline-block">
-      <h3 class="govuk-heading-s itt-status-totals__count-header"><%= heading_two %></h3>
-      <span class="govuk-heading-s"><%= status_total_two.to_fs(:delimited) %></span>
+      <dt class="govuk-heading-s itt-status-totals__count-header"><%= heading_two %></dt>
+      <dd class="govuk-heading-s itt-status-totals__count-data"><%= status_total_two.to_fs(:delimited) %></dd>
     </div>
-  </div>
+  </dl>
 </div>

@@ -1,10 +1,13 @@
 <%= content_for :title, t('page_titles.monthly_statistics', academic_year_name: @presenter.next_cycle_name) %>
+<% content_for :before_content, govuk_back_link_to(publications_monthly_reports_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-l">Statistics</span>
+    <span class="govuk-caption-l">
+      <%= t('.caption') %>
+    </span>
     <h1 class="govuk-heading-l">
-      Initial teacher training applications for courses starting in the <%= @presenter.next_cycle_name %> academic year
+      <%= @presenter.generation_date.to_fs(:month_and_year) %>
     </h1>
   </div>
 </div>
@@ -12,11 +15,11 @@
   <div class="metadata-wrapper">
     <div class="govuk-grid-column-two-thirds metadata-column">
       <dl class="gem-c-metadata">
-        <dt class="gem-c-metadata__term">Generated</dt>
-        <dd class="gem-c-metadata__definition"><%= @presenter.generation_date.to_fs(:govuk_date) %></dd>
+        <dt class="gem-c-metadata__term govuk-!-font-weight-bold">Published</dt>
+        <dd class="gem-c-metadata__definition govuk-!-font-weight-bold"><%= @presenter.publication_date.to_fs(:govuk_date) %></dd>
 
-        <dt class="gem-c-metadata__term">Published</dt>
-        <dd class="gem-c-metadata__definition"><%= @presenter.publication_date.to_fs(:govuk_date) %></dd>
+        <dt class="gem-c-metadata__term secondary_text">Generated</dt>
+        <dd class="gem-c-metadata__definition secondary_text"><%= @presenter.generation_date.to_fs(:govuk_date) %></dd>
 
         <% if @presenter.current_cycle? %>
           <dt class="gem-c-metadata__term">Next update</dt>

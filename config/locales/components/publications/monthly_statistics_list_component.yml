@@ -1,0 +1,7 @@
+en:
+  publications:
+    monthly_statistics_list_component:
+      caption: '%{cycle_range_name} recruitment cycle'
+      month: Month
+      published_date: Published date
+      expected: Expected %{date}

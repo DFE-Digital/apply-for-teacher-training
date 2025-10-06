@@ -1,4 +1,5 @@
 <%= content_for :title, t('page_titles.monthly_statistics', academic_year_name: @presenter.academic_year_name) %>
+<% content_for :before_content, govuk_back_link_to(publications_monthly_reports_path) %>
 
 <% if @presenter.draft? %>
   <%= govuk_notification_banner(title_text: 'Draft report') do |notification_banner| %>
@@ -11,10 +12,24 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-l">Statistics</span>
     <h1 class="govuk-heading-l">
-      Initial teacher training applications for courses starting in the <%= @presenter.academic_year_name %> academic year
+      <span class="govuk-caption-l">
+        <%= t('.caption') %>
+      </span>
+      <%= @presenter.generation_date.to_fs(:month_and_year) %>
     </h1>
+
+    <p class="govuk-body">
+      <div class="flex-content">
+        <% if @presenter.previous_report.present? %>
+            <%= govuk_link_to(t('.view_previous'), publications_monthly_report_at_path(month: @presenter.previous_report.month)) %>
+        <% end %>
+
+        <% if @presenter.next_report.present? %>
+            <%= govuk_link_to(t('.view_next'), publications_monthly_report_at_path(month: @presenter.next_report.month)) %>
+        <% end %>
+      </div>
+    </p>
   </div>
 </div>
 
@@ -22,15 +37,15 @@
   <div class="metadata-wrapper">
     <div class="govuk-grid-column-two-thirds metadata-column">
       <dl class="gem-c-metadata">
-        <dt class="gem-c-metadata__term">Generated</dt>
-        <dd class="gem-c-metadata__definition"><%= @presenter.generation_date.to_fs(:govuk_date) %></dd>
+        <dt class="gem-c-metadata__term govuk-!-font-weight-bold">Published</dt>
+        <dd class="gem-c-metadata__definition govuk-!-font-weight-bold"><%= @presenter.publication_date.to_fs(:govuk_date) %></dd>
 
-        <dt class="gem-c-metadata__term">Published</dt>
-        <dd class="gem-c-metadata__definition"><%= @presenter.publication_date.to_fs(:govuk_date) %></dd>
+        <dt class="gem-c-metadata__term secondary_text">Generated</dt>
+        <dd class="gem-c-metadata__definition secondary_text"><%= @presenter.generation_date.to_fs(:govuk_date) %></dd>
 
         <% if @presenter.current_cycle? %>
-          <dt class="gem-c-metadata__term">Next planned update</dt>
-          <dd class="gem-c-metadata__definition"><%= @presenter.next_publication_date.to_fs(:govuk_date) %></dd>
+          <dt class="gem-c-metadata__term secondary_text">Next planned update</dt>
+          <dd class="gem-c-metadata__definition secondary_text"><%= @presenter.next_publication_date.to_fs(:govuk_date) %></dd>
         <% end %>
       </dl>
     </div>
@@ -123,7 +138,7 @@
     <h2 class="govuk-heading-l" id="introduction">1. Introduction</h2>
 
     <p class="govuk-body">
-      This report contains data collected during the <%= @presenter.current_cycle_name %> recruitment cycle for applications in the academic year starting in <%= @presenter.academic_year_start_month %>. Statistics covering the <%= @presenter.previous_cycle_name %>, for courses starting in the <%= @presenter.previous_academic_year_name %>, are also included to allow for comparison.
+      This report contains data collected during the <%= @presenter.current_cycle_name %> recruitment cycle for courses starting in the academic year starting in <%= @presenter.academic_year_start_month %>. Statistics covering the <%= @presenter.previous_cycle_name %>, for courses starting in the <%= @presenter.previous_academic_year_name %> academic year are also included to allow for comparison.
     </p>
 
     <% if @presenter.first_year_of_continuous_applications? %>
@@ -215,7 +230,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-age-group">5. Candidate area</h2>
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="applications-by-area">5. Candidate area</h2>
 
     <p class="govuk-body">This table counts all candidates by their region in the UK, or country, or other area. Candidate areas are generated from the contact address they gave when applying.</p>
   </div>
@@ -320,6 +335,18 @@
     <p class="govuk-body">
       If you have any feedback on the monthly ITT statistical reports,
       get in touch at <%= bat_contact_mail_to %>.
+    </p>
+
+    <p class="govuk-body">
+    <div class="flex-content">
+      <% if @presenter.previous_report.present? %>
+        <%= govuk_link_to(t('.view_previous'), publications_monthly_report_at_path(month: @presenter.previous_report.month)) %>
+      <% end %>
+
+      <% if @presenter.next_report.present? %>
+        <%= govuk_link_to(t('.view_next'), publications_monthly_report_at_path(month: @presenter.next_report.month)) %>
+      <% end %>
+    </div>
     </p>
   </div>
 </div>
