@@ -4,7 +4,7 @@
     <% tab_names.each do |tab_name| %>
       <li class="govuk-tabs__list-item" role="presentation">
         <%# for explanation of title attribute see app/frontend/styles/publications/_itt_data_table.scss %>
-        <a class="govuk-tabs__tab" title="<%= tab_name.to_s.humanize %>" href="#<%= dom_id(tab_name) %>" id="tab-<%= dom_id(tab_name) %>" role="tab" aria-controls="<%= tab_name %>" aria-selected="false" tabindex="-1">
+        <a class="govuk-tabs__tab" href="#<%= dom_id(tab_name) %>" id="tab-<%= dom_id(tab_name) %>" role="tab" aria-controls="<%= tab_name %>" aria-selected="false" tabindex="-1">
           <%= tab_name.to_s.humanize %>
         </a>
       </li>
