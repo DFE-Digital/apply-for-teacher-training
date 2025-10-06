@@ -46,28 +46,33 @@ RSpec.describe 'Providers views candidate pool details' do
 
   def and_there_are_candidates_for_candidate_pool
     @rejected_candidate = create(:candidate)
-    create(:candidate_preference, candidate: @rejected_candidate)
-    @rejected_candidate_form = create(
-      :application_form,
-      :completed,
-      first_name: 'Rejected',
-      last_name: 'Candidate',
-      candidate: @rejected_candidate,
-      submitted_at: 1.day.ago,
+    preference = create(
+      :candidate_preference,
+      application_form: create(
+        :application_form,
+        :completed,
+        first_name: 'Rejected',
+        last_name: 'Candidate',
+        candidate: @rejected_candidate,
+        submitted_at: 1.day.ago,
+      ),
     )
+    @rejected_candidate_form = preference.application_form
     create(:candidate_pool_application, application_form: @rejected_candidate_form)
 
     declined_candidate = create(:candidate)
-    create(:candidate_preference, candidate: declined_candidate)
-    @declined_candidate_form = create(
-      :application_form,
-      :completed,
-      first_name: 'Declined',
-      last_name: 'Candidate',
-      candidate: declined_candidate,
-      submitted_at: Time.zone.today,
+    preference = create(
+      :candidate_preference,
+      application_form: create(
+        :application_form,
+        :completed,
+        first_name: 'Declined',
+        last_name: 'Candidate',
+        candidate: declined_candidate,
+        submitted_at: Time.zone.today,
+      ),
     )
-    create(:candidate_pool_application, application_form: @declined_candidate_form)
+    create(:candidate_pool_application, application_form: preference.application_form)
 
     _previous_cycle_form = create(
       :application_form,

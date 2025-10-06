@@ -32,16 +32,18 @@ RSpec.describe 'Provider shares candiate profile' do
 
   def and_there_are_candidates_for_candidate_pool
     @rejected_candidate = create(:candidate)
-    create(:candidate_preference, candidate: @rejected_candidate)
-    @rejected_candidate_form = create(
-      :application_form,
-      :completed,
-      first_name: 'Rejected',
-      last_name: 'Candidate',
-      candidate: @rejected_candidate,
-      submitted_at: 1.day.ago,
+    preference = create(
+      :candidate_preference,
+      application_form: create(
+        :application_form,
+        :completed,
+        first_name: 'Rejected',
+        last_name: 'Candidate',
+        candidate: @rejected_candidate,
+        submitted_at: 1.day.ago,
+      ),
     )
-    create(:candidate_pool_application, application_form: @rejected_candidate_form)
+    create(:candidate_pool_application, application_form: preference.application_form)
   end
 
   def when_i_visit_the_find_candidates_page

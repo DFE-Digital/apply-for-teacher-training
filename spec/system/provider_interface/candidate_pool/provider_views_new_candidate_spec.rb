@@ -39,28 +39,30 @@ private
   end
 
   def and_there_are_candidates_for_candidate_pool
-    @rejected_candidate = create(:candidate)
-    create(:candidate_preference, candidate: @rejected_candidate)
-    @rejected_candidate_form = create(
-      :application_form,
-      :completed,
-      first_name: 'Rejected',
-      last_name: 'Candidate',
-      candidate: @rejected_candidate,
-      submitted_at: 1.day.ago,
+    rejected_candidate_preference = create(
+      :candidate_preference,
+      application_form: create(
+        :application_form,
+        :completed,
+        first_name: 'Rejected',
+        last_name: 'Candidate',
+        submitted_at: 1.day.ago,
+      ),
     )
+    @rejected_candidate_form = rejected_candidate_preference.application_form
     create(:candidate_pool_application, application_form: @rejected_candidate_form)
 
-    declined_candidate = create(:candidate)
-    create(:candidate_preference, candidate: declined_candidate)
-    @declined_candidate_form = create(
-      :application_form,
-      :completed,
-      first_name: 'Declined',
-      last_name: 'Candidate',
-      candidate: declined_candidate,
-      submitted_at: Time.zone.today,
+    declined_candidate_preference = create(
+      :candidate_preference,
+      application_form: create(
+        :application_form,
+        :completed,
+        first_name: 'Declined',
+        last_name: 'Candidate',
+        submitted_at: Time.zone.today,
+      ),
     )
+    @declined_candidate_form = declined_candidate_preference.application_form
     create(:candidate_pool_application, application_form: @declined_candidate_form)
 
     _previous_cycle_form = create(
@@ -70,7 +72,7 @@ private
       last_name: 'test',
       recruitment_cycle_year: previous_year,
       submitted_at: 1.year.ago,
-      candidate: declined_candidate,
+      candidate: @declined_candidate_form.candidate,
     )
   end
 

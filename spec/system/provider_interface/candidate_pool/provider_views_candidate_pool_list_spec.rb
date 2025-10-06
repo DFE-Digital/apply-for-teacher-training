@@ -86,13 +86,17 @@ RSpec.describe 'Providers views candidate pool list' do
 
   def set_declined_candidate_form
     declined_candidate = create(:candidate)
-    create(:candidate_preference, :anywhere_in_england, candidate: declined_candidate)
-    @declined_candidate_form = create(
-      :application_form,
-      :completed,
-      candidate: declined_candidate,
-      submitted_at: Time.zone.today,
+    candidate_preference = create(
+      :candidate_preference,
+      :anywhere_in_england,
+      application_form: create(
+        :application_form,
+        :completed,
+        candidate: declined_candidate,
+        submitted_at: Time.zone.today,
+      ),
     )
+    @declined_candidate_form = candidate_preference.application_form
     create(
       :candidate_pool_application,
       application_form: @declined_candidate_form,
@@ -102,28 +106,34 @@ RSpec.describe 'Providers views candidate pool list' do
 
   def set_rejected_candidate_form
     rejected_candidate = create(:candidate)
-    candidate_preference = create(:candidate_preference, candidate: rejected_candidate)
-    create(:candidate_location_preference, :manchester, candidate_preference:)
-    @rejected_candidate_form = create(
-      :application_form,
-      :completed,
-      candidate: rejected_candidate,
-      submitted_at: 1.day.ago,
+    candidate_preference = create(
+      :candidate_preference,
+      application_form: create(
+        :application_form,
+        :completed,
+        candidate: rejected_candidate,
+        submitted_at: 1.day.ago,
+      ),
     )
+    create(:candidate_location_preference, :manchester, candidate_preference:)
+    @rejected_candidate_form = candidate_preference.application_form
     create(:candidate_pool_application, application_form: @rejected_candidate_form)
   end
 
   def set_visa_sponsorship_candidate_form
     visa_sponsorship_candidate = create(:candidate)
-    candidate_preference = create(:candidate_preference, candidate: visa_sponsorship_candidate)
-    create(:candidate_location_preference, :manchester, candidate_preference:)
-    @visa_sponsorship_form = create(
-      :application_form,
-      :completed,
-      candidate: visa_sponsorship_candidate,
-      submitted_at: 6.hours.ago,
-      right_to_work_or_study: :no,
+    candidate_preference = create(
+      :candidate_preference,
+      application_form: create(
+        :application_form,
+        :completed,
+        candidate: visa_sponsorship_candidate,
+        submitted_at: 6.hours.ago,
+        right_to_work_or_study: :no,
+      ),
     )
+    create(:candidate_location_preference, :manchester, candidate_preference:)
+    @visa_sponsorship_form = candidate_preference.application_form
     create(
       :candidate_pool_application,
       application_form: @visa_sponsorship_form,
