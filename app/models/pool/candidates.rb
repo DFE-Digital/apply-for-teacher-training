@@ -40,11 +40,9 @@ class Pool::Candidates
   end
 
   def application_forms_in_the_pool
-    opted_in_candidates = Candidate.joins(:published_preferences).where(published_preferences: { pool_status: 'opt_in' }).select(:id)
-
     curated_application_forms.joins(:candidate)
+      .joins(:published_opt_in_preferences)
       .where(candidate: { submission_blocked: false, account_locked: false })
-      .where(candidate: opted_in_candidates)
       .distinct
   end
 
