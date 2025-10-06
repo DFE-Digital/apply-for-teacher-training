@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
       it 'renders the component' do
         application_form = create(:application_form, :with_accepted_offer)
 
-        component = described_class.new(current_candidate: application_form.candidate, application_form:)
+        component = described_class.new(application_form:)
         result = render_inline(component)
 
         expect(result.to_html).not_to be_blank
@@ -19,7 +19,7 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
       it 'renders the component' do
         application_form = create(:application_form)
 
-        component = described_class.new(current_candidate: application_form.candidate, application_form:)
+        component = described_class.new(application_form:)
         result = render_inline(component)
 
         expect(result.to_html).to be_blank
@@ -69,46 +69,40 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
 
   describe '#pool_opt_in?' do
     it 'returns true when candidate has opted in' do
-      candidate = create(:candidate)
-      _preference = create(
+      preference = create(
         :candidate_preference,
         pool_status: 'opt_in',
         status: 'published',
-        candidate:,
+        application_form: create(:application_form),
       )
-      application_form = build(:application_form)
 
-      component = described_class.new(current_candidate: candidate, application_form:)
+      component = described_class.new(application_form: preference.application_form)
       expect(component.pool_opt_in?).to be true
     end
 
     it 'returns false when candidate has opted out' do
-      candidate = create(:candidate)
-      _preference = create(
+      preference = create(
         :candidate_preference,
         pool_status: 'opt_out',
         status: 'published',
-        candidate:,
+        application_form: create(:application_form),
       )
-      application_form = build(:application_form)
 
-      component = described_class.new(current_candidate: candidate, application_form:)
+      component = described_class.new(application_form: preference.application_form)
       expect(component.pool_opt_in?).to be false
     end
   end
 
   describe '#path_to_change_preferences' do
     it 'returns the published show path if the candidate has a published preference' do
-      candidate = create(:candidate)
       preference = create(
         :candidate_preference,
         status: 'published',
-        candidate:,
+        application_form: create(:application_form, :with_accepted_offer),
       )
-      application_form = create(:application_form, :with_accepted_offer)
 
       render_inline(
-        described_class.new(current_candidate: candidate, application_form:),
+        described_class.new(application_form: preference.application_form),
       )
 
       expect(page).to have_link(
@@ -118,16 +112,14 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
     end
 
     it 'returns the new opt in path if the candidate does not have a published preference' do
-      candidate = create(:candidate)
-      _preference = create(
+      preference = create(
         :candidate_preference,
         status: 'draft',
-        candidate:,
+        application_form: create(:application_form, :with_accepted_offer),
       )
-      application_form = create(:application_form, :with_accepted_offer)
 
       render_inline(
-        described_class.new(current_candidate: candidate, application_form:),
+        described_class.new(application_form: preference.application_form),
       )
 
       expect(page).to have_link(
@@ -137,17 +129,15 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
     end
 
     it 'returns the edit opt in path if the published preference is opted out' do
-      candidate = create(:candidate)
       preference = create(
         :candidate_preference,
         status: 'published',
         pool_status: 'opt_out',
-        candidate:,
+        application_form: create(:application_form, :with_accepted_offer),
       )
-      application_form = create(:application_form, :with_accepted_offer)
 
       render_inline(
-        described_class.new(current_candidate: candidate, application_form:),
+        described_class.new(application_form: preference.application_form),
       )
 
       expect(page).to have_link(
