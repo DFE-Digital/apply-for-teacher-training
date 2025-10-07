@@ -5,7 +5,11 @@ module CandidateInterface
     before_action :set_back_path, only: %i[edit update]
     before_action :redirect_to_root_path_if_submitted_applications
 
-    def show; end
+    def show
+      if current_application.published_preference.nil? || current_application.published_preference.opt_out?
+        redirect_to candidate_interface_invites_path
+      end
+    end
 
     def new
       @back_path = if just_submitted?
