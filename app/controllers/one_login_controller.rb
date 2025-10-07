@@ -30,6 +30,7 @@ class OneLoginController < ApplicationController
 
       redirect_to auth_one_login_sign_out_path
     else
+      Sentry.capture_exception(e)
       redirect_to internal_server_error_path
     end
   end

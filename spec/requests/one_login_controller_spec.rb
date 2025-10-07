@@ -53,8 +53,10 @@ RSpec.describe 'OneLoginController' do
       let(:omniauth_hash) { nil }
 
       it 'redirects to internal_server_error' do
+        allow(Sentry).to receive(:capture_exception)
         get auth_one_login_callback_path
 
+        expect(Sentry).to have_received(:capture_exception)
         expect(response).to redirect_to internal_server_error_path
       end
     end
