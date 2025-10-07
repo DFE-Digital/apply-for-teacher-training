@@ -51,7 +51,7 @@ module CandidateInterface
       CandidateInterface::SubmitApplicationChoice.new(@application_choice).call
       flash[:success] = t('application_form.submit_application_success.title')
 
-      if current_candidate.published_preferences.blank?
+      if current_application.published_preferences.blank?
         redirect_to new_candidate_interface_pool_opt_in_path(submit_application: true)
       else
         redirect_to candidate_interface_application_choices_path
