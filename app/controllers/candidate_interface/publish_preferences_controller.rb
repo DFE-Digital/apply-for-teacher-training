@@ -17,6 +17,8 @@ module CandidateInterface
         end
         current_candidate.published_preferences.where.not(id: @preference.id).destroy_all
         current_candidate.duplicated_preferences.where.not(id: @preference.id).destroy_all
+      end
+      if @preference.reload.published?
         PreferencesEmail.call(preference: @preference)
       end
 
