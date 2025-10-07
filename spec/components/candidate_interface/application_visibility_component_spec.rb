@@ -2,19 +2,9 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :component do
   describe '#render?' do
-    before { FeatureFlag.activate(:candidate_preferences) }
-
     let(:application_form) { create(:application_form) }
 
     subject(:component) { described_class.new(application_form:) }
-
-    context 'when feature flag is off' do
-      before { FeatureFlag.deactivate(:candidate_preferences) }
-
-      it 'returns false' do
-        expect(component.render?).to be false
-      end
-    end
 
     context 'when application has not been submitted' do
       before { allow(application_form).to receive(:submitted_applications?).and_return(false) }
@@ -166,7 +156,6 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
 
   describe '#waiting_for_provider_decision?' do
     it 'displays opted in but not visible to providers if the application form is opted in and has choices awaiting decision' do
-      FeatureFlag.activate(:candidate_preferences)
       application_form = create(:application_form)
       _preference = create(
         :candidate_preference,
@@ -183,7 +172,6 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
     end
 
     it 'displays opted in but not visible to providers if the application form is opted in and has choices with a status of interviewing' do
-      FeatureFlag.activate(:candidate_preferences)
       application_form = create(:application_form)
       _preference = create(
         :candidate_preference,
@@ -202,7 +190,6 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
 
   describe '#offer?' do
     it 'displays opted in but not visible to providers if the application form is opted in and has an offer' do
-      FeatureFlag.activate(:candidate_preferences)
       application_form = create(:application_form)
       _preference = create(
         :candidate_preference,
@@ -221,7 +208,6 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
 
   describe '#visible_to_providers?' do
     it 'displays opted in and visible if the candidate is in the pool' do
-      FeatureFlag.activate(:candidate_preferences)
       application_form = create(:application_form)
       _preference = create(
         :candidate_preference,
@@ -242,7 +228,6 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
   describe '#application_form.withdrawn_no_longer_training?' do
     context 'when application has a withdrawn choice with reason of not training to teach anymore' do
       it 'renders the withdrawn_no_longer_training content' do
-        FeatureFlag.activate(:candidate_preferences)
         application_form = create(:application_form)
         _preference = create(
           :candidate_preference,

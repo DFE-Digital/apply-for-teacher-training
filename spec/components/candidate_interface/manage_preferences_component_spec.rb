@@ -28,7 +28,6 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
 
     context 'when application is withdrawn and no longer training to teach' do
       it 'does not render the Change link' do
-        FeatureFlag.activate(:candidate_preferences)
         candidate = create(:candidate)
         _preference = create(
           :candidate_preference,
@@ -49,7 +48,6 @@ RSpec.describe CandidateInterface::ManagePreferencesComponent, type: :component 
 
     context 'when application is withdrawn but still training to teach' do
       it 'renders the Change link' do
-        FeatureFlag.activate(:candidate_preferences)
         candidate = create(:candidate)
         _preference = create(
           :candidate_preference,
