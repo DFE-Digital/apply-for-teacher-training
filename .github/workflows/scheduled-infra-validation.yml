@@ -1,0 +1,42 @@
+name: Scheduled Infrastructure Validation
+
+# This workflow validates infrastructure for drift detection
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC (3 AM BST / 2 AM GMT)
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to validate"
+        required: false
+        default: "production"
+        type: choice
+        options:
+          - qa
+          - staging
+          - sandbox
+          - production
+
+jobs:
+  validate:
+    name: Validate ${{ github.event_name == 'schedule' && 'Production' || inputs.environment }} Infrastructure
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.event_name == 'schedule' && 'production' || inputs.environment }}
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Validate infrastructure
+        id: validate
+        uses: DFE-Digital/github-actions/validate-infra@2462-spike-scheduled-terraform-plan-validation
+        with:
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          environment: ${{ github.event_name == 'schedule' && 'production' || inputs.environment }}
+          terraform-base: terraform/aks
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
