@@ -18,7 +18,7 @@ module CandidateInterface
         current_candidate.published_preferences.where.not(id: @preference.id).destroy_all
         current_candidate.duplicated_preferences.where.not(id: @preference.id).destroy_all
       end
-      PreferencesEmail.call(preference: @preference)
+      PreferencesEmail.call(preference: @preference.reload)
 
       flash[:success] = t('.success_opt_out') if @preference.opt_out?
 
