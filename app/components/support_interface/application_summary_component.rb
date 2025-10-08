@@ -185,9 +185,9 @@ module SupportInterface
         key: 'Find a Candidate opt-in status',
         value: if application_form_in_the_pool?
                  t('.findable')
-               elsif candidate.published_opt_in_preferences.present?
+               elsif application_form.published_opt_in_preferences.present?
                  t('.opted_in')
-               elsif candidate.published_preferences.last&.opt_out?
+               elsif application_form.published_preferences.last&.opt_out?
                  t('.opted_out')
                else
                  t('.no_status')
@@ -196,9 +196,9 @@ module SupportInterface
     end
 
     def find_a_candidate_location_preferences_row
-      return if candidate.published_opt_in_preferences.blank?
+      return if @application_form.published_opt_in_preferences.blank?
 
-      location_preferences = candidate.published_opt_in_location_preferences
+      location_preferences = @application_form.published_opt_in_location_preferences
       decorated_preferences = location_preferences.map { |location| LocationPreferenceDecorator.new(location) }
 
       value =

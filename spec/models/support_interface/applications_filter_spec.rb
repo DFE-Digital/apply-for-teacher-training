@@ -10,10 +10,9 @@ RSpec.describe SupportInterface::ApplicationsFilter do
   end
 
   let(:application_form_with_opt_out_status) do
-    candidate = create(:candidate)
-    application_form = create(:completed_application_form, candidate:)
+    application_form = create(:completed_application_form)
 
-    create(:candidate_preference, pool_status: 'opt_out', status: 'published', candidate:)
+    create(:candidate_preference, pool_status: 'opt_out', status: 'published', application_form:)
     create(:application_choice, application_form:)
 
     application_form

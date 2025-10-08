@@ -15,7 +15,7 @@ module CandidateInterface
                      candidate_interface_invites_path
                    end
       @submit_params = { submit_application: just_submitted? }.compact_blank
-      @preference_form = PoolOptInsForm.new(current_candidate:)
+      @preference_form = PoolOptInsForm.new(current_application:)
     end
 
     def edit
@@ -24,14 +24,14 @@ module CandidateInterface
       end
 
       @preference_form = PoolOptInsForm.build_from_preference(
-        current_candidate:,
+        current_application:,
         preference: @preference,
       )
     end
 
     def create
       @preference_form = PoolOptInsForm.new(
-        current_candidate:,
+        current_application:,
         params: request_params,
       )
 
@@ -58,7 +58,7 @@ module CandidateInterface
 
     def update
       @preference_form = PoolOptInsForm.new(
-        current_candidate:,
+        current_application:,
         preference: @preference,
         params: request_params,
       )
@@ -92,7 +92,7 @@ module CandidateInterface
     end
 
     def set_preference
-      @preference = current_candidate.preferences.find_by(id: params[:id])
+      @preference = current_application.preferences.find_by(id: params[:id])
 
       if @preference.blank?
         redirect_to candidate_interface_invites_path

@@ -15,15 +15,42 @@ RSpec.describe ProviderInterface::CandidateInvitesFilter do
   end
 
   let(:opted_out_preference) { create(:candidate_preference, pool_status: 'opt_out') }
-  let(:opt_out_form) { create(:application_form, candidate: opted_out_preference.candidate) }
-  let(:invite_with_opted_out_candidate) { create(:pool_invite, :sent_to_candidate, course: build(:course, provider:), application_form: opt_out_form) }
+  let(:invite_with_opted_out_candidate) do
+    create(
+      :pool_invite,
+      :sent_to_candidate,
+      course: build(:course, provider:),
+      application_form: opted_out_preference.application_form,
+    )
+  end
 
   let(:opted_in_preference) { create(:candidate_preference, :anywhere_in_england, pool_status: 'opt_in') }
-  let(:opt_in_form) { create(:application_form, candidate: opted_in_preference.candidate) }
-  let(:invite_with_candidate_in_pool) { create(:pool_invite, :sent_to_candidate, application_form: opt_in_form, course: build(:course, provider:)) }
-  let(:second_invite_with_candidate_in_pool) { create(:pool_invite, :sent_to_candidate, application_form: opt_in_form, course: build(:course, provider:)) }
+  let(:invite_with_candidate_in_pool) do
+    create(
+      :pool_invite,
+      :sent_to_candidate,
+      application_form: opted_out_preference.application_form,
+      course: build(:course, provider:),
+    )
+  end
+  let(:second_invite_with_candidate_in_pool) do
+    create(
+      :pool_invite,
+      :sent_to_candidate,
+      application_form: opted_in_preference.application_form,
+      course: build(:course, provider:),
+    )
+  end
 
-  let(:declined_invite) { create(:pool_invite, :sent_to_candidate, application_form: opt_in_form, course: build(:course, provider:), candidate_decision: 'declined') }
+  let(:declined_invite) do
+    create(
+      :pool_invite,
+      :sent_to_candidate,
+      application_form: opted_in_preference.application_form,
+      course: build(:course, provider:),
+      candidate_decision: 'declined',
+    )
+  end
 
   let(:provider_user) { create(:provider_user, provider_ids: [provider.id]) }
 

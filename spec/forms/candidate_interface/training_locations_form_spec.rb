@@ -30,15 +30,19 @@ module CandidateInterface
 
       context 'when training_locations is specific' do
         let(:training_locations) { 'specific' }
+        let(:preference) do
+          create(
+            :candidate_preference,
+            application_form: create(
+              :application_form,
+              :completed,
+              submitted_application_choices_count: 1,
+            ),
+            training_locations: nil,
+          )
+        end
 
         it 'updates a preference with training_locations' do
-          create(
-            :application_form,
-            :completed,
-            candidate: preference.candidate,
-            submitted_application_choices_count: 1,
-          )
-
           expect { form.save! }.to change(preference, :training_locations).from(nil).to('specific')
             .and change(preference.location_preferences, :count).from(0).to(1)
         end

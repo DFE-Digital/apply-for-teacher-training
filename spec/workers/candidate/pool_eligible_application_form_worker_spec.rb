@@ -5,9 +5,8 @@ RSpec.describe Candidate::PoolEligibleApplicationFormWorker do
     let(:worker) { described_class.new.perform }
 
     it 'creates PoolEligibleApplicationForm records' do
-      rejected_candidate = create(:candidate)
-      rejected_candidate_form = create(:application_form, :completed, candidate: rejected_candidate)
-      create(:candidate_preference, candidate: rejected_candidate)
+      rejected_candidate_form = create(:application_form, :completed)
+      create(:candidate_preference, application_form: rejected_candidate_form)
       create(:application_choice, :rejected, application_form: rejected_candidate_form)
 
       expect { worker }.to change(PoolEligibleApplicationForm, :count).by(1)

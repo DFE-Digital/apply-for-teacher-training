@@ -44,7 +44,7 @@ module CandidateInterface
     end
 
     def set_preference
-      @preference = current_candidate.preferences.find_by(id: params[:id])
+      @preference = current_application.preferences.find_by(id: params[:id])
 
       if @preference.blank?
         redirect_to candidate_interface_invites_path

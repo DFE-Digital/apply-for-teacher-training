@@ -110,17 +110,17 @@ RSpec.describe 'Candidate edits published preference' do
   def given_i_am_signed_in(funding_type: 'fee')
     given_i_am_signed_in_with_one_login
 
+    @application_form = @current_candidate.current_application
     course = create(:course, provider:, funding_type:)
     @choice = create(
       :application_choice,
       :awaiting_provider_decision,
-      application_form: @current_candidate.current_application,
+      application_form: @application_form,
       course_option: create(:course_option, course:),
     )
     @existing_candidate_preference = create(
       :candidate_preference,
-      candidate: @current_candidate,
-      application_form: @current_candidate.current_application,
+      application_form: @application_form,
       status: 'published',
       training_locations: 'specific',
       dynamic_location_preferences: true,
@@ -172,11 +172,11 @@ RSpec.describe 'Candidate edits published preference' do
   end
 
   def and_the_candidate_preference_id_is_changed
-    expect(@current_candidate.published_preferences.last).not_to eq(@existing_candidate_preference)
+    expect(@application_form.published_preferences.last).not_to eq(@existing_candidate_preference)
   end
 
   def and_there_are_no_location_preferences
-    expect(@current_candidate.published_preferences.last.location_preferences).to eq []
+    expect(@application_form.published_preferences.last.location_preferences).to eq []
   end
 
   def when_i_navigate_to_dynamic_locations
@@ -205,7 +205,7 @@ RSpec.describe 'Candidate edits published preference' do
   end
 
   def and_only_interested_in_salary_courses
-    @current_candidate.published_preferences.last.funding_type == 'salary'
+    @application_form.published_preferences.last.funding_type == 'salary'
   end
 
   def and_candidate_preference_funding_type_is_nil

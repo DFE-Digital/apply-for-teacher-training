@@ -42,13 +42,13 @@ module SupportInterface
 
       if applied_filters[:opt_in_status]&.include?('opt_in')
         application_forms = application_forms
-          .joins(candidate: :published_opt_in_preferences)
+          .joins(:published_opt_in_preferences)
           .where.missing(:candidate_pool_application)
       end
 
       if applied_filters[:opt_in_status]&.include?('opt_out')
         application_forms = application_forms
-          .joins(candidate: :published_preferences)
+          .joins(:published_preferences)
           .where(published_preferences: { pool_status: 'opt_out' })
       end
 

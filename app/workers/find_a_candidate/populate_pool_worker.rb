@@ -11,7 +11,7 @@ class FindACandidate::PopulatePoolWorker
 
       applications = application_forms_eligible_for_pool
                        .joins(application_choices: { course_option: { course: :subjects } })
-                       .joins(candidate: :published_opt_in_preferences)
+                       .joins(:published_opt_in_preferences)
                        .left_joins(:not_responded_published_invites)
                        .where.not(application_choices: { status: 'unsubmitted' })
                        .select(
