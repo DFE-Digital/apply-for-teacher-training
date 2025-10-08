@@ -32,7 +32,9 @@ module CandidateInterface
         when :course_site
           available_course_options.find(current_step.course_option_id)
         else
-          available_course_options.first
+          available_course_options.find do |course_option|
+            course_option.site.main_site?
+          end.presence || available_course_options.first
         end
       end
 
