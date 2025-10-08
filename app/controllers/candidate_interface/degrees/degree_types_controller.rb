@@ -6,6 +6,8 @@ module CandidateInterface
         @form = Degrees::TypeForm.new(degree_store, degree_attrs)
 
         @form.save_state!
+
+        next_step! if @form.skips_type_step?
       end
 
       def update
