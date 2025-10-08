@@ -3,6 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+
     <%= form_with(
           model: @dynamic_location_preferences_form,
           url: candidate_interface_draft_preference_dynamic_location_preferences_path(
@@ -13,9 +14,18 @@
         ) do |f| %>
       <%= f.govuk_error_summary %>
 
+      <% content_for(:fieldset_legend) do %>
+        <h1 class="govuk-heading-l">
+          <span class="govuk-caption-l">
+            <%= t('.caption') %>
+          </span>
+          <%= t('.title') %>
+        </h1>
+      <% end %>
+
       <%= f.govuk_radio_buttons_fieldset(
           :dynamic_location_preferences,
-          legend: { text: t('.title'), size: 'l' },
+          legend: -> { content_for(:fieldset_legend) },
           hint: { text: t('.hint') },
         ) do %>
         <%= f.govuk_radio_button :dynamic_location_preferences, true, label: { text: 'Yes' }, link_errors: true %>

@@ -3,6 +3,12 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-l"><%= t('.caption') %></span>
+    <h1 class="govuk-heading-l"><%= t('.header') %></h1>
+
+    <span class="govuk-body"><%= t('.body_html') %></span>
+
     <%= render 'form', preference_form: @preference_form, url: candidate_interface_pool_opt_ins_path(**@submit_params), method: :post %>
   </div>
 </div>

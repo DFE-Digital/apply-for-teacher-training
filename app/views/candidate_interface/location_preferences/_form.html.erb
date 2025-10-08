@@ -1,6 +1,7 @@
 <%= form_with model: location_preference_form, url:, method: do |f| %>
   <%= f.govuk_error_summary %>
 
+  <span class="govuk-caption-l"><%= t('.caption') %></span>
   <h1 class="govuk-heading-l"><%= title %></h1>
 
   <%= f.govuk_text_field(

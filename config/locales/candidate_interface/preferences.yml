@@ -5,6 +5,7 @@ en:
         success_opt_out: You are not sharing your application details with providers you have not applied to
       show:
         title: Check your application sharing preferences
+        caption: Application sharing
         share_information: Do you want to be invited to apply to similar courses?
         where_can_you_train: Where can you train?
         specific: In specific locations
@@ -35,6 +36,7 @@ en:
       show:
         duplicated_preference_explanation: These preferences are based on your settings from the last recruitment cycle.
         title: Check your application sharing preferences
+        caption: Application sharing
         share_information: Do you want to be invited to apply to similar courses?
         where_can_you_train: Where can you train?
         specific: In specific locations
@@ -70,19 +72,33 @@ en:
         sharing_application_guidance: Find out more about how application sharing works  
       new:
         title: Do you want to make your application details visible to other training providers?
+        header: Do you want to be invited to similar courses?
+        caption: Application sharing
+        body_html: |
+          <p>You can choose to make your application details visible to other training providers who have spaces on their courses.</p>
+          <p>If a training provider sees your details and thinks you are suitable for their course, they can send you an email inviting you to submit an application - you can choose if you want to apply or not.</p>
+          <p>You can set location preferences for courses that you want to be invited to.</p>
+          <p>You will appear in search results for courses that are similar to ones you have applied to in the past.</p>
+          <p>So that the course you have just applied to has time to review your application properly, we will hide you from the list until they have made a decision.</p>
+          <p>You can change your mind at any time.</p>
       edit:
+        caption: Application sharing
         title: Do you want to make your application details visible to other training providers?
       create:
         opt_out_message: You are not sharing your application details with providers you have not applied to
       update:
         opt_out_message: You are not sharing your application details with providers you have not applied to
       form:
-        title: Do you want to make your application details visible to other training providers?
-        body: When you have no applications that are waiting for a decision from a provider, other providers will be able to see your application details and invite you to apply to their courses.
+        title: Would you like to share your application details with other training providers?
+        hint_html: |
+         %{link}
+        link_text: Read more about how application sharing works
         reason_for_opting_out: Why do you not want to share your application details with other providers? (Optional)
+        caption: Application sharing
     location_preferences:
       index:
         title: Areas you can train in
+        caption: Application sharing
         body: Training providers will use the locations you enter here to search for candidates near their courses. You should add all locations that you can train in.
         select_locations: Add, change or remove areas
         location: from city, town, or postcode
@@ -101,12 +117,14 @@ en:
         title: Update the area where you can train
         submit_text: Update training area
       form:
+        caption: Application sharing
         within: I can travel up to
         name: from city, town or postcode
         miles: miles
         enter_distance_in_miles: Enter distance in miles
       show:
         title: Do you want to remove this training area?
+        caption: Application sharing
         location: Area
         remove: Yes, remove training area
     funding_type_preferences:

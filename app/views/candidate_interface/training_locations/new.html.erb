@@ -13,7 +13,16 @@
         ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset(:training_locations, legend: { text: t('.title'), size: 'l' }) do %>
+      <% content_for(:fieldset_legend) do %>
+        <h1 class="govuk-heading-l">
+          <span class="govuk-caption-l">
+            <%= t('.caption') %>
+          </span>
+          <%= t('.title') %>
+        </h1>
+      <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset(:training_locations, legend: -> { content_for(:fieldset_legend) }) do %>
         <%= f.govuk_radio_button :training_locations, :anywhere, label: { text: t('.anywhere') }, link_errors: true %>
         <%= f.govuk_radio_button :training_locations, :specific, label: { text: t('.specific') }, hint: { text: t('.specific_locations_hint') } %>
       <% end %>

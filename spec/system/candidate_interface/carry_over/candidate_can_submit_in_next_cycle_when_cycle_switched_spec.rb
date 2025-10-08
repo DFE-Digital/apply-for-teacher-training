@@ -167,7 +167,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
     click_on 'Confirm and submit application'
 
     expect(page).to have_content(
-      'Do you want to make your application details visible to other training providers?',
+      'Do you want to be invited to similar courses?',
     )
     choose 'No'
     click_on 'Continue'

@@ -4,6 +4,7 @@ en:
       new:
         title: Invite from %{provider} - Decline invite - Application sharing
         heading: Why are you not interested in this course invitation?
+        caption: Application sharing
         reasons:
           location_not_convenient: The course location is not convenient for me
           wrong_subject: I do not want to train to teach this subject

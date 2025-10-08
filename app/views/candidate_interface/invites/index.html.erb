@@ -37,10 +37,18 @@
       <%= render CandidateInterface::NotRespondedInvitesComponent.new(invites: @not_responded_invites) %>
     </div>
 
-    <div>
+    <div class='govuk-!-margin-bottom-9'>
       <%= render CandidateInterface::InvitesComponent.new(invites: @invites) %>
     </div>
-  </div>
 
-  <%= render CandidateInterface::ManagePreferencesComponent.new(current_candidate:, application_form: current_application) %>
+    <div class='govuk-!-margin-bottom-9'>
+      <%= render CandidateInterface::ManagePreferencesComponent.new(current_candidate:, application_form: current_application) %>
+    </div>
+
+    <div class='govuk-!-margin-bottom-4'>
+      <%= render CandidateInterface::ApplicationVisibilityComponent.new(application_form: current_application) %>
+    </div>
+
+    <p class="govuk-body"><%= govuk_link_to('How application sharing works', candidate_interface_share_details_path) %></p>
+  </div>
 </div>

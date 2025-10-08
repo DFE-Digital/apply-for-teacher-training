@@ -2,6 +2,7 @@ en:
   candidate_interface:
     dynamic_location_preferences:
       new:
+        caption: Application sharing
         title: Add the locations of courses you apply to
         hint: >
           Each time you apply to a new course, we can add the course location to the places you can train. You will
