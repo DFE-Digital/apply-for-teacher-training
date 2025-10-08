@@ -28,10 +28,6 @@ module CandidateInterface
       end
     end
 
-    def skips_type_step?
-      other_uk_qualification? || degree_level == 'Level 6 Diploma'
-    end
-
     def next_step
       if reviewing_and_unchanged_country?
         if skips_type_step?

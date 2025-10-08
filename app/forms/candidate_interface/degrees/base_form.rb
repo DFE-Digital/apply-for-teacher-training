@@ -18,6 +18,10 @@ module CandidateInterface
       uk? || (country_with_compatible_degrees? && bachelors?)
     end
 
+    def skips_type_step?
+      other_uk_qualification? || degree_level == 'Level 6 Diploma'
+    end
+
     def reviewing_and_unchanged_country?
       reviewing? && existing_degree&.institution_country == country
     end
