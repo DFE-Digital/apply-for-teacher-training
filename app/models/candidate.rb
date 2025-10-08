@@ -37,6 +37,8 @@ class Candidate < ApplicationRecord
   has_many :preferences, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :published_preferences, -> { where(status: 'published') }, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :duplicated_preferences, -> { where(status: 'duplicated') }, dependent: :destroy, class_name: 'CandidatePreference'
+  has_many :archived_preferences, -> { where(status: 'archived') }, dependent: :destroy, class_name: 'CandidatePreference'
+  has_many :archived_opt_in_preferences, -> { where(status: 'archived', pool_status: :opt_in) }, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :published_opt_in_preferences, -> { where(status: 'published', pool_status: :opt_in) }, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :published_location_preferences, class_name: 'CandidateLocationPreference', through: :published_preferences, source: :location_preferences
   has_many :published_opt_in_location_preferences, class_name: 'CandidateLocationPreference', through: :published_opt_in_preferences, source: :location_preferences

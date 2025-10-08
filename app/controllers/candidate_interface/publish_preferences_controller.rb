@@ -15,16 +15,27 @@ module CandidateInterface
           @preference.update(dynamic_location_preferences: nil)
           @preference.location_preferences.destroy_all
         end
-        current_candidate.published_preferences.where.not(id: @preference.id).destroy_all
+        archive_all(current_candidate.published_preferences.where.not(id: @preference.id))
         current_candidate.duplicated_preferences.where.not(id: @preference.id).destroy_all
       end
       if @preference.reload.published?
         PreferencesEmail.call(preference: @preference)
       end
 
-      flash[:success] = t('.success_opt_out') if @preference.opt_out?
-
-      redirect_to show_candidate_interface_pool_opt_ins_path
+      if @preference.opt_out?
+        redirect_to candidate_interface_invites_path
+        flash[:success] = t('.success_opt_out')
+      elsif opting_back_in?
+        redirect_to candidate_interface_invites_path
+        flash[:success] = [t('.success_opt_back_in'),
+                           view_context.link_to(t('.application_sharing_guidance'), candidate_interface_share_details_path, class: 'govuk-notification-banner__link')]
+      elsif updating_existing_preference?
+        redirect_to candidate_interface_invites_path
+        flash[:success] = [t('.success_updated_options'),
+                           view_context.link_to(t('.application_sharing_guidance'), candidate_interface_share_details_path, class: 'govuk-notification-banner__link')]
+      else
+        redirect_to show_candidate_interface_pool_opt_ins_path
+      end
     end
 
   private
@@ -35,6 +46,18 @@ module CandidateInterface
       if @preference.blank?
         redirect_to candidate_interface_invites_path
       end
+    end
+
+    def archive_all(preferences)
+      preferences.update_all(status: 'archived')
+    end
+
+    def opting_back_in?
+      @preference.opt_in? && current_candidate.archived_preferences.last&.opt_out?
+    end
+
+    def updating_existing_preference?
+      @preference.opt_in? && current_candidate.archived_preferences.last&.opt_in?
     end
   end
 end

@@ -13,6 +13,10 @@ FactoryBot.define do
     status { 'duplicated' }
   end
 
+  trait :archived do
+    status { 'archived ' }
+  end
+
   trait :anywhere_in_england do
     training_locations { 'anywhere' }
     dynamic_location_preferences { nil }

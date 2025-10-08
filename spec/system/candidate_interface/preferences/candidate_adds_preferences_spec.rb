@@ -191,6 +191,20 @@ RSpec.describe 'Candidate adds preferences' do
 
     when_i_update_the_radius_only
     then_it_saves_successfully
+
+    when_i_click('Continue')
+    then_i_am_redirected_to_the_dynamic_locations_page
+
+    when_i_check_dynamic_locations
+    and_i_click('Continue')
+    then_i_am_redirected_funding_type_page
+
+    when_i_check_yes_fee_funding_courses
+    and_i_click('Continue')
+
+    when_i_click('Submit preferences')
+    then_i_am_redirected_to_invites
+    and_i_see_the_edit_existing_preference_banner
   end
 
   scenario 'Candidate opts out of find a candidate' do
@@ -201,6 +215,34 @@ RSpec.describe 'Candidate adds preferences' do
     when_i_click('Continue')
 
     then_i_am_redirected_to_invites
+    and_i_see_the_opt_out_banner
+  end
+
+  scenario 'Candidate opts back into find a candidate' do
+    given_i_am_signed_in
+
+    visit new_candidate_interface_pool_opt_in_path
+    and_i_opt_out_to_find_a_candidate
+    when_i_click('Continue')
+    then_i_am_redirected_to_invites
+
+    when_i_click('Change')
+    then_i_am_redirected_to_opt_in_page
+
+    and_i_opt_in_to_find_a_candidate
+    when_i_click('Continue')
+    then_i_am_redirected_to_training_locations
+
+    when_i_select_anywhere
+    and_i_click('Continue')
+    then_i_am_redirected_funding_type_page
+
+    when_i_check_yes_fee_funding_courses
+    and_i_click('Continue')
+
+    when_i_click('Submit preferences')
+    then_i_am_redirected_to_invites
+    and_i_see_the_opted_back_in_banner
   end
 
   scenario 'Candidate opts out of find a candidate and gives a reason' do
@@ -216,6 +258,7 @@ RSpec.describe 'Candidate adds preferences' do
     when_i_click('Continue')
 
     then_i_am_redirected_to_invites
+    and_i_see_the_opt_out_banner
   end
 
   def given_i_am_signed_in(funding_type: 'salary')
@@ -543,5 +586,17 @@ RSpec.describe 'Candidate adds preferences' do
   def and_the_funding_type_is_checked
     funding_type = find_by_id('candidate-interface-funding-type-preference-form-funding-type-fee-field')
     expect(funding_type).to be_checked
+  end
+
+  def and_i_see_the_opted_back_in_banner
+    expect(page).to have_content('You have chosen to share your application details and set your preferences for the types of courses you are interested in receiving invites to')
+  end
+
+  def and_i_see_the_edit_existing_preference_banner
+    expect(page).to have_content('You have updated your application sharing preferences for the types of courses you are interested in receiving invites to')
+  end
+
+  def and_i_see_the_opt_out_banner
+    expect(page).to have_content('You are not sharing your application details with providers you have not applied to')
   end
 end
