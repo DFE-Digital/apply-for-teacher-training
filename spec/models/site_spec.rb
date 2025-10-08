@@ -116,4 +116,20 @@ RSpec.describe Site do
       expect(site.geocoded?).to be false
     end
   end
+
+  describe 'main_site?' do
+    context 'when code is "-"' do
+      it 'returns true' do
+        site = create(:site, code: '-')
+        expect(site.main_site?).to be true
+      end
+    end
+
+    context 'when code is not "-"' do
+      it 'returns false' do
+        site = create(:site, code: 'blah')
+        expect(site.main_site?).to be false
+      end
+    end
+  end
 end
