@@ -4,4 +4,8 @@ FactoryBot.define do
     token { SecureRandom.hex(10) }
     email_address { "#{SecureRandom.hex(5)}@example.com" }
   end
+
+  trait :dev_candidate do
+    token { 'dev-candidate' }
+  end
 end

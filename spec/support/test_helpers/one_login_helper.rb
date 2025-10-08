@@ -35,4 +35,23 @@ module OneLoginHelper
     click_link_or_button 'Continue'
   end
   alias i_am_signed_in_with_one_login :given_i_am_signed_in_with_one_login
+
+  def sign_in_request_bypass(candidate)
+    if FeatureFlag.inactive?(:one_login_candidate_sign_in)
+      FeatureFlag.activate(:one_login_candidate_sign_in)
+    end
+
+    OmniAuth.config.test_mode = true
+    Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[:one_login_developer] = OmniAuth::AuthHash.new(
+      {
+        provider: :one_login_developer,
+        uid: 'dev-candidate',
+        credentials: {
+          id_token: 'id_token',
+        },
+      },
+    )
+
+    create(:one_login_auth, candidate:, token: 'dev-candidate')
+  end
 end

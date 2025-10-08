@@ -4,6 +4,7 @@ module CandidateInterface
     before_action :set_preference, only: %i[edit update]
     before_action :set_back_path, only: %i[edit update]
     before_action :redirect_to_root_path_if_submitted_applications
+    before_action :redirect_to_invites_page_if_preference_is_blank_or_opt_out, only: :show
 
     def show; end
 
@@ -113,6 +114,12 @@ module CandidateInterface
 
     def redirect_to_root_path_if_submitted_applications
       redirect_to root_path unless current_application.submitted_applications?
+    end
+
+    def redirect_to_invites_page_if_preference_is_blank_or_opt_out
+      if current_application.published_preference.nil? || current_application.published_preference.opt_out?
+        redirect_to candidate_interface_invites_path
+      end
     end
   end
 end
