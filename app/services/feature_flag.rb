@@ -46,6 +46,8 @@ class FeatureFlag
     [name, FeatureFlag.new(name:, description:, owner:)]
   end.with_indifferent_access.freeze
 
+  # FeatureFlag.activate(:service_information_banner)
+
   def self.activate(feature_name)
     raise unless feature_name.in?(FEATURES)
 

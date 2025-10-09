@@ -1,7 +1,7 @@
 en:
   service_information_banner:
-    sandbox_header: Service disruption
     provider:
+      sandbox_header: Service disruption
       sandbox_body: This will affect both the web service and the API. You may lose work if you are using the sandbox when it becomes unavailable.
       header: Service disruption today Thursday 9 October
       body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
