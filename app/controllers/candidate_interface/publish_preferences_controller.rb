@@ -53,7 +53,7 @@ module CandidateInterface
     end
 
     def opting_back_in?
-      @preference.opt_in? && current_candidate.archived_preferences.last&.opt_out?
+      @preference.opt_in? && current_candidate.archived_preferences.any?(&:opt_out?)
     end
 
     def updating_existing_preference?
