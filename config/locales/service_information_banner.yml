@@ -1,17 +1,17 @@
 en:
   service_information_banner:
+    sandbox_header: Service disruption
     provider:
-      sandbox_header: The sandbox will be unavailable on Thursday 11 September from 7am for approximately 3 hours
       sandbox_body: This will affect both the web service and the API. You may lose work if you are using the sandbox when it becomes unavailable.
-      header: This service will be unavailable on Friday 26 September from 8am for approximately 1 hour
-      body: This will affect both the web service and the API. You may lose work if you are using this service when it becomes unavailable.
+      header: Service disruption today Thursday 9 October
+      body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
     candidate:
-      sandbox_header: The sandbox will be unavailable on Thursday 11 September from 7am for approximately 3 hours
-      sandbox_body: You may lose work if you are using the sandbox when it becomes unavailable.
-      header: This service will be unavailable on Friday 26 September from 8am for approximately 1 hour
-      body: You may lose work if you are using this service when it becomes unavailable.
+      sandbox_header: Service disruption
+      sandbox_body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
+      header: Service disruption today Thursday 9 October
+      body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
     support:
-      sandbox_header: The sandbox will be unavailable on Thursday 11 September from 7am for approximately 3 hours
-      sandbox_body: You may lose work if you are using the sandbox when it becomes unavailable.
-      header: This service will be unavailable on Friday 26 September from 8am for approximately 1 hour
-      body: You may lose work if you are using this service when it becomes unavailable.
+      sandbox_header: Service disruption
+      sandbox_body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
+      header: Service disruption today Thursday 9 October
+      body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
