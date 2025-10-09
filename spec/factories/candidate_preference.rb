@@ -14,7 +14,7 @@ FactoryBot.define do
   end
 
   trait :archived do
-    status { 'archived ' }
+    status { 'archived' }
   end
 
   trait :anywhere_in_england do
