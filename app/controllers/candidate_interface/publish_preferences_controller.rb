@@ -9,7 +9,7 @@ module CandidateInterface
     end
 
     def create
-      PublishPreferenceService.new(preference: @preference, candidate: current_candidate).call
+      PublishPreferenceService.new(preference: @preference, application_form: current_application).call
 
       message = flash_message_for(@preference)
 
@@ -33,17 +33,6 @@ module CandidateInterface
     def flash_message_for(preference)
       if preference.opt_out?
         { success: t('.success_opt_out') }
-      elsif opting_back_in?
-        {
-          success: [
-            t('.success_opt_back_in'),
-            view_context.link_to(
-              t('.application_sharing_guidance'),
-              candidate_interface_share_details_path,
-              class: 'govuk-notification-banner__link',
-            ),
-          ],
-        }
       elsif updating_existing_preference?
         {
           success: [
@@ -55,15 +44,26 @@ module CandidateInterface
             ),
           ],
         }
+      elsif opting_back_in?
+        {
+          success: [
+            t('.success_opt_back_in'),
+            view_context.link_to(
+              t('.application_sharing_guidance'),
+              candidate_interface_share_details_path,
+              class: 'govuk-notification-banner__link',
+            ),
+          ],
+        }
       end
     end
 
     def opting_back_in?
-      @preference.opt_in? && current_candidate.archived_preferences.any?(&:opt_out?)
+      @preference.opt_in? && current_application.archived_preferences.any?(&:opt_out?)
     end
 
     def updating_existing_preference?
-      @preference.opt_in? && current_candidate.archived_preferences.last&.opt_in?
+      @preference.opt_in? && current_application.archived_preferences.last&.opt_in?
     end
   end
 end

@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::PublishPreferenceService do
-  let(:candidate) { create(:candidate) }
-  let(:preference) { create(:candidate_preference, candidate:) } # published and opted-in by default
-  let(:service) { described_class.new(preference:, candidate:) }
+  let(:application_form) { create(:application_form, :submitted) }
+  let(:preference) { create(:candidate_preference, application_form:, status: :draft) } # opted-in by default
+  let(:service) { described_class.new(preference:, application_form:) }
 
   before do
     allow(CandidateInterface::PreferencesEmail).to receive(:call)
@@ -29,13 +29,13 @@ RSpec.describe CandidateInterface::PublishPreferenceService do
       end
 
       it 'archives other published preferences' do
-        other_published = create(:candidate_preference, candidate:, status: :published)
+        other_published = create(:candidate_preference, application_form:, status: :published)
         service.call
         expect(other_published.reload.status).to eq('archived')
       end
 
       it 'destroys duplicated preferences' do
-        duplicate = create(:candidate_preference, candidate:, status: :duplicated)
+        duplicate = create(:candidate_preference, application_form:, status: :duplicated)
         service.call
         expect { duplicate.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end

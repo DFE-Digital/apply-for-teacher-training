@@ -1,8 +1,8 @@
 module CandidateInterface
   class PublishPreferenceService
-    def initialize(preference:, candidate:)
+    def initialize(preference:, application_form:)
       @preference = preference
-      @candidate = candidate
+      @application_form = application_form
     end
 
     def call
@@ -30,11 +30,11 @@ module CandidateInterface
     end
 
     def archive_other_published_preferences
-      @candidate.published_preferences.where.not(id: @preference.id).update_all(status: 'archived')
+      @application_form.published_preferences.where.not(id: @preference.id).update_all(status: 'archived')
     end
 
     def destroy_duplicated_preferences
-      @candidate.duplicated_preferences.where.not(id: @preference.id).destroy_all
+      @application_form.duplicated_preferences.where.not(id: @preference.id).destroy_all
     end
   end
 end
