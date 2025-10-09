@@ -6,7 +6,7 @@ RSpec.describe Provider::ChangeChoicesToMainSiteWorker do
       it 'sets the choices to the main site' do
         provider = create(:provider)
         course = create(:course, provider:)
-        main_site = create(:site, provider:)
+        main_site = create(:site, provider:, code: '-')
 
         old_course_option = create(:course_option, course:)
         new_course_option = create(:course_option, course:, site: main_site)
@@ -18,10 +18,11 @@ RSpec.describe Provider::ChangeChoicesToMainSiteWorker do
         )
 
         expect {
-          described_class.new.perform([choice.id], main_site.id)
+          described_class.new.perform([choice.id])
         }.to change { choice.reload.current_course_option }.from(old_course_option).to(new_course_option)
         .and change { choice.course_option }.from(old_course_option).to(new_course_option)
-        .and change { choice.original_course_option }.from(old_course_option).to(new_course_option)
+
+        expect(choice.original_course_option).to eq(old_course_option)
       end
     end
 
@@ -29,7 +30,6 @@ RSpec.describe Provider::ChangeChoicesToMainSiteWorker do
       it 'does not set the choices to the main site' do
         provider = create(:provider)
         course = create(:course, provider:)
-        main_site = create(:site, provider:)
 
         course_option = create(:course_option, course:)
         choice = create(
@@ -38,7 +38,7 @@ RSpec.describe Provider::ChangeChoicesToMainSiteWorker do
         )
 
         expect {
-          described_class.new.perform([choice.id], main_site.id)
+          described_class.new.perform([choice.id])
         }.to not_change(choice.reload, :current_course_option)
         .and not_change(choice, :course_option)
         .and not_change(choice, :original_course_option)
@@ -49,7 +49,7 @@ RSpec.describe Provider::ChangeChoicesToMainSiteWorker do
       it 'does not set the choices to the main site' do
         provider = create(:provider)
         course = create(:course, provider:)
-        main_site = create(:site, provider:)
+        main_site = create(:site, provider:, code: '-')
 
         old_course_option = create(:course_option, :part_time, course:)
         _new_course_option = create(:course_option, :full_time, course:, site: main_site)
@@ -59,7 +59,7 @@ RSpec.describe Provider::ChangeChoicesToMainSiteWorker do
         )
 
         expect {
-          described_class.new.perform([choice.id], main_site.id)
+          described_class.new.perform([choice.id])
         }.to not_change(choice.reload, :current_course_option)
         .and not_change(choice, :course_option)
         .and not_change(choice, :original_course_option)

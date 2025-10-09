@@ -14,6 +14,7 @@ RSpec.describe ProviderInterface::ChangeChoicesToMainSite do
           :application_choice,
           current_course_option: old_course_option,
           original_course_option: old_course_option,
+          school_placement_auto_selected: true,
         )
 
         allow(Provider::ChangeChoicesToMainSiteWorker).to receive(:perform_async)
@@ -22,7 +23,6 @@ RSpec.describe ProviderInterface::ChangeChoicesToMainSite do
 
         expect(Provider::ChangeChoicesToMainSiteWorker).to have_received(:perform_async).with(
           [choice.id],
-          main_site.id,
         )
       end
     end

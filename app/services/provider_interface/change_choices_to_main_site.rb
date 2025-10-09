@@ -14,11 +14,11 @@ module ProviderInterface
     def call
       Rails.logger.debug 'Changing application choices to main site'
 
-      providers = Provider.where(id: provider_ids, selectable_school: false)
+      providers = Provider.where(id: provider_ids).includes(:courses, :sites)
       jobs_counter = 0
 
       if providers.present?
-        providers.each do |provider|
+        providers.find_each do |provider|
           main_site_id = provider.sites.for_recruitment_cycle_years(current_year)
             .find_by(code: '-')&.id
 
@@ -30,18 +30,15 @@ module ProviderInterface
           choices = ApplicationChoice
             .joins(current_course_option: :site)
             .joins(:current_provider)
-            .where(current_recruitment_cycle_year: current_year)
+            .where(current_recruitment_cycle_year: current_year, school_placement_auto_selected: true)
             .where.not(site: { id: main_site_id })
             .where('current_course_option_id = original_course_option_id')
-            .where(current_provider: { id: provider.id, selectable_school: false })
+            .where(current_provider: { id: provider.id })
             .select(:id)
 
           batch_size = 100
           choices.in_batches(of: batch_size) do |batch|
-            Provider::ChangeChoicesToMainSiteWorker.perform_async(
-              batch.ids,
-              main_site_id,
-            )
+            Provider::ChangeChoicesToMainSiteWorker.perform_async(batch.ids)
             jobs_counter += 1
           end
         end
