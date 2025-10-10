@@ -28,13 +28,13 @@ module CandidateInterface
       def course_option
         case current_step_name
         when :course_study_mode
-          available_course_options.find_by(study_mode: current_step.study_mode)
+          main_site_or_first_course_option(
+            available_course_options.where(study_mode: current_step.study_mode),
+          )
         when :course_site
           available_course_options.find(current_step.course_option_id)
         else
-          available_course_options.find do |course_option|
-            course_option.site.main_site?
-          end.presence || available_course_options.first
+          main_site_or_first_course_option(available_course_options)
         end
       end
 
@@ -50,6 +50,14 @@ module CandidateInterface
             choice.update(school_placement_auto_selected: !choice.provider.selectable_school?)
           end
         end
+      end
+
+    private
+
+      def main_site_or_first_course_option(records)
+        records.find do |course_option|
+          course_option.site.main_site?
+        end.presence || records.first
       end
     end
   end
