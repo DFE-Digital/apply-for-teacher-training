@@ -4,12 +4,22 @@ const ANALYTICAL_COOKIES = [
   '_ga', CANDIDATE_GA_TAG, MANAGE_GA_TAG, '_gid'
 ]
 
+const MS_CLARITY_COOKIES = [
+  '_clck',
+  '_clsk',
+  'CLID',
+  'ANONCHK',
+  'MR',
+  'MUID',
+  'SM'
+]
+
 /** @description sets the cookie with the users consent and returns its value
  * @returns {Boolean} true, if it successfully sets the consented-to-cookies
  */
 const setConsentedToCookie = ({ userAnswer, service }) => {
   setCookie(`consented-to-${service}-cookies`, userAnswer, { days: 182 })
-  removeOptionalCookies(userAnswer)
+  removeOptionalCookies(userAnswer === 'yes')
 }
 
 /** @summary Checks if consented-to-cookies cookie exists
@@ -30,14 +40,29 @@ const checkConsentedToCookieExists = (service) => {
  */
 const removeOptionalCookies = (userDecision) => {
   if (userDecision === false) {
-    ANALYTICAL_COOKIES.forEach(cookieName => {
-      const doesCookieExist = getCookie(cookieName) != null
-
-      if (doesCookieExist) {
-        setCookie(cookieName, '', { days: -1 })
-      }
-    })
+    removeGoogleAnalyticsCookies()
+    removeMSClarityCookies()
   }
+}
+
+const removeGoogleAnalyticsCookies = () => {
+  ANALYTICAL_COOKIES.forEach(cookieName => {
+    const doesCookieExist = getCookie(cookieName) != null
+
+    if (doesCookieExist) {
+      setCookie(cookieName, '', { days: -1 })
+    }
+  })
+}
+
+const removeMSClarityCookies = () => {
+  MS_CLARITY_COOKIES.forEach((cookieName) => {
+    const doesCookieExist = getCookie(cookieName) != null
+
+    if (doesCookieExist) {
+      setCookie(cookieName, '', { days: -1 })
+    }
+  })
 }
 
 /**

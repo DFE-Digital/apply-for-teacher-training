@@ -3,6 +3,8 @@
   <head>
     <%= render 'shared/analytics' if @google_analytics_id.present? %>
     <%= render 'shared/tag_manager' if @google_tag_manager_id.present? %>
+    <%= render 'shared/ms_clarity' if @clarity_project_id.present? %>
+
     <meta charset="utf-8">
     <title><%= try(:browser_title) %></title>
     <%= csrf_meta_tags %>
