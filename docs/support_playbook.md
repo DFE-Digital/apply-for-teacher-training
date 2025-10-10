@@ -19,6 +19,7 @@
 17. [Slowness of service](#slowness-of-service)
 18. [Changing application course to another provider](#changing-course-to-another-provider)
 19. [Generating Vendor API tokens](#generating-vendor-api-tokens)
+20. [Change application choices to main site](#changing-application-choices-to-main-site)
 
 ## Support Trello board
 
@@ -927,3 +928,19 @@ provider_user_permission.update(
 ```
 
 The Provider User can now create their own API tokens via the Organisation Settings UI.
+
+## Changing application choices to main site
+
+At the beginning of 2026 cycle we had a site sync issue. This caused some issues for providers when candidates weren't assigned to the main site if they could not choose a site themselves.
+
+This problem has been fixed now but in case providers do raise this issue, that their candidates have applied to a different site then the main one, when there is a main site for their course and they cannot choose a site themselves. You can run this service in the console.
+
+But just before that. Please construct a query in blazer similar to this [one](https://www.apply-for-teacher-training.service.gov.uk/support/blazer/queries/1296-ucl-choices-not-main-site). Just change the provider id to whatever providers you need to fix this for.
+
+This query should get you the total choices you need to fix.
+
+Once you get the choices you are ready to run this command. Please check the query after.
+```ruby
+ProviderInterface::ChangeChoicesToMainSite.call(provider_ids: [ids])
+```
+This should change the site on every application choice the provider has, to the main site. If there is a main site for that choice and the candidate cannot choose a site themselves.
