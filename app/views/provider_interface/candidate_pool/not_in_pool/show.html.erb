@@ -1,0 +1,28 @@
+<% content_for :browser_title, t('.title') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-xl">
+      <%= t('.caption', candidate_id: @candidate.id) %>
+    </span>
+    <h1 class="govuk-heading-xl">
+      <%= @candidate.redacted_full_name_current_cycle %>
+    </h1>
+
+    <p class="govuk-body">
+      <%= t('.you_cannot_see') %>
+    </p>
+    <p class="govuk-body">
+      <%= t('.this_could_be_because') %>
+    </p>
+    <%= govuk_list(
+          [
+            t('.hidden_criteria'),
+            t('.they_have_submitted_an_application'),
+            t('.they_have_chosen_not_to_continue'),
+          ],
+          type: :bullet,
+        ) %>
+  </div>
+</div>
