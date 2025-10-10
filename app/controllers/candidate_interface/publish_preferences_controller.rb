@@ -9,22 +9,15 @@ module CandidateInterface
     end
 
     def create
-      ActiveRecord::Base.transaction do
-        @preference.published!
-        if @preference.training_locations_anywhere?
-          @preference.update(dynamic_location_preferences: nil)
-          @preference.location_preferences.destroy_all
-        end
-        current_candidate.published_preferences.where.not(id: @preference.id).destroy_all
-        current_candidate.duplicated_preferences.where.not(id: @preference.id).destroy_all
-      end
-      if @preference.reload.published?
-        PreferencesEmail.call(preference: @preference)
-      end
+      PublishPreferenceService.new(preference: @preference, application_form: current_application).call
 
-      flash[:success] = t('.success_opt_out') if @preference.opt_out?
+      message = flash_message_for(@preference)
 
-      redirect_to show_candidate_interface_pool_opt_ins_path
+      if message
+        redirect_to candidate_interface_invites_path, flash: message
+      else
+        redirect_to show_candidate_interface_pool_opt_ins_path
+      end
     end
 
   private
@@ -35,6 +28,42 @@ module CandidateInterface
       if @preference.blank?
         redirect_to candidate_interface_invites_path
       end
+    end
+
+    def flash_message_for(preference)
+      if preference.opt_out?
+        { success: t('.success_opt_out') }
+      elsif updating_existing_preference?
+        {
+          success: [
+            t('.success_updated_options'),
+            view_context.link_to(
+              t('.application_sharing_guidance'),
+              candidate_interface_share_details_path,
+              class: 'govuk-notification-banner__link',
+            ),
+          ],
+        }
+      elsif opting_back_in?
+        {
+          success: [
+            t('.success_opt_back_in'),
+            view_context.link_to(
+              t('.application_sharing_guidance'),
+              candidate_interface_share_details_path,
+              class: 'govuk-notification-banner__link',
+            ),
+          ],
+        }
+      end
+    end
+
+    def opting_back_in?
+      @preference.opt_in? && current_application.archived_preferences.any?(&:opt_out?)
+    end
+
+    def updating_existing_preference?
+      @preference.opt_in? && current_application.archived_preferences.last&.opt_in?
     end
   end
 end

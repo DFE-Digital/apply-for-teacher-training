@@ -14,7 +14,7 @@ RSpec.describe 'Candidate edits published preference' do
     and_i_choose_not_to_share_my_details
 
     when_i_click('Continue')
-    then_i_am_redirected_on_the_invites_path
+    then_i_am_redirected_to_the_invites_index_with_opt_out_success_banner
     and_the_candidate_preference_id_is_changed
   end
 
@@ -30,7 +30,7 @@ RSpec.describe 'Candidate edits published preference' do
     and_i_add_a_reason_for_opting_out
 
     when_i_click('Continue')
-    then_i_am_redirected_on_the_invites_path
+    then_i_am_redirected_to_the_invites_index_with_opt_out_success_banner
     and_the_candidate_preference_id_is_changed
   end
 
@@ -47,7 +47,7 @@ RSpec.describe 'Candidate edits published preference' do
     when_i_click('Continue')
     then_i_am_redirected_to_preference_review_page
     when_i_click('Submit preferences')
-    then_i_am_redirected_to_the_confirmation_page
+    then_i_am_redirected_to_the_invites_index_with_update_success_banner
     and_the_candidate_preference_id_is_changed
   end
 
@@ -64,7 +64,7 @@ RSpec.describe 'Candidate edits published preference' do
     then_i_am_redirected_to_preference_review_page
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_to_the_confirmation_page
+    then_i_am_redirected_to_the_invites_index_with_update_success_banner
     and_the_candidate_preference_id_is_changed
     and_there_are_no_location_preferences
   end
@@ -83,7 +83,7 @@ RSpec.describe 'Candidate edits published preference' do
     then_i_am_redirected_to_preference_review_page
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_to_the_confirmation_page
+    then_i_am_redirected_to_the_invites_index_with_update_success_banner
     and_the_candidate_preference_id_is_changed
     and_only_interested_in_salary_courses
   end
@@ -102,7 +102,7 @@ RSpec.describe 'Candidate edits published preference' do
     then_i_am_redirected_to_preference_review_page
 
     when_i_click('Submit preferences')
-    then_i_am_redirected_to_the_confirmation_page
+    then_i_am_redirected_to_the_invites_index_with_update_success_banner
     and_the_candidate_preference_id_is_changed
     and_only_interested_in_salary_courses
   end
@@ -163,8 +163,9 @@ RSpec.describe 'Candidate edits published preference' do
     )
   end
 
-  def then_i_am_redirected_on_the_invites_path
+  def then_i_am_redirected_to_the_invites_index_with_opt_out_success_banner
     expect(page).to have_current_path(candidate_interface_invites_path)
+    expect(page).to have_content('You are not sharing your application details with providers you have not applied to')
   end
 
   def then_i_am_redirected_to_the_confirmation_page
@@ -210,5 +211,10 @@ RSpec.describe 'Candidate edits published preference' do
 
   def and_candidate_preference_funding_type_is_nil
     @existing_candidate_preference.update(funding_type: nil)
+  end
+
+  def then_i_am_redirected_to_the_invites_index_with_update_success_banner
+    expect(page).to have_current_path(candidate_interface_invites_path)
+    expect(page).to have_content('You have updated your application sharing preferences for the types of courses you are interested in receiving invites to')
   end
 end

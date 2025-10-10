@@ -45,6 +45,8 @@ class ApplicationForm < ApplicationRecord
   has_one :published_preference, -> { published.order(id: :desc) }, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :published_preferences, -> { where(status: 'published') }, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :duplicated_preferences, -> { where(status: 'duplicated') }, dependent: :destroy, class_name: 'CandidatePreference'
+  has_many :archived_preferences, -> { where(status: 'archived') }, dependent: :destroy, class_name: 'CandidatePreference'
+  has_many :archived_opt_in_preferences, -> { where(status: 'archived', pool_status: :opt_in) }, dependent: :destroy, class_name: 'CandidatePreference'
 
   delegate :opt_in?, to: :published_preference, prefix: true, allow_nil: true
 

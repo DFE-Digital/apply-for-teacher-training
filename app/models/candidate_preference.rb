@@ -12,6 +12,7 @@ class CandidatePreference < ApplicationRecord
     draft: 'draft',
     published: 'published',
     duplicated: 'duplicated',
+    archived: 'archived',
   }
 
   enum :training_locations, {
