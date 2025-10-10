@@ -14,9 +14,7 @@ module ProviderInterface
         @application_form = Pool::Candidates.application_forms_for_provider
           .find_by(candidate_id: params.expect(:candidate_id))
 
-        redirect_to provider_interface_applications_path if @application_form.nil?
-
-        @candidate = @application_form.candidate
+        @candidate = @application_form&.candidate
       end
 
       def set_back_link
