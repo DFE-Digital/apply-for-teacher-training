@@ -1,9 +1,9 @@
 <% content_for :browser_title, title_with_error_prefix(t('.page_title'), @location_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(provider_interface_deferred_offer_check_path(@location_form.application_choice)) %>
+<% content_for :before_content, govuk_back_link_to %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @location_form, url: provider_interface_deferred_offer_location_path(@location_form.application_choice), method: :post do |form| %>
+    <%= form_with model: @location_form, url: provider_interface_deferred_offer_location_path(@location_form.application_choice, return_to_review? ? { return_to: 'review' } : nil), method: :post do |form| %>
       <%= form.govuk_error_summary %>
 
       <% if @location_form.locations_for_select.count > 20 %>
@@ -18,7 +18,20 @@
             options: { include_blank: '' },
             caption: { text: @location_form.application_choice.application_form.full_name, size: 'xl' },
             label: { text: t('.page_title'), size: 'xl' },
-            hint: { text: t('.site_id.fieldset_hint') },
+            hint: lambda {
+              if return_to_review?
+                t('.site_id.fieldset_hint')
+              else
+                govuk_notification_banner(
+                  title_text: t('notification_banner.important'),
+                  classes: 'govuk-notification-banner--info',
+                  html_attributes: { role: 'alert' },
+                  text: t('.banner.text'),
+                ) do |notification_banner|
+                  notification_banner.with_heading(text: t('.banner.heading', location_name: @location_form.offer_site.name_and_code))
+                end
+              end
+            },
             data: { controller: 'autocomplete' },
           ),
           html_attributes: { 'data-default-value': @location_form.default_value_for_select },
@@ -29,15 +42,28 @@
               @location_form.locations_for_select,
               :id,
               :name,
-              :description,
+              :full_address,
               bold_labels: false,
               caption: { text: @location_form.application_choice.application_form.full_name, size: 'xl' },
               legend: { text: t('.page_title'), size: 'xl' },
-              hint: { text: t('.site_id.fieldset_hint') },
+              hint: lambda {
+                if return_to_review?
+                  t('.site_id.fieldset_hint')
+                else
+                  govuk_notification_banner(
+                    title_text: t('notification_banner.important'),
+                    classes: 'govuk-notification-banner--info',
+                    html_attributes: { role: 'alert' },
+                    text: t('.banner.text'),
+                  ) do |notification_banner|
+                    notification_banner.with_heading(text: t('.banner.heading', location_name: @location_form.offer_site.name_and_code))
+                  end
+                end
+              },
             ) %>
       <% end %>
 
-      <%= form.govuk_submit t('.submit') %>
+      <%= form.govuk_submit return_to_review? ? t('.submit') : t('continue') %>
     <% end %>
   </div>
 </div>
