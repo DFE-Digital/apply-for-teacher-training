@@ -74,7 +74,9 @@ module ProviderInterface
     end
 
     def no_results_message
-      if applied_filters.keys == ['candidate_id']
+      if applied_filters.keys.include?('candidate_id') && candidate_exists_but_not_in_pool?
+        I18n.t('provider_interface.candidate_pool.exists_but_not_in_pool')
+      elsif applied_filters.keys == %w[candidate_search candidate_id]
         I18n.t('provider_interface.candidate_pool.no_candidate_with_id')
       elsif applied_filters.keys.include?('candidate_id')
         I18n.t('provider_interface.candidate_pool.no_candidates_with_id_and_other_filters')
@@ -157,6 +159,16 @@ module ProviderInterface
     def sister_filter
       current_provider_user.find_a_candidate_not_seen_filter ||
         current_provider_user.build_find_a_candidate_not_seen_filter
+    end
+
+    def candidate_exists_but_not_in_pool?
+      candidate && candidate.application_forms.last.candidate_pool_application.blank?
+    end
+
+    def candidate
+      return if candidate_id.blank?
+
+      Candidate.find_by(id: candidate_id)
     end
   end
 end
