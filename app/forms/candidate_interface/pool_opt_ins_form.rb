@@ -3,20 +3,20 @@ module CandidateInterface
     include ActiveModel::Model
 
     attr_accessor :pool_status, :opt_out_reason
-    attr_reader :current_candidate, :preference
+    attr_reader :current_application, :preference
 
     validates :pool_status, presence: true
     validates :opt_out_reason, word_count: { maximum: 200 }, if: -> { pool_status == 'opt_out' }
 
-    def initialize(current_candidate:, preference: nil, params: {})
-      @current_candidate = current_candidate
+    def initialize(current_application:, preference: nil, params: {})
+      @current_application = current_application
       @preference = preference
       super(params)
     end
 
-    def self.build_from_preference(current_candidate:, preference:)
+    def self.build_from_preference(current_application:, preference:)
       new(
-        current_candidate:,
+        current_application:,
         preference:,
         params: {
           pool_status: preference.pool_status,
@@ -29,7 +29,7 @@ module CandidateInterface
       return if invalid?
 
       kwargs = {
-        application_form: @current_candidate.current_application,
+        application_form: current_application,
         pool_status:,
         opt_out_reason: pool_status == 'opt_in' ? nil : opt_out_reason,
         training_locations: pool_status == 'opt_out' ? nil : preference&.training_locations,
@@ -48,7 +48,7 @@ module CandidateInterface
         end
       else
         ActiveRecord::Base.transaction do
-          @preference = current_candidate.preferences.create(**kwargs)
+          @preference = current_application.preferences.create!(**kwargs)
 
           if @preference.opt_out?
             preference_opt_out!(@preference)
@@ -66,7 +66,7 @@ module CandidateInterface
     def preference_opt_out!(preference)
       ActiveRecord::Base.transaction do
         preference.published!
-        current_candidate.published_preferences.where.not(id: preference.id).destroy_all
+        current_application.published_preferences.where.not(id: preference.id).destroy_all
       end
     end
   end

@@ -3,15 +3,12 @@ require 'rails_helper'
 module CandidateInterface
   RSpec.describe CandidateInterface::PoolOptInsForm, type: :model do
     subject(:form) do
-      described_class.new(current_candidate:, preference:, params:)
+      described_class.new(current_application: application_form, preference:, params:)
     end
 
-    let(:current_candidate) { create(:candidate) }
     let(:preference) { nil }
     let(:params) { { pool_status: 'opt_in' } }
-    let(:application_form) do
-      create(:application_form, :completed, candidate: current_candidate)
-    end
+    let(:application_form) { create(:application_form, :completed) }
     let!(:application_choice) do
       create(:application_choice, :awaiting_provider_decision, application_form:)
     end
@@ -25,12 +22,12 @@ module CandidateInterface
 
       it 'builds the form from a preference' do
         form_object = described_class.build_from_preference(
-          current_candidate:,
+          current_application: application_form,
           preference:,
         )
 
         expect(form_object).to have_attributes(
-          current_candidate:,
+          current_application: application_form,
           preference:,
           pool_status: 'opt_in',
         )
@@ -40,12 +37,12 @@ module CandidateInterface
         preference.update(pool_status: 'opt_out', opt_out_reason: 'Here is a reason')
 
         form_object = described_class.build_from_preference(
-          current_candidate:,
+          current_application: application_form,
           preference:,
         )
 
         expect(form_object).to have_attributes(
-          current_candidate:,
+          current_application: application_form,
           preference:,
           pool_status: 'opt_out',
           opt_out_reason: 'Here is a reason',
@@ -63,7 +60,7 @@ module CandidateInterface
 
           preference_record = CandidatePreference.last
           expect(preference_record.pool_status).to eq('opt_in')
-          expect(preference_record.application_form).to eq(current_candidate.current_application)
+          expect(preference_record.application_form).to eq(application_form)
           expect(LocationPreferences).to have_received(:add_default_location_preferences)
         end
       end
@@ -74,7 +71,7 @@ module CandidateInterface
         it 'creates a preference and removes any existing published preferences' do
           existing_published_preference = create(
             :candidate_preference,
-            candidate: current_candidate,
+            application_form:,
             status: 'published',
           )
 
@@ -92,7 +89,7 @@ module CandidateInterface
         it 'creates a preference and removes any existing published preferences' do
           existing_published_preference = create(
             :candidate_preference,
-            candidate: current_candidate,
+            application_form:,
             status: 'published',
           )
 
@@ -112,7 +109,7 @@ module CandidateInterface
         it 'updates a preference to opt out and publishes the preference and removes existing published ones' do
           existing_published_preference = create(
             :candidate_preference,
-            candidate: current_candidate,
+            application_form:,
             status: 'published',
           )
 

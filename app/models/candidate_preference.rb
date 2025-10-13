@@ -1,5 +1,4 @@
 class CandidatePreference < ApplicationRecord
-  belongs_to :candidate
   belongs_to :application_form
   has_many :location_preferences, dependent: :destroy, class_name: 'CandidateLocationPreference'
 
@@ -24,7 +23,7 @@ class CandidatePreference < ApplicationRecord
     salary: 'salary',
   }, prefix: true
 
-  delegate :applied_only_to_salaried_courses?, to: :candidate
+  delegate :applied_only_to_salaried_courses?, to: :application_form
 
   def create_draft_dup
     dup_record = dup
