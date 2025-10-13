@@ -57,12 +57,12 @@ private
     when 'IELTS'
       {
         key: t('.band_score'),
-        value: qualification.band_score,
+        value: qualification.grade,
       }
     when 'TOEFL'
       {
         key: t('.total_score'),
-        value: qualification.total_score,
+        value: qualification.grade,
       }
     else
       {
