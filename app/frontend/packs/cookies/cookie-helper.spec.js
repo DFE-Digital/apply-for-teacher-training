@@ -40,24 +40,29 @@ describe('cookie helper methods', () => {
       expect(document.cookie).toEqual('consented-to-candidate-cookies=no')
     })
 
-    it('removes optional cookies if a user rejected cookie', () => {
+    it('removes google analytics cookies if a user rejected cookie', () => {
       const fakeEssentialCookies = ['taste', 'smell', 'sight']
-      const fakeOptionalCookies = ['_ga', '_gat']
+      const fakeGoogleAnalyticsCookies = [
+        '_ga',
+        '_gat_gtag_UA_112932657_3',
+        '_gat_gtag_UA_112932657_8',
+        '_gid'
+      ]
 
       fakeEssentialCookies.forEach(cookieName => {
         setCookie(cookieName, 1)
       })
-      fakeOptionalCookies.forEach(cookieName => {
+      fakeGoogleAnalyticsCookies.forEach(cookieName => {
         setCookie(cookieName, 1)
       })
 
-      expect(fetchAllCookies().length).toEqual(5)
+      expect(fetchAllCookies().length).toEqual(7)
 
       setConsentedToCookie({ userAnswer: 'no', service: 'candidate' })
 
-      expect(fetchAllCookies().length).toEqual((6))
+      expect(fetchAllCookies().length).toEqual(4)
+      expect(fetchAllCookies().join(' ')).toMatch('taste=1 smell=1 sight=1 consented-to-candidate-cookies=no')
     })
-  })
 
   describe('checkConsentedToCookieExists', () => {
     it('returns true if cookie exists - User rejected', () => {

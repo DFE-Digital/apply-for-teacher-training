@@ -6,10 +6,12 @@ const ANALYTICAL_COOKIES = [
 
 /** @description sets the cookie with the users consent and returns its value
  * @returns {Boolean} true, if it successfully sets the consented-to-cookies
+ * @param {String} userAnswer 'yes' or 'no', the answer to whether or not the user consents to cookies.
+ * @param {String} service 'apply' or 'manage', the name of the service for which the consent applies
  */
 const setConsentedToCookie = ({ userAnswer, service }) => {
   setCookie(`consented-to-${service}-cookies`, userAnswer, { days: 182 })
-  removeOptionalCookies(userAnswer)
+  removeOptionalCookies(userAnswer === 'yes')
 }
 
 /** @summary Checks if consented-to-cookies cookie exists

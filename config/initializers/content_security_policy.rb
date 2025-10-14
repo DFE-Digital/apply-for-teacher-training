@@ -7,11 +7,11 @@
 Rails.application.configure do
   config.content_security_policy do |policy|
     # Include sources for Google Analytics and ZenDesk integration
-    policy.default_src :self, :https, "www.googletagmanager.com", "static.zdassets.com"
+    policy.default_src :self, :https, "www.googletagmanager.com", "static.zdassets.com", "clarity.ms"
     policy.font_src    :self, :https, :data
     policy.img_src     :self, :https, :data
     policy.object_src  :none
-    policy.script_src  :self, :https, "www.googletagmanager.com", "static.zdassets.com", :unsafe_eval
+    policy.script_src  :self, :https, "www.googletagmanager.com", "static.zdassets.com", "clarity.ms", :unsafe_eval
     policy.style_src   :self, :https, :unsafe_inline
     # Specify URI for violation reports
     # policy.report_uri "/csp-violation-report-endpoint"
