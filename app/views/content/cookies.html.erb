@@ -70,13 +70,13 @@
     <h3 class="govuk-heading-m" id="measuring-website-usage">Analytics cookies (optional)</h3>
 
     <p class="govuk-body">
-      With your permission, we use Google Analytics to collect data about how you use ‘<%= service_name %>’. This information helps us improve our service.
+      With your permission, we use Google Analytics and Microsoft Clarity to collect data about how you use ‘<%= service_name %>’. This information helps us improve our service.
     </p>
     <p class="govuk-body">
-      Google is not allowed to use or share our analytics data with anyone.
+      These services are not allowed to use or share our analytics data with anyone.
     </p>
     <p class="govuk-body">
-      Google Analytics stores anonymised information about:
+      The services store anonymised information about:
     </p>
 
     <ul class="govuk-list govuk-list--bullet">
@@ -86,6 +86,9 @@
     </ul>
 
     <table class="govuk-table">
+      <caption class="govuk-table__caption govuk-table__caption--s">
+        Google Analytics cookies
+      </caption>
       <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header govuk-!-width-one-third">
@@ -150,13 +153,67 @@
       </tbody>
     </table>
 
+    <table class="govuk-table">
+      <caption class="govuk-table__caption govuk-table__caption--s">
+        Microsoft Clarity cookies
+      </caption>
+      <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-third">
+          Name
+        </th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-third">
+          Purpose
+        </th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-third">
+          Expires
+        </th>
+      </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr>
+          <td class="govuk-table__cell">
+            _clck
+          </td>
+          <td class="govuk-table__cell">
+            Persists the Clarity User ID and preferences, unique to that site is attributed to the same user ID.
+          </td>
+          <td class="govuk-table__cell">
+            6 months (for as long as you have consented for analytic cookies)
+          </td>
+        </tr>
+        <tr>
+          <td class="govuk-table__cell">
+            _clsk
+          </td>
+          <td class="govuk-table__cell">
+            Connects multiple page views by a user into a single Clarity session recording.
+          </td>
+          <td class="govuk-table__cell">
+            6 months (for as long as you have consented for analytic cookies)
+          </td>
+        </tr>
+        <tr>
+          <td class="govuk-table__cell">
+            MUID
+          </td>
+          <td class="govuk-table__cell">
+            Identifies unique web browsers visiting Microsoft sites. These cookies are used for site analytics, and other operational purposes.
+          </td>
+          <td class="govuk-table__cell">
+            6 months (for as long as you have consented for analytic cookies)
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
     <%= form_with model: @cookie_preferences, url: @cookie_settings_path, method: :post do |f| %>
       <%= f.govuk_collection_radio_buttons :consent,
         [%w[yes Yes], %w[no No]],
         :first,
         :last,
         inline: true,
-        legend: { text: 'Do you want to accept Google Analytics cookies?', size: 's' } %>
+        legend: { text: 'Do you want to accept cookies for analytics?', size: 's' } %>
       <%= f.govuk_submit 'Save cookie settings' %>
     <% end %>
   </div>
