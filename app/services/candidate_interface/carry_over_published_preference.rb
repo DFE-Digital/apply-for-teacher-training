@@ -8,6 +8,8 @@ module CandidateInterface
         return
       end
 
+      errors = []
+
       Candidate.where(id: candidate_ids).find_each do |candidate|
         ActiveRecord::Base.transaction do
           original_application_form = candidate.application_forms
@@ -29,10 +31,13 @@ module CandidateInterface
             end
           end
         end
+      rescue StandardError => e
+        errors << { candidate_id: candidate.id, error: e.message }
+        next
       end
-    end
 
-  private
+      Rails.logger.debug { "Errors: #{errors}" }
+    end
 
     def candidate_ids
       sql = <<-SQL
