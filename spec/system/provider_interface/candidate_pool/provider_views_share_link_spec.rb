@@ -35,7 +35,6 @@ private
 
   def and_there_are_candidates_for_candidate_pool
     @rejected_candidate = create(:candidate)
-    create(:candidate_preference, candidate: @rejected_candidate)
     @rejected_candidate_form = create(
       :application_form,
       :completed,
@@ -44,10 +43,10 @@ private
       candidate: @rejected_candidate,
       submitted_at: 1.day.ago,
     )
+    create(:candidate_preference, application_form: @rejected_candidate_form)
     create(:candidate_pool_application, application_form: @rejected_candidate_form)
 
     @awaiting_decision_candidate = create(:candidate)
-    create(:candidate_preference, candidate: @awaiting_decision_candidate)
     @awaiting_decision_candidate_form = create(
       :application_form,
       :completed,
@@ -56,6 +55,7 @@ private
       candidate: @awaiting_decision_candidate,
       submitted_at: 1.day.ago,
     )
+    create(:candidate_preference, application_form: @awaiting_decision_candidate_form)
     create(:application_choice, :awaiting_provider_decision, application_form: @awaiting_decision_candidate_form)
   end
 

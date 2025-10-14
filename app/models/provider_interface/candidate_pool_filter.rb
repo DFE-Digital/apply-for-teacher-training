@@ -162,7 +162,7 @@ module ProviderInterface
     end
 
     def candidate_exists_but_not_in_pool?
-      candidate && candidate.application_forms.last.candidate_pool_application.blank?
+      candidate && candidate.current_application.candidate_pool_application.blank?
     end
 
     def candidate

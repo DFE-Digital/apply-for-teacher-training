@@ -5,7 +5,7 @@ en:
       no_candidates: No candidates
       no_candidates_with_id_and_other_filters: There are no candidates that match that candidate number with the filters you have chosen. Remove some of your filters and try again.
       no_candidate_with_id: There are no candidates that match that candidate number. Check the candidate number and try again.
-      exists_but_not_in_pool: This candidate's profile is not visible at the moment. They could have an active application, be unresponsive or have opted out.
+      exists_but_not_in_pool: This candidate’s profile is not visible at the moment. They could have an active application, be unresponsive or have opted out.
       shared:
         find_candidates_heading:
           title: Find candidates
