@@ -6,6 +6,7 @@ import checkboxSearchFilter from './components/checkbox_search_filter'
 import '../styles/application-provider.scss'
 import cookieBanners from './cookies/cookie-banners'
 import 'accessible-autocomplete/dist/accessible-autocomplete.min.css'
+import initClarityCookies from './clarity-initializer'
 
 // stimulus
 import { Application } from '@hotwired/stimulus'
@@ -30,3 +31,4 @@ filter()
 cookieBanners()
 showMoreShowLess()
 personalStatementToggle()
+initClarityCookies('manage')
