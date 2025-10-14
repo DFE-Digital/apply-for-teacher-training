@@ -15,8 +15,8 @@ module CandidateInterface
           @preference.update(dynamic_location_preferences: nil)
           @preference.location_preferences.destroy_all
         end
-        current_candidate.published_preferences.where.not(id: @preference.id).destroy_all
-        current_candidate.duplicated_preferences.where.not(id: @preference.id).destroy_all
+        current_application.published_preferences.where.not(id: @preference.id).destroy_all
+        current_application.duplicated_preferences.where.not(id: @preference.id).destroy_all
       end
       if @preference.reload.published?
         PreferencesEmail.call(preference: @preference)
@@ -30,7 +30,7 @@ module CandidateInterface
   private
 
     def set_preference
-      @preference = current_candidate.preferences.find_by(id: params[:draft_preference_id])
+      @preference = current_application.preferences.find_by(id: params[:draft_preference_id])
 
       if @preference.blank?
         redirect_to candidate_interface_invites_path

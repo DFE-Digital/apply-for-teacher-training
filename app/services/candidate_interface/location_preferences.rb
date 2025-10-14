@@ -13,7 +13,7 @@ module CandidateInterface
     end
 
     def add_default_location_preferences
-      application_form = preference.candidate.current_cycle_application_form
+      application_form = preference.application_form
       sites = application_form.application_choices.map(&:site)
 
       ActiveRecord::Base.transaction do

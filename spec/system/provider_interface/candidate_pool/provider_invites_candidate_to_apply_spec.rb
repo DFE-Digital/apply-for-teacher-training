@@ -234,14 +234,16 @@ RSpec.describe 'Providers invites candidates' do
 
   def and_there_are_candidates_for_candidate_pool
     @candidate = create(:candidate)
-    create(:candidate_preference, candidate: @candidate)
-    rejected_candidate_form = create(
-      :application_form,
-      :completed,
-      candidate: @candidate,
-      submitted_at: 1.day.ago,
+    preference = create(
+      :candidate_preference,
+      application_form: create(
+        :application_form,
+        :completed,
+        candidate: @candidate,
+        submitted_at: 1.day.ago,
+      ),
     )
-    create(:candidate_pool_application, application_form: rejected_candidate_form)
+    create(:candidate_pool_application, application_form: preference.application_form)
   end
 
   def when_i_visit_the_candidate_pool_show_page

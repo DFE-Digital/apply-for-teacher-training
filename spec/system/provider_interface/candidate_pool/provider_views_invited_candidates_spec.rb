@@ -27,11 +27,24 @@ RSpec.describe 'Invited candidate list' do
   end
 
   let(:rejected_application_choice_for_opt_out) { create(:application_choice, :rejected) }
-  let(:opted_out_preference) { create(:candidate_preference, pool_status: 'opt_out', candidate: rejected_application_choice_for_opt_out.application_form.candidate) }
+  let(:opted_out_preference) do
+    create(
+      :candidate_preference,
+      pool_status: 'opt_out',
+      application_form: rejected_application_choice_for_opt_out.application_form,
+    )
+  end
   let(:invite_with_opted_out_candidate) { create(:pool_invite, :sent_to_candidate, course: build(:course, provider: current_provider), application_form: rejected_application_choice_for_opt_out.application_form) }
 
   let(:rejected_application_choice_for_opt_in) { create(:application_choice, :rejected) }
-  let(:opted_in_preference) { create(:candidate_preference, :anywhere_in_england, pool_status: 'opt_in', candidate: rejected_application_choice_for_opt_in.candidate) }
+  let(:opted_in_preference) do
+    create(
+      :candidate_preference,
+      :anywhere_in_england,
+      pool_status: 'opt_in',
+      application_form: rejected_application_choice_for_opt_in.application_form,
+    )
+  end
   let(:invite_with_candidate_in_pool) { create(:pool_invite, :sent_to_candidate, application_form: rejected_application_choice_for_opt_in.application_form, course: build(:course, provider: current_provider)) }
   let(:second_invite_with_candidate_in_pool) { create(:pool_invite, :sent_to_candidate, application_form: rejected_application_choice_for_opt_in.application_form, course: build(:course, provider: current_provider)) }
 

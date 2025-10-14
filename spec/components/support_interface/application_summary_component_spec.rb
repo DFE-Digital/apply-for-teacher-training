@@ -80,10 +80,9 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
 
     context 'when the candidate has opted into sharing application details with providers but still has pending decisions' do
       it 'displays "Opted in (not findable)" for the Find a Candidate opt-in status row' do
-        candidate = create(:candidate)
-        application_form = create(:application_form, candidate:)
+        application_form = create(:application_form)
 
-        create(:candidate_preference, candidate:)
+        create(:candidate_preference, application_form:)
         create(:application_choice, status: :awaiting_provider_decision, application_form:)
 
         result = render_inline(described_class.new(application_form:))
@@ -108,10 +107,9 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
 
     context 'when the candidate has opted out of sharing application details with providers' do
       it 'displays "Opted out" for the Find a Candidate opt-in status row' do
-        candidate = create(:candidate)
-        application_form = create(:application_form, candidate:)
+        application_form = create(:application_form)
 
-        create(:candidate_preference, pool_status: 'opt_out', candidate:)
+        create(:candidate_preference, pool_status: 'opt_out', application_form:)
         create(:application_choice, status: :withdrawn, application_form:)
 
         result = render_inline(described_class.new(application_form:))
@@ -137,9 +135,8 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
 
     context 'when the candidate has published location preferences' do
       it 'displays the location preferences and selected radius in a list' do
-        candidate = create(:candidate)
-        application_form = create(:application_form, candidate:)
-        candidate_preference = create(:candidate_preference, candidate:)
+        application_form = create(:application_form)
+        candidate_preference = create(:candidate_preference, application_form:)
 
         create(:application_choice, status: :withdrawn, application_form:)
         create(:candidate_location_preference, :manchester, candidate_preference:)
@@ -155,10 +152,9 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
 
     context 'when the candidate is opted in but has no location preferences' do
       it 'displays "No location preferences recorded"' do
-        candidate = create(:candidate)
-        application_form = create(:application_form, candidate:)
+        application_form = create(:application_form)
 
-        create(:candidate_preference, candidate:)
+        create(:candidate_preference, application_form:)
         create(:application_choice, status: :withdrawn, application_form:)
 
         result = render_inline(described_class.new(application_form:))

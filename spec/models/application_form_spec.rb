@@ -22,6 +22,11 @@ RSpec.describe ApplicationForm do
   it { is_expected.to have_many(:emails) }
   it { is_expected.to have_many(:application_feedback) }
   it { is_expected.to have_one(:published_preference).conditions(status: 'published').order(id: :desc).dependent(:destroy).class_name('CandidatePreference') }
+  it { is_expected.to have_many(:published_preferences).conditions(status: 'published').dependent(:destroy).class_name('CandidatePreference') }
+  it { is_expected.to have_many(:published_opt_in_preferences).conditions(status: 'published', pool_status: :opt_in).dependent(:destroy).class_name('CandidatePreference') }
+  it { is_expected.to have_many(:duplicated_preferences).conditions(status: 'duplicated').dependent(:destroy).class_name('CandidatePreference') }
+  it { is_expected.to have_many(:published_opt_in_location_preferences).class_name('CandidateLocationPreference').through(:published_opt_in_preferences).source(:location_preferences) }
+  it { is_expected.to have_many(:published_location_preferences).class_name('CandidateLocationPreference').through(:published_preferences).source(:location_preferences) }
 
   describe 'delegations' do
     it { is_expected.to delegate_method(:apply_deadline_at).to(:recruitment_cycle_timetable) }

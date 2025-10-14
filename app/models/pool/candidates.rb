@@ -40,11 +40,9 @@ class Pool::Candidates
   end
 
   def application_forms_in_the_pool
-    opted_in_candidates = Candidate.joins(:published_preferences).where(published_preferences: { pool_status: 'opt_in' }).select(:id)
-
     curated_application_forms.joins(:candidate)
+      .joins(:published_opt_in_preferences)
       .where(candidate: { submission_blocked: false, account_locked: false })
-      .where(candidate: opted_in_candidates)
       .distinct
   end
 
@@ -121,36 +119,41 @@ private
   def filter_by_distance(application_forms_scope)
     return application_forms_scope unless active_location_filter?
 
-    candidate_ids = application_forms_scope.select(:candidate_id)
+    application_form_ids = application_forms_scope.select(:id)
     origin = filters.fetch(:origin)
 
     candidate_preferences_anywhere = CandidatePreference
-                                       .where(candidate_id: candidate_ids, pool_status: 'opt_in', status: 'published', training_locations: 'anywhere')
-                                       .select('candidate_preferences.candidate_id as candidate_id', '-1 as distance')
+      .where(
+        application_form_id: application_form_ids,
+        pool_status: 'opt_in',
+        status: 'published',
+        training_locations: 'anywhere',
+      )
+      .select('candidate_preferences.application_form_id as application_form_id', '-1 as distance')
 
     candidate_location_preferences_near_origin = CandidateLocationPreference
-                                                   .joins(:candidate_preference)
-                                                   .where(candidate_preferences: {
-                                                     pool_status: 'opt_in',
-                                                     status: 'published',
-                                                     candidate_id: candidate_ids,
-                                                   })
-                                                   .near(origin, :within)
-                                                   .select('candidate_preferences.candidate_id as candidate_id')
+      .joins(:candidate_preference)
+      .where(candidate_preferences: {
+        pool_status: 'opt_in',
+        status: 'published',
+        application_form_id: application_form_ids,
+      })
+      .near(origin, :within)
+      .select('candidate_preferences.application_form_id as application_form_id')
 
-    candidates_near_origin = Candidate.where(id: candidate_ids).with(
+    application_forms_near_origin = ApplicationForm.where(id: application_form_ids).with(
       candidate_preferences_anywhere: candidate_preferences_anywhere,
       candidate_location_preferences_near_origin: candidate_location_preferences_near_origin,
     )
-                               .joins('LEFT OUTER JOIN candidate_preferences_anywhere ON candidate_preferences_anywhere.candidate_id = candidates.id')
-                               .joins('LEFT OUTER JOIN candidate_location_preferences_near_origin ON candidate_location_preferences_near_origin.candidate_id = candidates.id')
-                               .where('candidate_preferences_anywhere.distance IS NOT NULL OR candidate_location_preferences_near_origin.distance IS NOT NULL')
-                               .select('candidates.*', 'MIN(COALESCE(candidate_preferences_anywhere.distance, candidate_location_preferences_near_origin.distance)) as distance')
-                                      .group('candidates.id')
+    .joins('LEFT OUTER JOIN candidate_preferences_anywhere ON candidate_preferences_anywhere.application_form_id = application_forms.id')
+    .joins('LEFT OUTER JOIN candidate_location_preferences_near_origin ON candidate_location_preferences_near_origin.application_form_id = application_forms.id')
+    .where('candidate_preferences_anywhere.distance IS NOT NULL OR candidate_location_preferences_near_origin.distance IS NOT NULL')
+    .select('application_forms.*', 'MIN(COALESCE(candidate_preferences_anywhere.distance, candidate_location_preferences_near_origin.distance)) as distance')
+    .group('application_forms.id')
 
-    application_forms_scope.with(candidates_near_origin: candidates_near_origin)
-                           .joins('INNER JOIN candidates_near_origin ON candidates_near_origin.id = application_forms.candidate_id')
-                           .select('application_forms.*', 'candidates_near_origin.distance as site_distance')
+    application_forms_scope.with(application_forms_near_origin:)
+                           .joins('INNER JOIN application_forms_near_origin ON application_forms_near_origin.id = application_forms.id')
+                           .select('application_forms.*', 'application_forms_near_origin.distance as site_distance')
   end
 
   def active_location_filter?

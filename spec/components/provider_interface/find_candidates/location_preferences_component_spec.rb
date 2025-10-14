@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::FindCandidates::LocationPreferencesComponent, 
   context 'specific locations' do
     it 'renders the locations' do
       application_form = create(:application_form)
-      candidate_preference = create(:candidate_preference, :specific_locations, candidate: application_form.candidate)
+      candidate_preference = create(:candidate_preference, :specific_locations, application_form:)
       create(:candidate_location_preference, :manchester, candidate_preference:)
       create(:candidate_location_preference, :liverpool, candidate_preference:)
 
@@ -19,7 +19,7 @@ RSpec.describe ProviderInterface::FindCandidates::LocationPreferencesComponent, 
   context 'anywhere in england' do
     it 'does not render the locations' do
       application_form = create(:application_form)
-      create(:candidate_preference, :anywhere_in_england, candidate: application_form.candidate)
+      create(:candidate_preference, :anywhere_in_england, application_form:)
 
       render_inline(described_class.new(application_form:))
 
