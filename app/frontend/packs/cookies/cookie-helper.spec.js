@@ -64,28 +64,29 @@ describe('cookie helper methods', () => {
       expect(fetchAllCookies().join(' ')).toMatch('taste=1 smell=1 sight=1 consented-to-candidate-cookies=no')
     })
 
-  describe('checkConsentedToCookieExists', () => {
-    it('returns true if cookie exists - User rejected', () => {
-      setCookie('consented-to-candidate-cookies', 'yes')
-      const response = checkConsentedToCookieExists('candidate')
+    describe('checkConsentedToCookieExists', () => {
+      it('returns true if cookie exists - User rejected', () => {
+        setCookie('consented-to-candidate-cookies', 'yes')
+        const response = checkConsentedToCookieExists('candidate')
 
-      expect(response).toEqual(true)
-    })
+        expect(response).toEqual(true)
+      })
 
-    it('returns true if cookie exists - User consented', () => {
-      setCookie('consented-to-candidate-cookies', 'yes')
-      const response = checkConsentedToCookieExists('candidate')
+      it('returns true if cookie exists - User consented', () => {
+        setCookie('consented-to-candidate-cookies', 'yes')
+        const response = checkConsentedToCookieExists('candidate')
 
-      expect(response).toEqual(true)
-    })
+        expect(response).toEqual(true)
+      })
 
-    it('returns false if cookie does not exist', () => {
-      setCookie('some-other-cookie', 'not-consented')
-      const response = checkConsentedToCookieExists('candidate')
+      it('returns false if cookie does not exist', () => {
+        setCookie('some-other-cookie', 'not-consented')
+        const response = checkConsentedToCookieExists('candidate')
 
-      expect(response).toEqual(false)
+        expect(response).toEqual(false)
 
-      clearCookie('some-other-cookie')
+        clearCookie('some-other-cookie')
+      })
     })
   })
 })
