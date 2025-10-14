@@ -71,7 +71,6 @@ shared:
     - id
     - reason
     - comment
-    - status
     - invite_id
     - created_at
     - updated_at
