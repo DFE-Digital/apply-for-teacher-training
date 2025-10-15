@@ -1,41 +1,17 @@
 en:
   service_information_banner:
     provider:
-      sandbox_header: The sandbox will be unavailable on Thursday 16 October from 7am for approximately 3 hours
+      sandbox_header: The sandbox will be unavailable on Thursday 16 October from 8am for approximately 1 hour
       sandbox_body: This will affect both the web service and the API. You may lose work if you are using the sandbox when it becomes unavailable.
-      header: Sorry, the service is unavailable
-      body_html: |
-        You will be able to use the service again from 9am UK time.<br>
-        <br>
-        If you are applying for teacher training you can %{contact_us_link} if you need help or support in the meantime.<br>
-        <br>
-        If you are a training provider you can email %{email_link}<br>.
-        <br>
-        You will get a response within 5 working days, or one working day for urgent requests.
-        <br>
+      header: The service will be unavailable on Thursday 16 October
+      body: You will be unable to access this service from 8am UK time for around an hour.
     candidate:
-      sandbox_header: The sandbox will be unavailable on Thursday 16 October from 7am for approximately 3 hours
+      sandbox_header: The sandbox will be unavailable on Thursday 16 October from 8am for approximately 1 hour
       sandbox_body: This will affect both the web service and the API. You may lose work if you are using the sandbox when it becomes unavailable.
-      header: Sorry, the service is unavailable
-      body_html: |
-        You will be able to use the service again from 9am UK time.<br>
-        <br>
-        If you are applying for teacher training you can %{contact_us_link} if you need help or support in the meantime.<br>
-        <br>
-        If you are a training provider you can email %{email_link}<br>.
-        <br>
-        You will get a response within 5 working days, or one working day for urgent requests.
-        <br>
+      header: The service will be unavailable on Thursday 16 October
+      body: You will be unable to access this service from 8am UK time for around an hour.
     support:
-      sandbox_header: The sandbox will be unavailable on Thursday 16 October from 7am for approximately 3 hours
+      sandbox_header: The sandbox will be unavailable on Thursday 16 October from 8am for approximately 1 hour
       sandbox_body: This will affect both the web service and the API. You may lose work if you are using the sandbox when it becomes unavailable.
-      header: Sorry, the service is unavailable
-      body_html: |
-        You will be able to use the service again from 9am UK time.<br>
-        <br>
-        If you are applying for teacher training you can %{contact_us_link} if you need help or support in the meantime.<br>
-        <br>
-        If you are a training provider you can email %{email_link}<br>.
-        <br>
-        You will get a response within 5 working days, or one working day for urgent requests.
-        <br>
+      header: The service will be unavailable on Thursday 16 October
+      body: You will be unable to access this service from 8am UK time for around an hour.
