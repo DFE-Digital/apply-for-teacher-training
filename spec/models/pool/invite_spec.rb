@@ -169,17 +169,9 @@ RSpec.describe Pool::Invite do
       expect(invite.decline_reasons_include_only_salaried?).to be false
     end
 
-    it 'returns true when a draft decline reason is only_salaried' do
+    it 'returns true when a decline reason is only_salaried' do
       invite = build_stubbed(:pool_invite, invite_decline_reasons: [
-        build_stubbed(:pool_invite_decline_reason, :draft, reason: 'only_salaried'),
-      ])
-
-      expect(invite.decline_reasons_include_only_salaried?).to be true
-    end
-
-    it 'returns true when a published decline reason is only_salaried' do
-      invite = build_stubbed(:pool_invite, invite_decline_reasons: [
-        build_stubbed(:pool_invite_decline_reason, :published, reason: 'only_salaried'),
+        build_stubbed(:pool_invite_decline_reason, reason: 'only_salaried'),
       ])
 
       expect(invite.decline_reasons_include_only_salaried?).to be true
@@ -193,17 +185,9 @@ RSpec.describe Pool::Invite do
       expect(invite.decline_reasons_include_location_not_convenient?).to be false
     end
 
-    it 'returns true when a draft decline reason is location_not_convenient' do
+    it 'returns true when a decline reason is location_not_convenient' do
       invite = build_stubbed(:pool_invite, invite_decline_reasons: [
-        build_stubbed(:pool_invite_decline_reason, :draft, reason: 'location_not_convenient'),
-      ])
-
-      expect(invite.decline_reasons_include_location_not_convenient?).to be true
-    end
-
-    it 'returns true when a published decline reason is location_not_convenient' do
-      invite = build_stubbed(:pool_invite, invite_decline_reasons: [
-        build_stubbed(:pool_invite_decline_reason, :published, reason: 'location_not_convenient'),
+        build_stubbed(:pool_invite_decline_reason, reason: 'location_not_convenient'),
       ])
 
       expect(invite.decline_reasons_include_location_not_convenient?).to be true
@@ -217,17 +201,9 @@ RSpec.describe Pool::Invite do
       expect(invite.decline_reasons_include_no_longer_interested?).to be false
     end
 
-    it 'returns true when a draft decline reason is no_longer_interested' do
+    it 'returns true when a decline reason is no_longer_interested' do
       invite = build_stubbed(:pool_invite, invite_decline_reasons: [
-        build_stubbed(:pool_invite_decline_reason, :draft, reason: 'no_longer_interested'),
-      ])
-
-      expect(invite.decline_reasons_include_no_longer_interested?).to be true
-    end
-
-    it 'returns true when a published decline reason is no_longer_interested' do
-      invite = build_stubbed(:pool_invite, invite_decline_reasons: [
-        build_stubbed(:pool_invite_decline_reason, :published, reason: 'no_longer_interested'),
+        build_stubbed(:pool_invite_decline_reason, reason: 'no_longer_interested'),
       ])
 
       expect(invite.decline_reasons_include_no_longer_interested?).to be true
