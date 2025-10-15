@@ -595,17 +595,6 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def publish_duplicated_preference(application_form)
-    @application_sharing_url = candidate_interface_invites_url
-    @how_preferences_work = candidate_interface_share_details_url
-
-    email_for_candidate(
-      application_form,
-      subject: I18n.t!('candidate_mailer.publish_duplicated_preference.subject'),
-      layout: false,
-    )
-  end
-
 private
 
   def email_for_candidate(application_form, args = {})

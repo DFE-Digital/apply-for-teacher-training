@@ -6,8 +6,6 @@ en:
       subject: You have opted-out of application sharing
     pool_re_opt_in:
       subject: You have opted-in to application sharing
-    publish_duplicated_preference:
-      subject: We have copied your application sharing preferences to the new recruitment cycle
     reference_received:
       subject: "%{referee_name} has given you a reference"
     application_choice_submitted:
