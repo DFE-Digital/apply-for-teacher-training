@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_06_125919) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_14_151640) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -771,7 +771,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_125919) do
   create_table "pool_invite_decline_reasons", force: :cascade do |t|
     t.string "reason"
     t.text "comment"
-    t.string "status", default: "draft"
     t.bigint "invite_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
