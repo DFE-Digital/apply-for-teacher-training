@@ -9,13 +9,19 @@ module CandidateInterface
       errors = []
 
       Candidate.where(id: candidate_ids).find_each do |candidate|
+        application_form = candidate.current_application
+        duplicated_preference = application_form.duplicated_preferences.last
+
         ActiveRecord::Base.transaction do
-          application_form = candidate.current_application
-          duplicated_preference = application_form.duplicated_preferences.last
           duplicated_preference.published!
           application_form.duplicated_preferences.where.not(
             id: duplicated_preference.id,
           ).destroy_all
+        end
+
+        if duplicated_preference.reload.published? &&
+           application_form.emails.where(mail_template: 'publish_duplicated_preference').blank?
+          CandidateMailer.publish_duplicated_preference(application_form)
         end
       rescue StandardError => e
         errors << { candidate_id: candidate.id, error: e.message }

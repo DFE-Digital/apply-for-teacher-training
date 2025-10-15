@@ -33,15 +33,46 @@ RSpec.describe CandidateInterface::PublishDuplicatePreferences do
         updated_at: 2.days.from_now,
         application_form: another_application_form,
       )
+      mailer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+      allow(CandidateMailer).to receive(:publish_duplicated_preference).and_return(mailer)
 
       expect {
         described_class.new.call
       }.to change { duplicated_preference.reload.status }
         .from('duplicated').to('published')
+      expect(CandidateMailer).to have_received(:publish_duplicated_preference).with(application_form)
       expect(existing_preference.reload).to eq(existing_preference)
-
       expect(CandidatePreference.where(id: another_duplicated_preference.id))
         .not_to exist
+    end
+
+    context 'when email has already been sent' do
+      it 'publishes duplicate preference' do
+        application_form = create(
+          :application_form,
+          :completed,
+          submitted_application_choices_count: 1,
+        )
+        create(:email, application_form:, mail_template: 'publish_duplicated_preference')
+        _published_preference = create(
+          :candidate_preference,
+          updated_at: 2.days.ago,
+          application_form:,
+        )
+        duplicated_preference = create(
+          :candidate_preference,
+          :duplicated,
+          application_form:,
+        )
+        mailer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+        allow(CandidateMailer).to receive(:publish_duplicated_preference).and_return(mailer)
+
+        expect {
+          described_class.new.call
+        }.to change { duplicated_preference.reload.status }
+          .from('duplicated').to('published')
+        expect(CandidateMailer).not_to have_received(:publish_duplicated_preference).with(application_form)
+      end
     end
 
     context 'when published preference has been updated after duplicated one' do

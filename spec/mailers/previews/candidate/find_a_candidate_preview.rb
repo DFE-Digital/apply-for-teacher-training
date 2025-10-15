@@ -135,4 +135,19 @@ class Candidate::FindACandidatePreview < ActionMailer::Preview
 
     CandidateMailer.pool_re_opt_in(application_form)
   end
+
+  def publish_duplicated_preference
+    application_form = FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      first_name: 'Fred',
+    )
+    FactoryBot.create(:email, mail_template: 'publish_duplicated_preference')
+    FactoryBot.create(
+      :candidate_preference,
+      application_form:,
+    )
+
+    CandidateMailer.publish_duplicated_preference(application_form)
+  end
 end
