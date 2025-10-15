@@ -32,11 +32,11 @@ module ProviderInterface
 
       def show
         @application_form = Pool::Candidates.application_forms_for_provider
-          .find_by(candidate_id: params.expect(:id))
+          .find_by(candidate_id:)
         @candidate = @application_form&.candidate
 
         if @application_form.blank? || @candidate.blank?
-          redirect_to provider_interface_candidate_pool_root_path
+          redirect_to provider_interface_candidate_pool_candidate_not_in_pool_path(candidate_id)
         else
           current_provider_user.pool_views.find_or_create_by(
             application_form_id: @application_form.id,
@@ -53,6 +53,10 @@ module ProviderInterface
 
       def apply_filters
         params.permit(:apply_filters)
+      end
+
+      def candidate_id
+        params.expect(:id)
       end
 
       def filter_params
