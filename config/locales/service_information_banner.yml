@@ -1,17 +1,41 @@
 en:
   service_information_banner:
     provider:
-      sandbox_header: Service disruption
+      sandbox_header: The sandbox will be unavailable on Thursday 16 October from 7am for approximately 3 hours
       sandbox_body: This will affect both the web service and the API. You may lose work if you are using the sandbox when it becomes unavailable.
-      header: Service disruption today Thursday 9 October
-      body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
+      header: Sorry, the service is unavailable
+      body_html: |
+        You will be able to use the service again from 9am UK time.<br>
+        <br>
+        If you are applying for teacher training you can %{contact_us_link} if you need help or support in the meantime.<br>
+        <br>
+        If you are a training provider you can email %{email_link}<br>.
+        <br>
+        You will get a response within 5 working days, or one working day for urgent requests.
+        <br>
     candidate:
-      sandbox_header: Service disruption
-      sandbox_body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
-      header: Service disruption today Thursday 9 October
-      body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
+      sandbox_header: The sandbox will be unavailable on Thursday 16 October from 7am for approximately 3 hours
+      sandbox_body: This will affect both the web service and the API. You may lose work if you are using the sandbox when it becomes unavailable.
+      header: Sorry, the service is unavailable
+      body_html: |
+        You will be able to use the service again from 9am UK time.<br>
+        <br>
+        If you are applying for teacher training you can %{contact_us_link} if you need help or support in the meantime.<br>
+        <br>
+        If you are a training provider you can email %{email_link}<br>.
+        <br>
+        You will get a response within 5 working days, or one working day for urgent requests.
+        <br>
     support:
-      sandbox_header: Service disruption
-      sandbox_body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
-      header: Service disruption today Thursday 9 October
-      body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
+      sandbox_header: The sandbox will be unavailable on Thursday 16 October from 7am for approximately 3 hours
+      sandbox_body: This will affect both the web service and the API. You may lose work if you are using the sandbox when it becomes unavailable.
+      header: Sorry, the service is unavailable
+      body_html: |
+        You will be able to use the service again from 9am UK time.<br>
+        <br>
+        If you are applying for teacher training you can %{contact_us_link} if you need help or support in the meantime.<br>
+        <br>
+        If you are a training provider you can email %{email_link}<br>.
+        <br>
+        You will get a response within 5 working days, or one working day for urgent requests.
+        <br>
