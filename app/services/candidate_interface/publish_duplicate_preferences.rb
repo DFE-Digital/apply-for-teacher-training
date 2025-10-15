@@ -21,7 +21,7 @@ module CandidateInterface
 
         if duplicated_preference.reload.published? &&
            application_form.emails.where(mail_template: 'publish_duplicated_preference').blank?
-          CandidateMailer.publish_duplicated_preference(application_form)
+          CandidateMailer.publish_duplicated_preference(application_form).deliver_later
         end
       rescue StandardError => e
         errors << { candidate_id: candidate.id, error: e.message }
