@@ -1,17 +1,17 @@
 en:
   service_information_banner:
     provider:
-      sandbox_header: Service disruption
+      sandbox_header: The sandbox will be unavailable on Thursday 16 October from 8am for approximately 1 hour
       sandbox_body: This will affect both the web service and the API. You may lose work if you are using the sandbox when it becomes unavailable.
-      header: Service disruption today Thursday 9 October
-      body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
+      header: The service will be unavailable on Thursday 16 October
+      body: You will be unable to access this service from 8am UK time for around an hour.
     candidate:
-      sandbox_header: Service disruption
-      sandbox_body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
-      header: Service disruption today Thursday 9 October
-      body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
+      sandbox_header: The sandbox will be unavailable on Thursday 16 October from 8am for approximately 1 hour
+      sandbox_body: This will affect both the web service and the API. You may lose work if you are using the sandbox when it becomes unavailable.
+      header: The service will be unavailable on Thursday 16 October
+      body: You will be unable to access this service from 8am UK time for around an hour.
     support:
-      sandbox_header: Service disruption
-      sandbox_body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
-      header: Service disruption today Thursday 9 October
-      body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
+      sandbox_header: The sandbox will be unavailable on Thursday 16 October from 8am for approximately 1 hour
+      sandbox_body: This will affect both the web service and the API. You may lose work if you are using the sandbox when it becomes unavailable.
+      header: The service will be unavailable on Thursday 16 October
+      body: You will be unable to access this service from 8am UK time for around an hour.

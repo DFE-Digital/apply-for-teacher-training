@@ -9,12 +9,12 @@ RSpec.describe ServiceInformationBanner do
 
   context 'in the provider namespace' do
     it 'renders the banner' do
-      expect(result.text).to include('disruption')
+      expect(result.text).to include('unavailable')
     end
 
     context 'when the hosting environment is sandbox' do
       it 'renders the banner header', :sandbox do
-        expect(result.text).to include('disruption')
+        expect(result.text).to include('sandbox')
       end
     end
   end
@@ -23,12 +23,12 @@ RSpec.describe ServiceInformationBanner do
     let(:namespace) { :candidate }
 
     it 'renders the banner' do
-      expect(result.text).to include('disruption')
+      expect(result.text).to include('unavailable')
     end
 
     context 'when the hosting environment is sandbox' do
       it 'renders the banner header', :sandbox do
-        expect(result.text).to include('disruption')
+        expect(result.text).to include('unavailable')
       end
     end
   end
