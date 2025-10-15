@@ -127,6 +127,7 @@ en:
             pool_opt_in: Email sent the first time the candidate opts into the pool
             pool_opt_out: Email sent when a candidate opts out of the pool
             pool_re_opt_in: Email sent when a candidate re opt ins into the pool
+            publish_duplicated_preference: Email sent to candidates that we automatically carried over their preferences
           provider_mailer:
             application_submitted: Missing description
             application_submitted_with_safeguarding_issues: Missing description
