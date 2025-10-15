@@ -1,4 +1,5 @@
 class CandidatePreference < ApplicationRecord
+  self.ignored_columns += ['candidate_id']
   belongs_to :application_form
   has_many :location_preferences, dependent: :destroy, class_name: 'CandidateLocationPreference'
 
