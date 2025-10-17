@@ -237,6 +237,9 @@ RSpec.describe AdviserSignUpWorker do
       accepted_policy_id: privacy_policy.id,
       type_id: constants.fetch(:types, :interested_in_teacher_training),
       channel_id: constants.fetch(:channels, :apply),
+      creation_channel_source_id: constants.fetch(:teacher_training_adviser_sign_up, :creation_channel_source_id),
+      creation_channel_service_id: constants.fetch(:teacher_training_adviser_sign_up, :creation_channel_service_id),
+      creation_channel_activity_id: constants.fetch(:teacher_training_adviser_sign_up, :creation_channel_activity_id),
     }
   end
 end

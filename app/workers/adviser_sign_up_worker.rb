@@ -51,6 +51,7 @@ private
       type_id: constants.fetch(:types, :interested_in_teacher_training),
       channel_id: constants.fetch(:channels, :apply),
     }.merge(matchback_attributes)
+     .merge(creation_channel_attributes)
   end
 
   def matchback_attributes
@@ -61,6 +62,14 @@ private
     teacher_training_adviser_sign_up
       .attributes_as_snake_case
       .slice(*MATCHBACK_ATTRIBUTES)
+  end
+
+  def creation_channel_attributes
+    {
+      creation_channel_source_id: constants.fetch(:teacher_training_adviser_sign_up, :creation_channel_source_id),
+      creation_channel_service_id: constants.fetch(:teacher_training_adviser_sign_up, :creation_channel_service_id),
+      creation_channel_activity_id: constants.fetch(:teacher_training_adviser_sign_up, :creation_channel_activity_id),
+    }
   end
 
   def degree
