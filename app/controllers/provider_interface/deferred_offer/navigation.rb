@@ -32,6 +32,10 @@ module ProviderInterface::DeferredOffer::Navigation
       application_choice.offer
     end
 
+    def provider
+      application_choice.provider
+    end
+
     def application_choice
       @application_choice ||= GetApplicationChoicesForProviders.call(
         providers: current_provider_user.providers,
