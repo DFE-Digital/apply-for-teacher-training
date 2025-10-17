@@ -4,8 +4,8 @@ RSpec.describe GetChangeOfferOptions do
   include CourseOptionHelpers
 
   let(:ratifying_provider) { create(:provider) }
-  let(:self_ratified_course) { create(:course, provider: ratifying_provider) }
-  let(:externally_ratified_course) { create(:course, accredited_provider: ratifying_provider) }
+  let(:self_ratified_course) { create(:course, :with_course_options, provider: ratifying_provider) }
+  let(:externally_ratified_course) { create(:course, :with_course_options, accredited_provider: ratifying_provider) }
   let(:provider_user) { create(:provider_user) }
 
   def service(provider_user, course)

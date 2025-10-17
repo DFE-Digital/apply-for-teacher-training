@@ -27,7 +27,7 @@
       </p>
     <% end %>
 
-    <% if @provider_user_can_make_decisions && @application_choice.offer? %>
+    <% if @provider_user_can_make_decisions && (@application_choice.offer? || @application_choice.pending_conditions?) %>
       <%= render ProviderInterface::CompletedOfferSummaryComponent.new(
             application_choice: @application_choice,
             course_option: @application_choice.current_course_option,
