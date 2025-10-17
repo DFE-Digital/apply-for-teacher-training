@@ -89,10 +89,11 @@ RSpec.describe 'Provider confirms a deferred offer' do
 
     click_on 'Continue'
 
-    # Conditions
     then_i_can_see_the_conditions_page
     and_i_choose_conditions_met
+
     click_on 'Confirm deferred offer'
+    then_i_see_that_the_offer_is_updated
   end
 
   scenario 'Provider wants to deferred an offer - the original course, study mode and location are not available in the current cycle' do
@@ -116,10 +117,11 @@ RSpec.describe 'Provider confirms a deferred offer' do
 
     click_on 'Continue'
 
-    # Conditions
     then_i_can_see_the_conditions_page
     and_i_choose_conditions_met
+
     click_on 'Confirm deferred offer'
+    then_i_see_that_the_offer_is_updated
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -128,6 +130,9 @@ RSpec.describe 'Provider confirms a deferred offer' do
     @provider = create(:provider, code: 'ZZZ', name: 'Provider Deferring')
 
     provider_user_exists_in_apply_database(provider_code: 'ZZZ')
+    provider_user = ProviderUser.find_by(email_address: 'email@provider.ac.uk')
+
+    provider_user.provider_permissions.find_by(provider: @provider).update!(make_decisions: true)
   end
 
   def and_applications_with_status_offer_deferred_exist
@@ -319,5 +324,16 @@ RSpec.describe 'Provider confirms a deferred offer' do
 
   def and_i_choose_conditions_met
     choose 'Yes, all conditions are met'
+  end
+
+  def then_i_see_that_the_offer_is_updated
+    @deferred_application_choice.reload
+    offer = @deferred_application_choice.offer
+
+    expect(offer.course.name).to eq('Secondary')
+    expect(offer.course.code).to eq('SC1')
+    expect(offer.study_mode).to eq('full_time')
+    expect(offer.site.name).to eq('Other site')
+    expect(offer.conditions.first.status).to eq('met')
   end
 end
