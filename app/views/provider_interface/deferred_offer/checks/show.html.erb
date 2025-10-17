@@ -28,7 +28,7 @@
         <% if @deferred_offer.course_name_and_code.present?
              row.with_action(
                text: 'Change',
-               href: provider_interface_deferred_offer_course_path(@deferred_offer.application_choice),
+               href: provider_interface_deferred_offer_course_path(@deferred_offer.application_choice, return_to: 'review'),
                visually_hidden_text: 'course',
              )
            end %>
@@ -42,7 +42,7 @@
         <% if @deferred_offer.study_mode.present?
              row.with_action(
                text: 'Change',
-               href: provider_interface_deferred_offer_study_mode_path(@deferred_offer.application_choice),
+               href: provider_interface_deferred_offer_study_mode_path(@deferred_offer.application_choice, return_to: 'review'),
                visually_hidden_text: 'full time or part time',
              )
            end %>
@@ -58,7 +58,7 @@
         <% if @deferred_offer.location.present?
              row.with_action(
                text: 'Change',
-               href: provider_interface_deferred_offer_location_path(@deferred_offer.application_choice),
+               href: provider_interface_deferred_offer_location_path(@deferred_offer.application_choice, return_to: 'review'),
                visually_hidden_text: 'location',
              )
            end %>
