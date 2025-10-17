@@ -44,8 +44,10 @@ class GetChangeOfferOptions
 
   def offerable_courses
     make_decisions_courses
+    .joins(:course_options)
     .where(recruitment_cycle_year:)
     .where(ratifying_provider_is_preserved)
+    .distinct
   end
 
   def make_decisions_courses
