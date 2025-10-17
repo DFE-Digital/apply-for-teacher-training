@@ -6,7 +6,9 @@
 
   <%= f.govuk_error_summary %>
 
-  <span class="govuk-caption-l"><%= application_choice.application_form.full_name %></span>
+  <span class="govuk-caption-l" data-clarity-mask="True">
+    <%= application_choice.application_form.full_name %>
+  </span>
   <h1 class="govuk-heading-l"><%= form_heading %></h1>
 
   <% if application_choice.application_form.interview_preferences.present? %>

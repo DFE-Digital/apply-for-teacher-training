@@ -60,11 +60,17 @@
 
     <% case try(:current_namespace) %>
     <% when 'candidate_interface' %>
-      <%= javascript_pack_tag 'application-candidate' %>
+      <%= javascript_pack_tag(
+            'application-candidate',
+            data: { 'clarity-id': FeatureFlag.active?(:ms_clarity) ? ENV.fetch('CLARITY_PROJECT_ID', '') : '' },
+          ) %>
     <% when 'support_interface' %>
       <%= javascript_pack_tag 'application-support' %>
     <% when 'provider_interface' %>
-      <%= javascript_pack_tag 'application-provider' %>
+      <%= javascript_pack_tag(
+            'application-provider',
+            data: { 'clarity-id': FeatureFlag.active?(:ms_clarity) ? ENV.fetch('CLARITY_PROJECT_ID', '') : '' },
+          ) %>
       <% if FeatureFlag.active?(:enable_chat_support) %>
         <%= render 'shared/zendesk_snippet' %>
         <%= javascript_pack_tag 'user-support-webchat' %>

@@ -5,7 +5,7 @@
     </p>
   <% end %>
   <header class="app-application-card__header">
-    <h3 class="govuk-heading-s">
+    <h3 class="govuk-heading-s" data-clarity-mask="True">
       <%= govuk_link_to candidate_name, provider_interface_application_choice_path(application_choice), no_visited_state: true %>
       <span class="app-application-card__caption">
         <%= application_choice.id %>

@@ -40,47 +40,53 @@ describe('cookie helper methods', () => {
       expect(document.cookie).toEqual('consented-to-candidate-cookies=no')
     })
 
-    it('removes optional cookies if a user rejected cookie', () => {
+    it('removes google analytics cookies if a user rejected cookie', () => {
       const fakeEssentialCookies = ['taste', 'smell', 'sight']
-      const fakeOptionalCookies = ['_ga', '_gat']
+      const fakeGoogleAnalyticsCookies = [
+        '_ga',
+        '_gat_gtag_UA_112932657_3',
+        '_gat_gtag_UA_112932657_8',
+        '_gid'
+      ]
 
       fakeEssentialCookies.forEach(cookieName => {
         setCookie(cookieName, 1)
       })
-      fakeOptionalCookies.forEach(cookieName => {
+      fakeGoogleAnalyticsCookies.forEach(cookieName => {
         setCookie(cookieName, 1)
       })
 
-      expect(fetchAllCookies().length).toEqual(5)
+      expect(fetchAllCookies().length).toEqual(7)
 
       setConsentedToCookie({ userAnswer: 'no', service: 'candidate' })
 
-      expect(fetchAllCookies().length).toEqual((6))
-    })
-  })
-
-  describe('checkConsentedToCookieExists', () => {
-    it('returns true if cookie exists - User rejected', () => {
-      setCookie('consented-to-candidate-cookies', 'yes')
-      const response = checkConsentedToCookieExists('candidate')
-
-      expect(response).toEqual(true)
+      expect(fetchAllCookies().length).toEqual(4)
+      expect(fetchAllCookies().join(' ')).toMatch('taste=1 smell=1 sight=1 consented-to-candidate-cookies=no')
     })
 
-    it('returns true if cookie exists - User consented', () => {
-      setCookie('consented-to-candidate-cookies', 'yes')
-      const response = checkConsentedToCookieExists('candidate')
+    describe('checkConsentedToCookieExists', () => {
+      it('returns true if cookie exists - User rejected', () => {
+        setCookie('consented-to-candidate-cookies', 'yes')
+        const response = checkConsentedToCookieExists('candidate')
 
-      expect(response).toEqual(true)
-    })
+        expect(response).toEqual(true)
+      })
 
-    it('returns false if cookie does not exist', () => {
-      setCookie('some-other-cookie', 'not-consented')
-      const response = checkConsentedToCookieExists('candidate')
+      it('returns true if cookie exists - User consented', () => {
+        setCookie('consented-to-candidate-cookies', 'yes')
+        const response = checkConsentedToCookieExists('candidate')
 
-      expect(response).toEqual(false)
+        expect(response).toEqual(true)
+      })
 
-      clearCookie('some-other-cookie')
+      it('returns false if cookie does not exist', () => {
+        setCookie('some-other-cookie', 'not-consented')
+        const response = checkConsentedToCookieExists('candidate')
+
+        expect(response).toEqual(false)
+
+        clearCookie('some-other-cookie')
+      })
     })
   })
 })

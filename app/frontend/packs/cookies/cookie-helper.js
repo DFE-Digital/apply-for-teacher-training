@@ -6,10 +6,12 @@ const ANALYTICAL_COOKIES = [
 
 /** @description sets the cookie with the users consent and returns its value
  * @returns {Boolean} true, if it successfully sets the consented-to-cookies
+ * @param {String} userAnswer 'yes' or 'no', the answer to whether or not the user consents to cookies.
+ * @param {String} service 'apply' or 'manage', the name of the service for which the consent applies
  */
 const setConsentedToCookie = ({ userAnswer, service }) => {
   setCookie(`consented-to-${service}-cookies`, userAnswer, { days: 182 })
-  removeOptionalCookies(userAnswer)
+  removeOptionalCookies(userAnswer === 'yes')
 }
 
 /** @summary Checks if consented-to-cookies cookie exists
@@ -41,7 +43,6 @@ const removeOptionalCookies = (userDecision) => {
 }
 
 /**
- *  @private
  *  @summary Fetches and returns a cookie by cookie name
  *  @param {string} name - Cookie name which the method should lookup
  *  @returns {string} Cookie string in key=value format
@@ -66,7 +67,6 @@ function getCookie (name) {
 }
 
 /**
- *  @private
  *  @summary Sets a cookie
  *  @param {string} name - Cookie name
  *  @param {string} value - Value the cookie will be set to
@@ -94,5 +94,7 @@ function setCookie (name, value, options) {
 
 export {
   setConsentedToCookie,
-  checkConsentedToCookieExists
+  checkConsentedToCookieExists,
+  getCookie,
+  setCookie
 }
