@@ -2,7 +2,10 @@
 
 <% if @show_updated_recently_banner %>
   <%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
-    <% notification_banner.with_heading(text: "#{@application_choice.application_form.full_name} updated their application on #{@application_choice.application_form.updated_at.to_fs(:govuk_date)} at #{@application_choice.application_form.updated_at.to_fs(:govuk_time)}") %>
+    <% notification_banner.with_heading(
+         text: "#{@application_choice.application_form.full_name} updated their application on #{@application_choice.application_form.updated_at.to_fs(:govuk_date)} at #{@application_choice.application_form.updated_at.to_fs(:govuk_time)}",
+         html_attributes: { 'data-clarity-mask': 'True' },
+       ) %>
     <p class="govuk-body"><%= govuk_link_to 'View the timeline for their updates', provider_interface_application_choice_timeline_path(@application_choice.id) %></p>
   <% end %>
 <% end %>
@@ -20,7 +23,11 @@
 
 <h2 class="govuk-heading-l govuk-!-margin-bottom">Application</h2>
 
-<p class="govuk-body govuk-!-display-none-print govuk-!-width-two-thirds"><%= @application_choice.application_form.full_name %> will be able to edit some sections of their application. You will get a notification if they add any new information.</p>
+<p class="govuk-body govuk-!-display-none-print govuk-!-width-two-thirds">
+  <span data-clarity-mask="True">
+    <%= @application_choice.application_form.full_name %>
+  </span> will be able to edit some sections of their application. You will get a notification if they add any new information.
+</p>
 
 <p class="govuk-body govuk-!-display-none-print">
   <% if application_withdrawable? %>
