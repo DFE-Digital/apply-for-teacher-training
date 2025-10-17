@@ -4,7 +4,9 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+      <span class="govuk-caption-l" data-clarity-mask="True">
+        <%= @application_choice.application_form.full_name %>
+      </span>
       <%= t('.title') %>
     </h1>
 
