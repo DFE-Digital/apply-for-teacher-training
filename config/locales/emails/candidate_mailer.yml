@@ -61,6 +61,8 @@ en:
       subject: "Offer changed for %{course_details}"
     course_change:
       subject: "Course details changed for %{course_details}"
+    course_change_pending_conditions:
+      subject: Your offered course has changed
     deferred_offer:
       subject: "Your offer has been deferred"
     deferred_offer_reminder:

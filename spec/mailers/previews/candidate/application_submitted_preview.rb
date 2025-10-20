@@ -63,6 +63,30 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
     CandidateMailer.change_course(application_choice, application_choice.original_course_option)
   end
 
+  def change_course_pending_conditions
+    offer = FactoryBot.create(
+      :offer,
+      conditions: [
+        FactoryBot.create(:reference_condition),
+        FactoryBot.create(:text_condition),
+        FactoryBot.create(:ske_condition),
+      ],
+    )
+    application_choice = FactoryBot.create(
+      :application_choice,
+      :pending_conditions,
+      offer:,
+      status: 'pending_conditions',
+      course_option:,
+      current_course_option: course_option,
+    )
+
+    CandidateMailer.change_course_pending_conditions(
+      application_choice,
+      application_choice.original_course_option,
+    )
+  end
+
   def apply_to_another_course_after_30_working_days
     application_form = FactoryBot.create(
       :application_form,
