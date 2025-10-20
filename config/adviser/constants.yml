@@ -7,6 +7,10 @@ teaching_subjects:
     other: bc2655a1-2afa-e811-a981-000d3a276620
     physics_with_maths: ae2655a1-2afa-e811-a981-000d3a276620
     vocational_health: ba2655a1-2afa-e811-a981-000d3a276620
+teacher_training_adviser_sign_up:
+  creation_channel_source_id: 222_750_000
+  creation_channel_service_id: 222_750_010
+  creation_channel_activity_id: 222_750_017
 channels:
   apply: 222_750_049
 degree_status:
