@@ -35,12 +35,100 @@ RSpec.describe 'Provider changes a course on pending conditions' do
     )
   end
 
+  scenario 'Change course' do
+    given_i_am_a_provider_user
+    and_i_am_permitted_to_make_decisions_for_my_provider
+    and_the_provider_user_can_offer_multiple_provider_courses
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_click(@application_form.full_name)
+    and_i_click('Offer')
+    and_i_click('Change course')
+
+    when_i_chose_another_course
+    and_i_click('Continue')
+
+    when_i_choose_part_time
+    and_i_click('Continue')
+
+    then_i_review_the_selections(
+      provider: @source_provider.name,
+      course: @source_provider_course.name_and_code,
+      study_mode: 'Part time',
+      site_postcode: @source_provider_course.sites.first.postcode,
+    )
+    and_i_click('Update course')
+    then_the_application_choice_is_updated(
+      provider: @source_provider,
+      course: @source_provider_course,
+      study_mode: 'part_time',
+      site: @source_provider_course.sites.first,
+    )
+  end
+
+  scenario 'Change study_mode' do
+    given_i_am_a_provider_user
+    and_i_am_permitted_to_make_decisions_for_my_provider
+    and_the_provider_user_can_offer_multiple_provider_courses
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_click(@application_form.full_name)
+    and_i_click('Offer')
+    and_i_click('Change if full time or part time')
+
+    when_i_choose_part_time
+    and_i_click('Continue')
+
+    then_i_review_the_selections(
+      provider: @source_provider.name,
+      course: @course.name_and_code,
+      study_mode: 'Part time',
+      site_postcode: @part_time_option.site.postcode,
+    )
+    and_i_click('Update course')
+    then_the_application_choice_is_updated(
+      provider: @source_provider,
+      course: @course,
+      study_mode: 'part_time',
+      site: @part_time_option.site,
+    )
+  end
+
+  scenario 'Change site' do
+    given_i_am_a_provider_user
+    and_i_am_permitted_to_make_decisions_for_my_provider
+    and_the_provider_user_can_offer_multiple_provider_courses
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_click(@application_form.full_name)
+    and_i_click('Offer')
+    and_i_click('Change location')
+
+    when_i_choose_a_different_site
+    and_i_click('Continue')
+
+    then_i_review_the_selections(
+      provider: @source_provider.name,
+      course: @course.name_and_code,
+      study_mode: 'Full time',
+      site_postcode: @different_site_option.site.postcode,
+    )
+    and_i_click('Update course')
+    then_the_application_choice_is_updated(
+      provider: @source_provider,
+      course: @course,
+      study_mode: 'full_time',
+      site: @different_site_option.site,
+    )
+  end
+
   def given_i_am_a_provider_user
     @provider_user = create(
       :provider_user,
       :with_dfe_sign_in,
       :with_make_decisions,
       :with_two_providers,
+      :with_set_up_interviews,
     )
     user_exists_in_dfe_sign_in(email_address: @provider_user.email_address)
   end
@@ -155,5 +243,13 @@ RSpec.describe 'Provider changes a course on pending conditions' do
     expect(@application_choice.current_course_option.study_mode).to eq(study_mode)
     expect(@application_choice.current_course_option.site).to eq(site)
     expect(@application_choice.status).to eq('pending_conditions')
+  end
+
+  def when_i_chose_another_course
+    choose @source_provider_course.name
+  end
+
+  def when_i_choose_a_different_site
+    choose @different_site_option.site.name
   end
 end
