@@ -52,35 +52,19 @@ module ProviderInterface
     end
 
     def change_provider_path
-      if @application_choice.pending_conditions?
-        available_providers.length > 1 ? edit_provider_interface_application_choice_course_providers_path(application_choice) : nil
-      else
-        available_providers.length > 1 ? edit_provider_interface_application_choice_offer_providers_path(application_choice) : nil
-      end
+      available_providers.length > 1 ? edit_provider_interface_application_choice_offer_providers_path(application_choice) : nil
     end
 
     def change_course_path
-      if @application_choice.pending_conditions?
-        available_courses.length > 1 ? edit_provider_interface_application_choice_course_courses_path(application_choice) : nil
-      else
-        available_courses.length > 1 ? edit_provider_interface_application_choice_offer_courses_path(application_choice) : nil
-      end
+      available_courses.length > 1 ? edit_provider_interface_application_choice_offer_courses_path(application_choice) : nil
     end
 
     def change_study_mode_path
-      if @application_choice.pending_conditions?
-        course.full_time_or_part_time? ? edit_provider_interface_application_choice_course_study_modes_path(application_choice) : nil
-      else
-        course.full_time_or_part_time? ? edit_provider_interface_application_choice_offer_study_modes_path(application_choice) : nil
-      end
+      course.full_time_or_part_time? ? edit_provider_interface_application_choice_offer_study_modes_path(application_choice) : nil
     end
 
     def change_location_path
-      if @application_choice.pending_conditions?
-        available_course_options.length > 1 ? edit_provider_interface_application_choice_course_locations_path(application_choice) : nil
-      else
-        available_course_options.length > 1 ? edit_provider_interface_application_choice_offer_locations_path(application_choice) : nil
-      end
+      available_course_options.length > 1 ? edit_provider_interface_application_choice_offer_locations_path(application_choice) : nil
     end
 
     def mode

@@ -28,6 +28,8 @@ en:
           title: The course could not be changed
           identical_course: The candidate has already applied to the course you are trying to move them on to.
           existing_course: The candidate is already applying to the course you are trying to move them on to.
+      change_course_hint:
+        text: The candidate must agree to the change before you make it. Discuss the proposed change and the reasons for it with them first.
   activemodel:
     errors:
       models:

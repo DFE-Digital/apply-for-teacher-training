@@ -27,7 +27,7 @@
       </p>
     <% end %>
 
-    <% if @provider_user_can_make_decisions && (@application_choice.offer? || @application_choice.pending_conditions?) %>
+    <% if @provider_user_can_make_decisions && @application_choice.offer? %>
       <%= render ProviderInterface::CompletedOfferSummaryComponent.new(
             application_choice: @application_choice,
             course_option: @application_choice.current_course_option,
@@ -45,9 +45,9 @@
         course_option: @application_choice.current_course_option,
         conditions: @conditions,
         course: @application_choice.current_course,
-        available_providers: [],
-        available_courses: [],
-        available_course_options: [],
+        available_providers: @providers,
+        available_courses: @courses,
+        available_course_options: @course_options,
         border: false,
         editable: @provider_user_can_make_decisions,
         ske_conditions: @application_choice.offer.ske_conditions,
