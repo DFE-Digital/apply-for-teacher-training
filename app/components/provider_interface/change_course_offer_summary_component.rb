@@ -1,5 +1,5 @@
 module ProviderInterface
-  class PendingConditionsOfferSummaryComponent < CompletedOfferSummaryComponent
+  class ChangeCourseOfferSummaryComponent < CompletedOfferSummaryComponent
     include ViewHelper
 
     def rows
