@@ -24,7 +24,10 @@ RSpec.describe ChangeCourse do
 
   before do
     mailer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-    allow(CandidateMailer).to receive(:change_course).and_return(mailer)
+    allow(CandidateMailer).to receive_messages(
+      change_course: mailer,
+      change_course_pending_conditions: mailer,
+    )
   end
 
   describe '#save!' do
@@ -182,6 +185,17 @@ RSpec.describe ChangeCourse do
         }.to raise_error(IdenticalCourseError)
 
         expect(CandidateMailer).not_to have_received(:change_course)
+      end
+
+      context 'when choice is pending_conditions' do
+        let(:application_choice) { create(:application_choice, status: :pending_conditions) }
+
+        it 'sends an email' do
+          change_course.save!
+
+          expect(CandidateMailer).to have_received(:change_course_pending_conditions)
+            .with(application_choice, application_choice.original_course_option)
+        end
       end
     end
   end
