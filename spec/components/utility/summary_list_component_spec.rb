@@ -30,7 +30,7 @@ RSpec.describe SummaryListComponent do
       ]
       result = render_inline(described_class.new(rows:))
 
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Whoa Drive<br>Wewvile<br>London')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Whoa Drive<br role="presentation">Wewvile<br role="presentation">London')
     end
 
     it 'renders values surrounded by <p> tags if specified for the row' do

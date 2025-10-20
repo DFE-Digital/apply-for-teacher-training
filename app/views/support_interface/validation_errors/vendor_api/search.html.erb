@@ -50,7 +50,7 @@
               <% else %>
                 <pre><code><%= JSON.pretty_generate(vendor_api_request.request_headers['QUERY_STRING']) %></code></pre>
               <% end %>
-              <br>
+              <br role="presentation">
               <span>Request body:</span>
               <% if vendor_api_request.request_body.blank? %>
                 <%= govuk_tag(text: 'Empty', colour: 'grey') %>

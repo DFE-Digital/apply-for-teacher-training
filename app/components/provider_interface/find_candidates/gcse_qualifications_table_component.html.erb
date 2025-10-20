@@ -26,7 +26,7 @@
         <% else %>
           <% row.with_cell(text: gcse.country, **cell_attributes(gcse)) %>
           <% row.with_cell(text: gcse.year_awarded, numeric: !gcse.year_awarded.to_i.zero?, **cell_attributes(gcse)) %>
-          <% row.with_cell(text: gcse.grades.join('<br>').html_safe, **cell_attributes(gcse)) %>
+          <% row.with_cell(text: gcse.grades.join('<br role="presentation">').html_safe, **cell_attributes(gcse)) %>
         <% end %>
       <% end %>
       <% if gcse.enic_text.present? %>

@@ -32,7 +32,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
         result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_details.full_address.label'))
-        expect(result.css('.govuk-summary-list__value').to_html).to include('42<br>Much Wow Street<br>London<br>England<br>SW1P 3BT')
+        expect(result.css('.govuk-summary-list__value').to_html).to include('42<br role="presentation">Much Wow Street<br role="presentation">London<br role="presentation">England<br role="presentation">SW1P 3BT')
         expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_edit_address_type_path)
         expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_details.full_address.change_action')}")
       end
@@ -49,7 +49,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
         result = render_inline(described_class.new(application_form:))
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_details.full_address.label'))
-        expect(result.css('.govuk-summary-list__value').to_html).to include('321 MG Road<br>Mumbai<br>India')
+        expect(result.css('.govuk-summary-list__value').to_html).to include('321 MG Road<br role="presentation">Mumbai<br role="presentation">India')
         expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_edit_address_type_path)
         expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_details.full_address.change_action')}")
       end
@@ -101,7 +101,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
 
       result = render_inline(described_class.new(application_form:))
 
-      expect(result.css('.govuk-summary-list__value').to_html).to include('42 &lt;script&gt;Much&lt;/script&gt; Wow Street<br>London<br>England<br>SW1P 3BT')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('42 &lt;script&gt;Much&lt;/script&gt; Wow Street<br role="presentation">London<br role="presentation">England<br role="presentation">SW1P 3BT')
     end
   end
 

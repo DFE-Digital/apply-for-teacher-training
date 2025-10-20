@@ -5,7 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= govuk_notification_banner(title_text: 'Important') do |notification_banner| %>
       <% notification_banner.with_heading(text: 'Please read the guidance') %>
-      <p class="govuk-body">This tool should be used in exceptional circumstances where you are moving a candidate from a course with one accredited body to another accredited body. <br>If you are planning to use this feature for any other request type, ensure you escalate to senior support staff for approval.</p>
+      <p class="govuk-body">This tool should be used in exceptional circumstances where you are moving a candidate from a course with one accredited body to another accredited body. <br role="presentation">If you are planning to use this feature for any other request type, ensure you escalate to senior support staff for approval.</p>
     <% end %>
 
     <%= form_with(

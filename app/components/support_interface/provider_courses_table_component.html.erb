@@ -27,7 +27,7 @@
         <% if accredited_bodies_vary? && course[:accredited_body] %>
           <td class="govuk-table__cell"><%= course[:accredited_body] %>
             <% unless course[:accredited_body_onboarded] %>
-              <br>
+              <br role="presentation">
               (No users on Apply)
             <% end %>
           </td>

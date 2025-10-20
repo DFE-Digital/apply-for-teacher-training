@@ -11,7 +11,7 @@
         <%= govuk_link_to(@course_selection_form.course.find_url, class: 'govuk-!-font-weight-bold', style: 'text-decoration: none') do %>
           <span class="govuk-!-font-size-19">
             <%= @course_selection_form.course.provider.name %>
-          </span><br>
+          </span><br role="presentation">
           <span class="search-result-link-name govuk-!-font-size-24" style="text-decoration: underline">
             <%= @course_selection_form.course.name_and_code %>
           </span>

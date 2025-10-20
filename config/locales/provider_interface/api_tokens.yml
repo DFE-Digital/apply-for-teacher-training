@@ -20,5 +20,5 @@ en:
       show:
         title: API token for %{provider_name}
         new_api_token_generated: New API token generated
-        your_token_is_html: Your token is <br><code>%{token}</code>
+        your_token_is_html: Your token is <br role="presentation"><code>%{token}</code>
         note_this_down_and_keep_safe: Note down this code and keep it safe. You will not be able to retreive it once you leave this page.
