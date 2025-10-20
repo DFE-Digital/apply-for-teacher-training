@@ -40,7 +40,7 @@
             ske_conditions: @application_choice.offer.ske_conditions,
           ) %>
     <% else %>
-      <%= render ProviderInterface::ReadOnlyCompletedOfferSummaryComponent.new(
+      <%= render ProviderInterface::PendingConditionsOfferSummaryComponent.new(
         application_choice: @application_choice,
         course_option: @application_choice.current_course_option,
         conditions: @conditions,
