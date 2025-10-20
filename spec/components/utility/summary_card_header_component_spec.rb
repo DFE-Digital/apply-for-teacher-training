@@ -12,4 +12,9 @@ RSpec.describe SummaryCardHeaderComponent do
     result = render_inline(described_class.new(title: 'Lando Calrissian', heading_level: 6))
     expect(result.css('h6.app-summary-card__title')).to be_present
   end
+
+  it 'renders a summary component with which hids PII from clarity' do
+    result = render_inline(described_class.new(title: 'Lando', title_contains_pii: true))
+    expect(result.css('[data-clarity-mask="True"]')).to be_present
+  end
 end
