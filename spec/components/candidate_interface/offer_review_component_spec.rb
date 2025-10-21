@@ -45,7 +45,7 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
 
         expect(result.css('.govuk-summary-list__key').text).to include('Course')
         expect(result.css('.govuk-summary-list__value').text).to include(
-          "#{course_option.course.name} (#{course_option.course.code})",
+          "#{course_option.course.name} (#{course_option.course.code}) (opens in new tab)",
         )
         expect(result.css('a').to_html).to include(course_option.course.find_url)
       end

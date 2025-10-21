@@ -112,7 +112,11 @@ module CandidateInterface
       if current_timetable.after_find_closes?
         "#{application_choice.current_course.name} (#{application_choice.current_course.code})"
       else
-        govuk_link_to("#{application_choice.current_course.name} (#{application_choice.current_course.code})", application_choice.current_course.find_url, target: '_blank', rel: 'noopener')
+        govuk_link_to(
+          "#{application_choice.current_course.name} (#{application_choice.current_course.code})",
+          application_choice.current_course.find_url,
+          new_tab: true,
+        )
       end
     end
 

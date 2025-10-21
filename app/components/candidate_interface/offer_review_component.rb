@@ -98,8 +98,7 @@ module CandidateInterface
         govuk_link_to(
           @course_choice.current_course.name_and_code,
           @course_choice.current_course.find_url,
-          target: '_blank',
-          rel: 'noopener',
+          new_tab: true,
         ) +
           tag.p(@course_choice.current_course.description_to_s, class: 'govuk-body')
       end
