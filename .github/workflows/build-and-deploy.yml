@@ -12,6 +12,7 @@ on:
       - main
     types: [opened, reopened, synchronize, labeled]
 
+
 permissions:
   contents: write
   deployments: write
