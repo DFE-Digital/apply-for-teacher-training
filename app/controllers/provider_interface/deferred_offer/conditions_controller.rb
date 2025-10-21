@@ -28,13 +28,7 @@ class ProviderInterface::DeferredOffer::ConditionsController < ProviderInterface
 private
 
   def course_option
-    CourseOption.joins(course: :provider, site: :provider).find_by(
-      study_mode:,
-      courses: { providers: { code: provider.code },
-                 code: course.code,
-                 recruitment_cycle_year: },
-      sites: { providers: { code: provider.code }, code: site.code },
-    )
+    provider.course_options.find_by(study_mode:, course:, site:)
   end
 
   def course
