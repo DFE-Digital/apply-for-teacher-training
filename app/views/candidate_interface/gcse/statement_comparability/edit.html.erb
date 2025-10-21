@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix(grade_step_title(@subject, @qualification_type), @enic_form.errors.any?) %>
+<% content_for :title, title_with_error_prefix(grade_enic_step_title(@subject), @enic_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(@previous_path) %>
 
 <div class="govuk-grid-row">

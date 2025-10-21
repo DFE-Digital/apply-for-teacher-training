@@ -43,10 +43,10 @@ en:
         change_action: Comparable UK qualification
         values:
           gcse: GCSE (grades A*-C / 9-4)
+          gcse_label: GCSE (grades A* to C / 9 to 4)
           gcse_aslevel: Between GCSE and GCE AS level
           aslevel_alevel: GCE Advanced Subsidiary (AS) level
           alevel: GCE Advanced (A) level
-
   activemodel:
     errors:
       models:
