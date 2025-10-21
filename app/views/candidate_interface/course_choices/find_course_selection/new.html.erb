@@ -14,7 +14,7 @@
         <%= govuk_link_to(@wizard.current_step.course_find_url, class: 'govuk-!-font-weight-bold', style: 'text-decoration: none') do %>
           <span class="govuk-!-font-size-19">
             <%= @wizard.current_step.course_provider.name %>
-          </span><br>
+          </span><br role="presentation">
           <span class="search-result-link-name govuk-!-font-size-24" style="text-decoration: underline">
             <%= @wizard.current_step.course_name_and_code %>
           </span>

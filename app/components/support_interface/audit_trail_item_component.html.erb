@@ -1,6 +1,6 @@
 <tr class="govuk-table__row" data-qa="audit-trail-item">
   <td class="govuk-table__cell" title="<%= l(audit.created_at, format: :long_with_seconds) %>">
-    <%= l(audit.created_at.to_date, format: :long) %> <br><%= l(audit.created_at, format: :time) %>
+    <%= l(audit.created_at.to_date, format: :long) %> <br role="presentation"><%= l(audit.created_at, format: :time) %>
   </td>
   <td class="govuk-table__cell">
     <h2 class="govuk-heading-s govuk-!-margin-bottom-2">

@@ -23,7 +23,7 @@ module SupportInterface
       else
         permissions.map do |permission|
           {
-            key: "#{permission.provider.name_and_code}<br><br>(#{govuk_link_to('Provider permissions', support_interface_provider_relationships_path(permission.provider))})".html_safe,
+            key: "#{permission.provider.name_and_code}<br role='presentation'><br role='presentation'>(#{govuk_link_to('Provider permissions', support_interface_provider_relationships_path(permission.provider))})".html_safe,
             value: render(SupportInterface::PermissionsListComponent.new(permission)),
             actions: [
               {

@@ -13,7 +13,7 @@ class SummaryListComponent < ViewComponent::Base
       elsif row[:paragraph_format]
         format_list_as_paragraphs(row[:value])
       else
-        row[:value].map { |s| ERB::Util.html_escape(s) }.join('<br>').html_safe
+        row[:value].map { |s| ERB::Util.html_escape(s) }.join('<br role="presentation">').html_safe
       end
     elsif row[:value].html_safe?
       row[:value].to_s

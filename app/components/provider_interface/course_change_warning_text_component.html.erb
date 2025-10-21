@@ -2,7 +2,7 @@
   <%= govuk_warning_text(text: 'The candidate will be sent an email to tell them that the course has been updated.') %>
 <% elsif application_choice.interviewing? %>
   <%= govuk_warning_text(
-    text: "The upcoming #{'interview'.pluralize(application_choice.interviews.size)} will be updated with the new course details.<br><br>
+    text: "The upcoming #{'interview'.pluralize(application_choice.interviews.size)} will be updated with the new course details.<br role='presentation'><br role='presentation'>
     The candidate will be sent emails to tell them that the course and the upcoming #{'interview'.pluralize(application_choice.interviews.size)} have been updated.".html_safe,
   ) %>
 <% end %>

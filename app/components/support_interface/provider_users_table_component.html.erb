@@ -15,7 +15,7 @@
           <%= row[:provider_user].id %>
         </td>
         <td class="govuk-table__cell">
-          <%= govuk_link_to(row[:provider_user].display_name, support_interface_provider_user_path(row[:provider_user])) %><br>
+          <%= govuk_link_to(row[:provider_user].display_name, support_interface_provider_user_path(row[:provider_user])) %><br role="presentation">
           <span class="govuk-hint" style="word-break: break-all;"><%= row[:provider_user].email_address %></span>
         </td>
         <td class="govuk-table__cell">

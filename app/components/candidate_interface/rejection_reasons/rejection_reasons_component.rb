@@ -23,7 +23,7 @@ module CandidateInterface
         link = govuk_link_to('Apply for a statement of comparability from UK ENIC', I18n.t('service_name.enic.statement_of_comparability_url'))
 
         "If you decide to apply again, think about including a statement of comparability from UK ENIC.
-        It shows training providers how your qualifications compare to UK ones. <br><br>#{link}<br><br>
+        It shows training providers how your qualifications compare to UK ones. <br role='presentation'><br role='presentation'>#{link}<br role='presentation'><br role='presentation'>
         Applications with a statement from UK ENIC are around 28% more likely to receive an offer.".html_safe
       end
 

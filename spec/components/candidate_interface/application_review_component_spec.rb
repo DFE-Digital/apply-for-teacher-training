@@ -117,7 +117,7 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
     end
 
     it 'shows link to course on find' do
-      expect(links).to include(application_choice.current_course.name_and_code)
+      expect(links).to include("#{application_choice.current_course.name_and_code} (opens in new tab)")
     end
 
     it 'shows the course qualifications' do
@@ -209,7 +209,7 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
     end
 
     it 'shows link to course on find' do
-      expect(links).to include(application_choice.current_course.name_and_code)
+      expect(links).to include("#{application_choice.current_course.name_and_code} (opens in new tab)")
     end
 
     it 'shows the personal statement' do

@@ -25,20 +25,20 @@
               ) %>
             </th>
             <td class="govuk-table__cell govuk-table__cell--numeric">
-              <%= sub_reason_percentage(sub_reason) %><br>
+              <%= sub_reason_percentage(sub_reason) %><br role="presentation">
               <span class="govuk-caption-m"><%= "#{sub_reason_count(sub_reason)} of #{total_all_time}" %></span>
             </td>
             <td class="govuk-table__cell govuk-table__cell--numeric">
-              <%= sub_reason_percentage_of_reason(sub_reason) %><br>
+              <%= sub_reason_percentage_of_reason(sub_reason) %><br role="presentation">
               <span class="govuk-caption-m"><%= "#{sub_reason_count(sub_reason)} of #{total_for_reason}" %>
             </td>
             <% if current_cycle? %>
               <td class="govuk-table__cell govuk-table__cell--numeric">
-                <%= sub_reason_percentage(sub_reason, :this_month) %><br>
+                <%= sub_reason_percentage(sub_reason, :this_month) %><br role="presentation">
                 <span class="govuk-caption-m"><%= "#{sub_reason_count(sub_reason, :this_month)} of #{total_this_month}" %>
               </td>
               <td class="govuk-table__cell govuk-table__cell--numeric">
-                <%= sub_reason_percentage_of_reason(sub_reason, :this_month) %><br>
+                <%= sub_reason_percentage_of_reason(sub_reason, :this_month) %><br role="presentation">
                 <span class="govuk-caption-m"><%= "#{sub_reason_count(sub_reason, :this_month)} of #{total_for_reason(:this_month)}" %></span>
               </td>
             <% end %>

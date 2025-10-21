@@ -33,7 +33,7 @@
       <% accounts.each do |account| %>
         <td class="govuk-table__cell">
           <% account.address.each do |address_line| %>
-            <%= address_line %><br>
+            <%= address_line %><br role="presentation">
           <% end %>
         </td>
       <% end %>

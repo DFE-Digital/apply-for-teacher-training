@@ -12,7 +12,7 @@ en:
         course: Course
         fee: Course fee
         uk_fee_details: "%{uk_fee} for UK citizens"
-        both_fee_details_html: "%{uk_fee} for UK citizens <br> %{non_uk_fee} for non-UK citizens"
+        both_fee_details_html: "%{uk_fee} for UK citizens <br role='presentation'> %{non_uk_fee} for non-UK citizens"
         length: Course length
         length_details: "%{length} - %{mode}"
         age: Age range
