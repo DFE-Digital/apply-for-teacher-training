@@ -31,7 +31,7 @@ module ProviderInterface
       end
 
       if @application_choice.pending_conditions?
-        redirect_to provider_interface_application_choice_offer_path(@application_choice.reload)
+        redirect_to provider_interface_application_choice_offer_path(@application_choice)
       else
         redirect_to provider_interface_application_choice_path(@application_choice)
       end

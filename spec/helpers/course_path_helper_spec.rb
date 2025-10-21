@@ -9,6 +9,15 @@ RSpec.describe CoursePathHelper do
         expect(helper.course_path_for(application_choice, 'select_option'))
           .to eq(provider_interface_application_choice_path(application_choice, {}))
       end
+
+      context 'when application_choice is pending_conditions' do
+        let(:application_choice) { build_stubbed(:application_choice, :pending_conditions) }
+
+        it 'returns the application choice path' do
+          expect(helper.course_path_for(application_choice, 'select_option'))
+            .to eq(provider_interface_application_choice_offer_path(application_choice))
+        end
+      end
     end
 
     context 'when :referer' do

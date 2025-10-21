@@ -1,5 +1,7 @@
 module ProviderInterface
   class OffersController < ProviderInterfaceController
+    include ClearWizardCache
+
     before_action :set_application_choice, :set_workflow_flags
     before_action :confirm_application_is_in_decision_pending_state, except: %i[edit update show]
     before_action :confirm_application_is_in_offered_state, only: %i[show]
@@ -7,22 +9,23 @@ module ProviderInterface
     before_action :requires_make_decisions_permission, except: %i[show]
 
     def show
-      @wizard = if @application_choice.pending_conditions?
-                  CourseWizard.build_from_application_choice(
-                    change_course_store,
-                    @application_choice,
-                    provider_user_id: current_provider_user.id,
-                    current_step: 'select_option',
-                  )
-                else
-                  OfferWizard.build_from_application_choice(
-                    offer_store,
-                    @application_choice,
-                    provider_user_id: current_provider_user.id,
-                    current_step: :offer,
-                    decision: :change_offer,
-                  )
-                end
+      if @application_choice.pending_conditions?
+        CourseWizard.new(change_course_store, {}).clear_state!
+        @wizard = CourseWizard.build_from_application_choice(
+          change_course_store,
+          @application_choice,
+          provider_user_id: current_provider_user.id,
+          current_step: 'select_option',
+        )
+      else
+        @wizard = OfferWizard.build_from_application_choice(
+          offer_store,
+          @application_choice,
+          provider_user_id: current_provider_user.id,
+          current_step: :offer,
+          decision: :change_offer,
+        )
+      end
       @wizard.save_state!
 
       @conditions = [
