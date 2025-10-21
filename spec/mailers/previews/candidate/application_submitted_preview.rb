@@ -64,6 +64,17 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
   end
 
   def change_course_pending_conditions
+    provider = FactoryBot.create(:provider)
+    course = FactoryBot.create(:course, provider:)
+    site = FactoryBot.create(:site, provider:)
+    course_option = FactoryBot.create(:course_option, course:, site:)
+    original_course = FactoryBot.create(:course, provider:)
+    original_course_option = FactoryBot.create(
+      :course_option,
+      course: original_course,
+      site:,
+    )
+
     offer = FactoryBot.create(
       :offer,
       conditions: [
@@ -79,6 +90,7 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
       status: 'pending_conditions',
       course_option:,
       current_course_option: course_option,
+      original_course_option:,
     )
 
     CandidateMailer.change_course_pending_conditions(
