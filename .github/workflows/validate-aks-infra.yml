@@ -1,6 +1,6 @@
-name: Scheduled Infrastructure Validation
+name: Validate AKS Infrastructure
 
-# This workflow validates infrastructure for drift detection
+# This workflow validates AKS cluster infrastructure for drift detection
 
 on:
   push:
@@ -23,8 +23,8 @@ on:
           - production
 
 jobs:
-  validate:
-    name: Validate ${{ github.event_name == 'schedule' && 'Production' || github.event_name == 'push' && 'QA (Test)' || inputs.environment }} Infrastructure
+  validate-aks:
+    name: Validate AKS - ${{ github.event_name == 'schedule' && 'Production' || github.event_name == 'push' && 'QA' || inputs.environment }}
     runs-on: ubuntu-latest
     environment:
       name: ${{ github.event_name == 'schedule' && 'production' || github.event_name == 'push' && 'qa' || inputs.environment }}
@@ -33,7 +33,7 @@ jobs:
       contents: read
 
     steps:
-      - name: Validate infrastructure
+      - name: Validate AKS infrastructure
         id: validate
         uses: DFE-Digital/github-actions/validate-infra@2462-spike-scheduled-terraform-plan-validation
         with:
@@ -44,3 +44,4 @@ jobs:
           terraform-base: terraform/aks
           terraform-version-file: provider.tf
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+          validation-plan: aks-infra

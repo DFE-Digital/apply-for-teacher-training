@@ -1,0 +1,37 @@
+name: Validate Domains Environment Infrastructure
+
+# This workflow validates domains environment infrastructure for drift detection
+# Production only
+
+on:
+  push:
+    branches:
+      - 2462-spike-scheduled-terraform-plan-validation
+  schedule:
+    # Run daily at 3 AM UTC (4 AM BST / 3 AM GMT)
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  validate-domains-env:
+    name: Validate Domains Environment - Production
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Validate domains environment infrastructure
+        id: validate
+        uses: DFE-Digital/github-actions/validate-infra@2462-spike-scheduled-terraform-plan-validation
+        with:
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          environment: production
+          terraform-base: terraform/aks
+          terraform-version-file: provider.tf
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+          validation-plan: domains-env
