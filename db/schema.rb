@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 ActiveRecord::Schema[8.0].define(version: 2025_10_23_094027) do
+=======
+ActiveRecord::Schema[8.0].define(version: 2025_10_21_144637) do
+>>>>>>> fc4d2823fe (Delete table and add reference column to DeferredOfferConfirmation)
+=======
+ActiveRecord::Schema[8.0].define(version: 2025_10_23_094027) do
+>>>>>>> 7e477319b7 (Add null:false to reference)
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
