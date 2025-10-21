@@ -39,7 +39,8 @@
             border: false,
             ske_conditions: @application_choice.offer.ske_conditions,
           ) %>
-    <% else %>
+
+    <% elsif @provider_user_can_make_decisions && @application_choice.pending_conditions? %>
       <%= render ProviderInterface::ChangeCourseOfferSummaryComponent.new(
         application_choice: @application_choice,
         course_option: @application_choice.current_course_option,
@@ -48,6 +49,20 @@
         available_providers: @providers,
         available_courses: @courses,
         available_course_options: @course_options,
+        border: false,
+        editable: @provider_user_can_make_decisions,
+        ske_conditions: @application_choice.offer.ske_conditions,
+        show_recruit_pending_button: true,
+      ) %>
+    <% else %>
+      <%= render ProviderInterface::ReadOnlyCompletedOfferSummaryComponent.new(
+        application_choice: @application_choice,
+        course_option: @application_choice.current_course_option,
+        conditions: @conditions,
+        course: @application_choice.current_course,
+        available_providers: [],
+        available_courses: [],
+        available_course_options: [],
         border: false,
         editable: @provider_user_can_make_decisions,
         ske_conditions: @application_choice.offer.ske_conditions,

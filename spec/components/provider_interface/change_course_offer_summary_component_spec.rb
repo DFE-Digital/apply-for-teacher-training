@@ -5,7 +5,7 @@ RSpec.describe ProviderInterface::ChangeCourseOfferSummaryComponent do
 
   let(:application_choice) do
     build_stubbed(:application_choice,
-                  :offered,
+                  :pending_conditions,
                   offer: build(:offer, conditions:))
   end
   let(:conditions) { [build(:text_condition, description: 'condition 1')] }
@@ -64,87 +64,79 @@ RSpec.describe ProviderInterface::ChangeCourseOfferSummaryComponent do
     expect(row_text_selector(:funding_type, render)).to include(course_option.course.funding_type.humanize)
   end
 
-  context 'when application_choice is pending_conditions' do
-    let(:application_choice) do
-      build_stubbed(:application_choice,
-                    :pending_conditions,
-                    offer: build(:offer, conditions:))
+  context 'when multiple provider options' do
+    let(:providers) { build_stubbed_list(:provider, 2) }
+
+    it 'renders a change link' do
+      provider_change_link = edit_provider_interface_application_choice_course_providers_path(
+        application_choice,
+      )
+      expect(row_link_selector(0)).to eq(provider_change_link)
     end
+  end
 
-    context 'when multiple provider options' do
-      let(:providers) { build_stubbed_list(:provider, 2) }
+  context 'when only one provider option' do
+    let(:providers) { [build_stubbed(:provider)] }
 
-      it 'renders a change link' do
-        provider_change_link = edit_provider_interface_application_choice_course_providers_path(
-          application_choice,
-        )
-        expect(row_link_selector(0)).to eq(provider_change_link)
-      end
+    it 'renders no change link' do
+      expect(row_link_selector(0)).to be_nil
     end
+  end
 
-    context 'when only one provider option' do
-      let(:providers) { [build_stubbed(:provider)] }
+  context 'when multiple courses' do
+    let(:courses) { build_stubbed_list(:course, 2) }
 
-      it 'renders no change link' do
-        expect(row_link_selector(0)).to be_nil
-      end
+    it 'renders a change link' do
+      course_change_link = edit_provider_interface_application_choice_course_courses_path(
+        application_choice,
+      )
+      expect(row_link_selector(1)).to eq(course_change_link)
     end
+  end
 
-    context 'when multiple courses' do
-      let(:courses) { build_stubbed_list(:course, 2) }
+  context 'when only one course' do
+    let(:courses) { [build_stubbed(:course)] }
 
-      it 'renders a change link' do
-        course_change_link = edit_provider_interface_application_choice_course_courses_path(
-          application_choice,
-        )
-        expect(row_link_selector(1)).to eq(course_change_link)
-      end
+    it 'renders no change link' do
+      expect(row_link_selector(1)).to be_nil
     end
+  end
 
-    context 'when only one course' do
-      let(:courses) { [build_stubbed(:course)] }
+  context 'when multiple study modes' do
+    let(:course) { build_stubbed(:course, study_mode: :full_time_or_part_time) }
 
-      it 'renders no change link' do
-        expect(row_link_selector(1)).to be_nil
-      end
+    it 'renders a change link' do
+      study_mode_change_link = edit_provider_interface_application_choice_course_study_modes_path(
+        application_choice,
+      )
+      expect(row_link_selector(2)).to eq(study_mode_change_link)
     end
+  end
 
-    context 'when multiple study modes' do
-      let(:course) { build_stubbed(:course, study_mode: :full_time_or_part_time) }
+  context 'when only one study mode' do
+    let(:course) { build_stubbed(:course, study_mode: :full_time) }
 
-      it 'renders a change link' do
-        study_mode_change_link = edit_provider_interface_application_choice_course_study_modes_path(
-          application_choice,
-        )
-        expect(row_link_selector(2)).to eq(study_mode_change_link)
-      end
+    it 'renders no change link' do
+      expect(row_link_selector(2)).to be_nil
     end
+  end
 
-    context 'when only one study mode' do
-      let(:course) { build_stubbed(:course, study_mode: :full_time) }
+  context 'when multiple course options' do
+    let(:course_options) { build_stubbed_list(:course_option, 2) }
 
-      it 'renders no change link' do
-        expect(row_link_selector(2)).to be_nil
-      end
+    it 'renders a change link' do
+      course_options_change_link = edit_provider_interface_application_choice_course_locations_path(
+        application_choice,
+      )
+      expect(row_link_selector(3)).to eq(course_options_change_link)
     end
+  end
 
-    context 'when multiple course options' do
-      let(:course_options) { build_stubbed_list(:course_option, 2) }
+  context 'when only one course option' do
+    let(:course_options) { [build_stubbed(:course_option)] }
 
-      it 'renders a change link' do
-        course_options_change_link = edit_provider_interface_application_choice_course_locations_path(
-          application_choice,
-        )
-        expect(row_link_selector(3)).to eq(course_options_change_link)
-      end
-    end
-
-    context 'when only one course option' do
-      let(:course_options) { [build_stubbed(:course_option)] }
-
-      it 'renders no change link' do
-        expect(row_link_selector(3)).to be_nil
-      end
+    it 'renders no change link' do
+      expect(row_link_selector(3)).to be_nil
     end
   end
 
