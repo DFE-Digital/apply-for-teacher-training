@@ -42,4 +42,5 @@ jobs:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           environment: ${{ github.event_name == 'schedule' && 'production' || github.event_name == 'push' && 'qa' || inputs.environment }}
           terraform-base: terraform/aks
+          terraform-version-file: provider.tf
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
