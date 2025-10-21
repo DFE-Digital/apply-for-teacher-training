@@ -20,7 +20,7 @@ class ProviderInterface::DeferredOffer::ConditionsController < ProviderInterface
       ConfirmDeferredOffer.new(actor: current_provider_user,
                                application_choice:,
                                course_option:,
-                               conditions_met: @conditions_form.offer_conditions_status).save
+                               conditions_met: conditions_met?).save
       redirect_to provider_interface_application_choice_path(application_choice)
     else
       render :edit, status: :unprocessable_entity
@@ -54,6 +54,10 @@ private
       provider_user: current_provider_user,
       offer:,
     )
+  end
+
+  def conditions_met?
+    conditions_form_params[:conditions_status].to_sym == :met
   end
 
   def conditions_form_params
