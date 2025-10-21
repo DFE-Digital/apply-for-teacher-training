@@ -1,68 +1,5 @@
 ---
 :shared:
-  :emails:
-  - application_form_id
-  - created_at
-  - delivery_status
-  - id
-  - mail_template
-  - mailer
-  - notify_reference
-  - to
-  - body
-  - subject
-  - updated_at
-  :vendor_api_requests:
-  - id
-  - request_path
-  - request_method
-  - status_code
-  - request_headers
-  - request_body
-  - response_body
-  - provider_id
-  - response_headers
-  - created_at
-  :provider_pool_actions:
-  - id
-  - status
-  - application_form_id
-  - actioned_by_id
-  - recruitment_cycle_year
-  - created_at
-  - updated_at
-  :candidate_pool_applications:
-  - application_form_id
-  - candidate_id
-  - id
-  - created_at
-  - updated_at
-  - study_mode_full_time
-  - study_mode_part_time
-  - needs_visa
-  - course_type_postgraduate
-  - course_type_undergraduate
-  - subject_ids
-  - rejected_provider_ids
-  - course_funding_type_fee
-  :sessions:
-  - id
-  - candidate_id
-  - ip_address
-  - user_agent
-  - id_token_hint
-  - error_message
-  - created_at
-  - updated_at
-  :session_errors:
-  - id
-  - candidate_id
-  - id_token_hint
-  - body
-  - omniauth_hash
-  - created_at
-  - updated_at
-  - error_type
   :audits:
   - id
   - auditable_id
@@ -78,28 +15,6 @@
   - comment
   - remote_address
   - request_uuid
-  - created_at
-  :active_storage_variant_records:
-  - id
-  - blob_id
-  - variation_digest
-  - created_at
-  :active_storage_blobs:
-  - id
-  - key
-  - filename
-  - content_type
-  - metadata
-  - service_name
-  - byte_size
-  - checksum
-  - created_at
-  :active_storage_attachments:
-  - id
-  - name
-  - record_type
-  - record_id
-  - blob_id
   - created_at
   :blazer_queries:
   - id
@@ -144,6 +59,28 @@
   - statement
   - data_source
   - created_at
+  :active_storage_variant_records:
+  - id
+  - blob_id
+  - variation_digest
+  - created_at
+  :active_storage_attachments:
+  - id
+  - name
+  - record_type
+  - record_id
+  - blob_id
+  - created_at
+  :active_storage_blobs:
+  - id
+  - key
+  - filename
+  - content_type
+  - metadata
+  - service_name
+  - byte_size
+  - checksum
+  - created_at
   :monthly_statistics_reports:
   - id
   - created_at
@@ -181,6 +118,17 @@
   - updated_at
   :vendor_api_tokens:
   - hashed_token
+  :vendor_api_requests:
+  - id
+  - request_path
+  - status_code
+  - request_headers
+  - request_body
+  - response_body
+  - created_at
+  - provider_id
+  - request_method
+  - response_headers
   :validation_errors:
   - details
   :support_users:
@@ -193,10 +141,52 @@
   - first_name
   - last_name
   - discarded_at
+  :site_settings:
+  - id
+  - name
+  - value
+  - created_at
+  - updated_at
+  :sites:
+  - latitude
+  - longitude
+  :session_errors:
+  - id
+  - candidate_id
+  - id_token_hint
+  - body
+  - omniauth_hash
+  - created_at
+  - updated_at
+  - error_type
+  :sessions:
+  - id
+  - candidate_id
+  - ip_address
+  - user_agent
+  - id_token_hint
+  - created_at
+  - updated_at
   :provider_user_notifications:
   - chase_provider_decision
+  :provider_user_filters:
+  - id
+  - provider_user_id
+  - kind
+  - pagination_page
+  - filters
+  - created_at
+  - updated_at
   :provider_users:
   - find_a_candidate_filters
+  :provider_pool_actions:
+  - id
+  - status
+  - application_form_id
+  - actioned_by_id
+  - recruitment_cycle_year
+  - created_at
+  - updated_at
   :providers:
   - phone_number
   :one_login_auths:
@@ -214,6 +204,18 @@
   - updated_at
   :english_proficiencies:
   - no_qualification_details
+  :emails:
+  - id
+  - to
+  - subject
+  - mailer
+  - mail_template
+  - body
+  - notify_reference
+  - application_form_id
+  - created_at
+  - updated_at
+  - delivery_status
   :fraud_matches:
   - id
   - candidate_last_contacted_at
@@ -225,6 +227,17 @@
   - created_at
   - updated_at
   - resolved
+  :deferred_offer_confirmations:
+  - id
+  - provider_user_id
+  - offer_id
+  - course_id
+  - site_id
+  - study_mode
+  - conditions_status
+  - created_at
+  - updated_at
+  - offered_course_option_id
   :data_migrations:
   - id
   - service_name
@@ -234,13 +247,26 @@
   :data_exports:
   - id
   - name
-  - data
   - completed_at
   - initiator_type
   - initiator_id
   - created_at
   - updated_at
   - export_type
+  :candidate_pool_applications:
+  - id
+  - application_form_id
+  - candidate_id
+  - created_at
+  - updated_at
+  - needs_visa
+  - study_mode_full_time
+  - study_mode_part_time
+  - course_type_postgraduate
+  - course_type_undergraduate
+  - subject_ids
+  - rejected_provider_ids
+  - course_funding_type_fee
   :authentication_tokens:
   - id
   - hashed_token
@@ -272,42 +298,13 @@
   :application_choices:
   - provider_ids
   - current_recruitment_cycle_year
-  - decline_by_default_at
-  - decline_by_default_days
   :account_recovery_request_codes:
   - code_digest
   :account_recovery_requests:
   - previous_account_email_address
-  :site_settings:
-  - id
-  - name
-  - value
-  - created_at
-  - updated_at
   :candidates:
   - magic_link_token
   - fraud_match_id
   - unsubscribed_from_emails
   - submission_blocked
   - account_locked
-  :provider_user_filters:
-  - id
-  - provider_user_id
-  - kind
-  - pagination_page
-  - filters
-  - created_at
-  - updated_at
-  :deferred_offer_confirmations:
-  - id
-  - provider_user_id
-  - offer_id
-  - course_id
-  - site_id
-  - study_mode
-  - conditions_status
-  - created_at
-  - updated_at
-  :sites:
-  - latitude
-  - longitude

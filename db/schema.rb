@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_21_101256) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_21_144637) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -583,8 +583,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_21_101256) do
     t.string "conditions_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "offered_course_option_id"
     t.index ["course_id"], name: "index_deferred_offer_confirmations_on_course_id"
     t.index ["offer_id"], name: "index_deferred_offer_confirmations_on_offer_id"
+    t.index ["offered_course_option_id"], name: "index_deferred_offer_confirmations_on_offered_course_option_id"
     t.index ["provider_user_id"], name: "index_deferred_offer_confirmations_on_provider_user_id"
     t.index ["site_id"], name: "index_deferred_offer_confirmations_on_site_id"
   end
@@ -749,19 +751,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_21_101256) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["candidate_id"], name: "index_one_login_auths_on_candidate_id"
-  end
-
-  create_table "original_offer_snapshots", force: :cascade do |t|
-    t.bigint "offer_id"
-    t.bigint "course_id"
-    t.bigint "site_id"
-    t.string "study_mode"
-    t.string "conditions_status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["course_id"], name: "index_original_offer_snapshots_on_course_id"
-    t.index ["offer_id"], name: "index_original_offer_snapshots_on_offer_id"
-    t.index ["site_id"], name: "index_original_offer_snapshots_on_site_id"
   end
 
   create_table "other_efl_qualifications", force: :cascade do |t|
@@ -1179,6 +1168,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_21_101256) do
   add_foreign_key "course_subjects", "courses"
   add_foreign_key "course_subjects", "subjects"
   add_foreign_key "courses", "providers"
+  add_foreign_key "deferred_offer_confirmations", "course_options", column: "offered_course_option_id"
   add_foreign_key "deferred_offer_confirmations", "courses"
   add_foreign_key "deferred_offer_confirmations", "offers"
   add_foreign_key "deferred_offer_confirmations", "provider_users"
@@ -1191,9 +1181,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_21_101256) do
   add_foreign_key "offer_conditions", "offers", on_delete: :cascade
   add_foreign_key "offers", "application_choices", on_delete: :cascade
   add_foreign_key "one_login_auths", "candidates", on_delete: :cascade
-  add_foreign_key "original_offer_snapshots", "courses"
-  add_foreign_key "original_offer_snapshots", "offers"
-  add_foreign_key "original_offer_snapshots", "sites"
   add_foreign_key "pool_eligible_application_forms", "application_forms", on_delete: :cascade
   add_foreign_key "pool_invite_decline_reasons", "pool_invites", column: "invite_id", on_delete: :cascade
   add_foreign_key "pool_invites", "candidates", on_delete: :cascade
