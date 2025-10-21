@@ -120,7 +120,7 @@ RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
 
   def when_i_fill_in_my_enic_reference_and_choose_an_equivalency
     fill_in 'candidate-interface-gcse-enic-form-enic-reference-field-error', with: '12345'
-    choose 'GCSE (grades A*-C / 9-4)'
+    choose 'GCSE (grades A* to C / 9 to 4)'
   end
 
   def then_i_see_the_add_grade_page
