@@ -29,7 +29,12 @@ module ProviderInterface
 
         flash[:warning] = t('.failure.title')
       end
-      redirect_to provider_interface_application_choice_path(@application_choice)
+
+      if @application_choice.pending_conditions?
+        redirect_to provider_interface_application_choice_offer_path(@application_choice.reload)
+      else
+        redirect_to provider_interface_application_choice_path(@application_choice)
+      end
     end
 
     def change_course_hint
