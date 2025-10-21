@@ -6,6 +6,8 @@ en:
       science: What type of qualification in science do you have?
       not_yet_completed: Are you currently studying for a GCSE in %{subject}, or equivalent?
       equivalency: You need a GCSE in %{subject} at grade 4 (C) or above, or equivalent
+  gcse_enic:
+    page_title: Enter the ENIC reference for your %{subject} qualification
   gcse_edit_grade_explanation:
     subject_titles:
       maths: a GCSE in maths

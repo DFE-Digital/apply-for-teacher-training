@@ -68,7 +68,7 @@ RSpec.describe 'Candidate entering GCSE Science details' do
     choose 'Yes'
     click_link_or_button t('save_and_continue')
     fill_in 'candidate-interface-gcse-enic-form-enic-reference-field', with: '12345'
-    choose 'GCSE (grades A*-C / 9-4)'
+    choose 'GCSE (grades A* to C or 9 to 4)'
   end
 
   def then_i_see_the_add_grade_page

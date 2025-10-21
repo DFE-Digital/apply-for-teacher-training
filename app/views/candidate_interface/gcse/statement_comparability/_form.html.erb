@@ -2,11 +2,11 @@
 
 <% scope = 'application_form.gcse.comparable_uk_qualification' %>
 
-<%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.enter_enic', subject: @subject), tag: 'h1', size: 'l' } do %>
+<%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.enter_enic', subject: @subject == 'english' ? 'English' : @subject), tag: 'h1', size: 'l' } do %>
   <%= f.govuk_text_field :enic_reference, label: { text: "#{t('service_name.enic.short_name')} reference number", size: 's' }, hint: { text: 'For example ‘4000228363’' }, width: 20, spellcheck: false %>
 
   <%= f.govuk_radio_buttons_fieldset :comparable_uk_qualification, legend: { text: t('label', scope:), size: 's' }, hint: { text: t('hint_text', scope:) } do %>
-    <%= f.govuk_radio_button :comparable_uk_qualification, t('values.gcse', scope:), label: { text: t('values.gcse', scope:) }, link_errors: true %>
+    <%= f.govuk_radio_button :comparable_uk_qualification, t('values.gcse', scope:), label: { text: t('values.gcse_label', scope:) }, link_errors: true %>
     <%= f.govuk_radio_button :comparable_uk_qualification, t('values.gcse_aslevel', scope:), label: { text: t('values.gcse_aslevel', scope:) } %>
     <%= f.govuk_radio_button :comparable_uk_qualification, t('values.aslevel_alevel', scope:), label: { text: t('values.aslevel_alevel', scope:) } %>
     <%= f.govuk_radio_button :comparable_uk_qualification, t('values.alevel', scope:), label: { text: t('values.alevel', scope:) } %>
