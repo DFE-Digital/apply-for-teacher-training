@@ -6,14 +6,18 @@ Previously offered course:
 Training provider: <%= @old_course.provider.name %>
 Course: <%= @old_course.name_and_code %>
 Full-time or part-time: <%= @old_course_option.study_mode.humanize %>
-Location: <%= @old_course_option.site.name %>
+<% unless @application_choice.school_placement_auto_selected %>
+  Location: <%= @old_course_option.site.name %>
+<% end %>
 Qualification: <%= @old_qualification %>
 
 New offered course:
 Training provider: [<%= @current_course.provider.name %>](<%= @current_course.find_url %>)
 Course: <%= @current_course.name_and_code %>
 Full-time or part-time: <%= @current_course_option.study_mode.humanize %>
-Location: <%= @current_course_option.site.name %>
+<% unless @application_choice.school_placement_auto_selected %>
+  Location: <%= @current_course_option.site.name %>
+<% end %>
 Qualification: <%= @new_qualification %>
 
 The provider should have discussed and agreed this change and the reasons for it with you before making it.

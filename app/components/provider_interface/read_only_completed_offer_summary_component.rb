@@ -11,7 +11,7 @@ module ProviderInterface
         { key: 'Full time or part time',
           value: course_option.study_mode.humanize },
         { key: location_key,
-          value: course_option.site.name_and_address },
+          value: course_option.site.name_and_address("\n") },
         { key: 'Qualification',
           value: qualification_text(course_option) },
         { key: 'Funding type',

@@ -32,18 +32,18 @@ class ChangeCourse
         end
         update_interviews_provider_service.notify
 
-        if application_choice.pending_conditions?
-          CandidateMailer.change_course_pending_conditions(
-            application_choice,
-            old_course_option,
-          ).deliver_later
-        else
-          course_changed = course_option.course_id != old_course_option.course_id ||
-                           course_option.study_mode != old_course_option.study_mode ||
-                           course_option.course.qualifications.sort != old_course_option.course.qualifications.sort ||
-                           (!application_choice.school_placement_auto_selected && course_option.site_id != old_course_option.site_id)
+        course_changed = course_option.course_id != old_course_option.course_id ||
+                         course_option.study_mode != old_course_option.study_mode ||
+                         course_option.course.qualifications.sort != old_course_option.course.qualifications.sort ||
+                         (!application_choice.school_placement_auto_selected && course_option.site_id != old_course_option.site_id)
 
-          if course_changed
+        if course_changed
+          if application_choice.pending_conditions?
+            CandidateMailer.change_course_pending_conditions(
+              application_choice,
+              old_course_option,
+            ).deliver_later
+          else
             CandidateMailer.change_course(application_choice, old_course_option).deliver_later
           end
         end

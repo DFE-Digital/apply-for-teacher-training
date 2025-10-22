@@ -7,14 +7,6 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l govuk-!-margin-bottom govuk-!-font-size-36">Offer</h2>
 
-    <% if %w[pending_conditions recruited].include?(@application_choice.status) %>
-      <div class="govuk-inset-text govuk-!-margin-top-0">
-        <p>
-          To change this offer, send proof that the candidate agrees and details of the changes to <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %>.
-        </p>
-      </div>
-    <% end %>
-
     <% if @provider_user_can_make_decisions %>
       <p class="govuk-body govuk-!-margin-bottom-7">
         <% if %i[pending_conditions recruited].include?(@application_choice.status.to_sym) %>

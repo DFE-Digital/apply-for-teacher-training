@@ -14,7 +14,7 @@ module ProviderInterface
           value: course_option.study_mode.humanize,
           action: change_study_mode_action },
         { key: location_key,
-          value: course_option.site.name_and_address,
+          value: course_option.site.name_and_address("\n"),
           action: change_location_action },
         { key: 'Qualification',
           value: qualification_text(course_option) },
