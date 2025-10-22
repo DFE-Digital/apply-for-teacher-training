@@ -41,7 +41,6 @@ LEGACY_LOOK_UP_TABLE =
     'PF' => { mapped_iso_code: nil, legacy_name: 'French Polynesia' },
     'PM' => { mapped_iso_code: nil, legacy_name: 'Saint Pierre and Miquelon' },
     'PR' => { mapped_iso_code: nil, legacy_name: 'Puerto Rico' },
-    'PS' => { mapped_iso_code: nil, legacy_name: 'Occupied Palestinian Territories' },
     'RE' => { mapped_iso_code: nil, legacy_name: 'Réunion' },
     'SH-AC' => { mapped_iso_code: 'SH', legacy_name: 'Ascension' },
     'SH-HL' => { mapped_iso_code: 'SH', legacy_name: 'Saint Helena' },

@@ -23,11 +23,13 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/dfe-reference-data.git
-  revision: 30de554655f37807d38ecdf6f5af4a0e3463cce6
-  tag: v3.8.3
+  revision: 8e5da693513fcd1b92756d2334bfba11a4b881e1
+  tag: v3.8.4
   specs:
-    dfe-reference-data (3.8.3)
+    dfe-reference-data (3.8.4)
       activesupport
+      bigdecimal
+      openssl
       tzinfo
 
 GIT
@@ -505,6 +507,7 @@ GEM
       tzinfo
       validate_url
       webfinger (~> 2.0)
+    openssl (3.3.1)
     optimist (3.2.1)
     orm_adapter (0.5.0)
     os (1.1.4)
