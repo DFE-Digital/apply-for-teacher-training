@@ -54,7 +54,7 @@ RSpec.describe ProviderInterface::ReadOnlyCompletedOfferSummaryComponent do
   it 'renders the new course option details' do
     expect(row_text_selector(:provider, render)).to include(course_option.provider.name)
     expect(row_text_selector(:course, render)).to include(course_option.course.name_and_code)
-    expect(row_text_selector(:location, render)).to include(course_option.site.name_and_address)
+    expect(row_text_selector(:location, render)).to include(course_option.site.name_and_address("\n"))
     expect(row_text_selector(:full_or_part_time, render)).to include(course_option.study_mode.humanize)
     expect(row_text_selector(:qualification, render)).to include('QTS with PGCE')
     expect(row_text_selector(:funding_type, render)).to include(course_option.course.funding_type.humanize)
