@@ -25,6 +25,8 @@ class Course < ApplicationRecord
 
   after_update :touch_application_choices_and_forms, if: :in_current_recruitment_cycle?
 
+  normalizes :name, with: ->(name) { name.strip }
+
   CODE_LENGTH = 4
   SKE_GRADUATION_CUTOFF_THRESHOLD = 5.years
 
