@@ -232,8 +232,7 @@ RSpec.describe 'Provider confirms a deferred offer' do
   end
 
   def and_i_click_confirm_deferred_offer
-    # click_on 'Confirm deferred offer'
-    visit provider_interface_deferred_offer_root_path(@deferred_application_choice)
+    click_on 'Confirm deferred offer'
   end
   alias_method :when_i_click_confirm_deferred_offer, :and_i_click_confirm_deferred_offer
 
