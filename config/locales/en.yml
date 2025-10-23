@@ -227,7 +227,7 @@ en:
     which_provider: Which training provider are you applying to?
     which_course: Which course are you applying to?
     which_location: Which location are you interested in?
-    which_study_mode: Full time or part time?
+    which_study_mode: Is the course full time or part time?
     edit_degree: Edit degree
     edit_degree_type: Edit degree type
     other_qualifications: A levels and other qualifications

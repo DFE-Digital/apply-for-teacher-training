@@ -108,7 +108,7 @@ RSpec.describe 'Candidate arrives from Find with provider and course with multip
   end
 
   def then_i_am_redirect_to_the_course_study_mode_path
-    expect(page).to have_text 'Full time or part time?'
+    expect(page).to have_text 'Is the course full time or part time?'
     expect(page).to have_current_path(
       candidate_interface_course_choices_course_study_mode_path(@provider.id, @course.id),
     )
