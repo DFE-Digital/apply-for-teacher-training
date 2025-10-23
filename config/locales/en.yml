@@ -171,7 +171,8 @@ en:
     data_sharing_agreement: Data sharing agreement
     accessibility: Accessibility statement
     privacy_notices: Privacy notices
-    service_privacy_notice: Service privacy notice
+    manage_privacy_notice: Manage teacher training applications privacy notice
+    apply_privacy_title: Apply teacher training courses privacy notice
     online_chat_privacy_notice: Online chat privacy notice
     terms_candidate: Terms and conditions
     guidance_for_using_ai: Using ChatGPT and AI on Apply for teacher training
@@ -367,6 +368,24 @@ en:
     dates_and_deadlines: Dates and deadlines
     organisation_permissions: How organisation permissions affect what users can do
     application_guidance: The teacher training application process
+  privacy_urls:
+    education_providers_workforce:
+      url: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers
+      section_1: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#using-your-data-to-fund-learning-including-apprenticeships
+      section_6: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#using-your-data-so-we-can-support-your-teaching-career
+      section_14: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#using-your-data-to-contact-you-for-research-or-feedbackon-services-we-provide-to-you
+      section_15: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#gather-evidence
+      section_16: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#using-your-data-to-take-part-in-our-stakeholder-or-user-groups
+      section_18: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#using-your-data-to-protect-learners
+      section_22: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#using-your-data-to-maintain-lists-of-education-sector-contact-details
+      section_25: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#list-of-teachers
+      section_29: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#using-your-data-when-you-contact-us-to-make-an-enquiry
+      section_30: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#using-your-data-to-use-our-websites
+      section_32: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#sign-up-to
+      section_33: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#using-your-data-when-you-attend-our-events-or-webinars
+      section_37: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#using-your-data-when-you-usedfesign-in
+      section_41: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#using-your-data-when-we-are-testing-or-checking-our-it-systems
+      section_43: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#how-to-contact-us-and-how-to-make-a-complaint
   school_placements:
     changed: Location
     selected_by_candidate: Location (selected by candidate)

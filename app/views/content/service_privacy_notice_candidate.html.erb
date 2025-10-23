@@ -1,321 +1,53 @@
+<%= content_for :title, t('page_titles.apply_privacy_title') %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= govuk_notification_banner(title_text: 'Important') do |notification_banner| %>
-      <% notification_banner.with_heading(text: 'This policy has been replaced') %>
-      <p class="govuk-body">
-        As of September 2024, visit the GOV.UK website for the <%= govuk_link_to('up-to-date Department for Education privacy policy', t('personal_information_charter.url')) %>.
-      </p>
-    <% end %>
-    <h1 class="govuk-heading-l"><%= t('page_titles.service_privacy_notice') %></h1>
+    <h1 class="govuk-heading-l"><%= t('page_titles.apply_privacy_title') %></h1>
 
-    <h2 class="govuk-heading-m">Who we are</h2>
+    <p class='govuk-body'>
+      Read the Privacy information: <%= govuk_link_to(
+        "education providers' workforce, including teachers",
+        t('privacy_urls.education_providers_workforce.url'),
+      ) %>.
+    </p>
 
-    <p class="govuk-body">Apply for teacher training (‘Apply’) and Manage teacher training applications (‘Manage’)
-      are run by the Department for Education (‘we’) for the purpose of recruiting teachers.</p>
-
-    <h2 class="govuk-heading-m">Why our use of your personal data is lawful</h2>
-
-    <p class="govuk-body">In order for our use of your personal data to be lawful, we need to meet one (or more)
-      conditions in the data protection legislation. For Apply and Manage we rely on:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>article 6(1)(e) UK General Data Protection Regulation (UK GDPR), to perform a public task carried out in the
-        public interest as part of our function as a department</li>
-      <li>article 9(2)(g) UK GDPR reasons of substantial public interest (with a basis in law)</li>
-      <li>schedule 1(18) Data Protection Act 2018 (DPA 2018)</li>
+    <ul class="govuk-list govuk-list--spaced">
+      <li>
+        <%= govuk_link_to('Section 6', t('privacy_urls.education_providers_workforce.section_6')) %>
+        tells you what we do with your data to help support teaching as a career.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 14', t('privacy_urls.education_providers_workforce.section_14')) %>
+        tells you how we use your data to contact you for research or feedback on services we provide to you.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 15', t('privacy_urls.education_providers_workforce.section_15')) %>
+        tells you how we use your data to gather evidence for policy development, evaluation and delivery.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 18', t('privacy_urls.education_providers_workforce.section_18')) %>
+        tells you how we use your data for safeguarding.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 25', t('privacy_urls.education_providers_workforce.section_25')) %>
+        tells you how we use your data to maintain a list of teachers.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 29', t('privacy_urls.education_providers_workforce.section_29')) %>
+        tells you how we use your data when you contact us to make an enquiry.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 30', t('privacy_urls.education_providers_workforce.section_30')) %>
+        tells you how we use your data when you use our websites.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 41', t('privacy_urls.education_providers_workforce.section_41')) %>
+        tells you how we use your data when we are testing our IT systems.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 43', t('privacy_urls.education_providers_workforce.section_43')) %>
+        tells you how to contact us to make a complaint.
+      </li>
     </ul>
-
-    <p class="govuk-body">This is done under section 132 of the Education Act 2002, together with regulation 5 of the
-      Education (School Teachers’ Qualifications) (England) Regulations 2003.</p>
-
-    <h2 class="govuk-heading-m">When we are joint data controllers</h2>
-
-    <p class="govuk-body">DfE and training providers are joint data controllers of data inside the Apply and Manage
-      services from the point of collection until the data is shared with a training provider’s own systems.</p>
-
-    <h2 class="govuk-heading-m">When we are independent data controllers</h2>
-
-    <p class="govuk-body">Once the application data is shared with or copied into a training provider’s own systems,
-      the DfE and the providers are independently accountable under the UK GDPR and DPAt 2018 for your data as data
-      controllers. Each data controller is responsible for complying with data protection legislation.</p>
-
-    <h2 class="govuk-heading-m">The personal data we collect and how we collect it</h2>
-
-    <p class="govuk-body">The personal data we collect will depend on whether you are a candidate, work for a training provider or give a reference.</p>
-
-    <h3 class="govuk-heading-s">The data we collect if you are a candidate</h3>
-
-    <p class="govuk-body">If you are a candidate using Apply, we collect the information that you enter directly
-      when you apply. This includes personal information, such as your:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>first name</li>
-      <li>last name</li>
-      <li>nationality</li>
-      <li>immigration entry date</li>
-      <li>right to work</li>
-      <li>right to study</li>
-      <li>immigration route</li>
-      <li>immigration status</li>
-      <li>address (including country)</li>
-      <li>UK residency status</li>
-      <li>date of birth</li>
-      <li>phone number</li>
-      <li>email address</li>
-      <li>qualifications</li>
-      <li>work history</li>
-      <li>IP address</li>
-      <li>disability information (optional)</li>
-      <li>safeguarding information, such as any criminal convictions you declare (optional)</li>
-      <li>equality and diversity information (optional)</li>
-    </ul>
-
-    <h3 class="govuk-heading-s">The data we collect if you work for a training provider</h3>
-
-    <p class="govuk-body">If you process teacher training applications, we may need to collect information about you so
-      we can process applications, for example:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>your name</li>
-      <li>your email address</li>
-      <li>your phone number</li>
-      <li>where you work</li>
-      <li>what your role is</li>
-    </ul>
-
-    <h3 class="govuk-heading-s">The data we collect if you give a reference</h3>
-
-    <p class="govuk-body">If a candidate says that you can give them a reference, they’ll tell us:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>your name</li>
-      <li>your email address</li>
-      <li>how you know them and how long you have known them</li>
-      <li>the type of reference you can give (for example, academic or professional)</li>
-    </ul>
-
-    <h2 class="govuk-heading-m">How we use your data</h2>
-
-    <h3 class="govuk-heading-s">Processing candidate applications</h3>
-
-    <p class="govuk-body">Processing applications includes:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>sending applications and references to providers</li>
-      <li>managing communications between you and providers</li>
-      <li>managing communications between providers and people who give references</li>
-      <li>working out any funding you are entitled to</li>
-      <li>getting in touch if there’s a security issue concerning your data</li>
-      <li>getting in touch with you to ask if you would like to participate in user research</li>
-      <li>getting in touch with you and providers about your applications</li>
-      <li>analysing application and service usage data (including the outcome of applications)</li>
-      <li>using information from education providers and information from the Apply service for analysis and research about initial teacher training</li>
-    </ul>
-
-    <p class="govuk-body">Your data will also be shared between Apply and Get Into Teaching, which are both delivered
-      by the Department for Education. This is to support your application journey. For example, we will send you
-      relevant information and support opportunities.</p>
-
-    <p class="govuk-body">We will also call you on the phone number you give, to ask whether you would like help from a teacher training adviser.</p>
-
-    <h3 class="govuk-heading-s">If you start teacher training</h3>
-
-    <p class="govuk-body">If you are recruited to a teacher training course, your data will also be shared
-    between Apply and Register trainee teachers, which are both delivered by the Department for Education. This is
-    so we can register you as a trainee teacher.</p>
-
-    <p class="govuk-body">If you are successfully recruited to a teacher training course, your data will also be shared between Apply and Teaching Vacancies, which are both delivered by the Department for Education.
-    This will allow us to contact you so we can provide support as you look for a role upon qualifying as a teacher.
-    Sign up to the service is voluntary.</p>
-
-    <h3 class="govuk-heading-s">Safeguarding and fraud</h3>
-
-    <p class="govuk-body">In order to safeguard children and detect fraudulent
-    activity on our services, it may be necessary to share information about you
-    with relevant organisations.</p>
-
-    <p class="govuk-body">For example, we may need to share information about
-    you with teacher training providers, government departments,
-    local authorities,
-    law enforcement agencies, or examination bodies.</p>
-
-    <p class="govuk-body">This list is not exhaustive,
-    as it depends on the type of information we receive about you.</p>
-
-    <h3 class="govuk-heading-s">Processing references</h3>
-
-    <p class="govuk-body">Processing references includes:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>sending applications and references to providers</li>
-      <li>getting in touch if there’s a security issue concerning your data</li>
-      <li>getting in touch with you to ask if you would like to participate in user research</li>
-      <li>getting in touch with you about your reference</li>
-      <li>analysing reference and service usage data</li>
-    </ul>
-
-    <h2 class="govuk-heading-m">Building a better teacher training application process</h2>
-
-    <p class="govuk-body">We use some user data to improve our services. For example, we will look at any feedback you
-      give us about our services so we can improve them.</p>
-
-    <h3 class="govuk-heading-s">If you give a reference</h3>
-
-    <p class="govuk-body">We ask if you are willing to participate in user research when you submit a reference. If you have given us your consent we may contact you to
-      participate in user research.
-      If you want to withdraw your consent to participate in user research at any time, you can contact us at
-      <%= bat_contact_mail_to %>.</p>
-
-    <h3 class="govuk-heading-s">If you are a provider</h3>
-
-    <p class="govuk-body">We may contact you to ask if you would like to participate in user research. This helps us improve our services and policies
-    and further our purpose of recruiting high quality teachers.</p>
-
-    <h3 class="govuk-heading-s">If you are a candidate</h3>
-
-    <p class="govuk-body">We may contact you to ask if you would like to participate in user research.
-      This helps us improve our services and policies and further our purpose of recruiting high quality teachers. You do not have to participate,
-      and choosing to participate or not won’t affect your application in any way. You can opt out of being contacted for user research at any time
-      using the form below, you will still receive all other communications about your application.
-      <%= govuk_link_to 'Opt out of being contacted for research', 'https://forms.gle/dkZtK1g8ipKTD3s66' %>.</p>
-
-    <h2 class="govuk-heading-m">Getting insight to make government policy better</h2>
-
-    <p class="govuk-body">We will analyse your data to help us inform government policy around teacher recruitment and retention.</p>
-
-    <p class="govuk-body">If you use other digital services for which the data controller
-    is also the Department for Education (for example,
-    <%= t('service_name.find') %>, or Get Into Teaching),
-    we may use your IP address to understand how you are using these services.
-    This allows us to ensure that public funds are being spent effectively.</p>
-
-    <h2 class="govuk-heading-m">How long we keep your data</h2>
-
-    <table class="govuk-table">
-      <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header govuk-!-width-one-third">
-          Usage
-        </th>
-        <th scope="col" class="govuk-table__header govuk-!-width-one-third">
-          Retention period
-        </th>
-      </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">
-          Candidate application form
-        </td>
-        <td class="govuk-table__cell">
-          7 years
-        </td>
-      </tr>
-       <tr>
-        <td class="govuk-table__cell">
-          Analytics data in Google data warehouse
-        </td>
-        <td class="govuk-table__cell">
-          7 years
-        </td>
-      </tr>
-      <tr>
-        <td class="govuk-table__cell">
-          Google Analytics
-        </td>
-        <td class="govuk-table__cell">
-          26 months
-        </td>
-      </tr>
-      <tr>
-        <td class="govuk-table__cell">
-          Zendesk Support Desk
-        </td>
-        <td class="govuk-table__cell">
-          3 years
-        </td>
-      </tr>
-      <tr>
-        <td class="govuk-table__cell">
-          Provider user data
-        </td>
-        <td class="govuk-table__cell">
-          Providers can add and delete provider user data according to their own retention period as data controller
-        </td>
-      </tr>
-      </tbody>
-    </table>
-
-    <h2 class="govuk-heading-m">Who we share your data with</h2>
-
-    <p class="govuk-body">We need to share personal data for the purpose of recruiting high quality teachers.</p>
-
-    <h3 class="govuk-heading-s">Sharing data with providers</h3>
-
-    <p class="govuk-body">We share data about candidates and people who give references with the providers to which the
-      candidate has applied.</p>
-
-    <p class="govuk-body">We have a data sharing agreement with providers so that they are clear about their
-      responsibilities as data controllers in their own right. As data controllers they are required to comply with the
-      UK GDPR and DPA2018 including to inform you through a privacy notice like this one, as to what they will be doing
-      with your data and your information rights.</p>
-
-    <h3 class="govuk-heading-s">Sharing candidate data with people who give references</h3>
-
-    <p class="govuk-body">We share candidate data with people who give references, to help them identify candidates and understand how references will be used.</p>
-
-    <p class="govuk-body">The data we share includes:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>the candidate’s name</li>
-      <li>the name of the training provider which the candidate has accepted an offer from</li>
-      <li>how the candidate said they know the person giving a reference and how long they’ve known them</li>
-    </ul>
-
-    <h3 class="govuk-heading-s">External organisations who process data</h3>
-
-    <p class="govuk-body">We share data with our data processors for the purposes of provision of this service. Data
-      protection agreements are in place with each of these processors and they are required to comply with the UK GDPR
-      and the DPA 2018 as data processors.</p>
-
-    <h2 class="govuk-heading-m">Your rights</h2>
-
-    <p class="govuk-body">Under the DPA 2018 and the UK GDPR, you have the right to find out what data we have about
-      you. However, your rights are conditional on the lawful basis under which your data is being processed. Our
-      lawful basis is public task, which grants you the following rights:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>being informed about how your data is being used</li>
-      <li>accessing personal data</li>
-      <li>having incorrect data corrected</li>
-      <li>restricting the processing of your data (for example where the data is inaccurate or outdated)</li>
-      <li>objecting to how your data is processed in certain circumstances, including automated processing and profiling</li>
-    </ul>
-
-    <p class="govuk-body">You can find more information about how we handle personal data in our
-      <%= govuk_link_to('personal information charter', t('personal_information_charter.url')) %>.</p>
-
-    <h2 class="govuk-heading-m">Getting help and raising a concern</h2>
-
-    <p class="govuk-body">If you would like to exercise any of your rights, you can email us at
-    <%= bat_contact_mail_to %></p>
-
-    <p class="govuk-body">You can also use our <%= govuk_link_to('contact form', t('dfe_contact_form.url')) %> to get
-      in touch with our Data Protection Officer.</p>
-
-    <p class="govuk-body">If we cannot resolve your issue, you have the right to raise it with the
-      <%= govuk_link_to("Information Commissioner's Office (ICO)", t('information_commissioners_office.url')) %>.</p>
-
-    <p class="govuk-body">Once a candidate has enrolled with a teacher training provider, we will not be able to ask
-      them to remove personal data from their systems as they will be a data controller for this data. You will need to
-      contact the provider directly.</p>
-
-    <h2 class="govuk-heading-m">Keeping our privacy notice up to date</h2>
-
-    <p class="govuk-body">We will update this privacy notice when required. You should regularly review the notice.</p>
-
-    <p class="govuk-body">This version was last updated on 11 April 2023.</p>
-
   </div>
-
 </div>
