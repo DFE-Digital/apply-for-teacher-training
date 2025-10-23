@@ -3,7 +3,6 @@ namespace :provider_interface, path: '/provider' do
 
   get '/accessibility', to: 'content#accessibility'
   get '/privacy', to: 'content#privacy', as: :privacy
-  get '/privacy/online-chat-privacy-notice', to: 'content#online_chat_privacy_notice', as: :online_chat_privacy_notice
   get '/cookies', to: 'content#cookies_page', as: :cookies
   get '/roadmap', to: 'content#roadmap', as: :roadmap
   get '/service-guidance', to: 'content#service_guidance_provider', as: :service_guidance
