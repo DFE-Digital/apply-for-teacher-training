@@ -39,9 +39,9 @@ module TeacherTrainingPublicAPI
 
       provider_courses_from_api.each do |course_from_api|
         course = provider.courses.find_by(code: course_from_api.code, recruitment_cycle_year: 2026)
-        return if course.blank?
+        next if course.blank?
 
-        return if course.uuid == course_from_api.uuid
+        next if course.uuid == course_from_api.uuid
 
         course.update!(uuid: course_from_api.uuid)
       end
