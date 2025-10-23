@@ -1,21 +1,64 @@
-<%= content_for :title, t('page_titles.privacy_notices') %>
+<%= content_for :title, t('page_titles.manage_privacy_notice') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= govuk_notification_banner(title_text: 'Important') do |notification_banner| %>
-      <% notification_banner.with_heading(text: 'These policy have been replaced') %>
-      <p class="govuk-body">
-        These policy notices are for reference only. As of September 2024, visit the GOV.UK website for the
-        <%= govuk_link_to('up-to-date Department for Education privacy policy', t('personal_information_charter.url')) %>.
-      </p>
-    <% end %>
-    <h1 class="govuk-heading-l"><%= t('page_titles.privacy_notices') %></h1>
+    <h1 class="govuk-heading-l"><%= t('page_titles.manage_privacy_notice') %></h1>
+
+    <p class='govuk-body'>
+      Read the Privacy information: <%= govuk_link_to(
+        "education providers' workforce, including teachers",
+        t('privacy_urls.education_providers_workforce.url'),
+      ) %>.
+    </p>
+
     <ul class="govuk-list govuk-list--spaced">
       <li>
-        <%= govuk_link_to('Service privacy notice', provider_interface_service_privacy_notice_path) %>
+        <%= govuk_link_to('Section 1', t('privacy_urls.education_providers_workforce.section_1')) %>
+        tells you what we do with your data to provide funding.
       </li>
       <li>
-        <%= govuk_link_to('Online chat privacy notice', provider_interface_online_chat_privacy_notice_path) %>
+        <%= govuk_link_to('Section 6', t('privacy_urls.education_providers_workforce.section_6')) %>
+        tells you what we do with your data to help support teaching as a career.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 14', t('privacy_urls.education_providers_workforce.section_14')) %>
+        tells you how we use your data to contact you for research or feedback on services we provide to you.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 16', t('privacy_urls.education_providers_workforce.section_16')) %>
+        tells you how we use your data to take part in our stakeholder or user groups.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 22', t('privacy_urls.education_providers_workforce.section_22')) %>
+        tells you how we use your data to maintain lists of education sector contact details.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 29', t('privacy_urls.education_providers_workforce.section_29')) %>
+        tells you how we use your data when you contact us to make an enquiry.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 30', t('privacy_urls.education_providers_workforce.section_30')) %>
+        tells you how we use your data when you use our websites.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 32', t('privacy_urls.education_providers_workforce.section_32')) %>
+        tells you how we use your data to send you notifications.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 33', t('privacy_urls.education_providers_workforce.section_33')) %>
+        tells you how we use your data when you attend events or webinars.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 37', t('privacy_urls.education_providers_workforce.section_37')) %>
+        tells you how we use your data when you use DfE Sign-In.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 41', t('privacy_urls.education_providers_workforce.section_41')) %>
+        tells you how we use your data when we are testing our IT systems.
+      </li>
+      <li>
+        <%= govuk_link_to('Section 43', t('privacy_urls.education_providers_workforce.section_43')) %>
+        tells you how to contact us to make a complaint.
       </li>
     </ul>
   </div>

@@ -14,7 +14,7 @@
     <%= govuk_notification_banner(title_text: 'Important') do |notification_banner| %>
       <% notification_banner.with_heading(text: 'This policy has been replaced') %>
       <p class="govuk-body">
-        As of September 2024, visit the GOV.UK website for the <%= govuk_link_to('up-to-date Department for Education privacy policy', t('personal_information_charter.url')) %>.
+        As of September 2024, visit the GOV.UK website for the <%= govuk_link_to('up-to-date Department for Education privacy policy', provider_interface_privacy_policy_path) %>.
       </p>
     <% end %>
     <h1 class="govuk-heading-l"><%= t("page_titles.#{@page_name}") %></h1>
