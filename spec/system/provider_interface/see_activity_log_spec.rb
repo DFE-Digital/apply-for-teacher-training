@@ -47,8 +47,8 @@ RSpec.describe 'See activity log' do
   def and_my_organisation_has_applications
     course1 = create(:course, provider: @provider1, name: 'Course 1')
     course2 = create(:course, provider: @provider2, accredited_provider: @provider1, name: 'Course 2')
-    course3 = create(:course, provider: create(:provider), accredited_provider: @provider1, name: 'Course 3')
-    course4 = create(:course, provider: create(:provider), name: 'Course 4')
+    course3 = create(:course, provider: create(:provider, code: 'XYZ1'), accredited_provider: @provider1, name: 'Course 3')
+    course4 = create(:course, provider: create(:provider, code: 'XYZ2'), name: 'Course 4')
     course5 = create(:course, provider: @provider1, name: 'Course 5')
 
     course_option1 = create(:course_option, course: course1)
