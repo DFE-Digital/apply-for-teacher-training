@@ -5,7 +5,7 @@ module ProviderInterface
         @wizard = CourseWizard.new(change_course_store, { current_step: 'locations', action: })
         @wizard.save_state!
 
-        @course_options = available_course_options(@wizard.course_id, @wizard.study_mode).includes([:site])
+        @course_options = available_course_options(@wizard.course_id, @wizard.study_mode).includes([:site]).order('site.name')
       end
 
       def update

@@ -38,7 +38,14 @@ class ChangeCourse
                          (!application_choice.school_placement_auto_selected && course_option.site_id != old_course_option.site_id)
 
         if course_changed
-          CandidateMailer.change_course(application_choice, old_course_option).deliver_later
+          if application_choice.pending_conditions?
+            CandidateMailer.change_course_pending_conditions(
+              application_choice,
+              old_course_option,
+            ).deliver_later
+          else
+            CandidateMailer.change_course(application_choice, old_course_option).deliver_later
+          end
         end
       end
     else

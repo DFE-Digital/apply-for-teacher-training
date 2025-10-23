@@ -1,6 +1,8 @@
 module ProviderInterface
   class CoursesController < ProviderInterfaceController
     before_action :set_application_choice
+    helper_method :change_course_hint
+    helper_method :path_to_cancel_form
 
     def edit
       redirect_to provider_interface_application_choice_course_path(@application_choice)
@@ -28,7 +30,33 @@ module ProviderInterface
 
         flash[:warning] = t('.failure.title')
       end
-      redirect_to provider_interface_application_choice_path(@application_choice)
+
+      if @application_choice.pending_conditions?
+        redirect_to provider_interface_application_choice_offer_path(@application_choice)
+      else
+        redirect_to provider_interface_application_choice_path(@application_choice)
+      end
+    end
+
+    def change_course_hint
+      if @application_choice.pending_conditions?
+        {
+          # rubocop:disable Rails/I18nLazyLookup
+          text: t('provider_interface.courses.change_course_hint.text'),
+          # rubocop:enable Rails/I18nLazyLookup
+          class: 'radio-buttons-fieldset-hint',
+        }
+      else
+        {}
+      end
+    end
+
+    def path_to_cancel_form
+      if @application_choice.pending_conditions?
+        provider_interface_application_choice_offer_path(@application_choice)
+      else
+        provider_interface_application_choice_path(@application_choice)
+      end
     end
 
   private

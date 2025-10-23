@@ -65,6 +65,7 @@ en:
             apply_to_multiple_courses_after_30_working_days: The candidate has not had a response to more than 1 application for 30 working days (status changed to inactive). This email nudges them to apply elsewhere.
             apply_to_multiple_courses_after_30_working_days_with_holiday_response_time_warning: The candidate has not had a response and their application was submitted during the Christmas holiday period.
             change_course: The training provider has changed any details about the course a candidate has applied to.
+            change_course_pending_conditions: The training provider has changed any details about the course on the offer of the candidate.
           candidate_offers:
             changed_offer: The training provider has changed any details about a conditional offer made to a candidate.
             changed_unconditional_offer: The training provider has changed from a conditional offer to an unconditional offer OR the training provider has changed any details about an unconditional offer made to a candidate. Because there are no conditions in the offer, no conditions will be rendered in this email. Other information about the offer that changes such as the course code, will change.

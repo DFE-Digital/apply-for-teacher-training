@@ -247,6 +247,26 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def change_course_pending_conditions(application_choice, old_course_option)
+    @application_form = application_choice.application_form
+    @application_choice = application_choice
+    @old_course = old_course_option.course
+    @old_course_option = old_course_option
+    @old_qualification = qualification_text(@old_course_option)
+
+    @current_course = @application_choice.current_course
+    @current_course_option = @application_choice.current_course_option
+    @new_qualification = qualification_text(@current_course_option)
+    @conditions = @application_choice.offer.all_conditions_text
+
+    email_for_candidate(
+      @application_choice.application_form,
+      subject: I18n.t!(
+        'candidate_mailer.course_change_pending_conditions.subject',
+      ),
+    )
+  end
+
   def deferred_offer(application_choice)
     @application_choice = application_choice
     @course = @application_choice.current_course_option.course

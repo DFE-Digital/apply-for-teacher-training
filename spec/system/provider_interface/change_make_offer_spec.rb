@@ -149,8 +149,8 @@ RSpec.describe 'Provider makes an offer' do
   def given_the_provider_user_can_offer_multiple_provider_courses
     @selected_provider = create(:provider)
     create(:provider_permissions, provider: @selected_provider, provider_user:, make_decisions: true)
-    courses = [create(:course, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider),
-               create(:course, :open, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider)]
+    courses = [create(:course, :with_course_options, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider),
+               create(:course, :with_course_options, :open, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider)]
     @selected_course = courses.sample
 
     course_options = [create(:course_option, :part_time, course: @selected_course),

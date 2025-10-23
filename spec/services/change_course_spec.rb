@@ -24,7 +24,10 @@ RSpec.describe ChangeCourse do
 
   before do
     mailer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-    allow(CandidateMailer).to receive(:change_course).and_return(mailer)
+    allow(CandidateMailer).to receive_messages(
+      change_course: mailer,
+      change_course_pending_conditions: mailer,
+    )
   end
 
   describe '#save!' do
@@ -182,6 +185,59 @@ RSpec.describe ChangeCourse do
         }.to raise_error(IdenticalCourseError)
 
         expect(CandidateMailer).not_to have_received(:change_course)
+      end
+
+      context 'when choice is pending_conditions' do
+        let(:application_choice) { create(:application_choice, status: :pending_conditions) }
+
+        it 'sends an email' do
+          change_course.save!
+
+          expect(CandidateMailer).to have_received(:change_course_pending_conditions)
+            .with(application_choice, application_choice.original_course_option)
+        end
+
+        it 'does not send an email when only the site changes and placement is auto-selected' do
+          old_course_option = application_choice.current_course_option
+
+          new_site = create(:site, provider: old_course_option.provider)
+          same_course_option_with_new_site = create(
+            :course_option,
+            course: old_course_option.course,
+            site: new_site,
+            study_mode: old_course_option.study_mode,
+          )
+
+          application_choice.update!(school_placement_auto_selected: true)
+
+          change_course = described_class.new(
+            actor: provider_user,
+            application_choice: application_choice,
+            course_option: same_course_option_with_new_site,
+            update_interviews_provider_service: update_interviews_provider_service,
+          )
+
+          change_course.save!
+
+          expect(CandidateMailer).not_to have_received(:change_course_pending_conditions)
+        end
+
+        it 'raises IdenticalCourseError and does not send an email when the course has not changed at all' do
+          unchanged_course_option = application_choice.course_option
+
+          change_course = described_class.new(
+            actor: provider_user,
+            application_choice:,
+            course_option: unchanged_course_option,
+            update_interviews_provider_service:,
+          )
+
+          expect {
+            change_course.save!
+          }.to raise_error(IdenticalCourseError)
+
+          expect(CandidateMailer).not_to have_received(:change_course_pending_conditions)
+        end
       end
     end
   end
