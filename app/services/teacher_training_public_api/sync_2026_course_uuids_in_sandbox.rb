@@ -8,7 +8,7 @@ module TeacherTrainingPublicAPI
     sidekiq_options retry: 3, queue: :low_priority
 
     def perform
-      return unless HostingEnvironment.sandbox_mode?
+      return if HostingEnvironment.production?
 
       # In sandbox there are 420 providers with 2026 courses
       provider_codes = ::Provider
@@ -28,7 +28,7 @@ module TeacherTrainingPublicAPI
     sidekiq_options retry: 3, queue: :low_priority
 
     def perform(provider_code)
-      return unless HostingEnvironment.sandbox_mode?
+      return if HostingEnvironment.production?
 
       provider = ::Provider.find_by(code: provider_code)
 

@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandboxSecondaryWorker, :sidekiq do
   include TeacherTrainingPublicAPIHelper
 
-  context 'sandbox mode' do
+  context 'not production' do
     before do
-      allow(HostingEnvironment).to receive(:sandbox_mode?).and_return(true)
+      allow(HostingEnvironment).to receive(:production?).and_return(false)
     end
 
     context 'api course exists and the UUID is the same as publish sandbox' do

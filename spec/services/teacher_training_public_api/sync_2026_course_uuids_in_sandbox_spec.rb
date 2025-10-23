@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandbox, :sidekiq do
   include TeacherTrainingPublicAPIHelper
 
-  context 'sandbox mode' do
+  context 'not production' do
     before do
-      allow(HostingEnvironment).to receive(:sandbox_mode?).and_return true
+      allow(HostingEnvironment).to receive(:production?).and_return false
       allow(TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandboxSecondaryWorker).to receive(:perform_async)
     end
 
@@ -36,9 +36,9 @@ RSpec.describe TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandbox, :sidekiq 
     end
   end
 
-  context 'not sandbox mode' do
+  context 'production' do
     before do
-      allow(HostingEnvironment).to receive(:sandbox_mode?).and_return false
+      allow(HostingEnvironment).to receive(:production?).and_return true
       allow(TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandboxSecondaryWorker).to receive(:perform_async)
     end
 
