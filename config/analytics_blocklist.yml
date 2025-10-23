@@ -308,6 +308,7 @@
   - conditions_status
   - created_at
   - updated_at
+  - offered_course_option_id
   :sites:
   - latitude
   - longitude

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_15_150512) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_23_094027) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -583,8 +583,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_15_150512) do
     t.string "conditions_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "offered_course_option_id"
     t.index ["course_id"], name: "index_deferred_offer_confirmations_on_course_id"
     t.index ["offer_id"], name: "index_deferred_offer_confirmations_on_offer_id"
+    t.index ["offered_course_option_id"], name: "index_deferred_offer_confirmations_on_offered_course_option_id"
     t.index ["provider_user_id"], name: "index_deferred_offer_confirmations_on_provider_user_id"
     t.index ["site_id"], name: "index_deferred_offer_confirmations_on_site_id"
   end
@@ -1166,6 +1168,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_15_150512) do
   add_foreign_key "course_subjects", "courses"
   add_foreign_key "course_subjects", "subjects"
   add_foreign_key "courses", "providers"
+  add_foreign_key "deferred_offer_confirmations", "course_options", column: "offered_course_option_id"
   add_foreign_key "deferred_offer_confirmations", "courses"
   add_foreign_key "deferred_offer_confirmations", "offers"
   add_foreign_key "deferred_offer_confirmations", "provider_users"
