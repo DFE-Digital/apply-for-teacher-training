@@ -70,7 +70,7 @@ RSpec.describe 'Provider content' do
   end
 
   def then_i_see_the_privacy_notice_page
-    expect(current_url).to eq t('personal_information_charter.url')
+    expect(page).to have_current_path provider_interface_privacy_path
   end
 
   def when_i_click_on_the_service_guidance

@@ -88,7 +88,7 @@ RSpec.describe 'Candidate content' do
   end
 
   def then_i_can_see_the_privacy_policy
-    expect(current_url).to eq t('personal_information_charter.url')
+    expect(page).to have_current_path candidate_interface_privacy_policy_path
   end
 
   def when_i_click_on_the_terms_of_use
