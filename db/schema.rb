@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_21_144637) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_23_094027) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -583,7 +583,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_21_144637) do
     t.string "conditions_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "offered_course_option_id"
+    t.bigint "offered_course_option_id", null: false
     t.index ["course_id"], name: "index_deferred_offer_confirmations_on_course_id"
     t.index ["offer_id"], name: "index_deferred_offer_confirmations_on_offer_id"
     t.index ["offered_course_option_id"], name: "index_deferred_offer_confirmations_on_offered_course_option_id"
