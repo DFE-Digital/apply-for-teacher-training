@@ -583,7 +583,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_23_094027) do
     t.string "conditions_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "offered_course_option_id", null: false
+    t.bigint "offered_course_option_id"
     t.index ["course_id"], name: "index_deferred_offer_confirmations_on_course_id"
     t.index ["offer_id"], name: "index_deferred_offer_confirmations_on_offer_id"
     t.index ["offered_course_option_id"], name: "index_deferred_offer_confirmations_on_offered_course_option_id"
