@@ -7,8 +7,7 @@
     You need to confirm your deferred offer.
   </p>
 
-<!--  TODO: Update the link path to provider_interface_deferred_offer_check_path-->
-  <%= govuk_button_link_to 'Confirm deferred offer', provider_interface_reconfirm_deferred_offer_path(application_choice) %>
+  <%= govuk_button_link_to 'Confirm deferred offer', provider_interface_deferred_offer_root_path(application_choice) %>
 <% elsif deferred_offer_in_current_cycle? -%>
   Your offer will need to be confirmed at the start of the next recruitment cycle.
 <% elsif deferred_offer_but_cannot_respond? -%>

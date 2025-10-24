@@ -54,6 +54,7 @@ RSpec.describe DeferredOfferConfirmation do
       deferred_offer_confirmation = described_class.new(
         provider_user: build(:provider_user),
         offer: offer,
+        offered_course_option: course_option,
       )
 
       expect(deferred_offer_confirmation.course_id).to eq(course_option.course.id)
@@ -72,6 +73,7 @@ RSpec.describe DeferredOfferConfirmation do
         course_id: 1,
         site_id: 5,
         study_mode: 'new_value',
+        offered_course_option: course_option,
       )
 
       expect(deferred_offer_confirmation.course_id).to be(1)
@@ -88,6 +90,7 @@ RSpec.describe DeferredOfferConfirmation do
         provider_user: build(:provider_user),
         offer: offer,
         course_id: 1,
+        offered_course_option: course_option,
       )
 
       expect(deferred_offer_confirmation.course_id).to be(1)
@@ -108,6 +111,7 @@ RSpec.describe DeferredOfferConfirmation do
         course_id: course_option.course.id,
         site_id: course_option.site.id,
         study_mode: course_option.study_mode,
+        offered_course_option: course_option,
       )
 
       expect(deferred_offer_confirmation.valid?(:submit)).to be_truthy
@@ -126,6 +130,7 @@ RSpec.describe DeferredOfferConfirmation do
           course_id: course_option.course.id,
           site_id: course_option.site.id,
           study_mode: course_option.study_mode,
+          offered_course_option: course_option,
         )
 
         expect(deferred_offer_confirmation.valid?(:submit)).to be_falsey
@@ -143,6 +148,7 @@ RSpec.describe DeferredOfferConfirmation do
           course_id: course_option.course.id,
           site_id: course_option.site.id,
           study_mode: course_option.study_mode,
+          offered_course_option: course_option,
         )
 
         expect(deferred_offer_confirmation.valid?(:submit)).to be_truthy
@@ -166,6 +172,7 @@ RSpec.describe DeferredOfferConfirmation do
           course_id: course_option_previous_cycle.course.id,
           site_id: course_option_previous_cycle.site.id,
           study_mode: course_option_previous_cycle.study_mode,
+          offered_course_option: course_option_previous_cycle,
         )
 
         expect(deferred_offer_confirmation.valid?(:submit)).to be_falsey
@@ -191,6 +198,7 @@ RSpec.describe DeferredOfferConfirmation do
           course_id: course_option_previous_cycle.course.id,
           site_id: course_option_previous_cycle.site.id,
           study_mode: course_option_previous_cycle.study_mode,
+          offered_course_option: course_option_previous_cycle,
         )
 
         expect(deferred_offer_confirmation.valid?(:submit)).to be_truthy
@@ -214,6 +222,7 @@ RSpec.describe DeferredOfferConfirmation do
           course_id: course_option_previous_cycle.course.id,
           site_id: course_option_previous_cycle.site.id,
           study_mode: course_option_previous_cycle.study_mode,
+          offered_course_option: course_option_previous_cycle,
         )
 
         expect(deferred_offer_confirmation.valid?(:submit)).to be_falsey
@@ -239,6 +248,7 @@ RSpec.describe DeferredOfferConfirmation do
           course_id: course_option_previous_cycle.course.id,
           site_id: course_option_previous_cycle.site.id,
           study_mode: course_option_previous_cycle.study_mode,
+          offered_course_option: course_option_previous_cycle,
         )
 
         expect(deferred_offer_confirmation.valid?(:submit)).to be_truthy

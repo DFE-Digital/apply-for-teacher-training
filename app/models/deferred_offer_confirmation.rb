@@ -95,6 +95,7 @@ class DeferredOfferConfirmation < ApplicationRecord
   belongs_to :offer
   belongs_to :course, optional: true
   belongs_to :location, optional: true, class_name: 'Site', foreign_key: 'site_id'
+  belongs_to :offered_course_option, class_name: 'CourseOption'
 
   enum :study_mode, { full_time: 'full_time', part_time: 'part_time' },
        validate: { allow_nil: true },
