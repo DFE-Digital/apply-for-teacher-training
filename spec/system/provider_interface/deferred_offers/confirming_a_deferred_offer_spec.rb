@@ -352,7 +352,7 @@ RSpec.describe 'Provider confirms a deferred offer' do
   end
 
   def then_i_see_a_recruited_success_banner
-    expect(page).to have_content('John Doe Recruited')
+    expect(page).to have_content('Deferred offer successfully confirmed for current cycle')
   end
 
   def then_i_see_the_application_details_with_original_course_applied_for

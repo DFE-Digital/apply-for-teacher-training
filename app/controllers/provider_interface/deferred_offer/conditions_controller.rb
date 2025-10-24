@@ -21,6 +21,7 @@ class ProviderInterface::DeferredOffer::ConditionsController < ProviderInterface
                                application_choice:,
                                course_option:,
                                conditions_met: conditions_met?).save
+      flash[:success] = t('.success')
       redirect_to provider_interface_application_choice_path(application_choice)
     else
       render :edit, status: :unprocessable_entity
