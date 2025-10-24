@@ -53,6 +53,8 @@ en:
           next_steps:
             email_candidate: We will email the candidate to let them know that this offer has been confirmed. We will also tell them about any changes that have been made to the offer or conditions.
             unsatisfactory: If the offer is not satisfactory they will contact you to discuss it.
+        update:
+          success: Deferred offer successfully confirmed for current cycle
   activerecord:
     errors:
       models:
