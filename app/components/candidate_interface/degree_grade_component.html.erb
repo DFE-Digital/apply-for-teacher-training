@@ -16,6 +16,7 @@
                 form_field: form.govuk_select(
                   :other_grade,
                   options_for_select(dfe_autocomplete_options(@model.other_grades), @model.other_grade.to_s),
+                  aria: { label: 'candidate-interface-degree-form-other-grade-field-select' },
                   label: { text: t('application_form.degree.grade.other.conditional.label') },
                   width: 10,
                 ),

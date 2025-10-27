@@ -16,6 +16,7 @@
         :course_id,
         options_for_select(@wizard.current_step.select_course_options, @wizard.current_step.course_id),
         data: { controller: 'autocomplete' },
+        aria: { label: 'which-course-are-you-applying-to-course-id-field-select' },
         label: { text: t('page_titles.which_course'), size: 'xl', tag: 'h1' },
       ),
   ) %>

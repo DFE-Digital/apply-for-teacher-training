@@ -17,6 +17,7 @@
             :name_and_code,
             options: { include_blank: '' },
             caption: { text: @course_form.application_choice.application_form.full_name, size: 'xl' },
+            aria: { label: 'deferred-offer-confirmation-course-form-course-id-field' },
             label: { text: t('.page_title'), size: 'xl' },
             hint: lambda {
               if return_to_review?

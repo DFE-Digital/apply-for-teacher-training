@@ -17,6 +17,7 @@
           form_field: form.govuk_select(
           :other_type,
           options_for_select(dfe_autocomplete_options(choose_degree_types(degree_level.to_sym), synonyms_fields: %i[abbreviation match_synonyms], append: :abbreviation), form.object.other_type),
+          aria: { label: 'candidate-interface-degree-form-other-type-field-select' },
           label: { text: t('.degree_type') },
           hint: { text: t(".hint.other.#{@model.degree_level}") },
         ),

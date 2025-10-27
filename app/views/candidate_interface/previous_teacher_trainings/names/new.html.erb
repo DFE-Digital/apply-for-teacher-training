@@ -24,6 +24,7 @@
         form_field: f.govuk_select(
           :provider_name,
           options_for_select(dfe_autocomplete_options(@form.providers), f.object.provider_name),
+          aria: { label: 'candidate-interface-previous-teacher-trainings-names-form-provider-name-field-select' },
           label: { text: t('.title'), size: 'xl' },
           hint: proc { t('.body') },
         ),
