@@ -1,11 +1,13 @@
 const nationalitiesComponent = () => {
-  const secondSelectEl = document.getElementById(
-    'candidate-interface-nationalities-form-other-nationality2-field'
+  const secondSelectEl = document.querySelectorAll(
+    '#candidate-interface-nationalities-form-other-nationality2-field, \
+    #candidate-interface-nationalities-form-other-nationality2-field-select'
   )
   if (!secondSelectEl) return
 
-  const thirdSelectEl = document.getElementById(
-    'candidate-interface-nationalities-form-other-nationality3-field'
+  const thirdSelectEl = document.querySelectorAll(
+    '#candidate-interface-nationalities-form-other-nationality3-field, \
+    #candidate-interface-nationalities-form-other-nationality3-field-select'
   )
 
   const secondFormLabel = document.querySelector(
@@ -17,17 +19,19 @@ const nationalitiesComponent = () => {
 
   let addNationalityButton = null
 
-  addRemoveLink(secondFormLabel, secondSelectEl)
+  if (secondFormLabel && thirdFormLabel) {
+    addRemoveLink(secondFormLabel, secondSelectEl)
 
-  addRemoveLink(thirdFormLabel, thirdSelectEl)
+    addRemoveLink(thirdFormLabel, thirdSelectEl)
 
-  addAddNationalityButton(
-    '#candidate-interface-nationalities-form-nationalities-other-conditional'
-  )
+    addAddNationalityButton(
+      '#candidate-interface-nationalities-form-nationalities-other-conditional'
+    )
 
-  hideSection(secondSelectEl, secondFormLabel)
+    hideSection(secondSelectEl, secondFormLabel)
 
-  hideSection(thirdSelectEl, thirdFormLabel)
+    hideSection(thirdSelectEl, thirdFormLabel)
+  }
 
   function addRemoveLink (labelEl, selectEl) {
     const parentEl = labelEl.parentElement
@@ -67,11 +71,11 @@ const nationalitiesComponent = () => {
     addNationalityButton.id = 'add-nationality-button'
     addNationalityButton.classList.add(
       'govuk-button',
-      'govuk-button--secondary'
+      'govuk-button--secondary',
     )
     parent.appendChild(addNationalityButton)
 
-    if (secondSelectEl.value && thirdSelectEl.value) {
+    if (Array(secondSelectEl).every(elementIsNotBlank) && Array.from(thirdSelectEl).every(elementIsNotBlank)) {
       addNationalityButton.style.display = 'none'
     }
 
@@ -82,7 +86,7 @@ const nationalitiesComponent = () => {
   }
 
   function hideSection (selectEl, labelEl) {
-    if (selectEl.value === '') {
+    if (Array.from(selectEl).every(elementIsBlank)) {
       labelEl.parentElement.style.display = 'none'
     }
   }
@@ -90,7 +94,10 @@ const nationalitiesComponent = () => {
   function handleRemoveLinkClick (labelEl, selectEl) {
     addNationalityButton.style.display = ''
     labelEl.parentElement.style.display = 'none'
-    selectEl.value = ''
+
+    for (const el of selectEl) {
+      el.value = '';
+    }
   }
 
   function handleAddNationalityClick () {
@@ -105,6 +112,18 @@ const nationalitiesComponent = () => {
     } else {
       thirdFormLabel.parentElement.style.display = ''
       addNationalityButton.style.display = 'none'
+    }
+  }
+
+  function elementIsBlank(el) {
+    return el.value === '';
+  }
+
+  function elementIsNotBlank(el) {
+    if (el.value) {
+      return true
+    } else {
+      return false
     }
   }
 }
