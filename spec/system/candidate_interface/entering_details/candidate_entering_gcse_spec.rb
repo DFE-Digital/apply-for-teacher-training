@@ -25,7 +25,7 @@ RSpec.describe 'Candidate entering GCSE details' do
     and_i_click_save_and_continue
     then_i_see_add_year_page
 
-    when_i_fill_in_the_year
+    when_i_fill_in_the_year_for_maths_gcse
     and_i_click_save_and_continue
     then_i_see_the_review_page_with_correct_details
 
@@ -44,7 +44,7 @@ RSpec.describe 'Candidate entering GCSE details' do
     and_i_click_save_and_continue
     then_i_see_the_gcse_year_entered
 
-    when_i_enter_a_different_qualification_year
+    when_i_enter_a_different_qualification_year_for_scottish_national_5
     and_i_click_save_and_continue
     then_i_see_the_review_page_with_updated_year
 
@@ -61,7 +61,7 @@ RSpec.describe 'Candidate entering GCSE details' do
 
     when_i_fill_in_the_english_grade
     and_i_click_save_and_continue
-    and_i_fill_in_the_year
+    and_i_fill_in_the_year_for_english_gcse_for_english_gcse
     and_i_click_save_and_continue
     and_i_choose_to_return_later
     then_i_am_returned_to_the_application_form_details
@@ -130,11 +130,17 @@ RSpec.describe 'Candidate entering GCSE details' do
     fill_in 'candidate_interface_english_gcse_grade_form[grade_english_single]', with: 'A'
   end
 
-  def when_i_fill_in_the_year
-    fill_in 'Year', with: '1990'
+  def when_i_fill_in_the_year_for_english_gcse
+    fill_in 'What year was your English GCSE awarded?', with: '1990'
   end
 
-  alias_method :and_i_fill_in_the_year, :when_i_fill_in_the_year
+  alias_method :and_i_fill_in_the_year_for_english_gcse_for_english_gcse, :when_i_fill_in_the_year_for_english_gcse
+
+  def when_i_fill_in_the_year_for_maths_gcse
+    fill_in 'What year was your maths GCSE awarded?', with: '1990'
+  end
+
+  alias_method :and_i_fill_in_the_year_for_maths_gcse_for_english_gcse, :when_i_fill_in_the_year_for_maths_gcse
 
   def then_i_see_the_qualification_type_error
     expect(page).to have_content 'Select the type of qualification'
@@ -172,8 +178,8 @@ RSpec.describe 'Candidate entering GCSE details' do
     fill_in 'Grade', with: 'BB'
   end
 
-  def when_i_enter_a_different_qualification_year
-    fill_in 'Year', with: '2000'
+  def when_i_enter_a_different_qualification_year_for_scottish_national_5
+    fill_in 'What year was your maths Scottish National 5 awarded?', with: '2000'
   end
 
   def when_i_mark_the_section_as_completed
