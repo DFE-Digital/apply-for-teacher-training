@@ -22,26 +22,40 @@
     multiple: true,
     label: { text: 'Citizen of a different country' },
   ) do %>
-    <%= f.govuk_collection_select(
-      :other_nationality1,
-      select_nationality_options,
-      :id,
-      :name,
-      label: -> { safe_join([tag.span('First ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
+    <%= render DfE::Autocomplete::View.new(
+      f,
+      attribute_name: :other_nationality2,
+      form_field: f.govuk_collection_select(
+        :other_nationality1,
+        select_nationality_options,
+        :id,
+        :name,
+        label: -> { safe_join([tag.span('First ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
+      ),
     ) %>
-    <%= f.govuk_collection_select(
-      :other_nationality2,
-      select_nationality_options,
-      :id,
-      :name,
-      label: -> { safe_join([tag.span('Second ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
+    <%= render DfE::Autocomplete::View.new(
+      f,
+      attribute_name: :other_nationality2,
+      html_attributes: { class: 'govuk-!-margin-top-6' },
+      form_field: f.govuk_collection_select(
+        :other_nationality2,
+        select_nationality_options,
+        :id,
+        :name,
+        label: -> { safe_join([tag.span('Second ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
+      ),
     ) %>
-    <%= f.govuk_collection_select(
-      :other_nationality3,
-      select_nationality_options,
-      :id,
-      :name,
-      label: -> { safe_join([tag.span('Third ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
+    <%= render DfE::Autocomplete::View.new(
+      f,
+      attribute_name: :other_nationality3,
+      html_attributes: { class: 'govuk-!-margin-top-6' },
+      form_field: f.govuk_collection_select(
+        :other_nationality3,
+        select_nationality_options,
+        :id,
+        :name,
+        label: -> { safe_join([tag.span('Third ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
+      ),
     ) %>
   <% end %>
 <% end %>

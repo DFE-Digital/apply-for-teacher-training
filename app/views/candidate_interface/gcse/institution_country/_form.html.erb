@@ -1,3 +1,10 @@
 <%= f.govuk_error_summary %>
-<%= f.govuk_collection_select :institution_country, select_country_options, :id, :name, label: { text: t('gcse_edit_institution_country.page_title', subject: @subject.capitalize), size: 'xl', tag: 'h1' } %>
+<%= f.govuk_collection_select(
+  :institution_country,
+  select_country_options,
+  :id,
+  :name,
+  label: { text: t('gcse_edit_institution_country.page_title', subject: @subject.capitalize), size: 'xl', tag: 'h1' },
+  aria: { label: 'candidate-interface-gcse-institution-country-form-institution-country-field-select' },
+) %>
 <%= f.govuk_submit t('save_and_continue') %>

@@ -11,6 +11,7 @@
         form_field: f.govuk_select(
           :subject,
           options_for_select(dfe_autocomplete_options(@form.subjects), f.object.subject),
+          aria: { label: 'candidate-interface-degree-form-subject-field-select' },
           label: { text: t('application_form.degree.subject.label'), tag: 'h1', size: 'l' },
           hint: { text: t('application_form.degree.subject.hint') },
         ),

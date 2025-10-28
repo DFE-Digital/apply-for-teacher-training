@@ -14,6 +14,7 @@
             dfe_autocomplete_options(@form.institutions, synonyms_fields: %i[suggestion_synonyms match_synonyms]),
             f.object.university,
           ),
+          aria: { label: 'candidate-interface-degree-form-university-field-select' },
           label: { text: t('page_titles.degree_university'), tag: 'h1', size: 'l' },
           hint: { text: t('application_form.degree.university.hint') },
         ),

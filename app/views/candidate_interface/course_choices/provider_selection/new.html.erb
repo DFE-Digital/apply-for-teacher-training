@@ -15,6 +15,7 @@
             :provider_id,
             options_for_select(@wizard.current_step.select_provider_options, @wizard.current_step.provider_id),
             data: { controller: 'autocomplete' },
+            aria: { label: 'provider-selection-provider-id-field-select' },
             label: { text: t('page_titles.which_provider'), size: 'xl', tag: 'h1' },
           ),
       ) %>

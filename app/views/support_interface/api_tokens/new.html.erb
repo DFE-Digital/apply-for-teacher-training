@@ -9,7 +9,15 @@
 
       <h2 class='govuk-heading-l'><%= t('.page_title') %></h2>
 
-      <%= form.govuk_collection_select :provider_id, @vendor_api_token.providers_for_select, :id, :name, label: { text: 'Select a provider to generate a token for' }, options: { include_blank: true } %>
+      <%= form.govuk_collection_select(
+        :provider_id,
+        @vendor_api_token.providers_for_select,
+        :id,
+        :name,
+        label: { text: 'Select a provider to generate a token for' },
+        aria: { label: 'vendor-api-token-provider-id-field-select' },
+        options: { include_blank: true },
+      ) %>
       <%= form.govuk_submit 'Continue' %>
     <% end %>
   </div>

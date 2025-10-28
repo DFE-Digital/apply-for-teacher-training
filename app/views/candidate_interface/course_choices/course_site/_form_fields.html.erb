@@ -38,6 +38,7 @@
         :course_option_id,
         options_for_select(@wizard.current_step.site_options_for_select, @wizard.current_step.course_option_id.to_s),
         data: { controller: 'autocomplete' },
+        aria: { label: 'course-site-course-option-id-field-select' },
         label: { text: t('page_titles.which_location'), size: 'l' },
       ),
   ) %>
