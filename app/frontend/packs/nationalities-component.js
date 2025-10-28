@@ -1,13 +1,11 @@
 const nationalitiesComponent = () => {
   const secondSelectEl = document.querySelectorAll(
-    '#candidate-interface-nationalities-form-other-nationality2-field, \
-    #candidate-interface-nationalities-form-other-nationality2-field-select'
+    '#candidate-interface-nationalities-form-other-nationality2-field, #candidate-interface-nationalities-form-other-nationality2-field-select'
   )
   if (!secondSelectEl) return
 
   const thirdSelectEl = document.querySelectorAll(
-    '#candidate-interface-nationalities-form-other-nationality3-field, \
-    #candidate-interface-nationalities-form-other-nationality3-field-select'
+    '#candidate-interface-nationalities-form-other-nationality3-field, #candidate-interface-nationalities-form-other-nationality3-field-select'
   )
 
   const secondFormLabel = document.querySelector(
