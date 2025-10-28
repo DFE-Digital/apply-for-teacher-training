@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: 26b21168157b9fca62ec1e4ac92c7dfe75c68103
-  tag: v1.15.7
+  revision: 66887ceeb047568ad4d8a1df7ef1670d13d59a19
+  tag: v1.15.9
   specs:
-    dfe-analytics (1.15.7)
+    dfe-analytics (1.15.9)
       google-cloud-bigquery (~> 1.38)
       httparty (~> 0.21)
       multi_xml (~> 0.6.0)
@@ -194,7 +194,7 @@ GEM
       racc
     browser (6.2.0)
     builder (3.3.0)
-    bullet (8.0.8)
+    bullet (8.1.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     business_time (0.13.0)
@@ -385,7 +385,7 @@ GEM
     http-cookie (1.0.8)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
-    httparty (0.23.1)
+    httparty (0.23.2)
       csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
@@ -546,7 +546,7 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (2.2.20)
-    rack-attack (6.7.0)
+    rack-attack (6.8.0)
       rack (>= 1.0, < 4)
     rack-mini-profiler (4.0.1)
       rack (>= 1.2.0)
@@ -723,15 +723,15 @@ GEM
     semantic_logger (4.17.0)
       concurrent-ruby (~> 1.0)
     semantic_range (3.0.0)
-    sentry-rails (5.28.1)
-      railties (>= 5.0)
-      sentry-ruby (~> 5.28.1)
-    sentry-ruby (5.28.1)
+    sentry-rails (6.0.0)
+      railties (>= 5.2.0)
+      sentry-ruby (~> 6.0.0)
+    sentry-ruby (6.0.0)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.28.0)
-      sentry-ruby (~> 5.28.0)
-      sidekiq (>= 3.0)
+    sentry-sidekiq (6.0.0)
+      sentry-ruby (~> 6.0.0)
+      sidekiq (>= 5.0)
     shellany (0.0.1)
     shoulda-matchers (6.5.0)
       activesupport (>= 5.2.0)
@@ -799,7 +799,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
-    uniform_notifier (1.17.0)
+    uniform_notifier (1.18.0)
     uri (1.0.4)
     useragent (0.16.11)
     validate_url (1.0.15)
