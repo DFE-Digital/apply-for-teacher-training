@@ -71,7 +71,7 @@ const nationalitiesComponent = () => {
     addNationalityButton.id = 'add-nationality-button'
     addNationalityButton.classList.add(
       'govuk-button',
-      'govuk-button--secondary',
+      'govuk-button--secondary'
     )
     parent.appendChild(addNationalityButton)
 
@@ -96,7 +96,7 @@ const nationalitiesComponent = () => {
     labelEl.parentElement.style.display = 'none'
 
     for (const el of selectEl) {
-      el.value = '';
+      el.value = ''
     }
   }
 
@@ -115,16 +115,12 @@ const nationalitiesComponent = () => {
     }
   }
 
-  function elementIsBlank(el) {
-    return el.value === '';
+  function elementIsBlank (el) {
+    return el.value === ''
   }
 
-  function elementIsNotBlank(el) {
-    if (el.value) {
-      return true
-    } else {
-      return false
-    }
+  function elementIsNotBlank (el) {
+    return el.value !== ''
   }
 }
 
