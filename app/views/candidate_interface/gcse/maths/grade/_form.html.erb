@@ -1,7 +1,7 @@
 <%= f.govuk_error_summary %>
 
 <% if @qualification_type == 'non_uk' %>
-  <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: grade_step_title(@subject, @qualification_type), size: 'xl', tag: 'h1' } do %>
+  <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: grade_step_title(@subject, @qualification_type), size: 'l', tag: 'h1' } do %>
     <%= f.govuk_radio_button :grade, 'not_applicable', label: { text: 'Not applicable' } %>
     <%= f.govuk_radio_button :grade, 'unknown', label: { text: 'Unknown' } %>
     <%= f.govuk_radio_button :grade, 'other', label: { text: 'Other' } do %>
@@ -9,7 +9,7 @@
     <% end %>
   <% end %>
 <% else %>
-  <h1 class="govuk-heading-xl"><%= grade_step_title(@subject, @qualification_type) %></h1>
+  <h1 class="govuk-heading-l"><%= grade_step_title(@subject, @qualification_type) %></h1>
 
   <%= render CandidateInterface::GcseGradeGuidanceComponent.new(@subject, @qualification_type) %>
 

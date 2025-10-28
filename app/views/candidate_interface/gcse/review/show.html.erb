@@ -4,7 +4,7 @@
 <%= form_with model: @section_complete_form, url: candidate_interface_gcse_complete_path, method: :patch do |f| %>
   <%= f.govuk_error_summary %>
 
-  <h1 class="govuk-heading-xl"><%= t("gcse_summary.page_titles.review.#{@subject}") %></h1>
+  <h1 class="govuk-heading-l"><%= t("gcse_summary.page_titles.review.#{@subject}") %></h1>
 
   <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
 

@@ -9,7 +9,7 @@
     <% end %>
   <% end %>
 <% else %>
-  <h1 class="govuk-heading-xl"><%= t('multiple_gcse_edit_grade.page_title') %></h1>
+  <h1 class="govuk-heading-l"><%= t('multiple_gcse_edit_grade.page_title') %></h1>
 
   <%= render CandidateInterface::GcseGradeGuidanceComponent.new(@subject, @qualification_type) %>
 
