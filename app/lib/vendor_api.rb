@@ -8,7 +8,8 @@ module VendorAPI
   VERSION_1_4 = '1.4'.freeze
   VERSION_1_5 = '1.5'.freeze
   VERSION_1_6 = '1.6'.freeze
-  VERSION = VERSION_1_6
+  VERSION_1_7 = '1.7'.freeze
+  VERSION = VERSION_1_7
 
   VERSIONS = {
     '1.0' => [
@@ -69,6 +70,9 @@ module VendorAPI
     '1.6' => [
       Changes::V16::AddConfidentialToReference,
       Changes::V16::AddInactiveToApplicationAttributeStatuses,
+    ],
+    '1.7' => [
+      Changes::V17::AddPreviousTeacherTrainingToApplication,
     ],
   }.freeze
 end
