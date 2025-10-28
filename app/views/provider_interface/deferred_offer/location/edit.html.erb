@@ -6,6 +6,17 @@
     <%= form_with model: @location_form, url: provider_interface_deferred_offer_location_path(@location_form.application_choice, return_to_review? ? { return_to: 'review' } : nil), method: :post do |form| %>
       <%= form.govuk_error_summary %>
 
+      <% if !return_to_review? %>
+        <%= govuk_notification_banner(
+          title_text: t('notification_banner.important'),
+          classes: 'govuk-notification-banner--info',
+          html_attributes: { role: 'alert' },
+          text: t('.banner.text'),
+        ) do |notification_banner|
+          notification_banner.with_heading(text: t('.banner.heading', location_name: @location_form.offer_site.name_and_code))
+        end %>
+      <% end %>
+
       <% if @location_form.locations_for_select.count > 20 %>
         <%= render DfE::Autocomplete::View.new(
           form,
@@ -22,15 +33,6 @@
             hint: lambda {
               if return_to_review?
                 t('.site_id.fieldset_hint')
-              else
-                govuk_notification_banner(
-                  title_text: t('notification_banner.important'),
-                  classes: 'govuk-notification-banner--info',
-                  html_attributes: { role: 'alert' },
-                  text: t('.banner.text'),
-                ) do |notification_banner|
-                  notification_banner.with_heading(text: t('.banner.heading', location_name: @location_form.offer_site.name_and_code))
-                end
               end
             },
             data: { controller: 'autocomplete' },

@@ -6,6 +6,17 @@
     <%= form_with model: @course_form, url: provider_interface_deferred_offer_course_path(@course_form.application_choice, return_to_review? ? { return_to: 'review' } : nil), method: :post do |form| %>
       <%= form.govuk_error_summary %>
 
+      <% if !return_to_review? %>
+        <%= govuk_notification_banner(
+          title_text: t('notification_banner.important'),
+          classes: 'govuk-notification-banner--info',
+          html_attributes: { role: 'alert' },
+          text: t('.banner.text'),
+        ) do |notification_banner|
+          notification_banner.with_heading(text: t('.banner.heading', course_name_and_code: @course_form.offer_course.name_and_code))
+        end %>
+      <% end %>
+
       <% if @course_form.courses_for_select.count > 20 %>
         <%= render DfE::Autocomplete::View.new(
           form,
@@ -22,15 +33,6 @@
             hint: lambda {
               if return_to_review?
                 t('.course_id.fieldset_hint')
-              else
-                govuk_notification_banner(
-                  title_text: t('notification_banner.important'),
-                  classes: 'govuk-notification-banner--info',
-                  html_attributes: { role: 'alert' },
-                  text: t('.banner.text'),
-                ) do |notification_banner|
-                  notification_banner.with_heading(text: t('.banner.heading', course_name_and_code: @course_form.offer_course.name_and_code))
-                end
               end
             },
             data: { controller: 'autocomplete' },
