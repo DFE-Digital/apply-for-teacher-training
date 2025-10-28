@@ -79,9 +79,10 @@ module ProviderInterface
     end
 
     def qualification_aim(application)
-      return '020' if application.course.name =~ /^QTS/
+      return '020' if application.course.qualifications.include?('pgce')
+      return '021' if application.course.qualifications.include?('pgde')
 
-      '021'
+      nil
     end
   end
 end

@@ -18,7 +18,7 @@ RSpec.describe ProviderInterface::HesaDataExport do
       expect(export_row['site_code']).to eq(application_with_offer.site.code)
       expect(export_row['study_mode']).to eq('01')
       expect(export_row['SBJCA']).to eq('100425 101277')
-      expect(export_row['QLAIM']).to eq('021')
+      expect(export_row['QLAIM']).to eq('020')
       expect(export_row['FIRSTDEG']).to eq(1)
       expect(export_row['DEGTYPE']).to eq('007')
       expect(export_row['DEGSBJ']).to eq('100100')
@@ -172,6 +172,51 @@ RSpec.describe ProviderInterface::HesaDataExport do
       end
 
       it_behaves_like 'an exported HESA row'
+    end
+
+    context 'when the course has a PGDE qualification' do
+      let(:course) do
+        create(:course,
+               study_mode: 'full_time',
+               subjects:,
+               provider: training_provider,
+               accredited_provider:,
+               qualifications: %w[qts pgde])
+      end
+
+      it 'exports QLAIM as 021' do
+        expect(export_row['QLAIM']).to eq('021')
+      end
+    end
+
+    context 'when the course has a PGCE qualification' do
+      let(:course) do
+        create(:course,
+               study_mode: 'full_time',
+               subjects:,
+               provider: training_provider,
+               accredited_provider:,
+               qualifications: %w[qts pgce])
+      end
+
+      it 'exports QLAIM as 020' do
+        expect(export_row['QLAIM']).to eq('020')
+      end
+    end
+
+    context 'when the course is an undergraduate degree or anything other than pgde or pgce' do
+      let(:course) do
+        create(:course,
+               study_mode: 'full_time',
+               subjects:,
+               provider: training_provider,
+               accredited_provider:,
+               qualifications: %w[qts undergraduate_degree])
+      end
+
+      it 'exports QLAIM as nil' do
+        expect(export_row['QLAIM']).to be_nil
+      end
     end
   end
 
