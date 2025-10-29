@@ -1,12 +1,12 @@
 <% content_for :browser_title, title_with_error_prefix(t('.page_title'), @location_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_deferred_offer_check_path(@location_form.application_choice)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @location_form, url: provider_interface_deferred_offer_location_path(@location_form.application_choice, return_to_review? ? { return_to: 'review' } : nil), method: :post do |form| %>
       <%= form.govuk_error_summary %>
 
-      <% if !return_to_review? %>
+      <% unless return_to_review? %>
         <%= govuk_notification_banner(
           title_text: t('notification_banner.important'),
           classes: 'govuk-notification-banner--info',
@@ -52,15 +52,6 @@
               hint: lambda {
                 if return_to_review?
                   t('.site_id.fieldset_hint')
-                else
-                  govuk_notification_banner(
-                    title_text: t('notification_banner.important'),
-                    classes: 'govuk-notification-banner--info',
-                    html_attributes: { role: 'alert' },
-                    text: t('.banner.text'),
-                  ) do |notification_banner|
-                    notification_banner.with_heading(text: t('.banner.heading', location_name: @location_form.offer_site.name_and_code))
-                  end
                 end
               },
             ) %>

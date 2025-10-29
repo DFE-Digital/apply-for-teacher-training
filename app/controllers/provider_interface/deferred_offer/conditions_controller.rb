@@ -5,7 +5,6 @@ class ProviderInterface::DeferredOffer::ConditionsController < ProviderInterface
     @conditions_form = DeferredOfferConfirmation::ConditionsForm.find_or_initialize_by(
       provider_user: current_provider_user,
       offer:,
-      offered_course_option: offer.application_choice.current_course_option,
     )
   end
 
@@ -13,7 +12,6 @@ class ProviderInterface::DeferredOffer::ConditionsController < ProviderInterface
     @conditions_form = DeferredOfferConfirmation::ConditionsForm.find_or_initialize_by(
       provider_user: current_provider_user,
       offer:,
-      offered_course_option: offer.application_choice.current_course_option,
     )
 
     if @conditions_form.update(conditions_form_params)

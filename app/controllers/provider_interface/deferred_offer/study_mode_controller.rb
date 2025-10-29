@@ -5,7 +5,6 @@ class ProviderInterface::DeferredOffer::StudyModeController < ProviderInterface:
     @study_mode_form = DeferredOfferConfirmation::StudyModeForm.find_or_initialize_by(
       provider_user: current_provider_user,
       offer:,
-      offered_course_option: offer.application_choice.current_course_option,
     )
   end
 
@@ -13,7 +12,6 @@ class ProviderInterface::DeferredOffer::StudyModeController < ProviderInterface:
     @study_mode_form = DeferredOfferConfirmation::StudyModeForm.find_or_initialize_by(
       provider_user: current_provider_user,
       offer:,
-      offered_course_option: offer.application_choice.current_course_option,
     )
 
     if @study_mode_form.update(study_mode_form_params)

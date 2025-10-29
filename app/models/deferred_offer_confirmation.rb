@@ -1,8 +1,11 @@
 class DeferredOfferConfirmation < ApplicationRecord
   class CourseForm < DeferredOfferConfirmation
     attr_accessor :course_id_raw
-    validate :no_raw_input
 
+    before_validation :set_offered_course_option, on: :create
+
+    validate :no_raw_input
+    validates :offered_course_option, presence: true
     validates :course_id, presence: true
 
     def courses_for_select
@@ -36,6 +39,9 @@ class DeferredOfferConfirmation < ApplicationRecord
   end
 
   class ConditionsForm < DeferredOfferConfirmation
+    before_validation :set_offered_course_option, on: :create
+
+    validates :offered_course_option, presence: true
     validates :conditions_status, presence: true
 
     def offer_conditions_status
@@ -46,6 +52,9 @@ class DeferredOfferConfirmation < ApplicationRecord
   class StudyModeForm < DeferredOfferConfirmation
     SelectOption = Data.define(:id, :name)
 
+    before_validation :set_offered_course_option, on: :create
+
+    validates :offered_course_option, presence: true
     validates :study_mode, presence: true
 
     enum :study_mode, { full_time: 'full_time', part_time: 'part_time' },
@@ -60,6 +69,10 @@ class DeferredOfferConfirmation < ApplicationRecord
 
   class LocationForm < DeferredOfferConfirmation
     attr_accessor :site_id_raw
+
+    before_validation :set_offered_course_option, on: :create
+
+    validates :offered_course_option, presence: true
     validate :no_raw_input
 
     validates :site_id, presence: true
@@ -179,5 +192,9 @@ private
     return @validating_course if defined?(@validating_course)
 
     @validating_course = provider.courses.current_cycle.find_by(code: course.code)
+  end
+
+  def set_offered_course_option
+    self.offered_course_option ||= offer.application_choice.current_course_option
   end
 end

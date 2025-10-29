@@ -416,6 +416,14 @@ RSpec.describe 'Provider confirms a deferred offer' do
   end
 
   def then_i_see_the_offer_details_with_new_attributes_and_conditions_met
+    @deferred_application_choice.reload
+    offer = @deferred_application_choice.offer
+    expect(offer.course.name).to eq('Secondary')
+    expect(offer.course.code).to eq('SC1')
+    expect(offer.study_mode).to eq('full_time')
+    expect(offer.site.name).to eq('Other site')
+    expect(offer.conditions.first.status).to eq('met')
+
     expect(page).to have_content('Secondary (SC1)')
 
     within('.govuk-summary-list__row', text: 'Full time or part time') do
