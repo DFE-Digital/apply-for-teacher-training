@@ -547,11 +547,6 @@ components:
           description: URL to Apply system where safeguarding issues disclosed by the candidate can be access by users with permissions to view safeguarding information.
           example: https://apply-for-teacher-training.service.gov.uk/provider/applications/1#criminal-convictions-and-professional-misconduct
           nullable: true
-        previous_teacher_training:
-          type: array
-          items:
-            "$ref": "#/components/schemas/PreviousTeacherTraining"
-          description: The previous teacher training declaration of the candidate, including details if the candidate has previous started training.
         anonymised:
           type: boolean
           description: Indicates if a candidate has been removed from the Apply service
