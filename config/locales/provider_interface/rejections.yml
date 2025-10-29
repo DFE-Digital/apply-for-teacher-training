@@ -9,6 +9,10 @@ en:
       models:
         provider_interface/rejections_wizard:
           attributes:
+            course_full_selected_reasons: Select reasons related to course full
+            salary_course_full_details:
+              blank: Enter details about salaried or apprenticeship route for this course is full
+              size: Details about salaried or apprenticeship must be 200 words or fewer
             selected_reasons: Select reasons for rejecting the application
             qualifications_selected_reasons: Select reasons related to qualifications
             personal_statement_selected_reasons: Select reasons related to personal statement
@@ -81,6 +85,7 @@ en:
             safeguarding_details:
               blank: Enter details about safeguarding
               size: Details about safeguarding must be 200 words or fewer
+            visa_sponsorship_selected_reasons: Select reasons related to visa sponsorship
             visa_sponsorship_details:
               blank: Enter details about visa sponsorship
               size: Details about visa sponsorship must be 200 words or fewer
