@@ -82,7 +82,7 @@ RSpec.describe 'Candidate changing UK GCSE to international qualification' do
   end
 
   def when_i_fill_in_the_grade
-    fill_in 'Grade', with: 'A'
+    fill_in 'What grade is your maths GCSE?', with: 'A'
   end
 
   def when_i_fill_in_the_year

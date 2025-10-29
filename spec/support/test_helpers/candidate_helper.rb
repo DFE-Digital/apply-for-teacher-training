@@ -726,7 +726,7 @@ module CandidateHelper
   def candidate_fills_in_their_maths_gcse
     choose('GCSE')
     click_link_or_button t('save_and_continue')
-    fill_in('Grade', with: 'B')
+    fill_in('What grade is your maths GCSE?', with: 'B')
     click_link_or_button t('save_and_continue')
     fill_in 'What year was your maths GCSE awarded?', with: '1990'
     click_link_or_button t('save_and_continue')

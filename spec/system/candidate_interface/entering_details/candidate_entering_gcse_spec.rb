@@ -122,7 +122,7 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def and_i_fill_in_the_grade
-    fill_in 'Grade', with: 'A'
+    fill_in 'What grade is your maths GCSE?', with: 'A'
   end
 
   def when_i_fill_in_the_english_grade
@@ -175,7 +175,7 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def when_i_enter_a_different_qualification_grade
-    fill_in 'Grade', with: 'BB'
+    fill_in 'What grade is your maths Scottish National 5?', with: 'BB'
   end
 
   def when_i_enter_a_different_qualification_year_for_scottish_national_5

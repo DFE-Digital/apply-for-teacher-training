@@ -56,7 +56,7 @@ RSpec.describe 'Candidate changing their GCSE type' do
   end
 
   def when_i_fill_in_the_grade
-    fill_in 'Grade', with: 'A'
+    fill_in 'What grade is your maths GCSE?', with: 'A'
   end
 
   def then_i_see_add_year_page

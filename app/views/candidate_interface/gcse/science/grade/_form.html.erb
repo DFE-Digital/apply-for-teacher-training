@@ -9,11 +9,17 @@
     <% end %>
   <% end %>
 <% else %>
-  <h1 class="govuk-heading-xl"><%= grade_step_title(@subject, @qualification_type) %></h1>
+  <% content_for(:hint) do %>
+    <%= render CandidateInterface::GcseGradeGuidanceComponent.new(@subject, @qualification_type) %>
+    <%= t("gcse_edit_grade.hint.science.#{@qualification_type == 'scottish_national_5' ? 'scottish_national_5' : 'gce_o_level_or_other_uk'}") %>
+  <% end %>
 
-  <%= render CandidateInterface::GcseGradeGuidanceComponent.new(@subject, @qualification_type) %>
-
-  <%= f.govuk_text_field :grade, label: { text: t('application_form.gcse.grade.label'), size: 'm' }, hint: { text: t("gcse_edit_grade.hint.science.#{@qualification_type == 'scottish_national_5' ? 'scottish_national_5' : 'gce_o_level_or_other_uk'}") }, width: 10 %>
+  <%= f.govuk_text_field(
+        :grade,
+        label: { text: grade_step_title(@subject, @qualification_type), size: 'l', tag: 'h1' },
+        hint: -> { content_for(:hint) },
+        width: 10,
+      ) %>
 <% end %>
 
 <%= f.govuk_submit t('save_and_continue') %>
