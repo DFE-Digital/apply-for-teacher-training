@@ -133,7 +133,7 @@ RSpec.describe ProviderInterface::RejectionsWizard do
       {
         selected_reasons: %w[
           qualifications
-          course_full
+          course_full_selected_reasons
           other
         ],
         qualifications_selected_reasons: %w[
@@ -152,7 +152,7 @@ RSpec.describe ProviderInterface::RejectionsWizard do
         selected_reasons: %w[
           qualifications
           personal_statement
-          course_full
+          course_full_selected_reasons
           other
         ],
         qualifications_selected_reasons: %w[
@@ -172,7 +172,7 @@ RSpec.describe ProviderInterface::RejectionsWizard do
       allow(store).to receive(:read).and_return(stored_data.to_json)
       wizard = described_class.new(store, attrs.merge(current_step: 'new'))
 
-      expect(wizard.selected_reasons).to eq(%w[qualifications course_full other])
+      expect(wizard.selected_reasons).to eq(%w[qualifications course_full_selected_reasons other])
       expect(wizard.qualifications_selected_reasons).to eq(%w[no_maths_gcse no_science_gcse])
       expect(wizard.qualifications_other_details).to be_nil
       expect(wizard.personal_statement_selected_reasons).to be_empty
