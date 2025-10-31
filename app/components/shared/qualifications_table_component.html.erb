@@ -1,7 +1,7 @@
-<h4 class="govuk-heading-s govuk-!-margin-top-6" id="other-qualifications"><%= header %></h4>
+<h3 class="govuk-heading-m govuk-!-margin-top-6" id="other-qualifications"><%= header %></h3>
 <% if qualifications.any? %>
-  <h5 class="govuk-heading-s govuk-!-margin-top-6" id="other-qualifications"><%= subheader %></h5>
   <table class="govuk-table govuk-!-width-full" data-qa="qualifications-table-<%= header.parameterize %>">
+    <caption class="govuk-table__caption govuk-table__caption--s govuk-!-margin-bottom-3" id="other-qualifications"><%= subheader %></caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th class="govuk-table__header govuk-table__header">Qualification type</th>
