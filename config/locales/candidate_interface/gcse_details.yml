@@ -53,7 +53,7 @@ en:
         gcse_single_and_double: For example, ‘C’, ‘CD’, ‘4’ or ‘4-3’
         non_gcse: For example, ‘A’
   gcse_edit_year:
-    page_title: When was your %{subject} %{qualification_type} awarded?
+    page_title: What year was your %{subject} %{qualification_type} awarded?
   gcse_edit_institution_country:
     page_title: In which country or territory did you study for your %{subject} qualification?
   gcse_edit_enic:

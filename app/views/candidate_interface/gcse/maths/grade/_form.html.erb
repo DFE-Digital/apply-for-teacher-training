@@ -1,7 +1,7 @@
 <%= f.govuk_error_summary %>
 
 <% if @qualification_type == 'non_uk' %>
-  <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: grade_step_title(@subject, @qualification_type), size: 'xl', tag: 'h1' } do %>
+  <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: grade_step_title(@subject, @qualification_type), size: 'l', tag: 'h1' } do %>
     <%= f.govuk_radio_button :grade, 'not_applicable', label: { text: 'Not applicable' } %>
     <%= f.govuk_radio_button :grade, 'unknown', label: { text: 'Unknown' } %>
     <%= f.govuk_radio_button :grade, 'other', label: { text: 'Other' } do %>
@@ -9,11 +9,17 @@
     <% end %>
   <% end %>
 <% else %>
-  <h1 class="govuk-heading-xl"><%= grade_step_title(@subject, @qualification_type) %></h1>
+  <% content_for(:hint) do %>
+    <%= render CandidateInterface::GcseGradeGuidanceComponent.new(@subject, @qualification_type) %>
+    <%= t("gcse_edit_grade.hint.other.#{@qualification_type == 'gcse' ? 'gcse' : 'non_gcse'}") %>
+  <% end %>
 
-  <%= render CandidateInterface::GcseGradeGuidanceComponent.new(@subject, @qualification_type) %>
-
-  <%= f.govuk_text_field :grade, label: { text: t('application_form.gcse.grade.label'), size: 'm' }, hint: { text: t("gcse_edit_grade.hint.other.#{@qualification_type == 'gcse' ? 'gcse' : 'non_gcse'}") }, width: 2 %>
+  <%= f.govuk_text_field(
+        :grade,
+        label: { text: grade_step_title(@subject, @qualification_type), size: 'l', tag: 'h1' },
+        hint: -> { content_for(:hint) },
+        width: 2,
+      ) %>
 <% end %>
 
 <%= f.govuk_submit t('save_and_continue') %>

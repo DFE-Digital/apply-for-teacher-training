@@ -154,7 +154,7 @@ RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def when_i_fill_in_the_year
-    fill_in 'Year', with: '1990'
+    fill_in 'What year was your maths qualification awarded?', with: '1990'
   end
 
   def when_i_mark_the_section_as_completed

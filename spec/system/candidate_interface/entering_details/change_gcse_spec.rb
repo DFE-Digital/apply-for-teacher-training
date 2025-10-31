@@ -59,7 +59,7 @@ RSpec.describe 'Change GCSE' do
   end
 
   def and_i_fill_in_the_qualification_year
-    fill_in 'Year', with: '2013'
+    fill_in 'What year was your English qualification awarded?', with: '2013'
   end
 
   def then_i_see_the_review_page_with_correct_details

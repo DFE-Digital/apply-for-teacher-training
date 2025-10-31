@@ -69,11 +69,11 @@ RSpec.describe 'Candidate entering GCSE details but without a pass grade' do
   end
 
   def when_i_fill_in_the_fail_grade
-    fill_in 'Grade', with: 'D'
+    fill_in 'What grade is your maths GCSE?', with: 'D'
   end
 
   def when_i_fill_in_the_pass_grade
-    fill_in 'Grade', with: 'B'
+    fill_in 'What grade is your maths GCSE?', with: 'B'
   end
 
   def then_i_am_prompted_to_explain_how_i_can_improve_this_grade
@@ -89,7 +89,7 @@ RSpec.describe 'Candidate entering GCSE details but without a pass grade' do
   end
 
   def and_i_fill_in_the_year
-    fill_in 'Year', with: '1990'
+    fill_in 'What year was your maths GCSE awarded?', with: '1990'
   end
 
   def when_i_click_to_change_grade

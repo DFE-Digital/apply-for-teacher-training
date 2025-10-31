@@ -140,7 +140,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
     and_i_click_save_and_continue
     fill_in 'Grade', with: 'BB'
     and_i_click_save_and_continue
-    fill_in 'Year', with: '1988'
+    fill_in 'What year was your English UK O level (from before 1989) awarded?', with: '1988'
     and_i_click_save_and_continue
     expect(page).to have_current_path(candidate_interface_gcse_review_path('english'))
     expect(page).to have_content('UK O level (from before 1989)')
@@ -156,7 +156,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
     check 'English (Single award)'
     fill_in 'candidate_interface_english_gcse_grade_form[grade_english_single]', with: 'C'
     and_i_click_save_and_continue
-    fill_in 'Year', with: '2022'
+    fill_in 'What year was your English GCSE awarded?', with: '2022'
     and_i_click_save_and_continue
 
     expect(page).to have_content('Change qualification for GCSE, english')
