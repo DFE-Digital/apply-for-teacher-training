@@ -16,7 +16,7 @@
   }
 
   .govuk-form {
-    @include mq($from: desktop) {
+    @include govuk-media-query($from: desktop) {
       text-align: right;
     }
   }
@@ -29,7 +29,7 @@
     margin-top: govuk-spacing(2);
     margin-bottom: 0;
 
-    @include mq($from: desktop) {
+    @include govuk-media-query($from: desktop) {
       margin: 0;
     }
   }
@@ -39,7 +39,7 @@
 
     margin: govuk-spacing(2) 0 0;
 
-    @include mq($from: desktop) {
+    @include govuk-media-query($from: desktop) {
       margin: 0 0 0 govuk-spacing(2);
     }
 
@@ -51,13 +51,13 @@
   select {
     width: 100%;
 
-    @include mq($from: desktop) {
+    @include govuk-media-query($from: desktop) {
       width: 220px;
     }
   }
 
   .sortedby-label {
-    @include mq($from: desktop) {
+    @include govuk-media-query($from: desktop) {
       display: inline;
 
       margin-right: 0.5em;
