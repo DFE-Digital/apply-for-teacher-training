@@ -9,7 +9,7 @@ en:
       models:
         provider_interface/rejections_wizard:
           attributes:
-            course_full_selected_reasons: Select reasons related to course full
+            course_full_selected_reasons: Select a reason related to the course being full
             salary_course_full_details:
               blank: Enter details about why salaried or apprenticeship route for this course is full
               size: Details about why salaried or apprenticeship route for this course is full must be 200 words or fewer
@@ -86,19 +86,21 @@ en:
               blank: Enter details about references
               size: Details about references must be 200 words or fewer
             safeguarding_details:
-              blank: Enter details about safeguarding
-              size: Details about safeguarding must be 200 words or fewer
+              blank: Enter details about safeguarding concerns
+              size: Details about safeguarding concerns must be 200 words or fewer
             visa_sponsorship_selected_reasons: Select reasons related to visa sponsorship
             visa_sponsorship_details:
               blank: Enter details about visa sponsorship
               size: Details about visa sponsorship must be 200 words or fewer
             visa_sponsorship_not_supported_details:
-              blank: Enter details about why this course does not sponsor visas
-              size: Details about why this course does not sponsor visas must be 200 words or fewer
+              blank: Enter details on why you are rejecting this candidate for visa sponsorship reasons
+              size: Details on why you are rejecting this candidate for visa sponsorship reasons must be 200 words or fewer
             visa_sponsorship_course_closed_details:
-              This course is closed to candidates who require visa sponsorship:
-              blank: Enter details about why this course is not open to candidates that require visas
-              size: Details about why this course is not open to candidates that require visas must be 200 words or fewer
+              blank: Enter details about why this course is no longer accepting candidates who require visa sponsorship.
+              size: Details about why this course is no longer accepting candidates who require visa sponsorship must be 200 words or fewer
+            visa_sponsorship_other_details:
+              blank: Enter details about visa sponsorship
+              size: Details about visa sponsorship must be 200 words or fewer
             no_placements_details:
               blank: Enter details about there being no placements available
               size: Details about there being no placements available must be 200 words or fewer

@@ -66,6 +66,9 @@ RSpec.describe 'Reject an application with interviews' do
     check 'provider-interface-rejections-wizard-visa-sponsorship-selected-reasons-visa-sponsorship-course-closed-field'
     fill_in 'provider-interface-rejections-wizard-visa-sponsorship-course-closed-details-field', with: 'visa course closed'
 
+    check 'provider-interface-rejections-wizard-visa-sponsorship-selected-reasons-visa-sponsorship-other-field'
+    fill_in 'provider-interface-rejections-wizard-visa-sponsorship-other-details-field', with: 'other visa course closed'
+
     check 'provider-interface-rejections-wizard-selected-reasons-course-full-field'
     check 'provider-interface-rejections-wizard-course-full-selected-reasons-salary-course-full-field'
     fill_in 'provider-interface-rejections-wizard-salary-course-full-details-field', with: 'Course is full'

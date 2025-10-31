@@ -172,6 +172,12 @@
       :id: visa_sponsorship_course_closed_details
       :label: Details
       :visually_hidden: about why course is closed
+  - :id: visa_sponsorship_other
+    :label: Other
+    :details:
+      :id: visa_sponsorship_other_details
+      :label: Details
+      :visually_hidden: about other reasons visa sponsorship is not available
 - :id: course_full
   :label: Course full
   :reasons_visually_hidden: about the course being full
