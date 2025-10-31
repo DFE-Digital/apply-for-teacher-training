@@ -61,7 +61,21 @@ RSpec.describe 'Reject an application with interviews' do
     check 'provider-interface-rejections-wizard-personal-statement-selected-reasons-personal-statement-other-field'
     fill_in 'provider-interface-rejections-wizard-personal-statement-other-details-field', with: 'This was wayyyyy too personal'
 
+    check 'provider-interface-rejections-wizard-visa-sponsorship-selected-reasons-visa-sponsorship-not-supported-field'
+    fill_in 'provider-interface-rejections-wizard-visa-sponsorship-not-supported-details-field', with: 'visa not supported'
+    check 'provider-interface-rejections-wizard-visa-sponsorship-selected-reasons-visa-sponsorship-course-closed-field'
+    fill_in 'provider-interface-rejections-wizard-visa-sponsorship-course-closed-details-field', with: 'visa course closed'
+
     check 'provider-interface-rejections-wizard-selected-reasons-course-full-field'
+    check 'provider-interface-rejections-wizard-course-full-selected-reasons-salary-course-full-field'
+    fill_in 'provider-interface-rejections-wizard-salary-course-full-details-field', with: 'Course is full'
+
+    check 'provider-interface-rejections-wizard-course-full-selected-reasons-salary-course-full-field'
+    fill_in 'provider-interface-rejections-wizard-salary-course-full-details-field', with: 'Course is full'
+
+    check 'provider-interface-rejections-wizard-course-full-selected-reasons-course-full-other-field'
+    fill_in 'provider-interface-rejections-wizard-course-full-other-details-field', with: 'Other course full'
+
     check 'provider-interface-rejections-wizard-selected-reasons-other-field'
     fill_in 'provider-interface-rejections-wizard-other-details-field', with: 'There are so many other reasons why your application was rejected...'
 
