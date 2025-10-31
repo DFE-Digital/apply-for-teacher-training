@@ -11,8 +11,11 @@ en:
           attributes:
             course_full_selected_reasons: Select reasons related to course full
             salary_course_full_details:
-              blank: Enter details about salaried or apprenticeship route for this course is full
-              size: Details about salaried or apprenticeship must be 200 words or fewer
+              blank: Enter details about why salaried or apprenticeship route for this course is full
+              size: Details about why salaried or apprenticeship route for this course is full must be 200 words or fewer
+            course_full_other_details:
+              blank: Enter details about reasons related to course being full
+              size: Details about reasons related to course being full must be 200 words or fewer
             selected_reasons: Select reasons for rejecting the application
             qualifications_selected_reasons: Select reasons related to qualifications
             personal_statement_selected_reasons: Select reasons related to personal statement
@@ -89,6 +92,13 @@ en:
             visa_sponsorship_details:
               blank: Enter details about visa sponsorship
               size: Details about visa sponsorship must be 200 words or fewer
+            visa_sponsorship_not_supported_details:
+              blank: Enter details about why this course does not sponsor visas
+              size: Details about why this course does not sponsor visas must be 200 words or fewer
+            visa_sponsorship_course_closed_details:
+              This course is closed to candidates who require visa sponsorship:
+              blank: Enter details about why this course is not open to candidates that require visas
+              size: Details about why this course is not open to candidates that require visas must be 200 words or fewer
             no_placements_details:
               blank: Enter details about there being no placements available
               size: Details about there being no placements available must be 200 words or fewer

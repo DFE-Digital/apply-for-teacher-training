@@ -164,15 +164,13 @@
     :label: This course does not sponsor visas
     :details:
       :id: visa_sponsorship_not_supported_details
-      :label: Details (optional)
-      :optional: true
+      :label: Details
       :visually_hidden: about why visa sponsorship is not available
   - :id: visa_sponsorship_course_closed
     :label: This course is closed to candidates who require visa sponsorship
     :details:
       :id: visa_sponsorship_course_closed_details
-      :label: Details (optional)
-      :optional: true
+      :label: Details
       :visually_hidden: about why course is closed
 - :id: course_full
   :label: Course full
@@ -182,15 +180,13 @@
     :label: The salaried or apprenticeship route for this course is full
     :details:
       :id: salary_course_full_details
-      :label: Details (optional)
-      :optional: true
+      :label: Details
       :visually_hidden: about why salaried or apprenticeship route for this course is full
   - :id: course_full_other
     :label: Other
     :details:
       :id: course_full_other_details
-      :label: Details (optional)
-      :optional: true
+      :label: Details
       :visually_hidden: about other reasons why course is full
 - :id: school_placement
   :label: School placement
