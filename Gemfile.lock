@@ -348,7 +348,7 @@ GEM
       html-attributes-utils (~> 1.0.0, >= 1.0.0)
       pagy (>= 6, < 10)
       view_component (>= 3.18, < 3.24)
-    govuk_design_system_formbuilder (5.11.0)
+    govuk_design_system_formbuilder (5.13.0)
       actionview (>= 6.1)
       activemodel (>= 6.1)
       activesupport (>= 6.1)
@@ -800,7 +800,7 @@ GEM
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
     uniform_notifier (1.18.0)
-    uri (1.0.4)
+    uri (1.1.0)
     useragent (0.16.11)
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
@@ -905,7 +905,7 @@ DEPENDENCIES
   get_into_teaching_api_client_faraday (~> 4.0.0)!
   google-cloud-bigquery
   govuk-components (~> 5.11)
-  govuk_design_system_formbuilder (~> 5.11.0)
+  govuk_design_system_formbuilder (~> 5.13.0)
   govuk_markdown
   grover
   guard-rspec
