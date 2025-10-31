@@ -4,14 +4,14 @@ class ProviderInterface::DeferredOffer::StudyModeController < ProviderInterface:
   def edit
     @study_mode_form = DeferredOfferConfirmation::StudyModeForm.find_or_initialize_by(
       provider_user: current_provider_user,
-      offer: offer,
+      offer:,
     )
   end
 
   def update
     @study_mode_form = DeferredOfferConfirmation::StudyModeForm.find_or_initialize_by(
       provider_user: current_provider_user,
-      offer: offer,
+      offer:,
     )
 
     if @study_mode_form.update(study_mode_form_params)

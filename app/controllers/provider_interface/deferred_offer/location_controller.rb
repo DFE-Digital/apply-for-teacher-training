@@ -4,14 +4,14 @@ class ProviderInterface::DeferredOffer::LocationController < ProviderInterface::
   def edit
     @location_form = DeferredOfferConfirmation::LocationForm.find_or_initialize_by(
       provider_user: current_provider_user,
-      offer: offer,
+      offer:,
     )
   end
 
   def update
     @location_form = DeferredOfferConfirmation::LocationForm.find_or_initialize_by(
       provider_user: current_provider_user,
-      offer: offer,
+      offer:,
     )
 
     if @location_form.update(location_form_params)

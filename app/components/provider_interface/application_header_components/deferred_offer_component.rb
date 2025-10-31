@@ -9,8 +9,7 @@ module ProviderInterface
 
       def deferred_offer_in_current_cycle?
         application_choice.status == 'offer_deferred' &&
-          application_choice.recruitment_cycle == current_year &&
-          !application_choice.current_course_option.in_next_cycle
+          application_choice.recruitment_cycle == current_year
       end
 
       def deferred_offer_but_cannot_respond?

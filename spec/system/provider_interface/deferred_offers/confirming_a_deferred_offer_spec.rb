@@ -6,21 +6,26 @@ RSpec.describe 'Provider confirms a deferred offer' do
   scenario 'Provider wants to deferred an offer without any changes - the course, study mode and location are all available in the current cycle' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_sign_in_to_the_provider_interface
-
     and_applications_with_status_offer_deferred_exist
     and_the_deferred_course_location_and_study_mode_is_available_in_current_cycle
 
     when_i_visit_a_application_with_status_offer_deferred_from_previous_cycle
-    and_i_click_confirm_deferred_offer
+    then_i_see_the_application_details_with_original_course_applied_for
 
+    when_i_click_confirm_deferred_offer
     then_i_can_see_the_details_of_the_deferred_offer
 
     click_on 'Continue'
 
-    # Conditions
     then_i_can_see_the_conditions_page
     and_i_choose_conditions_met
+
     click_on 'Confirm deferred offer'
+
+    then_i_see_a_recruited_success_banner
+
+    when_i_navigate_to_the_offer_tab
+    then_i_see_the_offer_details_unchanged_with_conditions_met
   end
 
   scenario 'Provider wants to deferred an offer changing the location - the course and study mode are available in the current cycle, but the original location is not' do
@@ -38,10 +43,15 @@ RSpec.describe 'Provider confirms a deferred offer' do
     then_i_can_see_the_updated_location_on_the_check_page
     click_on 'Continue'
 
-    # Conditions
     then_i_can_see_the_conditions_page
     and_i_choose_conditions_met
+
     click_on 'Confirm deferred offer'
+
+    then_i_see_a_recruited_success_banner
+
+    when_i_navigate_to_the_offer_tab
+    then_i_see_the_offer_details_with_a_new_location_and_conditions_met
   end
 
   scenario 'Provider wants to deferred an offer changing the study mode - the course and location are available in the current cycle, but the original study mode is not' do
@@ -59,10 +69,13 @@ RSpec.describe 'Provider confirms a deferred offer' do
     then_i_can_see_the_updated_study_mode_on_the_check_page
     click_on 'Continue'
 
-    # Conditions
     then_i_can_see_the_conditions_page
-    and_i_choose_conditions_met
+    and_i_choose_conditions_pending
+
     click_on 'Confirm deferred offer'
+
+    when_i_navigate_to_the_offer_tab
+    then_i_see_the_offer_details_with_a_new_study_mode_and_conditions_pending
   end
 
   scenario 'Provider wants to deferred an offer changing the course - the original course, study mode and location are available in the current cycle, but the provider wants to change to a different course' do
@@ -93,7 +106,11 @@ RSpec.describe 'Provider confirms a deferred offer' do
     and_i_choose_conditions_met
 
     click_on 'Confirm deferred offer'
-    then_i_see_that_the_offer_is_updated
+
+    then_i_see_a_recruited_success_banner
+
+    when_i_navigate_to_the_offer_tab
+    then_i_see_the_offer_details_with_a_new_course_and_conditions_met
   end
 
   scenario 'Provider wants to deferred an offer - the original course, study mode and location are not available in the current cycle' do
@@ -121,7 +138,11 @@ RSpec.describe 'Provider confirms a deferred offer' do
     and_i_choose_conditions_met
 
     click_on 'Confirm deferred offer'
-    then_i_see_that_the_offer_is_updated
+
+    then_i_see_a_recruited_success_banner
+
+    when_i_navigate_to_the_offer_tab
+    then_i_see_the_offer_details_with_new_attributes_and_conditions_met
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -211,9 +232,9 @@ RSpec.describe 'Provider confirms a deferred offer' do
   end
 
   def and_i_click_confirm_deferred_offer
-    # click_on 'Confirm deferred offer'
-    visit provider_interface_deferred_offer_root_path(@deferred_application_choice)
+    click_on 'Confirm deferred offer'
   end
+  alias_method :when_i_click_confirm_deferred_offer, :and_i_click_confirm_deferred_offer
 
   def then_i_can_see_the_details_of_the_deferred_offer
     expect(page).to have_current_path provider_interface_deferred_offer_check_path(@deferred_application_choice)
@@ -326,14 +347,90 @@ RSpec.describe 'Provider confirms a deferred offer' do
     choose 'Yes, all conditions are met'
   end
 
-  def then_i_see_that_the_offer_is_updated
+  def and_i_choose_conditions_pending
+    choose 'No, one or more conditions are still pending'
+  end
+
+  def then_i_see_a_recruited_success_banner
+    expect(page).to have_content('Deferred offer successfully confirmed for current cycle')
+  end
+
+  def then_i_see_the_application_details_with_original_course_applied_for
+    expect(page).to have_content('Primary (PR1)')
+
+    within('.govuk-summary-list__row', text: 'Full time or part time') do
+      expect(page).to have_content('Part time')
+    end
+
+    expect(page).to have_content('123 Fake Street E1 1AA')
+  end
+
+  def when_i_navigate_to_the_offer_tab
+    within '.app-tab-navigation' do
+      click_on 'Offer'
+    end
+  end
+
+  def then_i_see_the_offer_details_unchanged_with_conditions_met
+    expect(page).to have_content('Primary (PR1)')
+
+    within('.govuk-summary-list__row', text: 'Full time or part time') do
+      expect(page).to have_content('Part time')
+    end
+
+    expect(page).to have_content('123 Fake Street E1 1AA')
+    expect(page).to have_content('Met')
+  end
+
+  def then_i_see_the_offer_details_with_a_new_location_and_conditions_met
+    expect(page).to have_content('Primary (PR1)')
+
+    within('.govuk-summary-list__row', text: 'Full time or part time') do
+      expect(page).to have_content('Part time')
+    end
+
+    expect(page).to have_content('Other site 567 Really Fake Lane F2 2BB')
+    expect(page).to have_content('Met')
+  end
+
+  def then_i_see_the_offer_details_with_a_new_study_mode_and_conditions_pending
+    expect(page).to have_content('Primary (PR1)')
+
+    within('.govuk-summary-list__row', text: 'Full time or part time') do
+      expect(page).to have_content('Full time')
+    end
+
+    expect(page).to have_content('123 Fake Street E1 1AA')
+    expect(page).to have_content('Pending')
+  end
+
+  def then_i_see_the_offer_details_with_a_new_course_and_conditions_met
+    expect(page).to have_content('Secondary (SC1)')
+
+    within('.govuk-summary-list__row', text: 'Full time or part time') do
+      expect(page).to have_content('Full time')
+    end
+
+    expect(page).to have_content('Other site 567 Really Fake Lane F2 2BB')
+    expect(page).to have_content('Met')
+  end
+
+  def then_i_see_the_offer_details_with_new_attributes_and_conditions_met
     @deferred_application_choice.reload
     offer = @deferred_application_choice.offer
-
     expect(offer.course.name).to eq('Secondary')
     expect(offer.course.code).to eq('SC1')
     expect(offer.study_mode).to eq('full_time')
     expect(offer.site.name).to eq('Other site')
     expect(offer.conditions.first.status).to eq('met')
+
+    expect(page).to have_content('Secondary (SC1)')
+
+    within('.govuk-summary-list__row', text: 'Full time or part time') do
+      expect(page).to have_content('Full time')
+    end
+
+    expect(page).to have_content('Other site 567 Really Fake Lane F2 2BB')
+    expect(page).to have_content('Met')
   end
 end
