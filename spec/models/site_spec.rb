@@ -9,6 +9,13 @@ RSpec.describe Site do
     it { is_expected.to validate_presence_of :uuid }
   end
 
+  describe 'normalises name' do
+    it 'removes trailing white space from a site name' do
+      site = create(:site, name: '  New site name  ')
+      expect(site.name).to eq 'New site name'
+    end
+  end
+
   describe '.for_recruitment_cycle_years' do
     it 'returns sites for the specific recruitment cycle year' do
       site_current_cycle = create(:course_option).site
