@@ -213,7 +213,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
         create(:course_option, course:)
       end
 
-      it { is_expected.to eq("#{current_year - 3} to #{current_year - 2}") }
+      it { is_expected.to eq("Recruitment cycle:\n#{current_year - 3} to #{current_year - 2}") }
     end
   end
 end

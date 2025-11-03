@@ -38,7 +38,7 @@ module ProviderInterface
         "Previous cycle (#{previous_timetable.cycle_range_name})"
       else
         year = application_choice.recruitment_cycle
-        "#{year - 1} to #{year}"
+        "Recruitment cycle:\n#{year - 1} to #{year}"
       end
     end
 
