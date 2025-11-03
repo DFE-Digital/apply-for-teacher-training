@@ -11,11 +11,11 @@ en:
           attributes:
             course_full_selected_reasons: Select a reason related to the course being full
             salary_course_full_details:
-              blank: Enter details about why salaried or apprenticeship route for this course is full
-              size: Details about why salaried or apprenticeship route for this course is full must be 200 words or fewer
+              blank: Enter details about why the salaried or apprenticeship route for this course is full
+              size: Details about why the salaried or apprenticeship route for this course is full must be 200 words or fewer
             course_full_other_details:
-              blank: Enter details about reasons related to course being full
-              size: Details about reasons related to course being full must be 200 words or fewer
+              blank: Enter details about reasons related to the course being full
+              size: Details about reasons related to the course being full must be 200 words or fewer
             selected_reasons: Select reasons for rejecting the application
             qualifications_selected_reasons: Select reasons related to qualifications
             personal_statement_selected_reasons: Select reasons related to personal statement

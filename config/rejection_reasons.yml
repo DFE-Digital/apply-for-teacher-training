@@ -187,7 +187,7 @@
     :details:
       :id: salary_course_full_details
       :label: Details
-      :visually_hidden: about why salaried or apprenticeship route for this course is full
+      :visually_hidden: about why the salaried or apprenticeship route for this course is full
   - :id: course_full_other
     :label: Other
     :details:
