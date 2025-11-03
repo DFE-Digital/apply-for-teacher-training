@@ -97,7 +97,7 @@ module VendorAPI
       return [] unless show_references?
 
       references = if version_1_3_or_above?
-                     application_form.application_references.creation_order.for_provider
+                     application_form.application_references.creation_order.for_vendor
                    else
                      application_form.application_references.creation_order.feedback_provided
                    end

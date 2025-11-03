@@ -22,6 +22,33 @@ RSpec.describe ApplicationReference do
     end
   end
 
+  context 'scopes' do
+    describe '.for_provider' do
+      it 'returns the references for provider' do
+        references = [
+          create(:reference, :not_requested_yet),
+          create(:reference, :feedback_requested),
+          create(:reference, :feedback_provided),
+        ]
+        create(:reference, :cancelled)
+
+        expect(described_class.for_provider).to eq(references)
+      end
+    end
+
+    describe '.for_vendor' do
+      it 'returns the references for vendor' do
+        references = [
+          create(:reference, :feedback_requested),
+          create(:reference, :feedback_provided),
+        ]
+        create(:reference, :not_requested_yet)
+
+        expect(described_class.for_vendor).to eq(references)
+      end
+    end
+  end
+
   describe '#refresh_feedback_token!' do
     let(:reference) { create(:reference, hashed_sign_in_token: 'old_hashed_token') }
 

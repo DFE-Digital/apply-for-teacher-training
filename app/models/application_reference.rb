@@ -16,6 +16,11 @@ class ApplicationReference < ApplicationRecord
       feedback_status: %i[not_requested_yet feedback_requested feedback_provided],
     )
   }
+  scope :for_vendor, lambda {
+    where(
+      feedback_status: %i[feedback_requested feedback_provided],
+    )
+  }
 
   audited associated_with: :application_form
 
