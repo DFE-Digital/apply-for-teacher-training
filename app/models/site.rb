@@ -7,6 +7,8 @@ class Site < ApplicationRecord
   validates :name, presence: true
   validates :uuid, presence: true
 
+  normalizes :name, with: ->(name) { name.strip }
+
   CODE_LENGTH = 5
 
   def name_and_code
