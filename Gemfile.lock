@@ -1,20 +1,4 @@
 GIT
-  remote: git@github.com:DFE-Digital/get-into-teaching-api-ruby-client.git
-  revision: cf34bef1945381469e1098164c685dc1e6266eab
-  specs:
-    get_into_teaching_api_client (4.3.7.2)
-      faraday (>= 1.0.1, < 3.0)
-      faraday-multipart
-    get_into_teaching_api_client_faraday (4.3.7.2)
-      activesupport
-      faraday
-      faraday-encoding
-      faraday-http-cache
-      faraday-retry
-      faraday_middleware-circuit_breaker
-      get_into_teaching_api_client
-
-GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
   revision: 66887ceeb047568ad4d8a1df7ef1670d13d59a19
   tag: v1.15.9
@@ -56,6 +40,22 @@ GIT
     dfe-wizard (0.1.0)
       activemodel
       activesupport
+
+GIT
+  remote: https://github.com/DFE-Digital/get-into-teaching-api-ruby-client.git
+  revision: cf34bef1945381469e1098164c685dc1e6266eab
+  specs:
+    get_into_teaching_api_client (4.3.7.2)
+      faraday (>= 1.0.1, < 3.0)
+      faraday-multipart
+    get_into_teaching_api_client_faraday (4.3.7.2)
+      activesupport
+      faraday
+      faraday-encoding
+      faraday-http-cache
+      faraday-retry
+      faraday_middleware-circuit_breaker
+      get_into_teaching_api_client
 
 GIT
   remote: https://github.com/DFE-Digital/omniauth-govuk-one-login.git
