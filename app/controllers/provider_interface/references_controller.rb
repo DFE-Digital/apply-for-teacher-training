@@ -13,9 +13,7 @@ module ProviderInterface
     end
 
     def set_references
-      @references = @application_choice.application_form.application_references
-                                       .where(feedback_status: %i[not_requested_yet feedback_requested feedback_provided])
-
+      @references = @application_choice.application_form.application_references.for_provider
       @references = @references.selected unless new_references_flow?
     end
 

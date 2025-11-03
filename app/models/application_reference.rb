@@ -11,6 +11,16 @@ class ApplicationReference < ApplicationRecord
 
   scope :selected, -> { feedback_provided.where(selected: true) }
   scope :creation_order, -> { order(:id) }
+  scope :for_provider, lambda {
+    where(
+      feedback_status: %i[not_requested_yet feedback_requested feedback_provided],
+    )
+  }
+  scope :for_vendor, lambda {
+    where(
+      feedback_status: %i[feedback_requested feedback_provided],
+    )
+  }
 
   audited associated_with: :application_form
 

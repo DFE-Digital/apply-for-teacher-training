@@ -42,7 +42,7 @@ RSpec.describe 'ApplicationPresenter' do
         let(:reference_status) { :feedback_refused }
 
         it 'always returns false as the reference status' do
-          expect(attributes[:references].first[:reference_received]).to be(false)
+          expect(attributes[:references]).to eq([])
         end
       end
     end
