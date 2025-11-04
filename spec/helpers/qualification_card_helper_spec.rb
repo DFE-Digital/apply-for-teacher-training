@@ -34,10 +34,10 @@ RSpec.describe QualificationCardHelper do
       end
     end
 
-    context "when the header tag is not a header" do
+    context 'when the header tag is not a header' do
       let(:header_tag) { 'p' }
 
-      it "returns a h1" do
+      it 'returns a h1' do
         expect(helper.sub_header_tag(header_tag:)).to eq('h1')
       end
     end

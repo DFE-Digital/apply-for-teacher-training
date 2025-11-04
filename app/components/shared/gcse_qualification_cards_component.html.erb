@@ -1,8 +1,9 @@
 <%= content_tag(
   header_tag,
-  "GCSEs or equivalent",
+  'GCSEs or equivalent',
   class: 'govuk-heading-s govuk-!-margin-top-6',
-  id: "gcses") %>
+  id: 'gcses',
+) %>
 
 <div class="govuk-grid">
   <div class="govuk-grid-row app-grid-row--flex">
@@ -14,7 +15,8 @@
             <%= content_tag(
               sub_header_tag(header_tag:),
               subject(qualification),
-              class: "govuk-heading-s govuk-!-margin-bottom-1") %>
+              class: 'govuk-heading-s govuk-!-margin-bottom-1',
+            ) %>
             <dl class="app-qualification">
               <dd class="app-qualification__value"> <%= candidate_does_not_have %> </dd>
               <% if qualification.not_completed_explanation.present? %>
@@ -28,7 +30,7 @@
 
           <%# International qualification %>
           <% elsif qualification.non_uk_qualification_type.present? %>
-            <%= content_tag(sub_header_tag(header_tag:), class: "govuk-heading-s govuk-!-margin-bottom-1") do %>
+            <%= content_tag(sub_header_tag(header_tag:), class: 'govuk-heading-s govuk-!-margin-bottom-1') do %>
               <%= subject(qualification) %> <span class="govuk-!-font-weight-regular"><%= presentable_qualification_type(qualification) %></span>
             <% end %>
             <dl class="app-qualification">
@@ -45,7 +47,7 @@
             </dl>
           <%# UK or UK Other qualification %>
           <% else %>
-            <%= content_tag(sub_header_tag(header_tag:), class: "govuk-heading-s govuk-!-margin-bottom-1") do %>
+            <%= content_tag(sub_header_tag(header_tag:), class: 'govuk-heading-s govuk-!-margin-bottom-1') do %>
               <%= subject(qualification) %> <span class="govuk-!-font-weight-regular"><%= presentable_qualification_type(qualification) %></span>
             <% end %>
             <dl class="app-qualification">

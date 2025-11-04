@@ -1,8 +1,9 @@
 <%= content_tag(
   header_tag,
-  "English as a foreign language",
+  'English as a foreign language',
   class: 'govuk-heading-s govuk-!-margin-top-6',
-  id: "english-as-a-foreign-language") %>
+  id: 'english-as-a-foreign-language',
+) %>
 
 <p class="govuk-body"><%= qualification_status %></p>
 
@@ -14,7 +15,8 @@
           <%= content_tag(
             sub_header_tag(header_tag:),
             name,
-            class: "govuk-heading-s govuk-!-margin-bottom-1") %>
+            class: 'govuk-heading-s govuk-!-margin-bottom-1',
+          ) %>
           <dl class="app-qualification">
             <dt class="app-qualification__key govuk-visually-hidden">Awarded</dt>
             <dd class="app-qualification__value app-qualification__value--caption"><%= award_year %></dd>
@@ -32,7 +34,8 @@
 <% elsif english_proficiency.no_qualification? %>
   <%= content_tag(
     sub_header_tag,
-    "Reason given",
-    class: "govuk-heading-s govuk-!-margin-bottom-2") %>
+    'Reason given',
+    class: 'govuk-heading-s govuk-!-margin-bottom-2',
+  ) %>
   <p class="govuk-body govuk-!-margin-bottom-0"><%= no_qualification_details %></p>
 <% end %>
