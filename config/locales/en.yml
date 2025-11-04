@@ -348,7 +348,7 @@ en:
       status_of_active_applications: Status of active applications
       export_application_data: Export application data
       reports: Reports
-      diversity_report: Sex, disability, ethnicity and age of candidates
+      diversity_report: Sex, disability, ethnicity and age of candidates for %{recruitment_cycle_year}
       withdrawal_report: Withdrawal reasons
       withdrawal_reports: Withdrawal reports
       withdrawal_reasons_report: Withdrawal reasons

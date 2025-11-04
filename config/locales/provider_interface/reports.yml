@@ -3,7 +3,9 @@ en:
     reports:
       index:
         performance_report_heading: Weekly recruitment performance report
-        application_data_heading: Application data for this recruitment cycle
+        application_data_heading: Application data for this recruitment cycle (%{recruitment_cycle_year})
+        application_data_heading_previous_cycle: Application data for the previous recruitment cycle (%{recruitment_cycle_year})
+        diversity_report_link_text: Sex, disability, ethnicity and age of candidates
         available_in_the_future_html:
           <p class="govuk-body">The reports for the %{current_cycle_range} recruitment cycle are not available until %{first_publication_date}.</p>
           <p class="govuk-body">From %{first_publication_date_no_year} you will be able to see new reports each week on a Monday until the end of the cycle.</p>

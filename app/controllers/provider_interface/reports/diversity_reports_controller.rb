@@ -2,9 +2,10 @@ module ProviderInterface
   module Reports
     class DiversityReportsController < ProviderInterfaceController
       attr_reader :diversity_data, :provider, :recruitment_cycle_year
+      before_action :set_recruitment_cycle_year, only: :show
+      before_action :redirect_to_current_year_if_invalid_year
 
       def show
-        @recruitment_cycle_year = RecruitmentCycleTimetable.current_year
         @provider = current_user.providers.find(provider_id)
         zip_filename = ProviderInterface::DiversityReportExport.new(provider:, recruitment_cycle_year:).call
 
@@ -32,6 +33,22 @@ module ProviderInterface
 
       def provider_id
         params.permit(:provider_id)[:provider_id]
+      end
+
+      def redirect_to_current_year_if_invalid_year
+        if @recruitment_cycle_year.blank?
+          redirect_to provider_interface_reports_provider_diversity_report_path
+        end
+      end
+
+      def set_recruitment_cycle_year
+        year = params[:recruitment_cycle_year]&.to_i
+
+        @recruitment_cycle_year = if year.blank?
+                                    RecruitmentCycleTimetable.current_year
+                                  elsif year.in? RecruitmentCycleTimetable.years_visible_to_providers
+                                    year
+                                  end
       end
     end
   end

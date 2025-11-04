@@ -31,7 +31,7 @@
       </ul>
     <% end %>
 
-    <h2 class="govuk-heading-m"><%= t('.application_data_heading') %></h2>
+    <h2 class="govuk-heading-m"><%= t('.application_data_heading', recruitment_cycle_year: RecruitmentCycleTimetable.current_year) %></h2>
     <% @providers.each do |provider| %>
       <% if @providers.many? %>
         <h3 class="govuk-heading-s"><%= provider.name %></h3>
@@ -41,10 +41,28 @@
           <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider) %>
         </li>
         <li>
-          <%= govuk_link_to t('page_titles.provider.diversity_report'), provider_interface_reports_provider_diversity_report_path(provider_id: provider) %>
+          <%= govuk_link_to t('.diversity_report_link_text'), provider_interface_reports_provider_diversity_report_path(provider_id: provider) %>
         </li>
         <li>
           <%= govuk_link_to t('page_titles.provider.withdrawal_report'), provider_interface_reports_provider_withdrawal_reasons_report_path(provider) %>
+        </li>
+      </ul>
+    <% end %>
+
+    <h2 class="govuk-heading-m"><%= t('.application_data_heading_previous_cycle', recruitment_cycle_year: RecruitmentCycleTimetable.previous_year) %></h2>
+    <% @providers.each do |provider| %>
+      <% if @providers.many? %>
+        <h3 class="govuk-heading-s"><%= provider.name %></h3>
+      <% end %>
+      <ul class="govuk-list govuk-list--spaced">
+        <li>
+          <%= govuk_link_to(
+                t('.diversity_report_link_text'),
+                provider_interface_reports_provider_diversity_report_path(
+                  provider_id: provider,
+                  recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+                ),
+              ) %>
         </li>
       </ul>
     <% end %>

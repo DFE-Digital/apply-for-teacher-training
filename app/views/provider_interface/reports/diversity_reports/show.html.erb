@@ -1,12 +1,14 @@
-<%= content_for :title, t('page_titles.provider.diversity_report') %>
-<%= content_for :before_content, breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path,
-                                             t('page_titles.provider.diversity_report') => nil) %>
+<%= content_for :title, t('page_titles.provider.diversity_report', recruitment_cycle_year: @recruitment_cycle_year) %>
+<%= content_for :before_content, breadcrumbs(
+  t('page_titles.provider.reports') => provider_interface_reports_path,
+  t('page_titles.provider.diversity_report', recruitment_cycle_year: @recruitment_cycle_year) => nil,
+) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
       <span class="govuk-caption-l"> <%= @provider.name %></span>
-      <%= t('page_titles.provider.diversity_report') %>
+      <%= t('page_titles.provider.diversity_report', recruitment_cycle_year: @recruitment_cycle_year) %>
     </h1>
   </div>
 </div>
