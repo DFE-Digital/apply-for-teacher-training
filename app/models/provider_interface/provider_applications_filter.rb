@@ -44,6 +44,8 @@ module ProviderInterface
       end
     end
 
+    def show_bottom_button? = true
+
   private
 
     def parse_params(params)

@@ -84,7 +84,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
 
   def when_i_filter_by_course_subjects_that_have_no_courses
     check 'Geography', visible: false
-    click_link_or_button 'Apply filters'
+    click_link_or_button('Apply filters', match: :first)
   end
 
   def then_i_do_not_see_any_applications
@@ -95,7 +95,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
     click_link_or_button 'Clear filters'
 
     check 'Mathematics', visible: false
-    click_link_or_button 'Apply filters'
+    click_link_or_button('Apply filters', match: :first)
   end
 
   def then_i_see_applications_related_to_those_subjects
@@ -128,7 +128,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
 
   def when_i_filter_by_a_provider_with_only_a_couple_of_subjects
     check main_provider.name, visible: false
-    click_link_or_button 'Apply filters'
+    click_link_or_button('Apply filters', match: :first)
   end
 
   def then_i_only_see_the_provider_available_subjects
@@ -145,7 +145,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
 
     check secondary_provider.name, visible: false
     check 'Mathematics', visible: false
-    click_link_or_button 'Apply filters'
+    click_link_or_button('Apply filters', match: :first)
   end
 
   def then_i_only_see_provider_applications_related_to_the_subjects

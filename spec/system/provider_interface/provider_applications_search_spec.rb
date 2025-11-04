@@ -148,7 +148,7 @@ RSpec.describe 'Providers should be able to filter applications' do
   def then_i_filter_for_withdrawn_and_offered_applications
     find_by_id('status-withdrawn').set(true)
     find_by_id('status-offer').set(true)
-    click_link_or_button('Apply filters')
+    click_link_or_button('Apply filters', match: :first)
   end
 
   def when_i_manually_clear_all_filters_and_apply_them
@@ -156,7 +156,7 @@ RSpec.describe 'Providers should be able to filter applications' do
     click_link_or_button('Search')
     find_by_id('status-withdrawn').set(false)
     find_by_id('status-offer').set(false)
-    click_link_or_button('Apply filters')
+    click_link_or_button('Apply filters', match: :first)
   end
 
   def when_i_search_for_candidate_name_with_odd_casing
@@ -193,7 +193,7 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def then_i_expect_to_see_the_filter_dialogue
-    expect(page).to have_button('Apply filters')
+    expect(page).to have_button('Apply filters', match: :first)
   end
 
   def when_i_clear_the_filters
@@ -247,6 +247,6 @@ RSpec.describe 'Providers should be able to filter applications' do
   def when_i_filter_by_provider
     find(:css, "#provider-#{current_provider.id}").set(true)
     find(:css, "#provider-#{second_provider.id}").set(true)
-    click_link_or_button('Apply filters')
+    click_link_or_button('Apply filters', match: :first)
   end
 end
