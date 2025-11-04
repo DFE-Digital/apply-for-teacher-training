@@ -266,7 +266,7 @@ RSpec.describe 'Providers should be able to filter applications' do
 
   def when_i_filter_by_recruitment_cycle
     find(:css, "#recruitment_cycle_year-#{current_year}").set(true)
-    click_link_or_button('Apply filters')
+    click_link_or_button('Apply filters', match: :first)
   end
 
   def then_i_only_see_applications_for_that_recruitment_cycle
@@ -349,7 +349,7 @@ RSpec.describe 'Providers should be able to filter applications' do
 
   def when_i_filter_for_rejected_applications
     find_by_id('status-rejected').set(true)
-    click_link_or_button('Apply filters')
+    click_link_or_button('Apply filters', match: :first)
   end
 
   def then_only_rejected_applications_are_visible
@@ -368,7 +368,7 @@ RSpec.describe 'Providers should be able to filter applications' do
   def when_i_filter_for_applications_that_i_do_not_have
     find_by_id('status-rejected').set(false)
     find_by_id('status-pending_conditions').set(true)
-    click_link_or_button('Apply filters')
+    click_link_or_button('Apply filters', match: :first)
   end
 
   def then_i_see_the_no_filter_results_error_message
@@ -379,7 +379,7 @@ RSpec.describe 'Providers should be able to filter applications' do
     find_by_id('status-pending_conditions').set(false)
     find_by_id('status-rejected').set(true)
     find_by_id('status-offer').set(true)
-    click_link_or_button('Apply filters')
+    click_link_or_button('Apply filters', match: :first)
   end
 
   def then_only_rejected_and_offered_applications_are_visible
@@ -403,12 +403,12 @@ RSpec.describe 'Providers should be able to filter applications' do
   def when_i_filter_by_providers
     find(:css, "#provider-#{current_provider.id}").set(true)
     find(:css, "#provider-#{second_provider.id}").set(true)
-    click_link_or_button('Apply filters')
+    click_link_or_button('Apply filters', match: :first)
   end
 
   def when_i_filter_by_a_specific_provider
     find(:css, "#provider-#{current_provider.id}").set(true)
-    click_link_or_button('Apply filters')
+    click_link_or_button('Apply filters', match: :first)
   end
 
   def then_i_only_see_applications_for_a_given_provider
@@ -419,7 +419,7 @@ RSpec.describe 'Providers should be able to filter applications' do
 
   def and_i_filter_by_accredited_provider
     find(:css, "#accredited_provider-#{accredited_provider2.id}").set(true)
-    click_link_or_button('Apply filters')
+    click_link_or_button('Apply filters', match: :first)
   end
 
   def then_i_only_see_applications_for_a_given_accredited_provider
@@ -466,6 +466,6 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def and_i_apply_the_filters
-    click_link_or_button('Apply filters')
+    click_link_or_button('Apply filters', match: :first)
   end
 end

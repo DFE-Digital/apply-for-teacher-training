@@ -44,9 +44,7 @@ module ProviderInterface
       end
     end
 
-    def show_bottom_button?
-      true
-    end
+    def show_bottom_button? = true
 
   private
 
