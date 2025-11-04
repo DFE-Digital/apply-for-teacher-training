@@ -1,11 +1,12 @@
 module ProviderInterface
   module Reports
     class DiversityReportsController < ProviderInterfaceController
-      attr_reader :diversity_data, :provider
+      attr_reader :diversity_data, :provider, :recruitment_cycle_year
 
       def show
+        @recruitment_cycle_year = RecruitmentCycleTimetable.current_year
         @provider = current_user.providers.find(provider_id)
-        zip_filename = ProviderInterface::DiversityReportExport.new(provider: provider).call
+        zip_filename = ProviderInterface::DiversityReportExport.new(provider:, recruitment_cycle_year:).call
 
         respond_to do |format|
           format.zip do
@@ -17,7 +18,7 @@ module ProviderInterface
           end
 
           format.html do
-            @diversity_data = DiversityDataByProvider.new(provider: provider)
+            @diversity_data = DiversityDataByProvider.new(provider:, recruitment_cycle_year:)
             @diversity_report_sex_data = diversity_data.sex_data
             @diversity_report_disability_data = diversity_data.disability_data
             @diversity_report_ethnicity_data = diversity_data.ethnicity_data

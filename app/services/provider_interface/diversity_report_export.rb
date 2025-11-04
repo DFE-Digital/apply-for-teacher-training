@@ -2,14 +2,18 @@ require 'zip'
 
 module ProviderInterface
   class DiversityReportExport
-    attr_reader :provider
+    attr_reader :provider, :recruitment_cycle_year
 
-    def initialize(provider:)
+    def initialize(provider:, recruitment_cycle_year:)
       @provider = provider
+      @recruitment_cycle_year = recruitment_cycle_year
     end
 
     def diversity_data
-      DiversityDataByProvider.new(provider: provider)
+      DiversityDataByProvider.new(
+        provider:,
+        recruitment_cycle_year:,
+      )
     end
 
     def call

@@ -3,7 +3,7 @@ require 'rails_helper'
 module ProviderInterface
   RSpec.describe DiversityDataByProvider do
     let(:provider) { create(:provider) }
-    let(:diversity_data_by_provider) { described_class.new(provider: [provider.id]) }
+    let(:diversity_data_by_provider) { described_class.new(provider: [provider.id], recruitment_cycle_year: current_year) }
 
     describe '#total_submitted_applications' do
       it 'returns the number of application forms that have been submitted' do
