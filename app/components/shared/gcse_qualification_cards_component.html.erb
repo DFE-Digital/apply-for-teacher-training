@@ -12,7 +12,7 @@
           <%# Missing qualification %>
           <% if qualification.missing_qualification? %>
             <%= content_tag(
-              sub_header_tag,
+              sub_header_tag(header_tag:),
               subject(qualification),
               class: "govuk-heading-s govuk-!-margin-bottom-1") %>
             <dl class="app-qualification">
@@ -28,7 +28,7 @@
 
           <%# International qualification %>
           <% elsif qualification.non_uk_qualification_type.present? %>
-            <%= content_tag(sub_header_tag, class: "govuk-heading-s govuk-!-margin-bottom-1") do %>
+            <%= content_tag(sub_header_tag(header_tag:), class: "govuk-heading-s govuk-!-margin-bottom-1") do %>
               <%= subject(qualification) %> <span class="govuk-!-font-weight-regular"><%= presentable_qualification_type(qualification) %></span>
             <% end %>
             <dl class="app-qualification">
@@ -45,7 +45,7 @@
             </dl>
           <%# UK or UK Other qualification %>
           <% else %>
-            <%= content_tag(sub_header_tag, class: "govuk-heading-s govuk-!-margin-bottom-1") do %>
+            <%= content_tag(sub_header_tag(header_tag:), class: "govuk-heading-s govuk-!-margin-bottom-1") do %>
               <%= subject(qualification) %> <span class="govuk-!-font-weight-regular"><%= presentable_qualification_type(qualification) %></span>
             <% end %>
             <dl class="app-qualification">
