@@ -151,24 +151,49 @@
     :id: references_details
     :label: Details
 - :id: safeguarding
-  :label: Safeguarding
+  :label: Safeguarding concerns
   :details:
     :id: safeguarding_details
     :label: Details
     :visually_hidden: about safeguarding
 - :id: visa_sponsorship
   :label: Visa sponsorship
-  :details:
-    :id: visa_sponsorship_details
-    :label: Details
-    :visually_hidden: about visa sponsorship
+  :reasons_visually_hidden: about visa sponsorship
+  :reasons:
+  - :id: visa_sponsorship_not_supported
+    :label: This course does not sponsor visas
+    :details:
+      :id: visa_sponsorship_not_supported_details
+      :label: Details
+      :visually_hidden: about why visa sponsorship is not available
+  - :id: visa_sponsorship_course_closed
+    :label: This course is closed to candidates who require visa sponsorship
+    :details:
+      :id: visa_sponsorship_course_closed_details
+      :label: Details
+      :visually_hidden: about why course is closed
+  - :id: visa_sponsorship_other
+    :label: Other
+    :details:
+      :id: visa_sponsorship_other_details
+      :label: Details
+      :visually_hidden: about other reasons visa sponsorship is not available
 - :id: course_full
   :label: Course full
-  :details:
-    :id: course_full_details
-    :label: Details (optional)
-    :optional: true
-    :visually_hidden: about the course being full
+  :reasons_visually_hidden: about the course being full
+  :reasons:
+  - :id: salary_course_full
+    :label: The salaried or apprenticeship route for this course is full
+    :details:
+      :id: salary_course_full_details
+      :label: Details
+      :visually_hidden: about why the salaried or apprenticeship route for this course is full
+  - :id: course_full_other
+    :label: Other
+    :details:
+      :id: course_full_other_details
+      :label: Details
+      :visually_hidden: about other reasons why course is full
 - :id: school_placement
   :label: School placement
   :reasons_visually_hidden: for rejecting due to school placement

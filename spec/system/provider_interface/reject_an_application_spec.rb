@@ -129,7 +129,8 @@ RSpec.describe 'Reject an application' do
     end
 
     check 'Course full'
-    fill_in 'Details (optional) about the course being full', with: 'Other courses exist'
+    check 'The salaried or apprenticeship route for this course is full'
+    fill_in 'provider-interface-rejections-wizard-salary-course-full-details-field', with: 'Other courses exist'
 
     check 'provider-interface-rejections-wizard-selected-reasons-other-field'
     fill_in 'Details of other reasons', with: 'There are so many other reasons why your application was rejected...'
@@ -205,7 +206,7 @@ RSpec.describe 'Reject an application' do
 
     expect(email_preview[22..24]).to eq([
       'Course full',
-      'Course full:',
+      'The salaried or apprenticeship route for this course is full:',
       'Other courses exist',
     ])
 

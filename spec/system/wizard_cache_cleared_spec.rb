@@ -132,6 +132,9 @@ RSpec.describe 'Clearing the wizard cache' do
     fill_in 'provider-interface-rejections-wizard-personal-statement-other-details-field', with: 'This was wayyyyy too personal'
 
     check 'provider-interface-rejections-wizard-selected-reasons-course-full-field'
+    check 'provider-interface-rejections-wizard-course-full-selected-reasons-salary-course-full-field'
+    fill_in 'provider-interface-rejections-wizard-salary-course-full-details-field', with: 'Course is full'
+
     check 'provider-interface-rejections-wizard-selected-reasons-other-field'
     fill_in 'provider-interface-rejections-wizard-other-details-field', with: 'There are so many other reasons why your application was rejected...'
 
