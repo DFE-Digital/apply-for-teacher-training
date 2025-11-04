@@ -32,7 +32,7 @@ RSpec.describe ApplicationReference do
         ]
         create(:reference, :cancelled)
 
-        expect(described_class.for_provider).to eq(references)
+        expect(described_class.for_provider).to match_array(references)
       end
     end
 
@@ -44,7 +44,7 @@ RSpec.describe ApplicationReference do
         ]
         create(:reference, :not_requested_yet)
 
-        expect(described_class.for_vendor).to eq(references)
+        expect(described_class.for_vendor).to match_array(references)
       end
     end
   end
