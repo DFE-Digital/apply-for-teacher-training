@@ -1,4 +1,9 @@
-<h3 class="govuk-heading-m govuk-!-margin-top-6" id="other-qualifications"><%= header %></h3>
+<%= content_tag(
+  header_tag,
+  header,
+  class: 'govuk-heading-m govuk-!-margin-top-6',
+  id: "other-qualifications") %>
+
 <% if qualifications.any? %>
   <table class="govuk-table govuk-!-width-full" data-qa="qualifications-table-<%= header.parameterize %>">
     <caption class="govuk-table__caption govuk-table__caption--s govuk-!-margin-bottom-3" id="other-qualifications"><%= subheader %></caption>
