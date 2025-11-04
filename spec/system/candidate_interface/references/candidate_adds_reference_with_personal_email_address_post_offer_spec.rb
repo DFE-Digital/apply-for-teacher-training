@@ -84,7 +84,7 @@ private
   def and_i_navigate_to_add_another_reference
     visit candidate_interface_application_offer_dashboard_path
     click_on 'Request another reference'
-    click_on 'Continue'
+    click_on 'Add reference'
   end
 
   def and_i_complete_some_reference_details
