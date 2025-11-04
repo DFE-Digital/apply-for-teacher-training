@@ -1,13 +1,15 @@
-<h3 class="govuk-heading-m" id="degrees"><%= section_title %></h3>
+<%= content_tag(header_tag, section_title, class: 'govuk-heading-s', id: 'degrees') %>
 
 <div class="govuk-grid">
   <div class="govuk-grid-row app-grid-row--flex">
     <% degrees.each do |degree| %>
       <div class="govuk-grid-column-one-third">
         <div class="app-card app-card--outline" data-qa="degree-qualification">
-          <h5 class="govuk-heading-s govuk-!-margin-bottom-1">
-            <%= degree_type_and_subject(degree) %>
-          </h5>
+          <%= content_tag(
+            sub_header_tag(header_tag:),
+            degree_type_and_subject(degree),
+            class: 'govuk-heading-s govuk-!-margin-bottom-1',
+          ) %>
           <dl class="app-qualification">
             <dt class="app-qualification__key govuk-visually-hidden">Awarded</dt>
             <dd class="app-qualification__value app-qualification__value--caption">

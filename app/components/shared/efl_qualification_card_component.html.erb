@@ -1,4 +1,9 @@
-<h4 class="govuk-heading-s govuk-!-margin-top-6" id="english-as-a-foreign-language">English as a foreign language</h4>
+<%= content_tag(
+  header_tag,
+  'English as a foreign language',
+  class: 'govuk-heading-s govuk-!-margin-top-6',
+  id: 'english-as-a-foreign-language',
+) %>
 
 <p class="govuk-body"><%= qualification_status %></p>
 
@@ -7,7 +12,11 @@
     <div class="govuk-grid-row app-grid-row--flex">
       <div class="govuk-grid-column-one-third">
         <div class="app-card app-card--outline" data-qa="english-proficiency-qualification">
-          <h5 class="govuk-heading-s govuk-!-margin-bottom-1"><%= name %></h5>
+          <%= content_tag(
+            sub_header_tag(header_tag:),
+            name,
+            class: 'govuk-heading-s govuk-!-margin-bottom-1',
+          ) %>
           <dl class="app-qualification">
             <dt class="app-qualification__key govuk-visually-hidden">Awarded</dt>
             <dd class="app-qualification__value app-qualification__value--caption"><%= award_year %></dd>
@@ -23,6 +32,10 @@
     </div>
   </div>
 <% elsif english_proficiency.no_qualification? %>
-  <h5 class="govuk-heading-s govuk-!-margin-bottom-2">Reason given</h5>
+  <%= content_tag(
+    sub_header_tag(header_tag:),
+    'Reason given',
+    class: 'govuk-heading-s govuk-!-margin-bottom-2',
+  ) %>
   <p class="govuk-body govuk-!-margin-bottom-0"><%= no_qualification_details %></p>
 <% end %>

@@ -1,9 +1,12 @@
 # NOTE: This component is used by both provider and support UIs
 class EflQualificationCardComponent < ViewComponent::Base
-  attr_reader :application_form
+  include QualificationCardHelper
 
-  def initialize(application_form)
+  attr_reader :application_form, :header_tag
+
+  def initialize(application_form, header_tag: 'h4')
     @application_form = application_form
+    @header_tag = header_tag
   end
 
   def render?

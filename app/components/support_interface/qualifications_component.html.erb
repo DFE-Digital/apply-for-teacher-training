@@ -5,8 +5,15 @@
     application_form.application_qualifications.degrees,
     show_hesa_codes: true,
     editable: true,
+    header_tag: 'h3',
   ) %>
-  <%= render GcseQualificationCardsComponent.new(application_form, editable: true) %>
-  <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, header: 'A levels and other qualifications', subheader: 'Details of A levels and other qualifications', editable: true) %>
-  <%= render EflQualificationCardComponent.new(application_form) %>
+  <%= render GcseQualificationCardsComponent.new(application_form, editable: true, header_tag: 'h3') %>
+  <%= render QualificationsTableComponent.new(
+    qualifications: application_form.application_qualifications.other,
+    header: 'A levels and other qualifications',
+    subheader: 'Details of A levels and other qualifications',
+    editable: true,
+    header_tag: 'h3',
+  ) %>
+  <%= render EflQualificationCardComponent.new(application_form, header_tag: 'h3') %>
 </section>

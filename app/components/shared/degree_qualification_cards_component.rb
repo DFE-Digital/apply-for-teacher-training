@@ -1,16 +1,18 @@
 # NOTE: This component is used by both provider and support UIs
 class DegreeQualificationCardsComponent < ViewComponent::Base
   include ViewHelper
+  include QualificationCardHelper
 
-  attr_reader :degrees, :application_choice_state, :show_hesa_codes
+  attr_reader :degrees, :application_choice_state, :show_hesa_codes, :header_tag
 
   alias show_hesa_codes? show_hesa_codes
 
-  def initialize(degrees, application_choice_state: nil, show_hesa_codes: false, editable: false)
+  def initialize(degrees, application_choice_state: nil, show_hesa_codes: false, editable: false, header_tag: 'h4')
     @degrees = degrees
     @application_choice_state = application_choice_state
     @show_hesa_codes = show_hesa_codes
     @editable = editable
+    @header_tag = header_tag
   end
 
   def section_title

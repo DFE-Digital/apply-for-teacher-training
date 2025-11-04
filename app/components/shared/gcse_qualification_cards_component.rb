@@ -2,12 +2,14 @@
 class GcseQualificationCardsComponent < ViewComponent::Base
   include ViewHelper
   include GcseQualificationHelper
+  include QualificationCardHelper
 
-  attr_reader :application_form
+  attr_reader :application_form, :header_tag
 
-  def initialize(application_form, editable: false)
+  def initialize(application_form, editable: false, header_tag: 'h4')
     @application_form = application_form
     @editable = editable
+    @header_tag = header_tag
   end
 
   def maths
