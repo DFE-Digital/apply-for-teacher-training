@@ -33,7 +33,7 @@
   </div>
 <% elsif english_proficiency.no_qualification? %>
   <%= content_tag(
-    sub_header_tag,
+    sub_header_tag(header_tag:),
     'Reason given',
     class: 'govuk-heading-s govuk-!-margin-bottom-2',
   ) %>
