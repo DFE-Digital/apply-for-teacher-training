@@ -13,7 +13,7 @@
 </p>
 
 <p class="govuk-body">
-  <%= govuk_link_to('Check if you need a UK visa', t('govuk.check_if_you_need_visa'), target: '_blank') %>.
+  <%= govuk_link_to('Check if you need a UK visa', t('govuk.check_if_you_need_visa'), new_tab: true) %>.
 </p>
 
 <%= f.govuk_radio_buttons_fieldset :right_to_work_or_study, legend: { size: 'm', text: 'Do you already have the right to work or study in the UK?' } do %>
