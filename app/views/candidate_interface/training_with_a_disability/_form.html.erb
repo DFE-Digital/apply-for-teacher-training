@@ -16,7 +16,7 @@
   <li>ask disability or health questions if they’re not relevant to your ability to become a teacher</li>
   <li>reject your application because you are disabled</li>
 </ul>
-<p class="govuk-body"><%= govuk_link_to_with_utm_params 'Get support training to teach if you are disabled', I18n.t('get_into_teaching.url_support_if_you_are_disabled'), utm_campaign(params), @current_application.phase %>.</p>
+<p class="govuk-body"><%= govuk_link_to_with_utm_params 'Get support training to teach if you are disabled', I18n.t('get_into_teaching.url_support_if_you_are_disabled'), utm_campaign(params), @current_application.phase, new_tab: true %>.</p>
 
 <%= f.govuk_radio_buttons_fieldset :disclose_disability, legend: { text: t('application_form.training_with_a_disability.disclose_disability.label'), size: 'm' } do %>
   <%= f.govuk_radio_button :disclose_disability, 'yes', label: { text: t('application_form.training_with_a_disability.disclose_disability.yes') }, link_errors: true do %>

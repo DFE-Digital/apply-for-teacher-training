@@ -26,7 +26,7 @@ class ImmigrationStatusValidator < ActiveModel::EachValidator
   end
 
   def link_to_find
-    govuk_link_to('Find a course that has visa sponsorship', url_helpers.find_url, target: '_blank', rel: 'nofollow')
+    govuk_link_to('Find a course that has visa sponsorship', url_helpers.find_url, new_tab: true)
   end
 
 private

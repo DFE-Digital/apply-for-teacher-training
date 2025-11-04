@@ -138,8 +138,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
         govuk_link_to(
           'Find a course that has visa sponsorship',
           routes.find_url,
-          target: '_blank',
-          rel: 'nofollow',
+          new_tab: true,
         )
       end
 
