@@ -51,7 +51,7 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :compone
 
   describe '#rows' do
     let(:feedback) { 'A valuable unit of work' }
-    let(:reference) { build(:reference, feedback:, feedback_status: 'feedback_provided') }
+    let(:reference) { build(:reference, feedback:, feedback_status: 'feedback_provided', referee_type: :academic) }
     let(:application_choice) { build(:application_choice, :with_completed_application_form, :recruited) }
 
     subject(:component) do
@@ -70,6 +70,15 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :compone
     it 'contains an email address row' do
       expect(component.rows).to include(
         { key: 'Email address', value: reference.email_address },
+      )
+    end
+
+    it 'contains a reference type row' do
+      expect(component.rows).to include(
+        {
+          key: 'Reference type',
+          value: 'Academic',
+        },
       )
     end
 
@@ -118,7 +127,7 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :compone
 
     context 'feedback' do
       it 'contains a feedback row' do
-        row = component.rows[4]
+        row = component.rows[5]
         expect(row[:key]).to eq('Reference')
         expect(row[:value]).to eq(reference.feedback)
       end

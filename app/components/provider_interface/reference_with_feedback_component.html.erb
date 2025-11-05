@@ -4,7 +4,7 @@
   warning_text: warning_text,
 )) do %>
   <%= render SummaryCardHeaderComponent.new(
-    title: t(reference.referee_type, scope: 'provider_interface.references.card_title', name: reference.name),
+    title: reference.name,
     heading_level: 3,
     title_contains_pii: true,
   ) %>
