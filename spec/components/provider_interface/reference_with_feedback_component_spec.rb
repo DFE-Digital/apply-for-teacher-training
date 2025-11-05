@@ -261,5 +261,53 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :compone
         end
       end
     end
+
+    context 'when feedback has been provided' do
+      let(:time_now) { Time.zone.now }
+      let(:reference) do
+        build(:reference,
+              feedback_status: 'feedback_provided',
+              feedback_provided_at: time_now,
+              requested_at: time_now - 2.days)
+      end
+      let(:application_choice) { build(:application_choice, :with_completed_application_form, :recruited) }
+
+      it 'renders the date received row' do
+        render_inline(described_class.new(reference:, application_choice:))
+
+        expect(page).to have_text('Date received')
+        expect(page).to have_text(time_now.to_fs(:govuk_date_and_time))
+      end
+    end
+
+    context 'when feedback has not been provided' do
+      let(:requested_time) { Time.zone.now }
+      let(:reference) do
+        build(:reference,
+              feedback_status: 'feedback_requested',
+              feedback_provided_at: nil,
+              requested_at: requested_time)
+      end
+      let(:application_choice) { build(:application_choice, :with_completed_application_form, :offer) }
+
+      it 'renders the date requested row' do
+        render_inline(described_class.new(reference:, application_choice:))
+
+        expect(page).to have_text('Date requested')
+        expect(page).to have_text(requested_time.to_fs(:govuk_date_and_time))
+      end
+    end
+
+    context 'when the reference has not yet been requested' do
+      let(:reference) { build(:reference, requested_at: nil) }
+      let(:application_choice) { build(:application_choice, :with_completed_application_form, :recruited) }
+
+      it 'does not render any date row' do
+        render_inline(described_class.new(reference:, application_choice:))
+
+        expect(page).to have_no_text('Date requested')
+        expect(page).to have_no_text('Date received')
+      end
+    end
   end
 end

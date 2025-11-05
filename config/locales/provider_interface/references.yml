@@ -42,3 +42,7 @@ en:
         value:
          'true': No, this reference is confidential. Do not share it.
          'false': Yes, if they request it.
+      date_row:
+        requested:
+          key: Date requested
+        key: Date received
