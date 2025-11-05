@@ -89,26 +89,28 @@
               <h3 class="govuk-heading-m">
                 <%= t('.candidate_course_preferences') %>
               </h3>
-              <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                <%= t('.subjects_applied_to') %>
-              </legend>
-              <div class="govuk-checkboxes__item">
-                <div class="app-checkbox-filter app-checkbox-filter--enhanced" id="subject">
-                  <div class="app-checkbox-filter__container">
-                    <div class="app-checkbox-filter__container-inner">
-                      <%= f.govuk_collection_check_boxes(
-                            :subject_ids,
-                            subject_options,
-                            :value,
-                            :name,
-                            legend: nil,
-                            small: true,
-                            include_hidden: false,
-                          ) %>
+              <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                  <%= t('.subjects_applied_to') %>
+                </legend>
+                <div class="govuk-checkboxes__item">
+                  <div class="app-checkbox-filter app-checkbox-filter--enhanced" id="subject">
+                    <div class="app-checkbox-filter__container">
+                      <div class="app-checkbox-filter__container-inner">
+                        <%= f.govuk_collection_check_boxes(
+                              :subject_ids,
+                              subject_options,
+                              :value,
+                              :name,
+                              legend: nil,
+                              small: true,
+                              include_hidden: false,
+                            ) %>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </fieldset>
             </div>
 
             <div class="govuk-form-group filter-group">
