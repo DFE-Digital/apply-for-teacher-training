@@ -4,7 +4,7 @@ class AddCourseCodeToChaser < ActiveRecord::Migration[8.0]
   def change
     add_reference(
       :chasers_sent,
-      :course_id,
+      :course,
       null: true,
       index: { algorithm: :concurrently },
     )
