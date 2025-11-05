@@ -356,7 +356,7 @@ GEM
     govuk_markdown (2.0.3)
       activesupport
       redcarpet
-    grover (1.2.3)
+    grover (1.2.4)
       nokogiri (~> 1)
     guard (2.18.1)
       formatador (>= 0.2.4)
