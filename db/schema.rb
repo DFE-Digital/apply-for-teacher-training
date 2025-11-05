@@ -484,8 +484,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_05_155512) do
     t.string "chaser_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "course_code"
+    t.bigint "course_id_id"
     t.index ["chased_type", "chased_id"], name: "index_chasers_sent_on_chased_type_and_chased_id"
+    t.index ["course_id_id"], name: "index_chasers_sent_on_course_id_id"
   end
 
   create_table "course_options", force: :cascade do |t|

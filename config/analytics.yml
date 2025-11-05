@@ -303,7 +303,7 @@ shared:
     - chased_id
     - chased_type
     - chaser_type
-    - course_code
+    - course_id
     - created_at
     - id
     - updated_at
