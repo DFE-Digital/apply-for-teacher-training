@@ -1,12 +1,14 @@
-<%= content_for :title, t('page_titles.provider.diversity_report') %>
-<%= content_for :before_content, breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path,
-                                             t('page_titles.provider.diversity_report') => nil) %>
+<%= content_for :title, t('page_titles.provider.diversity_report', recruitment_cycle_range: @recruitment_cycle_timetable.cycle_range_name) %>
+<%= content_for :before_content, breadcrumbs(
+  t('page_titles.provider.reports') => provider_interface_reports_path,
+  t('page_titles.provider.diversity_report', recruitment_cycle_range: @recruitment_cycle_timetable.cycle_range_name) => nil,
+) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
       <span class="govuk-caption-l"> <%= @provider.name %></span>
-      <%= t('page_titles.provider.diversity_report') %>
+      <%= t('page_titles.provider.diversity_report', recruitment_cycle_range: @recruitment_cycle_timetable.cycle_range_name) %>
     </h1>
   </div>
 </div>
@@ -64,7 +66,7 @@
     <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m">About this data</h2>
         <p class="govuk-body">
-          This data comes from candidates who submitted an application from <%= @current_timetable.apply_opens_at.to_fs(:govuk_date) %>.
+          This data comes from candidates who submitted an application from <%= @recruitment_cycle_timetable.apply_opens_at.to_fs(:govuk_date) %>.
         </p>
         <p class="govuk-body">
           The sex, disability and ethnicity data comes from candidates who filled in a questionnaire when they applied to your organisation.

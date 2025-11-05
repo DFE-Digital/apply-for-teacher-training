@@ -46,7 +46,7 @@ namespace :provider_interface, path: '/provider' do
     resources :hesa_exports, only: :index, path: 'hesa-exports'
     resources :providers, only: [], path: '' do
       resource :status_of_active_applications, only: :show, path: 'status-of-active-applications'
-      resource :diversity_report, only: :show, path: 'diversity-report'
+      resource :diversity_report, only: :show, path: 'diversity-report(/:recruitment_cycle_year)'
       resource :withdrawal_reasons_report, only: :show, path: 'withdrawal-reasons-report'
       resource :recruitment_performance_report, only: :show, path: 'recruitment-performance-report'
     end

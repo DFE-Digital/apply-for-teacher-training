@@ -5,12 +5,12 @@ RSpec.describe ProviderInterface::DiversityReportExport do
   let(:diversity_data_by_provider) { instance_double(ProviderInterface::DiversityDataByProvider) }
 
   before do
-    allow(ProviderInterface::DiversityDataByProvider).to receive(:new).with(provider: provider).and_return(diversity_data_by_provider)
+    allow(ProviderInterface::DiversityDataByProvider).to receive(:new).with(provider: provider, recruitment_cycle_year: current_year).and_return(diversity_data_by_provider)
     allow(diversity_data_by_provider).to receive_messages(sex_data: [{ header: 'header', values: %w[1 2 3 4] }], disability_data: [{ header: 'header', values: %w[1 2 3 4] }], ethnicity_data: [{ header: 'header', values: %w[1 2 3 4] }], age_data: [{ header: 'header', values: %w[1 2 3 4] }])
   end
 
   describe '#call' do
-    let(:export) { described_class.new(provider: provider) }
+    let(:export) { described_class.new(provider: provider, recruitment_cycle_year: current_year) }
 
     after do
       FileUtils.rm_rf(Rails.root.join("tmp/#{Time.zone.today}-xr-export").to_s)

@@ -16,10 +16,11 @@ module ProviderInterface
       'Percentage recruited',
     ].freeze
 
-    attr_reader :provider
+    attr_reader :provider, :recruitment_cycle_year
 
-    def initialize(provider:)
+    def initialize(provider:, recruitment_cycle_year:)
       @provider = provider
+      @recruitment_cycle_year = recruitment_cycle_year
     end
 
     def total_submitted_applications
@@ -27,14 +28,14 @@ module ProviderInterface
         .joins(:application_choices)
         .where.not(application_choices: { sent_to_provider_at: nil })
         .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', provider)
-        .where(recruitment_cycle_year: current_year)
+        .where(recruitment_cycle_year:)
         .count
     end
 
     def sex_data
       application_form_data = counted_groups_by('sex')
 
-      sex_values = Hesa::Sex.all(current_year).reject { |sex| %w[99 96].include?(sex.hesa_code) }
+      sex_values = Hesa::Sex.all(recruitment_cycle_year).reject { |sex| %w[99 96].include?(sex.hesa_code) }
       sex_values << Hesa::Sex::SexStruct.new('00', 'Prefer not to say')
 
       sex_values.map do |sex|
@@ -209,14 +210,10 @@ module ProviderInterface
       ApplicationForm
         .joins(:application_choices)
         .where.not(application_choices: { sent_to_provider_at: nil })
-        .where(recruitment_cycle_year: current_year)
+        .where(recruitment_cycle_year:)
         .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', provider)
         .group('application_forms.id')
         .select('application_forms.id', 'application_forms.equality_and_diversity', 'application_forms.date_of_birth', 'ARRAY_AGG(application_choices.status) AS statuses')
-    end
-
-    def current_year
-      @current_year ||= RecruitmentCycleTimetable.current_year
     end
   end
 end
