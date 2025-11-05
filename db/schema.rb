@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_23_094027) do
-  create_sequence "qualifications_public_id_seq", start: 120000
+ActiveRecord::Schema[8.0].define(version: 2025_11_05_155512) do
+  create_sequence "qualifications_public_id_seq", start: 114522
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
@@ -484,6 +484,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_23_094027) do
     t.string "chaser_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "course_code"
     t.index ["chased_type", "chased_id"], name: "index_chasers_sent_on_chased_type_and_chased_id"
   end
 
