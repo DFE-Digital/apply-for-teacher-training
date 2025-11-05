@@ -30,6 +30,7 @@ module ProviderInterface
       [
         name_row,
         email_address_row,
+        reference_type_row,
         relationship_row,
         safeguarding_row,
         feedback_row,
@@ -61,6 +62,13 @@ module ProviderInterface
       {
         key: I18n.t('provider_interface.references.relationship_row.key'),
         value: relationship_value,
+      }
+    end
+
+    def reference_type_row
+      {
+        key: I18n.t('provider_interface.references.reference_type_row.key'),
+        value: I18n.t(reference.referee_type, scope: 'provider_interface.references.reference_type'),
       }
     end
 

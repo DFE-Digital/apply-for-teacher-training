@@ -1,11 +1,11 @@
 en:
   provider_interface:
     references:
-      card_title:
-        school_based: School experience reference from %{name}
-        academic: Academic reference from %{name}
-        professional: Professional reference from %{name}
-        character: Character reference from %{name}
+      reference_type:
+        school_based: School experience
+        academic: Academic
+        professional: Professional
+        character: Character
       candidate_has_said: "The candidate said:"
       referee_has_said: "%{name} said:"
       confirmed_by: This was confirmed by %{name}.
@@ -27,6 +27,8 @@ en:
         key: Name
       email_address_row:
         key: Email address
+      reference_type_row:
+        key: Reference type
       relationship_row:
         key: How the candidate knows them and how long for
       safeguarding_row:
