@@ -73,11 +73,11 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :compone
       )
     end
 
-    it "contains a reference type row" do
+    it 'contains a reference type row' do
       expect(component.rows).to include(
         {
           key: 'Reference type',
-          value: "Academic",
+          value: 'Academic',
         },
       )
     end
