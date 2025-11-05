@@ -43,9 +43,25 @@ module TeacherTrainingPublicAPI
         assign_course_attributes(course, course_from_api, recruitment_cycle_year)
         add_accredited_provider(course, course_from_api[:accredited_body_code], recruitment_cycle_year)
 
+        notify_candidates = visa_deadline_has_changed(course)
+
         course.save!
+        if notify_candidates == true
+          CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker.perform_async(course.id)
+        end
+
         course
       end
+    end
+
+    def visa_deadline_has_changed(course)
+      # compare dates not timestamps
+      old_date = course.visa_sponsorship_application_deadline_at_was&.to_fs(:govuk_date)
+      new_date = course.visa_sponsorship_application_deadline_at&.to_fs(:govuk_date)
+
+      course.persisted? &&
+        course.visa_sponsorship_application_deadline_at_changed? &&
+        old_date != new_date
     end
 
     def update_sites(course_id, application_status)

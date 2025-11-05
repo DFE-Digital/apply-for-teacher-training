@@ -40,8 +40,15 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
       let(:stubbed_api_course_state) { 'published' }
 
       it 'does not add visa_sponsorship_application_deadline_at value to course' do
+        allow(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
+          receive(:perform_async),
+        )
         perform_job
+
         expect(provider.courses.where.not(visa_sponsorship_application_deadline_at: nil).count).to eq 0
+        expect(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).not_to(
+          have_received(:perform_async),
+        )
       end
     end
 
@@ -50,10 +57,17 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
       let(:stubbed_sponsorship_application_deadline_at) { 2.days.from_now }
 
       it 'saves the visa_sponsorship_application_deadline_at value to course' do
+        allow(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
+          receive(:perform_async),
+        )
         perform_job
+
         expect(provider.courses.where.not(visa_sponsorship_application_deadline_at: nil).first.visa_sponsorship_application_deadline_at)
           .to be_within(1.second)
                 .of(stubbed_sponsorship_application_deadline_at)
+        expect(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).not_to(
+          have_received(:perform_async),
+        )
       end
     end
 
@@ -132,9 +146,84 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
       }
 
       it 'updates the course to open including the invite' do
+        allow(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
+          receive(:perform_async),
+        )
+
         expect { perform_job }.not_to change(Course, :count)
         expect(course.reload.open?).to be(true)
         expect(invite.reload.course_open).to be(true)
+        expect(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
+          have_received(:perform_async).with(course.id),
+        )
+      end
+    end
+
+    context 'when the course exists and visa sponsorship deadline has changed dates', time: mid_cycle do
+      let(:uuid) { SecureRandom.uuid }
+      let!(:course) do
+        create(
+          :course,
+          :closed,
+          provider:,
+          uuid:,
+          visa_sponsorship_application_deadline_at: 1.month.from_now,
+        )
+      end
+      let(:stubbed_attributes) {
+        [
+          {
+            accredited_body_code: nil,
+            uuid: uuid,
+            application_status: 'open',
+            visa_sponsorship_application_deadline_at: Time.zone.now,
+          },
+        ]
+      }
+
+      it 'sends emails to candidates that applied for this course' do
+        allow(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
+          receive(:perform_async),
+        )
+        perform_job
+
+        expect(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
+          have_received(:perform_async).with(course.id),
+        )
+      end
+    end
+
+    context 'when the course exists and visa sponsorship deadline does not change date', time: mid_cycle do
+      let(:uuid) { SecureRandom.uuid }
+      let!(:course) do
+        create(
+          :course,
+          :closed,
+          provider:,
+          uuid:,
+          visa_sponsorship_application_deadline_at: Time.zone.local(2025, 11, 5, 10),
+        )
+      end
+      let(:stubbed_attributes) {
+        [
+          {
+            accredited_body_code: nil,
+            uuid: uuid,
+            application_status: 'open',
+            visa_sponsorship_application_deadline_at: Time.zone.local(2025, 11, 5, 18),
+          },
+        ]
+      }
+
+      it 'does not send emails to candidates that applied for this course' do
+        allow(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
+          receive(:perform_async),
+        )
+        perform_job
+
+        expect(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).not_to(
+          have_received(:perform_async).with(course.id),
+        )
       end
     end
 

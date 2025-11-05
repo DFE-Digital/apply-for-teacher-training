@@ -2,6 +2,8 @@ en:
   candidate_mailer:
     visa_sponsorship_deadline_reminder:
       subject: The deadline for your initial teacher training course is in 1 month
+    visa_sponsorship_deadline_change:
+      subject: There is a new deadline for your initial teacher training course
     pool_opt_in:
       subject: You have opted-in to application sharing
     pool_opt_out:
