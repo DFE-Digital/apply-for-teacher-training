@@ -1,6 +1,22 @@
 en:
   application_form:
     references:
+      request_reference:
+        start:
+          new:
+            heading: References to be requested if you accept an offer
+            guidance: You need to give the email addresses of at least 2 people who can give a reference for you. They’ll only be contacted if you accept an offer on a course.
+            find_out_more: Find out more about providing references
+            you_should: "When you are choosing references you should:"
+            include_1: select an academic reference (for example a tutor) if you graduated in the last 5 years, or if you are still studying
+            include_2: give the contact details of the headteacher if you’ve been working in a school
+            include_3: choose any combination of references if you graduated more than 5 years ago or do not work in a school
+            they_will: They’ll be asked
+            item_1: to confirm how they know you
+            item_2: whether they know any reason why you should not work with children
+            item_3: to give factual information, for example course or employment dates
+            item_4: whether they want you to be able to see their reference or if it is confidential
+            submit: Add reference
       referee_type:
         academic:
           label: Academic, such as a university tutor

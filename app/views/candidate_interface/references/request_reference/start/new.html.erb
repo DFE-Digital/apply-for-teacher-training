@@ -3,15 +3,35 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Request a reference</h1>
+    <h1 class="govuk-heading-l"><%= t('application_form.references.request_reference.start.new.heading') %></h1>
 
-    <p class="govuk-body">You should choose people who can:</p>
+    <p class="govuk-body"><%= t('application_form.references.request_reference.start.new.guidance') %></p>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>confirm how long they have known you</li>
-      <li>say whether they know of any reason why you should not work with children</li>
-    </ul>
+    <p class="govuk-body"><%= govuk_link_to(t('application_form.references.request_reference.start.new.find_out_more'), t('get_into_teaching.url_references'), new_tab: true) %></p>
 
-    <%= govuk_button_to(t('continue'), candidate_interface_request_reference_references_type_path, method: :get) %>
+    <p class="govuk-body"><%= t('application_form.references.request_reference.start.new.you_should') %></p>
+
+    <%= govuk_list(
+      [
+        t('application_form.references.request_reference.start.new.include_1'),
+        t('application_form.references.request_reference.start.new.include_2'),
+        t('application_form.references.request_reference.start.new.include_3'),
+      ],
+      type: :bullet,
+    ) %>
+
+    <p class="govuk-body"><%= t('application_form.references.request_reference.start.new.they_will') %></p>
+
+    <%= govuk_list(
+      [
+        t('application_form.references.request_reference.start.new.item_1'),
+        t('application_form.references.request_reference.start.new.item_2'),
+        t('application_form.references.request_reference.start.new.item_3'),
+        t('application_form.references.request_reference.start.new.item_4'),
+      ],
+      type: :bullet,
+    ) %>
+
+    <%= govuk_button_to(t('application_form.references.request_reference.start.new.submit'), candidate_interface_request_reference_references_type_path, method: :get) %>
   </div>
 </div>

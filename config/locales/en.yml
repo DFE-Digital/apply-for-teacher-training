@@ -259,7 +259,7 @@ en:
     edit_volunteering_role: Edit role
     destroy_volunteering_role: Are you sure you want to delete this role?
     references: References to be requested if you accept an offer
-    references_start: Choose a referee
+    references_start: Add a reference
     references_name: What’s the name of the person who can give a reference?
     references_edit_name: Edit the name of the referee
     references_email_address: What is %{referee_name}’s email address?

@@ -14,7 +14,7 @@ RSpec.describe 'New References', :with_audited do
 
     then_the_back_link_point_to_the_offer_dashboard_page
     and_i_am_on_start_page
-    and_i_click_continue
+    and_i_click_add_reference
     and_i_am_on_the_add_type_page
     and_i_choose_character
     and_i_click_continue
@@ -260,5 +260,9 @@ RSpec.describe 'New References', :with_audited do
 
   def back_link
     find('a', text: 'Back')[:href]
+  end
+
+  def and_i_click_add_reference
+    click_link_or_button 'Add reference'
   end
 end
