@@ -25,8 +25,8 @@ RSpec.describe 'Provider with two providers reports index' do
 
   def and_the_page_has_all_the_right_elements
     expect(page).to have_css('h1', text: 'Reports')
-    expect(page).to have_css('h2', text: "Application data for this recruitment cycle (#{current_year})")
-    expect(page).to have_css('h2', text: "Application data for the previous recruitment cycle (#{previous_year})")
+    expect(page).to have_css('h2', text: "Application data for this recruitment cycle (#{current_timetable.cycle_range_name})")
+    expect(page).to have_css('h2', text: "Application data for the previous recruitment cycle (#{previous_timetable.cycle_range_name})")
     expect(page).to have_link('Export application data', href: provider_interface_new_application_data_export_path)
     expect(page).to have_link('Export data for Higher Education Statistics Agency (HESA)', href: provider_interface_reports_hesa_exports_path)
     expect(page).to have_css('h3', text: @provider.name).twice
