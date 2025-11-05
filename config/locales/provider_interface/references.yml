@@ -34,8 +34,6 @@ en:
         value:
           no_concern: No concerns.
       feedback_row:
-        duplicate:
-          key: Does the candidate have the potential to teach?
         key: Reference
       confidentiality_row:
         key: Can this reference be shared with the candidate?

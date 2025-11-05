@@ -123,14 +123,6 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent, type: :compone
         expect(row[:value]).to eq(reference.feedback)
       end
 
-      it 'changes field name when carried over reference' do
-        reference.duplicate = true
-
-        row = component.rows[4]
-        expect(row[:key]).to eq('Does the candidate have the potential to teach?')
-        expect(row[:value]).to eq(reference.feedback)
-      end
-
       context 'when feedback has not been provided' do
         # The Referee has started the reference but has not submitted the reference yet
         let(:reference) { build(:reference, feedback: 'A valuable unit of work', feedback_status: 'feedback_requested') }
