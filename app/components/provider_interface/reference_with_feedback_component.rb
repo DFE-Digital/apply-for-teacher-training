@@ -3,7 +3,6 @@ module ProviderInterface
     attr_accessor :reference, :application_choice
     delegate :feedback,
              :feedback_provided?,
-             :duplicate?,
              :name,
              :email_address,
              :relationship,
@@ -78,7 +77,7 @@ module ProviderInterface
       return unless display_referee_input?
 
       {
-        key: duplicate? ? I18n.t('provider_interface.references.feedback_row.duplicate.key') : I18n.t('provider_interface.references.feedback_row.key'),
+        key: I18n.t('provider_interface.references.feedback_row.key'),
         value: feedback,
       }
     end
