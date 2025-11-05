@@ -59,6 +59,8 @@ module TeacherTrainingPublicAPI
       old_date = course.visa_sponsorship_application_deadline_at_was&.to_fs(:govuk_date)
       new_date = course.visa_sponsorship_application_deadline_at&.to_fs(:govuk_date)
 
+      return false if new_date.nil?
+
       course.persisted? &&
         course.visa_sponsorship_application_deadline_at_changed? &&
         old_date != new_date

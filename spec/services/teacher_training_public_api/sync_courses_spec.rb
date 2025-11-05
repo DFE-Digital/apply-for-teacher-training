@@ -227,6 +227,40 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
       end
     end
 
+    context 'when the course exists and visa sponsorship deadline does to nil', time: mid_cycle do
+      let(:uuid) { SecureRandom.uuid }
+      let!(:course) do
+        create(
+          :course,
+          :closed,
+          provider:,
+          uuid:,
+          visa_sponsorship_application_deadline_at: Time.zone.local(2025, 11, 5, 10),
+        )
+      end
+      let(:stubbed_attributes) {
+        [
+          {
+            accredited_body_code: nil,
+            uuid: uuid,
+            application_status: 'open',
+            visa_sponsorship_application_deadline_at: nil,
+          },
+        ]
+      }
+
+      it 'does not send emails to candidates that applied for this course' do
+        allow(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
+          receive(:perform_async),
+        )
+        perform_job
+
+        expect(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).not_to(
+          have_received(:perform_async).with(course.id),
+        )
+      end
+    end
+
     context 'when the open course exists but apply is closed', time: after_apply_deadline do
       let(:uuid) { SecureRandom.uuid }
       let!(:course) { create(:course, :open, provider: provider, uuid: uuid) }
