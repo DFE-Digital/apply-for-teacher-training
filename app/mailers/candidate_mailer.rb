@@ -399,7 +399,9 @@ class CandidateMailer < ApplicationMailer
   def visa_sponsorship_deadline_change(application_form, course)
     @applications_url = candidate_interface_application_choices_url
     @course = course
-    @deadline = course.visa_sponsorship_application_deadline_at.to_fs(:govuk_date)
+    @deadline = course.visa_sponsorship_application_deadline_at&.to_fs(:govuk_date)
+    return if @deadline.nil?
+
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.visa_sponsorship_deadline_change.subject'),
