@@ -171,14 +171,14 @@ RSpec.describe 'Provider changes a course on pending conditions' do
     )
     @another_provider_course = create(
       :course,
-      name: "Mathematics",
+      name: 'Mathematics',
       study_mode: :full_time_or_part_time,
       provider: @another_provider,
       accredited_provider: @ratifying_provider,
     )
     @source_provider_course = create(
       :course,
-      name: "English",
+      name: 'English',
       study_mode: :full_time_or_part_time,
       provider: @source_provider,
       accredited_provider: @ratifying_provider,
