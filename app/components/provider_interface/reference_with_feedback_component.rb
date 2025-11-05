@@ -135,7 +135,11 @@ module ProviderInterface
 
       {
         key: feedback_provided_at.nil? ? I18n.t('provider_interface.references.date_row.requested.key') : I18n.t('provider_interface.references.date_row.key'),
-        value: feedback_provided_at.nil? ? requested_at&.to_fs(:govuk_date_and_time) : feedback_provided_at&.to_fs(:govuk_date_and_time),
+        value: if feedback_provided_at.nil?
+                 requested_at&.to_fs(:govuk_date_and_time)
+               else
+                 feedback_provided_at&.to_fs(:govuk_date_and_time)
+               end,
       }
     end
   end
