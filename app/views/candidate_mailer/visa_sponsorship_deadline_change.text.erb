@@ -1,0 +1,29 @@
+Dear <%= @application_form.first_name %>,
+
+<%= @course.provider.name %> has set a new application submission deadline for <%= @course.name %> for candidates who need visa sponsorship.
+
+The deadline is <%= @deadline %>
+
+[Submit your application for teacher training](<%= @applications_url %>) as soon as you can
+
+## Why is there a different deadline for this course?
+
+Applications that need visa sponsorship take longer for training providers to process. They need to do this earlier in the recruitment cycle so that candidates are able to begin courses on time in September.
+
+# Gain insights into life as a teacher
+
+Respond to realistic video scenarios to understand what life in the classroom is like. Get real-time feedback from experienced teachers on your strengths as a potential teacher.
+
+[Try the realistic job preview tool](<%= candidate_realistic_job_preview_link(@application_form.candidate) %>)
+
+[Find out more about life as a teacher on the Get Into Teaching website](<%= t('get_into_teaching.url_life_as_a_teacher') %>). Explore the rewards of teaching, including pay, career growth, support, and the range of subjects and pupils you could teach.
+
+# Get help
+
+Read about [what to include in your application](<%= t('get_into_teaching.url_teacher_training_application') %>) on the Get Into Teaching website.
+
+If you have questions about your application, [you can get in touch with us on the phone or through live chat](<%= t('get_into_teaching.url_online_chat') %>).
+
+You can also [get a teacher training adviser](<%= t('get_into_teaching.url_get_an_adviser_start') %>) for free, one-to-one support to help you write a strong application.
+
+<%= render 'unsubscribe_from_emails_like_this' %>

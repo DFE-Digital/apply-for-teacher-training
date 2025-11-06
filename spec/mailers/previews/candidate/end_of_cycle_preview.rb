@@ -73,4 +73,40 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
 
     CandidateMailer.reject_by_default_explainer(application_form)
   end
+
+  def visa_sponsorship_deadline_reminder
+    provider = FactoryBot.create(:provider)
+    course = FactoryBot.create(
+      :course,
+      provider: provider,
+      can_sponsor_skilled_worker_visa: true,
+      can_sponsor_student_visa: true,
+      visa_sponsorship_application_deadline_at: 1.month.from_now,
+    )
+    application_form = FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      first_name: 'Fred',
+    )
+
+    CandidateMailer.visa_sponsorship_deadline_reminder(application_form, course)
+  end
+
+  def visa_sponsorship_deadline_change
+    provider = FactoryBot.create(:provider)
+    course = FactoryBot.create(
+      :course,
+      provider: provider,
+      can_sponsor_skilled_worker_visa: true,
+      can_sponsor_student_visa: true,
+      visa_sponsorship_application_deadline_at: 1.month.from_now,
+    )
+    application_form = FactoryBot.create(
+      :application_form,
+      :minimum_info,
+      first_name: 'Fred',
+    )
+
+    CandidateMailer.visa_sponsorship_deadline_change(application_form, course)
+  end
 end

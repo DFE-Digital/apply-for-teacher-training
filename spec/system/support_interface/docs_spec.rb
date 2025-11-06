@@ -75,6 +75,8 @@ RSpec.describe 'Docs' do
       candidate_mailer-pool_opt_in
       candidate_mailer-pool_opt_out
       candidate_mailer-pool_re_opt_in
+      candidate_mailer-visa_sponsorship_deadline_reminder
+      candidate_mailer-visa_sponsorship_deadline_change
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"

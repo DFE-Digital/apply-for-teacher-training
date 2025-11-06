@@ -22,6 +22,7 @@ class ChaserSent < ApplicationRecord
     eoc_second_deadline_reminder: 'eoc_second_deadline_reminder',
     find_has_opened: 'find_has_opened',
     new_cycle_has_started: 'new_cycle_has_started',
+    visa_sponsorship_deadline: 'visa_sponsorship_deadline',
 
     #### DEPRECATED ####
     apply_service_open_organisation_notification: 'apply_service_open_organisation_notification',
