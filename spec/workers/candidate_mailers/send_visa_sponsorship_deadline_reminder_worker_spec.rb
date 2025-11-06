@@ -14,7 +14,7 @@ module CandidateMailers
 
         chaser = application_choice.chasers_sent.last
         expect(chaser.chaser_type).to eq('visa_sponsorship_deadline')
-        expect(chaser.course_code).to eq(application_choice.current_course.code)
+        expect(chaser.course_id).to eq(application_choice.current_course.id)
 
         expect(mailer).to have_received(:deliver_later)
       end

@@ -10,8 +10,8 @@ class ApplicationChoicesVisaSponsorshipDeadlineReminder
       .joins(:current_course)
       .left_outer_joins(:chasers_sent)
       .where(
-        "chasers_sent.course_code IS NULL OR
-          chasers_sent.course_code != courses.code AND chaser_type = 'visa_sponsorship_deadline'",
+        "chasers_sent.course_id IS NULL OR
+          chasers_sent.course_id != courses.id AND chaser_type = 'visa_sponsorship_deadline'",
       )
       .where('courses.visa_sponsorship_application_deadline_at <= ?', 1.month.from_now)
       .where(

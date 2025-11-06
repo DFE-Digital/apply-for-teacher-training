@@ -13,7 +13,7 @@ module CandidateMailers
           ChaserSent.create!(
             chased: choice,
             chaser_type: 'visa_sponsorship_deadline',
-            course_code: course.code,
+            course_id: course.id,
           )
           CandidateMailer.visa_sponsorship_deadline_reminder(
             application_form,

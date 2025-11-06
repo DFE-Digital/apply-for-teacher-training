@@ -46,7 +46,7 @@ RSpec.describe ApplicationChoicesVisaSponsorshipDeadlineReminder do
       _chaser_sent = create(
         :chaser_sent,
         chaser_type: 'visa_sponsorship_deadline',
-        course_code: course_with_chaser.code,
+        course_id: course_with_chaser.id,
       )
       course_option_with_chaser = create(
         :course_option,
