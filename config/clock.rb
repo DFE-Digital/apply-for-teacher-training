@@ -49,6 +49,7 @@ class Clock
   every(1.day, 'MinisterialReportApplicationsExport', at: '23:53') { SupportInterface::MinisterialReportApplicationsExport.run_daily }
 
   every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.new.perform }
+  every(1.day, 'SendVisaSponsorshipDeadlineReminder', at: '12:00') { CandidateMailers::EnqueueVisaSponsorshipDeadlineReminderWorker.new.perform }
   every(1.day, 'SendFindHasOpenedEmailToCandidatesWorker', at: '12:00') { SendFindHasOpenedEmailToCandidatesWorker.new.perform }
   every(1.day, 'SendNewCycleStartedEmailToCandidatesWorker', at: '10:00') { SendNewCycleHasStartedEmailToCandidatesWorker.new.perform }
   every(1.day, 'EndOfCycle::SendRejectByDefaultReminderToProvidersWorker') { EndOfCycle::SendRejectByDefaultReminderToProvidersWorker.new.perform }

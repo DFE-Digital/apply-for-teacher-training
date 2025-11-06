@@ -111,6 +111,7 @@ en:
             eoc_first_deadline_reminder_with_no_first_name: The end of the recruitment cycle is 2 months away and we do not know the name of the candidate to personalise the email.
             eoc_second_deadline_reminder: The end of the recruitment cycle is 1 month away.
             eoc_second_deadline_reminder_with_no_first_name: The end of the recruitment cycle is 1 month away and we do not know the name of the candidate to personalise the email.
+            visa_sponsorship_deadline_reminder: 1 month reminder of sponsorship deadline approaching
             find_has_opened: Candidates can now search for teacher training courses on Find teacher training courses.
             find_has_opened_no_name: Candidates can now search for teacher training courses on Find teacher training courses but we don't know the name of the candidate to personalise the email.
             new_cycle_has_started: Candidates can now submit applications for teacher training in the latest recruitment cycle.

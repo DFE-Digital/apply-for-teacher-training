@@ -386,6 +386,15 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def visa_sponsorship_deadline_reminder(application_form, course)
+    @applications_url = candidate_interface_application_choices_url
+    @course = course
+    @deadline = course.visa_sponsorship_application_deadline_at.to_fs(:govuk_date)
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.visa_sponsorship_deadline_reminder.subject'),
+    )
+  end
   def application_deadline_has_passed(application_form)
     timetable = application_form.recruitment_cycle_timetable
 
