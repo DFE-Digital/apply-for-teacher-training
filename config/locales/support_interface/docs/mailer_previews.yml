@@ -39,8 +39,8 @@ en:
             reference_received: A referee has provided a reference for a candidate who has accepted an offer to train to teach with you.
           referee_references_mailer:
             reference_request_email: Received by someone who a candidate has requested a reference from.
-            reference_request_chaser_email: Received by a referee who has not provided a reference after 9 days.
-            reference_request_chase_again_email: Received by a referee who has not provided a reference after 30 days.
+            reference_request_chaser_email: Received by a referee who has not provided a reference after 7 days. Sent again after 14 days.
+            reference_request_chase_again_email: Received by a referee who has not provided a reference after 28 days.
             reference_confirmation_email: Sent when a referee submits a reference.
             reference_cancelled_email: Sent when a candidate cancels a request for a reference.
           support_authentication_mailer:
@@ -91,7 +91,7 @@ en:
           candidate_references:
             chase_reference: If a referee that a candidate has selected does not submit a reference in 9 days.
             chase_reference_again: If a referee that a candidate has selected does not submit a reference in 30 days.
-            new_referee_request_with_email_bounced: If the reference request could not be sent to the referee the candidate is prompted to re-request the reference or select a new referee.
+            new_referee_request_with_email_bounced: If the reference request could not be sent to the referee the candidate is prompted to re-request the reference or select a new referee, after 16 days.
             new_referee_request_with_refused: If a chosen referee declines the request to provide a reference, the candidate is prompted to select another referee.
             reference_received: A referee has submitted a reference and the training provider has received it.
             reference_received_after_recruitment: A referee has submitted a reference and the training provider has received it after the candidate has been recruited.
