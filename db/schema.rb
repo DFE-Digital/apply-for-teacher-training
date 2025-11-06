@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_23_094027) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_05_155512) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -484,7 +484,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_23_094027) do
     t.string "chaser_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "course_id"
     t.index ["chased_type", "chased_id"], name: "index_chasers_sent_on_chased_type_and_chased_id"
+    t.index ["course_id"], name: "index_chasers_sent_on_course_id"
   end
 
   create_table "course_options", force: :cascade do |t|
