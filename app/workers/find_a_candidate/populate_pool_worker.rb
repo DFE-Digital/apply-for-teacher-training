@@ -4,9 +4,9 @@ class FindACandidate::PopulatePoolWorker
   sidekiq_options queue: :default
 
   def perform
-    if CandidatePoolApplication.closed?
-      CandidatePoolApplication.delete_all
-    else
+    # if CandidatePoolApplication.closed?
+    #   CandidatePoolApplication.delete_all
+    # else
       application_forms_eligible_for_pool = Pool::Candidates.new.application_forms_in_the_pool
 
       applications = application_forms_eligible_for_pool
@@ -74,7 +74,7 @@ class FindACandidate::PopulatePoolWorker
       CandidatePoolApplication.transaction do
         CandidatePoolApplication.where.not(application_form_id: applications.ids).delete_all
         ActiveRecord::Base.connection.execute(insert_all_from_eligible_sql)
-      end
+      # end
     end
   end
 end
