@@ -1,11 +1,12 @@
 .summary-header {
   display: table-caption;
+
   border-bottom: none;
 }
 
 .summary-header::after {
-  content: none;
   display: none;
+  content: none;
 }
 
 .list-border-bottom .govuk-summary-list__row:last-child {
