@@ -1,7 +1,6 @@
 .summary-header {
   display: table-caption;
   border-bottom: none;
-  border-top: 1px solid $govuk-border-colour;
 }
 
 .summary-header::after {
@@ -9,10 +8,6 @@
   display: none;
 }
 
-.list-no-border-bottom > .govuk-summary-list__row:last-child {
-  border-bottom: none;
+.list-border-bottom .govuk-summary-list__row:last-child {
+  border-bottom: 1px solid $govuk-border-colour;
 }
-
-
-// .govuk-summary-list__row:last-child {
-// }

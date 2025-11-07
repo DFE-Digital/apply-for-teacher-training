@@ -1,4 +1,4 @@
-<%= render SummaryCardComponent.new(rows: rows, border: false, classes: ['govuk-!-margin-bottom-1']) %>
+<%= render SummaryCardComponent.new(rows: rows, border: false, classes: ['govuk-!-margin-bottom-1 list-border-bottom']) %>
 
 <% if ske_conditions.present? %>
   <% ske_conditions.each do |ske_condition| %>
@@ -6,7 +6,7 @@
       ske_condition,
       interface: :provider_interface,
     ) %>
-    <%= govuk_summary_list(classes: ['list-no-border-bottom', 'govuk-!-margin-bottom-1']) do |summary_list| %>
+    <%= govuk_summary_list(classes: ['govuk-!-margin-bottom-1']) do |summary_list| %>
       <%= summary_list.with_row(classes: ['summary-header', 'govuk-!-margin-bottom-2']) do |row| %>
         <%= row.with_key(text: 'Subject knowledge enhancement course', classes: 'govuk-heading-m') %>
       <% end %>

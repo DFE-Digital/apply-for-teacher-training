@@ -18,7 +18,6 @@
         available_providers: @providers,
         available_courses: @courses,
         available_course_options: @course_options,
-        show_conditions_link: true,
         ske_conditions: @wizard.ske_conditions,
       ) %>
 
@@ -26,7 +25,7 @@
         <p class="govuk-body"><%= @interview_cancellation_presenter.text %></p>
       <% end %>
 
-      <%= f.govuk_submit t('.submit') %>
+      <%= f.govuk_submit t('.submit'), class: 'govuk-!-margin-top-4' %>
 
       <p class="govuk-body">
       <%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice.id), no_visited_state: true %>

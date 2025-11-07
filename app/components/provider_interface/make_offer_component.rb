@@ -3,9 +3,9 @@ module ProviderInterface
     include ViewHelper
     include QualificationValueHelper
 
-    attr_accessor :application_choice, :course, :course_option, :conditions, :available_providers, :available_courses, :available_course_options, :border, :show_conditions_link, :ske_conditions
+    attr_accessor :application_choice, :course, :course_option, :conditions, :available_providers, :available_courses, :available_course_options, :ske_conditions
 
-    def initialize(application_choice:, course:, course_option:, conditions:, available_providers: [], available_courses: [], available_course_options: [], border: true, show_conditions_link: false, ske_conditions: [])
+    def initialize(application_choice:, course:, course_option:, conditions:, available_providers: [], available_courses: [], available_course_options: [], ske_conditions: [])
       @application_choice = application_choice
       @school_placement_auto_selected = application_choice.school_placement_auto_selected
       @course_option = course_option
@@ -14,8 +14,6 @@ module ProviderInterface
       @available_courses = available_courses
       @available_course_options = available_course_options
       @course = course
-      @border = border
-      @show_conditions_link = show_conditions_link
       @ske_conditions = ske_conditions
     end
 
@@ -62,20 +60,14 @@ module ProviderInterface
           key: 'Funding type',
           value: course.funding_type.humanize,
         },
-      ]
-
-      # this needs to always show but the edit link needs to be conditional
-      if @application_choice.offer? || show_conditions_link
-        rows.push(
-          {
-            key: 'Conditions of offer',
-            value: text_conditions.join("\n\n"),
-            action: {
-              href: [:new, :provider_interface, @application_choice, :offer, :conditions],
-            },
+        {
+          key: 'Conditions of offer',
+          value: text_conditions.join("\n\n"),
+          action: {
+            href: [:new, :provider_interface, @application_choice, :offer, :conditions],
           },
-        )
-      end
+        },
+      ]
 
       return rows if course_option.course.accredited_provider.blank?
 
@@ -121,39 +113,21 @@ module ProviderInterface
     end
 
     def change_length_path
-      if application_choice.offer?
-        edit_provider_interface_application_choice_offer_ske_length_path(
-          application_choice,
-        )
-      else
-        new_provider_interface_application_choice_offer_ske_length_path(
-          application_choice,
-        )
-      end
+      new_provider_interface_application_choice_offer_ske_length_path(
+        application_choice,
+      )
     end
 
     def change_reason_path
-      if application_choice.offer?
-        edit_provider_interface_application_choice_offer_ske_reason_path(
-          application_choice,
-        )
-      else
-        new_provider_interface_application_choice_offer_ske_reason_path(
-          application_choice,
-        )
-      end
+      new_provider_interface_application_choice_offer_ske_reason_path(
+        application_choice,
+      )
     end
 
     def remove_condition_path
-      if application_choice.offer?
-        edit_provider_interface_application_choice_offer_ske_requirements_path(
-          application_choice,
-        )
-      else
-        new_provider_interface_application_choice_offer_ske_requirements_path(
-          application_choice,
-        )
-      end
+      new_provider_interface_application_choice_offer_ske_requirements_path(
+        application_choice,
+      )
     end
 
     def location_key
