@@ -1,3 +1,18 @@
-.summary-section .govuk-summary-list__key {
-  width: unset;
+.summary-header {
+  display: table-caption;
+  border-bottom: none;
+  border-top: 1px solid $govuk-border-colour;
 }
+
+.summary-header::after {
+  content: none;
+  display: none;
+}
+
+.list-no-border-bottom > .govuk-summary-list__row:last-child {
+  border-bottom: none;
+}
+
+
+// .govuk-summary-list__row:last-child {
+// }

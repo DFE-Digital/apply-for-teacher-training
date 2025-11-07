@@ -1,0 +1,33 @@
+<%= render SummaryCardComponent.new(rows: rows, border: false, classes: ['govuk-!-margin-bottom-1']) %>
+
+<% if ske_conditions.present? %>
+  <% ske_conditions.each do |ske_condition| %>
+    <% ske_condition_presenter = SkeConditionPresenter.new(
+      ske_condition,
+      interface: :provider_interface,
+    ) %>
+    <%= govuk_summary_list(classes: ['list-no-border-bottom', 'govuk-!-margin-bottom-1']) do |summary_list| %>
+      <%= summary_list.with_row(classes: ['summary-header', 'govuk-!-margin-bottom-2']) do |row| %>
+        <%= row.with_key(text: 'Subject knowledge enhancement course', classes: 'govuk-heading-m') %>
+      <% end %>
+
+      <%= summary_list.with_row do |row| %>
+        <%= row.with_key { 'Subject' } %>
+        <%= row.with_value { ske_condition.subject.presence || @course.subjects.first&.name } %>
+        <%= row.with_action(text: "Change", href: remove_condition_path) %>
+      <% end %>
+
+      <%= summary_list.with_row do |row| %>
+        <%= row.with_key { 'Length' } %>
+        <%= row.with_value { "#{ske_condition.length} weeks" } %>
+        <%= row.with_action(text: "Change", href: change_length_path, visually_hidden_text: 'change ske length') %>
+      <% end %>
+
+      <%= summary_list.with_row do |row| %>
+        <%= row.with_key { 'Reason' } %>
+        <%= row.with_value { ske_condition_presenter.reason } %>
+        <%= row.with_action(text: "Change", href: change_reason_path, visually_hidden_text: 'change ske reason') %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
