@@ -452,7 +452,7 @@ GEM
     method_source (1.1.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
-    minitest (5.26.0)
+    minitest (5.26.1)
     multi_json (1.17.0)
     multi_xml (0.6.0)
     multipart-post (2.4.1)
@@ -733,8 +733,8 @@ GEM
       sentry-ruby (~> 6.0.0)
       sidekiq (>= 5.0)
     shellany (0.0.1)
-    shoulda-matchers (6.5.0)
-      activesupport (>= 5.2.0)
+    shoulda-matchers (7.0.1)
+      activesupport (>= 7.1)
     sidekiq (6.5.12)
       connection_pool (>= 2.2.5, < 3)
       rack (~> 2.0)
@@ -800,7 +800,7 @@ GEM
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
     uniform_notifier (1.18.0)
-    uri (1.0.4)
+    uri (1.1.1)
     useragent (0.16.11)
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
@@ -959,7 +959,7 @@ DEPENDENCIES
   selenium-webdriver
   sentry-rails
   sentry-sidekiq
-  shoulda-matchers (~> 6.5)
+  shoulda-matchers (~> 7.0)
   sidekiq (< 7)
   simplecov
   simplecov-cobertura
