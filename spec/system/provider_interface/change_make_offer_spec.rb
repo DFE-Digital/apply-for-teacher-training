@@ -184,12 +184,10 @@ RSpec.describe 'Provider makes an offer' do
   end
 
   def and_i_can_confirm_the_changed_offer_details
-    within('.app-summary-card__body') do
-      expect(page).to have_content(@selected_provider.name_and_code)
-      expect(page).to have_content(@selected_course.name_and_code)
-      expect(page).to have_content(@selected_course_option.study_mode.humanize)
-      expect(page).to have_content(@selected_course_option.site.name_and_address(' '))
-    end
+    expect(page).to have_content(@selected_provider.name_and_code)
+    expect(page).to have_content(@selected_course.name_and_code)
+    expect(page).to have_content(@selected_course_option.study_mode.humanize)
+    expect(page).to have_content(@selected_course_option.site.name_and_address(' '))
   end
 
   def when_i_send_the_offer

@@ -256,13 +256,60 @@ RSpec.describe 'Provider makes an offer with SKE enabled on language flow' do
   def and_the_ske_conditions_is_displayed
     %w[French Spanish].each do |language|
       expect(page).to have_content('Subject knowledge enhancement course')
-      expect(page).to have_content("Subject #{language}")
-      expect(page).to have_content('Length 12 weeks')
-      expect(page).to have_content("Reason Their degree subject was not #{language}")
+      expect(page).to have_content(language)
+      expect(page).to have_content('12 weeks')
+      expect(page).to have_content("Their degree subject was not #{language}")
     end
   end
 
   def subject_name
     application_choice.course_option.course.subjects.first&.name
+  end
+
+  def and_i_can_confirm_my_answers
+    expect(page).to have_content('A* on Maths A Level')
+  end
+
+  def when_i_click_change_course
+    @selected_course = @provider_available_course
+    @selected_course_option = @provider_available_course_option
+
+    within(all('.govuk-summary-list__row')[2]) do
+      click_link_or_button 'Change'
+    end
+  end
+
+  def and_i_can_confirm_the_new_course_selection
+    within(all('.govuk-summary-list__row')[2]) do
+      expect(page).to have_content(@selected_course.name_and_code)
+    end
+  end
+
+  def and_i_can_confirm_the_new_study_mode_selection
+    within(all('.govuk-summary-list__row')[3]) do
+      expect(page).to have_content(@selected_course_option.study_mode.humanize)
+    end
+  end
+
+  def and_i_can_confirm_the_new_location_selection
+    within(all('.govuk-summary-list__row')[5]) do
+      expect(page).to have_content(@selected_course_option.site.name_and_address(' '))
+    end
+  end
+
+  def when_i_click_change_provider
+    @selected_provider = @available_provider
+    @selected_course = @selected_provider_available_course
+    @selected_course_option = @selected_provider_available_course_option
+
+    within(all('.govuk-summary-list__row')[1]) do
+      click_link_or_button 'Change'
+    end
+  end
+
+  def and_i_can_confirm_the_new_provider_selection
+    within(all('.govuk-summary-list__row')[1]) do
+      expect(page).to have_content(@selected_provider.name_and_code)
+    end
   end
 end

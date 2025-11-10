@@ -1,3 +1,11 @@
-.summary-section .govuk-summary-list__key {
-  width: unset;
+.summary-header {
+  display: table-caption;
+
+  border-bottom: none;
+}
+
+.summary-header::after {
+  display: none;
+
+  content: none;
 }
