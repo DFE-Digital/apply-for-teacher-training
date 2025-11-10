@@ -25,7 +25,7 @@
           language,
           label: { text: language.capitalize },
           link_errors: index.zero?,
-          checked: @wizard.ske_conditions.any?{|x| x.subject == language},
+          checked: @wizard.ske_conditions&.any? { |ske_condition| ske_condition.subject == language },
         ) %>
       <% end %>
 
