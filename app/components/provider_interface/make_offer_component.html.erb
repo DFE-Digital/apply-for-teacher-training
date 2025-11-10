@@ -2,7 +2,7 @@
   <% rows.each do |row| %>
     <%= summary_list.with_row do |summary_list_row| %>
       <%= summary_list_row.with_key { row[:key] } %>
-      <%= summary_list_row.with_value { row[:value] } %>
+      <%= summary_list_row.with_value { simple_format(row[:value]) } %>
       <% if row[:action].present? %>
         <%= summary_list_row.with_action(text: 'Change', href: row.dig(:action, :href)) %>
       <% end %>
