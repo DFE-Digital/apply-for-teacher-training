@@ -20,14 +20,27 @@
   <% if language_ske? %>
     <%= f.govuk_check_boxes_fieldset :ske_languages, legend: { text: "Do you require #{@application_choice.application_form.full_name} to take a SKE course in any of these languages?", size: 's' }, hint: { text: 'You can select a maximum of 2', size: 's' } do %>
       <% SkeCondition::VALID_LANGUAGES.each_with_index do |language, index| %>
-        <%= f.govuk_check_box :ske_languages, language, label: { text: language.capitalize }, link_errors: index.zero? %>
+        <%= f.govuk_check_box(
+          :ske_languages,
+          language,
+          label: { text: language.capitalize },
+          link_errors: index.zero?,
+          checked: @wizard.ske_conditions.any?{|x| x.subject == language},
+        ) %>
       <% end %>
+
       <%= f.govuk_radio_divider %>
       <%= f.govuk_check_box :ske_languages, 'no', label: { text: 'No, a SKE course is not required' }, exclusive: true %>
     <% end %>
   <% else %>
     <%= f.govuk_radio_buttons_fieldset :ske_required, legend: { text: "Do you require #{@application_choice.application_form.full_name} to take a SKE course in #{@wizard.subject_name} that will be funded by the DfE?", size: 'm' } do %>
-      <%= f.govuk_radio_button :ske_required, true, label: { text: 'Yes' }, link_errors: true %>
+      <%= f.govuk_radio_button(
+        :ske_required,
+        true,
+        label: { text: 'Yes' },
+        link_errors: true,
+        checked: @wizard.ske_conditions.present?,
+      ) %>
       <%= f.govuk_radio_button :ske_required, false, label: { text: 'No' } %>
     <% end %>
   <% end %>

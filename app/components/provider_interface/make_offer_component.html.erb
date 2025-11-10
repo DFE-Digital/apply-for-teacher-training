@@ -1,4 +1,14 @@
-<%= render SummaryCardComponent.new(rows: rows, border: false, classes: ['govuk-!-margin-bottom-1 list-border-bottom']) %>
+<%= govuk_summary_list(classes: ['govuk-!-margin-bottom-1']) do |summary_list| %>
+  <% rows.each do |row| %>
+    <%= summary_list.with_row do |summary_list_row| %>
+      <%= summary_list_row.with_key { row[:key] } %>
+      <%= summary_list_row.with_value { row[:value] } %>
+      <% if row[:action].present? %>
+        <%= summary_list_row.with_action(text: 'Change', href: row.dig(:action, :href)) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
 
 <% if ske_conditions.present? %>
   <% ske_conditions.each do |ske_condition| %>
