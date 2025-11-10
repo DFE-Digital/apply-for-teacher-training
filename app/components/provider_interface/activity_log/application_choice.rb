@@ -23,6 +23,8 @@ module ProviderInterface
           t('provider_interface.activity_log.application_choice.offer_changed_at', candidate:, user:)
         elsif changes['course_changed_at'].present?
           t('provider_interface.activity_log.application_choice.course_changed_at', candidate:, user:)
+        elsif status == 'inactive'
+          t('provider_interface.activity_log.application_choice.inactive', candidate:)
         end
       end
 
