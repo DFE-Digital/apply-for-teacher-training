@@ -42,3 +42,5 @@ en:
           "%{candidate}’s application was automatically rejected"
         rejected:
           "%{user} rejected %{candidate}’s application"
+        inactive:
+          "%{candidate}’s application was automatically set to inactive"
