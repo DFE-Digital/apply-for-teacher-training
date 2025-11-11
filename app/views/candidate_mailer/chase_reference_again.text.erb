@@ -2,6 +2,8 @@ Dear <%= @application_form.first_name %>
 
 You asked <%= @referee.name %> for a reference for your teacher training application. They have not replied yet.
 
+We emailed them 30 days ago, 16 days ago and 2 days ago to remind them about your request. You can contact them yourself to ask if they are still happy to provide a reference.
+
 <%= @provider_name %> needs to check your references before they can confirm your place on the course.
 
 You can sign in to your account to:
@@ -13,6 +15,6 @@ You can sign in to your account to:
 
 [Sign in to your account](<%= sign_in_link %>).
 
-Contact <%= @provider_name %> if you need help getting references or choosing who to ask.
+Find out more about who you should ask to be a reference on the [Get Into Teaching website](<%= t('get_into_teaching.url_references') %>).
 
 <%= render 'get_help_teacher_training_adviser' %>

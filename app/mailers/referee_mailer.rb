@@ -69,7 +69,6 @@ class RefereeMailer < ApplicationMailer
     notify_email(
       to: reference.email_address,
       subject: t('referee_mailer.reference_request.subject', candidate_name: @candidate_name),
-      template_name: :reference_request_email,
       reference: "#{HostingEnvironment.environment_name}-reference_request-#{reference.id}-#{SecureRandom.hex}",
       application_form_id: reference.application_form_id,
     )
