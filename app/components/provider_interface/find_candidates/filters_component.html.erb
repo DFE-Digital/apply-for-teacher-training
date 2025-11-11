@@ -4,7 +4,9 @@
 
 <div class='moj-filter-layout'>
   <div class="mobile-only-search">
-    <%= render ProviderInterface::FindCandidates::CandidateSearchComponent.new(filter:) %>
+    <div class="govuk-!-margin-bottom-2">
+      <%= render ProviderInterface::FindCandidates::CandidateSearchComponent.new(filter:) %>
+    </div>
   </div>
 
   <div class="moj-filter-layout__filter app-filter">
