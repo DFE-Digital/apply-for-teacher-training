@@ -47,11 +47,13 @@ RSpec.describe AcceptOffer do
         application_form = create(:completed_application_form, :with_completed_references, recruitment_cycle_year: 2023)
         application_choice = create(:application_choice, :offered, application_form:)
         pending_reference = create(:reference, :not_requested_yet, application_form:)
+        pending_reference_2 = create(:reference, :feedback_requested, application_form:)
 
         described_class.new(application_choice:).save!
 
         expect(pending_reference.reload.feedback_status).to eq('feedback_requested')
         expect(ActionMailer::Base.deliveries.first.to).to eq [pending_reference.email_address]
+        expect(ActionMailer::Base.deliveries.second.to).to eq [pending_reference_2.email_address]
       end
     end
 

@@ -24,7 +24,7 @@ class ReferenceActionsPolicy
   end
 
   def can_send?
-    reference.not_requested_yet? &&
+    reference.pending? &&
       needs_more_references? &&
       valid_reference?
   end
