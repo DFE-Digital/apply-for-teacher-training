@@ -203,9 +203,6 @@ jobs:
       - name: Setup Parallel Database
         run: bundle exec rake parallel:setup
 
-      - name: Install chromedriver
-        run: apk add chromium chromium-chromedriver
-
       - name: ${{ matrix.tests }} tests with feature flags ${{ matrix.feature-flags }}
         run: bundle exec --verbose parallel_rspec --pattern "${{ env.INCLUDE_PATTERN }}" --exclude-pattern "${{ env.EXCLUDE_PATTERN }}"
         env:
