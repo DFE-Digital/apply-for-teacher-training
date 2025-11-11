@@ -7,8 +7,8 @@ const filter = () => {
     startHidden: false,
     toggleButton: {
       container: $('.filter-toggle-button'),
-      showText: 'Show filter',
-      hideText: 'Hide filter',
+      showText: 'Show filters',
+      hideText: 'Hide filters',
       classes: 'govuk-button--secondary'
     },
     closeButton: {
