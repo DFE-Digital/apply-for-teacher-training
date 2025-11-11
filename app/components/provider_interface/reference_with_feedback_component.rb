@@ -3,6 +3,8 @@ module ProviderInterface
     attr_accessor :reference, :application_choice
     delegate :feedback,
              :feedback_provided?,
+             :feedback_provided_at,
+             :requested_at,
              :name,
              :email_address,
              :relationship,
@@ -35,6 +37,7 @@ module ProviderInterface
         safeguarding_row,
         feedback_row,
         confidentiality_row,
+        date_row,
       ].compact
     end
 
@@ -125,6 +128,19 @@ module ProviderInterface
           ),
         ].join("\n\n")
       end
+    end
+
+    def date_row
+      return if requested_at.nil?
+
+      {
+        key: feedback_provided_at.nil? ? I18n.t('provider_interface.references.date_row.requested.key') : I18n.t('provider_interface.references.date_row.key'),
+        value: if feedback_provided_at.nil?
+                 requested_at&.to_fs(:govuk_date_and_time)
+               else
+                 feedback_provided_at&.to_fs(:govuk_date_and_time)
+               end,
+      }
     end
   end
 end
