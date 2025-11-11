@@ -2,6 +2,8 @@ Dear <%= @application_form.first_name %>
 
 You asked <%= @reference.name %> for a reference for your teacher training application. They have not replied yet.
 
+We emailed them 2 days ago to remind them about your request. You can contact them yourself to ask if they are still happy to provide a reference.
+
 You can sign in to your account to:
 
 - send them an email to remind them that you have asked for a reference
@@ -12,5 +14,7 @@ You can sign in to your account to:
 [Sign in to your account](<%= sign_in_link %>).
 
 <%= @provider_name %> must check your references before they can confirm your place on the course. Contact them if you need help getting references or choosing who to ask.
+
+We will email <%= @reference.name %> again in a week if they still have not said they can provide a reference.
 
 <%= render 'get_help_teacher_training_adviser' %>

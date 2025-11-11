@@ -1,0 +1,11 @@
+Dear <%= @reference.name %>
+
+We contacted you 28 days ago to request a reference for <%= @candidate_name %>.
+
+They cannot progress with the offer they accepted from <%= @provider_name %> for a place on a teacher training course without your reference.
+
+Use this link to give the reference or to say you cannot give one:
+
+<%= referee_interface_url(token: @unhashed_token) %>
+
+If you say you cannot give a reference, Rachael Harvey will be able to ask someone else. You will receive no further emails.
