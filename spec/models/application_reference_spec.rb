@@ -47,6 +47,38 @@ RSpec.describe ApplicationReference do
         expect(described_class.for_vendor).to match_array(references)
       end
     end
+
+    describe '.pending' do
+      it 'returns the pending references' do
+        references = [
+          create(:reference, :not_requested_yet),
+          create(:reference, :feedback_requested),
+        ]
+        create(:reference, :feedback_provided)
+
+        expect(described_class.pending).to match_array(references)
+      end
+    end
+  end
+
+  describe '#pending?' do
+    it 'returns true if reference is not_requested_yet' do
+      reference = build(:reference, :not_requested_yet)
+
+      expect(reference.pending?).to be(true)
+    end
+
+    it 'returns true if reference is feedback_requested' do
+      reference = build(:reference, :feedback_requested)
+
+      expect(reference.pending?).to be(true)
+    end
+
+    it 'returns false if feedback_provided' do
+      reference = build(:reference, :feedback_provided)
+
+      expect(reference.pending?).to be(false)
+    end
   end
 
   describe '#refresh_feedback_token!' do

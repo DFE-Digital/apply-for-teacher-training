@@ -99,6 +99,23 @@ RSpec.describe ReferenceActionsPolicy do
     end
   end
 
+  describe '#can_send?' do
+    it 'is true reference is not_requested_yet' do
+      reference = build(:reference, :not_requested_yet)
+      expect(policy(reference).can_send?).to be true
+    end
+
+    it 'is true reference is feedback_requested' do
+      reference = build(:reference, :feedback_requested)
+      expect(policy(reference).can_send?).to be true
+    end
+
+    it 'is false reference is feedback_provided' do
+      reference = build(:reference, :feedback_provided)
+      expect(policy(reference).can_send?).to be false
+    end
+  end
+
   def policy(reference)
     ReferenceActionsPolicy.new(reference)
   end

@@ -21,6 +21,11 @@ class ApplicationReference < ApplicationRecord
       feedback_status: %i[feedback_requested feedback_provided],
     )
   }
+  scope :pending, lambda {
+    where(
+      feedback_status: %i[not_requested_yet feedback_requested],
+    )
+  }
 
   audited associated_with: :application_form
 
@@ -61,6 +66,10 @@ class ApplicationReference < ApplicationRecord
 
   def self.not_failed
     failed.invert_where
+  end
+
+  def pending?
+    %w[not_requested_yet feedback_requested].include?(feedback_status)
   end
 
   def failed?

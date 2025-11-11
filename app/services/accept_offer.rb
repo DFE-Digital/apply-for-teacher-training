@@ -18,7 +18,7 @@ class AcceptOffer
       withdraw_and_decline_associated_application_choices!
     end
 
-    application_form.application_references.includes([:application_form]).not_requested_yet.creation_order.each do |reference|
+    application_form.application_references.includes([:application_form]).pending.creation_order.each do |reference|
       RequestReference.new.call(reference)
     end
 
