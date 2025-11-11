@@ -123,9 +123,7 @@ RSpec.describe RefereeMailer do
       'Teacher training reference needed for Elliot Alderson',
       'heading' => 'Dear Jane',
       'reference link' => '/reference?token=raw_token',
-      'details' => 'Elliot Alderson has accepted an offer from University of Warwick for a place on a teacher training course',
-      'further guidance' => 'whether you have any concerns about them working with children',
-      'confidentiality statement' => 'You can choose whether Elliot will be able to see your reference or if it should be kept confidential.',
+      'details' => 'We contacted you 28 days ago to request a reference for Elliot Alderson.',
     )
   end
 end
