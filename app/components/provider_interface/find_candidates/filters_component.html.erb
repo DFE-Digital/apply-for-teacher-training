@@ -3,6 +3,10 @@
 <% end %>
 
 <div class='moj-filter-layout'>
+  <div class="mobile-only-search">
+    <%= render ProviderInterface::FindCandidates::CandidateSearchComponent.new(filter:) %>
+  </div>
+
   <div class="moj-filter-layout__filter app-filter">
     <div class="moj-filter">
       <div class="moj-filter__header">
@@ -172,38 +176,16 @@
     </div>
   </div>
   <div class='moj-filter-layout__content'>
-      <div class='app-search'>
-        <%= form_with model: filter, url: '', scope: '', method: :get do |f| %>
-          <%= hidden_field_tag 'candidate_search', 'true' %>
-          <%= hidden_field_tag 'apply_filters', 'true' %>
-          <% filter.applied_filters.each do |name, value| %>
-            <% if value.is_a?(Array) %>
-              <% value.each do |v| %>
-                <%= hidden_field_tag "#{name}[]", v %>
-              <% end %>
-            <% else %>
-              <%= hidden_field_tag name, value %>
-            <% end %>
-          <% end %>
-          <%= f.govuk_text_field(
-                :candidate_id,
-                label: { text: t('.search_by_candidate_number'), class: 'govuk-label app-search__label govuk-label--m' },
-                inputmode: 'numeric',
-                autocomplete: 'off',
-                class: 'govuk-input app-search__input',
-              ) %>
-          <%= f.govuk_submit(t('.search'), class: 'govuk-button app-search__button') %>
+    <div class="desktop-only-search">
+      <%= render ProviderInterface::FindCandidates::CandidateSearchComponent.new(filter:) %>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <div class="filter-toggle-button">
         </div>
-      <% if filter.applied_filters[:candidate_id].present? %>
-        <p class="govuk-body">
-          <%= govuk_link_to(
-                t('.clear_search'),
-                path_to_remove_candidate_id_filter,
-                no_visited_state: true,
-              ) %>
-        </p>
-      <% end %>
-    <% end %>
+      </div>
+    </div>
 
     <%= content %>
   </div>

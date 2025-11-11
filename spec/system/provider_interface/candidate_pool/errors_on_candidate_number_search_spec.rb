@@ -32,14 +32,16 @@ private
   end
 
   def and_i_search_with(search_term)
-    fill_in 'Search by candidate number', with: search_term
-    click_on 'Search'
+    within('.desktop-only-search') do
+      fill_in 'Search by candidate number', with: search_term
+      click_on 'Search'
+    end
   end
   alias_method :when_i_search_with, :and_i_search_with
 
   def then_i_see_the_error(error)
     expect(page.title).to include 'Error:'
     expect(page).to have_content 'There is a problem'
-    expect(page).to have_content(error).twice
+    expect(page).to have_content(error).exactly(3).times
   end
 end

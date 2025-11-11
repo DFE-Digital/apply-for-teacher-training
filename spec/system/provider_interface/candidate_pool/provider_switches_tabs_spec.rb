@@ -166,8 +166,10 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   end
 
   def and_the_candidate_number_search_to_be_applied
-    candidate_number_input = find_field('Search by candidate number')
-    expect(candidate_number_input.value).to eq @not_seen_application_form.candidate_id.to_s
+    within('.desktop-only-search') do
+      candidate_number_input = find_field('Search by candidate number')
+      expect(candidate_number_input.value).to eq @not_seen_application_form.candidate_id.to_s
+    end
   end
 
   def when_i_click_on_new_tab
@@ -214,8 +216,10 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   end
 
   def when_search_for_a_candidate_number
-    fill_in('Search by candidate number', with: @not_seen_application_form.candidate_id)
-    click_on 'Search'
+    within('.desktop-only-search') do
+      fill_in('Search by candidate number', with: @not_seen_application_form.candidate_id)
+      click_on 'Search'
+    end
   end
 
   def then_i_see_the_not_seen_candidate_only

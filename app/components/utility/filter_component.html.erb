@@ -1,4 +1,8 @@
 <div class='moj-filter-layout'>
+  <div class="mobile-only-search">
+    <%= render PrimaryFilterComponent.new(filters:, primary_filter:, secondary_filters:) %>
+  </div>
+
   <div class="moj-filter-layout__filter app-filter">
     <div class="moj-filter">
       <div class="moj-filter__header">
@@ -112,34 +116,17 @@
   </div>
 
   <div class='moj-filter-layout__content'>
-    <% if primary_filter %>
-      <div class="app-search<% if primary_filter[:value].blank? %> govuk-!-margin-bottom-7<% end %>">
-        <form method="get">
-          <% filters_to_params(secondary_filters).each do |name, value| %>
-            <% if value.is_a?(Array) %>
-              <% value.each do |v| %><%= hidden_field_tag "#{name}[]", v, html: { autocomplete: 'off' } %><% end %>
-            <% else %>
-              <%= hidden_field_tag name, value, html: { autocomplete: 'off' } %>
-            <% end %>
-          <% end %>
-          <div class="govuk-form-group">
-            <label class="govuk-label app-search__label govuk-label--m" for="<%= primary_filter[:name] %>">
-              Search by candidate name or application number
-            </label>
+    <div class="desktop-only-search">
+      <%= render PrimaryFilterComponent.new(filters:, primary_filter:, secondary_filters:) %>
+    </div>
 
-            <input class="govuk-input app-search__input <%= primary_filter[:css_classes] %>" id="<%= primary_filter[:name] %>" name="<%= primary_filter[:name] %>" type="text" value="<%= primary_filter[:value] %>" autocomplete="off">
-          </div>
-          <button class="govuk-button app-search__button" data-module="govuk-button">
-            Search
-          </button>
-        </form>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <div class="filter-toggle-button">
+        </div>
       </div>
-      <% if primary_filter[:value].present? %>
-        <p class="govuk-body govuk-!-margin-top-2 govuk-!-margin-bottom-7">
-          <%= govuk_link_to('Clear search', remove_search_tag_link(primary_filter[:name]), no_visited_state: true) %>
-        </p>
-      <% end %>
-    <% end %>
+    </div>
+
     <%= content %>
   </div>
 </div>
