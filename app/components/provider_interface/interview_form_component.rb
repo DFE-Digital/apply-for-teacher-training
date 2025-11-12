@@ -15,7 +15,7 @@ module ProviderInterface
     end
 
     def example_date
-      valid_future_date_for_form = [application_choice.reject_by_default_at, 1.day.from_now].min
+      valid_future_date_for_form = [application_choice.reject_by_default_at, 1.day.from_now].compact.min
       valid_future_date_for_form.strftime('%-d %-m %Y')
     end
   end
