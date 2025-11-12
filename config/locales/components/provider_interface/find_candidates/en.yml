@@ -116,6 +116,10 @@ en:
         search_by_candidate_number: Search by candidate number
         clear_search: Clear search
         search: Search
+      candidate_search_component:
+        search_by_candidate_number: Search by candidate number
+        clear_search: Clear search
+        search: Search
       other_qualifications_component:
         caption: A levels and other qualifications
         qualification: Type

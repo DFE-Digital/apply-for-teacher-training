@@ -69,13 +69,17 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def when_i_search_for_part_of_a_candidate_name
-    fill_in 'Search by candidate name or application number', with: 'ame'
-    click_link_or_button('Search')
+    within('.desktop-only-search') do
+      fill_in 'Search by candidate name or application number', with: 'ame'
+      click_link_or_button('Search')
+    end
   end
 
   def when_i_search_by_application_number
-    fill_in 'Search by candidate name or application number', with: current_provider.application_choices.first.id
-    click_link_or_button('Search')
+    within('.desktop-only-search') do
+      fill_in 'Search by candidate name or application number', with: current_provider.application_choices.first.id
+      click_link_or_button('Search')
+    end
   end
 
   def and_the_part_of_the_name_appears_in_search_field
@@ -132,13 +136,17 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def when_i_search_for_candidate_name
-    fill_in 'Search by candidate name or application number', with: 'Jim James'
-    click_link_or_button('Search')
+    within('.desktop-only-search') do
+      fill_in 'Search by candidate name or application number', with: 'Jim James'
+      click_link_or_button('Search')
+    end
   end
 
   def when_i_search_for_a_candidate_that_does_not_exist
-    fill_in 'Search by candidate name or application number', with: 'Simon Says'
-    click_link_or_button('Search')
+    within('.desktop-only-search') do
+      fill_in 'Search by candidate name or application number', with: 'Simon Says'
+      click_link_or_button('Search')
+    end
   end
 
   def then_i_search_for_candidate_name
@@ -152,21 +160,27 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def when_i_manually_clear_all_filters_and_apply_them
-    fill_in 'Search by candidate name or application number', with: ''
-    click_link_or_button('Search')
+    within('.desktop-only-search') do
+      fill_in 'Search by candidate name or application number', with: ''
+      click_link_or_button('Search')
+    end
     find_by_id('status-withdrawn').set(false)
     find_by_id('status-offer').set(false)
     click_link_or_button('Apply filters', match: :first)
   end
 
   def when_i_search_for_candidate_name_with_odd_casing
-    fill_in 'Search by candidate name or application number', with: 'jiM JAmeS'
-    click_link_or_button('Search')
+    within('.desktop-only-search') do
+      fill_in 'Search by candidate name or application number', with: 'jiM JAmeS'
+      click_link_or_button('Search')
+    end
   end
 
   def when_i_search_for_candidate_name_with_extra_spaces
-    fill_in 'Search by candidate name or application number', with: '  Jim  James  '
-    click_link_or_button('Search')
+    within('.desktop-only-search') do
+      fill_in 'Search by candidate name or application number', with: '  Jim  James  '
+      click_link_or_button('Search')
+    end
   end
 
   def then_only_applications_of_that_name_and_status_are_visible
@@ -197,7 +211,9 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def when_i_clear_the_filters
-    click_link_or_button('Clear search')
+    within('.desktop-only-search') do
+      click_link_or_button('Clear search')
+    end
   end
 
   def and_i_am_permitted_to_see_applications_from_multiple_providers

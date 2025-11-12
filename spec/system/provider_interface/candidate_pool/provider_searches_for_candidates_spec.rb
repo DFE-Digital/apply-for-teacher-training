@@ -14,17 +14,17 @@ RSpec.describe 'Providers searches for candidates' do
     and_i_search_with('3000')
     then_i_see_no_results_text('There are no candidates that match that candidate number. Check the candidate number and try again.')
 
-    when_i_click('Clear search')
+    when_i_click_clear_search
     and_i_search_with('3000')
     and_i_filter_by_course_type
     then_i_see_no_results_text('There are no candidates that match that candidate number with the filters you have chosen. Remove some of your filters and try again.')
 
-    when_i_click('Clear search')
+    when_i_click_clear_search
     and_i_click('Clear filters')
     and_i_search_with(@awaiting_decision_candidate.id)
     then_i_see_no_results_text('This candidate’s profile is not visible at the moment. They could have an active application, be unresponsive or have opted out.')
 
-    when_i_click('Clear search')
+    when_i_click_clear_search
     and_i_search_with(@withdrawn_candidate.id)
     then_i_see_only_the_relevant_candidate_in_the_results
   end
@@ -79,8 +79,10 @@ private
   end
 
   def and_i_search_with(search_term)
-    fill_in 'Search by candidate number', with: search_term
-    click_on 'Search'
+    within('.desktop-only-search') do
+      fill_in 'Search by candidate number', with: search_term
+      click_on 'Search'
+    end
   end
   alias_method :when_i_search_with, :and_i_search_with
 
@@ -92,6 +94,12 @@ private
     click_link_or_button text
   end
   alias_method :and_i_click, :when_i_click
+
+  def when_i_click_clear_search
+    within('.desktop-only-search') do
+      click_link_or_button 'Clear search'
+    end
+  end
 
   def and_i_filter_by_course_type
     check('Postgraduate')

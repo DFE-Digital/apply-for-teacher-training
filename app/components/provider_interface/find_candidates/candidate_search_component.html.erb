@@ -1,0 +1,36 @@
+<div class='app-search'>
+  <%= form_with model: filter, url: '', scope: '', method: :get do |f| %>
+    <%= hidden_field_tag 'candidate_search', 'true' %>
+    <%= hidden_field_tag 'apply_filters', 'true' %>
+
+    <% filter.applied_filters.each do |name, value| %>
+      <% if value.is_a?(Array) %>
+        <% value.each do |v| %>
+          <%= hidden_field_tag "#{name}[]", v %>
+        <% end %>
+      <% else %>
+        <%= hidden_field_tag name, value %>
+      <% end %>
+    <% end %>
+
+    <%= f.govuk_text_field(
+      :candidate_id,
+      label: { text: t('.search_by_candidate_number'), class: 'govuk-label app-search__label govuk-label--m' },
+      inputmode: 'numeric',
+      autocomplete: 'off',
+      class: 'govuk-input app-search__input',
+    ) %>
+
+    <%= f.govuk_submit(t('.search'), class: 'govuk-button app-search__button') %>
+  <% end %>
+</div>
+
+<% if filter.applied_filters[:candidate_id].present? %>
+  <p class="govuk-body govuk-!-margin-top-2 govuk-!-margin-bottom-7">
+    <%= govuk_link_to(
+      t('.clear_search'),
+      path_to_remove_candidate_id_filter,
+      no_visited_state: true,
+    ) %>
+  </p>
+<% end %>
