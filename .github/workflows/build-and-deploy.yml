@@ -188,6 +188,7 @@ jobs:
         working-directory: /app
     container:
       image: ghcr.io/dfe-digital/apply-teacher-training:${{ needs.build.outputs.IMAGE_TAG }}
+      options: --user root
       credentials:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
