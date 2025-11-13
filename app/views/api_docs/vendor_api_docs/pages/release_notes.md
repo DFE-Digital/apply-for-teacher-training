@@ -1,16 +1,18 @@
 
-## v1.6 — 4th February 2025
+## v1.6 — October 2025
 
-Minor Version Upgrade:
-
-Release API version `v1.6` to production. Please refer to the [API Reference](/api-docs/v1.6/reference) for details.
-
-#### Some further changes were added to this version and all previous versions in October 2025:
+Some further changes were added to this version and all previous versions in October 2025:
 
 - Add PreviousTeacherTraining to the ApplicationAttribute
 - Add optional course parameter to confirm-deferred-offer endpoint
 
 Please refer to the [Version 1.6 changes](/api-docs/v1.6/reference#important) for details.
+
+## v1.6 — 4th February 2025
+
+Minor Version Upgrade:
+
+Release API version `v1.6` to production. Please refer to the [API Reference](/api-docs/v1.6/reference) for details.
 
 ## v1.5 — 10th July 2024
 
