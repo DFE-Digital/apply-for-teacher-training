@@ -8,12 +8,14 @@
     <div class="govuk-grid-column-two-thirds">
 
       <% content_for(:fieldset_legend) do %>
-        <h1 class="govuk-heading-l">
-          <span class="govuk-caption-l">
-            <%= t('.caption') %>
-          </span>
-          <%= t('.heading', provider: @invite.provider_name) %>
-        </h1>
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+          <h1 class="govuk-heading-l">
+            <span class="govuk-caption-l">
+              <%= t('.caption') %>
+            </span>
+            <%= t('.heading', provider: @invite.provider_name) %>
+          </h1>
+        </legend>
       <% end %>
 
       <%= f.govuk_check_boxes_fieldset(:reasons, legend: -> { content_for(:fieldset_legend) }) do %>
