@@ -88,14 +88,14 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
 
   def and_the_notes_tab_includes_the_new_note
     expect(page).to have_link(
-      "#{@provider_user.full_name}, #{Time.now.to_fs(:govuk_date_and_time)}",
+      "#{@provider_user.full_name}, #{Time.zone.now.to_fs(:govuk_date_and_time)}",
       href: provider_interface_application_choice_note_path(@application_choice, @note),
     )
     expect(page).to have_content(@note_text)
   end
 
   def and_i_can_navigate_to_the_new_note
-    click_link_or_button "#{@provider_user.full_name}, #{Time.now.to_fs(:govuk_date_and_time)}"
+    click_link_or_button "#{@provider_user.full_name}, #{Time.zone.now.to_fs(:govuk_date_and_time)}"
 
     expect(page).to have_content(@note_text)
 
