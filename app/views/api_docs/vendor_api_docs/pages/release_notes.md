@@ -5,7 +5,7 @@ Minor Version Upgrade:
 
 Release API version `v1.6` to production. Please refer to the [API Reference](/api-docs/v1.6/reference) for details.
 
-#### Some further changes were added to this version in October 2025:
+#### Some further changes were added to this version and all previous versions in October 2025:
 
 - Add PreviousTeacherTraining to the ApplicationAttribute
 - Add optional course parameter to confirm-deferred-offer endpoint
