@@ -4,43 +4,39 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @edit_other_qualification_form, url: support_interface_application_form_edit_other_qualification_path, method: :patch do |f| %>
+      <%= f.govuk_error_summary %>
 
-<%= f.govuk_error_summary %>
+      <h1 class='govuk-heading-l'>Edit qualification</h1>
 
-<%= f.govuk_fieldset legend: { text: 'Edit applicant details', size: 'l' } do %>
+      <%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { text: 'What type of qualification do you want to add?', size: 'm' } do %>
+        <%= f.govuk_radio_button :qualification_type, SupportInterface::ApplicationForms::EditOtherQualificationForm::A_LEVEL_TYPE, label: { text: 'A level' } %>
 
-  <%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { text: 'What type of qualification do you want to add?', size: 'm' } do %>
-    <%= f.govuk_radio_button :qualification_type, SupportInterface::ApplicationForms::EditOtherQualificationForm::A_LEVEL_TYPE, label: { text: 'A level' } %>
+        <%= f.govuk_radio_button :qualification_type, SupportInterface::ApplicationForms::EditOtherQualificationForm::AS_LEVEL_TYPE, label: { text: 'AS level' } %>
 
-    <%= f.govuk_radio_button :qualification_type, SupportInterface::ApplicationForms::EditOtherQualificationForm::AS_LEVEL_TYPE, label: { text: 'AS level' } %>
+        <%= f.govuk_radio_button :qualification_type, SupportInterface::ApplicationForms::EditOtherQualificationForm::GCSE_TYPE, label: { text: 'GCSE' }, link_errors: true %>
 
-    <%= f.govuk_radio_button :qualification_type, SupportInterface::ApplicationForms::EditOtherQualificationForm::GCSE_TYPE, label: { text: 'GCSE' }, link_errors: true %>
+        <%= f.govuk_radio_button :qualification_type, SupportInterface::ApplicationForms::EditOtherQualificationForm::OTHER_TYPE, label: { text: 'Other UK qualification' } do %>
+          <%= f.govuk_text_field :other_uk_qualification_type, label: { text: 'Qualification name', size: 's' } %>
+        <% end %>
 
-    <%= f.govuk_radio_button :qualification_type, SupportInterface::ApplicationForms::EditOtherQualificationForm::OTHER_TYPE, label: { text: 'Other UK qualification' } do %>
-      <%= f.govuk_text_field :other_uk_qualification_type, label: { text: 'Qualification name', size: 's' } %>
-    <% end %>
+        <%= f.govuk_radio_button :qualification_type, SupportInterface::ApplicationForms::EditOtherQualificationForm::NON_UK_TYPE, label: { text: t('application_form.gcse.qualification_types.non_uk') } do %>
+          <%= f.govuk_text_field :non_uk_qualification_type, label: { text: 'Qualification name', size: 's' }, hint: { text: t('application_form.other_qualification.qualification_type.non_uk.hint_text') } %>
+        <% end %>
+      <% end %>
 
-    <%= f.govuk_radio_button :qualification_type, SupportInterface::ApplicationForms::EditOtherQualificationForm::NON_UK_TYPE, label: { text: t('application_form.gcse.qualification_types.non_uk') } do %>
-      <%= f.govuk_text_field :non_uk_qualification_type, label: { text: 'Qualification name', size: 's' }, hint: { text: t('application_form.other_qualification.qualification_type.non_uk.hint_text') } %>
-    <% end %>
-  <% end %>
+      <%= f.govuk_text_field :subject, label: { text: 'Subject', size: 'm' } %>
+      <%= f.govuk_text_field :grade,  label: { text: t('application_form.other_qualification.grade.label'), size: 'm' },
+                                      hint: { text: t('application_form.other_qualification.grade.hint_text') },
+                                      width: 10 %>
+          <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' },
+                                              hint: { text: t('application_form.other_qualification.award_year.hint_text') },
+                                              inputmode: 'numeric',
+                                              width: 4,
+                                              maxlength: 4 %>
 
-  <%= f.govuk_text_field :subject, label: { text: 'Subject', size: 'm' } %>
-  <%= f.govuk_text_field :grade,  label: { text: t('application_form.other_qualification.grade.label'), size: 'm' },
-                                  hint: { text: t('application_form.other_qualification.grade.hint_text') },
-                                  width: 10 %>
-      <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' },
-                                          hint: { text: t('application_form.other_qualification.award_year.hint_text') },
-                                          inputmode: 'numeric',
-                                          width: 4,
-                                          maxlength: 4 %>
+      <%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.audit_comment_ticket.label'), size: 'm' }, hint: { text: t('support_interface.audit_comment_ticket.hint') } %>
 
-  <%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.audit_comment_ticket.label'), size: 'm' }, hint: { text: t('support_interface.audit_comment_ticket.hint') } %>
-
-<% end %>
-
-<%= f.govuk_submit 'Update details' %>
-
+      <%= f.govuk_submit 'Update details' %>
     <% end %>
   </div>
 </div>

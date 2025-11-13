@@ -6,14 +6,14 @@
     <%= form_with model: @details, url: support_interface_application_form_update_applicant_details_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_fieldset legend: { text: 'Edit applicant details', size: 'l' } do %>
-        <%= f.govuk_text_field :first_name, label: { text: t('application_form.personal_details.first_name.label'), size: 'm' }, hint: { text: t('application_form.personal_details.first_name.hint_text') }, autocomplete: 'given-name' %>
-        <%= f.govuk_text_field :last_name, label: { text: t('application_form.personal_details.last_name.label'), size: 'm' }, hint: { text: t('application_form.personal_details.last_name.hint_text') }, autocomplete: 'family-name' %>
-        <%= f.govuk_email_field :email_address, label: { text: t('authentication.sign_up.email_address.label'), size: 'm' }, hint: { text: t('authentication.sign_up.email_address.hint_label') }, autocomplete: 'email', spellcheck: false %>
-        <%= f.govuk_date_field :date_of_birth, date_of_birth: true, legend: { text: t('application_form.personal_details.date_of_birth.label'), size: 'm' }, hint: { text: t('application_form.personal_details.date_of_birth.hint_text') } %>
-        <%= f.govuk_phone_field :phone_number, label: { text: t('application_form.contact_details.phone_number.label'), size: 'm' }, hint: { text: t('application_form.contact_details.phone_number.hint_text') }, autocomplete: 'tel' %>
-        <%= f.govuk_text_field :audit_comment, label: { text: 'Audit log comment', size: 'm' }, hint: { text: 'This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here' } %>
-      <% end %>
+      <h1 class='govuk-heading-l'>Edit applicant details</h1>
+
+      <%= f.govuk_text_field :first_name, label: { text: t('application_form.personal_details.first_name.label'), size: 'm' }, hint: { text: t('application_form.personal_details.first_name.hint_text') }, autocomplete: 'given-name' %>
+      <%= f.govuk_text_field :last_name, label: { text: t('application_form.personal_details.last_name.label'), size: 'm' }, hint: { text: t('application_form.personal_details.last_name.hint_text') }, autocomplete: 'family-name' %>
+      <%= f.govuk_email_field :email_address, label: { text: t('authentication.sign_up.email_address.label'), size: 'm' }, hint: { text: t('authentication.sign_up.email_address.hint_label') }, autocomplete: 'email', spellcheck: false %>
+      <%= f.govuk_date_field :date_of_birth, date_of_birth: true, legend: { text: t('application_form.personal_details.date_of_birth.label'), size: 'm' }, hint: { text: t('application_form.personal_details.date_of_birth.hint_text') } %>
+      <%= f.govuk_phone_field :phone_number, label: { text: t('application_form.contact_details.phone_number.label'), size: 'm' }, hint: { text: t('application_form.contact_details.phone_number.hint_text') }, autocomplete: 'tel' %>
+      <%= f.govuk_text_field :audit_comment, label: { text: 'Audit log comment', size: 'm' }, hint: { text: 'This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here' } %>
 
       <%= f.govuk_submit 'Update details' %>
     <% end %>

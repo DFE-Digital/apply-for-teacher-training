@@ -6,21 +6,21 @@
     <%= form_with model: @feedback_form, url: support_interface_application_form_update_reference_feedback_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_fieldset legend: { text: 'Edit reference feedback', size: 'l' } do %>
-        <%= f.govuk_collection_radio_buttons(
-              :confidential,
-              [
-                Struct.new(:id, :name).new(true, t('support_interface.edit_reference_form.confidential.not_ok_to_share')),
-                Struct.new(:id, :name).new(false, t('support_interface.edit_reference_form.confidential.ok_to_share')),
-              ],
-              :id,
-              :name,
-              legend: { text: t('support_interface.edit_reference_form.confidential.legend') },
-            ) %>
-        <%= f.govuk_text_area :feedback, label: { text: t('support_interface.edit_reference_form.feedback.label'), size: 'm' }, autocomplete: 'feedback' %>
-        <%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.edit_reference_form.audit_comment.label'), size: 'm' }, hint: { text: t('support_interface.edit_reference_form.audit_comment.hint') } %>
-        <%= f.govuk_collection_radio_buttons :send_emails, [Struct.new(:id, :name).new(true, 'Yes'), Struct.new(:id, :name).new(false, 'No')], :id, :name, inline: true, legend: { text: t('support_interface.edit_reference_form.send_emails.label') } %>
-      <% end %>
+      <h1 class='govuk-heading-l'>Edit reference feedback</h1>
+
+      <%= f.govuk_collection_radio_buttons(
+            :confidential,
+            [
+              Struct.new(:id, :name).new(true, t('support_interface.edit_reference_form.confidential.not_ok_to_share')),
+              Struct.new(:id, :name).new(false, t('support_interface.edit_reference_form.confidential.ok_to_share')),
+            ],
+            :id,
+            :name,
+            legend: { text: t('support_interface.edit_reference_form.confidential.legend') },
+          ) %>
+      <%= f.govuk_text_area :feedback, label: { text: t('support_interface.edit_reference_form.feedback.label'), size: 'm' }, autocomplete: 'feedback' %>
+      <%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.edit_reference_form.audit_comment.label'), size: 'm' }, hint: { text: t('support_interface.edit_reference_form.audit_comment.hint') } %>
+      <%= f.govuk_collection_radio_buttons :send_emails, [Struct.new(:id, :name).new(true, 'Yes'), Struct.new(:id, :name).new(false, 'No')], :id, :name, inline: true, legend: { text: t('support_interface.edit_reference_form.send_emails.label') } %>
 
       <%= f.govuk_submit 'Update reference' %>
     <% end %>

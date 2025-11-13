@@ -6,12 +6,12 @@
     <%= form_with model: @details_form, url: support_interface_application_form_update_reference_details_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_fieldset legend: { text: 'Edit reference details', size: 'l' } do %>
-        <%= f.govuk_text_field :name, label: { text: t('support_interface.edit_reference_form.name.label'), size: 'm' }, autocomplete: 'name' %>
-        <%= f.govuk_text_field :email_address, label: { text: t('support_interface.edit_reference_form.email_address.label'), size: 'm' }, hint: { text: t('support_interface.edit_reference_form.email_address.hint_text') }, autocomplete: 'email_addess' %>
-        <%= f.govuk_text_field :relationship, label: { text: t('support_interface.edit_reference_form.relationship.label'), size: 'm' }, autocomplete: 'relationship' %>
-        <%= f.govuk_text_field :audit_comment, label: { text: 'Audit log comment', size: 'm' }, hint: { text: 'This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here' } %>
-      <% end %>
+      <h1 class='govuk-heading-l'>Edit reference details</h1>
+
+      <%= f.govuk_text_field :name, label: { text: t('support_interface.edit_reference_form.name.label'), size: 'm' }, autocomplete: 'name' %>
+      <%= f.govuk_text_field :email_address, label: { text: t('support_interface.edit_reference_form.email_address.label'), size: 'm' }, hint: { text: t('support_interface.edit_reference_form.email_address.hint_text') }, autocomplete: 'email_addess' %>
+      <%= f.govuk_text_field :relationship, label: { text: t('support_interface.edit_reference_form.relationship.label'), size: 'm' }, autocomplete: 'relationship' %>
+      <%= f.govuk_text_field :audit_comment, label: { text: 'Audit log comment', size: 'm' }, hint: { text: 'This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here' } %>
 
       <%= f.govuk_submit 'Update reference' %>
     <% end %>
