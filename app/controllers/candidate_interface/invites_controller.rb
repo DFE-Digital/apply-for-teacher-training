@@ -4,6 +4,7 @@ module CandidateInterface
     before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
     before_action :redirect_if_no_submitted_application
     before_action :set_invite, only: %i[edit update]
+    before_action :redirect_if_invite_responded, only: %i[edit update]
 
     def index
       @not_responded_invites = current_application.published_invites.not_responded_course_open
@@ -34,7 +35,17 @@ module CandidateInterface
   private
 
     def set_invite
-      @invite = Pool::Invite.find(params.expect(:id))
+      @invite = current_application.published_invites.find_by(id: params.expect(:id))
+
+      if @invite.nil?
+        redirect_to root_path
+      end
+    end
+
+    def redirect_if_invite_responded
+      unless @invite.not_responded?
+        redirect_to candidate_interface_invites_path
+      end
     end
 
     def invite_response_form_params

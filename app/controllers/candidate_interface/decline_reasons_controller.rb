@@ -27,7 +27,11 @@ module CandidateInterface
   private
 
     def set_invite
-      @invite = Pool::Invite.find(params.expect(:invite_id))
+      @invite = current_application.published_invites.find_by(id: params.expect(:invite_id))
+
+      if @invite.nil?
+        redirect_to root_path
+      end
     end
 
     def fac_invite_decline_reason_form_params
