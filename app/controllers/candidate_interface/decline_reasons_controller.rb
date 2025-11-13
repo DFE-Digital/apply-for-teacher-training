@@ -2,6 +2,7 @@ module CandidateInterface
   class DeclineReasonsController < CandidateInterfaceController
     before_action CarryOverFilter
     before_action :set_invite, only: %i[new create]
+    before_action :redirect_if_invite_responded
 
     def new
       @fac_invite_decline_reason_form = CandidateInterface::FacInviteDeclineReasonsForm.new
@@ -31,6 +32,12 @@ module CandidateInterface
 
       if @invite.nil?
         redirect_to root_path
+      end
+    end
+
+    def redirect_if_invite_responded
+      unless @invite.not_responded?
+        redirect_to candidate_interface_invites_path
       end
     end
 
