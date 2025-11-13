@@ -48,7 +48,6 @@ namespace :candidate_interface, path: '/candidate' do
     resources :funding_type_preferences, only: %i[new create], path: 'funding-type'
     resource :publish_preferences, only: %i[show create], path: 'publish-preferences'
   end
-  resource :candidate_feature_launch_email, only: :show, path: 'feature-launch-email'
 
   resources :location_suggestions, only: :index, path: 'location-suggestions'
 
