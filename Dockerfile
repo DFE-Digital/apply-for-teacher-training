@@ -6,7 +6,7 @@ FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
-    libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 yaml-dev libxslt graphviz chromium chromium-chromedriver gcompat \
+    libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 yaml-dev libxslt graphviz chromium gcompat \
     'aom>=3.9.1-r0'
 
 RUN echo "Europe/London" > /etc/timezone && \
@@ -62,7 +62,7 @@ ENV LANG=en_GB.UTF-8 \
 
 RUN apk -U upgrade && \
     apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz \
-    ttf-dejavu ttf-droid ttf-liberation libx11 openssl nodejs chromium chromium-chromedriver gcompat \
+    ttf-dejavu ttf-droid ttf-liberation libx11 openssl nodejs chromium gcompat \
     'aom>=3.9.1-r0' && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
