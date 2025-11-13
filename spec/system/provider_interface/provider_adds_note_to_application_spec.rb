@@ -29,9 +29,9 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
 
   def given_i_am_a_provider_user_with_dfe_sign_in
     @provider = create(:provider)
-    provider_user = create(:provider_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
-    provider_user.providers << @provider
-    provider_user.provider_permissions.update_all(make_decisions: true, set_up_interviews: true)
+    @provider_user = create(:provider_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+    @provider_user.providers << @provider
+    @provider_user.provider_permissions.update_all(make_decisions: true, set_up_interviews: true)
     user_exists_in_dfe_sign_in
   end
 
@@ -87,12 +87,15 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   end
 
   def and_the_notes_tab_includes_the_new_note
-    expect(page).to have_link(@note_text, href: provider_interface_application_choice_note_path(@application_choice, @note))
+    expect(page).to have_link(
+      "#{@provider_user.full_name}, #{Time.now.to_fs(:govuk_date_and_time)}",
+      href: provider_interface_application_choice_note_path(@application_choice, @note),
+    )
     expect(page).to have_content(@note_text)
   end
 
   def and_i_can_navigate_to_the_new_note
-    click_link_or_button @note_text
+    click_link_or_button "#{@provider_user.full_name}, #{Time.now.to_fs(:govuk_date_and_time)}"
 
     expect(page).to have_content(@note_text)
 
