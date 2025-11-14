@@ -7,12 +7,24 @@
   <% end %>
 
   <% if pool_invite.available_courses.count > 20 %>
-    <%= form.govuk_collection_select(
-      :course_id,
-      select_course_options_with_provider_name(pool_invite.available_courses),
-      :id,
-      :name,
-      label: { text: t('.title', candidate_name: candidate.redacted_full_name_current_cycle), size: 'l', tag: 'h1' },
+    <%= render DfE::Autocomplete::View.new(
+      form,
+      attribute_name: :course_id,
+      form_field:
+        form.govuk_select(
+          :course_id,
+          options_for_select(
+            select_course_options_with_provider_name(pool_invite.available_courses).map { |opt| [opt.name, opt.id] },
+            pool_invite.course_id,
+          ),
+          data: { controller: 'autocomplete' },
+          aria: { label: 'which-course-are-you-inviting-to-course-id-field-select' },
+          label: {
+            text: t('.title', candidate_name: candidate.redacted_full_name_current_cycle),
+            size: 'l',
+            tag: 'h1',
+          },
+        ),
     ) %>
   <% else %>
     <%= form.govuk_collection_radio_buttons(
