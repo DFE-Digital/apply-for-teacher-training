@@ -19,7 +19,7 @@ gem 'webpacker'
 gem 'google-cloud-bigquery'
 
 gem 'govuk-components', '~> 5.11'
-gem 'govuk_design_system_formbuilder', '~> 5.11.0'
+gem 'govuk_design_system_formbuilder', '~> 5.13.0'
 
 # GOV.UK Notify
 gem 'mail-notify'
