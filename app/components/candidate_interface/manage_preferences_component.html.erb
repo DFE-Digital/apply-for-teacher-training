@@ -4,14 +4,14 @@
     <p class="govuk-body">
       <%= t('.body_opt_in_html') %>
       <% unless application_form.withdrawn_no_longer_training? %>
-        - <%= govuk_link_to('Change', path_to_change_preferences) %>
+        - <%= govuk_link_to('Change your decision or update your preferences', path_to_change_preferences) %>
       <% end %>
     </p>
   <% else %>
     <p class="govuk-body">
       <%= t('.body_opt_out_html') %>
       <% unless application_form.withdrawn_no_longer_training? %>
-        - <%= govuk_link_to('Change', path_to_change_preferences) %>
+        - <%= govuk_link_to('Change your decision or update your preferences', path_to_change_preferences) %>
       <% end %>
     </p>
   <% end %>
