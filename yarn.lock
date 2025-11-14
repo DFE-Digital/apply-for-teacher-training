@@ -1710,10 +1710,10 @@
   resolved "https://registry.yarnpkg.com/@keyv/serialize/-/serialize-1.1.0.tgz#08f5d89096110fdcf778e5337362e1cd5afad70a"
   integrity sha512-RlDgexML7Z63Q8BSaqhXdCYNBy/JQnqYIwxofUrNLGCblOMHp+xux2Q8nLMLlPpgHQPoU0Do8Z6btCpRBEqZ8g==
 
-"@ministryofjustice/frontend@^3.6.2":
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-3.6.2.tgz#3bda8180d7268818c29545395ba388b380e1e8b5"
-  integrity sha512-x3vmqT4c3V1nQXOojIZIUKenmgVe5YITobU/TOdPK80Eeb4h9XLvutKHNfTYRcvQgStfP49aZl8pRbxJRQoXHA==
+"@ministryofjustice/frontend@^5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-5.1.5.tgz#f251aad828ebf644c1027aa0b938737d3f2cc2d0"
+  integrity sha512-qplsAEv1+8FeMxrBh+Z9NznX4LjZBTRBZubMlUqWKntBasssz5mp7rF/C8VeiuJhMtfOgB3YYDvxoahSQaoKGw==
 
 "@napi-rs/wasm-runtime@^0.2.11":
   version "0.2.11"
