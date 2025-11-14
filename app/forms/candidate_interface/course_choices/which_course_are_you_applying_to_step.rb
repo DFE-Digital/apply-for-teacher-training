@@ -2,7 +2,7 @@ module CandidateInterface
   module CourseChoices
     class WhichCourseAreYouApplyingToStep < DfE::Wizard::Step
       include CandidateInterface::Concerns::CourseSelectionStepHelper
-      include CandidateInterface::Concerns::FreeTextInputHelper
+      include FreeTextInputHelper
 
       attr_accessor :provider_id, :course_id, :course_id_raw
       alias_attribute :value, :course_id
