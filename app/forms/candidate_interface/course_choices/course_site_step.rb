@@ -2,7 +2,7 @@ module CandidateInterface
   module CourseChoices
     class CourseSiteStep < DfE::Wizard::Step
       include CandidateInterface::Concerns::CourseSelectionStepHelper
-      include CandidateInterface::Concerns::FreeTextInputHelper
+      include FreeTextInputHelper
 
       attr_accessor :provider_id, :course_id, :study_mode, :course_option_id, :course_option_id_raw
       validates :course_option_id, presence: true

@@ -1,7 +1,7 @@
 module CandidateInterface
   module CourseChoices
     class ProviderSelectionStep < DfE::Wizard::Step
-      include CandidateInterface::Concerns::FreeTextInputHelper
+      include FreeTextInputHelper
 
       attr_accessor :provider_id, :provider_id_raw, :course_id
       validates :provider_id, presence: true
