@@ -224,15 +224,15 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
       expect(page).to have_content('Because all your applications are rejected, withdrawn or inactive, providers can view your application details and invite you to apply. However, you should continue to apply to courses yourself. Do not wait to be invited.')
     end
 
-    context "when the candidate makes an application since being added to the pool" do
-      it "returns false" do
+    context 'when the candidate makes an application since being added to the pool' do
+      it 'returns false' do
         application_form = create(:application_form)
         _preference = create(
           :candidate_preference,
           pool_status: 'opt_in',
           status: 'published',
           application_form:,
-          )
+        )
         _application_choice = create(:application_choice, :withdrawn, application_form:)
         create(:candidate_pool_application, application_form:, candidate: application_form.candidate)
         create(:application_choice, :awaiting_provider_decision, application_form:)
