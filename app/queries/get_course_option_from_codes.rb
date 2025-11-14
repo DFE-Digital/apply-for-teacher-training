@@ -37,7 +37,7 @@ class GetCourseOptionFromCodes
   end
 
   validates_each :site_code do |record, attr, value|
-    if record.provider && value.present?
+    if record.provider && record.course && value.present?
       validate_site_unique(record, attr, value)
     end
   end
@@ -93,8 +93,7 @@ class GetCourseOptionFromCodes
     sites = record
       .provider.sites
       .joins(:course_options)
-      .merge(CourseOption.selectable)
-      .for_recruitment_cycle_years([current_year])
+      .merge(CourseOption.selectable.where(course: record.course))
       .where(code: value)
 
     if sites.many?
