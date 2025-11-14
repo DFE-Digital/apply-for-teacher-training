@@ -14,12 +14,14 @@
       <%= f.govuk_error_summary %>
 
       <% content_for(:fieldset_legend) do %>
-        <h1 class="govuk-heading-l">
-          <span class="govuk-caption-l">
-            <%= t('.caption') %>
-          </span>
-          <%= t('.title') %>
-        </h1>
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+          <h1 class="govuk-heading-l">
+            <span class="govuk-caption-l">
+              <%= t('.caption') %>
+            </span>
+            <%= t('.title') %>
+          </h1>
+        </legend>
       <% end %>
 
       <%= f.govuk_radio_buttons_fieldset(:training_locations, legend: -> { content_for(:fieldset_legend) }) do %>
