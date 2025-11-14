@@ -14,9 +14,10 @@ class ProviderInterface::FindCandidates::LocationPreferencesComponent < ViewComp
 private
 
   def location_preferences
-    @location_preferences ||= @application_form.published_location_preferences.order(:created_at).map do |location|
-      t('.location', radius: location.within, location: location.name)
-    end
+    @location_preferences ||= @application_form.published_location_preferences
+                                    .order(:created_at)
+                                    .map { |location| t('.location', radius: location.within, location: location.name) }
+                                    .uniq
   end
 
   def published_preference
