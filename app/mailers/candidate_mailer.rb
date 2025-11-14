@@ -615,10 +615,23 @@ class CandidateMailer < ApplicationMailer
     @update_preferences_url = candidate_interface_draft_preference_publish_preferences_url(
       application_form.published_preference,
     )
+    @sharing_guidance_url = candidate_interface_share_details_url
 
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.pool_opt_out.subject'),
+      layout: false,
+    )
+  end
+
+  def pool_opt_out_after_opting_in(application_form)
+    @update_preferences_url = candidate_interface_draft_preference_publish_preferences_url(
+      application_form.published_preference,
+    )
+
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.pool_opt_out_after_opting_in.subject'),
       layout: false,
     )
   end

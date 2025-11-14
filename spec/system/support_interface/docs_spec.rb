@@ -74,6 +74,7 @@ RSpec.describe 'Docs' do
       candidate_mailer-invites_chaser
       candidate_mailer-pool_opt_in
       candidate_mailer-pool_opt_out
+      candidate_mailer-pool_opt_out_after_opting_in
       candidate_mailer-pool_re_opt_in
       candidate_mailer-visa_sponsorship_deadline_reminder
       candidate_mailer-visa_sponsorship_deadline_change
