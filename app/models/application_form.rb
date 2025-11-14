@@ -48,6 +48,7 @@ class ApplicationForm < ApplicationRecord
   has_many :duplicated_preferences, -> { where(status: 'duplicated') }, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :published_opt_in_location_preferences, class_name: 'CandidateLocationPreference', through: :published_opt_in_preferences, source: :location_preferences
   has_many :published_location_preferences, class_name: 'CandidateLocationPreference', through: :published_preferences, source: :location_preferences
+  has_many :notifications, as: :notified, dependent: :destroy
 
   delegate :opt_in?, to: :published_preference, prefix: true, allow_nil: true
 
