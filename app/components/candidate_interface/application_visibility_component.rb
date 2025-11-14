@@ -33,6 +33,7 @@ class CandidateInterface::ApplicationVisibilityComponent < ViewComponent::Base
   end
 
   def visible_to_providers?
-    application_form.candidate_pool_application.present?
+    application_form.candidate_pool_application.present? &&
+      !waiting_for_provider_decision?
   end
 end
