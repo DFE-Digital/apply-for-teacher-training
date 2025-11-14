@@ -6,7 +6,9 @@ module CandidateInterface
     before_action :redirect_to_root_path_if_submitted_applications
     before_action :redirect_to_invites_page_if_preference_is_blank_or_opt_out, only: :show
 
-    def show; end
+    def show
+      current_application.notifications.create(notification_type: 'pool_opt_in')
+    end
 
     def new
       @back_path = if just_submitted?

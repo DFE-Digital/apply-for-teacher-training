@@ -22,9 +22,12 @@ module CandidateInterface
         PreferencesEmail.call(preference: @preference)
       end
 
-      flash[:success] = t('.success_opt_out') if @preference.opt_out?
-
-      redirect_to show_candidate_interface_pool_opt_ins_path
+      if current_application.notifications.pool_opt_in.any?
+        flash[:success] = t('.success')
+        redirect_to candidate_interface_invites_path
+      else
+        redirect_to show_candidate_interface_pool_opt_ins_path
+      end
     end
 
   private
