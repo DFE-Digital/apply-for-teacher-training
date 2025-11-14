@@ -2,7 +2,7 @@ en:
   provider_interface:
     candidate_pool:
       no_candidates_between_cycles:
-      no_candidates: No candidates
+      no_candidates: There are no candidates that match your filters. Remove some of your filters and search again.
       no_candidates_with_id_and_other_filters: There are no candidates that match that candidate number with the filters you have chosen. Remove some of your filters and try again.
       no_candidate_with_id: There are no candidates that match that candidate number. Check the candidate number and try again.
       exists_but_not_in_pool: This candidate’s profile is not visible at the moment. They could have an active application, be unresponsive or have opted out.
@@ -19,7 +19,7 @@ en:
             zero: No candidates invited
             one: "%{count} candidate invited"
             other: "%{count} candidates invited"
-          no_candidates: There are no invited candidates that match your filters
+          no_candidates: There are either no invited candidates that match your filters or you have not invited any candidates yet.
           application_received: Application received
           invited: Invited
           declined: Invite declined
