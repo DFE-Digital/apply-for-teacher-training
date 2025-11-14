@@ -13,8 +13,8 @@ module ProviderInterface
       subject_ids
       study_mode
       course_type
-      visa_sponsorship
       funding_type
+      visa_sponsorship
     ].freeze
     ATTRIBUTES.each do |attribute|
       attribute attribute.to_sym
@@ -42,11 +42,10 @@ module ProviderInterface
     end
 
     def applied_filters
-      return {} if invalid?
-
       @applied_filters ||= provider_user_filter.filters.merge(
         filter_params_with_location,
-      ).with_indifferent_access
+      ).sort_by { |key, _value| ATTRIBUTES.index(key.to_sym).to_i }.to_h
+      .with_indifferent_access
     end
 
     def applied_location_search?
