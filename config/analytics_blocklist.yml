@@ -1,5 +1,12 @@
 ---
 :shared:
+  :notifications:
+  - id
+  - notified_type
+  - notified_id
+  - notification_type
+  - created_at
+  - updated_at
   :emails:
   - application_form_id
   - created_at
