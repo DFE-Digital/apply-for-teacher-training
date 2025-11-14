@@ -8,6 +8,7 @@ class CandidateInterface::LocationPreferencesForm
   validates :within, numericality: { greater_than_or_equal_to: 0 }
   validates :name, presence: true, length: { minimum: 2 }
   validate :location, if: -> { name.present? }
+  validate :duplicate_location_preference
 
   def initialize(preference:, location_preference: nil, params: {})
     @preference = preference
@@ -77,6 +78,21 @@ private
 
     if location_coordinates.nil?
       errors.add(:name, :invalid_location)
+    end
+  end
+
+  def duplicate_location_preference
+    return if name.blank? || within.blank?
+
+    duplicate = preference.location_preferences.where(name: suggested_location[:name], within:)
+
+    # Prevent editing an existing preference from being treated as duplicate
+    if location_preference.present?
+      duplicate = duplicate.where.not(id: location_preference.id)
+    end
+
+    if duplicate.exists?
+      errors.add(:base, :duplicate_location_preference)
     end
   end
 end

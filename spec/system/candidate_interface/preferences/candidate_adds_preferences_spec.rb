@@ -184,6 +184,23 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_confirmation_page
   end
 
+  scenario 'Candidate adds duplicate radius and location combination' do
+    given_i_am_a_candidate_who_has_opted_in_with_a_dynamic_location
+    when_i_click('Change your application sharing preferences')
+    and_i_click('Change where you would like to train')
+    then_i_am_redirected_to_training_locations
+
+    when_i_select_specific_locations
+    and_i_click('Continue')
+    then_i_am_redirected_to_location_preferences(location_preferences)
+
+    when_i_click('Add another area')
+    and_i_enter_details_of_an_existing_location_preference
+    and_the_location_suggestions_service_is_stubbed
+    and_i_click('Add area')
+    then_i_see_the_duplicate_combination_error
+  end
+
   scenario 'Candidate edits radius on a dynamic location with invalid site data' do
     given_i_am_a_candidate_who_has_opted_in_with_a_dynamic_location
     and_i_have_a_location_preference_with_invalid_site_data_from_a_dynamic_location
@@ -279,6 +296,7 @@ RSpec.describe 'Candidate adds preferences' do
   def and_i_select_specific_locations
     choose 'In specific locations'
   end
+  alias_method :when_i_select_specific_locations, :and_i_select_specific_locations
 
   def when_i_select_anywhere
     choose 'Anywhere in England'
@@ -462,6 +480,11 @@ RSpec.describe 'Candidate adds preferences' do
     fill_in('from city, town or postcode', with: updated_location[:name])
   end
 
+  def and_i_enter_details_of_an_existing_location_preference
+    fill_in('I can travel up to', with: choice_location[:within])
+    fill_in('from city, town or postcode', with: choice_location[:name])
+  end
+
   def given_i_am_on_the_share_details_page
     visit candidate_interface_share_details_path
 
@@ -543,5 +566,15 @@ RSpec.describe 'Candidate adds preferences' do
   def and_the_funding_type_is_checked
     funding_type = find_by_id('candidate-interface-funding-type-preference-form-funding-type-fee-field')
     expect(funding_type).to be_checked
+  end
+
+  def and_the_location_suggestions_service_is_stubbed
+    suggestions_service = LocationSuggestions.new(new_location[:name])
+    allow(LocationSuggestions).to receive(:new).with(choice_location[:name]).and_return(suggestions_service)
+    allow(suggestions_service).to receive(:call).and_return([{ name: choice_location[:name], place_id: 'stubbed_id' }])
+  end
+
+  def then_i_see_the_duplicate_combination_error
+    expect(page).to have_content('This location and radius combination must not already exist')
   end
 end

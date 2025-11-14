@@ -155,6 +155,8 @@ en:
               inclusion: Select where you can train
         candidate_interface/location_preferences_form:
           attributes:
+            base:
+              duplicate_location_preference: This location and radius combination must not already exist
             within:
               blank: Enter a location radius
               greater_than_or_equal_to: The location radius must be 0 miles or more
