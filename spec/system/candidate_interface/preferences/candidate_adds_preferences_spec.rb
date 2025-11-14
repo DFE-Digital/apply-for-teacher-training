@@ -136,7 +136,7 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_confirmation_page
   end
 
-  scenario 'Candidate opts in to find a candidate for anywhere in England' do
+  scenario 'Candidate opts in to find a candidate for anywhere in England and edits preferences' do
     given_i_am_signed_in
     given_i_am_on_the_share_details_page
     and_i_click('Back')
@@ -160,6 +160,11 @@ RSpec.describe 'Candidate adds preferences' do
 
     when_i_click('Submit preferences')
     then_i_am_redirected_to_confirmation_page
+
+    when_i_click('Application sharing')
+    when_i_click('Change')
+    when_i_click('Submit preferences')
+    then_i_am_redirected_to_invites_page
   end
 
   scenario 'Candidate opts in to find a candidate for anywhere in England and applied to fee funded courses' do
@@ -543,5 +548,10 @@ RSpec.describe 'Candidate adds preferences' do
   def and_the_funding_type_is_checked
     funding_type = find_by_id('candidate-interface-funding-type-preference-form-funding-type-fee-field')
     expect(funding_type).to be_checked
+  end
+
+  def then_i_am_redirected_to_invites_page
+    expect(page).to have_current_path(candidate_interface_invites_path)
+    expect(page).to have_content('You are sharing your application details with providers you have not applied to')
   end
 end

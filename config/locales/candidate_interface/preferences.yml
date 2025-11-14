@@ -2,7 +2,7 @@ en:
   candidate_interface:
     publish_preferences:
       create:
-        success_opt_out: You are not sharing your application details with providers you have not applied to
+        success: You are sharing your application details with providers you have not applied to
       show:
         title: Check your application sharing preferences
         caption: Application sharing
