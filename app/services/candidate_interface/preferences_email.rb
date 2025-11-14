@@ -12,10 +12,12 @@ module CandidateInterface
     end
 
     def call
-      if preference.opt_in? && send_first_opt_in_email?
+      if preference.opt_in? && never_opted_in?
         CandidateMailer.pool_opt_in(application_form).deliver_later
-      elsif preference.opt_out?
+      elsif preference.opt_out? && never_opted_in?
         CandidateMailer.pool_opt_out(application_form).deliver_later
+      elsif preference.opt_out?
+        CandidateMailer.pool_opt_out_after_opting_in(application_form).deliver_later
       elsif preference.opt_in?
         CandidateMailer.pool_re_opt_in(application_form).deliver_later
       end
@@ -23,7 +25,7 @@ module CandidateInterface
 
   private
 
-    def send_first_opt_in_email?
+    def never_opted_in?
       application_form.emails.where(mail_template: 'pool_opt_in').blank?
     end
   end

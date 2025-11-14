@@ -51,5 +51,26 @@ RSpec.describe CandidateInterface::PreferencesEmail do
         )
       end
     end
+
+    context 'when opt_out_after_opting_in' do
+      let(:email) { create(:email, mail_template: 'pool_opt_in') }
+      let(:preference) do
+        create(
+          :candidate_preference,
+          application_form: email.application_form,
+          pool_status: 'opt_out',
+        )
+      end
+
+      before { allow(CandidateMailer).to receive(:pool_opt_out_after_opting_in).and_return(mailer) }
+
+      it 'calls CandidateMailer.pool_opt_out_after_opting_in' do
+        described_class.call(preference:)
+
+        expect(CandidateMailer).to have_received(:pool_opt_out_after_opting_in).with(
+          preference.application_form,
+        )
+      end
+    end
   end
 end

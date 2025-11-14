@@ -128,7 +128,8 @@ en:
             candidate_invite_limit_reached: Find a candidate invitation email when candidate reaches the maximum invites allowed.
             invites_chaser: Chaser email for candidates to respond to their invites if they are out of the pool because they didn't respond
             pool_opt_in: Email sent the first time the candidate opts into the pool
-            pool_opt_out: Email sent when a candidate opts out of the pool
+            pool_opt_out: Email sent the first time the candidate opts out of the pool
+            pool_opt_out_after_opting_in: Email sent when a candidate opts out of the pool having previously opted in
             pool_re_opt_in: Email sent when a candidate re opt ins into the pool
           provider_mailer:
             application_submitted: Missing description
