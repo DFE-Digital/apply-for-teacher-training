@@ -1,12 +1,13 @@
-ruby 3.4.4
-nodejs 20.11.0
-yarn 1.22.19
-azure-cli
-jq 1.6
-make 4.2.1
+ruby      3.4.4
+nodejs    20.11.0
+yarn      1.22.19
+azure-cli 
+jq        1.6
+make      4.2.1
 terraform 1.7.4
-redis 7.0.12
-postgres 16.10
-kubelogin
-kubectl
-caddy 2.7.6
+redis     7.0.12
+postgres  16.10
+kubelogin 
+kubectl   
+caddy     2.7.6
+python    3.10.11
