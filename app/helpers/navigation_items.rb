@@ -139,7 +139,7 @@ class NavigationItems
         items << {
           text: 'Find candidates',
           href: provider_interface_candidate_pool_root_path,
-          active: active?(current_controller, %w[candidates draft_invites invites not_seen shares]),
+          active: active?(current_controller, %w[candidates draft_invites invites invite_messages not_seen shares]),
         }
 
         items << {
