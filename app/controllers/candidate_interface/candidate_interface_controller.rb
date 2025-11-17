@@ -1,5 +1,6 @@
 module CandidateInterface
   class CandidateInterfaceController < ApplicationController
+    include Pundit::Authorization
     include BackLinks
     include Authentication
 

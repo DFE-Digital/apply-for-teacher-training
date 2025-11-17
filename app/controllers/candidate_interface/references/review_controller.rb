@@ -8,6 +8,7 @@ module CandidateInterface
       skip_before_action ::CarryOverFilter, only: %i[confirm_destroy_reference destroy]
 
       def show
+        @policy = ApplicationReferencePolicy.new(current_user, current_application)
         @section_complete_form = ReferenceSectionCompleteForm.new(
           completed: current_application.references_completed,
         )
@@ -53,12 +54,12 @@ module CandidateInterface
       end
 
       def set_references
-        @references = current_application
-                        .application_references.includes(:application_form)
-                        .order(
-                          Arel.sql('CASE WHEN (email_address IS NULL OR relationship IS NULL) THEN 0 ELSE 1 END ASC'),
-                          'created_at DESC',
-                        )
+        @references = ApplicationReferencePolicy::Scope.new(current_user, ApplicationReference).resolve
+          .includes(:application_form)
+          .order(
+            Arel.sql('CASE WHEN (email_address IS NULL OR relationship IS NULL) THEN 0 ELSE 1 END ASC'),
+            'created_at DESC',
+          )
       end
 
       def set_destroy_backlink

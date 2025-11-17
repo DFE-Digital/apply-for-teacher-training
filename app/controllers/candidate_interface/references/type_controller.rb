@@ -2,13 +2,15 @@ module CandidateInterface
   module References
     class TypeController < BaseController
       before_action :verify_type_is_editable, only: %i[new create]
-      before_action :redirect_to_review_page_unless_reference_is_editable, :set_edit_backlink, only: %i[edit update]
+      rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+      # after_action :verify_authorized
 
       def new
         @reference_type_form = Reference::RefereeTypeForm.new(referee_type: params[:referee_type])
       end
 
       def edit
+        authorize @reference, policy_class: ApplicationReferencePolicy
         @reference_type_form = Reference::RefereeTypeForm.build_from_reference(@reference)
       end
 
@@ -24,6 +26,7 @@ module CandidateInterface
       end
 
       def update
+        authorize @reference, policy_class: ApplicationReferencePolicy
         @reference_type_form = Reference::RefereeTypeForm.new(referee_type: referee_type_param)
 
         if @reference_type_form.update(@reference)
@@ -35,6 +38,11 @@ module CandidateInterface
       end
 
     private
+
+      def user_not_authorized
+        flash[:warning] = 'You are not authorized to perform this action.'
+        redirect_back_or_to(root_path)
+      end
 
       def next_path
         candidate_interface_references_name_path(@reference_type_form.referee_type, params[:id])

@@ -195,3 +195,5 @@ group :development, :test do
 end
 
 gem 'field_test', '~> 0.8.0'
+
+gem "pundit", "~> 2.5"
