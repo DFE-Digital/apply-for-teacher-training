@@ -12,6 +12,9 @@ RUN apk -U upgrade && \
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
+# Create non-root user and group with specific UIDs/GIDs (to match production stage)
+RUN addgroup -S appgroup -g 20001 && adduser -S appuser -G appgroup -u 10001
+
 ENV RAILS_ENV=production \
     GOVUK_NOTIFY_API_KEY=TestKey \
     AUTHORISED_HOSTS=127.0.0.1 \
@@ -64,6 +67,9 @@ RUN apk -U upgrade && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
+# Create non-root user and group with specific UIDs/GIDs
+RUN addgroup -S appgroup -g 20001 && adduser -S appuser -G appgroup -u 10001
+
 WORKDIR /app
 
 RUN echo export PATH=/usr/local/bin:\$PATH > /root/.ashrc
@@ -75,6 +81,14 @@ COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 RUN echo ${SHA} > public/check
+
+# Create writable directories and set ownership for non-root user
+RUN mkdir -p /app/tmp /app/log /home/appuser && \
+    chown -R appuser:appgroup /app/tmp /app/log /home/appuser && \
+    chmod 755 /app/tmp /app/log
+
+# Switch to non-root user
+USER 10001
 
 # Use this for development testing
 # CMD bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0
