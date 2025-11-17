@@ -552,6 +552,6 @@ RSpec.describe 'Candidate adds preferences' do
 
   def then_i_am_redirected_to_invites_page
     expect(page).to have_current_path(candidate_interface_invites_path)
-    expect(page).to have_content('You are sharing your application details with providers you have not applied to')
+    expect(page).to have_content('You have updated your application sharing preferences')
   end
 end
