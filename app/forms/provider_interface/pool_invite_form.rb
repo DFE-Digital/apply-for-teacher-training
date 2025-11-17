@@ -5,12 +5,14 @@ module ProviderInterface
 
     attr_accessor :id, :course_id, :course_id_raw, :return_to
     attr_reader :current_provider_user, :candidate
+    alias_attribute :value, :course_id
+    alias_attribute :raw_input, :course_id_raw
 
     validates :course_id, presence: true
+    validate :no_free_text_input
     validate :course_is_open if -> { course.present? }
     validate :already_invited_to_course if -> { course.present? }
     validate :already_applied_to_course if -> { course.present? }
-    validate :no_free_text_input
 
     def initialize(current_provider_user:, candidate: nil, pool_invite_form_params: {})
       @current_provider_user = current_provider_user
@@ -25,7 +27,6 @@ module ProviderInterface
         pool_invite_form_params: {
           id: invite.id,
           course_id: invite.course_id,
-          course_id_raw: invite.course_id,
         },
       )
     end
@@ -74,6 +75,15 @@ module ProviderInterface
       end
     end
 
+    def valid_options
+      @valid_options ||= available_courses.map do |course|
+        [
+          current_provider_user.providers.many? ? course.name_code_and_course_provider : course.name_and_code,
+          course.id,
+        ]
+      end.unshift([nil, nil])
+    end
+
   private
 
     def course_is_open
@@ -90,19 +100,7 @@ module ProviderInterface
     end
 
     def no_free_text_input
-      errors.add(:course_id, :invalid) if invalid_raw_data?
-    end
-
-    def raw_input
-      course_id_raw
-    end
-
-    def value
-      course_id
-    end
-
-    def valid_options
-      available_courses.map { |course| [course.id.to_s, course.id.to_s] }
+      errors.add(:course_id, :blank) if invalid_raw_data?
     end
   end
 end

@@ -14,7 +14,7 @@
         form.govuk_select(
           :course_id,
           options_for_select(
-            select_course_options_with_provider_name(pool_invite.available_courses).map { |opt| [opt.name, opt.id] },
+            pool_invite.valid_options,
             pool_invite.course_id,
           ),
           data: { controller: 'autocomplete' },
