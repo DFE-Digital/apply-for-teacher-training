@@ -169,6 +169,7 @@ private
           application_form: @application_form,
           created_at: time,
           updated_at: time,
+          school_placement_auto_selected: !course.provider.selectable_school,
         )
       end
 

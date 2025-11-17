@@ -17,9 +17,9 @@
         { key: 'Full name', value: @application_choice.application_form.full_name },
         { key: 'Course', value: @application_choice.course.name_and_code },
         { key: 'Starting', value: @application_choice.course.recruitment_cycle_year },
-        { key: 'Preferred location', value: @application_choice.site.name },
+        @application_choice.school_placement_auto_selected? ? {} : { key: 'Preferred location', value: @application_choice.site.name },
         { key: 'Reasons for withdrawal', value: @withdraw_offer.offer_withdrawal_reason },
-      ]) %>
+      ].compact_blank) %>
 
       <%= govuk_warning_text(text: 'We will tell the candidate you withdrew your offer, and share your reasons.') %>
 
