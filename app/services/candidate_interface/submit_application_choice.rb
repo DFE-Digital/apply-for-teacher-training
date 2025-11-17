@@ -29,6 +29,8 @@ module CandidateInterface
           preference: application_form.published_preference,
           application_choice:,
         )
+
+        application_form.candidate_pool_application.delete
       end
     end
 
