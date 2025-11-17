@@ -2,7 +2,7 @@ en:
   candidate_interface:
     publish_preferences:
       create:
-        success: You are sharing your application details with providers you have not applied to
+        success: You have updated your application sharing preferences
       show:
         title: Check your application sharing preferences
         caption: Application sharing
