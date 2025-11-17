@@ -31,6 +31,14 @@ module ProviderInterface
       end
     end
 
+    def course_applied_to
+      if application_choice.school_placement_auto_selected?
+        "#{course_name_and_code} - #{course_study_mode}"
+      else
+        "#{course_name_and_code} - #{course_study_mode} at #{site_name}"
+      end
+    end
+
     def recruitment_cycle_text
       if application_choice.recruitment_cycle == current_timetable.recruitment_cycle_year
         "Current cycle (#{current_timetable.cycle_range_name})"
