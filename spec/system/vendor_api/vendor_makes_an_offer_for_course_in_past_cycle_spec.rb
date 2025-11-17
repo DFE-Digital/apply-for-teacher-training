@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Vendor makes an offer for a course in the past recruitment cycle' do
-  scenario 'A vendor makes an invalid offer' do
+  scenario 'A vendor makes an invalid offer, feature flag active' do
+    given_the_feature_flag_is_activated
     given_a_candidate_has_submitted_their_application
     when_a_vendor_makes_an_offer_for_a_course_in_the_previous_cycle
     then_i_can_see_a_validation_error
@@ -11,6 +12,27 @@ RSpec.describe 'Vendor makes an offer for a course in the past recruitment cycle
 
     when_a_vendor_updates_the_conditions_of_the_offer
     then_the_offer_is_successful
+  end
+
+  scenario 'A vendor makes an invalid offer, feature flag not active' do
+    given_the_feature_flag_is_not_activated
+    given_a_candidate_has_submitted_their_application
+    when_a_vendor_makes_an_offer_for_a_course_in_the_previous_cycle
+    then_i_can_see_the_old_validation_error
+
+    when_a_vendor_makes_an_offer_for_a_course_in_the_current_cycle
+    then_the_offer_is_successful
+
+    when_a_vendor_updates_the_conditions_of_the_offer
+    then_the_offer_is_successful
+  end
+
+  def given_the_feature_flag_is_activated
+    FeatureFlag.activate(:handle_duplicate_sites_test)
+  end
+
+  def given_the_feature_flag_is_not_activated
+    FeatureFlag.deactivate(:handle_duplicate_sites_test)
   end
 
   def given_a_candidate_has_submitted_their_application
@@ -38,6 +60,14 @@ RSpec.describe 'Vendor makes an offer for a course in the past recruitment cycle
 
     expect(@api_response.status).to eq 422
     expect(validation_errors.first['message']).to eq("Course must be in #{current_year} recruitment cycle")
+  end
+
+  def then_i_can_see_the_old_validation_error
+    parsed_response_body = JSON.parse(@api_response.body)
+    validation_errors = parsed_response_body['errors']
+
+    expect(@api_response.status).to eq 422
+    expect(validation_errors.first['message']).to eq("Site #{@course_option.site.code} does not exist for provider #{@provider.code} in #{current_year}")
   end
 
   def when_a_vendor_makes_an_offer_for_a_course_in_the_current_cycle
