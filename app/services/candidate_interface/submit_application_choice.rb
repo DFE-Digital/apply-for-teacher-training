@@ -30,7 +30,7 @@ module CandidateInterface
           application_choice:,
         )
 
-        application_form.candidate_pool_application.delete
+        application_form.candidate_pool_application&.delete
       end
     end
 
