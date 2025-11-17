@@ -34,11 +34,20 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
       let(:site_for_another_course) { create(:site, code: 'QQ', provider: course_option.provider) }
       let!(:course_option_for_another_course) { create(:course_option, course: another_course, site: site_for_another_course) }
 
-      it 'is not valid' do
+      it 'is not valid, feature flag inactive' do
+        FeatureFlag.deactivate(:handle_duplicate_sites_test)
         service.site_code = site_for_another_course.code
         expect(service).not_to be_valid
         expected_message = "Cannot find any #{course_option.course.study_mode} options at site #{site_for_another_course.code} for course #{course_option.course.code}"
         expect(service.errors[:course_option]).to contain_exactly(expected_message)
+      end
+
+      it 'is not valid, feature flag active' do
+        FeatureFlag.activate(:handle_duplicate_sites_test)
+        service.site_code = site_for_another_course.code
+        expect(service).not_to be_valid
+        expected_message = "Site #{site_for_another_course.code} does not exist for provider #{course_option.provider.code} in #{course_option.course.recruitment_cycle_year}"
+        expect(service.errors[:site_code]).to contain_exactly(expected_message)
       end
     end
 
@@ -106,10 +115,10 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
       end
     end
 
-    context 'when the site code is a duplicate in the same cycle year' do
+    context 'when the site code is a duplicate in the same cycle year and same course' do
       let(:another_course) { create(:course, provider: course_option.provider) }
       let(:duplicate_site_code) { create(:site, code: course_option.site.code, provider: course_option.provider) }
-      let!(:course_option_for_another_course) { create(:course_option, course: another_course, site: duplicate_site_code) }
+      let!(:course_option_for_another_course) { create(:course_option, course: course_option.course, site: duplicate_site_code) }
 
       it 'is invalid' do
         expect(service).not_to be_valid

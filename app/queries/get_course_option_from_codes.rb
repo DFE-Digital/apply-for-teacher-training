@@ -37,7 +37,12 @@ class GetCourseOptionFromCodes
   end
 
   validates_each :site_code do |record, attr, value|
-    if record.provider && value.present?
+    if FeatureFlag.active?(:handle_duplicate_sites_test)
+      if record.provider && record.course && value.present?
+        validate_site_unique_for_course(record, attr, value)
+      end
+
+    elsif record.provider && value.present?
       validate_site_unique(record, attr, value)
     end
   end
@@ -91,10 +96,30 @@ class GetCourseOptionFromCodes
   def self.validate_site_unique(record, attr, value)
     current_year = RecruitmentCycleTimetable.current_year
     sites = record
+              .provider.sites
+              .joins(:course_options)
+              .merge(CourseOption.selectable)
+              .for_recruitment_cycle_years([current_year])
+              .where(code: value)
+
+    if sites.many?
+      record.errors.add(
+        attr,
+        I18n.t("#{LOCALE_PREFIX}.site_code.multiple", code: value, provider: record.provider.code),
+      )
+    else
+      record.site ||= sites.first
+      error_message = I18n.t("#{LOCALE_PREFIX}.site_code.blank", code: value, provider: record.provider.code, year: current_year)
+      record.errors.add(attr, error_message) unless record.site
+    end
+  end
+
+  def self.validate_site_unique_for_course(record, attr, value)
+    current_year = RecruitmentCycleTimetable.current_year
+    sites = record
       .provider.sites
       .joins(:course_options)
-      .merge(CourseOption.selectable)
-      .for_recruitment_cycle_years([current_year])
+      .merge(CourseOption.selectable.where(course: record.course))
       .where(code: value)
 
     if sites.many?

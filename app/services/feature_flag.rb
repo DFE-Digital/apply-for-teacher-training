@@ -29,6 +29,7 @@ class FeatureFlag
     [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],
     [:api_token_management, 'Allow provider users to manage their own api tokens', 'Apply team'],
     [:ms_clarity, 'Record sessions with MS Clarity'],
+    [:handle_duplicate_sites_test, 'Testing API integration where a provider has sites with duplicate codes', 'Lori Bailey'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
