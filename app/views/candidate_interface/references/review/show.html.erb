@@ -22,8 +22,10 @@
   <%= render(
     CandidateInterface::ReferencesReviewComponent.new(
       application_form: current_application,
-      editable: @section_policy.can_edit?,
-      deletable: @section_policy.can_delete?,
+      # editable: @section_policy.can_edit?,
+      editable: @policy.editable?,
+      # deletable: @section_policy.can_delete?,
+      deletable: @policy.deletable?,
       references: @references,
       heading_level: 2,
     ),

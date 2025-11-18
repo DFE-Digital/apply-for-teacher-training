@@ -2,6 +2,7 @@ module CandidateInterface
   class CandidateInterfaceController < ApplicationController
     include BackLinks
     include Authentication
+    include Pundit::Authorization
 
     before_action :protect_with_basic_auth
     before_action :track_email_click
