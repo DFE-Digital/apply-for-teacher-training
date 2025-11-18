@@ -15,6 +15,24 @@ RSpec.describe GenerateMonthlyStatistics, :sidekiq do
       stub_bigquery_application_metrics_request
     end
 
+    context 'with named dates' do
+      let(:generation_date) { 1.day.from_now }
+      let(:publication_date) { 3.days.from_now }
+
+      before do
+        TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2024, 10, 21))
+      end
+
+      it 'generates the report' do
+        described_class.new.perform(true, generation_date, publication_date)
+
+        expect(Publications::MonthlyStatistics::MonthlyStatisticsReport.count).to be 1
+        report = Publications::MonthlyStatistics::MonthlyStatisticsReport.last
+        expect(report.generation_date.to_date).to eq generation_date.to_date
+        expect(report.publication_date.to_date).to eq publication_date.to_date
+      end
+    end
+
     context 'when third Monday, but within the first month of the cycle' do
       before do
         TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2024, 10, 21))
