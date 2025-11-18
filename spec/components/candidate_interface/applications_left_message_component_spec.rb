@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::ApplicationsLeftMessageComponent do
 
   context 'when unsubmitted' do
     it 'returns default message' do
-      expect(message).to include('You can add up to 4 applications in progress at any time.')
+      expect(message).to include('You can have up to 4 applications in progress at any time.')
     end
   end
 
@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::ApplicationsLeftMessageComponent do
         create(:application_choice, :awaiting_provider_decision, application_form:)
         create(:application_choice, :rejected, application_form:)
         create(:application_choice, :inactive, application_form:)
-        expect(message).to include('You can add 2 more applications.')
+        expect(message).to include('You can submit 2 more applications.')
       end
     end
 

@@ -832,7 +832,7 @@ module CandidateHelper
     expect(page).to have_current_path(candidate_interface_details_path)
     click_link_or_button 'Your applications'
     expect(page).to have_current_path(candidate_interface_application_choices_path)
-    expect(page).to have_content('You can add up to 4 applications in progress at any time.')
+    expect(page).to have_content('You can have up to 4 applications in progress at any time.')
     expect(page).to have_content(
       'If an application becomes inactive, is withdrawn or rejected you can add another, up to a maximum of 15 in a single recruitment cycle.',
     )
