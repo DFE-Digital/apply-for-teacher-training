@@ -3,7 +3,7 @@ module CandidateInterface
     class TypeController < BaseController
       before_action :verify_type_is_editable, only: %i[new create]
       # before_action :redirect_to_review_page_unless_reference_is_editable, :set_edit_backlink, only: %i[edit update]
-      skip_before_action :verify_edit_authorized_section
+      skip_before_action :verify_edit_authorized_section, only: %i[edit update]
       # after_action :verify_authorized
       rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
