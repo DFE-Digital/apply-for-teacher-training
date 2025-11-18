@@ -55,7 +55,7 @@ RSpec.describe ProviderInterface::InterviewFormComponent do
       let(:interview_preferences) { 'I use a wheelchair' }
 
       it 'renders the preferences' do
-        expect(render.css('.app-banner > h2').first.text).to eq('Candidate interview preferences')
+        expect(render.css('.app-banner > h2').first.text).to eq('Details of when this candidate is not available for interview')
         expect(render.css('.app-banner > p').first.text).to eq('I use a wheelchair')
       end
     end
