@@ -194,10 +194,8 @@ module SupportInterface
     def write_subject_report(subject_report)
       if generate_diagnostic_report?
         add_subject_report_totals(subject_report)
-        File.write(
-          "subjects-#{Time.zone.now.to_s.gsub(/ \+\d+/, '').gsub(' ', '-').gsub(':', '')}.json",
-          subject_report.to_json(indent: 2),
-        )
+        file_name = "subjects-#{Time.zone.now.to_s.gsub(/ \+\d+/, '').gsub(' ', '-').gsub(':', '')}.json"
+        Rails.root.join('tmp', file_name).write(subject_report.to_json(indent: 2))
       end
     end
 

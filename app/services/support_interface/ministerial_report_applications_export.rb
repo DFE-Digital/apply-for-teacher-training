@@ -19,13 +19,13 @@ module SupportInterface
       report = assign_totals_to_report(report)
 
       File.write(
-        "ministerial-report-applications-#{Time.zone.now}.txt",
+        writable_path("ministerial-report-applications-#{Time.zone.now}.txt"),
         report.inspect,
       )
 
       if generate_diagnostic_report?
         File.write(
-          "subjects-applications-#{Time.zone.now.to_s.gsub(/ \+\d+/, '').gsub(' ', '-').gsub(':', '')}.json",
+          writable_path("subjects-applications-#{Time.zone.now.to_s.gsub(/ \+\d+/, '').gsub(' ', '-').gsub(':', '')}.json"),
           subject_ids_report.to_json(indent: 2),
         )
       end
@@ -77,6 +77,10 @@ module SupportInterface
     alias data_for_export call
 
   private
+
+    def writable_path(file_name)
+      Rails.root.join('tmp', file_name)
+    end
 
     def initialize_empty_report
       report_columns = {
