@@ -44,7 +44,7 @@ RSpec.describe 'Candidate submits an application up to 4 choices' do
   end
 
   def then_i_can_see_i_have_one_choice_left
-    expect(page).to have_content 'You can add 1 more application'
+    expect(page).to have_content 'You can submit 1 more application'
   end
 
   def and_i_am_unable_to_add_any_further_choices

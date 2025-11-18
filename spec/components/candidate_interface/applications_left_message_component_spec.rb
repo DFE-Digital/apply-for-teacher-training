@@ -7,14 +7,6 @@ RSpec.describe CandidateInterface::ApplicationsLeftMessageComponent do
     render_inline(described_class.new(application_form)).text
   end
 
-  context 'when details are incomplete' do
-    let(:application_form) { create(:application_form, :minimum_info) }
-
-    it 'returns incomplete details message' do
-      expect(message).to include('You will not be able to submit applications until you have completed your details.')
-    end
-  end
-
   context 'when details are complete' do
     let(:application_form) { create(:application_form, :completed) }
 
@@ -25,7 +17,7 @@ RSpec.describe CandidateInterface::ApplicationsLeftMessageComponent do
 
   context 'when unsubmitted' do
     it 'returns default message' do
-      expect(message).to include('You can add up to 4 applications at a time.')
+      expect(message).to include('You can have up to 4 applications in progress at any time.')
     end
   end
 
@@ -38,7 +30,7 @@ RSpec.describe CandidateInterface::ApplicationsLeftMessageComponent do
         create(:application_choice, :awaiting_provider_decision, application_form:)
         create(:application_choice, :rejected, application_form:)
         create(:application_choice, :inactive, application_form:)
-        expect(message).to include('You can add 2 more applications.')
+        expect(message).to include('You can submit 2 more applications.')
       end
     end
 

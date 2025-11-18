@@ -21,14 +21,19 @@
 <% elsif application_form_presenter.can_add_more_choices? %>
   <%= christmas_response_time_warning_text %>
   <%= render CandidateInterface::ApplicationsLeftMessageComponent.new(application_form) %>
-  <p class="govuk-body"><%= t('mid_cycle_content_component.training_providers_offer_places_throughout_the_year') %></p>
-  <p class="govuk-body"><%= t('mid_cycle_content_component.courses_fill_up_quickly') %></p>
   <p class="govuk-body">
     <%= govuk_link_to t('mid_cycle_content_component.read_how_the_application_process_works'), candidate_interface_guidance_path %>.
   </p>
+  <p class="govuk-body"><%= t('mid_cycle_content_component.training_providers_offer_places_throughout_the_year') %></p>
+  <p class="govuk-body"><%= t('mid_cycle_content_component.once_a_course_is_full') %></p>
+
+  <% if incomplete_details_message.present? %>
+    <p class="govuk-body"><%= incomplete_details_message %></p>
+  <% end %>
+
   <%= govuk_button_link_to t('mid_cycle_content_component.add_application'), candidate_interface_course_choices_do_you_know_the_course_path %>
 <% else %>
-  <p class="govuk-body">You have 4 applications in progress.</p>
+  <p class="govuk-body">You have 4 applications in progress. This is the maximum allowed.</p>
   <%= govuk_warning_text(text: t('mid_cycle_content_component.you_cannot_add_any_more_applications')) %>
   <p class="govuk-body"><%= t('mid_cycle_content_component.you_can_add_more_applications_if') %></p>
 

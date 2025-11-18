@@ -51,7 +51,7 @@ RSpec.describe 'Candidate with submitted applications' do
   end
 
   def then_i_can_add_another_application
-    expect(page).to have_content('You can add 1 more application.')
+    expect(page).to have_content('You can submit 1 more application.')
   end
 
   def then_i_can_not_see_the_inactive_warning_text

@@ -205,7 +205,7 @@ RSpec.describe 'Candidate submits the application' do
   end
 
   def and_i_can_see_i_have_three_choices_left
-    expect(page).to have_content 'You can add 3 more applications.'
+    expect(page).to have_content 'You can submit 3 more applications.'
   end
 
   def when_i_have_three_further_draft_choices
@@ -226,7 +226,7 @@ RSpec.describe 'Candidate submits the application' do
 
   def then_i_am_able_to_add_another_choice
     visit current_path
-    expect(page).to have_content 'You can add 1 more application.'
+    expect(page).to have_content 'You can submit 1 more application.'
   end
 
   def when_i_go_back

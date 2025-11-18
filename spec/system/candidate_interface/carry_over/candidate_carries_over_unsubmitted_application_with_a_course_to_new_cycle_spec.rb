@@ -122,7 +122,7 @@ private
   end
 
   def then_i_can_see_that_i_need_to_select_courses
-    expect(page).to have_content('You can add up to 4 applications at a time.')
+    expect(page).to have_content('You can have up to 4 applications in progress at any time.')
   end
 
   def when_i_add_a_course
@@ -179,7 +179,7 @@ private
     click_on 'Confirm and submit application'
     expect(page).to have_content 'Application submitted'
     click_on 'Back to your applications'
-    expect(page).to have_content 'You can add 3 more applications'
+    expect(page).to have_content 'You can submit 3 more applications'
   end
 
   def and_i_complete_the_section

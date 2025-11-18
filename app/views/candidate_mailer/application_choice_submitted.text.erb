@@ -6,6 +6,10 @@ You have submitted an application for <%= @application_choice.course_option.cour
 
 Your training provider will contact you if they would like to organise an interview.
 
+<% if @number_of_slots_left.to_i.positive? %>
+  You can submit up to <%= @number_of_slots_left %> more <%= 'application'.pluralize(@number_of_slots_left) %>. If an application becomes inactive, is withdrawn or rejected you can add another, up to a maximum of 15 in a single recruitment cycle.
+<% end %>
+
 <% if @holiday_response_time_indicator.christmas_response_time_delay_possible? %>
   We do not count the days between Christmas day and New Years day as working days, so it could take providers longer to respond to your application at the moment.
 <% end %>

@@ -7,7 +7,7 @@ en:
     email_for_help_html: Email %{email_address} if you need help with your applications.
     becoming_a_teacher_email: becomingateacher@digital.education.gov.uk
     training_providers_offer_places_throughout_the_year: >
-      Training providers offer places on courses as people apply throughout the year. Courses stay open until they are full.
+      Training providers offer places on courses as people apply throughout the year. Courses can fill up quickly, so you should apply as soon as you are ready rather than putting it off.
     courses_fill_up_quickly: Courses can fill up quickly, so you should apply as soon as you are ready rather than putting it off.
     read_how_the_application_process_works: Read how the application process works
     add_application: Add application
@@ -23,3 +23,5 @@ en:
     conditions_not_met: 'you did not meet the conditions of an offer'
     christmas_warning: If training providers do not respond to you within 30 working days, you will be able to apply to another course while you wait for a response. We do not count the days between Christmas day and New Years day as working days.
     easter_warning: If training providers do not respond to you within 30 working days, you will be able to apply to another course while you wait for a response. Around the Easter holidays it can take longer for training providers to respond to applications.
+    incomplete_details_message: 'You will not be able to submit applications until you have completed %{link}.'
+    once_a_course_is_full: Once a course is full, it will close and you will not be able to submit an application until next year.
