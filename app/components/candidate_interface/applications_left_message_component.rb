@@ -9,20 +9,16 @@ module CandidateInterface
 
     def initialize(application_form)
       @application_form = application_form
-      @completed_application_form_details = CandidateInterface::CompletedApplicationForm.new(application_form:)
     end
 
     def messages
-      [maximum_number_of_applications_message, incomplete_details_message].flatten.compact
+      [maximum_number_of_applications_message, inactive_application_message].flatten.compact
     end
 
   private
 
-    def incomplete_details_message
-      return if @completed_application_form_details.valid?
-
-      link = govuk_link_to('your details', candidate_interface_details_path)
-      t('candidate_interface.applications_left_message.incomplete_details_message', link:).html_safe
+    def inactive_application_message
+      t('candidate_interface.applications_left_message.inactive_application_message')
     end
 
     def maximum_number_of_applications_message

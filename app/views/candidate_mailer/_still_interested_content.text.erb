@@ -8,7 +8,9 @@ All you need to do is:
 
 <% else %>
 
-If now’s the right time for you, you can still apply for teacher training again this year.
+<% if @application_form.number_of_slots_left.to_i.positive? %>
+If now’s the right time for you, you can still apply for up to <%= @application_form.number_of_slots_left %> more <%= 'course'.pluralize( @application_form.number_of_slots_left) %> this year.
+<% end %>
 
 <% if @course_recommendation_url %>
 Based on the details in your previous application, you could be suitable for other teacher training courses.

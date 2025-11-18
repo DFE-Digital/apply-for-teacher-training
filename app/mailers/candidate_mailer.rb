@@ -4,7 +4,7 @@ class CandidateMailer < ApplicationMailer
 
   def application_choice_submitted(application_choice)
     @application_choice = application_choice
-
+    @number_of_slots_left = application_choice.application_form.number_of_slots_left
     @holiday_response_time_indicator = CandidateInterface::HolidayResponseTimeIndicator.new(application_choice:)
 
     email_for_candidate(
@@ -85,6 +85,7 @@ class CandidateMailer < ApplicationMailer
 
   def application_rejected(application_choice, course_recommendation_url = nil)
     @course = application_choice.current_course_option.course
+    @number_of_slots_left = application_choice.application_form.number_of_slots_left
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @course_recommendation_url = course_recommendation_url
 

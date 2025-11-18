@@ -2,12 +2,20 @@ module CandidateInterface
   class MidCycleContentComponent < ViewComponent::Base
     def initialize(application_form:)
       @application_form = application_form
+      @completed_application_form_details = CandidateInterface::CompletedApplicationForm.new(application_form:)
     end
 
     attr_reader :application_form
 
     def application_form_presenter
       @application_form_presenter ||= CandidateInterface::ApplicationFormPresenter.new(application_form)
+    end
+
+    def incomplete_details_message
+      return if @completed_application_form_details.valid?
+
+      link = govuk_link_to('your details', candidate_interface_details_path)
+      t('mid_cycle_content_component.incomplete_details_message', link:).html_safe
     end
 
     def christmas_response_time_warning_text

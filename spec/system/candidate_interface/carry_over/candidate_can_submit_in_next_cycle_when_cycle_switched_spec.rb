@@ -146,7 +146,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
   end
 
   def then_i_can_see_that_i_need_to_select_courses
-    expect(page).to have_content('You can add up to 4 applications at a time')
+    expect(page).to have_content('You can add up to 4 applications in progress at any time.')
   end
 
   def and_i_select_a_course
