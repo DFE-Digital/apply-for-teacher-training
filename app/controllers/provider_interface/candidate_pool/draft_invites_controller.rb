@@ -80,7 +80,7 @@ module ProviderInterface
 
       def pool_invite_form_params
         params.expect(
-          provider_interface_pool_invite_form: %i[course_id id status return_to],
+          provider_interface_pool_invite_form: %i[course_id id course_id_raw status return_to],
         )
       end
 
