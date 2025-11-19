@@ -32,7 +32,7 @@ en:
       destroy:
         success: Interview cancelled
     interview_form_component:
-      interview_preferences: Candidate interview preferences
+      interview_preferences: Details of when this candidate is not available for interview
   helpers:
     label:
       provider_interface_interview_wizard:
