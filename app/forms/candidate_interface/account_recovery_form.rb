@@ -10,6 +10,7 @@ module CandidateInterface
 
     validate :account_recovery, unless: -> { valid_account_recovery_request && old_candidate }
     validate :previous_account_has_no_one_login, if: -> { valid_account_recovery_request && old_candidate }
+    validate :candidate_recoverable, if: -> { valid_account_recovery_request && old_candidate }
 
     def initialize(current_candidate:, code: nil)
       self.code = code
@@ -25,7 +26,7 @@ module CandidateInterface
       @valid_account_recovery_request = valid_request_code&.account_recovery_request
       @old_candidate = Candidate.find_by(email_address: valid_account_recovery_request&.previous_account_email_address)
 
-      return false unless valid? && candidate_recoverable?
+      return false unless valid?
 
       ActiveRecord::Base.transaction do
         old_candidate.account_recovery_status_recovered!
@@ -51,16 +52,14 @@ module CandidateInterface
       end
     end
 
-    def candidate_recoverable?
-      if current_candidate.recoverable?
-        true
-      else
+    def candidate_recoverable
+      unless current_candidate.recoverable?
         Sentry.capture_exception(
           CandidateHasApplicationsSent.new(
             'This candidate cannot recover their account because they have application choices sent',
           ),
         )
-        false
+        errors.add(:code, :applications_submitted)
       end
     end
 
