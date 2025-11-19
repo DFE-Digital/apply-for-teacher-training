@@ -54,7 +54,7 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   end
 
   def and_i_visit_the_all_candidates_tab
-    click_on 'All candidates'
+    click_on 'All available candidates'
   end
 
   def and_i_invite_a_candidate
@@ -211,7 +211,7 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
 
   def when_i_click_on_all_tab
     within '.app-tab-navigation' do
-      click_link_or_button 'All candidates'
+      click_link_or_button 'All available candidates'
     end
   end
 
