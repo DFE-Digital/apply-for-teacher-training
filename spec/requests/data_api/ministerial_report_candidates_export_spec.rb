@@ -3,7 +3,12 @@ require 'rails_helper'
 RSpec.describe 'GET /data-api/ministerial-report/candidates/latest', :sidekiq do
   include DataAPISpecHelper
 
-  it_behaves_like 'a TAD API endpoint', '/candidates'
+  it 'verifies the API token' do
+    get_api_request '/data-api/ministerial-report/candidates/latest', token: nil
+
+    expect(response).to have_http_status(:unauthorized)
+    expect(parsed_response).to be_valid_against_openapi_schema('UnauthorizedResponse')
+  end
 
   it 'returns the latest ministerial report candidates export' do
     create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, status: 'rejected')

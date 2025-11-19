@@ -45,8 +45,6 @@ module SupportInterface
 
       export_rows[:total] = export_rows[:total].merge(export_rows[:split]) { |_k, total_value, split_value| total_value + split_value }
 
-      write_subject_report(subject_report)
-
       export_rows.map { |subject, value| { subject: }.merge!(value) }
     end
 
@@ -189,14 +187,6 @@ module SupportInterface
       end
 
       subject_report
-    end
-
-    def write_subject_report(subject_report)
-      if generate_diagnostic_report?
-        add_subject_report_totals(subject_report)
-        file_name = "subjects-#{Time.zone.now.to_s.gsub(/ \+\d+/, '').gsub(' ', '-').gsub(':', '')}.json"
-        Rails.root.join('tmp', file_name).write(subject_report.to_json(indent: 2))
-      end
     end
 
     def current_year

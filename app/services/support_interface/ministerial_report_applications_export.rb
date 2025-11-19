@@ -16,21 +16,7 @@ module SupportInterface
         add_choice_to_report(choice, report_in_progress, subject_ids_report)
       end
 
-      report = assign_totals_to_report(report)
-
-      File.write(
-        writable_path("ministerial-report-applications-#{Time.zone.now}.txt"),
-        report.inspect,
-      )
-
-      if generate_diagnostic_report?
-        File.write(
-          writable_path("subjects-applications-#{Time.zone.now.to_s.gsub(/ \+\d+/, '').gsub(' ', '-').gsub(':', '')}.json"),
-          subject_ids_report.to_json(indent: 2),
-        )
-      end
-
-      report
+      assign_totals_to_report(report)
     end
 
     def add_choice_to_report(choice, report, subject_ids_report)
@@ -77,10 +63,6 @@ module SupportInterface
     alias data_for_export call
 
   private
-
-    def writable_path(file_name)
-      Rails.root.join('tmp', file_name)
-    end
 
     def initialize_empty_report
       report_columns = {
