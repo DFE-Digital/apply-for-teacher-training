@@ -2,6 +2,6 @@ en:
   provider_interface:
     find_candidates:
       tab_navigation_component:
-        all: All candidates
+        all: All available candidates
         not_seen: New
         invited: Invited
