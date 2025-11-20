@@ -1,10 +1,11 @@
 module CandidateInterface
   class OfferDashboardController < CandidateInterfaceController
-    before_action :redirect_to_completed_dashboard_if_not_accepted_deferred_or_recruited
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
     before_action :set_reference, :redirect_to_review_if_application_not_requested_yet, only: %i[view_reference]
+    after_action :verify_authorized
 
     def show
+      authorize :offer_dashboard, :show?, policy_class: OfferDashboardPolicy
       @application_form = current_application
       choices = current_application.application_choices.includes(:offer, course_option: [course: :provider])
       @application_choice = choices.pending_conditions.first || choices.recruited.first || choices.offer_deferred.first
@@ -18,6 +19,11 @@ module CandidateInterface
         pending_conditions
         recruited
       ])
+    end
+
+    def view_reference
+      # test this policy
+      authorize :offer_dashboard, :show?, policy_class: OfferDashboardPolicy
     end
 
   private

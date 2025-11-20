@@ -1,4 +1,8 @@
 en:
+  candidate_interface:
+    references:
+      not_authorised:
+        must_have_at_least_one_reference: You must have at least one reference. Request another reference before you can delete the current one.
   application_form:
     references:
       request_reference:
