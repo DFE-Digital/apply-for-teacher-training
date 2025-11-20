@@ -15,6 +15,7 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'securerandom'
 require 'dotenv/load'
+require 'pundit/rspec'
 
 Bundler.require(:test)
 
