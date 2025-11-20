@@ -6,6 +6,7 @@ module CandidateInterface
       before_action :set_backlink
       skip_before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
       after_action :verify_authorized
+      after_action :verify_policy_scoped
 
       def new
         authorize @reference, :cancel?, policy_class: ApplicationReferencePolicy

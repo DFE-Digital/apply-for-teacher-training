@@ -48,11 +48,17 @@ private
       @scope = scope
     end
 
+    def current_application
+      if user.is_a?(Candidate)
+        @current_application ||= user.current_application
+      end
+    end
+
     def resolve
       raise NoMethodError, "You must define #resolve in #{self.class}"
     end
 
-    private
+  private
 
     attr_reader :user, :scope
   end

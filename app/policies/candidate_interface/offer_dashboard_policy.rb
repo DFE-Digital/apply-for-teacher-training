@@ -13,5 +13,11 @@ module CandidateInterface
     def any_deferred_offer?
       current_application.application_choices.map(&:status).include?('offer_deferred')
     end
+
+    class Scope < ApplicationPolicy::Scope
+      def resolve
+        scope.where(application_form_id: current_application.id).creation_order
+      end
+    end
   end
 end
