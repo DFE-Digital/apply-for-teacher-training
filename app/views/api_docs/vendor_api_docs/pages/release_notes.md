@@ -3,7 +3,7 @@
 
 Some further changes were added to this version and all previous versions in October 2025:
 
-- Add PreviousTeacherTraining to the ApplicationAttribute
+- Add PreviousTeacherTraining object
 - Add optional course parameter to confirm-deferred-offer endpoint
 
 Please refer to the [Version 1.6 changes](/api-docs/v1.6/reference#important) for details.
