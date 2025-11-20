@@ -1,5 +1,25 @@
 <h2 class="govuk-heading-l" id="important">Version 1.6 changes</h2>
 
+<h3 class="govuk-heading-m">Changes added to this version and all previous versions in October 2025: </h3>
+
+<p class="govuk-heading-s">Add PreviousTeacherTraining object<p>
+
+<p class="govuk-body">
+  The <%= govuk_link_to 'PreviousTeacherTraining', '#previousteachertraining-object' %>  object has been introduced.
+</p>
+
+<p class="govuk-heading-s">Add optional course parameter to confirm-deferred-offer endpoint<p>
+
+<p class="govuk-body">
+  The following field has been added to the <%= govuk_link_to 'ConfirmDeferredOffer', '#confirmdeferredoffer-object' %> object:
+</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li><code>course</code> (<%= govuk_link_to 'Course object', '#course-object' %>, optional) - If provided with requests to the <%= govuk_link_to 'confirm-deferred-offer', '#post-applications-application_id-confirm-deferred-offer' %> endpoint, the call will succeed with updated course details.</li>
+</ul>
+
+<h3 class="govuk-heading-m govuk-!-margin-top-6">Changes released in February 2025: </h3>
+
 <p class="govuk-heading-s">Add the confidentiality status, selected by the referee for the reference</p>
 
 <p class="govuk-body">
@@ -8,6 +28,7 @@
 <ul class="govuk-list govuk-list--bullet">
   <li><code>confidential</code> (boolean) - This value must be selected by the referee when submitting the reference</li>
 </ul>
+</p>
 
 <p class="govuk-heading-s">Add inactive to the ApplicationAttribute</p>
 
@@ -15,5 +36,6 @@
   The following field has been added to the <%= govuk_link_to 'application', '#applicationattributes-object' %> object:
 
 <ul class="govuk-list govuk-list--bullet">
-  <li><code>inactive</code> (boolean, required)</li>
+  <li><code>inactive</code> (boolean) </li>
 </ul>
+</p>
