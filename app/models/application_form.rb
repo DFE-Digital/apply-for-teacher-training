@@ -66,7 +66,7 @@ class ApplicationForm < ApplicationRecord
   has_many :previous_teacher_trainings, dependent: :destroy
 
   belongs_to :previous_application_form, class_name: 'ApplicationForm', optional: true, inverse_of: 'subsequent_application_form'
-  has_one :subsequent_application_form, class_name: 'ApplicationForm', foreign_key: 'previous_application_form_id', inverse_of: 'previous_application_form'
+  has_one :subsequent_application_form, class_name: 'ApplicationForm', foreign_key: 'previous_application_form_id', inverse_of: 'previous_application_form', dependent: :destroy
   has_one :english_proficiency
 
   has_many :application_feedback

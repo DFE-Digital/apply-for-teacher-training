@@ -46,6 +46,7 @@ en:
               expired: This code has expired, you can request a new one
               not_found: This code is not recognised, you can request a new one
               one_login_already_present: The account you are trying to claim is already linked to a GOV.UK One Login. Use that email address to sign in to Apply for teacher training.
+              applications_submitted: You cannot claim another account because this account has submitted applications in the past.
         candidate_interface/account_recovery_request_form:
           attributes:
             previous_account_email_address:

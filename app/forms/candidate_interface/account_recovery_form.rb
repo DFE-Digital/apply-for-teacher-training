@@ -10,6 +10,7 @@ module CandidateInterface
 
     validate :account_recovery, unless: -> { valid_account_recovery_request && old_candidate }
     validate :previous_account_has_no_one_login, if: -> { valid_account_recovery_request && old_candidate }
+    validate :candidate_recoverable, if: -> { valid_account_recovery_request && old_candidate }
 
     def initialize(current_candidate:, code: nil)
       self.code = code
@@ -50,5 +51,18 @@ module CandidateInterface
         errors.add(:code, :one_login_already_present)
       end
     end
+
+    def candidate_recoverable
+      unless current_candidate.recoverable?
+        Sentry.capture_exception(
+          CandidateHasApplicationsSent.new(
+            'This candidate cannot recover their account because they have application choices sent',
+          ),
+        )
+        errors.add(:code, :applications_submitted)
+      end
+    end
+
+    class CandidateHasApplicationsSent < StandardError; end
   end
 end

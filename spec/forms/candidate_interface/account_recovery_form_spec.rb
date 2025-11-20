@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::AccountRecoveryForm, type: :model do
+  before do
+    FeatureFlag.activate(:one_login_candidate_sign_in)
+  end
+
   subject(:form) do
     described_class.new(current_candidate:, code:)
   end
@@ -88,6 +92,25 @@ RSpec.describe CandidateInterface::AccountRecoveryForm, type: :model do
         form.call
         expect { current_candidate.reload }.to raise_error(ActiveRecord::RecordNotFound)
         expect { adviser_sign_up.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'when the candidate has application_choices submitted' do
+      it 'does not recover account and raises sentry error' do
+        _previous_cycle_application_form = create(
+          :application_form,
+          :completed,
+          candidate: current_candidate,
+          recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
+          previous_application_form: current_candidate.current_application,
+          submitted_application_choices_count: 1,
+        )
+        allow(Sentry).to receive(:capture_exception)
+
+        expect(form.call).to be(false)
+        expect(old_candidate.reload.account_recovery_status).to eq('not_started')
+        expect(old_candidate.one_login_auth.present?).to be(false)
+        expect(Sentry).to have_received(:capture_exception)
       end
     end
   end
