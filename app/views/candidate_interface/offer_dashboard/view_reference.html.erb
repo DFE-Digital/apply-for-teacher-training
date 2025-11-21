@@ -42,7 +42,7 @@
     </tbody>
   </table>
 
-  <% if @reference.feedback_requested? %>
+  <% if CandidateInterface::ApplicationReferencePolicy.new(current_candidate, @reference).show_cancel_link? %>
     <div class="govuk-button-group">
       <%= render(CandidateInterface::ReferenceSendReminderComponent.new(@reference)) %>
 

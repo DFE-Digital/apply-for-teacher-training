@@ -3,6 +3,8 @@ module CandidateInterface
     include BackLinks
     include Authentication
 
+    rescue_from Pundit::NotAuthorizedError, with: :handle_unauthorised
+
     before_action :protect_with_basic_auth
     before_action :track_email_click
     before_action :authenticate_candidate!, unless: -> { one_login_enabled? }
@@ -174,6 +176,10 @@ module CandidateInterface
 
     def any_offers_accepted_or_deferred_or_recruited?
       any_accepted_offer? || current_application.recruited? || any_deferred_offer?
+    end
+
+    def handle_unauthorised
+      redirect_to root_path
     end
   end
 end

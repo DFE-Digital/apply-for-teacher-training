@@ -1,5 +1,5 @@
 class FlashMessageComponent < ViewComponent::Base
-  ALLOWED_PRIMARY_KEYS = %i[info warning success].freeze
+  ALLOWED_PRIMARY_KEYS = %i[info warning success error].freeze
 
   def initialize(flash:)
     @flash = flash.to_hash.symbolize_keys!

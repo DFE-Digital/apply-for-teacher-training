@@ -255,7 +255,7 @@ RSpec.describe 'New References', :with_audited do
   end
 
   def and_i_click_cancel_request_from_the_list_page
-    click_link_or_button 'cancel request'
+    all('a', text: 'cancel request').last.click
   end
 
   def back_link

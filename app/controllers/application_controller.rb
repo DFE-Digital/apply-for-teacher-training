@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include RequestQueryParams
   include DfE::Analytics::Requests
   include ApplicationHelper
+  include Pundit::Authorization
 
   def current_user; end
 

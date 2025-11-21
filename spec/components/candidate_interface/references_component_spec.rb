@@ -3,9 +3,8 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::ReferencesComponent, type: :component do
   let(:url_helpers) { Rails.application.routes.url_helpers }
   let(:reference_condition) { nil }
-  let(:application_form) { create(:application_form, application_references: [reference]) }
   let(:reference) { create(:reference, feedback_status: 'feedback_requested', requested_at: 2.seconds.ago) }
-  let(:result) { render_inline(described_class.new(application_form:, reference_condition:)) }
+  let(:result) { render_inline(described_class.new(references: [reference], reference_condition:)) }
 
   context 'when reference condition' do
     context 'when is met' do
