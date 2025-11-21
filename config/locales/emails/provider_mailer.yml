@@ -28,11 +28,11 @@ en:
       content:
         single_provider:
           relationship_setup_info:
-            one: Either you or this partner organisation must set up organisation permissions before you can manage teacher training applications.
-            other: Either you or these partner organisations must set up organisation permissions before you can manage teacher training applications.
+            one: Either you or this training partner must set up organisation permissions before you can manage teacher training applications.
+            other: Either you or these training partners must set up organisation permissions before you can manage teacher training applications.
           when_to_setup_relationship:
-            one: You will be asked to set up organisation permissions when you sign in, unless your partner organisation sets them up first.
-            other: You will be asked to set up organisation permissions when you sign in, unless your partner organisations set them up first.
+            one: You will be asked to set up organisation permissions when you sign in, unless your training partner sets them up first.
+            other: You will be asked to set up organisation permissions when you sign in, unless your training partners set them up first.
     permissions_granted:
       subject: "%{permissions_granted_by_user} added you to %{organisation}"
     permissions_granted_by_support:
