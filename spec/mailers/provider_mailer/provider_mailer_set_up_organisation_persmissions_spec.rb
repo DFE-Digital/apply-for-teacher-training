@@ -16,8 +16,8 @@ RSpec.describe ProviderMailer do
         'salutation' => 'Dear Johny English',
         'main paragraph' => 'Candidates can now find courses you run with:',
         'partner providers' => '- University of Croydon',
-        'relationship_setup_paragraph' => 'Either you or this partner organisation',
-        'when_to_setup_relationship' => 'unless your partner organisation sets them up',
+        'relationship_setup_paragraph' => 'Either you or this training partner',
+        'when_to_setup_relationship' => 'unless your training partner sets them up',
         'link to applications' => 'http://localhost:3000/provider/applications',
         'footer' => 'Get help, report a problem or give feedback',
       )
@@ -35,8 +35,8 @@ RSpec.describe ProviderMailer do
         'salutation' => 'Dear Johny English',
         'main paragraph' => 'Candidates can now find courses you run with:',
         'partner providers' => /- University of Croydon\s+- University of Purley/,
-        'relationship_setup_paragraph' => 'Either you or these partner organisations',
-        'when_to_setup_relationship' => 'unless your partner organisations set them up',
+        'relationship_setup_paragraph' => 'Either you or these training partners',
+        'when_to_setup_relationship' => 'unless your training partners set them up',
         'link to applications' => 'http://localhost:3000/provider/applications',
         'footer' => 'Get help, report a problem or give feedback',
       )
