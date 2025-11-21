@@ -3,8 +3,7 @@ module CandidateInterface
     alias reference record
 
     def show_cancel_link?
-      history = ReferenceHistory.new(reference).all_events
-      history.any? { |event| event.name == 'request_sent' }
+      reference.feedback_requested?
     end
 
     def cancel?

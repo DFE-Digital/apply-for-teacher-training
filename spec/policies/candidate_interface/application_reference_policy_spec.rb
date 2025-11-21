@@ -11,9 +11,8 @@ RSpec.describe CandidateInterface::ApplicationReferencePolicy do
     end
 
     context 'when references sent' do
-      it 'shows cancel link', :with_audited do
-        reference = create(:reference)
-        reference.update(feedback_status: 'feedback_requested')
+      it 'shows cancel link' do
+        reference = create(:reference, :feedback_requested)
 
         expect(policy).to permit(nil, reference)
       end
