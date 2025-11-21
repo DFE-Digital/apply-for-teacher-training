@@ -23,11 +23,9 @@ module CandidateInterface
     end
 
     def view_reference
-      # test this policy
       authorize :offer_dashboard, :show?, policy_class: OfferDashboardPolicy
       @reference = @references.find(params[:id])
 
-      # test this
       redirect_to candidate_interface_references_request_reference_review_path(@reference) if @reference.not_requested_yet?
     end
 

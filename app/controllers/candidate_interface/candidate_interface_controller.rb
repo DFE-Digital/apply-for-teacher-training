@@ -179,7 +179,6 @@ module CandidateInterface
     end
 
     def handle_unauthorised
-      # redirect_to candidate_interface_application_choices_path
       redirect_to root_path
     end
   end
