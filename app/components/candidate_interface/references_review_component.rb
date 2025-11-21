@@ -215,7 +215,7 @@ module CandidateInterface
     end
 
     def reference_editable?(reference)
-      !reference.duplicate? && reference.not_requested_yet?
+      ApplicationReferencePolicy.new(nil, reference).edit?
     end
 
     def confirm_destroy_path(reference)

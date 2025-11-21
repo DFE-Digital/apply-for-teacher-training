@@ -28,6 +28,8 @@ gem 'notifications-ruby-client'
 
 gem 'govuk_markdown'
 
+gem 'pundit'
+
 # Linting
 gem 'rubocop', require: false
 gem 'rubocop-capybara', require: false
