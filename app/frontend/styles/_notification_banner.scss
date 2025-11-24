@@ -1,5 +1,5 @@
 .govuk-notification-banner {
-  &.govuk-notification-banner--warning {
+  &.govuk-notification-banner--warning, &.govuk-notification-banner--error {
     color: $govuk-error-colour;
 
     background-color: $govuk-error-colour;

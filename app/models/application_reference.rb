@@ -68,6 +68,10 @@ class ApplicationReference < ApplicationRecord
     failed.invert_where
   end
 
+  def policy_class
+    CandidateInterface::ApplicationReferencePolicy
+  end
+
   def pending?
     %w[not_requested_yet feedback_requested].include?(feedback_status)
   end

@@ -7,10 +7,10 @@ module CandidateInterface
     private
 
       def set_reference
-        @reference = current_candidate.current_application
-                                      .application_references
-                                      .includes(:application_form)
-                                      .find_by(id: params[:id])
+        return @reference if defined?(@reference)
+
+        @reference = policy_scope([:candidate_interface, ApplicationReference])
+          .find_by(id: params[:id])
       end
 
       def return_to_path

@@ -7,7 +7,7 @@ module CandidateInterface
     end
 
     def can_be_cancelled?
-      history.find { |event| event.name == 'request_sent' }
+      ApplicationReferencePolicy.new(nil, reference).show_cancel_link?
     end
 
     def can_send_reminder?

@@ -248,14 +248,15 @@ RSpec.describe 'New References', :with_audited do
 
   def reference_row(name = 'Aragorn the Middle earth king')
     page.all('.app-task-list__item').find do |list|
-      list.find('a', text: name)
+      list.find('a', text: name, match: :prefer_exact)
     rescue StandardError
       nil
     end
   end
 
   def and_i_click_cancel_request_from_the_list_page
-    click_link_or_button 'cancel request'
+    reference = @application_form.application_references.feedback_requested.last
+    click_link_or_button "cancel request for #{reference.name}"
   end
 
   def back_link
