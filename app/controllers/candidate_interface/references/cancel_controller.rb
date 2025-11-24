@@ -9,7 +9,7 @@ module CandidateInterface
       after_action :verify_policy_scoped
 
       def new
-        authorize @reference, :cancel?, policy_class: ApplicationReferencePolicy
+        authorize @reference, :cancel?
 
         if @reference&.feedback_requested?
           @application_form = current_application
@@ -19,7 +19,7 @@ module CandidateInterface
       end
 
       def confirm
-        authorize @reference, :cancel?, policy_class: ApplicationReferencePolicy
+        authorize @reference, :cancel?
 
         if @reference&.feedback_requested?
           CancelReferee.new.call(reference: @reference)

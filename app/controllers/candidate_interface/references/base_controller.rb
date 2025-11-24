@@ -9,10 +9,8 @@ module CandidateInterface
       def set_reference
         return @reference if defined?(@reference)
 
-        @reference = policy_scope(
-          ApplicationReference,
-          policy_scope_class: ApplicationReferencePolicy::Scope,
-        ).find_by(id: params[:id])
+        @reference = policy_scope([:candidate_interface, ApplicationReference])
+          .find_by(id: params[:id])
       end
 
       def return_to_path

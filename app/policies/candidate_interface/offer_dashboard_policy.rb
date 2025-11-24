@@ -1,12 +1,12 @@
 module CandidateInterface
   class OfferDashboardPolicy < ApplicationPolicy
     def show?
-      any_accepted_offer? || current_application.recruited? || any_deferred_offer?
+      any_offer_pending_conditions? || current_application.recruited? || any_deferred_offer?
     end
 
   private
 
-    def any_accepted_offer?
+    def any_offer_pending_conditions?
       current_application.application_choices.map(&:status).include?('pending_conditions')
     end
 

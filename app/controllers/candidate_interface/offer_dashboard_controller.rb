@@ -6,7 +6,7 @@ module CandidateInterface
     after_action :verify_policy_scoped
 
     def show
-      authorize :offer_dashboard, :show?, policy_class: OfferDashboardPolicy
+      authorize %i[candidate_interface offer_dashboard], :show?
       @application_form = current_application
       choices = current_application.application_choices.includes(:offer, course_option: [course: :provider])
       @application_choice = choices.pending_conditions.first || choices.recruited.first || choices.offer_deferred.first
@@ -23,7 +23,7 @@ module CandidateInterface
     end
 
     def view_reference
-      authorize :offer_dashboard, :show?, policy_class: OfferDashboardPolicy
+      authorize %i[candidate_interface offer_dashboard], :show?
       @reference = @references.find(params[:id])
 
       redirect_to candidate_interface_references_request_reference_review_path(@reference) if @reference.not_requested_yet?
@@ -32,7 +32,7 @@ module CandidateInterface
   private
 
     def set_references
-      @references ||= policy_scope(ApplicationReference, policy_scope_class: OfferDashboardPolicy::Scope)
+      @references ||= policy_scope([:candidate_interface, ApplicationReference])
     end
   end
 end
