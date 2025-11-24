@@ -32,7 +32,7 @@ private
 
     # Delete all current structured conditions if there is a change of course
     @offer.ske_conditions.destroy_all if @offer.ske_conditions.any?
-    @offer.reference_condition.destroy if @offer.reference_condition.present?
+    @offer.reference_condition.presence&.destroy
 
     return if structured_conditions.blank?
 

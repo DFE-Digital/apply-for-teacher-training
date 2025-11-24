@@ -52,7 +52,7 @@ module CandidateInterface
 
       @provider = Provider.find_by(code: params[:providerCode])
       @course = @provider.courses.current_cycle.find_by(code: params[:courseCode]) if @provider.present?
-      @course.id if @course.present?
+      @course.presence&.id
     end
 
     def redirect_if_one_login_enabled

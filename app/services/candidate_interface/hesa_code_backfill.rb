@@ -54,9 +54,7 @@ module CandidateInterface
         Hesa::Disability.find(disability)&.hesa_code
       end
 
-      if codes.present?
-        codes.uniq
-      end
+      codes.presence&.uniq
     end
 
     def hesa_sex_code(application_form)

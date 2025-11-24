@@ -120,7 +120,7 @@ module CandidateInterface
 
       def sanitize_reasons
         level_two_reasons.reject!(&:blank?)
-        personal_circumstances_reasons.reject!(&:blank?) if personal_circumstances_reasons.present?
+        personal_circumstances_reasons.presence&.reject!(&:blank?)
       end
 
       def translate(string)
