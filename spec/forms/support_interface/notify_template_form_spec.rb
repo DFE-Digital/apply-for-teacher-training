@@ -28,7 +28,7 @@ RSpec.describe SupportInterface::NotifyTemplateForm do
             .to_return(status: 200, body: { body: '((link_to_file))' }.to_json, headers: {})
         end
 
-        it "does not add validation error for the notify template" do
+        it 'does not add validation error for the notify template' do
           form.valid?
           expect(form.errors[:template_id]).not_to include('Please enter a valid notify template id')
         end
@@ -53,7 +53,7 @@ RSpec.describe SupportInterface::NotifyTemplateForm do
           distribution_list: instance_double(
             ActionDispatch::Http::UploadedFile,
             size: 1.megabyte,
-            read: File.open("spec/fixtures/send_notify_template/distribution_list.csv").read,
+            read: File.read('spec/fixtures/send_notify_template/distribution_list.csv'),
             content_type:,
           ),
         )
@@ -71,7 +71,7 @@ RSpec.describe SupportInterface::NotifyTemplateForm do
       context 'when the distribution list is not a CSV' do
         let(:content_type) { 'image/jpeg' }
 
-        it "adds a validation error" do
+        it 'adds a validation error' do
           expect(form).not_to be_valid
           expect(form.errors[:distribution_list]).to include('Distribution list must be a CSV file')
         end
@@ -84,10 +84,10 @@ RSpec.describe SupportInterface::NotifyTemplateForm do
           distribution_list: instance_double(
             ActionDispatch::Http::UploadedFile,
             size: 1.megabyte,
-            read: File.open(file_path).read,
+            read: File.read(file_path),
             content_type: 'text/csv',
-            ),
-          )
+          ),
+        )
       }
 
       context 'when the distribution list has the correct headers' do
@@ -115,10 +115,10 @@ RSpec.describe SupportInterface::NotifyTemplateForm do
           distribution_list: instance_double(
             ActionDispatch::Http::UploadedFile,
             size: 1.megabyte,
-            read: File.open(file_path).read,
+            read: File.read(file_path),
             content_type: 'text/csv',
-            ),
-          )
+          ),
+        )
       }
 
       context 'when the distribution list has valid email addresses' do
@@ -140,16 +140,16 @@ RSpec.describe SupportInterface::NotifyTemplateForm do
       end
     end
 
-    describe "#attachment_size" do
+    describe '#attachment_size' do
       let(:form) {
         described_class.new(
           attachment: instance_double(
             ActionDispatch::Http::UploadedFile,
             size:,
-            read: File.open('spec/fixtures/send_notify_template/hello_world.txt').read,
+            read: File.read('spec/fixtures/send_notify_template/hello_world.txt'),
             content_type: 'text/csv',
-            ),
-          )
+          ),
+        )
       }
 
       context 'when the attachment size is less than 2 megabytes' do
