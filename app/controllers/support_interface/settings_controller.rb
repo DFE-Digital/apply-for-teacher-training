@@ -46,30 +46,6 @@ module SupportInterface
 
   private
 
-    # def actually_email_providers!(client, user_hashes, template, pdf_handle)
-    #   user_hashes.each do |h|
-    #     send_email(client, template, h['Email address'], pdf_handle)
-    #   end
-    # end
-
-    # def csv_to_hashes(csv)
-    #   CSV.parse(csv, headers: true).map do |row|
-    #     h = row.to_h
-    #     h.keys.zip(h.values.map(&:strip)).to_h
-    #   end
-    # end
-
-    # def send_email(client, template, address, pdf_handle)
-    #   pdf_handle.rewind
-    #   client.send_email(
-    #     email_address: address,
-    #     template_id: template,
-    #     personalisation: {
-    #       pdf_link: Notifications.prepare_upload(pdf_handle),
-    #     },
-    #   )
-    # end
-
     def feature_name
       params[:feature_name].humanize
     end
