@@ -1,12 +1,21 @@
 <%= render 'settings_navigation', title: 'Send notify template' %>
 
 <h1 class="govuk-label-wrapper">
-  <label class="govuk-label govuk-label--l" for="more-detail">
+  <label class="govuk-label govuk-label--l">
     Send a Govuk notify template with attachment
   </label>
 </h1>
 
-<%= form_with url: support_interface_send_notify_template_path, method: :post do |f| %>
+<ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+  <li>Emails will only be sent once suitable and valid files have been provided.</li>
+  <li>Emails are sent in batches of 120, staggered over 12 hours.</li>
+  <li>The distribution list file must contain the header 'Email address'.</li>
+  <li>Your notify template must include the personalisation 'link_to_file'.</li>
+</ul>
+
+<%= form_with model: @form, url: support_interface_send_notify_template_path, method: :post do |f| %>
+  <%= f.govuk_error_summary %>
+
   <%= f.govuk_text_field :template_id, label: { text: 'Notify template id' } %>
   <%= f.govuk_file_field :distribution_list, label: { text: 'Distribution list' } %>
   <%= f.govuk_file_field :attachment, label: { text: 'Attachment' } %>

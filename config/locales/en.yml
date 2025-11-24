@@ -579,7 +579,21 @@ en:
               inclusion: Select a subject you are interested in teaching
             application_form:
               invalid_adviser_sign_up: You are not eligible for a Teacher Training Adviser
-
+        support_interface/notify_template_form:
+          attributes:
+            template_id:
+              blank: Please enter a notify template id
+              invalid: Please enter a valid notify template id
+              template_missing_personalisation: This template does not contain the personalisation 'link_to_file'
+            distribution_list:
+              blank: Please upload a distribution list
+              invalid: Distribution list must be a CSV file
+              invalid_headers:
+                Your file needs a column called %{missing_columns}.
+              invalid_email_addresses: Distribution list contains invalid email addresses
+            attachment:
+              blank: Please upload an attachment
+              invalid_size: Please upload an attachment smaller than 2MB
   activerecord:
     attributes:
       application_qualification/qualification_type:
