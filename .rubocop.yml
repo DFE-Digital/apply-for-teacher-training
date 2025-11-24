@@ -52,6 +52,9 @@ Style/RedundantFetchBlock:
 RSpec/NoShouldInSpecs:
   Enabled: true
 
+RSpec/LeakyLocalVariable:
+  Enabled: false
+
 Govuk:
   Include:
     - 'app/views/**/*'
