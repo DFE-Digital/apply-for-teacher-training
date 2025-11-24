@@ -186,7 +186,7 @@ class ApplicationQualification < ApplicationRecord
       comparable_uk_qualification || comparable_uk_degree,
     ].compact.join(' - ')
 
-    details.strip if details.present?
+    details.presence&.strip
   end
 
   GCSE_PASS_GRADES = %w[A* A B C A*A* A*A AA AB AC BB BC C* CC CD 9 8 7 6 5 4 9-9 9-8 8-8 8-7 7-7 7-6 6-6 6-5 5-5 5-4 4-4 4-3].freeze

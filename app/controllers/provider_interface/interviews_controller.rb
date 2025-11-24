@@ -136,7 +136,7 @@ module ProviderInterface
     def confirm_application_is_in_decision_pending_state
       return if @application_choice.decision_pending?
 
-      redirect_back(fallback_location: provider_interface_application_choice_path(@application_choice))
+      redirect_back_or_to(provider_interface_application_choice_path(@application_choice))
     end
 
     def confirm_interview_is_not_in_the_past

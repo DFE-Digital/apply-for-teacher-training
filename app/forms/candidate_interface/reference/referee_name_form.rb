@@ -7,7 +7,7 @@ module CandidateInterface
     validates :name, presence: true, length: { minimum: 2, maximum: 200 }
 
     def self.build_from_reference(reference)
-      new(name: reference.present? ? reference.name : nil)
+      new(name: reference.presence&.name)
     end
 
     def save(application_form, referee_type, reference: nil)
