@@ -52,7 +52,12 @@ private
           id_token_hint:,
         ).tap do |session|
           Current.session = session
-          cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
+          cookies.signed.permanent[:session_id] = {
+            value: session.id,
+            httponly: true,
+            same_site: :lax,
+            secure: HostingEnvironment.production? || HostingEnvironment.sandbox_mode? || HostingEnvironment.qa?,
+          }
         end
 
         candidate.update!(last_signed_in_at: Time.zone.now)
