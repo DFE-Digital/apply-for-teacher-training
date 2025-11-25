@@ -56,6 +56,10 @@ en:
       candidates:
         index:
           title: Find candidates - All candidates
+          title_with_results:
+            zero: Find candidates - No candidates found
+            one: Find candidates - %{count} candidate found
+            other: Find candidates - %{count} candidates found
           table_caption: Find candidates
           candidates_found:
             one: "%{count} candidate found"

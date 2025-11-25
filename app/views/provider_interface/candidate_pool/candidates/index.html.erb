@@ -1,4 +1,5 @@
-<% content_for :browser_title, title_with_error_prefix(t('.title'), @filter.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix(@filter.apply_filters ? t('.title_with_results', count: @pagy.count) : t('.title'), @filter.errors.any?) %>
+
 <%= render ServiceInformationBanner.new(namespace: :provider) %>
 
 <%= render 'provider_interface/candidate_pool/shared/find_candidates_heading', selected_tab: :all %>
