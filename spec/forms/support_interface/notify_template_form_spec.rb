@@ -21,11 +21,17 @@ RSpec.describe SupportInterface::NotifyTemplateForm do
 
     describe '#valid_template_id' do
       let(:form) { described_class.new(template_id: '123456') }
+      let(:notify_template) { instance_double(Notifications::Client::Template) }
+
+      before do
+        notify_client = instance_double(Notifications::Client)
+        allow(Notifications::Client).to receive(:new).and_return(notify_client)
+        allow(notify_client).to receive(:get_template_by_id).and_return(notify_template)
+      end
 
       context 'when the template does include personalisation ((link_to_file))' do
         before do
-          stub_request(:get, 'https://api.notifications.service.gov.uk/v2/template/123456')
-            .to_return(status: 200, body: { body: '((link_to_file))' }.to_json, headers: {})
+          allow(notify_template).to receive(:body).and_return('((link_to_file))')
         end
 
         it 'does not add validation error for the notify template' do
@@ -36,8 +42,7 @@ RSpec.describe SupportInterface::NotifyTemplateForm do
 
       context 'when the template does not include personalisation ((link_to_file))' do
         before do
-          stub_request(:get, 'https://api.notifications.service.gov.uk/v2/template/123456')
-            .to_return(status: 200, body: '', headers: {})
+          allow(notify_template).to receive(:body).and_raise(StandardError)
         end
 
         it 'adds a validation error' do

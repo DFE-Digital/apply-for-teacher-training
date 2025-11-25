@@ -22,13 +22,15 @@ RSpec.describe 'Send notify template' do
 private
 
   def stub_notify_template_check
-    stub_request(:get, 'https://api.notifications.service.gov.uk/v2/template/123456')
-      .to_return(status: 200, body: { body: '((link_to_file))' }.to_json, headers: {})
+    @notify_template = instance_double(Notifications::Client::Template)
+    @notify_client = instance_double(Notifications::Client)
+    allow(Notifications::Client).to receive(:new).and_return(@notify_client)
+    allow(@notify_client).to receive(:get_template_by_id).and_return(@notify_template)
+    allow(@notify_template).to receive(:body).and_return('((link_to_file))')
   end
 
   def stub_notification_email
-    stub_request(:post, 'https://api.notifications.service.gov.uk/v2/notifications/email')
-    .to_return(status: 200, body: {}.to_json, headers: {})
+    allow(@notify_client).to receive(:send_email).and_return(true)
   end
 
   def given_i_am_a_support_user
