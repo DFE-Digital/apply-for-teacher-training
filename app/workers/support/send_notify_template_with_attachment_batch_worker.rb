@@ -4,12 +4,13 @@ class Support::SendNotifyTemplateWithAttachmentBatchWorker
   def perform(email_addresses, notify_request_id)
     request = SupportInterface::NotifySendRequest.find(notify_request_id)
     request.file.open do |file|
+      link_to_file = Notifications.prepare_upload(file)
       email_addresses.each do |email_address|
         notify_client.send_email(
           email_address:,
           template_id: request.template_id,
           personalisation: {
-            link_to_file: Notifications.prepare_upload(file),
+            link_to_file:,
           },
         )
       end
