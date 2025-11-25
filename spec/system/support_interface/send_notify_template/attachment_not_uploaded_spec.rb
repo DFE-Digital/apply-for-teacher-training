@@ -52,7 +52,7 @@ private
     expect(page).to have_element(:li, text: 'Emails will only be sent once suitable and valid files have been provided.')
     expect(page).to have_element(
       :li,
-      text: 'Emails are sent in batches of 100, staggered over time depending on how many email addresses are provided.',
+      text: 'Emails are sent in batches of 100 staggered over time, depending on the size of the distribution list.',
     )
     expect(page).to have_element(:li, text: 'The distribution list file must contain the header \'Email address\'.')
     expect(page).to have_element(:li, text: 'Your notify template must include the personalisation \'link_to_file\'.')
