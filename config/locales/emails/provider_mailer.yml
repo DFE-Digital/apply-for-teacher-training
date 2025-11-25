@@ -19,6 +19,8 @@ en:
       subject: "%{candidate_name}’s %{ordinance} reference received"
     application_withdrawn:
       subject: "%{candidate_name} withdrew their application"
+    application_auto_withdrawn_on_accept_offer:
+      subject: "%{candidate_name} application has been automatically withdrawn"
     organisation_permissions_set_up:
       subject: "%{provider} set up organisation permissions"
     organisation_permissions_updated:

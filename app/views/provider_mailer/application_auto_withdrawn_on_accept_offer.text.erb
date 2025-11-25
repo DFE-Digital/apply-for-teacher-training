@@ -1,0 +1,11 @@
+Dear <%= @provider_user.full_name %>
+
+<%= @application.candidate_name %>'s application has been automatically withdrawn because they have accepted an offer with another provider.
+
+View the application:
+
+<%= provider_interface_application_choice_url(@application.application_choice) %>
+
+<% content_for :additional_footer_content do %>
+  <%= render 'notification_preferences' %>
+<% end %>

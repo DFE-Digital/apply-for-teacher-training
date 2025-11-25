@@ -141,6 +141,7 @@ shared:
     - withdrawn_or_declined_for_candidate_by_provider
     - structured_withdrawal_reasons
     - school_placement_auto_selected
+    - withdrawn_automatically_on_accept_offer
   application_experiences:
     - commitment
     - created_at

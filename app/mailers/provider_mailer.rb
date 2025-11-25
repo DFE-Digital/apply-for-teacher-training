@@ -106,6 +106,16 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def application_auto_withdrawn_on_accept_offer(provider_user, application_choice)
+    @application = map_application_choice_params(application_choice)
+
+    email_for_provider(
+      provider_user,
+      application_choice.application_form,
+      subject: I18n.t!('provider_mailer.application_auto_withdrawn_on_accept_offer.subject', candidate_name: @application.candidate_name),
+    )
+  end
+
   def declined(provider_user, application_choice)
     @application = map_application_choice_params(application_choice)
     email_for_provider(
