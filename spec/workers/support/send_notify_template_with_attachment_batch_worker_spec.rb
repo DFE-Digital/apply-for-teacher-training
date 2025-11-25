@@ -11,7 +11,7 @@ RSpec.describe Support::SendNotifyTemplateWithAttachmentBatchWorker, :sidekiq do
     allow(Notifications::Client).to receive(:new).and_return(@notify_instance)
     allow(@notify_instance).to receive(:send_email).and_return(true)
 
-    attachment = File.open("#{Rails.root}spec/fixtures/send_notify_template/hello_world.txt")
+    attachment = File.open("spec/fixtures/send_notify_template/hello_world.txt")
     notify_request.file.attach(attachment)
   end
 
