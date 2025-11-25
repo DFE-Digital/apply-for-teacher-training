@@ -99,7 +99,12 @@ module SupportInterface
     end
 
     def csv
-      @csv ||= CSV.parse(distribution_list.read, headers: true, skip_blanks: true, encoding: 'iso-8859-1:utf-8')
+      @csv ||= CSV.parse(
+        distribution_list.read,
+        headers: true,
+        skip_blanks: true,
+        encoding: 'iso-8859-1:utf-8',
+      )
     end
 
     def notify_client
