@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_14_095133) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_25_161200) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -736,6 +736,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_14_095133) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["notified_type", "notified_id"], name: "index_notifications_on_notified"
+  end
+
+  create_table "notify_send_requests", force: :cascade do |t|
+    t.string "template_id", null: false
+    t.string "email_addresses", array: true
+    t.bigint "support_user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["support_user_id"], name: "index_notify_send_requests_on_support_user_id"
   end
 
   create_table "offer_conditions", force: :cascade do |t|
