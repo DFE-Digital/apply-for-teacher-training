@@ -87,14 +87,32 @@ class OneLoginController < ApplicationController
   end
 
   def backchannel_logout
-    return head :bad_request if params[:logout_token].blank?
+    if params[:logout_token].blank?
+      Sentry.capture_message(
+        'Logout token is missing from request params for the back_channel',
+        level: :error,
+      )
+
+      return head :bad_request
+    end
 
     token = OmniAuth::GovukOneLogin::BackchannelLogoutUtility.new(
       client_id: ENV.fetch('GOVUK_ONE_LOGIN_CLIENT_ID', ''),
       idp_base_url: ENV.fetch('GOVUK_ONE_LOGIN_ISSUER_URL', ''),
     ).get_sub(logout_token: params[:logout_token])
 
-    return head :bad_request if token.blank?
+    if token.blank?
+      error = SessionError.create!(
+        body: "Cannot decode the token to get the sub for this token: #{params[:logout_token]}",
+        error_type: 'back_channel',
+      )
+      Sentry.capture_message(
+        "Cannot decode token to get the sub for back_channel, check SessionError record with id #{error.id}",
+        level: :error,
+      )
+
+      return head :bad_request
+    end
 
     one_login_auth = OneLoginAuth.find_by!(token:)
     one_login_auth.candidate.sessions.delete_all

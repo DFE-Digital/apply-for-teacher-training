@@ -243,10 +243,16 @@ RSpec.describe 'OneLoginController' do
         token = '123'
         create(:one_login_auth, candidate:, token:)
         create(:session, candidate:)
+        allow(Sentry).to receive(:capture_message)
 
         expect {
           post auth_one_login_backchannel_logout_path
         }.not_to(change { Session.count })
+
+        expect(Sentry).to have_received(:capture_message).with(
+          'Logout token is missing from request params for the back_channel',
+          level: :error,
+        )
 
         expect(response).to have_http_status(:bad_request)
       end
@@ -257,10 +263,21 @@ RSpec.describe 'OneLoginController' do
         create(:one_login_auth, candidate:, token:)
         create(:session, candidate:)
         allow(@utility).to receive(:get_sub).with(logout_token: anything).and_return(nil)
+        allow(Sentry).to receive(:capture_message)
 
         expect {
-          post auth_one_login_backchannel_logout_path
+          post auth_one_login_backchannel_logout_path(logout_token: token)
         }.not_to(change { Session.count })
+
+        error = SessionError.back_channel.last
+        expect(error.body).to eq(
+          "Cannot decode the token to get the sub for this token: #{token}",
+        )
+
+        expect(Sentry).to have_received(:capture_message).with(
+          "Cannot decode token to get the sub for back_channel, check SessionError record with id #{error.id}",
+          level: :error,
+        )
 
         expect(response).to have_http_status(:bad_request)
       end
