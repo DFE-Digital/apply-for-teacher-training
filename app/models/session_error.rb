@@ -4,5 +4,7 @@ class SessionError < ApplicationRecord
   enum :error_type, {
     internal: 'internal',
     wrong_email_address: 'wrong_email_address',
+    back_channel_no_token: 'back_channel_no_token',
+    back_channel: 'back_channel',
   }
 end
