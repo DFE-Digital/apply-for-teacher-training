@@ -248,6 +248,10 @@ RSpec.describe 'OneLoginController' do
           post auth_one_login_backchannel_logout_path
         }.not_to(change { Session.count })
 
+        expect(SessionError.back_channel_no_token.last.body).to eq(
+          'Logout token is missing from request params',
+        )
+
         expect(response).to have_http_status(:bad_request)
       end
 
@@ -259,8 +263,12 @@ RSpec.describe 'OneLoginController' do
         allow(@utility).to receive(:get_sub).with(logout_token: anything).and_return(nil)
 
         expect {
-          post auth_one_login_backchannel_logout_path
+          post auth_one_login_backchannel_logout_path(logout_token: token)
         }.not_to(change { Session.count })
+
+        expect(SessionError.back_channel.last.body).to eq(
+          "Cannot decode the token to get the sub for this token: #{token}",
+        )
 
         expect(response).to have_http_status(:bad_request)
       end
