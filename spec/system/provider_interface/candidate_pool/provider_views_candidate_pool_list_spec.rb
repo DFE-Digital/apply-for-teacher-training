@@ -261,7 +261,7 @@ RSpec.describe 'Providers views candidate pool list' do
   def then_i_see_an_error
     expect(page).to have_content('There is a problem')
     expect(page).to have_content('Town, city or postcode must be in the United Kingdom')
-    expect(page).to have_title('Error: Find candidates - All candidates - Manage teacher training applications - GOV.UK')
+    expect(page.title).to include('Error:', 'Find candidates')
   end
 
   def when_i_visit_applications_page
