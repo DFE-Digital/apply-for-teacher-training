@@ -88,10 +88,11 @@ class OneLoginController < ApplicationController
 
   def backchannel_logout
     if params[:logout_token].blank?
-      SessionError.create!(
-        body: 'Logout token is missing from request params',
-        error_type: 'back_channel_no_token',
+      Sentry.capture_message(
+        'Logout token is missing from request params for the back_channel',
+        level: :error,
       )
+
       return head :bad_request
     end
 
@@ -101,10 +102,15 @@ class OneLoginController < ApplicationController
     ).get_sub(logout_token: params[:logout_token])
 
     if token.blank?
-      SessionError.create!(
+      error = SessionError.create!(
         body: "Cannot decode the token to get the sub for this token: #{params[:logout_token]}",
         error_type: 'back_channel',
       )
+      Sentry.capture_message(
+        "Cannot decode token to get the sub for back_channel, check SessionError record with id #{error.id}",
+        level: :error,
+      )
+
       return head :bad_request
     end
 
