@@ -1315,6 +1315,22 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#domestic?' do
+    context 'applicant submits first nationality as British or Irish' do
+      it 'returns true' do
+        application_form = build(:application_form, first_nationality: 'Irish')
+        expect(application_form.domestic?).to be true
+      end
+    end
+
+    context 'applicant submits first nationality as anything other than British or Irish' do
+      it 'returns true' do
+        application_form = build(:application_form, first_nationality: 'American')
+        expect(application_form.domestic?).to be false
+      end
+    end
+  end
+
   describe '#can_add_course_choice?' do
     context 'not current cycle' do
       it 'returns false if in next cycle' do

@@ -745,6 +745,10 @@ class ApplicationForm < ApplicationRecord
     recruitment_cycle_year == RecruitmentCycleTimetable.current_year
   end
 
+  def domestic?
+    %w[British Irish].include?(first_nationality)
+  end
+
   def can_add_course_choice?
     current_cycle? && Time.zone.now.between?(find_opens_at, apply_deadline_at)
   end
