@@ -82,7 +82,7 @@ private
       expect(page).to have_element(:h2, text: 'There is a problem', class: 'govuk-error-summary__title')
       expect(page).to have_element(
         :div,
-        text: 'Please upload an attachment smaller than 2MB',
+        text: 'Upload an attachment smaller than 2MB',
         class: 'govuk-error-summary__body',
       )
     end

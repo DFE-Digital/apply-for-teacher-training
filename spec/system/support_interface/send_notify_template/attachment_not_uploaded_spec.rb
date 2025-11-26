@@ -75,7 +75,7 @@ private
   def then_i_see_an_error_for_not_uploading_a_distribution_list
     within('.govuk-error-summary') do
       expect(page).to have_element(:h2, text: 'There is a problem', class: 'govuk-error-summary__title')
-      expect(page).to have_element(:div, text: 'Please upload a distribution list', class: 'govuk-error-summary__body')
+      expect(page).to have_element(:div, text: 'Upload a distribution list', class: 'govuk-error-summary__body')
     end
   end
 end

@@ -67,7 +67,7 @@ private
   def then_i_see_an_error_for_not_entering_a_notify_template_id
     within('.govuk-error-summary') do
       expect(page).to have_element(:h2, text: 'There is a problem', class: 'govuk-error-summary__title')
-      expect(page).to have_element(:div, text: 'Please enter a notify template id', class: 'govuk-error-summary__body')
+      expect(page).to have_element(:div, text: 'Enter a notify template id', class: 'govuk-error-summary__body')
     end
   end
 end

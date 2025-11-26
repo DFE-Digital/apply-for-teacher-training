@@ -95,19 +95,19 @@ private
 
     within('.govuk-table') do
       within('.govuk-table__head') do
-        expect(page).to have_element(:th, text: '1', class: 'govuk-table__header')
+        expect(page).to have_element(:th, text: 'Line number', class: 'govuk-table__header')
         expect(page).to have_element(:th, text: 'Email address', class: 'govuk-table__header')
       end
 
       within('.govuk-table__body') do
         within('#row_3') do
           expect(page).to have_element(:td, text: '3', class: 'govuk-table__cell')
-          expect(page).to have_element(:td, text: 'Invalid email address john doe', class: 'govuk-table__cell')
+          expect(page).to have_element(:td, text: 'john doe', class: 'govuk-table__cell')
         end
 
         within('#row_4') do
           expect(page).to have_element(:td, text: '4', class: 'govuk-table__cell')
-          expect(page).to have_element(:td, text: 'Invalid email address joe bloggs', class: 'govuk-table__cell')
+          expect(page).to have_element(:td, text: 'joe bloggs', class: 'govuk-table__cell')
         end
       end
     end
