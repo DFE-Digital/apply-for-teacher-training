@@ -15,8 +15,9 @@ module SupportInterface
     validate :valid_template_id, if: :template_id_present?
     validates :distribution_list, presence: true
     validate :distribution_list_format, if: :distribution_list_present?
-    validate :distribution_list_header, if: :csv_format?
-    validate :distribution_list_email_addresses, if: :csv_format?
+    validate :distribution_list_malformed, if: :distribution_list_present?
+    validate :distribution_list_header, if: :csv_correctly_formatted?
+    validate :distribution_list_email_addresses, if: :csv_correctly_formatted?
     validates :attachment, presence: true
     validate :attachment_size, if: :attachment_present?
 
@@ -35,6 +36,12 @@ module SupportInterface
 
     def distribution_list_format
       errors.add(:distribution_list, :invalid) unless csv_format?
+    end
+
+    def distribution_list_malformed
+      return unless csv_format?
+
+      errors.add(:distribution_list, :malformed) if csv_malformed?
     end
 
     def distribution_list_header
@@ -65,10 +72,6 @@ module SupportInterface
       errors.add(:distribution_list, :invalid_email_addresses)
     end
 
-    def csv_format?
-      @csv_format ||= distribution_list&.content_type == 'text/csv'
-    end
-
     def attachment_size
       errors.add(:attachment, :invalid_size) if attachment.size >= 2.megabytes
     end
@@ -87,8 +90,25 @@ module SupportInterface
 
   private
 
+    def csv_correctly_formatted?
+      csv_format? && !csv_malformed?
+    end
+
+    def csv_format?
+      @csv_format ||= distribution_list&.content_type == 'text/csv'
+    end
+
     def valid_header?
       csv.headers
+    end
+
+    def csv_malformed?
+      @csv_not_malformed ||= begin
+        csv
+        false
+      rescue CSV::MalformedCSVError
+        true
+      end
     end
 
     def missing_columns

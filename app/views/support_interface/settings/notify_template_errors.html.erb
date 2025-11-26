@@ -24,7 +24,7 @@
     <%= govuk_table do |table| %>
       <% table.with_head do |head| %>
         <% head.with_row do |row| %>
-          <% row.with_cell text: 1 %>
+          <% row.with_cell text: 'Line number' %>
           <% row.with_cell text: 'Email address' %>
         <% end %>
       <% end %>
@@ -36,7 +36,6 @@
 
             <% row.with_cell do %>
               <p>
-                <strong class="error-text">Invalid email address</strong><br>
                 <%= invalid_email_address_row[:email_address] %>
               </p>
             <% end %>
