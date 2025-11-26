@@ -23,7 +23,7 @@ module CandidateInterface
       def grade_params
         return {} if params[:candidate_interface_degree_form].blank?
 
-        strip_whitespace(params.expect(candidate_interface_degree_form: %i[grade other_grade]))
+        strip_whitespace(params.expect(candidate_interface_degree_form: %i[grade other_grade other_grade_raw]))
       end
     end
   end
