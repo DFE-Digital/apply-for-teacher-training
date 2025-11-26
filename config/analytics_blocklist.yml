@@ -319,3 +319,10 @@
   :sites:
   - latitude
   - longitude
+  :notify_send_requests:
+  - id
+  - template_id
+  - email_addresses
+  - support_user_id
+  - created_at
+  - updated_at
