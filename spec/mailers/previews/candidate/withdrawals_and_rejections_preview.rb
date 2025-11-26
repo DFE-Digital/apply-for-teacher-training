@@ -11,6 +11,19 @@ class Candidate::WithdrawalsAndRejectionsPreview < ActionMailer::Preview
     CandidateMailer.application_rejected(application_choice)
   end
 
+  def application_rejected_because_salaried_course_full
+    application_form = FactoryBot.create(:application_form, first_nationality: 'British')
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      application_form:,
+      course_option:,
+      status: :rejected,
+      structured_rejection_reasons: salaried_course_full_reasons,
+      rejection_reasons_type: 'rejection_reasons',
+    )
+    CandidateMailer.application_rejected(application_choice)
+  end
+
   def application_rejected_with_course_recommendation
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
@@ -270,6 +283,16 @@ private
         { id: 'other', label: 'Other', details: { id: 'other_details', text: 'So many other things were wrong...' } },
         { id: 'safeguarding', label: 'Safeguarding', details: { id: 'safeguarding_details', text: 'We have safeguarding concerns' } },
         { id: 'visa_sponsorship', label: 'Visa sponsorship', details: { id: 'visa_sponsorship_details', text: 'We cannot sponsor your visa' } },
+      ],
+    }
+  end
+
+  def salaried_course_full_reasons
+    {
+      selected_reasons: [
+        { id: 'course_full', label: 'Course full', selected_reasons: [
+          { id: 'salary_course_full', label: 'The salaried or apprenticeship route for this course is full' },
+        ] },
       ],
     }
   end

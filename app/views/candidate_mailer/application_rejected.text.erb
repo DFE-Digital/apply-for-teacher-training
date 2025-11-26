@@ -13,4 +13,8 @@ Hello <%= @application_form.first_name %>
 
 <%= render 'candidate_mailer/application_rejected/apply_again' %>
 
+<% if @include_fee_funded_nudge %>
+  <%= render 'candidate_mailer/application_rejected/fee_funded_nudge' %>
+<% end %>
+
 <%= render 'application_rejected_get_help' %>

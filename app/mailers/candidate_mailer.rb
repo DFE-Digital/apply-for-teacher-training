@@ -88,6 +88,9 @@ class CandidateMailer < ApplicationMailer
     @number_of_slots_left = application_choice.application_form.number_of_slots_left
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @course_recommendation_url = course_recommendation_url
+    @include_fee_funded_nudge = include_fee_funded_nudge?(application_choice)
+    @find_link = find_link
+    @git_funding_link = git_funding_link
 
     email_for_candidate(application_choice.application_form)
   end
@@ -665,6 +668,19 @@ private
     }.merge(args)
 
     notify_email(mailer_options)
+  end
+
+  def include_fee_funded_nudge?(application_choice)
+    application_choice.application_form.domestic? &&
+      application_choice.structured_rejection_reasons.to_json.include?('salary_course_full')
+  end
+
+  def find_link
+    I18n.t('find_teacher_training.production_url')
+  end
+
+  def git_funding_link
+    I18n.t('get_into_teaching.url_how_to_fund')
   end
 
   def sign_in_link
