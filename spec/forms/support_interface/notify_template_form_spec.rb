@@ -36,7 +36,7 @@ RSpec.describe SupportInterface::NotifyTemplateForm do
 
         it 'does not add validation error for the notify template' do
           form.valid?
-          expect(form.errors[:template_id]).not_to include('Please enter a valid notify template id')
+          expect(form.errors[:template_id]).not_to include('Enter a valid notify template id')
         end
       end
 
@@ -47,7 +47,7 @@ RSpec.describe SupportInterface::NotifyTemplateForm do
 
         it 'adds a validation error' do
           expect(form).not_to be_valid
-          expect(form.errors[:template_id]).to include('Please enter a valid notify template id')
+          expect(form.errors[:template_id]).to include('Enter a valid notify template id')
         end
       end
     end
@@ -162,7 +162,7 @@ RSpec.describe SupportInterface::NotifyTemplateForm do
 
         it 'does not add a validation error for the attachment being too large' do
           form.valid?
-          expect(form.errors[:attachment]).not_to include('Please upload an attachment smaller than 2MB')
+          expect(form.errors[:attachment]).not_to include('Upload an attachment smaller than 2MB')
         end
       end
 
@@ -171,7 +171,7 @@ RSpec.describe SupportInterface::NotifyTemplateForm do
 
         it 'adds a validation error' do
           expect(form).not_to be_valid
-          expect(form.errors[:attachment]).to include('Please upload an attachment smaller than 2MB')
+          expect(form.errors[:attachment]).to include('Upload an attachment smaller than 2MB')
         end
       end
     end
