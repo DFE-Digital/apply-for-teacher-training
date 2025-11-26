@@ -49,7 +49,10 @@ private
       text: 'Send a Govuk notify template with attachment',
       class: 'govuk-label govuk-label--l',
     )
-    expect(page).to have_element(:li, text: 'Emails will only be sent once suitable and valid files have been provided.')
+    expect(page).to have_element(
+      :li,
+      text: 'Emails will only be sent once suitable and valid files have been provided.',
+    )
     expect(page).to have_element(
       :li,
       text: 'Emails are sent in batches of 100 staggered over time, depending on the size of the distribution list.',
