@@ -48,9 +48,9 @@ RSpec.describe 'Setting up organisation permissions' do
     @training_provider = Provider.find_by(code: 'ABC')
     @ratifying_provider = Provider.find_by(code: 'DEF')
 
-    @another_ratifying_provider = create(:provider)
+    @another_ratifying_provider = create(:provider, code: 'GHI')
     @another_ratifying_provider_users = create_list(:provider_user, 2, providers: [@another_ratifying_provider])
-    @another_training_provider = create(:provider)
+    @another_training_provider = create(:provider, code: 'JKL')
     @another_training_provider_users = create_list(:provider_user, 2, providers: [@another_training_provider])
 
     @provider_user.provider_permissions.update_all(manage_organisations: true)
