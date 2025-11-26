@@ -1,6 +1,7 @@
 class WithdrawApplication
-  def initialize(application_choice:)
+  def initialize(application_choice:, accepted_offer: false)
     @application_choice = application_choice
+    @accepted_offer = accepted_offer
   end
 
   def save!
@@ -28,11 +29,15 @@ class WithdrawApplication
 
 private
 
-  attr_reader :application_choice
+  attr_reader :application_choice, :accepted_offer
 
   def send_email_notification_to_provider_users
     NotificationsList.for(application_choice, event: :application_withdrawn, include_ratifying_provider: true).each do |provider_user|
-      ProviderMailer.application_withdrawn(provider_user, application_choice, number_of_cancelled_interviews).deliver_later
+      if accepted_offer == true
+        ProviderMailer.application_auto_withdrawn_on_accept_offer(provider_user, application_choice).deliver_later
+      else
+        ProviderMailer.application_withdrawn(provider_user, application_choice, number_of_cancelled_interviews).deliver_later
+      end
     end
   end
 
