@@ -15,13 +15,17 @@ class BatchDelivery
       number_of_batches < 2 ? stagger_over : stagger_over / (number_of_batches - 1).to_f
     end
 
+    batch_intervals(block:, relation:, batch_size:, next_batch_time:, interval_between_batches:)
+  end
+
+private
+
+  def batch_intervals(block:, relation:, batch_size:, next_batch_time:, interval_between_batches:)
     relation.find_in_batches(batch_size:) do |applications|
       block.call(next_batch_time, applications)
       next_batch_time += interval_between_batches
     end
   end
-
-private
 
   def count_method
     # The count_method depends on whether or not the relation is grouped or not for performance reasons

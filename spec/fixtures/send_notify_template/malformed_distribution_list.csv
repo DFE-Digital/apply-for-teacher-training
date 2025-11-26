@@ -1,0 +1,14 @@
+Email address
+email@example.com
+firstname.lastname@example.com
+email@subdomain.example.com
+firstname+lastname@example.com
+"email"@example.com
+1234567890@example.com
+email@example-one.com
+much."more\ unusuali"@example.com
+very.unusual.i"@”.unusual.com@example.com
+very."(),:;<>[]".VERY."very@\\ "very".unusual@strange.example.com
+_______@example.com
+firstname-lastname@example.com
+pete10.williams@education.gov.uk

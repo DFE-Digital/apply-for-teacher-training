@@ -81,6 +81,13 @@ en:
     links:
       service_manual:
         subscription_messages: https://www.gov.uk/service-manual/design/sending-emails-and-text-messages#subscription-messages
+    settings:
+      notify_template_errors:
+        error_summary:
+          title: There is a problem
+          errors_to_fix:
+            one: You need to fix %{count} error related to a specific row
+            other: You need to fix %{count} errors related to specific rows
   activemodel:
     errors:
       models:

@@ -1,14 +1,32 @@
 <%= render 'settings_navigation', title: 'Send notify template' %>
 
-<h1 class="govuk-label-wrapper">
-  <label class="govuk-label govuk-label--l" for="more-detail">
-    Send a Govuk notify template with attachment
-  </label>
-</h1>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<%= form_with url: support_interface_send_notify_template_path, method: :post do |f| %>
-  <%= f.govuk_text_field :template_id, label: { text: 'Notify template id' } %>
-  <%= f.govuk_file_field :distribution_list, label: { text: 'Distribution list' } %>
-  <%= f.govuk_file_field :attachment, label: { text: 'Attachment' } %>
-  <%= f.govuk_submit 'Send' %>
-<% end %>
+    <%= form_with model: @form, url: support_interface_send_notify_template_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-label-wrapper">
+        <label class="govuk-label govuk-label--l">
+          Send a Govuk notify template with attachment
+        </label>
+      </h1>
+
+      <%= govuk_list(
+        [
+          'Emails will only be sent once suitable and valid files have been provided.',
+          'Emails are sent in batches of 100 staggered over time, depending on the size of the distribution list.',
+          'The distribution list file must contain the header \'Email address\'.',
+          'Your notify template must include the personalisation \'link_to_file\'.',
+        ],
+        type: :bullet,
+      ) %>
+
+      <%= f.govuk_text_field :template_id, label: { text: 'Notify template id' } %>
+      <%= f.govuk_file_field :distribution_list, label: { text: 'Distribution list' } %>
+      <%= f.govuk_file_field :attachment, label: { text: 'Attachment' } %>
+      <%= f.govuk_submit 'Send' %>
+    <% end %>
+
+  </div>
+</div>
