@@ -39,7 +39,7 @@ RSpec.describe 'Candidate reviews their application' do
     end
   end
 
-  private
+private
 
   def given_i_am_a_candidate_with_a_complete_an_application
     @application_form = create(
