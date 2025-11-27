@@ -404,6 +404,7 @@ namespace :candidate_interface, path: '/candidate' do
 
       get '/:application_choice_id/review' => 'course_choices/review#show', as: :course_choices_course_review
       get '/:application_choice_id/review-interruption' => 'course_choices/review_interruption#show', as: :course_choices_course_review_interruption
+      get '/:application_choice_id/submit-interruption' => 'course_choices/submit_interruption#show', as: :course_choices_course_submit_interruption
       get '/:application_choice_id/review-enic-interruption' => 'course_choices/review_enic_interruption#show', as: :course_choices_course_review_enic_interruption
       get '/:application_choice_id/review-undergraduate-interruption' => 'course_choices/review_undergraduate_interruption#show', as: :course_choices_course_review_undergraduate_interruption
       get '/:application_choice_id/review-references-interruption' => 'course_choices/review_references_interruption#show', as: :course_choices_course_review_references_interruption

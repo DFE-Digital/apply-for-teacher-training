@@ -9,21 +9,28 @@
 
     <%= render 'candidate_interface/application_form/review_unsubmitted', application_form: @application_form, editable: false, show_current_choice_only: @application_choice %>
 
-    <h2 class="govuk-heading-m">Do you want to submit your application?</h2>
-    <p class="govuk-body">
-      Before you submit your application, make sure that all the information you have added is up to date and correct.
-    </p>
-    <p class="govuk-body">
-      If you still need to make changes, save this application as a draft and submit when you are ready.
-    </p>
-    <p class="govuk-body">
-      By submitting this application, you confirm that your details are true, complete and accurate.
-    </p>
+    <% if CandidateInterface::CourseChoices::SubmitInterruptionPolicy.new(current_candidate, nil).show? %>
+      <div class="govuk-button-group app-course-choice__confirm-submission">
+        <%# do i need method get or should i use a link? %>
+        <%= govuk_button_to('Continue', candidate_interface_course_choices_course_submit_interruption_path(@application_choice.id), method: :get) %>
+        <%= govuk_link_to('Save as draft', candidate_interface_application_choices_path) %>
+      </div>
+    <% else %>
+      <h2 class="govuk-heading-m">Do you want to submit your application?</h2>
+      <p class="govuk-body">
+        Before you submit your application, make sure that all the information you have added is up to date and correct.
+      </p>
+      <p class="govuk-body">
+        If you still need to make changes, save this application as a draft and submit when you are ready.
+      </p>
+      <p class="govuk-body">
+        By submitting this application, you confirm that your details are true, complete and accurate.
+      </p>
 
-    <div class="govuk-button-group app-course-choice__confirm-submission">
-      <%= govuk_button_to('Confirm and submit application', candidate_interface_course_choices_submit_course_choice_path(@application_choice.id), method: :post) %>
-
-      <%= govuk_link_to('Save as draft', candidate_interface_application_choices_path) %>
-    </div>
+      <div class="govuk-button-group app-course-choice__confirm-submission">
+        <%= govuk_button_to('Confirm and submit application', candidate_interface_course_choices_submit_course_choice_path(@application_choice.id), method: :post) %>
+        <%= govuk_link_to('Save as draft', candidate_interface_application_choices_path) %>
+      </div>
+    <% end %>
   </div>
 </div>
