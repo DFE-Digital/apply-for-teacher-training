@@ -16,12 +16,10 @@ module ProviderInterface
   private
 
     def location_row
-      if application_choice.different_offer?
-        { key: t('.school_placements.changed'), value: preferred_location }
-      elsif @application_choice.school_placement_auto_selected?
-        {}
+      if application_choice.different_offer? || !@application_choice.school_placement_auto_selected?
+        { key: t('.school_placements.location'), value: preferred_location }
       else
-        { key: t('.school_placements.selected_by_candidate'), value: preferred_location }
+        {}
       end
     end
   end
