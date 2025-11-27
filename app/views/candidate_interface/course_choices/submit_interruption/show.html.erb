@@ -9,12 +9,12 @@
     <p class="govuk-body">Before you submit your application check that you:</p>
 
     <%= govuk_list type: :bullet, spaced: true do %>
-      <%= tag.li "are aware that you are unlikely to qualify for financial support and you will have to cover the costs of the course and living expenses yourself" %>
-      <%= tag.li "either:" %>
-      <%= govuk_list type: :bullet, spaced: true, classes: "circle-list" do %>
-        <%= tag.li "have the right to work or study in the UK" %>
-        <%= tag.li "have the correct visa with enough time to complete the course before it expires" %>
-        <%= tag.li "have applied to a course that sponsors visas." %>
+      <%= tag.li 'are aware that you are unlikely to qualify for financial support and you will have to cover the costs of the course and living expenses yourself' %>
+      <%= tag.li 'either:' %>
+      <%= govuk_list type: :bullet, spaced: true, classes: 'circle-list' do %>
+        <%= tag.li 'have the right to work or study in the UK' %>
+        <%= tag.li 'have the correct visa with enough time to complete the course before it expires' %>
+        <%= tag.li 'have applied to a course that sponsors visas.' %>
       <% end %>
     <% end %>
 
@@ -22,20 +22,20 @@
 
     <p class="govuk-body">Make sure you already have, or are in the process of getting:</p>
     <%= govuk_list type: :bullet, spaced: true do %>
-      <%= tag.li "original copies of your qualifications and they have been translated into English if needed - the training provider will need to see these" %>
-      <%= tag.li "your ENIC certificate for your degree, maths and English qualifications - the training provider may not consider your application if you do not have these" %>
-      <%= tag.li "an English as a foreign language assessment (EFL) if English is not your first language - check with your training provider what grade and how recently it should have been taken" %>
+      <%= tag.li 'original copies of your qualifications and they have been translated into English if needed - the training provider will need to see these' %>
+      <%= tag.li 'your ENIC certificate for your degree, maths and English qualifications - the training provider may not consider your application if you do not have these' %>
+      <%= tag.li 'an English as a foreign language assessment (EFL) if English is not your first language - check with your training provider what grade and how recently it should have been taken' %>
     <% end %>
 
     <div class="app-section--with-top-border">
       <h2 class="govuk-heading-m">Find out more on the Get Into Teaching website</h2>
 
       <p class="govuk-body">
-        You can read more about the qualifications you need, visas and fees and financial support on the <%= govuk_link_to "Get Into Teaching website", t("get_into_teaching.url_international_candidates"), new_tab: true %>
+        You can read more about the qualifications you need, visas and fees and financial support on the <%= govuk_link_to 'Get Into Teaching website', t('get_into_teaching.url_international_candidates'), new_tab: true %>
       </p>
 
       <p class="govuk-body">
-        If you are not sure about any of these things, you can <%= govuk_link_to "get help", t("get_into_teaching.url_online_chat"), new_tab: true %> or contact the training provider before you submit this application.
+        If you are not sure about any of these things, you can <%= govuk_link_to 'get help', t('get_into_teaching.url_online_chat'), new_tab: true %> or contact the training provider before you submit this application.
       </p>
     </div>
 
