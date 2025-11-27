@@ -1812,4 +1812,20 @@ RSpec.describe ApplicationForm do
       expect(application_form.applied_only_to_salaried_courses?).to be(false)
     end
   end
+
+  describe '#international_qualification?' do
+    it 'return true if qualifications are international' do
+      application_form = create(:application_form)
+      create(:application_qualification, international: true, application_form:)
+
+      expect(application_form.international_qualification?).to be(true)
+    end
+
+    it 'return false if qualifications are not international' do
+      application_form = create(:application_form)
+      create(:application_qualification, international: false, application_form:)
+
+      expect(application_form.international_qualification?).to be(false)
+    end
+  end
 end

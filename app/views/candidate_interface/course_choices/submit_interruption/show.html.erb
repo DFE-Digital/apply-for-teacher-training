@@ -1,8 +1,6 @@
 <% content_for :title, t('page_titles.application_submit_interruption') %>
 <% content_for(:before_content, govuk_back_link_to(candidate_interface_course_choices_course_review_path(@application_choice.id), 'Back to your application')) %>
 
-<%# check dynamic visa requirement in ticket %>
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <h1 class="govuk-heading-l">
@@ -10,11 +8,10 @@
     </h1>
     <p class="govuk-body">Before you submit your application check that you:</p>
 
-
-    <%# tag.p "You will have to apply the reverse charge if you supply any of these services:" %>
     <%= govuk_list type: :bullet, spaced: true do %>
       <%= tag.li "are aware that you are unlikely to qualify for financial support and you will have to cover the costs of the course and living expenses yourself" %>
-      <%= tag.li "are aware that you are unlikely to qualify for financial support and you will have to cover the costs of the course and living expenses yourself" %>
+      <%# check dynamic visa requirement in ticket %>
+      <%= tag.li "either have the correct visa with enough time to complete the course before it expires, or you have applied to a course that sponsors visas" %>
     <% end %>
 
     <h2 class="govuk-heading-m">Qualifications and other documents</h2>
