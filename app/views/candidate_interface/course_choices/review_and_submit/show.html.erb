@@ -11,7 +11,6 @@
 
     <% if CandidateInterface::CourseChoices::SubmitInterruptionPolicy.new(current_candidate, nil).show? %>
       <div class="govuk-button-group app-course-choice__confirm-submission">
-        <%# do i need method get or should i use a link? %>
         <%= govuk_button_to('Continue', candidate_interface_course_choices_course_submit_interruption_path(@application_choice.id), method: :get) %>
         <%= govuk_link_to('Save as draft', candidate_interface_application_choices_path) %>
       </div>
