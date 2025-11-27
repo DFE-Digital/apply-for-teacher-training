@@ -10,8 +10,11 @@
 
     <%= govuk_list type: :bullet, spaced: true do %>
       <%= tag.li "are aware that you are unlikely to qualify for financial support and you will have to cover the costs of the course and living expenses yourself" %>
-      <% if current_application.requires_visa_sponsorship? %>
-        <%= tag.li "either have the correct visa with enough time to complete the course before it expires, or you have applied to a course that sponsors visas" %>
+      <%= tag.li "either:" %>
+      <%= govuk_list type: :bullet, spaced: true, classes: "circle-list" do %>
+        <%= tag.li "have the right to work or study in the UK" %>
+        <%= tag.li "have the correct visa with enough time to complete the course before it expires" %>
+        <%= tag.li "have applied to a course that sponsors visas." %>
       <% end %>
     <% end %>
 

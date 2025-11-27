@@ -29,7 +29,7 @@ RSpec.describe 'Candidate with no right to work or study' do
     when_i_have_completed_my_foreign_application
     and_i_add_a_course_that_can_sponsor_student_visa
     then_i_do_not_see_an_error_message_that_the_course_does_not_sponsor_visa
-    and_i_submit_the_application
+    and_i_submit_the_international_application
     then_i_can_see_my_application_has_been_successfully_submitted
   end
 
@@ -37,7 +37,7 @@ RSpec.describe 'Candidate with no right to work or study' do
     when_i_have_completed_my_foreign_application
     and_i_add_a_course_that_can_sponsor_skilled_worker
     then_i_do_not_see_an_error_message_that_the_course_does_not_sponsor_visa
-    and_i_submit_the_application
+    and_i_submit_the_international_application
     then_i_can_see_my_application_has_been_successfully_submitted
   end
 
@@ -57,7 +57,7 @@ RSpec.describe 'Candidate with no right to work or study' do
     when_i_complete_an_application_with_student_visa
     and_i_add_a_course_that_can_sponsor_student_visa
     then_i_do_not_see_an_error_message_that_the_course_does_not_sponsor_visa
-    and_i_submit_the_application
+    and_i_submit_the_international_application
     then_i_can_see_my_application_has_been_successfully_submitted
   end
 
@@ -202,6 +202,14 @@ RSpec.describe 'Candidate with no right to work or study' do
     expect(page).to have_content('Review application')
     when_i_click_to_review_my_application
     when_i_click_to_submit_my_application
+  end
+
+  def and_i_submit_the_international_application
+    expect(page).to have_content('Review application')
+    click_link_or_button 'Review application'
+    click_link_or_button 'Continue'
+    expect(page).to have_content('Check before you submit your application')
+    click_link_or_button 'Confirm and submit application'
   end
 
   def when_i_click_to_review_my_application
