@@ -104,7 +104,7 @@ module ProviderInterface
       return {} unless application_choice.different_offer? || !@application_choice.school_placement_auto_selected?
 
       {
-        key: t('school_placements.changed'),
+        key: t('school_placements.location'),
         value: preferred_location,
         action: {
           href: change_location_path,
