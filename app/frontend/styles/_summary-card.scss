@@ -91,6 +91,12 @@
       }
     }
   }
+
+  .govuk-summary-list__value {
+    .secondary-text {
+      color: $govuk-secondary-text-colour;
+    }
+  }
 }
 
 @media print {

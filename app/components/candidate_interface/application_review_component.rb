@@ -19,7 +19,7 @@ module CandidateInterface
         application_number_row,
         submitted_at_row,
         course_info_row,
-        course_fee_row(current_course),
+        course_fee_row(application_choice, current_course),
         qualifications_row,
         course_length_row,
         study_mode_row,

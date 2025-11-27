@@ -11,6 +11,9 @@
 
 <section class="govuk-!-margin-bottom-8">
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.qualifications') %></h2>
+  <%= govuk_warning_text(
+    text: 'You will need to show original copies of your qualifications. You may need to have them translated if they are not in English.')
+  %>
   <%= render(CandidateInterface::GcseQualificationReviewComponent.new(
     application_form: @application_form,
     application_qualification: @application_form.english_gcse,
