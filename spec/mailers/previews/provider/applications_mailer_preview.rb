@@ -15,6 +15,10 @@ class Provider::ApplicationsMailerPreview < ActionMailer::Preview
     ProviderMailer.application_withdrawn(provider_user, application_choice, rand(2..4))
   end
 
+  def application_auto_withdrawn_on_accept_offer
+    ProviderMailer.application_auto_withdrawn_on_accept_offer(provider_user, application_choice)
+  end
+
   def unconditional_offer_accepted
     ProviderMailer.unconditional_offer_accepted(provider_user, application_choice)
   end

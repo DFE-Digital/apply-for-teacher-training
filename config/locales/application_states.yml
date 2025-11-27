@@ -362,6 +362,7 @@ en:
       description: The candidate can accept the offer. All other application choices will be withdrawn.
       emails:
         - provider_mailer-offer_accepted
+        - provider_mailer-application_auto_withdrawn_on_accept_offer
         - candidate_mailer-offer_accepted
 
     offer-accept_unconditional_offer:
@@ -370,6 +371,7 @@ en:
       description: The candidate can accept the offer. All other application choices will be withdrawn.
       emails:
         - provider_mailer-offer_accepted
+        - provider_mailer-application_auto_withdrawn_on_accept_offer
         - candidate_mailer-offer_accepted
 
     offer-decline:

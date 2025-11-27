@@ -27,6 +27,7 @@ en:
             application_submitted_with_safeguarding_issues: Sent when a candidate submits an application to a course and they have included information about criminal convictions or professional misconduct.
             application_withdrawn_no_interviews: Sent when a candidate withdraws their application for a course before an interview has been scheduled.
             application_withdrawn_with_interviews: Sent when a candidate withdraws their application for a course after an interview has been scheduled.
+            application_auto_withdrawn_on_accept_offer: Sent when a candidate accepts an offer and outstanding applications are automatically withdrawn.
             unconditional_offer_accepted: Sent when a candidate accepts an offer to train to teach and there are no conditions attached to the offer.
             declined: Sent when a candidate declines an offer to train to teach.
             declined_by_default: Sent when a candidate does not respond to an offer to train to teach for 10 days and their offer is declined by default.

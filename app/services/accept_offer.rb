@@ -37,7 +37,7 @@ protected
     end
 
     application_choices_awaiting_provider_decision.each do |application_choice|
-      WithdrawApplication.new(application_choice:).save!
+      WithdrawApplication.new(application_choice:, accepted_offer: true).save!
     end
   end
 

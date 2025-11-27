@@ -30,25 +30,6 @@ RSpec.describe WithdrawApplication do
       expect(cancel_service).to have_received(:call!)
     end
 
-    it 'sends a notification email to the training provider and ratifying provider', :sidekiq do
-      training_provider = create(:provider)
-      training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
-
-      ratifying_provider = create(:provider)
-      ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
-
-      course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
-      application_choice = create(:application_choice, :awaiting_provider_decision, course_option:)
-
-      described_class.new(application_choice:).save!
-
-      training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
-      ratifying_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == ratifying_provider_user.email_address }
-
-      expect(training_provider_email.rails_mail_template).to eq('application_withdrawn')
-      expect(ratifying_provider_email.rails_mail_template).to eq('application_withdrawn')
-    end
-
     it 'sends a notification email to the candidate if the application is the last one' do
       allow(CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker).to receive(:perform_async).and_return(true)
       application_form = create(:completed_application_form)
@@ -68,6 +49,70 @@ RSpec.describe WithdrawApplication do
       described_class.new(application_choice:).save!
 
       expect(CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker).not_to have_received(:perform_async)
+    end
+  end
+
+  context 'when accepted_offer is false by default' do
+    it 'sends the manual withdrawal notification email to the training provider and ratifying provider', :sidekiq do
+      training_provider = create(:provider)
+      training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
+
+      ratifying_provider = create(:provider)
+      ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
+
+      course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
+      application_choice = create(:application_choice, :awaiting_provider_decision, course_option:)
+
+      described_class.new(application_choice:).save!
+
+      training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
+      ratifying_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == ratifying_provider_user.email_address }
+
+      expect(training_provider_email.rails_mail_template).to eq('application_withdrawn')
+      expect(ratifying_provider_email.rails_mail_template).to eq('application_withdrawn')
+    end
+  end
+
+  context 'when accepted_offer is true' do
+    let!(:training_provider) { create(:provider) }
+    let!(:training_provider_user) do
+      create(:provider_user, :with_notifications_enabled, providers: [training_provider])
+    end
+
+    let!(:ratifying_provider) { create(:provider) }
+    let!(:ratifying_provider_user) do
+      create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
+    end
+
+    let!(:course_option) do
+      course_option_for_accredited_provider(
+        provider: training_provider,
+        accredited_provider: ratifying_provider,
+      )
+    end
+
+    let!(:application_choice) do
+      create(:application_choice, :awaiting_provider_decision, course_option:)
+    end
+
+    it 'sends the automatic withdrawal email to the training provider and ratifying provider', :sidekiq do
+      described_class.new(application_choice:, accepted_offer: true).save!
+
+      training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
+      ratifying_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == ratifying_provider_user.email_address }
+
+      expect(training_provider_email.rails_mail_template).to eq('application_auto_withdrawn_on_accept_offer')
+      expect(ratifying_provider_email.rails_mail_template).to eq('application_auto_withdrawn_on_accept_offer')
+    end
+
+    it 'sets the published withdrawal reason to accepted another offer' do
+      described_class.new(application_choice:, accepted_offer: true).save!
+
+      application_choice.reload
+
+      expect(application_choice.published_withdrawal_reasons.pluck(:reason)).to contain_exactly(
+        'applying-to-another-provider.accepted-another-offer',
+      )
     end
   end
 end
