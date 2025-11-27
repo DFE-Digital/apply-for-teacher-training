@@ -11,12 +11,13 @@ class WithdrawApplication
         withdrawn_at: Time.zone.now,
         withdrawn_or_declined_for_candidate_by_provider: false,
       )
-      application_choice.draft_withdrawal_reasons.each(&:publish!)
 
       if accepted_offer
         application_choice.published_withdrawal_reasons.create!(
           reason: 'applying-to-another-provider.accepted-another-offer',
         )
+      else
+        application_choice.draft_withdrawal_reasons.each(&:publish!)
       end
     end
 
