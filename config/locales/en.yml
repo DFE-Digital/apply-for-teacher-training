@@ -389,6 +389,7 @@ en:
       section_43: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers#how-to-contact-us-and-how-to-make-a-complaint
   school_placements:
     changed: Location
+    visually_hidden_text: location
     selected_by_candidate: Location (selected by candidate)
     auto_selected: Location (not selected by candidate)
     preferred:
