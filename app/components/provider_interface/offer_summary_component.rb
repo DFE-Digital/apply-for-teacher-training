@@ -22,7 +22,7 @@ module ProviderInterface
     end
 
     def rows
-      rows = [
+      [
         {
           key: 'Training provider',
           value: course_option.provider.name_and_code,
@@ -45,13 +45,8 @@ module ProviderInterface
             visually_hidden_text: 'if full time or part time',
           },
         },
-        {
-          key: location_key,
-          value: course_option.site.name_and_address("\n"),
-          action: {
-            href: change_location_path,
-          },
-        },
+        accredited_body_details,
+        location_row,
         {
           key: 'Qualification',
           value: qualification_text(course_option),
@@ -60,10 +55,7 @@ module ProviderInterface
           key: 'Funding type',
           value: course.funding_type.humanize,
         },
-      ]
-      return rows if course_option.course.accredited_provider.blank?
-
-      rows.insert(4, accredited_body_details(course_option))
+      ].compact_blank
     end
 
     def change_provider_path
@@ -96,7 +88,9 @@ module ProviderInterface
 
   private
 
-    def accredited_body_details(course_option)
+    def accredited_body_details
+      return {} if course_option.course.accredited_provider.blank?
+
       {
         key: 'Accredited body',
         value: course_option.course.accredited_provider.name_and_code,
@@ -111,14 +105,17 @@ module ProviderInterface
       :new
     end
 
-    def location_key
-      if @application_choice.different_offer?
-        t('school_placements.changed')
-      elsif @school_placement_auto_selected
-        t('school_placements.auto_selected')
-      else
-        t('school_placements.selected_by_candidate')
-      end
+    def location_row
+      return {} unless !@school_placement_auto_selected || application_choice.different_offer?
+
+      {
+        key: t('school_placements.location'),
+        value: course_option.site.name_and_address("\n"),
+        action: {
+          href: change_location_path,
+          visually_hidden_text: t('school_placements.visually_hidden_text'),
+        },
+      }
     end
   end
 end

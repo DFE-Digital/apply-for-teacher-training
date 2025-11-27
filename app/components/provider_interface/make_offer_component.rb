@@ -129,7 +129,7 @@ module ProviderInterface
       return {} unless application_choice.different_offer? || !@school_placement_auto_selected
 
       {
-        key: t('school_placements.changed'),
+        key: t('school_placements.locatino'),
         value: course_option.site.name_and_address("\n"),
         action: {
           href: change_location_path,
