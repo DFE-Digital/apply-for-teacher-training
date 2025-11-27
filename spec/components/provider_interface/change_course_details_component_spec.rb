@@ -79,7 +79,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
                     original_course_option: course_option2,
                     different_offer?: false,
                     provider:,
-                    school_placement_auto_selected?: true,
+                    school_placement_auto_selected?: false,
                     course: course2,
                     site:)
   end
@@ -169,10 +169,12 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
   end
 
   context 'when there is only one location' do
-    it 'does not render the change link' do
+    let(:render) { render_inline(described_class.new(application_choice: single_study_mode_application_choice, course_option:, available_course_options: [course_option])) }
+
+    it 'does not render the change location link' do
       render_text = row_text_selector(:location, render)
 
-      expect(render_text).to include('Location (not selected by candidate)')
+      expect(render_text).to include('Location')
       expect(render_text).to include('First Road (F34)')
       expect(render_text).to include("Fountain Street\nMorley\nLeeds")
       expect(render_text).to include('LS27 OPD')
@@ -181,12 +183,12 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
   end
 
   context 'when there are multiple locations' do
-    let(:render) { render_inline(described_class.new(application_choice:, course_option:, available_course_options: [course_option, course_option2])) }
+    let(:render) { render_inline(described_class.new(application_choice: single_study_mode_application_choice, course_option:, available_course_options: [course_option, course_option2])) }
 
     it 'renders the change link' do
       render_text = row_text_selector(:location, render)
 
-      expect(render_text).to include('Location (not selected by candidate)')
+      expect(render_text).to include('Location')
       expect(render_text).to include('First Road (F34)')
       expect(render_text).to include("Fountain Street\nMorley\nLeeds")
       expect(render_text).to include('LS27 OPD')
@@ -210,7 +212,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
     it 'says selected by candidate' do
       render_text = row_text_selector(:location, render)
 
-      expect(render_text).to include('Location (selected by candidate)')
+      expect(render_text).to include('Location')
       expect(render_text).to include('First Road (F34)')
       expect(render_text).to include("Fountain Street\nMorley\nLeeds")
       expect(render_text).to include('LS27 OPD')
