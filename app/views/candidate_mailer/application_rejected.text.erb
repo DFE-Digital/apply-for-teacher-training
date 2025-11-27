@@ -11,6 +11,10 @@ Hello <%= @application_form.first_name %>
 
 <%= render 'understand_your_professional_strengths' %>
 
+<% if @include_fee_funded_nudge %>
+  <%= render 'candidate_mailer/application_rejected/fee_funded_nudge' %>
+<% end %>
+
 <%= render 'candidate_mailer/application_rejected/apply_again' %>
 
 <%= render 'application_rejected_get_help' %>

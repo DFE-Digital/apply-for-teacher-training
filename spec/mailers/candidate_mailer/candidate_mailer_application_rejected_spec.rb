@@ -454,5 +454,45 @@ RSpec.describe CandidateMailer do
         end
       end
     end
+
+    describe 'fee-funded nudge' do
+      context 'when the candidate was rejected because a salaried course was full' do
+        structured_rejection_reasons = {
+          selected_reasons: [
+            { id: 'course_full', label: 'Course full', selected_reasons: [
+              { id: 'salary_course_full', label: 'The salaried or apprenticeship route for this course is full' },
+            ] },
+          ],
+        }
+
+        let(:application_form) { create(:application_form, :minimum_info) }
+        let(:application_choice) { create(:application_choice, :rejected_reasons, structured_rejection_reasons:, application_form:) }
+        let(:email) { described_class.application_rejected(application_choice) }
+
+        it 'includes the nudge about applying to fee-funded courses' do
+          expect(email.body).to have_content 'Salaried and apprenticeship routes are in high demand, you have a better chance of success if you apply to a course with fees to pay.'
+          expect(email.body).to have_content 'Select ‘fee - no salary’ from the filters'
+        end
+      end
+
+      context 'when the candidate was rejected for another reason' do
+        structured_rejection_reasons = {
+          selected_reasons: [
+            { id: 'teaching_knowledge', label: 'Teaching knowledge, ability and interview performance', selected_reasons: [
+              { id: 'safeguarding_knowledge', label: 'Safeguarding knowledge' },
+            ] },
+          ],
+        }
+
+        let(:application_form) { create(:application_form, :minimum_info) }
+        let(:application_choice) { create(:application_choice, :rejected_reasons, structured_rejection_reasons:, application_form:) }
+        let(:email) { described_class.application_rejected(application_choice) }
+
+        it 'does not include nudge about applying to fee-funded courses' do
+          expect(email.body).to have_no_content 'Salaried and apprenticeship routes are in high demand, you have a better chance of success if you apply to a course with fees to pay.'
+          expect(email.body).to have_no_content 'Select ‘fee - no salary’ from the filters'
+        end
+      end
+    end
   end
 end
