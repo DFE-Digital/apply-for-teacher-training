@@ -133,7 +133,7 @@ module ProviderInterface
         value: course_option.site.name_and_address("\n"),
         action: {
           href: change_location_path,
-          visually_hidden_text: t('school_placements.changed'),
+          visually_hidden_text: t('school_placements.visually_hidden_text'),
         },
       }
     end
