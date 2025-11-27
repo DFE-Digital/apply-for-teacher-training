@@ -12,6 +12,12 @@ class WithdrawApplication
         withdrawn_or_declined_for_candidate_by_provider: false,
       )
       application_choice.draft_withdrawal_reasons.each(&:publish!)
+
+      if accepted_offer
+        application_choice.published_withdrawal_reasons.create!(
+          reason: 'applying-to-another-provider.accepted-another-offer',
+        )
+      end
     end
 
     CancelUpcomingInterviews.new(
@@ -33,7 +39,7 @@ private
 
   def send_email_notification_to_provider_users
     NotificationsList.for(application_choice, event: :application_withdrawn, include_ratifying_provider: true).each do |provider_user|
-      if accepted_offer == true
+      if accepted_offer
         ProviderMailer.application_auto_withdrawn_on_accept_offer(provider_user, application_choice).deliver_later
       else
         ProviderMailer.application_withdrawn(provider_user, application_choice, number_of_cancelled_interviews).deliver_later
