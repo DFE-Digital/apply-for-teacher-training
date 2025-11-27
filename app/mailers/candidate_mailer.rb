@@ -89,8 +89,6 @@ class CandidateMailer < ApplicationMailer
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @course_recommendation_url = course_recommendation_url
     @include_fee_funded_nudge = include_fee_funded_nudge?(application_choice)
-    @find_link = find_link
-    @git_funding_link = git_funding_link
 
     email_for_candidate(application_choice.application_form)
   end
@@ -671,7 +669,7 @@ private
   end
 
   def include_fee_funded_nudge?(application_choice)
-    application_choice.application_form.domestic? &&
+    application_choice.application_form.british_or_irish? &&
       application_choice.structured_rejection_reasons.to_json.include?('salary_course_full')
   end
 
@@ -716,6 +714,8 @@ private
                 :application_choices_link,
                 :candidate_realistic_job_preview_link,
                 :candidate_unsubscribe_link,
+                :find_link,
+                :git_funding_link,
                 def uid
                   @uid ||= EmailLogInterceptor.generate_reference
                 end
