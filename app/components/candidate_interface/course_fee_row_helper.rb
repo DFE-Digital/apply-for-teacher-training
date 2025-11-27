@@ -40,11 +40,13 @@ module CandidateInterface
 
       content_tag :p, class: 'govuk-body secondary-text' do
         concat(
-          content_tag(:span, 'Non-UK citizens are unlikely to get help funding your training unless you have permission to live permanently in the UK. Find out about '),
+          content_tag(:span, I18n.t('course_fee_row_helper.non_uk_citizens_are_unlikely_to_get_help_funding')),
         )
         concat(
           govuk_link_to(
-            'funding for non-UK citizens',
+            I18n.t(
+              'course_fee_row_helper.funding_for_non_uk_citizens',
+            ),
             'https://getintoteaching.education.gov.uk/non-uk-teachers/fees-and-funding-for-non-uk-trainees',
             no_visited_state: true,
             new_tab: true,
