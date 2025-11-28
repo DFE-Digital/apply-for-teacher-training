@@ -15,6 +15,23 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
     end
 
     context 'when application has zero references' do
+      it 'displays reference guidance' do
+        render_inline(component) do |result|
+          expect(result).to have_element(
+            :p,
+            text: 'When you accept your offer, we’ll send emails to the people you said could give you references.',
+          )
+          expect(result).to have_element(
+            :p,
+            text: 'Until we email them you can change any details about them.',
+          )
+          expect(result).to have_element(
+            :p,
+            text: 'After we have emailed them you will not be able to make any changes.',
+          )
+        end
+      end
+
       it 'renders add references message' do
         render_inline(component) do |result|
           expect(result.text).to include(I18n.t('review_application.references.not_entered'))
@@ -26,6 +43,23 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
     context 'when application has one references' do
       let(:references) do
         [create(:reference, :not_requested_yet, application_form:)]
+      end
+
+      it 'displays reference guidance' do
+        render_inline(component) do |result|
+          expect(result).to have_element(
+            :p,
+            text: 'When you accept your offer, we’ll send emails to the people you said could give you references.',
+          )
+          expect(result).to have_element(
+            :p,
+            text: 'Until we email them you can change any details about them.',
+          )
+          expect(result).to have_element(
+            :p,
+            text: 'After we have emailed them you will not be able to make any changes.',
+          )
+        end
       end
 
       it 'renders add references message' do
@@ -132,6 +166,8 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
           status_row = result.css('.govuk-summary-list__row')[4].text
           expect(status_row).to include "#{reference.name} has already given a reference."
           expect(status_row).to include 'If you accept an offer, the training provider will see the reference.'
+
+          expect(result).to have_element(:strong, text: 'Received', class: 'govuk-tag govuk-tag--green')
         end
       end
 
@@ -142,6 +178,8 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
 
           status_row = result.css('.govuk-summary-list__row')[4]
           expect(status_row).to be_nil
+
+          expect(result).to have_element(:strong, text: 'Requested', class: 'govuk-tag govuk-tag--orange')
         end
       end
     end

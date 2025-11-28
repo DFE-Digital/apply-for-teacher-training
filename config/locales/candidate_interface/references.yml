@@ -96,6 +96,8 @@ en:
         one: Add another reference
         other: Add another reference
       status:
+        received: Received
+        requested: Requested
         first_line: '%{name} has already given a reference.'
         second_line: If you accept an offer, the training provider will see the reference.
       review:

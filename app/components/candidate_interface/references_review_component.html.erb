@@ -18,6 +18,10 @@
                 <span class="govuk-visually-hidden">reference from <%= reference.name %></span>
               <% end %>
             </li>
+          <% elsif reference.feedback_provided? %>
+            <%= govuk_tag(text: t('application_form.references.status.received'), colour: 'green') %>
+          <% elsif reference.feedback_requested? %>
+            <%= govuk_tag(text: t('application_form.references.status.requested'), colour: 'orange') %>
           <% end %>
         </ul>
       </div>
