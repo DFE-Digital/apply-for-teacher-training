@@ -52,7 +52,7 @@ RSpec.describe Subject do
       before { maths }
 
       it 'returns only language subjects' do
-        expect(described_class.physics).to match_array([physics])
+        expect(described_class.physics).to contain_exactly(physics)
       end
     end
   end
