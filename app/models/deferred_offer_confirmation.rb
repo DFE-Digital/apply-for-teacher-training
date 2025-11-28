@@ -139,9 +139,9 @@ class DeferredOfferConfirmation < ApplicationRecord
       offered_course_in_current_cycle = provider.courses.current_cycle.find_by(code: offer_course.code)
 
       if offered_course_in_current_cycle.present?
-        offered_site_in_current_cycle = possible_sites&.find_by(code: offer_site.code)
+        offered_site_in_current_cycle = offered_course_in_current_cycle.sites&.find_by(code: offer_site.code)
         auto_selected_site = if offered_site_in_current_cycle.blank? && application_choice.school_placement_auto_selected?
-                               possible_sites.main_sites.first || possible_sites.sites.first
+                               offered_course_in_current_cycle.sites&.main_sites&.first || offered_course_in_current_cycle.sites&.first
                              end
       end
 
@@ -159,14 +159,8 @@ class DeferredOfferConfirmation < ApplicationRecord
       selected_site = possible_sites.main_sites.first || possible_sites.first
     end
 
-    self.site_id = selected_site&.id unless location_in_cycle?
+    self.site_id = selected_site&.id
     self.study_mode = nil unless study_mode_in_cycle?
-  end
-
-  def possible_sites
-    return [] if course.blank?
-
-    course.sites.selectable
   end
 
   def study_mode_humanized
@@ -174,6 +168,12 @@ class DeferredOfferConfirmation < ApplicationRecord
   end
 
 private
+
+  def possible_sites
+    return if course.blank?
+
+    course.sites.selectable
+  end
 
   def course_option_available
     if course_id.present? && !course_in_cycle?

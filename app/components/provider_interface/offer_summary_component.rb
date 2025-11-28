@@ -45,8 +45,8 @@ module ProviderInterface
             visually_hidden_text: 'if full time or part time',
           },
         },
-        accredited_body_details,
         location_row,
+        accredited_body_details,
         {
           key: 'Qualification',
           value: qualification_text(course_option),

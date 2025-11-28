@@ -27,7 +27,7 @@ module CandidateInterface
         personal_statement_row,
         interview_row,
         rejection_reasons_row,
-      ].compact
+      ].compact_blank
     end
 
     def status_row

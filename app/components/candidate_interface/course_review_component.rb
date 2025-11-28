@@ -21,7 +21,7 @@ module CandidateInterface
         start_date_row(application_choice),
         degree_required_row(application_choice),
         gcse_required_row(application_choice),
-      ].compact
+      ].compact_blank
     end
 
     def course_row(application_choice)
