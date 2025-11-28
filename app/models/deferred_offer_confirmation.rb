@@ -11,7 +11,9 @@ class DeferredOfferConfirmation < ApplicationRecord
     def courses_for_select
       @courses_for_select ||= offer.provider.courses
            .where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
+           .joins(:course_options).where('course_options.site_still_valid': true)
            .includes(:provider, :accredited_provider)
+           .distinct
            .order(:name)
     end
 
@@ -135,10 +137,16 @@ class DeferredOfferConfirmation < ApplicationRecord
   after_initialize do
     if course_id.nil? && site_id.nil? && study_mode.nil?
       offered_course_in_current_cycle = provider.courses.current_cycle.find_by(code: offer_course.code)
-      offered_site_in_current_cycle = offered_course_in_current_cycle&.sites&.find_by(code: offer_site.code)
+
+      if offered_course_in_current_cycle.present?
+        offered_site_in_current_cycle = possible_sites&.find_by(code: offer_site.code)
+        auto_selected_site = if offered_site_in_current_cycle.blank? && application_choice.school_placement_auto_selected?
+                               possible_sites.main_sites.first || possible_sites.sites.first
+                             end
+      end
 
       self.course_id = offered_course_in_current_cycle&.id || offer_course.id
-      self.site_id = offered_site_in_current_cycle&.id
+      self.site_id = offered_site_in_current_cycle&.id || auto_selected_site&.id
       self.study_mode = offer.study_mode
     end
   end
@@ -146,8 +154,19 @@ class DeferredOfferConfirmation < ApplicationRecord
   before_save do
     next if course.blank?
 
-    self.site_id = course.sites.find_by(code: offer_site.code)&.id unless location_in_cycle?
+    selected_site = possible_sites.find_by(code: offer_site.code) unless location_in_cycle?
+    if selected_site.blank? && application_choice.school_placement_auto_selected?
+      selected_site = possible_sites.main_sites.first || possible_sites.first
+    end
+
+    self.site_id = selected_site&.id unless location_in_cycle?
     self.study_mode = nil unless study_mode_in_cycle?
+  end
+
+  def possible_sites
+    return [] if course.blank?
+
+    course.sites.selectable
   end
 
   def study_mode_humanized

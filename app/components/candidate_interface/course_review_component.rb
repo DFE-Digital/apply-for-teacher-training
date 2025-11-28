@@ -32,7 +32,7 @@ module CandidateInterface
     end
 
     def location_row(application_choice)
-      return if application_choice.school_placement_auto_selected?
+      return {} if application_choice.school_placement_auto_selected?
 
       {
         key: 'Location',
