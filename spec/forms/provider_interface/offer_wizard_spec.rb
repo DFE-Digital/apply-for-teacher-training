@@ -530,6 +530,18 @@ RSpec.describe ProviderInterface::OfferWizard do
             expect(wizard.next_step).to eq(:conditions)
           end
         end
+
+        context 'when there are multiple locations, but the school is autoselected' do
+          let(:application_choice_id) { create(:application_choice, school_placement_auto_selected: true).id }
+
+          before do
+            allow(query_service).to receive(:available_course_options).and_return([create(:course_option), create(:course_option)])
+          end
+
+          it 'returns :conditions' do
+            expect(wizard.next_step).to eq(:conditions)
+          end
+        end
       end
 
       context 'when current_step is :locations' do

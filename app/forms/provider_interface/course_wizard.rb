@@ -42,8 +42,21 @@ module ProviderInterface
       return save_and_go_to_next_step(next_step) if next_step.eql?(:courses) && available_courses.length == 1
       return save_and_go_to_next_step(next_step) if next_step.eql?(:study_modes) && available_study_modes.length == 1
       return save_and_go_to_next_step(next_step) if next_step.eql?(:locations) && available_course_options.length == 1
+      return save_and_go_to_next_step(next_step) if next_step.eql?(:locations) && auto_select_location!
 
       next_step
+    end
+
+    def auto_select_location!
+      return false unless course_id.present? && study_mode.present?
+      return false unless application_choice.school_placement_auto_selected?
+
+      auto_selected_option = available_course_options.find do |option|
+        option.site.main_site?
+      end || available_course_options.first
+
+      @course_option_id = auto_selected_option.id
+      true
     end
 
   private

@@ -85,7 +85,7 @@ RSpec.describe ProviderInterface::ApplicationCourseSummaryComponent do
   context 'when school placement is selected by candidate' do
     it 'renders selected by candidate' do
       render_text = row_text_selector(:location, render)
-      expect(render_text).to include('Location (selected by candidate)')
+      expect(render_text).to include('Location')
       expect(render_text).to include("Fountain Street\nMorley\nLeeds\nLS27 OPD")
     end
   end
@@ -96,9 +96,9 @@ RSpec.describe ProviderInterface::ApplicationCourseSummaryComponent do
     end
 
     it 'renders selected by candidate' do
-      render_text = row_text_selector(:location, render)
-      expect(render_text).to include('Location (not selected by candidate)')
-      expect(render_text).to include("Fountain Street\nMorley\nLeeds\nLS27 OPD")
+      render_text = render
+      expect(render_text).not_to include('Location')
+      expect(render_text).not_to include("Fountain Street\nMorley\nLeeds\nLS27 OPD")
     end
   end
 

@@ -9,6 +9,8 @@ class Site < ApplicationRecord
 
   normalizes :name, with: ->(name) { name.strip }
 
+  scope :main_sites, -> { where(code: '-') }
+
   CODE_LENGTH = 5
 
   def name_and_code
