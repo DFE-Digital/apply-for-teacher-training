@@ -134,7 +134,6 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
-
   def organisation_permissions_set_up(provider_user, provider, permissions)
     @provider_user = provider_user
     @recipient_organisation = provider
