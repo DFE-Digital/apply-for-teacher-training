@@ -9,7 +9,7 @@ RSpec.describe 'Candidate reviews their application' do
       and_i_have_an_unsubmitted_application_choice
       when_i_review_my_application_choice
       then_i_see_the_application_review_page
-      and_i_do_not_see_the_funding_advise
+      and_i_do_not_see_the_funding_advice
     end
   end
 
@@ -19,7 +19,7 @@ RSpec.describe 'Candidate reviews their application' do
       and_i_have_an_unsubmitted_application_choice
       when_i_review_my_application_choice
       then_i_see_the_application_review_page
-      and_i_see_the_funding_advise
+      and_i_see_the_funding_advice
     end
 
     scenario 'Candidate reviews their application for physics' do
@@ -27,7 +27,7 @@ RSpec.describe 'Candidate reviews their application' do
       and_i_have_an_unsubmitted_application_choice_for_physics
       when_i_review_my_application_choice
       then_i_see_the_application_review_page
-      and_i_do_not_see_the_funding_advise
+      and_i_do_not_see_the_funding_advice
     end
 
     scenario 'Candidate reviews their application for a language' do
@@ -35,7 +35,7 @@ RSpec.describe 'Candidate reviews their application' do
       and_i_have_an_unsubmitted_application_choice_for_french
       when_i_review_my_application_choice
       then_i_see_the_application_review_page
-      and_i_do_not_see_the_funding_advise
+      and_i_do_not_see_the_funding_advice
     end
   end
 
@@ -113,14 +113,14 @@ private
     )
   end
 
-  def and_i_see_the_funding_advise
+  def and_i_see_the_funding_advice
     expect(page).to have_element(
       :p,
       text: 'Non-UK citizens are unlikely to get help funding your training unless you have permission to live permanently in the UK. Find out about funding for non-UK citizens (opens in new tab)',
     )
   end
 
-  def and_i_do_not_see_the_funding_advise
+  def and_i_do_not_see_the_funding_advice
     expect(page).not_to have_element(
       :p,
       text: 'Non-UK citizens are unlikely to get help funding your training unless you have permission to live permanently in the UK. Find out about funding for non-UK citizens (opens in new tab)',
