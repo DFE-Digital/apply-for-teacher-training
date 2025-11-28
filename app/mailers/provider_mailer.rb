@@ -125,6 +125,15 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def declined_automatically_on_accept_offer(provider_user, application_choice)
+    @application = map_application_choice_params(application_choice)
+    email_for_provider(
+      provider_user,
+      application_choice.application_form,
+      subject: I18n.t!('provider_mailer.declined_automatically_on_accept_offer.subject', candidate_name: @application.candidate_name),
+    )
+  end
+
   def organisation_permissions_set_up(provider_user, provider, permissions)
     @provider_user = provider_user
     @recipient_organisation = provider

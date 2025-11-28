@@ -33,7 +33,7 @@ protected
 
   def withdraw_and_decline_associated_application_choices!
     other_application_choices_with_offers.each do |application_choice|
-      DeclineOffer.new(application_choice:).save!
+      DeclineOffer.new(application_choice:, accepted_offer: true).save!
     end
 
     application_choices_awaiting_provider_decision.each do |application_choice|

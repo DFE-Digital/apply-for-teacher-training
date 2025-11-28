@@ -359,19 +359,21 @@ en:
     offer-accept:
       name: Candidate accepts offer
       by: candidate
-      description: The candidate can accept the offer. All other application choices will be withdrawn.
+      description: The candidate can accept the offer. All other application choices will be withdrawn and any other offers will be declined.
       emails:
         - provider_mailer-offer_accepted
         - provider_mailer-application_auto_withdrawn_on_accept_offer
+        - provider_mailer-declined_automatically_on_accept_offer
         - candidate_mailer-offer_accepted
 
     offer-accept_unconditional_offer:
       name: Candidate accepts an unconditional offer
       by: candidate
-      description: The candidate can accept the offer. All other application choices will be withdrawn.
+      description: The candidate can accept the offer. All other application choices will be withdrawn and any other offers will be declined.
       emails:
         - provider_mailer-offer_accepted
         - provider_mailer-application_auto_withdrawn_on_accept_offer
+        - provider_mailer-declined_automatically_on_accept_offer
         - candidate_mailer-offer_accepted
 
     offer-decline:

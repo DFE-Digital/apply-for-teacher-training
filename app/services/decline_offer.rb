@@ -1,6 +1,7 @@
 class DeclineOffer
-  def initialize(application_choice:)
+  def initialize(application_choice:, accepted_offer: false)
     @application_choice = application_choice
+    @accepted_offer = accepted_offer
   end
 
   def save!
@@ -15,7 +16,11 @@ class DeclineOffer
     end
 
     NotificationsList.for(@application_choice, event: :declined, include_ratifying_provider: true).each do |provider_user|
-      ProviderMailer.declined(provider_user, @application_choice).deliver_later
+      if @accepted_offer
+        ProviderMailer.declined_automatically_on_accept_offer(provider_user, @application_choice).deliver_later
+      else
+        ProviderMailer.declined(provider_user, @application_choice).deliver_later
+      end
     end
   end
 end

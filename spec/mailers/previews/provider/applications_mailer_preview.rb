@@ -27,6 +27,10 @@ class Provider::ApplicationsMailerPreview < ActionMailer::Preview
     ProviderMailer.declined(provider_user, application_choice)
   end
 
+  def declined_automatically_on_accept_offer
+    ProviderMailer.declined_automatically_on_accept_offer(provider_user, application_choice)
+  end
+
   def declined_by_default
     ProviderMailer.declined_by_default(provider_user, application_choice)
   end

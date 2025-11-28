@@ -12,23 +12,46 @@ RSpec.describe DeclineOffer do
     .and change { application_choice.withdrawn_or_declined_for_candidate_by_provider }.to false
   end
 
-  it 'sends a notification email to the training provider and ratifying provider', :sidekiq do
-    training_provider = create(:provider)
-    training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
+  context 'when accepted_offer is true' do
+    it 'notifies the training provider and ratifying provider that the offer was declined automatically', :sidekiq do
+      training_provider = create(:provider)
+      training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
 
-    ratifying_provider = create(:provider)
-    ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
+      ratifying_provider = create(:provider)
+      ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
 
-    course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
-    application_choice = create(:application_choice, status: :offer, course_option:)
+      course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
+      application_choice = create(:application_choice, status: :offer, course_option:)
 
-    described_class.new(application_choice:).save!
+      described_class.new(application_choice:, accepted_offer: true).save!
 
-    training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
-    ratifying_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == ratifying_provider_user.email_address }
+      training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
+      ratifying_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == ratifying_provider_user.email_address }
 
-    expect(training_provider_email.rails_mail_template).to eq('declined')
-    expect(ratifying_provider_email.rails_mail_template).to eq('declined')
+      expect(training_provider_email.rails_mail_template).to eq('declined_automatically_on_accept_offer')
+      expect(ratifying_provider_email.rails_mail_template).to eq('declined_automatically_on_accept_offer')
+    end
+  end
+
+  context 'when accepted_offer is false by default' do
+    it 'notifies the training provider and ratifying provider that the candidate declined the offer', :sidekiq do
+      training_provider = create(:provider)
+      training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
+
+      ratifying_provider = create(:provider)
+      ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
+
+      course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
+      application_choice = create(:application_choice, status: :offer, course_option:)
+
+      described_class.new(application_choice:).save!
+
+      training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
+      ratifying_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == ratifying_provider_user.email_address }
+
+      expect(training_provider_email.rails_mail_template).to eq('declined')
+      expect(ratifying_provider_email.rails_mail_template).to eq('declined')
+    end
   end
 
   it 'sends a notification email to the candidate if the application is the last one' do

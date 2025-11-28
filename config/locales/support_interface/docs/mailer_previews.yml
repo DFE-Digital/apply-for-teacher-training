@@ -30,6 +30,7 @@ en:
             application_auto_withdrawn_on_accept_offer: Sent when a candidate accepts an offer and outstanding applications are automatically withdrawn.
             unconditional_offer_accepted: Sent when a candidate accepts an offer to train to teach and there are no conditions attached to the offer.
             declined: Sent when a candidate declines an offer to train to teach.
+            declined_automatically_on_accept_offer: Sent when a candidate accepts an offer and outstanding offers are automatically declined.
             declined_by_default: Sent when a candidate does not respond to an offer to train to teach for 10 days and their offer is declined by default.
             offer_accepted: Sent when a candidate accepts an offer to train to teach and there are conditions attached to the offer.
           provider_deadlines_mailer:
