@@ -254,7 +254,7 @@ GEM
     dry-initializer (3.2.0)
     email_validator (2.2.4)
       activemodel
-    erb (5.1.3)
+    erb (6.0.0)
     erb_lint (0.9.0)
       activesupport
       better_html (>= 2.0.1)
@@ -615,7 +615,7 @@ GEM
       ffi (~> 1.0)
     rb_sys (0.9.116)
       rake-compiler-dock (= 1.9.1)
-    rdoc (6.15.1)
+    rdoc (6.16.0)
       erb
       psych (>= 4.0.0)
       tsort
@@ -722,15 +722,15 @@ GEM
     semantic_logger (4.17.0)
       concurrent-ruby (~> 1.0)
     semantic_range (3.0.0)
-    sentry-rails (5.28.1)
-      railties (>= 5.0)
-      sentry-ruby (~> 5.28.1)
-    sentry-ruby (5.28.1)
+    sentry-rails (6.2.0)
+      railties (>= 5.2.0)
+      sentry-ruby (~> 6.2.0)
+    sentry-ruby (6.2.0)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.28.1)
-      sentry-ruby (~> 5.28.1)
-      sidekiq (>= 3.0)
+    sentry-sidekiq (6.2.0)
+      sentry-ruby (~> 6.2.0)
+      sidekiq (>= 5.0)
     shellany (0.0.1)
     shoulda-matchers (7.0.1)
       activesupport (>= 7.1)
@@ -767,7 +767,7 @@ GEM
       sprockets (>= 3.0.0)
     stoplight (3.0.2)
       redlock (~> 1.0)
-    stringio (3.1.7)
+    stringio (3.1.8)
     strip_attributes (2.0.1)
       activemodel (>= 3.0, < 9.0)
     strong_migrations (2.5.1)
@@ -828,7 +828,7 @@ GEM
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
       semantic_range (>= 2.3.0)
-    webrick (1.9.1)
+    webrick (1.9.2)
     websocket (1.2.11)
     websocket-driver (0.8.0)
       base64
@@ -957,7 +957,7 @@ DEPENDENCIES
   rubypants
   satisfactory (~> 0.3)
   selenium-webdriver
-  sentry-rails (= 5.28.1)
+  sentry-rails (= 6.2.0)
   sentry-sidekiq
   shoulda-matchers (~> 7.0)
   sidekiq (< 7)
@@ -1056,7 +1056,7 @@ CHECKSUMS
   drb (2.2.3) sha256=0b00d6fdb50995fe4a45dea13663493c841112e4068656854646f418fda13373
   dry-initializer (3.2.0) sha256=37d59798f912dc0a1efe14a4db4a9306989007b302dcd5f25d0a2a20c166c4e3
   email_validator (2.2.4) sha256=5ab238095bec7aef9389f230e9e0c64c5081cdf91f19d6c5cecee0a93af20604
-  erb (5.1.3) sha256=566e53057b6ba48699f824b578473b391fa8aef100aa14afad1c46725fae0e67
+  erb (6.0.0) sha256=2730893f9d8c9733f16cab315a4e4b71c1afa9cabc1a1e7ad1403feba8f52579
   erb_lint (0.9.0) sha256=dfb5e40ad839e8d1f0d56ca85ec9a7ac4c9cd966ec281138282f35b323ca7c31
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
   excon (0.109.0) sha256=bda092e866d77089a41f4791b221e0cb96c48ef981db96ad1dcc66fae5e3b5ce
@@ -1194,7 +1194,7 @@ CHECKSUMS
   rb-fsevent (0.11.2) sha256=43900b972e7301d6570f64b850a5aa67833ee7d87b458ee92805d56b7318aefe
   rb-inotify (0.10.1) sha256=050062d4f31d307cca52c3f6a7f4b946df8de25fc4bd373e1a5142e41034a7ca
   rb_sys (0.9.116) sha256=c879891018535d4362455197065ea580541b10ffdfa940bec512ec1dd9a7def4
-  rdoc (6.15.1) sha256=28bfac73cd8b226a8079f53a564ceaccdb5b4480e34335100001570ddb1a481a
+  rdoc (6.16.0) sha256=d0ce6f787027a24e480c1acb9f3110125213cb5df6806fd7832d5a1b8f26a205
   redcarpet (3.6.1) sha256=d444910e6aa55480c6bcdc0cdb057626e8a32c054c29e793fa642ba2f155f445
   redis (4.8.1) sha256=387ee086694fffc9632aaeb1efe4a7b1627ca783bf373320346a8a20cd93333a
   redlock (1.3.2) sha256=6c7cea3d62c6e31e8df6b1924fdf89e35e5576e52dce10c62412e783bfe37277
@@ -1236,9 +1236,9 @@ CHECKSUMS
   selenium-webdriver (4.38.0) sha256=0a84e71fef66394ae8d9290d3a5bc24b33de49d45a7aa57fc09f246218bf102f
   semantic_logger (4.17.0) sha256=c54b60d8596abe2e22bd4f20648d4f6c46e4287fba357779c7932335c8d130e9
   semantic_range (3.0.0) sha256=3066777ba546f807060d3c93892d5c52eff40f45fd48ac94cef496f4f64997b6
-  sentry-rails (5.28.1) sha256=43a5f884622c60fa459ba05dc8bd22fbd5f28daaced1d00dbcfc4669eaf93807
-  sentry-ruby (5.28.1) sha256=1162d474271e8b82202c984b1116db234007a084c5b73293e921468898d07e99
-  sentry-sidekiq (5.28.1) sha256=1873d6ca4ba49086baec7a8128b322ae2c26ce892563ed625b8bfc0fa1bcd968
+  sentry-rails (6.2.0) sha256=e1a1977e58099231774b85ca40ce9e1d185326cee814bed4f59bc3192f1f77e6
+  sentry-ruby (6.2.0) sha256=d7b8a358a3a0d0536bd194b19cc282c85f295b6d242731e9b4a934ccdb71ac17
+  sentry-sidekiq (6.2.0) sha256=a09f8b987bbf57f1afa2d4644016531234dd1df9a0ce669df57d68d673a9f555
   shellany (0.0.1) sha256=0e127a9132698766d7e752e82cdac8250b6adbd09e6c0a7fbbb6f61964fedee7
   shoulda-matchers (7.0.1) sha256=b4bfd8744c10e0a36c8ac1a687f921ee7e25ed529e50488d61b79a8688749c77
   sidekiq (6.5.12) sha256=b4f93b2204c42220d0b526a7b8e0c49b5f9da82c1ce1a05d2baf1e8f744c197f
@@ -1253,7 +1253,7 @@ CHECKSUMS
   sprockets (4.2.1) sha256=951b13dd2f2fcae840a7184722689a803e0ff9d2702d902bd844b196da773f97
   sprockets-rails (3.5.2) sha256=a9e88e6ce9f8c912d349aa5401509165ec42326baf9e942a85de4b76dbc4119e
   stoplight (3.0.2) sha256=9bc2697a9c380aa6d8380d820c2663bda50cee3a9680a256ea035f8cf0e918ee
-  stringio (3.1.7) sha256=5b78b7cb242a315fb4fca61a8255d62ec438f58da2b90be66048546ade4507fa
+  stringio (3.1.8) sha256=99c43c3a9302843cca223fd985bfc503dd50a4b1723d3e4a9eb1d9c37d99e4ec
   strip_attributes (2.0.1) sha256=604cb833fc69aedefffc60a79bd91a7faf3753caf34db3889beaf2d88afa7e8b
   strong_migrations (2.5.1) sha256=8bca3a9b491ec20cf1961c18050c16ac67d8b8f4e3a7c2ccf652b79638859426
   super_diff (0.17.0) sha256=75666ec7bd3e0a73b47ccafeb4d3ca43ead96e8abb030068656c9c11053283e1
@@ -1281,7 +1281,7 @@ CHECKSUMS
   webfinger (2.1.3) sha256=567a52bde77fb38ca6b67e55db755f988766ec4651c1d24916a65aa70540695c
   webmock (3.26.1) sha256=4f696fb57c90a827c20aadb2d4f9058bbff10f7f043bd0d4c3f58791143b1cd7
   webpacker (5.4.4) sha256=71fc22cd4e47bcae1da13aefd826271530cd923f66528a043f30e08865dc043a
-  webrick (1.9.1) sha256=b42d3c94f166f3fb73d87e9b359def9b5836c426fc8beacf38f2184a21b2a989
+  webrick (1.9.2) sha256=beb4a15fc474defed24a3bda4ffd88a490d517c9e4e6118c3edce59e45864131
   websocket (1.2.11) sha256=b7e7a74e2410b5e85c25858b26b3322f29161e300935f70a0e0d3c35e0462737
   websocket-driver (0.8.0) sha256=ed0dba4b943c22f17f9a734817e808bc84cdce6a7e22045f5315aa57676d4962
   websocket-extensions (0.1.5) sha256=1c6ba63092cda343eb53fc657110c71c754c56484aad42578495227d717a8241

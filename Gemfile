@@ -69,7 +69,7 @@ gem 'active_hash', '~> 4.0.0'
 gem 'activerecord-cte'
 
 # Our before_send event in the sentry configuration fails for v6.0, see pr https://github.com/getsentry/sentry-ruby/pull/2716/files
-gem 'sentry-rails', '5.28.1'
+gem 'sentry-rails', '6.2.0'
 gem 'sentry-sidekiq'
 
 gem 'factory_bot_rails'
