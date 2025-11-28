@@ -9,7 +9,9 @@
     <p class="govuk-body">Before you submit your application check that you:</p>
 
     <%= govuk_list type: :bullet, spaced: true do %>
-      <%= tag.li 'are aware that you are unlikely to qualify for financial support and you will have to cover the costs of the course and living expenses yourself' %>
+      <%= tag.li 'are aware that if you are a citizen of another country, you are unlikely to qualify for financial support and you will have to cover the costs of the course and living expenses yourself' %>
+      <%= tag.li 'understand that the course fees are higher for international students' %>
+
       <%= tag.li 'either:' %>
       <%= govuk_list type: :bullet, spaced: true, classes: 'circle-list' do %>
         <%= tag.li 'have the right to work or study in the UK' %>
