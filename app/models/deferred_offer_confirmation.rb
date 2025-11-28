@@ -136,7 +136,7 @@ class DeferredOfferConfirmation < ApplicationRecord
 
   after_initialize do
     if course_id.nil? && site_id.nil? && study_mode.nil?
-      offered_course_in_current_cycle = provider.courses.current_cycle.find_by(code: offer_course.code)
+      offered_course_in_current_cycle = provider.courses.joins(:course_options).current_cycle.find_by(code: offer_course.code)
 
       if offered_course_in_current_cycle.present?
         offered_site_in_current_cycle = offered_course_in_current_cycle.sites&.find_by(code: offer_site.code)
@@ -154,9 +154,9 @@ class DeferredOfferConfirmation < ApplicationRecord
   before_save do
     next if course.blank?
 
-    selected_site = possible_sites.find_by(code: offer_site.code) unless location_in_cycle?
+    selected_site = course_sites.find_by(code: offer_site.code) unless location_in_cycle?
     if selected_site.blank? && application_choice.school_placement_auto_selected?
-      selected_site = possible_sites.main_sites.first || possible_sites.first
+      selected_site = course_sites.main_sites.first || course_sites.first
     end
 
     self.site_id = selected_site&.id
@@ -168,12 +168,6 @@ class DeferredOfferConfirmation < ApplicationRecord
   end
 
 private
-
-  def possible_sites
-    return if course.blank?
-
-    course.sites.selectable
-  end
 
   def course_option_available
     if course_id.present? && !course_in_cycle?

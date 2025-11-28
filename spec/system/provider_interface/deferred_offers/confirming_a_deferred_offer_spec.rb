@@ -173,6 +173,7 @@ RSpec.describe 'Provider confirms a deferred offer' do
       :application_choice,
       :previous_year,
       :offer_deferred,
+      school_placement_auto_selected: false,
       course_option: @deferred_course_option_in_previous_cycle,
       current_course_option: @deferred_course_option_in_previous_cycle,
       form_options: {
