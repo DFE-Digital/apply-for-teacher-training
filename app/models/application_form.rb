@@ -137,6 +137,10 @@ class ApplicationForm < ApplicationRecord
 
   VISAS_REQUIRING_SPONSORSHIP = %w[student_visa skilled_worker_visa].freeze
 
+  def international_qualification?
+    application_qualifications.any?(&:international)
+  end
+
   def equality_and_diversity_answers_provided?
     EqualityAndDiversity::ValuesChecker.new(application_form: self).check_values
   end

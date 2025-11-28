@@ -24,9 +24,19 @@ RSpec.describe 'International candidate submits the application' do
     and_i_can_see_my_personal_details
     and_i_can_see_my_efl_qualification
 
+    when_i_click('Continue')
+    then_i_see_the_international_candidate_interruption
     when_i_submit_my_application
 
     then_i_can_see_my_application_has_been_successfully_submitted
+  end
+
+  def then_i_see_the_international_candidate_interruption
+    expect(page).to have_content('Check before you submit your application')
+  end
+
+  def when_i_click(button)
+    click_link_or_button button
   end
 
   def when_i_submit_my_application

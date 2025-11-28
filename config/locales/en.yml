@@ -110,6 +110,7 @@ en:
     get_your_details_back: Get your details back
     dismiss: Dismiss
   page_titles:
+    application_submit_interruption: Check before you submit your application
     previous_teacher_training: Previous teacher training
     there_is_a_problem: There is a problem
     account_recovery: Enter the code we sent to %{email}
