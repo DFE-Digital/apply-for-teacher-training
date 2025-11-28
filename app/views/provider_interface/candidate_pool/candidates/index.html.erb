@@ -7,6 +7,7 @@
 <%= render ProviderInterface::FindCandidates::FiltersComponent.new(params:, filter: @filter) do %>
   <% if @application_forms.present? %>
     <h2 class="govuk-heading-l govuk-!-margin-top-6 govuk-!-margin-bottom-3">
+      <%# We want to announce this result on page reload after search %>
       <%= t('.candidates_found', count: @pagy.count) %>
     </h2>
     <p class="govuk-body">
