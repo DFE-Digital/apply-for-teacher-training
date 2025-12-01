@@ -17,12 +17,12 @@
         <%= render CandidateInterface::ReferenceConditionHeaderComponent.new(reference_condition: @application_choice.offer.reference_condition, provider_name: @application_choice.current_provider.name, show_extra_content: false) %>
 
         <p class="govuk-body">
-          <%= t('decisions.accept_offer.reference_confidentiality') %>
-        </p>
-
-        <p class="govuk-body">
           <%= t('decisions.accept_offer.change_reference_details') %>
         </p>
+
+      <p class="govuk-body">
+        <%= t('decisions.accept_offer.after_we_have_emailed') %>
+      </p>
       </div>
     </div>
   <div class="govuk-grid-row">
