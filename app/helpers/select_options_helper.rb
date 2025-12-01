@@ -9,9 +9,11 @@ module SelectOptionsHelper
   end
 
   def select_country_options
+    domiciles = DfE::ReferenceData::HESA::Domiciles::COUNTRIES_AND_TERRITORIES.all_as_hash
+      .except('GB', 'QO', 'XC', 'XF', 'XG', 'XH', 'XI', 'XL', 'XX')
     [
       Option.new('', t('application_form.contact_details.country.default_option')),
-    ] + COUNTRIES_AND_TERRITORIES.except('GB').map { |iso3166, country| Option.new(iso3166, country) }
+    ] + domiciles.map { |iso3166, country| Option.new(iso3166, country.name) }
   end
 
   def select_degree_country_options
