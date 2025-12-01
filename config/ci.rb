@@ -17,9 +17,9 @@ CI.run do
   # Requires the `gh` CLI and `gh extension install basecamp/gh-signoff`.
   # gh extension install basecamp/gh-signoff
 
-  # if success?
-  #   step 'Signoff: All systems go. Ready for merge and deploy.', 'gh signoff'
-  # else
-  #   failure 'Signoff: CI failed. Do not merge or deploy.', 'Fix the issues and try again.'
-  # end
+  if success?
+    step 'Signoff: All systems go. Ready for merge and deploy.', 'gh signoff'
+  else
+    failure 'Signoff: CI failed. Do not merge or deploy.', 'Fix the issues and try again.'
+  end
 end
