@@ -71,7 +71,7 @@ module SupportInterface
       if @application_form.address_type == 'uk'
         local_address.compact_blank
       else
-        local_address.push(CountryFinder.find_name_from_iso_code(@application_form.country)).compact_blank
+        local_address.push(CountryFinder.find_name_from_hesa_code(@application_form.country)).compact_blank
       end
     end
 

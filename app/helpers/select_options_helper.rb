@@ -9,9 +9,11 @@ module SelectOptionsHelper
   end
 
   def select_country_options
+    domiciles = DfE::ReferenceData::HESA::Domiciles::COUNTRIES_AND_TERRITORIES.all_as_hash
+      .except('GB', 'XC', 'XK', 'XF', 'XG', 'XH', 'XI', 'XL', 'XX', 'GB-WLS', 'GB-CYM', 'GB-SCT', 'GB-NIR', 'GB-ENG', 'IE')
     [
       Option.new('', t('application_form.contact_details.country.default_option')),
-    ] + COUNTRIES_AND_TERRITORIES.except('GB').map { |iso3166, country| Option.new(iso3166, country) }
+    ] + domiciles.map { |iso3166, country| Option.new(iso3166, country.name) }
   end
 
   def select_degree_country_options
@@ -59,7 +61,13 @@ private
 
   def nationality_options(include_british_and_irish:)
     # rubocop:disable Style/HashExcept
-    include_british_and_irish ? NATIONALITIES : NATIONALITIES.reject { |iso_code, _| %w[GB IE].include?(iso_code) }
+    if include_british_and_irish
+      CODES_AND_NATIONALITIES
+    else
+      CODES_AND_NATIONALITIES.reject do |iso_code, _|
+        %w[GB GB-WLS GB-CYM GB-SCT GB-NIR GB-ENG IE].include?(iso_code)
+      end
+    end
     # rubocop:enable Style/HashExcept
   end
 end
