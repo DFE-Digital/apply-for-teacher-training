@@ -6,7 +6,7 @@ module CandidateInterface
                   :other_nationality1, :other_nationality2, :other_nationality3, :nationalities
 
     validates :first_nationality, :second_nationality, :other_nationality1, :other_nationality2, :other_nationality3,
-              inclusion: { in: NATIONALITY_DEMONYMS, allow_blank: true }
+              inclusion: { in: CODES_AND_NATIONALITIES.map(&:second), allow_blank: true }
 
     validate :candidate_provided_nationality
 

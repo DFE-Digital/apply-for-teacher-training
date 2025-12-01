@@ -59,7 +59,13 @@ private
 
   def nationality_options(include_british_and_irish:)
     # rubocop:disable Style/HashExcept
-    include_british_and_irish ? NATIONALITIES : NATIONALITIES.reject { |iso_code, _| %w[GB IE].include?(iso_code) }
+    if include_british_and_irish
+      CODES_AND_NATIONALITIES
+    else
+      CODES_AND_NATIONALITIES.reject do |iso_code, _|
+        %w[GB GB-WLS GB-CYM GB-SCT GB-NIR GB-ENG IE].include?(iso_code)
+      end
+    end
     # rubocop:enable Style/HashExcept
   end
 end
