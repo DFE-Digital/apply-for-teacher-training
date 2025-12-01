@@ -518,7 +518,7 @@ private
     provider_user = choice.provider.provider_users.first
     return provider_user if provider_user.present?
 
-    provider_user = FactoryBot.create :provider_user
+    provider_user = FactoryBot.create(:provider_user)
     choice.provider.provider_users << provider_user
     provider_user
   end
