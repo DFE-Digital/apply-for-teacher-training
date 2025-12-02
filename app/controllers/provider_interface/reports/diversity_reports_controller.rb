@@ -6,6 +6,8 @@ module ProviderInterface
       before_action :redirect_to_current_year_if_invalid_year
 
       def show
+        redirect_to provider_interface_applications_path
+
         @provider = current_user.providers.find(provider_id)
         zip_filename = ProviderInterface::DiversityReportExport.new(
           provider:, recruitment_cycle_year:

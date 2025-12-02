@@ -41,9 +41,6 @@
           <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider) %>
         </li>
         <li>
-          <%= govuk_link_to t('.diversity_report_link_text'), provider_interface_reports_provider_diversity_report_path(provider_id: provider) %>
-        </li>
-        <li>
           <%= govuk_link_to t('page_titles.provider.withdrawal_report'), provider_interface_reports_provider_withdrawal_reasons_report_path(provider) %>
         </li>
       </ul>
@@ -54,17 +51,6 @@
       <% if @providers.many? %>
         <h3 class="govuk-heading-s"><%= provider.name %></h3>
       <% end %>
-      <ul class="govuk-list govuk-list--spaced">
-        <li>
-          <%= govuk_link_to(
-                t('.diversity_report_link_text'),
-                provider_interface_reports_provider_diversity_report_path(
-                  provider_id: provider,
-                  recruitment_cycle_year: @previous_timetable.recruitment_cycle_year,
-                ),
-              ) %>
-        </li>
-      </ul>
     <% end %>
 
     <h2 class="govuk-heading-m"><%= t('.download_export_heading') %></h2>
