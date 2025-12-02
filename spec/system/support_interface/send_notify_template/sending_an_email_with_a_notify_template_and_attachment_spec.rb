@@ -45,16 +45,16 @@ private
 
   def and_i_click_on_send_notify_template
     within('.app-tab-navigation') do
-      click_link_or_button 'Send notify template'
+      click_link_or_button 'Send Notify template'
     end
   end
 
   def then_i_see_the_send_notify_template_form
     expect(page).to have_current_path('/support/settings/notify-template')
-    expect(page).to have_title('Send notify template - Settings - Support for Apply - GOV.UK')
+    expect(page).to have_title('Send Notify template - Settings - Support for Apply - GOV.UK')
     expect(page).to have_element(
       :h1,
-      text: 'Send a GOV.UK notify email with an attachment',
+      text: 'Send a GOV.UK Notify email with an attachment',
       class: 'govuk-heading-l',
     )
     expect(page).to have_element(
