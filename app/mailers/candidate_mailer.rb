@@ -303,6 +303,22 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def deferred_offer_new_details(application_choice)
+    @application_choice = application_choice
+    @old_course_option = @application_choice.original_course_option
+    @old_course_name = @old_course_option.course.name_and_code
+    @new_course_option = @application_choice.current_course_option
+    @new_course_name = @new_course_option.course.name_and_code
+    @conditions = @application_choice.offer.conditions
+    @provider_name = @old_course_option.provider.name
+    @course_link = course_link(@new_course_option.provider.code, @new_course_option.course.code)
+
+    email_for_candidate(
+      @application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.deferred_offer_new_details.subject', course_name: @old_course_name),
+    )
+  end
+
   def withdraw_last_application_choice(application_form, course_recommendation_url = nil)
     @withdrawn_courses = application_form.application_choices.select(&:withdrawn?)
     @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.current_course_option.course.name_and_code} at #{application_choice.current_course_option.course.provider.name}" }
@@ -675,6 +691,10 @@ private
 
   def find_link
     I18n.t('find_teacher_training.production_url')
+  end
+
+  def course_link(provider_code, course_code)
+    I18n.t('find_teacher_training.production_course_url', provider_code:, course_code:)
   end
 
   def git_funding_link

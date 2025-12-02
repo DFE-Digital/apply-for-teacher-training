@@ -75,6 +75,8 @@ en:
       subject: "Reminder of your deferred offer"
     reinstated_offer:
       subject: "Your deferred offer to study %{course_name} has been confirmed by %{provider_name}"
+    deferred_offer_new_details:
+      subject: Your deferred offer to study %{course_name} has been changed
     new_interview:
       subject: Interview arranged for %{course_name_and_code}
     interview_updated:

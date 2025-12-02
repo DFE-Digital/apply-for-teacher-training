@@ -1,0 +1,51 @@
+Dear <%= @application_form.first_name %>
+
+<%= @provider_name %> has changed the course that you had a deferred offer for.
+
+## Previously offered course:
+Training provider: <%= @provider_name %>
+Course: <%= @old_course_name %>
+Full-time or part-time: <%= @old_course_option.study_mode.humanize.gsub(' ', '-') %>
+<% unless @application_choice.school_placement_auto_selected? %>
+Location:  <%= @old_course_option.site.name %>
+<% end %>
+Qualification: <%= @old_course_option.course.qualifications.map(&:upcase).join(', ') %>
+
+## New offered course:
+Training provider: <%= @provider_name %>
+Course: [<%= @new_course_name %>](<% @course_link %>)
+Full-time or part-time: <%= @new_course_option.study_mode.humanize.gsub(' ', '-') %>
+<% unless @application_choice.school_placement_auto_selected? %>
+Location: <%= @new_course_option.site.name %>
+<% end %>
+Qualification: <%= @new_course_option.course.qualifications.map(&:upcase).join(', ') %>
+
+## Why has this happened?
+This can happen because the course that you applied to last year is not running this year. The provider has changed your course to the nearest match. These changes should have been discussed and agreed with you before they were confirmed.
+
+## Next steps
+Read the [new course description](<% @course_link %>) carefully. If this change is not suitable for you, you must contact <%= @provider_name %> as soon as possible. If the issue cannot be resolved, please contact support.
+
+<% if @conditions.all?(&:met?) %>
+If the offer is still suitable for you, you don't need to take any action.
+
+The course starts in <%= @new_course_option.course.start_date.to_fs(:month_and_year) %>.
+
+<%= @provider_name %> will let you know if they need further information before you start training.
+<% else %>
+If the offer is still suitable for you, you need to meet the following <%= 'condition'.pluralize(@conditions.count) %>:
+
+<% @conditions.each do |condition| %>
+<% unless condition.met? %>
+  - <%= condition.text %>
+<% end %>
+<% end %>
+
+The course starts in <%= @new_course_option.course.start_date.to_fs(:month_and_year) %>.
+
+Sign in to your account to check the progress of your offer conditions.
+
+[Sign in to your account](<%= sign_in_link %>).
+<% end %>
+
+<%= render 'get_help_teacher_training_adviser' %>

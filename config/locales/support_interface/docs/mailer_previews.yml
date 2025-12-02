@@ -89,6 +89,8 @@ en:
             offer_withdrawn_with_course_recommendation: A provider has withdrawn an offer to train to teach and there is a link to other courses that have been recommended to them.
             reinstated_offer_with_conditions: An offer that has been previously deferred by the provider is reinstated with conditions.
             reinstated_offer_without_conditions: An offer that has been previously deferred by the provider is reinstated without conditions.
+            deferred_offer_new_details_with_conditions: An offer that has been previously deferred by the provider has been reinstated with new details and conditions.
+            deferred_offer_new_details_without_conditions: An offer that has been previously deferred by the provider has been reinstated with new details and no conditions.
             unconditional_offer_accepted: When a candidate accepts an offer to train to teach and the offer has no conditions.
           candidate_references:
             chase_reference: If a referee that a candidate has selected does not submit a reference in 9 days.
