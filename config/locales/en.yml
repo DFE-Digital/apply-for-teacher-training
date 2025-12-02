@@ -586,19 +586,22 @@ en:
         support_interface/notify_template_form:
           attributes:
             template_id:
-              blank: Enter a notify template id
-              invalid: Enter a valid notify template id
-              template_missing_personalisation: This template does not contain the personalisation 'link_to_file'
+              blank: Enter a template ID
+              invalid: Enter a real template id
+              template_missing_personalisation: The template ID provided does not include the placeholder ‘((link_to_file))’.
             distribution_list:
               blank: Upload a distribution list
               invalid: Distribution list must be a CSV file
               invalid_headers:
-                Your file needs a column called %{missing_columns}.
+                Distribution list must include the column header %{missing_columns}.
               invalid_email_addresses: Distribution list contains invalid email addresses
-              malformed: Distribution list CSV is malformed, check the content of the file
+              malformed: There is a problem. The distribution list cannot be read. Check the format, structure and values and try again.
             attachment:
-              blank: Upload an attachment
-              invalid_size: Upload an attachment smaller than 2MB
+              blank: Upload a file attachment
+              invalid_size: The file attachment must be 2MB or smaller.
+              invalid_name: The file name of your attachment must be 100 characters or fewer.
+              invalid_type:
+                "The file attachment must be one of the following file types: .csv, .jpeg, .jpg, .png, .xlsx, .doc, .docx, .pdf, .json, .odt, .rtf, .txt"
   activerecord:
     attributes:
       application_qualification/qualification_type:

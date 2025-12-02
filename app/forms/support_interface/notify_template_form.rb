@@ -3,6 +3,20 @@ module SupportInterface
     include ActiveModel::Model
 
     VALID_HEADERS = ['Email address'].freeze
+    VALID_FILE_EXTENSIONS = [
+      'text/csv',
+      'image/jpeg',
+      'image/png',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/pdf',
+      'application/json',
+      'application/vnd.oasis.opendocument.text',
+      'application/rtf',
+      'text/plain',
+
+    ].freeze
 
     attr_accessor :template_id,
                   :attachment,
@@ -20,6 +34,8 @@ module SupportInterface
     validate :distribution_list_email_addresses, if: :csv_correctly_formatted?
     validates :attachment, presence: true
     validate :attachment_size, if: :attachment_present?
+    validate :attachment_name, if: :attachment_present?
+    validate :attachment_type, if: :attachment_present?
 
     delegate :present?, to: :template_id, prefix: true
     delegate :present?, to: :distribution_list, prefix: true
@@ -49,7 +65,7 @@ module SupportInterface
 
       errors.add(:distribution_list,
                  :invalid_headers,
-                 missing_columns: missing_columns.map { |string| "‘#{string}’" }.to_sentence)
+                 missing_columns: missing_columns.map(&:to_s).to_sentence)
     end
 
     def distribution_list_email_addresses
@@ -74,6 +90,14 @@ module SupportInterface
 
     def attachment_size
       errors.add(:attachment, :invalid_size) if attachment.size >= 2.megabytes
+    end
+
+    def attachment_name
+      errors.add(:attachment, :invalid_name) if attachment.original_filename.length > 100
+    end
+
+    def attachment_type
+      errors.add(:attachment, :invalid_type) unless VALID_FILE_EXTENSIONS.include?(attachment.content_type)
     end
 
     def create_request!
