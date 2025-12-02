@@ -11,6 +11,8 @@ en:
       subject: "%{candidate_name}’s offer for %{course_name} was automatically declined"
     declined:
       subject: "%{candidate_name} declined your offer"
+    declined_automatically_on_accept_offer:
+      subject: "%{candidate_name}’s offer has been automatically declined"
     application_submitted:
       subject: "%{candidate_name} submitted an application for %{course_name}"
     application_submitted_with_safeguarding_issues:

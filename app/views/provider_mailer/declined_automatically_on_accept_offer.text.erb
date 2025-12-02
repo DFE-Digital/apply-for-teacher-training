@@ -1,0 +1,9 @@
+Dear <%= @provider_user.full_name %>
+
+<%= @application.candidate_name %> has been automatically declined because they have accepted an offer with another provider.
+
+View the offer:
+
+<%= provider_interface_application_choice_offer_url(@application.application_choice) %>
+
+<% content_for :additional_footer_content do %><%= render 'notification_preferences' %><% end %>
