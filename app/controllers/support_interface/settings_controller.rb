@@ -15,6 +15,7 @@ module SupportInterface
     end
 
     def notify_template
+      Subject.last.dup.save!
       @form = SupportInterface::NotifyTemplateForm.new
     end
 
