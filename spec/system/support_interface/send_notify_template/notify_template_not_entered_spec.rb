@@ -28,46 +28,91 @@ private
 
   def and_i_click_on_send_notify_template
     within('.app-tab-navigation') do
-      click_link_or_button 'Send notify template'
+      click_link_or_button 'Send Notify template'
     end
   end
 
   def then_i_see_the_send_notify_template_form
     expect(page).to have_current_path('/support/settings/notify-template')
-    expect(page).to have_title('Send notify template - Settings - Support for Apply - GOV.UK')
+    expect(page).to have_title('Send Notify template - Settings - Support for Apply - GOV.UK')
     expect(page).to have_element(
-      :label,
-      text: 'Send a Govuk notify template with attachment',
-      class: 'govuk-label govuk-label--l',
+      :h1,
+      text: 'Send a GOV.UK Notify email with an attachment',
+      class: 'govuk-heading-l',
     )
-    expect(page).to have_element(:li, text: 'Emails will only be sent once suitable and valid files have been provided.')
+    expect(page).to have_element(
+      :p,
+      text: 'Use this to include an attachment in the emails you send through GOV.UK Notify.',
+      class: 'govuk-body',
+    )
+
+    expect(page).to have_element(
+      :h2,
+      text: 'Save the document you want to include as an attachment',
+      class: 'govuk-heading-m',
+    )
     expect(page).to have_element(
       :li,
-      text: 'Emails are sent in batches of 100 staggered over time, depending on the size of the distribution list.',
+      text: 'Give your document a sensible name that is easy to understand. The file name will be visible in the email you send.',
     )
-    expect(page).to have_element(:li, text: 'The distribution list file must contain the header \'Email address\'.')
-    expect(page).to have_element(:li, text: 'Your notify template must include the personalisation \'link_to_file\'.')
+    expect(page).to have_element(:li, text: 'Include underscores between words in your file name, for example file_name.')
+    expect(page).to have_element(:li, text: 'Your file name should be 100 characters or fewer.')
 
-    expect(page).to have_field('Notify template id', type: 'text')
+    expect(page).to have_element(
+      :h2,
+      text: 'Add a placeholder to the GOV.UK Notify template',
+      class: 'govuk-heading-m',
+    )
+    expect(page).to have_element(:li, text: 'Sign in to GOV.UK Notify.')
+    expect(page).to have_element(:li, text: 'Go to the Templates page and select the relevant email template.')
+    expect(page).to have_element(:li, text: 'Select Edit.')
+    expect(page).to have_element(
+      :li,
+      text: 'Add a placeholder to the email template using double brackets. For example: \'Download your file at: ((link_to_file))\'. This is your attachment.',
+    )
+    expect(page).to have_element(
+      :li,
+      text: 'Your email should also tell recipients how long the file will be available to download. 26 weeks is the standard time period.',
+    )
+
+    expect(page).to have_element(
+      :h2,
+      text: 'Create a distribution list',
+      class: 'govuk-heading-m',
+    )
+    expect(page).to have_element(:li, text: 'The distribution list must be a .CSV file.')
+    expect(page).to have_element(:li, text: 'The distribution list file must contain the column header \'Email address\'.')
+    expect(page).to have_element(
+      :li,
+      text: 'You cannot include any other personalisation in your email or distribution list, for example ((first name)).',
+    )
+
+    expect(page).to have_element(
+      :p,
+      text: 'Emails are sent in batches of 100 staggered over time. The time taken to complete the send will depend on the size of your distribution list.',
+      class: 'govuk-body',
+    )
+
+    expect(page).to have_field('Notify template ID', type: 'text')
     expect(page).to have_field('Distribution list', type: 'file')
     expect(page).to have_field('Attachment', type: 'file')
-    expect(page).to have_button('Send')
+    expect(page).to have_button('Send email to distribution list')
   end
 
   def when_i_enter_an_invalid_notify_template_id
-    fill_in 'Notify template id', with: ''
+    fill_in 'Notify template ID', with: ''
     attach_file 'Distribution list', 'spec/fixtures/send_notify_template/distribution_list.csv'
     attach_file 'Attachment', 'spec/fixtures/send_notify_template/hello_world.txt'
   end
 
   def and_i_click_on_send
-    click_link_or_button 'Send'
+    click_link_or_button 'Send email to distribution list'
   end
 
   def then_i_see_an_error_for_not_entering_a_notify_template_id
     within('.govuk-error-summary') do
       expect(page).to have_element(:h2, text: 'There is a problem', class: 'govuk-error-summary__title')
-      expect(page).to have_element(:div, text: 'Enter a notify template id', class: 'govuk-error-summary__body')
+      expect(page).to have_element(:div, text: 'Enter a template ID', class: 'govuk-error-summary__body')
     end
   end
 end

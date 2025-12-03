@@ -1,4 +1,4 @@
-<%= render 'settings_navigation', title: 'Send notify template' %>
+<%= render 'settings_navigation', title: 'Send Notify template' %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -6,26 +6,58 @@
     <%= form_with model: @form, url: support_interface_send_notify_template_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-label-wrapper">
-        <label class="govuk-label govuk-label--l">
-          Send a Govuk notify template with attachment
-        </label>
+      <h1 class="govuk-heading-l">
+        Send a GOV.UK Notify email with an attachment
       </h1>
+
+      <p class="govuk-body">
+        Use this to include an attachment in the emails you send through GOV.UK Notify.
+      </p>
+
+      <h2 class="govuk-heading-m">Save the document you want to include as an attachment</h2>
 
       <%= govuk_list(
         [
-          'Emails will only be sent once suitable and valid files have been provided.',
-          'Emails are sent in batches of 100 staggered over time, depending on the size of the distribution list.',
-          'The distribution list file must contain the header \'Email address\'.',
-          'Your notify template must include the personalisation \'link_to_file\'.',
+          'Give your document a sensible name that is easy to understand. The file name will be visible in the email you send.',
+          'Include underscores between words in your file name, for example file_name.',
+          'Your file name should be 100 characters or fewer.',
         ],
-        type: :bullet,
+        type: :number,
       ) %>
 
-      <%= f.govuk_text_field :template_id, label: { text: 'Notify template id' } %>
+      <h2 class="govuk-heading-m">Add a placeholder to the GOV.UK Notify template</h2>
+
+      <%= govuk_list(
+        [
+          'Sign in to GOV.UK Notify.',
+          'Go to the Templates page and select the relevant email template.',
+          'Select Edit.',
+          'Add a placeholder to the email template using double brackets. For example: \'Download your file at: ((link_to_file))\'. This is your attachment.',
+          'Your email should also tell recipients how long the file will be available to download. 26 weeks is the standard time period.',
+        ],
+        type: :number,
+      ) %>
+
+      <h2 class="govuk-heading-m">Create a distribution list</h2>
+
+      <%= govuk_list(
+        [
+          'The distribution list must be a .CSV file.',
+          'The distribution list file must contain the column header \'Email address\'.',
+          'You cannot include any other personalisation in your email or distribution list, for example ((first name)).',
+        ],
+        type: :number,
+      ) %>
+
+      <p class="govuk-body">
+        Emails are sent in batches of 100 staggered over time. The time taken to complete the send will depend on the size of your distribution list.
+      </p>
+
+      <%= f.govuk_text_field :template_id, label: { text: 'Notify template ID' } %>
       <%= f.govuk_file_field :distribution_list, label: { text: 'Distribution list' } %>
       <%= f.govuk_file_field :attachment, label: { text: 'Attachment' } %>
-      <%= f.govuk_submit 'Send' %>
+
+      <%= f.govuk_submit 'Send email to distribution list' %>
     <% end %>
 
   </div>

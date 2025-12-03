@@ -1,23 +1,15 @@
-<% content_for :browser_title, title_with_error_prefix('Send notify template - Settings', errors: true) %>
-<% content_for :title, 'Error sending notify template - Settings' %>
+<% content_for :browser_title,
+   title_with_error_prefix('Your email has not been sent- Send Notify template - Settings',
+   errors: true) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_notify_template_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <div class="govuk-error-summary" data-module="govuk-error-summary">
-      <div role="alert">
-        <h2 class="govuk-error-summary__title">
-          <%= t('.error_summary.title') %>
-        </h2>
-        <div class="govuk-error-summary__body">
-          <div class="govuk-list govuk-error-summary__list">
-            <p class="govuk-heading-s">
-              <%= t('.error_summary.errors_to_fix', count: @form.invalid_email_address_rows.count) %>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <h1 class="govuk-heading-l">Your email has not been sent</h1>
+
+    <p class="govuk-body">
+      Remove or correct the following email addresses and upload the distribution list again:
+    </p>
 
     <h2 class="govuk-heading-m"><%= @form.distribution_list.original_filename %></h2>
 
@@ -48,6 +40,6 @@
       Only showing rows with errors
     </p>
 
-    <%= govuk_button_link_to 'Upload file again', support_interface_notify_template_path %>
+    <%= govuk_button_link_to 'Upload the file again', support_interface_notify_template_path %>
   </div>
 </div>
