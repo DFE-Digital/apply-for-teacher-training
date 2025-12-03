@@ -160,17 +160,17 @@ class Candidate::OffersPreview < ActionMailer::Preview
     course1 = FactoryBot.create(:course, provider:, name: 'Original course')
     course2 = FactoryBot.create(:course, provider:, name: 'New course')
     old_course_option = FactoryBot.create(:course_option, course: course1)
-    course_option = FactoryBot.create(:course_option, course: course2)
+    new_course_option = FactoryBot.create(:course_option, course: course2)
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
       :accepted,
       application_form:,
-      original_course_option: old_course_option,
-      course_option:,
+      course_option: old_course_option,
+      current_course_option: new_course_option,
       school_placement_auto_selected: false,
       offer_deferred_at: Time.zone.local(2019, 10, 14),
     )
-    CandidateMailer.deferred_offer_new_details(application_choice)
+    CandidateMailer.deferred_offer_new_details(application_choice, conditions_met: false)
   end
 
   def deferred_offer_with_new_details_without_conditions
@@ -178,13 +178,13 @@ class Candidate::OffersPreview < ActionMailer::Preview
     course1 = FactoryBot.create(:course, provider:, name: 'Original course')
     course2 = FactoryBot.create(:course, provider:, name: 'New course')
     old_course_option = FactoryBot.create(:course_option, course: course1)
-    course_option = FactoryBot.create(:course_option, course: course2)
+    new_course_option = FactoryBot.create(:course_option, course: course2)
     application_choice = FactoryBot.build(
       :application_choice,
       :recruited,
       application_form:,
-      original_course_option: old_course_option,
-      course_option:,
+      course_option: old_course_option,
+      current_course_option: new_course_option,
       school_placement_auto_selected: true,
       offer: FactoryBot.build(:unconditional_offer),
       offer_deferred_at: Time.zone.local(2019, 10, 14),

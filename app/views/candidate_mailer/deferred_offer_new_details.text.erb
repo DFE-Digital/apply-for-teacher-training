@@ -26,7 +26,7 @@ This can happen because the course that you applied to last year is not running 
 ## Next steps
 Read the [new course description](<% @course_link %>) carefully. If this change is not suitable for you, you must contact <%= @provider_name %> as soon as possible. If the issue cannot be resolved, please contact support.
 
-<% if @conditions.all?(&:met?) %>
+<% if @conditions_met %>
 If the offer is still suitable for you, you don't need to take any action.
 
 The course starts in <%= @new_course_option.course.start_date.to_fs(:month_and_year) %>.

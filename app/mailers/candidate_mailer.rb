@@ -303,9 +303,10 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def deferred_offer_new_details(application_choice)
+  def deferred_offer_new_details(application_choice, conditions_met: true)
     @application_choice = application_choice
-    @old_course_option = @application_choice.original_course_option
+    @conditions_met = conditions_met
+    @old_course_option = @application_choice.course_option
     @old_course_name = @old_course_option.course.name_and_code
     @new_course_option = @application_choice.current_course_option
     @new_course_name = @new_course_option.course.name_and_code

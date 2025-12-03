@@ -4,7 +4,8 @@ RSpec.describe ReinstateConditionsMet do
   subject(:service) do
     described_class.new(actor: provider_user,
                         application_choice:,
-                        course_option: new_course_option)
+                        course_option: new_course_option,
+                        offer_changed: false)
   end
 
   let(:provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }

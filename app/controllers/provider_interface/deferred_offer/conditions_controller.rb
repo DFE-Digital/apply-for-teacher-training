@@ -18,7 +18,8 @@ class ProviderInterface::DeferredOffer::ConditionsController < ProviderInterface
       ConfirmDeferredOffer.new(actor: current_provider_user,
                                application_choice:,
                                course_option:,
-                               conditions_met: conditions_met?).save
+                               conditions_met: conditions_met?,
+                               offer_changed: offer_changed?).save
       flash[:success] = t('.success')
       redirect_to provider_interface_application_choice_path(application_choice)
     else
@@ -42,6 +43,12 @@ private
 
   def study_mode
     deferred_offer_confirmation.study_mode
+  end
+
+  def offer_changed?
+    course.code != offer.course.code ||
+      study_mode != offer.study_mode ||
+      site.code != offer.site.code
   end
 
   def recruitment_cycle_year
