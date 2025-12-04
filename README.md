@@ -4,6 +4,7 @@
 
 A service for candidates to [apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk/candidate).
 
+
 ![Screenshot of the candidate-facing interface](docs/apply-screenshot.png)
 
 ## Live environments
