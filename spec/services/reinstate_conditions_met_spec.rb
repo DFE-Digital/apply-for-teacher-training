@@ -71,4 +71,54 @@ RSpec.describe ReinstateConditionsMet do
   describe 'validations' do
     it_behaves_like 'confirm deferred offer validations', :reinstate_conditions_met
   end
+
+  context 'when offer_changed is false by default' do
+    subject(:service) do
+      described_class.new(
+        actor: provider_user,
+        application_choice:,
+        course_option: new_course_option,
+        offer_changed: false,
+      )
+    end
+
+    it 'sends reinstated offer email with correct content', :sidekiq do
+      new_course_option.course.update!(start_date: original_course.start_date + 1.year)
+
+      expect {
+        service.save!
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+      email = ActionMailer::Base.deliveries.last
+      expect(email.body.raw_source).to include(new_course_option.course.start_date.to_fs(:month_and_year))
+      expect(email.subject).to include("[TEST] Your deferred offer to study #{application_choice.course.name_and_code} has been confirmed by #{application_choice.provider.name}")
+      expect(email.to).to include(application_choice.application_form.candidate.email_address)
+
+      expect(email.body.raw_source).to include('They’ll let you know if they need further information before you start training.')
+    end
+  end
+
+  context 'when offer_changed is true' do
+    subject(:service) do
+      described_class.new(
+        actor: provider_user,
+        application_choice:,
+        course_option: new_course_option,
+        offer_changed: true,
+      )
+    end
+
+    it 'sends the deferred_offer_new_details email', :sidekiq do
+      expect {
+        service.save!
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+      email = ActionMailer::Base.deliveries.last
+      expect(email.body.raw_source).to include(new_course_option.course.start_date.to_fs(:month_and_year))
+      expect(email.subject).to include("[TEST] Your deferred offer to study #{application_choice.course.name_and_code} has been changed")
+      expect(email.to).to include(application_choice.application_form.candidate.email_address)
+
+      expect(email.body.raw_source).to include("If the offer is still suitable for you, you don't need to take any action.")
+    end
+  end
 end
