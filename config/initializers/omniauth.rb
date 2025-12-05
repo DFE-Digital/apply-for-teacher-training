@@ -1,4 +1,5 @@
 OmniAuth.config.logger = Rails.logger
+OmniAuth.config.request_validation_phase = OmniAuth::AuthenticityTokenProtection.new(key: :_csrf_token)
 require 'omniauth/strategies/one_login_developer'
 
 dfe_sign_in_identifier = ENV['DFE_SIGN_IN_CLIENT_ID']
