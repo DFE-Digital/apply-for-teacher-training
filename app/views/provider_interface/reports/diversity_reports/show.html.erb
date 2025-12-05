@@ -50,7 +50,7 @@
       <p class="govuk-body">Candidates can select multiple disabilities or health conditions, so the numbers may not match the totals.</p>
       <%= render ProviderInterface::ReportTableComponent.new(headers: ['Disability or health condition', *ProviderInterface::DiversityDataByProvider::REPORT_HEADERS],
                                                              rows: @diversity_report_disability_data,
-                                                             show_footer: true,
+                                                             show_footer: false,
                                                              exclude_from_footer: ['Percentage recruited'],
                                                              bold_row_headers: false) %>
 

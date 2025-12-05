@@ -131,7 +131,6 @@ RSpec.describe 'Provider views the diversity report' do
       expect(rows[7].text).to eq("Mental health condition\n2 0 0 0%")
       expect(rows[8].text).to eq("Physical disability or mobility issue\n0 0 0 -")
       expect(rows[9].text).to eq("Another disability, health condition or impairment affecting daily life\n0 0 0 -")
-      expect(rows[10].text).to eq('Total 6 2 1 -')
     end
   end
 
