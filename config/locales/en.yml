@@ -112,6 +112,7 @@ en:
     dismiss: Dismiss
   page_titles:
     application_submit_interruption: Check before you submit your application
+    application_submit_degree_grade_interruption: This course requires a degree of %{grade}
     previous_teacher_training: Previous teacher training
     there_is_a_problem: There is a problem
     account_recovery: Enter the code we sent to %{email}
