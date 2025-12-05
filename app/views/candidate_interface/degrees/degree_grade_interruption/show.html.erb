@@ -1,0 +1,18 @@
+<% content_for :title, t('page_titles.application_submit_degree_grade_interruption', grade: @required_grade) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <div class="app-grid-column--grey">
+      <h1 class="govuk-heading-l"><%= t('degrees.degree_grade_interruption.header') %></h1>
+      <p class="govuk-body">  <%= t('degrees.degree_grade_interruption.requirement', highest_required_grade: t("degrees.degree_grade_interruption.required_grades.#{@highest_required_grade}")) %></p>
+      <p class="govuk-body"><%= t('degrees.degree_grade_interruption.your_degree', highest_candidate_grade: t("degrees.degree_grade_interruption.candidate_grades.#{@highest_candidate_grade}")) %></p>
+      <p class="govuk-body"><%= t('degrees.degree_grade_interruption.provider_might_not') %></p>
+      <p class="govuk-body"><%= t('degrees.degree_grade_interruption.if_you_decide_html', link: govuk_link_to(t('degrees.degree_grade_interruption.search_another'), I18n.t('find_teacher_training.production_url'))) %></p>
+    </div>
+
+    <div class="govuk-button-group app-course-choice__confirm-submission">
+          <%= govuk_button_to(t('degrees.degree_grade_interruption.continue'), candidate_interface_degree_review_path(current_application), method: :get) %>
+          <%= govuk_link_to(t('degrees.degree_grade_interruption.search_different'), I18n.t('find_teacher_training.production_url')) %>
+    </div>
+  </div>
+</div>
