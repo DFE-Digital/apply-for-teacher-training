@@ -5,6 +5,7 @@ module CandidateInterface
     INTERRUPTION_STEPS = %i[
       initial_step
       short_personal_statement
+      grade_incompatible
       undergraduate_course_with_degree
       enic
       references_with_personal_email_addresses
@@ -43,6 +44,8 @@ module CandidateInterface
 
       when :short_personal_statement
         short_personal_statement?
+      when :grade_incompatible
+        grade_incompatible?
       when :undergraduate_course_with_degree
         application_choice.undergraduate_course_and_application_form_with_degree?
       when :enic
@@ -57,6 +60,8 @@ module CandidateInterface
 
       when :short_personal_statement
         candidate_interface_course_choices_course_review_interruption_path(application_choice.id)
+      when :grade_incompatible
+        candidate_interface_course_choices_course_review_degree_grade_interruption_path(application_choice.id)
       when :undergraduate_course_with_degree
         candidate_interface_course_choices_course_review_undergraduate_interruption_path(application_choice.id)
       when :enic
@@ -79,6 +84,10 @@ module CandidateInterface
 
     def short_personal_statement?
       application_form.becoming_a_teacher.scan(/\S+/).size < ApplicationForm::RECOMMENDED_PERSONAL_STATEMENT_WORD_COUNT
+    end
+
+    def grade_incompatible?
+      DegreeGradeEvaluator.new(@application_choice).degree_grade_below_required_grade?
     end
 
     def missing_enic_reference?

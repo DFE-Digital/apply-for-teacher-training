@@ -1,5 +1,5 @@
 <% content_for :title, t('page_titles.application_submit_degree_grade_interruption', grade: @required_grade) %>
-<% content_for(:before_content, govuk_back_link_to(candidate_interface_course_choices_course_review_and_submit_path(@application_choice))) %>
+<% content_for(:before_content, govuk_back_link_to(candidate_interface_application_choices_path)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
@@ -12,7 +12,7 @@
     </div>
 
     <div class="govuk-button-group app-course-choice__confirm-submission">
-          <%= govuk_button_to(t('review_degree_grade_interruption.continue_to_submit'), candidate_interface_course_choices_submit_course_choice_path(@application_choice.id), method: :post) %>
+          <%= govuk_button_to(t('review_degree_grade_interruption.continue_to_submit'), @continue_path, method: :get) %>
           <%= govuk_link_to(t('review_degree_grade_interruption.search_different'), I18n.t('find_teacher_training.production_url')) %>
     </div>
   </div>
