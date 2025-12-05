@@ -52,14 +52,17 @@ module ProviderInterface
       end
     end
 
+    def candidates_with_disability_data
+      with_disabilities = disability_info(counted_grouped_disabilities)
+
+      without_disabilities = Hesa::Disability::NON_DISABILITY_KEYS.map { |disability| disability_info(counted_grouped_disabilities, disability) }
+
+      without_disabilities.unshift(with_disabilities)
+    end
+
     def disability_data
-      application_form_data = counted_groups_by('disabilities')
-
-      all_disabilities = disability_info(application_form_data)
-
-      selected_disabilities = Hesa::Disability::HESA_CONVERSION.keys.map { |disability| disability_info(application_form_data, disability) }
-
-      selected_disabilities.unshift(all_disabilities)
+      Hesa::Disability.disability_keys
+        .map { |disability| disability_info(counted_grouped_disabilities, disability) }
     end
 
     def ethnicity_data
@@ -125,10 +128,14 @@ module ProviderInterface
       data[[bucket, group]] || 0
     end
 
+    def counted_grouped_disabilities
+      @counted_grouped_disabilities ||= counted_groups_by('disabilities')
+    end
+
     def disability_info(data, disability = nil)
       applied, offer, recruited = disability_counts_for(data, disability)
       {
-        header: disability.nil? ? 'At least 1 disability or health condition declared' : disability,
+        header: disability.nil? ? 'At least one disability or health condition declared' : disability,
         values: [
           applied,
           offer,
@@ -164,8 +171,9 @@ module ProviderInterface
     def count_for_disabilities_and_status(data, status, disability = nil)
       data.select do |selected_disabilities|
         application_status, selected_disabilities = selected_disabilities
-        application_status == status && (disability.nil? ? selected_disabilities&.any? : selected_disabilities&.include?(disability))
-      end.values.sum || 0
+        selected_disabilities ||= []
+        application_status == status && (disability.nil? ? (selected_disabilities - Hesa::Disability::NON_DISABILITY_KEYS).any? : selected_disabilities.include?(disability))
+      end.values.sum
     end
 
     def calculate_percentage(applied, recruited)

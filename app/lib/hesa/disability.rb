@@ -27,6 +27,10 @@ module Hesa
       'I do not have any of these disabilities or health conditions' => HesaDisabilityValues::NONE,
       'Prefer not to say' => HesaDisabilityValues::PREFER_NOT_TO_SAY,
     }.freeze
+    NON_DISABILITY_KEYS = [
+      'I do not have any of these disabilities or health conditions',
+      'Prefer not to say',
+    ].freeze
 
     def self.all(cycle_year)
       collection_name = "HESA_DISABILITIES_#{cycle_year - 1}_#{cycle_year}"
@@ -56,6 +60,10 @@ module Hesa
 
     def self.convert_to_hesa_value(disability)
       HESA_CONVERSION[disability] || OLD_HESA_CONVERSION[disability] || HesaDisabilityValues::OTHER
+    end
+
+    def self.disability_keys
+      HESA_CONVERSION.keys.excluding(NON_DISABILITY_KEYS)
     end
   end
 end

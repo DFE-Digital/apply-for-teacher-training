@@ -35,11 +35,19 @@
     <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m">Disability and health conditions</h2>
       <p class="govuk-body">This question is separate from asking candidates if they need additional support with their application or while they train.</p>
-      <p class="govuk-body">Candidates can select multiple disabilities or health conditions, so the numbers may not match the totals.</p>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
+      <h3 class="govuk-heading-s">Candidates who declared a disability or health condition</h3>
+      <%= render ProviderInterface::ReportTableComponent.new(headers: ['Disability declaration', *ProviderInterface::DiversityDataByProvider::REPORT_HEADERS],
+                                                             rows: @diversity_report_candidate_disability_data,
+                                                             show_footer: true,
+                                                             exclude_from_footer: ['Percentage recruited'],
+                                                             bold_row_headers: false) %>
+
+      <h3 class="govuk-heading-s">Declared disability or health condition</h3>
+      <p class="govuk-body">Candidates can select multiple disabilities or health conditions, so the numbers may not match the totals.</p>
       <%= render ProviderInterface::ReportTableComponent.new(headers: ['Disability or health condition', *ProviderInterface::DiversityDataByProvider::REPORT_HEADERS],
                                                              rows: @diversity_report_disability_data,
                                                              show_footer: true,

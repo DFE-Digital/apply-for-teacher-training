@@ -122,4 +122,20 @@ RSpec.describe Hesa::Disability do
       end
     end
   end
+
+  describe '.disability_keys' do
+    it 'returns the keys for disabilities' do
+      expect(described_class.disability_keys).to contain_exactly(
+        'Autistic spectrum condition or another condition affecting speech, language, communication or social skills',
+        'Blindness or a visual impairment not corrected by glasses',
+        'Condition affecting motor, cognitive, social and emotional skills, speech or language since childhood',
+        'Deafness or a serious hearing impairment',
+        'Dyslexia, dyspraxia or attention deficit hyperactivity disorder (ADHD) or another learning difference',
+        'Long-term illness',
+        'Mental health condition',
+        'Physical disability or mobility issue',
+        'Another disability, health condition or impairment affecting daily life',
+      )
+    end
+  end
 end
