@@ -22,6 +22,12 @@ class DetectInvariantsDailyCheck
     )
 
     if report.blank?
+      report = Publications::MonthlyStatistics::MonthlyStatisticsReport.find_by(
+        month: latest_past_generation_date.strftime('%Y-%m'),
+      ) # was the report generated on a different date for this month?
+    end
+
+    if report.blank?
       message = "The monthly statistics report has not been generated for #{latest_past_generation_date.to_date.strftime('%B')}"
       Sentry.capture_exception(MonthlyStatisticsReportHasNotRun.new(message))
     end
