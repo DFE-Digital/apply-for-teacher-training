@@ -22,12 +22,25 @@ module CandidateInterface
       def next_step!
         if @form.next_step == :review
           @form.persist!
+
+          if below_required_for_draft_applications?
+            redirect_to candidate_interface_degrees_degree_grade_interruption_path
+            return
+          end
         end
 
         redirect_to [:candidate_interface, :degree, @form.next_step]
       end
 
     private
+
+      def below_required_for_draft_applications?
+        return false if current_application.application_choices.empty?
+
+        current_application.application_choices
+          .unsubmitted
+          .any? { |choice| DegreeGradeEvaluator.new(choice).degree_grade_below_required_grade? }
+      end
 
       def degree_params
         return {} if params[:candidate_interface_degree_form].blank?

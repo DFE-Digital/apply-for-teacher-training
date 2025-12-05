@@ -384,6 +384,8 @@ namespace :candidate_interface, path: '/candidate' do
       get '/review' => 'degrees/review#show', as: :degree_review
       patch '/review' => 'degrees/review#complete', as: :degree_complete
 
+      get '/review/degree-grade-interruption' => 'degrees/degree_grade_interruption#show', as: :degrees_degree_grade_interruption
+
       get '/delete/:id' => 'degrees/destroy#confirm_destroy', as: :confirm_degree_destroy
       delete '/delete/:id' => 'degrees/destroy#destroy'
     end
