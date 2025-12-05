@@ -7,6 +7,10 @@ class CountryFinder
       COUNTRIES_AND_TERRITORIES[iso_code] || legacy_look_up(iso_code) || 'N/A'
     end
 
+    def find_name_from_hesa_code(hesa_code)
+      DOMICILES[hesa_code] || 'N/A'
+    end
+
   private
 
     def legacy_look_up(iso_code)
