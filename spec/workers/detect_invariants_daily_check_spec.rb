@@ -43,6 +43,24 @@ RSpec.describe DetectInvariantsDailyCheck do
         end
       end
 
+      context 'when it has not been generated on the generation_date but has been generated for the month' do
+        it 'does not sends an alert' do
+          travel_temporarily_to(Date.new(2023, 6, 26)) do
+            create(
+              :monthly_statistics_report,
+              :v1,
+              generation_date: Date.new(2023, 6, 16),
+              month: '2023-06',
+            )
+
+            described_class.new.perform
+
+            # expect(Sentry).to have_received(:capture_exception).with(exception)
+            expect(Sentry).not_to have_received(:capture_exception).with(exception)
+          end
+        end
+      end
+
       context 'when it is before reports are generated' do
         it 'does not send an alert' do
           first_generation_date = Publications::MonthlyStatistics::Timetable.new.schedules.first.generation_date
