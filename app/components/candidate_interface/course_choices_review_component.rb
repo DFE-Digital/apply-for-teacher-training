@@ -165,7 +165,7 @@ module CandidateInterface
 
       {
         key: 'Degree requirements',
-        value: DegreeGradeEvaluator.new(application_choice).required_course_degree_text,
+        value: DegreeGradeEvaluator.new(application_choice).course_degree_requirement_text,
       }
     end
 

@@ -5,15 +5,15 @@ module CandidateInterface
 
       def show
         @application_choice = current_application.application_choices.find(params[:application_choice_id])
-        @required_grade = required_course_degree_text
+        @required_grade = course_degree_requirement_text
         @candidate_highest_grade = highest_degree_grade
         @continue_path = ReviewInterruptionPathDecider.decide_path(@application_choice, current_step: :grade_incompatible)
       end
 
     private
 
-      def required_course_degree_text
-        grade_evaluator.required_course_degree_text
+      def course_degree_requirement_text
+        grade_evaluator.course_degree_requirement_text
       end
 
       def highest_degree_grade
