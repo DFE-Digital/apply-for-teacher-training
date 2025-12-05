@@ -504,7 +504,7 @@ class ApplicationForm < ApplicationRecord
         address_line2,
         address_line3,
         address_line4,
-        CountryFinder.find_name_from_hesa_code(country),
+        CountryFinder.find_name_from_iso_code(country),
       ].compact_blank
     else
       [

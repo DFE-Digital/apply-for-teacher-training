@@ -29,7 +29,8 @@ WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
 
-RUN bundler -v && \
+RUN gem update --system && \
+    bundler -v && \
     bundle config set no-cache 'true' && \
     bundle config set no-binstubs 'true' && \
     bundle --retry=5 --jobs=4 --without=development && \

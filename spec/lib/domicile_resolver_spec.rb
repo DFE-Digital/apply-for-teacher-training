@@ -93,5 +93,11 @@ RSpec.describe DomicileResolver do
         expect(described_class.country_for_hesa_code(iso_code)).to eq(country_name)
       end
     end
+
+    describe 'for legacy country code data' do
+      it 'returns nil' do
+        expect(described_class.country_for_hesa_code('TW')).to be_nil
+      end
+    end
   end
 end
