@@ -15,7 +15,7 @@ module SupportInterface
     end
 
     def notify_template
-      Site.last.dup.save!
+      Site.last.dup.save! # Added as proof to test Sentry error handling
       @form = SupportInterface::NotifyTemplateForm.new
     end
 
