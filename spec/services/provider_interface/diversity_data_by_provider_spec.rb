@@ -106,17 +106,65 @@ module ProviderInterface
       end
     end
 
+    describe '#candidates_with_disability_data' do
+      it 'returns the candidates with disabilities data for the provider' do
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['Long-term illness'] }, application_choices: [create(:application_choice, :interviewing, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['Long-term illness', 'Mental health condition'] }, application_choices: [create(:application_choice, :interviewing, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['Autistic spectrum condition or another condition affecting speech, language, communication or social skills'] }, application_choices: [create(:application_choice, :accepted, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['Autistic spectrum condition or another condition affecting speech, language, communication or social skills'] }, application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['Prefer not to say'] }, application_choices: [create(:application_choice, :interviewing, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['I do not have any of these disabilities or health conditions'] }, application_choices: [create(:application_choice, :interviewing, provider_ids: [provider.id])])
+        create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['I do not have any of these disabilities or health conditions'] }, application_choices: [create(:application_choice, :interviewing, provider_ids: [provider.id])])
+        expect(diversity_data_by_provider.candidates_with_disability_data).to contain_exactly(
+          {
+            header: 'At least one disability or health condition declared',
+            values: [4, 2, 1, '25%'],
+          },
+          {
+            header: 'I do not have any of these disabilities or health conditions',
+            values: [2, 0, 0, '0%'],
+          },
+          {
+            header: 'Prefer not to say',
+            values: [1, 0, 0, '0%'],
+          },
+        )
+      end
+
+      it 'returns handles missing equality and disability data' do
+        create(
+          :application_form,
+          submitted_at: Time.zone.now,
+          recruitment_cycle_year: current_year,
+          equality_and_diversity: nil,
+          application_choices: [
+            create(:application_choice, :interviewing, provider_ids: [provider.id]),
+          ],
+        )
+        expect(diversity_data_by_provider.candidates_with_disability_data).to contain_exactly(
+          {
+            header: 'At least one disability or health condition declared',
+            values: [0, 0, 0, '-'],
+          },
+          {
+            header: 'I do not have any of these disabilities or health conditions',
+            values: [0, 0, 0, '-'],
+          },
+          {
+            header: 'Prefer not to say',
+            values: [0, 0, 0, '-'],
+          },
+        )
+      end
+    end
+
     describe '#disability_data' do
       it 'returns the disability data for the provider' do
         create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['Long-term illness'] }, application_choices: [create(:application_choice, :interviewing, provider_ids: [provider.id])])
         create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['Long-term illness', 'Mental health condition'] }, application_choices: [create(:application_choice, :interviewing, provider_ids: [provider.id])])
         create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['Autistic spectrum condition or another condition affecting speech, language, communication or social skills'] }, application_choices: [create(:application_choice, :accepted, provider_ids: [provider.id])])
         create(:application_form, submitted_at: Time.zone.now, recruitment_cycle_year: current_year, equality_and_diversity: { 'disabilities' => ['Autistic spectrum condition or another condition affecting speech, language, communication or social skills'] }, application_choices: [create(:application_choice, :recruited, provider_ids: [provider.id])])
-        expect(diversity_data_by_provider.disability_data).to eq([
-          {
-            header: 'At least 1 disability or health condition declared',
-            values: [4, 2, 1, '25%'],
-          },
+        expect(diversity_data_by_provider.disability_data).to contain_exactly(
           {
             header: 'Autistic spectrum condition or another condition affecting speech, language, communication or social skills',
             values: [2, 2, 1, '50%'],
@@ -153,15 +201,7 @@ module ProviderInterface
             header: 'Another disability, health condition or impairment affecting daily life',
             values: [0, 0, 0, '-'],
           },
-          {
-            header: 'I do not have any of these disabilities or health conditions',
-            values: [0, 0, 0, '-'],
-          },
-          {
-            header: 'Prefer not to say',
-            values: [0, 0, 0, '-'],
-          },
-        ])
+        )
       end
 
       it 'returns handles missing equality and disability data' do
@@ -175,11 +215,7 @@ module ProviderInterface
           ],
         )
 
-        expect(diversity_data_by_provider.disability_data).to eq([
-          {
-            header: 'At least 1 disability or health condition declared',
-            values: [0, 0, 0, '-'],
-          },
+        expect(diversity_data_by_provider.disability_data).to contain_exactly(
           {
             header: 'Autistic spectrum condition or another condition affecting speech, language, communication or social skills',
             values: [0, 0, 0, '-'],
@@ -216,15 +252,7 @@ module ProviderInterface
             header: 'Another disability, health condition or impairment affecting daily life',
             values: [0, 0, 0, '-'],
           },
-          {
-            header: 'I do not have any of these disabilities or health conditions',
-            values: [0, 0, 0, '-'],
-          },
-          {
-            header: 'Prefer not to say',
-            values: [0, 0, 0, '-'],
-          },
-        ])
+        )
       end
     end
   end
