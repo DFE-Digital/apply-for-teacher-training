@@ -12,7 +12,10 @@ Sentry.init do |config|
       # rubocop:enable Style/HashEachMethods
     end
 
-    filter.filter(event.to_hash)
+    event.extra = filter.filter(event.extra) if event.extra
+    event.user = filter.filter(event.user) if event.user
+    event.contexts = filter.filter(event.contexts) if event.contexts
+    event
   end
 
   config.inspect_exception_causes_for_exclusion = true
