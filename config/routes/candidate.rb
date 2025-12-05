@@ -408,6 +408,7 @@ namespace :candidate_interface, path: '/candidate' do
       get '/:application_choice_id/review-enic-interruption' => 'course_choices/review_enic_interruption#show', as: :course_choices_course_review_enic_interruption
       get '/:application_choice_id/review-undergraduate-interruption' => 'course_choices/review_undergraduate_interruption#show', as: :course_choices_course_review_undergraduate_interruption
       get '/:application_choice_id/review-references-interruption' => 'course_choices/review_references_interruption#show', as: :course_choices_course_review_references_interruption
+      get '/:application_choice_id/review-degree-grade-interruption' => 'course_choices/review_degree_grade_interruption#show', as: :course_choices_course_review_degree_grade_interruption
       get '/:application_choice_id/review-and-submit' => 'course_choices/review_and_submit#show', as: :course_choices_course_review_and_submit
       get '/blocked-submissions' => 'course_choices/blocked_submissions#show', as: :course_choices_blocked_submissions
 

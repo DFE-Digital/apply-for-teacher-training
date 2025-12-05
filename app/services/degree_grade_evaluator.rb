@@ -35,17 +35,17 @@ class DegreeGradeEvaluator
   end
 
   def degree_grade_below_required_grade?
-    return false if uk_bachelor_degrees.empty? || degrees_with_other_grades_only? || bachelors_and_masters_degree?
+    return false if uk_bachelor_degrees.empty? || degrees_with_other_grades_only? || bachelors_and_masters_degree? || application_choice.undergraduate?
 
-    COURSE_REQUIRED_GRADES[required_course_degree_grade] > CANDIDATE_GRADES[highest_degree_grade]
+    COURSE_REQUIRED_GRADES[course_degree_requirement] > CANDIDATE_GRADES[highest_degree_grade]
   end
 
   def highest_degree_grade
     @highest_degree_grade ||= return_highest_valid_degree_grade
   end
 
-  def required_course_degree_text
-    COURSE_REQUIRED_GRADE_TEXT[required_course_degree_grade]
+  def course_degree_requirement_text
+    COURSE_REQUIRED_GRADE_TEXT[course_degree_requirement]
   end
 
 private
@@ -66,7 +66,7 @@ private
     grades.max_by { |grade| CANDIDATE_GRADES[grade] }
   end
 
-  def required_course_degree_grade
+  def course_degree_requirement
     application_choice.current_course.degree_grade
   end
 
