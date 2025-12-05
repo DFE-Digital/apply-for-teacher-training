@@ -42,6 +42,7 @@ en:
     sandbox_url: https://sandbox.publish-teacher-training-courses.service.gov.uk/
   find_teacher_training:
     production_url: https://find-teacher-training-courses.service.gov.uk/
+    production_course_url: https://find-teacher-training-courses.service.gov.uk/course/%{provider_code}/%{course_code}
     sandbox_url: https://sandbox.find-teacher-training-courses.service.gov.uk/
     qa_url: https://qa.find-teacher-training-courses.service.gov.uk/
   teaching_vacancies:
