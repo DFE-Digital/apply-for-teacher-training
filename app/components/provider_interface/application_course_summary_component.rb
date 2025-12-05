@@ -30,10 +30,7 @@ module ProviderInterface
           key: 'Full time or part time',
           value: study_mode,
         },
-        {
-          key: location_key,
-          value: location_name_and_address,
-        },
+        location_row,
         {
           key: 'Qualification',
           value: qualification_text(course_option),
@@ -42,7 +39,8 @@ module ProviderInterface
           key: 'Funding type',
           value: funding_type,
         },
-      ]
+      ].compact_blank
+
       return rows if course_option.course.accredited_provider.blank?
 
       rows.insert(4, accredited_body_details(course_option))
@@ -50,19 +48,20 @@ module ProviderInterface
 
   private
 
+    def location_row
+      return {} if @application_choice.school_placement_auto_selected?
+
+      {
+        key: 'Location',
+        value: location_name_and_address,
+      }
+    end
+
     def accredited_body_details(course_option)
       {
         key: 'Accredited body',
         value: course_option.course.accredited_provider.name_and_code,
       }
-    end
-
-    def location_key
-      if @application_choice.school_placement_auto_selected?
-        t('school_placements.auto_selected')
-      else
-        t('school_placements.selected_by_candidate')
-      end
     end
   end
 end
