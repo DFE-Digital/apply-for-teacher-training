@@ -921,7 +921,7 @@ DEPENDENCIES
   oj
   okcomputer
   omniauth
-  omniauth-rails_csrf_protection
+  omniauth-rails_csrf_protection (~> 1.0.2)
   omniauth_govuk_one_login!
   omniauth_openid_connect
   openapi3_parser (= 0.10.1)

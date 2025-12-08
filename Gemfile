@@ -41,7 +41,7 @@ gem 'erb_lint', require: false
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth_openid_connect'
-gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-rails_csrf_protection', '~> 1.0.2'
 gem 'omniauth_govuk_one_login', github: 'DFE-Digital/omniauth-govuk-one-login', tag: 'v1.5.1'
 
 gem 'workflow'
