@@ -172,7 +172,8 @@ module ProviderInterface
       data.select do |selected_disabilities|
         application_status, selected_disabilities = selected_disabilities
         selected_disabilities ||= []
-        application_status == status && (disability.nil? ? (selected_disabilities - Hesa::Disability::NON_DISABILITY_KEYS).any? : selected_disabilities.include?(disability))
+        any_disabilities = (selected_disabilities - Hesa::Disability::NON_DISABILITY_KEYS).any?
+        application_status == status && (disability.nil? ? any_disabilities : selected_disabilities.include?(disability))
       end.values.sum
     end
 
