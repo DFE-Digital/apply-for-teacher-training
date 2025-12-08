@@ -8,7 +8,6 @@ module SelectOptionsHelper
     ] + nationality_options(include_british_and_irish:).map { |_, nationality| Option.new(nationality, nationality) }
   end
 
-  # def select_country_options
   def select_domicile_options
     domiciles = DfE::ReferenceData::HESA::Domiciles::COUNTRIES_AND_TERRITORIES.all_as_hash
       .except('GB', 'XC', 'XK', 'XF', 'XG', 'XH', 'XI', 'XL', 'XX', 'GB-WLS', 'GB-CYM', 'GB-SCT', 'GB-NIR', 'GB-ENG', 'IE')
@@ -16,8 +15,6 @@ module SelectOptionsHelper
       Option.new('', t('application_form.contact_details.country.default_option')),
     ] + domiciles.map { |iso3166, country| Option.new(iso3166, country.name) }
   end
-
-  # "Macao", "Puerto Rico", "Taiwan
 
   def select_degree_country_options
     [
