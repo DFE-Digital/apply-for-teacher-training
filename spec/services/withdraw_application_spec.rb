@@ -115,4 +115,46 @@ RSpec.describe WithdrawApplication do
       )
     end
   end
+
+  context 'when application form has references with the status feedback requested' do
+    let(:cancel_referee_service) { instance_double(CancelReferee) }
+    let(:application_form) { create(:completed_application_form) }
+    let(:choice) do
+      create(:application_choice, :accepted_no_conditions, application_form: application_form)
+    end
+
+    before do
+      allow(CancelReferee).to receive(:new).and_return(cancel_referee_service)
+      allow(cancel_referee_service).to receive(:call)
+
+      application_form.application_references.update!(feedback_status: :feedback_requested)
+    end
+
+    context 'when the reason for withdrawing is not "Do not want to train anymore"' do
+      it 'does not cancel any requested references' do
+        create(
+          :withdrawal_reason,
+          :draft,
+          application_choice: choice,
+        )
+
+        described_class.new(application_choice: choice).save!
+        expect(cancel_referee_service).not_to have_received(:call)
+      end
+    end
+
+    context 'when the reason for withdrawing is "Do not want to train anymore"' do
+      it 'cancels any requested references' do
+        create(
+          :withdrawal_reason,
+          :draft,
+          reason: 'do-not-want-to-train-anymore.another-career-path-or-accepted-a-job-offer',
+          application_choice: choice,
+          )
+
+        described_class.new(application_choice: choice).save!
+        expect(cancel_referee_service).to have_received(:call).twice
+      end
+    end
+  end
 end

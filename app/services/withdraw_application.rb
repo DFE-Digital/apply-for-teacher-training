@@ -21,6 +21,12 @@ class WithdrawApplication
       end
     end
 
+    if application_choice.published_withdrawal_reasons.where('reason ILIKE ?', '%do-not-want-to-train-anymore%').any?
+      application_choice.application_form.application_references.feedback_requested.each do |reference|
+        CancelReferee.new.call(reference:)
+      end
+    end
+
     CancelUpcomingInterviews.new(
       actor: application_choice.candidate,
       application_choice:,
