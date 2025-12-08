@@ -27,7 +27,7 @@
 
     <%= f.govuk_radio_button :qualification_type, :non_uk, label: { text: t('application_form.gcse.qualification_types.non_uk') } do %>
       <%= f.govuk_text_field :non_uk_qualification_type, label: { text: t('application_form.gcse.non_uk.label'), size: 's' }, hint: { text: t('application_form.gcse.non_uk.hint_text') } %>
-      <%= f.govuk_collection_select :institution_country, select_country_options, :id, :name, label: { text: t('gcse_edit_institution_country.page_title', subject: f.object.subject.capitalize) } %>
+      <%= f.govuk_collection_select :institution_country, select_degree_country_options, :id, :name, label: { text: t('gcse_edit_institution_country.page_title', subject: f.object.subject.capitalize) } %>
       <%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.label'), size: 's' } do %>
         <% ApplicationQualification.enic_reasons.keys.each_with_index do |enic_reason, index| %>
           <%= f.govuk_radio_button(

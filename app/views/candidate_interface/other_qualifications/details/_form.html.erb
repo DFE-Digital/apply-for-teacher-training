@@ -1,6 +1,6 @@
   <% if @form.non_uk_qualification_type.present? %>
     <%= f.govuk_text_field :subject, label: { text: t('application_form.other_qualification.subject.optional_label'), size: 'm' } %>
-    <%= f.govuk_collection_select :institution_country, select_country_options, :id, :name, label: { text: t('application_form.other_qualification.institution_country.label'), size: 'm' } %>
+    <%= f.govuk_collection_select :institution_country, select_degree_country_options, :id, :name, label: { text: t('application_form.other_qualification.institution_country.label'), size: 'm' } %>
     <%= f.govuk_text_field :grade, label: { text: t('application_form.other_qualification.grade.optional_label'), size: 'm' }, width: 10 %>
     <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint: { text: t('application_form.other_qualification.award_year.hint_text') }, inputmode: 'numeric', width: 4, maxlength: 4 %>
   <% elsif @form.btec? %>

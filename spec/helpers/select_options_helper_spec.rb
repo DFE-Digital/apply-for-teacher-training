@@ -32,15 +32,15 @@ RSpec.describe SelectOptionsHelper do
     end
   end
 
-  describe '#select_country_options' do
+  describe '#select_domicile_options' do
     it 'returns a structured list of countries' do
-      expect(select_country_options).to include(
+      expect(select_domicile_options).to include(
         SelectOptionsHelper::Option.new('', t('application_form.contact_details.country.default_option')),
       )
-      expect(select_country_options).to include(
+      expect(select_domicile_options).to include(
         SelectOptionsHelper::Option.new('FR', 'France'),
       )
-      expect(select_country_options).not_to include(
+      expect(select_domicile_options).not_to include(
         SelectOptionsHelper::Option.new('GB', 'United Kingdom'),
       )
     end

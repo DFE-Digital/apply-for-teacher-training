@@ -1,7 +1,7 @@
 <%= f.govuk_error_summary %>
 <%= f.govuk_collection_select(
   :institution_country,
-  select_country_options,
+  select_degree_country_options,
   :id,
   :name,
   label: { text: t('gcse_edit_institution_country.page_title', subject: @subject.capitalize), size: 'l', tag: 'h1' },

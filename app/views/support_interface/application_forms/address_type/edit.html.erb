@@ -9,7 +9,7 @@
       <%= f.govuk_radio_buttons_fieldset :address_types, legend: { text: t('support_interface.edit_address_details_form.address_types.label'), size: 'l', tag: 'h1' } do %>
         <%= f.govuk_radio_button :address_type, 'uk', label: { text: t('application_form.contact_details.address_type.values.uk') }, link_errors: true %>
         <%= f.govuk_radio_button :address_type, 'international', label: { text: t('application_form.contact_details.address_type.values.international') } do %>
-          <%= f.govuk_collection_select :country, select_country_options, :id, :name, label: { text: t('application_form.contact_details.country.label') } %>
+          <%= f.govuk_collection_select :country, select_domicile_options, :id, :name, label: { text: t('application_form.contact_details.country.label') } %>
         <% end %>
       <% end %>
 
