@@ -6,6 +6,7 @@ class IsApplicationAnonymised
   end
 
   def call
-    application_form.candidate.email_address.include? 'deleted-application-'
+    application_form.candidate.email_address.include?('deleted-application-') ||
+      application_form.candidate.email_address.include?('deleted_on_user_request')
   end
 end
