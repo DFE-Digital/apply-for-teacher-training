@@ -78,6 +78,8 @@ en:
             decline_last_application_choice_with_course_recommendation: A candidate has declined the offer to train to teach made by a training provider and there is a link to other courses that have been recommended to them.
             deferred_offer: A training provider is deferring the offer they have made to the candidate until a future recruitment cycle
             deferred_offer_reminder: A reminder to the candidate that the offer that was deferred in the past will be confirmed soon.
+            deferred_offer_with_new_details_with_conditions: Confirmation of the deferred offer, with new details and conditions.
+            deferred_offer_with_new_details_without_conditions: Confirmation of the deferred offer, with new details and no conditions.
             new_offer_made: A training provider has made an offer to a candidate to join their course.
             offer_10_day: When a candidate has received an offer to train to teach but has not responded for 10 days.
             offer_20_day: When a candidate has received an offer to train to teach but has not responded for 20 days.
@@ -104,6 +106,7 @@ en:
             application_rejected_with_course_recommendation: An application has been rejected by the provider. Contains bespoke rejection advice depending on the reason given and there is a link to other courses that have been recommended to them..
             application_rejected_international_unverified: An application from an international candidate has been rejected because the provider is unable to verify their qualifications.
             application_rejected_via_api: An application has been rejected by a provider who uses the api to manage applications.
+            application_rejected_because_salaried_course_full: An application has been rejected because the salaried course is full.
             application_withdrawn_on_request: The provider has withdrawn the application because the candidate has asked them to (or sometimes because they have not responded). This is the only way to end an application post-offer (can't reject) so is used for that purpose too.
             application_withdrawn_on_request_with_course_recommendation: The provider has withdrawn the application because the candidate has asked them to (or sometimes because they have not responded). This is the only way to end an application post-offer (can't reject) so is used for that purpose too and there is a link to other courses that have been recommended to them..
             conditions_not_met: An application is rejected because the candidate has not met the conditions of the offer.
