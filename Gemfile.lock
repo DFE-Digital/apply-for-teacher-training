@@ -484,7 +484,7 @@ GEM
       logger
       rack (>= 2.2.3)
       rack-protection
-    omniauth-rails_csrf_protection (1.0.2)
+    omniauth-rails_csrf_protection (2.0.0)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
     omniauth_openid_connect (0.8.0)
@@ -921,7 +921,7 @@ DEPENDENCIES
   oj
   okcomputer
   omniauth
-  omniauth-rails_csrf_protection (~> 1.0.2)
+  omniauth-rails_csrf_protection (~> 2.0.0)
   omniauth_govuk_one_login!
   omniauth_openid_connect
   openapi3_parser (= 0.10.1)
@@ -1145,7 +1145,7 @@ CHECKSUMS
   oj (3.16.12) sha256=ad9fad6a06dabcf4cfe6a420690a4375377685c16eee0ae88e8d38a43ed7b556
   okcomputer (1.19.0) sha256=8548935a82f725bdd8f2c329925a9f1a1bb2ce19ce26b47d7515665ee363b458
   omniauth (2.1.4) sha256=42a05b0496f0d22e1dd85d42aaf602f064e36bb47a6826a27ab55e5ba608763c
-  omniauth-rails_csrf_protection (1.0.2) sha256=1170fd672aff092b9b7ebebc1453559f073ed001e3ce62a1df616e32f8dc5fe0
+  omniauth-rails_csrf_protection (2.0.0) sha256=bd83e43716e1b821bd1bc6498da87326860cd33caf8381d74100c780d008b931
   omniauth_govuk_one_login (1.5.1)
   omniauth_openid_connect (0.8.0) sha256=1f2f3890386e2a742221cee0d2e903b78d874e6fab9ea3bfa31c1462f4793d25
   openapi3_parser (0.10.1) sha256=e373bfcec1f183252a51fbe28787b52c4052e045697bae1778258bb9b3296a19
