@@ -150,7 +150,7 @@ RSpec.describe WithdrawApplication do
           :draft,
           reason: 'do-not-want-to-train-anymore.another-career-path-or-accepted-a-job-offer',
           application_choice: choice,
-          )
+        )
 
         described_class.new(application_choice: choice).save!
         expect(cancel_referee_service).to have_received(:call).twice
