@@ -723,15 +723,15 @@ GEM
     semantic_logger (4.17.0)
       concurrent-ruby (~> 1.0)
     semantic_range (3.0.0)
-    sentry-rails (5.28.1)
-      railties (>= 5.0)
-      sentry-ruby (~> 5.28.1)
-    sentry-ruby (5.28.1)
+    sentry-rails (6.2.0)
+      railties (>= 5.2.0)
+      sentry-ruby (~> 6.2.0)
+    sentry-ruby (6.2.0)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.28.1)
-      sentry-ruby (~> 5.28.1)
-      sidekiq (>= 3.0)
+    sentry-sidekiq (6.2.0)
+      sentry-ruby (~> 6.2.0)
+      sidekiq (>= 5.0)
     shellany (0.0.1)
     shoulda-matchers (7.0.1)
       activesupport (>= 7.1)
@@ -958,7 +958,7 @@ DEPENDENCIES
   rubypants
   satisfactory (~> 0.3)
   selenium-webdriver
-  sentry-rails (= 5.28.1)
+  sentry-rails (= 6.2.0)
   sentry-sidekiq
   shoulda-matchers (~> 7.0)
   sidekiq (< 7)
@@ -1237,9 +1237,9 @@ CHECKSUMS
   selenium-webdriver (4.39.0) sha256=984a1e63d39472eaf286bac3c6f1822fa7eea6eed9c07a66ce7b3bc5417ba826
   semantic_logger (4.17.0) sha256=c54b60d8596abe2e22bd4f20648d4f6c46e4287fba357779c7932335c8d130e9
   semantic_range (3.0.0) sha256=3066777ba546f807060d3c93892d5c52eff40f45fd48ac94cef496f4f64997b6
-  sentry-rails (5.28.1) sha256=43a5f884622c60fa459ba05dc8bd22fbd5f28daaced1d00dbcfc4669eaf93807
-  sentry-ruby (5.28.1) sha256=1162d474271e8b82202c984b1116db234007a084c5b73293e921468898d07e99
-  sentry-sidekiq (5.28.1) sha256=1873d6ca4ba49086baec7a8128b322ae2c26ce892563ed625b8bfc0fa1bcd968
+  sentry-rails (6.2.0) sha256=e1a1977e58099231774b85ca40ce9e1d185326cee814bed4f59bc3192f1f77e6
+  sentry-ruby (6.2.0) sha256=d7b8a358a3a0d0536bd194b19cc282c85f295b6d242731e9b4a934ccdb71ac17
+  sentry-sidekiq (6.2.0) sha256=a09f8b987bbf57f1afa2d4644016531234dd1df9a0ce669df57d68d673a9f555
   shellany (0.0.1) sha256=0e127a9132698766d7e752e82cdac8250b6adbd09e6c0a7fbbb6f61964fedee7
   shoulda-matchers (7.0.1) sha256=b4bfd8744c10e0a36c8ac1a687f921ee7e25ed529e50488d61b79a8688749c77
   sidekiq (6.5.12) sha256=b4f93b2204c42220d0b526a7b8e0c49b5f9da82c1ce1a05d2baf1e8f744c197f
