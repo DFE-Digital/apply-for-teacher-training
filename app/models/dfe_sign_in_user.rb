@@ -14,6 +14,10 @@ class DfESignInUser
     @impersonated_provider_user = impersonated_provider_user
   end
 
+  def self.find_user(omniauth_payload)
+    SupportUser.find_by(dfe_sign_in_uid: omniauth_payload['uid'])
+  end
+
   def provider_interface_dsi_logout_url
     dsi_logout_url(interface: :provider)
   end
@@ -56,6 +60,17 @@ class DfESignInUser
       last_name: dfe_sign_in_session['last_name'],
       id_token: dfe_sign_in_session['id_token'],
       impersonated_provider_user: impersonated_provider_user_from(session),
+    )
+  end
+
+  def self.begin_from_db(omniauth_payload)
+    DfESigninSession.find_or_create_by(
+      email_address: omniauth_payload.dig('info', 'email'),
+      dfe_sign_in_uid: omniauth_payload['uid'],
+      first_name: omniauth_payload.dig('info', 'first_name'),
+      last_name: omniauth_payload.dig('info', 'last_name'),
+      last_active_at: Time.zone.now,
+      id_token: omniauth_payload.dig('credentials', 'id_token'),
     )
   end
 

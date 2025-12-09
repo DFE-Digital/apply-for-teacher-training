@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_25_161200) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_08_155923) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -591,6 +591,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_25_161200) do
     t.index ["offered_course_option_id"], name: "index_deferred_offer_confirmations_on_offered_course_option_id"
     t.index ["provider_user_id"], name: "index_deferred_offer_confirmations_on_provider_user_id"
     t.index ["site_id"], name: "index_deferred_offer_confirmations_on_site_id"
+  end
+
+  create_table "dfe_signin_sessions", force: :cascade do |t|
+    t.string "user_type", null: false
+    t.bigint "user_id", null: false
+    t.string "email_address"
+    t.string "dfe_sign_in_uid"
+    t.string "first_name"
+    t.string "last_name"
+    t.datetime "last_active_at"
+    t.string "id_token"
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_type", "user_id"], name: "index_dfe_signin_sessions_on_user"
   end
 
   create_table "email_clicks", force: :cascade do |t|

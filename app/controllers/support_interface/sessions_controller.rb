@@ -1,6 +1,7 @@
 module SupportInterface
   class SessionsController < SupportInterfaceController
     skip_before_action :authenticate_support_user!, except: :destroy
+    skip_before_action :require_authentication, except: :destroy
 
     def new
       redirect_to support_interface_path and return if current_support_user

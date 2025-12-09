@@ -1,16 +1,35 @@
 class DfESignInController < ActionController::Base
+  include SupportAuth
+
+  skip_before_action :require_authentication
+
   protect_from_forgery except: :bypass_callback
 
   SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN = %w[session_id impersonated_provider_user].freeze
 
   def callback
+    # what is this doing?
     change_session_id_and_drop_provider_impersonation
-    DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
-    @dfe_sign_in_user = DfESignInUser.load_from_session(session)
-    @target_path = session['post_dfe_sign_in_path']
-    @local_user = local_user
 
-    if @local_user && DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
+    omniauth_payload = request.env['omniauth.auth']
+    user = DfESignInUser.find_user(request.env['omniauth.auth'])
+
+    start_new_dsi_session(
+      user:,
+      omniauth_payload:,
+    )
+
+    # DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
+    @local_user = user
+    profile = DsiProfile.update_profile_from_dfe_sign_in_db(
+      dfe_user: Current.dfe_session,
+      local_user: @local_user,
+    )
+
+    # @dfe_sign_in_user = DfESignInUser.load_from_session(session)
+    @target_path = session['post_dfe_sign_in_path']
+
+    if @local_user && profile
       @local_user.update!(last_signed_in_at: Time.zone.now)
 
       if @local_user.is_a?(SupportUser)
@@ -48,6 +67,7 @@ class DfESignInController < ActionController::Base
 private
 
   def change_session_id_and_drop_provider_impersonation
+    # what is this?
     existing_values = session.to_hash # e.g. candidate/devise login, cookie consent
     reset_session # prevents session fixation attacks and impersonation bugs
     session.update existing_values.except(*SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN)
@@ -89,11 +109,13 @@ private
   end
 
   def local_user
+    return support_user
     target_path_is_support_path ? support_user : provider_user
   end
 
   def support_user
-    @support_user ||= SupportUser.load_from_session(session) || false
+    # @support_user ||= SupportUser.load_from_session(session) || false
+    @support_user ||= SupportUser.load_from_db(@dfe_session) || false
   end
 
   def provider_user
