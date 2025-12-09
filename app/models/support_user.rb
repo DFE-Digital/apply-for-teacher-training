@@ -13,6 +13,8 @@ class SupportUser < ApplicationRecord
 
   audited except: [:last_signed_in_at]
 
+  has_many :dfe_signin_sessions, as: :user, dependent: :destroy
+
   def self.load_from_session(session)
     return unless (dsi_user = DfESignInUser.load_from_session(session))
 
@@ -20,6 +22,17 @@ class SupportUser < ApplicationRecord
 
     if support_user
       support_user.impersonated_provider_user = dsi_user.impersonated_provider_user
+      support_user
+    end
+  end
+
+  def self.load_from_db(session)
+    # return unless (dsi_user = DfESignInUser.load_from_session(session))
+
+    support_user = SupportUser.kept.find_by(dfe_sign_in_uid: session.dfe_sign_in_uid)
+
+    if support_user
+      # support_user.impersonated_provider_user = dsi_user.impersonated_provider_user
       support_user
     end
   end

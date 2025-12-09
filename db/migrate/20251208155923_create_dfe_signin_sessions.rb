@@ -3,6 +3,7 @@ class CreateDfESigninSessions < ActiveRecord::Migration[8.0]
     create_table :dfe_signin_sessions do |t|
       # which ones are required?
       t.references :user, polymorphic: true, null: false
+      t.references :impersonated_provider_user, null: true
       t.string :email_address
       t.string :dfe_sign_in_uid
       t.string :first_name

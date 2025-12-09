@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_08_155923) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_09_160959) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -596,6 +596,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_155923) do
   create_table "dfe_signin_sessions", force: :cascade do |t|
     t.string "user_type", null: false
     t.bigint "user_id", null: false
+    t.bigint "impersonated_provider_user_id"
     t.string "email_address"
     t.string "dfe_sign_in_uid"
     t.string "first_name"
@@ -606,7 +607,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_155923) do
     t.string "user_agent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["impersonated_provider_user_id"], name: "index_dfe_signin_sessions_on_impersonated_provider_user_id"
     t.index ["user_type", "user_id"], name: "index_dfe_signin_sessions_on_user"
+    t.check_constraint "NOT (user_type::text = 'ProviderUser'::text AND impersonated_provider_user_id IS NOT NULL)", name: "provider_not_impersonating_provider"
   end
 
   create_table "email_clicks", force: :cascade do |t|

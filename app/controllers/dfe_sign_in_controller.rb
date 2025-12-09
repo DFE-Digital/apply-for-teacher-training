@@ -33,8 +33,10 @@ class DfESignInController < ActionController::Base
       @local_user.update!(last_signed_in_at: Time.zone.now)
 
       if @local_user.is_a?(SupportUser)
+        # New sign in to Support for Apply for teacher training
         send_support_sign_in_confirmation_email
       elsif @local_user.is_a?(ProviderUser)
+        # New sign in to Provider for Manage for teacher training
         send_provider_sign_in_confirmation_email
       end
 

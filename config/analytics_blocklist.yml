@@ -3,6 +3,7 @@
   :dfe_signin_sessions:
   - user_id
   - user_type
+  - impersonated_provider_user_id
   - id
   - email_address
   - dfe_sign_in_uid

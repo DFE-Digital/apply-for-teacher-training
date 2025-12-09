@@ -30,7 +30,10 @@ private
 
   def find_session_by_cookie
     DfESigninSession.find_by(
-      'id = ? AND updated_at > ?', cookies.signed[:dfe_session_id], 2.hours.ago
+      'id = ? AND updated_at > ? AND user_type = ?',
+      cookies.signed[:dfe_session_id],
+      2.hours.ago,
+      'SupportUser', # can we make this dynamic or do we need a concern for every user type?
     )
   end
 
