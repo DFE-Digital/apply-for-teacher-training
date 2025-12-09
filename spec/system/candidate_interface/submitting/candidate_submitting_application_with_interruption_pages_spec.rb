@@ -39,16 +39,12 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
     then_the_viewed_enic_interruption_page_cookie_to_be_set
   end
 
-  scenario 'Candidate submits an application for a course whose required grade is higher than their highest recorded undergrad degree grade', :js, time: mid_cycle do
+  scenario 'Candidate submits an application for a course whose required grade is higher than their highest recorded undergrad degree grade', time: mid_cycle do
     given_i_am_signed_in_with_one_login
-
     and_i_have_one_application_in_draft
-    and_i_continue_with_my_application
 
-    when_i_save_as_draft
-    and_i_am_redirected_to_the_application_dashboard
-    and_my_application_is_still_unsubmitted
-    and_i_continue_with_my_application
+    when_i_visit_my_applications
+    and_i_click('Gorse SCITT')
 
     when_i_click_to_review_my_application
     then_i_see_an_interruption_page_for_incompatible_grade
@@ -116,20 +112,32 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
 private
 
   def and_i_have_one_application_in_draft
-    @application_form = create(:application_form, :completed, candidate: @current_candidate)
-    @application_form.application_qualifications.degree.destroy_all
+    @application_form = create(:application_form, :completed, :with_degree, candidate: @current_candidate)
 
-    @degree = create(
-      :degree_qualification,
-      application_form: @application_form,
-      institution_country: 'GB',
-      grade: 'Third-class honours',
+    @degree = @application_form.application_qualifications.find_by(level: 'degree')
+    @degree.update(grade: 'Third-class honours', qualification_type: 'Bachelor of Arts', predicted_grade: false)
+    @application_form.application_qualifications.reload
+
+    @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
+    @course = create(
+      :course,
+      :open,
+      code: '238T',
+      provider: @provider,
+      level: 'secondary',
+      degree_grade: 'two_one',
     )
+    @course_option = create(:course_option, course: @course)
 
-    @application_choice = create(:application_choice, :unsubmitted, application_form: @application_form)
+    @application_choice = create(
+      :application_choice,
+      :unsubmitted,
+      course_option: @course_option,
+      application_form: @application_form,
+    )
+    @application_choice.reload
 
-    @course = @application_choice.current_course
-    @course.update!(degree_grade: 'two_one')
+    @application_form.application_choices << @application_choice
   end
 
   def when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice_with_not_needed_qualification
@@ -195,6 +203,7 @@ private
       application_form: @application_choice.application_form,
       institution_country: 'GB',
       grade: 'First-class honours',
+      predicted_grade: false,
     )
   end
 
@@ -251,4 +260,5 @@ private
   def when_i_click(text)
     click_link_or_button text
   end
+  alias_method :and_i_click, :when_i_click
 end

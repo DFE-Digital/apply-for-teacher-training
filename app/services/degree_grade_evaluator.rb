@@ -35,7 +35,11 @@ class DegreeGradeEvaluator
   end
 
   def degree_grade_below_required_grade?
-    return false if uk_bachelor_degrees.empty? || degrees_with_other_grades_only? || bachelors_and_masters_degree? || application_choice.undergraduate?
+    return false if uk_bachelor_degrees.empty? ||
+                    degrees_with_other_grades_only? ||
+                    bachelors_and_masters_degree? ||
+                    application_choice.undergraduate? ||
+                    application_choice.course.degree_grade.nil?
 
     COURSE_REQUIRED_GRADES[course_degree_requirement] > CANDIDATE_GRADES[highest_degree_grade]
   end
@@ -57,7 +61,7 @@ private
   def find_uk_and_compatible_bachelor_degrees
     possible_institution_countries = [nil, 'GB'] + ApplicationQualification::COUNTRIES_WITH_COMPATIBLE_DEGREES.keys
     application_choice.application_form.application_qualifications
-      .where(level: 'degree', other_uk_qualification_type: nil, institution_country: possible_institution_countries)
+      .where(level: 'degree', other_uk_qualification_type: nil, institution_country: possible_institution_countries, predicted_grade: false)
       .where(qualification_type_hesa_code: Hesa::DegreeType.bachelor_hesa_codes)
   end
 

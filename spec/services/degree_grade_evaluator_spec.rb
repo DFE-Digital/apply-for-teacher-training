@@ -33,6 +33,7 @@ RSpec.describe DegreeGradeEvaluator do
         grade: 'Upper second-class honours (2:1)',
         qualification_type_hesa_code: 51,
         application_form:,
+        predicted_grade: false,
       )
 
       expect(evaluator.course_degree_requirement_text).to eq('Any degree grade')
@@ -48,6 +49,7 @@ RSpec.describe DegreeGradeEvaluator do
         institution_country: 'GB',
         grade: 'Lower second-class honours (2:2)',
         application_form:,
+        predicted_grade: false,
       )
 
       expect(evaluator.course_degree_requirement_text).to eq('2:1 degree or higher (or equivalent)')
@@ -64,6 +66,7 @@ RSpec.describe DegreeGradeEvaluator do
         institution_country: 'Armenia',
         grade: 'Lower second-class honours (2:2)',
         application_form:,
+        predicted_grade: false,
       )
 
       expect(evaluator.course_degree_requirement_text).to eq('2:1 degree or higher (or equivalent)')
@@ -80,6 +83,7 @@ RSpec.describe DegreeGradeEvaluator do
         qualification_type_hesa_code: 200,
         grade: 'Merit',
         application_form:,
+        predicted_grade: false,
       )
 
       expect(evaluator.course_degree_requirement_text).to eq('2:1 degree or higher (or equivalent)')
@@ -96,6 +100,7 @@ RSpec.describe DegreeGradeEvaluator do
         grade: 'Upper second-class honours (2:1)',
         qualification_type_hesa_code: 51,
         application_form:,
+        predicted_grade: false,
       )
 
       expect(evaluator.course_degree_requirement_text).to eq('2:1 degree or higher (or equivalent)')
@@ -112,10 +117,27 @@ RSpec.describe DegreeGradeEvaluator do
         grade: 'Lower second-class honours (2:2)',
         qualification_type_hesa_code: 51,
         application_form:,
+        predicted_grade: false,
       )
 
       expect(evaluator.degree_grade_below_required_grade?).to be(true)
       expect(evaluator.highest_degree_grade).to eq('Lower second-class honours (2:2)')
+    end
+  end
+
+  context 'application has a degree with grade below required level but it is predicted' do
+    it 'returns below required grade true' do
+      create(
+        :degree_qualification,
+        qualification_type: 'Bachelor of Arts',
+        institution_country: 'GB',
+        grade: 'Lower second-class honours (2:2)',
+        qualification_type_hesa_code: 51,
+        application_form:,
+        predicted_grade: true,
+      )
+
+      expect(evaluator.degree_grade_below_required_grade?).to be(false)
     end
   end
 
@@ -128,6 +150,7 @@ RSpec.describe DegreeGradeEvaluator do
         grade: 'Lower second-class honours (2:2)',
         qualification_type_hesa_code: 51,
         application_form:,
+        predicted_grade: false,
       )
 
       create(
@@ -152,6 +175,7 @@ RSpec.describe DegreeGradeEvaluator do
         grade: 'Lower second-class honours (2:2)',
         qualification_type_hesa_code: 51,
         application_form:,
+        predicted_grade: false,
       )
 
       create(
