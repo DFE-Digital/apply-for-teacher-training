@@ -22,12 +22,6 @@ class DegreeGradeEvaluator
     'not_required' => 'Any degree grade',
   }.freeze
 
-  DEGREE_GRADE_INSUFFICIENT_TEXT = {
-    'Lower second-class honours (2:2)' => 'a 2:2 degree.',
-    'Third-class honours' => 'a Third class degree.',
-    'Pass' => 'an Ordinary degree (pass).',
-  }.freeze
-
   attr_accessor :application_choice
 
   def initialize(application_choice)
@@ -64,8 +58,8 @@ private
 
   def find_uk_and_compatible_bachelor_degrees
     possible_institution_countries = [nil, 'GB'] + ApplicationQualification::COUNTRIES_WITH_COMPATIBLE_DEGREES.keys
-    application_choice.application_form.application_qualifications
-      .where(level: 'degree', other_uk_qualification_type: nil, institution_country: possible_institution_countries, predicted_grade: false)
+    application_choice.application_form.degree_qualifications
+      .where(other_uk_qualification_type: nil, institution_country: possible_institution_countries, predicted_grade: false)
       .where(qualification_type_hesa_code: Hesa::DegreeType.bachelor_hesa_codes)
   end
 

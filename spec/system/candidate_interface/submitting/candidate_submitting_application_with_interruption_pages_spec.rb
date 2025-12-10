@@ -115,7 +115,7 @@ private
     @application_form = create(:application_form, :completed, :with_degree, candidate: @current_candidate)
 
     @degree = @application_form.application_qualifications.find_by(level: 'degree')
-    @degree.update(grade: 'Third-class honours', qualification_type: 'Bachelor of Arts', predicted_grade: false)
+    @degree.update(grade: 'Third-class honours', qualification_type: 'Bachelor of Arts', predicted_grade: false, qualification_type_hesa_code: '051')
     @application_form.application_qualifications.reload
 
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
