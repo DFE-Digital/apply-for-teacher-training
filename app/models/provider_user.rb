@@ -9,6 +9,8 @@ class ProviderUser < ApplicationRecord
   has_one :find_a_candidate_not_seen_filter, -> { find_candidates_not_seen.order(updated_at: :desc) }, class_name: 'ProviderUserFilter'
   has_one :find_candidates_invited_filter, -> { find_candidates_invited.order(updated_at: :desc) }, class_name: 'ProviderUserFilter'
 
+  has_many :dfe_signin_sessions, as: :user, dependent: :destroy
+
   has_many :pool_views, -> { status_viewed }, class_name: 'ProviderPoolAction', foreign_key: 'actioned_by_id'
   has_many :provider_user_filters
   has_one :notification_preferences, class_name: 'ProviderUserNotificationPreferences'
@@ -44,6 +46,19 @@ class ProviderUser < ApplicationRecord
 
     provider_user = ProviderUser.find_by dfe_sign_in_uid: dfe_sign_in_user.dfe_sign_in_uid
     provider_user || onboard!(dfe_sign_in_user)
+  end
+
+  def self.load_from_db(session)
+    dfe_sign_in_user = DfESignInUser.load_from_session(session)
+    return unless dfe_sign_in_user
+
+    # Deal with impersonation
+    # impersonation = ProviderImpersonation.load_from_session(session)
+    # return impersonation.provider_user if impersonation
+
+    provider_user = ProviderUser.find_by(dfe_sign_in_uid: session.dfe_sign_in_uid)
+    # deal with onboarding
+    provider_user #|| onboard!(dfe_sign_in_user)
   end
 
   def self.onboard!(dsi_user)

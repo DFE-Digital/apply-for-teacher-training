@@ -14,10 +14,6 @@ class DfESignInUser
     @impersonated_provider_user = impersonated_provider_user
   end
 
-  def self.find_user(omniauth_payload)
-    SupportUser.find_by(dfe_sign_in_uid: omniauth_payload['uid'])
-  end
-
   def provider_interface_dsi_logout_url
     dsi_logout_url(interface: :provider)
   end

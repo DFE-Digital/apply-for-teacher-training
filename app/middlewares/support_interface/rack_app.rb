@@ -5,6 +5,11 @@ module SupportInterface
     end
 
     def call(env)
+      # This needs to work with the DB sessions as well
+      # mount SupportInterface::RackApp.new(Sidekiq::Web) => '/sidekiq', as: :sidekiq
+      # mount SupportInterface::RackApp.new(Blazer::Engine) => '/blazer', as: :blazer
+      # mount SupportInterface::RackApp.new(FieldTest::Engine) => '/field-test', as: :field_test
+      #
       request = Rack::Request.new(env)
 
       if SupportUser.load_from_session(request.session)

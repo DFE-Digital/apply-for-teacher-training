@@ -11,6 +11,8 @@ module ProviderInterface
   end
 
   class ProviderInterfaceController < ApplicationController
+    include DfESigninAuth
+
     before_action :authenticate_provider_user!
     before_action :set_user_context
     before_action :set_current_timetable
@@ -28,7 +30,8 @@ module ProviderInterface
     helper_method :current_provider_user, :dfe_sign_in_user
 
     def current_provider_user
-      @current_provider_user ||= ProviderUser.load_from_session(session)
+      # @current_provider_user ||= ProviderUser.load_from_session(session)
+      @current_provider_user ||= Current.dfe_session&.user
     end
 
     alias current_user current_provider_user

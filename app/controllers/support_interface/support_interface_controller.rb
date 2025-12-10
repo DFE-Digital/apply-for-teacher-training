@@ -1,7 +1,7 @@
 module SupportInterface
   class SupportInterfaceController < ApplicationController
     include Pagy::Backend
-    include SupportAuth
+    include DfESigninAuth
 
     layout 'support_layout'
     before_action :authenticate_support_user!

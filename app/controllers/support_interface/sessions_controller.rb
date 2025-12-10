@@ -6,7 +6,7 @@ module SupportInterface
     def new
       redirect_to support_interface_path and return if current_support_user
 
-      session['post_dfe_sign_in_path'] ||= support_interface_path
+      session['post_dfe_sign_in_path'] = support_interface_path
       if FeatureFlag.active?('dfe_sign_in_fallback')
         @support_user = SupportUser.new
         render :authentication_fallback
@@ -14,13 +14,13 @@ module SupportInterface
     end
 
     def destroy
-      post_signout_redirect = if dfe_sign_in_user.needs_dsi_signout?
-                                dfe_sign_in_user.support_interface_dsi_logout_url
-                              else
+      post_signout_redirect = if DfESignIn.bypass?
                                 support_interface_path
+                              else
+                                dsi_logout_url(interface: :support)
                               end
 
-      DfESignInUser.end_session!(session)
+      terminate_session
       redirect_to post_signout_redirect, allow_other_host: true
     end
 

@@ -1,5 +1,5 @@
 class DfESignInController < ActionController::Base
-  include SupportAuth
+  include DfESigninAuth
 
   skip_before_action :require_authentication
 
@@ -8,26 +8,33 @@ class DfESignInController < ActionController::Base
   SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN = %w[session_id impersonated_provider_user].freeze
 
   def callback
-    # what is this doing?
     change_session_id_and_drop_provider_impersonation
+    # what is this doing?
 
     omniauth_payload = request.env['omniauth.auth']
-    user = DfESignInUser.find_user(request.env['omniauth.auth'])
+    dfe_sign_in_uid = omniauth_payload['uid']
 
-    start_new_dsi_session(
-      user:,
-      omniauth_payload:,
-    )
-
-    # DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
+    user = if candidate_interface?
+             SupportUser.find_by(dfe_sign_in_uid:)
+           else
+             ProviderUser.find_by(dfe_sign_in_uid:)
+           end
     @local_user = user
-    profile = DsiProfile.update_profile_from_dfe_sign_in_db(
-      dfe_user: Current.dfe_session,
-      local_user: @local_user,
-    )
 
-    # @dfe_sign_in_user = DfESignInUser.load_from_session(session)
-    @target_path = session['post_dfe_sign_in_path']
+    if @local_user
+      start_new_dsi_session(
+        user:,
+        omniauth_payload:,
+      )
+      profile = DsiProfile.update_profile_from_dfe_sign_in_db(
+        dfe_user: Current.dfe_session,
+        local_user: @local_user,
+      ) # do we need this?
+    end
+
+    @target_path = session['post_dfe_sign_in_path'] # should we remove this and use something else?
+
+    # we need to catch standard errors like in one login controller
 
     if @local_user && profile
       @local_user.update!(last_signed_in_at: Time.zone.now)
@@ -40,9 +47,15 @@ class DfESignInController < ActionController::Base
         send_provider_sign_in_confirmation_email
       end
 
-      redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
+      # redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
+      # check redirection to request.referrer
+      redirect_to @target_path || default_authenticated_path
     else
-      DfESignInUser.end_session!(session)
+      terminate_session
+      # DfESignInUser.end_session!(session)
+      # use target_path to redirect to correct controller.
+      # If we just render we will end up on the wrong path
+      @dfe_sign_in_uid = dfe_sign_in_uid
       render(
         layout: 'application',
         template: choose_error_template,
@@ -110,21 +123,8 @@ private
     ).deliver_later
   end
 
-  def local_user
-    return support_user
-    target_path_is_support_path ? support_user : provider_user
-  end
-
-  def support_user
-    # @support_user ||= SupportUser.load_from_session(session) || false
-    @support_user ||= SupportUser.load_from_db(@dfe_session) || false
-  end
-
-  def provider_user
-    @provider_user ||= ProviderUser.load_from_session(session) || false
-  end
-
   def default_authenticated_path
+    # use interface?
     if @local_user.is_a?(SupportUser)
       support_interface_path
     else
@@ -133,6 +133,7 @@ private
   end
 
   def choose_error_template
+    #if candidate_interface?
     if target_path_is_support_path
       'support_interface/unauthorized'
     else

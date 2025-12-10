@@ -1,4 +1,4 @@
-module SupportAuth
+module DfESigninAuth
   extend ActiveSupport::Concern
 
   included do
@@ -9,7 +9,7 @@ module SupportAuth
 private
 
   def authenticated?
-    @current_support_user || resume_session
+    resume_session
   end
 
   def require_authentication
@@ -28,17 +28,41 @@ private
     end
   end
 
+  def candidate_interface?
+    support_interface_path == session['post_dfe_sign_in_path'] ||
+      interface == 'SupportInterface'
+  end
+
+  def provider_interface?
+    provider_interface_path == session['post_dfe_sign_in_path'] ||
+      interface == 'ProviderInterface'
+  end
+
+  def interface
+    @interface ||= self.class.name.split(':').first
+  end
+
   def find_session_by_cookie
+    user_type = if candidate_interface?
+                  'SupportUser'
+                elsif provider_interface?
+                  'ProviderUser'
+                end
+
     DfESigninSession.find_by(
       'id = ? AND updated_at > ? AND user_type = ?',
-      cookies.signed[:dfe_session_id],
+      cookies.signed[:dsi_session_id],
       2.hours.ago,
-      'SupportUser', # can we make this dynamic or do we need a concern for every user type?
+      user_type,
     )
   end
 
   def request_authentication
-    redirect_to support_interface_sign_in_path
+    if candidate_interface?
+      redirect_to support_interface_sign_in_path
+    else
+      redirect_to provider_interface_sign_in_path
+    end
   end
 
   def start_new_dsi_session(user:, omniauth_payload:)
@@ -55,7 +79,7 @@ private
           id_token: omniauth_payload.dig('credentials', 'id_token'),
         ).tap do |dfe_session|
           Current.dfe_session = dfe_session
-          cookies.signed.permanent[:dfe_session_id] = {
+          cookies.signed.permanent[:dsi_session_id] = {
             value: dfe_session.id,
             httponly: true,
             same_site: :lax,
@@ -69,9 +93,9 @@ private
   end
 
   def terminate_session
-    Current.dfe_session&.destroy
+    Current.dfe_session&.delete
     Current.dfe_session = nil
-    cookies.delete(:dfe_session_id)
+    cookies.delete(:dsi_session_id)
     reset_session
   end
 end
