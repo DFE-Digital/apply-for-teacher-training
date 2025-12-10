@@ -74,6 +74,7 @@ else
       name: :'one-login',
       client_id: ENV.fetch('GOVUK_ONE_LOGIN_CLIENT_ID', ''),
       idp_base_url: ENV.fetch('GOVUK_ONE_LOGIN_ISSUER_URL', ''),
+      scope: 'openid email',
       private_key:,
       redirect_uri: "#{application_url}/auth/one-login/callback",
       signing_algorithm: 'RS256',
