@@ -603,6 +603,19 @@ en:
               invalid_name: The file name of your attachment must be 100 characters or fewer.
               invalid_type:
                 "The file attachment must be one of the following file types: .csv, .jpeg, .jpg, .png, .xlsx, .doc, .docx, .pdf, .json, .odt, .rtf, .txt"
+        support_interface/application_forms/change_course_choice_form:
+          attributes:
+            provider_code:
+              invalid_provider_code: 'This is not a valid provider code'
+            course_code:
+              invalid_course_code: 'This is not a valid course code for this provider'
+              invalid_course_code_for_recruitment_cycle: 'This is not a valid course code for the selected recruitment cycle year'
+            site_code:
+              invalid_site_code_for_study_mode: 'This is not a valid site code for this course and study mode'
+              invalid_site_code: 'This is not a valid site code for this course'
+            study_mode:
+              invalid_study_mode: 'This is not a valid study mode for this course'
+              invalid_study_mode_for_site: 'This is not a valid study mode for this course and site code'
   activerecord:
     attributes:
       application_qualification/qualification_type:

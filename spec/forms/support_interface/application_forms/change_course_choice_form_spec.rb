@@ -47,30 +47,8 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
       end
     end
 
-    context 'if the new course is not a valid choice' do
-      it 'raises a CourseChoiceError error' do
-        original_course_option = create(:course_option)
-        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
-
-        course_option = create(:course_option, study_mode: :full_time)
-        zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
-
-        form = described_class.new(
-          application_choice_id: application_choice.id,
-          provider_code: course_option.provider.code,
-          course_code: course_option.course.code,
-          study_mode: :part_time,
-          site_code: course_option.site.code,
-          audit_comment_ticket: zendesk_ticket,
-          accept_guidance: true,
-        )
-
-        expect { form.save(application_choice.id) }.to raise_error(CourseChoiceError, 'This is not a valid course option')
-      end
-    end
-
     context 'if the provider code is not a valid entry' do
-      it 'raises a CourseChoiceError error' do
+      it 'raises a validation error' do
         original_course_option = create(:course_option)
         application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
 
@@ -87,7 +65,153 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
           accept_guidance: true,
         )
 
-        expect { form.save(application_choice.id) }.to raise_error(CourseChoiceError, 'This is not a valid provider code')
+        form.save(application_choice.id)
+        expect(form.errors[:provider_code]).to include('This is not a valid provider code')
+      end
+    end
+
+    context 'if the course code is not a valid entry' do
+      it 'raises a validation error' do
+        original_course_option = create(:course_option)
+        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+
+        course_option = create(:course_option, study_mode: :full_time)
+        zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+
+        form = described_class.new(
+          application_choice_id: application_choice.id,
+          provider_code: course_option.provider.code,
+          course_code: 'nonsense',
+          study_mode: course_option.course.study_mode,
+          site_code: course_option.site.code,
+          audit_comment_ticket: zendesk_ticket,
+          accept_guidance: true,
+        )
+
+        form.save(application_choice.id)
+        expect(form.errors[:course_code]).to include('This is not a valid course code for this provider')
+      end
+
+      context 'when the course code is not valid for the recruitment cycle' do
+        it 'raises a validation error' do
+          original_course_option = create(:course_option)
+          application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+
+          course_option = create(:course_option, study_mode: :full_time)
+          zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: course_option.provider.code,
+            course_code: course_option.course.code,
+            study_mode: course_option.course.study_mode,
+            site_code: course_option.site.code,
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+            recruitment_cycle_year: course_option.course.recruitment_cycle_year - 1,
+          )
+
+          form.save(application_choice.id)
+          expect(form.errors[:course_code]).to include('This is not a valid course code for the selected recruitment cycle year')
+        end
+      end
+    end
+
+    context 'if the study mode is not valid of the given course' do
+      it 'raises a validation error' do
+        original_course_option = create(:course_option)
+        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+
+        course_option = create(:course_option, study_mode: :full_time)
+        zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+
+        form = described_class.new(
+          application_choice_id: application_choice.id,
+          provider_code: course_option.provider.code,
+          course_code: course_option.course.code,
+          study_mode: :part_time,
+          site_code: course_option.site.code,
+          audit_comment_ticket: zendesk_ticket,
+          accept_guidance: true,
+        )
+
+        form.save(application_choice.id)
+
+        expect(form.errors[:study_mode]).to include('This is not a valid study mode for this course and site code')
+      end
+
+      context 'if the study mode is not valid for the given site' do
+        it 'raises a validation error' do
+          original_course_option = create(:course_option)
+          application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+
+          course_option = create(:course_option, study_mode: :full_time)
+          another_site = create(:site, provider: course_option.provider)
+          zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: course_option.provider.code,
+            course_code: course_option.course.code,
+            study_mode: :part_time,
+            site_code: another_site.code,
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+
+          expect(form.errors[:study_mode]).to include('This is not a valid study mode for this course')
+        end
+      end
+    end
+
+    context 'if the site code is not valid of the given course' do
+      it 'raises a validation error' do
+        original_course_option = create(:course_option)
+        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+
+        course_option = create(:course_option, study_mode: :full_time)
+        zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+
+        form = described_class.new(
+          application_choice_id: application_choice.id,
+          provider_code: course_option.provider.code,
+          course_code: course_option.course.code,
+          study_mode: course_option.course.study_mode,
+          site_code: 'nonsense',
+          audit_comment_ticket: zendesk_ticket,
+          accept_guidance: true,
+        )
+
+        form.save(application_choice.id)
+
+        expect(form.errors[:site_code]).to include('This is not a valid site code for this course and study mode')
+      end
+
+      context 'if the site code is not valid for the given study mode' do
+        it 'raises a validation error' do
+          original_course_option = create(:course_option)
+          application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+
+          course_option = create(:course_option, study_mode: :full_time)
+          another_site = create(:site, provider: course_option.provider)
+          zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: course_option.provider.code,
+            course_code: course_option.course.code,
+            study_mode: :part_time,
+            site_code: another_site.code,
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+
+          expect(form.errors[:site_code]).to include('This is not a valid site code for this course')
+        end
       end
     end
 
