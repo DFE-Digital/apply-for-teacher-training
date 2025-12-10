@@ -21,7 +21,7 @@ en:
     header: Your degree grade does not match the eligibility criteria for this course
     requirmement: This course requires a degree grade of %{required_grade}.
     your_degree: You have said that your degree is a %{highest_grade}.
-    provider_might_not: The training provider might not be able to process your application.
+    provider_might_not: The training provider might not be able to progress your application.
     if_you_decide_html: If you decide not to submit this application, you can %{link} and apply the degree grade filter. Then you will only see courses which match your qualifications.
     continue_to_submit: Continue to submit this application
     search_another: search for another course

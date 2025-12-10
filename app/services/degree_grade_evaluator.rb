@@ -52,6 +52,10 @@ class DegreeGradeEvaluator
     COURSE_REQUIRED_GRADE_TEXT[course_degree_requirement]
   end
 
+  def course_degree_requirement
+    application_choice.current_course.degree_grade
+  end
+
 private
 
   def uk_bachelor_degrees
@@ -68,10 +72,6 @@ private
   def return_highest_valid_degree_grade
     grades = uk_bachelor_degrees.where(grade: CANDIDATE_GRADES.keys).map(&:grade)
     grades.max_by { |grade| CANDIDATE_GRADES[grade] }
-  end
-
-  def course_degree_requirement
-    application_choice.current_course.degree_grade
   end
 
   def degrees_with_other_grades_only?
