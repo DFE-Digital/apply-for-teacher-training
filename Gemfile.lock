@@ -773,7 +773,7 @@ GEM
       activemodel (>= 3.0, < 9.0)
     strong_migrations (2.5.1)
       activerecord (>= 7.1)
-    super_diff (0.17.0)
+    super_diff (0.18.0)
       attr_extras (>= 6.2.4)
       diff-lcs
       patience_diff
@@ -1257,7 +1257,7 @@ CHECKSUMS
   stringio (3.1.9) sha256=c111af13d3a73eab96a3bc2655ecf93788d13d28cb8e25c1dcbff89ace885121
   strip_attributes (2.0.1) sha256=604cb833fc69aedefffc60a79bd91a7faf3753caf34db3889beaf2d88afa7e8b
   strong_migrations (2.5.1) sha256=8bca3a9b491ec20cf1961c18050c16ac67d8b8f4e3a7c2ccf652b79638859426
-  super_diff (0.17.0) sha256=75666ec7bd3e0a73b47ccafeb4d3ca43ead96e8abb030068656c9c11053283e1
+  super_diff (0.18.0) sha256=9f5e77464fa75150619f7783174fbbe1bbac50a1eaf157cd39ad5584b0eac142
   swd (2.0.3) sha256=4cdbe2a4246c19f093fce22e967ec3ebdd4657d37673672e621bf0c7eb770655
   test_suite_time_machine (2.0.0) sha256=e7135ef34140f50e3cd89cea3f26ed4bce295e57fbad06a4df8153644bad5930
   thor (1.4.0) sha256=8763e822ccb0f1d7bee88cde131b19a65606657b847cc7b7b4b82e772bcd8a3d
