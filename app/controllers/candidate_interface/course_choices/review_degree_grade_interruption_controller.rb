@@ -1,11 +1,12 @@
 module CandidateInterface
   module CourseChoices
     class ReviewDegreeGradeInterruptionController < CandidateInterface::CourseChoices::BaseController
-      before_action :redirect_to_your_applications_if_submitted
       after_action :verify_authorized
       after_action :verify_policy_scoped
 
       def show
+        @application_choice = policy_scope(ApplicationChoice).find(params.expect(:application_choice_id))
+
         authorize @application_choice, :show?, policy_class: CandidateInterface::CourseChoices::ReviewDegreeGradeInterruptionPolicy
 
         @required_grade = course_degree_requirement_text
@@ -32,10 +33,6 @@ module CandidateInterface
 
       def grade_evaluator
         DegreeGradeEvaluator.new(@application_choice)
-      end
-
-      def application_choice
-        @application_choice ||= policy_scope(ApplicationChoice).find(params.expect(:application_choice_id))
       end
     end
   end
