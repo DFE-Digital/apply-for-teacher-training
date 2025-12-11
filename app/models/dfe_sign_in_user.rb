@@ -59,17 +59,6 @@ class DfESignInUser
     )
   end
 
-  def self.begin_from_db(omniauth_payload)
-    DfESigninSession.find_or_create_by(
-      email_address: omniauth_payload.dig('info', 'email'),
-      dfe_sign_in_uid: omniauth_payload['uid'],
-      first_name: omniauth_payload.dig('info', 'first_name'),
-      last_name: omniauth_payload.dig('info', 'last_name'),
-      last_active_at: Time.zone.now,
-      id_token: omniauth_payload.dig('credentials', 'id_token'),
-    )
-  end
-
   def begin_impersonation!(session, provider_user)
     session['impersonated_provider_user'] = { 'provider_user_id' => provider_user.id }
   end

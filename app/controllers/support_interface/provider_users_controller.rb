@@ -24,7 +24,7 @@ module SupportInterface
 
     def impersonate
       @provider_user = ProviderUser.find(params[:provider_user_id])
-      dfe_sign_in_user.begin_impersonation! session, @provider_user
+      Current.dfe_session.update!(impersonated_provider_user_id: @provider_user.id)
       redirect_to support_interface_provider_user_path(@provider_user)
     end
 

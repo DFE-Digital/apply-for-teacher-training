@@ -30,8 +30,12 @@ module ProviderInterface
     helper_method :current_provider_user, :dfe_sign_in_user
 
     def current_provider_user
-      # @current_provider_user ||= ProviderUser.load_from_session(session)
-      @current_provider_user ||= Current.dfe_session&.user
+      @current_provider_user ||= if Current.dfe_session&.support_user.present? &&
+                                    Current.dfe_session&.impersonated_provider_user.present?
+                                   Current.dfe_session&.impersonated_provider_user
+                                 else
+                                   Current.dfe_session&.provider_user
+                                 end
     end
 
     alias current_user current_provider_user

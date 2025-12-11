@@ -43,17 +43,10 @@ private
   end
 
   def find_session_by_cookie
-    user_type = if candidate_interface?
-                  'SupportUser'
-                elsif provider_interface?
-                  'ProviderUser'
-                end
-
     DfESigninSession.find_by(
-      'id = ? AND updated_at > ? AND user_type = ?',
+      'id = ? AND updated_at > ?',
       cookies.signed[:dsi_session_id],
       2.hours.ago,
-      user_type,
     )
   end
 

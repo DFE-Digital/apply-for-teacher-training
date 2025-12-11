@@ -11,13 +11,8 @@ module SupportInterface
 
     helper_method :current_support_user, :dfe_sign_in_user
 
-    def current_user
-      current_support_user
-    end
-
     def current_support_user
-      # @current_support_user ||= SupportUser.load_from_session(session)
-      @current_support_user ||= Current.dfe_session&.user
+      @current_support_user ||= Current.dfe_session&.support_user
     end
 
     def dfe_sign_in_user
@@ -25,7 +20,7 @@ module SupportInterface
     end
 
     alias audit_user current_support_user
-    # alias current_user current_support_user
+    alias current_user current_support_user
 
   private
 
@@ -33,7 +28,6 @@ module SupportInterface
       render 'errors/not_found', status: :not_found
     end
 
-    # come back to this
     def authenticate_support_user!
       return if current_support_user
 

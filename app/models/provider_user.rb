@@ -49,6 +49,7 @@ class ProviderUser < ApplicationRecord
   end
 
   def self.load_from_db(session)
+    # not used
     dfe_sign_in_user = DfESignInUser.load_from_session(session)
     return unless dfe_sign_in_user
 

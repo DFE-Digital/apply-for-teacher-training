@@ -7,7 +7,6 @@ module ProviderInterface
     def new
       redirect_to provider_interface_applications_path and return if impersonation?
 
-      session['post_dfe_sign_in_path'] = provider_interface_path
       if FeatureFlag.active?('dfe_sign_in_fallback')
         @provider_user = ProviderUser.new
 
@@ -22,7 +21,6 @@ module ProviderInterface
                                 dsi_logout_url(interface: :provider)
                               end
 
-      # DfESignInUser.end_session!(session)
       terminate_session
       redirect_to post_signout_redirect, allow_other_host: true
     end
