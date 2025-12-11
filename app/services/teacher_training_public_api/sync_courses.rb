@@ -100,7 +100,7 @@ module TeacherTrainingPublicAPI
       course.degree_subject_requirements = course_from_api.degree_subject_requirements
       course.description = course_from_api.summary
       course.exposed_in_find = course_from_api.findable
-      course.fee_details = course_from_api.fee_details
+      course.fee_details = nil
       course.fee_domestic = course_from_api.fee_domestic
       course.fee_international = course_from_api.fee_international
       course.funding_type = course_from_api.funding_type
