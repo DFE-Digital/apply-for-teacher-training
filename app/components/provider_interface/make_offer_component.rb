@@ -126,10 +126,10 @@ module ProviderInterface
     end
 
     def location_row
-      return {} unless application_choice.different_offer? || !@school_placement_auto_selected
+      return {} if @school_placement_auto_selected
 
       {
-        key: t('school_placements.locatino'),
+        key: t('school_placements.location'),
         value: course_option.site.name_and_address("\n"),
         action: {
           href: change_location_path,

@@ -101,7 +101,7 @@ module ProviderInterface
     end
 
     def location_row
-      return {} unless application_choice.different_offer? || !@application_choice.school_placement_auto_selected?
+      return {} if @application_choice.school_placement_auto_selected?
 
       {
         key: t('school_placements.location'),
