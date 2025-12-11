@@ -606,16 +606,16 @@ en:
         support_interface/application_forms/change_course_choice_form:
           attributes:
             provider_code:
-              invalid_provider_code: 'This is not a valid provider code'
+              invalid_provider_code: 'Enter a real provider code'
             course_code:
-              invalid_course_code: 'This is not a valid course code for this provider'
-              invalid_course_code_for_recruitment_cycle: 'This is not a valid course code for the selected recruitment cycle year'
+              invalid_course_code: 'The course associated with this code is not available with this training provider'
+              invalid_course_code_for_recruitment_cycle: 'The course associated with this code is not available in this recruitment cycle year'
             site_code:
-              invalid_site_code_for_study_mode: 'This is not a valid site code for this course and study mode'
-              invalid_site_code: 'This is not a valid site code for this course'
+              invalid_site_code_for_study_mode: 'This site code is not available for this course and study mode.'
+              invalid_site_code: 'This site code is not available with this training provider'
             study_mode:
-              invalid_study_mode: 'This is not a valid study mode for this course'
-              invalid_study_mode_for_site: 'This is not a valid study mode for this course and site code'
+              invalid_study_mode: 'This study mode is not available for this course'
+              invalid_study_mode_for_site: 'This study mode is not available with this training provider at this site'
   activerecord:
     attributes:
       application_qualification/qualification_type:

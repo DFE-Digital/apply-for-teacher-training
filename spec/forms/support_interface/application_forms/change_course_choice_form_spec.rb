@@ -66,7 +66,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
         )
 
         form.save(application_choice.id)
-        expect(form.errors[:provider_code]).to include('This is not a valid provider code')
+        expect(form.errors[:provider_code]).to include('Enter a real provider code')
       end
     end
 
@@ -89,7 +89,9 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
         )
 
         form.save(application_choice.id)
-        expect(form.errors[:course_code]).to include('This is not a valid course code for this provider')
+        expect(form.errors[:course_code]).to include(
+          'The course associated with this code is not available with this training provider',
+        )
       end
 
       context 'when the course code is not valid for the recruitment cycle' do
@@ -112,7 +114,9 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
           )
 
           form.save(application_choice.id)
-          expect(form.errors[:course_code]).to include('This is not a valid course code for the selected recruitment cycle year')
+          expect(form.errors[:course_code]).to include(
+            'The course associated with this code is not available in this recruitment cycle year',
+          )
         end
       end
     end
@@ -137,7 +141,9 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
 
         form.save(application_choice.id)
 
-        expect(form.errors[:study_mode]).to include('This is not a valid study mode for this course and site code')
+        expect(form.errors[:study_mode]).to include(
+          'This study mode is not available with this training provider at this site',
+        )
       end
 
       context 'if the study mode is not valid for the given site' do
@@ -161,7 +167,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
 
           form.save(application_choice.id)
 
-          expect(form.errors[:study_mode]).to include('This is not a valid study mode for this course')
+          expect(form.errors[:study_mode]).to include('This study mode is not available for this course')
         end
       end
     end
@@ -186,7 +192,9 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
 
         form.save(application_choice.id)
 
-        expect(form.errors[:site_code]).to include('This is not a valid site code for this course and study mode')
+        expect(form.errors[:site_code]).to include(
+          'This site code is not available for this course and study mode.',
+        )
       end
 
       context 'if the site code is not valid for the given study mode' do
@@ -210,7 +218,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
 
           form.save(application_choice.id)
 
-          expect(form.errors[:site_code]).to include('This is not a valid site code for this course')
+          expect(form.errors[:site_code]).to include('This site code is not available with this training provider')
         end
       end
     end
