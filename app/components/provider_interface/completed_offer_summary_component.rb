@@ -4,7 +4,7 @@ module ProviderInterface
     include QualificationValueHelper
 
     def rows
-      rows = [
+      [
         {
           key: 'Training provider',
           value: course_option.provider.name_and_code,
@@ -29,14 +29,8 @@ module ProviderInterface
             visually_hidden_text: 'if full time or part time',
           },
         },
-        {
-          key: location_key,
-          value: course_option.site.name_and_address("\n"),
-          action: {
-            href: change_location_path,
-            visually_hidden_text: 'location',
-          },
-        },
+        location_row,
+        accredited_body_details,
         {
           key: 'Qualification',
           value: qualification_text(course_option),
@@ -45,10 +39,7 @@ module ProviderInterface
           key: 'Funding type',
           value: course.funding_type.humanize,
         },
-      ]
-      return rows if course_option.course.accredited_provider.blank?
-
-      rows.insert(4, accredited_body_details(course_option))
+      ].compact_blank
     end
 
     def change_provider_path

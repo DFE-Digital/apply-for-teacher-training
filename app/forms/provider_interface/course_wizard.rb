@@ -51,7 +51,7 @@ module ProviderInterface
       return false unless course_id.present? && study_mode.present?
       return false unless application_choice.school_placement_auto_selected?
 
-      auto_selected_option = available_course_options.includes(:site).find do |option|
+      auto_selected_option = available_course_options.find do |option|
         option.site.main_site?
       end || available_course_options.first
 

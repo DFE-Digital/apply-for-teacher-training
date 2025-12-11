@@ -45,8 +45,8 @@ module ProviderInterface
             visually_hidden_text: 'if full time or part time',
           },
         },
-        accredited_body_details,
         location_row,
+        accredited_body_details,
         {
           key: 'Qualification',
           value: qualification_text(course_option),
@@ -106,7 +106,7 @@ module ProviderInterface
     end
 
     def location_row
-      return {} unless !@school_placement_auto_selected || application_choice.different_offer?
+      return {} if @school_placement_auto_selected
 
       {
         key: t('school_placements.location'),

@@ -374,7 +374,7 @@ module ProviderInterface
         if available_course_options.length == 1
           { course_option_id: available_course_options.first.id }
         elsif application_choice.school_placement_auto_selected?
-          auto_selected_option = available_course_options.includes(:site).find do |option|
+          auto_selected_option = available_course_options.find do |option|
             option.site.main_site?
           end || available_course_options.first
 

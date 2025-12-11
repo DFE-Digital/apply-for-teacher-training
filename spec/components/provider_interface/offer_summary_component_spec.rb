@@ -133,16 +133,16 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     let(:course) { build_stubbed(:course, study_mode: :full_time) }
     let(:school_placement_auto_selected) { true }
 
-    it 'renders no change link' do
-      expect(render).to have_content('(not selected by candidate)')
+    it 'does not render the location row' do
+      expect(render).to have_no_content('Location')
     end
   end
 
   context 'when school placement is candidate selected' do
     let(:course) { build_stubbed(:course, study_mode: :full_time) }
 
-    it 'renders no change link' do
-      expect(render).to have_content('(selected by candidate)')
+    it 'renders the location row' do
+      expect(render).to have_content('Location')
     end
   end
 
