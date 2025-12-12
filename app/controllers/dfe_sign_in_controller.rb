@@ -16,7 +16,7 @@ class DfESignInController < ActionController::Base
     @local_user = if target_path_is_support_path
                     SupportUser.find_by(dfe_sign_in_uid:)
                   else
-                    ProviderUser.find_by(dfe_sign_in_uid:)
+                    ProviderUser.find_or_onboard(omniauth_payload)
                   end
 
     if @local_user
@@ -111,6 +111,8 @@ private
     Current.support_session = nil
     cookies.delete(:support_session_id)
     cookies.delete(:provider_session_id)
+    Current.support_session&.impersonated_provider_user
+    session.delete('post_dfe_sign_in_path')
     # reset_session
   end
 

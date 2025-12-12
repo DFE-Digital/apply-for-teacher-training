@@ -7,6 +7,10 @@ module ProviderInterface
     def new
       redirect_to provider_interface_applications_path and return if impersonation?
 
+      # Might be good to add a session path here
+      # like on support interface
+      # This might fix the issue where you switch between support/sign-in
+      # and provider/sign-in by changing the url
       if FeatureFlag.active?('dfe_sign_in_fallback')
         @provider_user = ProviderUser.new
 

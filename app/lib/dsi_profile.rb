@@ -19,7 +19,7 @@ class DsiProfile
 
     fields_to_update = {}
     if local_user.dfe_sign_in_uid && email_address.present?
-      fields_to_update[:email_address] = dfe_user.email_address
+      fields_to_update[:email_address] = email_address
     end
     fields_to_update[:first_name] = first_name if first_name.present?
     fields_to_update[:last_name] = last_name if last_name.present?

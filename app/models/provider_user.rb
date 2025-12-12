@@ -37,17 +37,6 @@ class ProviderUser < ApplicationRecord
     where(id: users_that_user_can_see)
   }
 
-  def self.load_from_session(session)
-    dfe_sign_in_user = DfESignInUser.load_from_session(session)
-    return unless dfe_sign_in_user
-
-    impersonation = ProviderImpersonation.load_from_session(session)
-    return impersonation.provider_user if impersonation
-
-    provider_user = ProviderUser.find_by dfe_sign_in_uid: dfe_sign_in_user.dfe_sign_in_uid
-    provider_user || onboard!(dfe_sign_in_user)
-  end
-
   def self.load_from_db
     return unless Current.provider_session || Current.support_session
 
@@ -59,15 +48,21 @@ class ProviderUser < ApplicationRecord
       return impersonated_provider_user
     end
 
-    # figure out onbording
-    provider_user # || onboard!(dfe_sign_in_user)
+    provider_user
   end
 
-  def self.onboard!(dsi_user)
-    provider_user = ProviderUser.find_by email_address: dsi_user.email_address
-    if provider_user && provider_user.dfe_sign_in_uid.nil?
-      provider_user.update!(dfe_sign_in_uid: dsi_user.dfe_sign_in_uid)
-      provider_user
+  def self.find_or_onboard(omniauth_payload)
+    dfe_sign_in_uid = omniauth_payload['uid']
+    email_address = omniauth_payload.dig('info', 'email')
+
+    user_with_dfe_sign_in_uid = ProviderUser.find_by(dfe_sign_in_uid:)
+    return user_with_dfe_sign_in_uid if user_with_dfe_sign_in_uid.present?
+
+    user_without_dfe_sign_in_uid = ProviderUser.find_by(email_address:, dfe_sign_in_uid: nil)
+
+    if user_without_dfe_sign_in_uid
+      user_without_dfe_sign_in_uid.update!(dfe_sign_in_uid:)
+      user_without_dfe_sign_in_uid
     end
   end
 
