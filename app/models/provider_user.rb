@@ -9,6 +9,8 @@ class ProviderUser < ApplicationRecord
   has_one :find_a_candidate_not_seen_filter, -> { find_candidates_not_seen.order(updated_at: :desc) }, class_name: 'ProviderUserFilter'
   has_one :find_candidates_invited_filter, -> { find_candidates_invited.order(updated_at: :desc) }, class_name: 'ProviderUserFilter'
 
+  has_many :dfe_signin_sessions, as: :user, dependent: :destroy
+
   has_many :pool_views, -> { status_viewed }, class_name: 'ProviderPoolAction', foreign_key: 'actioned_by_id'
   has_many :provider_user_filters
   has_one :notification_preferences, class_name: 'ProviderUserNotificationPreferences'
@@ -35,22 +37,32 @@ class ProviderUser < ApplicationRecord
     where(id: users_that_user_can_see)
   }
 
-  def self.load_from_session(session)
-    dfe_sign_in_user = DfESignInUser.load_from_session(session)
-    return unless dfe_sign_in_user
+  def self.load_from_db
+    return unless Current.provider_session || Current.support_session
 
-    impersonation = ProviderImpersonation.load_from_session(session)
-    return impersonation.provider_user if impersonation
+    impersonator = Current.support_session&.user
+    impersonated_provider_user = Current.support_session&.impersonated_provider_user
+    provider_user = Current.provider_session&.user
 
-    provider_user = ProviderUser.find_by dfe_sign_in_uid: dfe_sign_in_user.dfe_sign_in_uid
-    provider_user || onboard!(dfe_sign_in_user)
+    if impersonator.present? && impersonated_provider_user.present?
+      return impersonated_provider_user
+    end
+
+    provider_user
   end
 
-  def self.onboard!(dsi_user)
-    provider_user = ProviderUser.find_by email_address: dsi_user.email_address
-    if provider_user && provider_user.dfe_sign_in_uid.nil?
-      provider_user.update!(dfe_sign_in_uid: dsi_user.dfe_sign_in_uid)
-      provider_user
+  def self.find_or_onboard(omniauth_payload)
+    dfe_sign_in_uid = omniauth_payload['uid']
+    email_address = omniauth_payload.dig('info', 'email')
+
+    user_with_dfe_sign_in_uid = ProviderUser.find_by(dfe_sign_in_uid:)
+    return user_with_dfe_sign_in_uid if user_with_dfe_sign_in_uid.present?
+
+    user_without_dfe_sign_in_uid = ProviderUser.find_by(email_address:, dfe_sign_in_uid: nil)
+
+    if user_without_dfe_sign_in_uid
+      user_without_dfe_sign_in_uid.update!(dfe_sign_in_uid:)
+      user_without_dfe_sign_in_uid
     end
   end
 

@@ -1,11 +1,16 @@
 module ProviderInterface
   class SessionsController < ProviderInterfaceController
     skip_before_action :authenticate_provider_user!, except: :destroy
+    skip_before_action :require_authentication, except: :destroy
     skip_before_action :redirect_if_setup_required
 
     def new
       redirect_to provider_interface_applications_path and return if impersonation?
 
+      # Might be good to add a session path here
+      # like on support interface
+      # This might fix the issue where you switch between support/sign-in
+      # and provider/sign-in by changing the url
       if FeatureFlag.active?('dfe_sign_in_fallback')
         @provider_user = ProviderUser.new
 
@@ -14,13 +19,13 @@ module ProviderInterface
     end
 
     def destroy
-      post_signout_redirect = if dfe_sign_in_user.needs_dsi_signout?
-                                dfe_sign_in_user.provider_interface_dsi_logout_url
-                              else
+      post_signout_redirect = if DfESignIn.bypass?
                                 provider_interface_path
+                              else
+                                dsi_logout_url(interface: :provider)
                               end
 
-      DfESignInUser.end_session!(session)
+      terminate_session
       redirect_to post_signout_redirect, allow_other_host: true
     end
 
