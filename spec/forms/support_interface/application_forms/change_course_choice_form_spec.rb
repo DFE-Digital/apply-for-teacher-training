@@ -87,6 +87,23 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
         end
       end
 
+      context 'if the provider code is too short' do
+        it 'raises a validation error' do
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: '1',
+            course_code: course_option.course.code,
+            study_mode: course_option.course.study_mode,
+            site_code: course_option.site.code,
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+          expect(form.errors[:provider_code]).to include('Provider code must be 3 characters')
+        end
+      end
+
       context 'if the provider code contains lower case letters' do
         it 'raises a validation error' do
           form = described_class.new(
@@ -138,6 +155,23 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
             application_choice_id: application_choice.id,
             provider_code: course_option.provider.code,
             course_code: 'ZZZZZZZZ',
+            study_mode: course_option.course.study_mode,
+            site_code: course_option.site.code,
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+          expect(form.errors[:course_code]).to include('Course code must be 4 characters')
+        end
+      end
+
+      context 'if the course code is too short' do
+        it 'raises a validation error' do
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: course_option.provider.code,
+            course_code: 'Z',
             study_mode: course_option.course.study_mode,
             site_code: course_option.site.code,
             audit_comment_ticket: zendesk_ticket,
@@ -270,6 +304,26 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
             course_code: course_option.course.code,
             study_mode: course_option.course.study_mode,
             site_code: 'ZZZZ',
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+
+          expect(form.errors[:site_code]).to include(
+            'Site code must be 2 characters',
+          )
+        end
+      end
+
+      context 'if the site code is too short' do
+        it 'raises a validation error' do
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: course_option.provider.code,
+            course_code: course_option.course.code,
+            study_mode: course_option.course.study_mode,
+            site_code: 'Z',
             audit_comment_ticket: zendesk_ticket,
             accept_guidance: true,
           )

@@ -61,8 +61,8 @@ module SupportInterface
       def provider_exists
         return if provider.present?
 
-        if provider_code.to_s.length.to_i > 3
-          errors.add(:provider_code, :too_long)
+        if provider_code.to_s.length.to_i != 3
+          errors.add(:provider_code, :invalid_length)
         elsif !provider_code.to_s.match?(/[0-9A-Z]{3}/)
           errors.add(:provider_code, :invalid_format)
         else
@@ -73,8 +73,8 @@ module SupportInterface
       def course_exists
         return if course.present?
 
-        if course_code.to_s.length.to_i > 4
-          errors.add(:course_code, :too_long)
+        if course_code.to_s.length.to_i != 4
+          errors.add(:course_code, :invalid_length)
         elsif !course_code.to_s.match?(/[0-9A-Z]{4}/)
           errors.add(:course_code, :invalid_format)
         elsif provider.present? && provider.courses.find_by(code: course_code).present?
@@ -97,8 +97,8 @@ module SupportInterface
       def site_exists
         return if course_option.present?
 
-        if site_code.to_s.length.to_i > 2
-          errors.add(:site_code, :too_long)
+        if site_code.to_s.length.to_i != 2
+          errors.add(:site_code, :invalid_length)
         elsif !site_code.to_s.match?(/[A-Z]{2}/)
           errors.add(:site_code, :invalid_format)
         elsif option_study_mode.present?
