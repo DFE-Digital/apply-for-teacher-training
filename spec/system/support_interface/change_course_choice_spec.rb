@@ -78,10 +78,10 @@ RSpec.describe 'Change course choice' do
         application_choice_id: @application_choice.id,
       ),
     )
-    expect(page).to have_content('Please enter a provider code')
-    expect(page).to have_content('Please enter a course code')
+    expect(page).to have_content('Enter a provider code')
+    expect(page).to have_content('Enter a course code')
     expect(page).to have_content('Select a study mode option')
-    expect(page).to have_content('Please enter a site code')
+    expect(page).to have_content('Enter a site code')
     expect(page).to have_content('Enter a Zendesk ticket URL')
     expect(page).to have_content('Select that you have read the guidance')
   end

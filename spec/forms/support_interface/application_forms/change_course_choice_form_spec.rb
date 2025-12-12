@@ -142,7 +142,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
             site_code: course_option.site.code,
             audit_comment_ticket: zendesk_ticket,
             accept_guidance: true,
-            )
+          )
 
           form.save(application_choice.id)
           expect(form.errors[:course_code]).to include('Course code must be 4 characters')
@@ -159,7 +159,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
             site_code: course_option.site.code,
             audit_comment_ticket: zendesk_ticket,
             accept_guidance: true,
-            )
+          )
 
           form.save(application_choice.id)
           expect(form.errors[:course_code]).to include(
@@ -272,7 +272,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
             site_code: 'ZZZZ',
             audit_comment_ticket: zendesk_ticket,
             accept_guidance: true,
-            )
+          )
 
           form.save(application_choice.id)
 
@@ -282,7 +282,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
         end
       end
 
-      context `if the site code contains lower case letters` do
+      context 'if the site code contains lower case letters' do
         it 'raises a validation error' do
           form = described_class.new(
             application_choice_id: application_choice.id,
@@ -292,7 +292,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
             site_code: 'Zz',
             audit_comment_ticket: zendesk_ticket,
             accept_guidance: true,
-            )
+          )
 
           form.save(application_choice.id)
 
@@ -304,7 +304,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
 
       context 'if the site code is not valid for the given study mode' do
         it 'raises a validation error' do
-          another_site = create(:site, provider: course_option.provider, code: "QQ")
+          another_site = create(:site, provider: course_option.provider, code: 'QQ')
 
           form = described_class.new(
             application_choice_id: application_choice.id,

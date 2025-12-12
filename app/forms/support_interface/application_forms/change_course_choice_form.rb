@@ -131,10 +131,10 @@ module SupportInterface
     private
 
       def strip_whitespace_from_attributes
-        self.provider_code = self.provider_code.strip unless self.provider_code.nil?
-        self.course_code = self.course_code.strip unless self.course_code.nil?
-        self.site_code = self.site_code.strip unless self.site_code.nil?
-        self.audit_comment_ticket = self.audit_comment_ticket.strip unless self.audit_comment_ticket.nil?
+        self.provider_code = provider_code.strip unless provider_code.nil?
+        self.course_code = course_code.strip unless course_code.nil?
+        self.site_code = site_code.strip unless site_code.nil?
+        self.audit_comment_ticket = audit_comment_ticket.strip unless audit_comment_ticket.nil?
       end
 
       def provider
