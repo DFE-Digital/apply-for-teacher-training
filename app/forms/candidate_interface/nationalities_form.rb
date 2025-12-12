@@ -3,7 +3,9 @@ module CandidateInterface
     include ActiveModel::Model
 
     attr_accessor :first_nationality, :second_nationality, :british, :irish, :other,
-                  :other_nationality1, :other_nationality2, :other_nationality3, :nationalities
+                  :other_nationality1, :other_nationality2, :other_nationality3,
+                  :other_nationality1_raw, :other_nationality2_raw, :other_nationality3_raw,
+                  :nationalities
 
     validates :first_nationality, :second_nationality, :other_nationality1, :other_nationality2, :other_nationality3,
               inclusion: { in: NATIONALITY_DEMONYMS, allow_blank: true }
@@ -50,9 +52,14 @@ module CandidateInterface
 
     def candidate_provided_nationality
       errors.add(:nationalities, :blank) if [british, irish, other].all?(&:blank?)
-      if other.present? && other_nationality1.blank?
+
+      if other.present? && (other_nationality1.blank? || other_nationality1_raw.blank?)
         # 'nationalities' needs to be set in order for govuk form builder to be able to display this error
         self.nationalities = ['other', british, irish].compact
+        errors.add(:other_nationality1, :blank)
+      end
+
+      if other.present? && other_nationality1_raw.present? && NATIONALITY_DEMONYMS.exclude?(other_nationality1_raw)
         errors.add(:other_nationality1, :blank)
       end
     end
