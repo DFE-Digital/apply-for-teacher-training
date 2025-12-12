@@ -108,13 +108,26 @@ en:
         support_interface/application_forms/change_course_choice_form:
           attributes:
             provider_code:
-              blank: Please enter a provider code
+              blank: Enter a provider code
+              invalid_provider_code: Enter a real provider code
+              too_long: Provider code must be 3 characters
+              invalid_format: Provider code can only contain upper case letters A to Z and numbers 0 to 9
             course_code:
-              blank: Please enter a course code
+              blank: Enter a course code
+              invalid_course_code: The course associated with this code is not available with this training provider
+              invalid_course_code_for_recruitment_cycle: The course associated with this code is not available in this recruitment cycle year
+              too_long: Course code must be 4 characters
+              invalid_format: Course code can only contain upper case letters A to Z and numbers 0 to 9
+            site_code:
+              blank: Enter a site code
+              invalid_site_code_for_study_mode: This site code is not available for this course and study mode.
+              invalid_site_code: This site code is not available with this training provider
+              too_long: Site code must be 2 characters
+              invalid_format: Site code can only contain upper case letters A to Z
             study_mode:
               blank: Select a study mode option
-            site_code:
-              blank: Please enter a site code
+              invalid_study_mode: This study mode is not available for this course
+              invalid_study_mode_for_site: This study mode is not available with this training provider at this site
             accept_guidance:
               blank: Select that you have read the guidance
             audit_comment_ticket:

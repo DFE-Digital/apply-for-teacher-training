@@ -2,6 +2,7 @@ module SupportInterface
   module ApplicationForms
     class ChangeCourseChoiceForm
       include ActiveModel::Model
+      include ActiveModel::Validations::Callbacks
 
       attr_accessor :application_choice_id,
                     :application_choice,
@@ -15,13 +16,15 @@ module SupportInterface
                     :checkbox_rendered
       attr_writer :recruitment_cycle_year
 
+      before_validation :strip_whitespace_from_attributes
+
       validates :provider_code, :course_code, :study_mode, :site_code, :accept_guidance, :audit_comment_ticket, presence: true
       validates :confirm_course_change, presence: true, if: :checkbox_rendered?
 
       validate :provider_exists
-      validate :course_exists, if: :provider_present?
+      validate :course_exists
       validate :study_mode_exists, if: :course_present?
-      validate :site_exists, if: :course_present?
+      validate :site_exists
 
       delegate :present?, to: :provider, prefix: true
       delegate :present?, to: :course, prefix: true
@@ -56,13 +59,25 @@ module SupportInterface
       end
 
       def provider_exists
-        errors.add(:provider_code, :invalid_provider_code) if provider.blank?
+        return if provider.present?
+
+        if provider_code.to_s.length.to_i > 3
+          errors.add(:provider_code, :too_long)
+        elsif !provider_code.to_s.match?(/[0-9A-Z]{3}/)
+          errors.add(:provider_code, :invalid_format)
+        else
+          errors.add(:provider_code, :invalid_provider_code)
+        end
       end
 
       def course_exists
         return if course.present?
 
-        if provider.courses.find_by(code: course_code).present?
+        if course_code.to_s.length.to_i > 4
+          errors.add(:course_code, :too_long)
+        elsif !course_code.to_s.match?(/[0-9A-Z]{4}/)
+          errors.add(:course_code, :invalid_format)
+        elsif provider.present? && provider.courses.find_by(code: course_code).present?
           errors.add(:course_code, :invalid_course_code_for_recruitment_cycle)
         else
           errors.add(:course_code, :invalid_course_code)
@@ -82,7 +97,11 @@ module SupportInterface
       def site_exists
         return if course_option.present?
 
-        if option_study_mode.present?
+        if site_code.to_s.length.to_i > 2
+          errors.add(:site_code, :too_long)
+        elsif !site_code.to_s.match?(/[A-Z]{2}/)
+          errors.add(:site_code, :invalid_format)
+        elsif option_study_mode.present?
           errors.add(:site_code, :invalid_site_code_for_study_mode)
         elsif site.blank?
           errors.add(:site_code, :invalid_site_code)
@@ -111,6 +130,13 @@ module SupportInterface
 
     private
 
+      def strip_whitespace_from_attributes
+        self.provider_code = self.provider_code.strip unless self.provider_code.nil?
+        self.course_code = self.course_code.strip unless self.course_code.nil?
+        self.site_code = self.site_code.strip unless self.site_code.nil?
+        self.audit_comment_ticket = self.audit_comment_ticket.strip unless self.audit_comment_ticket.nil?
+      end
+
       def provider
         return @provider if defined?(@provider)
 
@@ -128,22 +154,29 @@ module SupportInterface
       end
 
       def course_option
+        return if course_options.blank?
         return @course_option if defined?(@course_option)
 
         @course_option = course_options.find_by(site: { code: site_code }, study_mode:)
       end
 
       def course_options
+        return if course.blank?
+
         @course_options ||= course.course_options.joins(:site)
       end
 
       def site
+        return if course_options.blank?
+
         return @site if defined?(@site)
 
         @site = course_options.find_by(site: { code: site_code })
       end
 
       def option_study_mode
+        return if course_options.blank?
+
         return @option_study_mode if defined?(@option_study_mode)
 
         @option_study_mode = course_options.find_by(study_mode:)
