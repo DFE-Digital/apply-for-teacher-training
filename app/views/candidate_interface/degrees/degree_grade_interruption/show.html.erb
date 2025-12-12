@@ -3,8 +3,8 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <div class="app-grid-column--grey">
-      <h1 class="govuk-heading-l"><%= t('degrees.degree_grade_interruption.header') %></h1>
-      <p class="govuk-body">  <%= t('degrees.degree_grade_interruption.requirement', highest_required_grade: t("degrees.degree_grade_interruption.required_grades.#{@highest_required_grade}")) %></p>
+      <h1 class="govuk-heading-l"><%= t('degrees.degree_grade_interruption.header', count: @multiple_application_choices) %></h1>
+      <p class="govuk-body">  <%= t('degrees.degree_grade_interruption.requirement', count: @multiple_application_choices, highest_required_grade: t("degrees.degree_grade_interruption.required_grades.#{@highest_required_grade}")) %></p>
       <p class="govuk-body"><%= t('degrees.degree_grade_interruption.your_degree', highest_candidate_grade: t("degrees.degree_grade_interruption.candidate_grades.#{@highest_candidate_grade}")) %></p>
       <p class="govuk-body"><%= t('degrees.degree_grade_interruption.provider_might_not') %></p>
       <p class="govuk-body"><%= t('degrees.degree_grade_interruption.if_you_decide_html', link: govuk_link_to(t('degrees.degree_grade_interruption.search_another'), I18n.t('find_teacher_training.production_url'))) %></p>

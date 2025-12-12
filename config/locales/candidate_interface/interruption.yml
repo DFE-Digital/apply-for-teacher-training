@@ -67,8 +67,12 @@ en:
       save_application_button_text: Save this application as a draft
   degrees:
     degree_grade_interruption:
-      header: Your degree grade does not match the eligibility criteria for one or more of the courses you have drafted applications for
-      requirement: One or more of the courses you have drafted applications for requires a degree grade of %{highest_required_grade}.
+      header:
+        one: Your degree grade does not match the eligibility criteria for this course
+        other: Your degree grade does not match the eligibility criteria for one or more of the courses you have drafted applications for
+      requirement:
+        one: This course requires a degree grade of %{highest_required_grade}.
+        other: One or more of the courses you have drafted applications for requires a degree grade of %{highest_required_grade}.
       your_degree: You have said that your degree is a %{highest_candidate_grade}.
       provider_might_not: The training provider might not be able to progress your application.
       if_you_decide_html: If you decide not to submit this application, you can %{link} and apply the degree grade filter. Then you will only see courses which match your qualifications.
