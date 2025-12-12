@@ -18,7 +18,7 @@ module SupportInterface
 
       before_validation :strip_whitespace_from_attributes
 
-      validates :provider_code, :course_code, :study_mode, :site_code, :accept_guidance, :audit_comment_ticket, presence: true
+      validates :provider_code, :course_code, :study_mode, :site_code, :audit_comment_ticket, :accept_guidance, presence: true
       validates :confirm_course_change, presence: true, if: :checkbox_rendered?
 
       validate :provider_exists
