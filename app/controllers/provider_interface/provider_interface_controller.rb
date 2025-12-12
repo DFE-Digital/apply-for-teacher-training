@@ -162,7 +162,7 @@ module ProviderInterface
         provider_user_admin_url: support_interface_provider_user_url(current_provider_user),
       }
 
-      if (impersonator = current_provider_user.impersonator)
+      if (impersonator = Current.support_session&.user)
         information[:dfe_sign_in_uid] = impersonator.dfe_sign_in_uid
         information[:support_user_email] = impersonator.email_address
         information[:support_user_admin_url] = support_interface_support_user_url(impersonator)

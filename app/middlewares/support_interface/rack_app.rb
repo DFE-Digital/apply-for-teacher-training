@@ -5,14 +5,15 @@ module SupportInterface
     end
 
     def call(env)
-      # This needs to work with the DB sessions as well
-      # mount SupportInterface::RackApp.new(Sidekiq::Web) => '/sidekiq', as: :sidekiq
-      # mount SupportInterface::RackApp.new(Blazer::Engine) => '/blazer', as: :blazer
-      # mount SupportInterface::RackApp.new(FieldTest::Engine) => '/field-test', as: :field_test
-      #
-      request = Rack::Request.new(env)
+      request = ActionDispatch::Request.new(env)
+      session = DfESigninSession.find_by(
+        'id = ? AND updated_at > ? AND user_type = ?',
+        request.cookie_jar.signed[:support_session_id],
+        2.hours.ago,
+        'SupportUser',
+      )
 
-      if SupportUser.load_from_session(request.session)
+      if session
         @app.call(env)
       else
         request.session['post_dfe_sign_in_path'] = request.fullpath

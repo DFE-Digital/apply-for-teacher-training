@@ -32,6 +32,7 @@ private
   end
 
   def find_session_by_cookie
+    # there's a similar method to this in rack_app.rb
     DfESigninSession.find_by(
       'id = ? AND updated_at > ? AND user_type = ?',
       cookies.signed[:support_session_id],

@@ -56,7 +56,6 @@ class ProviderUser < ApplicationRecord
     provider_user = Current.provider_session&.user
 
     if impersonator.present? && impersonated_provider_user.present?
-      impersonated_provider_user.impersonator = impersonator
       return impersonated_provider_user
     end
 

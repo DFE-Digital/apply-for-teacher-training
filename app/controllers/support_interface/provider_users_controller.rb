@@ -31,6 +31,7 @@ module SupportInterface
         same_site: :lax,
         secure: HostingEnvironment.production? || HostingEnvironment.sandbox_mode? || HostingEnvironment.qa?,
       }
+
       redirect_to support_interface_provider_user_path(@provider_user)
     end
 

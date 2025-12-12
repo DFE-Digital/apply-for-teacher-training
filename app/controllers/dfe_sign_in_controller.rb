@@ -1,9 +1,6 @@
 class DfESignInController < ActionController::Base
-  include DfESigninAuth
-
-  skip_before_action :require_authentication
-
   # You can still go to provider/sign-in after you are signed in as provider
+  # Same for support
   protect_from_forgery except: :bypass_callback
 
   SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN = %w[session_id impersonated_provider_user].freeze
@@ -107,6 +104,14 @@ private
         user.update!(last_signed_in_at: Time.zone.now)
       end
     # end
+  end
+
+  def terminate_session
+    Current.support_session&.delete
+    Current.support_session = nil
+    cookies.delete(:support_session_id)
+    cookies.delete(:provider_session_id)
+    # reset_session
   end
 
   def change_session_id_and_drop_provider_impersonation
