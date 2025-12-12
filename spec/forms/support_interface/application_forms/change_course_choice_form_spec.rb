@@ -47,14 +47,191 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
       end
     end
 
-    context 'if the new course is not a valid choice' do
-      it 'raises a CourseChoiceError error' do
-        original_course_option = create(:course_option)
-        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+    context 'if the provider code is not a valid entry' do
+      let(:original_course_option) { create(:course_option) }
+      let(:application_choice) do
+        create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+      end
+      let(:course_option) { create(:course_option, study_mode: :full_time) }
+      let(:zendesk_ticket) { 'https://becomingateacher.zendesk.com/agent/tickets/12345' }
 
-        course_option = create(:course_option, study_mode: :full_time)
-        zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+      it 'raises a validation error' do
+        form = described_class.new(
+          application_choice_id: application_choice.id,
+          provider_code: '111',
+          course_code: course_option.course.code,
+          study_mode: course_option.course.study_mode,
+          site_code: course_option.site.code,
+          audit_comment_ticket: zendesk_ticket,
+          accept_guidance: true,
+        )
 
+        form.save(application_choice.id)
+        expect(form.errors[:provider_code]).to include('Enter a real provider code')
+      end
+
+      context 'if the provider code is too long' do
+        it 'raises a validation error' do
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: '111ABC',
+            course_code: course_option.course.code,
+            study_mode: course_option.course.study_mode,
+            site_code: course_option.site.code,
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+          expect(form.errors[:provider_code]).to include('Provider code must be 3 characters')
+        end
+      end
+
+      context 'if the provider code is too short' do
+        it 'raises a validation error' do
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: '1',
+            course_code: course_option.course.code,
+            study_mode: course_option.course.study_mode,
+            site_code: course_option.site.code,
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+          expect(form.errors[:provider_code]).to include('Provider code must be 3 characters')
+        end
+      end
+
+      context 'if the provider code contains lower case letters' do
+        it 'raises a validation error' do
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: '11a',
+            course_code: course_option.course.code,
+            study_mode: course_option.course.study_mode,
+            site_code: course_option.site.code,
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+          expect(form.errors[:provider_code]).to include(
+            'Provider code can only contain upper case letters A to Z and numbers 0 to 9',
+          )
+        end
+      end
+    end
+
+    context 'if the course code is not a valid entry' do
+      let(:original_course_option) { create(:course_option) }
+      let(:application_choice) do
+        create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+      end
+      let(:course_option) { create(:course_option, study_mode: :full_time) }
+      let(:zendesk_ticket) { 'https://zendesk.com/agent/tickets/12345' }
+
+      it 'raises a validation error' do
+        form = described_class.new(
+          application_choice_id: application_choice.id,
+          provider_code: course_option.provider.code,
+          course_code: 'ZZZZ',
+          study_mode: course_option.course.study_mode,
+          site_code: course_option.site.code,
+          audit_comment_ticket: zendesk_ticket,
+          accept_guidance: true,
+        )
+
+        form.save(application_choice.id)
+        expect(form.errors[:course_code]).to include(
+          'The course associated with this code is not available with this training provider',
+        )
+      end
+
+      context 'if the course code is too long' do
+        it 'raises a validation error' do
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: course_option.provider.code,
+            course_code: 'ZZZZZZZZ',
+            study_mode: course_option.course.study_mode,
+            site_code: course_option.site.code,
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+          expect(form.errors[:course_code]).to include('Course code must be 4 characters')
+        end
+      end
+
+      context 'if the course code is too short' do
+        it 'raises a validation error' do
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: course_option.provider.code,
+            course_code: 'Z',
+            study_mode: course_option.course.study_mode,
+            site_code: course_option.site.code,
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+          expect(form.errors[:course_code]).to include('Course code must be 4 characters')
+        end
+      end
+
+      context 'if the course code contains lower case letters' do
+        it 'raises a validation error' do
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: course_option.provider.code,
+            course_code: 'ZZZz',
+            study_mode: course_option.course.study_mode,
+            site_code: course_option.site.code,
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+          expect(form.errors[:course_code]).to include(
+            'Course code can only contain upper case letters A to Z and numbers 0 to 9',
+          )
+        end
+      end
+
+      context 'when the course code is not valid for the recruitment cycle' do
+        it 'raises a validation error' do
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: course_option.provider.code,
+            course_code: course_option.course.code,
+            study_mode: course_option.course.study_mode,
+            site_code: course_option.site.code,
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+            recruitment_cycle_year: course_option.course.recruitment_cycle_year - 1,
+          )
+
+          form.save(application_choice.id)
+          expect(form.errors[:course_code]).to include(
+            'The course associated with this code is not available in this recruitment cycle year',
+          )
+        end
+      end
+    end
+
+    context 'if the study mode is not valid of the given course' do
+      let(:original_course_option) { create(:course_option) }
+      let(:application_choice) do
+        create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+      end
+      let(:course_option) { create(:course_option, study_mode: :full_time) }
+      let(:zendesk_ticket) { 'https://zendesk.com/agent/tickets/12345' }
+
+      it 'raises a validation error' do
         form = described_class.new(
           application_choice_id: application_choice.id,
           provider_code: course_option.provider.code,
@@ -65,29 +242,138 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
           accept_guidance: true,
         )
 
-        expect { form.save(application_choice.id) }.to raise_error(CourseChoiceError, 'This is not a valid course option')
+        form.save(application_choice.id)
+
+        expect(form.errors[:study_mode]).to include(
+          'This study mode is not available with this training provider at this site',
+        )
+      end
+
+      context 'if the study mode is not valid for the given site' do
+        it 'raises a validation error' do
+          another_site = create(:site, provider: course_option.provider)
+
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: course_option.provider.code,
+            course_code: course_option.course.code,
+            study_mode: :part_time,
+            site_code: another_site.code,
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+
+          expect(form.errors[:study_mode]).to include('This study mode is not available for this course')
+        end
       end
     end
 
-    context 'if the provider code is not a valid entry' do
-      it 'raises a CourseChoiceError error' do
-        original_course_option = create(:course_option)
-        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+    context 'if the site code is not valid of the given course' do
+      let(:original_course_option) { create(:course_option) }
+      let(:application_choice) do
+        create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+      end
+      let(:course_option) { create(:course_option, study_mode: :full_time) }
+      let(:zendesk_ticket) { 'https://zendesk.com/agent/tickets/12345' }
 
-        course_option = create(:course_option, study_mode: :full_time)
-        zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
-
+      it 'raises a validation error' do
         form = described_class.new(
           application_choice_id: application_choice.id,
-          provider_code: 'nonsense',
+          provider_code: course_option.provider.code,
           course_code: course_option.course.code,
           study_mode: course_option.course.study_mode,
-          site_code: course_option.site.code,
+          site_code: 'ZZ',
           audit_comment_ticket: zendesk_ticket,
           accept_guidance: true,
         )
 
-        expect { form.save(application_choice.id) }.to raise_error(CourseChoiceError, 'This is not a valid provider code')
+        form.save(application_choice.id)
+
+        expect(form.errors[:site_code]).to include(
+          'This site code is not available for this course and study mode.',
+        )
+      end
+
+      context 'if the site code is too long' do
+        it 'raises a validation error' do
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: course_option.provider.code,
+            course_code: course_option.course.code,
+            study_mode: course_option.course.study_mode,
+            site_code: 'ZZZZ',
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+
+          expect(form.errors[:site_code]).to include(
+            'Site code must be 2 characters',
+          )
+        end
+      end
+
+      context 'if the site code is too short' do
+        it 'raises a validation error' do
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: course_option.provider.code,
+            course_code: course_option.course.code,
+            study_mode: course_option.course.study_mode,
+            site_code: 'Z',
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+
+          expect(form.errors[:site_code]).to include(
+            'Site code must be 2 characters',
+          )
+        end
+      end
+
+      context 'if the site code contains lower case letters' do
+        it 'raises a validation error' do
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: course_option.provider.code,
+            course_code: course_option.course.code,
+            study_mode: course_option.course.study_mode,
+            site_code: 'Zz',
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+
+          expect(form.errors[:site_code]).to include(
+            'Site code can only contain upper case letters A to Z',
+          )
+        end
+      end
+
+      context 'if the site code is not valid for the given study mode' do
+        it 'raises a validation error' do
+          another_site = create(:site, provider: course_option.provider, code: 'QQ')
+
+          form = described_class.new(
+            application_choice_id: application_choice.id,
+            provider_code: course_option.provider.code,
+            course_code: course_option.course.code,
+            study_mode: :part_time,
+            site_code: another_site.code,
+            audit_comment_ticket: zendesk_ticket,
+            accept_guidance: true,
+          )
+
+          form.save(application_choice.id)
+
+          expect(form.errors[:site_code]).to include('This site code is not available with this training provider')
+        end
       end
     end
 

@@ -69,7 +69,7 @@ class NavigationItems
           {
             text: 'Providers',
             href: support_interface_providers_path,
-            active: active?(current_controller, %w[providers course provider_users api_tokens]),
+            active: active?(current_controller, %w[providers course provider_users api_tokens], %w[application_forms]),
           },
           {
             text: 'Performance',
@@ -223,10 +223,13 @@ class NavigationItems
 
   private
 
-    def active?(current_controller, active_controllers)
+    def active?(current_controller, active_controllers, excluded_controllers = [])
       active_controller_names = Array.wrap(active_controllers)
+      excluded_controller_names = Array.wrap(excluded_controllers)
       current_controller_path = current_controller.controller_path
       current_controller_name = current_controller.controller_name
+
+      return false if excluded_controller_names.any? { |controller_name| current_controller_path.include?(controller_name) }
 
       matching_name = current_controller_name.in?(active_controller_names)
       matching_path = active_controller_names.any? { |controller_name| current_controller_path.include?(controller_name) }
