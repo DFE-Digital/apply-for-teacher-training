@@ -80,7 +80,7 @@ en:
             second_nationality:
               inclusion: Select your second nationality from the list
             other_nationality1:
-              blank: If you have an additional nationality, select it from the list
+              blank: Select your nationality
               inclusion: Select your third nationality from the list
             other_nationality2:
               inclusion: Select your fourth nationality from the list
