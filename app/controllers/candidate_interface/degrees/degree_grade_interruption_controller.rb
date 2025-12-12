@@ -11,6 +11,7 @@ module CandidateInterface
       def show
         @highest_required_grade = highest_required_grade
         @highest_candidate_grade = highest_candidate_grade_key
+        @multiple_application_choices = current_application.application_choices.unsubmitted.count
       end
 
     private
