@@ -12,7 +12,7 @@ module SupportInterface
     helper_method :current_support_user, :dfe_sign_in_user
 
     def current_support_user
-      @current_support_user ||= Current.dfe_session&.support_user
+      @current_support_user ||= Current.support_session&.user
     end
 
     def dfe_sign_in_user

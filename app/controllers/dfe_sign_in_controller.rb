@@ -3,6 +3,7 @@ class DfESignInController < ActionController::Base
 
   skip_before_action :require_authentication
 
+  # You can still go to provider/sign-in after you are signed in as provider
   protect_from_forgery except: :bypass_callback
 
   SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN = %w[session_id impersonated_provider_user].freeze
@@ -11,28 +12,26 @@ class DfESignInController < ActionController::Base
     change_session_id_and_drop_provider_impersonation
     # what is this doing?
 
+    @target_path = session['post_dfe_sign_in_path']
     omniauth_payload = request.env['omniauth.auth']
     dfe_sign_in_uid = omniauth_payload['uid']
 
-    user = if candidate_interface?
-             SupportUser.find_by(dfe_sign_in_uid:)
-           else
-             ProviderUser.find_by(dfe_sign_in_uid:)
-           end
-    @local_user = user
+    @local_user = if target_path_is_support_path
+                    SupportUser.find_by(dfe_sign_in_uid:)
+                  else
+                    ProviderUser.find_by(dfe_sign_in_uid:)
+                  end
 
     if @local_user
       start_new_dsi_session(
-        user:,
+        user: @local_user,
         omniauth_payload:,
       )
       profile = DsiProfile.update_profile_from_dfe_sign_in_db(
-        dfe_user: Current.dfe_session,
+        omniauth_payload:,
         local_user: @local_user,
-      ) # do we need this?
+      )
     end
-
-    @target_path = session['post_dfe_sign_in_path'] # should we remove this and use something else?
 
     # we need to catch standard errors like in one login controller
 
@@ -47,14 +46,9 @@ class DfESignInController < ActionController::Base
         send_provider_sign_in_confirmation_email
       end
 
-      # redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
-      # check redirection to request.referrer
-      redirect_to @target_path || default_authenticated_path
+      redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
     else
       terminate_session
-      # DfESignInUser.end_session!(session)
-      # use target_path to redirect to correct controller.
-      # If we just render we will end up on the wrong path
       @dfe_sign_in_uid = dfe_sign_in_uid
       render(
         layout: 'application',
@@ -81,11 +75,46 @@ class DfESignInController < ActionController::Base
 
 private
 
+  def start_new_dsi_session(user:, omniauth_payload:)
+    ActiveRecord::Base.transaction do
+      # unless authenticated?
+        user.dfe_signin_sessions.create!(
+          user_agent: request.user_agent,
+          ip_address: request.remote_ip,
+          email_address: omniauth_payload.dig('info', 'email'),
+          dfe_sign_in_uid: omniauth_payload['uid'],
+          first_name: omniauth_payload.dig('info', 'first_name'),
+          last_name: omniauth_payload.dig('info', 'last_name'),
+          last_active_at: Time.zone.now,
+          id_token: omniauth_payload.dig('credentials', 'id_token'),
+        ).tap do |session|
+          if user.is_a?(SupportUser)
+            session_key = :support_session_id
+            Current.support_session = session
+          else
+            session_key = :provider_session_id
+            Current.provider_session = session
+          end
+
+          cookies.signed.permanent[session_key] = {
+            value: session.id,
+            httponly: true,
+            same_site: :lax,
+            secure: HostingEnvironment.production? || HostingEnvironment.sandbox_mode? || HostingEnvironment.qa?,
+          }
+        end
+
+        user.update!(last_signed_in_at: Time.zone.now)
+      end
+    # end
+  end
+
   def change_session_id_and_drop_provider_impersonation
     # what is this?
     existing_values = session.to_hash # e.g. candidate/devise login, cookie consent
     reset_session # prevents session fixation attacks and impersonation bugs
     session.update existing_values.except(*SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN)
+    cookies.delete(:impersonate_provider_user_id)
   end
 
   def send_support_sign_in_confirmation_email
@@ -124,7 +153,6 @@ private
   end
 
   def default_authenticated_path
-    # use interface?
     if @local_user.is_a?(SupportUser)
       support_interface_path
     else
@@ -133,7 +161,6 @@ private
   end
 
   def choose_error_template
-    #if candidate_interface?
     if target_path_is_support_path
       'support_interface/unauthorized'
     else

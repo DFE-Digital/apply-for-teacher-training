@@ -48,18 +48,20 @@ class ProviderUser < ApplicationRecord
     provider_user || onboard!(dfe_sign_in_user)
   end
 
-  def self.load_from_db(session)
-    # not used
-    dfe_sign_in_user = DfESignInUser.load_from_session(session)
-    return unless dfe_sign_in_user
+  def self.load_from_db
+    return unless Current.provider_session || Current.support_session
 
-    # Deal with impersonation
-    # impersonation = ProviderImpersonation.load_from_session(session)
-    # return impersonation.provider_user if impersonation
+    impersonator = Current.support_session&.user
+    impersonated_provider_user = Current.support_session&.impersonated_provider_user
+    provider_user = Current.provider_session&.user
 
-    provider_user = ProviderUser.find_by(dfe_sign_in_uid: session.dfe_sign_in_uid)
-    # deal with onboarding
-    provider_user #|| onboard!(dfe_sign_in_user)
+    if impersonator.present? && impersonated_provider_user.present?
+      impersonated_provider_user.impersonator = impersonator
+      return impersonated_provider_user
+    end
+
+    # figure out onbording
+    provider_user # || onboard!(dfe_sign_in_user)
   end
 
   def self.onboard!(dsi_user)
