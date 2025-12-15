@@ -371,7 +371,15 @@ module ProviderInterface
       when :study_modes
         { study_mode: available_study_modes.first } if available_study_modes.length == 1
       when :locations
-        { course_option_id: available_course_options.first.id } if available_course_options.length == 1
+        if available_course_options.length == 1
+          { course_option_id: available_course_options.first.id }
+        elsif application_choice.school_placement_auto_selected?
+          auto_selected_option = available_course_options.find do |option|
+            option.site.main_site?
+          end || available_course_options.first
+
+          { course_option_id: auto_selected_option.id }
+        end
       end
     end
 

@@ -3,23 +3,29 @@ module ProviderInterface
     include ViewHelper
 
     def rows
-      rows = [
+      [
         { key: 'Training provider',
           value: course_option.provider.name_and_code },
         { key: 'Course',
           value: course_option.course.name_and_code },
         { key: 'Full time or part time',
           value: course_option.study_mode.humanize },
-        { key: location_key,
-          value: course_option.site.name_and_address("\n") },
+        location_row,
+        accredited_body_details,
         { key: 'Qualification',
           value: qualification_text(course_option) },
         { key: 'Funding type',
           value: course_option.course.funding_type.humanize },
-      ]
-      return rows if course_option.course.accredited_provider.blank?
+      ].compact_blank
+    end
 
-      rows.insert(4, accredited_body_details(course_option))
+    def location_row
+      return {} unless application_choice.different_offer? || !@school_placement_auto_selected
+
+      {
+        key: t('school_placements.location'),
+        value: course_option.site.name_and_address("\n"),
+      }
     end
   end
 end
