@@ -10,7 +10,7 @@ module SelectOptionsHelper
 
   def select_country_options
     domiciles = DfE::ReferenceData::HESA::Domiciles::COUNTRIES_AND_TERRITORIES.all_as_hash
-      .except('GB', 'XC', 'XK', 'XF', 'XG', 'XH', 'XI', 'XL', 'XX', 'GB-WLS', 'GB-CYM', 'GB-SCT', 'GB-NIR', 'GB-ENG', 'IE')
+      .except('GB', 'XC', 'XK', 'XF', 'XG', 'XH', 'XI', 'XL', 'XX', 'GB-WLS', 'GB-CYM', 'GB-SCT', 'GB-NIR', 'GB-ENG')
     [
       Option.new('', t('application_form.contact_details.country.default_option')),
     ] + domiciles.map { |iso3166, country| Option.new(iso3166, country.name) }
