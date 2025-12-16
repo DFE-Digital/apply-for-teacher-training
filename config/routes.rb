@@ -23,6 +23,10 @@ Rails.application.routes.draw do
   get '/auth/developer/callback' => 'dfe_sign_in#bypass_callback'
   get '/auth/dfe/sign-out' => 'dfe_sign_in#redirect_after_dsi_signout'
 
+  get '/auth/dfe-support/callback' => 'support_dfe_sign_in#callback'
+  get '/auth/support/developer/callback' => 'support_dfe_sign_in#bypass_callback'
+  get '/auth/dfe-support/sign-out' => 'support_dfe_sign_in#redirect_after_dsi_signout'
+
   get '/auth/one-login/callback', to: 'one_login#callback'
   get '/auth/one-login-developer/callback' => 'one_login#bypass_callback'
   get '/auth/one-login/sign-out', to: 'one_login#sign_out'
