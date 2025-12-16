@@ -51,16 +51,24 @@ module CandidateInterface
   private
 
     def candidate_provided_nationality
-      errors.add(:nationalities, :blank) if [british, irish, other].all?(&:blank?)
+      errors.add(:base, :blank) if [british, irish, other].all?(&:blank?)
 
-      if other.present? && (other_nationality1.blank? || other_nationality1_raw.blank?)
+      if other.present? && other_nationality1.blank? && other_nationality1_raw.blank?
         # 'nationalities' needs to be set in order for govuk form builder to be able to display this error
         self.nationalities = ['other', british, irish].compact
-        errors.add(:other_nationality1, :blank)
+        errors.add(:base, :blank)
       end
 
       if other.present? && other_nationality1_raw.present? && NATIONALITY_DEMONYMS.exclude?(other_nationality1_raw)
-        errors.add(:other_nationality1, :blank)
+        errors.add(:base, :other_nationality_invalid)
+      end
+
+      if other.present? && other_nationality2_raw.present? && NATIONALITY_DEMONYMS.exclude?(other_nationality2_raw)
+        errors.add(:base, :other_nationality_invalid)
+      end
+
+      if other.present? && other_nationality3_raw.present? && NATIONALITY_DEMONYMS.exclude?(other_nationality3_raw)
+        errors.add(:base, :other_nationality_invalid)
       end
     end
   end
