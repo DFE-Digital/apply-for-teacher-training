@@ -11,9 +11,7 @@
     </div>
 
     <div class="govuk-button-group app-course-choice__confirm-submission">
-      <%= govuk_link_to t('degrees.degree_grade_interruption.continue'),
-                  candidate_interface_degree_review_path(interruption: true),
-                  class: 'govuk-button' %>
+          <%= govuk_button_to(t('degrees.degree_grade_interruption.continue'), candidate_interface_degree_review_path, method: :get) %>
     </div>
   </div>
 </div>

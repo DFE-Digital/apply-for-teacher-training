@@ -3,9 +3,21 @@ module CandidateInterface
     class ReviewController < BaseController
       before_action :set_completed_if_only_foundation_degrees
 
+      DEGREE_GRADES = [
+        'First class honours',
+        'First-class honours',
+        'Upper second-class honours (2:1)',
+        'Lower second-class honours (2:2)',
+        'Third-class honours',
+        'Distinction',
+        'Merit',
+        'Pass',
+      ].freeze
+
       def show
         @application_form = current_application
         @section_complete_form = SectionCompleteForm.new(completed: current_application.degrees_completed)
+        @unstructured_data_grades = unstructured_data_grades?
       end
 
       def complete
@@ -51,6 +63,11 @@ module CandidateInterface
           Hesa::DegreeType.find_by_name(degree)&.level
         end
         degree_type.all? { |level| level == :foundation }
+      end
+
+      def unstructured_data_grades?
+        grades = current_application.degree_qualifications.map(&:grade)
+        grades.any? { |grade| DEGREE_GRADES.exclude?(grade) }
       end
     end
   end
