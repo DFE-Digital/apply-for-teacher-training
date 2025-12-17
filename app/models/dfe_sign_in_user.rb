@@ -1,5 +1,5 @@
 class DfESignInUser
-  attr_reader :email_address, :dfe_sign_in_uid, :impersonated_provider_user
+  attr_reader :email_address, :dfe_sign_in_uid, :impersonated_provider_user, :id_token
   attr_accessor :first_name, :last_name
 
   # we need to be able to redirect back to our sign-out callback path
