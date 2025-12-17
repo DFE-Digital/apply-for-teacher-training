@@ -1,9 +1,11 @@
-class SupportDfESignInController < ActionController::Base
+class SupportDfESignInController < ApplicationController
   protect_from_forgery except: :bypass_callback
 
   SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN = %w[session_id impersonated_provider_user].freeze
 
   def callback
+    redirect_to auth_dfe_callback unless FeatureFlag.active?(:separate_dsi_controllers)
+
     change_session_id_and_drop_provider_impersonation
     DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
     @dfe_sign_in_user = DfESignInUser.load_from_session(session)
@@ -28,6 +30,23 @@ class SupportDfESignInController < ActionController::Base
   end
 
   alias bypass_callback callback
+
+  def destroy
+    dfe_sign_in_user = DfESignInUser.load_from_session(session)
+    post_signout_redirect = if dfe_sign_in_user.needs_dsi_signout?
+                              query = {
+                                post_logout_redirect_uri: auth_dfe_support_sign_out_url,
+                                id_token_hint: dfe_sign_in_user.id_token,
+                              }
+
+                              "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
+                            else
+                              support_interface_path
+                            end
+
+    DfESignInUser.end_session!(session)
+    redirect_to post_signout_redirect, allow_other_host: true
+  end
 
   # This is called by a redirect from DfE Sign-in after visiting the signout
   # link on DSI. We tell DSI to redirect here using the

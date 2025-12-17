@@ -3,7 +3,13 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-body-l">You must sign in to use the support console.</p>
-    <%# render(DfESignInButtonComponent.new(bypass: DfESignIn.bypass?)) %>
-    <%= govuk_button_to 'Sign in', DfESignIn.bypass? ? '/auth/support/developer' : '/auth/dfe-support' %>
+    <% if FeatureFlag.active?(:separate_dsi_controllers) %>
+      <%= govuk_button_to(
+        DfESignIn.bypass? ? 'Sign in using DfE Sign-in (bypass)' : 'Sign in using DfE Sign-in',
+        DfESignIn.bypass? ? '/auth/support/developer' : '/auth/dfe-support'
+      ) %>
+    <% else %>
+      <%= render(DfESignInButtonComponent.new(bypass: DfESignIn.bypass?)) %>
+    <% end %>
   </div>
 </div>

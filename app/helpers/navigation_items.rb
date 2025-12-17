@@ -93,16 +93,21 @@ class NavigationItems
     end
 
     def for_support_account_nav(current_support_user)
+      path_to_sign_out = if FeatureFlag.active?(:separate_dsi_controllers)
+                           auth_dfe_support_destroy_path
+                         else
+                           support_interface_sign_out_path
+                         end
       if current_support_user && (impersonated_user = current_support_user.impersonated_provider_user)
         [
           NavigationItem.new("<span aria-hidden=\"true\">🎭 ⚙️</span><span class=\"govuk-visually-hidden\">Currently impersonating: #{impersonated_user.email_address}</span>".html_safe, support_interface_provider_user_path(impersonated_user), false, []),
           NavigationItem.new(current_support_user.email_address, nil, false, []),
-          NavigationItem.new('Sign out', support_interface_sign_out_path, false, []),
+          NavigationItem.new('Sign out', path_to_sign_out, false, []),
         ]
       elsif current_support_user
         [
           NavigationItem.new(current_support_user.email_address, nil, false, []),
-          NavigationItem.new('Sign out', support_interface_sign_out_path, false, []),
+          NavigationItem.new('Sign out', path_to_sign_out, false, []),
         ]
       else
         []
@@ -186,6 +191,11 @@ class NavigationItems
 
         items << NavigationItem.new(t('page_titles.provider.account'), provider_interface_account_path, active?(current_controller, %w[account profile notifications]), [])
       end
+      path_to_sign_out_provider = if FeatureFlag.active?(:separate_dsi_controllers)
+                                    auth_dfe_destroy_path
+                                  else
+                                    provider_interface_sign_out_path
+                                  end
 
       sign_out_navigation = if current_provider_user.impersonator
                               NavigationItem.new('Support',
@@ -193,7 +203,7 @@ class NavigationItems
                                                  false, [])
                             else
                               NavigationItem.new('Sign out',
-                                                 provider_interface_sign_out_path,
+                                                 path_to_sign_out_provider,
                                                  false, [])
                             end
       items << sign_out_navigation
