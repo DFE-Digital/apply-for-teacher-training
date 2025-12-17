@@ -20,6 +20,7 @@
 18. [Changing application course to another provider](#changing-course-to-another-provider)
 19. [Generating Vendor API tokens](#generating-vendor-api-tokens)
 20. [Change application choices to main site](#changing-application-choices-to-main-site)
+21. [Previous teacher training](#previous-teacher-training)
 
 ## Support Trello board
 
@@ -918,3 +919,18 @@ Once you get the choices you are ready to run this command. Please check the que
 ProviderInterface::ChangeChoicesToMainSite.call(provider_ids: [ids])
 ```
 This should change the site on every application choice the provider has, to the main site. If there is a main site for that choice and the candidate cannot choose a site themselves.
+
+## Previous teacher training
+
+To add a previous teacher training, you can do the following:
+
+```ruby
+application_form_id = APPLICATION_FORM_ID
+provider_id = PROVIDER_ID # can be nil if not known
+provider_name = PROVIDER_NAME
+started_at = STARTED_AT # this should be Date.new(yyyy/m/d)
+ended_at = STARTED_AT # this should be Date.new(yyyy/m/d)
+details = DETAILS # up to 200 words
+
+PreviousTeacherTraining.create(application_form_id:, provider_id:, status: 'published', started: 'yes', provider_name:, started_at:, ended_at:, details:)
+```
