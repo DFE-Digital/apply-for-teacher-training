@@ -9,16 +9,6 @@
 
 <%= render 'lacks_admin_users_warning' %>
 
-<%= render TabNavigationComponent.new(items: [
-  { name: 'Details', url: support_interface_provider_path },
-  { name: 'Applications', url: support_interface_provider_applications_path },
-  { name: 'Users', url: support_interface_provider_user_list_path },
-  { name: 'Courses', url: support_interface_provider_courses_path },
-  { name: 'Relationships', url: support_interface_provider_relationships_path },
-  { name: 'Ratified courses', url: support_interface_provider_ratified_courses_path },
-  { name: 'Vacancies', url: support_interface_provider_vacancies_path },
-  { name: 'Sites', url: support_interface_provider_sites_path },
-  { name: 'History', url: support_interface_provider_history_path },
-]) %>
+<%= render 'support_interface/provider_navigation_tabs' %>
 
 <h2 class="govuk-visually-hidden"><%= title %></h2>
