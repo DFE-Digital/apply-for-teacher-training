@@ -65,3 +65,30 @@ en:
       dont_provide_enic: If you don’t include a UK ENIC statement of comparability and the provider asks for one, it could cause delays.
       continue_button_text: Continue without a UK ENIC number
       save_application_button_text: Save this application as a draft
+  degrees:
+    degree_grade_interruption:
+      header:
+        one: Your degree grade does not match the eligibility criteria for the course you have drafted an application for
+        other: Your degree grade does not match the eligibility criteria for one or more of the courses you have drafted applications for
+      requirement:
+        one: The course you have drafted an application for requires a degree grade of %{highest_required_grade}.
+        other: One or more of the courses you have drafted applications for requires a degree grade of %{highest_required_grade}.
+      your_degree: You have said that your degree is a %{highest_candidate_grade}.
+      provider_might_not: The training provider might not be able to progress your application.
+      you_can_enter:
+        one: You can either remove the application you have drafted and search for a course which accepts a %{highest_candidate_grade} degree grade, or add another degree with a higher grade.
+        other: You can either remove the application you have drafted to the course that requires a %{highest_required_grade} degree grade and search for a course which accepts %{highest_candidate_grade} degrees, or add another degree with a higher grade.
+      continue: Continue to save this degree
+      search_another: search for another course
+      search_different: Search for a different course
+      candidate_grades:
+        first_class_honours: first-class honours
+        upper_second_class_honours: upper second-class honours (2:1)
+        lower_second_class_honours: lower second-class honours (2:2)
+        third_class_honours: third-class honours
+        pass: pass
+      required_grades:
+        two_one: 2:1 or higher (or equivalent)
+        two_two: 2:2 or higher (or equivalent)
+        third_class: third-class or higher (or equivalent)
+        not_required: any grade

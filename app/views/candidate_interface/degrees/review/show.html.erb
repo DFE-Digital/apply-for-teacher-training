@@ -29,10 +29,17 @@
   <% end %>
 
   <% unless degree_empty_component.render? %>
-    <%= render CandidateInterface::CompleteSectionComponent.new(
-      section_policy: @section_policy,
-      form: f,
-      hint_text: t('application_form.degree.review.complete_hint_text_html'),
-    ) %>
+    <% if @unstructured_data_grades %>
+      <%= render CandidateInterface::CompleteSectionComponent.new(
+        section_policy: @section_policy,
+        form: f,
+        hint_text: t('application_form.degree.review.complete_hint_text_html'),
+      ) %>
+    <% else %>
+      <%= render CandidateInterface::CompleteSectionComponent.new(
+        section_policy: @section_policy,
+        form: f,
+      ) %>
+    <% end %>
   <% end %>
 <% end %>

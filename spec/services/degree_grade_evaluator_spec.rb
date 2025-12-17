@@ -126,7 +126,7 @@ RSpec.describe DegreeGradeEvaluator do
   end
 
   context 'application has a degree with grade below required level but it is predicted' do
-    it 'returns below required grade true' do
+    it 'returns below required grade false' do
       create(
         :degree_qualification,
         qualification_type: 'Bachelor of Arts',
