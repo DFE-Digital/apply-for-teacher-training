@@ -1,5 +1,5 @@
 module RecruitmentPerformanceReportTimetable
-  FIRST_CYCLE_WEEK_REPORT = 27
+  FIRST_CYCLE_WEEK_REPORT = 16
   LAST_CYCLE_WEEK_REPORT = 51
 
   def self.report_season?
