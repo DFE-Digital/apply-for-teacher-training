@@ -1,7 +1,6 @@
 OmniAuth.config.logger = Rails.logger
 require 'omniauth/strategies/one_login_developer'
 
-
 # this needs to be declared inline or zeitwerk complains about autoloading during initialization
 # it cannot just be a local function as other parts of the codebase depend on it
 module ::DfESignIn

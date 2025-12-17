@@ -6,7 +6,7 @@
     <% if FeatureFlag.active?(:separate_dsi_controllers) %>
       <%= govuk_button_to(
         DfESignIn.bypass? ? 'Sign in using DfE Sign-in (bypass)' : 'Sign in using DfE Sign-in',
-        DfESignIn.bypass? ? '/auth/support/developer' : '/auth/dfe-support'
+        DfESignIn.bypass? ? '/auth/support/developer' : '/auth/dfe-support',
       ) %>
     <% else %>
       <%= render(DfESignInButtonComponent.new(bypass: DfESignIn.bypass?)) %>
