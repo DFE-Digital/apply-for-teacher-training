@@ -75,17 +75,17 @@ en:
             nationalities:
               blank: Select your nationality
             first_nationality:
-              blank: If you have more than one nationality, select at least one other nationality from the list
-              inclusion: Select your nationality from the list
+              blank: Select your nationality
+              inclusion: Select your nationality
             second_nationality:
-              inclusion: Select your second nationality from the list
+              inclusion: Select your nationality from the list
             other_nationality1:
-              blank: If you have an additional nationality, select it from the list
-              inclusion: Select your third nationality from the list
+              blank: Select your nationality
+              inclusion: Select your nationality from the list
             other_nationality2:
-              inclusion: Select your fourth nationality from the list
+              inclusion: Select your nationality from the list
             other_nationality3:
-              inclusion: Select your fifth nationality from the list
+              inclusion: Select your nationality from the list
         candidate_interface/languages_form:
           attributes:
             english_main_language:
