@@ -14,6 +14,7 @@ class DfESignInController < ActionController::Base
   alias bypass_callback callback
 
   def destroy
+    # do we need to redirect if the feature flag is not enabled?
     dfe_sign_in_user = DfESignInUser.load_from_session(session)
     post_signout_redirect = if dfe_sign_in_user.needs_dsi_signout?
                               query = {
@@ -56,6 +57,7 @@ private
 
       send_provider_sign_in_confirmation_email
 
+      # figure this one
       # redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
       redirect_to provider_interface_path
     else

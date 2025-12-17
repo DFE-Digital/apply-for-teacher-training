@@ -55,7 +55,7 @@ module DfESignInHelpers
     create(:provider_user, providers:, dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 
-  def fake_dfe_sign_in_auth_hash(email_address:, dfe_sign_in_uid:, first_name:, last_name:)
+  def fake_dfe_sign_in_auth_hash(email_address:, dfe_sign_in_uid:, first_name:, last_name:, id_token: '')
     {
       'provider' => 'dfe',
       'uid' => dfe_sign_in_uid,
@@ -71,7 +71,7 @@ module DfESignInHelpers
         'urls' => { 'website' => nil },
       },
       'credentials' => {
-        'id_token' => '',
+        'id_token' => id_token,
         'token' => 'DFE_SIGN_IN_TOKEN',
         'refresh_token' => nil,
         'expires_in' => 3600,
