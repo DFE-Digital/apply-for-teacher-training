@@ -4,7 +4,7 @@ class SupportDfESignInController < ApplicationController
   SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN = %w[session_id impersonated_provider_user].freeze
 
   def callback
-    redirect_to auth_dfe_callback unless FeatureFlag.active?(:separate_dsi_controllers)
+    redirect_to auth_dfe_callback_path and return unless FeatureFlag.active?(:separate_dsi_controllers)
 
     change_session_id_and_drop_provider_impersonation
     DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
