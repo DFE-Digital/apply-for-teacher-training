@@ -23,7 +23,6 @@ const nationalitiesComponent = () => {
 
   if (secondFormLabel && thirdFormLabel) {
     addRemoveLink(secondFormLabel, secondSelectEl)
-
     addRemoveLink(thirdFormLabel, thirdSelectEl)
 
     addAddNationalityButton(
@@ -31,8 +30,9 @@ const nationalitiesComponent = () => {
     )
 
     hideSection(secondSelectEl, secondFormLabel)
-
     hideSection(thirdSelectEl, thirdFormLabel)
+
+    updateAddNationalityButtonVisibility()
   }
 
   function addRemoveLink (labelEl, selectEl) {
@@ -77,10 +77,6 @@ const nationalitiesComponent = () => {
     )
     parent.appendChild(addNationalityButton)
 
-    if (Array(secondSelectEl).every(elementIsNotBlank) && Array.from(thirdSelectEl).every(elementIsNotBlank)) {
-      addNationalityButton.style.display = 'none'
-    }
-
     addNationalityButton.addEventListener('click', function (event) {
       event.preventDefault()
       handleAddNationalityClick()
@@ -94,12 +90,13 @@ const nationalitiesComponent = () => {
   }
 
   function handleRemoveLinkClick (labelEl, selectEl) {
-    addNationalityButton.style.display = ''
     labelEl.parentElement.style.display = 'none'
 
     for (const el of selectEl) {
       el.value = ''
     }
+
+    updateAddNationalityButtonVisibility()
   }
 
   function handleAddNationalityClick () {
@@ -110,19 +107,23 @@ const nationalitiesComponent = () => {
       secondFormLabel.parentElement.style.display = ''
     } else if (secondFormLabel.parentElement.style.display === 'none') {
       secondFormLabel.parentElement.style.display = ''
-      addNationalityButton.style.display = 'none'
     } else {
       thirdFormLabel.parentElement.style.display = ''
+    }
+
+    updateAddNationalityButtonVisibility()
+  }
+
+  function updateAddNationalityButtonVisibility () {
+    if (thirdFormLabel.parentElement.style.display !== 'none') {
       addNationalityButton.style.display = 'none'
+    } else {
+      addNationalityButton.style.display = ''
     }
   }
 
   function elementIsBlank (el) {
     return el.value === ''
-  }
-
-  function elementIsNotBlank (el) {
-    return el.value !== ''
   }
 }
 

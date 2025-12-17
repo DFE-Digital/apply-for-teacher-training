@@ -140,7 +140,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
         details_with_invalid_nationality.validate
 
-        expect(details_with_invalid_nationality.errors.attribute_names).to include :base
+        expect(details_with_invalid_nationality.errors.attribute_names).to include :nationalities
       end
     end
 
@@ -150,8 +150,8 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
         details_with_invalid_nationality.validate
 
-        expect(details_with_invalid_nationality.errors.attribute_names).to include :base
-        expect(details_with_invalid_nationality.errors.details[:base].first[:error]).to eq(:blank)
+        expect(details_with_invalid_nationality.errors.attribute_names).not_to include :other
+        expect(details_with_invalid_nationality.errors.attribute_names).to include :other_nationality1
       end
     end
 
