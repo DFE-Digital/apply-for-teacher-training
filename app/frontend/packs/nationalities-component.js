@@ -1,18 +1,22 @@
 const nationalitiesComponent = () => {
   const secondSelectEl = document.querySelectorAll(
-    '#candidate-interface-nationalities-form-other-nationality2-field, #candidate-interface-nationalities-form-other-nationality2-field-select'
+    '#candidate-interface-nationalities-form-other-nationality2-field, #candidate-interface-nationalities-form-other-nationality2-field-select,' +
+    '#candidate-interface-nationalities-form-other-nationality2-field-error, #candidate-interface-nationalities-form-other-nationality2-field-error-select'
   )
   if (!secondSelectEl) return
 
   const thirdSelectEl = document.querySelectorAll(
-    '#candidate-interface-nationalities-form-other-nationality3-field, #candidate-interface-nationalities-form-other-nationality3-field-select'
+    '#candidate-interface-nationalities-form-other-nationality3-field, #candidate-interface-nationalities-form-other-nationality3-field-select,' +
+    '#candidate-interface-nationalities-form-other-nationality3-field-error, #candidate-interface-nationalities-form-other-nationality3-field-error-select'
   )
 
   const secondFormLabel = document.querySelector(
-    '[for=candidate-interface-nationalities-form-other-nationality2-field]'
+    '[for=candidate-interface-nationalities-form-other-nationality2-field],' +
+    '[for=candidate-interface-nationalities-form-other-nationality2-field-error]'
   )
   const thirdFormLabel = document.querySelector(
-    '[for=candidate-interface-nationalities-form-other-nationality3-field]'
+    '[for=candidate-interface-nationalities-form-other-nationality3-field],' +
+    '[for=candidate-interface-nationalities-form-other-nationality3-field-error]'
   )
 
   let addNationalityButton = null

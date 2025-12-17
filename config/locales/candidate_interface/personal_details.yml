@@ -72,9 +72,20 @@ en:
               too_long: Last name must be %{count} characters or fewer
         candidate_interface/nationalities_form:
           attributes:
-            base:
+            nationalities:
               blank: Select your nationality
-              other_nationality_invalid: Any nationality you enter must be selected from the list
+            first_nationality:
+              blank: Select your nationality
+              inclusion: Select your nationality
+            second_nationality:
+              inclusion: Select your nationality from the list
+            other_nationality1:
+              blank: Select your nationality
+              inclusion: Select your nationality from the list
+            other_nationality2:
+              inclusion: Select your nationality from the list
+            other_nationality3:
+              inclusion: Select your nationality from the list
         candidate_interface/languages_form:
           attributes:
             english_main_language:
