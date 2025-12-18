@@ -46,3 +46,17 @@ en:
           another_career_path_or_accepted_a_job_offer: "I do not want to train to teach anymore - I have decided on another career path or I have accepted a job offer"
           other: "I do not want to train to teach anymore:"
         other: "Other:"
+  previous_teacher_training:
+    list_component:
+      provider_name: Name of the training provider
+      change_provider_name: the name of the training provider
+      training_dates: Training dates
+      change_training_dates: training dates
+      details: Details
+      change_details: details of your previous teacher training
+      change: Change
+      delete: Delete
+    started_declaration_component:
+      change: Change
+      started_teacher_training: Have you started an initial teacher training (ITT) course in England before?
+      change_started_teacher_training: whether you started a teacher training course before

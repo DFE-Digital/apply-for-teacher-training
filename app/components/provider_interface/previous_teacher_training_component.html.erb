@@ -1,0 +1,9 @@
+<section class="app-section govuk-!-width-two-thirds">
+  <h3 class="govuk-heading-m" id="previous_teacher_trainings">
+    <%= t('provider_interface.previous_teacher_training_component.previous_teacher_training') %>
+  </h3>
+
+  <%= render PreviousTeacherTraining::StartedDeclarationComponent.new(application_form:) %>
+
+  <%= render PreviousTeacherTraining::ListComponent.with_collection(previous_teacher_trainings) %>
+</section>

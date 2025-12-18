@@ -1,0 +1,22 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @previous_teacher_training.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_previous_teacher_trainings_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @previous_teacher_training,
+      url: candidate_interface_previous_teacher_training_path(@previous_teacher_training),
+      method: :delete,
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <span class="govuk-caption-l"><%= t('.caption') %></span>
+      <h1 class="govuk-heading-l"><%= t('.title') %></h1>
+
+      <%= render PreviousTeacherTraining::ListComponent.with_collection([@previous_teacher_training], header: false, border: false) %>
+
+      <%= f.govuk_submit t('.confirm') %>
+
+    <% end %>
+  </div>
+</div>

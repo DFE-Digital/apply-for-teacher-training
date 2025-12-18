@@ -1,0 +1,17 @@
+<div id="previous-teacher-training-<%= @previous_teacher_training.id %>">
+  <%= render SummaryCardComponent.new(rows:, border:) do %>
+    <% if header %>
+      <%= render SummaryCardHeaderComponent.new(title: provider_name, heading_level: 2) do %>
+        <% if actions %>
+          <div class="app-summary-card__actions">
+            <%= govuk_link_to(
+              t('previous_teacher_training.list_component.delete'),
+              remove_candidate_interface_previous_teacher_training_path(@previous_teacher_training),
+              no_visited_state: true,
+            ) %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

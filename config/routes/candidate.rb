@@ -14,10 +14,16 @@ namespace :candidate_interface, path: '/candidate' do
     get '/' => redirect('/')
   end
 
-  resources :previous_teacher_trainings, only: %i[show update], path: 'previous-teacher-training', controller: 'previous_teacher_trainings/review' do
+  resources :previous_teacher_trainings, except: %i[create show update], path: 'previous-teacher-training', controller: 'previous_teacher_trainings/review' do
+    member do
+      get 'remove'
+      match 'publish', via: %i[get put]
+    end
+
     collection do
+      put 'complete'
       get 'start', to: 'previous_teacher_trainings/start#new'
-      post 'create', to: 'previous_teacher_trainings/start#create', as: :create
+      match 'create', to: 'previous_teacher_trainings/start#create', as: :create, via: %i[get post]
       get ':previous_teacher_training_id/edit', to: 'previous_teacher_trainings/start#edit', as: :edit
       put ':previous_teacher_training_id/update', to: 'previous_teacher_trainings/start#update', as: :update
     end

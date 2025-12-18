@@ -8,7 +8,9 @@ module CandidateInterface
 
       def new
         if @previous_teacher_training.published?
-          @previous_teacher_training = @previous_teacher_training.create_draft_dup!
+          source_previous_teacher_training = @previous_teacher_training
+          @previous_teacher_training = source_previous_teacher_training.create_draft_dup!
+          source_previous_teacher_training.update!(duplicate_previous_teacher_training: @previous_teacher_training)
         end
 
         @form = NamesForm.new(@previous_teacher_training)
@@ -56,7 +58,7 @@ module CandidateInterface
 
       def set_back_path
         if params[:return_to] == 'review'
-          @back_path = candidate_interface_previous_teacher_training_path(
+          @back_path = publish_candidate_interface_previous_teacher_training_path(
             @previous_teacher_training,
           )
         end

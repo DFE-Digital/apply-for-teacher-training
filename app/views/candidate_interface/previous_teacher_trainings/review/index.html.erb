@@ -1,0 +1,40 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(application_form_path) %>
+
+<div class="govuk-grid-row">
+  <%= form_with(
+    model: @form,
+    url: complete_candidate_interface_previous_teacher_trainings_path,
+    method: :put,
+  ) do |f| %>
+    <%= f.govuk_error_summary %>
+
+    <h1 class="govuk-heading-xl"><%= t('.title') %></h1>
+
+    <% if @previous_teacher_trainings.started_yes.exists? %>
+      <%= govuk_inset_text(
+        text: t(
+          '.qts_guidance_html',
+          return_to_teaching: govuk_link_to('return to teaching', t('teaching_vacancies.url_return_to_teaching'), new_tab: true),
+        ),
+      ) %>
+    <% end %>
+
+    <%= govuk_button_link_to(
+      t('.add_another_course'),
+      create_candidate_interface_previous_teacher_trainings_path(
+        candidate_interface_previous_teacher_trainings_start_form: { started: 'yes' },
+      ),
+      secondary: true,
+    ) %>
+
+    <%= render PreviousTeacherTraining::StartedDeclarationComponent.new(application_form: @application_form, actions: @section_policy.can_edit?) %>
+
+    <%= render PreviousTeacherTraining::ListComponent.with_collection(@previous_teacher_trainings.started_yes, actions: @section_policy.can_edit?) %>
+
+    <%= render(CandidateInterface::CompleteSectionComponent.new(
+      section_policy: @section_policy,
+      form: f,
+    )) %>
+  <% end %>
+</div>
