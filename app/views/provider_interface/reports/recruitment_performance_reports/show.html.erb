@@ -1,4 +1,4 @@
-<% if @national_data.present? && @provider_data.present? %>
+<% if @national_data.present? && @provider_data.present? && RecruitmentPerformanceReportTimetable.report_season? %>
   <%= content_for :title, t('.title', cycle_year_range: @provider_report.cycle_range_name) %>
   <%= content_for :before_content,
                   breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path, t('.heading', cycle_year_range: @provider_report.cycle_range_name) => nil) %>
