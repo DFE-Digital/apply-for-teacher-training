@@ -13,6 +13,10 @@ module DfESignInHelpers
   alias provider_exists_in_dfe_sign_in user_exists_in_dfe_sign_in
 
   def provider_signs_in_using_dfe_sign_in
+    if FeatureFlag.active?(:separate_dsi_controllers)
+      FeatureFlag.activate(:separate_dsi_controllers)
+    end
+
     visit provider_interface_path
     first("a[href='#{provider_interface_sign_in_path}']").click
     click_link_or_button 'Sign in using DfE Sign-in'
@@ -22,6 +26,10 @@ module DfESignInHelpers
   alias when_i_sign_in_to_the_provider_interface provider_signs_in_using_dfe_sign_in
 
   def support_user_signs_in_using_dfe_sign_in
+    if FeatureFlag.active?(:separate_dsi_controllers)
+      FeatureFlag.activate(:separate_dsi_controllers)
+    end
+
     visit support_interface_sign_in_path
     click_link_or_button 'Sign in using DfE Sign-in'
   end
