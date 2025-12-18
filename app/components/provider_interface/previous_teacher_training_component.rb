@@ -11,8 +11,8 @@ module ProviderInterface
       @previous_teacher_trainings ||= application_form.previous_teacher_trainings.published
     end
 
-    def course_started?
-      previous_teacher_trainings.started_yes.any?
+    def render?
+      previous_teacher_trainings.any?
     end
   end
 end
