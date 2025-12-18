@@ -5,7 +5,6 @@ require 'omniauth/strategies/one_login_developer'
 # it cannot just be a local function as other parts of the codebase depend on it
 module ::DfESignIn
   def self.bypass?
-    # return false
     (HostingEnvironment.review? || Rails.env.development?) && ENV['BYPASS_DFE_SIGN_IN'] == 'true'
   end
 end
