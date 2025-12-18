@@ -10,13 +10,20 @@ module DfESignInHelpers
     )
   end
 
+  def support_user_exists_dsi(email_address: 'email@support.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID', first_name: nil, last_name: nil)
+    OmniAuth.config.mock_auth[:'dfe-support'] = OmniAuth::AuthHash.new(
+      fake_dfe_sign_in_auth_hash(
+        email_address:,
+        dfe_sign_in_uid:,
+        first_name:,
+        last_name:,
+      ),
+    )
+  end
+
   alias provider_exists_in_dfe_sign_in user_exists_in_dfe_sign_in
 
   def provider_signs_in_using_dfe_sign_in
-    if FeatureFlag.active?(:separate_dsi_controllers)
-      FeatureFlag.activate(:separate_dsi_controllers)
-    end
-
     visit provider_interface_path
     first("a[href='#{provider_interface_sign_in_path}']").click
     click_link_or_button 'Sign in using DfE Sign-in'
@@ -26,10 +33,6 @@ module DfESignInHelpers
   alias when_i_sign_in_to_the_provider_interface provider_signs_in_using_dfe_sign_in
 
   def support_user_signs_in_using_dfe_sign_in
-    if FeatureFlag.active?(:separate_dsi_controllers)
-      FeatureFlag.activate(:separate_dsi_controllers)
-    end
-
     visit support_interface_sign_in_path
     click_link_or_button 'Sign in using DfE Sign-in'
   end
@@ -95,7 +98,7 @@ module DfESignInHelpers
   end
 
   def support_user_exists_in_dfe_sign_in(email_address: 'email@apply-support.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
-    user_exists_in_dfe_sign_in(email_address:, dfe_sign_in_uid:)
+    support_user_exists_dsi(email_address:, dfe_sign_in_uid:)
     user_is_a_support_user(email_address:, dfe_sign_in_uid:)
   end
 
