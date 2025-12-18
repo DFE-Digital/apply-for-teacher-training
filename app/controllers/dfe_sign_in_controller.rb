@@ -13,24 +13,6 @@ class DfESignInController < ActionController::Base
 
   alias bypass_callback callback
 
-  def destroy
-    # do we need to redirect if the feature flag is not enabled?
-    dfe_sign_in_user = DfESignInUser.load_from_session(session)
-    post_signout_redirect = if dfe_sign_in_user.needs_dsi_signout?
-                              query = {
-                                post_logout_redirect_uri: auth_dfe_sign_out_url,
-                                id_token_hint: dfe_sign_in_user.id_token,
-                              }
-
-                              "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
-                            else
-                              provider_interface_path
-                            end
-
-    DfESignInUser.end_session!(session)
-    redirect_to post_signout_redirect, allow_other_host: true
-  end
-
   # This is called by a redirect from DfE Sign-in after visiting the signout
   # link on DSI. We tell DSI to redirect here using the
   # post_logout_redirect_uri parameter - see DfESignInUser#dsi_logout_url
@@ -51,15 +33,14 @@ private
     DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
     @dfe_sign_in_user = DfESignInUser.load_from_session(session)
     @local_user ||= ProviderUser.load_from_session(session) || false
+    @target_path = session['post_dfe_sign_in_path']
 
     if @local_user && DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
       @local_user.update!(last_signed_in_at: Time.zone.now)
 
       send_provider_sign_in_confirmation_email
 
-      # figure this one
-      # redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
-      redirect_to provider_interface_path
+      redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : provider_interface_path
     else
       DfESignInUser.end_session!(session)
       render(
@@ -76,6 +57,7 @@ private
     @dfe_sign_in_user = DfESignInUser.load_from_session(session)
     @target_path = session['post_dfe_sign_in_path']
     @local_user = local_user
+    byebug
 
     if @local_user && DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
       @local_user.update!(last_signed_in_at: Time.zone.now)

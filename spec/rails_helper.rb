@@ -169,6 +169,7 @@ RSpec.configure do |config|
       Feature.insert_all(records)
 
       FeatureFlag.deactivate(:adviser_sign_up)
+      FeatureFlag.activate(:separate_dsi_controllers)
     end
   end
 
