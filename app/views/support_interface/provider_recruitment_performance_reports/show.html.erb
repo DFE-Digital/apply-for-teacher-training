@@ -1,0 +1,35 @@
+
+<%= render 'support_interface/providers/provider_navigation', title: 'Recruitment performance weekly report' %>
+<% if @national_data.present? && @provider_data.present? %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l"><%= t('.title', cycle_year_range: @provider_report.cycle_range_name) %></h1>
+    </div>
+
+    <%= render 'provider_interface/reports/recruitment_performance_reports/report_description' %>
+    <%= render 'provider_interface/reports/recruitment_performance_reports/about_this_data_section' %>
+    <%= render ProviderInterface::RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render ProviderInterface::RecruitmentPerformanceReport::CandidatesWithOffersTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render ProviderInterface::RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render ProviderInterface::RecruitmentPerformanceReport::OffersAcceptedTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render ProviderInterface::RecruitmentPerformanceReport::DeferralsTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render ProviderInterface::RecruitmentPerformanceReport::CandidatesRejectedTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render ProviderInterface::RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(@provider, @provider_data, @national_data) %>
+  </div>
+<% else %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l"><%= t('.title') %></h1>
+      <% if RecruitmentPerformanceReportTimetable.report_season? %>
+        <p class="govuk-body"><%= t('.not_ready_to_view') %></p>
+      <% else %>
+        <%= t(
+              '.available_in_the_future_html',
+              current_cycle_range: @current_timetable.cycle_range_name,
+              first_publication_date: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:govuk_date),
+              first_publication_date_no_year: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:day_and_month),
+            ) %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -7,7 +7,7 @@
   }.merge(title == 'Details' ? {} : { title => nil })) %>
 <% end %>
 
-<%= render 'lacks_admin_users_warning' %>
+<%= render 'support_interface/providers/lacks_admin_users_warning' %>
 
 <%= render TabNavigationComponent.new(items: [
   { name: 'Details', url: support_interface_provider_path },
@@ -19,6 +19,7 @@
   { name: 'Vacancies', url: support_interface_provider_vacancies_path },
   { name: 'Sites', url: support_interface_provider_sites_path },
   { name: 'History', url: support_interface_provider_history_path },
+  { name: 'Recruitment performance weekly report', url: support_interface_provider_recruitment_performance_report_path },
 ]) %>
 
 <h2 class="govuk-visually-hidden"><%= title %></h2>
