@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::RecruitmentPerformanceReport::CandidatesWithOffersTableComponent do
+RSpec.describe RecruitmentPerformanceReport::CandidatesWithOffersTableComponent do
   it 'renders the report with expected columns and formats' do
     provider_report = create(:provider_recruitment_performance_report)
     provider = provider_report.provider

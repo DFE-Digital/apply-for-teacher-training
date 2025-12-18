@@ -4,6 +4,7 @@ en:
       show:
         title: Recruitment performance weekly report
         not_ready_to_view: This report is not ready to view.
+        not_available_yet_to_providers: These reports are not available to providers until %{first_publication_date}.
         available_in_the_future_html:
           <p class="govuk-body">The reports for the %{current_cycle_range} recruitment cycle are not available until %{first_publication_date}.</p>
           <p class="govuk-body">From %{first_publication_date_no_year} you will be able to see new reports each week on a Monday until the end of the cycle.</p>

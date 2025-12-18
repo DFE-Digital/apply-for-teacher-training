@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::RecruitmentPerformanceReport::CandidatesRejectedTableComponent do
+RSpec.describe RecruitmentPerformanceReport::CandidatesRejectedTableComponent do
   it 'renders the report with expected columns and formats', :aggregate_failures do
     provider_report = create(:provider_recruitment_performance_report)
     provider = provider_report.provider

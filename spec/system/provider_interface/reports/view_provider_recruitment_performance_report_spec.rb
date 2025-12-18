@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Visit provider recruitment performance report page' do
   include DfESignInHelpers
 
-  scenario 'provider report has been generated', time: mid_cycle do
+  scenario 'provider report has been generated', time: recruitment_performance_report_season do
     given_a_provider_and_provider_user_exists
     and_a_provider_recruitment_performance_report_has_been_generated
     and_national_recruitment_performance_report_has_been_generated

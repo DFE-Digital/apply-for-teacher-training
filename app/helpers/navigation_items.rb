@@ -69,12 +69,12 @@ class NavigationItems
           {
             text: 'Providers',
             href: support_interface_providers_path,
-            active: active?(current_controller, %w[providers course provider_users api_tokens], %w[application_forms]),
+            active: active?(current_controller, %w[providers provider_recruitment_performance_report course provider_users api_tokens], %w[application_forms]),
           },
           {
             text: 'Performance',
             href: support_interface_performance_path,
-            active: active?(current_controller, %w[performance data_exports validation_errors email_log vendor_api_requests performance_dashboard]),
+            active: active?(current_controller, %w[performance data_exports validation_errors email_log vendor_api_requests performance_dashboard], %w[provider_recruitment_performance_report]),
           },
           {
             text: 'Settings',

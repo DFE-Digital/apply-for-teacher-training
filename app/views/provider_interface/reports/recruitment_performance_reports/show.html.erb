@@ -7,15 +7,15 @@
       <h1 class="govuk-heading-l"><%= t('.heading', cycle_year_range: @provider_report.cycle_range_name) %></h1>
     </div>
 
-    <%= render 'provider_interface/reports/recruitment_performance_reports/report_description' %>
-    <%= render 'provider_interface/reports/recruitment_performance_reports/about_this_data_section' %>
-    <%= render ProviderInterface::RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(@provider, @provider_data, @national_data) %>
-    <%= render ProviderInterface::RecruitmentPerformanceReport::CandidatesWithOffersTableComponent.new(@provider, @provider_data, @national_data) %>
-    <%= render ProviderInterface::RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent.new(@provider, @provider_data, @national_data) %>
-    <%= render ProviderInterface::RecruitmentPerformanceReport::OffersAcceptedTableComponent.new(@provider, @provider_data, @national_data) %>
-    <%= render ProviderInterface::RecruitmentPerformanceReport::DeferralsTableComponent.new(@provider, @provider_data, @national_data) %>
-    <%= render ProviderInterface::RecruitmentPerformanceReport::CandidatesRejectedTableComponent.new(@provider, @provider_data, @national_data) %>
-    <%= render ProviderInterface::RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render RecruitmentPerformanceReport::ReportDescriptionComponent.new(@provider_report) %>
+    <%= render RecruitmentPerformanceReport::AboutThisDataSectionComponent.new(@provider_report) %>
+    <%= render RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render RecruitmentPerformanceReport::CandidatesWithOffersTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render RecruitmentPerformanceReport::OffersAcceptedTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render RecruitmentPerformanceReport::DeferralsTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render RecruitmentPerformanceReport::CandidatesRejectedTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(@provider, @provider_data, @national_data) %>
   </div>
 <% else %>
   <%= content_for :title, t('.empty_report_title') %>
