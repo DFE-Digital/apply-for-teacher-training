@@ -1,6 +1,8 @@
 require 'dfe/reference_data/countries_and_territories'
 
-NATIONALITIES = DfE::ReferenceData::CountriesAndTerritories::COUNTRIES_AND_TERRITORIES.all.map { |n| [n.id, n.citizen_names] }
+NATIONALITIES = DfE::ReferenceData::CountriesAndTerritories::COUNTRIES_AND_TERRITORIES.all.map do |n|
+  [n.id, n.id == 'GB' ? 'British' : n.citizen_names]
+end
 NATIONALITIES_BY_NAME = NATIONALITIES.map(&:reverse).to_h
 NATIONALITIES_BY_CODE = NATIONALITIES.to_h
 NATIONALITY_DEMONYMS = CODES_AND_NATIONALITIES.map(&:second)
