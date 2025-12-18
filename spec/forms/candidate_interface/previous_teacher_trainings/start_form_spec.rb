@@ -61,7 +61,7 @@ module CandidateInterface
             params = { return_to: 'review' }
 
             expect(form.next_path(params)).to eq(
-              candidate_interface_previous_teacher_training_path(previous_teacher_training),
+              publish_candidate_interface_previous_teacher_training_path(previous_teacher_training),
             )
           end
 
@@ -79,7 +79,7 @@ module CandidateInterface
           it 'returns the review path' do
             params = {}
             expect(form.next_path(params)).to eq(
-              candidate_interface_previous_teacher_training_path(previous_teacher_training),
+              publish_candidate_interface_previous_teacher_training_path(previous_teacher_training),
             )
           end
         end

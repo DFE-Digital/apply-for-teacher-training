@@ -313,9 +313,7 @@ module CandidateInterface
 
     def path_to_previous_teacher_training
       if application_form.published_previous_teacher_training&.reviewable?
-        candidate_interface_previous_teacher_training_path(
-          application_form.published_previous_teacher_training,
-        )
+        candidate_interface_previous_teacher_trainings_path
       else
         start_candidate_interface_previous_teacher_trainings_path
       end

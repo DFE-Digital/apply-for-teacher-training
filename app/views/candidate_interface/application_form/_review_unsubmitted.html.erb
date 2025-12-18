@@ -105,6 +105,9 @@
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.safeguarding') %></h2>
   <%= render(CandidateInterface::ReferencesReviewComponent.new(application_form: current_application, editable: editable, references: @application_form.application_references.creation_order, heading_level: 3, missing_error: nil)) %>
   <%= render(CandidateInterface::SafeguardingReviewComponent.new(application_form: @application_form, editable: editable, missing_error: nil, submitting_application: true)) %>
+
+  <%= render PreviousTeacherTraining::StartedDeclarationComponent.new(application_form: @application_form) %>
+  <%= render PreviousTeacherTraining::ListComponent.with_collection(@application_form.previous_teacher_trainings.published.started_yes) %>
 </section>
 
 <section class="govuk-!-margin-bottom-8">

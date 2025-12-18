@@ -744,9 +744,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         presenter = described_class.new(application_form)
 
         expect(presenter.path_to_previous_teacher_training).to eq(
-          candidate_interface_previous_teacher_training_path(
-            training,
-          ),
+          candidate_interface_previous_teacher_trainings_path
         )
       end
     end

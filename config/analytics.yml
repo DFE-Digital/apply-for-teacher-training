@@ -9,6 +9,7 @@ shared:
     - started_at
     - ended_at
     - details
+    - duplicate_previous_teacher_training_id
     - created_at
     - updated_at
     - duplicate_previous_teacher_training_id

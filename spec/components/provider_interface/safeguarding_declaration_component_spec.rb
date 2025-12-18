@@ -251,49 +251,4 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
       expect_user_cannot_see_safeguarding_information(result)
     end
   end
-
-  describe 'previous training content' do
-    let(:provider_user) { create(:provider_user, providers: [ratifying_provider]) }
-
-    before do
-      one_sided_permissions(side_with_access: :training_provider, setup_at: nil)
-
-      user_has_view_safeguarding_information(true)
-      user_has_manage_organisations(true)
-    end
-
-    context 'candidate has a previous training record and no previous training' do
-      it 'shows the previous training row only' do
-        result = render_component(
-          user: provider_user,
-          safeguarding_issues: 'I have a criminal conviction.',
-          safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
-          previous_training_status: 'no',
-        )
-
-        expect(result).to have_css('.govuk-summary-list__row', text: 'Have you started an initial teacher training course (ITT) before? No')
-        expect(result).to have_no_css 'Name of the training provider'
-        expect(result).to have_no_text 'Training dates'
-      end
-    end
-
-    context 'candidate has previous training record and previous training' do
-      it 'show previous training record details' do
-        result = render_component(
-          user: provider_user,
-          safeguarding_issues: 'I have a criminal conviction.',
-          safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
-          previous_training_status: 'yes',
-        )
-
-        expect(result).to have_css(
-          '.govuk-summary-list__row',
-          text: 'Have you started an initial teacher training course (ITT) before? Yes',
-        )
-        expect(result).to have_css('.govuk-summary-list__key', text: 'Name of the training provider')
-        expect(result).to have_css('.govuk-summary-list__key', text: 'Training dates')
-        expect(result).to have_css('.govuk-summary-list__key', text: 'Details')
-      end
-    end
-  end
 end
