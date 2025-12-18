@@ -57,7 +57,6 @@ private
     @dfe_sign_in_user = DfESignInUser.load_from_session(session)
     @target_path = session['post_dfe_sign_in_path']
     @local_user = local_user
-    byebug
 
     if @local_user && DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
       @local_user.update!(last_signed_in_at: Time.zone.now)
