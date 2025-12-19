@@ -18,15 +18,15 @@
           return_to_teaching: govuk_link_to('return to teaching', t('teaching_vacancies.url_return_to_teaching'), new_tab: true),
         ),
       ) %>
-    <% end %>
 
-    <%= govuk_button_link_to(
-      t('.add_another_course'),
-      create_candidate_interface_previous_teacher_trainings_path(
-        candidate_interface_previous_teacher_trainings_start_form: { started: 'yes' },
-      ),
-      secondary: true,
-    ) %>
+      <%= govuk_button_link_to(
+        t('.add_another_course'),
+        create_candidate_interface_previous_teacher_trainings_path(
+          candidate_interface_previous_teacher_trainings_start_form: { started: 'yes' },
+          ),
+        secondary: true,
+      ) %>
+    <% end %>
 
     <%= render PreviousTeacherTraining::StartedDeclarationComponent.new(application_form: @application_form, actions: @section_policy.can_edit?) %>
 
