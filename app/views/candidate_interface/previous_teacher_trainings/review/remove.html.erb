@@ -13,7 +13,11 @@
       <span class="govuk-caption-l"><%= t('.caption') %></span>
       <h1 class="govuk-heading-l"><%= t('.title') %></h1>
 
-      <%= render PreviousTeacherTraining::ListComponent.with_collection([@previous_teacher_training], header: false, border: false) %>
+      <%= render PreviousTeacherTraining::ListComponent.new(
+        previous_teacher_training: @previous_teacher_training,
+        header: false,
+        border: false,
+      ) %>
 
       <%= f.govuk_submit t('.confirm') %>
 
