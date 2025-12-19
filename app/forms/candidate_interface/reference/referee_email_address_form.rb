@@ -44,10 +44,16 @@ module CandidateInterface
 
     def email_address_unique
       reference = ApplicationReference.find(reference_id)
-      current_email_addresses = (reference.application_form.application_references.creation_order.map(&:email_address) - [reference.email_address]).compact
+      all_emails = reference.application_form.application_references.creation_order.map(&:email_address).compact
+
+      # Remove reference.email_address to prevent validation counting itself as a duplicate - case insensitive
+      current_email_addresses = all_emails.reject { |address| address&.casecmp?(reference.email_address) }
+
       return true if current_email_addresses.blank? || email_address.blank?
 
-      errors.add(:email_address, :duplicate) if current_email_addresses.map(&:downcase).include?(email_address.downcase)
+      if current_email_addresses.any? { |address| address.casecmp?(email_address) }
+        errors.add(:email_address, :duplicate)
+      end
     end
 
     def email_address_not_own
