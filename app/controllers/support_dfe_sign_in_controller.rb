@@ -10,14 +10,13 @@ class SupportDfESignInController < ApplicationController
     DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
     @dfe_sign_in_user = DfESignInUser.load_from_session(session)
     @local_user ||= SupportUser.load_from_session(session) || false
-    @target_path = session['post_dfe_sign_in_path']
 
     if @local_user && DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
       @local_user.update!(last_signed_in_at: Time.zone.now)
 
       send_support_sign_in_confirmation_email
 
-      redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : support_interface_path
+      redirect_to session['post_dfe_sign_in_path'] ? session.delete('post_dfe_sign_in_path') : support_interface_path
     else
       DfESignInUser.end_session!(session)
       render(
