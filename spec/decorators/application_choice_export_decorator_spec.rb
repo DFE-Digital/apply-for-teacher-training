@@ -132,7 +132,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
     end
 
     it 'sorts nationalities alphabetically' do
-      application_form = create(:application_form, first_nationality: 'American', second_nationality: 'Turkish')
+      application_form = create(:application_form, first_nationality: 'American', second_nationality: 'Turk, Turkish')
       application_choice = create(:application_choice, application_form:)
 
       result = described_class.new(application_choice).nationalities

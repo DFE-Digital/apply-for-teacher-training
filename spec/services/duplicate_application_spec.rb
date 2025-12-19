@@ -222,4 +222,21 @@ RSpec.describe DuplicateApplication do
       expect(duplicate_application_form.safeguarding_issues_status).to eq 'not_answered_yet'
     end
   end
+
+  context 'when application includes invalid nationality data' do
+    before do
+      @original_application_form.update!(
+        first_nationality: 'British',
+        second_nationality: 'Azerbaijani',
+        fifth_nationality: 'Hong Konger',
+      )
+    end
+
+    it 'does only saves valid nationality data' do
+      expect(duplicate_application_form.first_nationality).to eq 'British'
+      expect(duplicate_application_form.second_nationality).to eq 'Azerbaijani'
+      expect(duplicate_application_form.fifth_nationality).to be_nil
+      expect(duplicate_application_form.personal_details_completed).to be false
+    end
+  end
 end

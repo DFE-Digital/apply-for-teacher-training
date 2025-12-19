@@ -184,8 +184,8 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
     it 'compacts two nationalities with the same ISO value' do
       application_form = create(:application_form,
                                 :minimum_info,
-                                first_nationality: 'Welsh',
-                                second_nationality: 'Scottish')
+                                first_nationality: 'British',
+                                second_nationality: 'British')
       application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json
@@ -210,8 +210,8 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
                                 :minimum_info,
                                 first_nationality: 'Canadian',
                                 second_nationality: 'Spanish',
-                                third_nationality: 'Irish',
-                                fourth_nationality: 'Welsh')
+                                third_nationality: 'British',
+                                fourth_nationality: 'Irish')
       application_choice = create(:application_choice, :recruited, application_form:)
 
       response = described_class.new(application_choice).as_json

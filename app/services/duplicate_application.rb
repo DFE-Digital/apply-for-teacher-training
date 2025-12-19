@@ -16,7 +16,7 @@ class DuplicateApplication
       previous_application_form_id: original_application_form.id,
       recruitment_cycle_year: @recruitment_cycle_year,
       work_history_status: original_application_form.work_history_status || 'can_complete',
-    )
+    ).merge(*nationalities)
 
     ApplicationForm.create!(attrs).tap do |new_application_form|
       original_application_form.application_work_experiences.each do |w|
@@ -140,5 +140,29 @@ private
 
   def change_references_to_not_requested_yet(references)
     references.update_all(feedback_status: 'not_requested_yet')
+  end
+
+  def nationalities
+    # Remove any nationalities that do not map to existing nationalities
+    invalid_nationalities = %i[
+      first_nationality
+      second_nationality
+      third_nationality
+      fourth_nationality
+      fifth_nationality
+    ].filter do |nat|
+      nationality = original_application_form.public_send(nat)
+      nationality.present? &&
+        UK_NATIONALITIES.exclude?(nationality) &&
+        NATIONALITIES_BY_NAME[original_application_form.public_send(nat)].blank?
+    end
+
+    if invalid_nationalities.empty?
+      {}
+    else
+      invalid_nationalities.map do |n|
+        { n => nil }
+      end << { personal_details_completed: false }
+    end
   end
 end
