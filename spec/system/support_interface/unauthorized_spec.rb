@@ -17,7 +17,7 @@ RSpec.describe 'A support user authenticates via DfE Sign-in but is not authoriz
   end
 
   def given_i_have_a_dfe_sign_in_account
-    user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com', dfe_sign_in_uid: 'abc')
+    support_user_exists_dsi(email_address: 'user@apply-support.com', dfe_sign_in_uid: 'abc')
   end
 
   def when_i_visit_the_support_interface
