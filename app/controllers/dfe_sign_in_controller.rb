@@ -40,7 +40,12 @@ private
 
       send_provider_sign_in_confirmation_email
 
-      redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : provider_interface_path
+      path_to_redirect = if @target_path && @target_path != support_interface_path
+                           session.delete('post_dfe_sign_in_path')
+                         else
+                           provider_interface_path
+                         end
+      redirect_to path_to_redirect
     else
       DfESignInUser.end_session!(session)
       render(
