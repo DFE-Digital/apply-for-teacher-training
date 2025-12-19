@@ -114,7 +114,7 @@ RSpec.describe PreviousTeacherTraining do
         it 'deletes all pre-existing previous teacher training records' do
           expect { previous_teacher_training.make_published }.to change(
             application_form.previous_teacher_trainings, :count
-          ).from(5).to(1)
+          ).from(4).to(1)
           expect(application_form.previous_teacher_trainings).to contain_exactly(previous_teacher_training)
         end
       end
