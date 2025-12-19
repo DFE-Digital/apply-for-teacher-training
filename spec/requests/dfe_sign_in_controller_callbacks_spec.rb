@@ -20,6 +20,10 @@ RSpec.describe 'DfESignInController#callbacks' do
   end
 
   describe 'GET /auth/dfe/callback' do
+    before do
+      FeatureFlag.deactivate(:separate_dsi_controllers)
+    end
+
     context 'there are no DfE sign omniauth values set' do
       let(:omni_auth_hash) { nil }
 
@@ -139,40 +143,6 @@ RSpec.describe 'DfESignInController#callbacks' do
         get auth_dfe_callback_path
 
         expect(response).to have_http_status(:forbidden)
-      end
-    end
-  end
-
-  describe 'GET /auth/dfe/destroy' do
-    let!(:provider_user) { create(:provider_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
-
-    it 'redirects to dfe sign in to sign out and ends session' do
-      allow(DfESignInUser).to receive(:end_session!)
-
-      get auth_dfe_callback_path # set session variables
-      get auth_dfe_destroy_path
-
-      query = {
-        post_logout_redirect_uri: auth_dfe_sign_out_url,
-        id_token_hint: 'token',
-      }
-      expected_url = "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
-
-      expect(DfESignInUser).to have_received(:end_session!)
-      expect(response).to redirect_to(expected_url)
-    end
-
-    context 'when token is not present' do
-      let(:id_token) { nil }
-
-      it 'ends session and redirect to provider_interface' do
-        allow(DfESignInUser).to receive(:end_session!)
-
-        get auth_dfe_callback_path # set session variables
-        get auth_dfe_destroy_path
-
-        expect(DfESignInUser).to have_received(:end_session!)
-        expect(response).to redirect_to(provider_interface_path)
       end
     end
   end
