@@ -5,7 +5,9 @@ module SupportInterface
     def new
       redirect_to support_interface_path and return if current_support_user
 
-      session['post_dfe_sign_in_path'] ||= support_interface_path
+      if FeatureFlag.inactive?(:separate_dsi_controllers)
+        session['post_dfe_sign_in_path'] ||= support_interface_path
+      end
       if FeatureFlag.active?('dfe_sign_in_fallback')
         @support_user = SupportUser.new
         render :authentication_fallback
