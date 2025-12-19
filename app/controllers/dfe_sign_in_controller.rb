@@ -13,13 +13,37 @@ class DfESignInController < ActionController::Base
 
   alias bypass_callback callback
 
+  def destroy
+    dfe_sign_in_user = DfESignInUser.load_from_session(session)
+    post_signout_redirect = if dfe_sign_in_user&.needs_dsi_signout?
+                              query = {
+                                post_logout_redirect_uri: auth_dfe_sign_out_url,
+                                id_token_hint: dfe_sign_in_user.id_token,
+                              }
+
+                              "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
+                            else
+                              auth_dfe_sign_out_path
+                            end
+
+    DfESignInUser.end_session!(session)
+    redirect_to post_signout_redirect, allow_other_host: true
+  end
+
   # This is called by a redirect from DfE Sign-in after visiting the signout
   # link on DSI. We tell DSI to redirect here using the
   # post_logout_redirect_uri parameter - see DfESignInUser#dsi_logout_url
   #
   # The interface we signed out from will appear here in the :state param.
   def redirect_after_dsi_signout
-    if params[:state] == 'support'
+    if FeatureFlag.active?(:separate_dsi_controllers) && session['dsi_provider_email']
+      @email_address = session.delete('dsi_provider_email')
+      render(
+        layout: 'application',
+        template: 'provider_interface/email_address_not_recognised',
+        status: :forbidden,
+      )
+    elsif params[:state] == 'support'
       redirect_to support_interface_path
     else
       redirect_to provider_interface_path
@@ -45,14 +69,11 @@ private
                          else
                            provider_interface_path
                          end
+
       redirect_to path_to_redirect
     else
-      DfESignInUser.end_session!(session)
-      render(
-        layout: 'application',
-        template: 'provider_interface/email_address_not_recognised',
-        status: :forbidden,
-      )
+      session['dsi_provider_email'] = @dfe_sign_in_user&.email_address
+      redirect_to auth_dfe_destroy_path
     end
   end
 
@@ -74,10 +95,11 @@ private
 
       redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
     else
+      @email_address = dfe_sign_in_user&.email_address
       DfESignInUser.end_session!(session)
       render(
         layout: 'application',
-        template: choose_error_template,
+        template: 'provider_interface/email_address_not_recognised',
         status: :forbidden,
       )
     end

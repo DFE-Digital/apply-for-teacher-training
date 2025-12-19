@@ -1,6 +1,6 @@
 module ProviderInterface
   class SessionsController < ProviderInterfaceController
-    skip_before_action :authenticate_provider_user!, except: :destroy
+    skip_before_action :authenticate_provider_user!
     skip_before_action :redirect_if_setup_required
 
     def new
@@ -19,7 +19,6 @@ module ProviderInterface
                               else
                                 provider_interface_path
                               end
-
       DfESignInUser.end_session!(session)
       redirect_to post_signout_redirect, allow_other_host: true
     end

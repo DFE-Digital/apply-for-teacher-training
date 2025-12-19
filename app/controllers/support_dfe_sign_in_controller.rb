@@ -18,13 +18,26 @@ class SupportDfESignInController < ApplicationController
 
       redirect_to session['post_dfe_sign_in_path'] ? session.delete('post_dfe_sign_in_path') : support_interface_path
     else
-      DfESignInUser.end_session!(session)
-      render(
-        layout: 'application',
-        template: 'support_interface/unauthorized',
-        status: :forbidden,
-      )
+      session['dsi_support_uid'] = @dfe_sign_in_user&.dfe_sign_in_uid
+      redirect_to auth_dfe_support_destroy_path
     end
+  end
+
+  def destroy
+    dfe_sign_in_user = DfESignInUser.load_from_session(session)
+    post_signout_redirect = if dfe_sign_in_user&.needs_dsi_signout?
+                              query = {
+                                post_logout_redirect_uri: auth_dfe_support_sign_out_url,
+                                id_token_hint: dfe_sign_in_user.id_token,
+                              }
+
+                              "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
+                            else
+                              auth_dfe_support_sign_out_path
+                            end
+
+    DfESignInUser.end_session!(session)
+    redirect_to post_signout_redirect, allow_other_host: true
   end
 
   alias bypass_callback callback
@@ -35,7 +48,16 @@ class SupportDfESignInController < ApplicationController
   #
   # The interface we signed out from will appear here in the :state param.
   def redirect_after_dsi_signout
-    redirect_to support_interface_path
+    if session['dsi_support_uid'].present?
+      @dfe_sign_in_uid = session.delete('dsi_support_uid')
+      render(
+        layout: 'application',
+        template: 'support_interface/unauthorized',
+        status: :forbidden,
+      )
+    else
+      redirect_to support_interface_path
+    end
   end
 
 private
