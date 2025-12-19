@@ -736,7 +736,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     context 'when path_to_previous_teacher_training is reviewable' do
       it 'returns the review path' do
         application_form = create(:application_form)
-        training = create(
+        create(
           :previous_teacher_training,
           :published,
           application_form:,
@@ -744,7 +744,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         presenter = described_class.new(application_form)
 
         expect(presenter.path_to_previous_teacher_training).to eq(
-          candidate_interface_previous_teacher_trainings_path
+          candidate_interface_previous_teacher_trainings_path,
         )
       end
     end
