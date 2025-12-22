@@ -11,8 +11,8 @@ class PreviousTeacherTraining::StartedDeclarationComponent < ViewComponent::Base
   def rows
     [
       {
-        key: I18n.t('previous_teacher_training.started_declaration_component.started_teacher_training'),
-        value: published_previous_teacher_training.started.capitalize,
+        key: { text: I18n.t('previous_teacher_training.started_declaration_component.started_teacher_training') },
+        value: { text: published_previous_teacher_training.started.capitalize },
       }.merge(change_action),
     ]
   end
@@ -27,7 +27,7 @@ private
     return {} unless actions
 
     {
-      action: {
+      actions: [{
         text: I18n.t('previous_teacher_training.started_declaration_component.change'),
         href: edit_candidate_interface_previous_teacher_trainings_path(
           published_previous_teacher_training,
@@ -35,7 +35,7 @@ private
         ),
         classes: 'govuk-link--no-visited-state',
         visually_hidden_text: I18n.t('previous_teacher_training.started_declaration_component.change_started_teacher_training'),
-      },
+      }],
     }
   end
 
