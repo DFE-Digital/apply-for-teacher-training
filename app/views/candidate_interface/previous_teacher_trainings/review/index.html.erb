@@ -30,7 +30,7 @@
 
     <%= render PreviousTeacherTraining::StartedDeclarationComponent.new(application_form: @application_form, actions: @section_policy.can_edit?) %>
 
-    <%= render PreviousTeacherTraining::ListComponent.with_collection(@previous_teacher_trainings.started_yes, actions: @section_policy.can_edit?) %>
+    <%= render PreviousTeacherTraining::ListComponent.with_collection(@previous_teacher_trainings.started_yes.order_by_dates, actions: @section_policy.can_edit?) %>
 
     <%= render(CandidateInterface::CompleteSectionComponent.new(
       section_policy: @section_policy,

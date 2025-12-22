@@ -14,6 +14,8 @@ class PreviousTeacherTraining < ApplicationRecord
     published: 'published',
   }, default: 'draft'
 
+  scope :order_by_dates, -> { order(:started_at, :ended_at) }
+
   def create_draft_dup!
     dup_record = dup
     dup_record.status = 'draft'

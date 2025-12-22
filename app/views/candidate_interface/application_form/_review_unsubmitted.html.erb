@@ -107,7 +107,7 @@
   <%= render(CandidateInterface::SafeguardingReviewComponent.new(application_form: @application_form, editable: editable, missing_error: nil, submitting_application: true)) %>
 
   <%= render PreviousTeacherTraining::StartedDeclarationComponent.new(application_form: @application_form) %>
-  <%= render PreviousTeacherTraining::ListComponent.with_collection(@application_form.previous_teacher_trainings.published.started_yes) %>
+  <%= render PreviousTeacherTraining::ListComponent.with_collection(@application_form.previous_teacher_trainings.published.started_yes.order_by_dates) %>
 </section>
 
 <section class="govuk-!-margin-bottom-8">
