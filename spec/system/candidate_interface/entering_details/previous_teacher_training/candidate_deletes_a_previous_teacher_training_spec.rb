@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Previous teacher training' do
   include CandidateHelper
 
-  scenario 'Candidate adds multiple previous teacher trainings' do
+  scenario 'Candidate deletes a previous teacher trainings' do
     given_i_am_signed_in_with_one_login
     and_there_are_providers_to_select
     and_a_previous_teacher_training_exists
@@ -102,7 +102,7 @@ RSpec.describe 'Previous teacher training' do
     )
     expect(page).to have_element(
       :h1,
-      text: 'Do you want to delete this previous teacher training?',
+      text: 'Are you sure you want to delete this previous teacher training?',
       class: 'govuk-heading-l',
     )
 
