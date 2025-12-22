@@ -26,7 +26,7 @@ RSpec.describe 'SupportDfESignInController' do
       it 'is forbidden by default' do
         get auth_dfe_support_callback_path
 
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to redirect_to(auth_dfe_support_destroy_path)
       end
     end
 
@@ -34,7 +34,7 @@ RSpec.describe 'SupportDfESignInController' do
       it 'does not sign in' do
         get auth_dfe_support_callback_path
 
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to redirect_to(auth_dfe_support_destroy_path)
       end
     end
 
@@ -55,7 +55,7 @@ RSpec.describe 'SupportDfESignInController' do
       it 'does not sign the Support User in' do
         get auth_dfe_support_callback_path
 
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to redirect_to(auth_dfe_support_destroy_path)
       end
     end
 

@@ -90,7 +90,7 @@ private
 
       redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
     else
-      @email_address = dfe_sign_in_user&.email_address
+      @email_address = @dfe_sign_in_user&.email_address
       DfESignInUser.end_session!(session)
       render(
         layout: 'application',

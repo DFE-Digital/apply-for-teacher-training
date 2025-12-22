@@ -121,7 +121,7 @@ RSpec.describe 'DfESignInController#callbacks' do
       it 'is forbidden by default' do
         get auth_dfe_callback_path
 
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to redirect_to(auth_dfe_destroy_path)
       end
     end
 
@@ -142,7 +142,7 @@ RSpec.describe 'DfESignInController#callbacks' do
       it 'does not sign the Provider User in' do
         get auth_dfe_callback_path
 
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to redirect_to(auth_dfe_destroy_path)
       end
     end
   end
