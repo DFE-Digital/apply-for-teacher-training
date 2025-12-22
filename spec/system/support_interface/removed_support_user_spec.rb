@@ -39,7 +39,7 @@ RSpec.describe 'A removed support user attempts to authenticate via DfE Sign-in'
   end
 
   def then_i_am_not_authorized
-    expect(page).to have_current_path(auth_dfe_support_callback_path)
+    expect(page).to have_current_path(auth_dfe_support_sign_out_path)
     expect(page).to have_text 'Your account is not authorized'
   end
 end

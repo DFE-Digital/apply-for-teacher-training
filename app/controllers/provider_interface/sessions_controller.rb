@@ -14,7 +14,7 @@ module ProviderInterface
     end
 
     def destroy
-      post_signout_redirect = if dfe_sign_in_user.needs_dsi_signout?
+      post_signout_redirect = if dfe_sign_in_user&.needs_dsi_signout?
                                 dfe_sign_in_user.provider_interface_dsi_logout_url
                               else
                                 provider_interface_path
