@@ -10,6 +10,17 @@ module DfESignInHelpers
     )
   end
 
+  def support_user_exists_dsi(email_address: 'email@support.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID', first_name: nil, last_name: nil)
+    OmniAuth.config.mock_auth[:'dfe-support'] = OmniAuth::AuthHash.new(
+      fake_dfe_sign_in_auth_hash(
+        email_address:,
+        dfe_sign_in_uid:,
+        first_name:,
+        last_name:,
+      ),
+    )
+  end
+
   alias provider_exists_in_dfe_sign_in user_exists_in_dfe_sign_in
 
   def provider_signs_in_using_dfe_sign_in
@@ -55,7 +66,7 @@ module DfESignInHelpers
     create(:provider_user, providers:, dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 
-  def fake_dfe_sign_in_auth_hash(email_address:, dfe_sign_in_uid:, first_name:, last_name:)
+  def fake_dfe_sign_in_auth_hash(email_address:, dfe_sign_in_uid:, first_name:, last_name:, id_token: '')
     {
       'provider' => 'dfe',
       'uid' => dfe_sign_in_uid,
@@ -71,7 +82,7 @@ module DfESignInHelpers
         'urls' => { 'website' => nil },
       },
       'credentials' => {
-        'id_token' => '',
+        'id_token' => id_token,
         'token' => 'DFE_SIGN_IN_TOKEN',
         'refresh_token' => nil,
         'expires_in' => 3600,
@@ -87,7 +98,7 @@ module DfESignInHelpers
   end
 
   def support_user_exists_in_dfe_sign_in(email_address: 'email@apply-support.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
-    user_exists_in_dfe_sign_in(email_address:, dfe_sign_in_uid:)
+    support_user_exists_dsi(email_address:, dfe_sign_in_uid:)
     user_is_a_support_user(email_address:, dfe_sign_in_uid:)
   end
 

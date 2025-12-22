@@ -170,6 +170,7 @@ RSpec.configure do |config|
 
       FeatureFlag.deactivate(:adviser_sign_up)
     end
+    FeatureFlag.activate(:separate_dsi_controllers)
   end
 
   config.define_derived_metadata(file_path: Regexp.new('/spec/system/')) do |metadata|
