@@ -1,6 +1,6 @@
 <div class="govuk-grid-column-two-thirds">
   <%= content_tag(:h2, class: 'govuk-heading-m', id: table_caption) do %>
-    <%= t("subject_table_component.#{table_caption}") %>
+    <%= t("shared.recruitment_performance_report.subject_table_component.#{table_caption}") %>
   <% end %>
   <%= content %>
 </div>
@@ -10,7 +10,7 @@
   <% else %>
     <div class="recruitment-performance-report-table__wrapper">
       <%= govuk_table do |table| %>
-        <%= table.with_caption(text: t("subject_table_component.#{table_caption}"),
+        <%= table.with_caption(text: t("shared.recruitment_performance_report.subject_table_component.#{table_caption}"),
                                html_attributes: { class: 'govuk-visually-hidden' }) %>
 
         <%= table.with_colgroup do |colgroup| %>
@@ -32,7 +32,7 @@
           <%= head.with_row do |row| %>
             <%= row.with_cell(text: t('shared.subject'), **subheading_html_attributes) %>
             <% columns.each do |column| %>
-              <%= row.with_cell(text: t("subject_table_component.#{column}"),
+              <%= row.with_cell(text: t("shared.recruitment_performance_report.subject_table_component.#{column}"),
                                 numeric: true,
                                 **subheading_html_attributes(column)) %>
             <% end %>

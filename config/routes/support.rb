@@ -168,6 +168,7 @@ namespace :support_interface, path: '/support' do
 
     get '/user/new' => 'single_provider_users#new', as: :new_single_provider_user
     post '/user' => 'single_provider_users#create', as: :create_single_provider_user
+    resource :provider_recruitment_performance_report, only: :show, path: 'recruitment-performance-report'
 
     namespace :bulk_upload, path: '/bulk-upload' do
       resource :provider_users_details, path: '/provider-users-details', only: %i[new create]

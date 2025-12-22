@@ -20,7 +20,7 @@ module ProviderInterface
         national_statistics: national_report.statistics,
       )
 
-      render ProviderInterface::RecruitmentPerformanceReport::SubjectTableComponent.new(
+      render RecruitmentPerformanceReport::SubjectTableComponent.new(
         provider_report.provider,
         table_caption: 'candidates_who_have_submitted_applications',
         summary_row: row_builder.summary_row,
@@ -37,7 +37,7 @@ module ProviderInterface
         national_statistics: national_report.statistics,
       )
 
-      render ProviderInterface::RecruitmentPerformanceReport::SubjectTableWithProportionsOnlyComponent.new(
+      render RecruitmentPerformanceReport::SubjectTableWithProportionsOnlyComponent.new(
         provider_report.provider,
         table_caption: 'offers_accepted',
         summary_row: row_builder.summary_row,
