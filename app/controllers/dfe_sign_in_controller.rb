@@ -57,18 +57,18 @@ private
     DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
     @dfe_sign_in_user = DfESignInUser.load_from_session(session)
     @local_user ||= ProviderUser.load_from_session(session) || false
+    @target_path = session['post_dfe_sign_in_path']
 
     if @local_user && DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
       @local_user.update!(last_signed_in_at: Time.zone.now)
 
       send_provider_sign_in_confirmation_email
 
-      path_to_redirect = if session['post_dfe_sign_in_path'] &&
-                            !target_path_is_support_path
+      path_to_redirect = if target_path_is_support_path
                            session.delete('post_dfe_sign_in_path')
                            provider_interface_path
                          else
-                           session.delete('post_dfe_sign_in_path')
+                           session.delete('post_dfe_sign_in_path') || provider_interface_path
                          end
 
       redirect_to path_to_redirect
