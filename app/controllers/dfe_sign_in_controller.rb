@@ -64,7 +64,7 @@ private
 
       send_provider_sign_in_confirmation_email
 
-      redirect_to target_path_is_provider_path ? session.delete('post_dfe_sign_in_path') : provider_interface_path
+      redirect_to target_path_is_provider_path ? @target_path : provider_interface_path
       session.delete('post_dfe_sign_in_path')
     else
       session['dsi_provider_email'] = @dfe_sign_in_user&.email_address

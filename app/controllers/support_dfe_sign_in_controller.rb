@@ -17,7 +17,7 @@ class SupportDfESignInController < ApplicationController
 
       send_support_sign_in_confirmation_email
 
-      redirect_to target_path_is_support_path ? session.delete('post_dfe_sign_in_path') : support_interface_path
+      redirect_to target_path_is_support_path ? @target_path : support_interface_path
       session.delete('post_dfe_sign_in_path')
     else
       session['dsi_support_uid'] = @dfe_sign_in_user&.dfe_sign_in_uid
