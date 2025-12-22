@@ -7,7 +7,7 @@ module CandidateInterface
 
       def index
         @application_form = current_application
-        @previous_teacher_trainings = @application_form.previous_teacher_trainings.published.order(:started_at)
+        @previous_teacher_trainings = @application_form.previous_teacher_trainings.published.order(:started_at, :ended_at)
         @form = PreviousTeacherTrainings::ReviewForm.new(@application_form)
       end
 
@@ -38,7 +38,7 @@ module CandidateInterface
           if current_application.previous_teacher_trainings.published.none?
             current_application.update!(previous_teacher_training_completed: false)
 
-            redirect_to candidate_interface_details_path
+            redirect_to start_candidate_interface_previous_teacher_trainings_path
           else
             redirect_to candidate_interface_previous_teacher_trainings_path
           end
