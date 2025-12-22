@@ -64,14 +64,8 @@ private
 
       send_provider_sign_in_confirmation_email
 
-      path_to_redirect = if target_path_is_support_path
-                           session.delete('post_dfe_sign_in_path')
-                           provider_interface_path
-                         else
-                           session.delete('post_dfe_sign_in_path') || provider_interface_path
-                         end
-
-      redirect_to path_to_redirect
+      redirect_to target_path_is_provider_path ? session.delete('post_dfe_sign_in_path') : provider_interface_path
+      session.delete('post_dfe_sign_in_path')
     else
       session['dsi_provider_email'] = @dfe_sign_in_user&.email_address
       redirect_to auth_dfe_destroy_path
@@ -177,6 +171,10 @@ private
 
   def target_path_is_support_path
     @target_path&.match(/^#{support_interface_path}/)
+  end
+
+  def target_path_is_provider_path
+    @target_path&.match(/^#{provider_interface_path}/)
   end
 
   def user_ip_address
