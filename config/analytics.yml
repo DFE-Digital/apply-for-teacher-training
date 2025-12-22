@@ -11,6 +11,7 @@ shared:
     - details
     - created_at
     - updated_at
+    - duplicate_previous_teacher_training_id
   pool_eligible_application_forms:
     - id
     - application_form_id
