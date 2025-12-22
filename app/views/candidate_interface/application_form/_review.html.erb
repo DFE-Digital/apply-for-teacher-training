@@ -143,7 +143,7 @@
   <%= render(CandidateInterface::SafeguardingReviewComponent.new(application_form: @application_form, editable: editable, missing_error: missing_error, submitting_application: true, return_to_application_review: true)) %>
   <h3 class="govuk-heading-m"><%= t('section_groups.previous_teacher_training') %></h3>
   <%= render PreviousTeacherTraining::StartedDeclarationComponent.new(application_form: @application_form) %>
-  <%= render PreviousTeacherTraining::ListComponent.with_collection(@application_form.previous_teacher_trainings.published.started_yes) %>
+  <%= render PreviousTeacherTraining::ListComponent.with_collection(@application_form.previous_teacher_trainings.published.started_yes.order_by_dates) %>
 </section>
 
 <section class="govuk-!-margin-bottom-8">
