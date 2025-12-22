@@ -19,8 +19,11 @@
         border: false,
       ) %>
 
-      <%= f.govuk_submit t('.confirm') %>
-
+      <%= f.govuk_submit t('.confirm'), warning: true %>
     <% end %>
+
+    <p class="govuk-body">
+      <%= govuk_link_to t('.cancel'), candidate_interface_previous_teacher_trainings_path %>
+    </p>
   </div>
 </div>
