@@ -64,10 +64,11 @@ private
       send_provider_sign_in_confirmation_email
 
       path_to_redirect = if session['post_dfe_sign_in_path'] &&
-                            session['post_dfe_sign_in_path'] != support_interface_path
+                            !target_path_is_support_path
                            session.delete('post_dfe_sign_in_path')
-                         else
                            provider_interface_path
+                         else
+                           session.delete('post_dfe_sign_in_path')
                          end
 
       redirect_to path_to_redirect
