@@ -10,13 +10,15 @@ class SupportDfESignInController < ApplicationController
     DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
     @dfe_sign_in_user = DfESignInUser.load_from_session(session)
     @local_user ||= SupportUser.load_from_session(session) || false
+    @target_path = session['post_dfe_sign_in_path']
 
     if @local_user && DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
       @local_user.update!(last_signed_in_at: Time.zone.now)
 
       send_support_sign_in_confirmation_email
 
-      redirect_to session['post_dfe_sign_in_path'] ? session.delete('post_dfe_sign_in_path') : support_interface_path
+      redirect_to target_path_is_support_path ? session.delete('post_dfe_sign_in_path') : support_interface_path
+      session.delete('post_dfe_sign_in_path')
     else
       session['dsi_support_uid'] = @dfe_sign_in_user&.dfe_sign_in_uid
       redirect_to auth_dfe_support_destroy_path
@@ -92,5 +94,9 @@ private
     # of the remote ip as X-FORWARDED-FOR contains the ip and proxies
     # and Rails is picking the proxy from last to first on remote_ip calls.
     request.headers['x-real-ip'].presence || request.remote_ip
+  end
+
+  def target_path_is_support_path
+    @target_path&.match(/^#{support_interface_path}/)
   end
 end
