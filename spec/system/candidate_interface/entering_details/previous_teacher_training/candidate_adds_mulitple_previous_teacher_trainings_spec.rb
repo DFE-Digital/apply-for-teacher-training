@@ -11,6 +11,7 @@ RSpec.describe 'Previous teacher training' do
 
     when_i_click('Previous teacher training')
     then_i_am_on_the_previous_teacher_trainings_page
+    and_i_see_a_link_to_add_another_previous_teacher_training
     and_i_see_the_existing_previous_teacher_training_details
 
     when_i_click('Add another previous teacher training course')
@@ -30,6 +31,23 @@ RSpec.describe 'Previous teacher training' do
     then_i_am_on_the_previous_teacher_trainings_page
     and_i_see_the_new_previous_teacher_training_details
     and_i_see_the_existing_previous_teacher_training_details
+  end
+
+  scenario 'Candidate can not add more previous teacher trainings once the application has been submitted' do
+    create_and_sign_in_candidate
+    and_i_have_a_submitted_application_form
+    and_a_previous_teacher_training_exists
+    and_i_am_on_the_application_details_page
+
+    when_i_click('Previous teacher training')
+    then_i_am_on_the_previous_teacher_trainings_page
+    and_i_see_the_existing_previous_teacher_training_details
+    and_i_do_not_see_a_link_to_add_another_previous_teacher_training
+
+    when_i_visit_the_previous_teacher_training_start_page
+    then_i_am_redirected_to_the_application_details_page
+
+    when_i_visit_the_edit_provider_name_page_for_the_previous_teacher_training
   end
 
   def and_there_are_providers_to_select
@@ -57,12 +75,6 @@ RSpec.describe 'Previous teacher training' do
     expect(page).to have_element(:h1, text: 'Check your previous teacher training', class: 'govuk-heading-xl')
     expect(page).to have_current_path(
       candidate_interface_previous_teacher_trainings_path, ignore_query: true
-    )
-    expect(page).to have_link(
-      'Add another previous teacher training course',
-      href: create_candidate_interface_previous_teacher_trainings_path(
-        candidate_interface_previous_teacher_trainings_start_form: { started: 'yes' },
-      ),
     )
     within('#started-declaration') do
       expect(page).to have_element(
@@ -199,4 +211,36 @@ RSpec.describe 'Previous teacher training' do
   def and_the_previous_teacher_training_is_completed
     expect(page).to have_css('#previous-teacher-training-badge-id', text: 'Completed')
   end
+
+  def and_i_have_a_submitted_application_form
+    create(:application_form, :completed, submitted_application_choices_count: 1, candidate: current_candidate)
+  end
+
+  def and_i_see_a_link_to_add_another_previous_teacher_training
+    expect(page).to have_link(
+      'Add another previous teacher training course',
+      href: create_candidate_interface_previous_teacher_trainings_path(
+        candidate_interface_previous_teacher_trainings_start_form: { started: 'yes' },
+      ),
+    )
+  end
+
+  def and_i_do_not_see_a_link_to_add_another_previous_teacher_training
+    expect(page).to have_no_link(
+      'Add another previous teacher training course',
+      href: create_candidate_interface_previous_teacher_trainings_path(
+        candidate_interface_previous_teacher_trainings_start_form: { started: 'yes' },
+      ),
+    )
+  end
+
+  def when_i_visit_the_previous_teacher_training_start_page
+    visit start_candidate_interface_previous_teacher_trainings_path
+  end
+
+  def then_i_am_redirected_to_the_application_details_page
+    expect(page).to have_current_path(candidate_interface_details_path)
+  end
+
+  def when_i_visit_the_edit_provider_name_page_for_the_previous_teacher_training; end
 end
