@@ -18,11 +18,28 @@ class DomicileResolver
     end
 
     def hesa_code_for_postcode(uk_postcode)
-      return CODES_FOR_UK_AND_CI.one(nil).code if uk_postcode.blank? || (prefix = uk_postcode.scan(/^[a-zA-Z]+/).first).blank?
+      return hesa_code_for_uk_nil if uk_postcode.blank? || (prefix = uk_postcode.scan(/^[a-zA-Z]+/).first).blank?
 
       country_for_prefix = UK_AND_CI_POSTCODE_PREFIX_COUNTRIES.some { |r| r.prefixes.include?(prefix) }.first&.id || 'other'
 
-      CODES_FOR_UK_AND_CI.one(country_for_prefix)&.code || CODES_FOR_UK_AND_CI.one('other').code
+      CODES_FOR_UK_AND_CI.one(country_for_prefix)&.code || hesa_code_for_other_uk
+    end
+
+    def hesa_code_for_region(uk_region)
+      return hesa_code_for_uk_nil if uk_region.blank?
+      return hesa_code_for_other_uk if (country_for_region = UK_REGION_COUNTRY_MAPPING.with_indifferent_access[uk_region]).blank?
+
+      CODES_FOR_UK_AND_CI.one(country_for_region)&.code
+    end
+
+    def hesa_code_for_postcode_or_region(uk_postcode, uk_region)
+      code_for_postcode = hesa_code_for_postcode(uk_postcode)
+
+      if %w[ZZ XK].exclude?(code_for_postcode) || uk_region.blank?
+        code_for_postcode
+      else
+        hesa_code_for_region(uk_region)
+      end
     end
 
     def country_for_hesa_code(hesa_code)
@@ -34,6 +51,16 @@ class DomicileResolver
       return nil if look_up.blank?
 
       hesa_code_for_country(look_up[:mapped_iso_code])
+    end
+
+  private
+
+    def hesa_code_for_other_uk
+      CODES_FOR_UK_AND_CI.one('other').code
+    end
+
+    def hesa_code_for_uk_nil
+      CODES_FOR_UK_AND_CI.one(nil).code
     end
   end
 end
