@@ -19,7 +19,7 @@ module CandidateInterface
         @form.assign_attributes(request_params)
 
         if @form.save
-          redirect_to candidate_interface_previous_teacher_training_path(
+          redirect_to publish_candidate_interface_previous_teacher_training_path(
             @previous_teacher_training,
           )
         else
@@ -47,7 +47,7 @@ module CandidateInterface
 
       def set_back_path
         if params[:return_to] == 'review'
-          @back_path = candidate_interface_previous_teacher_training_path(
+          @back_path = publish_candidate_interface_previous_teacher_training_path(
             @previous_teacher_training,
           )
         end

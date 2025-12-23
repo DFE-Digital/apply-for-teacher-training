@@ -4,7 +4,7 @@ module CandidateInterface
   module PreviousTeacherTrainings
     RSpec.describe ReviewForm, type: :model do
       subject(:form) do
-        described_class.new(previous_teacher_training)
+        described_class.new(application_form)
       end
 
       let(:previous_teacher_training) { create(:previous_teacher_training) }

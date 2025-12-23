@@ -111,17 +111,13 @@ RSpec.describe 'Previous teacher training' do
 
   def then_i_am_on_the_review_page
     expect(page).to have_current_path(
-      candidate_interface_previous_teacher_training_path(@previous_teacher_training),
+      candidate_interface_previous_teacher_trainings_path,
       ignore_query: true,
     )
 
     expect(page).to have_content('Check your previous teacher training')
 
     summary_list = [
-      {
-        label: 'Have you started an initial teacher training (ITT) course in England before?',
-        value: 'Yes',
-      },
       {
         label: 'Name of the training provider',
         value: 'test provider',
@@ -136,10 +132,25 @@ RSpec.describe 'Previous teacher training' do
       },
     ]
 
-    summary_list.each_with_index do |item, index|
-      within ".govuk-summary-list__row:nth-of-type(#{index + 1})" do
-        expect(page).to have_content(item[:label])
-        expect(page).to have_content(item[:value])
+    within('#started-declaration') do
+      expect(page).to have_element(
+        :dt,
+        text: 'Have you started an initial teacher training (ITT) course in England before?',
+        class: 'govuk-summary-list__key',
+      )
+      expect(page).to have_element(
+        :dd,
+        text: 'Yes',
+        class: 'govuk-summary-list__value',
+      )
+    end
+
+    within("#previous-teacher-training-#{@previous_teacher_training.id}") do
+      summary_list.each_with_index do |item, index|
+        within ".govuk-summary-list__row:nth-of-type(#{index + 1})" do
+          expect(page).to have_content(item[:label])
+          expect(page).to have_content(item[:value])
+        end
       end
     end
   end

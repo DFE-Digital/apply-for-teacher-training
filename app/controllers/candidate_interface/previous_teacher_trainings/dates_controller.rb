@@ -55,7 +55,7 @@ module CandidateInterface
 
       def set_back_path
         if params[:return_to] == 'review'
-          @back_path = candidate_interface_previous_teacher_training_path(
+          @back_path = publish_candidate_interface_previous_teacher_training_path(
             @previous_teacher_training,
           )
         end

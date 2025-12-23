@@ -39,7 +39,7 @@ module CandidateInterface
 
       def back_path(params)
         if params[:return_to] == 'review' && previous_teacher_training.reviewable?
-          candidate_interface_previous_teacher_training_path(previous_teacher_training)
+          publish_candidate_interface_previous_teacher_training_path(previous_teacher_training)
         end
       end
 
@@ -47,7 +47,7 @@ module CandidateInterface
         if previous_teacher_training.started_yes?
           back_path(params) || new_candidate_interface_previous_teacher_training_name_path(previous_teacher_training)
         elsif previous_teacher_training.started_no?
-          candidate_interface_previous_teacher_training_path(previous_teacher_training)
+          publish_candidate_interface_previous_teacher_training_path(previous_teacher_training)
         end
       end
     end

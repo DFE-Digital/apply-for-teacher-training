@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_25_161200) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_16_130838) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -834,7 +834,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_25_161200) do
     t.text "details"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "duplicate_previous_teacher_training_id"
     t.index ["application_form_id"], name: "index_previous_teacher_trainings_on_application_form_id"
+    t.index ["duplicate_previous_teacher_training_id"], name: "idx_on_duplicate_previous_teacher_training_id_3aef87bfcc"
     t.index ["provider_id"], name: "index_previous_teacher_trainings_on_provider_id"
   end
 
