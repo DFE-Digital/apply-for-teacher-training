@@ -27,6 +27,13 @@ RSpec.describe CandidateMailer do
       'sign in link' => 'Sign in to your account to respond to your offer',
     )
 
+    it 'contains the content instructing the candidate to review their offer' do
+      expect(email.body).to include('Reviewing your offer')
+      expect(email.body).to include(
+        'You can wait to hear back from any other courses you have submitted applications to before accepting this offer. It\'s important that you accept the offer that is right for you, so take time to review your options.',
+      )
+    end
+
     it 'does not render offer deadline text' do
       expect(email.body).not_to include "If you want to accept this offer, you must do so by #{current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}. If you have not responded by then, the offer will be automatically declined on your behalf."
     end
