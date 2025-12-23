@@ -3,6 +3,18 @@ require 'rails_helper'
 RSpec.describe ApplicationReference do
   subject(:reference) { build(:reference) }
 
+  describe 'normalizes email address' do
+    it 'downcases by default' do
+      reference.update(email_address: '   Test@Example.com')
+      expect(reference.email_address).to eq 'test@example.com'
+    end
+
+    it 'leaves an already normalized email unchanged' do
+      reference.update(email_address: 'test@example.com')
+      expect(reference.email_address).to eq 'test@example.com'
+    end
+  end
+
   describe 'auditing', :with_audited do
     let(:application_form) { create(:application_form) }
 
