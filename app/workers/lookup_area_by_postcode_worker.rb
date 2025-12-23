@@ -1,23 +1,6 @@
 class LookupAreaByPostcodeWorker
   include Sidekiq::Worker
 
-  REGION_CODES = {
-    'north east' => :north_east,
-    'north west' => :north_west,
-    'yorkshire and the humber' => :yorkshire_and_the_humber,
-    'east midlands' => :east_midlands,
-    'west midlands' => :west_midlands,
-    'east of england' => :eastern,
-    'london' => :london,
-    'south east' => :south_east,
-    'south west' => :south_west,
-    'wales' => :wales,
-    'scotland' => :scotland,
-    'northern ireland' => :northern_ireland,
-    'channel islands' => :channel_islands,
-    'isle of man' => :isle_of_man,
-  }.freeze
-
   sidekiq_options queue: :low_priority, retry: 5
 
   def perform(application_form_id)
