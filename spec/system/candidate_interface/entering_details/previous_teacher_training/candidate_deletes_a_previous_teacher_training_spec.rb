@@ -65,26 +65,30 @@ RSpec.describe 'Previous teacher training' do
   end
 
   def and_i_see_the_existing_previous_teacher_training_details
+    summary_list = [
+      {
+        label: 'Name of the training provider',
+        value: @existing_previous_teacher_training.provider_name,
+      },
+      {
+        label: 'Training dates',
+        value: @existing_previous_teacher_training.formatted_dates,
+      },
+      {
+        label: 'Details',
+        value: @existing_previous_teacher_training.details,
+      },
+    ]
+
     within("#previous-teacher-training-#{@existing_previous_teacher_training.id}") do
-      within('.app-summary-card__header') do
-        expect(page).to have_element('h2', text: @existing_previous_teacher_training.provider_name)
-      end
-      within('.app-summary-card__body') do
-        expect(page).to have_element(
-          :div,
-          text: "Name of the training provider #{@existing_previous_teacher_training.provider_name}",
-          class: 'govuk-summary-list__row',
-        )
-        expect(page).to have_element(
-          :div,
-          text: "Training dates #{@existing_previous_teacher_training.formatted_dates}",
-          class: 'govuk-summary-list__row',
-        )
-        expect(page).to have_element(
-          :div,
-          text: "Details #{@existing_previous_teacher_training.details}",
-          class: 'govuk-summary-list__row',
-        )
+      expect(page).to have_element('h2', text: @existing_previous_teacher_training.provider_name, class: 'govuk-summary-card__title')
+      within('.govuk-summary-card__content') do
+        summary_list.each_with_index do |item, index|
+          within ".govuk-summary-list__row:nth-of-type(#{index + 1})" do
+            expect(page).to have_content(item[:label])
+            expect(page).to have_content(item[:value])
+          end
+        end
       end
     end
   end
@@ -95,6 +99,21 @@ RSpec.describe 'Previous teacher training' do
   alias_method :then_i_click, :when_i_click
 
   def then_i_see_the_do_you_want_to_delete_page
+    summary_list = [
+      {
+        label: 'Name of the training provider',
+        value: @existing_previous_teacher_training.provider_name,
+      },
+      {
+        label: 'Training dates',
+        value: @existing_previous_teacher_training.formatted_dates,
+      },
+      {
+        label: 'Details',
+        value: @existing_previous_teacher_training.details,
+      },
+    ]
+
     expect(page).to have_element(
       :span,
       text: 'Previous teacher training',
@@ -106,22 +125,16 @@ RSpec.describe 'Previous teacher training' do
       class: 'govuk-heading-l',
     )
 
-    within('.app-summary-card__body') do
-      expect(page).to have_element(
-        :div,
-        text: "Name of the training provider #{@existing_previous_teacher_training.provider_name}",
-        class: 'govuk-summary-list__row',
-      )
-      expect(page).to have_element(
-        :div,
-        text: "Training dates #{@existing_previous_teacher_training.formatted_dates}",
-        class: 'govuk-summary-list__row',
-      )
-      expect(page).to have_element(
-        :div,
-        text: "Details #{@existing_previous_teacher_training.details}",
-        class: 'govuk-summary-list__row',
-      )
+    within("#previous-teacher-training-#{@existing_previous_teacher_training.id}") do
+      expect(page).not_to have_element('h2', text: @existing_previous_teacher_training.provider_name, class: 'govuk-summary-card__title')
+      within('.govuk-summary-list') do
+        summary_list.each_with_index do |item, index|
+          within ".govuk-summary-list__row:nth-of-type(#{index + 1})" do
+            expect(page).to have_content(item[:label])
+            expect(page).to have_content(item[:value])
+          end
+        end
+      end
     end
 
     expect(page).to have_button('Yes, delete previous teacher training')

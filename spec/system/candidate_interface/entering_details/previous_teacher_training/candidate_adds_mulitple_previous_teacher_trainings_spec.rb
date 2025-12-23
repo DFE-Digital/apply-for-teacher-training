@@ -75,26 +75,30 @@ RSpec.describe 'Previous teacher training' do
   end
 
   def and_i_see_the_existing_previous_teacher_training_details
+    summary_list = [
+      {
+        label: 'Name of the training provider',
+        value: @existing_previous_teacher_training.provider_name,
+      },
+      {
+        label: 'Training dates',
+        value: @existing_previous_teacher_training.formatted_dates,
+      },
+      {
+        label: 'Details',
+        value: @existing_previous_teacher_training.details,
+      },
+    ]
+
     within("#previous-teacher-training-#{@existing_previous_teacher_training.id}") do
-      within('.app-summary-card__header') do
-        expect(page).to have_element('h2', text: @existing_previous_teacher_training.provider_name)
-      end
-      within('.app-summary-card__body') do
-        expect(page).to have_element(
-          :div,
-          text: "Name of the training provider #{@existing_previous_teacher_training.provider_name}",
-          class: 'govuk-summary-list__row',
-        )
-        expect(page).to have_element(
-          :div,
-          text: "Training dates #{@existing_previous_teacher_training.formatted_dates}",
-          class: 'govuk-summary-list__row',
-        )
-        expect(page).to have_element(
-          :div,
-          text: "Details #{@existing_previous_teacher_training.details}",
-          class: 'govuk-summary-list__row',
-        )
+      expect(page).to have_element('h2', text: @existing_previous_teacher_training.provider_name, class: 'govuk-summary-card__title')
+      within('.govuk-summary-card__content') do
+        summary_list.each_with_index do |item, index|
+          within ".govuk-summary-list__row:nth-of-type(#{index + 1})" do
+            expect(page).to have_content(item[:label])
+            expect(page).to have_content(item[:value])
+          end
+        end
       end
     end
   end
@@ -160,26 +164,30 @@ RSpec.describe 'Previous teacher training' do
   end
 
   def and_i_see_the_new_previous_teacher_training_details
+    summary_list = [
+      {
+        label: 'Name of the training provider',
+        value: 'test provider',
+      },
+      {
+        label: 'Training dates',
+        value: 'From January 2005 to January 2006',
+      },
+      {
+        label: 'Details',
+        value: 'details',
+      },
+    ]
+
     within("#previous-teacher-training-#{@previous_teacher_training.id}") do
-      within('.app-summary-card__header') do
-        expect(page).to have_element('h2', text: 'test provider')
-      end
-      within('.app-summary-card__body') do
-        expect(page).to have_element(
-          :div,
-          text: 'Name of the training provider test provider',
-          class: 'govuk-summary-list__row',
-        )
-        expect(page).to have_element(
-          :div,
-          text: 'Training dates From January 2005 to January 2006',
-          class: 'govuk-summary-list__row',
-        )
-        expect(page).to have_element(
-          :div,
-          text: 'Details details',
-          class: 'govuk-summary-list__row',
-        )
+      expect(page).to have_element('h2', text: 'test provider', class: 'govuk-summary-card__title')
+      within('.govuk-summary-card__content') do
+        summary_list.each_with_index do |item, index|
+          within ".govuk-summary-list__row:nth-of-type(#{index + 1})" do
+            expect(page).to have_content(item[:label])
+            expect(page).to have_content(item[:value])
+          end
+        end
       end
     end
   end

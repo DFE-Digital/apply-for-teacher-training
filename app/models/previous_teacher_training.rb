@@ -17,6 +17,8 @@ class PreviousTeacherTraining < ApplicationRecord
   scope :order_by_dates, -> { order(:started_at, :ended_at) }
 
   def create_draft_dup!
+    duplicate_previous_teacher_training&.destroy! if duplicate_previous_teacher_training&.draft?
+
     dup_record = dup
     dup_record.status = 'draft'
     dup_record.source_previous_teacher_training = self
