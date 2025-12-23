@@ -1,5 +1,5 @@
 <% content_for :browser_title, title_with_error_prefix(t('.title'), @form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(application_form_path) %>
+<% content_for :before_content, govuk_back_link_to(:back) %>
 
 <div class="govuk-grid-row">
   <%= form_with(

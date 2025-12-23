@@ -4,11 +4,16 @@ module CandidateInterface
       before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
       before_action :set_previous_teacher_training, except: %i[index complete]
       before_action :set_section_policy
+      before_action :check_policy, except: %i[index]
 
       def index
         @application_form = current_application
         @previous_teacher_trainings = @application_form.previous_teacher_trainings.published.order(:started_at, :ended_at)
-        @form = PreviousTeacherTrainings::ReviewForm.new(@application_form)
+        if @previous_teacher_trainings.exists?
+          @form = PreviousTeacherTrainings::ReviewForm.new(@application_form)
+        else
+          redirect_to start_candidate_interface_previous_teacher_trainings_path
+        end
       end
 
       def publish
@@ -73,6 +78,10 @@ module CandidateInterface
         params.expect(
           candidate_interface_previous_teacher_trainings_review_form: [:completed],
         )
+      end
+
+      def check_policy
+        redirect_to candidate_interface_details_path unless @section_policy.can_edit?
       end
     end
   end

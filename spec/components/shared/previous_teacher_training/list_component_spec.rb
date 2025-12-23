@@ -5,11 +5,11 @@ RSpec.describe PreviousTeacherTraining::ListComponent do
 
   describe 'renders the component' do
     subject(:rendered_component) do
-      render_inline(described_class.with_collection(previous_teacher_trainings, header:, actions:))
+      render_inline(described_class.with_collection(previous_teacher_trainings, card:, actions:))
     end
 
     let(:actions) { false }
-    let(:header) { true }
+    let(:card) { true }
 
     context 'when the application form has only one published previous teacher training' do
       let(:previous_teacher_trainings) do
@@ -35,7 +35,7 @@ RSpec.describe PreviousTeacherTraining::ListComponent do
     end
 
     context 'when header is false' do
-      let(:header) { false }
+      let(:card) { false }
 
       let(:previous_teacher_trainings) do
         create_list(:previous_teacher_training, 1, application_form:)
@@ -47,11 +47,11 @@ RSpec.describe PreviousTeacherTraining::ListComponent do
         expect(rendered_component).to have_element(:div, id: previous_teacher_training_id)
 
         previous_teacher_training_card = rendered_component.css("##{previous_teacher_training_id}")
-        expect(previous_teacher_training_card).to have_element(:section, class: 'app-summary-card')
+        expect(previous_teacher_training_card).not_to have_element(:div, class: 'govuk-summary-card')
         expect(previous_teacher_training_card).not_to have_element(
           :h2,
           text: previous_teacher_training.provider_name,
-          class: 'app-summary-card__title',
+          class: 'govuk-summary-card__title',
         )
       end
     end
@@ -91,11 +91,11 @@ RSpec.describe PreviousTeacherTraining::ListComponent do
     expect(rendered_component).to have_element(:div, id: previous_teacher_training_id)
 
     previous_teacher_training_card = rendered_component.css("##{previous_teacher_training_id}")
-    expect(previous_teacher_training_card).to have_element(:section, class: 'app-summary-card')
+    expect(previous_teacher_training_card).to have_element(:div, class: 'govuk-summary-card')
     expect(previous_teacher_training_card).to have_element(
       :h2,
       text: previous_teacher_training.provider_name,
-      class: 'app-summary-card__title',
+      class: 'govuk-summary-card__title',
     )
 
     expect(previous_teacher_training_card).to have_element(
