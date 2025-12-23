@@ -5,12 +5,12 @@ RSpec.describe 'Previous teacher training' do
 
   scenario 'Candidate deletes a previous teacher trainings' do
     given_i_am_signed_in_with_one_login
-    and_there_are_providers_to_select
     and_a_previous_teacher_training_exists
     and_i_am_on_the_application_details_page
 
     when_i_click('Previous teacher training')
     then_i_am_on_the_previous_teacher_trainings_page
+    and_i_see_a_link_to_add_another_previous_teacher_training
     and_i_see_the_existing_previous_teacher_training_details
 
     when_i_click('Delete')
@@ -22,9 +22,29 @@ RSpec.describe 'Previous teacher training' do
     and_the_previous_teacher_training_is_incomplete
   end
 
+  scenario 'Candidate can not delete a previous teacher training once an application is submitted' do
+    create_and_sign_in_candidate
+    and_i_have_a_submitted_application_form
+    and_a_previous_teacher_training_exists
+    and_i_am_on_the_application_details_page
+
+    when_i_click('Previous teacher training')
+    then_i_am_on_the_previous_teacher_trainings_page
+    and_i_see_the_existing_previous_teacher_training_details
+    and_i_do_not_see_a_delete_link
+    and_i_do_not_see_any_change_links
+
+    when_i_visit_the_remove_page
+    then_i_am_redirected_to_the_application_details_page
+  end
+
   def and_there_are_providers_to_select
     create(:course, :open, provider: create(:provider, name: 'test provider'))
     create(:course, :open, provider: create(:provider, name: 'another provider'))
+  end
+
+  def and_i_have_a_submitted_application_form
+    create(:application_form, :completed, submitted_application_choices_count: 1, candidate: current_candidate)
   end
 
   def and_a_previous_teacher_training_exists
@@ -48,12 +68,6 @@ RSpec.describe 'Previous teacher training' do
     expect(page).to have_current_path(
       candidate_interface_previous_teacher_trainings_path, ignore_query: true
     )
-    expect(page).to have_link(
-      'Add another previous teacher training course',
-      href: create_candidate_interface_previous_teacher_trainings_path(
-        candidate_interface_previous_teacher_trainings_start_form: { started: 'yes' },
-      ),
-    )
     within('#started-declaration') do
       expect(page).to have_element(
         :dt,
@@ -62,6 +76,15 @@ RSpec.describe 'Previous teacher training' do
       )
       expect(page).to have_element(:dd, text: 'Yes', class: 'govuk-summary-list__value')
     end
+  end
+
+  def and_i_see_a_link_to_add_another_previous_teacher_training
+    expect(page).to have_link(
+      'Add another previous teacher training course',
+      href: create_candidate_interface_previous_teacher_trainings_path(
+        candidate_interface_previous_teacher_trainings_start_form: { started: 'yes' },
+      ),
+    )
   end
 
   def and_i_see_the_existing_previous_teacher_training_details
@@ -150,5 +173,23 @@ RSpec.describe 'Previous teacher training' do
 
   def and_the_previous_teacher_training_is_incomplete
     expect(page).to have_css('#previous-teacher-training-badge-id', text: 'Incomplete')
+  end
+
+  def and_i_do_not_see_a_delete_link
+    expect(page).to have_no_link('Delete', href: remove_candidate_interface_previous_teacher_training_path(@existing_previous_teacher_training))
+  end
+
+  def and_i_do_not_see_any_change_links
+    expect(page).to have_no_link('Change the name of the training provider')
+    expect(page).to have_no_link('Change training dates')
+    expect(page).to have_no_link('Change details of your previous teacher training')
+  end
+
+  def when_i_visit_the_remove_page
+    visit remove_candidate_interface_previous_teacher_training_path(@existing_previous_teacher_training)
+  end
+
+  def then_i_am_redirected_to_the_application_details_page
+    expect(page).to have_current_path(candidate_interface_details_path)
   end
 end
