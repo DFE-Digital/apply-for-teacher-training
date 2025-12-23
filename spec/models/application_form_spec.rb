@@ -844,8 +844,8 @@ RSpec.describe ApplicationForm do
 
     it 'calls #hesa_code_for_postcode for UK addresses' do
       application_form = create(:completed_application_form)
-      allow(DomicileResolver).to receive(:hesa_code_for_postcode)
-                                 .with(application_form.postcode).and_return(':)')
+      allow(DomicileResolver).to receive(:hesa_code_for_postcode_or_region)
+                                 .with(application_form.postcode, application_form.region_code).and_return(':)')
 
       expect(application_form.domicile).to eq(':)')
     end
