@@ -122,8 +122,13 @@ en:
         candidate_interface/reference/referee_email_address_form:
           attributes:
             email_address:
+              duplicate:
+                not_requested_yet: A reference request has already been started for this email address
+                feedback_requested: A reference request has already been sent to this email address
+                feedback_provided: A reference has already been received from this email address
+                feedback_refused: The person using this email address said that they cannot give a reference
+                email_bounced: A reference request already failed to reach this email address
               blank: Enter their email address
-              duplicate: There’s already a reference request for this email address
               own: Enter an email address that’s not your own
         candidate_interface/reference/referee_relationship_form:
           attributes:

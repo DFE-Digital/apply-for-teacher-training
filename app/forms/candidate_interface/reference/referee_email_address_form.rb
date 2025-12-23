@@ -42,20 +42,6 @@ module CandidateInterface
       !reference.character?
     end
 
-    def email_address_unique
-      reference = ApplicationReference.find(reference_id)
-      all_emails = reference.application_form.application_references.creation_order.map(&:email_address).compact
-
-      # Remove reference.email_address to prevent validation counting itself as a duplicate - case insensitive
-      current_email_addresses = all_emails.reject { |address| address&.casecmp?(reference.email_address) }
-
-      return true if current_email_addresses.blank? || email_address.blank?
-
-      if current_email_addresses.any? { |address| address.casecmp?(email_address) }
-        errors.add(:email_address, :duplicate)
-      end
-    end
-
     def email_address_not_own
       reference = ApplicationReference.find(reference_id)
       return if reference.application_form.nil?
@@ -63,6 +49,21 @@ module CandidateInterface
       candidate_email_address = reference.application_form.candidate.email_address
 
       errors.add(:email_address, :own) if email_address == candidate_email_address
+    end
+
+    def email_address_unique
+      return true if email_address.blank?
+
+      other_references
+        .reject { |reference| reference.cancelled? || reference.cancelled_at_end_of_cycle? }
+        .select { |reference| reference.email_address.to_s.downcase == email_address.downcase }.each do |other_reference|
+        errors.add(:email_address, :"duplicate.#{other_reference.feedback_status}")
+      end
+    end
+
+    def other_references
+      reference = ApplicationReference.find(reference_id)
+      reference.application_form.application_references.creation_order.where.not(id: reference_id)
     end
   end
 end
