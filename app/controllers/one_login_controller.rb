@@ -55,7 +55,7 @@ class OneLoginController < ApplicationController
     id_token_hint = if authenticated?
                       Current.session&.id_token_hint
                     else
-                      session_error&.id_token_hint
+                      session_error&.id_token_hindsi_logout_url
                     end
 
     terminate_session

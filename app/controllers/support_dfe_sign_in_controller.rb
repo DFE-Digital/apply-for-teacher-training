@@ -1,4 +1,7 @@
 class SupportDfESignInController < ApplicationController
+  include DsiSupportAuth
+
+  skip_before_action :require_authentication
   protect_from_forgery except: :bypass_callback
 
   SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN = %w[session_id impersonated_provider_user].freeze
@@ -7,13 +10,17 @@ class SupportDfESignInController < ApplicationController
     redirect_to auth_dfe_callback_path and return unless FeatureFlag.active?(:separate_dsi_controllers)
 
     change_session_id_and_drop_provider_impersonation
-    DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
-    @dfe_sign_in_user = DfESignInUser.load_from_session(session)
-    @local_user ||= SupportUser.load_from_session(session) || false
+    omniauth_payload = request.env['omniauth.auth']
+    dfe_sign_in_uid = omniauth_payload['uid']
+    @local_user ||= SupportUser.find_by(dfe_sign_in_uid:)
     @target_path = session['post_dfe_sign_in_path']
 
-    if @local_user && DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
-      @local_user.update!(last_signed_in_at: Time.zone.now)
+    if @local_user &&
+       DsiProfile.update_profile_from_dfe_sign_in_db(omniauth_payload:, local_user: @local_user)
+      start_new_dsi_session(
+        user: @local_user,
+        omniauth_payload:,
+      )
 
       send_support_sign_in_confirmation_email
 
@@ -26,7 +33,9 @@ class SupportDfESignInController < ApplicationController
   end
 
   def destroy
+    # fix this
     dfe_sign_in_user = DfESignInUser.load_from_session(session)
+    terminate_session
     post_signout_redirect = if dfe_sign_in_user&.needs_dsi_signout?
                               query = {
                                 post_logout_redirect_uri: auth_dfe_support_sign_out_url,

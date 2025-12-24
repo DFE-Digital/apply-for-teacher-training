@@ -1,6 +1,7 @@
 module SupportInterface
   class SessionsController < SupportInterfaceController
-    skip_before_action :authenticate_support_user!, except: :destroy
+    skip_before_action :authenticate_support_user!
+    skip_before_action :require_authentication, except: :destroy
 
     def new
       redirect_to support_interface_path and return if current_support_user
@@ -13,13 +14,20 @@ module SupportInterface
     end
 
     def destroy
-      post_signout_redirect = if dfe_sign_in_user.needs_dsi_signout?
-                                dfe_sign_in_user.support_interface_dsi_logout_url
-                              else
+      byebug
+      post_signout_redirect = if DfESignIn.bypass?
                                 support_interface_path
+                              else
+                                dfe_sign_in_user.support_interface_dsi_logout_url
+                                query = {
+                                  post_logout_redirect_uri: auth_dfe_sign_out_url,
+                                  id_token_hint: dfe_sign_in_user.id_token,
+                                }
+
+                                "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
                               end
 
-      DfESignInUser.end_session!(session)
+      terminate_session
       redirect_to post_signout_redirect, allow_other_host: true
     end
 

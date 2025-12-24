@@ -1,4 +1,8 @@
 class DfESignInController < ActionController::Base
+  include DsiProviderAuth
+
+  # You can still go to provider/sign-in after you are signed in as provider
+  skip_before_action :require_authentication
   protect_from_forgery except: :bypass_callback
 
   SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN = %w[session_id impersonated_provider_user].freeze
@@ -14,7 +18,9 @@ class DfESignInController < ActionController::Base
   alias bypass_callback callback
 
   def destroy
+    # fix this
     dfe_sign_in_user = DfESignInUser.load_from_session(session)
+    terminate_session
     post_signout_redirect = if dfe_sign_in_user&.needs_dsi_signout?
                               query = {
                                 post_logout_redirect_uri: auth_dfe_sign_out_url,
@@ -54,13 +60,16 @@ private
 
   def new_callback
     change_session_id_and_drop_provider_impersonation
-    DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
-    @dfe_sign_in_user = DfESignInUser.load_from_session(session)
-    @local_user ||= ProviderUser.load_from_session(session) || false
+    omniauth_payload = request.env['omniauth.auth']
+    @local_user ||= ProviderUser.find_or_onboard(omniauth_payload)
     @target_path = session['post_dfe_sign_in_path']
 
-    if @local_user && DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
-      @local_user.update!(last_signed_in_at: Time.zone.now)
+    if @local_user &&
+       DsiProfile.update_profile_from_dfe_sign_in_db(omniauth_payload:, local_user: @local_user)
+      start_new_dsi_session(
+        user: @local_user,
+        omniauth_payload:,
+      )
 
       send_provider_sign_in_confirmation_email
 
