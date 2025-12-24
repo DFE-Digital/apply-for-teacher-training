@@ -1,17 +1,16 @@
-<% if show_missing_banner? %>
+<% references.each_with_index do |reference, index| %>
+<% if show_missing_banner?(reference) %>
   <%= render(CandidateInterface::IncompleteSectionComponent.new(**incomplete_section_params)) %>
 <% end %>
-
-<% references.each_with_index do |reference, index| %>
   <%= render(SummaryCardComponent.new(
     rows: reference_rows(reference),
-    editable: editable && reference_editable?(reference),
+    editable: show_edit_links?(reference),
     ignore_editable: ignore_editable_for,
   )) do %>
     <%= render(SummaryCardHeaderComponent.new(title: reference.name, heading_level: @heading_level)) do %>
       <div class="app-summary-card__actions">
         <ul class="app-summary-card__actions-list">
-          <% if deletable? && reference_editable?(reference) %>
+          <% if show_delete_link?(reference) %>
             <li class="app-summary-card__actions-list-item">
               <%= govuk_link_to confirm_destroy_path(reference), class: 'govuk-!-font-weight-bold' do %>
                 <%= t('application_form.references.delete_reference.action') %>
