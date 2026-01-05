@@ -27,11 +27,11 @@ module Publications
       ProvidersForRecruitmentPerformanceReportQuery
         .call(cycle_week:, recruitment_cycle_year:)
         .find_each do |provider|
-        Publications::ProviderRecruitmentPerformanceReportWorker
-          .perform_async(
-            provider.id,
-            cycle_week,
-          )
+          Publications::ProviderRecruitmentPerformanceReportWorker
+            .perform_async(
+              provider.id,
+              cycle_week,
+            )
       end
     end
   end

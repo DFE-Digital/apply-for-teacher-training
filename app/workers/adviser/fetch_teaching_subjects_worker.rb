@@ -29,7 +29,7 @@ private
     GetIntoTeachingApiClient::LookupItemsApi.new
                                             .get_teaching_subjects
                                             .reject do |subject|
-      subject.id.in?(exclude_subject_ids)
+                                              subject.id.in?(exclude_subject_ids)
     end
   end
 

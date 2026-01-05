@@ -117,11 +117,11 @@ module SupportInterface
         .split("\r\n")
         .map { |row| row.split(/[\t,]+/) }
         .map do |provider_user|
-        {
-          first_name: provider_user[0],
-          last_name: provider_user[1],
-          email_address: provider_user[2],
-        }
+          {
+            first_name: provider_user[0],
+            last_name: provider_user[1],
+            email_address: provider_user[2],
+          }
       end
 
       {
