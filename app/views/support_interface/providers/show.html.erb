@@ -22,5 +22,4 @@
   'Data sharing agreement' => dsa,
   'Average distance to sites' => format_average_distance(@provider, @provider.sites.uniq_by_location),
   'Vendor' => @provider.vendor&.name&.humanize,
-  'Candidates can select placement school' => @provider.selectable_school ? 'Yes' : 'No',
 })) %>

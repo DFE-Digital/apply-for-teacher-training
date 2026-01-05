@@ -206,21 +206,6 @@ RSpec.describe ProviderInterface::CourseWizard do
           expect(wizard.next_step).to eq(:check)
         end
       end
-
-      context 'when there are multiple locations available, but the school is autoselected' do
-        let(:application_choice_id) { create(:application_choice, school_placement_auto_selected: true).id }
-        let(:study_mode) { 'full_time' }
-
-        before do
-          allow(query_service)
-            .to receive(:available_course_options)
-                  .and_return([build_stubbed(:course_option), build_stubbed(:course_option)])
-        end
-
-        it 'returns :check' do
-          expect(wizard.next_step).to eq(:check)
-        end
-      end
     end
 
     context 'when the current_step is :locations' do

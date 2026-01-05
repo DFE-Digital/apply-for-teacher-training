@@ -122,7 +122,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
     it 'renders the accredited body name and code when it is present' do
       render = render_inline(described_class.new(application_choice: application_choice_with_accredited_body, course_option: course_option2))
 
-      render_text = render.css('.govuk-summary-list__row')[4].text
+      render_text = row_text_selector(:accredited_body, render)
 
       expect(render_text).to include('Accredited body')
       expect(render_text).to include('Accredit Now')
@@ -131,7 +131,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
 
   context 'when an accredited body is not present' do
     it 'renders the provider name and code in place of the accredited body name and code' do
-      render_text = render.css('.govuk-summary-list__row')[4].text
+      render_text = row_text_selector(:accredited_body, render)
 
       expect(render_text).to include('Accredited body')
       expect(render_text).to include('Best Training')
@@ -152,27 +152,13 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
     expect(render_text).to include('2020')
   end
 
-  context 'when candidate did not select the location' do
-    let(:application_choice) do
-      instance_double(ApplicationChoice,
-                      current_course_option: course_option,
-                      original_course_option: course_option,
-                      different_offer?: false,
-                      course_option:,
-                      provider:,
-                      course:,
-                      school_placement_auto_selected?: true,
-                      site:)
-    end
+  it 'renders the preferred location' do
+    render_text = row_text_selector(:location, render)
 
-    it 'does not renders the preferred location' do
-      render_text = render
-
-      expect(render_text).not_to include('Location (not selected by candidate)')
-      expect(render_text).not_to include('First Road (F34)')
-      expect(render_text).not_to include("Fountain Street\nMorley\nLeeds")
-      expect(render_text).not_to include('LS27 OPD')
-    end
+    expect(render_text).to include('Location (not selected by candidate)')
+    expect(render_text).to include('First Road (F34)')
+    expect(render_text).to include("Fountain Street\nMorley\nLeeds")
+    expect(render_text).to include('LS27 OPD')
   end
 
   context 'when school placement is selected by candidate' do
@@ -191,7 +177,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
     it 'renders the preferred location' do
       render_text = row_text_selector(:location, render)
 
-      expect(render_text).to include('Location')
+      expect(render_text).to include('Location (selected by candidate)')
     end
   end
 
@@ -224,14 +210,14 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
   end
 
   it 'renders the qualification' do
-    render_text = render.css('.govuk-summary-list__row')[5].text
+    render_text = row_text_selector(:qualification, render)
 
     expect(render_text).to include('Qualification')
     expect(render_text).to include('QTS with PGCE')
   end
 
   it 'renders financing funding type of a course' do
-    render_text = render.css('.govuk-summary-list__row')[6].text
+    render_text = row_text_selector(:funding_type, render)
 
     expect(render_text).to include('Funding type')
     expect(render_text).to include('Fee paying')

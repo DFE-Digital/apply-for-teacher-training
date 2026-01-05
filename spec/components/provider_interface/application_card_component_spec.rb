@@ -86,32 +86,12 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       expect(card).to include current_timetable.cycle_range_name
     end
 
-    context 'when candidate selected the location of the course' do
-      before do
-        application_choice.update(school_placement_auto_selected: false)
-      end
-
-      it 'renders the location of the course' do
-        expect(card).to include('Skywalker Training')
-      end
-
-      it 'renders the study mode of the course' do
-        expect(card).to include('part time at Skywalker Training')
-      end
+    it 'renders the location of the course' do
+      expect(card).to include('Skywalker Training')
     end
 
-    context 'when candidate has not selected the location of the course' do
-      before do
-        application_choice.update(school_placement_auto_selected: true)
-      end
-
-      it 'renders the location of the course' do
-        expect(card).not_to include('Skywalker Training')
-      end
-
-      it 'renders the study mode of the course' do
-        expect(card).to include('- part time')
-      end
+    it 'renders the study mode of the course' do
+      expect(card).to include('part time at Skywalker Training')
     end
 
     it 'renders the new location if application choice has been updated' do
