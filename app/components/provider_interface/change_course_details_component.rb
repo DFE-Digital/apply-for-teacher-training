@@ -28,35 +28,14 @@ module ProviderInterface
 
     def rows
       [
-        {
-          key: 'Training provider',
-          value: provider_name,
-          action: {
-            href: change_provider_path,
-            visually_hidden_text: change_provider_path.present? ? 'training provider' : nil,
-          },
-        },
-        {
-          key: 'Course',
-          value: course_name_and_code,
-          action: {
-            href: change_course_path,
-            visually_hidden_text: change_course_path.present? ? 'course' : nil,
-          },
-        },
-        {
-          key: 'Full time or part time',
-          value: study_mode,
-          action: {
-            href: change_study_mode_path,
-            visually_hidden_text: change_study_mode_path.present? ? 'full time or part time' : nil,
-          },
-        },
-        location_row,
+        { key: 'Training provider', value: provider_name, action: { href: change_provider_path } },
+        { key: 'Course', value: course_name_and_code, action: { href: change_course_path } },
+        { key: 'Full time or part time', value: study_mode, action: { href: change_study_mode_path } },
+        { key: location_key, value: preferred_location, action: { href: change_location_path } },
         { key: 'Accredited body', value: accredited_body },
         { key: 'Qualification', value: qualification },
         { key: 'Funding type', value: funding_type },
-      ].compact_blank
+      ]
     end
 
     def preferred_location_text
@@ -100,17 +79,18 @@ module ProviderInterface
       available_course_options.length > 1 ? edit_provider_interface_application_choice_course_locations_path(application_choice) : nil
     end
 
-    def location_row
-      return {} if @application_choice.school_placement_auto_selected?
+    # If the course option being displayed is the original course option chosen
+    # by the candidate we show the context. Otherwise we just show the
+    # simplified key.
+    def location_key
+      if application_choice.different_offer?
+        t('school_placements.changed')
+      elsif @application_choice.school_placement_auto_selected?
+        t('school_placements.auto_selected')
 
-      {
-        key: t('school_placements.location'),
-        value: preferred_location,
-        action: {
-          href: change_location_path,
-          visually_hidden_text: change_location_path.present? ? t('school_placements.visually_hidden_text') : nil,
-        },
-      }
+      else
+        t('school_placements.selected_by_candidate')
+      end
     end
   end
 end

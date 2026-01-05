@@ -1,6 +1,0 @@
-en:
-  provider_interface:
-    course_details_component:
-      school_placements:
-        changed: Location
-        selected_by_candidate: Location

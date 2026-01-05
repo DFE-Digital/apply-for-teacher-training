@@ -21,7 +21,7 @@ module CandidateInterface
         start_date_row(application_choice),
         degree_required_row(application_choice),
         gcse_required_row(application_choice),
-      ].compact_blank
+      ].compact
     end
 
     def course_row(application_choice)
@@ -32,7 +32,7 @@ module CandidateInterface
     end
 
     def location_row(application_choice)
-      return {} if application_choice.school_placement_auto_selected?
+      return if application_choice.school_placement_auto_selected?
 
       {
         key: 'Location',

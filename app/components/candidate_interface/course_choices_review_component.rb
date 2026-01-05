@@ -39,7 +39,7 @@ module CandidateInterface
         offer_withdrawal_reason_row(application_choice),
         interview_row(application_choice),
         visa_details_row(application_choice),
-      ].compact_blank
+      ].compact
     end
 
     def withdrawable?(application_choice)
@@ -121,7 +121,7 @@ module CandidateInterface
     end
 
     def location_row(application_choice)
-      return {} if application_choice.school_placement_auto_selected?
+      return if application_choice.school_placement_auto_selected?
 
       {
         key: 'Location',
