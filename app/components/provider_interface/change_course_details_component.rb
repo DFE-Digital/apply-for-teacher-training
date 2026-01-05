@@ -28,10 +28,38 @@ module ProviderInterface
 
     def rows
       [
-        { key: 'Training provider', value: provider_name, action: { href: change_provider_path } },
-        { key: 'Course', value: course_name_and_code, action: { href: change_course_path } },
-        { key: 'Full time or part time', value: study_mode, action: { href: change_study_mode_path } },
-        { key: location_key, value: preferred_location, action: { href: change_location_path } },
+        {
+          key: 'Training provider',
+          value: provider_name,
+          action: {
+            href: change_provider_path,
+            visually_hidden_text: change_provider_path.present? ? 'training provider' : nil,
+          },
+        },
+        {
+          key: 'Course',
+          value: course_name_and_code,
+          action: {
+            href: change_course_path,
+            visually_hidden_text: change_course_path.present? ? 'course' : nil,
+          },
+        },
+        {
+          key: 'Full time or part time',
+          value: study_mode,
+          action: {
+            href: change_study_mode_path,
+            visually_hidden_text: change_study_mode_path.present? ? 'full time or part time' : nil,
+          },
+        },
+        {
+          key: location_key,
+          value: preferred_location,
+          action: {
+            href: change_location_path,
+            visually_hidden_text: change_location_path.present? ? t('school_placements.visually_hidden_text') : nil,
+          },
+        },
         { key: 'Accredited body', value: accredited_body },
         { key: 'Qualification', value: qualification },
         { key: 'Funding type', value: funding_type },
