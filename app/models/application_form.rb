@@ -589,7 +589,7 @@ class ApplicationForm < ApplicationRecord
     if international_address?
       DomicileResolver.hesa_code_for_country country
     else
-      DomicileResolver.hesa_code_for_postcode postcode
+      DomicileResolver.hesa_code_for_postcode_or_region(postcode || nil, region_code || nil)
     end
   end
 

@@ -54,7 +54,7 @@ RSpec.describe 'ApplicationPresenter' do
       application_presenter.new(version, application_choice).serialized_json
       application_presenter.new(version, application_choice).serialized_json
 
-      (ApplicationForm.attribute_names - %w[id created_at updated_at recruitment_cycle_year] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
+      (ApplicationForm.attribute_names - %w[id created_at updated_at recruitment_cycle_year region_code] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
         expect(non_uk_application_form).not_to have_received(field)
         expect(application_choice.application_form).not_to have_received(field)
       end

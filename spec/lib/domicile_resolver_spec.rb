@@ -1,11 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe DomicileResolver do
-  delegate :hesa_code_for_country, :hesa_code_for_postcode, to: :described_class
+  delegate :hesa_code_for_country,
+           :hesa_code_for_postcode,
+           :hesa_code_for_region,
+           :hesa_code_for_postcode_or_region, to: :described_class
 
   it 'returns ZZ if it receives a nil argument' do
     expect(hesa_code_for_country(nil)).to eq('ZZ')
     expect(hesa_code_for_postcode(nil)).to eq('ZZ')
+    expect(hesa_code_for_region(nil)).to eq('ZZ')
   end
 
   it 'returns ZZ if legacy iso code does not have an updated code mapping' do
@@ -71,6 +75,43 @@ RSpec.describe DomicileResolver do
     end
   end
 
+  describe 'hesa_code_for_region' do
+    it 'returns XK if region not mapped to a country in the UK' do
+      expect(hesa_code_for_region('isle_of_man')).to eq 'XK'
+    end
+
+    it 'returns correct country for region' do
+      expect(hesa_code_for_region('north_east')).to eq 'XF'
+      expect(hesa_code_for_region('north_west')).to eq 'XF'
+      expect(hesa_code_for_region('yorkshire_and_the_humber')).to eq 'XF'
+      expect(hesa_code_for_region('east_midlands')).to eq 'XF'
+      expect(hesa_code_for_region('west_midlands')).to eq 'XF'
+      expect(hesa_code_for_region('eastern')).to eq 'XF'
+      expect(hesa_code_for_region('london')).to eq 'XF'
+      expect(hesa_code_for_region('south_east')).to eq 'XF'
+      expect(hesa_code_for_region('south_west')).to eq 'XF'
+
+      expect(hesa_code_for_region('wales')).to eq 'XI'
+      expect(hesa_code_for_region('scotland')).to eq 'XH'
+      expect(hesa_code_for_region('northern_ireland')).to eq 'XG'
+    end
+  end
+
+  describe 'hesa_code_for_postcode_or_region' do
+    it 'returns hesa code for postcode if not blank or nil' do
+      expect(hesa_code_for_postcode_or_region('HA1 2FW', nil)).to eq 'XF'
+      expect(hesa_code_for_postcode_or_region('HA1 2FW', 'london')).to eq 'XF'
+      expect(hesa_code_for_postcode_or_region('HA1 2FW', 'wales')).to eq 'XF'
+    end
+
+    it 'returns hesa code for region if postcode returns blank or nil' do
+      expect(hesa_code_for_postcode_or_region('HR1 2LX', 'wales')).to eq 'XI'
+      expect(hesa_code_for_postcode_or_region('HR1 2LX', 'scotland')).to eq 'XH'
+      expect(hesa_code_for_postcode_or_region(nil, 'north_west')).to eq 'XF'
+      expect(hesa_code_for_postcode_or_region('HR1 2LX', nil)).to eq 'XK'
+    end
+  end
+
   describe 'country_for_hesa_code' do
     it 'returns nil for ZZ HESA code' do
       expect(described_class.country_for_hesa_code('ZZ')).to be_nil
@@ -87,11 +128,11 @@ RSpec.describe DomicileResolver do
       expect(described_class.country_for_hesa_code('XL')).to eq('Channel Islands')
       expect(described_class.country_for_hesa_code('XK')).to eq('United Kingdom')
     end
+  end
 
-    it 'returns countries for HESA codes which match ISO-3166-2 codes' do
-      COUNTRIES_AND_TERRITORIES.except(*%w[AQ CY XK]).each do |iso_code, country_name|
-        expect(described_class.country_for_hesa_code(iso_code)).to eq(country_name)
-      end
+  it 'returns countries for HESA codes which match ISO-3166-2 codes' do
+    COUNTRIES_AND_TERRITORIES.except(*%w[AQ CY XK]).each do |iso_code, country_name|
+      expect(described_class.country_for_hesa_code(iso_code)).to eq(country_name)
     end
   end
 end
