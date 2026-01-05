@@ -13,7 +13,7 @@ module Wizard
       @state_store = state_store
       attrs = sanitize_attrs(attrs)
       state = sanitize_last_saved_state(last_saved_state, attrs)
-      super(state.deep_merge(attrs).select { |attr| self.class.instance_methods.include?(:"#{attr}=") })
+      super(state.deep_merge(attrs).select { |attr| self.class.method_defined?(:"#{attr}=") })
 
       initialize_extra(attrs)
       setup_path_history(attrs)

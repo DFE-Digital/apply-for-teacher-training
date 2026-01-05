@@ -68,12 +68,12 @@ module SupportInterface
     def create_output(level:, attribute:, field_name:, set_to_check:)
       counts_for(level:, attribute:)
         .map do |value, count|
-        {
-          field: field_name,
-          value_entered: value,
-          frequency: count,
-          free_text?: set_to_check.exclude?(value),
-        }
+          {
+            field: field_name,
+            value_entered: value,
+            frequency: count,
+            free_text?: set_to_check.exclude?(value),
+          }
       end
     end
 
