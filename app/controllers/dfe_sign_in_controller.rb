@@ -90,11 +90,10 @@ private
 
       redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
     else
-      @email_address = @dfe_sign_in_user&.email_address
       DfESignInUser.end_session!(session)
       render(
         layout: 'application',
-        template: 'provider_interface/email_address_not_recognised',
+        template: choose_error_template,
         status: :forbidden,
       )
     end
@@ -163,8 +162,10 @@ private
 
   def choose_error_template
     if target_path_is_support_path
+      @email_address = @dfe_sign_in_user&.dfe_sign_in_uid
       'support_interface/unauthorized'
     else
+      @email_address = @dfe_sign_in_user&.email_address
       'provider_interface/email_address_not_recognised'
     end
   end
