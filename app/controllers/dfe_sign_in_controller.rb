@@ -162,7 +162,7 @@ private
 
   def choose_error_template
     if target_path_is_support_path
-      @email_address = @dfe_sign_in_user&.dfe_sign_in_uid
+      @dfe_sign_in_uid = @dfe_sign_in_user&.dfe_sign_in_uid
       'support_interface/unauthorized'
     else
       @email_address = @dfe_sign_in_user&.email_address
