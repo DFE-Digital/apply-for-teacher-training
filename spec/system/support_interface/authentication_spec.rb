@@ -29,7 +29,7 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
   end
 
   def given_i_have_a_dfe_sign_in_account_and_support_authorisation
-    support_user_exists_dsi(email_address: 'user@apply-support.com', dfe_sign_in_uid: 'abc', first_name: 'John')
+    user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com', dfe_sign_in_uid: 'abc', first_name: 'John')
     user_is_a_support_user(email_address: 'user@apply-support.com', dfe_sign_in_uid: 'abc')
   end
 

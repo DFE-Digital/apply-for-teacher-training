@@ -9,7 +9,7 @@
     <p class="govuk-body">
       You have signed in to DfE as
       <span style="white-space: nowrap;">
-        <%= @email_address %>
+        <%= @dfe_sign_in_user&.email_address %>
       </span>
     </p>
 

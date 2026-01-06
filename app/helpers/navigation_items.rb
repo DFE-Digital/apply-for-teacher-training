@@ -93,21 +93,16 @@ class NavigationItems
     end
 
     def for_support_account_nav(current_support_user)
-      path_to_sign_out = if FeatureFlag.active?(:separate_dsi_controllers)
-                           auth_dfe_support_destroy_path
-                         else
-                           support_interface_sign_out_path
-                         end
       if current_support_user && (impersonated_user = current_support_user.impersonated_provider_user)
         [
           NavigationItem.new("<span aria-hidden=\"true\">🎭 ⚙️</span><span class=\"govuk-visually-hidden\">Currently impersonating: #{impersonated_user.email_address}</span>".html_safe, support_interface_provider_user_path(impersonated_user), false, []),
           NavigationItem.new(current_support_user.email_address, nil, false, []),
-          NavigationItem.new('Sign out', path_to_sign_out, false, []),
+          NavigationItem.new('Sign out', support_interface_sign_out_path, false, []),
         ]
       elsif current_support_user
         [
           NavigationItem.new(current_support_user.email_address, nil, false, []),
-          NavigationItem.new('Sign out', path_to_sign_out, false, []),
+          NavigationItem.new('Sign out', support_interface_sign_out_path, false, []),
         ]
       else
         []
@@ -197,13 +192,8 @@ class NavigationItems
                                                  support_interface_provider_user_path(current_provider_user),
                                                  false, [])
                             else
-                              path_to_sign_out = if FeatureFlag.active?(:separate_dsi_controllers)
-                                                   auth_dfe_destroy_path
-                                                 else
-                                                   provider_interface_sign_out_path
-                                                 end
                               NavigationItem.new('Sign out',
-                                                 path_to_sign_out,
+                                                 provider_interface_sign_out_path,
                                                  false, [])
                             end
       items << sign_out_navigation
