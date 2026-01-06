@@ -5,6 +5,8 @@ class ApplicationReference < ApplicationRecord
 
   self.table_name = 'references'
 
+  normalizes :email_address, with: ->(email_address) { email_address.downcase.strip }
+
   belongs_to :application_form, touch: true
   has_many :reference_tokens, dependent: :destroy
   has_one :candidate, through: :application_form
