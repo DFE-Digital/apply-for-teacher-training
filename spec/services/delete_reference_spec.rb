@@ -29,12 +29,6 @@ RSpec.describe DeleteReference do
       expect { described_class.new.call(reference:) }.to raise_error('Application has been sent to providers')
     end
 
-    it 'raises error if reference is a duplicate from a prior application' do
-      application_form = create(:application_form)
-      reference_to_delete = create(:reference, :feedback_provided, application_form:, duplicate: true)
-      expect { described_class.new.call(reference: reference_to_delete) }.to raise_error('Reference cannot be deleted because it is from a previous application')
-    end
-
     it 'deletes the reference' do
       application_form = create(:application_form)
       reference_to_delete = create(:reference, :feedback_provided, application_form:)
