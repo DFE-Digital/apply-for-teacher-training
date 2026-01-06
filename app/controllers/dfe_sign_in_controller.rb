@@ -36,8 +36,11 @@ class DfESignInController < ActionController::Base
   #
   # The interface we signed out from will appear here in the :state param.
   def redirect_after_dsi_signout
-    if FeatureFlag.active?(:separate_dsi_controllers) && session['dsi_provider_email']
-      @email_address = session.delete('dsi_provider_email')
+    if FeatureFlag.active?(:separate_dsi_controllers) && session['email_address_not_recognised']
+      # When users input an unauthorized email we need to render a page where
+      # we show the user's email. We don't have access to the user here because
+      # we logged them out by now, so we need to get it from the session variable
+      @email_address = session.delete('email_address_not_recognised')
       render(
         layout: 'application',
         template: 'provider_interface/email_address_not_recognised',
@@ -67,7 +70,7 @@ private
       redirect_to target_path_is_provider_path ? @target_path : provider_interface_path
       session.delete('post_dfe_sign_in_path')
     else
-      session['dsi_provider_email'] = @dfe_sign_in_user&.email_address
+      session['email_address_not_recognised'] = @dfe_sign_in_user&.email_address
       redirect_to auth_dfe_destroy_path
     end
   end

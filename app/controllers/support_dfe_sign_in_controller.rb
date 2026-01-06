@@ -20,7 +20,7 @@ class SupportDfESignInController < ApplicationController
       redirect_to target_path_is_support_path ? @target_path : support_interface_path
       session.delete('post_dfe_sign_in_path')
     else
-      session['dsi_support_uid'] = @dfe_sign_in_user&.dfe_sign_in_uid
+      session['unauthorized_dsi_support_uid'] = @dfe_sign_in_user&.dfe_sign_in_uid
       redirect_to auth_dfe_support_destroy_path
     end
   end
@@ -50,8 +50,11 @@ class SupportDfESignInController < ApplicationController
   #
   # The interface we signed out from will appear here in the :state param.
   def redirect_after_dsi_signout
-    if session['dsi_support_uid'].present?
-      @dfe_sign_in_uid = session.delete('dsi_support_uid')
+    if session['unauthorized_dsi_support_uid'].present?
+      # When users are not authorized we need to render a page where
+      # we show the user's dfe_sign_in_uid. We don't have access to the user here because
+      # we logged them out by now, so we need to get it from the session variable
+      @dfe_sign_in_uid = session.delete('unauthorized_dsi_support_uid')
       render(
         layout: 'application',
         template: 'support_interface/unauthorized',
