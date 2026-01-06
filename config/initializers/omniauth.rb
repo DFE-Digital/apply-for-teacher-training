@@ -1,30 +1,6 @@
 OmniAuth.config.logger = Rails.logger
 require 'omniauth/strategies/one_login_developer'
 
-dfe_sign_in_identifier = ENV['DFE_SIGN_IN_CLIENT_ID']
-dfe_sign_in_secret = ENV['DFE_SIGN_IN_SECRET']
-dfe_sign_in_redirect_uri = URI.join(HostingEnvironment.application_url, '/auth/dfe/callback')
-dfe_sign_in_issuer_uri = ENV['DFE_SIGN_IN_ISSUER'].present? ? URI(ENV['DFE_SIGN_IN_ISSUER']) : nil
-
-options = {
-  name: :dfe,
-  discovery: true,
-  response_type: :code,
-  scope: %i[email profile],
-  path_prefix: '/auth',
-  callback_path: '/auth/dfe/callback',
-  client_options: {
-    port: dfe_sign_in_issuer_uri&.port,
-    scheme: dfe_sign_in_issuer_uri&.scheme,
-    host: dfe_sign_in_issuer_uri&.host,
-    identifier: dfe_sign_in_identifier,
-    secret: dfe_sign_in_secret,
-    redirect_uri: dfe_sign_in_redirect_uri&.to_s,
-  },
-  issuer:
-  ("#{dfe_sign_in_issuer_uri}:#{dfe_sign_in_issuer_uri.port}" if dfe_sign_in_issuer_uri.present?),
-}
-
 # this needs to be declared inline or zeitwerk complains about autoloading during initialization
 # it cannot just be a local function as other parts of the codebase depend on it
 module ::DfESignIn
@@ -45,8 +21,63 @@ if DfESignIn.bypass?
              fields: %i[uid email first_name last_name],
              uid_field: :uid
   end
+
+  Rails.application.config.middleware.use OmniAuth::Builder do
+    provider :developer,
+             fields: %i[uid email first_name last_name],
+             uid_field: :uid,
+             path_prefix: '/auth/support'
+  end
+
 else
-  Rails.application.config.middleware.use OmniAuth::Strategies::OpenIDConnect, options
+  # provider setup
+  dfe_sign_in_identifier = ENV['DFE_SIGN_IN_CLIENT_ID']
+  dfe_sign_in_secret = ENV['DFE_SIGN_IN_SECRET']
+  provider_dfe_sign_in_redirect_uri = URI.join(HostingEnvironment.application_url, '/auth/dfe/callback')
+  dfe_sign_in_issuer_uri = ENV['DFE_SIGN_IN_ISSUER'].present? ? URI(ENV['DFE_SIGN_IN_ISSUER']) : nil
+
+  Rails.application.config.middleware.use OmniAuth::Builder do
+    provider :openid_connect, {
+      name: :dfe,
+      discovery: true,
+      response_type: :code,
+      scope: %i[email profile],
+      path_prefix: '/auth',
+      callback_path: '/auth/dfe/callback',
+      client_options: {
+        port: dfe_sign_in_issuer_uri&.port,
+        scheme: dfe_sign_in_issuer_uri&.scheme,
+        host: dfe_sign_in_issuer_uri&.host,
+        identifier: dfe_sign_in_identifier,
+        secret: dfe_sign_in_secret,
+        redirect_uri: provider_dfe_sign_in_redirect_uri&.to_s,
+      },
+      issuer: ("#{dfe_sign_in_issuer_uri}:#{dfe_sign_in_issuer_uri.port}" if dfe_sign_in_issuer_uri.present?),
+    }
+  end
+
+  # support setup
+  support_dfe_sign_in_redirect_uri = URI.join(HostingEnvironment.application_url, '/auth/dfe-support/callback')
+
+  Rails.application.config.middleware.use OmniAuth::Builder do
+    provider :openid_connect, {
+      name: :'dfe-support',
+      discovery: true,
+      response_type: :code,
+      scope: %i[email profile],
+      path_prefix: '/auth',
+      callback_path: '/auth/dfe-support/callback',
+      client_options: {
+        port: dfe_sign_in_issuer_uri&.port,
+        scheme: dfe_sign_in_issuer_uri&.scheme,
+        host: dfe_sign_in_issuer_uri&.host,
+        identifier: dfe_sign_in_identifier,
+        secret: dfe_sign_in_secret,
+        redirect_uri: support_dfe_sign_in_redirect_uri&.to_s,
+      },
+      issuer: ("#{dfe_sign_in_issuer_uri}:#{dfe_sign_in_issuer_uri.port}" if dfe_sign_in_issuer_uri.present?),
+    }
+  end
 end
 
 if OneLogin.bypass?

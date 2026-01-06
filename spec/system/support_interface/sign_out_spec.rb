@@ -22,7 +22,7 @@ RSpec.describe 'A support user signs out of DSI as well as Apply' do
   end
 
   def and_i_have_a_dfe_sign_in_account
-    user_exists_in_dfe_sign_in(
+    support_user_exists_dsi(
       email_address: 'provider@example.com',
       dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
     )
@@ -48,8 +48,7 @@ RSpec.describe 'A support user signs out of DSI as well as Apply' do
   def then_i_am_redirected_to_dsi_end_session_endpoint
     expected_query = {
       id_token_hint: nil,
-      post_logout_redirect_uri: "#{HostingEnvironment.application_url}/auth/dfe/sign-out",
-      state: :support,
+      post_logout_redirect_uri: 'http://www.example.com/auth/dfe-support/sign-out',
     }
 
     expected_url = "https://identityprovider.gov.uk/session/end?#{expected_query.to_query}"
@@ -58,7 +57,7 @@ RSpec.describe 'A support user signs out of DSI as well as Apply' do
 
   def and_dsi_redirects_me_back_to_the_support_interface
     # we'll just have to simulate the redirect here
-    return_from_dsi_logout_path = '/auth/dfe/sign-out?state=support'
+    return_from_dsi_logout_path = '/auth/dfe-support/sign-out'
     visit return_from_dsi_logout_path
 
     expect(page).to have_current_path(support_interface_sign_in_path)
