@@ -14,12 +14,16 @@ RSpec.describe ProviderInterface::OfferWizard do
       ske_conditions:,
       standard_conditions:,
       study_mode:,
+      require_references:,
+      references_description:,
     )
   end
 
   let(:store) { instance_double(WizardStateStores::RedisStore) }
   let(:provider_id) { nil }
   let(:course_id) { nil }
+  let(:require_references) { nil }
+  let(:references_description) { nil }
   let(:course_option) { create(:course_option) }
   let(:course_option_id) { course_option.id }
   let(:study_mode) { nil }
@@ -61,6 +65,7 @@ RSpec.describe ProviderInterface::OfferWizard do
     it { is_expected.to validate_presence_of(:study_mode).on(:save) }
     it { is_expected.to validate_presence_of(:course_id).on(:courses) }
     it { is_expected.to validate_presence_of(:course_id).on(:save) }
+    it { is_expected.to validate_inclusion_of(:require_references).in_array([1, 0]).on(:conditions) }
 
     describe 'when a ske condition is required' do
       let(:decision) { :make_offer }
@@ -187,6 +192,19 @@ RSpec.describe ProviderInterface::OfferWizard do
         expect(wizard.valid?(:save)).to be(false)
       end
     end
+
+    context 'if require_references is true (1)' do
+      let(:require_references) { 1 }
+
+      context 'if the references_description is blank' do
+        it 'adds the correct validation error messages to the wizard' do
+          expect(wizard.valid?(:conditions)).to be(false)
+          expect(wizard.errors[:references_description]).to contain_exactly(
+            'Enter details of the specific reference you want',
+          )
+        end
+      end
+    end
   end
 
   describe '#initialize' do
@@ -269,24 +287,6 @@ RSpec.describe ProviderInterface::OfferWizard do
       let(:conditions) { [build(:reference_condition, required: true)] }
 
       it 'correctly populates the wizard with reference condition' do
-        expect(wizard).to be_valid
-        expect(wizard.require_references).to be(1)
-      end
-    end
-
-    context 'when blank conditions' do
-      let(:conditions) { [] }
-
-      it 'unchecked as default' do
-        expect(wizard).to be_valid
-        expect(wizard.require_references).to be_zero
-      end
-    end
-
-    context 'when blank offer' do
-      let(:offer) { nil }
-
-      it 'checked as default' do
         expect(wizard).to be_valid
         expect(wizard.require_references).to be(1)
       end
@@ -681,8 +681,9 @@ RSpec.describe ProviderInterface::OfferWizard do
   end
 
   describe '#require_references' do
-    context 'when require references does not have any value' do
+    context 'when require references is checked' do
       it 'returns checked' do
+        wizard.require_references = '1'
         expect(wizard.require_references).to be(1)
       end
     end
@@ -720,30 +721,45 @@ RSpec.describe ProviderInterface::OfferWizard do
   end
 
   describe '#conditions_to_render' do
-    context 'when reference condition is checked' do
-      it 'adds reference condition' do
-        wizard.require_references = '1'
-
-        expect(wizard.conditions_to_render.size).to be(3)
-        expect(wizard.conditions_to_render.last).to be_a(ReferenceCondition)
+    context 'when there are no conditions' do
+      it 'does not display a condition' do
+        expect(wizard.conditions_to_render.size).to be_zero
       end
     end
 
-    context 'when reference condition is unchecked' do
-      it 'does not add reference condition' do
-        wizard.require_references = '0'
+    context 'when there are conditions' do
+      let(:further_condition_1) { Faker::Lorem.paragraph_by_chars(number: 300) }
+      let(:further_condition_2) { Faker::Lorem.paragraph_by_chars(number: 300) }
 
+      it 'does display conditions' do
         expect(wizard.conditions_to_render.size).to be(2)
-        expect(wizard.conditions_to_render).to all be_a(OfferCondition)
       end
-    end
 
-    context 'when reference condition is blank' do
-      it 'does not add reference condition' do
-        wizard.require_references = nil
+      context 'when a reference condition is present' do
+        let(:require_references) { '1' }
+        let(:references_description) { Faker::Lorem.paragraph_by_chars(number: 300) }
 
-        expect(wizard.conditions_to_render.size).to be(2)
-        expect(wizard.conditions_to_render).to all be_a(OfferCondition)
+        context 'when the reference attribute if true' do
+          it 'displays the reference condition' do
+            rendered_condition = wizard.conditions_to_render
+            expect(rendered_condition.size).to be(3)
+            expect(
+              rendered_condition
+                .map { |condition| condition.details[:description] },
+            ).to include(references_description)
+          end
+        end
+
+        context 'when the references attribute if false' do
+          it 'does not display the reference condition' do
+            rendered_condition = wizard.conditions_to_render(references: false)
+            expect(rendered_condition.size).to be(2)
+            expect(
+              rendered_condition
+                .map { |condition| condition.details[:description] },
+            ).not_to include(references_description)
+          end
+        end
       end
     end
   end

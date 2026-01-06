@@ -21,13 +21,13 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
 
     when_i_make_an_offer_on_an_application_choice
     then_the_conditions_page_is_loaded
-    and_the_default_conditions_are_checked
 
     when_i_add_a_further_condition(text: 'Be cool', index: 0)
     and_i_add_another_further_condition(text: 'Win an olympic medal', index: 1)
     and_i_add_another_further_condition(text: 'Show us a photo of your dog', index: 2)
     and_i_add_another_further_condition(text: 'Wear a tie', index: 3)
     and_i_remove_the_second_condition
+    and_i_do_not_request_any_specific_references
     then_the_condition_inputs_are_rendered_correctly
 
     when_i_click_continue
@@ -123,16 +123,8 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
   end
 
   def and_the_conditions_are_displayed(conditions)
-    expected_conditions = [
-      'Fitness to train to teach check',
-      'Disclosure and Barring Service (DBS) check',
-    ] + conditions
-
-    expected_conditions << 'References'
-    expected_conditions = [expected_conditions.join("\n")]
-
     within(all('.govuk-summary-list__row')[8]) do
-      expect(all('.govuk-summary-list__value').map(&:text)).to eq expected_conditions
+      expect(all('.govuk-summary-list__value').map(&:text)).to eq [conditions.join("\n")]
     end
   end
 
@@ -150,5 +142,9 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
     within('.govuk-notification-banner--success') do
       expect(page).to have_content('Offer sent')
     end
+  end
+
+  def and_i_do_not_request_any_specific_references
+    choose 'No'
   end
 end

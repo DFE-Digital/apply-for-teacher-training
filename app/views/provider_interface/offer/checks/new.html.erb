@@ -13,7 +13,8 @@
       <%= render ProviderInterface::MakeOfferComponent.new(
         application_choice: @application_choice,
         course_option: @wizard.course_option,
-        conditions: @wizard.conditions_to_render,
+        conditions: @wizard.conditions_to_render(references: false),
+        reference_condition: @wizard.reference_condition,
         course: @wizard.course_option.course,
         available_providers: @providers,
         available_courses: @courses,

@@ -54,8 +54,7 @@ module ProviderInterface
           .expect(
             provider_interface_offer_wizard: [:require_references,
                                               :references_description,
-                                              further_conditions: {},
-                                              standard_conditions: []],
+                                              further_conditions: {}],
           )
       end
 

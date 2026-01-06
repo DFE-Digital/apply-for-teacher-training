@@ -558,6 +558,13 @@ en:
               too_long: Email address must be %{count} characters or fewer
             providers:
               blank: Select which organisations this user will have access to
+        provider_interface/offer_wizard:
+          attributes:
+            require_references:
+              blank: Select if you want to request any specific references
+              inclusion: Select if you want to request any specific references
+            references_description:
+              blank: Enter details of the specific reference you want
         provider_interface/reconfirm_deferred_offer_wizard:
           attributes:
             conditions_status:

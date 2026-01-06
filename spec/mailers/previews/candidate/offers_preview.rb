@@ -45,6 +45,24 @@ class Candidate::OffersPreview < ActionMailer::Preview
     CandidateMailer.new_offer_made(application_choice)
   end
 
+  def new_offer_made_with_reference_condition
+    application_form_with_name = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Bob',
+    )
+    offer = FactoryBot.build(:offer, :with_reference_condition)
+    offer.reference_condition = offer.conditions.first
+
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      application_form: application_form_with_name,
+      course_option:,
+      offer:,
+    )
+
+    CandidateMailer.new_offer_made(application_choice)
+  end
+
   def offer_withdrawn
     candidate = FactoryBot.build_stubbed(:candidate)
     application_choice = FactoryBot.build_stubbed(

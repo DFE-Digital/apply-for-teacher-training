@@ -1,29 +1,28 @@
 <%= form_with model: form_object, url: provider_interface_application_choice_offer_conditions_path(application_choice), method: form_method do |f| %>
   <%= f.govuk_error_summary %>
 
-  <h1 class="govuk-heading-l">
-  <span class="govuk-caption-l"><%= form_caption %></span>
-    <%= form_heading %>
-  </h1>
-
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <%= f.govuk_collection_check_boxes(:standard_conditions,
-                                         standard_conditions_checkboxes,
-                                         :id,
-                                         :name,
-                                         legend: nil) %>
 
-        <%= f.govuk_check_boxes_fieldset :structured_reference_condition, legend: nil, multiple: false do %>
-          <%= f.govuk_check_box :require_references, 1, 0, label: { text: 'References' }, multiple: false do %>
-            <%= f.govuk_text_area :references_description, label: { text: 'Details (optional)' }, hint: { text: 'For example, if you require a reference from their current school employer' } %>
-          <% end %>
-        <% end %>
+      <h1 class="govuk-heading-l">
+        <span class="govuk-caption-l"><%= form_caption %></span>
+        <%= form_heading %>
+      </h1>
+
+      <h2 class="govuk-heading-m">Mandatory conditions</h2>
+      <p class="govuk-body">
+        The candidate must meet these conditions before joining the course:
+      </p>
+      <%= govuk_list(type: :bullet) do %>
+        <li>a fitness to train to teach check</li>
+        <li>Disclosure and Barring Service (DBS) check</li>
+        <li>satisfactory references</li>
+      <% end %>
 
       <%= f.govuk_fieldset(
         legend: {
           id: 'further-conditions-heading',
-          text: t('.further_conditions'),
+          text: 'Additional conditions',
           class: 'govuk-heading-m govuk-!-margin-bottom-1 app-add-condition__heading',
           tabindex: '-1',
         },
@@ -45,6 +44,13 @@
           class: 'app-add-condition__add-button',
           style: "display: #{form_object.max_number_of_further_conditions? ? 'none' : 'block'};",
         ) %>
+      <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset :require_references, legend: { text: 'Do you want to request any specific references?' }, hint: { text: 'For example, if you require a reference from their current school employer.' } do %>
+        <%= f.govuk_radio_button :require_references, 1, label: { text: 'Yes' } do %>
+          <%= f.govuk_text_area :references_description, label: { text: 'Give details of the specific reference you want. The candidate will be made aware of this request' } %>
+        <% end %>
+        <%= f.govuk_radio_button :require_references, 0, label: { text: 'No' } %>
       <% end %>
 
       <%= f.govuk_submit t('continue') %>

@@ -94,17 +94,6 @@ RSpec.describe 'Provider changes an existing offer' do
     then_i_see_that_the_offer_was_successfully_updated
     and_the_modified_ske_conditions_be_displayed
 
-    # Toggle the standard conditions and save
-    when_i_choose_to_change_the_conditions
-    and_i_click_continue
-    then_the_review_page_is_loaded
-    and_the_modified_ske_conditions_be_displayed
-
-    when_i_send_the_offer
-    then_i_see_that_the_offer_was_successfully_updated
-    and_i_can_see_the_new_offer_condition
-    and_the_modified_ske_conditions_be_displayed
-
     # Change provider and course to a subject that does NOT permit SKE conditions
     when_i_choose_to_change_the_course
     and_i_select_a_different_non_ske_course
@@ -308,7 +297,6 @@ RSpec.describe 'Provider changes an existing offer' do
   end
 
   def and_the_conditions_of_the_original_offer_are_filled_in
-    expect(find("input[value='Fitness to train to teach check']")).to be_checked
     expect(page).to have_field('Condition', with: 'Be cool')
   end
 
@@ -339,7 +327,6 @@ RSpec.describe 'Provider changes an existing offer' do
       expect(page).to have_content(@selected_course.name_and_code)
       expect(page).to have_content(@selected_course_option.study_mode.humanize)
       expect(page).to have_content(@selected_course_option.site.name_and_address(' '))
-      expect(page).to have_content('Fitness to train to teach check')
       expect(page).to have_content('Be cool')
       expect(page).to have_content('A* on Maths A Level')
     end
@@ -351,7 +338,6 @@ RSpec.describe 'Provider changes an existing offer' do
       expect(page).to have_content(@selected_non_ske_course.name_and_code)
       expect(page).to have_content(@selected_non_ske_course_option.study_mode.humanize)
       expect(page).to have_content(@selected_non_ske_course_option.site.name_and_address(' '))
-      expect(page).to have_content('Disclosure and Barring Service (DBS) check')
       expect(page).to have_content('Be cool')
       expect(page).to have_content('A* on Maths A Level')
     end

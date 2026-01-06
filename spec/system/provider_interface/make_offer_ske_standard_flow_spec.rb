@@ -66,10 +66,10 @@ RSpec.describe 'Provider makes an offer with SKE enabled in standard courses' do
     when_i_answer_the_ske_length
     and_i_click_continue
     then_the_conditions_page_is_loaded
-    and_the_default_conditions_are_checked
 
     when_i_add_further_conditions
     and_i_add_and_remove_another_condition
+    and_i_do_not_request_any_specific_references
     and_i_click_continue
     then_the_review_page_is_loaded
     and_i_can_confirm_my_answers
@@ -234,5 +234,9 @@ RSpec.describe 'Provider makes an offer with SKE enabled in standard courses' do
     within(all('.govuk-summary-list__row')[1]) do
       expect(page).to have_content(@selected_provider.name_and_code)
     end
+  end
+
+  def and_i_do_not_request_any_specific_references
+    choose 'No'
   end
 end

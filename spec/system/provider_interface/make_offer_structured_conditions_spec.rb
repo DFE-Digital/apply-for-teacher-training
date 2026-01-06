@@ -33,7 +33,6 @@ RSpec.describe 'Provider makes an offer' do
 
     when_i_choose_to_make_an_offer
     then_the_conditions_page_is_loaded
-    and_the_default_conditions_are_checked
     and_the_reference_condition_is_checked_with_details
 
     when_i_add_further_conditions
@@ -130,8 +129,9 @@ RSpec.describe 'Provider makes an offer' do
   end
 
   def and_the_reference_condition_is_checked_with_details
-    check 'References'
-    fill_in 'Details (optional)', with: 'The candidate needs to provide a reference from their current school employer'
+    choose 'Yes'
+    fill_in 'Give details of the specific reference you want. The candidate will be made aware of this request',
+            with: 'The candidate needs to provide a reference from their current school employer'
   end
 
   def when_i_add_further_conditions
@@ -156,7 +156,7 @@ RSpec.describe 'Provider makes an offer' do
 
   def and_i_can_confirm_my_answers
     expect(page).to have_content('A* on Maths A Level')
-    expect(page).to have_content('References')
+    expect(page).to have_content('Specific references')
     expect(page).to have_content('The candidate needs to provide a reference from their current school employer')
   end
 
@@ -297,8 +297,9 @@ RSpec.describe 'Provider makes an offer' do
   end
 
   def and_i_change_the_reference_condition_description
-    expect(page.find('input[@name="provider_interface_offer_wizard[require_references]"]')).to be_checked
-    fill_in 'Details (optional)', with: 'The candidate needs to provide 4 references'
+    expect(page.find('input#provider-interface-offer-wizard-require-references-1-field')).to be_checked
+    fill_in 'Give details of the specific reference you want. The candidate will be made aware of this request',
+            with: 'The candidate needs to provide 4 references'
   end
 
   def when_i_resend_the_offer

@@ -10,7 +10,7 @@ RSpec.describe ProviderInterface::MakeOfferComponent do
            school_placement_auto_selected:)
   end
   let(:school_placement_auto_selected) { false }
-  let(:conditions) { [build(:text_condition, description: 'condition 1')] }
+  let(:conditions) { [build(:text_condition, description: 'condition 1'), build(:reference_condition)] }
   let(:ske_conditions) { [create(:ske_condition)] }
   let(:course_option) { build(:course_option, course:) }
   let(:providers) { [] }
@@ -22,7 +22,8 @@ RSpec.describe ProviderInterface::MakeOfferComponent do
       described_class.new(
         application_choice:,
         course_option:,
-        conditions: application_choice.offer.conditions,
+        conditions: application_choice.offer.text_conditions,
+        reference_condition: application_choice.offer.reference_condition,
         ske_conditions: application_choice.offer.ske_conditions,
         available_providers: providers,
         available_courses: courses,
@@ -42,11 +43,12 @@ RSpec.describe ProviderInterface::MakeOfferComponent do
                location: 4,
                qualification: 5,
                funding_type: 6,
-               conditions: 7,
-               ske_header: 8,
-               ske_subject: 9,
-               ske_length: 10,
-               ske_reason: 11,
+               additional_conditions: 7,
+               specific_references: 8,
+               ske_header: 9,
+               ske_subject: 10,
+               ske_length: 11,
+               ske_reason: 12,
              }
            else
              {
@@ -60,7 +62,6 @@ RSpec.describe ProviderInterface::MakeOfferComponent do
                funding_type: 7,
              }
            end
-
     render.css('.govuk-summary-list__row')[rows[row_name]].text
   end
 
@@ -163,7 +164,7 @@ RSpec.describe ProviderInterface::MakeOfferComponent do
 
   context 'ske_conditions' do
     it 'renders a subject change link' do
-      expect(row_link_selector(9)).to eq(
+      expect(row_link_selector(10)).to eq(
         new_provider_interface_application_choice_offer_ske_requirements_path(
           application_choice,
         ),
@@ -171,7 +172,7 @@ RSpec.describe ProviderInterface::MakeOfferComponent do
     end
 
     it 'renders a length change link' do
-      expect(row_link_selector(10)).to eq(
+      expect(row_link_selector(11)).to eq(
         new_provider_interface_application_choice_offer_ske_length_path(
           application_choice,
         ),
@@ -179,7 +180,7 @@ RSpec.describe ProviderInterface::MakeOfferComponent do
     end
 
     it 'renders a reason change link' do
-      expect(row_link_selector(11)).to eq(
+      expect(row_link_selector(12)).to eq(
         new_provider_interface_application_choice_offer_ske_reason_path(
           application_choice,
         ),
@@ -195,8 +196,11 @@ RSpec.describe ProviderInterface::MakeOfferComponent do
     expect(row_text_selector(:full_or_part_time, render)).to include(course_option.study_mode.humanize)
     expect(row_text_selector(:qualification, render)).to include('QTS with PGCE')
     expect(row_text_selector(:funding_type, render)).to include(course_option.course.funding_type.humanize)
-    expect(row_text_selector(:conditions, render)).to include(
-      application_choice.offer.conditions.map(&:description).join(' '),
+    expect(row_text_selector(:additional_conditions, render)).to include(
+      application_choice.offer.text_conditions.map(&:description).join(' '),
+    )
+    expect(row_text_selector(:specific_references, render)).to include(
+      application_choice.offer.reference_condition.description,
     )
     expect(row_text_selector(:ske_header, render)).to include(
       'Subject knowledge enhancement course',

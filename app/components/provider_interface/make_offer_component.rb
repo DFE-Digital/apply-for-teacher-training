@@ -3,13 +3,14 @@ module ProviderInterface
     include ViewHelper
     include QualificationValueHelper
 
-    attr_accessor :application_choice, :course, :course_option, :conditions, :available_providers, :available_courses, :available_course_options, :ske_conditions
+    attr_accessor :application_choice, :course, :course_option, :conditions, :reference_condition, :available_providers, :available_courses, :available_course_options, :ske_conditions
 
-    def initialize(application_choice:, course:, course_option:, conditions:, available_providers: [], available_courses: [], available_course_options: [], ske_conditions: [])
+    def initialize(application_choice:, course:, course_option:, conditions:, reference_condition: nil, available_providers: [], available_courses: [], available_course_options: [], ske_conditions: [])
       @application_choice = application_choice
       @school_placement_auto_selected = application_choice.school_placement_auto_selected
       @course_option = course_option
       @conditions = conditions
+      @reference_condition = reference_condition
       @available_providers = available_providers
       @available_courses = available_courses
       @available_course_options = available_course_options
@@ -61,8 +62,15 @@ module ProviderInterface
           value: course.funding_type.humanize,
         },
         {
-          key: 'Conditions of offer',
-          value: text_conditions.join("\n\n"),
+          key: 'Additional conditions',
+          value: text_conditions,
+          action: {
+            href: [:new, :provider_interface, @application_choice, :offer, :conditions],
+          },
+        },
+        {
+          key: 'Specific references',
+          value: text_reference_condition,
           action: {
             href: [:new, :provider_interface, @application_choice, :offer, :conditions],
           },
@@ -75,18 +83,11 @@ module ProviderInterface
     end
 
     def text_conditions
-      sorted_conditions = conditions.sort_by do |condition|
-        [OfferCondition::STANDARD_CONDITIONS.index(condition.text) || Float::INFINITY, condition.created_at]
-      end
+      conditions.present? ? conditions.map(&:text).join("\n\n") : 'None'
+    end
 
-      sorted_conditions.map do |condition|
-        text = condition.text
-        if condition.is_a?(ReferenceCondition) && condition.description.present?
-          text += " #{condition.description}"
-        end
-
-        text
-      end
+    def text_reference_condition
+      reference_condition&.description.present? ? reference_condition.description : 'None'
     end
 
     def change_provider_path

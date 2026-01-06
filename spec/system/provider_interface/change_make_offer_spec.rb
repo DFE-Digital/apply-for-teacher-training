@@ -47,6 +47,7 @@ RSpec.describe 'Provider makes an offer' do
     and_i_click_continue
 
     then_the_conditions_page_is_loaded
+    and_i_do_not_request_any_specific_references
     and_i_click_continue
 
     then_the_review_page_is_loaded
@@ -198,5 +199,9 @@ RSpec.describe 'Provider makes an offer' do
     within('.govuk-notification-banner--success') do
       expect(page).to have_content('Offer sent')
     end
+  end
+
+  def and_i_do_not_request_any_specific_references
+    choose 'No'
   end
 end

@@ -107,6 +107,7 @@ class CandidateMailer < ApplicationMailer
     @application_choice = application_choice
     @course = @application_choice.current_course_option.course
     @provider_name = @course.provider.name
+    @reference_condition = @application_choice.offer.reference_condition
     @course_name_and_code = @application_choice.current_course_option.course.name_and_code
     @application_form = @application_choice.application_form
     @show_deadline_reminder = (@application_form.decline_by_default_at - 4.weeks).before? Time.zone.now
@@ -706,6 +707,10 @@ private
     candidate_interface_account_url(utm_args)
   end
 
+  def application_references_link
+    candidate_interface_references_review_url(utm_args)
+  end
+
   def application_choices_link
     candidate_interface_application_choices_url(utm_args)
   end
@@ -733,6 +738,7 @@ private
 
   helper_method :sign_in_link,
                 :application_choices_link,
+                :application_references_link,
                 :candidate_realistic_job_preview_link,
                 :candidate_unsubscribe_link,
                 :find_link,
