@@ -519,7 +519,7 @@ GEM
       racc
     patience_diff (1.2.0)
       optimist (~> 3.0)
-    pg (1.6.2)
+    pg (1.6.3)
     postcodes_io (0.4.0)
       excon (~> 0.39)
     pp (0.6.3)
@@ -928,7 +928,7 @@ DEPENDENCIES
   openapi3_parser (= 0.10.1)
   pagy
   parallel_tests
-  pg (~> 1.6.2)
+  pg (~> 1.6.3)
   postcodes_io
   prometheus-client
   pry
@@ -1160,7 +1160,7 @@ CHECKSUMS
   parallel_tests (5.5.0) sha256=783c1e4da27c4096a7b360f080ae03cf1122cb0dfdb4fe827013e0521642f666
   parser (3.3.10.0) sha256=ce3587fa5cc55a88c4ba5b2b37621b3329aadf5728f9eafa36bbd121462aabd6
   patience_diff (1.2.0) sha256=f492094486af02fff4a80070fa6b4d0ebbcf4d42fb38bba29d095eef43f6822c
-  pg (1.6.2) sha256=58614afd405cc9c2c9e15bffe8432e0d6cfc58b722344ad4a47c73a85189c875
+  pg (1.6.3) sha256=1388d0563e13d2758c1089e35e973a3249e955c659592d10e5b77c468f628a99
   postcodes_io (0.4.0) sha256=85bbc321c72ea6ea6fe38d7a211ca8252414ba8bc634229ccdaa8d3c92121abf
   pp (0.6.3) sha256=2951d514450b93ccfeb1df7d021cae0da16e0a7f95ee1e2273719669d0ab9df6
   prettyprint (0.2.0) sha256=2bc9e15581a94742064a3cc8b0fb9d45aae3d03a1baa6ef80922627a0766f193
