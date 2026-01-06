@@ -47,8 +47,6 @@ class SupportDfESignInController < ApplicationController
   # This is called by a redirect from DfE Sign-in after visiting the signout
   # link on DSI. We tell DSI to redirect here using the
   # post_logout_redirect_uri parameter - see DfESignInUser#dsi_logout_url
-  #
-  # The interface we signed out from will appear here in the :state param.
   def redirect_after_dsi_signout
     if session['unauthorized_dsi_support_uid'].present?
       # When users are not authorized we need to render a page where

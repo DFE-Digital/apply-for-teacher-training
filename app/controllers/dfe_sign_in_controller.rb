@@ -33,8 +33,6 @@ class DfESignInController < ActionController::Base
   # This is called by a redirect from DfE Sign-in after visiting the signout
   # link on DSI. We tell DSI to redirect here using the
   # post_logout_redirect_uri parameter - see DfESignInUser#dsi_logout_url
-  #
-  # The interface we signed out from will appear here in the :state param.
   def redirect_after_dsi_signout
     if FeatureFlag.active?(:separate_dsi_controllers) && session['email_address_not_recognised']
       # When users input an unauthorized email we need to render a page where
