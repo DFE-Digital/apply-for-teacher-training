@@ -15,29 +15,11 @@ class DfESignInUser
   end
 
   def provider_interface_dsi_logout_url
-    if FeatureFlag.active?(:separate_dsi_controllers)
-      query = {
-        post_logout_redirect_uri: auth_dfe_sign_out_url,
-        id_token_hint: @id_token,
-      }
-
-      "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
-    else
-      dsi_logout_url(interface: :provider)
-    end
+    dsi_logout_url(interface: :provider)
   end
 
   def support_interface_dsi_logout_url
-    if FeatureFlag.active?(:separate_dsi_controllers)
-      query = {
-        post_logout_redirect_uri: auth_dfe_support_sign_out_url,
-        id_token_hint: @id_token,
-      }
-
-      "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
-    else
-      dsi_logout_url(interface: :support)
-    end
+    dsi_logout_url(interface: :support)
   end
 
   def needs_dsi_signout?
@@ -107,7 +89,6 @@ private
       id_token_hint: @id_token,
       state: interface,
     }
-
     "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
   end
 end

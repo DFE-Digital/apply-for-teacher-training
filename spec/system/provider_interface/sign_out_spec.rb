@@ -48,7 +48,7 @@ RSpec.describe 'A provider user signs out of DSI as well as Apply' do
   def then_i_am_redirected_to_dsi_end_session_endpoint
     expected_query = {
       id_token_hint: nil,
-      post_logout_redirect_uri: "#{HostingEnvironment.application_url}/auth/dfe/sign-out",
+      post_logout_redirect_uri: 'http://www.example.com/auth/dfe/sign-out',
     }
 
     expected_url = "https://identityprovider.gov.uk/session/end?#{expected_query.to_query}"
