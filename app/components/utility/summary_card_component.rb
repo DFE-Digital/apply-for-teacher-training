@@ -1,4 +1,6 @@
 class SummaryCardComponent < ViewComponent::Base
+  include ViewHelper
+
   def initialize(rows:, border: true, editable: true, ignore_editable: [], warning_text: nil)
     rows = transform_hash(rows) if rows.is_a?(Hash)
     @rows = rows_including_actions_if_editable(rows, editable, ignore_editable)

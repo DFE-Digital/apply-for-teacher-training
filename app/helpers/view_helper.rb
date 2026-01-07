@@ -1,5 +1,9 @@
 module ViewHelper
   include DfE::Autocomplete::ApplicationHelper
+  include GovukVisuallyHiddenHelper
+  include GovukLinkHelper
+  include GovukComponentsHelper
+  include GovukListHelper
 
   def govuk_back_link_to(url = :back, body = 'Back', force_text: false)
     classes = 'govuk-!-display-none-print'

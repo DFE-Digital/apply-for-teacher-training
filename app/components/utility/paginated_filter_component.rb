@@ -1,4 +1,6 @@
 class PaginatedFilterComponent < ViewComponent::Base
+  include ViewHelper
+
   attr_reader :filter, :collection
 
   def initialize(filter:, collection:)

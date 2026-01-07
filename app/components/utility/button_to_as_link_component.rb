@@ -1,4 +1,6 @@
 class ButtonToAsLinkComponent < ViewComponent::Base
+  include ViewHelper
+
   def initialize(name:, path:, classes: [])
     @name = name
     @path = path

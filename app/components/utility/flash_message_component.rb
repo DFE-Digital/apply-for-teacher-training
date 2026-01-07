@@ -1,4 +1,6 @@
 class FlashMessageComponent < ViewComponent::Base
+  include ViewHelper
+
   ALLOWED_PRIMARY_KEYS = %i[info warning success error].freeze
 
   def initialize(flash:)
