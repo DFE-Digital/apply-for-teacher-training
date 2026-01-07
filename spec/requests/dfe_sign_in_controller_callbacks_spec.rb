@@ -5,7 +5,7 @@ RSpec.describe 'DfESignInController#callbacks' do
 
   let(:omni_auth_hash) do
     fake_dfe_sign_in_auth_hash(
-      email_address: 'some@email.address',
+      email_address:,
       dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
       first_name: '',
       last_name: '',
@@ -13,6 +13,7 @@ RSpec.describe 'DfESignInController#callbacks' do
     )
   end
   let(:id_token) { 'token' }
+  let(:email_address) { 'some@email.address' }
 
   before do
     OmniAuth.config.test_mode = true
@@ -20,59 +21,13 @@ RSpec.describe 'DfESignInController#callbacks' do
   end
 
   describe 'GET /auth/dfe/callback' do
-    before do
-      FeatureFlag.deactivate(:separate_dsi_controllers)
-    end
-
     context 'there are no DfE sign omniauth values set' do
       let(:omni_auth_hash) { nil }
 
-      it 'is forbidden by default' do
+      it 'redirect to destroy' do
         get auth_dfe_callback_path
 
-        expect(response).to have_http_status(:forbidden)
-      end
-    end
-
-    context 'when the Support User does not exist' do
-      it 'does not sign in' do
-        get support_interface_sign_in_path # makes sure the session[:post_dfe_sign_in_path] is set
-        get auth_dfe_callback_path
-
-        expect(response).to have_http_status(:forbidden)
-      end
-    end
-
-    context 'when Support User exists with matching dfe_sign_in_uid' do
-      let!(:support_user) { create(:support_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
-
-      it 'signs the Support User in' do
-        get support_interface_sign_in_path # makes sure the session[:post_dfe_sign_in_path] is set
-        get auth_dfe_callback_path
-
-        expect(response).to redirect_to(support_interface_path)
-      end
-
-      it 'redirects to the Support interface when the post_dfe_sign_in_path is set to the Provider Interface' do
-        # FIXME: Reliance on the session[:post_dfe_sign_in_path] is an anti-pattern
-        skip('The use of session[:post_dfe_sign_in_path] is an anti-pattern')
-
-        get provider_interface_sign_in_path # makes sure the session[:post_dfe_sign_in_path] is set
-        get auth_dfe_callback_path
-
-        expect(response).to redirect_to(support_interface_path)
-      end
-    end
-
-    context 'when a different Support User exists with the same email address' do
-      let!(:support_user) { create(:support_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
-      let!(:existing_support_user) { create(:support_user, email_address: 'some@email.address') }
-
-      it 'does not sign the Support User in' do
-        get support_interface_sign_in_path # makes sure the session[:post_dfe_sign_in_path] is set
-        get auth_dfe_callback_path
-
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to redirect_to(auth_dfe_destroy_path)
       end
     end
 
@@ -80,17 +35,6 @@ RSpec.describe 'DfESignInController#callbacks' do
       let!(:provider_user) { create(:provider_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
 
       it 'signs the Provider User in' do
-        get provider_interface_sign_in_path # makes sure the session[:post_dfe_sign_in_path] is set
-        get auth_dfe_callback_path
-
-        expect(response).to redirect_to(provider_interface_path)
-      end
-
-      it 'redirects to the Provider interface when the post_dfe_sign_in_path is set to the Support Interface' do
-        # FIXME: Reliance on the session[:post_dfe_sign_in_path] is an anti-pattern
-        skip('The use of session[:post_dfe_sign_in_path] is an anti-pattern')
-
-        get support_interface_sign_in_path # makes sure the session[:post_dfe_sign_in_path] is set
         get auth_dfe_callback_path
 
         expect(response).to redirect_to(provider_interface_path)
@@ -102,47 +46,36 @@ RSpec.describe 'DfESignInController#callbacks' do
       let!(:existing_provider_user) { create(:provider_user, email_address: 'some@email.address') }
 
       it 'does not sign the Provider User in' do
-        get provider_interface_sign_in_path # makes sure the session[:post_dfe_sign_in_path] is set
         get auth_dfe_callback_path
 
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to redirect_to(auth_dfe_destroy_path)
       end
     end
   end
 
-  context 'when separate controller flag enabled' do
-    before do
-      FeatureFlag.activate(:separate_dsi_controllers)
-    end
+  describe 'GET /auth/dfe/destroy' do
+    context "when user's dfe sign in session is active" do
+      it 'redirect to dfe sign in to log out' do
+        ClimateControl.modify(DFE_SIGN_IN_ISSUER: 'https://identityprovider.gov.uk') do
+          create(:provider_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+          get auth_dfe_callback_path
+          get auth_dfe_destroy_path
 
-    context 'there are no DfE sign omniauth values set' do
-      let(:omni_auth_hash) { nil }
-
-      it 'is forbidden by default' do
-        get auth_dfe_callback_path
-
-        expect(response).to redirect_to(auth_dfe_destroy_path)
+          expected_query = {
+            id_token_hint: id_token,
+            post_logout_redirect_uri: 'http://www.example.com/auth/dfe/sign-out',
+          }
+          expected_url = "https://identityprovider.gov.uk/session/end?#{expected_query.to_query}"
+          expect(response).to redirect_to(expected_url)
+        end
       end
-    end
 
-    context 'when Provider User exists with matching dfe_sign_in_uid' do
-      let!(:provider_user) { create(:provider_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
+      context "when user's dfe sign in session is not active" do
+        it 'redirect to sign out' do
+          get auth_dfe_destroy_path
 
-      it 'signs the Provider User in' do
-        get auth_dfe_callback_path
-
-        expect(response).to redirect_to(provider_interface_path)
-      end
-    end
-
-    context 'when a different Provider User exists with the same email address' do
-      let!(:provider_user) { create(:provider_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
-      let!(:existing_provider_user) { create(:provider_user, email_address: 'some@email.address') }
-
-      it 'does not sign the Provider User in' do
-        get auth_dfe_callback_path
-
-        expect(response).to redirect_to(auth_dfe_destroy_path)
+          expect(response).to redirect_to(auth_dfe_sign_out_path)
+        end
       end
     end
   end
@@ -154,11 +87,15 @@ RSpec.describe 'DfESignInController#callbacks' do
       expect(response).to redirect_to(provider_interface_path)
     end
 
-    context 'state is support' do
-      it 'redirect to support interface' do
-        get auth_dfe_sign_out_path(state: 'support')
+    context 'email not recognised' do
+      let(:email_address) { 'wrong@email.address' }
 
-        expect(response).to redirect_to(support_interface_path)
+      it 'renders forbidden layout if email not recognised' do
+        get auth_dfe_callback_path
+        get auth_dfe_sign_out_path
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.body).to include('We can’t find an ‘Apply for teacher training’ account associated with that address.')
       end
     end
   end
