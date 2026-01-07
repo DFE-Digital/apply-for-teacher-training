@@ -1,7 +1,6 @@
 class CreateDsiSessions < ActiveRecord::Migration[8.0]
   def change
     create_table :dsi_sessions do |t|
-      # which ones are required?
       t.references :user, polymorphic: true, null: false
       t.references :impersonated_provider_user, null: true
       t.string :email_address
