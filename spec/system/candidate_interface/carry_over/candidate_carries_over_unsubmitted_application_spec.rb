@@ -73,7 +73,7 @@ RSpec.describe 'Carry over unsubmitted application' do
 
   def then_i_see_the_new_states_of_my_references
     expect(new_application_form.application_references.creation_order.map(&:feedback_status)).to eq(
-      %w[feedback_provided feedback_provided feedback_provided],
+      %w[feedback_provided feedback_provided not_requested_yet feedback_provided],
     )
   end
 
