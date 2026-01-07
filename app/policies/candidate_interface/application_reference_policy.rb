@@ -4,7 +4,7 @@ module CandidateInterface
 
     def edit?
       # currently only applied to references pre-submission --> to be elaborated on when applied to refs post-submission
-      !reference.feedback_requested? && !reference.feedback_provided?
+      reference.not_requested_yet?
     end
 
     def show_cancel_link?
@@ -18,7 +18,7 @@ module CandidateInterface
 
     def delete?
       # currently only applied to references pre-submission --> to be elaborated on when applied to refs post-submission
-      !reference.feedback_requested? && !reference.feedback_provided?
+      reference.not_requested_yet?
     end
 
     class Scope < ApplicationPolicy::Scope
