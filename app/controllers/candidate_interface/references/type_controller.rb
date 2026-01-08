@@ -45,8 +45,8 @@ module CandidateInterface
       end
 
       def verify_type_is_editable
-        policy = ReferenceActionsPolicy.new(@reference)
-        return if @reference.blank? || (@reference.present? && policy.editable?)
+        policy = CandidateInterface::ApplicationReferencePolicy.new(@current_candidate, @reference)
+        return if @reference.blank? || (@reference.present? && policy.edit?)
 
         redirect_to candidate_interface_references_review_path
       end

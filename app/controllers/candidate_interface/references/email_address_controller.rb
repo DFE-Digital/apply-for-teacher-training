@@ -53,8 +53,8 @@ module CandidateInterface
       end
 
       def verify_email_is_editable
-        policy = ReferenceActionsPolicy.new(@reference)
-        return if policy.editable? || @reference.email_bounced?
+        policy = CandidateInterface::ApplicationReferencePolicy.new(@current_candidate, @reference)
+        return if policy.edit? || @reference.email_bounced?
 
         redirect_to candidate_interface_references_review_path
       end

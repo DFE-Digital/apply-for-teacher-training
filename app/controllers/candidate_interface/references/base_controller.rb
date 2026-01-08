@@ -34,9 +34,9 @@ module CandidateInterface
       end
 
       def redirect_to_review_page_unless_reference_is_editable
-        policy = ReferenceActionsPolicy.new(@reference)
+        policy = CandidateInterface::ApplicationReferencePolicy.new(@current_candidate, @reference)
 
-        redirect_to candidate_interface_references_review_path if @reference.blank? || !policy.editable?
+        redirect_to candidate_interface_references_review_path if @reference.blank? || !policy.edit?
       end
 
       def set_edit_backlink

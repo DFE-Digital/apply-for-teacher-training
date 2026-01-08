@@ -10,7 +10,7 @@ module CandidateInterface
       super(application_form: @application_form, application_choice: @application_choice, references: @references)
     end
 
-    def show_missing_banner?
+    def show_missing_banner?(_reference)
       false
     end
 

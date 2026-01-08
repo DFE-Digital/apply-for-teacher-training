@@ -6,6 +6,7 @@ module CandidateInterface
 
     def initialize(application_form:, references:, application_choice: nil, editable: true, heading_level: 2, return_to_application_review: false, missing_error: false, deletable: true)
       @application_form = application_form
+      @current_candidate = application_form.candidate
       @application_choice = application_choice
       @references = references
       @editable = editable
@@ -15,8 +16,10 @@ module CandidateInterface
       @deletable = deletable
     end
 
-    def show_missing_banner?
-      @editable && @return_to_application_review.present? && !@application_form.references_completed?
+    def show_missing_banner?(reference)
+      ApplicationReferencePolicy.new(@current_candidate, reference).edit? &&
+        @return_to_application_review.present? &&
+        !@application_form.references_completed?
     end
 
     def incomplete_section_params
@@ -59,10 +62,6 @@ module CandidateInterface
       %w[Status]
     end
 
-    def deletable?
-      @editable && @deletable
-    end
-
   private
 
     def formatted_reference_type(reference)
@@ -70,7 +69,7 @@ module CandidateInterface
     end
 
     def name_row(reference)
-      action = if reference_editable?(reference)
+      action = if show_edit_links?(reference)
                  {
                    action: {
                      href: reference_edit_name_path(
@@ -100,7 +99,7 @@ module CandidateInterface
         step: reference_workflow_step,
       )
 
-      action = if reference_editable?(reference)
+      action = if show_edit_links?(reference)
                  {
                    action: {
                      href: edit_email_path,
@@ -132,7 +131,7 @@ module CandidateInterface
         step: reference_workflow_step,
       )
 
-      action = if reference_editable?(reference)
+      action = if show_edit_links?(reference)
                  {
                    action: {
                      href: edit_relationship_path,
@@ -158,7 +157,7 @@ module CandidateInterface
 
     def reference_type_row(reference)
       if reference.referee_type?
-        action = if reference_editable?(reference)
+        action = if show_edit_links?(reference)
                    {
                      action: {
                        href: reference_edit_type_path(
@@ -202,6 +201,14 @@ module CandidateInterface
       }
     end
 
+    def show_delete_link?(reference)
+      ApplicationReferencePolicy.new(@current_candidate, reference).delete?
+    end
+
+    def show_edit_links?(reference)
+      ApplicationReferencePolicy.new(@current_candidate, reference).edit?
+    end
+
     def feedback_status_label(reference)
       render CandidateInterface::ReferenceStatusesComponent.new(reference:)
     end
@@ -212,10 +219,6 @@ module CandidateInterface
       else
         { 'return_to' => 'review' }
       end
-    end
-
-    def reference_editable?(reference)
-      !reference.duplicate? && reference.not_requested_yet?
     end
 
     def confirm_destroy_path(reference)

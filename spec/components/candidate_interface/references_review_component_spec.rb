@@ -144,22 +144,23 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
     end
 
     it 'renders the delete link' do
-      reference = create(:reference, application_form:)
+      reference = create(:reference, :not_requested_yet, application_form:)
 
       result = render_inline(described_class.new(references: [reference], application_form:))
       expect(result.css("a[href='#{delete_reference_path(reference)}']")).to be_present
     end
 
     context 'when a reference is carried over' do
-      it 'does not render the delete link' do
+      it 'does not render the delete link if feedback is requested' do
         reference = create(:reference, application_form:, duplicate: true)
+        reference.update(feedback_status: 'feedback_requested')
 
         result = render_inline(described_class.new(references: [reference], application_form:))
         expect(result.css("a[href='#{delete_reference_path(reference)}']")).not_to be_present
       end
 
       context 'when the state is feedback_provided' do
-        it 'renders a status row' do
+        it 'does not render the delete link and it renders a status row' do
           reference = create(:reference, :feedback_provided, application_form:)
           result = render_inline(described_class.new(references: [reference], application_form:))
 
@@ -168,6 +169,7 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
           expect(status_row).to include 'If you accept an offer, the training provider will see the reference.'
 
           expect(result).to have_element(:strong, text: 'Received', class: 'govuk-tag govuk-tag--green')
+          expect(result.css("a[href='#{delete_reference_path(reference)}']")).not_to be_present
         end
       end
 
@@ -178,7 +180,6 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
 
           status_row = result.css('.govuk-summary-list__row')[4]
           expect(status_row).to be_nil
-
           expect(result).to have_element(:strong, text: 'Requested', class: 'govuk-tag govuk-tag--orange')
         end
       end

@@ -57,7 +57,6 @@ class DuplicateApplication
         .includes([:reference_tokens])
         .creation_order
         .where(feedback_status: %w[feedback_provided not_requested_yet cancelled_at_end_of_cycle feedback_requested])
-        .reject(&:feedback_overdue?)
 
       original_references.each do |original_reference|
         new_application_form.application_references.create!(
