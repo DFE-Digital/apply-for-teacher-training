@@ -75,7 +75,7 @@ private
     @target_path = session['post_dfe_sign_in_path']
 
     if @local_user &&
-       DsiProfile.update_profile_from_dfe_sign_in_db(omniauth_payload:, local_user: @local_user)
+       DsiProfile.update_profile_from_omniauth_payload(omniauth_payload:, local_user: @local_user)
       start_new_dsi_session(
         user: @local_user,
         omniauth_payload:,
