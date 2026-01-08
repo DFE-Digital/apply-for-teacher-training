@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::SessionsController do
+  include DfESignInHelpers
+
   let(:provider) { create(:provider) }
   let(:provider_user) { create(:provider_user, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
 
   describe '#new' do
-    let(:support_user) { create(:support_user, dfe_sign_in_uid: 'SUPPORT_DFE_SIGN_IN_UID') }
+    let(:support_user) { create(:support_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
     let(:dfe_sign_in_user) do
       DfESignInUser.new(
         email_address: support_user.email_address,
@@ -16,10 +18,10 @@ RSpec.describe ProviderInterface::SessionsController do
     end
 
     it 'redirects to applications when impersonation is active' do
-      support_user.impersonated_provider_user = provider_user
+      support_user_exists_dsi(email_address: support_user.email_address)
 
-      allow(DfESignInUser).to receive(:load_from_session).and_return(dfe_sign_in_user)
-      allow(SupportUser).to receive(:load_from_session).and_return(support_user)
+      get auth_dfe_support_callback_path
+      post support_interface_provider_user_impersonate_path(provider_user)
       get provider_interface_sign_in_path
 
       expect(response).to have_http_status(:found)
