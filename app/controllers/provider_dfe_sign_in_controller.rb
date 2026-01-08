@@ -1,4 +1,4 @@
-class DfESignInController < ActionController::Base
+class ProviderDfESignInController < ActionController::Base
   protect_from_forgery except: :bypass_callback
 
   SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN = %w[session_id impersonated_provider_user].freeze
