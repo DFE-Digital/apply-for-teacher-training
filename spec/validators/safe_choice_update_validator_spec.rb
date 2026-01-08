@@ -9,9 +9,7 @@ RSpec.describe SafeChoiceUpdateValidator do
       include ActiveModel::Validations
 
       attr_accessor :application_form
-      # rubocop:disable RSpec/DescribedClass
       validates_with SafeChoiceUpdateValidator
-      # rubocop:enable RSpec/DescribedClass
     end
   end
 
