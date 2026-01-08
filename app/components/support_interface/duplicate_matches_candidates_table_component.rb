@@ -1,5 +1,5 @@
 module SupportInterface
-  class DuplicateMatchesCandidatesTableComponent < ViewComponent::Base
+  class DuplicateMatchesCandidatesTableComponent < BaseComponent
     include ViewHelper
 
     DuplicatedMatch = Struct.new(

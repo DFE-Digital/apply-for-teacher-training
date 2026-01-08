@@ -1,5 +1,5 @@
 module RecruitmentPerformanceReport
-  class ProportionWithInactiveApplicationsTableComponent < ViewComponent::Base
+  class ProportionWithInactiveApplicationsTableComponent < BaseComponent
     BIG_QUERY_COLUMN_NAMES_MAPPING = {
       this_cycle: 'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates',
       last_cycle: 'number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle',

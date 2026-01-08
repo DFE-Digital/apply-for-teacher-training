@@ -1,5 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
-class QualificationTitleComponent < ViewComponent::Base
+class QualificationTitleComponent < BaseComponent
   attr_accessor :qualification
 
   def initialize(qualification:)

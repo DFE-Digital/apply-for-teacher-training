@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ApplicationTimelineComponent < ViewComponent::Base
+  class ApplicationTimelineComponent < BaseComponent
     include ViewHelper
     include AuditHelper
 

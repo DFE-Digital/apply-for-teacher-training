@@ -1,4 +1,4 @@
-class CandidateInterface::DegreeGradeComponent < ViewComponent::Base
+class CandidateInterface::DegreeGradeComponent < BaseComponent
   include ViewHelper
   include CandidateInterface::Degrees::FormConstants
 

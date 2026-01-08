@@ -1,4 +1,4 @@
-class CandidateInterface::InterviewBookingsComponent < ViewComponent::Base
+class CandidateInterface::InterviewBookingsComponent < BaseComponent
   attr_accessor :interview
 
   def initialize(application_choice)

@@ -1,4 +1,4 @@
-class CandidateInterface::DegreeTypeComponent < ViewComponent::Base
+class CandidateInterface::DegreeTypeComponent < BaseComponent
   include ViewHelper
   include Rails.application.routes.url_helpers
 

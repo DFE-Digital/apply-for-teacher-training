@@ -1,6 +1,5 @@
-class CookieBannersComponent < ViewComponent::Base
+class CookieBannersComponent < BaseComponent
   include ApplicationHelper
-  include ViewHelper
 
   CANDIDATE_INTERFACE = 'candidate_interface'.freeze
   PROVIDER_INTERFACE = 'provider_interface'.freeze

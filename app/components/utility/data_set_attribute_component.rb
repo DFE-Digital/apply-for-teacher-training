@@ -1,4 +1,4 @@
-class DataSetAttributeComponent < ViewComponent::Base
+class DataSetAttributeComponent < BaseComponent
   include MarkdownHelper
 
   attr_reader :column_name, :column

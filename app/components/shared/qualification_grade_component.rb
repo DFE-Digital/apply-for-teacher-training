@@ -1,5 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
-class QualificationGradeComponent < ViewComponent::Base
+class QualificationGradeComponent < BaseComponent
   def initialize(qualification:)
     @qualification = qualification
   end

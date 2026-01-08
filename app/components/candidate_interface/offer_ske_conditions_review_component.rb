@@ -1,5 +1,5 @@
 module CandidateInterface
-  class OfferSkeConditionsReviewComponent < ViewComponent::Base
+  class OfferSkeConditionsReviewComponent < BaseComponent
     include SkeFormatting
 
     def initialize(ske_conditions:)

@@ -1,5 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
-class VolunteeringHistoryComponent < ViewComponent::Base
+class VolunteeringHistoryComponent < BaseComponent
   def initialize(application_form:)
     self.application_form = application_form
   end

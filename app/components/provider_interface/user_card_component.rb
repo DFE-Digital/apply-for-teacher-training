@@ -1,5 +1,5 @@
 module ProviderInterface
-  class UserCardComponent < ViewComponent::Base
+  class UserCardComponent < BaseComponent
     include ViewHelper
 
     attr_reader :provider_user, :provider

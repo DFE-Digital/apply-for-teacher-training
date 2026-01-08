@@ -1,5 +1,5 @@
 module CandidateInterface
-  class DegreeReviewComponent < ViewComponent::Base
+  class DegreeReviewComponent < BaseComponent
     include ViewHelper
     include EnicReasonTranslationHelper
 

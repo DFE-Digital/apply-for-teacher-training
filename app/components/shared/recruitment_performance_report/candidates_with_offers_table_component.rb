@@ -1,5 +1,5 @@
 module RecruitmentPerformanceReport
-  class CandidatesWithOffersTableComponent < ViewComponent::Base
+  class CandidatesWithOffersTableComponent < BaseComponent
     BIG_QUERY_COLUMN_NAMES_MAPPING = {
       this_cycle: 'number_of_candidates_with_offers_to_date',
       last_cycle: 'number_of_candidates_with_offers_to_same_date_previous_cycle',

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class CarryOverMidCycleComponent < ViewComponent::Base
+  class CarryOverMidCycleComponent < BaseComponent
     include ViewHelper
 
     def initialize(application_form:)

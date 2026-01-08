@@ -1,6 +1,4 @@
-class SummaryCardHeaderComponent < ViewComponent::Base
-  include ViewHelper
-
+class SummaryCardHeaderComponent < BaseComponent
   def initialize(title:, heading_level: 2, anchor: nil, title_contains_pii: false)
     @title = title
     @heading_level = heading_level

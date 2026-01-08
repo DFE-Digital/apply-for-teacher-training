@@ -1,4 +1,4 @@
-class SandboxFeatureComponent < ViewComponent::Base
+class SandboxFeatureComponent < BaseComponent
   attr_accessor :description
 
   def initialize(description:)

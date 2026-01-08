@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ApplicationChoiceInterviewsListComponent < ViewComponent::Base
+  class ApplicationChoiceInterviewsListComponent < BaseComponent
     include ViewHelper
 
     attr_reader :application_choice, :user_can_create_or_change_interviews

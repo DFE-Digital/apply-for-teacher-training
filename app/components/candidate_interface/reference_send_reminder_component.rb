@@ -1,4 +1,4 @@
-class CandidateInterface::ReferenceSendReminderComponent < ViewComponent::Base
+class CandidateInterface::ReferenceSendReminderComponent < BaseComponent
   attr_accessor :reference, :reference_actions_policy
   delegate :can_send_reminder?, to: :reference_actions_policy
   delegate :reminder_sent_at, to: :reference

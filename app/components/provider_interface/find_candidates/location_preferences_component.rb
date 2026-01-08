@@ -1,4 +1,4 @@
-class ProviderInterface::FindCandidates::LocationPreferencesComponent < ViewComponent::Base
+class ProviderInterface::FindCandidates::LocationPreferencesComponent < BaseComponent
   def initialize(application_form:)
     @application_form = application_form
   end

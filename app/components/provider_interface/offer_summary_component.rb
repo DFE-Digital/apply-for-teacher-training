@@ -1,5 +1,5 @@
 module ProviderInterface
-  class OfferSummaryComponent < ViewComponent::Base
+  class OfferSummaryComponent < BaseComponent
     include ViewHelper
     include QualificationValueHelper
 

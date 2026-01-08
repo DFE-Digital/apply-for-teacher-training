@@ -1,5 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
-class EflQualificationCardComponent < ViewComponent::Base
+class EflQualificationCardComponent < BaseComponent
   include QualificationCardHelper
 
   attr_reader :application_form, :header_tag

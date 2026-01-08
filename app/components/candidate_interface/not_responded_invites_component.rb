@@ -1,5 +1,5 @@
 module CandidateInterface
-  class NotRespondedInvitesComponent < ViewComponent::Base
+  class NotRespondedInvitesComponent < BaseComponent
     attr_reader :invites
 
     def initialize(invites:)

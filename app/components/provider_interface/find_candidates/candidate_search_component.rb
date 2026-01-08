@@ -1,4 +1,4 @@
-class ProviderInterface::FindCandidates::CandidateSearchComponent < ViewComponent::Base
+class ProviderInterface::FindCandidates::CandidateSearchComponent < BaseComponent
   include Rails.application.routes.url_helpers
 
   attr_reader :filter

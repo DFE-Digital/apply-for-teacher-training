@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class WithdrawnComponent < ViewComponent::Base
+    class WithdrawnComponent < BaseComponent
       include ViewHelper
 
       attr_reader :application_choice

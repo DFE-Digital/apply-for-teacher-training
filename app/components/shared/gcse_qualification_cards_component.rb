@@ -1,5 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
-class GcseQualificationCardsComponent < ViewComponent::Base
+class GcseQualificationCardsComponent < BaseComponent
   include ViewHelper
   include GcseQualificationHelper
   include QualificationCardHelper

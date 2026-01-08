@@ -1,5 +1,5 @@
 module SupportInterface
-  class CourseNameAndStatusComponent < ViewComponent::Base
+  class CourseNameAndStatusComponent < BaseComponent
     include ViewHelper
 
     attr_reader :course_option

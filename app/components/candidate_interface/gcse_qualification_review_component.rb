@@ -1,5 +1,5 @@
 module CandidateInterface
-  class GcseQualificationReviewComponent < ViewComponent::Base
+  class GcseQualificationReviewComponent < BaseComponent
     include GcseQualificationHelper
     include GcseStatementComparabilityPathHelper
     include EnicReasonTranslationHelper

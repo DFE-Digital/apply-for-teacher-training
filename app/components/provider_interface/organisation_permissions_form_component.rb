@@ -1,5 +1,5 @@
 module ProviderInterface
-  class OrganisationPermissionsFormComponent < ViewComponent::Base
+  class OrganisationPermissionsFormComponent < BaseComponent
     attr_reader :presenter, :permission_model, :mode, :form_url
 
     def initialize(provider_user:, provider_relationship_permission:, mode:, form_url:, main_provider: nil)

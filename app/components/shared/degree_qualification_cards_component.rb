@@ -1,5 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
-class DegreeQualificationCardsComponent < ViewComponent::Base
+class DegreeQualificationCardsComponent < BaseComponent
   include ViewHelper
   include QualificationCardHelper
 

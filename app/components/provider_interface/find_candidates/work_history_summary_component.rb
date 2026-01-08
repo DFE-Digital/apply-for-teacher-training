@@ -1,4 +1,4 @@
-class ProviderInterface::FindCandidates::WorkHistorySummaryComponent < ViewComponent::Base
+class ProviderInterface::FindCandidates::WorkHistorySummaryComponent < BaseComponent
   attr_accessor :application_form
   delegate :full_time_education?, to: :application_form
   def initialize(application_form)

@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ChoicePersonalStatementComponent < ViewComponent::Base
+  class ChoicePersonalStatementComponent < BaseComponent
     delegate :personal_statement,
              to: :application_choice
 

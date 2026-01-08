@@ -1,5 +1,5 @@
 module ProviderInterface
-  class DeferredOfferDetailsComponent < ViewComponent::Base
+  class DeferredOfferDetailsComponent < BaseComponent
     include ViewHelper
 
     attr_reader :application_choice

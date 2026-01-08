@@ -1,4 +1,4 @@
-class FilterComponent < ViewComponent::Base
+class FilterComponent < BaseComponent
   include ViewHelper
 
   attr_reader :filter

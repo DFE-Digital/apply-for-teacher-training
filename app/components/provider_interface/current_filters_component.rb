@@ -1,5 +1,5 @@
 module ProviderInterface
-  class CurrentFiltersComponent < ViewComponent::Base
+  class CurrentFiltersComponent < BaseComponent
     include ViewHelper
 
     attr_reader :applied_filters, :params_for_current_state

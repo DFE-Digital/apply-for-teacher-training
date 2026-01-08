@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ReferenceWithFeedbackComponent < ViewComponent::Base
+  class ReferenceWithFeedbackComponent < BaseComponent
     attr_accessor :reference, :application_choice
     delegate :feedback,
              :feedback_provided?,

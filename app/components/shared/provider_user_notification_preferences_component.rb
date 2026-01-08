@@ -1,4 +1,4 @@
-class ProviderUserNotificationPreferencesComponent < ViewComponent::Base
+class ProviderUserNotificationPreferencesComponent < BaseComponent
   include ViewHelper
 
   attr_reader :notification_preferences, :form_path

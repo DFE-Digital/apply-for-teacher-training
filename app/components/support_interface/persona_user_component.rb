@@ -1,5 +1,5 @@
 module SupportInterface
-  class PersonaUserComponent < ViewComponent::Base
+  class PersonaUserComponent < BaseComponent
     def initialize(persona_type)
       @persona_type = persona_type
     end

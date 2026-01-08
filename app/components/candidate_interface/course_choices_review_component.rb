@@ -1,5 +1,5 @@
 module CandidateInterface
-  class CourseChoicesReviewComponent < ViewComponent::Base
+  class CourseChoicesReviewComponent < BaseComponent
     include ViewHelper
 
     def initialize(

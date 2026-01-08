@@ -1,5 +1,5 @@
 module CandidateInterface
-  class OfferConditionsReviewComponent < ViewComponent::Base
+  class OfferConditionsReviewComponent < BaseComponent
     def initialize(conditions:, provider:, application_form:)
       @conditions = conditions
       @provider = provider

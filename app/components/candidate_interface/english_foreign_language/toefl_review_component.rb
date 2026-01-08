@@ -1,6 +1,6 @@
 module CandidateInterface
   module EnglishForeignLanguage
-    class ToeflReviewComponent < ViewComponent::Base
+    class ToeflReviewComponent < BaseComponent
       include EflReviewHelper
 
       attr_reader :toefl_qualification, :return_to_application_review

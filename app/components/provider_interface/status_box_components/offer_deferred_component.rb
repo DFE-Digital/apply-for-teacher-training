@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class OfferDeferredComponent < ViewComponent::Base
+    class OfferDeferredComponent < BaseComponent
       include ViewHelper
       include StatusBoxComponents::CourseRows
 

@@ -1,4 +1,4 @@
-class SummaryListComponent < ViewComponent::Base
+class SummaryListComponent < BaseComponent
   include ViewHelper
 
   def initialize(rows:)

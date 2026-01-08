@@ -1,5 +1,5 @@
 module CandidateInterface
-  class AddNewReferenceComponent < ViewComponent::Base
+  class AddNewReferenceComponent < BaseComponent
     include AddNewReferenceHelpers
 
     attr_reader :current_application, :section_policy

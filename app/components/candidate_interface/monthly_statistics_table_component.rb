@@ -1,5 +1,5 @@
 module CandidateInterface
-  class MonthlyStatisticsTableComponent < ViewComponent::Base
+  class MonthlyStatisticsTableComponent < BaseComponent
     attr_reader :caption, :statistics
 
     def initialize(caption:, statistics:)

@@ -1,4 +1,4 @@
-class CandidateInterface::ProviderContactInformationComponent < ViewComponent::Base
+class CandidateInterface::ProviderContactInformationComponent < BaseComponent
   def initialize(provider:)
     @provider = provider
   end

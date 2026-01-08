@@ -1,5 +1,5 @@
 module SupportInterface
-  class CandidatesTableComponent < ViewComponent::Base
+  class CandidatesTableComponent < BaseComponent
     include ViewHelper
 
     def initialize(candidates:)

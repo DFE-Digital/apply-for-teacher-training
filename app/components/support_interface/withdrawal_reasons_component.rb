@@ -1,5 +1,5 @@
 module SupportInterface
-  class WithdrawalReasonsComponent < ViewComponent::Base
+  class WithdrawalReasonsComponent < BaseComponent
     OLD_REASONS_PATH = 'config/withdrawal_reasons.yml'.freeze
 
     def initialize(application_choice:)

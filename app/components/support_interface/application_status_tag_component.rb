@@ -1,5 +1,5 @@
 module SupportInterface
-  class ApplicationStatusTagComponent < ViewComponent::Base
+  class ApplicationStatusTagComponent < BaseComponent
     def initialize(application_choice:)
       @status = application_choice.status
       @supplementary_statuses =

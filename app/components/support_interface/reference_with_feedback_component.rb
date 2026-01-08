@@ -1,5 +1,5 @@
 module SupportInterface
-  class ReferenceWithFeedbackComponent < ViewComponent::Base
+  class ReferenceWithFeedbackComponent < BaseComponent
     include ViewHelper
 
     delegate :feedback,

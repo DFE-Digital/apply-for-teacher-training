@@ -1,5 +1,5 @@
 module APIDocs
-  class OperationComponent < ViewComponent::Base
+  class OperationComponent < BaseComponent
     include MarkdownHelper
     include ViewHelper
     include APIDocsHelper

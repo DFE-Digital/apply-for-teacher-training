@@ -1,5 +1,5 @@
 module ProviderInterface
-  class InterviewCardComponent < ViewComponent::Base
+  class InterviewCardComponent < BaseComponent
     include ViewHelper
 
     attr_reader :interview, :application_choice

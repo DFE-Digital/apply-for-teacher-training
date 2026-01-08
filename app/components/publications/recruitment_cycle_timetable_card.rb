@@ -1,5 +1,5 @@
 module Publications
-  class RecruitmentCycleTimetableCard < ViewComponent::Base
+  class RecruitmentCycleTimetableCard < BaseComponent
     def initialize(timetable)
       @timetable = timetable
     end

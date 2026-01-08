@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ActivityLogEventComponent < ViewComponent::Base
+  class ActivityLogEventComponent < BaseComponent
     include ViewHelper
 
     attr_reader :event, :application_choice

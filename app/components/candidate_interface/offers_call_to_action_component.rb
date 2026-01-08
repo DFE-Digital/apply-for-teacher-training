@@ -1,5 +1,5 @@
 module CandidateInterface
-  class OffersCallToActionComponent < ViewComponent::Base
+  class OffersCallToActionComponent < BaseComponent
     include ViewHelper
 
     attr_reader :application_form

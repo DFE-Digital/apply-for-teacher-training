@@ -1,4 +1,4 @@
-class StateDiagramComponent < ViewComponent::Base
+class StateDiagramComponent < BaseComponent
   attr_accessor :machine, :ignore_states
 
   def initialize(machine:, ignore_states: [])

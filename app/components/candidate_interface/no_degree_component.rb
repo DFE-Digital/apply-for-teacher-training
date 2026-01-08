@@ -1,5 +1,5 @@
 module CandidateInterface
-  class NoDegreeComponent < ViewComponent::Base
+  class NoDegreeComponent < BaseComponent
     attr_reader :application_form, :editable
 
     def initialize(application_form:, editable:)

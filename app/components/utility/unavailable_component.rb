@@ -1,6 +1,4 @@
-class UnavailableComponent < ViewComponent::Base
-  include ViewHelper
-
+class UnavailableComponent < BaseComponent
   def initialize(title:, reason: nil, lead_in: nil, alternatives: [])
     @title = title
     @reason = reason

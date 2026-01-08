@@ -1,5 +1,5 @@
 module Publications
-  class StatusTotalsComponent < ViewComponent::Base
+  class StatusTotalsComponent < BaseComponent
     include ActiveModel::Model
 
     attr_accessor :title, :summary, :heading_one, :heading_two

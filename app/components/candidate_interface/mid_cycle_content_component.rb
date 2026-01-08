@@ -1,5 +1,5 @@
 module CandidateInterface
-  class MidCycleContentComponent < ViewComponent::Base
+  class MidCycleContentComponent < BaseComponent
     def initialize(application_form:)
       @application_form = application_form
       @completed_application_form_details = CandidateInterface::CompletedApplicationForm.new(application_form:)

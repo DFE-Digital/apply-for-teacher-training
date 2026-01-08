@@ -1,4 +1,4 @@
-class PrimaryFilterComponent < ViewComponent::Base
+class PrimaryFilterComponent < BaseComponent
   include ViewHelper
 
   attr_reader :filters, :primary_filter, :secondary_filters

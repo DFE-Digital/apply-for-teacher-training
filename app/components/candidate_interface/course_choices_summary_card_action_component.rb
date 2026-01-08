@@ -1,5 +1,5 @@
 module CandidateInterface
-  class CourseChoicesSummaryCardActionComponent < ViewComponent::Base
+  class CourseChoicesSummaryCardActionComponent < BaseComponent
     attr_reader :action, :application_choice
 
     def initialize(action:, application_choice:)

@@ -1,4 +1,4 @@
-class CandidateInterface::DeadlineBannerComponent < ViewComponent::Base
+class CandidateInterface::DeadlineBannerComponent < BaseComponent
   attr_accessor :phase, :flash_empty
 
   def initialize(application_form:, flash_empty:)

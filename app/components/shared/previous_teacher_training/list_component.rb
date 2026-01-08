@@ -1,4 +1,4 @@
-class PreviousTeacherTraining::ListComponent < ViewComponent::Base
+class PreviousTeacherTraining::ListComponent < BaseComponent
   include ViewHelper
 
   with_collection_parameter :previous_teacher_training

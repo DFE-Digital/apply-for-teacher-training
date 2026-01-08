@@ -1,4 +1,4 @@
-class ProviderInterface::FindCandidates::GcseQualificationsTableComponent < ViewComponent::Base
+class ProviderInterface::FindCandidates::GcseQualificationsTableComponent < BaseComponent
   include ViewHelper
   include GcseQualificationHelper
 

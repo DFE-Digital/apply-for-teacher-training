@@ -1,4 +1,4 @@
-class ProviderInterface::FindCandidates::PreviouslySubmittedAnApplicationBannerComponent < ViewComponent::Base
+class ProviderInterface::FindCandidates::PreviouslySubmittedAnApplicationBannerComponent < BaseComponent
   def initialize(application_form:, current_provider_user:)
     @application_form = application_form
     @current_provider_user = current_provider_user

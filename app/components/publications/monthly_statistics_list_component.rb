@@ -1,5 +1,5 @@
 module Publications
-  class MonthlyStatisticsListComponent < ViewComponent::Base
+  class MonthlyStatisticsListComponent < BaseComponent
     attr_accessor :recruitment_cycle_timetable
 
     delegate :cycle_range_name,

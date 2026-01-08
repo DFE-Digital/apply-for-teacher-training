@@ -1,4 +1,4 @@
-class ProviderInterface::FindCandidates::RightToWorkComponent < ViewComponent::Base
+class ProviderInterface::FindCandidates::RightToWorkComponent < BaseComponent
   attr_reader :application_form
 
   def initialize(application_form:)

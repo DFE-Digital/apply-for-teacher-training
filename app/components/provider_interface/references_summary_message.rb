@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ReferencesSummaryMessage < ViewComponent::Base
+  class ReferencesSummaryMessage < BaseComponent
     attr_reader :references, :full_name
 
     delegate :feedback_provided, :feedback_requested, to: :references

@@ -1,5 +1,5 @@
 module APIDocs
-  class FieldLengthsComponent < ViewComponent::Base
+  class FieldLengthsComponent < BaseComponent
     def initialize(api_reference)
       @api_reference = api_reference
     end

@@ -1,5 +1,5 @@
 module SupportInterface
-  class SafeguardingIssuesComponent < ViewComponent::Base
+  class SafeguardingIssuesComponent < BaseComponent
     attr_reader :message
 
     def initialize(application_form:)

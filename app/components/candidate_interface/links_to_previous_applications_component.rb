@@ -1,5 +1,5 @@
 module CandidateInterface
-  class LinksToPreviousApplicationsComponent < ViewComponent::Base
+  class LinksToPreviousApplicationsComponent < BaseComponent
     include ViewHelper
 
     def initialize(application_form:)

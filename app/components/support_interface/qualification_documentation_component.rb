@@ -1,5 +1,5 @@
 module SupportInterface
-  class QualificationDocumentationComponent < ViewComponent::Base
+  class QualificationDocumentationComponent < BaseComponent
     attr_reader :list
 
     def initialize(list:)

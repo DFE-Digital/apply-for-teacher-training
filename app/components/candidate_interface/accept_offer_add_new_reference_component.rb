@@ -1,5 +1,5 @@
 module CandidateInterface
-  class AcceptOfferAddNewReferenceComponent < ViewComponent::Base
+  class AcceptOfferAddNewReferenceComponent < BaseComponent
     include AddNewReferenceHelpers
     include GovukVisuallyHiddenHelper
 

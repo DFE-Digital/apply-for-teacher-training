@@ -1,4 +1,4 @@
-class ServiceInformationBanner < ViewComponent::Base
+class ServiceInformationBanner < BaseComponent
   def initialize(namespace:)
     @namespace = namespace
   end

@@ -1,6 +1,6 @@
 module CandidateInterface
   module WithdrawalReasons
-    class LevelTwoReasonsReviewComponent < ViewComponent::Base
+    class LevelTwoReasonsReviewComponent < BaseComponent
       def initialize(level_one_reason, application_choice:)
         @application_choice = application_choice
         @level_one_reason = level_one_reason

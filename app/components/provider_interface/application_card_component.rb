@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ApplicationCardComponent < ViewComponent::Base
+  class ApplicationCardComponent < BaseComponent
     include ViewHelper
     include TaskViewHelper
 

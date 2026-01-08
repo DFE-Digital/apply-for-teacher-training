@@ -1,5 +1,5 @@
 module SupportInterface
-  class FeatureToggleComponent < ViewComponent::Base
+  class FeatureToggleComponent < BaseComponent
     include ViewHelper
 
     attr_reader :feature_name

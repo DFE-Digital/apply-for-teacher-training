@@ -1,5 +1,5 @@
 module CandidateInterface
-  class AfterDeadlineContentComponent < ViewComponent::Base
+  class AfterDeadlineContentComponent < BaseComponent
     delegate :decline_by_default_at, to: :timetable
     delegate :carry_over?, to: :application_form
     delegate :before_apply_opens?,

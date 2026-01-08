@@ -1,4 +1,4 @@
-class CandidateInterface::ApplicationsInviteReminderBannerComponent < ViewComponent::Base
+class CandidateInterface::ApplicationsInviteReminderBannerComponent < BaseComponent
   attr_reader :invites
 
   def initialize(invites:)

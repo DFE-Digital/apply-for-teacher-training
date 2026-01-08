@@ -1,4 +1,4 @@
-class TaskListItemComponent < ViewComponent::Base
+class TaskListItemComponent < BaseComponent
   include ViewHelper
 
   def initialize(

@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ApplicationSummaryComponent < ViewComponent::Base
+  class ApplicationSummaryComponent < BaseComponent
     include ViewHelper
 
     delegate :support_reference,

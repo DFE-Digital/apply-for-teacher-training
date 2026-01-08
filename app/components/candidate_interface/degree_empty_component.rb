@@ -1,5 +1,5 @@
 module CandidateInterface
-  class DegreeEmptyComponent < ViewComponent::Base
+  class DegreeEmptyComponent < BaseComponent
     include UtmLinkHelper
 
     attr_reader :application_form

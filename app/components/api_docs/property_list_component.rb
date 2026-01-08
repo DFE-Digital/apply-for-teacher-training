@@ -1,5 +1,5 @@
 module APIDocs
-  class PropertyListComponent < ViewComponent::Base
+  class PropertyListComponent < BaseComponent
     include APIDocsHelper
     include ViewHelper
     include MarkdownHelper

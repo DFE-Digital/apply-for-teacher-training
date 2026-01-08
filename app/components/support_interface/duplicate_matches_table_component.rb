@@ -1,5 +1,5 @@
 module SupportInterface
-  class DuplicateMatchesTableComponent < ViewComponent::Base
+  class DuplicateMatchesTableComponent < BaseComponent
     include ViewHelper
 
     attr_reader :matches

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ConditionsComponent < ViewComponent::Base
+  class ConditionsComponent < BaseComponent
     include ViewHelper
 
     attr_reader :application_choice

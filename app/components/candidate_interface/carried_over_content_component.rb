@@ -1,5 +1,5 @@
 module CandidateInterface
-  class CarriedOverContentComponent < ViewComponent::Base
+  class CarriedOverContentComponent < BaseComponent
     delegate :after_find_opens?,
              :academic_year_range_name,
              :apply_opens_at,

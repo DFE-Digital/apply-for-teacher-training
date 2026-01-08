@@ -1,4 +1,4 @@
-class ProviderInterface::LocationFilterComponent < ViewComponent::Base
+class ProviderInterface::LocationFilterComponent < BaseComponent
   attr_reader :filter
 
   def initialize(filter:)
