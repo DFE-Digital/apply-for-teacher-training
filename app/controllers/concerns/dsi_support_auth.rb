@@ -2,7 +2,7 @@ module DsiSupportAuth
   extend ActiveSupport::Concern
 
   included do
-    before_action :require_authentication
+    before_action :require_authentication, if: -> { FeatureFlag.active?(:dsi_stateful_session) }
     helper_method :authenticated?
   end
 

@@ -2,7 +2,7 @@ module DsiProviderAuth
   extend ActiveSupport::Concern
 
   included do
-    before_action :require_authentication
+    before_action :require_authentication, if: -> { FeatureFlag.active?(:dsi_stateful_session) }
     helper_method :authenticated?
   end
 
@@ -15,11 +15,11 @@ module DsiProviderAuth
     )
   end
 
-private
-
   def authenticated?
     resume_session
   end
+
+private
 
   def require_authentication
     authenticated? || request_authentication
@@ -28,10 +28,6 @@ private
   def resume_session
     impersonated_provider_user_id = cookies.signed[:impersonated_provider_user_id]
 
-    ## This works fine to impersonate
-    # but you need to clear the impersonate cookie once you're done.
-    # login in as provider after impersonation doesn't work
-    # because the cookie is still there
     session = if impersonated_provider_user_id.present?
                 find_support_session(impersonated_provider_user_id)
               else

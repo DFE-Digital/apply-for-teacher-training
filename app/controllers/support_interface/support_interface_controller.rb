@@ -12,11 +12,16 @@ module SupportInterface
     helper_method :current_support_user, :dfe_sign_in_user
 
     def current_support_user
-      @current_support_user ||= Current.support_session&.user ||
-                                find_session_by_cookie&.support_user
+      @current_support_user ||= if FeatureFlag.active?(:dsi_stateful_session)
+                                  Current.support_session&.user ||
+                                    find_session_by_cookie&.support_user
+                                else
+                                  SupportUser.load_from_session(session)
+                                end
     end
 
     def dfe_sign_in_user
+      # where is this used?
       DfESignInUser.load_from_session(session)
     end
 
@@ -30,7 +35,6 @@ module SupportInterface
     end
 
     def authenticate_support_user!
-      # this needs to go or be behind feature flag
       return if current_support_user
 
       session['post_dfe_sign_in_path'] = request.fullpath

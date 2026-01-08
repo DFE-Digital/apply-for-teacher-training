@@ -1,52 +1,49 @@
 class ProviderDfESignInController < ActionController::Base
   include DsiProviderAuth
 
-  # You can still go to provider/sign-in after you are signed in as provider
   skip_before_action :require_authentication
   protect_from_forgery except: :bypass_callback
 
   SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN = %w[session_id impersonated_provider_user].freeze
 
   def callback
-    change_session_id_and_drop_provider_impersonation
-    omniauth_payload = request.env['omniauth.auth']
-    @local_user ||= ProviderUser.find_or_onboard(omniauth_payload)
-    @target_path = session['post_dfe_sign_in_path']
-
-    if @local_user &&
-       DsiProfile.update_profile_from_dfe_sign_in_db(omniauth_payload:, local_user: @local_user)
-      start_new_dsi_session(
-        user: @local_user,
-        omniauth_payload:,
-      )
-      send_provider_sign_in_confirmation_email
-
-      redirect_to target_path_is_provider_path ? @target_path : provider_interface_path
-      session.delete('post_dfe_sign_in_path')
+    if FeatureFlag.active?(:dsi_stateful_session)
+      new_callback
     else
-      session['email_address_not_recognised'] = omniauth_payload.dig('info', 'email')
-      session['id_token'] = omniauth_payload.dig('credentials', 'id_token')
-
-      redirect_to auth_dfe_destroy_path
+      old_callback
     end
   end
 
   alias bypass_callback callback
 
   def destroy
-    id_token = authenticated? ? Current.provider_session&.id_token : session['id_token']
-    post_signout_redirect = if id_token.nil?
-                              auth_dfe_sign_out_path
-                            else
-                              query = {
-                                post_logout_redirect_uri: auth_dfe_sign_out_url,
-                                id_token_hint: id_token,
-                              }
+    if FeatureFlag.active?(:dsi_stateful_session)
+      id_token = authenticated? ? Current.provider_session&.id_token : session['id_token']
+      post_signout_redirect = if id_token.nil?
+                                auth_dfe_sign_out_path
+                              else
+                                query = {
+                                  post_logout_redirect_uri: auth_dfe_sign_out_url,
+                                  id_token_hint: id_token,
+                                }
+                                "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
+                              end
 
-                              "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
-                            end
+      terminate_session
+    else
+      dfe_sign_in_user = DfESignInUser.load_from_session(session)
+      post_signout_redirect = if dfe_sign_in_user&.needs_dsi_signout?
+                                query = {
+                                  post_logout_redirect_uri: auth_dfe_sign_out_url,
+                                  id_token_hint: dfe_sign_in_user.id_token,
+                                }
+                                "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
+                              else
+                                auth_dfe_sign_out_path
+                              end
 
-    terminate_session
+      DfESignInUser.end_session!(session)
+    end
     redirect_to post_signout_redirect, allow_other_host: true
   end
 
@@ -70,6 +67,50 @@ class ProviderDfESignInController < ActionController::Base
   end
 
 private
+
+  def new_callback
+    change_session_id_and_drop_provider_impersonation
+    omniauth_payload = request.env['omniauth.auth']
+    @local_user ||= ProviderUser.find_or_onboard(omniauth_payload)
+    @target_path = session['post_dfe_sign_in_path']
+
+    if @local_user &&
+       DsiProfile.update_profile_from_dfe_sign_in_db(omniauth_payload:, local_user: @local_user)
+      start_new_dsi_session(
+        user: @local_user,
+        omniauth_payload:,
+      )
+      send_provider_sign_in_confirmation_email
+
+      redirect_to target_path_is_provider_path ? @target_path : provider_interface_path
+      session.delete('post_dfe_sign_in_path')
+    else
+      session['email_address_not_recognised'] = omniauth_payload.dig('info', 'email')
+      session['id_token'] = omniauth_payload.dig('credentials', 'id_token')
+
+      redirect_to auth_dfe_destroy_path
+    end
+  end
+
+  def old_callback
+    change_session_id_and_drop_provider_impersonation
+    DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
+    @dfe_sign_in_user = DfESignInUser.load_from_session(session)
+    @local_user ||= ProviderUser.load_from_session(session) || false
+    @target_path = session['post_dfe_sign_in_path']
+
+    if @local_user && DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
+      @local_user.update!(last_signed_in_at: Time.zone.now)
+
+      send_provider_sign_in_confirmation_email
+
+      redirect_to target_path_is_provider_path ? @target_path : provider_interface_path
+      session.delete('post_dfe_sign_in_path')
+    else
+      session['email_address_not_recognised'] = @dfe_sign_in_user&.email_address
+      redirect_to auth_dfe_destroy_path
+    end
+  end
 
   def change_session_id_and_drop_provider_impersonation
     existing_values = session.to_hash # e.g. candidate/devise login, cookie consent

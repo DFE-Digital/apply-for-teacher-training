@@ -15,22 +15,6 @@ module ProviderInterface
       end
     end
 
-    def destroy
-      id_token = authenticated? ? Current.provider_session&.id_token : nil
-      post_signout_redirect = if DfESignIn.bypass? || id_token.blank?
-                                provider_interface_path
-                              else
-                                query = {
-                                  post_logout_redirect_uri: auth_dfe_sign_out_url,
-                                  id_token_hint: id_token,
-                                }
-
-                                "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
-                              end
-      terminate_session
-      redirect_to post_signout_redirect, allow_other_host: true
-    end
-
     def sign_in_by_email
       render_404 and return unless FeatureFlag.active?('dfe_sign_in_fallback')
 
@@ -76,17 +60,30 @@ module ProviderInterface
 
       render_404 and return unless provider_user
 
-      start_new_dsi_session(
-        user: provider_user,
-        omniauth_payload: {
-          'info' => {
-            'email_address' => provider_user.email_address,
-            'first_name' => provider_user.first_name,
-            'last_name' => provider_user.last_name,
+      if FeatureFlag.active?(:dsi_stateful_session)
+        start_new_dsi_session(
+          user: provider_user,
+          omniauth_payload: {
+            'info' => {
+              'email_address' => provider_user.email_address,
+              'first_name' => provider_user.first_name,
+              'last_name' => provider_user.last_name,
+            },
+            'uid' => provider_user.dfe_sign_in_uid,
           },
-          'uid' => provider_user.dfe_sign_in_uid,
-        },
-      )
+        )
+      else
+        # Equivalent to calling DfESignInUser.begin_session!
+        session['dfe_sign_in_user'] = {
+          'email_address' => provider_user.email_address,
+          'dfe_sign_in_uid' => provider_user.dfe_sign_in_uid,
+          'first_name' => provider_user.first_name,
+          'last_name' => provider_user.last_name,
+          'last_active_at' => Time.zone.now,
+        }
+      end
+
+      provider_user.update!(last_signed_in_at: Time.zone.now)
 
       redirect_to session['post_dfe_sign_in_path'] || provider_interface_applications_path
     end
@@ -110,7 +107,11 @@ module ProviderInterface
     end
 
     def impersonation?
-      ProviderImpersonation.load_from_session(session)
+      if FeatureFlag.active?(:dsi_stateful_session)
+        authenticated? ? Current.support_session.present? : false
+      else
+        ProviderImpersonation.load_from_session(session)
+      end
     end
 
     def invalid_email_address!(email_address, error_type)

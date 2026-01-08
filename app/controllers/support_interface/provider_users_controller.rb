@@ -24,20 +24,35 @@ module SupportInterface
 
     def impersonate
       @provider_user = ProviderUser.find(params[:provider_user_id])
-      Current.support_session.update!(impersonated_provider_user_id: @provider_user.id)
-      cookies.signed.permanent[:impersonated_provider_user_id] = {
-        value: @provider_user.id,
-        httponly: true,
-        same_site: :lax,
-        secure: HostingEnvironment.production? || HostingEnvironment.sandbox_mode? || HostingEnvironment.qa?,
-      }
+      if FeatureFlag.active?(:dsi_stateful_session)
+        Current.support_session.update!(impersonated_provider_user_id: @provider_user.id)
+        cookies.signed.permanent[:impersonated_provider_user_id] = {
+          value: @provider_user.id,
+          httponly: true,
+          same_site: :lax,
+          secure: !Rails.env.test? && (HostingEnvironment.production? || HostingEnvironment.sandbox_mode? || HostingEnvironment.qa?),
+        }
+      else
+        dfe_sign_in_user.begin_impersonation! session, @provider_user
+      end
+
       redirect_to support_interface_provider_user_path(@provider_user)
     end
 
     def end_impersonation
-      if (impersonated_user = Current.support_session.impersonated_provider_user)
-        Current.support_session.update(impersonated_provider_user_id: nil)
-        cookies.delete(:impersonated_provider_user_id)
+      impersonated_user = if FeatureFlag.active?(:dsi_stateful_session)
+                            Current.support_session.impersonated_provider_user
+                          else
+                            current_support_user.impersonated_provider_user
+                          end
+
+      if impersonated_user
+        if FeatureFlag.active?(:dsi_stateful_session)
+          Current.support_session.update(impersonated_provider_user_id: nil)
+          cookies.delete(:impersonated_provider_user_id)
+        else
+          dfe_sign_in_user.end_impersonation! session
+        end
         redirect_to support_interface_provider_user_path(impersonated_user)
       else
         flash[:success] = 'No active provider user impersonation to stop'
