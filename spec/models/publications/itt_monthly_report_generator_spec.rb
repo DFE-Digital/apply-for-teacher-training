@@ -130,21 +130,21 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     context 'when first cycle week' do
       it 'returns one' do
         generation_date = Time.zone.local(2023, 10, 9)
-        expect(described_class.new(generation_date:).cycle_week).to be 1
+        expect(described_class.new(generation_date:).cycle_week).to be 0
       end
     end
 
     context 'when mid cycle' do
       it 'returns the number of weeks' do
         generation_date = Time.zone.local(2023, 11, 20)
-        expect(described_class.new(generation_date:).cycle_week).to be 7
+        expect(described_class.new(generation_date:).cycle_week).to be 6
       end
     end
 
     context 'when last cycle week' do
       it 'returns 52' do
         generation_date = Time.zone.local(2024, 9, 30)
-        expect(described_class.new(generation_date:).cycle_week).to be 52
+        expect(described_class.new(generation_date:).cycle_week).to be 51
       end
     end
   end
@@ -173,7 +173,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
     let(:publication_date) { Time.zone.local(2024, 1, 22) }
 
     before do
-      stub_application_metrics(cycle_week: 15)
+      stub_application_metrics(cycle_week: 14)
       TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2024, 1, 15))
     end
 
@@ -209,7 +209,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
   describe '#to_h' do
     before do
       TestSuiteTimeMachine.travel_permanently_to(Time.zone.local(2024, 1, 15))
-      stub_application_metrics(cycle_week: 7)
+      stub_application_metrics(cycle_week: 6)
     end
 
     subject(:report) do
@@ -224,7 +224,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
         generation_date:,
         publication_date:,
         period: 'From 2 October 2023 to 19 November 2023',
-        cycle_week: 7,
+        cycle_week: 6,
         month: '2023-11',
       })
     end
@@ -1040,7 +1040,7 @@ RSpec.describe Publications::ITTMonthlyReportGenerator do
   def application_metrics_results(options = {})
     [
       {
-        cycle_week: 7,
+        cycle_week: 6,
         first_date_in_week: Date.new(2023, 11, 13),
         last_date_in_week: Date.new(2023, 11, 19),
         nonsubject_filter: '21',

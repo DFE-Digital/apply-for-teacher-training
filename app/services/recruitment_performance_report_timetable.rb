@@ -1,6 +1,6 @@
 module RecruitmentPerformanceReportTimetable
-  FIRST_CYCLE_WEEK_REPORT = 16
-  LAST_CYCLE_WEEK_REPORT = 51
+  FIRST_CYCLE_WEEK_REPORT = 15
+  LAST_CYCLE_WEEK_REPORT = 52
 
   def self.report_season?
     RecruitmentCycleTimetable.current_cycle_week.between?(FIRST_CYCLE_WEEK_REPORT, LAST_CYCLE_WEEK_REPORT)

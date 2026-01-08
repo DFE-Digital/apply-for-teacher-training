@@ -21,7 +21,7 @@ class RecruitmentCycleTimetable < ApplicationRecord
   def self.find_cycle_week_by_datetime(datetime)
     timetable = find_timetable_by_datetime(datetime)
     weeks = (datetime - timetable.find_opens_at.beginning_of_week).seconds.in_weeks.to_i
-    (weeks % 53).succ
+    (weeks % 53)
   end
 
   def self.current_and_past_years
@@ -88,7 +88,7 @@ class RecruitmentCycleTimetable < ApplicationRecord
 
   def self.current_cycle_week
     weeks = (Time.zone.now - current_timetable.find_opens_at.beginning_of_week).seconds.in_weeks.to_i
-    (weeks % 53).succ
+    (weeks % 53)
   end
 
   def self.this_day_last_cycle
@@ -163,8 +163,7 @@ class RecruitmentCycleTimetable < ApplicationRecord
   end
 
   def cycle_week_date_range(cycle_week)
-    cycle_week %= 52
-    cycle_week -= 1
+    cycle_week %= 53
 
     start_of_week = find_opens_at + cycle_week.weeks
     start_of_week.all_week

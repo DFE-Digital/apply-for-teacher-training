@@ -116,7 +116,7 @@ RSpec.describe RecruitmentCycleTimetable do
     context 'the first day of the cycle' do
       it 'returns 1' do
         travel_temporarily_to(described_class.current_timetable.find_opens_at + 1.second) do
-          expect(described_class.current_cycle_week).to eq 1
+          expect(described_class.current_cycle_week).to eq 0
         end
       end
     end
@@ -124,7 +124,7 @@ RSpec.describe RecruitmentCycleTimetable do
     context 'sunday after find opens' do
       it 'is the first week of the cycle' do
         travel_temporarily_to(described_class.current_timetable.find_opens_at.sunday) do
-          expect(described_class.current_cycle_week).to eq 1
+          expect(described_class.current_cycle_week).to eq 0
         end
       end
     end
@@ -132,7 +132,7 @@ RSpec.describe RecruitmentCycleTimetable do
     context 'monday after find opens' do
       it 'is the second week of the cycle' do
         travel_temporarily_to(described_class.current_timetable.find_opens_at.sunday + 1.day) do
-          expect(described_class.current_cycle_week).to eq 2
+          expect(described_class.current_cycle_week).to eq 1
         end
       end
     end
@@ -140,7 +140,7 @@ RSpec.describe RecruitmentCycleTimetable do
     context 'after find closes, before it reopens' do
       it 'returns last week in cycle' do
         travel_temporarily_to(described_class.current_timetable.find_closes_at + 1.second) do
-          expect(described_class.current_cycle_week).to eq 53
+          expect(described_class.current_cycle_week).to eq 52
         end
       end
     end
@@ -149,7 +149,7 @@ RSpec.describe RecruitmentCycleTimetable do
   describe '.find_cycle_week_by_datetime' do
     it 'returns the expected week' do
       datetime = Time.zone.local(2023, 11, 20)
-      expect(described_class.find_cycle_week_by_datetime(datetime)).to eq 8
+      expect(described_class.find_cycle_week_by_datetime(datetime)).to eq 7
     end
   end
 
