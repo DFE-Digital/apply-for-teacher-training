@@ -1,21 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe 'ProviderInterface::CandidatePool::PublishInvitesController' do
+  include DfESignInHelpers
+
   describe 'POST /provider/find-candidates/:candidate_id/invite/:draft_invite_id/review' do
     let!(:provider_user) { create(:provider_user, :with_provider, :with_make_decisions, dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
     let(:provider) { provider_user.providers.first }
 
     before do
-      allow(DfESignInUser).to receive(:load_from_session)
-        .and_return(
-          DfESignInUser.new(
-            email_address: provider_user.email_address,
-            dfe_sign_in_uid: provider_user.dfe_sign_in_uid,
-            first_name: provider_user.first_name,
-            last_name: provider_user.last_name,
-          ),
-
-        )
+      user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
+      get auth_dfe_callback_path
       mailer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
       allow(CandidateMailer).to receive(:candidate_invite).and_return(mailer)
     end

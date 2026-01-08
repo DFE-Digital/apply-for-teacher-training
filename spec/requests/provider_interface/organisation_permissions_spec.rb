@@ -1,21 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe 'Viewing organisation permissions' do
+  include DfESignInHelpers
+
   let(:training_provider) { create(:provider) }
   let(:ratifying_provider) { create(:provider) }
   let(:relationship) { create(:provider_relationship_permissions, training_provider:, ratifying_provider:) }
-  let(:provider_user) { create(:provider_user, :with_manage_organisations, providers: [training_provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
+  let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_manage_organisations, providers: [training_provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
 
   before do
-    allow(DfESignInUser).to receive(:load_from_session)
-      .and_return(
-        DfESignInUser.new(
-          email_address: provider_user.email_address,
-          dfe_sign_in_uid: provider_user.dfe_sign_in_uid,
-          first_name: provider_user.first_name,
-          last_name: provider_user.last_name,
-        ),
-      )
+    user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
+    get auth_dfe_callback_path
   end
 
   describe 'without manage organisations' do

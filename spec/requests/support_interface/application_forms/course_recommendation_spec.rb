@@ -1,8 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe 'Support interface - Application Forms, Course Recommendations' do
+  include DfESignInHelpers
+
   before do
-    allow(SupportUser).to receive(:load_from_session).and_return(create(:support_user))
+    support_user = create(:support_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+    support_user_exists_dsi(email_address: support_user.email_address)
+    get auth_dfe_support_callback_path
   end
 
   it 'redirects to the support root' do
