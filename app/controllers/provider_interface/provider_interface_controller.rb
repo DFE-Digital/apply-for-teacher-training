@@ -30,8 +30,11 @@ module ProviderInterface
     helper_method :current_provider_user, :dfe_sign_in_user
 
     def current_provider_user
-      @current_provider_user ||= ProviderUser.load_from_db ||
-                                 find_provider_session&.provider_user
+      @current_provider_user ||= if FeatureFlag.active?(:dsi_stateful_session)
+                                   ProviderUser.load_from_current_session || find_provider_session&.provider_user
+                                 else
+                                   ProviderUser.load_from_session(session)
+                                 end
     end
 
     alias current_user current_provider_user
@@ -163,7 +166,13 @@ module ProviderInterface
         provider_user_admin_url: support_interface_provider_user_url(current_provider_user),
       }
 
-      if (impersonator = Current.support_session&.user)
+      impersonator = if FeatureFlag.active?(:dsi_stateful_session)
+                       Current.support_session&.user
+                     else
+                       current_provider_user.impersonator
+                     end
+
+      if impersonator
         information[:dfe_sign_in_uid] = impersonator.dfe_sign_in_uid
         information[:support_user_email] = impersonator.email_address
         information[:support_user_admin_url] = support_interface_support_user_url(impersonator)

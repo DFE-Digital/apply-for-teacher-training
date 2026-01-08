@@ -70,7 +70,7 @@ class ProviderUser < ApplicationRecord
     end
   end
 
-  def self.load_from_db
+  def self.load_from_current_session
     return unless Current.provider_session || Current.support_session
 
     impersonator = Current.support_session&.user
