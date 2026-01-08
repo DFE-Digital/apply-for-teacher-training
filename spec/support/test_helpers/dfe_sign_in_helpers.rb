@@ -1,22 +1,24 @@
 module DfESignInHelpers
-  def user_exists_in_dfe_sign_in(email_address: 'email@provider.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID', first_name: nil, last_name: nil)
+  def user_exists_in_dfe_sign_in(email_address: 'email@provider.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID', first_name: nil, last_name: nil, id_token: '')
     OmniAuth.config.mock_auth[:dfe] = OmniAuth::AuthHash.new(
       fake_dfe_sign_in_auth_hash(
         email_address:,
         dfe_sign_in_uid:,
         first_name:,
         last_name:,
+        id_token:,
       ),
     )
   end
 
-  def support_user_exists_dsi(email_address: 'email@support.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID', first_name: nil, last_name: nil)
+  def support_user_exists_dsi(email_address: 'email@support.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID', first_name: nil, last_name: nil, id_token: '')
     OmniAuth.config.mock_auth[:'dfe-support'] = OmniAuth::AuthHash.new(
       fake_dfe_sign_in_auth_hash(
         email_address:,
         dfe_sign_in_uid:,
         first_name:,
         last_name:,
+        id_token:,
       ),
     )
   end

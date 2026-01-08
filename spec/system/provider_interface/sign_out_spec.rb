@@ -25,6 +25,7 @@ RSpec.describe 'A provider user signs out of DSI as well as Apply' do
     provider_exists_in_dfe_sign_in(
       email_address: 'provider@example.com',
       dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
+      id_token: 'token',
     )
   end
 
@@ -44,7 +45,7 @@ RSpec.describe 'A provider user signs out of DSI as well as Apply' do
 
   def then_i_am_redirected_to_dsi_end_session_endpoint
     expected_query = {
-      id_token_hint: nil,
+      id_token_hint: 'token',
       post_logout_redirect_uri: 'http://www.example.com/auth/dfe/sign-out',
     }
 

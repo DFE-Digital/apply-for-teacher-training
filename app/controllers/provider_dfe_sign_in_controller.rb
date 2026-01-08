@@ -19,7 +19,7 @@ class ProviderDfESignInController < ActionController::Base
   def destroy
     if FeatureFlag.active?(:dsi_stateful_session)
       id_token = authenticated? ? Current.provider_session&.id_token : session['id_token']
-      post_signout_redirect = if id_token.nil?
+      post_signout_redirect = if id_token.blank?
                                 auth_dfe_sign_out_path
                               else
                                 query = {
