@@ -1,10 +1,8 @@
-<%
-  valid_impersonation = if FeatureFlag.active?(:dsi_stateful_session)
-                          Current.support_session&.impersonated_provider_user == provider_user
-                        else
-                          current_support_user.impersonated_provider_user == provider_user
-                        end
-%>
+<% valid_impersonation = if FeatureFlag.active?(:dsi_stateful_session)
+                           Current.support_session&.impersonated_provider_user == provider_user
+                         else
+                           current_support_user.impersonated_provider_user == provider_user
+                         end %>
 
 <% if valid_impersonation %>
   <p class="govuk-body">
