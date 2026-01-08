@@ -1,6 +1,7 @@
 module SupportInterface
   class SessionsController < SupportInterfaceController
     skip_before_action :authenticate_support_user!
+    skip_before_action :require_authentication
 
     def new
       redirect_to support_interface_path and return if current_support_user
@@ -10,6 +11,23 @@ module SupportInterface
         @support_user = SupportUser.new
         render :authentication_fallback
       end
+    end
+
+    def destroy
+      id_token = authenticated? ? Current.support_session&.id_token : nil
+      post_signout_redirect = if DfESignIn.bypass? || id_token.nil?
+                                support_interface_path
+                              else
+                                query = {
+                                  post_logout_redirect_uri: auth_dfe_support_sign_out_url,
+                                  id_token_hint: id_token,
+                                }
+
+                                "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
+                              end
+
+      terminate_session
+      redirect_to post_signout_redirect, allow_other_host: true
     end
 
     def sign_in_by_email
@@ -55,16 +73,17 @@ module SupportInterface
 
       render_404 and return unless support_user
 
-      # Equivalent to calling DfESignInUser.begin_session!
-      session['dfe_sign_in_user'] = {
-        'email_address' => support_user.email_address,
-        'dfe_sign_in_uid' => support_user.dfe_sign_in_uid,
-        'first_name' => support_user.first_name,
-        'last_name' => support_user.last_name,
-        'last_active_at' => Time.zone.now,
-      }
-
-      support_user.update!(last_signed_in_at: Time.zone.now)
+      start_new_dsi_session(
+        user: support_user,
+        omniauth_payload: {
+          'info' => {
+            'email_address' => support_user.email_address,
+            'first_name' => support_user.first_name,
+            'last_name' => support_user.last_name,
+          },
+          'uid' => support_user.dfe_sign_in_uid,
+        },
+      )
 
       redirect_to support_interface_candidates_path
     end

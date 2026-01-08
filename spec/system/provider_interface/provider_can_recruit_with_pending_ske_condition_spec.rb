@@ -47,7 +47,7 @@ RSpec.describe 'Confirm conditions met' do
     when_i_log_in_as_the_candidate
     then_i_see_the_offer_page_with_a_message_about_pending_ske_conditions
 
-    when_i_sign_back_in_as_the_provider_and_open_application_choice
+    when_i_go_back_as_the_provider_and_open_application_choice
     and_i_navigate_to_the_offer_tab
     and_i_click_on_confirm_conditions
     then_i_see_a_summary_of_the_conditions
@@ -216,8 +216,7 @@ RSpec.describe 'Confirm conditions met' do
     expect(page).to have_content('Remember to complete your subject knowledge enhancement course to meet the conditions of this offer.')
   end
 
-  def when_i_sign_back_in_as_the_provider_and_open_application_choice
-    provider_signs_in_using_dfe_sign_in
+  def when_i_go_back_as_the_provider_and_open_application_choice
     visit provider_interface_application_choice_path(@application_choice)
   end
 

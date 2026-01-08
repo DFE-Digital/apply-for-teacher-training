@@ -3,6 +3,7 @@ module ProviderInterface
     include ContentHelper
 
     skip_before_action :authenticate_provider_user!
+    skip_before_action :require_authentication
     skip_before_action :redirect_if_setup_required
     layout 'application'
 

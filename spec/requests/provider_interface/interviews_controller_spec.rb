@@ -11,9 +11,8 @@ RSpec.describe ProviderInterface::InterviewsController do
   let(:interview) { create(:interview, application_choice:) }
 
   before do
-    allow(DfESignInUser).to receive(:load_from_session).and_return(provider_user)
-
     user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
+    get auth_dfe_callback_path
   end
 
   describe 'if application choice is not in a pending decision state' do
