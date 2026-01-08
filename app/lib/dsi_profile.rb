@@ -10,7 +10,7 @@ class DsiProfile
     local_user.update(fields_to_update)
   end
 
-  def self.update_profile_from_dfe_sign_in_db(omniauth_payload:, local_user:)
+  def self.update_profile_from_omniauth_payload(omniauth_payload:, local_user:)
     return if local_user == false
 
     email_address = omniauth_payload.dig('info', 'email')
