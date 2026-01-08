@@ -1,4 +1,4 @@
-class SupportDfESignInController < ApplicationController
+class ProviderDfESignInController < ActionController::Base
   protect_from_forgery except: :bypass_callback
 
   SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN = %w[session_id impersonated_provider_user].freeze
@@ -7,19 +7,19 @@ class SupportDfESignInController < ApplicationController
     change_session_id_and_drop_provider_impersonation
     DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
     @dfe_sign_in_user = DfESignInUser.load_from_session(session)
-    @local_user ||= SupportUser.load_from_session(session) || false
+    @local_user ||= ProviderUser.load_from_session(session) || false
     @target_path = session['post_dfe_sign_in_path']
 
     if @local_user && DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
       @local_user.update!(last_signed_in_at: Time.zone.now)
 
-      send_support_sign_in_confirmation_email
+      send_provider_sign_in_confirmation_email
 
-      redirect_to target_path_is_support_path ? @target_path : support_interface_path
+      redirect_to target_path_is_provider_path ? @target_path : provider_interface_path
       session.delete('post_dfe_sign_in_path')
     else
-      session['unauthorized_dsi_support_uid'] = @dfe_sign_in_user&.dfe_sign_in_uid
-      redirect_to auth_dfe_support_destroy_path
+      session['email_address_not_recognised'] = @dfe_sign_in_user&.email_address
+      redirect_to auth_dfe_destroy_path
     end
   end
 
@@ -29,13 +29,13 @@ class SupportDfESignInController < ApplicationController
     dfe_sign_in_user = DfESignInUser.load_from_session(session)
     post_signout_redirect = if dfe_sign_in_user&.needs_dsi_signout?
                               query = {
-                                post_logout_redirect_uri: auth_dfe_support_sign_out_url,
+                                post_logout_redirect_uri: auth_dfe_sign_out_url,
                                 id_token_hint: dfe_sign_in_user.id_token,
                               }
 
                               "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
                             else
-                              auth_dfe_support_sign_out_path
+                              auth_dfe_sign_out_path
                             end
 
     DfESignInUser.end_session!(session)
@@ -46,18 +46,18 @@ class SupportDfESignInController < ApplicationController
   # link on DSI. We tell DSI to redirect here using the
   # post_logout_redirect_uri parameter - see DfESignInUser#dsi_logout_url
   def redirect_after_dsi_signout
-    if session['unauthorized_dsi_support_uid'].present?
-      # When users are not authorized we need to render a page where
-      # we show the user's dfe_sign_in_uid. We don't have access to the user here because
+    if session['email_address_not_recognised']
+      # When users input an unauthorized email we need to render a page where
+      # we show the user's email. We don't have access to the user here because
       # we logged them out by now, so we need to get it from the session variable
-      @dfe_sign_in_uid = session.delete('unauthorized_dsi_support_uid')
+      @email_address = session.delete('email_address_not_recognised')
       render(
         layout: 'application',
-        template: 'support_interface/unauthorized',
+        template: 'provider_interface/email_address_not_recognised',
         status: :forbidden,
       )
     else
-      redirect_to support_interface_path
+      redirect_to provider_interface_path
     end
   end
 
@@ -69,33 +69,23 @@ private
     session.update existing_values.except(*SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN)
   end
 
-  def send_support_sign_in_confirmation_email
+  def send_provider_sign_in_confirmation_email
     return if cookies.signed[:sign_in_confirmation] == @local_user.id
 
     cookies.signed[:sign_in_confirmation] = {
       value: @local_user.id,
-      expires: 20.years.from_now,
+      expires: 6.months.from_now,
       httponly: true,
       secure: Rails.env.production?,
     }
 
-    SupportMailer.confirm_sign_in(
+    ProviderMailer.confirm_sign_in(
       @local_user,
-      device: {
-        user_agent: request.user_agent,
-        ip_address: user_ip_address,
-      },
+      timestamp: Time.zone.now,
     ).deliver_later
   end
 
-  def user_ip_address
-    # If we are on AKS we need to use the x-real-ip header instead
-    # of the remote ip as X-FORWARDED-FOR contains the ip and proxies
-    # and Rails is picking the proxy from last to first on remote_ip calls.
-    request.headers['x-real-ip'].presence || request.remote_ip
-  end
-
-  def target_path_is_support_path
-    @target_path&.match(/^#{support_interface_path}/)
+  def target_path_is_provider_path
+    @target_path&.match(/^#{provider_interface_path}/)
   end
 end

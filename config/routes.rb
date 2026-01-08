@@ -19,10 +19,10 @@ Rails.application.routes.draw do
   draw 'api/register'
   draw 'api/vendor'
 
-  get '/auth/dfe/callback' => 'dfe_sign_in#callback'
-  get '/auth/developer/callback' => 'dfe_sign_in#bypass_callback'
-  get '/auth/dfe/destroy' => 'dfe_sign_in#destroy'
-  get '/auth/dfe/sign-out' => 'dfe_sign_in#redirect_after_dsi_signout'
+  get '/auth/dfe/callback' => 'provider_dfe_sign_in#callback'
+  get '/auth/developer/callback' => 'provider_dfe_sign_in#bypass_callback'
+  get '/auth/dfe/destroy' => 'provider_dfe_sign_in#destroy'
+  get '/auth/dfe/sign-out' => 'provider_dfe_sign_in#redirect_after_dsi_signout'
 
   get '/auth/dfe-support/callback' => 'support_dfe_sign_in#callback'
   get '/auth/support/developer/callback' => 'support_dfe_sign_in#bypass_callback'

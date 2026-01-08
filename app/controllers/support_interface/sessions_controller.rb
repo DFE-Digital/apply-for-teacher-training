@@ -12,17 +12,6 @@ module SupportInterface
       end
     end
 
-    def destroy
-      post_signout_redirect = if dfe_sign_in_user.needs_dsi_signout?
-                                dfe_sign_in_user.support_interface_dsi_logout_url
-                              else
-                                support_interface_path
-                              end
-
-      DfESignInUser.end_session!(session)
-      redirect_to post_signout_redirect, allow_other_host: true
-    end
-
     def sign_in_by_email
       render_404 and return unless FeatureFlag.active?('dfe_sign_in_fallback')
 

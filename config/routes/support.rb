@@ -301,7 +301,6 @@ namespace :support_interface, path: '/support' do
   end
 
   get '/sign-in' => 'sessions#new', as: :sign_in
-  get '/sign-out' => 'sessions#destroy', as: :sign_out
 
   get '/confirm-environment' => 'sessions#confirm_environment', as: :confirm_environment
   post '/confirm-environment' => 'sessions#confirmed_environment'
