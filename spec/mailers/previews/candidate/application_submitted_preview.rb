@@ -64,12 +64,12 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
   end
 
   def change_course_pending_conditions
-    provider = FactoryBot.build_stubbed(:provider)
-    course = FactoryBot.build_stubbed(:course, provider:)
-    site = FactoryBot.build_stubbed(:site, provider:)
-    course_option = FactoryBot.build_stubbed(:course_option, course:, site:)
-    original_course = FactoryBot.build_stubbed(:course, provider:)
-    original_course_option = FactoryBot.build_stubbed(
+    provider = FactoryBot.build(:provider, code: "PREVIEW#{Provider.count}")
+    course = FactoryBot.create(:course, provider:)
+    site = FactoryBot.build(:site, provider:)
+    course_option = FactoryBot.create(:course_option, course:, site:)
+    original_course = FactoryBot.create(:course, provider:)
+    original_course_option = FactoryBot.build(
       :course_option,
       course: original_course,
       site:,
