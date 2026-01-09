@@ -21,7 +21,6 @@ module SupportInterface
     end
 
     def dfe_sign_in_user
-      # where is this used?
       DfESignInUser.load_from_session(session)
     end
 
