@@ -2,10 +2,11 @@ Hello <%= @application_form.first_name %>
 
 Congratulations! You have an offer from <%= @provider_name %> to study <%= @course_name_and_code %>.
 
-<% @application_choice.offer.conditions.select(&:unmet?).each do |condition| %>
+<% if @conditions.present? %>
   You will need to meet the following conditions:
-
- - <%= condition.text %>
+  <% @conditions.each do |condition| %>
+  - <%= condition.text %>
+  <% end %>
 <% end %>
 
 <% if @show_deadline_reminder %>

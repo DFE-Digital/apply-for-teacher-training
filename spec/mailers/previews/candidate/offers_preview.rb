@@ -63,6 +63,22 @@ class Candidate::OffersPreview < ActionMailer::Preview
     CandidateMailer.new_offer_made(application_choice)
   end
 
+  def new_offer_made_with_ske_condition
+    application_form_with_name = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Bob',
+    )
+
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      application_form: application_form_with_name,
+      course_option:,
+      offer: FactoryBot.build(:offer, :with_ske_conditions),
+    )
+
+    CandidateMailer.new_offer_made(application_choice)
+  end
+
   def offer_withdrawn
     candidate = FactoryBot.build_stubbed(:candidate)
     application_choice = FactoryBot.build_stubbed(

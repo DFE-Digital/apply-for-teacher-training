@@ -74,4 +74,24 @@ RSpec.describe CandidateMailer do
       expect(email.body).to include "If you want to accept this offer, you must do so by #{current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}. If you have not responded by then, the offer will be automatically declined on your behalf."
     end
   end
+
+  describe '.new_offer_made with ske conditions' do
+    let(:email) { described_class.new_offer_made(application_form.application_choices.first) }
+    let(:application_choices) do
+      [build_stubbed(
+        :application_choice,
+        :offered,
+        status: 'offer',
+        current_course_option: course_option,
+        offer: build(:offer, :with_ske_conditions),
+      )]
+    end
+
+    it 'renders essential checks and deadline reminder text' do
+      expect(email.body).to include 'An enhanced disclosure and barring service (DBS) check. This is a criminal records check to make sure it is safe for you to work with children. If you are from outside of the UK and Ireland then the training provider will request a criminal records check from your home country.'
+      expect(email.body).to include 'A fitness to train to teach check. These are questions to check your ability to meet teaching standards, both physically and mentally.'
+      expect(email.body).to include 'You will need to meet the following conditions:'
+      expect(email.body).to include 'Mathematics subject knowledge enhancement course'
+    end
+  end
 end
