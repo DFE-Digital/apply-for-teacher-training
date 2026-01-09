@@ -37,6 +37,20 @@ RSpec.describe CandidateMailer do
     it 'does not render offer deadline text' do
       expect(email.body).not_to include "If you want to accept this offer, you must do so by #{current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}. If you have not responded by then, the offer will be automatically declined on your behalf."
     end
+
+    context 'when the offer has a reference condition' do
+      let(:application_choice) { create(:application_choice, current_course_option: create(:course_option)) }
+      let(:offer) { create(:offer, :with_reference_condition, application_choice:) }
+      let(:application_choices) { [offer.application_choice] }
+      let(:provider) { offer.provider }
+
+      it 'contains the reference condition' do
+        expect(email.body).to include('References')
+        expect(email.body).to include('You will also need to provide satisfactory references.')
+        expect(email.body).to include("#{provider.name} has requested the following:")
+        expect(email.body).to include('Provide 2 references')
+      end
+    end
   end
 
   describe '.new_offer_made within 4 weeks of decline by default date' do

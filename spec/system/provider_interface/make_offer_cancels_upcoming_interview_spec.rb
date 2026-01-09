@@ -51,6 +51,7 @@ RSpec.describe 'Provider makes an offer on an application with interviews in the
 
     when_i_choose_to_make_an_offer
     then_the_conditions_page_is_loaded
+    and_i_do_not_request_any_specific_references
     and_i_click_continue
   end
 
@@ -101,5 +102,9 @@ RSpec.describe 'Provider makes an offer on an application with interviews in the
 
   def and_future_interviews_are_cancelled
     expect(interview.reload.cancelled_at).not_to be_nil
+  end
+
+  def and_i_do_not_request_any_specific_references
+    choose 'No'
   end
 end

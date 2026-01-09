@@ -20,6 +20,17 @@ These are:
 
 The training provider will usually pay for the criminal records checks.
 
+## References
+
+You will also need to provide satisfactory references.
+<% if @reference_condition.present? %>
+  <%= @provider_name %> has requested the following:
+
+  ^<%= @reference_condition.details.symbolize_keys[:description]  %>
+
+  [Sign in to your account to update your references](<%= application_references_link %>).
+<% end %>
+
 Contact <%= @provider_name %> if you have any questions about this.
 
 ## Reviewing your offer

@@ -9,7 +9,6 @@ module ProviderInterface
     SKE_STEPS = %i[ske_requirements ske_reason ske_length].freeze
 
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - OfferCondition::STANDARD_CONDITIONS.length
-    REQUIRE_REFERENCES_CHECKED_BY_DEFAULT = 1
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
                   :standard_conditions, :further_condition_attrs, :decision,
@@ -23,6 +22,8 @@ module ProviderInterface
     validates :course_option_id, presence: true, on: %i[locations save]
     validates :study_mode, presence: true, on: %i[study_modes save]
     validates :course_id, presence: true, on: %i[courses save]
+    validates :require_references, inclusion: { in: [1, 0] }, on: %i[conditions]
+    validates :references_description, presence: true, on: %i[conditions], if: -> { require_references? }
 
     validate :ske_conditions_are_valid, if: :ske_required?, on: SKE_STEPS
     validate :further_conditions_valid, on: %i[conditions]
@@ -51,9 +52,14 @@ module ProviderInterface
     end
 
     def self.require_references_from(offer)
-      return REQUIRE_REFERENCES_CHECKED_BY_DEFAULT if reference_condition(offer)&.required.present?
-
-      '0' if offer.present?
+      required = reference_condition(offer)&.required
+      if required
+        '1'
+      elsif offer&.offered_at.blank? && required.nil?
+        nil
+      else
+        '0'
+      end
     end
 
     def self.references_description_from(offer)
@@ -65,9 +71,7 @@ module ProviderInterface
     end
 
     def require_references
-      return REQUIRE_REFERENCES_CHECKED_BY_DEFAULT if @require_references.nil?
-
-      @require_references.to_i
+      @require_references&.to_i
     end
 
     def require_references?
@@ -75,7 +79,7 @@ module ProviderInterface
     end
 
     def references_description
-      return if require_references.zero?
+      return if require_references&.zero?
 
       @references_description
     end
@@ -84,10 +88,12 @@ module ProviderInterface
       @conditions = (standard_conditions + further_condition_models.map(&:text)).compact_blank
     end
 
-    def conditions_to_render
-      rendered_conditions = conditions.map do |condition|
-        TextCondition.new(details: { description: condition }, status: 'pending')
+    def conditions_to_render(references: true)
+      rendered_conditions = further_condition_models.map do |condition|
+        TextCondition.new(details: { description: condition.text }, status: 'pending')
       end
+
+      return rendered_conditions unless references
 
       rendered_conditions.push(reference_condition).compact
     end

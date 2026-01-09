@@ -184,7 +184,7 @@ RSpec.describe ProviderInterface::OffersController do
 
       subject do
         post provider_interface_application_choice_offer_conditions_path(application_choice),
-             params: { provider_interface_offer_wizard: { standard_conditions: %w[dance] } }
+             params: { provider_interface_offer_wizard: { require_references: 1 } }
       end
 
       it_behaves_like 'an action which tracks validation errors', 'POST to (conditions) create'
@@ -195,7 +195,7 @@ RSpec.describe ProviderInterface::OffersController do
 
       subject do
         patch provider_interface_application_choice_offer_conditions_path(application_choice),
-              params: { provider_interface_offer_wizard: { standard_conditions: %w[dance] } }
+              params: { provider_interface_offer_wizard: { require_references: 1 } }
       end
 
       it_behaves_like 'an action which tracks validation errors', 'PATCH to (conditions) update'

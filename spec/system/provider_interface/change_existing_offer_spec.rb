@@ -173,7 +173,6 @@ RSpec.describe 'Provider changes an existing offer' do
   end
 
   def and_the_conditions_of_the_original_offer_are_filled_in
-    expect(find("input[value='Fitness to train to teach check']")).to be_checked
     expect(page).to have_field('Condition 1', with: 'Be cool')
   end
 
@@ -203,7 +202,6 @@ RSpec.describe 'Provider changes an existing offer' do
       expect(page).to have_content(@selected_course.name_and_code)
       expect(page).to have_content(@selected_course_option.study_mode.humanize)
       expect(page).to have_content(@selected_course_option.site.name_and_address(' '))
-      expect(page).to have_content('Fitness to train to teach check')
       expect(page).to have_content('Be cool')
       expect(page).to have_content('A* on Maths A Level')
     end
