@@ -75,15 +75,15 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
   end
 
   def visa_sponsorship_deadline_reminder
-    provider = FactoryBot.create(:provider)
-    course = FactoryBot.create(
+    provider = FactoryBot.build_stubbed(:provider)
+    course = FactoryBot.build_stubbed(
       :course,
       provider: provider,
       can_sponsor_skilled_worker_visa: true,
       can_sponsor_student_visa: true,
       visa_sponsorship_application_deadline_at: 1.month.from_now,
     )
-    application_form = FactoryBot.create(
+    application_form = FactoryBot.build_stubbed(
       :application_form,
       :minimum_info,
       first_name: 'Fred',
@@ -93,15 +93,15 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
   end
 
   def visa_sponsorship_deadline_change
-    provider = FactoryBot.create(:provider)
-    course = FactoryBot.create(
+    provider = FactoryBot.build_stubbed(:provider)
+    course = FactoryBot.build_stubbed(
       :course,
       provider: provider,
       can_sponsor_skilled_worker_visa: true,
       can_sponsor_student_visa: true,
       visa_sponsorship_application_deadline_at: 1.month.from_now,
     )
-    application_form = FactoryBot.create(
+    application_form = FactoryBot.build_stubbed(
       :application_form,
       :minimum_info,
       first_name: 'Fred',
