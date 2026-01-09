@@ -47,7 +47,7 @@
       <% end %>
 
       <%= f.govuk_radio_buttons_fieldset :require_references, legend: { text: 'Do you want to request any specific references?' }, hint: { text: 'For example, if you require a reference from their current school employer.' } do %>
-        <%= f.govuk_radio_button :require_references, 1, label: { text: 'Yes' } do %>
+        <%= f.govuk_radio_button :require_references, 1, label: { text: 'Yes' }, link_errors: true do %>
           <%= f.govuk_text_area :references_description, label: { text: 'Give details of the specific reference you want. The candidate will be made aware of this request' } %>
         <% end %>
         <%= f.govuk_radio_button :require_references, 0, label: { text: 'No' } %>
