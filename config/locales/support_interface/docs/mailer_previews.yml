@@ -81,7 +81,7 @@ en:
             deferred_offer_with_new_details_with_conditions: Confirmation of the deferred offer, with new details and conditions.
             deferred_offer_with_new_details_without_conditions: Confirmation of the deferred offer, with new details and no conditions.
             new_offer_made: A training provider has made an offer to a candidate to join their course.
-            new_offer_made_with_references_condition: A training provider has made an offer and included a References condition.
+            new_offer_made_with_reference_condition: A training provider has made an offer and included a References condition.
             new_offer_made_with_ske_condition: A training provider has made an offer and included a SKE condition.
             offer_10_day: When a candidate has received an offer to train to teach but has not responded for 10 days.
             offer_20_day: When a candidate has received an offer to train to teach but has not responded for 20 days.

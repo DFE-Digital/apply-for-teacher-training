@@ -16,4 +16,13 @@ RSpec.shared_examples_for 'mailer previews' do |preview_class|
   it 'include emails in preview' do
     expect(not_included_emails).to be_blank
   end
+
+  it 'has a description for each email in the support console' do
+    class_key = preview_class.to_s.gsub('::', '').gsub('Preview', '').underscore
+    preview_emails.each do |email|
+      expect(
+        I18n.t("support_interface.docs.mailer_previews.email_descriptions.#{class_key}.#{email}"),
+      ).not_to be_nil
+    end
+  end
 end
