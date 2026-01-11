@@ -1,6 +1,7 @@
 module SupportInterface
   class SessionsController < SupportInterfaceController
     skip_before_action :authenticate_support_user!
+    skip_before_action :require_authentication
 
     def new
       redirect_to support_interface_path and return if current_support_user
@@ -55,16 +56,30 @@ module SupportInterface
 
       render_404 and return unless support_user
 
-      # Equivalent to calling DfESignInUser.begin_session!
-      session['dfe_sign_in_user'] = {
-        'email_address' => support_user.email_address,
-        'dfe_sign_in_uid' => support_user.dfe_sign_in_uid,
-        'first_name' => support_user.first_name,
-        'last_name' => support_user.last_name,
-        'last_active_at' => Time.zone.now,
-      }
+      if FeatureFlag.active?(:dsi_stateful_session)
+        start_new_dsi_session(
+          user: support_user,
+          omniauth_payload: {
+            'info' => {
+              'email_address' => support_user.email_address,
+              'first_name' => support_user.first_name,
+              'last_name' => support_user.last_name,
+            },
+            'uid' => support_user.dfe_sign_in_uid,
+          },
+        )
+      else
+        # Equivalent to calling DfESignInUser.begin_session!
+        session['dfe_sign_in_user'] = {
+          'email_address' => support_user.email_address,
+          'dfe_sign_in_uid' => support_user.dfe_sign_in_uid,
+          'first_name' => support_user.first_name,
+          'last_name' => support_user.last_name,
+          'last_active_at' => Time.zone.now,
+        }
 
-      support_user.update!(last_signed_in_at: Time.zone.now)
+        support_user.update!(last_signed_in_at: Time.zone.now)
+      end
 
       redirect_to support_interface_candidates_path
     end

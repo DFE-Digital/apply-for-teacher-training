@@ -25,6 +25,7 @@ RSpec.describe 'A support user signs out of DSI as well as Apply' do
     support_user_exists_dsi(
       email_address: 'provider@example.com',
       dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
+      id_token: 'token',
     )
   end
 
@@ -37,9 +38,6 @@ RSpec.describe 'A support user signs out of DSI as well as Apply' do
   end
 
   def when_i_click_on_sign_out
-    # rubocop:disable RSpec/AnyInstance
-    allow_any_instance_of(DfESignInUser).to receive(:needs_dsi_signout?).and_return(true)
-    # rubocop:enable RSpec/AnyInstance
     ClimateControl.modify DFE_SIGN_IN_ISSUER: 'https://identityprovider.gov.uk' do
       click_link_or_button 'Sign out'
     end
@@ -47,7 +45,7 @@ RSpec.describe 'A support user signs out of DSI as well as Apply' do
 
   def then_i_am_redirected_to_dsi_end_session_endpoint
     expected_query = {
-      id_token_hint: nil,
+      id_token_hint: 'token',
       post_logout_redirect_uri: 'http://www.example.com/auth/dfe-support/sign-out',
     }
 

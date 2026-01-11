@@ -79,7 +79,7 @@ RSpec.describe 'SupportDfESignInController' do
       end
     end
 
-    context "when user's dfe sign in session is not active" do
+    context "when user's dfe sign in session is not" do
       it 'redirect to sign out' do
         get auth_dfe_support_destroy_path
 
@@ -104,7 +104,7 @@ RSpec.describe 'SupportDfESignInController' do
     it 'redirect to support interface' do
       get auth_dfe_support_sign_out_path
 
-      expect(response).to redirect_to(support_interface_path)
+      expect(response).to redirect_to(support_interface_sign_in_path)
     end
   end
 end

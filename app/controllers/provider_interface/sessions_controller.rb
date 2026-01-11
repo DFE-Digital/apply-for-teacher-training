@@ -2,9 +2,11 @@ module ProviderInterface
   class SessionsController < ProviderInterfaceController
     skip_before_action :authenticate_provider_user!
     skip_before_action :redirect_if_setup_required
+    skip_before_action :require_authentication
 
     def new
       redirect_to provider_interface_applications_path and return if impersonation?
+      redirect_to provider_interface_applications_path and return if current_provider_user
 
       if FeatureFlag.active?('dfe_sign_in_fallback')
         @provider_user = ProviderUser.new
@@ -58,14 +60,28 @@ module ProviderInterface
 
       render_404 and return unless provider_user
 
-      # Equivalent to calling DfESignInUser.begin_session!
-      session['dfe_sign_in_user'] = {
-        'email_address' => provider_user.email_address,
-        'dfe_sign_in_uid' => provider_user.dfe_sign_in_uid,
-        'first_name' => provider_user.first_name,
-        'last_name' => provider_user.last_name,
-        'last_active_at' => Time.zone.now,
-      }
+      if FeatureFlag.active?(:dsi_stateful_session)
+        start_new_dsi_session(
+          user: provider_user,
+          omniauth_payload: {
+            'info' => {
+              'email_address' => provider_user.email_address,
+              'first_name' => provider_user.first_name,
+              'last_name' => provider_user.last_name,
+            },
+            'uid' => provider_user.dfe_sign_in_uid,
+          },
+        )
+      else
+        # Equivalent to calling DfESignInUser.begin_session!
+        session['dfe_sign_in_user'] = {
+          'email_address' => provider_user.email_address,
+          'dfe_sign_in_uid' => provider_user.dfe_sign_in_uid,
+          'first_name' => provider_user.first_name,
+          'last_name' => provider_user.last_name,
+          'last_active_at' => Time.zone.now,
+        }
+      end
 
       provider_user.update!(last_signed_in_at: Time.zone.now)
 
@@ -91,7 +107,11 @@ module ProviderInterface
     end
 
     def impersonation?
-      ProviderImpersonation.load_from_session(session)
+      if FeatureFlag.active?(:dsi_stateful_session)
+        authenticated? ? Current.support_session.present? : false
+      else
+        ProviderImpersonation.load_from_session(session)
+      end
     end
 
     def invalid_email_address!(email_address, error_type)

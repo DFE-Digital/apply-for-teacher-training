@@ -1,11 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe 'Support interface - POST /support/applications/:application_id/references/:reference_id/feedback' do
-  def support_user
-    @support_user ||= SupportUser.new(
-      email_address: 'alice@example.com',
-      dfe_sign_in_uid: 'ABC',
+  include DfESignInHelpers
+
+  let(:support_user) do
+    create(
+      :support_user,
+      dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
     )
+  end
+
+  before do
+    support_user_exists_dsi(dfe_sign_in_uid: support_user.dfe_sign_in_uid)
+    get auth_dfe_support_callback_path
   end
 
   def set_support_user_permission

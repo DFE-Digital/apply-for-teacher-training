@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'POST /provider/candidates/:id/impersonate' do
+  include DfESignInHelpers
   include CourseOptionHelpers
 
   context 'when the user is signed in to Apply' do
@@ -15,15 +16,8 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
     end
 
     before do
-      allow(DfESignInUser).to receive(:load_from_session)
-        .and_return(
-          DfESignInUser.new(
-            email_address: provider_user.email_address,
-            dfe_sign_in_uid: provider_user.dfe_sign_in_uid,
-            first_name: provider_user.first_name,
-            last_name: provider_user.last_name,
-          ),
-        )
+      user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
+      get auth_dfe_callback_path
     end
 
     context 'when the application form is from a previous cycle' do

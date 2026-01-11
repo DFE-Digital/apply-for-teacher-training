@@ -11,6 +11,7 @@ class ProviderUser < ApplicationRecord
 
   has_many :pool_views, -> { status_viewed }, class_name: 'ProviderPoolAction', foreign_key: 'actioned_by_id'
   has_many :provider_user_filters
+  has_many :dsi_sessions, as: :user, dependent: :destroy
   has_one :notification_preferences, class_name: 'ProviderUserNotificationPreferences'
   attr_accessor :impersonator
 
@@ -52,6 +53,35 @@ class ProviderUser < ApplicationRecord
       provider_user.update!(dfe_sign_in_uid: dsi_user.dfe_sign_in_uid)
       provider_user
     end
+  end
+
+  def self.find_or_onboard(omniauth_payload)
+    dfe_sign_in_uid = omniauth_payload['uid']
+    email_address = omniauth_payload.dig('info', 'email')
+
+    user_with_dfe_sign_in_uid = ProviderUser.find_by(dfe_sign_in_uid:)
+    return user_with_dfe_sign_in_uid if user_with_dfe_sign_in_uid.present?
+
+    user_without_dfe_sign_in_uid = ProviderUser.find_by(email_address:, dfe_sign_in_uid: nil)
+
+    if user_without_dfe_sign_in_uid
+      user_without_dfe_sign_in_uid.update!(dfe_sign_in_uid:)
+      user_without_dfe_sign_in_uid
+    end
+  end
+
+  def self.load_from_current_session
+    return unless Current.provider_session || Current.support_session
+
+    impersonator = Current.support_session&.user
+    impersonated_provider_user = Current.support_session&.impersonated_provider_user
+    provider_user = Current.provider_session&.user
+
+    if impersonator.present? && impersonated_provider_user.present?
+      return impersonated_provider_user
+    end
+
+    provider_user
   end
 
   def full_name
