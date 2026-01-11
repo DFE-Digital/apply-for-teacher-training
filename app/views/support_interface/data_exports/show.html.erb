@@ -12,12 +12,19 @@
   }) %>
 <% end %>
 
-<p class="govuk-body">This export was initiated by <%= @data_export.initiator_name %> on <%= @data_export.created_at.to_fs(:govuk_date_and_time) %>.</p>
+<p class="govuk-body">
+  This export was initiated by <%= @data_export.initiator_name %> on <%= @data_export.created_at.to_fs(:govuk_date_and_time) %>.
+  <% if @data_export.export_type_deprecated? %>
+    It is no longer available to download because this export type has been deprecated
+  <% end %>
+</p>
 
 <% if @data_export.completed_at %>
   <p class="govuk-body">Export generation completed in <%= @data_export.generation_time %> <%= 'second'.pluralize(@data_export.generation_time) %>.</p>
 
-  <%= govuk_button_link_to 'Download export (CSV)', download_support_interface_data_export_path(@data_export), type: 'text/csv' %>
+  <% unless @data_export.export_type_deprecated? %>
+    <%= govuk_button_link_to 'Download export (CSV)', download_support_interface_data_export_path(@data_export), type: 'text/csv' %>
+  <% end %>
 <% else %>
   <p class="govuk-body">This export is being generated. Refresh the page to see if it completed.</p>
 <% end %>
