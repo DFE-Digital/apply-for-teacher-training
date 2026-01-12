@@ -235,7 +235,7 @@ namespace :support_interface, path: '/support' do
       end
     end
 
-    resources :data_exports, path: '/data-exports' do
+    resources :data_exports, only: %i[show create new], path: '/data-exports' do
       member do
         get :download
       end

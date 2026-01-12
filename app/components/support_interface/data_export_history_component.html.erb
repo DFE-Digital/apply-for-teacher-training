@@ -27,14 +27,22 @@
               <%= data_export.created_at.to_fs(:govuk_date_and_time) %>
             </td>
             <td class="govuk-table__cell">
-              <%= govuk_link_to support_interface_data_export_path(data_export) do %>
+              <% if data_export.export_type_deprecated? %>
                 <%= data_export.name %>
+              <% else %>
+                <%= govuk_link_to support_interface_data_export_path(data_export) do %>
+                  <%= data_export.name %>
+                <% end %>
               <% end %>
             </td>
           <% else %>
             <td class="govuk-table__cell">
-              <%= govuk_link_to support_interface_data_export_path(data_export) do %>
+              <% if data_export.export_type_deprecated? %>
                 <%= data_export.created_at.to_fs(:govuk_date_and_time) %>
+              <% else %>
+                <%= govuk_link_to support_interface_data_export_path(data_export) do %>
+                  <%= data_export.created_at.to_fs(:govuk_date_and_time) %>
+                <% end %>
               <% end %>
             </td>
           <% end %>
