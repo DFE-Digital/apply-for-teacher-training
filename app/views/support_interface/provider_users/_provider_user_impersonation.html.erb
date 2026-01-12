@@ -1,10 +1,4 @@
-<% valid_impersonation = if FeatureFlag.active?(:dsi_stateful_session)
-                           Current.support_session&.impersonated_provider_user == provider_user
-                         else
-                           current_support_user.impersonated_provider_user == provider_user
-                         end %>
-
-<% if valid_impersonation %>
+<% if current_support_user.impersonated_provider_user == provider_user %>
   <p class="govuk-body">
     You are now signed-in as this user.
     <%= govuk_link_to 'Visit Manage', provider_interface_applications_path, no_visited_state: true %>

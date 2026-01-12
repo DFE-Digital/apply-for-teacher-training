@@ -5,13 +5,14 @@ RSpec.describe ProviderInterface::UserInvitation::ReviewController do
   include DsiAPIHelper
   include ModelWithErrorsStubHelper
 
-  let(:managing_user) { create(:provider_user, :with_dfe_sign_in, :with_manage_organisations, :with_manage_users, providers: [provider]) }
+  let(:managing_user) { create(:provider_user, :with_manage_organisations, :with_manage_users, providers: [provider]) }
   let(:provider) { create(:provider) }
   let(:store_data) { { permissions: [] }.to_json }
 
   before do
+    allow(DfESignInUser).to receive(:load_from_session).and_return(managing_user)
+
     user_exists_in_dfe_sign_in(email_address: managing_user.email_address)
-    get auth_dfe_callback_path
 
     store = instance_double(WizardStateStores::RedisStore, read: store_data)
     allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
@@ -58,7 +59,7 @@ RSpec.describe ProviderInterface::UserInvitation::ReviewController do
   end
 
   context 'when a user does not have manage users permissions' do
-    let(:managing_user) { create(:provider_user, :with_dfe_sign_in, :with_manage_organisations, providers: [provider]) }
+    let(:managing_user) { create(:provider_user, :with_manage_organisations, providers: [provider]) }
 
     it 'responds with a 403 on GET check' do
       get provider_interface_organisation_settings_organisation_user_invitation_check_path(provider)

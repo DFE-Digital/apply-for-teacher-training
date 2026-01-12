@@ -5,20 +5,9 @@ module SupportInterface
     end
 
     def call(env)
-      support_user = if FeatureFlag.active?(:dsi_stateful_session)
-                       request = ActionDispatch::Request.new(env)
-                       DsiSession.find_by(
-                         'id = ? AND updated_at > ? AND user_type = ?',
-                         request.cookie_jar.signed[:support_session_id],
-                         2.hours.ago,
-                         'SupportUser',
-                       )
-                     else
-                       request = Rack::Request.new(env)
-                       SupportUser.load_from_session(request.session)
-                     end
+      request = Rack::Request.new(env)
 
-      if support_user
+      if SupportUser.load_from_session(request.session)
         @app.call(env)
       else
         request.session['post_dfe_sign_in_path'] = request.fullpath

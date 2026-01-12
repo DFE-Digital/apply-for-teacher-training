@@ -3,7 +3,6 @@ module ProviderInterface
     PROVIDERS_AND_COURSES_COUNT_CACHE_KEY = 'provider_interface_providers_and_courses_count'.freeze
     before_action :redirect_authenticated_provider_user
     skip_before_action :authenticate_provider_user!
-    skip_before_action :require_authentication
 
     layout 'base'
 

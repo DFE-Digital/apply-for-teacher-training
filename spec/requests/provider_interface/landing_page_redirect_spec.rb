@@ -1,13 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe 'GET /provider' do
-  include DfESignInHelpers
-
   context 'when the user is signed in to Apply' do
     before do
-      provider_user = create(:provider_user, :with_dfe_sign_in, :with_provider)
-      user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
-      get auth_dfe_callback_path
+      allow(ProviderUser).to receive(:load_from_session)
+        .and_return(
+          build_stubbed(
+            :provider_user,
+            email_address: 'email@example.com',
+            dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
+          ),
+        )
     end
 
     it 'redirects them to the Provider Interface' do
