@@ -11,7 +11,8 @@ RSpec.describe ProviderInterface::ConditionStatusesController do
   let(:course_option) { build(:course_option, course:) }
 
   before do
-    allow(ProviderUser).to receive(:load_from_session).and_return(provider_user)
+    user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
+    get auth_dfe_callback_path
   end
 
   describe 'if application choice is in a recruited state' do

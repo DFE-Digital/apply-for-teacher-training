@@ -18,16 +18,8 @@ RSpec.describe ProviderInterface::CoursesController do
   end
 
   before do
-    allow(DfESignInUser).to receive(:load_from_session)
-      .and_return(
-        DfESignInUser.new(
-          email_address: provider_user.email_address,
-          dfe_sign_in_uid: provider_user.dfe_sign_in_uid,
-          first_name: provider_user.first_name,
-          last_name: provider_user.last_name,
-        ),
-      )
-
+    user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
+    get auth_dfe_callback_path
     stub_model_instance_with_errors(ProviderInterface::CourseWizard, { clear_state!: nil, valid?: false, valid_for_current_step?: false }.merge(wizard_attrs))
   end
 

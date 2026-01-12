@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Support interface - Application Comments', :with_audited do
+  include DfESignInHelpers
+
   def create_application_form
     create(:application_form)
   end
@@ -12,12 +14,10 @@ RSpec.describe 'Support interface - Application Comments', :with_audited do
     )
   end
 
-  def set_support_user_permission
-    allow(SupportUser).to receive(:load_from_session).and_return(support_user)
-  end
-
   before do
-    set_support_user_permission
+    support_user = create(:support_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+    support_user_exists_dsi(email_address: support_user.email_address)
+    get auth_dfe_support_callback_path
   end
 
   it 'creates application comments in the audit trail' do

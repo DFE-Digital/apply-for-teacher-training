@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'GET /application_choices/:id/emails' do
   include CourseOptionHelpers
+  include DfESignInHelpers
 
   let(:provider) { create(:provider) }
   let(:application_choice) do
@@ -10,17 +11,9 @@ RSpec.describe 'GET /application_choices/:id/emails' do
   end
 
   before do
-    provider_user = create(:provider_user, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
-
-    allow(DfESignInUser).to receive(:load_from_session)
-      .and_return(
-        DfESignInUser.new(
-          email_address: provider_user.email_address,
-          dfe_sign_in_uid: provider_user.dfe_sign_in_uid,
-          first_name: provider_user.first_name,
-          last_name: provider_user.last_name,
-        ),
-      )
+    provider_user = create(:provider_user, :with_dfe_sign_in, providers: [provider])
+    user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
+    get auth_dfe_callback_path
   end
 
   it 'responds with 403 if sandbox mode is disabled', sandbox: false do

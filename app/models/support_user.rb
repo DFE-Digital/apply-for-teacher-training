@@ -13,6 +13,8 @@ class SupportUser < ApplicationRecord
 
   audited except: [:last_signed_in_at]
 
+  has_many :dsi_sessions, as: :user, dependent: :destroy
+
   def self.load_from_session(session)
     return unless (dsi_user = DfESignInUser.load_from_session(session))
 

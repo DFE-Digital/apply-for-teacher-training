@@ -1,18 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ProviderTestDataController do
+  include DfESignInHelpers
+
   let!(:provider) { create(:provider) }
   let!(:course) { create(:course, :open, provider:) }
   let!(:course_option) { create(:course_option, course:) }
   let(:support_user) do
-    SupportUser.new(
-      email_address: 'alice@example.com',
-      dfe_sign_in_uid: 'ABC',
+    create(
+      :support_user,
+      dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
     )
   end
 
   before do
-    allow(SupportUser).to receive(:load_from_session).and_return(support_user)
+    support_user_exists_dsi(dfe_sign_in_uid: support_user.dfe_sign_in_uid)
+    get auth_dfe_support_callback_path
   end
 
   describe 'POST create' do

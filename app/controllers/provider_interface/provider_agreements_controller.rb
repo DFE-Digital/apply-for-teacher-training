@@ -15,7 +15,13 @@ module ProviderInterface
     end
 
     def create_data_sharing_agreement
-      if current_provider_user.impersonator && HostingEnvironment.production?
+      support_impersonator = if FeatureFlag.active?(:dsi_stateful_session)
+                               Current.support_session&.user
+                             else
+                               current_provider_user.impersonator
+                             end
+
+      if support_impersonator && HostingEnvironment.production?
         flash[:warning] = 'Cannot be signed by a support user'
         redirect_to(provider_interface_new_data_sharing_agreement_path) and return
       end
