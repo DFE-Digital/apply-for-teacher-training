@@ -93,12 +93,7 @@ class NavigationItems
     end
 
     def for_support_account_nav(current_support_user)
-      impersonated_user = if FeatureFlag.active?(:dsi_stateful_session)
-                            Current.support_session&.impersonated_provider_user
-                          else
-                            current_support_user&.impersonated_provider_user
-                          end
-
+      impersonated_user = Current.support_session&.impersonated_provider_user
       if current_support_user && impersonated_user
         [
           NavigationItem.new("<span aria-hidden=\"true\">🎭 ⚙️</span><span class=\"govuk-visually-hidden\">Currently impersonating: #{impersonated_user.email_address}</span>".html_safe, support_interface_provider_user_path(impersonated_user), false, []),
@@ -192,12 +187,7 @@ class NavigationItems
 
         items << NavigationItem.new(t('page_titles.provider.account'), provider_interface_account_path, active?(current_controller, %w[account profile notifications]), [])
       end
-      impersonator = if FeatureFlag.active?(:dsi_stateful_session)
-                       Current.support_session&.user
-                     else
-                       current_provider_user.impersonator
-                     end
-
+      impersonator = Current.support_session&.user
       sign_out_navigation = if impersonator
                               NavigationItem.new('Support',
                                                  support_interface_provider_user_path(current_provider_user),

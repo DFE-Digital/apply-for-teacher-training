@@ -11,8 +11,6 @@ RSpec.describe ProviderInterface::NotesController do
   let(:application_choice) { create(:application_choice, course_option:) }
 
   before do
-    allow(DfESignInUser).to receive(:load_from_session).and_return(provider_user)
-
     user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
   end
 

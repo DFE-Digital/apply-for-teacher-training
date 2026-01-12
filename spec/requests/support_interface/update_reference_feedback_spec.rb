@@ -15,13 +15,7 @@ RSpec.describe 'Support interface - POST /support/applications/:application_id/r
     get auth_dfe_support_callback_path
   end
 
-  def set_support_user_permission
-    allow(SupportUser).to receive(:load_from_session).and_return(support_user)
-  end
-
   it 'does not change the selected attribute' do
-    set_support_user_permission
-
     application_form = create(:application_form)
     reference = create(:reference, application_form:, selected: true)
 

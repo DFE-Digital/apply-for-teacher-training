@@ -23,32 +23,4 @@ RSpec.describe SupportUser do
       expect(support_user.audits.count).to eq 2
     end
   end
-
-  describe '#load_from_session' do
-    let(:dsi_user) { build(:dfe_sign_in_user) }
-
-    it 'obtains impersonated_provider_user information from DfESignInUser' do
-      provider_user = create(:provider_user)
-      allow(dsi_user).to receive(:impersonated_provider_user).and_return(provider_user)
-      allow(DfESignInUser).to receive(:load_from_session).and_return(dsi_user)
-
-      create(
-        :support_user,
-        dfe_sign_in_uid: dsi_user.dfe_sign_in_uid,
-        email_address: dsi_user.email_address,
-        first_name: dsi_user.first_name,
-        last_name: dsi_user.last_name,
-      )
-
-      support_user = described_class.load_from_session({})
-      expect(support_user.dfe_sign_in_uid).to eq(dsi_user.dfe_sign_in_uid)
-      expect(support_user.impersonated_provider_user).to eq(provider_user)
-    end
-
-    it 'returns nil if there is no associated SupportUser' do
-      allow(DfESignInUser).to receive(:load_from_session).and_return(dsi_user)
-      support_user = described_class.load_from_session({})
-      expect(support_user).to be_nil
-    end
-  end
 end

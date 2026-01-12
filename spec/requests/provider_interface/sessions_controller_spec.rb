@@ -8,14 +8,6 @@ RSpec.describe ProviderInterface::SessionsController do
 
   describe '#new' do
     let(:support_user) { create(:support_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
-    let(:dfe_sign_in_user) do
-      DfESignInUser.new(
-        email_address: support_user.email_address,
-        dfe_sign_in_uid: support_user.dfe_sign_in_uid,
-        first_name: support_user.first_name,
-        last_name: support_user.last_name,
-      )
-    end
 
     it 'redirects to applications when impersonation is active' do
       support_user_exists_dsi(email_address: support_user.email_address)
