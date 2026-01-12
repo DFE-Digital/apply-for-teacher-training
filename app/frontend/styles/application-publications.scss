@@ -1,7 +1,2 @@
 @import "application";
-@import "publications/sortable_table";
-
-// Specific to ITT Monthly Report
-@import "publications/itt_data_table";
-@import "publications/itt_grid";
-@import "publications/itt_status_totals";
+@import "publications";
