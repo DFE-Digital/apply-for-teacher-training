@@ -1,19 +1,2 @@
 @import "application";
 @import "support";
-@import "components/paginated_filter";
-@import "components/checkbox_search_filter";
-@import "dfe-autocomplete/src/dfe-autocomplete";
-@import "application-publications";
-@import "components/recruitment_performance_report";
-
-.app-data-set-documentation--datatype {
-  margin: 0;
-
-  font-weight: normal;
-
-  color: $govuk-secondary-text-colour;
-}
-
-.app-link--warning {
-  color: $govuk-error-colour;
-}
