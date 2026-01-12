@@ -190,11 +190,11 @@ class Candidate::OffersPreview < ActionMailer::Preview
   end
 
   def deferred_offer_with_new_details_with_conditions
-    provider = FactoryBot.create(:provider)
-    course1 = FactoryBot.create(:course, provider:, name: 'Original course')
-    course2 = FactoryBot.create(:course, provider:, name: 'New course')
-    old_course_option = FactoryBot.create(:course_option, course: course1)
-    new_course_option = FactoryBot.create(:course_option, course: course2)
+    provider = FactoryBot.build_stubbed(:provider)
+    course1 = FactoryBot.build_stubbed(:course, provider:, name: 'Original course')
+    course2 = FactoryBot.build_stubbed(:course, provider:, name: 'New course')
+    old_course_option = FactoryBot.build_stubbed(:course_option, course: course1)
+    new_course_option = FactoryBot.build_stubbed(:course_option, course: course2)
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
       :accepted,
@@ -208,12 +208,12 @@ class Candidate::OffersPreview < ActionMailer::Preview
   end
 
   def deferred_offer_with_new_details_without_conditions
-    provider = FactoryBot.create(:provider)
-    course1 = FactoryBot.create(:course, provider:, name: 'Original course')
-    course2 = FactoryBot.create(:course, provider:, name: 'New course')
-    old_course_option = FactoryBot.create(:course_option, course: course1)
-    new_course_option = FactoryBot.create(:course_option, course: course2)
-    application_choice = FactoryBot.build(
+    provider = FactoryBot.build_stubbed(:provider)
+    course1 = FactoryBot.build_stubbed(:course, provider:, name: 'Original course')
+    course2 = FactoryBot.build_stubbed(:course, provider:, name: 'New course')
+    old_course_option = FactoryBot.build_stubbed(:course_option, course: course1)
+    new_course_option = FactoryBot.build_stubbed(:course_option, course: course2)
+    application_choice = FactoryBot.build_stubbed(
       :application_choice,
       :recruited,
       application_form:,

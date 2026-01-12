@@ -42,17 +42,17 @@ class Provider::ApplicationsMailerPreview < ActionMailer::Preview
 private
 
   def provider
-    @provider ||= FactoryBot.create(:provider)
+    @provider ||= FactoryBot.build_stubbed(:provider)
   end
 
   def site
-    @site ||= FactoryBot.create(:site, code: '-', name: 'Main site', provider:)
+    @site ||= FactoryBot.build_stubbed(:site, code: '-', name: 'Main site', provider:)
   end
 
   def application_choice
-    course = FactoryBot.create(:course, provider:)
-    course_option = FactoryBot.create(:course_option, course:, site:)
-    FactoryBot.create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, course_option:, course:)
+    course = FactoryBot.build_stubbed(:course, provider:)
+    course_option = FactoryBot.build_stubbed(:course_option, course:, site:)
+    FactoryBot.build_stubbed(:application_choice, :awaiting_provider_decision, :with_completed_application_form, course_option:, course:)
   end
 
   def provider_user
