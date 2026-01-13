@@ -3,6 +3,7 @@ module ProviderInterface
     skip_before_action :authenticate_provider_user!
     skip_before_action :redirect_if_setup_required
     skip_before_action :require_authentication
+    skip_before_action :redirect_unless_user_associated_with_an_organisation
 
     def new
       redirect_to provider_interface_applications_path and return if impersonation?
