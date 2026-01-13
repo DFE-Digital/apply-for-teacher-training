@@ -29,51 +29,5 @@ $moj-images-path: "~@ministryofjustice/frontend/moj/assets/images/";
 $govuk-new-link-styles: true;
 
 // Shared (govuk-frontend)
-@import "govuk-frontend/dist/govuk/all";
-
-// Shared (base HTML elements)
-@import "code";
-@import "mark";
-
-// Shared (govuk-frontend component overrides)
-@import "header";
-@import "input";
-@import "inset-text";
-@import "list";
-@import "phase-banner";
-@import "tab-navigation";
-@import "table";
-@import "tag";
-
-// Shared (custom components)
-@import "add_another";
-@import "application-card";
-@import "application-item";
-@import "autocomplete";
-@import "banner";
-@import "box";
-@import "link_button";
-@import "notification_banner";
-@import "card";
-@import "conditions-list";
-@import "contents-list";
-@import "diagram";
-@import "feedback";
-@import "flex-grid";
-@import "grid";
-@import "primary-navigation";
-@import "qualification";
-@import "section";
-@import "status-box";
-@import "status-indicator";
-@import "summary-card";
-@import "timeline";
-@import "toc";
-@import "div";
-@import "previews";
-@import "metadata";
-@import "components/tabs";
-@import "paragraph";
-
-// Override utilities
-@import "overrides";
+@import "govuk-frontend/dist/govuk/index";
+@import "base";
