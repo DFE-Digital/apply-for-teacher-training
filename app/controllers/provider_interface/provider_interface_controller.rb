@@ -26,8 +26,8 @@ module ProviderInterface
       render template: 'provider_interface/no_organisation_error', status: :forbidden
     }
 
-    rescue_from MissingProvider, with: lambda {
-      render template: 'provider_interface/email_address_not_recognised', status: :forbidden
+    rescue_from MissingProviderError, with: lambda {
+      render template: 'provider_interface/no_organisation_error', status: :forbidden
     }
 
     rescue_from ProviderInterface::AccessDenied, with: :permission_error

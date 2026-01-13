@@ -20,7 +20,7 @@ class GetApplicationChoicesForProviders
     # It is very important to raise an error if no providers have been supplied
     # because otherwise Rails omits the provider_ids where clause
     # and all applications are returned
-    raise MissingProvider if providers.blank? || providers.any?(&:blank?)
+    raise MissingProviderError if providers.blank? || providers.any?(&:blank?)
 
     provider_ids = providers.map(&:id)
     statuses = exclude_deferrals ? ApplicationStateChange.states_visible_to_provider_without_deferred : ApplicationStateChange.states_visible_to_provider
