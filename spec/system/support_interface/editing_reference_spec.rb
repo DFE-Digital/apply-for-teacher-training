@@ -60,7 +60,10 @@ RSpec.describe 'Editing reference' do
     expect(page).to have_content('Edit reference details')
     expect(page).to have_css("input[value='Dumbledore']")
     expect(page).to have_css("input[value='a.dumbledore@hogwarts.ac.uk']")
-    expect(page).to have_css("input[value='Headmaster']")
+    expect(page).to have_css(
+      'textarea#support-interface-application-forms-edit-reference-details-form-relationship-field',
+      text: 'Headmaster',
+    )
   end
 
   def when_i_submit_the_update_form
