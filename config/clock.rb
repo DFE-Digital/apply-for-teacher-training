@@ -36,6 +36,7 @@ class Clock
 
   # Daily jobs
   every(1.day, 'DeleteExpiredSessionsWorker', at: '5:01') { DeleteExpiredSessionsWorker.perform_async }
+  every(1.day, 'RemoveInactiveSupportUsersWorker', at: '5:02') { RemoveInactiveSupportUsersWorker.perform_async }
   every(1.day, 'DeleteAllDrafts', at: '4:01') { DeleteAllDraftsWorker.perform_async }
   every(1.day, 'Chasers::Candidate::OfferWorker', at: '10:30') { Chasers::Candidate::OfferWorker.perform_async }
 
