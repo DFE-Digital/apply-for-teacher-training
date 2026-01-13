@@ -7,7 +7,7 @@ module SupportInterface
 
       validates :name, presence: true, length: { minimum: 2, maximum: 200 }
       validates :email_address, presence: true, valid_for_notify: true, length: { maximum: 100 }
-      validates :relationship, presence: true, word_count: { maximum: 50 }
+      validates :relationship, presence: true, length: { maximum: 500 }
       validates :audit_comment, presence: true
 
       def self.build_from_reference(reference)

@@ -10,7 +10,12 @@
 
       <%= f.govuk_text_field :name, label: { text: t('support_interface.edit_reference_form.name.label'), size: 'm' }, autocomplete: 'name' %>
       <%= f.govuk_text_field :email_address, label: { text: t('support_interface.edit_reference_form.email_address.label'), size: 'm' }, hint: { text: t('support_interface.edit_reference_form.email_address.hint_text') }, autocomplete: 'email_addess' %>
-      <%= f.govuk_text_field :relationship, label: { text: t('support_interface.edit_reference_form.relationship.label'), size: 'm' }, autocomplete: 'relationship' %>
+      <%= f.govuk_text_area(
+        :relationship,
+        label: { text: t('support_interface.edit_reference_form.relationship.label'), size: 'm' },
+        autocomplete: 'relationship',
+        max_chars: 500, threshold: 95
+      ) %>
       <%= f.govuk_text_field :audit_comment, label: { text: 'Audit log comment', size: 'm' }, hint: { text: 'This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here' } %>
 
       <%= f.govuk_submit 'Update reference' %>
