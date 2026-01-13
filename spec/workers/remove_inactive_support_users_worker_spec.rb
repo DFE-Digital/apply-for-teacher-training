@@ -6,11 +6,13 @@ RSpec.describe RemoveInactiveSupportUsersWorker do
       should_discard = create(:support_user, last_signed_in_at: 10.months.ago)
       account_never_used = create(:support_user, last_signed_in_at: nil, created_at: 10.months.ago)
       should_not_discard = create(:support_user, last_signed_in_at: 8.months.ago)
+      account_created_now = create(:support_user, last_signed_in_at: nil)
 
       expect { described_class.new.perform }.to change { SupportUser.kept.count }.by(-2)
       expect(should_discard.reload.discarded_at.present?).to be(true)
       expect(account_never_used.reload.discarded_at.present?).to be(true)
       expect(should_not_discard.reload.discarded_at).to be_nil
+      expect(account_created_now.reload.discarded_at).to be_nil
     end
   end
 end
