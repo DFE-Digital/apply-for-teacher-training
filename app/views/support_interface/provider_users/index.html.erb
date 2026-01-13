@@ -1,7 +1,7 @@
 <%= render 'support_interface/providers/providers_navigation', title: 'Provider users' %>
 
 <div class="govuk-button-group">
-  <%= govuk_button_link_to 'Download active provider users (CSV)', "#{new_support_interface_data_export_path}#providers_export", secondary: true %>
+  <%= govuk_button_link_to 'Download active provider users (CSV)', new_support_interface_data_export_path, secondary: true %>
 </div>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @provider_users) do %>
