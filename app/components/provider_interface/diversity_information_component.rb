@@ -18,7 +18,7 @@ module ProviderInterface
         { key: I18n.t('equality_and_diversity.ethnic_group.title'), value: row_value(equality_and_diversity['ethnic_group']) },
       ].tap do |array|
         if current_user_has_permission_to_view_diversity_information? && application_in_correct_state? &&
-           equality_and_diversity['ethnic_background'].present? && application_in_correct_state?
+           equality_and_diversity['ethnic_background'].present?
           array << {
             key: I18n.t('equality_and_diversity.ethnic_background.title', group: equality_and_diversity['ethnic_group']),
             value: row_value(equality_and_diversity['ethnic_background']),
