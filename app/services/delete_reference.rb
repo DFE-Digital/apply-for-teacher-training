@@ -1,6 +1,6 @@
 class DeleteReference
   def call(reference:)
-    raise 'Application has been sent to providers' if reference.application_form.submitted? && reference.complete_contact_details?
+    raise 'Reference feedback has been requested' unless reference.not_requested_yet?
 
     if reference.selected
       reference.application_form.update!(references_completed: false)

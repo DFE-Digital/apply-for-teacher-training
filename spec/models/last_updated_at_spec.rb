@@ -21,28 +21,84 @@ RSpec.describe '#update' do
     expect(application_choices.map(&:updated_at)).not_to include(original_time)
   end
 
-  %i[reference application_qualification].each do |form_attribute|
-    it "updates the application_choices when a #{form_attribute} is added" do
+  describe 'ApplicationQualification' do
+    it 'updates the application_choices when an ApplicationQualification is added' do
       application_form = create(:completed_application_form, application_choices_count: 1)
 
-      expect { create(form_attribute, application_form:) }
+      expect { create(:application_qualification, application_form:) }
         .to(change { application_form.application_choices.first.updated_at })
     end
 
-    it "updates the application_choices when a #{form_attribute} is updated" do
+    it 'updates the application_choices when an ApplicationQualification is updated' do
       application_form = create(:completed_application_form, application_choices_count: 1)
-      model = create(form_attribute, application_form:)
+      model = create(:application_qualification, application_form:)
 
       expect { model.update(updated_at: Time.zone.now) }
         .to(change { application_form.application_choices.first.updated_at })
     end
 
-    it "updates the application_choices when a #{form_attribute} is deleted" do
+    it 'updates the application_choices when an ApplicationQualification is deleted' do
       application_form = create(:completed_application_form, application_choices_count: 1)
-      model = create(form_attribute, application_form:)
+      model = create(:application_qualification, application_form:)
 
       expect { model.destroy! }
         .to(change { application_form.application_choices.first.updated_at })
+    end
+  end
+
+  describe 'ApplicationReference' do
+    let(:application_form) { create(:completed_application_form) }
+
+    context 'when the application choice is in a status where references are not visible to providers' do
+      %i[unsubmitted cancelled awaiting_provider_decision inactive interviewing rejected application_not_sent withdrawn].each do |status|
+        it 'updates the application_choices when a reference is added' do
+          create(:application_choice, application_form: application_form, status:)
+          expect { create(:reference, application_form:) }
+            .not_to(change { application_form.application_choices.first.updated_at })
+        end
+
+        it 'updates the application_choices when a reference is updated' do
+          create(:application_choice, application_form: application_form, status:)
+          model = create(:reference, application_form:)
+
+          expect { model.update(updated_at: Time.zone.now) }
+            .not_to(change { application_form.application_choices.first.updated_at })
+        end
+
+        it 'updates the application_choices when a reference is deleted' do
+          create(:application_choice, application_form: application_form, status:)
+          model = create(:reference, application_form:)
+
+          expect { model.destroy! }
+            .not_to(change { application_form.application_choices.first.updated_at })
+        end
+      end
+    end
+
+    context 'when the application choice is in a status where references are visible to providers' do
+      %i[offer pending_conditions recruited declined conditions_not_met offer_withdrawn offer_deferred].each do |status|
+        it 'updates the application_choices when a reference is added' do
+          create(:application_choice, application_form: application_form, status:)
+          expect { create(:reference, application_form:) }
+            .to(change { application_form.application_choices.first.updated_at })
+        end
+
+        it 'updates the application_choices when a reference is updated' do
+          create(:application_choice, application_form: application_form, status:)
+          model = create(:reference, application_form:)
+
+          expect { model.update(updated_at: Time.zone.now) }
+            .to(change { application_form.application_choices.first.updated_at })
+        end
+
+        it 'updates the application_choices when a reference is deleted' do
+          create(:application_choice, application_form: application_form, status:)
+          model = create(:reference, application_form:)
+
+          expect { model.destroy! }
+            .to(change { application_form.application_choices.first.updated_at })
+        end
+      end
     end
   end
 

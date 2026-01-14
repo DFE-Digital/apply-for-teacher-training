@@ -1,7 +1,10 @@
 class ApplicationReference < ApplicationRecord
   include Chased
-  include TouchApplicationChoices
   include TouchApplicationFormState
+
+  PROVIDER_VISIBLE_STATES = ApplicationStateChange.states_visible_to_provider - %i[awaiting_provider_decision interviewing rejected withdrawn inactive]
+
+  after_commit :touch_provider_visible_choices
 
   self.table_name = 'references'
 
@@ -54,6 +57,10 @@ class ApplicationReference < ApplicationRecord
     has_safeguarding_concerns_to_declare: 'has_safeguarding_concerns_to_declare',
     never_asked: 'never_asked',
   }
+
+  def touch_provider_visible_choices
+    application_form.application_choices.where(status: PROVIDER_VISIBLE_STATES).touch_all
+  end
 
   def self.requested_or_provided
     where(feedback_status: %i[feedback_requested feedback_provided])
