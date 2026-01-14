@@ -88,9 +88,10 @@ module ProviderInterface
       @conditions = (standard_conditions + further_condition_models.map(&:text)).compact_blank
     end
 
-    def conditions_to_render(references: true)
-      rendered_conditions = further_condition_models.map do |condition|
-        TextCondition.new(details: { description: condition.text }, status: 'pending')
+    def conditions_to_render(references: true, standard_conditions: true)
+      viewable_conditions = standard_conditions ? conditions : further_condition_models
+      rendered_conditions = viewable_conditions.map do |condition|
+        TextCondition.new(details: { description: condition.is_a?(String) ? condition : condition.text }, status: 'pending')
       end
 
       return rendered_conditions unless references
