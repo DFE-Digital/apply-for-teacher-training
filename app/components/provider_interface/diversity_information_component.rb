@@ -17,7 +17,8 @@ module ProviderInterface
         { key: I18n.t('equality_and_diversity.disabilities.title'), value: row_value(disability_value.html_safe) },
         { key: I18n.t('equality_and_diversity.ethnic_group.title'), value: row_value(equality_and_diversity['ethnic_group']) },
       ].tap do |array|
-        if equality_and_diversity['ethnic_background'].present? && application_in_correct_state?
+        if current_user_has_permission_to_view_diversity_information? && application_in_correct_state? &&
+           equality_and_diversity['ethnic_background'].present?
           array << {
             key: I18n.t('equality_and_diversity.ethnic_background.title', group: equality_and_diversity['ethnic_group']),
             value: row_value(equality_and_diversity['ethnic_background']),
@@ -49,11 +50,13 @@ module ProviderInterface
     end
 
     def application_in_correct_state?
-      ApplicationStateChange::POST_OFFERED_STATES.include?(application_choice.status.to_sym)
+      @application_in_correct_state ||= ApplicationStateChange::POST_OFFERED_STATES.include?(
+        application_choice.status.to_sym,
+      )
     end
 
     def current_user_has_permission_to_view_diversity_information?
-      current_provider_user.authorisation
+      @current_user_has_permission_to_view_diversity_information ||= current_provider_user.authorisation
         .can_view_diversity_information?(course: application_choice.current_course)
     end
 
