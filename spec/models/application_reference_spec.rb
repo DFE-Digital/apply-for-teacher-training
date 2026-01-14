@@ -288,4 +288,22 @@ RSpec.describe ApplicationReference do
       expect(complete.complete_contact_details?).to be true
     end
   end
+
+  describe '.touch_provider_visible_choices' do
+    # touch tested in spec/models/last_updated_at_spec.rb:49-104
+    context 'when the application form cannot touch choices' do
+      let(:application_form) { create(:completed_application_form, submitted_application_choices_count: 1) }
+      let(:reference) { create(:reference, application_form:) }
+
+      before do
+        allow(application_form).to receive(:cannot_touch_choices?).and_return(true)
+      end
+
+      it 'raises an error' do
+        expect { reference.update!(name: "Random name") }.to raise_error(
+          'Tried to mark an application choice from a previous cycle as changed',
+        )
+      end
+    end
+  end
 end

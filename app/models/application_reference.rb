@@ -57,13 +57,14 @@ class ApplicationReference < ApplicationRecord
   }
 
   def touch_provider_visible_choices
+    application_choices = application_form.application_choices
     return unless application_choices.any?
-
+    
     if application_form.cannot_touch_choices?
       raise 'Tried to mark an application choice from a previous cycle as changed'
     end
 
-    application_form.application_choices.where(status: ApplicationStateChange::PROVIDER_VISIBLE_STATES).touch_all
+    application_choices.where(status: ApplicationStateChange::PROVIDER_VISIBLE_STATES).touch_all
   end
 
   def self.requested_or_provided
