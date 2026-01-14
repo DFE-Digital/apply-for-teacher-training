@@ -8,6 +8,6 @@ class ReferenceCondition < OfferCondition
   end
 
   def text
-    'References'
+    'Specific references'
   end
 end
