@@ -3,6 +3,8 @@ module CandidateInterface
     class BaseController < SectionController
       before_action :render_application_feedback_component, :set_reference, :set_edit_backlink
       rescue_from ActiveRecord::RecordNotFound, with: :render_404
+      skip_before_action :verify_edit_authorized_section, only: %i[edit update]
+      skip_before_action :verify_delete_authorized_section, only: %i[edit update]
 
     private
 

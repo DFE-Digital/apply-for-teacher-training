@@ -3,8 +3,6 @@ module CandidateInterface
     class NameController < BaseController
       before_action :verify_name_is_editable, only: %i[new create]
       before_action :redirect_to_review_page_unless_reference_is_editable, :set_edit_backlink, only: %i[edit update]
-      skip_before_action :verify_edit_authorized_section, only: %i[edit update]
-      skip_before_action :verify_delete_authorized_section, only: %i[edit update]
 
       def new
         @reference_name_form = Reference::RefereeNameForm.build_from_reference(@reference)

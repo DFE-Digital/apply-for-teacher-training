@@ -4,8 +4,6 @@ module CandidateInterface
       before_action :redirect_to_review_page_unless_reference_is_editable, :verify_email_is_editable
       before_action :set_edit_backlink, only: %i[edit update]
       before_action :set_email_address_form, only: %i[create update]
-      skip_before_action :verify_edit_authorized_section, only: %i[edit update]
-      skip_before_action :verify_delete_authorized_section, only: %i[edit update]
 
       def new
         @reference_email_address_form = Reference::RefereeEmailAddressForm.build_from_reference(@reference)

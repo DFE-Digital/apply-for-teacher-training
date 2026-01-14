@@ -13,6 +13,7 @@ class ApplicationStateChange
   SUCCESSFUL_STATES = %i[pending_conditions offer offer_deferred recruited].freeze
   DECISION_PENDING_STATUSES = %i[awaiting_provider_decision interviewing].freeze
   DECISION_PENDING_AND_INACTIVE_STATUSES = %i[awaiting_provider_decision interviewing inactive].freeze
+  PROVIDER_VISIBLE_STATES = (ACCEPTED_STATES - %i[awaiting_provider_decision interviewing rejected withdrawn inactive]).freeze
 
   REAPPLY_STATUSES = %i[rejected cancelled withdrawn declined offer_withdrawn].freeze
 
