@@ -4,6 +4,7 @@ module ProviderInterface
     before_action :redirect_authenticated_provider_user
     skip_before_action :authenticate_provider_user!
     skip_before_action :require_authentication
+    skip_before_action :redirect_unless_user_associated_with_an_organisation
 
     layout 'base'
 

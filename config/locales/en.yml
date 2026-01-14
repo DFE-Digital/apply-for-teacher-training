@@ -147,6 +147,7 @@ en:
     sign_up: Create an account
     sign_in: Sign in
     email_address_not_recognised: Your email address is not recognised
+    no_organisation: You are no longer a member of any organisation
     external_sign_up_forbidden: Only DfE users can sign in to this website
     unauthorized: Your account is not authorized
     sandbox: Use our sandbox to test Apply for teacher training

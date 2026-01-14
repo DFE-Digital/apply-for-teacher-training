@@ -15,11 +15,11 @@ RSpec.describe 'GET /provider/applications' do
       get auth_dfe_callback_path
     end
 
-    it 'returns 403 with the email-address-not-recognised page' do
+    it 'returns 403 with the access denied page' do
       get '/provider/applications'
 
       expect(response).to have_http_status :forbidden
-      expect(response.body).to include('Your email address is not recognised')
+      expect(response.body).to include('Access denied')
     end
   end
 end

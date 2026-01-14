@@ -1,0 +1,1 @@
+class ProviderUserWithoutOrganisationError < RuntimeError; end

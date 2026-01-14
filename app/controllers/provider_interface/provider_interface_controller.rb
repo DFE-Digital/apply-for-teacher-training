@@ -18,11 +18,16 @@ module ProviderInterface
     before_action :set_current_timetable
     before_action :redirect_if_setup_required
     before_action :check_cookie_preferences
+    before_action :redirect_unless_user_associated_with_an_organisation
 
     layout 'application'
 
-    rescue_from MissingProvider, with: lambda {
-      render template: 'provider_interface/email_address_not_recognised', status: :forbidden
+    rescue_from ProviderUserWithoutOrganisationError, with: lambda {
+      render template: 'provider_interface/no_organisation_error', status: :forbidden
+    }
+
+    rescue_from MissingProviderError, with: lambda {
+      render template: 'provider_interface/no_organisation_error', status: :forbidden
     }
 
     rescue_from ProviderInterface::AccessDenied, with: :permission_error
@@ -206,6 +211,12 @@ module ProviderInterface
 
     def redirect_if_application_changed_provider
       redirect_to provider_interface_application_choice_path(application_choice_id: @application_choice.id) unless @course_associated_with_user_providers
+    end
+
+    def redirect_unless_user_associated_with_an_organisation
+      return unless current_provider_user
+
+      raise ProviderUserWithoutOrganisationError unless current_provider_user.providers.any?
     end
   end
 end

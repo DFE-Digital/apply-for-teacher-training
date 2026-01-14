@@ -1,1 +1,1 @@
-class MissingProviderError < StandardError; end
+class MissingProviderError < RuntimeError; end

@@ -118,7 +118,7 @@ class NavigationItems
     def for_provider_primary_nav(current_provider_user, current_controller, performing_setup: false)
       items = []
 
-      if current_provider_user && !performing_setup
+      if current_provider_user&.providers&.any? && !performing_setup
         items << {
           text: 'Applications',
           href: provider_interface_applications_path,
@@ -188,7 +188,7 @@ class NavigationItems
       items = []
 
       unless performing_setup
-        items << NavigationItem.new(t('page_titles.provider.organisation_settings'), provider_interface_organisation_settings_path, active?(current_controller, %w[organisation_settings organisations provider_users provider_relationship_permissions api_tokens]), [])
+        items << NavigationItem.new(t('page_titles.provider.organisation_settings'), provider_interface_organisation_settings_path, active?(current_controller, %w[organisation_settings organisations provider_users provider_relationship_permissions api_tokens]), []) unless current_provider_user.providers.empty?
 
         items << NavigationItem.new(t('page_titles.provider.account'), provider_interface_account_path, active?(current_controller, %w[account profile notifications]), [])
       end
