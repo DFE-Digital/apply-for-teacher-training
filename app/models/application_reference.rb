@@ -59,7 +59,7 @@ class ApplicationReference < ApplicationRecord
   def touch_provider_visible_choices
     application_choices = application_form.application_choices
     return unless application_choices.any?
-    
+
     if application_form.cannot_touch_choices?
       raise 'Tried to mark an application choice from a previous cycle as changed'
     end

@@ -300,7 +300,7 @@ RSpec.describe ApplicationReference do
       end
 
       it 'raises an error' do
-        expect { reference.update!(name: "Random name") }.to raise_error(
+        expect { reference.update!(name: 'Random name') }.to raise_error(
           'Tried to mark an application choice from a previous cycle as changed',
         )
       end
