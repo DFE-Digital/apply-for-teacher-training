@@ -6,7 +6,7 @@ RSpec.describe GetApplicationChoicesForProviders do
   it 'raises an exception when the provider is nil' do
     expect {
       described_class.call(providers: nil)
-    }.to raise_error(MissingProvider)
+    }.to raise_error(MissingProviderError)
   end
 
   it 'returns the application for the given provider' do
@@ -74,10 +74,10 @@ RSpec.describe GetApplicationChoicesForProviders do
   end
 
   it 'raises an error if the provider argument is missing' do
-    expect { described_class.call(providers: []) }.to raise_error(MissingProvider)
-    expect { described_class.call(providers: ['']) }.to raise_error(MissingProvider)
-    expect { described_class.call(providers: '') }.to raise_error(MissingProvider)
-    expect { described_class.call(providers: nil) }.to raise_error(MissingProvider)
+    expect { described_class.call(providers: []) }.to raise_error(MissingProviderError)
+    expect { described_class.call(providers: ['']) }.to raise_error(MissingProviderError)
+    expect { described_class.call(providers: '') }.to raise_error(MissingProviderError)
+    expect { described_class.call(providers: nil) }.to raise_error(MissingProviderError)
   end
 
   it 'returns applications that are in a state visible to providers' do

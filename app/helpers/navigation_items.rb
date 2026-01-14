@@ -118,7 +118,7 @@ class NavigationItems
     def for_provider_primary_nav(current_provider_user, current_controller, performing_setup: false)
       items = []
 
-      if current_provider_user && current_provider_user.providers.any? && !performing_setup
+      if current_provider_user&.providers&.any? && !performing_setup
         items << {
           text: 'Applications',
           href: provider_interface_applications_path,
