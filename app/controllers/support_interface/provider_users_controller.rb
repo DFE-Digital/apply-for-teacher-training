@@ -64,9 +64,9 @@ module SupportInterface
 
     def scope_by_use_of_service(scope, filter)
       case filter.applied_filters[:use_of_service]
-      when 'never_signed_in'
+      when ['never_signed_in']
         scope.where(last_signed_in_at: nil)
-      when 'has_signed_in'
+      when ['has_signed_in']
         scope.where.not(last_signed_in_at: nil)
       else
         scope
