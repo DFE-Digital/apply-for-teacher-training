@@ -3,7 +3,7 @@ import filter from './components/paginated_filter'
 import 'accessible-autocomplete/dist/accessible-autocomplete.min.css'
 import { initAutocomplete } from './autocompletes/init-autocomplete'
 import { supportAutocompleteInputs } from './autocompletes/support/support-autocomplete-inputs'
-import sortByFilter from './sort-by-filter'
+import sortByFilter from './utils/sort-by-filter'
 
 // stimulus
 import { Application } from '@hotwired/stimulus'
