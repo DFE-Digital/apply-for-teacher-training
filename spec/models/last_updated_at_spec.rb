@@ -50,14 +50,15 @@ RSpec.describe '#update' do
     let(:application_form) { create(:completed_application_form) }
 
     context 'when the application choice is in a status where references are not visible to providers' do
-      %i[unsubmitted cancelled awaiting_provider_decision inactive interviewing rejected application_not_sent withdrawn].each do |status|
-        it 'updates the application_choices when a reference is added' do
+      [:unsubmitted, :cancelled, :awaiting_provider_decision, :inactive, :interviewing, :offer, :rejected,
+       :application_not_sent, :offer_withdrawn, :declined, :withdrawn].each do |status|
+        it "updates the application_choices (status: #{status}) when a reference is added" do
           create(:application_choice, application_form: application_form, status:)
           expect { create(:reference, application_form:) }
             .not_to(change { application_form.application_choices.first.updated_at })
         end
 
-        it 'updates the application_choices when a reference is updated' do
+        it "updates the application_choices (status: #{status}) when a reference is updated" do
           create(:application_choice, application_form: application_form, status:)
           model = create(:reference, application_form:)
 
@@ -65,7 +66,7 @@ RSpec.describe '#update' do
             .not_to(change { application_form.application_choices.first.updated_at })
         end
 
-        it 'updates the application_choices when a reference is deleted' do
+        it "updates the application_choices (status: #{status}) when a reference is deleted" do
           create(:application_choice, application_form: application_form, status:)
           model = create(:reference, application_form:)
 
@@ -76,14 +77,14 @@ RSpec.describe '#update' do
     end
 
     context 'when the application choice is in a status where references are visible to providers' do
-      %i[offer pending_conditions recruited declined conditions_not_met offer_withdrawn offer_deferred].each do |status|
-        it 'updates the application_choices when a reference is added' do
+      %i[pending_conditions conditions_not_met recruited offer_deferred].each do |status|
+        it "updates the application_choices (status: #{status}) when a reference is added" do
           create(:application_choice, application_form: application_form, status:)
           expect { create(:reference, application_form:) }
             .to(change { application_form.application_choices.first.updated_at })
         end
 
-        it 'updates the application_choices when a reference is updated' do
+        it "updates the application_choices (status: #{status}) when a reference is updated" do
           create(:application_choice, application_form: application_form, status:)
           model = create(:reference, application_form:)
 
@@ -91,7 +92,7 @@ RSpec.describe '#update' do
             .to(change { application_form.application_choices.first.updated_at })
         end
 
-        it 'updates the application_choices when a reference is deleted' do
+        it "updates the application_choices (status: #{status}) when a reference is deleted" do
           create(:application_choice, application_form: application_form, status:)
           model = create(:reference, application_form:)
 
