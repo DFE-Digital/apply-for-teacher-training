@@ -1,0 +1,5 @@
+<% if application_form_presenter.candidate_has_previously_applied? %>
+  <aside class="app-related" aria-labelledby="previous-applications-title">
+    <p class="govuk-body"><%= govuk_link_to('View your previous applications', root_path)%></p>
+  </aside>
+<% end %>
