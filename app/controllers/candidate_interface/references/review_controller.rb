@@ -6,6 +6,8 @@ module CandidateInterface
       before_action :redirect_to_review_page, unless: -> { @reference }, only: %i[confirm_destroy_reference destroy]
       skip_before_action ::UnsuccessfulCarryOverFilter, only: %i[confirm_destroy_reference destroy]
       skip_before_action ::CarryOverFilter, only: %i[confirm_destroy_reference destroy]
+      skip_before_action :verify_edit_authorized_section, only: %i[confirm_destroy_reference destroy]
+      skip_before_action :verify_delete_authorized_section, only: %i[confirm_destroy_reference destroy]
 
       def show
         @section_complete_form = ReferenceSectionCompleteForm.new(

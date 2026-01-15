@@ -1,7 +1,8 @@
 class ApplicationReference < ApplicationRecord
   include Chased
-  include TouchApplicationChoices
   include TouchApplicationFormState
+
+  after_commit :touch_provider_visible_choices
 
   self.table_name = 'references'
 
@@ -54,6 +55,17 @@ class ApplicationReference < ApplicationRecord
     has_safeguarding_concerns_to_declare: 'has_safeguarding_concerns_to_declare',
     never_asked: 'never_asked',
   }
+
+  def touch_provider_visible_choices
+    application_choices = application_form.application_choices
+    return unless application_choices.any?
+
+    if application_form.cannot_touch_choices?
+      raise 'Tried to mark an application choice from a previous cycle as changed'
+    end
+
+    application_choices.where(status: ApplicationStateChange::ACCEPTED_STATES).touch_all
+  end
 
   def self.requested_or_provided
     where(feedback_status: %i[feedback_requested feedback_provided])

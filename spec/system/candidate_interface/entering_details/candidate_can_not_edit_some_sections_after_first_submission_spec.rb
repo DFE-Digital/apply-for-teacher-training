@@ -136,7 +136,7 @@ RSpec.describe 'A candidate can not edit some sections after first submission' d
       current_candidate.current_application.application_references.last,
     )
 
-    and_i_be_redirected_to_your_details_page
+    and_i_be_redirected_to_the_references_review_page
   end
 
   def and_i_can_not_edit_the_section_work_history
@@ -195,6 +195,10 @@ RSpec.describe 'A candidate can not edit some sections after first submission' d
 
   def and_i_be_redirected_to_your_details_page
     expect(page).to have_current_path candidate_interface_details_path
+  end
+
+  def and_i_be_redirected_to_the_references_review_page
+    expect(page).to have_current_path candidate_interface_references_review_path
   end
 
   def section_status
