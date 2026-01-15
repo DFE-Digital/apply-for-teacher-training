@@ -590,7 +590,7 @@ RSpec.describe ProviderInterface::OfferWizard do
 
   describe '#max_number_of_further_conditions?' do
     context 'when there are fewer than 18 conditions already set' do
-      let(:further_conditions) { Array.new(17, 'be cool') }
+      let(:further_conditions) { Array.new(16, 'be cool') }
 
       it 'returns false' do
         expect(wizard.max_number_of_further_conditions?).to be(false)
@@ -722,8 +722,20 @@ RSpec.describe ProviderInterface::OfferWizard do
 
   describe '#conditions_to_render' do
     context 'when there are no conditions' do
-      it 'does not display a condition' do
-        expect(wizard.conditions_to_render.size).to be_zero
+      it 'displays only the standard conditions' do
+        rendered_condition = wizard.conditions_to_render
+        expect(rendered_condition.size).to eq(3)
+        expect(
+          rendered_condition
+            .map { |condition| condition.details.symbolize_keys[:description] },
+        ).to match_array(OfferCondition::STANDARD_CONDITIONS)
+      end
+
+      context 'when the standard_conditions attribute is false' do
+        it 'does not display the standard conditions' do
+          rendered_condition = wizard.conditions_to_render(standard_conditions: false)
+          expect(rendered_condition.size).to be_zero
+        end
       end
     end
 
@@ -732,32 +744,54 @@ RSpec.describe ProviderInterface::OfferWizard do
       let(:further_condition_2) { Faker::Lorem.paragraph_by_chars(number: 300) }
 
       it 'does display conditions' do
-        expect(wizard.conditions_to_render.size).to be(2)
+        expect(wizard.conditions_to_render.size).to be(5)
       end
 
       context 'when a reference condition is present' do
         let(:require_references) { '1' }
         let(:references_description) { Faker::Lorem.paragraph_by_chars(number: 300) }
 
-        context 'when the reference attribute if true' do
+        context 'when the reference attribute is true' do
           it 'displays the reference condition' do
             rendered_condition = wizard.conditions_to_render
-            expect(rendered_condition.size).to be(3)
+            expect(rendered_condition.size).to be(6)
             expect(
               rendered_condition
-                .map { |condition| condition.details[:description] },
+                .map { |condition| condition.details.symbolize_keys[:description] },
             ).to include(references_description)
+          end
+
+          context 'when the standard_conditions attribute is false' do
+            it 'does not display the standard conditions' do
+              rendered_condition = wizard.conditions_to_render(standard_conditions: false)
+              expect(rendered_condition.size).to be(3)
+              expect(
+                rendered_condition
+                  .map { |condition| condition.details.symbolize_keys[:description] },
+              ).to include(references_description)
+            end
           end
         end
 
-        context 'when the references attribute if false' do
+        context 'when the references attribute is false' do
           it 'does not display the reference condition' do
             rendered_condition = wizard.conditions_to_render(references: false)
-            expect(rendered_condition.size).to be(2)
+            expect(rendered_condition.size).to be(5)
             expect(
               rendered_condition
-                .map { |condition| condition.details[:description] },
+                .map { |condition| condition.details.symbolize_keys[:description] },
             ).not_to include(references_description)
+          end
+
+          context 'when the standard_conditions attribute is false' do
+            it 'does not display the standard conditions' do
+              rendered_condition = wizard.conditions_to_render(references: false, standard_conditions: false)
+              expect(rendered_condition.size).to be(2)
+              expect(
+                rendered_condition
+                  .map { |condition| condition.details.symbolize_keys[:description] },
+              ).to contain_exactly(further_condition_1, further_condition_2)
+            end
           end
         end
       end

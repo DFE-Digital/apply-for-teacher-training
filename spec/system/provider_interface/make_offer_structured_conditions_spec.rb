@@ -79,6 +79,7 @@ RSpec.describe 'Provider makes an offer' do
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfuly_made
     and_the_structured_conditions_are_created
+    and_the_standard_conditions_are_created
     and_when_i_click_to_add_or_change_conditions
     and_i_change_the_reference_condition_description
     when_i_resend_the_offer
@@ -278,11 +279,17 @@ RSpec.describe 'Provider makes an offer' do
     end
   end
 
+  def and_the_standard_conditions_are_created
+    expect(page).to have_content('Fitness to train to teach check')
+    expect(page).to have_content('Disclosure and Barring Service (DBS) check')
+    expect(page).to have_content('Satisfactory references')
+  end
+
   def and_the_structured_conditions_are_created
     expect(reference_condition).not_to be_nil
     expect(reference_condition.required).to be(true)
     expect(reference_condition.description).to eq('The candidate needs to provide a reference from their current school employer')
-    expect(page).to have_content('References')
+    expect(page).to have_content('Specific references')
     expect(page).to have_content('The candidate needs to provide a reference from their current school employer')
   end
 

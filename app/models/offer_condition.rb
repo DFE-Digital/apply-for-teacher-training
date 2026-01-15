@@ -1,5 +1,5 @@
 class OfferCondition < ApplicationRecord
-  STANDARD_CONDITIONS = ['Fitness to train to teach check', 'Disclosure and Barring Service (DBS) check'].freeze
+  STANDARD_CONDITIONS = ['Fitness to train to teach check', 'Disclosure and Barring Service (DBS) check', 'Satisfactory references'].freeze
 
   belongs_to :offer, touch: true
   has_one :application_choice, through: :offer
