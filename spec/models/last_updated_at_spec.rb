@@ -50,8 +50,8 @@ RSpec.describe '#update' do
     let(:application_form) { create(:completed_application_form) }
 
     context 'when the application choice is in a status where references are not visible to providers' do
-      [:unsubmitted, :cancelled, :awaiting_provider_decision, :inactive, :interviewing, :offer, :rejected,
-       :application_not_sent, :offer_withdrawn, :declined, :withdrawn].each do |status|
+      %i[unsubmitted cancelled awaiting_provider_decision inactive interviewing offer rejected
+         application_not_sent offer_withdrawn declined withdrawn].each do |status|
         it "updates the application_choices (status: #{status}) when a reference is added" do
           create(:application_choice, application_form: application_form, status:)
           expect { create(:reference, application_form:) }
