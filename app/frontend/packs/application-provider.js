@@ -3,7 +3,6 @@ import initWarnOnUnsavedChanges from './warn-on-unsaved-changes'
 import initAddFurtherConditions from './further_conditions'
 import filter from './components/paginated_filter'
 import checkboxSearchFilter from './components/checkbox_search_filter'
-import '../styles/application-provider.scss'
 import cookieBanners from './cookies/cookie-banners'
 import 'accessible-autocomplete/dist/accessible-autocomplete.min.css'
 import initClarityCookies from './clarity-initializer'
@@ -15,8 +14,6 @@ import CopyToClipboardController from './controllers/copy_to_clipboard_controlle
 import AutocompleteController from './controllers/autocomplete_controller'
 import showMoreShowLess from './components/show-more-show-less'
 import personalStatementToggle from './components/toggle_personal_statement'
-
-require.context('govuk-frontend/dist/govuk/assets')
 
 window.Stimulus = Application.start()
 window.Stimulus.register('location-autocomplete', LocationAutocompleteController)

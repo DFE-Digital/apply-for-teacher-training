@@ -6,7 +6,6 @@ import { candidateAutocompleteInputs } from './autocompletes/candidate/candidate
 import { candidateAutosuggestInputs } from './autosuggests/candidate/candidate-autosuggest-inputs'
 import nationalitiesComponent from './nationalities-component'
 import 'accessible-autocomplete/dist/accessible-autocomplete.min.css'
-import '../styles/application-candidate.scss'
 import cookieBanners from './cookies/cookie-banners'
 import showMoreShowLess from './components/show-more-show-less'
 import initClarityCookies from './clarity-initializer'
@@ -14,8 +13,6 @@ import initClarityCookies from './clarity-initializer'
 // stimulus
 import { Application } from '@hotwired/stimulus'
 import LocationAutocompleteController from './controllers/location_autocomplete_controller'
-
-require.context('govuk-frontend/dist/govuk/assets')
 
 window.Stimulus = Application.start()
 window.Stimulus.register('location-autocomplete', LocationAutocompleteController)
