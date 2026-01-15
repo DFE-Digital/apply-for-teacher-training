@@ -3,3 +3,4 @@ worker: SERVICE_TYPE=worker bundle exec sidekiq -c 5 -C config/sidekiq-main.yml
 worker_secondary: SERVICE_TYPE=worker bundle exec sidekiq -c 5 -C config/sidekiq-secondary.yml
 clock: SERVICE_TYPE=clock bundle exec clockwork config/clock.rb
 caddy: caddy run -c Caddyfile.dev -a caddyfile
+css: npm run build:css --watch

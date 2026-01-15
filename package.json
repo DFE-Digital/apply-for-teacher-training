@@ -29,7 +29,8 @@
   },
   "scripts": {
     "lint": "standard 'app/frontend/packs'",
-    "test": "jest"
+    "test": "jest",
+    "build:css": "sass ./app/assets/stylesheets/:./app/assets/builds/ --no-source-map --load-path=node_modules"
   },
   "jest": {
     "testEnvironment": "jsdom",

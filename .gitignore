@@ -91,3 +91,6 @@ ministerial-report-applications*.txt
 .cftoken
 
 maintenance_page/manifests/maintenance/deployment_maintenance.yml
+
+/app/assets/builds/*
+!/app/assets/builds/.keep
