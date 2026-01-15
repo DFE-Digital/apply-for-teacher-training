@@ -123,6 +123,7 @@ RSpec.describe 'Provider makes an offer with SKE enabled on language flow' do
 
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfuly_made
+    and_the_standard_conditions_are_created
   end
 
   def given_the_course_subject_is_modern_language
@@ -314,5 +315,11 @@ RSpec.describe 'Provider makes an offer with SKE enabled on language flow' do
 
   def and_i_do_not_request_any_specific_references
     choose 'No'
+  end
+
+  def and_the_standard_conditions_are_created
+    expect(page).to have_content('Fitness to train to teach check')
+    expect(page).to have_content('Disclosure and Barring Service (DBS) check')
+    expect(page).to have_content('Satisfactory references')
   end
 end
