@@ -1,6 +1,6 @@
-import { FilterToggleButton } from 'moj/all.js'
-
 /* eslint-disable no-new */
+import { FilterToggleButton } from '@ministryofjustice/frontend'
+
 const filter = () => {
   new FilterToggleButton({
     bigModeMediaQuery: '(min-width: 48.063em)',

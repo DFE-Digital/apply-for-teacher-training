@@ -1,5 +1,5 @@
 import { initAll as govUKFrontendInitAll } from 'govuk-frontend'
-import SortableTable from './sortable-table'
+import SortableTable from './utils/sortable-table'
 
 govUKFrontendInitAll()
 
