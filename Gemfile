@@ -15,7 +15,6 @@ gem 'sprockets-rails'
 # do not rely on host’s timezone data, which can be inconsistent
 gem 'tzinfo-data'
 
-gem 'webpacker'
 gem 'google-cloud-bigquery'
 
 gem 'govuk-components', '~> 5.11'
