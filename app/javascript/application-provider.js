@@ -4,7 +4,6 @@ import initAddFurtherConditions from './further_conditions'
 import filter from './components/paginated_filter'
 import checkboxSearchFilter from './components/checkbox_search_filter'
 import cookieBanners from './cookies/cookie-banners'
-import 'accessible-autocomplete/dist/accessible-autocomplete.min.css'
 import initClarityCookies from './utils/clarity-initializer'
 
 // stimulus

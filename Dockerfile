@@ -41,7 +41,7 @@ RUN yarn install --check-files
 
 COPY . .
 
-RUN bundle exec rake assets:precompile
+RUN bundle exec rails assets:precompile
 RUN rm -rf tmp/* log/* /tmp/*
 
 # Stage 2: production, copy application code and compiled assets to base ruby image.
