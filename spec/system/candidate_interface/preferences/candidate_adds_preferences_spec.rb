@@ -580,7 +580,7 @@ RSpec.describe 'Candidate adds preferences' do
   def then_i_see_the_malicious_location_suggestion_as_a_string
     expect(page).to have_css('#candidate-interface-location-preferences-form-name-field__listbox', visible: :visible)
     expect(
-      page.find_by(id: 'candidate-interface-location-preferences-form-name-field__listbox'),
+      page.find('ul', id: 'candidate-interface-location-preferences-form-name-field__listbox'),
     ).to have_content('<h2><a href="test.com">test.ca</a></h2>')
 
     within('#candidate-interface-location-preferences-form-name-field__listbox') do
