@@ -1,6 +1,0 @@
-<% submitted_applications.each do |application_form| %>
-  <%= govuk_link_to ordinalize(application_form), candidate_interface_review_previous_application_path(application_form.id) %>
-  <p class="govuk-body-s">
-    <%= "Submitted #{application_form.submitted_at.to_fs(:govuk_date).strip}" %>
-  </p>
-<% end %>

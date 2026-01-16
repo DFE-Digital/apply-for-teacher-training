@@ -1,0 +1,15 @@
+<% content_for :title, t('page_titles.previous_applications') %>
+
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_choices_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">
+      <%= t('page_titles.previous_applications') %>
+    </h1>
+
+    <% @candidate.application_forms.reverse_each do | application_form | %>
+      <%= render(CandidateInterface::PreviousApplicationsComponent.new(candidate: @candidate, recruitment_cycle_year: application_form.recruitment_cycle_year)) %>
+    <% end %>
+  </div>
+</div>
