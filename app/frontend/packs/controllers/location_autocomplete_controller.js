@@ -2,6 +2,7 @@ import { Controller } from '@hotwired/stimulus'
 import accessibleAutocomplete from 'accessible-autocomplete'
 import debounce from 'lodash.debounce'
 import { request } from '../utils/request_helper'
+import { escapeHTML } from '../utils/escape_html'
 
 export default class extends Controller {
   static targets = ['input']
@@ -59,11 +60,16 @@ export default class extends Controller {
     }, this.debounceValue)
   }
 
-  suggestionTemplate (result) {
+  labelForResult (result) {
     if (typeof result === 'string') {
       return result
     }
+
     return result && typeof result.name === 'string' ? result.name : ''
+  }
+
+  suggestionTemplate (result) {
+    return escapeHTML(this.labelForResult(result))
   }
 
   inputValueTemplate (result) {

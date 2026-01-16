@@ -223,6 +223,22 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_invites
   end
 
+  scenario 'Candidate opts in to find a candidate with specific locations and enters a malicious location', :js do
+    given_google_returns_a_malicious_option
+    given_i_am_signed_in
+    visit new_candidate_interface_pool_opt_in_path
+
+    when_i_opt_in_to_find_a_candidate
+    and_i_click('Continue')
+    and_i_select_specific_locations
+    and_i_click('Continue')
+    then_i_am_redirected_to_location_preferences(location_preferences)
+
+    when_i_click('Add another area')
+    and_i_input_a_location
+    then_i_see_the_malicious_location_suggestion_as_a_string
+  end
+
   def given_i_am_signed_in(funding_type: 'salary')
     given_i_am_signed_in_with_one_login
     @application = create(
@@ -277,12 +293,12 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def and_i_opt_in_to_find_a_candidate
-    choose 'Yes'
+    choose 'Yes', visible: :all
   end
   alias_method :when_i_opt_in_to_find_a_candidate, :and_i_opt_in_to_find_a_candidate
 
   def and_i_select_specific_locations
-    choose 'In specific locations'
+    choose 'In specific locations', visible: :all
   end
 
   def when_i_select_anywhere
@@ -553,5 +569,23 @@ RSpec.describe 'Candidate adds preferences' do
   def then_i_am_redirected_to_invites_page
     expect(page).to have_current_path(candidate_interface_invites_path)
     expect(page).to have_content('You have updated your application sharing preferences')
+  end
+
+  def given_google_returns_a_malicious_option
+    allow(client).to receive(:autocomplete).and_return(
+      { name: '<h2><a href="test.com">test.ca</a></h2>', place_id: 'attackers-choice' },
+    )
+  end
+
+  def then_i_see_the_malicious_location_suggestion_as_a_string
+    expect(page).to have_css('#candidate-interface-location-preferences-form-name-field__listbox', visible: :visible)
+    expect(
+      page.find_by(id: 'candidate-interface-location-preferences-form-name-field__listbox'),
+    ).to have_content('<h2><a href="test.com">test.ca</a></h2>')
+
+    within('#candidate-interface-location-preferences-form-name-field__listbox') do
+      expect(page).to have_no_css('a', text: 'test.ca')
+      expect(page).to have_no_css('h2')
+    end
   end
 end
