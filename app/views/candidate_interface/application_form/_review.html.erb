@@ -138,12 +138,12 @@
 <section class="govuk-!-margin-bottom-8">
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.safeguarding') %></h2>
   <h3 class="govuk-heading-m"><%= @application_form.any_offer_accepted? ? 'Reference requests' : t('page_titles.references') %></h3>
-  <%= render(CandidateInterface::ReferencesReviewComponent.new(application_form: current_application, editable: editable, references: @application_form.application_references.creation_order, heading_level: 3, return_to_application_review: true, missing_error: missing_error)) %>
+  <%= render(CandidateInterface::ReferencesReviewComponent.new(application_form: current_application, editable: editable, references: @application_form.application_references.creation_order, heading_level: 4, return_to_application_review: true, missing_error: missing_error)) %>
   <h3 class="govuk-heading-m"><%= t('page_titles.suitability_to_work_with_children') %></h3>
   <%= render(CandidateInterface::SafeguardingReviewComponent.new(application_form: @application_form, editable: editable, missing_error: missing_error, submitting_application: true, return_to_application_review: true)) %>
   <h3 class="govuk-heading-m"><%= t('section_groups.previous_teacher_training') %></h3>
   <%= render PreviousTeacherTraining::StartedDeclarationComponent.new(application_form: @application_form) %>
-  <%= render PreviousTeacherTraining::ListComponent.with_collection(@application_form.previous_teacher_trainings.published.started_yes.order_by_dates) %>
+  <%= render PreviousTeacherTraining::ListComponent.with_collection(@application_form.previous_teacher_trainings.published.started_yes.order_by_dates, heading_level: 4) %>
 </section>
 
 <section class="govuk-!-margin-bottom-8">

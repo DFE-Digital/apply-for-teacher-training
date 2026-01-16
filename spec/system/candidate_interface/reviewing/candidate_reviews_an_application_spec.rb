@@ -111,6 +111,28 @@ private
       text: 'You will need to show original copies of your qualifications. You may need to have them translated if they are not in English.',
       class: 'govuk-warning-text',
     )
+
+    expect(page).to have_element(:h2, text: 'Safeguarding')
+    expect(page).to have_element(:h3, text: 'References')
+    @application_form.application_references.each do |reference|
+      expect(page).to have_element(:h4, text: reference.name)
+
+      expect(page).to have_element(:dd, text: reference.name)
+      expect(page).to have_element(:dd, text: reference.email_address)
+      expect(page).to have_element(:dd, text: reference.relationship)
+    end
+
+    expect(page).to have_element(:h3, text: 'Safeguarding issues')
+
+    expect(page).to have_element(:h3, text: 'Previous teacher training')
+
+    @application_form.previous_teacher_trainings.each do |previous_teacher_training|
+      expect(page).to have_element(:h4, text: previous_teacher_training.provider_name)
+
+      expect(page).to have_element(:dd, text: previous_teacher_training.provider_name)
+      expect(page).to have_element(:dd, text: previous_teacher_training.formatted_dates)
+      expect(page).to have_element(:dd, text: previous_teacher_training.details)
+    end
   end
 
   def and_i_see_the_funding_advice
