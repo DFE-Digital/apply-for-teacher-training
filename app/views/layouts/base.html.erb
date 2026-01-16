@@ -61,16 +61,18 @@
     <% case try(:current_namespace) %>
     <% when 'candidate_interface' %>
       <%= javascript_include_tag(
-            'application-candidate', defer: true,
-            data: { 'clarity-id': FeatureFlag.active?(:ms_clarity) ? ENV.fetch('CLARITY_PROJECT_ID', '') : '' },
-          ) %>
+        'application-candidate',
+        defer: true,
+        data: { 'clarity-id': FeatureFlag.active?(:ms_clarity) ? ENV.fetch('CLARITY_PROJECT_ID', '') : '' },
+      ) %>
     <% when 'support_interface' %>
       <%= javascript_include_tag 'application-support', defer: true %>
     <% when 'provider_interface' %>
       <%= javascript_include_tag(
-            'application-provider', defer: true,
-            data: { 'clarity-id': FeatureFlag.active?(:ms_clarity) ? ENV.fetch('CLARITY_PROJECT_ID', '') : '' },
-          ) %>
+        'application-provider',
+        defer: true,
+        data: { 'clarity-id': FeatureFlag.active?(:ms_clarity) ? ENV.fetch('CLARITY_PROJECT_ID', '') : '' },
+      ) %>
       <% if FeatureFlag.active?(:enable_chat_support) %>
         <%= render 'shared/zendesk_snippet' %>
         <%= javascript_include_tag 'user-support-webchat', defer: true %>
