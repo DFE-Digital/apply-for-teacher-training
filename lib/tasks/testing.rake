@@ -48,11 +48,16 @@ end
 
 desc 'Run Stylelint'
 task :stylelint do
-  sh 'yarn stylelint app/frontend/styles'
+  sh 'yarn run lint:css'
+end
+
+desc 'Run Standard JS Linter'
+task :lint_js do
+  sh 'yarn run lint'
 end
 
 desc 'Run all the linters'
-task linting: %i[rubocop erb_lint stylelint]
+task linting: %i[rubocop erb_lint stylelint lint_js]
 
 desc 'Run rspec in parallel without performance'
 task :parallel_rspec_without_performance do

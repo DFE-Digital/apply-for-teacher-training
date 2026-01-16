@@ -1,3 +1,6 @@
+// Babel is only used in testing with Jest
+// not used for compiling JS assets
+
 module.exports = function(api) {
   var validEnv = ['development', 'test', 'production']
   var currentEnv = api.env()
