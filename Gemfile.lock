@@ -11,10 +11,10 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/dfe-autocomplete.git
-  revision: c31601c145381accab91a6b6983b16de7ddada56
-  tag: v0.1.0
+  revision: 966efa70f058585fdbc91e7217d678092db62303
+  tag: v0.2.1
   specs:
-    dfe-autocomplete (0.1.0)
+    dfe-autocomplete (0.2.1)
       actionview (>= 7.0.2.3)
       activemodel (>= 7.0.2.3)
       govuk-components
@@ -1045,7 +1045,7 @@ CHECKSUMS
   deepsort (0.5.0) sha256=8db57207449e54d693e250bc3d62c2e92724602b0f4d680fa846021934f6419f
   devise (4.9.4) sha256=920042fe5e704c548aa4eb65ebdd65980b83ffae67feb32c697206bfd975a7f8
   dfe-analytics (1.15.14)
-  dfe-autocomplete (0.1.0)
+  dfe-autocomplete (0.2.1)
   dfe-reference-data (3.8.6)
   dfe-wizard (0.1.0)
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
