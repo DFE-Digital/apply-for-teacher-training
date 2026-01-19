@@ -3,8 +3,111 @@ require 'rails_helper'
 RSpec.describe 'References' do
   include CandidateHelper
 
-  scenario 'Candidate adds a new reference' do
+  scenario 'Candidate adds a new reference, no application submitted' do
     given_i_am_signed_in
+
+    when_i_visit_the_site
+
+    when_i_click_on_references_section
+    then_i_see_the_review_references_page
+
+    when_i_click_add_reference
+    then_i_see_the_type_page
+
+    when_i_click_continue_without_providing_a_type
+    then_i_am_told_to_provide_a_type
+    and_a_validation_error_is_logged_for_type
+
+    when_i_select_academic
+    and_i_click_continue
+    then_i_see_the_referee_name_page
+
+    when_i_click_save_and_continue_without_providing_a_name
+    then_i_am_told_to_provide_a_name
+    and_a_validation_error_is_logged_for_name
+
+    when_i_fill_in_my_references_name
+    and_i_click_save_and_continue
+
+    when_i_click_save_and_continue_without_providing_an_emailing
+    then_i_am_told_to_provide_an_email_address
+    and_a_validation_error_is_logged_for_blank_email_address
+
+    when_i_provide_an_email_address_with_an_invalid_format
+    and_i_click_save_and_continue
+    then_i_am_told_my_email_address_needs_a_valid_format
+    and_a_validation_error_is_logged_for_invalid_email_address
+
+    when_i_provide_a_valid_email_address
+    and_i_click_save_and_continue
+    then_i_see_the_relationship_page
+
+    when_i_click_save_and_continue_without_providing_a_relationship
+    then_i_am_told_to_provide_a_relationship
+    and_a_validation_error_is_logged_for_relationship
+
+    when_i_fill_in_my_references_relationship
+    and_i_click_save_and_continue
+    and_i_see_my_references_details
+    then_i_see_the_review_references_page
+
+    when_i_click_change_on_the_references_name
+    and_i_input_a_new_name
+    and_i_click_save_and_continue
+    then_i_see_the_updated_name
+    then_i_see_the_review_references_page
+
+    when_i_click_change_on_email_address
+    and_i_input_a_new_email_address
+    and_i_click_save_and_continue
+    then_i_see_the_updated_email_address
+    then_i_see_the_review_references_page
+
+    when_i_click_change_on_the_reference_type
+    and_i_choose_professional
+    and_i_click_continue
+    then_i_see_the_updated_type
+    then_i_see_the_review_references_page
+
+    when_i_click_change_on_relationship
+    and_i_input_my_relationship_to_the_referee
+    and_i_click_save_and_continue
+    then_i_see_the_updated_relationship
+    then_i_see_the_review_references_page
+    and_i_see_my_reference
+
+    when_i_try_to_edit_someone_elses_reference
+    then_i_see_the_review_references_page
+
+    when_i_try_and_edit_a_reference_that_does_not_exist
+    then_i_see_the_review_references_page
+    and_i_do_not_see_the_complete_section
+
+    when_i_click_to_add_another_reference
+    when_i_select_academic
+    and_i_click_continue
+    when_i_fill_in_my_second_references_name
+    and_i_click_save_and_continue
+    when_i_provide_a_second_valid_email_address
+    and_i_click_save_and_continue
+    when_i_fill_in_my_second_references_relationship
+    and_i_click_save_and_continue
+    then_i_see_the_review_references_page
+
+    and_i_see_the_complete_section
+    when_i_mark_the_section_as_complete
+    then_i_am_redirected_to_my_application_or_details
+    and_the_references_section_is_marked_as_completed
+
+    when_i_click_on_references_section
+    and_i_delete_the_second_referee
+    then_my_application_references_are_incomplete
+    and_i_do_not_see_the_complete_section
+  end
+
+  scenario 'Candidate adds a new reference, applications have been submitted' do
+    given_i_am_signed_in
+    and_i_have_submitted_an_application
 
     when_i_visit_the_site
 
@@ -108,6 +211,15 @@ RSpec.describe 'References' do
   def given_i_am_signed_in
     given_i_am_signed_in_with_one_login
     @application = @current_candidate.current_application
+  end
+
+  def and_i_have_submitted_an_application
+    create(
+      :application_choice,
+      :awaiting_provider_decision,
+      application_form: @application,
+    )
+    @application.update!(submitted_at: DateTime.now)
   end
 
   def when_i_visit_the_site

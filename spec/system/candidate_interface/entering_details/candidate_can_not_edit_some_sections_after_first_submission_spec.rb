@@ -14,7 +14,6 @@ RSpec.describe 'A candidate can not edit some sections after first submission' d
     NonEditableSection.new(:maths_gcse, 'Maths GCSE or equivalent'),
     NonEditableSection.new(:other_qualifications, 'A levels and other qualifications'),
     NonEditableSection.new(:degree, 'Degree'),
-    NonEditableSection.new(:references, 'References to be requested if you accept an offer'),
     NonEditableSection.new(:safeguarding, 'Declare any safeguarding issues'),
   ].each do |section|
     scenario "candidate can not edit section '#{section.title}' after submission" do
@@ -129,16 +128,6 @@ RSpec.describe 'A candidate can not edit some sections after first submission' d
     and_i_be_redirected_to_your_details_page
   end
 
-  def and_i_can_not_edit_the_section_references
-    expect(page).to have_no_content('Add another reference')
-
-    visit candidate_interface_references_edit_name_path(
-      current_candidate.current_application.application_references.last,
-    )
-
-    and_i_be_redirected_to_the_references_review_page
-  end
-
   def and_i_can_not_edit_the_section_work_history
     visit candidate_interface_edit_restructured_work_history_path(
       current_candidate.current_application.application_work_experiences.last,
@@ -195,10 +184,6 @@ RSpec.describe 'A candidate can not edit some sections after first submission' d
 
   def and_i_be_redirected_to_your_details_page
     expect(page).to have_current_path candidate_interface_details_path
-  end
-
-  def and_i_be_redirected_to_the_references_review_page
-    expect(page).to have_current_path candidate_interface_references_review_path
   end
 
   def section_status

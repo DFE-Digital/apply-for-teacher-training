@@ -25,12 +25,6 @@ class Section
       )
   end
 
-  def incomplete_references_section?(policy)
-    current_application = policy.current_application
-
-    !current_application.references_completed?
-  end
-
   def maths_gcse?(policy)
     params = policy.params
     subject = params[:subject]
@@ -77,11 +71,7 @@ class Section
       Section.new(:degrees, controller: 'CandidateInterface::Degrees'),
       Section.new(:work_history, controller: 'CandidateInterface::RestructuredWorkHistory'),
       Section.new(:volunteering, controller: 'CandidateInterface::Volunteering'),
-      Section.new(
-        :references,
-        controller: 'CandidateInterface::References',
-        editable_condition: ->(section, policy) { section.incomplete_references_section?(policy) },
-      ),
+      Section.new(:references, controller: 'CandidateInterface::References'),
       Section.new(:safeguarding_issues, controller: 'CandidateInterface::Safeguarding'),
     ]
   end
