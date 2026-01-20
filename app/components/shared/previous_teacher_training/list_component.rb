@@ -3,12 +3,13 @@ class PreviousTeacherTraining::ListComponent < ViewComponent::Base
 
   with_collection_parameter :previous_teacher_training
 
-  attr_reader :card, :actions
+  attr_reader :card, :actions, :heading_level
 
-  def initialize(previous_teacher_training:, card: true, actions: false)
+  def initialize(previous_teacher_training:, card: true, actions: false, heading_level: 2)
     @previous_teacher_training = previous_teacher_training
     @card = card
     @actions = actions
+    @heading_level = heading_level
   end
 
   def card_details
@@ -27,6 +28,7 @@ private
     {
       card: {
         title: @previous_teacher_training.provider_name,
+        heading_level:,
         actions: if actions
                    [
                      govuk_link_to(
