@@ -24,7 +24,7 @@ on:
           Name of the database server. Default is the live server. When backing up a point-in-time (PTR) server, use the full name of the PTR server. (Optional)
 
   schedule:
-    - cron: "0 3 * * *" # 03:00 UTC
+    - cron: "15 4 * * *" # 04:15 UTC
 
 env:
   SERVICE_NAME: apply
