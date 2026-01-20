@@ -1,5 +1,7 @@
 /* eslint-disable no-new */
 import { FilterToggleButton } from '@ministryofjustice/frontend'
+import $ from 'jquery'
+window.$ = $
 
 const filter = () => {
   new FilterToggleButton({
