@@ -75,22 +75,6 @@ module CandidateInterface
       end
     end
 
-    def location_row
-      return if application_choice.school_placement_auto_selected?
-
-      {
-        key: 'Location',
-        value: current_course_option.site_name,
-      }.tap do |row|
-        if unsubmitted? && current_course.multiple_sites?
-          row[:action] = {
-            href: candidate_interface_edit_course_choices_course_site_path(application_choice.id, current_course.id, current_course_option.study_mode),
-            visually_hidden_text: "location for #{current_course.name_and_code}",
-          }
-        end
-      end
-    end
-
     def personal_statement_row
       {
         key: 'Personal statement',

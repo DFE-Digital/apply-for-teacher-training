@@ -36,10 +36,10 @@ class CandidateInterface::ApplicationChoiceItemComponent < ViewComponent::Base
   end
 
   def view_application_path
-    if application_choice.offer?
-      candidate_interface_offer_path(application_choice.id)
-    elsif @previous_application
+    if @previous_application
       candidate_interface_previous_applications_show_path(application_choice.id)
+    elsif application_choice.offer?
+      candidate_interface_offer_path(application_choice.id)
     else
       candidate_interface_course_choices_course_review_path(application_choice.id)
     end

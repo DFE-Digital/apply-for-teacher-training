@@ -112,6 +112,8 @@ namespace :candidate_interface, path: '/candidate' do
     get '/prefill', to: 'prefill_application_form#new'
     post '/prefill', to: 'prefill_application_form#create'
 
+    get '/review/submitted' => 'submitted_application_form#review_submitted', as: :application_review_submitted
+    
     scope '/manage-conditions' do
       get '/' => 'offer_dashboard#show', as: :application_offer_dashboard
       get '/reference/:id' => 'offer_dashboard#view_reference', as: :application_offer_dashboard_reference

@@ -8,7 +8,7 @@
       <%= t('page_titles.previous_applications') %>
     </h1>
 
-    <% @candidate.application_forms.reverse_each do | application_form | %>
+    <% @candidate.application_forms.each do |application_form| %>
       <%= render(CandidateInterface::PreviousApplicationsComponent.new(candidate: @candidate, recruitment_cycle_year: application_form.recruitment_cycle_year)) %>
     <% end %>
   </div>
