@@ -21,6 +21,7 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
     TestSection.new(:personal_statement, 'Your personal statement'),
     TestSection.new(:work_history, 'Work history'),
     TestSection.new(:unpaid_experience, 'Unpaid experience'),
+    TestSection.new(:references, 'References'),
   ].each do |section|
     scenario "candidate can edit section '#{section.title}' after submission" do
       @section = section
@@ -37,15 +38,16 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
   end
 
   def given_i_already_have_one_submitted_application
-    application_form = create(
+    @application_form = create(
       :application_form,
       :completed,
+      references_state: 'not_requested_yet',
       candidate: current_candidate,
       volunteering_experiences_count: 1,
       full_work_history: true,
       work_history_status: :can_complete,
     )
-    create(:application_choice, :awaiting_provider_decision, application_form:)
+    create(:application_choice, :awaiting_provider_decision, application_form: @application_form)
   end
 
   def and_i_visit_your_details_page
@@ -85,11 +87,24 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
   def and_the_section_still_be_complete
     click_link_or_button 'Your details'
 
-    expect(
-      section_status,
-    ).to eq("#{@section.title} Completed")
+    title = if @section.identifier == :references
+              'References to be requested if you accept an offer'
+            else
+              @section.title
+            end
+
+    expect(section_status).to eq("#{title} Completed")
   end
   alias_method :then_the_section_still_be_complete, :and_the_section_still_be_complete
+
+  def and_i_can_edit_the_section_references
+    reference_one = @application_form.application_references.first
+    click_on "Change name for #{reference_one.name}"
+    fill_in 'What’s the name of the person who can give a reference?', with: 'New Name'
+    when_i_save_and_continue
+
+    expect(reference_one.reload.name).to eq 'New Name'
+  end
 
   def and_i_can_edit_the_section_personal_information
     click_link_or_button 'Change name'
