@@ -12,8 +12,9 @@
   </div>
 </div>
 
-<div class="govuk-grid-column-one-third">
+<div class="govuk-grid-column-one-third govuk-!-margin-top-9">
   <%= render 'candidate_interface/details/support', support_reference: @application_form_presenter.support_reference %>
-  <%= render 'candidate_interface/application_choices/previous_applications_link', application_form_presenter: @application_form_presenter %>
+  <% if @application_form_presenter.candidate_has_previously_applied? %>
+    <%= render 'candidate_interface/application_choices/previous_applications_link', application_form_presenter: @application_form_presenter %>
+  <% end %>
 </div>
-
