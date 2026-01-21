@@ -33,4 +33,14 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       end
     end
   end
+
+  context 'when application has many previous trainings' do
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
+    let!(:previous_training) { create_list(:previous_teacher_training, 2, :published, application_form: application_choice.application_form) }
+
+    it 'returns both previous teacher trainings' do
+      application_json = described_class.new('1.6', application_choice).as_json
+      expect(application_json.dig(:attributes, :previous_teacher_training).size).to eq 2
+    end
+  end
 end
