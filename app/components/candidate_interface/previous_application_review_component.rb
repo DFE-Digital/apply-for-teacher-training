@@ -12,74 +12,36 @@ module CandidateInterface
       @application_choice = application_choice
     end
 
-    def rows
-      [
-        status_row,
-        course_info_row,
-        course_fee_row(application_choice, current_course),
-        qualifications_row,
-        course_length_row,
-        study_mode_row,
-        personal_statement_row,
-      ].compact
+    def status_tag
+      ApplicationStatusTagComponent.new(application_choice:, display_info_text: false)
     end
 
-    def status_row
-      {
-        key: 'Status',
-        value: render(
-          ApplicationStatusTagComponent.new(application_choice:, display_info_text: false),
-        ),
-      }
+    def course_link
+      govuk_link_to(current_course.name_and_code, current_course.find_url, new_tab: true)
     end
 
-    def course_info_row
-      {
-        key: 'Course',
-        value: govuk_link_to(current_course.name_and_code, current_course.find_url, new_tab: true),
-      }.tap do |row|
-        if unsubmitted?
-          row[:action] = {
-            href: candidate_interface_edit_course_choices_which_course_are_you_applying_to_path(application_choice.id),
-            visually_hidden_text: "course for #{current_course.name_and_code}",
-          }
-        end
-      end
+    def fee_uk
+      domestic_fee(current_course)
     end
 
-    def qualifications_row
-      {
-        key: 'Qualifications',
-        value: current_course.qualifications_to_s,
-      }
+    def fee_international
+      international_fee(current_course)
     end
 
-    def course_length_row
-      {
-        key: 'Course length',
-        value: DisplayCourseLength.call(course_length: current_course.course_length),
-      }
+    def qualifications
+      current_course.qualifications_to_s
     end
 
-    def study_mode_row
-      {
-        key: 'Full time or part time',
-        value: current_course_option.study_mode.humanize.to_s,
-      }.tap do |row|
-        if unsubmitted? && current_course.currently_has_both_study_modes_available?
-          row[:action] = {
-            href: candidate_interface_edit_course_choices_course_study_mode_path(application_choice.id, current_course.id),
-            visually_hidden_text: "full time or part time for #{current_course.name_and_code}",
-          }
-        end
-      end
+    def course_length
+      DisplayCourseLength.call(course_length: current_course.course_length)
     end
 
-    def personal_statement_row
-      {
-        key: 'Personal statement',
-        value: render(PersonalStatementSummaryComponent.new(application_choice:)),
-      }
+    def study_mode
+      current_course_option.study_mode.humanize.to_s
+    end
+
+    def personal_statement
+      PersonalStatementSummaryComponent.new(application_choice:)
     end
 
     def provider
