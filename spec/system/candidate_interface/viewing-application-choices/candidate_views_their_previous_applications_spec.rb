@@ -13,6 +13,7 @@ RSpec.describe 'Candidate views their previous applications' do
 
     when_i_click_the_previous_applications_link
     then_i_see_my_application_choices_listed_from_the_previous_two_years
+    and_the_draft_application_is_not_listed
 
     when_i_click_on_one_of_my_previous_applications
     then_i_see_the_details_page
@@ -75,11 +76,6 @@ private
     expect(page).to have_content(@withdrawn_application_choice_previous_year.course.study_mode.humanize)
     expect(page).to have_content('Application withdrawn')
 
-    expect(page).to have_link(@draft_application_choice_previous_year.provider.name, href: "/candidate/application/choices/previous-applications/#{@draft_application_choice_previous_year.id}")
-    expect(page).to have_content(@draft_application_choice_previous_year.course.name_and_code)
-    expect(page).to have_content(@draft_application_choice_previous_year.course.study_mode.humanize)
-    expect(page).to have_content('Draft')
-
     expect(page).to have_content("Applications for courses in the #{@application_form.recruitment_cycle_year - 3} to #{@application_form.recruitment_cycle_year - 2} recruitment cycle")
 
     expect(page).to have_link(@declined_application_choice_previous_two_years.provider.name, href: "/candidate/application/choices/previous-applications/#{@declined_application_choice_previous_two_years.id}")
@@ -91,6 +87,12 @@ private
     expect(page).to have_content(@rejected_application_choice_previous_two_years.course.name_and_code)
     expect(page).to have_content(@rejected_application_choice_previous_two_years.course.study_mode.humanize)
     expect(page).to have_content('Unsuccessful')
+  end
+
+  def and_the_draft_application_is_not_listed
+    expect(page).to have_no_link(@draft_application_choice_previous_year.provider.name, href: "/candidate/application/choices/previous-applications/#{@draft_application_choice_previous_year.id}")
+    expect(page).to have_no_content(@draft_application_choice_previous_year.course.name_and_code)
+    expect(page).to have_no_content('Draft')
   end
 
   def when_i_click_on_one_of_my_previous_applications
