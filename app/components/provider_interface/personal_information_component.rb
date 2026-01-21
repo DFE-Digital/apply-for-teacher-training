@@ -3,8 +3,8 @@ module ProviderInterface
     MISSING = '<em>Not provided</em>'.html_safe
     RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES = {
       'yes' => 'Yes',
-      'no' => 'Not yet',
-      'decide_later' => 'Candidate does not know',
+      'no' => 'No',
+      'decide_later' => 'No',
     }.freeze
 
     include ViewHelper

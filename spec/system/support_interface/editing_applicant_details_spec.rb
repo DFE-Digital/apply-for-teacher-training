@@ -34,7 +34,7 @@ RSpec.describe 'Editing application details' do
     select 'Armenian', from: 'support-interface-application-forms-nationalities-form-other-nationality1-field'
     fill_in 'Audit log comment', with: 'Changed nationality details - zendesk ticket 1234'
     click_link_or_button t('save_and_continue')
-    choose 'Not yet'
+    choose 'No'
     fill_in 'Audit log comment', with: 'Changed nationality details - zendesk ticket 1234'
     click_link_or_button t('save_and_continue')
   end
@@ -43,7 +43,7 @@ RSpec.describe 'Editing application details' do
     within('[data-qa="personal-information"]') do
       expect(page).to have_content 'Armenian'
       expect(page).to have_content 'Has the right to work or study in the UK?'
-      expect(page).to have_content 'Not yet'
+      expect(page).to have_content 'No'
     end
 
     click_link_or_button 'History'
