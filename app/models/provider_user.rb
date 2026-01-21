@@ -36,25 +36,6 @@ class ProviderUser < ApplicationRecord
     where(id: users_that_user_can_see)
   }
 
-  def self.load_from_session(session)
-    dfe_sign_in_user = DfESignInUser.load_from_session(session)
-    return unless dfe_sign_in_user
-
-    impersonation = ProviderImpersonation.load_from_session(session)
-    return impersonation.provider_user if impersonation
-
-    provider_user = ProviderUser.find_by dfe_sign_in_uid: dfe_sign_in_user.dfe_sign_in_uid
-    provider_user || onboard!(dfe_sign_in_user)
-  end
-
-  def self.onboard!(dsi_user)
-    provider_user = ProviderUser.find_by email_address: dsi_user.email_address
-    if provider_user && provider_user.dfe_sign_in_uid.nil?
-      provider_user.update!(dfe_sign_in_uid: dsi_user.dfe_sign_in_uid)
-      provider_user
-    end
-  end
-
   def self.find_or_onboard(omniauth_payload)
     dfe_sign_in_uid = omniauth_payload['uid']
     email_address = omniauth_payload.dig('info', 'email')

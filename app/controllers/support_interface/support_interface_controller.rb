@@ -9,19 +9,11 @@ module SupportInterface
     before_action :set_current_timetable
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
-    helper_method :current_support_user, :dfe_sign_in_user
+    helper_method :current_support_user
 
     def current_support_user
-      @current_support_user ||= if FeatureFlag.active?(:dsi_stateful_session)
-                                  Current.support_session&.user ||
-                                    find_session_by_cookie&.support_user
-                                else
-                                  SupportUser.load_from_session(session)
-                                end
-    end
-
-    def dfe_sign_in_user
-      DfESignInUser.load_from_session(session)
+      @current_support_user ||= Current.support_session&.user ||
+                                find_session_by_cookie&.support_user
     end
 
     alias audit_user current_support_user

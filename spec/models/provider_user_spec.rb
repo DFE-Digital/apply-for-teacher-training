@@ -15,32 +15,6 @@ RSpec.describe ProviderUser do
     end
   end
 
-  describe '.onboard!' do
-    it 'sets the DfE Sign-in ID on an existing user' do
-      provider_user = create(:provider_user, dfe_sign_in_uid: nil)
-      dsi_user = DfESignInUser.new(
-        email_address: provider_user.email_address,
-        dfe_sign_in_uid: 'ABC123',
-        first_name: nil,
-        last_name: nil,
-      )
-      described_class.onboard!(dsi_user)
-      expect(provider_user.reload.dfe_sign_in_uid).to eq 'ABC123'
-    end
-
-    it 'sets the DfE Sign-in ID on an existing user with a mixed case DfE Sign-in email' do
-      provider_user = create(:provider_user, dfe_sign_in_uid: nil, email_address: 'bob@example.com')
-      dsi_user = DfESignInUser.new(
-        email_address: 'BoB@example.com',
-        dfe_sign_in_uid: 'ABC123',
-        first_name: nil,
-        last_name: nil,
-      )
-      described_class.onboard!(dsi_user)
-      expect(provider_user.reload.dfe_sign_in_uid).to eq 'ABC123'
-    end
-  end
-
   describe '#full_name' do
     it 'concatenates the first and last names of the user' do
       provider_user = build(:provider_user)
@@ -123,47 +97,6 @@ RSpec.describe ProviderUser do
 
       expect(described_class.visible_to(user_a)).to include(user_b)
       expect(described_class.visible_to(user_a)).not_to include(user_c)
-    end
-  end
-
-  describe '#load_from_session' do
-    let(:dsi_user) { build(:dfe_sign_in_user) }
-
-    it 'returns nil if there is no DfESignInUser session' do
-      provider_user = described_class.load_from_session({})
-      expect(provider_user).to be_nil
-    end
-
-    it 'returns nil if there is no associated ProviderUser' do
-      allow(DfESignInUser).to receive(:load_from_session).and_return(dsi_user)
-      provider_user = described_class.load_from_session({})
-      expect(provider_user).to be_nil
-    end
-
-    it 'returns the associated ProviderUser' do
-      allow(DfESignInUser).to receive(:load_from_session).and_return(dsi_user)
-      provider_user = create(
-        :provider_user,
-        dfe_sign_in_uid: dsi_user.dfe_sign_in_uid,
-        email_address: dsi_user.email_address,
-        first_name: dsi_user.first_name,
-        last_name: dsi_user.last_name,
-      )
-      expect(described_class.load_from_session({})).to eq(provider_user)
-    end
-
-    it 'returns impersonated_provider_user from SupportUser, if available' do
-      allow(DfESignInUser).to receive(:load_from_session).and_return(dsi_user)
-
-      support_user = create(:support_user)
-      provider_user = create(:provider_user)
-      support_user.impersonated_provider_user = provider_user
-      allow(SupportUser).to receive(:load_from_session).and_return(support_user)
-
-      loaded_user = described_class.load_from_session({})
-
-      expect(loaded_user).to eq(provider_user)
-      expect(loaded_user.impersonator).to eq(support_user)
     end
   end
 
@@ -259,6 +192,67 @@ RSpec.describe ProviderUser do
         )
 
         expect(provider_user.last_find_candidate_filter).to eq(invited_filter)
+      end
+    end
+  end
+
+  describe '.find_or_onboard' do
+    it 'finds the provider user' do
+      provider_user = create(:provider_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+
+      call = described_class.find_or_onboard({ 'uid' => 'DFE_SIGN_IN_UID' })
+
+      expect(call).to eq(provider_user)
+    end
+
+    context 'when provider_user with dfe_sign_in_uid does not exist' do
+      it 'onboards the provider_user' do
+        provider_user = create(
+          :provider_user,
+          dfe_sign_in_uid: nil,
+          email_address: 'test@email.com',
+        )
+
+        call = described_class.find_or_onboard(
+          { 'info' => { 'email' => 'test@email.com' } },
+        )
+
+        expect(call).to eq(provider_user)
+      end
+    end
+  end
+
+  describe '.load_from_current_session' do
+    context 'when session does not exists' do
+      it 'return nil' do
+        expect(described_class.load_from_current_session).to be_nil
+      end
+    end
+
+    context 'when provider session exists' do
+      it 'return the provider user from the session' do
+        provider_session = create(:dsi_session)
+
+        allow(Current).to receive(:provider_session).and_return(provider_session)
+        expect(described_class.load_from_current_session).to eq(provider_session.provider_user)
+      end
+    end
+
+    context 'when support session exists and it is impersonating' do
+      it 'return the provider user from the session' do
+        support_session = create(:dsi_session, :support_user_impersonating_provider)
+
+        allow(Current).to receive(:support_session).and_return(support_session)
+        expect(described_class.load_from_current_session).to eq(support_session.impersonated_provider_user)
+      end
+    end
+
+    context 'when support session exists but does not impersonate' do
+      it 'return the provider user from the session' do
+        support_session = create(:dsi_session, :support_user)
+
+        allow(Current).to receive(:support_session).and_return(support_session)
+        expect(described_class.load_from_current_session).to be_nil
       end
     end
   end
