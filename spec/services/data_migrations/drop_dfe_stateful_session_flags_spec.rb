@@ -1,4 +1,5 @@
 require 'rails_helper'
+# rubocop:disable RSpec/SpecFilePathFormat
 
 RSpec.describe DataMigrations::DropDfEStatefulSessionFlags do
   describe '#change' do
@@ -18,3 +19,5 @@ RSpec.describe DataMigrations::DropDfEStatefulSessionFlags do
     end
   end
 end
+
+# rubocop:enable RSpec/SpecFilePathFormat
