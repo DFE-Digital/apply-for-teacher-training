@@ -56,11 +56,11 @@ private
   end
 
   def then_i_see_the_previous_applications_link
-    expect(page).to have_link('View your previous applications', href: '/candidate/application/choices/previous_applications')
+    expect(page).to have_link('View your previous applications', href: '/candidate/application/choices/previous-applications')
   end
 
   def then_i_do_not_see_the_previous_applications_link
-    expect(page).to have_no_link('View your previous applications', href: '/candidate/application/choices/previous_applications')
+    expect(page).to have_no_link('View your previous applications', href: '/candidate/application/choices/previous-applications')
   end
 
   def when_i_click_the_previous_applications_link
@@ -70,24 +70,24 @@ private
   def then_i_see_my_application_choices_listed_from_the_previous_two_years
     expect(page).to have_content("Applications for courses in the #{@application_form.recruitment_cycle_year - 2} to #{@application_form.recruitment_cycle_year - 1} recruitment cycle")
 
-    expect(page).to have_link(@withdrawn_application_choice_previous_year.provider.name, href: "/candidate/application/choices/previous_applications/#{@withdrawn_application_choice_previous_year.id}")
+    expect(page).to have_link(@withdrawn_application_choice_previous_year.provider.name, href: "/candidate/application/choices/previous-applications/#{@withdrawn_application_choice_previous_year.id}")
     expect(page).to have_content(@withdrawn_application_choice_previous_year.course.name_and_code)
     expect(page).to have_content(@withdrawn_application_choice_previous_year.course.study_mode.humanize)
     expect(page).to have_content('Application withdrawn')
 
-    expect(page).to have_link(@draft_application_choice_previous_year.provider.name, href: "/candidate/application/choices/previous_applications/#{@draft_application_choice_previous_year.id}")
+    expect(page).to have_link(@draft_application_choice_previous_year.provider.name, href: "/candidate/application/choices/previous-applications/#{@draft_application_choice_previous_year.id}")
     expect(page).to have_content(@draft_application_choice_previous_year.course.name_and_code)
     expect(page).to have_content(@draft_application_choice_previous_year.course.study_mode.humanize)
     expect(page).to have_content('Draft')
 
     expect(page).to have_content("Applications for courses in the #{@application_form.recruitment_cycle_year - 3} to #{@application_form.recruitment_cycle_year - 2} recruitment cycle")
 
-    expect(page).to have_link(@declined_application_choice_previous_two_years.provider.name, href: "/candidate/application/choices/previous_applications/#{@declined_application_choice_previous_two_years.id}")
+    expect(page).to have_link(@declined_application_choice_previous_two_years.provider.name, href: "/candidate/application/choices/previous-applications/#{@declined_application_choice_previous_two_years.id}")
     expect(page).to have_content(@declined_application_choice_previous_two_years.course.name_and_code)
     expect(page).to have_content(@declined_application_choice_previous_two_years.course.study_mode.humanize)
     expect(page).to have_content('Offer declined')
 
-    expect(page).to have_link(@rejected_application_choice_previous_two_years.provider.name, href: "/candidate/application/choices/previous_applications/#{@rejected_application_choice_previous_two_years.id}")
+    expect(page).to have_link(@rejected_application_choice_previous_two_years.provider.name, href: "/candidate/application/choices/previous-applications/#{@rejected_application_choice_previous_two_years.id}")
     expect(page).to have_content(@rejected_application_choice_previous_two_years.course.name_and_code)
     expect(page).to have_content(@rejected_application_choice_previous_two_years.course.study_mode.humanize)
     expect(page).to have_content('Unsuccessful')

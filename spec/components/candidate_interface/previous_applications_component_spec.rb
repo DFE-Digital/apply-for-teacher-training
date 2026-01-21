@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::PreviousApplicationsComponent do
 
       expect(result).to have_no_content("Applications for courses in the #{current_application_form.recruitment_cycle_year - 1} to #{current_application_form.recruitment_cycle_year} recruitment cycle")
       expect(result).to have_content("Applications for courses in the #{previous_application_form.recruitment_cycle_year - 1} to #{previous_application_form.recruitment_cycle_year} recruitment cycle")
-      expect(result).to have_link(unsuccessful_application_choice.course.provider.name, href: "/candidate/application/choices/previous_applications/#{unsuccessful_application_choice.id}")
+      expect(result).to have_link(unsuccessful_application_choice.course.provider.name, href: "/candidate/application/choices/previous-applications/#{unsuccessful_application_choice.id}")
       expect(result).to have_content(unsuccessful_application_choice.course.name_and_code)
       expect(result).to have_content('Unsuccessful')
     end
@@ -44,7 +44,7 @@ RSpec.describe CandidateInterface::PreviousApplicationsComponent do
 
       expect(result).to have_no_content("Applications for courses in the #{current_application_form.recruitment_cycle_year - 1} to #{current_application_form.recruitment_cycle_year} recruitment cycle")
       expect(result).to have_content("Applications for courses in the #{previous_application_form.recruitment_cycle_year - 1} to #{previous_application_form.recruitment_cycle_year} recruitment cycle")
-      expect(result).to have_link(successful_application_choice.course.provider.name, href: "/candidate/application/choices/previous_applications/#{successful_application_choice.id}")
+      expect(result).to have_link(successful_application_choice.course.provider.name, href: "/candidate/application/choices/previous-applications/#{successful_application_choice.id}")
       expect(result).to have_content(successful_application_choice.course.name_and_code)
       expect(result).to have_content('Offer')
     end
