@@ -1,11 +1,11 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: 91427abc46315f266dea803834d21edd6c7ef136
-  tag: v1.15.12
+  revision: 31c25462e5fa824c1e75a1099c06e0676724731c
+  tag: v1.15.14
   specs:
-    dfe-analytics (1.15.12)
+    dfe-analytics (1.15.14)
       google-cloud-bigquery (~> 1.38)
-      httparty (~> 0.21)
+      httparty (~> 0.24)
       multi_xml (~> 0.6.0)
       request_store_rails (~> 2)
 
@@ -312,7 +312,7 @@ GEM
       csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-apis-bigquery_v2 (0.96.0)
+    google-apis-bigquery_v2 (0.97.0)
       google-apis-core (>= 0.15.0, < 2.a)
     google-apis-core (1.0.2)
       addressable (~> 2.8, >= 2.8.7)
@@ -338,7 +338,7 @@ GEM
       faraday (>= 1.0, < 3.a)
     google-cloud-errors (1.5.0)
     google-logging-utils (0.2.0)
-    googleauth (1.16.0)
+    googleauth (1.16.1)
       faraday (>= 1.0, < 3.a)
       google-cloud-env (~> 2.2)
       google-logging-utils (~> 0.1)
@@ -387,7 +387,7 @@ GEM
     http-cookie (1.0.8)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
-    httparty (0.24.0)
+    httparty (0.24.2)
       csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
@@ -1044,7 +1044,7 @@ CHECKSUMS
   declarative (0.0.20) sha256=8021dd6cb17ab2b61233c56903d3f5a259c5cf43c80ff332d447d395b17d9ff9
   deepsort (0.5.0) sha256=8db57207449e54d693e250bc3d62c2e92724602b0f4d680fa846021934f6419f
   devise (4.9.4) sha256=920042fe5e704c548aa4eb65ebdd65980b83ffae67feb32c697206bfd975a7f8
-  dfe-analytics (1.15.12)
+  dfe-analytics (1.15.14)
   dfe-autocomplete (0.1.0)
   dfe-reference-data (3.8.6)
   dfe-wizard (0.1.0)
@@ -1081,14 +1081,14 @@ CHECKSUMS
   get_into_teaching_api_client (4.3.7.2)
   get_into_teaching_api_client_faraday (4.3.7.2)
   globalid (1.2.1) sha256=70bf76711871f843dbba72beb8613229a49429d1866828476f9c9d6ccc327ce9
-  google-apis-bigquery_v2 (0.96.0) sha256=8eb277bff73b1622d1e5a6253386938c15f296306507cf84a783980f932302cd
+  google-apis-bigquery_v2 (0.97.0) sha256=065b8cf46ee85bcbd29bd92510bff4a7cc1b99f65c4e6ad5b80208d708031e95
   google-apis-core (1.0.2) sha256=ba4579aaadc902d6cc7bc8db88f566ab00f5e31ea87ab41e9f9a032c470f2629
   google-cloud-bigquery (1.62.0) sha256=ec47296f978acae7eb7df70b09bda152e7e4d45fe87c07413abc6f72f0cf0e65
   google-cloud-core (1.8.0) sha256=e572edcbf189cfcab16590628a516cec3f4f63454b730e59f0b36575120281cf
   google-cloud-env (2.3.1) sha256=0faac01eb27be78c2591d64433663b1a114f8f7af55a4f819755426cac9178e7
   google-cloud-errors (1.5.0) sha256=b56be28b8c10628125214dde571b925cfcebdbc58619e598250c37a2114f7b4b
   google-logging-utils (0.2.0) sha256=675462b4ea5affa825a3442694ca2d75d0069455a1d0956127207498fca3df7b
-  googleauth (1.16.0) sha256=1e7b5c2ee7edc6a0f5a4a4312c579b3822dc0be2679d6d09ca19d8c7ca5bd5f1
+  googleauth (1.16.1) sha256=36776bce9d55d8c1a0c6638c939b000dcee5954ca5b728f06ec4c2df4a46709c
   govuk-components (5.11.1) sha256=47d9a0bea0f17dc28c66f4a73c7dc55600f674d5e42b354f31895fad59d8438c
   govuk_design_system_formbuilder (5.13.0) sha256=126ff4af70b36f06395e8f4f09d399944bcc10e9a41c2ff7d7773e81e92ca885
   govuk_markdown (2.0.3) sha256=30fc99b502d96cf81751cbfc115e3717f8252940735dc40ee6dc83b454b1b35e
@@ -1103,7 +1103,7 @@ CHECKSUMS
   http (5.3.1) sha256=c50802d8e9be3926cb84ac3b36d1a31fbbac383bc4cbecdce9053cb604231d7d
   http-cookie (1.0.8) sha256=b14fe0445cf24bf9ae098633e9b8d42e4c07c3c1f700672b09fbfe32ffd41aa6
   http-form_data (2.3.0) sha256=cc4eeb1361d9876821e31d7b1cf0b68f1cf874b201d27903480479d86448a5f3
-  httparty (0.24.0) sha256=cd93eec3d92c327df77b545e71123a38394e5ae723fb739bca18e0e75143b0ac
+  httparty (0.24.2) sha256=8fca6a54aa0c4aa4303a0fd33e5e2156175d6a5334f714263b458abd7fda9c38
   humanize (3.1.0) sha256=cbcc371a885bd661239d1e7a0cd192bc6e5f090b43973bae38ed5bfe57913bbe
   i18n (1.14.8) sha256=285778639134865c5e0f6269e0b818256017e8cde89993fdfcbfb64d088824a5
   io-console (0.8.2) sha256=d6e3ae7a7cc7574f4b8893b4fca2162e57a825b223a177b7afa236c5ef9814cc
