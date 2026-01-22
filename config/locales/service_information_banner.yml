@@ -1,17 +1,17 @@
 en:
   service_information_banner:
     provider:
-      sandbox_header: Service disruption
-      sandbox_body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
-      header: Service disruption
-      body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
+      sandbox_header: Candidate login issues
+      sandbox_body: Some candidates with international phone numbers are having trouble logging into the Apply service. We are working to resolve the issue.
+      header: Candidate login issues
+      body: Some candidates with international phone numbers are having trouble logging into the Apply service. We are working to resolve the issue.
     candidate:
-      sandbox_header: Service disruption
-      sandbox_body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
-      header: Service disruption
-      body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
+      sandbox_header: Login issues
+      sandbox_body: Today at 3pm UK time, you will be logged out of the service. You will be able to log back in immediately using the email address associated with this account via a link sent to that email address. We are working to resolve an ongoing issue related to GOV.UK One Login.
+      header: Login issues
+      body: Today at 3pm UK time, you will be logged out of the service. You will be able to log back in immediately using the email address associated with this account via a link sent to that email address. We are working to resolve an ongoing issue related to GOV.UK One Login.
     support:
-      sandbox_header: Service disruption
-      sandbox_body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
-      header: Service disruption
-      body: All Department for Education services are experiencing intermittent issues. Your experience may be interrupted.
+      sandbox_header: Candidate login issues
+      sandbox_body: Today at 3pm UK time, candidates will be logged out of the service when we turn off GOV.UK One Login temporarily. Candidates will still be able to login and to create new accounts using a magic link sent to their email address.
+      header: Candidate login issues
+      body: Today at 3pm UK time, candidates will be logged out of the service when we turn off GOV.UK One Login temporarily. Candidates will still be able to login and to create new accounts using a magic link sent to their email address.
