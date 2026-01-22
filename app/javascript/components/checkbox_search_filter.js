@@ -1,4 +1,4 @@
-import '../polyfills'
+import '../utils/polyfills'
 
 const outerHeight = (el) => {
   let height = el.offsetHeight

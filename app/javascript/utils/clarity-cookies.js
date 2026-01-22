@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from './cookies/cookie-helper'
+import { getCookie, setCookie } from '../cookies/cookie-helper'
 
 export default class ClarityCookies {
   constructor (id, service) {

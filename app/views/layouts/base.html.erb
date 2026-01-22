@@ -14,25 +14,25 @@
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="<%= asset_pack_path('media/images/favicon.ico') %>" type="image/x-icon">
-    <link rel="mask-icon" href="<%= asset_pack_path('media/images/govuk-icon-mask.svg') %>" color="#0b0c0c">
-    <link rel="apple-touch-icon" href="<%= asset_pack_path('media/images/govuk-icon-180.png') %>">
+    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="<%= image_path('rebrand/images/favicon.ico') %>" type="image/x-icon">
+    <link rel="mask-icon" href="<%= image_path('rebrand/images/govuk-icon-mask.svg') %>" color="#0b0c0c">
+    <link rel="apple-touch-icon" href="<%= image_path('rebrand/images/govuk-icon-180.png') %>">
 
-    <meta property="og:image" content="<%= asset_pack_path('media/images/govuk-opengraph-image.png') %>">
+    <meta property="og:image" content="<%= image_path('rebrand/images/govuk-opengraph-image.png') %>">
 
     <% case try(:current_namespace) %>
     <% when 'candidate_interface' %>
-      <%= stylesheet_pack_tag 'application-candidate', media: 'all' %>
+      <%= stylesheet_link_tag 'application-candidate', media: 'all', defer: true %>
     <% when 'support_interface' %>
-      <%= stylesheet_pack_tag 'application-support', media: 'all' %>
+      <%= stylesheet_link_tag 'application-support', media: 'all', defer: true %>
     <% when 'provider_interface' %>
-      <%= stylesheet_pack_tag 'application-provider', media: 'all' %>
+      <%= stylesheet_link_tag 'application-provider', media: 'all', defer: true %>
     <% when 'publications' %>
-      <%= stylesheet_pack_tag 'application-publications', media: 'all' %>
+      <%= stylesheet_link_tag 'application-publications', media: 'all', defer: true %>
     <% when /api_docs/ %>
-      <%= stylesheet_pack_tag 'application-api-docs', media: 'all' %>
+      <%= stylesheet_link_tag 'application-api-docs', media: 'all', defer: true %>
     <% else %>
-      <%= stylesheet_pack_tag 'application', media: 'all' %>
+      <%= stylesheet_link_tag 'application', media: 'all', defer: true %>
     <% end %>
   </head>
 
@@ -60,27 +60,29 @@
 
     <% case try(:current_namespace) %>
     <% when 'candidate_interface' %>
-      <%= javascript_pack_tag(
-            'application-candidate',
-            data: { 'clarity-id': FeatureFlag.active?(:ms_clarity) ? ENV.fetch('CLARITY_PROJECT_ID', '') : '' },
-          ) %>
+      <%= javascript_include_tag(
+        'application-candidate',
+        defer: true,
+        data: { 'clarity-id': FeatureFlag.active?(:ms_clarity) ? ENV.fetch('CLARITY_PROJECT_ID', '') : '' },
+      ) %>
     <% when 'support_interface' %>
-      <%= javascript_pack_tag 'application-support' %>
+      <%= javascript_include_tag 'application-support', defer: true %>
     <% when 'provider_interface' %>
-      <%= javascript_pack_tag(
-            'application-provider',
-            data: { 'clarity-id': FeatureFlag.active?(:ms_clarity) ? ENV.fetch('CLARITY_PROJECT_ID', '') : '' },
-          ) %>
+      <%= javascript_include_tag(
+        'application-provider',
+        defer: true,
+        data: { 'clarity-id': FeatureFlag.active?(:ms_clarity) ? ENV.fetch('CLARITY_PROJECT_ID', '') : '' },
+      ) %>
       <% if FeatureFlag.active?(:enable_chat_support) %>
         <%= render 'shared/zendesk_snippet' %>
-        <%= javascript_pack_tag 'user-support-webchat' %>
+        <%= javascript_include_tag 'user-support-webchat', defer: true %>
       <% end %>
     <% when 'publications' %>
-      <%= javascript_pack_tag 'application-publications' %>
+      <%= javascript_include_tag 'application-publications', defer: true %>
     <% when /api_docs/ %>
-      <%= javascript_pack_tag 'application-api-docs' %>
+      <%= javascript_include_tag 'application-api-docs', defer: true %>
     <% else %>
-      <%= javascript_pack_tag 'application' %>
+      <%= javascript_include_tag 'application', defer: true %>
     <% end %>
 
   </body>

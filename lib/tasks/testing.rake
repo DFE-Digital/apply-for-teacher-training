@@ -48,16 +48,16 @@ end
 
 desc 'Run Stylelint'
 task :stylelint do
-  sh 'yarn stylelint app/frontend/styles'
+  sh 'yarn run lint:css'
+end
+
+desc 'Run Standard JS Linter'
+task :lint_js do
+  sh 'yarn run lint'
 end
 
 desc 'Run all the linters'
-task linting: %i[rubocop erb_lint stylelint]
-
-desc 'Compile assets for testing'
-task :compile_assets do
-  sh 'RAILS_ENV=test rails webpacker:compile'
-end
+task linting: %i[rubocop erb_lint stylelint lint_js]
 
 desc 'Run rspec in parallel without performance'
 task :parallel_rspec_without_performance do
@@ -65,4 +65,4 @@ task :parallel_rspec_without_performance do
 end
 
 desc 'Run all the tests'
-task run_tests: %i[compile_assets linting parallel_rspec_without_performance brakeman jest]
+task run_tests: %i[linting parallel_rspec_without_performance brakeman jest]

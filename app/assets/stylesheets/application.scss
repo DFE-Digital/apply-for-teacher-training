@@ -1,0 +1,20 @@
+$govuk-assets-path: "/";
+$govuk-global-styles: true;
+$moj-assets-path: "/";
+
+// app colours that don't appear in govuk-frontend
+// but are used throughout DfE
+// e.g. https://github.com/search?q=org%3ADFE-Digital+EBF2F6&type=code
+$app-grey: #ebf2f6;
+
+$govuk-breakpoints: (
+  mobile: 320px,
+  tablet: 641px,
+  large: 945px,
+  desktop: 769px,
+  wide: 1300px,
+);
+
+// Shared (govuk-frontend)
+@import "govuk-frontend/dist/govuk/index";
+@import "base";
