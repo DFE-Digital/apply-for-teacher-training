@@ -1,14 +1,14 @@
 <%= govuk_summary_list do |summary_list| %>
   <% summary_list.with_row do |row| %>
-      <% row.with_key { 'Status' } %>
+      <% row.with_key { t('.status') } %>
       <% row.with_value { render(status_tag) } %>
   <% end %>
   <% summary_list.with_row do |row| %>
-      <% row.with_key { 'Course' } %>
+      <% row.with_key { t('.course') } %>
       <% row.with_value { course_link } %>
   <% end %>
   <% summary_list.with_row do |row| %>
-      <% row.with_key { 'Course fee' } %>
+      <% row.with_key { t('.course_fee') } %>
       <% row.with_value do %>
       <%= fee_uk %>
       <% if fee_international.present? %>
@@ -17,19 +17,19 @@
     <% end %>
   <% end %>
   <% summary_list.with_row do |row| %>
-      <% row.with_key { 'Qualifications' } %>
+      <% row.with_key { t('.quals') } %>
       <% row.with_value { qualifications } %>
   <% end %>
   <% summary_list.with_row do |row| %>
-      <% row.with_key { 'Course length' } %>
+      <% row.with_key { t('.course_length') } %>
       <% row.with_value { course_length } %>
   <% end %>
   <% summary_list.with_row do |row| %>
-      <% row.with_key { 'Full time or part time' } %>
+      <% row.with_key { t('.study_mode') } %>
       <% row.with_value { study_mode } %>
   <% end %>
     <% summary_list.with_row do |row| %>
-      <% row.with_key { 'Personal statement' } %>
+      <% row.with_key { t('.personal_statement') } %>
       <% row.with_value { render(personal_statement) } %>
   <% end %>
 <% end %>

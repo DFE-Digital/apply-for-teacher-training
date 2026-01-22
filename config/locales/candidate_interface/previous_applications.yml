@@ -1,0 +1,5 @@
+en:
+  candidate_interface:
+    previous_applications:
+      show:
+        your_application: Your application to %{provider}

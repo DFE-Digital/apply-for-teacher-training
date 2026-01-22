@@ -1,5 +1,5 @@
 <div class="govuk-!-margin-bottom-6">
-<h2 class="govuk-heading-m"><%= "Applications for courses in the #{@recruitment_cycle_year - 1} to #{@recruitment_cycle_year} recruitment cycle" %></h2>
+<h2 class="govuk-heading-m"><%= "Applications for courses in the #{timetable.cycle_range_name} recruitment cycle" %></h2>
   <% application_choices.each do |application_choice| %>
     <%= render CandidateInterface::ApplicationChoiceItemComponent.new(application_choice:, previous_application: true) %>
   <% end %>

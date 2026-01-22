@@ -17,7 +17,11 @@ module CandidateInterface
     end
 
     def course_link
-      govuk_link_to(current_course.name_and_code, current_course.find_url, new_tab: true)
+      if current_course.in_current_recruitment_cycle?
+        govuk_link_to(current_course.name_and_code, current_course.find_url)
+      else
+        current_course.name_and_code
+      end
     end
 
     def fee_uk
