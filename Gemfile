@@ -66,7 +66,7 @@ gem 'active_hash', '~> 4.0.0'
 # in active record queries; may eventually be merged into Rails
 gem 'activerecord-cte'
 
-gem 'sentry-rails', '6.2.0'
+gem 'sentry-rails', '6.3.0'
 gem 'sentry-sidekiq'
 
 gem 'factory_bot_rails'
