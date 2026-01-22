@@ -6,6 +6,7 @@ RSpec.describe 'Candidate views their invites' do
   scenario 'after apply deadline', time: after_apply_deadline do
     given_i_am_signed_in_without_in_flight_applications
     when_i_go_to_application_sharing
+    and_i_am_on_the_application_choices_page
     then_i_see_the_carry_over_content
   end
 
@@ -136,6 +137,7 @@ RSpec.describe 'Candidate views their invites' do
     given_i_am_signed_in_with_one_login
 
     create(:application_form, :completed, candidate: @current_candidate)
+    visit root_path
   end
 
   def when_i_go_to_application_sharing
@@ -145,8 +147,10 @@ RSpec.describe 'Candidate views their invites' do
   def then_i_see_the_carry_over_content
     expect(page).to have_current_path candidate_interface_application_choices_path
 
-    within 'form.button_to[action="/candidate/application/carry-over"]' do
-      expect(page).to have_button 'Update your details'
-    end
+    expect(page).to have_element(:h1, text: 'The recruitment deadline has now passed')
+    expect(page).to have_element(
+      :h2,
+      text: "Apply to courses in the #{@current_candidate.current_application.academic_year_range_name} academic year",
+    )
   end
 end

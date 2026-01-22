@@ -10,11 +10,6 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
       and_the_cycle_switcher_set_to_apply_opens
 
       when_i_sign_in_again
-      and_i_visit_the_application_dashboard
-      then_i_cannot_submit_my_application
-      and_i_can_see_the_carry_over_content
-
-      when_i_click_on_continue
       then_i_see_my_details
 
       when_i_view_referees
@@ -37,11 +32,6 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
       and_the_cycle_switcher_set_to_apply_opens
 
       when_i_sign_in_again
-      and_i_visit_the_application_dashboard
-      then_i_cannot_submit_my_application
-      and_i_can_see_the_carry_over_content
-
-      when_i_click_on_continue
       then_i_see_my_details
 
       when_i_view_referees

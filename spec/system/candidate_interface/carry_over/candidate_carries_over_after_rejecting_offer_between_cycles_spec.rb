@@ -21,8 +21,8 @@ RSpec.describe 'Carry over after rejecting offer', time: CycleTimetableHelper.mi
 
     when_i_decline_the_remaining_offer
     then_the_second_offer_is_declined
-    then_i_see_the_carry_over_content
-    and_i_am_able_to_carry_over_my_application
+    and_i_can_navigate_to_the_application_choices_page
+    and_i_see_the_carry_over_content
   end
 
 private
@@ -93,16 +93,8 @@ private
     click_on 'Yes I’m sure – decline this offer'
   end
 
-  def then_i_see_the_carry_over_content
+  def and_i_see_the_carry_over_content
     expect(page).to have_current_path candidate_interface_application_choices_path
-
-    within 'form.button_to[action="/candidate/application/carry-over"]' do
-      expect(page).to have_button 'Update your details'
-    end
-  end
-
-  def and_i_am_able_to_carry_over_my_application
-    click_on 'Update your details'
-    expect(page).to have_current_path candidate_interface_details_path
+    expect(page).to have_element(:h1, text: 'The recruitment deadline has now passed')
   end
 end
