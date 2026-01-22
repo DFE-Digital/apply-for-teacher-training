@@ -155,7 +155,7 @@ gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.15.12'
 gem 'azure-blob'
 
 group :development do
-  gem 'listen', '>= 3.0.5', '< 3.10'
+  gem 'listen', '>= 3.0.5', '< 3.11'
   gem 'rails-erd'
   gem 'web-console', '>= 3.3.0'
 end
