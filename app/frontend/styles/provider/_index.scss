@@ -1,9 +1,9 @@
 // Provider components
-@import "@ministryofjustice/frontend/moj/settings/assets";
-@import "@ministryofjustice/frontend/moj/settings/measurements";
-@import "@ministryofjustice/frontend/moj/helpers/all";
-@import "@ministryofjustice/frontend/moj/objects/width-container";
-@import "@ministryofjustice/frontend/moj/utilities/all";
+@import "~@ministryofjustice/frontend/moj/settings/assets";
+@import "~@ministryofjustice/frontend/moj/settings/measurements";
+@import "~@ministryofjustice/frontend/moj/helpers/all";
+@import "~@ministryofjustice/frontend/moj/objects/width-container";
+@import "~@ministryofjustice/frontend/moj/utilities/all";
 @import "action-bar";
 @import "button";
 @import "count";

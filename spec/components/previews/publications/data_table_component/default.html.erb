@@ -1,4 +1,4 @@
-<%= stylesheet_link_tag 'application-publications' %>
+<%= stylesheet_pack_tag 'application-publications' %>
 <div>
   <%= render Publications::DataTableComponent.new(caption: 'Applications by Age', title: local_assigns[:age_title], data: local_assigns[:age_data]) %>
 </div>

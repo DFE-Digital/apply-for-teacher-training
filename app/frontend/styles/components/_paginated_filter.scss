@@ -1,11 +1,11 @@
-@import "@ministryofjustice/frontend/moj/settings/assets";
-@import "@ministryofjustice/frontend/moj/settings/measurements";
-@import "@ministryofjustice/frontend/moj/helpers/all";
-@import "@ministryofjustice/frontend/moj/objects/width-container";
-@import "@ministryofjustice/frontend/moj/components/pagination/pagination";
-@import "@ministryofjustice/frontend/moj/objects/filter-layout";
-@import "@ministryofjustice/frontend/moj/objects/scrollable-pane";
-@import "@ministryofjustice/frontend/moj/components/filter/filter";
+@import "~@ministryofjustice/frontend/moj/settings/assets";
+@import "~@ministryofjustice/frontend/moj/settings/measurements";
+@import "~@ministryofjustice/frontend/moj/helpers/all";
+@import "~@ministryofjustice/frontend/moj/objects/width-container";
+@import "~@ministryofjustice/frontend/moj/components/pagination/pagination";
+@import "~@ministryofjustice/frontend/moj/objects/filter-layout";
+@import "~@ministryofjustice/frontend/moj/objects/scrollable-pane";
+@import "~@ministryofjustice/frontend/moj/components/filter/filter";
 
 .moj-filter, .moj-filter__header {
   background-color: govuk-colour("light-grey");

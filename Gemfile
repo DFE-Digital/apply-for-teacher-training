@@ -10,10 +10,12 @@ gem 'rails', '~> 8.0.3'
 gem 'puma', '~> 7.1'
 gem 'pg', '~> 1.6.3'
 gem 'blazer'
+gem 'sprockets-rails'
 
 # do not rely on host’s timezone data, which can be inconsistent
 gem 'tzinfo-data'
 
+gem 'webpacker'
 gem 'google-cloud-bigquery'
 
 gem 'govuk-components', '~> 5.11'
@@ -193,9 +195,3 @@ end
 
 gem 'field_test', '~> 0.8.0'
 gem 'pundit'
-
-gem 'cssbundling-rails', '1.4.2'
-
-gem 'jsbundling-rails', '~> 1.3'
-
-gem 'propshaft', '~> 1.3'

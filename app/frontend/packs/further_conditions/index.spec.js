@@ -1,4 +1,4 @@
-import initAddFurtherConditions from './index'
+import initAddFurtherConditions from '.'
 
 const setupBodyWithConditions = (count) => {
   document.body.innerHTML = `
