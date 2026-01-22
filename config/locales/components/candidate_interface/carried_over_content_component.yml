@@ -1,6 +1,6 @@
 en:
   carried_over_content_component:
     title: You cannot submit applications at the moment
-    view_courses: You can view and choose courses from %{date_and_time_find_opens}
+    view_courses: You can view and choose courses from %{date_and_time_find_opens}.
     apply_opens: You will be able to submit applications for the %{application_form_academic_year_range_name} recruitment cycle from %{date_and_time_apply_opens}.
     add_application_choice: Choose a course

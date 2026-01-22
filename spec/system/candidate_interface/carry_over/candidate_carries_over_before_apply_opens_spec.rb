@@ -9,7 +9,7 @@ RSpec.describe 'Carry after find opens but before apply opens' do
     and_a_course_exists
 
     when_i_sign_in
-    and_carry_over_my_application
+    # Carry over occurs
     and_complete_my_details
     then_i_can_add_courses
     and_i_cannot_submit_my_applications

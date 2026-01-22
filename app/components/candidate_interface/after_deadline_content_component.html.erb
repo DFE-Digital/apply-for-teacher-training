@@ -18,27 +18,31 @@
   </p>
 <% end %>
 
-<% if carry_over? %>
-  <h2 class="govuk-heading-m">
-    <%= t('.what_happens_next', next_academic_year: next_academic_cycle) %>
-  </h2>
 
-  <p class="govuk-body">
-    <%= find_opens_text %>
-    <%= apply_opens_text %>
-  </p>
+<h2 class="govuk-heading-m">
+  <%= t('.what_happens_next', next_academic_year: next_academic_cycle) %>
+</h2>
 
-  <p class="govuk-body">
-    <%= t('.before_you_can_apply_again') %>
-    <%= govuk_list(
-          [
-            t('.confirm_references'),
-            t('.enter_equality_and_diversity'),
-            t('.enter_previous_teacher_training'),
-          ],
-          type: :bullet,
-        ) %>
-  </p>
+<p class="govuk-body">
+  <%= find_opens_text %>
+</p>
 
-  <%= govuk_button_to t('.button_update_your_details'), candidate_interface_carry_over_path %>
+<p class="govuk-body">
+  <%= apply_opens_text %>
+</p>
+
+<p class="govuk-body">
+  <%= t('.before_you_can_apply_again') %>
+  <%= govuk_list(
+        [
+          t('.confirm_references'),
+          t('.enter_equality_and_diversity'),
+          t('.enter_previous_teacher_training'),
+        ],
+        type: :bullet,
+      ) %>
+</p>
+
+<% if show_button? %>
+  <%= govuk_button_link_to t('carried_over_content_component.add_application_choice'), candidate_interface_course_choices_do_you_know_the_course_path %>
 <% end %>

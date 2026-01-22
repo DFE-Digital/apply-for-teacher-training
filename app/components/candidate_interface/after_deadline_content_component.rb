@@ -1,7 +1,11 @@
 module CandidateInterface
   class AfterDeadlineContentComponent < ViewComponent::Base
-    delegate :decline_by_default_at, to: :timetable
-    delegate :carry_over?, to: :application_form
+    delegate :decline_by_default_at, :after_apply_deadline?, to: :timetable
+    delegate :after_find_opens?,
+             :current_recruitment_cycle?,
+             :academic_year_range_name,
+             :can_submit_more_choices?,
+             to: :@application_form, prefix: :application_form
     delegate :before_apply_opens?,
              :before_find_opens?,
              :find_opens_at,
@@ -14,7 +18,13 @@ module CandidateInterface
     end
 
     def academic_year
-      timetable.academic_year_range_name
+      if application_form.after_apply_deadline?
+        application_form_academic_year_range_name
+      elsif application_form.previous_application_form.present?
+        application_form.previous_application_form.academic_year_range_name
+      else
+        timetable.academic_year_range_name
+      end
     end
 
     def next_academic_year
@@ -22,7 +32,11 @@ module CandidateInterface
     end
 
     def application_form_start_month_year
-      timetable.apply_deadline_at.to_fs(:month_and_year)
+      if application_form.previous_application_form.present?
+        application_form.previous_application_form.recruitment_cycle_timetable
+      else
+        timetable
+      end.apply_deadline_at.to_fs(:month_and_year)
     end
 
     def next_academic_cycle
@@ -34,12 +48,18 @@ module CandidateInterface
     end
 
     def apply_opens_date
-      next_timetable.apply_opens_at.to_fs(:day_and_month)
+      apply_opens_at.to_fs(:day_and_month)
+    end
+
+    def date_and_time_find_opens
+      find_opens_at.to_fs(:govuk_date_time_time_first)
+    end
+
+    def date_and_time_apply_opens
+      apply_opens_at.to_fs(:govuk_date_time_time_first)
     end
 
     def find_opens_text
-      return '' unless before_find_opens?
-
       t(
         '.when_find_opens_html',
         find_link: govuk_link_to(t('.find_link_text'), t('find_teacher_training.production_url')),
@@ -99,6 +119,11 @@ module CandidateInterface
           decline_by_default_at: @application_form.decline_by_default_at.to_fs(:govuk_date_time_time_first),
         )
       end
+    end
+
+    def show_button?
+      application_form_after_find_opens? && !after_apply_deadline? &&
+        application_form_can_submit_more_choices?
     end
 
   private

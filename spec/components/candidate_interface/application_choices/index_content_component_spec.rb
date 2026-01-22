@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplicationChoices::IndexContentComponent do
   describe '#content_component' do
-    it 'returns UpdateLocationAndFundingPreferencesComponent' do
+    it 'returns CandidateInterface::MidCycleContentComponent' do
       application_form = build_stubbed(:application_form)
       allow(application_form).to receive_messages(
         carry_over?: false,
@@ -13,18 +13,6 @@ RSpec.describe CandidateInterface::ApplicationChoices::IndexContentComponent do
       component = described_class.new(application_form:)
 
       expect(component.content_component).to be_a(CandidateInterface::MidCycleContentComponent)
-    end
-
-    context 'when the application form can be carried over and we are midcycle' do
-      it 'returns CarryOverMidCycleComponent' do
-        application_form = create(:application_form)
-        next_cycle_opens_at = application_form.recruitment_cycle_timetable.relative_next_timetable.apply_opens_at
-        travel_temporarily_to(next_cycle_opens_at + 1.hour) do
-          component = described_class.new(application_form:)
-
-          expect(component.content_component).to be_a(CandidateInterface::CarryOverMidCycleComponent)
-        end
-      end
     end
 
     context 'when the application form can be carried over and it is currently between cycles' do
@@ -74,12 +62,12 @@ RSpec.describe CandidateInterface::ApplicationChoices::IndexContentComponent do
     end
 
     context 'when the application form is before apply opens, not after the apply deadline' do
-      it 'returns CarriedOverContentComponent' do
+      it 'returns CandidateInterface::AfterDeadlineContentComponent' do
         application_form = create(:application_form)
         travel_temporarily_to(application_form.find_opens_at + 1.minute) do
           component = described_class.new(application_form:)
 
-          expect(component.content_component).to be_a(CandidateInterface::CarriedOverContentComponent)
+          expect(component.content_component).to be_a(CandidateInterface::AfterDeadlineContentComponent)
         end
       end
     end

@@ -12,56 +12,45 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   scenario 'a candidate who was unsuccessful from years ago can carry over mid cycle' do
     given_i_applied_two_years_ago
     when_i_sign_in
-    then_i_see_the_carry_over_content_for_mid_cycle
-    and_i_can_view_my_unsuccessful_application
-
-    when_i_click_back
-    and_i_carry_over_my_application_mid_cycle
     then_i_can_edit_my_details
+
+    when_i_click_on_your_applications
+    then_i_see_the_your_applications_page
   end
 
   scenario 'a candidate who was unsuccessful years ago can carry over between cycles' do
     given_i_applied_two_years_ago
     and_the_apply_deadline_passes
     when_i_sign_in
-    then_i_see_the_carry_over_content_for_between_cycles
-    and_i_can_view_my_unsuccessful_application
-
-    when_i_click_back
-    and_i_carry_over_my_application_between_cycles
     then_i_can_edit_my_details
+
+    when_i_click_on_your_applications
+    then_i_see_the_recruitment_deadline_page
   end
 
   scenario 'an unsuccessful candidate from this cycle can carry over the application between cycles' do
     given_i_have_an_application_with_a_rejection
     and_the_apply_deadline_passes
     when_i_sign_in
-    then_i_see_the_carry_over_content_for_between_cycles
-
-    and_i_carry_over_my_application_between_cycles
     then_i_can_edit_my_details
+
+    when_i_click_on_your_applications
+    then_i_see_the_recruitment_deadline_page
   end
 
   scenario 'when an unsuccessful candidate from this cycle can re-apply in the next cycle by carrying over their original application' do
     given_i_have_an_application_with_a_rejection
     and_the_next_cycle_opens
     when_i_sign_in
-    then_i_see_the_carry_over_content_for_mid_cycle
-    and_i_can_view_my_unsuccessful_application
 
-    when_i_click_back
-    and_i_carry_over_my_application_mid_cycle
-    then_i_can_add_course_choices
+    when_i_click_on_your_applications
+    then_i_see_the_your_applications_page
   end
 
   scenario 'Candidate can see the add another job button in the new cycle' do
     given_i_have_an_application_with_a_rejection
     and_the_apply_deadline_passes
     when_i_sign_in
-
-    and_i_carry_over_my_application_between_cycles
-    and_the_next_cycle_opens
-    and_i_sign_in
     and_i_click_on_work_history
     then_i_see_the_add_another_job_button
   end
@@ -180,5 +169,30 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     within '[data-qa="personal-details-name"]' do
       expect(page).to have_link 'Change'
     end
+  end
+
+  def when_i_click_on_your_applications
+    click_on 'Your applications'
+  end
+
+  def then_i_see_the_your_applications_page
+    expect(page).to have_current_path candidate_interface_application_choices_path
+    expect(page).to have_element(:h1, text: 'Your applications')
+    expect(page).to have_link('Add application', class: 'govuk-button')
+  end
+
+  def then_i_see_the_recruitment_deadline_page
+    expect(page).to have_current_path candidate_interface_application_choices_path
+    expect(page).to have_element(:h1, text: 'The recruitment deadline has now passed')
+    expect(page).to have_element(
+      :p,
+      text: "The deadline for applying to courses in the #{@application_form.academic_year_range_name} " \
+            'academic year has passed. You can no longer apply to courses starting in ' \
+            "#{@application_form.recruitment_cycle_timetable.apply_deadline_at.to_fs(:month_and_year)}.",
+    )
+    expect(page).to have_element(
+      :h2,
+      text: "Apply to courses in the #{RecruitmentCycleTimetable.next_timetable.academic_year_range_name} academic year",
+    )
   end
 end

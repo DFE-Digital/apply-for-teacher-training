@@ -11,21 +11,21 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
     @application_form = create(:application_form, :completed, recruitment_cycle_year: @previous_year, candidate: @candidate)
   end
 
-  scenario 'Candidate sees complete page when submitted at has value but courses choices does not have submission' do
+  scenario 'Candidate carried over when submitted at has value but courses choices does not have submission' do
     given_i_have_an_empty_submitted_application_from_last_cycle
     and_i_am_signed_in_as_a_candidate
     and_i_visit_the_application_dashboard
-    then_i_see_the_carry_over_content
+    then_i_see_your_applications_page
   end
 
   scenario 'Candidate carries over empty application to new cycle through the carry over interstitial' do
     given_i_have_an_empty_application_from_last_cycle
-    then_i_can_carry_over_my_application_to_the_new_cycle_using_the_carry_over_interstitial
+    then_i_can_carry_over_my_application_to_the_new_cycle
   end
 
   scenario 'Candidate carries over unsubmitted application to new cycle through the carry over interstitial' do
     given_i_have_an_unsubmitted_application_from_last_cycle
-    then_i_can_carry_over_my_application_to_the_new_cycle_using_the_carry_over_interstitial
+    then_i_can_carry_over_my_application_to_the_new_cycle
   end
 
   scenario 'Candidate carries over application_not_sent application to new cycle' do
@@ -112,24 +112,21 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
 
   def then_i_can_carry_over_my_application_to_the_new_cycle
     and_i_am_signed_in_as_a_candidate
-    and_i_visit_the_application_dashboard
-    then_i_am_ask_to_apply_for_courses_into_the_new_recruitment_cycle
-    when_i_carry_over
+    # carry over occurs
     then_my_application_is_into_the_new_cycle
     and_i_am_in_your_details_page
   end
 
   def then_i_can_carry_over_my_application_to_the_new_cycle_using_the_carry_over_interstitial
     and_i_am_signed_in_as_a_candidate
-    and_i_visit_the_application_dashboard
-    then_i_am_ask_to_apply_for_courses_into_the_new_recruitment_cycle
-    when_i_carry_over_through_carry_over_interstitial
+    # carry over occurs
     then_my_application_is_into_the_new_cycle
     and_i_am_in_your_details_page
   end
 
   def and_i_am_signed_in_as_a_candidate
     login_as(@candidate)
+    visit root_path
   end
 
   def when_i_have_an_unsubmitted_application
@@ -162,10 +159,11 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
   def when_i_sign_in_again
     logout
     login_as(@candidate)
+    visit root_path
   end
 
   def and_i_visit_the_application_dashboard
-    visit root_path
+    visit candidate_interface_application_choices_path
   end
 
   def then_i_am_ask_to_apply_for_courses_into_the_new_recruitment_cycle
@@ -176,10 +174,6 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
 
   def then_i_see_the_carry_over_content
     expect(page).to have_current_path candidate_interface_application_choices_path
-
-    within 'form.button_to[action="/candidate/application/carry-over"]' do
-      expect(page).to have_button 'Continue'
-    end
   end
 
   def when_i_carry_over
@@ -205,5 +199,11 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
 
   def when_i_carry_over_through_carry_over_interstitial
     click_link_or_button 'Continue'
+  end
+
+  def then_i_see_your_applications_page
+    expect(page).to have_current_path candidate_interface_application_choices_path
+    expect(page).to have_element(:h1, text: 'Your applications')
+    expect(page).to have_link('Add application', class: 'govuk-button')
   end
 end

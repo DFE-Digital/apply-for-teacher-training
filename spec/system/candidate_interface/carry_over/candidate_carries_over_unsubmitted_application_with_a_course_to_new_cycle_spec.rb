@@ -10,9 +10,6 @@ RSpec.describe 'Carry over application and submit new application choices' do
     and_the_cancel_unsubmitted_applications_worker_runs
 
     when_i_sign_in_again
-    then_i_see_the_carry_over_content
-
-    when_i_click_on_continue
     then_i_see_application_details_page
     and_i_can_navigate_to_application_choices
 

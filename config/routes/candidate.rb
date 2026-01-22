@@ -119,7 +119,7 @@ namespace :candidate_interface, path: '/candidate' do
       get '/reference/:id' => 'offer_dashboard#view_reference', as: :application_offer_dashboard_reference
     end
 
-    post '/carry-over' => 'carry_over#create', as: :carry_over
+    match '/carry-over' => 'carry_over#create', as: :carry_over, via: %i[get post]
 
     resource :adviser_sign_ups, path: 'adviser-sign-ups', only: %i[new create show]
 
