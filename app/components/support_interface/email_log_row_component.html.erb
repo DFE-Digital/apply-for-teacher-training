@@ -6,7 +6,9 @@
     <%= render SummaryListComponent.new(rows: summary_list_rows) %>
 
     <%= govuk_details(summary_text: 'Email body') do %>
+      <div class="app-details pre">
       <%= tag.pre(email.body) %>
+      </div>
     <% end %>
   </td>
 </tr>
