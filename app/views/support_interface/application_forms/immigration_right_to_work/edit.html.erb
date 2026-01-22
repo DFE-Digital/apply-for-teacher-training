@@ -8,8 +8,7 @@
 
       <%= f.govuk_radio_buttons_fieldset :right_to_work_or_study, legend: { text: 'Edit applicant right to work or study', size: 'l', tag: 'h1' } do %>
         <%= f.govuk_radio_button :right_to_work_or_study, 'yes', label: { text: 'Yes ' }, link_errors: true %>
-        <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'Not yet' } %>
-        <%= f.govuk_radio_button :right_to_work_or_study, 'decide_later', label: { text: 'I do not know' } %>
+        <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'No' } %>
       <% end %>
 
       <%= f.govuk_text_field(
