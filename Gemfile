@@ -7,7 +7,7 @@ gem 'timeliness'
 
 gem 'rails', '~> 8.0.3'
 
-gem 'puma', '~> 7.1'
+gem 'puma', '~> 7.2'
 gem 'pg', '~> 1.6.3'
 gem 'blazer'
 
@@ -66,7 +66,7 @@ gem 'active_hash', '~> 4.0.0'
 # in active record queries; may eventually be merged into Rails
 gem 'activerecord-cte'
 
-gem 'sentry-rails', '6.2.0'
+gem 'sentry-rails', '6.3.0'
 gem 'sentry-sidekiq'
 
 gem 'factory_bot_rails'
@@ -149,13 +149,13 @@ gem 'colorize'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 
 # BigQuery
-gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.15.12'
+gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.15.14'
 
 # Azure Blob Storage
 gem 'azure-blob'
 
 group :development do
-  gem 'listen', '>= 3.0.5', '< 3.10'
+  gem 'listen', '>= 3.0.5', '< 3.11'
   gem 'rails-erd'
   gem 'web-console', '>= 3.3.0'
 end
@@ -194,7 +194,7 @@ end
 gem 'field_test', '~> 0.8.0'
 gem 'pundit'
 
-gem 'cssbundling-rails', '1.4.2'
+gem 'cssbundling-rails', '1.4.3'
 
 gem 'jsbundling-rails', '~> 1.3'
 
