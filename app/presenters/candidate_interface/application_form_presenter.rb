@@ -312,7 +312,7 @@ module CandidateInterface
     end
 
     def path_to_previous_teacher_training
-      if application_form.published_previous_teacher_training&.reviewable?
+      if application_form.published_previous_teacher_trainings.any?(&:reviewable?)
         candidate_interface_previous_teacher_trainings_path
       else
         start_candidate_interface_previous_teacher_trainings_path

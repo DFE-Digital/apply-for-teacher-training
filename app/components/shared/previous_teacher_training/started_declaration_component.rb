@@ -48,6 +48,6 @@ private
   end
 
   def published_previous_teacher_training
-    @published_previous_teacher_training ||= @application_form.published_previous_teacher_training
+    @published_previous_teacher_training ||= @application_form.published_previous_teacher_trainings.sample
   end
 end

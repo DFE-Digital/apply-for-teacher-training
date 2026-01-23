@@ -164,7 +164,7 @@ RSpec.describe 'Edit previous teacher training' do
   def then_i_am_on_the_review_page
     expect(page).to have_content('Check your previous teacher training')
 
-    published_record = @application_form.published_previous_teacher_training
+    published_record = @application_form.published_previous_teacher_trainings.last
     summary_list = [
       {
         label: 'Name of the training provider',
