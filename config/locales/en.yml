@@ -634,6 +634,10 @@ en:
         school_direct_training_programme: School direct (unsalaried)
         school_direct_salaried_training_programme: School direct (salaried)
         pg_teaching_apprenticeship: Postgraduate teaching apprenticeship
+      ske_condition:
+        detailed_text:
+          eight: Successful completion of an %{length}-week %{subject} subject knowledge enhancement course
+          other: Successful completion of a %{length}-week %{subject} subject knowledge enhancement course
     errors:
       models:
         recruitment_cycle_timetable:

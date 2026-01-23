@@ -20,7 +20,7 @@ RSpec.describe ProviderMailer do
 
     context 'when a candidate submits an application' do
       it_behaves_like('a mail with subject and content',
-                      'Fred  submitted an application for Computer Science - manage teacher training applications',
+                      'Fred Freddy submitted an application for Computer Science - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Fred',
                       'course name and code' => 'Computer Science (6IND)',

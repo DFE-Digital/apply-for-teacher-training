@@ -21,9 +21,9 @@ RSpec.describe ProviderMailer do
     before { application_form }
 
     it_behaves_like('a mail with subject and content',
-                    'Fred  declined your offer - manage teacher training applications',
+                    'Fred Freddy declined your offer - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
-                    'candidate name' => 'Fred ',
+                    'candidate name' => 'Fred Freddy',
                     'course name and code' => 'Computer Science (6IND)',
                     'offer link' => /http:\/\/localhost:3000\/provider\/applications\/\d+\/offers/,
                     'notification settings' => 'You can change your email notification settings',

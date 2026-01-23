@@ -22,9 +22,9 @@ RSpec.describe ProviderMailer do
 
     context 'without an alternative course offer' do
       it_behaves_like('a mail with subject and content',
-                      'Fred  withdrew their application - manage teacher training applications',
+                      'Fred Freddy withdrew their application - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
-                      'candidate name' => 'Fred ',
+                      'candidate name' => 'Fred Freddy',
                       'course name and code' => 'Computer Science (6IND)',
                       'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
                       'notification settings' => 'You can change your email notification settings',
@@ -36,7 +36,7 @@ RSpec.describe ProviderMailer do
       let(:current_course_option) { build_stubbed(:course_option, course: alternative_course) }
 
       it_behaves_like('a mail with subject and content',
-                      'Fred  withdrew their application - manage teacher training applications',
+                      'Fred Freddy withdrew their application - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'course name and code' => 'Welding (9ABC)')
     end
@@ -45,9 +45,9 @@ RSpec.describe ProviderMailer do
       let(:number_of_cancelled_interviews) { 2 }
 
       it_behaves_like('a mail with subject and content',
-                      'Fred  withdrew their application - manage teacher training applications',
+                      'Fred Freddy withdrew their application - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
-                      'candidate name' => 'Fred ',
+                      'candidate name' => 'Fred Freddy',
                       'course name and code' => 'Computer Science (6IND)',
                       'interviews_cancelled' => 'The upcoming interviews with them have been cancelled.')
     end
@@ -71,7 +71,7 @@ RSpec.describe ProviderMailer do
 
     context 'without an alternative course offer' do
       it_behaves_like('a mail with subject and content',
-                      'Fred ’s application has been automatically withdrawn - manage teacher training applications',
+                      'Fred Freddy’s application has been automatically withdrawn - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Fred',
                       'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,

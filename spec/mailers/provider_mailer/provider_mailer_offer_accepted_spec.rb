@@ -20,7 +20,7 @@ RSpec.describe ProviderMailer do
     before { application_form }
 
     it_behaves_like('a mail with subject and content',
-                    'Fred  accepted your offer for Computer Science - manage teacher training applications',
+                    'Fred Freddy accepted your offer for Computer Science - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
                     'course name' => 'Computer Science',
                     'offer link' => /http:\/\/localhost:3000\/provider\/applications\/\d+\/offers/,
@@ -32,7 +32,7 @@ RSpec.describe ProviderMailer do
       let(:current_course_option) { build_stubbed(:course_option, course: alternative_course) }
 
       it_behaves_like('a mail with subject and content',
-                      'Fred  accepted your offer for Welding - manage teacher training applications',
+                      'Fred Freddy accepted your offer for Welding - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'course name' => 'Welding',
                       'offer link' => /http:\/\/localhost:3000\/provider\/applications\/\d+\/offers/,

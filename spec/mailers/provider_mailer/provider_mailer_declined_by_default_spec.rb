@@ -20,9 +20,9 @@ RSpec.describe ProviderMailer do
     before { application_form }
 
     it_behaves_like('a mail with subject and content',
-                    'Fred ’s offer for Computer Science was automatically declined - manage teacher training applications',
+                    'Fred Freddy’s offer for Computer Science was automatically declined - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
-                    'candidate name' => 'Fred ',
+                    'candidate name' => 'Fred Freddy',
                     'course name and code' => 'Computer Science (6IND)',
                     'offer link' => /http:\/\/localhost:3000\/provider\/applications\/\d+\/offers/,
                     'notification settings' => 'You can change your email notification settings',
@@ -33,7 +33,7 @@ RSpec.describe ProviderMailer do
       let(:current_course_option) { build_stubbed(:course_option, course: alternative_course) }
 
       it_behaves_like('a mail with subject and content',
-                      'Fred ’s offer for Welding was automatically declined - manage teacher training applications',
+                      'Fred Freddy’s offer for Welding was automatically declined - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'course name and code' => 'Welding (9ABC)')
     end

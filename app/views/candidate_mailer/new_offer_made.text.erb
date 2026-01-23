@@ -1,11 +1,11 @@
-Hello <%= @application_form.first_name %>
+Hello <%= @application_form.full_name %>
 
 Congratulations! You have an offer from <%= @provider_name %> to study <%= @course_name_and_code %>.
 
 <% if @conditions.present? %>
   You will need to meet the following conditions:
   <% @conditions.each do |condition| %>
-  - <%= condition.text %>
+  - <%= condition.respond_to?(:detailed_text) ? condition.detailed_text : condition.text %>
   <% end %>
 <% end %>
 

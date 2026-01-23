@@ -21,7 +21,7 @@ RSpec.describe CandidateMailer do
     it_behaves_like(
       'a mail with subject and content',
       'Successful application for Arithmetic College',
-      'greeting' => 'Hello Fred',
+      'greeting' => 'Hello Fred Freddy',
       'offer_details' => 'Congratulations! You have an offer from Arithmetic College to study Mathematics (M101)',
       'contact' => 'Contact Arithmetic College if you have any questions about this',
       'sign in link' => 'Sign in to your account to respond to your offer',
@@ -91,7 +91,7 @@ RSpec.describe CandidateMailer do
       expect(email.body).to include 'An enhanced disclosure and barring service (DBS) check. This is a criminal records check to make sure it is safe for you to work with children. If you are from outside of the UK and Ireland then the training provider will request a criminal records check from your home country.'
       expect(email.body).to include 'A fitness to train to teach check. These are questions to check your ability to meet teaching standards, both physically and mentally.'
       expect(email.body).to include 'You will need to meet the following conditions:'
-      expect(email.body).to include 'Mathematics subject knowledge enhancement course'
+      expect(email.body).to include 'Successful completion of an 8-week Mathematics subject knowledge enhancement course'
     end
   end
 end
