@@ -58,6 +58,11 @@ class SkeCondition < OfferCondition
     "#{subject} subject knowledge enhancement course"
   end
 
+  def detailed_text
+    translation_key = length == '8' ? 'eight' : 'other'
+    I18n.t("activerecord.attributes.ske_condition.detailed_text.#{translation_key}", subject:, length:)
+  end
+
   def length_for_ske_courses
     return if length.blank?
 

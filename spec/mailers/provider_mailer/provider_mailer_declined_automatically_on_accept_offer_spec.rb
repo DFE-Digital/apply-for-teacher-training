@@ -12,9 +12,9 @@ RSpec.describe ProviderMailer do
     before { application_form }
 
     it_behaves_like('a mail with subject and content',
-                    'Fred ’s offer has been automatically declined - manage teacher training applications',
+                    'Fred Freddy’s offer has been automatically declined - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
-                    'candidate name' => 'Fred ',
+                    'candidate name' => 'Fred Freddy ',
                     'offer link' => /http:\/\/localhost:3000\/provider\/applications\/\d+\/offers/,
                     'notification settings' => 'You can change your email notification settings',
                     'footer' => 'Get help, report a problem or give feedback')

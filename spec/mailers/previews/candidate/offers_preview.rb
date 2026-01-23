@@ -33,6 +33,7 @@ class Candidate::OffersPreview < ActionMailer::Preview
     application_form_with_name = FactoryBot.build_stubbed(
       :application_form,
       first_name: 'Bob',
+      last_name: 'Smith',
     )
 
     application_choice = FactoryBot.build_stubbed(
@@ -49,6 +50,7 @@ class Candidate::OffersPreview < ActionMailer::Preview
     application_form_with_name = FactoryBot.build_stubbed(
       :application_form,
       first_name: 'Bob',
+      last_name: 'Smith',
     )
     offer = FactoryBot.build(:offer, :with_reference_condition)
     offer.reference_condition = offer.conditions.first
@@ -67,6 +69,7 @@ class Candidate::OffersPreview < ActionMailer::Preview
     application_form_with_name = FactoryBot.build_stubbed(
       :application_form,
       first_name: 'Bob',
+      last_name: 'Smith',
     )
 
     application_choice = FactoryBot.build_stubbed(

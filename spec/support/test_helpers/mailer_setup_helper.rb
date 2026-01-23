@@ -25,6 +25,7 @@ module TestHelpers
 
     def application_form
       build(:application_form, first_name: 'Fred',
+                               last_name: 'Freddy',
                                candidate:,
                                application_choices:)
     end
