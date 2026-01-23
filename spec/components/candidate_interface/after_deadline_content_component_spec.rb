@@ -1,6 +1,25 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
+  describe 'delegations' do
+    subject(:component) { described_class.new(application_form:) }
+
+    let(:application_form) { create(:application_form) }
+
+    it { is_expected.to delegate_method(:decline_by_default_at).to(:timetable) }
+    it { is_expected.to delegate_method(:after_apply_deadline?).to(:timetable) }
+
+    it { is_expected.to delegate_method(:after_find_opens?).to(:application_form).with_prefix }
+    it { is_expected.to delegate_method(:current_recruitment_cycle?).to(:application_form).with_prefix }
+    it { is_expected.to delegate_method(:academic_year_range_name).to(:application_form).with_prefix }
+    it { is_expected.to delegate_method(:can_submit_more_choices?).to(:application_form).with_prefix }
+
+    it { is_expected.to delegate_method(:before_apply_opens?).to(:next_timetable) }
+    it { is_expected.to delegate_method(:before_find_opens?).to(:next_timetable) }
+    it { is_expected.to delegate_method(:find_opens_at).to(:next_timetable) }
+    it { is_expected.to delegate_method(:apply_opens_at).to(:next_timetable) }
+  end
+
   context 'carried over' do
     it 'shows text about carrying over' do
       application_form = create(:application_form)
@@ -101,6 +120,128 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
         expect(component).to have_text(
           "Any offers that you had received have been declined on your behalf because you did not respond before the deadline of #{application_form.decline_by_default_at.to_fs(:govuk_date_time_time_first)}. Contact the training provider if you need to discuss this.",
         )
+      end
+    end
+  end
+
+  describe '#academic_year' do
+    subject(:academic_year) { described_class.new(application_form:).academic_year }
+
+    context 'when the apply deadline has passed' do
+      let(:application_form) { create(:application_form) }
+
+      before do
+        allow(application_form).to receive(:after_apply_deadline?).and_return(true)
+      end
+
+      it 'returns the applications academic year range name' do
+        expect(academic_year).to eq(application_form.academic_year_range_name)
+      end
+    end
+
+    context 'when the apply deadline has not passed' do
+      context 'when the application form has been carried over' do
+        let(:application_form) { create(:application_form, :carry_over) }
+
+        it 'returns the previous academic year range name' do
+          expect(academic_year).to eq(application_form.previous_application_form.academic_year_range_name)
+        end
+      end
+
+      context 'when the application form has not been carried over' do
+        let(:application_form) { create(:application_form) }
+
+        it 'returns the applications academic year range name' do
+          expect(academic_year).to eq(application_form.academic_year_range_name)
+        end
+      end
+    end
+  end
+
+  describe '#application_form_start_month_year' do
+    subject(:application_form_start_month_year) do
+      described_class.new(application_form:).application_form_start_month_year
+    end
+
+    context 'when the apply deadline has passed' do
+      let(:application_form) { create(:application_form) }
+
+      before do
+        allow(application_form).to receive(:after_apply_deadline?).and_return(true)
+      end
+
+      it 'returns the applications academic year range name' do
+        expect(application_form_start_month_year).to eq(
+          application_form.recruitment_cycle_timetable.apply_deadline_at.to_fs(:month_and_year),
+        )
+      end
+    end
+
+    context 'when the apply deadline has not passed' do
+      context 'when the application form has been carried over' do
+        let(:application_form) { create(:application_form, :carry_over) }
+
+        it 'returns the previous academic year range name' do
+          expect(application_form_start_month_year).to eq(
+            application_form.previous_application_form
+              .recruitment_cycle_timetable
+              .apply_deadline_at.to_fs(:month_and_year),
+          )
+        end
+      end
+
+      context 'when the application form has not been carried over' do
+        let(:application_form) { create(:application_form) }
+
+        it 'returns the applications academic year range name' do
+          expect(application_form_start_month_year).to eq(
+            application_form.recruitment_cycle_timetable.apply_deadline_at.to_fs(:month_and_year),
+          )
+        end
+      end
+    end
+  end
+
+  describe '#show_button?' do
+    subject(:show_button) do
+      described_class.new(application_form:).show_button?
+    end
+
+    let(:application_form) { create(:completed_application_form) }
+
+    it 'returns true' do
+      expect(show_button).to be true
+    end
+
+    context 'when the application has the maximum number of in progress choices' do
+      before do
+        create_list(:application_choice, 4, :awaiting_provider_decision, application_form:)
+      end
+
+      it 'returns false' do
+        expect(show_button).to be false
+      end
+    end
+
+    context 'when the apply deadline has passed' do
+      before do
+        allow(
+          application_form.recruitment_cycle_timetable,
+        ).to receive(:after_apply_deadline?).and_return(true)
+      end
+
+      it 'returns false' do
+        expect(show_button).to be false
+      end
+    end
+
+    context 'when find has closed' do
+      before do
+        allow(application_form).to receive(:after_find_opens?).and_return(false)
+      end
+
+      it 'returns false' do
+        expect(show_button).to be false
       end
     end
   end
