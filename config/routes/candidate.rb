@@ -105,6 +105,8 @@ namespace :candidate_interface, path: '/candidate' do
 
   scope '/application' do
     get '/details', to: 'details#index', as: :details
+    get '/choices/previous-applications', to: 'previous_applications#index', as: :previous_applications
+    get '/choices/previous-applications/:id', to: 'previous_applications#show', as: :previous_applications_show
     get '/choices(/:current_tab_name)', to: 'application_choices#index', as: :application_choices
 
     get '/prefill', to: 'prefill_application_form#new'
@@ -116,8 +118,6 @@ namespace :candidate_interface, path: '/candidate' do
       get '/' => 'offer_dashboard#show', as: :application_offer_dashboard
       get '/reference/:id' => 'offer_dashboard#view_reference', as: :application_offer_dashboard_reference
     end
-
-    get '/review/submitted/:id' => 'application_form#review_previous_application', as: :review_previous_application
 
     post '/carry-over' => 'carry_over#create', as: :carry_over
 

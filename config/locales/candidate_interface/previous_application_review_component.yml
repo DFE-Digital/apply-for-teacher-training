@@ -1,0 +1,10 @@
+en:
+  candidate_interface:
+    previous_application_review_component:
+      status: Status
+      course: Course
+      course_fee: Course fee
+      quals: Qualifications
+      course_length: Course length
+      study_mode: Full time or part time
+      personal_statement: Personal statement

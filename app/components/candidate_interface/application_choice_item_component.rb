@@ -1,6 +1,7 @@
 class CandidateInterface::ApplicationChoiceItemComponent < ViewComponent::Base
-  def initialize(application_choice:)
+  def initialize(application_choice:, previous_application: false)
     @application_choice = application_choice
+    @previous_application = previous_application
   end
   attr_reader :application_choice
   delegate :status, :school_placement_auto_selected, to: :application_choice
@@ -35,7 +36,9 @@ class CandidateInterface::ApplicationChoiceItemComponent < ViewComponent::Base
   end
 
   def view_application_path
-    if application_choice.offer?
+    if @previous_application
+      candidate_interface_previous_applications_show_path(application_choice.id)
+    elsif application_choice.offer?
       candidate_interface_offer_path(application_choice.id)
     else
       candidate_interface_course_choices_course_review_path(application_choice.id)

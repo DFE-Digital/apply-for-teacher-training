@@ -3,12 +3,18 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render CandidateInterface::ApplicationChoices::IndexContentComponent.new(application_form: current_application) %>
-  </div>
-  <div class="govuk-grid-column-full">
+  <div>
     <%= render CandidateInterface::ApplicationChoiceListComponent.new(
       application_form: current_application,
       application_choices: @application_choices,
       current_tab_name: params[:current_tab_name],
     ) %>
   </div>
+</div>
+
+<div class="govuk-grid-column-one-third govuk-!-margin-top-9">
+  <%= render 'candidate_interface/details/support', support_reference: @application_form_presenter.support_reference %>
+  <% if @application_form_presenter.candidate_has_previously_applied? %>
+    <%= render 'candidate_interface/application_choices/previous_applications_link', application_form_presenter: @application_form_presenter %>
+  <% end %>
 </div>

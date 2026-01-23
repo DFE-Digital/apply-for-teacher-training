@@ -3,78 +3,50 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::PreviousApplicationsComponent do
   let(:candidate) { create(:candidate) }
 
-  describe 'a current application' do
-    context 'with a single application choice with an ACCEPTED state' do
-      let(:current_application_form) { create_application_form_with_course_choices(statuses: [status], candidate:) }
+  describe 'a previous application choice does not exist' do
+    let!(:current_application_form) { create(:application_form, candidate:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year, submitted_at: 3.days.ago) }
+    let!(:withdrawn_application_choice) { create(:application_choice, :rejected, application_form: current_application_form) }
 
-      ApplicationStateChange::ACCEPTED_STATES.each do |status|
-        let(:status) { status }
+    it 'does not render component' do
+      result = render_inline(described_class.new(candidate:, recruitment_cycle_year: current_application_form.recruitment_cycle_year))
 
-        it "does not render the component for accepted state: '#{status}'" do
-          result = render_inline(described_class.new(candidate:))
-
-          expect(result.css('.govuk-table__caption--m').text).to be_empty
-        end
-      end
-    end
-
-    context "with an application choice 'pending_conditions' and another that has been 'rejected'" do
-      let(:current_application_form) { create_application_form_with_course_choices(statuses: %w[pending_conditions rejected], candidate:) }
-
-      it 'renders component with rejected application choice in a table' do
-        rejected_application_choice = current_application_form.application_choices.last
-        result = render_inline(described_class.new(candidate:))
-
-        expect(result.css('.govuk-table__caption--m').text).to include('Your previous applications')
-        expect(result.css('.app-course-choice__provider-name').text).to include(rejected_application_choice.course.provider.name)
-        expect(result.css('.app-course-choice__course-name').text).to include(rejected_application_choice.course.name_and_code)
-        expect(result.css('.govuk-tag').text).to include('Unsuccessful')
-        expect(result.css('.govuk-link').text).to include('View application')
-      end
+      expect(result).to have_content('')
+      expect(result).to have_no_content("Applications for courses in the #{current_application_form.recruitment_cycle_year - 1} to #{current_application_form.recruitment_cycle_year} recruitment cycle")
+      expect(result).to have_no_content('Withdrawn')
+      expect(result).to have_no_content(withdrawn_application_choice.course.provider.name)
+      expect(result).to have_no_content(withdrawn_application_choice.course.name_and_code)
     end
   end
 
   describe 'a previous application exists with a rejected application choice' do
-    let(:previous_application_form) { create(:application_form, candidate:, submitted_at: 10.days.ago) }
-    let!(:current_application_form) { create(:application_form, candidate:, submitted_at: 3.days.ago, previous_application_form_id: previous_application_form.id) }
+    let(:previous_application_form) { create(:application_form, candidate:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year - 1, submitted_at: 1.year.ago) }
+    let!(:current_application_form) { create(:application_form, candidate:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year, submitted_at: 3.days.ago, previous_application_form_id: previous_application_form.id) }
     let!(:unsuccessful_application_choice) { create(:application_choice, :rejected, application_form: previous_application_form) }
 
-    it 'renders component with rejected application choice in a table' do
-      result = render_inline(described_class.new(candidate:))
+    it 'renders component with rejected application choice' do
+      result = render_inline(described_class.new(candidate:, recruitment_cycle_year: previous_application_form.recruitment_cycle_year))
 
-      expect(result.css('.govuk-table__caption--m').text).to include('Your previous applications')
-      expect(result.css('.app-course-choice__provider-name').text).to include(unsuccessful_application_choice.course.provider.name)
-      expect(result.css('.app-course-choice__course-name').text).to include(unsuccessful_application_choice.course.name_and_code)
-      expect(result.css('.govuk-tag').text).to include('Unsuccessful')
-      expect(result.css('.govuk-link').text).to include('View application')
+      expect(result).to have_no_content("Applications for courses in the #{current_application_form.recruitment_cycle_year - 1} to #{current_application_form.recruitment_cycle_year} recruitment cycle")
+      expect(result).to have_content("Applications for courses in the #{previous_application_form.recruitment_cycle_year - 1} to #{previous_application_form.recruitment_cycle_year} recruitment cycle")
+      expect(result).to have_link(unsuccessful_application_choice.course.provider.name, href: "/candidate/application/choices/previous-applications/#{unsuccessful_application_choice.id}")
+      expect(result).to have_content(unsuccessful_application_choice.course.name_and_code)
+      expect(result).to have_content('Unsuccessful')
     end
   end
 
-  describe '#application_choices' do
-    context "when an application choice has an 'ACCEPTED_STATE'" do
-      let!(:application_form) { create_application_form_with_course_choices(statuses: %w[pending_conditions rejected], candidate:) }
+  describe 'a previous application exists with a draft application choice' do
+    let(:previous_application_form) { create(:application_form, candidate:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year - 1, submitted_at: 1.year.ago) }
+    let!(:current_application_form) { create(:application_form, candidate:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year, submitted_at: 3.days.ago, previous_application_form_id: previous_application_form.id) }
+    let!(:successful_application_choice) { create(:application_choice, :unsubmitted, application_form: previous_application_form) }
 
-      it 'returns only the application choices that do not have ACCEPTED STATES' do
-        component = described_class.new(candidate:)
+    it 'does not component with draft application choice' do
+      result = render_inline(described_class.new(candidate:, recruitment_cycle_year: previous_application_form.recruitment_cycle_year))
 
-        expect(component.application_choices.count).to eq(1)
-        expect(component.application_choices.first.status).to eq('rejected')
-      end
-    end
-
-    context 'when there are application choices associated with multiple application forms' do
-      it "returns all previous application choices and current application choices that do not have an 'ACCEPTED_STATE'" do
-        old_form = create(:application_form, candidate:, submitted_at: 10.days.ago)
-        old_rejected_choice = create(:application_choice, :rejected, application_form: old_form)
-
-        new_form = create(:application_form, candidate:, submitted_at: 3.days.ago, previous_application_form: old_form)
-        new_rejected_choice = create(:application_choice, :rejected, application_form: new_form)
-        create(:application_choice, :accepted, application_form: new_form)
-
-        component = described_class.new(candidate:)
-
-        expect(component.application_choices).to contain_exactly(old_rejected_choice, new_rejected_choice)
-      end
+      expect(result).to have_no_content("Applications for courses in the #{current_application_form.recruitment_cycle_year - 1} to #{current_application_form.recruitment_cycle_year} recruitment cycle")
+      expect(result).to have_no_content("Applications for courses in the #{previous_application_form.recruitment_cycle_year - 1} to #{previous_application_form.recruitment_cycle_year} recruitment cycle")
+      expect(result).to have_no_link(successful_application_choice.course.provider.name, href: "/candidate/application/choices/previous-applications/#{successful_application_choice.id}")
+      expect(result).to have_no_content(successful_application_choice.course.name_and_code)
+      expect(result).to have_no_content('Draft')
     end
   end
 

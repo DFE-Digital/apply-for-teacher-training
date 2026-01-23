@@ -1,0 +1,10 @@
+<% content_for :title, t('page_titles.previous_application', provider: @application_choice.provider.name) %>
+
+<% content_for :before_content, govuk_back_link_to(candidate_interface_previous_applications_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l"><%= t('.your_application', provider: @application_choice.provider.name) %></h1>
+      <%= render(CandidateInterface::PreviousApplicationReviewComponent.new(application_choice: @application_choice)) %>
+  </div>
+</div>
