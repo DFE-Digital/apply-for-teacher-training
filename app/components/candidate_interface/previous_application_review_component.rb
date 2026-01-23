@@ -17,7 +17,7 @@ module CandidateInterface
     end
 
     def course_link
-      if current_course.in_current_recruitment_cycle?
+      if course_exists_in_current_cycle(current_course)
         govuk_link_to(current_course.name_and_code, current_course.find_url)
       else
         current_course.name_and_code
@@ -50,6 +50,14 @@ module CandidateInterface
 
     def provider
       application_choice.current_provider
+    end
+
+    def course_exists_in_current_cycle(course)
+      Course.find_by(
+        code: course.code,
+        provider_id: course.provider.id,
+        recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+      )
     end
   end
 end

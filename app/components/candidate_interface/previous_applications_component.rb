@@ -2,12 +2,9 @@ module CandidateInterface
   class PreviousApplicationsComponent < ViewComponent::Base
     include ViewHelper
 
-    attr_reader :application_choices
-
     def initialize(candidate:, recruitment_cycle_year:)
       @candidate = candidate
       @recruitment_cycle_year = recruitment_cycle_year
-      @application_choices = set_application_choices
     end
 
     def render?
@@ -15,12 +12,14 @@ module CandidateInterface
     end
 
     def timetable
-      RecruitmentCycleTimetable.find_by(recruitment_cycle_year: @recruitment_cycle_year)
+      return @timetable if defined?(@timetable)
+
+      @timetable = RecruitmentCycleTimetable.find_by(recruitment_cycle_year: @recruitment_cycle_year)
     end
 
   private
 
-    def set_application_choices
+    def application_choices
       @application_choices ||= ApplicationChoice
          .joins(:application_form)
          .where(application_forms: {
