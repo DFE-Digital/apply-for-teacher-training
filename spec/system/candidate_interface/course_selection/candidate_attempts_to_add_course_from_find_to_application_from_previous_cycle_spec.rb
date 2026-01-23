@@ -9,7 +9,8 @@ RSpec.describe 'Candidate attempts to add course via Find to application from pr
     and_i_am_signed_in
     and_there_are_course_options
     when_i_visit_the_site_with_a_course_id_from_find
-    then_i_see_that_my_application_must_be_carried_over
+    when_i_navigate_to_my_applications
+    then_i_see_the_your_applications_page
   end
 
   def given_i_have_made_an_application_in_the_previous_cycle
@@ -49,5 +50,19 @@ RSpec.describe 'Candidate attempts to add course via Find to application from pr
     # Normally we'd avoid a trip directly to the db in a system spec,
     # this is here to prove a particular bug has been solved.
     expect(@previous_application_form.application_choices).to be_empty
+  end
+
+  def then_i_see_the_your_applications_page
+    expect(page).to have_current_path candidate_interface_application_choices_path
+    expect(page).to have_element(:h1, text: 'Your applications')
+    expect(page).to have_link('Add application', class: 'govuk-button')
+
+    # Normally we'd avoid a trip directly to the db in a system spec,
+    # this is here to prove a particular bug has been solved.
+    expect(@previous_application_form.application_choices).to be_empty
+  end
+
+  def when_i_navigate_to_my_applications
+    click_on 'Your applications'
   end
 end

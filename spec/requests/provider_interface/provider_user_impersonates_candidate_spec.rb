@@ -33,7 +33,7 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
         expect(response).to have_http_status :found
 
         get candidate_interface_application_choices_path
-        expect(response).to have_http_status :ok
+        expect(response).to have_http_status :found # Carry over occurs
       end
     end
 

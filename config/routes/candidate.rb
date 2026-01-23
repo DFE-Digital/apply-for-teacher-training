@@ -119,7 +119,7 @@ namespace :candidate_interface, path: '/candidate' do
 
     get '/review/submitted/:id' => 'application_form#review_previous_application', as: :review_previous_application
 
-    post '/carry-over' => 'carry_over#create', as: :carry_over
+    match '/carry-over' => 'carry_over#create', as: :carry_over, via: %i[get post]
 
     resource :adviser_sign_ups, path: 'adviser-sign-ups', only: %i[new create show]
 

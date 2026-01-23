@@ -12,16 +12,15 @@ RSpec.describe 'Views offer and withdraws before carrying over', time: CycleTime
     and_i_can_view_the_application
 
     when_i_withdraw_my_application
+    and_i_click_on_your_applications
     then_i_see_the_carry_over_content
     and_my_application_is_withdrawn
-
-    and_i_can_carry_over_my_application
   end
 
 private
 
   def given_i_am_waiting_provider_decision
-    @application_choice = create(:application_choice, :awaiting_provider_decision)
+    @application_choice = create(:application_choice, :awaiting_provider_decision, :with_completed_application_form)
     @application_form = @application_choice.application_form
     @candidate = @application_form.candidate
   end
@@ -69,20 +68,11 @@ private
 
   def then_i_see_the_carry_over_content
     expect(page).to have_current_path candidate_interface_application_choices_path
-
-    within 'form.button_to[action="/candidate/application/carry-over"]' do
-      expect(page).to have_button 'Update your details'
-    end
+    expect(page).to have_element(:h1, text: 'The recruitment deadline has now passed')
+    expect(@candidate.current_application.id).not_to eq @application_form.id
   end
 
   def and_my_application_is_withdrawn
-    expect(page).to have_content 'Withdrawn'
     expect(@application_choice.reload.status).to eq 'withdrawn'
-  end
-
-  def and_i_can_carry_over_my_application
-    click_on 'Update your details'
-    expect(page).to have_current_path candidate_interface_details_path
-    expect(@candidate.current_application.previous_application_form_id).to eq @application_form.id
   end
 end

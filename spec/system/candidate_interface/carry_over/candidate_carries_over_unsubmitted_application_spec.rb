@@ -8,8 +8,7 @@ RSpec.describe 'Carry over unsubmitted application' do
     and_i_have_an_unsubmitted_application_with_references
 
     when_the_apply_deadline_passes
-    and_i_sign_in_again
-    and_i_carry_over_my_application
+    and_i_sign_in_again # Carry over occurs
     then_i_see_the_references_section
     and_references_is_marked_as_incomplete
 

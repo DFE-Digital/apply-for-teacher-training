@@ -8,15 +8,10 @@ class CandidateInterface::ApplicationChoices::IndexContentComponent < ViewCompon
   end
 
   def content_component
-    if application_form.carry_over? && RecruitmentCycleTimetable.apply_open?
-      CandidateInterface::CarryOverMidCycleComponent.new(application_form:)
-    elsif application_form.after_apply_deadline?
+    if application_form.after_apply_deadline? || application_form.before_apply_opens?
       # Candidate may have inflight applications.
       # If not, they are given the opportunity to carry over
       CandidateInterface::AfterDeadlineContentComponent.new(application_form:)
-    elsif application_form.before_apply_opens?
-      # The candidate has carried over an application, but is not yet able to submit choices
-      CandidateInterface::CarriedOverContentComponent.new(application_form:)
     else
       # This is BAU and the application is for the current cycle
       CandidateInterface::MidCycleContentComponent.new(application_form:)
