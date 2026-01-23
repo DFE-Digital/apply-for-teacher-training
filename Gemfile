@@ -194,7 +194,7 @@ end
 gem 'field_test', '~> 0.8.0'
 gem 'pundit'
 
-gem 'cssbundling-rails', '1.4.2'
+gem 'cssbundling-rails', '1.4.3'
 
 gem 'jsbundling-rails', '~> 1.3'
 
