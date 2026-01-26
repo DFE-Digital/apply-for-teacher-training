@@ -188,6 +188,8 @@ GEM
       csv
       railties (>= 7.1)
       safely_block (>= 0.4)
+    bootsnap (1.21.1)
+      msgpack (~> 1.2)
     brakeman (7.1.2)
       racc
     browser (6.2.0)
@@ -459,6 +461,7 @@ GEM
     mini_portile2 (2.8.9)
     minitest (6.0.1)
       prism (~> 1.5)
+    msgpack (1.8.0)
     multi_json (1.19.1)
     multi_xml (0.6.0)
     multipart-post (2.4.1)
@@ -863,7 +866,7 @@ GEM
       sidekiq
       yabeda (~> 0.6)
     zeitwerk (2.7.4)
-    zlib (3.1.0)
+    zlib (3.0.0)
 
 PLATFORMS
   ruby
@@ -877,6 +880,7 @@ DEPENDENCIES
   azure-blob
   bcrypt
   blazer
+  bootsnap
   brakeman
   bullet
   business_time
@@ -1016,6 +1020,7 @@ CHECKSUMS
   bindata (2.5.1) sha256=53186a1ec2da943d4cb413583d680644eb810aacbf8902497aac8f191fad9e58
   bindex (0.8.1) sha256=7b1ecc9dc539ed8bccfc8cb4d2732046227b09d6f37582ff12e50a5047ceb17e
   blazer (3.3.0) sha256=01e151091ce1e7d27c156243916b2f13109ef2ef1a16cfa62bef67f4c5fd169f
+  bootsnap (1.21.1) sha256=9373acfe732da35846623c337d3481af8ce77c7b3a927fb50e9aa92b46dbc4c4
   brakeman (7.1.2) sha256=6b04927710a2e7d13a72248b5d404c633188e02417f28f3d853e4b6370d26dce
   browser (6.2.0) sha256=281d5295788825c9396427c292c2d2be0a5c91875c93c390fde6e5d61a5ace2d
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
@@ -1131,6 +1136,7 @@ CHECKSUMS
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
   mini_portile2 (2.8.9) sha256=0cd7c7f824e010c072e33f68bc02d85a00aeb6fce05bb4819c03dfd3c140c289
   minitest (6.0.1) sha256=7854c74f48e2e975969062833adc4013f249a4b212f5e7b9d5c040bf838d54bb
+  msgpack (1.8.0) sha256=e64ce0212000d016809f5048b48eb3a65ffb169db22238fb4b72472fecb2d732
   multi_json (1.19.1) sha256=7aefeff8f2c854bf739931a238e4aea64592845e0c0395c8a7d2eea7fdd631b7
   multi_xml (0.6.0) sha256=d24393cf958adb226db884b976b007914a89c53ad88718e25679d7008823ad52
   multipart-post (2.4.1) sha256=9872d03a8e552020ca096adadbf5e3cb1cd1cdd6acd3c161136b8a5737cdb4a8
@@ -1293,7 +1299,7 @@ CHECKSUMS
   yabeda-rails (0.11.0) sha256=afa2581bd44c8f419cb3f2bbf9f6fb40f817c30476f7caf5d1c55c48d69a5b29
   yabeda-sidekiq (0.12.0) sha256=04a7e281b16a56122f3a2ed377d03e3d69c37ecac0e62f0b0a808a3c58cf5d90
   zeitwerk (2.7.4) sha256=2bef90f356bdafe9a6c2bd32bcd804f83a4f9b8bc27f3600fff051eb3edcec8b
-  zlib (3.1.0) sha256=34aaf560fe82543b30fa0afe0e61e70a7e58ba210ef139f3e74fa3cce5e04d0c
+  zlib (3.0.0) sha256=0368d4f3e2397e272da83b88e2f3e41a9f8bd6d81640790f5c96676d9af6b140
 
 RUBY VERSION
    ruby 3.4.4p34

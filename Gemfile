@@ -26,6 +26,9 @@ gem 'notifications-ruby-client'
 
 gem 'govuk_markdown'
 
+# Reduces boot times through caching; required in config/boot.rb
+gem "bootsnap", require: false
+
 # Linting
 gem 'rubocop', require: false
 gem 'rubocop-capybara', require: false

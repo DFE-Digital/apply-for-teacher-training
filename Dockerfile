@@ -1,104 +1,94 @@
 # To use or update to a ruby version, change {BASE_RUBY_IMAGE}
-ARG BASE_RUBY_IMAGE=ruby:3.4.4-alpine3.20
+ARG RUBY_VERSION=3.4.4
+FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
-# Stage 1: gems-node-modules, build gems and node modules.
-FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
+# Rails app lives here
+WORKDIR /rails
 
-RUN apk -U upgrade && \
-    apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
-    libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 yaml-dev libxslt graphviz chromium gcompat \
-    'aom>=3.9.1-r0'
+# Install base packages
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client  \
+    graphviz chromium libz-dev && \
+    ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Set production environment variables and enable jemalloc for reduced memory usage and latency.
+ENV RAILS_ENV="production" \
+    BUNDLE_DEPLOYMENT="1" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    LD_PRELOAD="/usr/local/lib/libjemalloc.so"
+ENV BUNDLE_WITHOUT="development"
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
-# Create non-root user and group with specific UIDs/GIDs (to match production stage)
-RUN addgroup -S appgroup -g 20001 && adduser -S appuser -G appgroup -u 10001
+# Throw-away build stage to reduce size of final image
+FROM base AS build
 
-ENV RAILS_ENV=production \
+# Install packages needed to build gems and node modules
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev pkg-config unzip  \
+      && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Install JavaScript dependencies
+ARG NODE_VERSION=20.11.0
+ARG YARN_VERSION=1.22.19
+
+ENV PATH=/usr/local/node/bin:$PATH
+RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
+    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
+    rm -rf /tmp/node-build-master
+RUN corepack enable && yarn set version $YARN_VERSION
+
+# Install application gems
+COPY Gemfile Gemfile.lock ./
+
+RUN bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git
+
+    # -j 1 disable parallel compilation to avoid a QEMU bug: https://github.com/rails/bootsnap/issues/495
+RUN bundle exec bootsnap precompile -j 1 --gemfile
+
+# Install node modules
+COPY package.json yarn.lock ./
+RUN yarn install --immutable
+
+# Copy application code
+COPY . .
+
+# Precompile bootsnap code for faster boot times.
+# -j 1 disable parallel compilation to avoid a QEMU bug: https://github.com/rails/bootsnap/issues/495
+RUN bundle exec bootsnap precompile -j 1 app/ lib/
+
+# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
+RUN SECRET_KEY_BASE_DUMMY=1  \
     GOVUK_NOTIFY_API_KEY=TestKey \
-    AUTHORISED_HOSTS=127.0.0.1 \
-    SECRET_KEY_BASE=TestKey \
     BLAZER_DATABASE_URL=testURL \
     GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey \
     REDIS_CACHE_URL=redis://127.0.0.1:6379 \
-    NODE_OPTIONS=--openssl-legacy-provider \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
-
-WORKDIR /app
-
-COPY Gemfile Gemfile.lock ./
-
-RUN bundler -v && \
-    bundle config set no-cache 'true' && \
-    bundle config set no-binstubs 'true' && \
-    bundle --retry=5 --jobs=4 --without=development && \
-    rm -rf /usr/local/bundle/cache
-
-COPY package.json yarn.lock ./
-
-RUN yarn install --check-files
-
-COPY . .
-
-RUN bundle exec rails assets:precompile
-RUN rm -rf tmp/* log/* /tmp/*
-
-# Stage 2: production, copy application code and compiled assets to base ruby image.
-# Depends on assets-precompile stage which can be cached from a pre-built image
-# by specifying a fully qualified image name or will default to packages-prod thereby rebuilding all 3 stages above.
-# If a existing base image name is specified Stage 1 & 2 will not be built and gems and dev packages will be used from the supplied image.
-FROM ${BASE_RUBY_IMAGE} AS production
-
-ENV LANG=en_GB.UTF-8 \
-    RAILS_ENV=production \
-    GOVUK_NOTIFY_API_KEY=TestKey \
     AUTHORISED_HOSTS=127.0.0.1 \
-    SECRET_KEY_BASE=TestKey \
-    GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey \
-    REDIS_CACHE_URL=redis://127.0.0.1:6379 \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
-
-RUN apk -U upgrade && \
-    apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz \
-    ttf-dejavu ttf-droid ttf-liberation libx11 openssl nodejs chromium gcompat \
-    'aom>=3.9.1-r0' && \
-    echo "Europe/London" > /etc/timezone && \
-    cp /usr/share/zoneinfo/Europe/London /etc/localtime
-
-# Create non-root user and group with specific UIDs/GIDs
-RUN addgroup -S appgroup -g 20001 && adduser -S appuser -G appgroup -u 10001
-
-WORKDIR /app
-
-RUN echo export PATH=/usr/local/bin:\$PATH > /root/.ashrc
-ENV ENV="/root/.ashrc"
-
-COPY --from=gems-node-modules /app /app
-COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
+    ./bin/rails assets:precompile
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 RUN echo ${SHA} > public/check
 
-# Create writable directories and set ownership for non-root user
-RUN mkdir -p /app/tmp /app/log /home/appuser && \
-    chown -R appuser:appgroup /app/tmp /app/log /home/appuser && \
-    chmod 755 /app/tmp /app/log
 
-# Switch to non-root user
-USER 10001
+RUN rm -rf node_modules
 
-# Use this for development testing
-# CMD bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0
+# Final stage for app image
+FROM base
 
-# We migrate and ignore concurrent_migration_exceptions because we deploy to
-# multiple instances at the same time.
-#
-# Under these conditions each instance will try to run migrations. Rails uses a
-# database lock to prevent them stepping on each another. If they happen to,
-# a ConcurrentMigrationError exception is thrown, the command exits 1, and
-# the server will not start thanks to the shell &&.
+# Run and own only the runtime files as a non-root user for security
+RUN groupadd --system --gid 20001 appgroup && \
+    useradd appuser --uid 10001 --gid 20001 --create-home --shell /bin/bash
+USER 10001:10001
+
+# Copy built artifacts: gems, application
+COPY --chown=appuser:appgroup --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
+COPY --chown=appuser:appgroup --from=build /rails /rails
+
 #
 # We swallow the exception and run the server anyway, because we prefer running
 # new code on an old schema (which will be updated a moment later) to running
