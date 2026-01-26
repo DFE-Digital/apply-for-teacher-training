@@ -106,7 +106,7 @@ RSpec.describe DuplicateApplication do
         application_form: @original_application_form,
       )
 
-      expect(duplicate_application_form.published_previous_teacher_training)
+      expect(duplicate_application_form.published_previous_teacher_trainings.last)
         .to have_attributes(
           status: 'published',
           started: 'yes',
@@ -128,7 +128,7 @@ RSpec.describe DuplicateApplication do
         application_form: @original_application_form,
       )
 
-      expect(duplicate_application_form.published_previous_teacher_training)
+      expect(duplicate_application_form.published_previous_teacher_trainings.last)
         .to have_attributes(
           status: 'published',
           started: 'no',
@@ -150,7 +150,7 @@ RSpec.describe DuplicateApplication do
         application_form: @original_application_form,
       )
 
-      expect(duplicate_application_form.published_previous_teacher_training).to be_nil
+      expect(duplicate_application_form.published_previous_teacher_trainings).to eq([])
       expect(duplicate_application_form.previous_teacher_training_completed).to be(false)
     end
   end

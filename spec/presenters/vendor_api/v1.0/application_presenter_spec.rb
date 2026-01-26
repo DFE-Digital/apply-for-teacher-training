@@ -244,7 +244,7 @@ RSpec.describe 'ApplicationPresenter' do
       let(:application_choice) { create(:application_choice, application_form:) }
 
       it 'returns the previous_teacher_training' do
-        previous_teacher_training = application_form.published_previous_teacher_training
+        previous_teacher_training = application_form.published_previous_teacher_trainings.last
 
         expect(application_json.dig(:attributes, :previous_teacher_training)).to eq(
           [{
