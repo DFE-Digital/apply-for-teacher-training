@@ -11,7 +11,7 @@ module SupportInterface
     end
 
     def previous_training_record
-      @previous_training_record ||= @application_form.published_previous_teacher_training
+      @previous_training_record ||= @application_form.published_previous_teacher_trainings.sample
     end
   end
 end

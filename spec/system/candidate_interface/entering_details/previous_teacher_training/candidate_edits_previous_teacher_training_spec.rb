@@ -164,7 +164,7 @@ RSpec.describe 'Edit previous teacher training' do
   def then_i_am_on_the_review_page
     expect(page).to have_content('Check your previous teacher training')
 
-    published_record = @application_form.published_previous_teacher_training
+    published_record = @application_form.published_previous_teacher_trainings.last
     summary_list = [
       {
         label: 'Name of the training provider',
@@ -207,7 +207,7 @@ RSpec.describe 'Edit previous teacher training' do
   def then_i_am_on_the_review_page_with_started_no
     expect(page).to have_content('Check your previous teacher training')
 
-    published_record = @application_form.published_previous_teacher_training
+    published_record = @application_form.published_previous_teacher_trainings.last
     summary_list = [
       {
         label: 'Have you started an initial teacher training (ITT) course in England before?',
@@ -224,7 +224,7 @@ RSpec.describe 'Edit previous teacher training' do
   end
 
   def and_the_previous_teacher_training_id_is_changed
-    expect(@application_form.published_previous_teacher_training.id).not_to eq(@previous_teacher_training.id)
+    expect(@application_form.published_previous_teacher_trainings.last.id).not_to eq(@previous_teacher_training.id)
   end
 
   def then_i_am_on_the_application_details_page

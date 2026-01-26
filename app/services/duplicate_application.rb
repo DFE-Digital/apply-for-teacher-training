@@ -107,13 +107,15 @@ class DuplicateApplication
         end
       end
 
-      original_previous_teacher_training = original_application_form.published_previous_teacher_training
+      original_previous_teacher_trainings = original_application_form.published_previous_teacher_trainings
 
-      if original_previous_teacher_training.nil?
+      if original_previous_teacher_trainings.blank?
         new_application_form.update!(previous_teacher_training_completed: false)
       else
-        new_application_form.create_published_previous_teacher_training!(
-          original_previous_teacher_training.attributes.except(*IGNORED_ATTRIBUTES),
+        new_application_form.published_previous_teacher_trainings.create!(
+          original_previous_teacher_trainings.map do |original_previous_teacher_training|
+            original_previous_teacher_training.attributes.except(*IGNORED_ATTRIBUTES)
+          end,
         )
         new_application_form.update!(previous_teacher_training_completed: true)
       end

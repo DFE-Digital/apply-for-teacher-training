@@ -57,8 +57,8 @@ class ApplicationForm < ApplicationRecord
   has_many :emails
 
   has_one :candidate_pool_application
-  has_one(
-    :published_previous_teacher_training,
+  has_many(
+    :published_previous_teacher_trainings,
     -> { published.order(created_at: :desc) },
     dependent: :destroy,
     class_name: 'PreviousTeacherTraining',
