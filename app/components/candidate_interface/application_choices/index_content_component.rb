@@ -8,7 +8,7 @@ class CandidateInterface::ApplicationChoices::IndexContentComponent < ViewCompon
   end
 
   def content_component
-    if application_form.after_apply_deadline? || application_form.before_apply_opens?
+    if application_form.between_cycles?
       # Candidate may have inflight applications.
       # If not, they are given the opportunity to carry over
       CandidateInterface::AfterDeadlineContentComponent.new(application_form:)
