@@ -20,5 +20,7 @@ $govuk-breakpoints: (
 @import "base";
 
 @media print {
-  a[href]::after { content: none !important; }
+  a[href]::after {
+    content: none
+  }
 }
