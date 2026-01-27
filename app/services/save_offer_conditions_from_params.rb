@@ -1,9 +1,10 @@
 class SaveOfferConditionsFromParams
-  attr_reader :application_choice, :standard_conditions, :further_condition_attrs, :structured_conditions, :support_action
+  attr_reader :application_choice, :standard_conditions, :references_description, :further_condition_attrs, :structured_conditions, :support_action
 
-  def initialize(application_choice:, standard_conditions:, further_condition_attrs:, structured_conditions: [], support_action: false)
+  def initialize(application_choice:, standard_conditions:, further_condition_attrs:, references_description: nil, structured_conditions: [], support_action: false)
     @application_choice = application_choice
     @standard_conditions = standard_conditions & OfferCondition::STANDARD_CONDITIONS
+    @references_description = references_description
     @further_condition_attrs = further_condition_attrs
     @structured_conditions = structured_conditions
     @support_action = support_action

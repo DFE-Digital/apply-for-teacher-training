@@ -26,7 +26,7 @@ module SupportInterface
 
     include ActiveModel::Model
 
-    attr_accessor :application_choice, :standard_conditions, :further_condition_attrs, :audit_comment_ticket, :ske_conditions, :ske_required
+    attr_accessor :application_choice, :standard_conditions, :references_description, :further_condition_attrs, :audit_comment_ticket, :ske_conditions, :ske_required
 
     validates :application_choice, presence: true
     validates :audit_comment_ticket, presence: true
@@ -39,6 +39,7 @@ module SupportInterface
       attrs = {
         application_choice:,
         standard_conditions: standard_conditions_from(application_choice.offer),
+        references_description: references_description_from(application_choice.offer),
         further_condition_attrs: further_condition_attrs_from(application_choice.offer),
         ske_conditions: ske_conditions_from(application_choice.offer),
       }.merge(attrs)
@@ -49,6 +50,7 @@ module SupportInterface
     def self.build_from_params(application_choice, params)
       attrs = {
         standard_conditions: params['standard_conditions'] || [],
+        references_description: params['references_description'] || '',
         audit_comment_ticket: params['audit_comment_ticket'],
         further_condition_attrs: params['further_conditions'] || {},
         ske_conditions: params['ske_conditions']&.select { |_, ske_attrs| ActiveModel::Type::Boolean.new.cast(ske_attrs['ske_required']) } || {},
@@ -181,6 +183,14 @@ module SupportInterface
       end
     end
 
+    def self.references_description_from(offer)
+      return '' if offer.blank? || offer&.reference_condition.blank?
+
+      condition = offer.reference_condition
+
+      condition.details['description']
+    end
+
     def self.ske_conditions_from(offer)
       return {} if offer.blank? || offer&.ske_conditions.blank?
 
@@ -200,7 +210,7 @@ module SupportInterface
       end
     end
 
-    private_class_method :standard_conditions_from, :further_condition_attrs_from, :ske_conditions_from
+    private_class_method :standard_conditions_from, :further_condition_attrs_from, :ske_conditions_from, :references_description_from
 
     def condition_count_valid
       if conditions_count > OfferValidations::MAX_CONDITIONS_COUNT
@@ -222,6 +232,7 @@ module SupportInterface
       ::SaveOfferConditionsFromParams.new(
         application_choice:,
         standard_conditions: standard_conditions.compact_blank,
+        references_description: references_description,
         further_condition_attrs: further_conditions_to_save,
         structured_conditions: structured_conditions_to_save,
       )
@@ -236,13 +247,22 @@ module SupportInterface
     end
 
     def structured_conditions_to_save
-      ske_conditions.values.map do |ske_condition_attrs|
+      conditions = ske_conditions.values.map do |ske_condition_attrs|
         SkeCondition.new(
           ske_condition_attrs.slice(
             *%w[subject subject_type length reason],
           ).merge('graduation_cutoff_date' => cutoff_date),
         )
       end
+
+      if references_description.present?
+        conditions << ReferenceCondition.new(
+          required: true,
+          description: references_description,
+        )
+      end
+
+      conditions
     end
 
     def ske_conditions_are_valid

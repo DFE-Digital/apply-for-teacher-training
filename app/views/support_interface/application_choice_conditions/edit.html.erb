@@ -70,6 +70,10 @@
         <% end %>
       <% end %>
 
+      <%= f.govuk_fieldset legend: { text: 'Specific references', size: 'm' } do %>
+        <%= f.govuk_text_area :references_description, label: { text: 'Give details of the specific reference. The candidate will be made aware of this request' } %>
+      <% end %>
+
       <%= f.govuk_submit 'Update conditions' %>
 
       <p class="govuk-body">
