@@ -1,10 +1,16 @@
 .app-application-item {
   position: relative;
-  
+
   border-bottom: 1px solid $govuk-border-colour;
 
   a {
     text-decoration: none;
+  }
+
+  a:focus .app-application-item__provider_id h2 {
+    color: $govuk-focus-text-colour;
+
+    background-color: $govuk-focus-colour;
   }
 
   .govuk-heading-s {

@@ -55,6 +55,8 @@ module CandidateInterface
     end
 
     def grade_explanation_params
+      return {} if params[:candidate_interface_gcse_grade_explanation_form].blank?
+
       strip_whitespace params
         .expect(candidate_interface_gcse_grade_explanation_form: %i[currently_completing_qualification missing_explanation])
     end
