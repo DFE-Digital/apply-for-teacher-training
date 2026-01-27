@@ -8,8 +8,9 @@
   }
 
   a:focus .app-application-item__provider_id h2 {
-    background-color: $govuk-focus-colour;
     color: $govuk-focus-text-colour;
+
+    background-color: $govuk-focus-colour;
   }
 
   .govuk-heading-s {
