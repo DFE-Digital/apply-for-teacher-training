@@ -18,3 +18,7 @@ $govuk-breakpoints: (
 // Shared (govuk-frontend)
 @import "govuk-frontend/dist/govuk/index";
 @import "base";
+
+@media print {
+  a[href]::after { content: none !important; }
+}
