@@ -22,8 +22,7 @@ RSpec.describe 'Add course to submitted application' do
 
     when_i_click_on_change_conditions
     and_add_a_specific_reference_and_click_update_conditions_with_a_support_ticket_url
-    and_i_click_on_change_conditions
-    then_i_see_the_specific_reference_is_saved
+    then_i_see_specific_references_in_the_list_of_conditions
 
     when_i_click_on_change_conditions
     and_i_remove_all_conditions_and_click_update_conditions
@@ -74,7 +73,6 @@ RSpec.describe 'Add course to submitted application' do
   def when_i_click_on_change_conditions
     click_link_or_button 'Change conditions'
   end
-  alias_method :and_i_click_on_change_conditions, :when_i_click_on_change_conditions
 
   def then_i_see_the_condition_edit_form_with_a_warning
     expect(page).to have_current_path(
@@ -137,9 +135,7 @@ RSpec.describe 'Add course to submitted application' do
     click_link_or_button 'Update conditions'
   end
 
-  def then_i_see_the_specific_reference_is_saved
-    expect(page).to have_content('Please provide a reference from your school employer')
-    fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
-    click_link_or_button 'Update conditions'
+  def then_i_see_specific_references_in_the_list_of_conditions
+    expect(page).to have_content('Specific references')
   end
 end
