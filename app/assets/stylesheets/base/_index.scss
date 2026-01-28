@@ -1,53 +1,52 @@
-$app-grey: #ebf2f6;
 @use "govuk";
 
 // Shared (base HTML elements)
-@import "code";
-@import "mark";
+@use "code";
+@use "mark";
 
 // Shared (govuk-frontend component overrides)
-@import "header";
-@import "input";
-@import "inset-text";
-@import "list";
-@import "phase-banner";
-@import "tab-navigation";
-@import "table";
-@import "tag";
+@use "header";
+@use "input";
+@use "inset-text";
+@use "list";
+@use "phase-banner";
+@use "tab-navigation";
+@use "table";
+@use "tag";
 
 // Shared (custom components)
-@import "add_another";
-@import "application-card";
-@import "application-item";
-@import "autocomplete";
-@import "banner";
-@import "box";
-@import "link_button";
-@import "notification_banner";
-@import "card";
-@import "conditions-list";
-@import "contents-list";
-@import "diagram";
-@import "feedback";
-@import "flex-grid";
-@import "grid";
-@import "primary-navigation";
-@import "qualification";
-@import "section";
-@import "status-box";
-@import "status-indicator";
-@import "summary-card";
-@import "timeline";
-@import "toc";
-@import "div";
-@import "qualifications-table";
-@import "metadata";
-@import "paragraph";
+@use "add_another";
+@use "application-card";
+@use "application-item";
+@use "autocomplete";
+@use "banner";
+@use "box";
+@use "link_button";
+@use "notification_banner";
+@use "card";
+@use "conditions-list";
+@use "contents-list";
+@use "diagram";
+@use "feedback";
+@use "flex-grid";
+@use "grid";
+@use "primary-navigation";
+@use "qualification";
+@use "section";
+@use "status-box";
+@use "status-indicator";
+@use "summary-card";
+@use "timeline";
+@use "toc";
+@use "div";
+@use "qualifications-table";
+@use "metadata";
+@use "paragraph";
 
-@import "tabs";
+@use "tabs";
 
 // Override utilities
-@import "overrides";
+@use "overrides";
 
 @media print {
   a[href]::after {

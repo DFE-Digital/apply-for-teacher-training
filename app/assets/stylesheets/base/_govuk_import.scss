@@ -1,0 +1,11 @@
+$govuk-assets-path: "/";
+$govuk-global-styles: true;
+$govuk-breakpoints: (
+  mobile: 320px,
+  tablet: 641px,
+  large: 945px,
+  desktop: 769px,
+  wide: 1300px,
+);
+
+@import "govuk-frontend/dist/govuk/index";

@@ -1,4 +1,5 @@
 @use "govuk";
+@use "../components/variables";
 
 @include govuk.govuk-media-query($from: tablet) {
   .app-grid-column-one-third--actions {
@@ -10,5 +11,5 @@
   padding: govuk.govuk-spacing(6) govuk.govuk-spacing(6) govuk.govuk-spacing(2);
   margin-bottom: govuk.govuk-spacing(6);
 
-  background-color: $app-grey;
+  background-color: variables.$app-grey;
 }
