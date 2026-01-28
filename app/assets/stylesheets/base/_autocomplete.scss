@@ -13,7 +13,7 @@
 }
 
 .govuk-form-group--error > .autocomplete__input--focused {
-  border-color: $govuk-input-border-colour;
+  border-color: govuk.$govuk-input-border-colour;
 }
 
 .autocomplete__dropdown-arrow-down {
