@@ -9,7 +9,7 @@
 
     .govuk-notification-banner__link {
       @include govuk.govuk-link-common;
-      @include govuk-link-style-error;
+      @include govuk.govuk-link-style-error;
     }
   }
 
