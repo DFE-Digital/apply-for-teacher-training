@@ -1,12 +1,14 @@
+@use "govuk";
+
 .app-inset-text--narrow-border {
   border-left-width: $govuk-border-width-narrow;
 }
 
 .app-inset-text--important {
-  border-color: govuk-colour("blue");
+  border-color: govuk.govuk-colour("blue");
 
   .app-inset-text__title {
-    color: govuk-colour("blue");
+    color: govuk.govuk-colour("blue");
   }
 }
 

@@ -1,7 +1,9 @@
+@use "../base/govuk";
+
 .app-count {
   display: inline-block;
 
-  color: govuk-colour("blue");
+  color: govuk.govuk-colour("blue");
 
   @include govuk-media-query($from: tablet) {
     display: block;

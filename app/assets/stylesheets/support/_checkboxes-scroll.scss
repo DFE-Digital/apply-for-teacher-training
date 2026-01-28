@@ -1,3 +1,5 @@
+@use "../base/govuk";
+
 .app-checkboxes-scroll {
   height: 75vh;
   min-height: 13.5em;
@@ -15,6 +17,6 @@
 }
 
 .app-checkboxes-scroll::-webkit-scrollbar-thumb {
-  background-color: govuk-colour("mid-grey");
-  border: $govuk-border-width solid govuk-colour("white");
+  background-color: govuk.govuk-colour("mid-grey");
+  border: $govuk-border-width solid govuk.govuk-colour("white");
 }

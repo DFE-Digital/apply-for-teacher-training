@@ -1,3 +1,5 @@
+@use "govuk";
+
 .app-application-cards {
   .task_view_group_header {
     margin-top: govuk-spacing(6);
@@ -10,7 +12,7 @@
 }
 
 .app-application-card {
-  border-bottom: 1px solid govuk-colour("mid-grey");
+  border-bottom: 1px solid govuk.govuk-colour("mid-grey");
   @include govuk-responsive-margin(2, "bottom");
 
   .govuk-tag {
@@ -34,7 +36,7 @@
 
   &__caption {
     @include govuk-font($size: 16, $weight: "regular");
-    color: govuk-colour("dark-grey");
+    color: govuk.govuk-colour("dark-grey");
   }
 
   &__header {

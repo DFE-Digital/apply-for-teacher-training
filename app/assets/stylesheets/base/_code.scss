@@ -1,9 +1,11 @@
+@use "govuk";
+
 code {
   padding: 2px 5px;
 
   font-family: monospace;
 
-  background-color: govuk-colour("light-grey");
+  background-color: govuk.govuk-colour("light-grey");
 
   .govuk-panel--confirmation & {
     background-color: transparent;

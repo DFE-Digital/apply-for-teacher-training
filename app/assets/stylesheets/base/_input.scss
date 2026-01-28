@@ -1,9 +1,11 @@
+@use "govuk";
+
 .govuk-input[autocomplete="postal-code"] {
   text-transform: uppercase;
 }
 
 .radio-buttons-fieldset-hint {
   // stylelint-disable declaration-no-important
-  color: govuk-colour("black") !important;
+  color: govuk.govuk-colour("black") !important;
   // stylelint-enable declaration-no-important
 }

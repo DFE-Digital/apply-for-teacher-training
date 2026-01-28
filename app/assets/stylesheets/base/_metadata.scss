@@ -1,3 +1,5 @@
+@use "govuk";
+
 // From https://github.com/alphagov/govuk_publishing_components
 @mixin responsive-bottom-margin {
   margin-bottom: govuk-spacing(3);
@@ -14,7 +16,7 @@
 .metadata-wrapper {
   margin: 0 $govuk-gutter-half;
 
-  border-top: 1px solid govuk-colour("mid-grey");
+  border-top: 1px solid govuk.govuk-colour("mid-grey");
 }
 
 .metadata-column {
@@ -46,16 +48,16 @@
 }
 
 .gem-c-metadata--inverse {
-  color: govuk-colour("white");
+  color: govuk.govuk-colour("white");
 
   a:link,
   a:active,
   a:visited {
-    color: govuk-colour("white");
+    color: govuk.govuk-colour("white");
   }
 
   a:focus {
-    color: govuk-colour("black");
+    color: govuk.govuk-colour("black");
   }
 }
 

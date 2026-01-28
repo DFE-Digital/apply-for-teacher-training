@@ -1,3 +1,5 @@
+@use "govuk";
+
 .app-feedback {
   @include govuk-clearfix;
   box-sizing: border-box;
@@ -12,7 +14,7 @@
 
   outline: 0;
 
-  background-color: govuk-colour("light-grey");
+  background-color: govuk.govuk-colour("light-grey");
 }
 
 .app-feedback-helpful {
