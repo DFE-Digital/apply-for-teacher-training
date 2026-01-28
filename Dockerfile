@@ -3,7 +3,7 @@ ARG RUBY_VERSION=3.4.8
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
 # Rails app lives here
-WORKDIR /rails
+WORKDIR /app
 
 # Install base packages
 RUN apt-get update -qq && \
@@ -87,7 +87,7 @@ USER 10001:10001
 
 # Copy built artifacts: gems, application
 COPY --chown=appuser:appgroup --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-COPY --chown=appuser:appgroup --from=build /rails /rails
+COPY --chown=appuser:appgroup --from=build /app /app
 
 #
 # We swallow the exception and run the server anyway, because we prefer running
