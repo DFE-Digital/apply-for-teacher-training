@@ -6,7 +6,7 @@ $code-00: govuk.govuk-colour("light-grey"); // Default background
 $code-01: #f5f5f5; // Lighter background (unused)
 $code-02: #bfc1c3; // Selection background
 $code-03: darken(
-  $govuk-secondary-text-colour,
+  govuk.$govuk-secondary-text-colour,
   2%
 ); // Comments, invisibles, line highlighting
 $code-04: #e8e8e8; // Dark foreground (unused)
