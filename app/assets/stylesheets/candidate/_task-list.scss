@@ -1,7 +1,7 @@
 @use "../base/govuk";
 
 .app-task-list {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
   @include govuk-responsive-margin(9, "bottom");
   padding-left: 0;
 

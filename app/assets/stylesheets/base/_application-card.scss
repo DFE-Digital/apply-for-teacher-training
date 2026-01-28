@@ -16,7 +16,7 @@
   @include govuk-responsive-margin(2, "bottom");
 
   .govuk-tag {
-    @include govuk-font($size: 14);
+    @include govuk.govuk-font($size: 14);
     padding: 2px govuk.govuk-spacing(1);
 
     white-space: nowrap;
@@ -35,7 +35,7 @@
   }
 
   &__caption {
-    @include govuk-font($size: 16, $weight: "regular");
+    @include govuk.govuk-font($size: 16, $weight: "regular");
     color: govuk.govuk-colour("dark-grey");
   }
 

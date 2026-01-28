@@ -18,7 +18,7 @@
 }
 
 .app-banner__message {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
 
   p {
     margin-top: 0;

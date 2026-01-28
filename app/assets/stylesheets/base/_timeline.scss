@@ -63,12 +63,12 @@
 }
 
 .app-timeline__title {
-  @include govuk-font($size: 19, $weight: bold);
+  @include govuk.govuk-font($size: 19, $weight: bold);
   display: inline;
 }
 
 .app-timeline__actor_and_date {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
   display: inline;
 
   margin: 0;
@@ -77,14 +77,14 @@
 }
 
 .app-timeline__date {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
   margin: 0;
 
   color: $govuk-secondary-text-colour;
 }
 
 .app-timeline__event_link {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
   margin-top: govuk.govuk-spacing(4);
 }
 
@@ -97,12 +97,12 @@
 }
 
 .app-timeline__log-card__note--title {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
   margin-bottom: 5px;
 }
 
 .app-timeline__log-card__note--content {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
   margin-bottom: 20px;
 
   color: $govuk-secondary-text-colour;

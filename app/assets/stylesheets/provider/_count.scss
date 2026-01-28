@@ -25,12 +25,12 @@
 }
 
 .app-count__key {
-  @include govuk-font($size: 24, $weight: bold);
+  @include govuk.govuk-font($size: 24, $weight: bold);
   text-transform: lowercase;
 }
 
 .app-count__value {
-  @include govuk-font(
+  @include govuk.govuk-font(
     $size: 80,
     $weight: bold,
     $line-height: 0.75,

@@ -1,4 +1,6 @@
+@use "../base/govuk";
+
 .app-nationality__remove-link {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
   float: right;
 }

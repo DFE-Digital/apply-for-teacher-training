@@ -1,7 +1,7 @@
 @use "govuk";
 
 .app-qualification {
-  @include govuk-font($size: 16);
+  @include govuk.govuk-font($size: 16);
   margin: 0;
 }
 
