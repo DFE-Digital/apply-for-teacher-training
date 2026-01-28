@@ -3,7 +3,7 @@
 .app-banner {
   @include govuk-text-colour;
   @include govuk-responsive-padding(4);
-  @include govuk-responsive-margin(8, "bottom");
+  @include govuk.govuk-responsive-margin(8, "bottom");
   border: $govuk-border-width solid govuk.govuk-colour("blue");
 
   &:focus {
