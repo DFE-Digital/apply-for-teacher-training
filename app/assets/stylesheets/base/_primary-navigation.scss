@@ -33,14 +33,14 @@
   float: left;
 
   margin-top: 0;
-  margin-right: govuk-spacing(3);
+  margin-right: govuk.govuk-spacing(3);
 
   &:last-child {
     margin-right: 0;
   }
 
   @include govuk-media-query($from: tablet) {
-    margin-right: govuk-spacing(4);
+    margin-right: govuk.govuk-spacing(4);
   }
 }
 
@@ -55,8 +55,8 @@
   @include govuk-link-style-no-visited-state;
   display: block;
 
-  padding-top: govuk-spacing(3);
-  padding-bottom: govuk-spacing(3);
+  padding-top: govuk.govuk-spacing(3);
+  padding-bottom: govuk.govuk-spacing(3);
 
   font-weight: bold;
 

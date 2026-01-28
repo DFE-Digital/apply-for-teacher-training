@@ -1,13 +1,13 @@
 @use "../base/govuk";
 
 .app-interviews {
-  margin-bottom: govuk-spacing(4);
+  margin-bottom: govuk.govuk-spacing(4);
 
   .app-interview-card {
     display: flex;
 
-    padding-top: govuk-spacing(2);
-    padding-bottom: govuk-spacing(2);
+    padding-top: govuk.govuk-spacing(2);
+    padding-bottom: govuk.govuk-spacing(2);
 
     border-bottom: 1px solid govuk.govuk-colour("mid-grey");
   }
@@ -21,7 +21,7 @@
 
     width: 15%;
 
-    padding-right: govuk-spacing(2);
+    padding-right: govuk.govuk-spacing(2);
   }
 
   .app-interview-card__candidate {
@@ -29,7 +29,7 @@
 
     width: 40%;
 
-    padding-right: govuk-spacing(2);
+    padding-right: govuk.govuk-spacing(2);
   }
 
   .app-interview-card__course {

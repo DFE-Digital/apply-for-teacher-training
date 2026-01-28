@@ -1,14 +1,16 @@
+@use "../base/govuk";
+
 .validation-results-header {
-  padding-bottom: govuk-spacing(2);
+  padding-bottom: govuk.govuk-spacing(2);
 
   @include govuk-media-query($from: desktop) {
-    padding-top: govuk-spacing(2);
+    padding-top: govuk.govuk-spacing(2);
   }
 
   &__cta {
     display: none;
 
-    margin: govuk-spacing(1) 0;
+    margin: govuk.govuk-spacing(1) 0;
 
     .js-enabled & {
       display: block;
@@ -26,7 +28,7 @@
 
     display: inline-block;
 
-    margin-top: govuk-spacing(2);
+    margin-top: govuk.govuk-spacing(2);
     margin-bottom: 0;
 
     @include govuk-media-query($from: desktop) {
@@ -37,10 +39,10 @@
   .govuk-button {
     float: right;
 
-    margin: govuk-spacing(2) 0 0;
+    margin: govuk.govuk-spacing(2) 0 0;
 
     @include govuk-media-query($from: desktop) {
-      margin: 0 0 0 govuk-spacing(2);
+      margin: 0 0 0 govuk.govuk-spacing(2);
     }
 
     .js-enabled & {

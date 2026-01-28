@@ -2,10 +2,10 @@
 
 // From https://github.com/alphagov/govuk_publishing_components
 @mixin responsive-bottom-margin {
-  margin-bottom: govuk-spacing(3);
+  margin-bottom: govuk.govuk-spacing(3);
 
   @include govuk-media-query($from: tablet) {
-    margin-bottom: govuk-spacing(7);
+    margin-bottom: govuk.govuk-spacing(7);
   }
 }
 
@@ -75,7 +75,7 @@
 
     box-sizing: border-box;
 
-    padding-right: govuk-spacing(1);
+    padding-right: govuk.govuk-spacing(1);
     margin-top: 0;
   }
 }
@@ -86,7 +86,7 @@
 
   @include govuk-media-query($from: tablet) {
     padding-right: 0;
-    padding-left: govuk-spacing(1);
+    padding-left: govuk.govuk-spacing(1);
   }
 }
 
@@ -95,7 +95,7 @@
 
   @include govuk-media-query($from: tablet) {
     &:not(:last-of-type) {
-      margin-bottom: govuk-spacing(1);
+      margin-bottom: govuk.govuk-spacing(1);
     }
   }
 }

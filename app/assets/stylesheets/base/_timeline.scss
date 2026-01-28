@@ -3,11 +3,11 @@
 .app-timeline {
   position: relative;
 
-  margin-bottom: govuk-spacing(4);
+  margin-bottom: govuk.govuk-spacing(4);
 
   &::before {
     position: absolute;
-    top: govuk-spacing(2);
+    top: govuk.govuk-spacing(2);
     left: 0;
 
     width: 5px;
@@ -30,12 +30,12 @@
 .app-timeline__item {
   position: relative;
 
-  padding-bottom: govuk-spacing(6);
-  padding-left: govuk-spacing(4);
+  padding-bottom: govuk.govuk-spacing(6);
+  padding-left: govuk.govuk-spacing(4);
 
   &::before {
     position: absolute;
-    top: govuk-spacing(2);
+    top: govuk.govuk-spacing(2);
     left: 0;
 
     width: 15px;
@@ -85,7 +85,7 @@
 
 .app-timeline__event_link {
   @include govuk-font($size: 19);
-  margin-top: govuk-spacing(4);
+  margin-top: govuk.govuk-spacing(4);
 }
 
 .app-timeline__log-card__note:last-of-type {

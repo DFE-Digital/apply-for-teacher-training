@@ -1,5 +1,7 @@
+@use "../base/govuk";
+
 .app-related {
-  padding-top: govuk-spacing(3);
+  padding-top: govuk.govuk-spacing(3);
 
   border-top: 2px solid $govuk-brand-colour;
 }

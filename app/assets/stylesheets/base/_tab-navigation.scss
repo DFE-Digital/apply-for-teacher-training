@@ -1,7 +1,7 @@
 @use "govuk";
 
 .app-tab-navigation {
-  margin-bottom: govuk-spacing(7);
+  margin-bottom: govuk.govuk-spacing(7);
 }
 
 .app-tab-navigation__list {
@@ -35,7 +35,7 @@
     display: inline-block;
 
     margin-top: 0;
-    margin-right: govuk-spacing(4);
+    margin-right: govuk.govuk-spacing(4);
 
     box-shadow: none;
   }
@@ -50,7 +50,7 @@
 
   padding-top: 12px;
   padding-bottom: 17px;
-  padding-left: govuk-spacing(3);
+  padding-left: govuk.govuk-spacing(3);
 
   font-weight: bold;
 

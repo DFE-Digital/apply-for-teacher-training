@@ -1,6 +1,8 @@
+@use "govuk";
+
 @include govuk-media-query($until: tablet) {
   .app-grid-row--flex > * {
-    margin-top: govuk-spacing(4);
+    margin-top: govuk.govuk-spacing(4);
   }
 }
 
