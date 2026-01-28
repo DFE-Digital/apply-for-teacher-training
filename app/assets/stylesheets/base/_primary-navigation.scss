@@ -52,7 +52,7 @@
 
 .app-primary-navigation__link {
   @include govuk.govuk-link-common;
-  @include govuk-link-style-no-visited-state;
+  @include govuk.govuk-link-style-no-visited-state;
   display: block;
 
   padding-top: govuk.govuk-spacing(3);
