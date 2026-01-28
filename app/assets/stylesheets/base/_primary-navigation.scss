@@ -21,7 +21,7 @@
 }
 
 .app-primary-navigation__list {
-  @include govuk-clearfix;
+  @include govuk.govuk-clearfix;
   padding: 0;
   margin: 0;
 

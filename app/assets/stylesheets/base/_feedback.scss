@@ -1,7 +1,7 @@
 @use "govuk";
 
 .app-feedback {
-  @include govuk-clearfix;
+  @include govuk.govuk-clearfix;
   box-sizing: border-box;
 
   flex-wrap: wrap;

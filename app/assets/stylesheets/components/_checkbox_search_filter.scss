@@ -38,7 +38,7 @@
 }
 
 .app-checkbox-filter__container-inner {
-  @include govuk-clearfix;
+  @include govuk.govuk-clearfix;
   padding: govuk.govuk-spacing(1) govuk.govuk-spacing(2);
 }
 
