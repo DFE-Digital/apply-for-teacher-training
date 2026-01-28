@@ -36,7 +36,7 @@
     box-shadow: none;
 
     &:hover {
-      color: $govuk-link-hover-colour;
+      color: govuk.$govuk-link-hover-colour;
 
       text-decoration: underline;
 

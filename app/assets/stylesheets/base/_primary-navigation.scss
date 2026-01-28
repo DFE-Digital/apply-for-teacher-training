@@ -77,9 +77,9 @@
     box-shadow: inset 0 -5px 0 0 govuk.$govuk-link-colour;
 
     &:hover {
-      color: $govuk-link-hover-colour;
+      color: govuk.$govuk-link-hover-colour;
 
-      box-shadow: inset 0 -5px 0 0 $govuk-link-hover-colour;
+      box-shadow: inset 0 -5px 0 0 govuk.$govuk-link-hover-colour;
     }
 
     &:focus {
