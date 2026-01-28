@@ -53,7 +53,8 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           context: ""
           reuse-cache: true
-          snyk-token: ${{ secrets.SNYK_TOKEN }}
+#          TODO: Re-enable Snyk caching when we have Snyk scanning working again
+#          snyk-token: ${{ secrets.SNYK_TOKEN }}
           max-cache: false
           docker-repository: ${{ env.DOCKER_IMAGE }}
 
