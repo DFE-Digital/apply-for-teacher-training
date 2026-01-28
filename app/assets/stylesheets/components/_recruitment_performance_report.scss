@@ -41,7 +41,7 @@
   &__cell--summary {
     padding-top: govuk.govuk-spacing(2);
 
-    font-weight: $govuk-font-weight-bold;
+    font-weight: govuk.$govuk-font-weight-bold;
 
     border-top: govuk.$govuk-border-width-narrow solid govuk.$govuk-border-colour;
     border-bottom: none;
