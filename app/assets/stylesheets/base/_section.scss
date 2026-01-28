@@ -13,11 +13,11 @@
 }
 
 .app-section--with-top-border {
-  @include govuk-responsive-padding(6, "top");
+  @include govuk.govuk-responsive-padding(6, "top");
   border-top: 1px solid govuk.$govuk-border-colour;
 }
 
 .app-section__title--with-top-border {
-  @include govuk-responsive-padding(6, "top");
+  @include govuk.govuk-responsive-padding(6, "top");
   border-top: 1px solid govuk.$govuk-border-colour;
 }

@@ -1,7 +1,7 @@
 @use "govuk";
 
 .app-card {
-  @include govuk-responsive-padding(4);
+  @include govuk.govuk-responsive-padding(4);
   @include govuk.govuk-font($size: 19);
   position: relative;
 
