@@ -23,7 +23,7 @@
 
   &__subheading {
     border-top: none;
-    border-bottom: govuk.govuk.$govuk-border-width-narrow solid govuk.$govuk-border-colour;
+    border-bottom: govuk.$govuk-border-width-narrow solid govuk.$govuk-border-colour;
   }
 
   &__subheading--border-left {
@@ -35,7 +35,7 @@
   &__cell--secondary-subject {
     padding-left: govuk.govuk-spacing(2);
 
-    font-weight: $govuk-font-weight-regular;
+    font-weight: govuk.$govuk-font-weight-regular;
   }
 
   &__cell--summary {
@@ -43,7 +43,7 @@
 
     font-weight: govuk.$govuk-font-weight-bold;
 
-    border-top: govuk.govuk.$govuk-border-width-narrow solid govuk.$govuk-border-colour;
+    border-top: govuk.$govuk-border-width-narrow solid govuk.$govuk-border-colour;
     border-bottom: none;
   }
 

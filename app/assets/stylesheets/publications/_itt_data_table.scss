@@ -71,7 +71,7 @@
 
   .govuk-table__body {
     th[scope="row"] {
-      font-weight: $govuk-font-weight-regular;
+      font-weight: govuk.$govuk-font-weight-regular;
     }
   }
 }
