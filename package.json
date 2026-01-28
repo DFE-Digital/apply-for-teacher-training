@@ -44,7 +44,7 @@
     "test": "jest",
     "lint": "standard 'app/javascript'",
     "lint:css": "stylelint 'app/assets/stylesheets'",
-    "build:css": "sass ./app/assets/stylesheets/:./app/assets/builds/ --no-source-map --load-path=node_modules",
+    "build:css": "sass ./app/assets/stylesheets/:./app/assets/builds/ --no-source-map --load-path=node_modules --quiet-deps",
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets"
   },
   "jest": {

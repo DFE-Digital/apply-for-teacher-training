@@ -1,3 +1,5 @@
+@use "govuk";
+
 .tabs-component {
   margin-bottom: 0;
 
@@ -71,6 +73,6 @@
 
     content: "";
 
-    background-color: govuk-colour("light-blue");
+    background-color: govuk.govuk-colour("light-blue");
   }
 }

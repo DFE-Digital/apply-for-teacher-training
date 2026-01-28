@@ -1,3 +1,5 @@
+@use "../base/govuk";
+
 .itt-status-totals {
   display: flex;
 
@@ -8,7 +10,7 @@
   padding: govuk-spacing(4) govuk-spacing(4) govuk-spacing(2);
 
   &__count-header {
-    color: govuk-colour("blue");
+    color: govuk.govuk-colour("blue");
   }
 
   &__count-data {

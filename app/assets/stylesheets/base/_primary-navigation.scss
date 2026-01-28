@@ -1,3 +1,5 @@
+@use "govuk";
+
 .govuk-service-navigation {
   &__container {
     justify-content: space-between;
@@ -9,7 +11,7 @@
 }
 
 .app-primary-navigation {
-  background-color: govuk-colour("light-grey");
+  background-color: govuk.govuk-colour("light-grey");
 }
 
 .app-primary-navigation--justify-between {

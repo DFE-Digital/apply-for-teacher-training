@@ -1,12 +1,14 @@
+@use "../base/govuk";
+
 .app-user-card {
   padding-bottom: 10px;
   margin-bottom: 10px;
 
-  border-bottom: 1px solid govuk-colour("mid-grey");
+  border-bottom: 1px solid govuk.govuk-colour("mid-grey");
 }
 
 .app-user-card:first-of-type {
   padding-top: 10px;
 
-  border-top: 1px solid govuk-colour("mid-grey");
+  border-top: 1px solid govuk.govuk-colour("mid-grey");
 }

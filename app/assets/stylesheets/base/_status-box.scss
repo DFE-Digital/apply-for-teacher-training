@@ -1,11 +1,13 @@
+@use "govuk";
+
 .app-status-box {
   padding: govuk-spacing(4);
 
-  background: govuk-colour("light-grey");
+  background: govuk.govuk-colour("light-grey");
 }
 
 .app-status-box--sandbox {
-  border-left: $govuk-border-width solid govuk-colour("purple");
+  border-left: $govuk-border-width solid govuk.govuk-colour("purple");
 }
 
 .app-status-box > *:last-child {

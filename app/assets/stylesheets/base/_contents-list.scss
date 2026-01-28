@@ -1,3 +1,5 @@
+@use "govuk";
+
 // Originally taken from the GOV.UK "Contents list" component
 //
 // https://components.publishing.service.gov.uk/component-guide/contents_list
@@ -10,8 +12,8 @@
 
   margin: 0 0 govuk-spacing(4);
 
-  background: govuk-colour("white");
-  box-shadow: 0 20px 15px -10px govuk-colour("white");
+  background: govuk.govuk-colour("white");
+  box-shadow: 0 20px 15px -10px govuk.govuk-colour("white");
 }
 
 .app-contents-list--font-size-19 .app-contents-list__title,

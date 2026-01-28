@@ -1,3 +1,5 @@
+@use "govuk";
+
 .app-tab-navigation {
   margin-bottom: govuk-spacing(7);
 }
@@ -64,13 +66,13 @@
   }
 
   &:hover {
-    color: govuk-colour("black");
+    color: govuk.govuk-colour("black");
   }
 
   &:focus {
     position: relative; // Ensure focus sits above everything else.
 
-    color: govuk-colour(
+    color: govuk.govuk-colour(
       "black"
     ); // Focus colour on yellow should really be black.
 
@@ -90,7 +92,7 @@
 
     content: "";
 
-    background-color: govuk-colour("black");
+    background-color: govuk.govuk-colour("black");
   }
 }
 
@@ -124,6 +126,6 @@
   &:focus::before {
     height: 7px;
 
-    background-color: govuk-colour("black");
+    background-color: govuk.govuk-colour("black");
   }
 }

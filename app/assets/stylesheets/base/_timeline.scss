@@ -1,3 +1,5 @@
+@use "govuk";
+
 .app-timeline {
   position: relative;
 
@@ -13,7 +15,7 @@
 
     content: "";
 
-    background-color: govuk-colour("blue");
+    background-color: govuk.govuk-colour("blue");
   }
 }
 
@@ -41,7 +43,7 @@
 
     content: "";
 
-    background-color: govuk-colour("blue");
+    background-color: govuk.govuk-colour("blue");
   }
 }
 
@@ -56,7 +58,7 @@
 
     content: "";
 
-    background-color: govuk-colour("blue");
+    background-color: govuk.govuk-colour("blue");
   }
 }
 

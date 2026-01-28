@@ -1,8 +1,10 @@
+@use "govuk";
+
 .app-banner {
   @include govuk-text-colour;
   @include govuk-responsive-padding(4);
   @include govuk-responsive-margin(8, "bottom");
-  border: $govuk-border-width solid govuk-colour("blue");
+  border: $govuk-border-width solid govuk.govuk-colour("blue");
 
   &:focus {
     outline: $govuk-focus-width solid $govuk-focus-colour;
@@ -12,7 +14,7 @@
 }
 
 .app-banner--details {
-  border-color: govuk-colour("mid-grey");
+  border-color: govuk.govuk-colour("mid-grey");
 }
 
 .app-banner__message {

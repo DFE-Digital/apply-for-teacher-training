@@ -1,8 +1,10 @@
+@use "govuk";
+
 mark {
   padding: 2px 5px;
   margin-left: -5px;
 
-  color: govuk-shade(govuk-colour("yellow"), 65);
+  color: govuk-shade(govuk.govuk-colour("yellow"), 65);
 
-  background: govuk-tint(govuk-colour("yellow"), 75);
+  background: govuk-tint(govuk.govuk-colour("yellow"), 75);
 }

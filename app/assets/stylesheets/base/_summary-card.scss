@@ -1,3 +1,5 @@
+@use "govuk";
+
 .app-summary-card {
   border: 1px solid $govuk-border-colour;
 
@@ -12,7 +14,7 @@
   .app-summary-card__header {
     padding: govuk-spacing(3);
 
-    background-color: govuk-colour("light-grey");
+    background-color: govuk.govuk-colour("light-grey");
 
     @include govuk-media-query($from: desktop) {
       display: flex;

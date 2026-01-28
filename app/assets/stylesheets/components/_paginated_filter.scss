@@ -1,3 +1,5 @@
+@use "../base/govuk";
+
 $moj-assets-path: "/";
 @import "@ministryofjustice/frontend/moj/settings/assets";
 @import "@ministryofjustice/frontend/moj/settings/measurements";
@@ -9,7 +11,7 @@ $moj-assets-path: "/";
 @import "@ministryofjustice/frontend/moj/components/filter/filter";
 
 .moj-filter, .moj-filter__header {
-  background-color: govuk-colour("light-grey");
+  background-color: govuk.govuk-colour("light-grey");
 }
 
 .moj-filter-layout__content {
@@ -124,8 +126,8 @@ $moj-assets-path: "/";
 
   outline: 3px solid transparent;
 
-  background-color: govuk-colour("yellow");
-  box-shadow: 0 4px govuk-colour("black");
+  background-color: govuk.govuk-colour("yellow");
+  box-shadow: 0 4px govuk.govuk-colour("black");
 }
 
 .moj-pagination__item--prev .moj-pagination__link::before {
@@ -175,5 +177,5 @@ $moj-assets-path: "/";
 }
 
 .moj-filter .govuk-checkboxes__label::before {
-  background-color: govuk-colour("white");
+  background-color: govuk.govuk-colour("white");
 }

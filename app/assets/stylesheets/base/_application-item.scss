@@ -1,3 +1,5 @@
+@use "govuk";
+
 .app-application-item {
   position: relative;
 
@@ -82,7 +84,7 @@
 
   // https://github.com/alphagov/govuk-frontend/blob/v5.0.0/packages/govuk-frontend/src/govuk/components/task-list/_index.scss#L4
   &:hover {
-    background-color: govuk-colour("light-grey");
+    background-color: govuk.govuk-colour("light-grey");
   }
 
   &:hover .govuk-heading-s {
