@@ -9,7 +9,7 @@
 }
 
 .govuk-form-group--error > .autocomplete__input {
-  border-color: $govuk-error-colour;
+  border-color: govuk.$govuk-error-colour;
 }
 
 .govuk-form-group--error > .autocomplete__input--focused {

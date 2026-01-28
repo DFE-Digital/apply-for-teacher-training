@@ -1,9 +1,11 @@
+@use "govuk";
+
 .govuk-notification-banner {
   &.govuk-notification-banner--warning, &.govuk-notification-banner--error {
-    color: $govuk-error-colour;
+    color: govuk.$govuk-error-colour;
 
-    background-color: $govuk-error-colour;
-    border-color: $govuk-error-colour;
+    background-color: govuk.$govuk-error-colour;
+    border-color: govuk.$govuk-error-colour;
 
     .govuk-notification-banner__link {
       @include govuk-link-common;
