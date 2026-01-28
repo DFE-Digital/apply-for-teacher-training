@@ -10,7 +10,7 @@
     a:focus polygon {
       fill: govuk.$govuk-focus-colour;
       stroke: $govuk.govuk-text-colour;
-      stroke-width: $govuk-focus-width;
+      stroke-width: govuk.$govuk-focus-width;
     }
 
     a:focus text {
