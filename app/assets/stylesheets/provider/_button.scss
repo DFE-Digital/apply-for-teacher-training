@@ -28,7 +28,7 @@ $app-button-inverted-hover-background-colour: govuk-tint(
 }
 
 .app-button--inverted:focus:not(:hover) {
-  color: $govuk-focus-text-colour;
+  color: govuk.$govuk-focus-text-colour;
 
   background-color: $govuk-focus-colour;
 }
