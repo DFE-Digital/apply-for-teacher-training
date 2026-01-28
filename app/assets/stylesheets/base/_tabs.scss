@@ -13,7 +13,7 @@
     text-decoration: none;
 
     &:visited {
-      color: $govuk-link-colour;
+      color: govuk.$govuk-link-colour;
     }
 
     &:focus {
