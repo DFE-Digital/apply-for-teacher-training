@@ -1,4 +1,5 @@
 @use "../base/govuk";
+@use "../components/variables";
 
 .itt-status-totals {
   display: flex;
@@ -18,6 +19,6 @@
   }
 
   &--grey {
-    background-color: $app-grey;
+    background-color: variables.$app-grey;
   }
 }

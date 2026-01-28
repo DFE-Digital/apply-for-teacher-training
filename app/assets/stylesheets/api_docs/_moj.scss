@@ -1,6 +1,6 @@
 // MOJ SASS has not been updated to support @use.
 // Import is required to allow MOJ to access GOV.UK variables and mixins.
-@import "../base/govuk";
+@import "../base/govuk_import";
 
 $moj-assets-path: "/";
 @import "@ministryofjustice/frontend/moj/settings/assets";
