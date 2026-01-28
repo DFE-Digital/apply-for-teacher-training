@@ -1,12 +1,12 @@
 @use "govuk";
 
-@include govuk-media-query($until: tablet) {
+@include govuk.govuk-media-query($until: tablet) {
   .app-grid-row--flex > * {
     margin-top: govuk.govuk-spacing(4);
   }
 }
 
-@include govuk-media-query($from: tablet) {
+@include govuk.govuk-media-query($from: tablet) {
   .app-grid-row--flex {
     display: flex;
 

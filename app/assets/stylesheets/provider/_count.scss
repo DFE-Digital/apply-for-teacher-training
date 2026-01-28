@@ -5,7 +5,7 @@
 
   color: govuk.govuk-colour("blue");
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     display: block;
   }
 }
@@ -19,7 +19,7 @@
 
   text-decoration: none;
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     @include govuk-responsive-margin(4, "bottom");
   }
 }

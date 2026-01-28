@@ -23,13 +23,13 @@
   }
 
   .govuk-grid-column-one-third {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       width: 40%;
     }
   }
 
   .govuk-grid-column-two-thirds {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       width: 60%;
     }
   }
@@ -72,7 +72,7 @@
   &__list--secondary {
     display: flex;
 
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       flex-direction: column;
 
       text-align: right;
@@ -82,7 +82,7 @@
   &__list--secondary *:last-child {
     margin-left: auto;
 
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       margin-top: auto;
     }
   }

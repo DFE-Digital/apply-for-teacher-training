@@ -28,13 +28,13 @@
 }
 
 .app-feedback-helpful form {
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     display: inline-block;
   }
 }
 
 .app-feedback-helpful .govuk-button {
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     margin-bottom: 0;
     margin-left: govuk.govuk-spacing(1);
   }

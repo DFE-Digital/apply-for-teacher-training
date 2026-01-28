@@ -30,13 +30,13 @@
 
 .app-header--wide-logo {
   .govuk-header__logo {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       width: 60%;
     }
   }
 
   .govuk-header__content {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       width: 40%;
     }
   }
@@ -46,19 +46,19 @@
   &__navigation {
     display: flex;
 
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       justify-content: flex-end;
     }
   }
 
   &__navigation-list {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       display: flex;
     }
   }
 
   &__navigation-item {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       padding-inline: govuk.govuk-spacing(3);
       margin: 0;
 

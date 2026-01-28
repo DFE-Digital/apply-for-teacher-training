@@ -3,7 +3,7 @@
 .tabs-component {
   margin-bottom: 0;
 
-  @include govuk-media-query($from: desktop) {
+  @include govuk.govuk-media-query($from: desktop) {
     margin-bottom: 0;
 
     border-bottom: 1px solid $govuk-border-colour;

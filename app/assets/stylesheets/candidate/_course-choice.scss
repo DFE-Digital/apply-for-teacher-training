@@ -1,6 +1,8 @@
+@use "../base/govuk";
+
 .app-course-choice {
   .govuk-summary-list__key {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       width: 20%;
     }
   }

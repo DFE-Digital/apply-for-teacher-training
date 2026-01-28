@@ -3,7 +3,7 @@
 .validation-results-header {
   padding-bottom: govuk.govuk-spacing(2);
 
-  @include govuk-media-query($from: desktop) {
+  @include govuk.govuk-media-query($from: desktop) {
     padding-top: govuk.govuk-spacing(2);
   }
 
@@ -18,7 +18,7 @@
   }
 
   .govuk-form {
-    @include govuk-media-query($from: desktop) {
+    @include govuk.govuk-media-query($from: desktop) {
       text-align: right;
     }
   }
@@ -31,7 +31,7 @@
     margin-top: govuk.govuk-spacing(2);
     margin-bottom: 0;
 
-    @include govuk-media-query($from: desktop) {
+    @include govuk.govuk-media-query($from: desktop) {
       margin: 0;
     }
   }
@@ -41,7 +41,7 @@
 
     margin: govuk.govuk-spacing(2) 0 0;
 
-    @include govuk-media-query($from: desktop) {
+    @include govuk.govuk-media-query($from: desktop) {
       margin: 0 0 0 govuk.govuk-spacing(2);
     }
 
@@ -53,13 +53,13 @@
   select {
     width: 100%;
 
-    @include govuk-media-query($from: desktop) {
+    @include govuk.govuk-media-query($from: desktop) {
       width: 220px;
     }
   }
 
   .sortedby-label {
-    @include govuk-media-query($from: desktop) {
+    @include govuk.govuk-media-query($from: desktop) {
       display: inline;
 
       margin-right: 0.5em;

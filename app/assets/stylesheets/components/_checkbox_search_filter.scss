@@ -6,7 +6,7 @@
   padding: 0;
   margin-bottom: govuk.govuk-spacing(2);
 
-  @include govuk-media-query($from: desktop) {
+  @include govuk.govuk-media-query($from: desktop) {
     // Redefine scrollbars on desktop where these lists are scrollable
     // so they are always visible in option lists
     ::-webkit-scrollbar {

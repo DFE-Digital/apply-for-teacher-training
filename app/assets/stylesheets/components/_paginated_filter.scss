@@ -23,14 +23,14 @@ $moj-assets-path: "/";
 }
 
 .moj-action-bar__filter {
-  @include govuk-media-query($from: desktop) {
+  @include govuk.govuk-media-query($from: desktop) {
     display: none;
   }
 }
 
 .filter-toggle-button {
   margin-bottom: govuk.govuk-spacing(1);
-  @include govuk-media-query($from: desktop) {
+  @include govuk.govuk-media-query($from: desktop) {
     display: none;
   }
 }
@@ -81,7 +81,7 @@ $moj-assets-path: "/";
 }
 
 .app-filter {
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     // stylelint-disable declaration-no-important
     position: relative !important;
     // stylelint-enable declaration-no-important
@@ -90,7 +90,7 @@ $moj-assets-path: "/";
   }
 
   // Fix for fixed position of layout filters for mobile
-  @include govuk-media-query($from: mobile) {
+  @include govuk.govuk-media-query($from: mobile) {
     // stylelint-disable declaration-no-important
     position: relative !important;
     // stylelint-enable declaration-no-important

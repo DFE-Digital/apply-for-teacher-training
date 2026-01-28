@@ -4,7 +4,7 @@
 @mixin responsive-bottom-margin {
   margin-bottom: govuk.govuk-spacing(3);
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     margin-bottom: govuk.govuk-spacing(7);
   }
 }
@@ -69,7 +69,7 @@
 .gem-c-metadata__term {
   margin-top: 0.5em;
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     float: left;
     clear: left;
 
@@ -84,7 +84,7 @@
   float: right;
   clear: right;
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     padding-right: 0;
     padding-left: govuk.govuk-spacing(1);
   }
@@ -93,7 +93,7 @@
 .gem-c-metadata__definition {
   margin: 0;
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     &:not(:last-of-type) {
       margin-bottom: govuk.govuk-spacing(1);
     }

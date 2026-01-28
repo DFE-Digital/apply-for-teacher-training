@@ -59,7 +59,7 @@
   }
 
   &__status {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       text-align: end;
     }
   }
@@ -73,7 +73,7 @@
 
   padding: govuk.govuk-spacing(4) 0;
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     display: flex;
 
     justify-content: space-between;
