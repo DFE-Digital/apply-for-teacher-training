@@ -1,7 +1,7 @@
 @use "../base/govuk";
 
 // Tertiary button variables
-$button-shadow-size: $govuk-border-width-form-element;
+$button-shadow-size: govuk.$govuk-border-width-form-element;
 $app-button-tertiary-button-colour: govuk.govuk-colour("blue");
 $app-button-tertiary-button-hover-colour: govuk-shade($app-button-tertiary-button-colour, 10%);
 $app-button-tertiary-button-shadow-colour: govuk-shade($app-button-tertiary-button-colour, 40%);
