@@ -1,7 +1,7 @@
 @use "govuk";
 
 .app-inset-text--narrow-border {
-  border-left-width: govuk.$govuk-border-width-narrow;
+  border-left-width: govuk.govuk.$govuk-border-width-narrow;
 }
 
 .app-inset-text--important {

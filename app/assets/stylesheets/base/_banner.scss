@@ -4,7 +4,7 @@
   @include govuk.govuk-text-colour;
   @include govuk.govuk-responsive-padding(4);
   @include govuk.govuk-responsive-margin(8, "bottom");
-  border: $govuk-border-width solid govuk.govuk-colour("blue");
+  border: govuk.$govuk-border-width solid govuk.govuk-colour("blue");
 
   &:focus {
     outline: $govuk-focus-width solid govuk.$govuk-focus-colour;

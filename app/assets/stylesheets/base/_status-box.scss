@@ -7,7 +7,7 @@
 }
 
 .app-status-box--sandbox {
-  border-left: $govuk-border-width solid govuk.govuk-colour("purple");
+  border-left: govuk.$govuk-border-width solid govuk.govuk-colour("purple");
 }
 
 .app-status-box > *:last-child {

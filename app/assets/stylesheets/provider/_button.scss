@@ -1,6 +1,6 @@
 @use "../base/govuk";
 
-$button-shadow-size: $govuk-border-width-form-element;
+$button-shadow-size: govuk.$govuk-border-width-form-element;
 $app-button-inverted-background-colour: govuk.govuk-colour("white");
 $app-button-inverted-foreground-colour: govuk.govuk-colour("blue");
 $app-button-inverted-shadow-colour: govuk-shade(

@@ -8,7 +8,7 @@
 
   overflow-y: scroll;
 
-  border: $govuk-border-width-form-element solid govuk.$govuk-input-border-colour;
+  border: govuk.$govuk-border-width-form-element solid govuk.$govuk-input-border-colour;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -18,5 +18,5 @@
 
 .app-checkboxes-scroll::-webkit-scrollbar-thumb {
   background-color: govuk.govuk-colour("mid-grey");
-  border: $govuk-border-width solid govuk.govuk-colour("white");
+  border: govuk.$govuk-border-width solid govuk.govuk-colour("white");
 }
