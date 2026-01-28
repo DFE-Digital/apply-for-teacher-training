@@ -13,7 +13,7 @@
     font-weight: govuk.$govuk-font-weight-bold;
 
     background: govuk.govuk-colour("light-grey");
-    border-top: 2px solid  $govuk-input-border-colour;
+    border-top: 2px solid  govuk.$govuk-input-border-colour;
   }
 
   &__cell--second-level-reason {

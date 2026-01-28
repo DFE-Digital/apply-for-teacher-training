@@ -8,7 +8,7 @@
 
   overflow-y: scroll;
 
-  border: $govuk-border-width-form-element solid $govuk-input-border-colour;
+  border: $govuk-border-width-form-element solid govuk.$govuk-input-border-colour;
   -webkit-overflow-scrolling: touch;
 }
 
