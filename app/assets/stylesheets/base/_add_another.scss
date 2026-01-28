@@ -44,7 +44,7 @@
     }
 
     &:focus {
-      color: $govuk-focus-text-colour;
+      color: govuk.$govuk-focus-text-colour;
 
       background: $govuk-focus-colour;
     }
@@ -56,12 +56,12 @@
 }
 
 .app-add-condition__heading:focus {
-  color: $govuk-focus-text-colour;
+  color: govuk.$govuk-focus-text-colour;
 
   outline: none;
 
   background-color: $govuk-focus-colour;
   box-shadow:
     0 -2px $govuk-focus-colour,
-    0 4px $govuk-focus-text-colour;
+    0 4px govuk.$govuk-focus-text-colour;
 }
