@@ -2,7 +2,7 @@
 
 .app-list--definition {
   dt {
-    @include govuk-typography-weight-bold;
+    @include govuk.govuk-typography-weight-bold;
   }
 
   dd + dt {
