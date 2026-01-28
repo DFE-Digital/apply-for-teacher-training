@@ -9,12 +9,12 @@
 
     a:focus polygon {
       fill: govuk.$govuk-focus-colour;
-      stroke: $govuk-text-colour;
+      stroke: $govuk.govuk-text-colour;
       stroke-width: $govuk-focus-width;
     }
 
     a:focus text {
-      fill: $govuk-text-colour;
+      fill: $govuk.govuk-text-colour;
     }
   }
 }

@@ -27,14 +27,14 @@
 }
 
 .app-contents-list__title {
-  @include govuk-text-colour;
+  @include govuk.govuk-text-colour;
   @include govuk.govuk-font($size: 16, $weight: regular, $line-height: 1.5);
   margin: 0;
 }
 
 .app-contents-list__list,
 .app-contents-list__nested-list {
-  @include govuk-text-colour;
+  @include govuk.govuk-text-colour;
   @include govuk.govuk-font($size: 16);
   padding: 0;
   margin: 0;
