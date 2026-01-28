@@ -10,7 +10,7 @@ $code-03: darken(
   2%
 ); // Comments, invisibles, line highlighting
 $code-04: #e8e8e8; // Dark foreground (unused)
-$code-05: $govuk.govuk-text-colour; // Default foreground, caret, delimiters, operators
+$code-05: govuk.$govuk-text-colour; // Default foreground, caret, delimiters, operators
 $code-06: #ffffff; // Light foreground (unused)
 $code-07: #ffffff; // Light background (unused)
 
