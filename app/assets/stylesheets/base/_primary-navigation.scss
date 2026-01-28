@@ -51,7 +51,7 @@
 }
 
 .app-primary-navigation__link {
-  @include govuk-link-common;
+  @include govuk.govuk-link-common;
   @include govuk-link-style-no-visited-state;
   display: block;
 

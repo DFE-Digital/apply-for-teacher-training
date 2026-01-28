@@ -8,7 +8,7 @@
     border-color: govuk.$govuk-error-colour;
 
     .govuk-notification-banner__link {
-      @include govuk-link-common;
+      @include govuk.govuk-link-common;
       @include govuk-link-style-error;
     }
   }
