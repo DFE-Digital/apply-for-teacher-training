@@ -28,7 +28,7 @@
   @include govuk.govuk-text-colour;
   @include govuk.govuk-font(16);
   @include responsive-bottom-margin;
-  @include govuk-clearfix;
+  @include govuk.govuk-clearfix;
 
   a {
     @include govuk.govuk-link-common;

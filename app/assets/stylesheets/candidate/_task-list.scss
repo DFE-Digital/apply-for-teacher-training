@@ -9,7 +9,7 @@
 }
 
 .app-task-list__item {
-  @include govuk-clearfix;
+  @include govuk.govuk-clearfix;
   padding-top: govuk.govuk-spacing(1);
   padding-bottom: govuk.govuk-spacing(1);
 
@@ -25,7 +25,7 @@
   }
 
   .app-task-list__content {
-    @include govuk-clearfix;
+    @include govuk.govuk-clearfix;
   }
 
   .app-task-list__content + .app-task-list__content {
