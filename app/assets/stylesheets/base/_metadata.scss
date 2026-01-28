@@ -32,7 +32,7 @@
 
   a {
     @include govuk.govuk-link-common;
-    @include govuk-link-style-default;
+    @include govuk.govuk-link-style-default;
     font-weight: bold;
   }
 
