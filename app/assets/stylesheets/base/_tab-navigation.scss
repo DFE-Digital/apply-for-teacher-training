@@ -43,7 +43,7 @@
 
 .app-tab-navigation__link {
   @include govuk.govuk-link-common;
-  @include govuk-link-style-default;
+  @include govuk.govuk-link-style-default;
   position: relative;
 
   display: block;
