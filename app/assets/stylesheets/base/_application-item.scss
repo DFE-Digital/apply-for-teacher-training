@@ -93,7 +93,7 @@
 }
 
 .app-application-item__status_warning {
-  color: $govuk-error-colour;
+  color: govuk.$govuk-error-colour;
 
   text-wrap: pretty;
 }

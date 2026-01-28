@@ -13,10 +13,10 @@
 }
 
 .app-inset-text--error {
-  border-color: $govuk-error-colour;
+  border-color: govuk.$govuk-error-colour;
 
   .app-inset-text__title {
-    color: $govuk-error-colour;
+    color: govuk.$govuk-error-colour;
   }
 }
 
