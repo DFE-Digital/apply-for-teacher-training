@@ -12,7 +12,7 @@
   gap: govuk.govuk-spacing(3) govuk.govuk-spacing(4);
 }
 
-@include govuk-media-query($from: tablet) {
+@include govuk.govuk-media-query($from: tablet) {
   .itt-grid {
     grid-template-columns: repeat(2, 1fr);
   }

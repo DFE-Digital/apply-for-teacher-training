@@ -16,13 +16,13 @@
 
     background-color: govuk.govuk-colour("light-grey");
 
-    @include govuk-media-query($from: desktop) {
+    @include govuk.govuk-media-query($from: desktop) {
       display: flex;
 
       justify-content: space-between;
     }
 
-    @include govuk-media-query($media-type: print) {
+    @include govuk.govuk-media-query($media-type: print) {
       border-bottom: 1px solid $govuk-border-colour;
     }
   }
@@ -32,7 +32,7 @@
     margin-top: 0;
     margin-bottom: govuk.govuk-spacing(2);
 
-    @include govuk-media-query($from: desktop) {
+    @include govuk.govuk-media-query($from: desktop) {
       margin: 0;
     }
   }
@@ -60,7 +60,7 @@
 
     white-space: nowrap;
 
-    @include govuk-media-query($from: desktop) {
+    @include govuk.govuk-media-query($from: desktop) {
       display: inline-block;
 
       margin-left: govuk.govuk-spacing(2);
@@ -85,7 +85,7 @@
 
   .govuk-summary-list__row:last-child {
     border: 0;
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       .govuk-summary-list__key,
       .govuk-summary-list__value,
       .govuk-summary-list__actions {

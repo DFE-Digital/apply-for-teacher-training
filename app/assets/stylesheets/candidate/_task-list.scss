@@ -19,7 +19,7 @@
     margin-top: govuk.govuk-spacing(1);
     margin-bottom: govuk.govuk-spacing(1);
 
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       float: right;
     }
   }
@@ -48,7 +48,7 @@
   padding-right: govuk.govuk-spacing(2);
   padding-left: 0;
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     float: left;
   }
 }
