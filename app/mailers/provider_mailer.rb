@@ -259,6 +259,15 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def recruitment_performance_report_reminder(provider_user)
+    @provider_user = provider_user
+    @recruitment_cycle_timetable = RecruitmentCycleTimetable.current_timetable
+    provider_notify_email(
+      to: @provider_user.email_address,
+      subject: I18n.t!('provider_mailer.recruitment_performance_report_reminder.subject'),
+    )
+  end
+
 private
 
   def current_timetable

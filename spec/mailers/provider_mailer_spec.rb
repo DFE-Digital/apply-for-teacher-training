@@ -6,4 +6,5 @@ RSpec.describe ProviderMailer do
   it_behaves_like 'mailer previews', Provider::ApplicationsMailerPreview
   it_behaves_like 'mailer previews', Provider::DeadlinesMailerPreview
   it_behaves_like 'mailer previews', Provider::ReferencesMailerPreview
+  it_behaves_like 'mailer previews', Provider::ReportMailerPreview
 end
