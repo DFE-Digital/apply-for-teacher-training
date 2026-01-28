@@ -20,7 +20,7 @@
   text-decoration: none;
 
   @include govuk.govuk-media-query($from: tablet) {
-    @include govuk-responsive-margin(4, "bottom");
+    @include govuk.govuk-responsive-margin(4, "bottom");
   }
 }
 

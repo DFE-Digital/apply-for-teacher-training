@@ -1,7 +1,7 @@
 @use "govuk";
 
 .app-section {
-  @include govuk-responsive-margin(6, "bottom");
+  @include govuk.govuk-responsive-margin(6, "bottom");
 
   img {
     max-width: 100%;

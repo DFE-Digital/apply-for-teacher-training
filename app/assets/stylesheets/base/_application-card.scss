@@ -13,7 +13,7 @@
 
 .app-application-card {
   border-bottom: 1px solid govuk.govuk-colour("mid-grey");
-  @include govuk-responsive-margin(2, "bottom");
+  @include govuk.govuk-responsive-margin(2, "bottom");
 
   .govuk-tag {
     @include govuk.govuk-font($size: 14);
