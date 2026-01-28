@@ -62,7 +62,7 @@
 
   &:link,
   &:visited {
-    color: $govuk-link-colour;
+    color: govuk.$govuk-link-colour;
   }
 
   &:hover {
@@ -115,7 +115,7 @@
 
     content: "";
 
-    background-color: $govuk-link-colour;
+    background-color: govuk.$govuk-link-colour;
 
     @include govuk.govuk-media-query($from: 375px) {
       width: 100%;
