@@ -1,3 +1,5 @@
+@import "govuk";
+
 // Shared (base HTML elements)
 @import "code";
 @import "mark";
@@ -45,3 +47,9 @@
 
 // Override utilities
 @import "overrides";
+
+@media print {
+  a[href]::after {
+    content: none
+  }
+}
