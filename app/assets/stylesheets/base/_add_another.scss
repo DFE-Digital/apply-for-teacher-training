@@ -46,7 +46,7 @@
     &:focus {
       color: govuk.$govuk-focus-text-colour;
 
-      background: $govuk-focus-colour;
+      background: govuk.$govuk-focus-colour;
     }
   }
 
@@ -60,8 +60,8 @@
 
   outline: none;
 
-  background-color: $govuk-focus-colour;
+  background-color: govuk.$govuk-focus-colour;
   box-shadow:
-    0 -2px $govuk-focus-colour,
+    0 -2px govuk.$govuk-focus-colour,
     0 4px govuk.$govuk-focus-text-colour;
 }

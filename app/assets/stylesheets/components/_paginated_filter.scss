@@ -111,7 +111,7 @@ $moj-assets-path: "/";
 
 // Apply GOV.UK focus styles - only needed with js.
 .js-enabled .app-filter:focus {
-  outline: $govuk-focus-width solid $govuk-focus-colour;
+  outline: $govuk-focus-width solid govuk.$govuk-focus-colour;
 }
 
 // Fix for focus issue - see https://github.com/DFE-Digital/apply-for-teacher-training/pull/2640

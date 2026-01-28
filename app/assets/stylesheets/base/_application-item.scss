@@ -12,7 +12,7 @@
   a:focus .app-application-item__provider_id h2 {
     color: govuk.$govuk-focus-text-colour;
 
-    background-color: $govuk-focus-colour;
+    background-color: govuk.$govuk-focus-colour;
   }
 
   .govuk-heading-s {
