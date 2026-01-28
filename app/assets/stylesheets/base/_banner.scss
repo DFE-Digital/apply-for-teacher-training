@@ -1,7 +1,7 @@
 @use "govuk";
 
 .app-banner {
-  @include govuk-text-colour;
+  @include govuk.govuk-text-colour;
   @include govuk-responsive-padding(4);
   @include govuk.govuk-responsive-margin(8, "bottom");
   border: $govuk-border-width solid govuk.govuk-colour("blue");
