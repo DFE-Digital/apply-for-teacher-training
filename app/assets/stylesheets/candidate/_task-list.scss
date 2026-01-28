@@ -13,7 +13,7 @@
   padding-top: govuk.govuk-spacing(1);
   padding-bottom: govuk.govuk-spacing(1);
 
-  border-bottom: 1px solid $govuk-border-colour;
+  border-bottom: 1px solid govuk.$govuk-border-colour;
 
   .govuk-tag {
     margin-top: govuk.govuk-spacing(1);
@@ -38,7 +38,7 @@
 }
 
 .app-task-list__item:first-child {
-  border-top: 1px solid $govuk-border-colour;
+  border-top: 1px solid govuk.$govuk-border-colour;
 }
 
 .app-task-list__task-name {

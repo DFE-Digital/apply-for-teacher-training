@@ -13,7 +13,7 @@
     text-align: center;
 
     border-bottom: none;
-    border-left: 1px solid $govuk-border-colour;
+    border-left: 1px solid govuk.$govuk-border-colour;
   }
 
   &__heading--no-border {
@@ -23,13 +23,13 @@
 
   &__subheading {
     border-top: none;
-    border-bottom: $govuk-border-width-narrow solid $govuk-border-colour;
+    border-bottom: $govuk-border-width-narrow solid govuk.$govuk-border-colour;
   }
 
   &__subheading--border-left {
     padding-left: govuk.govuk-spacing(2);
 
-    border-left: 1px solid $govuk-border-colour;
+    border-left: 1px solid govuk.$govuk-border-colour;
   }
 
   &__cell--secondary-subject {
@@ -43,13 +43,13 @@
 
     font-weight: $govuk-font-weight-bold;
 
-    border-top: $govuk-border-width-narrow solid $govuk-border-colour;
+    border-top: $govuk-border-width-narrow solid govuk.$govuk-border-colour;
     border-bottom: none;
   }
 
   &__cell--border-left {
     padding-left: govuk.govuk-spacing(2);
 
-    border-left: 1px solid $govuk-border-colour;
+    border-left: 1px solid govuk.$govuk-border-colour;
   }
 }
