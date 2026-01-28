@@ -65,7 +65,7 @@
   &:focus {
     color: govuk.$govuk-focus-text-colour;
 
-    outline: $govuk-focus-width solid transparent;
+    outline: govuk.$govuk-focus-width solid transparent;
 
     background-color: govuk.$govuk-focus-colour;
     box-shadow: inset 0 -5px 0 0 govuk.$govuk-focus-text-colour;
