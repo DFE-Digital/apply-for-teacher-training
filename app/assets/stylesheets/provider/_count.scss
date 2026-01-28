@@ -1,9 +1,11 @@
+@use "../base/govuk";
+
 .app-count {
   display: inline-block;
 
-  color: govuk-colour("blue");
+  color: govuk.govuk-colour("blue");
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     display: block;
   }
 }
@@ -13,22 +15,22 @@
 
   flex-direction: column-reverse;
 
-  margin-right: govuk-spacing(4);
+  margin-right: govuk.govuk-spacing(4);
 
   text-decoration: none;
 
-  @include govuk-media-query($from: tablet) {
-    @include govuk-responsive-margin(4, "bottom");
+  @include govuk.govuk-media-query($from: tablet) {
+    @include govuk.govuk-responsive-margin(4, "bottom");
   }
 }
 
 .app-count__key {
-  @include govuk-font($size: 24, $weight: bold);
+  @include govuk.govuk-font($size: 24, $weight: bold);
   text-transform: lowercase;
 }
 
 .app-count__value {
-  @include govuk-font(
+  @include govuk.govuk-font(
     $size: 80,
     $weight: bold,
     $line-height: 0.75,

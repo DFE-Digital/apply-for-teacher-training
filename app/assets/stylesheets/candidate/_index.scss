@@ -1,7 +1,7 @@
 // Candidate components
-@import "course-choice";
-@import "nationalities";
-@import "related";
-@import "task-list";
-@import "../components/show_more_show_less";
-@import "dfe-autocomplete/src/dfe-autocomplete";
+@use "course-choice";
+@use "nationalities";
+@use "related";
+@use "task-list";
+@use "../components/show_more_show_less";
+@use "../components/dfe_autocomplete";

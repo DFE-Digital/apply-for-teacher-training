@@ -1,8 +1,10 @@
-.app-box {
-  padding: govuk-spacing(4);
-  margin-bottom: govuk-spacing(4);
+@use "govuk";
 
-  border: 5px solid govuk-colour("mid-grey");
+.app-box {
+  padding: govuk.govuk-spacing(4);
+  margin-bottom: govuk.govuk-spacing(4);
+
+  border: 5px solid govuk.govuk-colour("mid-grey");
 
   p:last-child {
     margin-bottom: 0;

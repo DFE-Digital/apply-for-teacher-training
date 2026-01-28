@@ -1,5 +1,7 @@
+@use "govuk";
+
 .flex-content {
   display: flex;
 
-  column-gap: govuk-spacing(2);
+  column-gap: govuk.govuk-spacing(2);
 }

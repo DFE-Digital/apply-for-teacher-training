@@ -1,0 +1,4 @@
+// DfE Autocomplete SASS has not been updated to support @use.
+// Import is required to allow DfE Autocomplete to access GOV.UK variables and mixins.
+@import "../base/govuk_import";
+@import "dfe-autocomplete/src/dfe-autocomplete";

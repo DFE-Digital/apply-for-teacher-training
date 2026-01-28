@@ -1,9 +1,11 @@
+@use "govuk";
+
 .govuk-link-button {
   padding: 0;
 
   font-size: inherit;
 
-  color: $govuk-link-colour;
+  color: govuk.$govuk-link-colour;
 
   cursor: pointer;
 

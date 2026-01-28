@@ -1,20 +1,22 @@
+@use "govuk";
+
 // From https://github.com/alphagov/govuk_publishing_components
 @mixin responsive-bottom-margin {
-  margin-bottom: govuk-spacing(3);
+  margin-bottom: govuk.govuk-spacing(3);
 
-  @include govuk-media-query($from: tablet) {
-    margin-bottom: govuk-spacing(7);
+  @include govuk.govuk-media-query($from: tablet) {
+    margin-bottom: govuk.govuk-spacing(7);
   }
 }
 
 .secondary_text {
-  color: $govuk-secondary-text-colour;
+  color: govuk.$govuk-secondary-text-colour;
 }
 
 .metadata-wrapper {
-  margin: 0 $govuk-gutter-half;
+  margin: 0 govuk.$govuk-gutter-half;
 
-  border-top: 1px solid govuk-colour("mid-grey");
+  border-top: 1px solid govuk.govuk-colour("mid-grey");
 }
 
 .metadata-column {
@@ -23,14 +25,14 @@
 }
 
 .gem-c-metadata {
-  @include govuk-text-colour;
-  @include govuk-font(16);
+  @include govuk.govuk-text-colour;
+  @include govuk.govuk-font(16);
   @include responsive-bottom-margin;
-  @include govuk-clearfix;
+  @include govuk.govuk-clearfix;
 
   a {
-    @include govuk-link-common;
-    @include govuk-link-style-default;
+    @include govuk.govuk-link-common;
+    @include govuk.govuk-link-style-default;
     font-weight: bold;
   }
 
@@ -46,16 +48,16 @@
 }
 
 .gem-c-metadata--inverse {
-  color: govuk-colour("white");
+  color: govuk.govuk-colour("white");
 
   a:link,
   a:active,
   a:visited {
-    color: govuk-colour("white");
+    color: govuk.govuk-colour("white");
   }
 
   a:focus {
-    color: govuk-colour("black");
+    color: govuk.govuk-colour("black");
   }
 }
 
@@ -67,13 +69,13 @@
 .gem-c-metadata__term {
   margin-top: 0.5em;
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     float: left;
     clear: left;
 
     box-sizing: border-box;
 
-    padding-right: govuk-spacing(1);
+    padding-right: govuk.govuk-spacing(1);
     margin-top: 0;
   }
 }
@@ -82,18 +84,18 @@
   float: right;
   clear: right;
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     padding-right: 0;
-    padding-left: govuk-spacing(1);
+    padding-left: govuk.govuk-spacing(1);
   }
 }
 
 .gem-c-metadata__definition {
   margin: 0;
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     &:not(:last-of-type) {
-      margin-bottom: govuk-spacing(1);
+      margin-bottom: govuk.govuk-spacing(1);
     }
   }
 }

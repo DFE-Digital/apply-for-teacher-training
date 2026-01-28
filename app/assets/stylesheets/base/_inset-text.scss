@@ -1,24 +1,26 @@
+@use "govuk";
+
 .app-inset-text--narrow-border {
-  border-left-width: $govuk-border-width-narrow;
+  border-left-width: govuk.$govuk-border-width-narrow;
 }
 
 .app-inset-text--important {
-  border-color: govuk-colour("blue");
+  border-color: govuk.govuk-colour("blue");
 
   .app-inset-text__title {
-    color: govuk-colour("blue");
+    color: govuk.govuk-colour("blue");
   }
 }
 
 .app-inset-text--error {
-  border-color: $govuk-error-colour;
+  border-color: govuk.$govuk-error-colour;
 
   .app-inset-text__title {
-    color: $govuk-error-colour;
+    color: govuk.$govuk-error-colour;
   }
 }
 
 .app-inset-text__title {
-  @include govuk-font($size: 19, $weight: "bold");
-  margin-bottom: govuk-spacing(2);
+  @include govuk.govuk-font($size: 19, $weight: "bold");
+  margin-bottom: govuk.govuk-spacing(2);
 }

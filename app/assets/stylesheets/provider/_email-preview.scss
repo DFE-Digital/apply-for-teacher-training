@@ -1,9 +1,11 @@
-.app-email-preview {
-  padding: govuk-spacing(4);
-  margin-top: govuk-spacing(4);
-  margin-bottom: govuk-spacing(6);
+@use "../base/govuk";
 
-  border-color: $govuk-border-colour;
+.app-email-preview {
+  padding: govuk.govuk-spacing(4);
+  margin-top: govuk.govuk-spacing(4);
+  margin-bottom: govuk.govuk-spacing(6);
+
+  border-color: govuk.$govuk-border-colour;
   border-style: solid;
-  border-width: $govuk-border-width;
+  border-width: govuk.$govuk-border-width;
 }

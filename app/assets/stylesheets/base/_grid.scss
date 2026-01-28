@@ -1,12 +1,15 @@
-@include govuk-media-query($from: tablet) {
+@use "govuk";
+@use "../components/variables";
+
+@include govuk.govuk-media-query($from: tablet) {
   .app-grid-column-one-third--actions {
     text-align: right;
   }
 }
 
 .app-grid-column--grey {
-  padding: govuk-spacing(6) govuk-spacing(6) govuk-spacing(2);
-  margin-bottom: govuk-spacing(6);
+  padding: govuk.govuk-spacing(6) govuk.govuk-spacing(6) govuk.govuk-spacing(2);
+  margin-bottom: govuk.govuk-spacing(6);
 
-  background-color: $app-grey;
+  background-color: variables.$app-grey;
 }

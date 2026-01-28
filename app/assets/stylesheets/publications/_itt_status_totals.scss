@@ -1,3 +1,6 @@
+@use "../base/govuk";
+@use "../components/variables";
+
 .itt-status-totals {
   display: flex;
 
@@ -5,10 +8,10 @@
 
   justify-content: space-between;
 
-  padding: govuk-spacing(4) govuk-spacing(4) govuk-spacing(2);
+  padding: govuk.govuk-spacing(4) govuk.govuk-spacing(4) govuk.govuk-spacing(2);
 
   &__count-header {
-    color: govuk-colour("blue");
+    color: govuk.govuk-colour("blue");
   }
 
   &__count-data {
@@ -16,6 +19,6 @@
   }
 
   &--grey {
-    background-color: $app-grey;
+    background-color: variables.$app-grey;
   }
 }

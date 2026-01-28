@@ -1,10 +1,13 @@
+@use "../base/govuk";
+@use "moj";
+
 .app-checkbox-filter {
   position: relative;
 
   padding: 0;
-  margin-bottom: govuk-spacing(2);
+  margin-bottom: govuk.govuk-spacing(2);
 
-  @include govuk-media-query($from: desktop) {
+  @include govuk.govuk-media-query($from: desktop) {
     // Redefine scrollbars on desktop where these lists are scrollable
     // so they are always visible in option lists
     ::-webkit-scrollbar {
@@ -22,8 +25,8 @@
 }
 
 .app-checkbox-filter__title {
-  @include govuk-font(19, $weight: bold);
-  margin-bottom: govuk-spacing(3);
+  @include govuk.govuk-font(19, $weight: bold);
+  margin-bottom: govuk.govuk-spacing(3);
 }
 
 .app-checkbox-filter__container {
@@ -36,30 +39,30 @@
 }
 
 .app-checkbox-filter__container-inner {
-  @include govuk-clearfix;
-  padding: govuk-spacing(1) govuk-spacing(2);
+  @include govuk.govuk-clearfix;
+  padding: govuk.govuk-spacing(1) govuk.govuk-spacing(2);
 }
 
 .app-checkbox-filter__filter {
   position: relative;
 
-  padding: govuk-spacing(2) 0;
+  padding: govuk.govuk-spacing(2) 0;
 
-  background: govuk-colour("white");
+  background: govuk.govuk-colour("white");
 }
 
 .app-checkbox-filter__filter-input {
-  @include govuk-font(19);
+  @include govuk.govuk-font(19);
   padding-left: 33px;
-  margin-bottom: govuk-spacing(2);
+  margin-bottom: govuk.govuk-spacing(2);
 
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36' width='40' height='40'%3E%3Cpath d='M25.7 24.8L21.9 21c.7-1 1.1-2.2 1.1-3.5 0-3.6-2.9-6.5-6.5-6.5S10 13.9 10 17.5s2.9 6.5 6.5 6.5c1.6 0 3-.6 4.1-1.5l3.7 3.7 1.4-1.4zM12 17.5c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5-2 4.5-4.5 4.5-4.5-2-4.5-4.5z' fill='currentColor'%3E%3C/path%3E%3C/svg%3E")
-    govuk-colour("white") no-repeat -5px -3px;
+    govuk.govuk-colour("white") no-repeat -5px -3px;
 }
 
 .app-checkbox-filter__selected {
-  margin-top: - govuk-spacing(1);
-  margin-bottom: govuk-spacing(2);
+  margin-top: - govuk.govuk-spacing(1);
+  margin-bottom: govuk.govuk-spacing(2);
 
   ul:last-of-type {
     margin-bottom: 0; // IE9 +
@@ -67,26 +70,26 @@
 }
 
 .app-checkbox-filter__heading {
-  @include govuk-font($size: 19, $weight: bold);
+  @include govuk.govuk-font($size: 19, $weight: bold);
   margin: 0;
 }
 
 .app-checkbox-filter__tags {
   padding-left: 0;
-  margin-bottom: govuk-spacing(4); // Needs to adjust to 15px on mobile
+  margin-bottom: govuk.govuk-spacing(4); // Needs to adjust to 15px on mobile
 
   font-size: 0;
 
   li {
     display: inline-block;
 
-    margin-right: govuk-spacing(1);
+    margin-right: govuk.govuk-spacing(1);
   }
 }
 
 .app-checkbox-filter--enhanced .app-checkbox-filter__selected {
-  margin-top: - govuk-spacing(3);
-  margin-bottom: govuk-spacing(3);
+  margin-top: - govuk.govuk-spacing(3);
+  margin-bottom: govuk.govuk-spacing(3);
 }
 
 .app-checkbox-filter__tag {

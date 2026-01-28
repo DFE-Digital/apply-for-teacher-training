@@ -1,7 +1,9 @@
-.itt-report-tabs.govuk-tabs {
-  padding: govuk-spacing(2);
+@use "../base/govuk";
 
-  background-color: govuk-colour("light-grey");
+.itt-report-tabs.govuk-tabs {
+  padding: govuk.govuk-spacing(2);
+
+  background-color: govuk.govuk-colour("light-grey");
 
   .govuk-tabs {
     &__list {
@@ -9,17 +11,17 @@
 
       flex-wrap: wrap;
 
-      border-bottom: govuk-spacing(0);
+      border-bottom: govuk.govuk-spacing(0);
     }
 
     &__panel {
-      border: govuk-spacing(0);
+      border: govuk.govuk-spacing(0);
     }
 
     &__tab {
       padding-bottom: 2px;
 
-      color: $govuk-link-colour;
+      color: govuk.$govuk-link-colour;
 
       text-decoration: underline;
 
@@ -27,13 +29,13 @@
     }
 
     &__list-item {
-      padding: govuk-spacing(2);
+      padding: govuk.govuk-spacing(2);
       margin-right: 0;
 
       text-align: left;
 
       background-color: transparent;
-      border: govuk-spacing(0);
+      border: govuk.govuk-spacing(0);
     }
 
     // This is a hack to prevent the text from changing the size of the element when it becomes bold.
@@ -53,9 +55,9 @@
     // end hack
 
     &__list-item--selected {
-      margin-top: govuk-spacing(0);
+      margin-top: govuk.govuk-spacing(0);
 
-      font-weight: $govuk-font-weight-bold;
+      font-weight: govuk.$govuk-font-weight-bold;
     }
 
     &__list-item--selected a {
@@ -69,7 +71,7 @@
 
   .govuk-table__body {
     th[scope="row"] {
-      font-weight: $govuk-font-weight-regular;
+      font-weight: govuk.$govuk-font-weight-regular;
     }
   }
 }

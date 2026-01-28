@@ -1,17 +1,19 @@
+@use "govuk";
+
 .autocomplete__wrapper,
 .autocomplete__input,
 .autocomplete__hint {
-  font-family: $govuk-font-family;
+  font-family: govuk.$govuk-font-family;
 
-  background-color: govuk-colour("white");
+  background-color: govuk.govuk-colour("white");
 }
 
 .govuk-form-group--error > .autocomplete__input {
-  border-color: $govuk-error-colour;
+  border-color: govuk.$govuk-error-colour;
 }
 
 .govuk-form-group--error > .autocomplete__input--focused {
-  border-color: $govuk-input-border-colour;
+  border-color: govuk.$govuk-input-border-colour;
 }
 
 .autocomplete__dropdown-arrow-down {

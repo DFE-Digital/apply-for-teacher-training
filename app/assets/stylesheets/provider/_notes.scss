@@ -1,3 +1,4 @@
+@use "../base/govuk";
 // For __single application view__ within provider_interface
 
 .app-notes {
@@ -13,10 +14,10 @@
   padding-bottom: 10px;
 
   .meta {
-    @include govuk-font($size: 16);
+    @include govuk.govuk-font($size: 16);
     margin-top: 5px;
     margin-bottom: 0;
 
-    color: govuk-colour("dark-grey");
+    color: govuk.govuk-colour("dark-grey");
   }
 }

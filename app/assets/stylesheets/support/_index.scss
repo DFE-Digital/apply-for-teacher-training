@@ -1,34 +1,29 @@
+@use "../base/govuk";
+
 // Support components
-@import "@ministryofjustice/frontend/moj/settings/assets";
-@import "@ministryofjustice/frontend/moj/settings/measurements";
-@import "@ministryofjustice/frontend/moj/helpers/all";
-@import "@ministryofjustice/frontend/moj/objects/width-container";
-@import "@ministryofjustice/frontend/moj/components/filter/filter";
-@import "@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation";
-@import "@ministryofjustice/frontend/moj/components/primary-navigation/primary-navigation";
-@import "@ministryofjustice/frontend/moj/utilities/all";
-@import "../components/syntax-highlighting";
-@import "app-count";
-@import "button";
-@import "checkboxes-scroll";
-@import "details";
-@import "sort";
-@import "template";
-@import "../components/paginated_filter";
-@import "../components/checkbox_search_filter";
-@import "dfe-autocomplete/src/dfe-autocomplete";
-@import "../application-publications";
-@import "../components/recruitment_performance_report";
+@use "moj";
+@use "../components/syntax-highlighting";
+@use "app-count";
+@use "button";
+@use "checkboxes-scroll";
+@use "details";
+@use "sort";
+@use "template";
+@use "../components/paginated_filter";
+@use "../components/checkbox_search_filter";
+@use "../components/dfe_autocomplete";
+@use "../application-publications";
+@use "../components/recruitment_performance_report";
 
 .app-data-set-documentation--datatype {
   margin: 0;
 
   font-weight: normal;
 
-  color: $govuk-secondary-text-colour;
+  color: govuk.$govuk-secondary-text-colour;
 }
 
 .app-link--warning {
-  color: $govuk-error-colour;
+  color: govuk.$govuk-error-colour;
 }
 

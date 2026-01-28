@@ -1,16 +1,18 @@
-@include govuk-media-query($until: tablet) {
+@use "govuk";
+
+@include govuk.govuk-media-query($until: tablet) {
   .app-grid-row--flex > * {
-    margin-top: govuk-spacing(4);
+    margin-top: govuk.govuk-spacing(4);
   }
 }
 
-@include govuk-media-query($from: tablet) {
+@include govuk.govuk-media-query($from: tablet) {
   .app-grid-row--flex {
     display: flex;
 
     flex-wrap: wrap;
 
-    @each $width in map-keys($govuk-grid-widths) {
+    @each $width in map-keys(govuk.$govuk-grid-widths) {
       .govuk-grid-column-#{$width} {
         float: none;
 

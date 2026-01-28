@@ -1,15 +1,17 @@
+@use "govuk";
+
 .align-self-center {
   align-self: center;
 }
 
 .color-green {
-  color: govuk-colour("green");
+  color: govuk.govuk-colour("green");
 }
 
 .error-text {
-  color: govuk-colour("red");
+  color: govuk.govuk-colour("red");
 }
 
 .secondary-text {
-  color: $govuk-secondary-text-colour;
+  color: govuk.$govuk-secondary-text-colour;
 }

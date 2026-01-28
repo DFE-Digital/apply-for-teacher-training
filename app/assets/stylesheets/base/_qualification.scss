@@ -1,16 +1,18 @@
+@use "govuk";
+
 .app-qualification {
-  @include govuk-font($size: 16);
+  @include govuk.govuk-font($size: 16);
   margin: 0;
 }
 
 .app-qualification__key {
-  margin-bottom: govuk-spacing(1);
+  margin-bottom: govuk.govuk-spacing(1);
 
   font-weight: bold;
 }
 
 .app-qualification__value {
-  margin-bottom: govuk-spacing(4);
+  margin-bottom: govuk.govuk-spacing(4);
   margin-left: 0;
 }
 
@@ -19,5 +21,5 @@
 }
 
 .app-qualification__value--caption {
-  color: $govuk-secondary-text-colour;
+  color: govuk.$govuk-secondary-text-colour;
 }

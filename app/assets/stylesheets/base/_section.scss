@@ -1,5 +1,7 @@
+@use "govuk";
+
 .app-section {
-  @include govuk-responsive-margin(6, "bottom");
+  @include govuk.govuk-responsive-margin(6, "bottom");
 
   img {
     max-width: 100%;
@@ -11,11 +13,11 @@
 }
 
 .app-section--with-top-border {
-  @include govuk-responsive-padding(6, "top");
-  border-top: 1px solid $govuk-border-colour;
+  @include govuk.govuk-responsive-padding(6, "top");
+  border-top: 1px solid govuk.$govuk-border-colour;
 }
 
 .app-section__title--with-top-border {
-  @include govuk-responsive-padding(6, "top");
-  border-top: 1px solid $govuk-border-colour;
+  @include govuk.govuk-responsive-padding(6, "top");
+  border-top: 1px solid govuk.$govuk-border-colour;
 }

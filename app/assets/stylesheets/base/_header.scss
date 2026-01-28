@@ -1,40 +1,42 @@
+@use "govuk";
+
 .app-header--production.app-header--full-border {
-  border-bottom-color: govuk-colour("blue");
+  border-bottom-color: govuk.govuk-colour("blue");
 }
 
 .app-header--qa .govuk-header__container,
 .app-header--qa.app-header--full-border {
-  border-bottom-color: govuk-colour("orange");
+  border-bottom-color: govuk.govuk-colour("orange");
 }
 
 .app-header--staging .govuk-header__container,
 .app-header--staging.app-header--full-border {
-  border-bottom-color: govuk-colour("red");
+  border-bottom-color: govuk.govuk-colour("red");
 }
 
 .app-header--review .govuk-header__container,
 .app-header--review.app-header--full-border,
 .app-header--sandbox .govuk-header__container,
 .app-header--sandbox.app-header--full-border {
-  border-bottom-color: govuk-colour("purple");
+  border-bottom-color: govuk.govuk-colour("purple");
 }
 
 .app-header--development .govuk-header__container,
 .app-header--development.app-header--full-border,
 .app-header--unknown-environment .govuk-header__container,
 .app-header--unknown-environment.app-header--full-border {
-  border-bottom-color: govuk-colour("dark-grey");
+  border-bottom-color: govuk.govuk-colour("dark-grey");
 }
 
 .app-header--wide-logo {
   .govuk-header__logo {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       width: 60%;
     }
   }
 
   .govuk-header__content {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       width: 40%;
     }
   }
@@ -44,23 +46,23 @@
   &__navigation {
     display: flex;
 
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       justify-content: flex-end;
     }
   }
 
   &__navigation-list {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       display: flex;
     }
   }
 
   &__navigation-item {
-    @include govuk-media-query($from: tablet) {
-      padding-inline: govuk-spacing(3);
+    @include govuk.govuk-media-query($from: tablet) {
+      padding-inline: govuk.govuk-spacing(3);
       margin: 0;
 
-      border-left: 1px solid $govuk-border-colour;
+      border-left: 1px solid govuk.$govuk-border-colour;
     }
   }
 }
