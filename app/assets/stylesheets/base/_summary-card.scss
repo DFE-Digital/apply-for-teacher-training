@@ -12,7 +12,7 @@
   }
 
   .app-summary-card__header {
-    padding: govuk-spacing(3);
+    padding: govuk.govuk-spacing(3);
 
     background-color: govuk.govuk-colour("light-grey");
 
@@ -30,7 +30,7 @@
   .app-summary-card__title {
     @include govuk-font($size: 19);
     margin-top: 0;
-    margin-bottom: govuk-spacing(2);
+    margin-bottom: govuk.govuk-spacing(2);
 
     @include govuk-media-query($from: desktop) {
       margin: 0;
@@ -63,7 +63,7 @@
     @include govuk-media-query($from: desktop) {
       display: inline-block;
 
-      margin-left: govuk-spacing(2);
+      margin-left: govuk.govuk-spacing(2);
 
       text-align: right;
     }
@@ -75,7 +75,7 @@
 
   .app-summary-card__body {
     @include govuk-font($size: 19);
-    padding: govuk-spacing(2) govuk-spacing(3);
+    padding: govuk.govuk-spacing(2) govuk.govuk-spacing(3);
   }
 
   // Summary list component overrides
@@ -89,7 +89,7 @@
       .govuk-summary-list__key,
       .govuk-summary-list__value,
       .govuk-summary-list__actions {
-        padding-bottom: govuk-spacing(2) + 1px;
+        padding-bottom: govuk.govuk-spacing(2) + 1px;
       }
     }
   }

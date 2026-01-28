@@ -1,10 +1,12 @@
+@use "govuk";
+
 .app-list--definition {
   dt {
     @include govuk-typography-weight-bold;
   }
 
   dd + dt {
-    margin-top: govuk-spacing(4);
+    margin-top: govuk.govuk-spacing(4);
   }
 
   dd {
@@ -12,12 +14,12 @@
   }
 
   dd + dd {
-    margin-top: govuk-spacing(2);
+    margin-top: govuk.govuk-spacing(2);
   }
 }
 
 .govuk-list--bullet > li {
-  margin-bottom: govuk-spacing(1);
+  margin-bottom: govuk.govuk-spacing(1);
 }
 
 .govuk-task-list__row--no-bottom-border {

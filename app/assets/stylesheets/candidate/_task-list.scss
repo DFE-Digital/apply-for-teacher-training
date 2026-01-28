@@ -1,3 +1,5 @@
+@use "../base/govuk";
+
 .app-task-list {
   @include govuk-font($size: 19);
   @include govuk-responsive-margin(9, "bottom");
@@ -8,14 +10,14 @@
 
 .app-task-list__item {
   @include govuk-clearfix;
-  padding-top: govuk-spacing(1);
-  padding-bottom: govuk-spacing(1);
+  padding-top: govuk.govuk-spacing(1);
+  padding-bottom: govuk.govuk-spacing(1);
 
   border-bottom: 1px solid $govuk-border-colour;
 
   .govuk-tag {
-    margin-top: govuk-spacing(1);
-    margin-bottom: govuk-spacing(1);
+    margin-top: govuk.govuk-spacing(1);
+    margin-bottom: govuk.govuk-spacing(1);
 
     @include govuk-media-query($from: tablet) {
       float: right;
@@ -27,7 +29,7 @@
   }
 
   .app-task-list__content + .app-task-list__content {
-    margin-top: govuk-spacing(2);
+    margin-top: govuk.govuk-spacing(2);
   }
 
   .app-task-list__content > *:last-child {
@@ -42,8 +44,8 @@
 .app-task-list__task-name {
   display: block;
 
-  padding: govuk-spacing(1);
-  padding-right: govuk-spacing(2);
+  padding: govuk.govuk-spacing(1);
+  padding-right: govuk.govuk-spacing(2);
   padding-left: 0;
 
   @include govuk-media-query($from: tablet) {

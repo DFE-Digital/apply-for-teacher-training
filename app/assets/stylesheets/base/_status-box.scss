@@ -1,7 +1,7 @@
 @use "govuk";
 
 .app-status-box {
-  padding: govuk-spacing(4);
+  padding: govuk.govuk-spacing(4);
 
   background: govuk.govuk-colour("light-grey");
 }

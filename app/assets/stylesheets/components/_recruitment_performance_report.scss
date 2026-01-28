@@ -1,12 +1,14 @@
+@use "../base/govuk";
+
 .recruitment-performance-report-table {
   &__wrapper {
-    margin-bottom: govuk-spacing(4);
+    margin-bottom: govuk.govuk-spacing(4);
 
     overflow-x: auto;
   }
 
   &__heading {
-    padding-left: govuk-spacing(2);
+    padding-left: govuk.govuk-spacing(2);
 
     text-align: center;
 
@@ -25,19 +27,19 @@
   }
 
   &__subheading--border-left {
-    padding-left: govuk-spacing(2);
+    padding-left: govuk.govuk-spacing(2);
 
     border-left: 1px solid $govuk-border-colour;
   }
 
   &__cell--secondary-subject {
-    padding-left: govuk-spacing(2);
+    padding-left: govuk.govuk-spacing(2);
 
     font-weight: $govuk-font-weight-regular;
   }
 
   &__cell--summary {
-    padding-top: govuk-spacing(2);
+    padding-top: govuk.govuk-spacing(2);
 
     font-weight: $govuk-font-weight-bold;
 
@@ -46,7 +48,7 @@
   }
 
   &__cell--border-left {
-    padding-left: govuk-spacing(2);
+    padding-left: govuk.govuk-spacing(2);
 
     border-left: 1px solid $govuk-border-colour;
   }

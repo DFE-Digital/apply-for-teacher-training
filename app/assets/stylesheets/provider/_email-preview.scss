@@ -1,7 +1,9 @@
+@use "../base/govuk";
+
 .app-email-preview {
-  padding: govuk-spacing(4);
-  margin-top: govuk-spacing(4);
-  margin-bottom: govuk-spacing(6);
+  padding: govuk.govuk-spacing(4);
+  margin-top: govuk.govuk-spacing(4);
+  margin-bottom: govuk.govuk-spacing(6);
 
   border-color: $govuk-border-colour;
   border-style: solid;

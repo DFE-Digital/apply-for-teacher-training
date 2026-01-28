@@ -1,7 +1,7 @@
 @use "../base/govuk";
 
 .itt-report-tabs.govuk-tabs {
-  padding: govuk-spacing(2);
+  padding: govuk.govuk-spacing(2);
 
   background-color: govuk.govuk-colour("light-grey");
 
@@ -11,11 +11,11 @@
 
       flex-wrap: wrap;
 
-      border-bottom: govuk-spacing(0);
+      border-bottom: govuk.govuk-spacing(0);
     }
 
     &__panel {
-      border: govuk-spacing(0);
+      border: govuk.govuk-spacing(0);
     }
 
     &__tab {
@@ -29,13 +29,13 @@
     }
 
     &__list-item {
-      padding: govuk-spacing(2);
+      padding: govuk.govuk-spacing(2);
       margin-right: 0;
 
       text-align: left;
 
       background-color: transparent;
-      border: govuk-spacing(0);
+      border: govuk.govuk-spacing(0);
     }
 
     // This is a hack to prevent the text from changing the size of the element when it becomes bold.
@@ -55,7 +55,7 @@
     // end hack
 
     &__list-item--selected {
-      margin-top: govuk-spacing(0);
+      margin-top: govuk.govuk-spacing(0);
 
       font-weight: $govuk-font-weight-bold;
     }
