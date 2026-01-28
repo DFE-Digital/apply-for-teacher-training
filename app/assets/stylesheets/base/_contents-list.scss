@@ -18,24 +18,24 @@
 
 .app-contents-list--font-size-19 .app-contents-list__title,
 .app-contents-list--font-size-19 .app-contents-list__list {
-  @include govuk-font($size: 19, $line-height: 1.5);
+  @include govuk.govuk-font($size: 19, $line-height: 1.5);
 }
 
 .app-contents-list--font-size-24 .app-contents-list__title,
 .app-contents-list--font-size-24 .app-contents-list__list {
-  @include govuk-font($size: 24, $line-height: 1.5);
+  @include govuk.govuk-font($size: 24, $line-height: 1.5);
 }
 
 .app-contents-list__title {
   @include govuk-text-colour;
-  @include govuk-font($size: 16, $weight: regular, $line-height: 1.5);
+  @include govuk.govuk-font($size: 16, $weight: regular, $line-height: 1.5);
   margin: 0;
 }
 
 .app-contents-list__list,
 .app-contents-list__nested-list {
   @include govuk-text-colour;
-  @include govuk-font($size: 16);
+  @include govuk.govuk-font($size: 16);
   padding: 0;
   margin: 0;
 

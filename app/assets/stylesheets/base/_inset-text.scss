@@ -21,6 +21,6 @@
 }
 
 .app-inset-text__title {
-  @include govuk-font($size: 19, $weight: "bold");
+  @include govuk.govuk-font($size: 19, $weight: "bold");
   margin-bottom: govuk.govuk-spacing(2);
 }

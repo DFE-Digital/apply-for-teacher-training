@@ -28,7 +28,7 @@
   }
 
   .app-summary-card__title {
-    @include govuk-font($size: 19);
+    @include govuk.govuk-font($size: 19);
     margin-top: 0;
     margin-bottom: govuk.govuk-spacing(2);
 
@@ -38,14 +38,14 @@
   }
 
   .app-summary-card__meta {
-    @include govuk-font($size: 16);
+    @include govuk.govuk-font($size: 16);
     display: block;
 
     margin: 0;
   }
 
   .app-summary-card__actions {
-    @include govuk-font($size: 19);
+    @include govuk.govuk-font($size: 19);
   }
 
   .app-summary-card__actions-list {
@@ -74,7 +74,7 @@
   }
 
   .app-summary-card__body {
-    @include govuk-font($size: 19);
+    @include govuk.govuk-font($size: 19);
     padding: govuk.govuk-spacing(2) govuk.govuk-spacing(3);
   }
 

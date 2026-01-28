@@ -29,7 +29,7 @@
 }
 
 .app-primary-navigation__item {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
   float: left;
 
   margin-top: 0;

@@ -43,7 +43,7 @@
     }
 
     &__link {
-      @include govuk-font(19);
+      @include govuk.govuk-font(19);
       position: relative;
 
       display: block;

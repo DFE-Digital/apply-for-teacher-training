@@ -20,7 +20,7 @@
 }
 
 .app-tab-navigation__item {
-  @include govuk-font(19);
+  @include govuk.govuk-font(19);
   display: block;
 
   margin-top: -1px;

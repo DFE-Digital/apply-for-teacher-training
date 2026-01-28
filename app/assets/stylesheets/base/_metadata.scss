@@ -26,7 +26,7 @@
 
 .gem-c-metadata {
   @include govuk-text-colour;
-  @include govuk-font(16);
+  @include govuk.govuk-font(16);
   @include responsive-bottom-margin;
   @include govuk-clearfix;
 

@@ -9,7 +9,7 @@
 }
 
 .app-course-choice__provider-name {
-  @include govuk-font($size: 19, $weight: "bold");
+  @include govuk.govuk-font($size: 19, $weight: "bold");
 }
 
 .app-course-choice__course-name {
