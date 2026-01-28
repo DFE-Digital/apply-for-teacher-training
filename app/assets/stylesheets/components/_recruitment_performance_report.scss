@@ -23,7 +23,7 @@
 
   &__subheading {
     border-top: none;
-    border-bottom: $govuk-border-width-narrow solid govuk.$govuk-border-colour;
+    border-bottom: govuk.$govuk-border-width-narrow solid govuk.$govuk-border-colour;
   }
 
   &__subheading--border-left {
@@ -43,7 +43,7 @@
 
     font-weight: $govuk-font-weight-bold;
 
-    border-top: $govuk-border-width-narrow solid govuk.$govuk-border-colour;
+    border-top: govuk.$govuk-border-width-narrow solid govuk.$govuk-border-colour;
     border-bottom: none;
   }
 
