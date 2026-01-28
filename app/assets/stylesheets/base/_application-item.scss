@@ -16,7 +16,7 @@
   }
 
   .govuk-heading-s {
-    @include govuk-link-common;
+    @include govuk.govuk-link-common;
     @include govuk-link-style-default;
     color: $govuk-link-colour;
 
