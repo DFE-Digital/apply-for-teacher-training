@@ -1,3 +1,5 @@
+@use "govuk";
+
 .app-\!-colour-muted {
-  color: $govuk-secondary-text-colour;
+  color: govuk.$govuk-secondary-text-colour;
 }

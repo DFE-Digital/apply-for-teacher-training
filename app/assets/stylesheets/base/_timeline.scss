@@ -73,14 +73,14 @@
 
   margin: 0;
 
-  color: $govuk-secondary-text-colour;
+  color: govuk.$govuk-secondary-text-colour;
 }
 
 .app-timeline__date {
   @include govuk.govuk-font($size: 19);
   margin: 0;
 
-  color: $govuk-secondary-text-colour;
+  color: govuk.$govuk-secondary-text-colour;
 }
 
 .app-timeline__event_link {
@@ -105,5 +105,5 @@
   @include govuk.govuk-font($size: 19);
   margin-bottom: 20px;
 
-  color: $govuk-secondary-text-colour;
+  color: govuk.$govuk-secondary-text-colour;
 }
