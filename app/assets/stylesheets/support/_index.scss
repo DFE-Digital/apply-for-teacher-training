@@ -1,15 +1,7 @@
 @use "../base/govuk";
 
 // Support components
-$moj-assets-path: "/";
-@import "@ministryofjustice/frontend/moj/settings/assets";
-@import "@ministryofjustice/frontend/moj/settings/measurements";
-@import "@ministryofjustice/frontend/moj/helpers/all";
-@import "@ministryofjustice/frontend/moj/objects/width-container";
-@import "@ministryofjustice/frontend/moj/components/filter/filter";
-@import "@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation";
-@import "@ministryofjustice/frontend/moj/components/primary-navigation/primary-navigation";
-@import "@ministryofjustice/frontend/moj/utilities/all";
+@import "moj";
 @import "../components/syntax-highlighting";
 @import "app-count";
 @import "button";
