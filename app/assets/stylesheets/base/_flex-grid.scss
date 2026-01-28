@@ -12,7 +12,7 @@
 
     flex-wrap: wrap;
 
-    @each $width in map-keys($govuk-grid-widths) {
+    @each $width in map-keys(govuk.$govuk-grid-widths) {
       .govuk-grid-column-#{$width} {
         float: none;
 
