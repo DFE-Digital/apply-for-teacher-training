@@ -17,8 +17,8 @@ $code-07: #ffffff; // Light background (unused)
 $code-08: #b26749; // Variables, XML tags, markup link text, markup lists
 $code-09: #0e7754; // Integers, boolean, constants, XML attributes, markup link URL
 $code-0a: #4c4077; // Classes, markup bold, search text background
-$code-0b: $govuk-brand-colour; // Strings, inherited class, markup code
-$code-0c: $govuk-brand-colour; // Support, regular expressions, escape characters, markup quotes
+$code-0b: govuk.$govuk-brand-colour; // Strings, inherited class, markup code
+$code-0c: govuk.$govuk-brand-colour; // Support, regular expressions, escape characters, markup quotes
 $code-0d: #4c4077; // Functions, methods, attribute IDs, headings
 $code-0e: #a71d5d; // Keywords, storage, selector, markup italic
 $code-0f: #c92424; // Deprecated, opening/closing embedded language tags e.g. <?php ?> (unused)
