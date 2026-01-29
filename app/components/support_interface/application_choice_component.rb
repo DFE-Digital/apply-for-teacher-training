@@ -107,7 +107,7 @@ module SupportInterface
     def offer_conditions_row
       return if application_choice.pre_offer?
 
-      conditions = application_choice.offer.text_conditions
+      conditions = [application_choice.offer.text_conditions, application_choice.offer.reference_condition].flatten.compact
 
       {
         key: 'Conditions',

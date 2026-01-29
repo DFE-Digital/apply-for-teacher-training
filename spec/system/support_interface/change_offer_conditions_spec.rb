@@ -21,6 +21,10 @@ RSpec.describe 'Add course to submitted application' do
     then_i_see_the_new_condition_as_well_as_the_original_ones
 
     when_i_click_on_change_conditions
+    and_add_a_specific_reference_and_click_update_conditions_with_a_support_ticket_url
+    then_i_see_specific_references_in_the_list_of_conditions
+
+    when_i_click_on_change_conditions
     and_i_remove_all_conditions_and_click_update_conditions
     then_i_see_a_confirmation_page_about_candidate_being_recruited
 
@@ -123,5 +127,15 @@ RSpec.describe 'Add course to submitted application' do
     expect(page).to have_current_path(support_interface_application_form_path(@application_choice.application_form_id))
     expect(page).to have_content('Recruited')
     expect(page).to have_css('.govuk-summary-list__row', text: 'Conditions No conditions added Change conditions')
+  end
+
+  def and_add_a_specific_reference_and_click_update_conditions_with_a_support_ticket_url
+    fill_in 'Give details of the specific reference', with: 'Please provide a reference from your school employer'
+    fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
+    click_link_or_button 'Update conditions'
+  end
+
+  def then_i_see_specific_references_in_the_list_of_conditions
+    expect(page).to have_content('Specific references')
   end
 end
