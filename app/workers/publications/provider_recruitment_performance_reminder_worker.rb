@@ -5,10 +5,15 @@ module Publications
     sidekiq_options retry: 3, queue: :default
 
     def perform
-      return if Publications::NationalRecruitmentPerformanceReport.find_by(generation_date: Time.zone.now).blank?
+      cycle_week = RecruitmentCycleTimetable.current_cycle_week.pred
+      recruitment_cycle_year = RecruitmentCycleTimetable.current_year
+      
+      return if Publications::NationalRecruitmentPerformanceReport.find_by(
+        cycle_week:, recruitment_cycle_year:,
+      ).blank?
 
       provider_ids = Publications::ProviderRecruitmentPerformanceReport.where(
-        generation_date: Time.zone.now,
+        cycle_week:, recruitment_cycle_year:,
       ).pluck(:provider_id)
       ProviderUser.joins(:provider_permissions).where('provider_permissions.provider_id' => provider_ids).find_in_batches do |provider_user_batch|
         provider_user_batch.each do |provider_user|

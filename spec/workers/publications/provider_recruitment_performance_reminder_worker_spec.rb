@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Publications::ProviderRecruitmentPerformanceReminderWorker do
+  let(:cycle_week) { RecruitmentCycleTimetable.current_cycle_week.pred }
+  let(:recruitment_cycle_year) { RecruitmentCycleTimetable.current_year }
   let(:provider) { create(:provider, :no_users) }
   let!(:provider_user) { create(:provider_user, providers: [provider]) }
   let(:national_recruitment_performance_report) do
-    create(:national_recruitment_performance_report, generation_date: Time.zone.now)
+    create(:national_recruitment_performance_report, cycle_week:, recruitment_cycle_year:)
   end
   let(:provider_recruitment_performance_report) do
-    create(:provider_recruitment_performance_report, provider: provider, generation_date: Time.zone.now)
+    create(:provider_recruitment_performance_report, provider:, cycle_week:, recruitment_cycle_year:)
   end
 
   describe '#perform' do
@@ -20,7 +22,7 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReminderWorker do
     context 'when no provider recruitment performance report exists for the given provider' do
       before do
         national_recruitment_performance_report
-        create(:provider_recruitment_performance_report, generation_date: Time.zone.now)
+        create(:provider_recruitment_performance_report, cycle_week:, recruitment_cycle_year:)
         allow(ProviderMailer).to receive(:recruitment_performance_report_reminder).and_call_original
       end
 
