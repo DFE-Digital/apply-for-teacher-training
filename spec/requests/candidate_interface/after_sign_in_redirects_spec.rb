@@ -59,12 +59,27 @@ RSpec.describe 'After sign in redirects' do
   end
 
   context 'when application already contains course from find' do
-    it 'redirects to your applications and shows a message to the candidate' do
-      create(:application_choice, :awaiting_provider_decision, application_form:, course_option: create(:course_option, course: course_from_find))
-      get candidate_interface_interstitial_path
-      expect(response).to redirect_to(candidate_interface_application_choices_path)
-      follow_redirect!
-      expect(response.body).to include("You have already added an application for #{course_from_find.name}")
+    context 'and the application choice has been submitted' do
+      it 'redirects to your applications and shows a message to the candidate' do
+        create(:application_choice, :awaiting_provider_decision, application_form:, course_option: create(:course_option, course: course_from_find))
+        get candidate_interface_interstitial_path
+        expect(response).to redirect_to(candidate_interface_application_choices_path)
+        follow_redirect!
+        expect(response.body).to include("You have already added an application for #{course_from_find.name}")
+      end
+    end
+
+    context 'and the application choice has not been submitted' do
+      it 'redirects to your applications and shows a message to the candidate' do
+        unsubmitted_choice_with_course_from_find = create(
+          :application_choice,
+          :unsubmitted,
+          application_form:,
+          course_option: create(:course_option, course: course_from_find),
+        )
+        get candidate_interface_interstitial_path
+        expect(response).to redirect_to(candidate_interface_course_choices_course_review_and_submit_path(unsubmitted_choice_with_course_from_find))
+      end
     end
   end
 
