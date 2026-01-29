@@ -12,6 +12,10 @@ class PreviousTeacherTraining::ListComponent < ViewComponent::Base
     @heading_level = heading_level
   end
 
+  def render?
+    @previous_teacher_training.started == 'yes'
+  end
+
   def card_details
     { rows: }.merge(card_row)
   end
