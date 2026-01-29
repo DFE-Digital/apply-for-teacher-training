@@ -9,6 +9,7 @@ module Publications
       return unless HostingEnvironment.production?
 
       schedule_national_report
+      schedule_regional_report
       schedule_provider_report
     end
 
@@ -21,6 +22,19 @@ module Publications
 
       Publications::NationalRecruitmentPerformanceReportWorker
         .perform_async(cycle_week)
+    end
+
+    def schedule_regional_report
+      Publications::RegionalRecruitmentPerformanceReport.regions.each_key do |region|
+        next if Publications::RegionalRecruitmentPerformanceReport.exists?(
+          cycle_week:,
+          recruitment_cycle_year:,
+          region:, # check exact key in DB
+        )
+
+        Publications::RegionalRecruitmentPerformanceReportWorker
+          .perform_async(cycle_week, region)
+      end
     end
 
     def schedule_provider_report

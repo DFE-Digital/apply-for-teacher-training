@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_24_101109) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_29_160320) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1035,6 +1035,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_24_101109) do
     t.boolean "confidential"
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
     t.index ["feedback_status"], name: "index_references_on_feedback_status"
+  end
+
+  create_table "regional_recruitment_performance_reports", force: :cascade do |t|
+    t.json "statistics"
+    t.integer "cycle_week", null: false
+    t.integer "recruitment_cycle_year", null: false
+    t.string "region", null: false
+    t.date "publication_date", null: false
+    t.date "generation_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recruitment_cycle_year"], name: "idx_on_recruitment_cycle_year_10d73daf75"
   end
 
   create_table "rejection_feedbacks", force: :cascade do |t|
