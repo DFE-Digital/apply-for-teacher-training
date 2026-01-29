@@ -14,7 +14,6 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
   scenario 'Candidate carried over when submitted at has value but courses choices does not have submission' do
     given_i_have_an_empty_submitted_application_from_last_cycle
     and_i_am_signed_in_as_a_candidate
-    and_i_visit_the_application_dashboard
     then_i_see_your_applications_page
   end
 
@@ -114,14 +113,14 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
     and_i_am_signed_in_as_a_candidate
     # carry over occurs
     then_my_application_is_into_the_new_cycle
-    and_i_am_in_your_details_page
+    then_i_see_the_carry_over_content
   end
 
   def then_i_can_carry_over_my_application_to_the_new_cycle_using_the_carry_over_interstitial
     and_i_am_signed_in_as_a_candidate
     # carry over occurs
     then_my_application_is_into_the_new_cycle
-    and_i_am_in_your_details_page
+    then_i_see_the_carry_over_content
   end
 
   def and_i_am_signed_in_as_a_candidate

@@ -11,9 +11,6 @@ RSpec.describe 'Carry over after the Apply Deadline' do
     given_i_have_unsubmitted_application
 
     when_i_sign_in
-    then_i_am_redirected_to_the_your_details_page
-
-    when_i_go_to_your_applications_tab
     then_i_see_the_recruitment_deadline_has_passed_content
     and_i_see_information_to_apply_for_the_next_academic_year
     and_i_do_not_see_the_add_course_button
@@ -31,9 +28,6 @@ RSpec.describe 'Carry over after the Apply Deadline' do
     and_today_is_after_find_reopens
 
     when_i_sign_in
-    then_i_am_redirected_to_the_your_details_page
-
-    when_i_go_to_your_applications_tab
     then_i_see_the_recruitment_deadline_has_passed_content
     and_i_see_information_to_apply_for_this_academic_year
     and_i_can_see_the_add_course_button

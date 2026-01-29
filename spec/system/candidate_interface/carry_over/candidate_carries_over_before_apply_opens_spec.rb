@@ -9,7 +9,9 @@ RSpec.describe 'Carry after find opens but before apply opens' do
     and_a_course_exists
 
     when_i_sign_in
+    then_i_see_the_recruitment_deadline_page
     # Carry over occurs
+    when_i_navigate_to_my_details
     and_complete_my_details
     then_i_can_add_courses
     and_i_cannot_submit_my_applications
@@ -73,5 +75,14 @@ private
     expect(page).to have_content 'This course is not yet open to applications.'
     click_on 'Your applications'
     expect(page).to have_content 'Draft'
+  end
+
+  def then_i_see_the_recruitment_deadline_page
+    expect(page).to have_current_path candidate_interface_application_choices_path
+    expect(page).to have_content 'The recruitment deadline has now passed'
+  end
+
+  def when_i_navigate_to_my_details
+    click_on "Your details"
   end
 end

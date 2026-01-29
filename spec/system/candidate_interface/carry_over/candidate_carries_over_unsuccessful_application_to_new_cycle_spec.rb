@@ -42,8 +42,6 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     given_i_have_an_application_with_a_rejection
     and_the_next_cycle_opens
     when_i_sign_in
-
-    when_i_click_on_your_applications
     then_i_see_the_your_applications_page
   end
 
@@ -51,6 +49,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     given_i_have_an_application_with_a_rejection
     and_the_apply_deadline_passes
     when_i_sign_in
+    and_i_visit_my_details_page
     and_i_click_on_work_history
     then_i_see_the_add_another_job_button
   end
