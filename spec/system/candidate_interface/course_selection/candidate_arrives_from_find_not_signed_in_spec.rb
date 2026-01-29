@@ -22,7 +22,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     when_i_sign_out
     when_i_arrive_at_the_apply_from_find_page_with_the_single_site_course_params
     and_i_go_to_sign_in
-    and_i_am_informed_i_have_already_selected_that_course
+    and_i_see_the_review_page
 
     # Multi-site course
     given_i_am_signed_out
@@ -185,8 +185,8 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     click_link_or_button 'Sign out'
   end
 
-  def and_i_am_informed_i_have_already_selected_that_course
-    expect(page).to have_content "You have already added an application for #{@course.name}."
+  def and_i_see_the_review_page
+    expect(page).to have_content "Your application to #{@course.provider.name}"
   end
 
   def and_i_see_a_link_to_the_course_on_find
