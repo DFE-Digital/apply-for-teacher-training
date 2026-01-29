@@ -83,6 +83,6 @@ private
   end
 
   def when_i_navigate_to_my_details
-    click_on "Your details"
+    click_on 'Your details'
   end
 end

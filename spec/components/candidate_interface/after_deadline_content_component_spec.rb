@@ -29,14 +29,14 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
 
           year_range = application_form.academic_year_range_name
           expect(component).to have_text "Apply to courses in the #{year_range} academic year"
-          expect(component).not_to have_link('Choose a course', class: 'govuk-button')
+          expect(component).to have_no_link('Choose a course', class: 'govuk-button')
 
           expect(component).to have_text "You will be able to view courses on Find teacher training courses from #{application_form.find_opens_at.to_fs(:govuk_date_time_time_first)}."
           expect(component).to have_text "You can apply for courses from #{application_form.apply_opens_at.to_fs(:govuk_date_time_time_first)}."
         end
       end
     end
-    
+
     context 'after find opens' do
       it 'shows text about carrying over' do
         application_form = create(:application_form)
@@ -47,7 +47,7 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
           expect(component).to have_text "Apply to courses in the #{year_range} academic year"
           expect(component).to have_link('Choose a course', class: 'govuk-button')
 
-          expect(component).to have_text "You can view courses on Find teacher training courses."
+          expect(component).to have_text 'You can view courses on Find teacher training courses.'
           expect(component).to have_text "You can apply for courses from #{application_form.apply_opens_at.to_fs(:govuk_date_time_time_first)}."
         end
       end

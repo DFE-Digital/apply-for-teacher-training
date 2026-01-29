@@ -89,6 +89,6 @@ RSpec.describe 'Carry over unsubmitted application' do
   end
 
   def when_i_navigate_to_my_details_page
-    click_on "Your details"
+    click_on 'Your details'
   end
 end

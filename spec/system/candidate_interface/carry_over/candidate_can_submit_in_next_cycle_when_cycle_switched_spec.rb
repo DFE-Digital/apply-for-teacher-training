@@ -88,7 +88,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
   end
 
   def and_i_navigate_to_my_details
-    click_on "Your details"
+    click_on 'Your details'
   end
 
   def then_i_cannot_submit_my_application
