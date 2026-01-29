@@ -38,7 +38,7 @@
     "stylelint": "^16.26.1",
     "stylelint-config-gds": "^2.0.0",
     "stylelint-config-recess-order": "^7.6.0",
-    "stylelint-order": "^6.0.4"
+    "stylelint-order": "^7.0.1"
   },
   "scripts": {
     "test": "jest",
