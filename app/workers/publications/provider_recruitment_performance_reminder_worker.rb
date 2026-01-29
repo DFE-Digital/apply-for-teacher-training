@@ -7,7 +7,7 @@ module Publications
     def perform
       cycle_week = RecruitmentCycleTimetable.current_cycle_week.pred
       recruitment_cycle_year = RecruitmentCycleTimetable.current_year
-      
+
       return if Publications::NationalRecruitmentPerformanceReport.find_by(
         cycle_week:, recruitment_cycle_year:,
       ).blank?
