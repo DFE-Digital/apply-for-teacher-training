@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.4.4'
+ruby '3.4.8'
 
 gem 'timeliness'
 
@@ -25,6 +25,9 @@ gem 'mail-notify'
 gem 'notifications-ruby-client'
 
 gem 'govuk_markdown'
+
+# Reduces boot times through caching; required in config/boot.rb
+gem "bootsnap", require: false
 
 # Linting
 gem 'rubocop', require: false
