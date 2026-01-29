@@ -10,8 +10,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
       and_the_cycle_switcher_set_to_apply_opens
 
       when_i_sign_in_again
-      then_i_see_my_details
-
+      and_i_navigate_to_my_details
       when_i_view_referees
       then_i_can_see_the_referees_i_previously_added
       and_i_can_complete_the_references_section
@@ -32,6 +31,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
       and_the_cycle_switcher_set_to_apply_opens
 
       when_i_sign_in_again
+      and_i_navigate_to_my_details
       then_i_see_my_details
 
       when_i_view_referees
@@ -85,6 +85,10 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
 
   def and_i_visit_the_application_dashboard
     visit candidate_interface_application_choices_path
+  end
+
+  def and_i_navigate_to_my_details
+    click_on "Your details"
   end
 
   def then_i_cannot_submit_my_application

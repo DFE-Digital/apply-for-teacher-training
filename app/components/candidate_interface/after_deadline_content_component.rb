@@ -58,11 +58,18 @@ module CandidateInterface
     end
 
     def find_opens_text
-      t(
-        '.when_find_opens_html',
-        find_link: govuk_link_to(t('.find_link_text'), t('find_teacher_training.production_url')),
-        find_opens_at: find_opens_at.to_fs(:govuk_date_time_time_first),
-      )
+      if before_find_opens?
+        t(
+          '.when_find_opens_html',
+          find_link: govuk_link_to(t('.find_link_text'), t('find_teacher_training.production_url')),
+          find_opens_at: find_opens_at.to_fs(:govuk_date_time_time_first),
+        )
+      else
+        t(
+          '.find_has_opened_html',
+          find_link: govuk_link_to(t('.find_link_text'), t('find_teacher_training.production_url')),
+        )
+      end
     end
 
     def apply_opens_text

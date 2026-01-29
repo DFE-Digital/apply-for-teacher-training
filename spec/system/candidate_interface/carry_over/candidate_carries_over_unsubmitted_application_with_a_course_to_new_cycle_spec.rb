@@ -10,8 +10,7 @@ RSpec.describe 'Carry over application and submit new application choices' do
     and_the_cancel_unsubmitted_applications_worker_runs
 
     when_i_sign_in_again
-    then_i_see_application_details_page
-    and_i_can_navigate_to_application_choices
+    then_i_see_the_your_applications_page
 
     when_i_view_referees
     then_i_can_see_the_referees_i_previously_added
@@ -78,20 +77,13 @@ private
     click_on 'Your applications'
   end
 
-  def then_i_see_the_carry_over_content
+  def then_i_see_the_your_applications_page
     expect(page).to have_current_path candidate_interface_application_choices_path
-
-    within 'form.button_to[action="/candidate/application/carry-over"]' do
-      expect(page).to have_button 'Continue'
-    end
+    expect(page).to have_element(:h1, text: 'Your applications')
   end
 
   def when_i_click_on_continue
     click_link_or_button 'Continue'
-  end
-
-  def and_i_navigate_to_applications
-    click_on 'Your applications'
   end
 
   def then_i_see_application_details_page

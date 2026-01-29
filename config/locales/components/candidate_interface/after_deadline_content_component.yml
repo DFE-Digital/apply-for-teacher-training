@@ -18,6 +18,7 @@ en:
         Any offers that you had received have been declined on your behalf because you did not respond before the
         deadline of %{decline_by_default_at}. Contact the training provider if you need to discuss this.
       when_find_opens_html: You will be able to view courses on %{find_link} from %{find_opens_at}.
+      find_has_opened_html: You can view courses on %{find_link}.
       find_link_text: Find teacher training courses
       when_apply_opens: You can apply for courses from %{apply_opens_at}.
       application_deadline_has_passed_for_academic_year: >

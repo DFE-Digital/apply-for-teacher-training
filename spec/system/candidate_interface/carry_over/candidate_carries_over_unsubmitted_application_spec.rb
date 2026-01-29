@@ -9,6 +9,9 @@ RSpec.describe 'Carry over unsubmitted application' do
 
     when_the_apply_deadline_passes
     and_i_sign_in_again # Carry over occurs
+    then_i_see_the_recruitment_deadline_has_passed
+
+    when_i_navigate_to_my_details_page
     then_i_see_the_references_section
     and_references_is_marked_as_incomplete
 
@@ -78,5 +81,14 @@ RSpec.describe 'Carry over unsubmitted application' do
 
   def safeguarding_section
     find(:xpath, "//h2[contains(text(),'Safeguarding')]/..")
+  end
+
+  def then_i_see_the_recruitment_deadline_has_passed
+    expect(page).to have_current_path candidate_interface_application_choices_path
+    expect(page).to have_element(:h1, text: 'The recruitment deadline has now passed')
+  end
+
+  def when_i_navigate_to_my_details_page
+    click_on "Your details"
   end
 end
