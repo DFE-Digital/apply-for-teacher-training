@@ -57,3 +57,5 @@ en:
       subject: Sign in
     respond_to_applications_before_reject_by_default_date:
       subject: Offer places to candidates by %{reject_by_default_date}
+    recruitment_performance_report_reminder:
+      subject: Your weekly recruitment performance report is now available

@@ -176,3 +176,5 @@ en:
           support_mailer:
             confirm_sign_in: Missing description
             fallback_sign_in_email: DFE fallback sign in (Inactive)
+          provider_report_mailer:
+            recruitment_performance_report_reminder: Send reminder to providers when their weekly recruitment performance report has been generated
