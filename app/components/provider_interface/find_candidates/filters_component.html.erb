@@ -3,12 +3,6 @@
 <% end %>
 
 <div class='moj-filter-layout'>
-  <div class="mobile-only-search">
-    <div class='govuk-!-margin-bottom-2'>
-      <%= render ProviderInterface::FindCandidates::CandidateSearchComponent.new(filter:) %>
-    </div>
-  </div>
-
   <div class="moj-filter-layout__filter app-filter">
     <div class="moj-filter">
       <div class="moj-filter__header">
@@ -180,13 +174,11 @@
     </div>
   </div>
   <div class='moj-filter-layout__content'>
-    <div class="desktop-only-search">
-      <%= render ProviderInterface::FindCandidates::CandidateSearchComponent.new(filter:) %>
-    </div>
+    <%= render ProviderInterface::FindCandidates::CandidateSearchComponent.new(filter:) %>
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-        <div class="filter-toggle-button">
+        <div class="filter-toggle-button govuk-!-margin-top-2">
         </div>
       </div>
     </div>

@@ -25,18 +25,6 @@
   }
 }
 
-.mobile-only-search {
-  @include govuk-media-query($from: desktop) {
-    display: none;
-  }
-}
-
-.desktop-only-search {
-  @include govuk-media-query($until: desktop) {
-    display: none;
-  }
-}
-
 .filter-toggle-button {
   margin-bottom: govuk-spacing(1);
   @include govuk-media-query($from: desktop) {
