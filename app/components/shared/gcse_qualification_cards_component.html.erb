@@ -92,7 +92,10 @@
 
           <% if editable? %>
             <p class="govuk-body govuk-!-margin-top-1 app-edit-qualification">
-              <%= govuk_link_to 'Change', support_interface_application_form_edit_gcse_path(id: qualification.id) %>
+              <%= govuk_link_to support_interface_application_form_edit_gcse_path(id: qualification.id) do %>
+              Change
+              <span class="govuk-visually-hidden"><%= qualification.subject %> <%= qualification.level %></span>
+              <% end %>
             </p>
           <% end %>
         </div>
