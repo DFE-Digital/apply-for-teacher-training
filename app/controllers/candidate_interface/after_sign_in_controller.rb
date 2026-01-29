@@ -9,7 +9,9 @@ module CandidateInterface
     def interstitial
       current_candidate.update!(course_from_find_id: nil)
 
-      if current_application.contains_course?(course_from_find)
+      if unsubmitted_choice_with_course.present?
+        redirect_to candidate_interface_course_choices_course_review_and_submit_path(unsubmitted_choice_with_course)
+      elsif choices_with_course.any?
         flash[:warning] = "You have already added an application for #{course_from_find.name}. #{view_context.link_to('Find a different course to apply to', find_url, class: 'govuk-link')}."
         redirect_to course_choices_page
       elsif current_application.cannot_add_more_choices?
@@ -56,6 +58,16 @@ module CandidateInterface
 
     def course_from_find
       @course_from_find ||= current_candidate.course_from_find
+    end
+
+    def choices_with_course
+      @choices_with_course ||= current_application.choices_with_course(course_from_find)
+    end
+
+    def unsubmitted_choice_with_course
+      return @unsubmitted_choice_with_course if defined?(@unsubmitted_choice_with_course)
+
+      @unsubmitted_choice_with_course = choices_with_course.find(&:unsubmitted?)
     end
 
     def store_prefill_data
