@@ -79,6 +79,7 @@ RSpec.describe 'Docs' do
       candidate_mailer-visa_sponsorship_deadline_reminder
       candidate_mailer-visa_sponsorship_deadline_change
       candidate_mailer-deferred_offer_new_details
+      provider_mailer-recruitment_performance_report_reminder
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"

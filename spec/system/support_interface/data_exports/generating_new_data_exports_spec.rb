@@ -30,7 +30,9 @@ private
     @active_export_type ||= DataExport.active_export_types.keys.sample
     name = DataExport::EXPORT_TYPES.dig(@active_export_type, :name)
 
-    click_on name
+    within('.govuk-main-wrapper') do
+      click_on name
+    end
   end
 
   def then_i_see_the_green_button
@@ -58,6 +60,8 @@ private
   def and_i_click_on_a_deprecated_export_type
     deprecated_export_type = DataExport.deprecated_export_types.values.map { |et| et[:name] }.sample
 
-    click_on deprecated_export_type
+    within('.govuk-main-wrapper') do
+      click_on deprecated_export_type
+    end
   end
 end

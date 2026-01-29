@@ -87,4 +87,5 @@ class Clock
   every(7.days, 'ApplicationsByDemographicDomicileAndDegreeClassExport', at: 'Sunday 23:57') { SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.run_weekly }
 
   every(7.days, 'Schedule Recruitment Performance reports', at: 'Monday 05:30', if: ->(_period) { RecruitmentPerformanceReportTimetable.report_season? }) { Publications::RecruitmentPerformanceReportScheduler.new.call }
+  every(7.days, 'ProviderRecruitmentPerformanceReportReminder', at: 'Monday 12:00') { Publications::ProviderRecruitmentPerformanceReminderWorker.perform_async }
 end
