@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Candidate arrives from Find with provider and course that is already added' do
   include CandidateHelper
 
-  scenario 'The provider is only accepting applications on the Apply service' do
+  scenario 'The application has been submitted' do
     given_there_is_a_provider_with_a_course_that_is_only_accepting_applications_on_apply
 
     when_i_follow_a_link_from_find
@@ -27,7 +27,7 @@ RSpec.describe 'Candidate arrives from Find with provider and course that is alr
   def and_i_already_have_this_application
     create(
       :application_choice,
-      :unsubmitted,
+      :awaiting_provider_decision,
       application_form: current_candidate.current_application,
       course: @course,
     )
