@@ -20,8 +20,9 @@ RSpec.describe 'Candidate has an application where provider does not make a deci
 
       when_the_reject_by_default_deadline_has_passed
       and_i_sign_in
-      then_i_see_my_application_is_now_unsuccessful
-      and_i_can_carry_over_my_application
+      and_i_navigate_to_my_applications
+      then_i_see_the_recruitment_deadline_page
+      and_i_see_information_to_apply_for_the_next_academic_year
     end
   end
 
@@ -36,8 +37,9 @@ RSpec.describe 'Candidate has an application where provider does not make a deci
 
       when_the_reject_by_default_deadline_has_passed
       and_i_sign_in
-      then_i_see_my_application_is_now_unsuccessful
-      and_i_can_carry_over_my_application
+      and_i_navigate_to_my_applications
+      then_i_see_the_recruitment_deadline_page
+      and_i_see_information_to_apply_for_the_next_academic_year
     end
   end
 
@@ -52,8 +54,9 @@ RSpec.describe 'Candidate has an application where provider does not make a deci
 
       when_the_reject_by_default_deadline_has_passed
       and_i_sign_in
-      then_i_see_my_application_is_now_unsuccessful
-      and_i_can_carry_over_my_application
+      and_i_navigate_to_my_applications
+      then_i_see_the_recruitment_deadline_page
+      and_i_see_information_to_apply_for_the_next_academic_year
     end
   end
 
@@ -121,5 +124,32 @@ private
   def when_the_reject_by_default_deadline_has_passed
     advance_time_to(reject_by_default_run_date)
     EndOfCycle::RejectByDefaultWorker.perform_sync
+  end
+
+  def then_i_see_the_recruitment_deadline_page
+    application_form = @candidate.current_application.previous_application_form
+    expect(page).to have_current_path candidate_interface_application_choices_path
+    expect(page).to have_element(:h1, text: 'The recruitment deadline has now passed')
+    expect(page).to have_element(
+      :p,
+      text: "The deadline for applying to courses in the #{application_form.academic_year_range_name} " \
+            'academic year has passed. You can no longer apply to courses starting in ' \
+            "#{application_form.recruitment_cycle_timetable.apply_deadline_at.to_fs(:month_and_year)}.",
+    )
+  end
+
+  def and_i_see_information_to_apply_for_the_next_academic_year
+    and_i_see_information_to_apply_for(RecruitmentCycleTimetable.next_timetable)
+  end
+
+  def and_i_see_information_to_apply_for_this_academic_year
+    and_i_see_information_to_apply_for(RecruitmentCycleTimetable.current_timetable)
+  end
+
+  def and_i_see_information_to_apply_for(timetable)
+    expect(page).to have_element(
+      :h2,
+      text: "Apply to courses in the #{timetable.academic_year_range_name} academic year",
+    )
   end
 end

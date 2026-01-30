@@ -4,7 +4,7 @@ module CandidateInterface
 
     def create
       CarryOverApplication.new(current_application).call
-      redirect_to candidate_interface_details_path
+      redirect_to candidate_interface_application_choices_path
     end
   end
 end

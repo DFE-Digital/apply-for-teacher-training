@@ -11,14 +11,9 @@ RSpec.describe 'Carry over after the Apply Deadline' do
     given_i_have_unsubmitted_application
 
     when_i_sign_in
-    then_i_see_the_carry_over_content
-
-    when_i_carry_over
-    then_i_am_redirected_to_the_your_details_page
-
-    when_i_go_to_your_applications_tab
-    then_i_do_not_see_the_add_course_button
-    and_i_see_the_carried_over_banner
+    then_i_see_the_recruitment_deadline_has_passed_content
+    and_i_see_information_to_apply_for_the_next_academic_year
+    and_i_do_not_see_the_add_course_button
     and_i_do_not_see_previous_applications_heading
 
     when_i_visit_add_course_url
@@ -33,14 +28,9 @@ RSpec.describe 'Carry over after the Apply Deadline' do
     and_today_is_after_find_reopens
 
     when_i_sign_in
-    then_i_see_the_carry_over_content
-
-    when_i_carry_over
-    then_i_am_redirected_to_the_your_details_page
-
-    when_i_go_to_your_applications_tab
-    then_i_can_see_the_add_course_button
-    and_i_see_the_carried_over_banner
+    then_i_see_the_recruitment_deadline_has_passed_content
+    and_i_see_information_to_apply_for_this_academic_year
+    and_i_can_see_the_add_course_button
   end
 
 private
@@ -106,11 +96,11 @@ private
     click_link_or_button 'Your application'
   end
 
-  def then_i_do_not_see_the_add_course_button
+  def and_i_do_not_see_the_add_course_button
     expect(page).to have_no_content('Choose a course')
   end
 
-  def then_i_can_see_the_add_course_button
+  def and_i_can_see_the_add_course_button
     expect(page).to have_link('Choose a course', href: candidate_interface_course_choices_do_you_know_the_course_path)
   end
 
@@ -152,5 +142,30 @@ private
   def and_my_application_is_on_the_new_cycle
     current_year = @application_form.recruitment_cycle_year
     expect(current_candidate.current_application.reload.recruitment_cycle_year).to be(current_year + 1)
+  end
+
+  def then_i_see_the_recruitment_deadline_has_passed_content
+    expect(page).to have_element(:h1, text: 'The recruitment deadline has now passed')
+    expect(page).to have_element(
+      :p,
+      text: "The deadline for applying to courses in the #{@application_form.academic_year_range_name} " \
+            'academic year has passed. You can no longer apply to courses starting in ' \
+            "#{@application_form.recruitment_cycle_timetable.apply_deadline_at.to_fs(:month_and_year)}.",
+    )
+  end
+
+  def and_i_see_information_to_apply_for_the_next_academic_year
+    and_i_see_information_to_apply_for(RecruitmentCycleTimetable.next_timetable)
+  end
+
+  def and_i_see_information_to_apply_for_this_academic_year
+    and_i_see_information_to_apply_for(RecruitmentCycleTimetable.current_timetable)
+  end
+
+  def and_i_see_information_to_apply_for(timetable)
+    expect(page).to have_element(
+      :h2,
+      text: "Apply to courses in the #{timetable.academic_year_range_name} academic year",
+    )
   end
 end

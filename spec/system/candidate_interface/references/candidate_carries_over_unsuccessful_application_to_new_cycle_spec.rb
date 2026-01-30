@@ -11,9 +11,6 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
     when_a_new_cycle_starts
     and_i_visit_my_application_complete_page
-    then_i_see_carry_over_page
-
-    when_i_click_continue
     then_i_can_see_application_details
     then_i_see_the_new_references_section
 

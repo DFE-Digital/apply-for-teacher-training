@@ -2,6 +2,7 @@ module CandidateInterface
   class ApplicationChoicesController < CandidateInterfaceController
     before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
     before_action CarryOverFilter, except: :index
+    before_action :carry_over_application, only: :index
 
     before_action SubmissionPermissionFilter, only: %i[submit confirm_destroy destroy]
     before_action :redirect_to_your_applications_if_submitted, only: %i[submit confirm_destroy destroy]
@@ -62,6 +63,12 @@ module CandidateInterface
       current_application
         .application_choices
         .find(params[:id])
+    end
+
+    def carry_over_application
+      return unless current_application.carry_over?
+
+      redirect_to candidate_interface_carry_over_path
     end
   end
 end

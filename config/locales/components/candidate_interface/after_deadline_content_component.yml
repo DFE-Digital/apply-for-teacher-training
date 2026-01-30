@@ -18,6 +18,7 @@ en:
         Any offers that you had received have been declined on your behalf because you did not respond before the
         deadline of %{decline_by_default_at}. Contact the training provider if you need to discuss this.
       when_find_opens_html: You will be able to view courses on %{find_link} from %{find_opens_at}.
+      find_has_opened_html: You can view courses on %{find_link}.
       find_link_text: Find teacher training courses
       when_apply_opens: You can apply for courses from %{apply_opens_at}.
       application_deadline_has_passed_for_academic_year: >
@@ -25,7 +26,7 @@ en:
         courses starting in %{start_month_year}.
       what_happens_next: Apply to courses in the %{next_academic_year} academic year
       before_you_can_apply_again: 'Before you can apply again, you need to:'
-      confirm_references: confirm your references are up to date
+      confirm_references: confirm your references are up to date.
       enter_equality_and_diversity: enter or reconfirm your equality and diversity information.
       enter_previous_teacher_training: enter whether you have started teacher training in the past.
       button_update_your_details: Update your details

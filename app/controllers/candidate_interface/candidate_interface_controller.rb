@@ -95,7 +95,9 @@ module CandidateInterface
     def redirect_to_candidate_root
       return if current_application.any_offer_accepted?
 
-      if candidate_made_choices_and_completed_details
+      if current_application.carry_over?
+        redirect_to candidate_interface_carry_over_path
+      elsif candidate_made_choices_and_completed_details
         redirect_to candidate_interface_application_choices_path
       else
         redirect_to candidate_interface_details_path

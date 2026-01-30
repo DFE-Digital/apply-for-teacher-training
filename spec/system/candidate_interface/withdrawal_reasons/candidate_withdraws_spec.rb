@@ -31,9 +31,9 @@ RSpec.describe 'A candidate withdraws their application', :bullet do
     when_i_visit_my_applications
     and_i_click_the_withdraw_link_on_my_first_choice
     and_i_select_some_reasons_and_confirm
+    and_i_visit_my_applications
 
     then_i_see_the_carry_over_content
-    and_i_can_carry_over_my_application
   end
 
   scenario 'withdrawal for application choice with interviewing status', time: mid_cycle do
@@ -49,6 +49,8 @@ RSpec.describe 'A candidate withdraws their application', :bullet do
     then_i_have_withdrawn_from_the_course(@interviewing_application_choice)
     and_the_interviews_have_been_cancelled
   end
+
+  alias_method :and_i_visit_my_applications, :when_i_visit_my_applications
 
   def and_i_have_multiple_application_choice_awaiting_provider_decision
     form = create(:completed_application_form, :with_completed_references, candidate: current_candidate)
@@ -110,14 +112,7 @@ RSpec.describe 'A candidate withdraws their application', :bullet do
   def then_i_see_the_carry_over_content
     expect(page).to have_current_path candidate_interface_application_choices_path
 
-    within 'form.button_to[action="/candidate/application/carry-over"]' do
-      expect(page).to have_button 'Update your details'
-    end
-  end
-
-  def and_i_can_carry_over_my_application
-    click_on 'Update your details'
-    expect(page).to have_current_path candidate_interface_details_path
+    expect(page).to have_element(:h1, text: 'The recruitment deadline has now passed')
   end
 
   def then_the_candidate_has_received_an_email

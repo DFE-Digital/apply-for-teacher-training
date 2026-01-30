@@ -6,7 +6,9 @@ RSpec.describe 'Candidate responds to an invite' do
   scenario 'After apply deadline', time: after_apply_deadline do
     given_i_am_signed_in_without_in_flight_applications
     when_i_go_to_respond_to_invite
-    then_i_see_the_carry_over_content
+    and_i_am_on_the_application_choices_page
+    then_i_see_the_recruitment_deadline_page
+    and_i_see_information_to_apply_for_the_next_academic_year
   end
 
   scenario 'Candidate accepts an invite and begins confirm selection wizard' do
@@ -60,7 +62,9 @@ RSpec.describe 'Candidate responds to an invite' do
   scenario 'Candidate clicks an email invite link for a closed course after apply deadline', time: after_apply_deadline do
     given_i_am_signed_in_without_in_flight_applications
     and_i_click_an_old_invite_link_for_an_unavailable_course
-    then_i_see_the_carry_over_content
+    and_i_am_on_the_application_choices_page
+    then_i_see_the_recruitment_deadline_page
+    and_i_see_information_to_apply_for_the_next_academic_year
   end
 
   scenario 'Candidate clicks an email invite link for a closed course' do
@@ -275,5 +279,24 @@ private
     within 'form.button_to[action="/candidate/application/carry-over"]' do
       expect(page).to have_button 'Update your details'
     end
+  end
+
+  def then_i_see_the_recruitment_deadline_page
+    application_form = @current_candidate.current_application.previous_application_form
+    expect(page).to have_current_path candidate_interface_application_choices_path
+    expect(page).to have_element(:h1, text: 'The recruitment deadline has now passed')
+    expect(page).to have_element(
+      :p,
+      text: "The deadline for applying to courses in the #{application_form.academic_year_range_name} " \
+            'academic year has passed. You can no longer apply to courses starting in ' \
+            "#{application_form.recruitment_cycle_timetable.apply_deadline_at.to_fs(:month_and_year)}.",
+    )
+  end
+
+  def and_i_see_information_to_apply_for_the_next_academic_year
+    expect(page).to have_element(
+      :h2,
+      text: "Apply to courses in the #{RecruitmentCycleTimetable.next_timetable.academic_year_range_name} academic year",
+    )
   end
 end
