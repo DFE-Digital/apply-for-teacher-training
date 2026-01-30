@@ -24,9 +24,14 @@ module ViewHelper
   end
 
   def breadcrumbs(breadcrumbs)
-    render GovukComponent::BreadcrumbsComponent.new(
-      breadcrumbs:,
-      hide_in_print: true,
+    tag.nav(
+      render(
+        GovukComponent::BreadcrumbsComponent.new(
+          breadcrumbs:,
+          hide_in_print: true,
+        ),
+      ),
+      aria: { label: 'Breadcrumb' },
     )
   end
 
