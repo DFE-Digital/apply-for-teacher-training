@@ -10,7 +10,8 @@ RSpec.describe RedactApplication do
       volunteering_experiences_count: 2,
       references_count: 2,
       full_work_history: true,
-      application_qualifications: [build(:application_qualification)]
+      application_qualifications: [build(:application_qualification)],
+      application_feedback: [build(:application_feedback)],
     )
   end
   let(:zendesk_url) { 'https://becomingateacher.zendesk.com/agent/tickets/1234' }
@@ -21,7 +22,7 @@ RSpec.describe RedactApplication do
       application_form:,
       zendesk_url:,
       force:,
-      )
+    )
   end
 
   describe '#call!', :with_audited do

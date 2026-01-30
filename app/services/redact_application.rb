@@ -1,6 +1,5 @@
 class RedactApplication < DeleteApplication
   def call!
-
     if !@force && in_flight_applications?
       raise 'Application has inflight applications. You will need to withdrawn the applications first!'
     end
@@ -28,7 +27,6 @@ private
       .application_choices
       .joins(:current_course)
       .where('current_course.recruitment_cycle_year' => RecruitmentCycleTimetable.current_year)
-      .where(status: ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES + ApplicationStateChange::ACCEPTED_STATES)
-      .exists?
+      .exists?(status: ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES + ApplicationStateChange::ACCEPTED_STATES)
   end
 end
