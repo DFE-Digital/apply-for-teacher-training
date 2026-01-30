@@ -35,33 +35,6 @@ module DfE
                           number_of_candidates_who_had_an_inactive_application_this_cycle_to_date
                           number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates
                           number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle].freeze
-      REGIONAL_DATA_COLUMNS = %w[
-        nonregion_filter
-        nonregion_filter_category
-        cycle_week
-        recruitment_cycle_year
-        region_filter
-        number_of_candidates_submitted_to_date
-        number_of_candidates_submitted_to_same_date_previous_cycle
-        number_of_candidates_submitted_to_date_as_proportion_of_last_cycle
-        number_of_candidates_with_offers_to_date
-        number_of_candidates_with_offers_to_same_date_previous_cycle
-        number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle
-        offer_rate_to_date
-        offer_rate_to_same_date_previous_cycle
-        number_of_candidates_accepted_to_date
-        number_of_candidates_accepted_to_same_date_previous_cycle
-        number_of_candidates_accepted_to_date_as_proportion_of_last_cycle
-        number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date
-        number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle
-        number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle
-        number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date
-        number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle
-        number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle
-        number_of_candidates_who_had_an_inactive_application_this_cycle_to_date
-        number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates
-        number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle
-      ].freeze
 
       attr_reader :cycle_week,
                   :recruitment_cycle_year,
@@ -110,29 +83,6 @@ module DfE
       def national_data_query
         select(SELECT_COLUMNS.join(', '))
         .where(
-          cycle_week:,
-          recruitment_cycle_year:,
-          teach_first_or_iot_filter: 'All',
-          provider_filter_category: 'All',
-        ).where(<<~SQL.chomp).to_sql
-          (
-            nonprovider_filter_category = "Secondary subject"
-            OR (nonprovider_filter_category = "Level" AND nonprovider_filter IN ("Primary", "Secondary"))
-            OR (nonprovider_filter = "All")
-          )
-        SQL
-      end
-
-      ## Regional queries
-      def regional_data(region)
-        query(regional_data_query(region))
-      end
-
-      def regional_data_query(region)
-        select(REGIONAL_DATA_COLUMNS.join(', '))
-        .where(
-          region_filter: region,
-          region_filter_category: 'ITL1',
           cycle_week:,
           recruitment_cycle_year:,
           teach_first_or_iot_filter: 'All',

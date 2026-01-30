@@ -15,7 +15,7 @@ module Publications
       @publication_date = publication_date.presence || @generation_date
       @recruitment_cycle_year = recruitment_cycle_year
       @report_expected_time = 1.week.until(@generation_date).end_of_week
-      @client = DfE::Bigquery::ApplicationMetricsByProvider.new(cycle_week:)
+      @client = DfE::Bigquery::RegionalProviderMetrics.new(cycle_week:, region:)
     end
 
     def call
@@ -30,7 +30,7 @@ module Publications
     end
 
     def data
-      client.regional_data(region).map(&:attributes)
+      client.regional_data.map(&:attributes)
     end
   end
 end
