@@ -79,10 +79,8 @@ private
   end
 
   def and_i_search_with(search_term)
-    within('.desktop-only-search') do
-      fill_in 'Search by candidate number', with: search_term
-      click_on 'Search'
-    end
+    fill_in 'Search by candidate number', with: search_term
+    click_on 'Search'
   end
   alias_method :when_i_search_with, :and_i_search_with
 
@@ -96,9 +94,7 @@ private
   alias_method :and_i_click, :when_i_click
 
   def when_i_click_clear_search
-    within('.desktop-only-search') do
-      click_link_or_button 'Clear search'
-    end
+    click_link_or_button 'Clear search'
   end
 
   def and_i_filter_by_course_type

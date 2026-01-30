@@ -6,6 +6,10 @@ class ProviderInterface::FindCandidates::ExperienceDetailsComponent < ViewCompon
     @application_form = application_form
   end
 
+  def render?
+    work_history? || unpaid_experience?
+  end
+
   def title
     if work_history? && unpaid_experience?
       t('.title.details_work_and_unpaid')

@@ -269,10 +269,8 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def when_i_search_for_valid_candidate_number
-    within('.desktop-only-search') do
-      fill_in('Search by candidate number', with: @declined_candidate_form.candidate_id)
-      click_on 'Search'
-    end
+    fill_in('Search by candidate number', with: @declined_candidate_form.candidate_id)
+    click_on 'Search'
   end
 
   def then_i_see_the_candidate

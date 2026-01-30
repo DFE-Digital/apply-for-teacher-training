@@ -1,8 +1,4 @@
 <div class='moj-filter-layout'>
-  <div class="mobile-only-search">
-    <%= render PrimaryFilterComponent.new(filters:, primary_filter:, secondary_filters:) %>
-  </div>
-
   <div class="moj-filter-layout__filter app-filter">
     <div class="moj-filter">
       <div class="moj-filter__header">
@@ -116,9 +112,7 @@
   </div>
 
   <div class='moj-filter-layout__content'>
-    <div class="desktop-only-search">
-      <%= render PrimaryFilterComponent.new(filters:, primary_filter:, secondary_filters:) %>
-    </div>
+    <%= render PrimaryFilterComponent.new(filters:, primary_filter:, secondary_filters:) %>
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
