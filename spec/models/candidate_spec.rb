@@ -13,6 +13,7 @@ RSpec.describe Candidate do
     it { is_expected.to have_many(:pool_invites).dependent(:destroy) }
     it { is_expected.to have_one(:one_login_auth).dependent(:destroy) }
     it { is_expected.to have_one(:account_recovery_request).dependent(:destroy) }
+    it { is_expected.to have_many(:possible_previous_teacher_trainings).dependent(:destroy) }
   end
 
   describe 'delegations' do

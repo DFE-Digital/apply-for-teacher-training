@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_29_160320) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_02_160033) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -842,6 +842,18 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_29_160320) do
     t.index ["recruitment_cycle_year"], name: "index_pool_invites_on_recruitment_cycle_year"
   end
 
+  create_table "possible_previous_teacher_trainings", force: :cascade do |t|
+    t.string "provider_name", null: false
+    t.date "started_on", null: false
+    t.date "ended_on", null: false
+    t.bigint "candidate_id", null: false
+    t.bigint "provider_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_id"], name: "index_possible_previous_teacher_trainings_on_candidate_id"
+    t.index ["provider_id"], name: "index_possible_previous_teacher_trainings_on_provider_id"
+  end
+
   create_table "previous_teacher_trainings", force: :cascade do |t|
     t.bigint "application_form_id", null: false
     t.bigint "provider_id"
@@ -1240,6 +1252,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_29_160320) do
   add_foreign_key "pool_invites", "courses", on_delete: :cascade
   add_foreign_key "pool_invites", "provider_users", column: "invited_by_id"
   add_foreign_key "pool_invites", "providers", on_delete: :cascade
+  add_foreign_key "possible_previous_teacher_trainings", "candidates"
+  add_foreign_key "possible_previous_teacher_trainings", "providers"
   add_foreign_key "previous_teacher_trainings", "application_forms", on_delete: :cascade
   add_foreign_key "previous_teacher_trainings", "providers"
   add_foreign_key "provider_agreements", "provider_users"
