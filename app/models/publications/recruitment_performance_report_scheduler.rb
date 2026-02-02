@@ -29,7 +29,7 @@ module Publications
         next if Publications::RegionalRecruitmentPerformanceReport.exists?(
           cycle_week:,
           recruitment_cycle_year:,
-          region:, # check exact key in DB
+          region:,
         )
 
         Publications::RegionalRecruitmentPerformanceReportWorker

@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
   let(:provider_worker) { Publications::ProviderRecruitmentPerformanceReportWorker }
   let(:national_worker) { Publications::NationalRecruitmentPerformanceReportWorker }
+  let(:regional_worker) { Publications::RegionalRecruitmentPerformanceReportWorker }
   let(:course_option) { create(:course_option) }
   let(:application_choice) { create(:application_choice, status: 'awaiting_provider_decision', course_option:, sent_to_provider_at: Time.zone.today - 1.week) }
   let(:provider) { course_option.course.provider }
@@ -106,9 +107,65 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
     end
   end
 
+  context 'regional report is generated' do
+    before do
+      allow(HostingEnvironment).to receive(:production?).and_return true
+      allow(regional_worker).to receive(:perform_async)
+    end
+
+    it 'creates a Regional report' do
+      described_class.new.call
+
+      Publications::RegionalRecruitmentPerformanceReport.regions.each_key do |region|
+        expect(regional_worker).to have_received(:perform_async).with(cycle_week, region)
+      end
+    end
+
+    it 'does creates a Regional report worker when a report already exists for the same cycle_week, but different year' do
+      Publications::RegionalRecruitmentPerformanceReport.create!(
+        statistics: {},
+        publication_date: Time.zone.today,
+        cycle_week:,
+        recruitment_cycle_year: previous_year,
+        region: :london,
+      )
+
+      described_class.new.call
+
+      expect(regional_worker).to have_received(:perform_async).with(cycle_week, 'london')
+    end
+
+    it 'does not create a Regional report worker when a report already exists' do
+      Publications::RegionalRecruitmentPerformanceReport.create!(
+        statistics: {},
+        publication_date: Time.zone.today,
+        cycle_week:,
+        recruitment_cycle_year: current_year,
+        region: :london,
+      )
+
+      described_class.new.call
+
+      expect(regional_worker).not_to have_received(:perform_async).with(cycle_week, 'london')
+    end
+
+    context 'explicit cycle_week is passed' do
+      let(:cycle_week) { 2 }
+
+      it 'creates a regional report for the cycle_week value' do
+        described_class.new(cycle_week:).call
+
+        Publications::RegionalRecruitmentPerformanceReport.regions.each_key do |region|
+          expect(regional_worker).to have_received(:perform_async).with(cycle_week, region)
+        end
+      end
+    end
+  end
+
   context 'non-production environment' do
     let(:provider_worker) { Publications::ProviderRecruitmentPerformanceReportWorker }
     let(:national_worker) { Publications::NationalRecruitmentPerformanceReportWorker }
+    let(:regional_worker) { Publications::RegionalRecruitmentPerformanceReportWorker }
     let(:course_option) { create(:course_option) }
     let(:application_choice) { create(:application_choice, status: 'awaiting_provider_decision', course_option:, sent_to_provider_at: Time.zone.today - 1.week) }
     let(:provider) { course_option.course.provider }
@@ -119,12 +176,16 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
     before do
       allow(HostingEnvironment).to receive(:production?).and_return false
       allow(national_worker).to receive(:perform_async)
+      allow(regional_worker).to receive(:perform_async)
       allow(provider_worker).to receive(:perform_async)
     end
 
     it 'does not create any reports' do
       described_class.new(cycle_week:).call
       expect(national_worker).not_to have_received(:perform_async).with(cycle_week)
+      Publications::RegionalRecruitmentPerformanceReport.regions.each_key do |region|
+        expect(regional_worker).not_to have_received(:perform_async).with(cycle_week, region)
+      end
       expect(provider_worker).not_to have_received(:perform_async).with(provider.id, cycle_week)
     end
   end
