@@ -1,6 +1,10 @@
 class RedactApplication < DeleteApplication
+
+  def initialize(actor:, application_form:, zendesk_url:)
+    super(actor:, application_form:, zendesk_url:)
+  end
   def call!
-    if !@force && in_flight_applications?
+    if in_flight_applications?
       raise 'Application has inflight applications. You will need to withdrawn the applications first!'
     end
 

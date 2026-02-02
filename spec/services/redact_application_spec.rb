@@ -21,7 +21,6 @@ RSpec.describe RedactApplication do
       actor: support_user,
       application_form:,
       zendesk_url:,
-      force:,
     )
   end
 
@@ -103,16 +102,6 @@ RSpec.describe RedactApplication do
       audit = application_form.own_and_associated_audits.first
       expect(audit.user).to eq(support_user)
       expect(audit.comment).to eq("Data deletion request: #{zendesk_url}")
-    end
-
-    context 'when force option is provided' do
-      let(:force) { true }
-
-      it 'allows delete if application has been submitted to providers' do
-        application_choice = application_form.application_choices.first
-        CandidateInterface::SubmitApplicationChoice.new(application_choice).call
-        expect { service.call! }.not_to raise_error
-      end
     end
   end
 end
