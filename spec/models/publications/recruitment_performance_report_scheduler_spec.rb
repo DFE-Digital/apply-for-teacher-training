@@ -116,7 +116,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
     it 'creates a Regional report' do
       described_class.new.call
 
-      Publications::RegionalRecruitmentPerformanceReport.regions.each_key do |region|
+      Publications::RegionalRecruitmentPerformanceReport.regions.each_value do |region|
         expect(regional_worker).to have_received(:perform_async).with(cycle_week, region)
       end
     end
@@ -127,12 +127,12 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
         publication_date: Time.zone.today,
         cycle_week:,
         recruitment_cycle_year: previous_year,
-        region: :london,
+        region: 'West Midlands (England)',
       )
 
       described_class.new.call
 
-      expect(regional_worker).to have_received(:perform_async).with(cycle_week, 'london')
+      expect(regional_worker).to have_received(:perform_async).with(cycle_week, 'West Midlands (England)')
     end
 
     it 'does not create a Regional report worker when a report already exists' do
@@ -141,12 +141,12 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
         publication_date: Time.zone.today,
         cycle_week:,
         recruitment_cycle_year: current_year,
-        region: :london,
+        region: :west_midlands,
       )
 
       described_class.new.call
 
-      expect(regional_worker).not_to have_received(:perform_async).with(cycle_week, 'london')
+      expect(regional_worker).not_to have_received(:perform_async).with(cycle_week, 'West Midlands (England)')
     end
 
     context 'explicit cycle_week is passed' do
@@ -155,7 +155,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
       it 'creates a regional report for the cycle_week value' do
         described_class.new(cycle_week:).call
 
-        Publications::RegionalRecruitmentPerformanceReport.regions.each_key do |region|
+        Publications::RegionalRecruitmentPerformanceReport.regions.each_value do |region|
           expect(regional_worker).to have_received(:perform_async).with(cycle_week, region)
         end
       end
@@ -183,7 +183,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
     it 'does not create any reports' do
       described_class.new(cycle_week:).call
       expect(national_worker).not_to have_received(:perform_async).with(cycle_week)
-      Publications::RegionalRecruitmentPerformanceReport.regions.each_key do |region|
+      Publications::RegionalRecruitmentPerformanceReport.regions.each_value do |region|
         expect(regional_worker).not_to have_received(:perform_async).with(cycle_week, region)
       end
       expect(provider_worker).not_to have_received(:perform_async).with(provider.id, cycle_week)

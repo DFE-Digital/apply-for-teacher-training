@@ -25,7 +25,7 @@ module Publications
     end
 
     def schedule_regional_report
-      Publications::RegionalRecruitmentPerformanceReport.regions.each_key do |region|
+      Publications::RegionalRecruitmentPerformanceReport.regions.each_value do |region|
         next if Publications::RegionalRecruitmentPerformanceReport.exists?(
           cycle_week:,
           recruitment_cycle_year:,
