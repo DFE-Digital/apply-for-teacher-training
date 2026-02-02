@@ -13,7 +13,7 @@ module Publications
       @generation_date = generation_date
       @publication_date = publication_date.presence || @generation_date
       @recruitment_cycle_year = recruitment_cycle_year
-      @client = DfE::Bigquery::RegionalProviderMetrics.new(cycle_week:, region:)
+      @client = DfE::Bigquery::ApplicationMetricsByRegion.new(cycle_week:, region:)
     end
 
     def call

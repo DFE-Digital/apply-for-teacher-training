@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DfE::Bigquery::RegionalProviderMetrics do
+RSpec.describe DfE::Bigquery::ApplicationMetricsByRegion do
   include DfE::Bigquery::TestHelper
 
   before do

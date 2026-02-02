@@ -1,6 +1,6 @@
 module DfE
   module Bigquery
-    class RegionalProviderMetrics
+    class ApplicationMetricsByRegion
       include ::DfE::Bigquery::Relation
 
       SELECT_COLUMNS = %w[
