@@ -479,7 +479,6 @@ candidate.application_forms.each do |application_form|
     actor: SupportUser.find_by(email_address: YOUR_SUPPORT_EMAIL),
     application_form: application_form,
     zendesk_url: 'Deleted following a support request, ticket ZENDESK_URL',
-    force: true
   ).call!
 end
 ```
@@ -498,7 +497,6 @@ candidate.application_forms.each do |application_form|
     actor: SupportUser.find_by(email_address: YOUR_SUPPORT_EMAIL),
     application_form: application_form,
     zendesk_url: 'Deleted following a support request, ticket ZENDESK_URL',
-    force: true
   ).call!
 end
 ```
