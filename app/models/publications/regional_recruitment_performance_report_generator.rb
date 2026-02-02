@@ -3,7 +3,6 @@ module Publications
     attr_reader :client,
                 :generation_date,
                 :publication_date,
-                :report_expected_time,
                 :cycle_week,
                 :region,
                 :recruitment_cycle_year
@@ -14,7 +13,6 @@ module Publications
       @generation_date = generation_date
       @publication_date = publication_date.presence || @generation_date
       @recruitment_cycle_year = recruitment_cycle_year
-      @report_expected_time = 1.week.until(@generation_date).end_of_week
       @client = DfE::Bigquery::RegionalProviderMetrics.new(cycle_week:, region:)
     end
 
