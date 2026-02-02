@@ -525,10 +525,22 @@ RSpec.describe ApplicationChoice do
         .to change(application_choice, :current_course_option_id).to(course_option.id)
     end
 
-    it 'sets personal_statement attribute eql to application form.becoming_a_teacher' do
-      application_choice.application_form = create(:application_form, becoming_a_teacher: 'I want to be a teacher')
-      expect { application_choice.update_course_option_and_associated_fields! course_option }
-        .to change(application_choice, :personal_statement).to('I want to be a teacher')
+    context 'when the application choice personal statement is blank' do
+      let(:application_choice) { create(:application_choice, :awaiting_provider_decision, personal_statement: '') }
+
+      it 'sets personal_statement attribute eql to application form.becoming_a_teacher' do
+        application_choice.application_form = create(:application_form, becoming_a_teacher: 'I want to be a teacher')
+        expect { application_choice.update_course_option_and_associated_fields! course_option }
+          .to change(application_choice, :personal_statement).to('I want to be a teacher')
+      end
+    end
+
+    context 'when the application choice personal statement not blank' do
+      it 'does not set the personal_statement attribute eql to application form.becoming_a_teacher' do
+        application_choice.application_form = create(:application_form, becoming_a_teacher: 'I want to be a teacher')
+        expect { application_choice.update_course_option_and_associated_fields! course_option }
+          .not_to change(application_choice, :personal_statement)
+      end
     end
 
     it 'sets current_recruitment_cycle_year' do
