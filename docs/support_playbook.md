@@ -472,12 +472,34 @@ If an individual requests we delete their data we have 1 month to comply with th
 
 Use the [DeleteApplication](../app/services/delete_application.rb) service if the application has not been submitted yet. You may use the `force` option provided it has been cleared with the support team.
 
+```ruby
+# Delete the candidate's applications
+candidate.application_forms.each do |application_form|
+  DeleteApplication.new(
+    actor: SupportUser.find_by(email_address: YOUR_SUPPORT_EMAIL),
+    application_form: application_form,
+    zendesk_url: 'Deleted following a support request, ticket ZENDESK_URL',
+  ).call!
+end
+```
+
 If the application has been submitted, start a discussion to determine what steps we should take (eg - contacting the provider before deleting anything on our side).
 
-Whatever is decided, we should (at a minimum) do the following:
-- Remove all data from the application where possible
-- Add fake data where not possible (`email_address`)
-- `Candidate.find_by(email_address: 'old_email').update!(email_address: 'deleted_on_user_requestX@example.com')`
+Once a discussion has been had with any affected providers, use the [RedactApplication](../app/services/redact_application.rb) service to redact the candidates application details.
+
+Before using this service, any in flight applications must be withdrawn.
+Any associations with the application will not be deleted.
+
+```ruby
+# Redact the candidate's applications
+candidate.application_forms.each do |application_form|
+  RedactApplication.new(
+    actor: SupportUser.find_by(email_address: YOUR_SUPPORT_EMAIL),
+    application_form: application_form,
+    zendesk_url: 'Deleted following a support request, ticket ZENDESK_URL',
+  ).call!
+end
+```
 
 ### Withdraw existing Applications and force Delete Candidate's Applications
 ```ruby
@@ -495,9 +517,9 @@ end
 puts candidate.application_choices.pluck(:id, :status)
 # Check these are all withdrawn/ended before proceeding
 
-# Delete the candidate's applications
+# Redact the candidate's applications
 candidate.application_forms.each do |application_form|
-  DeleteApplication.new(
+  RedactApplication.new(
     actor: SupportUser.find_by(email_address: YOUR_SUPPORT_EMAIL),
     application_form: application_form,
     zendesk_url: 'Deleted following a support request, ticket ZENDESK_URL',
