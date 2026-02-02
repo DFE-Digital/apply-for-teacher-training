@@ -261,7 +261,7 @@ class ApplicationChoice < ApplicationRecord
       current_recruitment_cycle_year: new_course_option.course.recruitment_cycle_year,
     }.merge(other_fields)
     attrs[:audit_comment] = audit_comment if audit_comment.present?
-    attrs[:personal_statement] = application_form.becoming_a_teacher if self.personal_statement.blank?
+    attrs[:personal_statement] = application_form.becoming_a_teacher if personal_statement.blank?
 
     assign_attributes(attrs) # provider_ids_for_access needs this to be set beforehand
     self.provider_ids = provider_ids_for_access
