@@ -1,5 +1,15 @@
 ---
 :shared:
+  :regional_recruitment_performance_reports:
+  - id
+  - statistics
+  - cycle_week
+  - region
+  - recruitment_cycle_year
+  - publication_date
+  - generation_date
+  - created_at
+  - updated_at
   :dsi_sessions:
   - user_id
   - user_type

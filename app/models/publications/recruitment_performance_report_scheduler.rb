@@ -23,6 +23,19 @@ module Publications
         .perform_async(cycle_week)
     end
 
+    def schedule_regional_report
+      Publications::RegionalRecruitmentPerformanceReport.regions.each_value do |region|
+        next if Publications::RegionalRecruitmentPerformanceReport.exists?(
+          cycle_week:,
+          recruitment_cycle_year:,
+          region:,
+        )
+
+        Publications::RegionalRecruitmentPerformanceReportWorker
+          .perform_async(cycle_week, region)
+      end
+    end
+
     def schedule_provider_report
       ProvidersForRecruitmentPerformanceReportQuery
         .call(cycle_week:, recruitment_cycle_year:)
