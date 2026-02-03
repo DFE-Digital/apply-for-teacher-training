@@ -4,5 +4,9 @@ module ProviderInterface
     def initialize(possible_previous_teacher_trainings:)
       @possible_previous_teacher_trainings = possible_previous_teacher_trainings
     end
+
+    def render?
+      @possible_previous_teacher_trainings.any?
+    end
   end
 end
