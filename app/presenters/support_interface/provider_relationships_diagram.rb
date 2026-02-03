@@ -96,7 +96,7 @@ module SupportInterface
     end
 
     def value_indicator(permission_value)
-      permission_value ? '✅' : '❌'
+      permission_value ? '✔️' : '❌'
     end
 
     def permissions_not_setup(permission)
