@@ -1,0 +1,31 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full possible-previous-teacher-training-card govuk-!-padding-6">
+    <%= govuk_warning_text(
+      text: t(
+        'provider_interface.possible_previous_teacher_training_component.candidate_previously_started',
+        count: possible_previous_teacher_trainings.count
+      )
+    ) %>
+
+    <% possible_previous_teacher_trainings.each do |possible_previous_teacher_training| %>
+      <%= govuk_summary_card(title: possible_previous_teacher_training.provider_name, heading_level: 3, html_attributes: { class: "card-title"}) do |card| %>
+        <%= card.with_summary_list(actions: false, html_attributes: {class: "card-content"}) do |summary_list| %>
+          <%= summary_list.with_row do |row| %>
+            <% row.with_key(text: t('provider_interface.possible_previous_teacher_training_component.provider_name')) %>
+            <% row.with_value(text: possible_previous_teacher_training.provider_name) %>
+          <% end %>
+
+          <%= summary_list.with_row do |row| %>
+            <% row.with_key(text: t('provider_interface.possible_previous_teacher_training_component.training_dates')) %>
+            <% row.with_value(text: possible_previous_teacher_training.formatted_dates) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= govuk_details(
+      summary_text: t('provider_interface.possible_previous_teacher_training_component.why_we_think_they_trained'),
+      text: t('provider_interface.possible_previous_teacher_training_component.previous_training_data_html', count: possible_previous_teacher_trainings.count)
+    ) %>
+  </div>
+</div>
