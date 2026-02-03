@@ -1,0 +1,67 @@
+en:
+  provider_interface:
+    possible_previous_teacher_training_component:
+      candidate_previously_started:
+        one: This candidate may have previously started the below course
+        other: This candidate may have previously started the below courses
+      provider_name: Name of the training provider
+      training_dates: Training dates
+      why_we_think_they_trained:
+        Why we think they may have trained before
+      previous_training_data_html:
+        one:
+          <p class="govuk-body">
+            A candidate with the same first name, last name and date of birth previously started the course above.
+          </p>
+
+          <p class="govuk-body">This could be</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>the same person</li>
+            <li>a different person with the same details</li>
+          </ul>
+
+          <p class="govuk-body">
+            Name and date of birth matches are not unique. They're particularly common for applicants from countries with lower name diversity.
+          </p>
+
+          <h4 class="govuk-heading-s">What you must do</h4>
+
+          <p class="govuk-body">Check if this is the same person who trained before:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>contact their previous provider</li>
+            <li>ask why they left or were removed</li>
+            <li>decide if this is a safeguarding concern</li>
+          </ul>
+
+          <p class="govuk-body">
+            ITT criteria require you to check that candidates do not pose a safeguarding risk.
+            This includes checking if they left a previous ITT programme due to safeguarding concerns.
+          </p>
+        other:
+          <p class="govuk-body">
+            A candidate with the same first name, last name and date of birth previously started the courses above.
+          </p>
+
+          <p class="govuk-body">This could be</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>the same person</li>
+            <li>a different person with the same details</li>
+          </ul>
+
+          <p class="govuk-body">
+            Name and date of birth matches are not unique. They're particularly common for applicants from countries with lower name diversity.
+          </p>
+
+          <h4 class="govuk-heading-s">What you must do</h4>
+
+          <p class="govuk-body">Check if this is the same person who trained before:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>contact their previous provider</li>
+            <li>ask why they left or were removed</li>
+            <li>decide if this is a safeguarding concern</li>
+          </ul>
+
+          <p class="govuk-body">
+            ITT criteria require you to check that candidates do not pose a safeguarding risk.
+            This includes checking if they left a previous ITT programme due to safeguarding concerns.
+          </p>
