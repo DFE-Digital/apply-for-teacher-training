@@ -351,3 +351,12 @@
   - support_user_id
   - created_at
   - updated_at
+  :possible_previous_teacher_trainings:
+  - id
+  - provider_name
+  - started_on
+  - ended_on
+  - candidate_id
+  - provider_id
+  - created_at
+  - updated_at
