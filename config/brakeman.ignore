@@ -1,52 +1,6 @@
 {
   "ignored_warnings": [
     {
-      "warning_type": "Unscoped Find",
-      "warning_code": 82,
-      "fingerprint": "0e7dc374e358d2d93a89606f5d97a7bf692d45c6f417f9dbbc62425d1488dd55",
-      "check_name": "UnscopedFind",
-      "message": "Unscoped call to `Pool::Invite#find_by`",
-      "file": "app/controllers/provider_interface/candidate_pool/draft_invites_controller.rb",
-      "line": 69,
-      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
-      "code": "Pool::Invite.find_by(:id => params.expect(:id), :provider_id => current_provider_user.provider_ids, :status => :draft)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ProviderInterface::CandidatePool::DraftInvitesController",
-        "method": "invite"
-      },
-      "user_input": "params.expect(:id)",
-      "confidence": "Weak",
-      "cwe_id": [
-        285
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "28d64e5d66c0dce5bb41ca5b85a1751bdd7190b07aa55b1af003c090e7f8863a",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/services/notifications_list.rb",
-      "line": 26,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users).joins(:notification_preferences).where(\"provider_user_notifications.#{{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first}\" => true)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "NotificationsList",
-        "method": "s(:self).for"
-      },
-      "user_input": "{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first",
-      "confidence": "Weak",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
       "warning_type": "SQL Injection",
       "warning_code": 0,
       "fingerprint": "3010d2e6a4a12eb1df4f45e945cee8549edd95be09e6977f117f07841e50af42",
@@ -231,29 +185,6 @@
       "note": ""
     },
     {
-      "warning_type": "Unscoped Find",
-      "warning_code": 82,
-      "fingerprint": "a6606f49b3e0561d2e82c86bda143db35a2f9ba55ad95a6d6a121b5195890d43",
-      "check_name": "UnscopedFind",
-      "message": "Unscoped call to `Pool::Invite#find_by`",
-      "file": "app/controllers/provider_interface/candidate_pool/publish_invites_controller.rb",
-      "line": 39,
-      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
-      "code": "Pool::Invite.find_by(:id => params.expect(:draft_invite_id), :provider_id => current_provider_user.provider_ids, :status => :draft)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ProviderInterface::CandidatePool::PublishInvitesController",
-        "method": "invite"
-      },
-      "user_input": "params.expect(:draft_invite_id)",
-      "confidence": "Weak",
-      "cwe_id": [
-        285
-      ],
-      "note": ""
-    },
-    {
       "warning_type": "SQL Injection",
       "warning_code": 0,
       "fingerprint": "a69c2ff3682a5ad58bacee0f45b507c323b72f778786686538a546d32c9cbf6b",
@@ -270,29 +201,6 @@
         "method": "no_sync_in_7d"
       },
       "user_input": "pg_now",
-      "confidence": "Weak",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "b66efa91e04d1b02e4521f8a617809adda7a0dc470daa75fa2e22770d8e0c538",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/services/notifications_list.rb",
-      "line": 23,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choice.provider.provider_users.joins(:notification_preferences).where(\"provider_user_notifications.#{{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first}\" => true)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "NotificationsList",
-        "method": "s(:self).for"
-      },
-      "user_input": "{ :application_received => ([:application_submitted]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]), :reference_received => ([:reference_received]) }.select do\n k if event.in?(v)\n end.keys.first",
       "confidence": "Weak",
       "cwe_id": [
         89
@@ -369,5 +277,5 @@
       "note": ""
     }
   ],
-  "brakeman_version": "7.0.2"
+  "brakeman_version": "8.0.1"
 }

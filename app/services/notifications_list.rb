@@ -16,13 +16,22 @@ class NotificationsList
     end
 
     notification_name = NOTIFICATION_PREFERENCE_NAMES_FOR_EVENTS.select { |k, v| k if event.in? v }.keys.first
-    notification = "provider_user_notifications.#{notification_name}"
 
     raise 'Undefined type of notification event' unless ProviderUserNotificationPreferences.notification_preference_exists?(notification_name)
 
-    return application_choice.provider.provider_users.joins(:notification_preferences).where(notification => true) if application_choice.accredited_provider.nil? || !include_ratifying_provider
+    if application_choice.accredited_provider.nil? || !include_ratifying_provider
+      application_choice.provider.provider_users
+        .joins(:notification_preferences)
+        .where(provider_user_notifications: { notification_name.to_sym => true })
+    else
 
-    application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users)
-      .joins(:notification_preferences).where(notification => true).distinct
+      application_choice.provider.provider_users
+        .or(
+          application_choice.accredited_provider.provider_users,
+        )
+        .joins(:notification_preferences)
+        .where(provider_user_notifications: { notification_name.to_sym => true })
+                        .distinct
+    end
   end
 end
