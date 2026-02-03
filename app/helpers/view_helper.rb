@@ -24,9 +24,14 @@ module ViewHelper
   end
 
   def breadcrumbs(breadcrumbs)
-    render GovukComponent::BreadcrumbsComponent.new(
-      breadcrumbs:,
-      hide_in_print: true,
+    tag.nav(
+      render(
+        GovukComponent::BreadcrumbsComponent.new(
+          breadcrumbs:,
+          hide_in_print: true,
+        ),
+      ),
+      aria: { label: 'Breadcrumb' },
     )
   end
 
@@ -98,7 +103,12 @@ module ViewHelper
     if session[:confirmed_environment_at] && session[:confirmed_environment_at] > 5.minutes.ago
       yield
     else
-      govuk_link_to 'Confirm environment to make changes', support_interface_confirm_environment_path(from: [request.fullpath, anchor].join('#'))
+      govuk_link_to support_interface_confirm_environment_path(from: [request.fullpath, anchor].join('#')) do
+        safe_join([
+          'Confirm environment to make changes',
+          tag.span("to #{anchor.tr('-', ' ').humanize}", class: 'govuk-visually-hidden'),
+        ])
+      end
     end
   end
 

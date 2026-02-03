@@ -1,4 +1,4 @@
-<% content_for :title, @provider.name_and_code %>
+<% content_for :title, "#{title} - #{@provider.name_and_code}" %>
 
 <% content_for :before_content do %>
   <%= breadcrumbs({

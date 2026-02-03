@@ -100,6 +100,10 @@ class FilterComponent < ViewComponent::Base
     end
   end
 
+  def multiple_fields?(filter)
+    field_count(filter) > 1 # to determine whether a fieldset is required
+  end
+
 private
 
   def to_query(params)
@@ -108,5 +112,14 @@ private
 
   def active_location_filter?(filter_hash)
     filter_hash[:original_location].present?
+  end
+
+  def field_count(filter)
+    case filter[:type]
+    when :checkboxes, :checkbox_filter # fieldsets should group related checkboxes but other types are single fields
+      filter[:options].size
+    else
+      1
+    end
   end
 end

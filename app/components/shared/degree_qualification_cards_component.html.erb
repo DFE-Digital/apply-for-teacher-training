@@ -35,11 +35,11 @@
                 </dd>
               <% end %>
             <% end %>
+          </dl>
             <% if editable? %>
               <br role="presentation">
               <%= govuk_link_to 'Change', support_interface_application_form_edit_degree_path(application_form_id: degree.application_form_id, degree_id: degree.id) %>
             <% end %>
-          </dl>
         </div>
       </div>
     <% end %>
