@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Publications::ProviderRecruitmentPerformanceReminderWorker do
+  include ActiveSupport::Testing::TimeHelpers
+
   let(:cycle_week) { RecruitmentCycleTimetable.current_cycle_week.pred }
   let(:recruitment_cycle_year) { RecruitmentCycleTimetable.current_year }
   let(:provider) { create(:provider, :no_users) }
@@ -42,6 +44,37 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReminderWorker do
       it 'sends an email to the provider user' do
         described_class.new.perform
         expect(ProviderMailer).to have_received(:recruitment_performance_report_reminder).with(provider_user)
+      end
+    end
+
+    context 'when batching emails, they are evenly distributed over one hour' do
+      let!(:more_provider_users) { create_list(:provider_user, 299, providers: [provider]) }
+
+      before do
+        national_recruitment_performance_report
+        provider_recruitment_performance_report
+      end
+
+      it 'schedules emails with even spacing across 60 minutes' do
+        travel_to Time.zone.local(2026, 2, 3, 17, 0, 0) do
+          scheduled_times = []
+
+          mail_double = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+          allow(ProviderMailer).to receive(:recruitment_performance_report_reminder).and_return(mail_double)
+
+          allow(mail_double).to receive(:deliver_later) do |wait_until:|
+            scheduled_times << wait_until
+          end
+
+          described_class.new.perform
+
+          expect(scheduled_times.size).to eq(300)
+          expect(scheduled_times.uniq).to eq([
+            Time.zone.local(2026, 2, 3, 17, 0, 0),
+            Time.zone.local(2026, 2, 3, 17, 30, 0),
+            Time.zone.local(2026, 2, 3, 18, 0, 0),
+          ])
+        end
       end
     end
   end
