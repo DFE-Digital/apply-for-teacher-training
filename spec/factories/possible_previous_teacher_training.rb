@@ -3,6 +3,6 @@ FactoryBot.define do
     candidate
     provider_name { Faker::University.name }
     started_on { 2.years.ago }
-    ended_on { 1.year.ago }
+    ended_on { 18.months.ago }
   end
 end
