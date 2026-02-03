@@ -50,11 +50,11 @@
 
                 <% if multiple_fields?(filter) %>
                   <fieldset class="govuk-fieldset">
-                    <legend id="filter-legend-<%= filter[:name] %>-" class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                    <legend id="filter-legend-<%= filter[:name] %>" class="govuk-fieldset__legend govuk-fieldset__legend--s">
                       <%= filter[:heading] %>
                     </legend>
                 <% else %>
-                  <label class="govuk-label govuk-label--s" for="<%= filter[:name] %>">
+                  <label id="filter-legend-<%= filter[:name] %>" class="govuk-label govuk-label--s" for="<%= filter[:name] %>">
                     <%= filter[:heading] %>
                   </label>
                 <% end %>
