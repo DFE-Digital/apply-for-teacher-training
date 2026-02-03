@@ -18,7 +18,7 @@ module Publications
 
       relation = ProviderUser.joins(:provider_permissions).where('provider_permissions.provider_id' => provider_ids)
 
-      ArrayBatchDelivery.new(relation:, stagger_over: stagger_over(relation)).each do |scheduled_time, batch|
+      ArrayBatchDelivery.new(relation:, stagger_over:).each do |scheduled_time, batch|
         batch.each do |provider_user|
           ProviderMailer
           .recruitment_performance_report_reminder(provider_user)
@@ -29,12 +29,8 @@ module Publications
 
   private
 
-    def stagger_over(relation)
-      if relation.count > 3000
-        (relation.count / 500).minutes
-      else
-        5.minutes
-      end
+    def stagger_over
+      60.minutes
     end
   end
 end
