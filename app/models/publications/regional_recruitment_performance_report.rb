@@ -1,7 +1,17 @@
 module Publications
   class RegionalRecruitmentPerformanceReport < ApplicationRecord
+    ALL_REGIONS = 'all'.freeze
+
     validates :cycle_week, :region, :publication_date, presence: true
     has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
+
+    def self.select_options
+      result = Publications::RegionalRecruitmentPerformanceReport.regions.each.map do |key, value|
+        [value, key]
+      end
+      result.prepend(['All of England', ALL_REGIONS])
+      result
+    end
 
     enum :region, {
       west_midlands: 'West Midlands (England)',
