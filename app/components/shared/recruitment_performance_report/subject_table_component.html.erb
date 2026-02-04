@@ -25,7 +25,7 @@
                               html_attributes: { class: 'recruitment-performance-report-table__heading--no-border' }) %>
             <%= row.with_cell(text: provider_name, colspan:, scope: 'colgroup',
                               html_attributes: { class: 'recruitment-performance-report-table__heading' }) %>
-            <%= row.with_cell(text: t('shared.all_providers'), colspan:, scope: 'colgroup',
+            <%= row.with_cell(text: t("shared.#{region}"), colspan:, scope: 'colgroup',
                               html_attributes: { class: 'recruitment-performance-report-table__heading' }) %>
           <% end %>
 

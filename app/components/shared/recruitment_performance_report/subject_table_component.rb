@@ -1,11 +1,12 @@
 module RecruitmentPerformanceReport
   class SubjectTableComponent < ViewComponent::Base
-    attr_reader :provider, :table_caption, :summary_row, :subject_rows
-    def initialize(provider, table_caption:, summary_row:, subject_rows:)
+    attr_reader :provider, :table_caption, :summary_row, :subject_rows, :region
+    def initialize(provider, table_caption:, summary_row:, subject_rows:, region:)
       @provider = provider
       @table_caption = table_caption
       @summary_row = summary_row
       @subject_rows = subject_rows
+      @region = region
     end
 
     def format_number(row, column_name)

@@ -25,23 +25,25 @@
           <%= t('shared.recruitment_performance_report.report_description_component.this_report_will_update', date: @provider_report.report_starting_date) %>
         <% end %>
       </p>
-      <p class="govuk-body"><%= t('shared.recruitment_performance_report.report_description_component.this_report_compares') %></p>
-      <p class="govuk-body"><%= t('shared.recruitment_performance_report.report_description_component.regional_or_national') %></p>
+      <p class="govuk-body">
+        The report compares your organisation’s recruitment data this cycle to the same time last recruitment cycle.
+      </p>
+      <p class="govuk-body">
+        It also allows you to compare against either national or regional data at a level of your choosing.
+      </p>
 
       <%= form_with url: '', method: :get do |f| %>
-
         <%= f.govuk_select(
           :region,
           options_for_select(
             Publications::RegionalRecruitmentPerformanceReport.select_options,
             @region,
           ),
-          label: { text: "Set your comperison area", size: 'm' }
+          label: { text: 'Set your comperison area', size: 'm' },
         ) %>
 
         <%= f.govuk_submit 'Submit' %>
       <% end %>
-
 
       <h2 class="govuk-heading-m"><%= t('shared.recruitment_performance_report.report_description_component.contents') %></h2>
       <%= govuk_list [govuk_link_to(t('shared.recruitment_performance_report.report_description_component.about_this_data'), '#about_this_data', no_visited_state: true),
@@ -89,9 +91,9 @@
             :region,
             options_for_select(
               Publications::RegionalRecruitmentPerformanceReport.select_options,
-              @region
+              @region,
             ),
-            label: { text: "Set your comperison area", size: 'm' }
+            label: { text: 'Set your comperison area', size: 'm' },
           ) %>
 
           <%= f.govuk_submit 'Submit' %>

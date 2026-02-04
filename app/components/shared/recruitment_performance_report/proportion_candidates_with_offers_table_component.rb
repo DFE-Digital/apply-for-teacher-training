@@ -5,13 +5,27 @@ module RecruitmentPerformanceReport
       last_cycle: 'offer_rate_to_same_date_previous_cycle',
     }.freeze
 
-    def initialize(provider, provider_statistics, national_statistics)
+    attr_reader :type, :region
+
+    def initialize(provider, provider_statistics, statistics, type: :NATIONAL, region: 'all')
       @provider = provider
+      @type = type
+      @region = region
       @row_builder = ProviderInterface::Reports::SubjectRowsBuilderService.new(
         field_mapping: BIG_QUERY_COLUMN_NAMES_MAPPING,
         provider_statistics:,
-        national_statistics:,
+        statistics:,
+        type:,
       )
+    end
+
+    def type_of_data
+      case type
+      when :NATIONAL
+        t('.national_data')
+      when :REGIONAL
+        t('.regional_data')
+      end
     end
   end
 end
