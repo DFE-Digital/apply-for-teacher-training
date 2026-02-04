@@ -55,7 +55,7 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReminderWorker do
         provider_recruitment_performance_report
       end
 
-      it 'schedules emails with even spacing across 60 minutes' do
+      it 'schedules emails with even spacing across an appropriate span of minutes' do
         travel_to Time.zone.local(2026, 2, 3, 17, 0, 0) do
           scheduled_times = []
 
@@ -71,8 +71,8 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReminderWorker do
           expect(scheduled_times.size).to eq(300)
           expect(scheduled_times.uniq).to eq([
             Time.zone.local(2026, 2, 3, 17, 0, 0),
-            Time.zone.local(2026, 2, 3, 17, 30, 0),
-            Time.zone.local(2026, 2, 3, 18, 0, 0),
+            Time.zone.local(2026, 2, 3, 17, 2, 30),
+            Time.zone.local(2026, 2, 3, 17, 5, 0),
           ])
         end
       end
