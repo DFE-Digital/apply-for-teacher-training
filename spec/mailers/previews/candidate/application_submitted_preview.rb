@@ -102,7 +102,7 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
   def apply_to_another_course_after_30_working_days
     provider = FactoryBot.build_stubbed(:provider, code: "PREVIEW#{Provider.count}")
     course = FactoryBot.build_stubbed(:course, provider: provider)
-    FactoryBot.build_stubbed(:course_option, :full_time, course:)
+    course_option = FactoryBot.build_stubbed(:course_option, :full_time, course:)
     application_form = FactoryBot.create(
       :application_form,
       :minimum_info,
@@ -112,6 +112,7 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
           :application_choice,
           :inactive,
           course:,
+          course_option:,
         ),
       ],
     )
@@ -122,7 +123,7 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
   def apply_to_another_course_after_30_working_days_with_holiday_warning
     provider = FactoryBot.build_stubbed(:provider, code: "PREVIEW#{Provider.count}")
     course = FactoryBot.build_stubbed(:course, provider: provider)
-    FactoryBot.build_stubbed(:course_option, :full_time, course:)
+    course_option = FactoryBot.build_stubbed(:course_option, :full_time, course:)
     application_form = FactoryBot.create(
       :application_form,
       :minimum_info,
@@ -132,6 +133,7 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
           :application_choice,
           :inactive,
           course:,
+          course_option:,
           sent_to_provider_at: DateTime.new(RecruitmentCycleTimetable.current_year, 1, 1),
         ),
       ],
@@ -143,7 +145,7 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
   def apply_to_multiple_courses_after_30_working_days
     provider = FactoryBot.create(:provider, code: "PREVIEW#{Provider.count}")
     course = FactoryBot.create(:course, provider: provider)
-    FactoryBot.build_stubbed(:course_option, :full_time, course:)
+    course_option = FactoryBot.build_stubbed(:course_option, :full_time, course:)
     application_form = FactoryBot.create(
       :application_form,
       :minimum_info,
@@ -153,6 +155,7 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
         2,
         :inactive,
         course:,
+        course_option:,
       ),
     )
 
@@ -162,7 +165,7 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
   def apply_to_multiple_courses_after_30_working_days_with_holiday_response_time_warning
     provider = FactoryBot.create(:provider, code: "PREVIEW#{Provider.count}")
     course = FactoryBot.create(:course, provider: provider)
-    FactoryBot.build_stubbed(:course_option, :full_time, course:)
+    course_option = FactoryBot.build_stubbed(:course_option, :full_time, course:)
     application_form = FactoryBot.create(
       :application_form,
       :minimum_info,
@@ -172,6 +175,7 @@ class Candidate::ApplicationSubmittedPreview < ActionMailer::Preview
         2,
         :inactive,
         course:,
+        course_option:,
         sent_to_provider_at: DateTime.new(RecruitmentCycleTimetable.current_year, 1, 1),
       ),
     )
