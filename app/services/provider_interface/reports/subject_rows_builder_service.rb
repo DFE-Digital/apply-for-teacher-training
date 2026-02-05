@@ -6,7 +6,7 @@ module ProviderInterface
       PRIMARY = 'Primary'.freeze
       LEVEL = 'Level'.freeze
       ALL = 'All'.freeze
-      TYPE_OPTIONS = {
+      REPORT_TYPE_OPTIONS = {
         NATIONAL: {
           stat_title: 'nonprovider_filter',
           stat_level: 'nonprovider_filter_category',
@@ -17,11 +17,11 @@ module ProviderInterface
         },
       }.freeze
 
-      def initialize(field_mapping:, provider_statistics:, statistics:, type:)
+      def initialize(field_mapping:, provider_statistics:, statistics:, report_type:)
         @field_mapping = field_mapping
         @provider_statistics = provider_statistics
         @statistics = statistics
-        @type = type
+        @report_type = report_type
       end
 
       def subject_rows
@@ -37,15 +37,15 @@ module ProviderInterface
 
     private
 
-      attr_reader :field_mapping, :provider_statistics, :statistics, :type
+      attr_reader :field_mapping, :provider_statistics, :statistics, :report_type
 
       def rows
         @rows ||= provider_statistics.map do |row|
           next if row_has_no_data?(row)
 
           national_row = statistics.find do |national_stat|
-            stat_title = TYPE_OPTIONS[type][:stat_title]
-            stat_level = TYPE_OPTIONS[type][:stat_level]
+            stat_title = REPORT_TYPE_OPTIONS[report_type][:stat_title]
+            stat_level = REPORT_TYPE_OPTIONS[report_type][:stat_level]
             [national_stat[stat_title], national_stat[stat_level]] == [row[title], row[level]]
           end
 

@@ -30,7 +30,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         field_mapping: field_mapping_with_change,
         provider_statistics:,
         statistics:,
-        type: report_type,
+        report_type:,
       ).summary_row
       expect(summary_row.title).to eq 'All'
       expect(summary_row.level).to eq 'All'
@@ -47,7 +47,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
           field_mapping: field_mapping_with_change,
           provider_statistics:,
           statistics: regional_statistics,
-          type: report_type,
+          report_type:,
         ).summary_row
         expect(summary_row).to be_present
         expect(summary_row).to be_present
@@ -65,7 +65,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
           field_mapping: field_mapping_with_change,
           provider_statistics:,
           statistics:,
-          type: report_type,
+          report_type:,
         ).subject_rows
 
         rows_with_percentage_change = rows.find_all do |row|
@@ -86,7 +86,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
             field_mapping: field_mapping_with_change,
             provider_statistics:,
             statistics: regional_statistics,
-            type: report_type,
+            report_type:,
           ).subject_rows
 
           rows_with_percentage_change = rows.find_all do |row|
@@ -107,7 +107,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
           field_mapping: field_mapping_without_change,
           provider_statistics:,
           statistics:,
-          type: report_type,
+          report_type:,
         ).subject_rows
 
         rows_with_percentage_change = rows.find_all do |row|
@@ -128,7 +128,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
             field_mapping: field_mapping_without_change,
             provider_statistics:,
             statistics: regional_statistics,
-            type: report_type,
+            report_type:,
           ).subject_rows
 
           rows_with_percentage_change = rows.find_all do |row|
@@ -149,7 +149,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
           field_mapping: field_mapping_this_cycle_only,
           provider_statistics:,
           statistics:,
-          type: report_type,
+          report_type:,
         ).subject_rows
 
         rows_with_percentage_change = rows.find_all do |row|
@@ -175,7 +175,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
             field_mapping: field_mapping_this_cycle_only,
             provider_statistics:,
             statistics: regional_statistics,
-            type: report_type,
+            report_type:,
           ).subject_rows
 
           rows_with_percentage_change = rows.find_all do |row|
@@ -201,7 +201,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
           field_mapping: field_mapping_with_change,
           provider_statistics:,
           statistics:,
-          type: report_type,
+          report_type:,
         ).subject_rows
 
         subjects = rows.map(&:title)
@@ -219,7 +219,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
             field_mapping: field_mapping_with_change,
             provider_statistics:,
             statistics: regional_statistics,
-            type: report_type,
+            report_type:,
           ).subject_rows
 
           subjects = rows.map(&:title)
@@ -237,7 +237,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
           field_mapping: field_mapping_without_change,
           provider_statistics:,
           statistics:,
-          type: report_type,
+          report_type:,
         ).subject_rows
 
         subjects = rows.map(&:title)
@@ -258,7 +258,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
             field_mapping: field_mapping_without_change,
             provider_statistics:,
             statistics: regional_statistics,
-            type: report_type,
+            report_type:,
           ).subject_rows
 
           subjects = rows.map(&:title)
@@ -277,7 +277,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
         field_mapping: field_mapping_without_change,
         provider_statistics:,
         statistics:,
-        type: report_type,
+        report_type:,
       ).subject_rows
 
       titles = rows.map { |row| [row.level, row.title] }
@@ -319,7 +319,7 @@ RSpec.describe ProviderInterface::Reports::SubjectRowsBuilderService do
           field_mapping: field_mapping_without_change,
           provider_statistics:,
           statistics: regional_statistics,
-          type: report_type,
+          report_type:,
         ).subject_rows
 
         titles = rows.map { |row| [row.level, row.title] }

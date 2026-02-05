@@ -9,17 +9,17 @@ module RecruitmentPerformanceReport
       provider,
       provider_statistics,
       statistics,
-      type: :NATIONAL,
+      report_type: :NATIONAL,
       region: Publications::RegionalRecruitmentPerformanceReport::ALL_REGIONS
     )
       @provider = provider
-      @type = type
+      @report_type = report_type
       @region = region
       @row_builder = ProviderInterface::Reports::DeferralRowsBuilderService.new(
         field_mapping: BIG_QUERY_COLUMN_NAMES_MAPPING,
         provider_statistics:,
         statistics:,
-        type:,
+        report_type:,
       )
     end
 

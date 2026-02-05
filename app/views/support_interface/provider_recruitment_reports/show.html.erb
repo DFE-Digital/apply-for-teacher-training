@@ -59,25 +59,25 @@
 
     <%= render RecruitmentPerformanceReport::AboutThisDataSectionComponent.new(@provider_report) %>
     <%= render RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(
-      @provider, @provider_data, @statistics, type: @report_type, region: @region
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
     ) %>
     <%= render RecruitmentPerformanceReport::CandidatesWithOffersTableComponent.new(
-      @provider, @provider_data, @statistics, type: @report_type, region: @region
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
     ) %>
     <%= render RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent.new(
-      @provider, @provider_data, @statistics, type: @report_type, region: @region
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
     ) %>
     <%= render RecruitmentPerformanceReport::OffersAcceptedTableComponent.new(
-      @provider, @provider_data, @statistics, type: @report_type, region: @region
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
     ) %>
     <%= render RecruitmentPerformanceReport::DeferralsTableComponent.new(
-      @provider, @provider_data, @statistics, type: @report_type, region: @region
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
     ) %>
     <%= render RecruitmentPerformanceReport::CandidatesRejectedTableComponent.new(
-      @provider, @provider_data, @statistics, type: @report_type, region: @region
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
     ) %>
     <%= render RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(
-      @provider, @provider_data, @statistics, type: @report_type, region: @region
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
     ) %>
   </div>
 <% else %>
