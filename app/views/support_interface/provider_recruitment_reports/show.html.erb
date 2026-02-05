@@ -79,7 +79,66 @@
     <%= render RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(
       @provider, @provider_data, @statistics, report_type: @report_type, region: @region
     ) %>
+
+    <%= govuk_table do |table| %>
+      <%= table.with_caption(text: 'Recruitment performance by condition', html_attributes: { class: 'govuk-visually-hidden' }) %>
+
+      <%= table.with_head do |head| %>
+        <%= head.with_row do |row| %>
+          <%= row.with_cell(scope: false) %>
+          <%= row.with_cell(scope: false) %>
+          <%= row.with_cell(scope: false) %>
+          <%= row.with_cell(text: 'Applied', scope: 'col') %>
+          <%= row.with_cell(text: 'Offered', scope: 'col') %>
+          <%= row.with_cell(text: 'Recruited', scope: 'col') %>
+        <% end %>
+      <% end %>
+
+      <%= table.with_body do |body| %>
+        <% @disability_data.each do |data| %>
+          <%= body.with_row do |row| %>
+            <%= row.with_cell(rowspan: 4) do %>
+              <%= data[:header] %>
+            <% end %>
+
+            <%= row.with_cell(rowspan: 2, header: true, text: @provider.name) %>
+            <%= row.with_cell(header: true, text: 'This cycle') %>
+
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888 (22%)', numeric: true) %>
+          <% end %>
+
+          <%= body.with_row do |row| %>
+            <%= row.with_cell(header: true, text: 'Last cycle') %>
+
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888 (22%)', numeric: true) %>
+          <% end %>
+
+          <%= body.with_row do |row| %>
+            <%# add translation to region %>
+            <%= row.with_cell(rowspan: 2, header: true, text: @region) %>
+            <%= row.with_cell(header: true, text: 'This cycle') %>
+
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888 (22%)', numeric: true) %>
+          <% end %>
+
+          <%= body.with_row(html_attributes: { class: 'condition-divider' }) do |row| %>
+            <%= row.with_cell(header: true, text: 'Last cycle') %>
+
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888 (22%)', numeric: true) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
   </div>
+
 <% else %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">

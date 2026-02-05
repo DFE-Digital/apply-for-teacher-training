@@ -9,6 +9,11 @@ module SupportInterface
       @region = params[:region] || all_of_england
       @report_type = @region == all_of_england ? :NATIONAL : :REGIONAL
       @statistics = @region == all_of_england ? national_report&.statistics : regional_report&.statistics
+
+      @disability_data = ProviderInterface::DiversityDataByProvider.new(
+        provider: Provider.find(11),
+        recruitment_cycle_year: 2026,
+      ).disability_data
     end
 
   private
