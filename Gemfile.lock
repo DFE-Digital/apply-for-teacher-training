@@ -514,6 +514,7 @@ GEM
       tzinfo
       validate_url
       webfinger (~> 2.0)
+    openssl (4.0.0)
     optimist (3.2.1)
     orm_adapter (0.5.0)
     os (1.1.4)
@@ -925,6 +926,7 @@ DEPENDENCIES
   omniauth_govuk_one_login!
   omniauth_openid_connect
   openapi3_parser (= 0.10.1)
+  openssl
   pagy
   parallel_tests
   pg (~> 1.6.3)
@@ -1152,6 +1154,7 @@ CHECKSUMS
   omniauth_openid_connect (0.8.0) sha256=1f2f3890386e2a742221cee0d2e903b78d874e6fab9ea3bfa31c1462f4793d25
   openapi3_parser (0.10.1) sha256=e373bfcec1f183252a51fbe28787b52c4052e045697bae1778258bb9b3296a19
   openid_connect (2.3.1) sha256=5d808380cff80d78e3d3d54cfaebe2d6461d835c674faa29e2314a402c1b2182
+  openssl (4.0.0) sha256=185711ed93d4e9c9a9db6efea7edb202dfe04f7d3692fbab988e3d84e498ee91
   optimist (3.2.1) sha256=8cf8a0fd69f3aa24ab48885d3a666717c27bc3d9edd6e976e18b9d771e72e34e
   orm_adapter (0.5.0) sha256=aa5d0be5d540cbb46d3a93e88061f4ece6a25f6e97d6a47122beb84fe595e9b9
   os (1.1.4) sha256=57816d6a334e7bd6aed048f4b0308226c5fb027433b67d90a9ab435f35108d3f
