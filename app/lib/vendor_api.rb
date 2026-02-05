@@ -8,6 +8,7 @@ module VendorAPI
   VERSION_1_4 = '1.4'.freeze
   VERSION_1_5 = '1.5'.freeze
   VERSION_1_6 = '1.6'.freeze
+  VERSION_1_7 = '1.7pre'.freeze
   VERSION = VERSION_1_6
 
   VERSIONS = {
@@ -69,6 +70,9 @@ module VendorAPI
     '1.6' => [
       Changes::V16::AddConfidentialToReference,
       Changes::V16::AddInactiveToApplicationAttributeStatuses,
+    ],
+    '1.7pre' => [
+      Changes::V17::MarkInterviewObjectAsOptional,
     ],
   }.freeze
 end

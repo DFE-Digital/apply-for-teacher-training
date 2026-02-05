@@ -8,6 +8,7 @@ module VendorAPI
     include DecisionsAPIData
     include HesaIttDataAPIData
 
+    # TODO: DISCUSS REMOVING interviewing conversion
     API_APPLICATION_STATES = { offer_withdrawn: 'rejected',
                                inactive: 'awaiting_provider_decision',
                                interviewing: 'awaiting_provider_decision' }.freeze

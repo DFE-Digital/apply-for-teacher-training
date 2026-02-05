@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: v1.6
+  version: v1.7
   title: Apply API
   contact:
     name: DfE
@@ -17,24 +17,6 @@ servers:
     url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.5
 components:
   schemas:
-    ApplicationAttributes:
-      properties:
-        inactive:
-          type: boolean
-          description: Indicates whether the application is inactive, based on time-sensitive criteria. If true, the application is considered inactive; otherwise, it remains active.
-          enum:
-          - true
-          - false
-    Reference:
+    CreateInterview:
       type: object
-      properties:
-        confidential:
-          type: boolean
-          description: The confidentiality status selected by the referee for the reference
-          example: true
-          enum:
-          - true
-          - false
-          - null
-      required:
-        - confidential
+      additionalProperties: false

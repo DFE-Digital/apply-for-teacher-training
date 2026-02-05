@@ -172,7 +172,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
     context 'when missing parameters' do
       context 'data' do
         it 'fails and renders a ParameterMissingResponse' do
-          post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/create", params: {}
+          post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/#{interview_id}/update", params: {}
 
           expect(response).to have_http_status(:unprocessable_entity)
           expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
