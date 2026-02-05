@@ -15,10 +15,25 @@ module Publications
       provider_ids = Publications::ProviderRecruitmentPerformanceReport.where(
         cycle_week:, recruitment_cycle_year:,
       ).pluck(:provider_id)
-      ProviderUser.joins(:provider_permissions).where('provider_permissions.provider_id' => provider_ids).find_in_batches do |provider_user_batch|
-        provider_user_batch.each do |provider_user|
-          ProviderMailer.recruitment_performance_report_reminder(provider_user).deliver_later
+
+      relation = ProviderUser.joins(:provider_permissions).where('provider_permissions.provider_id' => provider_ids)
+
+      ArrayBatchDelivery.new(relation:, stagger_over: stagger_over(relation)).each do |scheduled_time, batch|
+        batch.each do |provider_user|
+          ProviderMailer
+          .recruitment_performance_report_reminder(provider_user)
+          .deliver_later(wait_until: scheduled_time)
         end
+      end
+    end
+
+  private
+
+    def stagger_over(relation)
+      if relation.count > 3000
+        (relation.count / 500).minutes
+      else
+        5.minutes
       end
     end
   end
