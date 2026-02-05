@@ -6,11 +6,22 @@ module ProviderInterface
       PRIMARY = 'Primary'.freeze
       LEVEL = 'Level'.freeze
       ALL = 'All'.freeze
+      REPORT_TYPE_OPTIONS = {
+        NATIONAL: {
+          stat_title: 'nonprovider_filter',
+          stat_level: 'nonprovider_filter_category',
+        },
+        REGIONAL: {
+          stat_title: 'nonregion_filter',
+          stat_level: 'nonregion_filter_category',
+        },
+      }.freeze
 
-      def initialize(field_mapping:, provider_statistics:, national_statistics:)
+      def initialize(field_mapping:, provider_statistics:, statistics:, report_type:)
         @field_mapping = field_mapping
         @provider_statistics = provider_statistics
-        @national_statistics = national_statistics
+        @statistics = statistics
+        @report_type = report_type
       end
 
       def subject_rows
@@ -26,14 +37,16 @@ module ProviderInterface
 
     private
 
-      attr_reader :field_mapping, :provider_statistics, :national_statistics
+      attr_reader :field_mapping, :provider_statistics, :statistics, :report_type
 
       def rows
         @rows ||= provider_statistics.map do |row|
           next if row_has_no_data?(row)
 
-          national_row = national_statistics.find do |national_stat|
-            [national_stat[title], national_stat[level]] == [row[title], row[level]]
+          national_row = statistics.find do |national_stat|
+            stat_title = REPORT_TYPE_OPTIONS[report_type][:stat_title]
+            stat_level = REPORT_TYPE_OPTIONS[report_type][:stat_level]
+            [national_stat[stat_title], national_stat[stat_level]] == [row[title], row[level]]
           end
 
           next if national_row.blank?
@@ -65,6 +78,14 @@ module ProviderInterface
         )
       end
 
+      def title
+        'nonprovider_filter'
+      end
+
+      def level
+        'nonprovider_filter_category'
+      end
+
       def this_cycle
         field_mapping.with_indifferent_access[:this_cycle]
       end
@@ -75,14 +96,6 @@ module ProviderInterface
 
       def percentage_change
         field_mapping.with_indifferent_access[:percentage_change]
-      end
-
-      def title
-        'nonprovider_filter'
-      end
-
-      def level
-        'nonprovider_filter_category'
       end
     end
 

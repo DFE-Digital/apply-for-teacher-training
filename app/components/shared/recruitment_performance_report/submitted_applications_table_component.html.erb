@@ -3,12 +3,13 @@
   table_caption: 'candidates_who_have_submitted_applications',
   subject_rows: @row_builder.subject_rows,
   summary_row: @row_builder.summary_row,
+  region:,
 ) do %>
   <span>
     <p class="govuk-body">
       <%= t('.number_of_candidates_submitted', provider_name: @provider.name) %>
     </p>
-    <%= govuk_list([t('.last_cycle'), t('.national_data')], type: :bullet) %>
+    <%= govuk_list([t('.last_cycle'), type_of_data], type: :bullet) %>
     <p class="govuk-body">
       <%= t('.candidates_who_withdrew') %>
     </p>

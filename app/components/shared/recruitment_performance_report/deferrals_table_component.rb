@@ -5,12 +5,21 @@ module RecruitmentPerformanceReport
       last_cycle: 'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle',
     }.freeze
 
-    def initialize(provider, provider_statistics, national_statistics)
+    def initialize(
+      provider,
+      provider_statistics,
+      statistics,
+      report_type: :NATIONAL,
+      region: Publications::RegionalRecruitmentPerformanceReport::ALL_REGIONS
+    )
       @provider = provider
+      @report_type = report_type
+      @region = region
       @row_builder = ProviderInterface::Reports::DeferralRowsBuilderService.new(
         field_mapping: BIG_QUERY_COLUMN_NAMES_MAPPING,
         provider_statistics:,
-        national_statistics:,
+        statistics:,
+        report_type:,
       )
     end
 

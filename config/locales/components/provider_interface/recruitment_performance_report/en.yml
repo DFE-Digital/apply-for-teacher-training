@@ -27,6 +27,7 @@ en:
         this_report_compares: >
           The report compares your organisation’s recruitment data this cycle to the same time last recruitment cycle.
           It also includes national level data.
+        regional_or_national: It also allows you to compare against either national or regional data at a level of your choosing.
         contents: Contents
         about_this_data: About this data
         candidates_who_have_submitted_applications: Candidates who have submitted applications
@@ -98,6 +99,7 @@ en:
           far this recruitment cycle. You can compare the data to:
         last_cycle: last cycle,
         national_data: national data.
+        regional_data: regional data.
         candidates_who_withdrew: Candidates who withdrew or deferred their applications after they submitted them are included.
       candidates_with_offers_table_component:
         candidates_who_have_received_offer: >
@@ -105,6 +107,7 @@ en:
         you_can_compare_the_data_to: "You can compare the data to:"
         last_cycle: last cycle,
         national_data: national data.
+        regional_data: regional data.
         table_includes: "This table includes candidates who have received at least one offer on at least one of their applications in this cycle. They are included whether or not the offer was:"
         declined: declined
         withdrawn_before_they_could_accept: withdrawn before they could accept it
@@ -115,6 +118,7 @@ en:
           have received an offer so far this recruitment cycle. You can compare the data to:
         last_cycle: last cycle,
         national_data: national data.
+        regional_data: regional data.
         table_includes: "The offered candidates in this table include:"
         candidates_with_offers_received: candidates who have received one or more offers this cycle
         offers_withdrawn_or_deferred_by_providers: offers which were then withdrawn or deferred by the provider
@@ -128,6 +132,7 @@ en:
         you_can_compare_the_data_to: "You can compare the data to:"
         last_cycle: last cycle,
         national_data: national data.
+        regional_data: regional data.
         candidates_who_deferred: >
           The table includes candidates who accepted and then deferred an offer from the provider in a previous cycle,
           which has been confirmed this cycle.
@@ -154,6 +159,7 @@ en:
         you_can_compare_the_data_to: "You can compare the data to:"
         last_cycle: last cycle,
         national_data: national data.
+        regional_data: regional data.
         candidates_rejected_and_awaiting_decisions: >
           If a candidate has had all their applications rejected by %{provider_name} but still have applications
           waiting for a decision with other providers, they will appear as rejected in your data but not the national
@@ -165,13 +171,23 @@ en:
         you_can_compare_the_data_to: "You can compare the data to:"
         last_cycle: last cycle,
         national_data: national data.
+        regional_data: regional data.
         responding_to_applications_include: "Responding to an application includes actions such as:"
         making_an_offer: making an offer
         interviewing: interviewing
         rejecting_application: rejecting the candidate's application
         withdrawing: withdrawing an offer
     empty_state: There is no data available to display.
-    all_providers: All providers
     subject: Subject
     all_subjects: All subjects
     not_available: Not available
+    all: All providers
+    west_midlands: Providers in the West Midlands (England)
+    north_west: Providers in the North West (England)
+    london: Providers in London
+    nort_east: Providers in the North East (England)
+    south_west: Providers in the South West (England)
+    east_midlands: Providers in the East Midlands (England)
+    east_of_england: Providers in the East of England
+    yorkshire_and_the_humber: Providers in Yorkshire and The Humber
+    south_east: Providers in the South East (England)

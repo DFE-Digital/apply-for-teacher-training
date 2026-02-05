@@ -6,13 +6,27 @@ module RecruitmentPerformanceReport
       percentage_change: 'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle',
     }.freeze
 
-    def initialize(provider, provider_statistics, national_statistics)
+    attr_reader :report_type, :region
+
+    def initialize(provider, provider_statistics, statistics, report_type: :NATIONAL, region: 'all')
       @provider = provider
+      @report_type = report_type
+      @region = region
       @row_builder = ProviderInterface::Reports::SubjectRowsBuilderService.new(
         field_mapping: BIG_QUERY_COLUMN_NAMES_MAPPING,
         provider_statistics:,
-        national_statistics:,
+        statistics:,
+        report_type:,
       )
+    end
+
+    def type_of_data
+      case report_type
+      when :NATIONAL
+        t('.national_data')
+      when :REGIONAL
+        t('.regional_data')
+      end
     end
   end
 end

@@ -2,10 +2,22 @@ module ProviderInterface
   module Reports
     class DeferralRowsBuilderService
       ALL = 'All'.freeze
-      def initialize(field_mapping:, provider_statistics:, national_statistics:)
+      REPORT_TYPE_OPTIONS = {
+        NATIONAL: {
+          stat_title: 'nonprovider_filter',
+          stat_level: 'nonprovider_filter_category',
+        },
+        REGIONAL: {
+          stat_title: 'nonregion_filter',
+          stat_level: 'nonregion_filter_category',
+        },
+      }.freeze
+
+      def initialize(field_mapping:, provider_statistics:, statistics:, report_type:)
         @field_mapping = field_mapping
         @provider_statistics = provider_statistics
-        @national_statistics = national_statistics
+        @statistics = statistics
+        @report_type = report_type
       end
 
       def deferral_rows
@@ -34,8 +46,10 @@ module ProviderInterface
       end
 
       def national_summary_data
-        @national_summary_data ||= @national_statistics.find do |row|
-          row[title] == ALL && row[level] == ALL
+        @national_summary_data ||= @statistics.find do |row|
+          stat_title = REPORT_TYPE_OPTIONS[@report_type][:stat_title]
+          stat_level = REPORT_TYPE_OPTIONS[@report_type][:stat_level]
+          row[stat_title] == ALL && row[stat_level] == ALL
         end
       end
 

@@ -17,7 +17,7 @@
                               html_attributes: { class: 'recruitment-performance-report-table__subheading' }) %>
             <%= row.with_cell(text: provider_name, numeric: true,
                               html_attributes: { class: 'recruitment-performance-report-table__subheading' }) %>
-            <%= row.with_cell(text: t('shared.all_providers'), numeric: true,
+            <%= row.with_cell(text: t("shared.#{@region}"), numeric: true,
                               html_attributes: { class: 'recruitment-performance-report-table__subheading' }) %>
           <% end %>
         <% end %>

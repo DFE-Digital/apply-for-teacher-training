@@ -1,0 +1,111 @@
+<%= render 'support_interface/providers/provider_navigation', title: 'Recruitment performance weekly report' %>
+<% if @statistics.present? && @provider_data.present? %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l"><%= t('.title', cycle_year_range: @provider_report.cycle_range_name) %></h1>
+      <% unless RecruitmentPerformanceReportTimetable.report_season? %>
+        <p class="govuk-body govuk-!-font-weight-bold"><%= t('.not_available_yet_to_providers', first_publication_date: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:govuk_date)) %></p>
+      <% end %>
+    </div>
+
+    <div class="govuk-grid-column-two-thirds">
+      <p class="govuk-body"><%= t('shared.recruitment_performance_report.report_description_component.last_updated', date: @provider_report.generation_date.to_date.to_fs(:govuk_date)) %></p>
+      <p class="govuk-body">
+        <%= t('shared.recruitment_performance_report.report_description_component.this_report_shows',
+              cycle_name: @provider_report.cycle_range_name,
+              start_date: @provider_report.report_show_data_from_date,
+              end_date: @provider_report.report_show_data_to_date) %>
+      </p>
+      <p class="govuk-body">
+        <% if @provider_report.previous_cycle? %>
+          <%= t('shared.recruitment_performance_report.report_description_component.next_reports_will_be_available',
+                next_cycle_name: @provider_report.next_cycle_range_name,
+                next_reporting_start_date: @provider_report.next_reporting_start_date) %>
+        <% else %>
+          <%= t('shared.recruitment_performance_report.report_description_component.this_report_will_update', date: @provider_report.report_starting_date) %>
+        <% end %>
+      </p>
+      <p class="govuk-body">
+        The report compares your organisation’s recruitment data this cycle to the same time last recruitment cycle.
+      </p>
+      <p class="govuk-body">
+        It also allows you to compare against either national or regional data at a level of your choosing.
+      </p>
+
+      <%= form_with url: '', method: :get do |f| %>
+        <%= f.govuk_select(
+          :region,
+          options_for_select(
+            Publications::RegionalRecruitmentPerformanceReport.select_options,
+            @region,
+          ),
+          label: { text: 'Set your comperison area', size: 'm' },
+        ) %>
+
+        <%= f.govuk_submit 'Submit' %>
+      <% end %>
+
+      <h2 class="govuk-heading-m"><%= t('shared.recruitment_performance_report.report_description_component.contents') %></h2>
+      <%= govuk_list [govuk_link_to(t('shared.recruitment_performance_report.report_description_component.about_this_data'), '#about_this_data', no_visited_state: true),
+                      govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidates_who_have_submitted_applications'), '#candidates_who_have_submitted_applications', no_visited_state: true),
+                      govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidates_with_an_offer'), '#candidates_with_an_offer', no_visited_state: true),
+                      govuk_link_to(t('shared.recruitment_performance_report.report_description_component.proportion_of_candidates_with_an_offer'), '#proportion_of_candidates_with_an_offer', no_visited_state: true),
+                      govuk_link_to(t('shared.recruitment_performance_report.report_description_component.offers_accepted'), '#offers_accepted', no_visited_state: true),
+                      govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidate_deferrals'), '#candidate_deferrals', no_visited_state: true),
+                      govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidates_rejected'), '#candidates_rejected', no_visited_state: true),
+                      govuk_link_to(t('shared.recruitment_performance_report.report_description_component.proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response'), '#proportion_with_inactive_applications_table_component', no_visited_state: true)],
+                     type: :number %>
+    </div>
+
+    <%= render RecruitmentPerformanceReport::AboutThisDataSectionComponent.new(@provider_report) %>
+    <%= render RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+    ) %>
+    <%= render RecruitmentPerformanceReport::CandidatesWithOffersTableComponent.new(
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+    ) %>
+    <%= render RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent.new(
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+    ) %>
+    <%= render RecruitmentPerformanceReport::OffersAcceptedTableComponent.new(
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+    ) %>
+    <%= render RecruitmentPerformanceReport::DeferralsTableComponent.new(
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+    ) %>
+    <%= render RecruitmentPerformanceReport::CandidatesRejectedTableComponent.new(
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+    ) %>
+    <%= render RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+    ) %>
+  </div>
+<% else %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l"><%= t('.title') %></h1>
+      <% if RecruitmentPerformanceReportTimetable.report_season? %>
+        <p class="govuk-body"><%= t('.not_ready_to_view') %></p>
+        <%= form_with url: '', method: :get do |f| %>
+          <%= f.govuk_select(
+            :region,
+            options_for_select(
+              Publications::RegionalRecruitmentPerformanceReport.select_options,
+              @region,
+            ),
+            label: { text: 'Set your comperison area', size: 'm' },
+          ) %>
+
+          <%= f.govuk_submit 'Submit' %>
+        <% end %>
+      <% else %>
+        <%= t(
+              '.available_in_the_future_html',
+              current_cycle_range: @current_timetable.cycle_range_name,
+              first_publication_date: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:govuk_date),
+              first_publication_date_no_year: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:day_and_month),
+            ) %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
