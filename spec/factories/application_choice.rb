@@ -184,6 +184,12 @@ FactoryBot.define do
       end
     end
 
+    trait :interviewing_without_interviews do
+      awaiting_provider_decision
+
+      status { :interviewing }
+    end
+
     trait :with_cancelled_interview do
       awaiting_provider_decision
 

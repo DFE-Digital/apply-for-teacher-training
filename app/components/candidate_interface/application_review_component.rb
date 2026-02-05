@@ -119,7 +119,7 @@ module CandidateInterface
     end
 
     def interview_row
-      return unless interviewing?
+      return unless application_choice.interviews.kept.any?
 
       {
         key: 'Interview',
