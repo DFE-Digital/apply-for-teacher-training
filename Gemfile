@@ -154,8 +154,6 @@ gem 'dfe-analytics', github: 'DFE-Digital/dfe-analytics', tag: 'v1.15.14'
 # Azure Blob Storage
 gem 'azure-blob'
 
-gem 'openssl'
-
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.11'
   gem 'rails-erd'
