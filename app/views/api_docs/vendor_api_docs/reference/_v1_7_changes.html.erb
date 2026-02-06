@@ -1,10 +1,14 @@
 <h2 class="govuk-heading-l" id="important">Version 1.7 changes</h2>
 
-<p class="govuk-heading-s">Mark the InterviewObject as optional on the CreateInterview endpoint</p>
+<p class="govuk-heading-s">Mark the CreateInterview object as optional on the CreateInterview endpoint</p>
 
 <p class="govuk-body">
-  The <%= govuk_link_to 'interview', '#interview-object' %> object is now optional. Hitting the `CreateInterview` endpoint with an interview object
+  The <%= govuk_link_to 'CreateInterview', '#createinterview-object' %> object is now optional.
+</p>
+<p class="govuk-body">
+  Sending a request to the <%= govuk_link_to 'create interview endpoint', '#post-applications-application_id-interviews-create' %> with a CreateInterview object
   will update the application status to 'interviewing' and schedule an interview on the service.
-
-  Hitting the endpoint without an interview object will update the status only.
+</p>
+<p class="govuk-body">
+  Sending a request to the endpoint without an interview object will update the status only.
 </p>

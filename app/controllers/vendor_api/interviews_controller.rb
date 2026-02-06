@@ -73,7 +73,7 @@ module VendorAPI
     end
 
     def interview_params
-      return {} if params[:data].blank?
+      return {} if params[:data].blank? && version_number.to_f >= 1.7
 
       params.require(:data).permit(:provider_code, :date_and_time, :location, :additional_details).tap do |data|
         data.require(%i[provider_code date_and_time location])
