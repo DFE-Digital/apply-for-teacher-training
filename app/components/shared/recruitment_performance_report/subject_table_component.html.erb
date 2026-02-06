@@ -22,7 +22,7 @@
         <%= table.with_head do |head| %>
           <%= head.with_row do |row| %>
             <%= row.with_cell(scope: false,
-                              html_attributes: { class: 'recruitment-performance-report-table__heading--no-border' }) %>
+                              html_attributes: { class: 'recruitment-performance-report-table__heading--no-border govuk-visually-hidden' }) %>
             <%= row.with_cell(text: provider_name, colspan:, scope: 'colgroup',
                               html_attributes: { class: 'recruitment-performance-report-table__heading' }) %>
             <%= row.with_cell(text: t("shared.#{region}"), colspan:, scope: 'colgroup',

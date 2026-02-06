@@ -31,19 +31,11 @@
       <p class="govuk-body">
         It also allows you to compare against either national or regional data at a level of your choosing.
       </p>
-
-      <%= form_with url: '', method: :get do |f| %>
-        <%= f.govuk_select(
-          :region,
-          options_for_select(
-            Publications::RegionalRecruitmentPerformanceReport.select_options,
-            @region,
-          ),
-          label: { text: 'Set your comperison area', size: 'm' },
-        ) %>
-
-        <%= f.govuk_submit 'Submit' %>
-      <% end %>
+      <%= govuk_link_to(
+        'Set your comperison area',
+        new_support_interface_provider_recruitment_report_path(region: @region),
+        class: 'govuk-button govuk-button--secondary',
+      ) %>
 
       <h2 class="govuk-heading-m"><%= t('shared.recruitment_performance_report.report_description_component.contents') %></h2>
       <%= govuk_list [govuk_link_to(t('shared.recruitment_performance_report.report_description_component.about_this_data'), '#about_this_data', no_visited_state: true),
@@ -79,25 +71,77 @@
     <%= render RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(
       @provider, @provider_data, @statistics, report_type: @report_type, region: @region
     ) %>
+
+    <%= govuk_table do |table| %>
+      <%= table.with_caption(text: 'Recruitment performance by condition', html_attributes: { class: 'govuk-visually-hidden' }) %>
+
+      <%= table.with_head do |head| %>
+        <%= head.with_row do |row| %>
+          <%= row.with_cell(scope: false) %>
+          <%= row.with_cell(scope: false) %>
+          <%= row.with_cell(scope: false) %>
+          <%= row.with_cell(text: 'Applied', scope: 'col') %>
+          <%= row.with_cell(text: 'Offered', scope: 'col') %>
+          <%= row.with_cell(text: 'Recruited', scope: 'col') %>
+        <% end %>
+      <% end %>
+
+      <%= table.with_body do |body| %>
+        <% @disability_data.each do |data| %>
+          <%= body.with_row do |row| %>
+            <%= row.with_cell(rowspan: 4) do %>
+              <%= data[:header] %>
+            <% end %>
+
+            <%= row.with_cell(rowspan: 2, header: true, text: @provider.name) %>
+            <%= row.with_cell(header: true, text: 'This cycle') %>
+
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888 (22%)', numeric: true) %>
+          <% end %>
+
+          <%= body.with_row do |row| %>
+            <%= row.with_cell(header: true, text: 'Last cycle') %>
+
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888 (22%)', numeric: true) %>
+          <% end %>
+
+          <%= body.with_row do |row| %>
+            <%# add translation to region %>
+            <%= row.with_cell(rowspan: 2, header: true, text: @region) %>
+            <%= row.with_cell(header: true, text: 'This cycle') %>
+
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888 (22%)', numeric: true) %>
+          <% end %>
+
+          <%= body.with_row(html_attributes: { class: 'condition-divider' }) do |row| %>
+            <%= row.with_cell(header: true, text: 'Last cycle') %>
+
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888', numeric: true) %>
+            <%= row.with_cell(text: '88,888 (22%)', numeric: true) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
   </div>
+
 <% else %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l"><%= t('.title') %></h1>
       <% if RecruitmentPerformanceReportTimetable.report_season? %>
         <p class="govuk-body"><%= t('.not_ready_to_view') %></p>
-        <%= form_with url: '', method: :get do |f| %>
-          <%= f.govuk_select(
-            :region,
-            options_for_select(
-              Publications::RegionalRecruitmentPerformanceReport.select_options,
-              @region,
-            ),
-            label: { text: 'Set your comperison area', size: 'm' },
-          ) %>
-
-          <%= f.govuk_submit 'Submit' %>
-        <% end %>
+        <%= govuk_link_to(
+          'Set your comperison area',
+          new_support_interface_provider_recruitment_report_path(region: @region),
+          class: 'govuk-button govuk-button--secondary',
+        ) %>
       <% else %>
         <%= t(
               '.available_in_the_future_html',
