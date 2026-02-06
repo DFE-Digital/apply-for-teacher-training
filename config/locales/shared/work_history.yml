@@ -40,3 +40,7 @@ en:
               blank: Select if this role involves working in a school or with children
             currently_working:
               blank: Select yes if you are still working in this role
+        shared/regional_report_form:
+          attributes:
+            region:
+              blank: Select an area

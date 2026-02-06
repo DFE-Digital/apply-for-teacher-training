@@ -31,19 +31,11 @@
       <p class="govuk-body">
         It also allows you to compare against either national or regional data at a level of your choosing.
       </p>
-
-      <%= form_with url: '', method: :get do |f| %>
-        <%= f.govuk_select(
-          :region,
-          options_for_select(
-            Publications::RegionalRecruitmentPerformanceReport.select_options,
-            @region,
-          ),
-          label: { text: 'Set your comperison area', size: 'm' },
-        ) %>
-
-        <%= f.govuk_submit 'Submit' %>
-      <% end %>
+      <%= govuk_link_to(
+        'Set your comperison area',
+        new_support_interface_provider_recruitment_report_path(region: @region),
+        class: 'govuk-button govuk-button--secondary',
+      ) %>
 
       <h2 class="govuk-heading-m"><%= t('shared.recruitment_performance_report.report_description_component.contents') %></h2>
       <%= govuk_list [govuk_link_to(t('shared.recruitment_performance_report.report_description_component.about_this_data'), '#about_this_data', no_visited_state: true),
@@ -145,18 +137,11 @@
       <h1 class="govuk-heading-l"><%= t('.title') %></h1>
       <% if RecruitmentPerformanceReportTimetable.report_season? %>
         <p class="govuk-body"><%= t('.not_ready_to_view') %></p>
-        <%= form_with url: '', method: :get do |f| %>
-          <%= f.govuk_select(
-            :region,
-            options_for_select(
-              Publications::RegionalRecruitmentPerformanceReport.select_options,
-              @region,
-            ),
-            label: { text: 'Set your comperison area', size: 'm' },
-          ) %>
-
-          <%= f.govuk_submit 'Submit' %>
-        <% end %>
+        <%= govuk_link_to(
+          'Set your comperison area',
+          new_support_interface_provider_recruitment_report_path(region: @region),
+          class: 'govuk-button govuk-button--secondary',
+        ) %>
       <% else %>
         <%= t(
               '.available_in_the_future_html',
