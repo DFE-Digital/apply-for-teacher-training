@@ -1,0 +1,86 @@
+---
+openapi: 3.0.0
+info:
+  version: v1.7
+  title: Apply API
+  contact:
+    name: DfE
+    email: becomingateacher@digital.education.gov.uk
+  description: |
+    API for DfE’s Apply for teacher training service.
+    Endpoints with the `/applications` prefix are considered stable.
+    Experimental endpoints prefixed with `/test-data` may change or be removed.
+servers:
+- description: Sandbox (test environment for vendors)
+  url: https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.7
+- description: Production
+  url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.7
+paths:
+  /applications/{application_id}/interviews/create:
+    post:
+      tags:
+        - Interview management
+      summary: Create interview or update status to 'interviewing'
+      description: |
+        If a request body is provided, it creates an interview for this application. If no request body is provided, it updates the application status to 'interviewing' without creating an interview.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      requestBody:
+        description: Interview details
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - meta
+              properties:
+                data:
+                  "$ref": "#/components/schemas/CreateInterview"
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+components:
+  schemas:
+    CreateInterview:
+      type: object
+      additionalProperties: false
+      required:
+      - provider_code
+      - date_and_time
+      - location
+      properties:
+        provider_code:
+          type: string
+          description: The provider’s code. This must correspond to either the training or the ratifying provider for the application and the course applied to.
+          example: 2FR
+          maxLength: 3
+        date_and_time:
+          type: string
+          format: date-time
+          description: Date and time of the interview
+          example: 2019-09-18T15:33:49.216Z
+        location:
+          type: string
+          description: |
+            A string describing where or how the interview will take place.
+          example: 'Zoom call'
+          maxLength: 10240
+        additional_details:
+          type: string
+          nullable: true
+          description: |
+            Optional string for additional notes.
+          example: 'Candidate requires a parking space'
+          maxLength: 10240
