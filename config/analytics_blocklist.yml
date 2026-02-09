@@ -1,5 +1,12 @@
 ---
 :shared:
+  regional_report_filters:
+  - id
+  - provider_user_id
+  - provider_id
+  - region
+  - created_at
+  - updated_at
   :regional_recruitment_performance_reports:
   - id
   - statistics

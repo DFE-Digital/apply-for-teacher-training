@@ -23,6 +23,14 @@ module Publications
       east_of_england: 'East of England',
       yorkshire_and_the_humber: 'Yorkshire and The Humber',
       south_east: 'South East (England)',
-    }
+    } # if you add/remove one think about RegionReportFilter
+
+    def self.all_of_england_key
+      'all_of_england'
+    end
+
+    def self.all_of_england_value
+      'All of England'
+    end
   end
 end

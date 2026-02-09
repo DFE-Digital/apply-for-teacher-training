@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_02_160033) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_06_153720) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1061,6 +1061,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_02_160033) do
     t.index ["recruitment_cycle_year"], name: "idx_on_recruitment_cycle_year_10d73daf75"
   end
 
+  create_table "regional_report_filters", force: :cascade do |t|
+    t.bigint "provider_user_id"
+    t.bigint "provider_id"
+    t.string "region", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider_id"], name: "index_regional_report_filters_on_provider_id"
+    t.index ["provider_user_id"], name: "index_regional_report_filters_on_provider_user_id"
+  end
+
   create_table "rejection_feedbacks", force: :cascade do |t|
     t.boolean "helpful", default: false, null: false
     t.bigint "application_choice_id", null: false
@@ -1267,6 +1277,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_02_160033) do
   add_foreign_key "provider_user_notifications", "provider_users", on_delete: :cascade
   add_foreign_key "reference_tokens", "references", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
+  add_foreign_key "regional_report_filters", "provider_users", on_delete: :cascade
+  add_foreign_key "regional_report_filters", "providers", on_delete: :cascade
   add_foreign_key "rejection_feedbacks", "application_choices", on_delete: :cascade
   add_foreign_key "session_errors", "candidates", on_delete: :cascade
   add_foreign_key "sessions", "candidates", on_delete: :cascade
