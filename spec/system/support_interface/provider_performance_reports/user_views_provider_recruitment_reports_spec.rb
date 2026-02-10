@@ -135,7 +135,7 @@ private
   end
 
   def when_i_visit_the_report_page
-    visit support_interface_provider_recruitment_performance_report_path(provider_id: @provider.id)
+    visit support_interface_provider_recruitment_report_path(provider_id: @provider.id)
   end
 
   def then_i_see_a_prompt_to_sign_in
