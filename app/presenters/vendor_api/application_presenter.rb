@@ -8,17 +8,14 @@ module VendorAPI
     include DecisionsAPIData
     include HesaIttDataAPIData
 
-    # TODO: DISCUSS REMOVING interviewing conversion
-    API_APPLICATION_STATES = { offer_withdrawn: 'rejected',
-                               inactive: 'awaiting_provider_decision',
-                               interviewing: 'awaiting_provider_decision' }.freeze
     CACHE_EXPIRES_IN = 1.day
 
-    attr_reader :application_choice
+    attr_reader :application_choice, :version
 
     def initialize(version, application_choice)
       super(version)
       @application_choice = ApplicationChoiceExportDecorator.new(application_choice)
+      @version = version
     end
 
     def serialized_json
@@ -89,12 +86,28 @@ module VendorAPI
       end
     end
 
+    def api_application_states
+      if @version >= '1.7'
+        {
+          offer_withdrawn: 'rejected',
+          inactive: 'awaiting_provider_decision',
+          interviewing: 'interviewing',
+        }.freeze
+      else
+        {
+          offer_withdrawn: 'rejected',
+          inactive: 'awaiting_provider_decision',
+          interviewing: 'awaiting_provider_decision',
+        }.freeze
+      end
+    end
+
     def application_form
       @application_form ||= application_choice.application_form
     end
 
     def status
-      API_APPLICATION_STATES[application_choice.status.to_sym].presence || application_choice.status
+      api_application_states[application_choice.status.to_sym].presence || application_choice.status
     end
 
     def references
