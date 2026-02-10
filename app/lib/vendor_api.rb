@@ -74,6 +74,7 @@ module VendorAPI
     ],
     '1.7pre' => [
       Changes::V17::MarkInterviewObjectAsOptional,
+      Changes::V17::AddPossibleUndeclaredPreviousTeacherTrainingUrl,
     ],
   }.freeze
 end

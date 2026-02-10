@@ -1,5 +1,17 @@
 <h2 class="govuk-heading-l" id="important">Version 1.7 changes</h2>
 
+<p class="govuk-heading-s">New attribute added to the application object for viewing data on possible undeclared previous ITT</p>
+
+<p class="govuk-body">
+  A new attribute, <code>possible_undeclared_previous_teacher_training_details_url</code>, has been added to the application object.
+</p>
+<p class="govuk-body">
+  This attribute provides a URL that can be used to view possible undeclared previous teacher training details associated with an application.
+</p>
+<p class=">govuk-body">
+  This is speculative data based on the comparison of records with some matching attributes. More information on how to use this information and providers' duties with regard to it is provided at the link destination.
+</p>
+
 <p class="govuk-heading-s">Mark the CreateInterview object as optional on the CreateInterview endpoint</p>
 
 <p class="govuk-body">
@@ -7,18 +19,18 @@
 </p>
 <p class="govuk-body">
   Sending a request to the <%= govuk_link_to 'create interview endpoint', '#post-applications-application_id-interviews-create' %> with a CreateInterview object
-  will update the application status to 'interviewing' and schedule an interview on the service.
+  will update the application status to <code>interviewing</code> and schedule an interview on the service.
 </p>
 <p class="govuk-body">
   Sending a request to the endpoint without an interview object will update the status only.
 </p>
 
-<p class="govuk-heading-s">Applications with a status of interviewing will show as 'interviewing' in version 1.7 and above.</p>
+<p class="govuk-heading-s">Applications with a status of interviewing will show as <code>interviewing</code> in version 1.7 and above</p>
 
 <p class="govuk-body">
-  In versions 1.6 and below, an application shows as 'awaiting_provider_decision' until a decision is made, even if its status in the UI is 'interviewing'.
+  In versions 1.6 and below, an application shows as <code>awaiting_provider_decision</code> until a decision is made, even if its status in the UI is <code>interviewing</code>.
 </p>
 
 <p class="govuk-body">
-  In version 1.7 and above, applications with a status of 'interviewing' will show as 'interviewing' in the API.
+  In version 1.7 and above, applications with a status of <code>interviewing</code> will show as <code>interviewing</code> in the API.
 </p>

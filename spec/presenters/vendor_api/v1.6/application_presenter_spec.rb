@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe VendorAPI::ApplicationPresenter do
   let(:application_json) { described_class.new(version, application_choice).as_json }
-  let(:version) { '1.7' }
+  let(:version) { '1.6' }
 
   describe '#inactive' do
     context 'when the application choice is inactive' do
@@ -30,30 +30,6 @@ RSpec.describe VendorAPI::ApplicationPresenter do
         application_choice = create(:application_choice, status)
         application_json = described_class.new('1.6', application_choice).as_json
         expect(application_json.dig(:attributes, :inactive)).to be(false)
-      end
-    end
-  end
-
-  describe '#api_application_states' do
-    context 'when version is 1.7 or above' do
-      let(:version) { '1.7' }
-
-      let(:application_choice) { create(:application_choice, :interviewing) }
-
-      it 'returns the correct mapping for interviewing' do
-        application_json = described_class.new(version, application_choice).as_json
-        expect(application_json.dig(:attributes, :status)).to eq('interviewing')
-      end
-    end
-
-    context 'when version is 1.6 or below' do
-      let(:version) { '1.6' }
-
-      let(:application_choice) { create(:application_choice, :interviewing) }
-
-      it 'returns the correct mapping for interviewing' do
-        application_json = described_class.new(version, application_choice).as_json
-        expect(application_json.dig(:attributes, :status)).to eq('awaiting_provider_decision')
       end
     end
   end

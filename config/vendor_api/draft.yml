@@ -17,6 +17,24 @@ servers:
     url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.5
 components:
   schemas:
-    CreateInterview:
+    ApplicationAttributes:
+      properties:
+        inactive:
+          type: boolean
+          description: Indicates whether the application is inactive, based on time-sensitive criteria. If true, the application is considered inactive; otherwise, it remains active.
+          enum:
+          - true
+          - false
+    Reference:
       type: object
-      additionalProperties: false
+      properties:
+        confidential:
+          type: boolean
+          description: The confidentiality status selected by the referee for the reference
+          example: true
+          enum:
+          - true
+          - false
+          - null
+      required:
+        - confidential

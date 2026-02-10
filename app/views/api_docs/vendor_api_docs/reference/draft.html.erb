@@ -72,6 +72,18 @@
 
 <h2 class="govuk-heading-l" id="changes">Version 1.7 changes</h2>
 
+<p class="govuk-heading-s">New attribute added to the application object for viewing data on possible undeclared previous ITT</p>
+
+<p class="govuk-body">
+  A new attribute, <code>possible_undeclared_previous_teacher_training_details_url</code>, has been added to the application object.
+</p>
+<p class="govuk-body">
+ This attribute provides a URL that can be used to view any undeclared previous teacher training details associated with an application.
+</p>
+<p class=">govuk-body">
+  This is speculative data based on the comparison of records with some matching attributes. More information on how to use this information and providers' duties with regard to it is provided at the link destination.
+</p>
+
 <p class="govuk-heading-s">Mark the CreateInterview object as optional on the CreateInterview endpoint</p>
 
 <p class="govuk-body">
@@ -85,7 +97,7 @@
   Sending a request to the endpoint without an interview object will update the status only.
 </p>
 
-<p class="govuk-heading-s">Applications with a status of interviewing will show as 'interviewing' in version 1.7 and above.</p>
+<p class="govuk-heading-s">Applications with a status of interviewing will show as 'interviewing' in version 1.7 and above</p>
 
 <p class="govuk-body">
   In versions 1.6 and below, an application shows as 'awaiting_provider_decision' until a decision is made, even if its status in the UI is 'interviewing'.

@@ -84,3 +84,9 @@ components:
             Optional string for additional notes.
           example: 'Candidate requires a parking space'
           maxLength: 10240
+    ApplicationAttributes:
+      properties:
+        possible_undeclared_previous_teacher_training_url:
+          type: string
+          description: A URL to view data concerning possible undeclared previous teacher training details associated with an application.
+          example: https://www.apply-for-teacher-training.service.gov.uk/provider/applications/1234567#previous_teacher_trainings
