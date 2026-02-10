@@ -32,7 +32,7 @@ RSpec.describe 'Vendor API - POST /api/v1.7/applications/:application_id/intervi
 
         expect(response).to have_http_status(:ok)
         expect(parsed_response['data']['attributes']['interviews'].count).to eq(1)
-        expect(parsed_response['data']['attributes']['status']).to eq('awaiting_provider_decision')
+        expect(parsed_response['data']['attributes']['status']).to eq('interviewing')
         application_choice.reload
         expect(application_choice.status).to eq('interviewing')
       end
@@ -44,7 +44,7 @@ RSpec.describe 'Vendor API - POST /api/v1.7/applications/:application_id/intervi
 
         expect(response).to have_http_status(:ok)
         expect(parsed_response['data']['attributes']['interviews'].count).to eq(0)
-        expect(parsed_response['data']['attributes']['status']).to eq('awaiting_provider_decision')
+        expect(parsed_response['data']['attributes']['status']).to eq('interviewing')
         application_choice.reload
         expect(application_choice.status).to eq('interviewing')
       end

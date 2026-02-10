@@ -85,10 +85,14 @@
   Sending a request to the endpoint without an interview object will update the status only.
 </p>
 
-<p class="govuk-heading-s">Applications with a status of interviewing will present their status as 'interviewing' in version 1.7 and above.</p>
+<p class="govuk-heading-s">Applications with a status of interviewing will show as 'interviewing' in version 1.7 and above.</p>
 
 <p class="govuk-body">
-  In version 1.7 and above, applications with a status of interviewing will present their status as 'interviewing' instead of 'awaiting_provider_decision' as in versions 1.6 and below.
+  In versions 1.6 and below, an application shows as 'awaiting_provider_decision' until a decision is made, even if its status in the UI is 'interviewing'.
+</p>
+
+<p class="govuk-body">
+  In version 1.7 and above, applications with a status of 'interviewing' will show as 'interviewing' in the API.
 </p>
 
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
