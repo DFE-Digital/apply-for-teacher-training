@@ -1,6 +1,8 @@
 module VendorAPI
   extend VersioningHelpers
 
+  VERSION = '1.7'.freeze
+
   VERSION_1_0 = '1.0'.freeze
   VERSION_1_1 = '1.1'.freeze
   VERSION_1_2 = '1.2'.freeze
@@ -8,8 +10,7 @@ module VendorAPI
   VERSION_1_4 = '1.4'.freeze
   VERSION_1_5 = '1.5'.freeze
   VERSION_1_6 = '1.6'.freeze
-  VERSION_1_7 = '1.7pre'.freeze
-  VERSION = VERSION_1_6
+  VERSION_1_7 = '1.7pre'.freeze # the pre suffix should make v1.7 available to sandbox only
 
   VERSIONS = {
     '1.0' => [
