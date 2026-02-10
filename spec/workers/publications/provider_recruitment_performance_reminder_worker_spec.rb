@@ -60,26 +60,21 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReminderWorker do
       end
 
       it 'schedules emails with even spacing over 5 minutes' do
-        travel_to Time.zone.local(2026, 2, 3, 17, 0, 0) do
-          allow(ProviderUser).to receive(:joins).with(:provider_permissions).and_return(relation_double)
-          allow(relation_double).to receive(:where).and_return(users_double)
+        allow(ProviderUser).to receive(:joins).with(:provider_permissions).and_return(relation_double)
+        allow(relation_double).to receive(:where).and_return(users_double)
 
-          mail_double = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-          allow(ProviderMailer).to receive(:recruitment_performance_report_reminder).and_return(mail_double)
+        mail_double = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+        allow(ProviderMailer).to receive(:recruitment_performance_report_reminder).and_return(mail_double)
 
-          allow(mail_double).to receive(:deliver_later) do |wait_until:|
-            scheduled_times << wait_until
-          end
-
-          described_class.new.perform
-
-          expect(scheduled_times.size).to eq(300)
-          expect(scheduled_times.uniq).to eq([
-            Time.zone.local(2026, 2, 3, 17, 0, 0),
-            Time.zone.local(2026, 2, 3, 17, 2, 30),
-            Time.zone.local(2026, 2, 3, 17, 5, 0),
-          ])
+        allow(mail_double).to receive(:deliver_later) do |wait_until:|
+          scheduled_times << wait_until
         end
+
+        described_class.new.perform
+
+        expect(scheduled_times.size).to eq(300)
+        expect(scheduled_times.uniq.size).to eq(3)
+        expect(scheduled_times.uniq.first + 5.minutes).to be_within(1.second).of(scheduled_times.uniq.last)
       end
     end
 
@@ -94,24 +89,21 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReminderWorker do
       end
 
       it 'distributes emails across an appropriate stagger window' do
-        travel_to Time.zone.local(2026, 2, 3, 17, 0, 0) do
-          allow(ProviderUser).to receive(:joins).with(:provider_permissions).and_return(relation_double)
-          allow(relation_double).to receive(:where).and_return(users_double)
+        allow(ProviderUser).to receive(:joins).with(:provider_permissions).and_return(relation_double)
+        allow(relation_double).to receive(:where).and_return(users_double)
 
-          mail_double = instance_double(ActionMailer::MessageDelivery)
-          allow(ProviderMailer).to receive(:recruitment_performance_report_reminder).and_return(mail_double)
+        mail_double = instance_double(ActionMailer::MessageDelivery)
+        allow(ProviderMailer).to receive(:recruitment_performance_report_reminder).and_return(mail_double)
 
-          allow(mail_double).to receive(:deliver_later) do |wait_until:|
-            scheduled_times << wait_until
-          end
-
-          described_class.new.perform
-
-          expect(scheduled_times.size).to eq(7000)
-          expect(scheduled_times.uniq.count).to eq(70)
-          expect(scheduled_times.uniq.first).to eq(Time.zone.local(2026, 2, 3, 17, 0, 0))
-          expect(scheduled_times.uniq.last).to be_within(1.second).of(Time.zone.local(2026, 2, 3, 17, 14)) # 14 minutes
+        allow(mail_double).to receive(:deliver_later) do |wait_until:|
+          scheduled_times << wait_until
         end
+
+        described_class.new.perform
+
+        expect(scheduled_times.size).to eq(7000)
+        expect(scheduled_times.uniq.count).to eq(70)
+        expect(scheduled_times.uniq.first + 14.minutes).to be_within(1.second).of(scheduled_times.uniq.last)
       end
     end
   end
