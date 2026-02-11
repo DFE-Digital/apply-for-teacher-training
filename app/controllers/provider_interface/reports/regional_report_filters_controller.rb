@@ -5,14 +5,14 @@ module ProviderInterface
       before_action :set_region, only: %i[new]
 
       def new
-        @form = Shared::ProviderRegionalReportForm.initialize_from_report_filter(
+        @form = RegionalReportForm.initialize_from_report_filter(
           provider_id: @provider.id,
           provider_user_id: current_user.id,
         )
       end
 
       def create
-        @form = Shared::ProviderRegionalReportForm.new(form_params)
+        @form = RegionalReportForm.new(form_params)
 
         if @form.save
           flash[:success] = 'Comparison region updated'
@@ -80,7 +80,7 @@ module ProviderInterface
 
       def expected_params
         params.expect(
-          shared_provider_regional_report_form: [:region],
+          provider_interface_regional_report_form: [:region],
         )
       end
     end

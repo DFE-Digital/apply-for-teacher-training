@@ -112,7 +112,7 @@ private
     visit support_interface_path
     click_on 'Providers'
     click_on @provider.name_and_code
-    click_on 'Provider recruitment report'
+    click_on 'Recruitment performance report'
   end
 
   def when_i_set_london_as_my_region

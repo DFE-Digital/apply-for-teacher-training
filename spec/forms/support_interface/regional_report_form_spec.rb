@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-module Shared
-  RSpec.describe SupportRegionalReportForm, type: :model do
+module SupportInterface
+  RSpec.describe RegionalReportForm, type: :model do
     subject(:form) { described_class.new(params) }
     let(:params) { { region: 'London' } }
 
@@ -29,43 +29,43 @@ module Shared
 
     def expected_options
       [
-        Shared::SupportRegionalReportForm::Region.new(
+        SupportInterface::RegionalReportForm::Region.new(
           label: 'All of England',
           value: 'all_of_england',
         ),
-        Shared::SupportRegionalReportForm::Region.new(
+        SupportInterface::RegionalReportForm::Region.new(
           label: 'West Midlands (England)',
           value: 'west_midlands',
         ),
-        Shared::SupportRegionalReportForm::Region.new(
+        SupportInterface::RegionalReportForm::Region.new(
           label: 'North West (England)',
           value: 'north_west',
         ),
-        Shared::SupportRegionalReportForm::Region.new(
+        SupportInterface::RegionalReportForm::Region.new(
           label: 'London',
           value: 'london',
         ),
-        Shared::SupportRegionalReportForm::Region.new(
+        SupportInterface::RegionalReportForm::Region.new(
           label: 'North East (England)',
           value: 'nort_east',
         ),
-        Shared::SupportRegionalReportForm::Region.new(
+        SupportInterface::RegionalReportForm::Region.new(
           label: 'South West (England)',
           value: 'south_west',
         ),
-        Shared::SupportRegionalReportForm::Region.new(
+        SupportInterface::RegionalReportForm::Region.new(
           label: 'East Midlands (England)',
           value: 'east_midlands',
         ),
-        Shared::SupportRegionalReportForm::Region.new(
+        SupportInterface::RegionalReportForm::Region.new(
           label: 'East of England',
           value: 'east_of_england',
         ),
-        Shared::SupportRegionalReportForm::Region.new(
+        SupportInterface::RegionalReportForm::Region.new(
           label: 'Yorkshire and The Humber',
           value: 'yorkshire_and_the_humber',
         ),
-        Shared::SupportRegionalReportForm::Region.new(
+        SupportInterface::RegionalReportForm::Region.new(
           label: 'South East (England)',
           value: 'south_east',
         ),

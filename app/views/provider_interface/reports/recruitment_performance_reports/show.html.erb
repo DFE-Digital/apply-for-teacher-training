@@ -1,10 +1,10 @@
 <% if @statistics.present? && @provider_data.present? && RecruitmentPerformanceReportTimetable.report_season? %>
-  <%= content_for :title, t('.title', cycle_year_range: @provider_report.cycle_range_name) %>
+  <%= content_for :title, t('.title') %>
   <%= content_for :before_content,
-                  breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path, t('.heading') => nil) %>
+                  breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path, t('page_titles.recruitment_performance_report') => nil) %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l"><%= t('.heading', cycle_year_range: @provider_report.cycle_range_name) %></h1>
+      <h1 class="govuk-heading-l"><%= t('page_titles.recruitment_performance_report') %></h1>
     </div>
 
     <%= render RecruitmentPerformanceReport::ReportMethodologyComponent.new(

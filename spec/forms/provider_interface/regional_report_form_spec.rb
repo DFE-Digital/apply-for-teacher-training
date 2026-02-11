@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-module Shared
-  RSpec.describe ProviderRegionalReportForm, type: :model do
+module ProviderInterface
+  RSpec.describe RegionalReportForm, type: :model do
     describe '#save' do
       context 'when invalid' do
         it 'returns nil' do
@@ -84,6 +84,60 @@ module Shared
 
         expect(report_form.region).to eq('london')
       end
+    end
+
+    describe '#options' do
+      it 'returns the form options' do
+        form = described_class.new({ region: nil })
+        expect(form.options).to eq(expected_options)
+      end
+    end
+
+  private
+
+    def expected_options
+      [
+        ProviderInterface::RegionalReportForm::Region.new(
+          label: 'All of England',
+          value: 'all_of_england',
+        ),
+        ProviderInterface::RegionalReportForm::Region.new(
+          label: 'West Midlands (England)',
+          value: 'west_midlands',
+        ),
+        ProviderInterface::RegionalReportForm::Region.new(
+          label: 'North West (England)',
+          value: 'north_west',
+        ),
+        ProviderInterface::RegionalReportForm::Region.new(
+          label: 'London',
+          value: 'london',
+        ),
+        ProviderInterface::RegionalReportForm::Region.new(
+          label: 'North East (England)',
+          value: 'nort_east',
+        ),
+        ProviderInterface::RegionalReportForm::Region.new(
+          label: 'South West (England)',
+          value: 'south_west',
+        ),
+        ProviderInterface::RegionalReportForm::Region.new(
+          label: 'East Midlands (England)',
+          value: 'east_midlands',
+        ),
+        ProviderInterface::RegionalReportForm::Region.new(
+          label: 'East of England',
+          value: 'east_of_england',
+        ),
+        ProviderInterface::RegionalReportForm::Region.new(
+          label: 'Yorkshire and The Humber',
+          value: 'yorkshire_and_the_humber',
+        ),
+        ProviderInterface::RegionalReportForm::Region.new(
+          label: 'South East (England)',
+          value: 'south_east',
+        ),
+      ]
     end
   end
 end

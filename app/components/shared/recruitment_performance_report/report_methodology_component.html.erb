@@ -18,7 +18,7 @@
   <%= govuk_details(summary_text: 'Full methodology') do %>
     <h2 class="govuk-heading-s">Recruitment cycle dates</h2>
     <p class="govuk-body">
-      The <%= RecruitmentCycleTimetable.previous_year %> to <%= RecruitmentCycleTimetable.current_year %> recruitment cycle started <%= @current_timetable.find_opens_at.to_fs(:govuk_date) %> and ends on <%= @current_timetable.find_closes_at.to_fs(:govuk_date) %>.
+      The <%= @current_timetable.cycle_range_name %> recruitment cycle started <%= @current_timetable.find_opens_at.to_fs(:govuk_date) %> and ends on <%= @current_timetable.find_closes_at.to_fs(:govuk_date) %>.
     </p>
 
     <h2 class="govuk-heading-s">Report updates</h2>

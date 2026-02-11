@@ -8,12 +8,12 @@ en:
         national_this_cycle: This cycle
         national_last_cycle: Last cycle
         national_percentage_change: Percentage change
-        candidates_who_have_submitted_applications: "1. Candidates who have submitted applications"
-        candidates_with_an_offer: "2. Candidates that received an offer"
-        proportion_of_candidates_with_an_offer: 3. Proportion of candidates with an offer"
-        offers_accepted: "4. Offers accepted"
-        candidates_rejected: 6. Candidates rejected"
-        proportion_with_inactive_applications_table_component: "7. Proportion of candidates who have waited more than 30 working days for a response"
+        candidates_who_have_submitted_applications: 1. Candidates who have submitted applications
+        candidates_with_an_offer: 2. Candidates that received an offer
+        proportion_of_candidates_with_an_offer: 3. Proportion of candidates with an offer
+        offers_accepted: 4. Offers accepted
+        candidates_rejected: 6. Candidates rejected
+        proportion_with_inactive_applications_table_component: 7. Proportion of candidates who have waited more than 30 working days for a response
       report_description_component:
         last_updated: 'Last updated: %{date}'
         this_report_shows: >

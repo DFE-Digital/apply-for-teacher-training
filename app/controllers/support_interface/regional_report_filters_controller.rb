@@ -4,11 +4,11 @@ module SupportInterface
     before_action :set_region
 
     def new
-      @form = Shared::SupportRegionalReportForm.new(region: @region)
+      @form = RegionalReportForm.new(region: @region)
     end
 
     def create
-      @form = Shared::SupportRegionalReportForm.new(expected_params)
+      @form = RegionalReportForm.new(expected_params)
 
       if @form.save
         redirect_to support_interface_provider_recruitment_report_path(region: @form.region)
@@ -33,7 +33,7 @@ module SupportInterface
 
     def expected_params
       params.expect(
-        shared_support_regional_report_form: [:region],
+        support_interface_regional_report_form: [:region],
       )
     end
   end
