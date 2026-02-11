@@ -9,6 +9,8 @@ class SandboxRateLimitingTestsController < ApplicationController
           http_headers: request.env.select { |k, _v| k =~ /^HTTP_/ }.to_h,
           remote_ip: request.remote_ip,
           forwarded_for: request.forwarded_for,
+          # I think this is what we want.
+          real_ip: request.headers['x-real-ip'],
         },
     }
   end
