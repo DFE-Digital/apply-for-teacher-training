@@ -68,7 +68,7 @@ Rails.application.configure do
     level: config.log_level,
     formatter: CustomLogFormatter.new
   )
-  
+
   config.active_record.logger = nil                       # Don't log SQL
 
   # Change to "debug" to log everything (including potentially personally-identifiable information!)
@@ -149,7 +149,7 @@ Rails.application.configure do
       # gets to ActionDispatch::RemoteIp
       req = Rack::Request.new(env)
 
-      if req.forwarded_for.present?
+      if req.forwarded_for.present? && !HostingEnvironment.sandbox_mode?
         env["HTTP_X_FORWARDED_FOR"] = req.forwarded_for.join(",")
       end
 
