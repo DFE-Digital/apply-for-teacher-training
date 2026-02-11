@@ -44,6 +44,8 @@ module SupportInterface
                              .map(&:name)
     end
 
+    def service_banners; end
+    
   private
 
     def feature_name

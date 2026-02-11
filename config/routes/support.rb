@@ -265,6 +265,8 @@ namespace :support_interface, path: '/support' do
     get '/notify-template', to: 'settings#notify_template', as: :notify_template
     post '/send-notify-template', to: 'settings#send_notify_template', as: :send_notify_template
 
+    get '/service-banners' => 'settings#service_banners', as: :service_banners
+
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/create-fake-provider' => 'tasks#create_fake_provider'
     post '/tasks/:task' => 'tasks#run', as: :run_task
