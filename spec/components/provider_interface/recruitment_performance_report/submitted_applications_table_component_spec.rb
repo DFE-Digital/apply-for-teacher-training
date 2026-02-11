@@ -8,7 +8,7 @@ RSpec.describe RecruitmentPerformanceReport::SubmittedApplicationsTableComponent
 
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-    expect(page).to have_table('2. Candidates who have submitted applications')
+    expect(page).to have_table('1. Candidates who have submitted applications')
 
     expect(page).to have_content provider.name
     expect(page).to have_content 'All providers'
@@ -47,7 +47,7 @@ RSpec.describe RecruitmentPerformanceReport::SubmittedApplicationsTableComponent
 
       render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-      expect(page).to have_table('2. Candidates who have submitted applications')
+      expect(page).to have_table('1. Candidates who have submitted applications')
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')
       expect(page).not_to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
       secondary_subject_headings.each do |heading|
@@ -69,7 +69,7 @@ RSpec.describe RecruitmentPerformanceReport::SubmittedApplicationsTableComponent
 
       render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-      expect(page).to have_table('2. Candidates who have submitted applications')
+      expect(page).to have_table('1. Candidates who have submitted applications')
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
 
       expect(page).not_to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')

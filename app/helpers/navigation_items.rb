@@ -69,7 +69,11 @@ class NavigationItems
           {
             text: 'Providers',
             href: support_interface_providers_path,
-            active: active?(current_controller, %w[providers provider_recruitment_performance_report course provider_users api_tokens], %w[application_forms]),
+            active: active?(
+              current_controller,
+              %w[providers provider_recruitment_performance_report course provider_users api_tokens provider_recruitment_report],
+              %w[application_forms],
+            ),
           },
           {
             text: 'Performance',

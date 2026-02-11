@@ -3,8 +3,8 @@ en:
     reports:
       recruitment_performance_reports:
         show:
-          title: Recruitment performance weekly report %{cycle_year_range} - Apply for teacher training - GOV.UK
-          empty_report_title: Recruitment performance weekly report - Apply for teacher training - GOV.UK
-          heading: Recruitment performance weekly report %{cycle_year_range}
-          empty_report_heading: Recruitment performance weekly report
+          title: Recruitment performance report - Apply for teacher training - GOV.UK
+          empty_report_title: Recruitment performance report - Apply for teacher training - GOV.UK
+          heading: Recruitment performance report
+          empty_report_heading: Recruitment performance report
           not_ready_to_view: This report is not ready to view.

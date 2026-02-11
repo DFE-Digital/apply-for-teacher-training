@@ -5,13 +5,14 @@ RSpec.describe 'User views sections when reports have been generated' do
 
   scenario 'before reports are available to providers (ie, before report season), reports generated' do
     given_it_is_before_report_season
+    and_a_provider_exists
     and_national_and_provider_reports_have_been_generated
     and_regional_and_provider_reports_have_been_generated
     sign_in_as_support_user
     when_i_navigate_to_the_providers_report_page_in_support
     then_i_see_the_report_data
     and_i_see_the_text_that_providers_do_not_yet_see_the_report
-    when_i_select_london_region
+    when_i_set_london_as_my_region
     and_i_see_the_text_that_providers_do_not_yet_see_the_report
   end
 
@@ -31,7 +32,7 @@ RSpec.describe 'User views sections when reports have been generated' do
     sign_in_as_support_user
     when_i_navigate_to_the_providers_report_page_in_support
     and_i_do_not_see_the_text_that_providers_do_not_yet_see_the_report
-    when_i_select_london_region
+    when_i_set_london_as_my_region
     and_i_do_not_see_the_text_that_providers_do_not_yet_see_the_report
   end
 
@@ -41,7 +42,7 @@ RSpec.describe 'User views sections when reports have been generated' do
     sign_in_as_support_user
     when_i_navigate_to_the_providers_report_page_in_support
     then_i_see_not_available_text
-    when_i_select_london_region
+    when_i_set_london_as_my_region
     then_i_see_not_available_text
   end
 
@@ -114,14 +115,18 @@ private
     click_on 'Provider recruitment report'
   end
 
-  def when_i_select_london_region
-    select 'London', from: 'Set your comperison area'
-    click_on 'Submit'
+  def when_i_set_london_as_my_region
+    click_on 'Set your comparison area'
+    choose 'London'
+    click_on 'Update comparison are'
   end
 
   def then_i_see_the_report_data
-    expect(page).to have_content('1. About this data')
-    expect(page).to have_content('The recruitment cycle does not start on the same date each year. Where a table compares data from last cycle to this cycle, the data will not be for the same dates, but it will be for the same number of days.')
+    year = current_year
+    cycle_name = "#{year - 1} to #{year}"
+    expect(page).to have_content('Recruitment performance report')
+    description = "This report shows your organisation's cumulative recruitment data from the start of the #{cycle_name} cycle to the date displayed above. It compares your data to the same point in the previous cycle and to your chosen comparison region or England."
+    expect(page).to have_content(description)
   end
 
   def and_i_see_the_text_that_providers_do_not_yet_see_the_report

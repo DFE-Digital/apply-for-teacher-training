@@ -1,15 +1,44 @@
 module ProviderInterface
   module Reports
     class RecruitmentPerformanceReportsController < ProviderInterfaceController
-      def show
-        @provider = current_user.providers.find(provider_id)
-        @provider_report = latest_report.present? ? Publications::ProviderRecruitmentPerformanceReportPresenter.new(latest_report) : nil
+      before_action :set_provider
+      before_action :set_region
 
+      def show
+        @provider_report = latest_report.present? ? Publications::ProviderRecruitmentPerformanceReportPresenter.new(latest_report) : nil
         @provider_data = @provider_report&.statistics
-        @national_data = national_report&.statistics
+        @report_type = @region == all_of_england ? :NATIONAL : :REGIONAL
+        @statistics = @region == all_of_england ? national_report&.statistics : regional_report&.statistics
       end
 
     private
+
+      def set_provider
+        @provider ||= current_user.providers.find(
+          params.permit(:provider_id)[:provider_id],
+        )
+      end
+
+      def all_of_england
+        Publications::RegionalRecruitmentPerformanceReport.all_of_england_key
+      end
+
+      def set_region
+        @region = RegionalReportFilter.find_by(
+          provider_id: @provider.id,
+          provider_user_id: current_user.id,
+        )&.region || all_of_england
+      end
+
+      def regional_report
+        if @provider_report.present?
+          @regional_report ||=
+            Publications::RegionalRecruitmentPerformanceReport.where(
+              cycle_week: @provider_report.cycle_week,
+              region: @region,
+            ).last
+        end
+      end
 
       def national_report
         if @provider_report.present?
@@ -25,10 +54,6 @@ module ProviderInterface
           .where(provider: @provider)
           .order(:recruitment_cycle_year, :cycle_week)
           .last
-      end
-
-      def provider_id
-        params.permit(:provider_id)[:provider_id]
       end
     end
   end

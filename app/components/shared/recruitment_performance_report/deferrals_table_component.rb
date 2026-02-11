@@ -10,7 +10,7 @@ module RecruitmentPerformanceReport
       provider_statistics,
       statistics,
       report_type: :NATIONAL,
-      region: Publications::RegionalRecruitmentPerformanceReport::ALL_REGIONS
+      region: Publications::RegionalRecruitmentPerformanceReport.all_of_england_key
     )
       @provider = provider
       @report_type = report_type

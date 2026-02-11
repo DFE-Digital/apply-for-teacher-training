@@ -9,10 +9,6 @@
     <p class="govuk-body">
       <%= t('.proportion_of_all_candidates', provider_name: @provider.name) %>
     </p>
-    <%= govuk_list([t('.last_cycle'), type_of_data], type: :bullet) %>
-    <p class="govuk-body">
-      <%= t('.table_includes') %>
-    </p>
     <%= govuk_list(
           [t('.candidates_with_offers_received'),
            t('.offers_withdrawn_or_deferred_by_providers'),

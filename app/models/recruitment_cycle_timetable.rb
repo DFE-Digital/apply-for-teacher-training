@@ -106,6 +106,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
     "#{recruitment_cycle_year - 1} to #{recruitment_cycle_year}"
   end
 
+  def previous_cycle_range_name
+    "#{recruitment_cycle_year - 2} to #{recruitment_cycle_year - 1}"
+  end
+
   def cycle_range_name_with_current_indicator
     if recruitment_cycle_year == RecruitmentCycleTimetable.current_year
       "#{cycle_range_name} - current"

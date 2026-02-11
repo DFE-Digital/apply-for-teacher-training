@@ -27,7 +27,7 @@
       <% end %>
       <% report = provider.performance_reports.order(:recruitment_cycle_year, :cycle_week).last %>
       <ul class="govuk-list govuk-list--spaced">
-        <li><%= govuk_link_to("Weekly report for week ending #{report.reporting_end_date.to_fs(:govuk_date)}", provider_interface_reports_provider_recruitment_performance_report_path(provider.id)) %></li>
+        <li><%= govuk_link_to('Recruitment performance report', provider_interface_reports_provider_recruitment_performance_report_path(provider.id)) %></li>
       </ul>
     <% end %>
 
@@ -63,7 +63,7 @@
               recruitment_cycle_year: @previous_timetable.recruitment_cycle_year,
             ),
           ) %>
-        </li>
+      </li>
       </ul>
     <% end %>
 

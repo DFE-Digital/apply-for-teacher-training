@@ -17,7 +17,8 @@ module ProviderInterface
       row_builder = ProviderInterface::Reports::SubjectRowsBuilderService.new(
         field_mapping: FIELD_MAPPING_WITH_CHANGE,
         provider_statistics: provider_report.statistics,
-        national_statistics: national_report.statistics,
+        statistics: national_report.statistics,
+        report_type: :NATIONAL,
       )
 
       render RecruitmentPerformanceReport::SubjectTableComponent.new(
@@ -25,6 +26,7 @@ module ProviderInterface
         table_caption: 'candidates_who_have_submitted_applications',
         summary_row: row_builder.summary_row,
         subject_rows: row_builder.subject_rows,
+        region: 'all',
       ) do
         content_tag(:p, class: 'govuk-body') { 'Description of table goes here' }
       end
@@ -34,7 +36,8 @@ module ProviderInterface
       row_builder = ProviderInterface::Reports::SubjectRowsBuilderService.new(
         field_mapping: FIELD_MAPPING_WITHOUT_CHANGE,
         provider_statistics: provider_report.statistics,
-        national_statistics: national_report.statistics,
+        statistics: national_report.statistics,
+        report_type: :NATIONAL,
       )
 
       render RecruitmentPerformanceReport::SubjectTableWithProportionsOnlyComponent.new(
@@ -42,6 +45,7 @@ module ProviderInterface
         table_caption: 'offers_accepted',
         summary_row: row_builder.summary_row,
         subject_rows: row_builder.subject_rows,
+        region: 'all',
       ) do
         content_tag(:p, class: 'govuk-body') { 'Description of table goes here' }
       end
