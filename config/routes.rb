@@ -63,10 +63,6 @@ Rails.application.routes.draw do
   get '/check', to: 'healthcheck#show'
   get '/check/version', to: 'healthcheck#version'
 
-  if HostingEnvironment.sandbox_mode? || HostingEnvironment.development?
-    get '/sandbox-rate-limiting-tests', to: 'sandbox_rate_limiting_tests#index'
-  end
-
   mount Yabeda::Prometheus::Exporter => '/metrics'
 
   scope via: :all do
