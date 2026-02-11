@@ -1,0 +1,18 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.show_service_banner', interface: @interface), @show_service_banner_form.errors.any?) %>
+<% content_for :suppress_heading, true %>
+<% content_for :before_content, govuk_back_link_to(support_interface_service_banners_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <%= form_with(model: @show_service_banner_form, url: support_interface_update_show_service_banner_path(interface: @interface), method: :patch) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset(:show_service_banner, inline: true, legend: { size: 'l', text: t('.request_legend', interface: @interface) }) do %>
+        <%= f.govuk_radio_button :show_service_banner, 'yes', label: { text: 'Yes' }, link_errors: true %>
+        <%= f.govuk_radio_button :show_service_banner, 'no', label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_submit t('.continue') %>
+    <% end %>
+  </div>
+</div>

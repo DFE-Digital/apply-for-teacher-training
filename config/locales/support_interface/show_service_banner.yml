@@ -1,0 +1,12 @@
+en:
+  support_interface:
+    show_service_banner:
+      edit:
+        request_legend: Show %{interface} service banner
+        continue: Continue
+    configure_service_banner:
+      edit:
+        banner_header_label: Header
+        banner_content_label: Banner content (optional)
+        caption: Markdown supported
+        preview: Preview banner

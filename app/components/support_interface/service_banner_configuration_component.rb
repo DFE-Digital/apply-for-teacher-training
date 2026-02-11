@@ -1,10 +1,9 @@
 module SupportInterface
   class ServiceBannerConfigurationComponent < ViewComponent::Base
-    attr_reader :interface, :show_service_banner
+    attr_reader :interface
 
-    def initialize(interface:, show_service_banner: false)
+    def initialize(interface:)
       @interface = interface
-      @show_service_banner = show_service_banner
     end
 
     def rows
@@ -21,6 +20,10 @@ module SupportInterface
       {
         key: 'Show service banner',
         value: @show_service_banner ? 'Yes' : 'No',
+        action: {
+          href: support_interface_edit_show_service_banner_path(interface: @interface),
+          visually_hidden_text: 'Change',
+        },
       }
     end
 
