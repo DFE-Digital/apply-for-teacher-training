@@ -1,5 +1,5 @@
 ruby      3.4.4
-nodejs    22.22.0
+nodejs    20.15.1
 yarn      1.22.19
 azure-cli 
 jq        1.6
