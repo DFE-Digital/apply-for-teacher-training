@@ -1,0 +1,29 @@
+<%= content_for :title, title_with_error_prefix(t('page_titles.recruitment_performance_report'), @form.errors.any?) %>
+<% content_for(
+  :before_content,
+  govuk_back_link(
+    href: provider_interface_reports_provider_recruitment_performance_report_path(@provider),
+  ),
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @form,
+      url: provider_interface_reports_provider_regional_report_filters_path,
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_collection_radio_buttons(
+        :region,
+        @form.options,
+        :value,
+        :label,
+        bold_labels: false,
+        legend: { text: 'Set a comparison area', size: 'm' },
+      ) %>
+
+      <%= f.govuk_submit 'Update comparison area' %>
+    <% end %>
+  </div>
+</div>

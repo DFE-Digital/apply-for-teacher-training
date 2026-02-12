@@ -1,21 +1,38 @@
-<% if @national_data.present? && @provider_data.present? && RecruitmentPerformanceReportTimetable.report_season? %>
-  <%= content_for :title, t('.title', cycle_year_range: @provider_report.cycle_range_name) %>
+<% if @statistics.present? && @provider_data.present? && RecruitmentPerformanceReportTimetable.report_season? %>
+  <%= content_for :title, t('.title') %>
   <%= content_for :before_content,
-                  breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path, t('.heading', cycle_year_range: @provider_report.cycle_range_name) => nil) %>
+                  breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path, t('page_titles.recruitment_performance_report') => nil) %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l"><%= t('.heading', cycle_year_range: @provider_report.cycle_range_name) %></h1>
+      <h1 class="govuk-heading-l"><%= t('page_titles.recruitment_performance_report') %></h1>
     </div>
 
-    <%= render RecruitmentPerformanceReport::ReportDescriptionComponent.new(@provider_report) %>
-    <%= render RecruitmentPerformanceReport::AboutThisDataSectionComponent.new(@provider_report) %>
-    <%= render RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(@provider, @provider_data, @national_data) %>
-    <%= render RecruitmentPerformanceReport::CandidatesWithOffersTableComponent.new(@provider, @provider_data, @national_data) %>
-    <%= render RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent.new(@provider, @provider_data, @national_data) %>
-    <%= render RecruitmentPerformanceReport::OffersAcceptedTableComponent.new(@provider, @provider_data, @national_data) %>
-    <%= render RecruitmentPerformanceReport::DeferralsTableComponent.new(@provider, @provider_data, @national_data) %>
-    <%= render RecruitmentPerformanceReport::CandidatesRejectedTableComponent.new(@provider, @provider_data, @national_data) %>
-    <%= render RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(@provider, @provider_data, @national_data) %>
+    <%= render RecruitmentPerformanceReport::ReportMethodologyComponent.new(
+      provider_report: @provider_report,
+      current_timetable: @current_timetable,
+      interface: 'provider',
+    ) %>
+    <%= render RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+    ) %>
+    <%= render RecruitmentPerformanceReport::CandidatesWithOffersTableComponent.new(
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+    ) %>
+    <%= render RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent.new(
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+    ) %>
+    <%= render RecruitmentPerformanceReport::OffersAcceptedTableComponent.new(
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+    ) %>
+    <%= render RecruitmentPerformanceReport::DeferralsTableComponent.new(
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+    ) %>
+    <%= render RecruitmentPerformanceReport::CandidatesRejectedTableComponent.new(
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+    ) %>
+    <%= render RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(
+      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+    ) %>
   </div>
 <% else %>
   <%= content_for :title, t('.empty_report_title') %>
@@ -25,6 +42,12 @@
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l"><%= t('.empty_report_heading') %></h1>
       <p class="govuk-body"><%= t('.not_ready_to_view') %></p>
+
+      <%= govuk_link_to(
+        'Set your comparison area',
+        new_provider_interface_reports_provider_regional_report_filter_path,
+        class: 'govuk-button govuk-button--secondary',
+      ) %>
     </div>
   </div>
 <% end %>

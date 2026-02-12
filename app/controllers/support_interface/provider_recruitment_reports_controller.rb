@@ -1,17 +1,28 @@
 module SupportInterface
   class ProviderRecruitmentReportsController < SupportInterfaceController
+    before_action :set_provider
+    before_action :set_region
+
     def show
-      @provider = Provider.find(provider_id)
       @provider_report = latest_report.present? ? Publications::ProviderRecruitmentPerformanceReportPresenter.new(latest_report) : nil
       @provider_data = @provider_report&.statistics
-
-      all_of_england = Publications::RegionalRecruitmentPerformanceReport::ALL_REGIONS
-      @region = params[:region] || all_of_england
       @report_type = @region == all_of_england ? :NATIONAL : :REGIONAL
       @statistics = @region == all_of_england ? national_report&.statistics : regional_report&.statistics
     end
 
   private
+
+    def set_provider
+      @provider ||= Provider.find(params.permit(:provider_id)[:provider_id])
+    end
+
+    def all_of_england
+      Publications::RegionalRecruitmentPerformanceReport.all_of_england_key
+    end
+
+    def set_region
+      @region = params[:region] || all_of_england
+    end
 
     def regional_report
       if @provider_report.present?
@@ -37,10 +48,6 @@ module SupportInterface
         .where(provider: @provider)
         .order(:recruitment_cycle_year, :cycle_week)
         .last
-    end
-
-    def provider_id
-      params.permit(:provider_id)[:provider_id]
     end
   end
 end

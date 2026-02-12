@@ -1,0 +1,72 @@
+<div class="govuk-grid-column-two-thirds">
+  <p class="govuk-body"><%= t('shared.recruitment_performance_report.report_description_component.last_updated', date: @provider_report.generation_date.to_date.to_fs(:govuk_date)) %></p>
+  <p class="govuk-body">
+    <%= t('shared.recruitment_performance_report.report_description_component.regional.this_report_shows',
+          start_date: RecruitmentCycleTimetable.previous_year,
+          end_date: RecruitmentCycleTimetable.current_year) %>
+  </p>
+  <p class="govuk-body">
+    <% if @provider_report.previous_cycle? %>
+      <%= t('shared.recruitment_performance_report.report_description_component.next_reports_will_be_available',
+            next_cycle_name: @provider_report.next_cycle_range_name,
+            next_reporting_start_date: @provider_report.next_reporting_start_date) %>
+    <% else %>
+      <%= t('shared.recruitment_performance_report.report_description_component.regional.this_report_will_update_html') %>
+    <% end %>
+  </p>
+
+  <%= govuk_details(summary_text: 'Full methodology') do %>
+    <h2 class="govuk-heading-s">Recruitment cycle dates</h2>
+    <p class="govuk-body">
+      The <%= @current_timetable.cycle_range_name %> recruitment cycle started <%= @current_timetable.find_opens_at.to_fs(:govuk_date) %> and ends on <%= @current_timetable.find_closes_at.to_fs(:govuk_date) %>.
+    </p>
+
+    <h2 class="govuk-heading-s">Report updates</h2>
+    <p class="govuk-body">
+      This report updates weekly on a Monday, starting from <%= @provider_report.report_starting_date %>. You can only view data from the most recent week.
+    </p>
+
+    <h2 class="govuk-heading-s">What's included in the data</h2>
+    <p class="govuk-body">
+      All candidates who submitted applications to your organisation during the current recruitment cycle are included in the figures, even if they later withdrew or deferred their applications.
+    </p>
+
+    <h2 class="govuk-heading-s">Comparison data</h2>
+    <p class="govuk-body">
+      The report compares your organisation's cumulative data to:
+
+      <%= govuk_list type: :bullet, spaced: true do %>
+        <%= tag.li "the same week in the previous recruitment cycle #{@current_timetable.previous_cycle_range_name}" %>
+        <%= tag.li 'either national data (all of England) or regional data, depending on your selected comparison region' %>
+      <% end %>
+    </p>
+
+    <h2 class="govuk-heading-s">How to interpret the percentage change</h2>
+    <p class="govuk-body">
+      Percentage changes show the difference between this cycle and last cycle up to the same week. A positive percentage means the number has increased compared to last year. A negative percentage means it has decreased.
+    </p>
+
+    <h2 class="govuk-heading-s">Declared disability or health condition</h2>
+    <p class="govuk-body">
+      Candidates can select multiple disabilities or health conditions, so the numbers may not match the totals.
+    </p>
+  <% end %>
+
+  <%= govuk_link_to(
+    'Set your comparison area',
+    comparison_link,
+    class: 'govuk-button govuk-button--secondary',
+  ) %>
+
+  <h2 class="govuk-heading-m"><%= t('shared.recruitment_performance_report.report_description_component.contents') %></h2>
+  <%= govuk_list [
+    govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidates_who_have_submitted_applications'), '#candidates_who_have_submitted_applications', no_visited_state: true),
+    govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidates_with_an_offer'), '#candidates_with_an_offer', no_visited_state: true),
+    govuk_link_to(t('shared.recruitment_performance_report.report_description_component.proportion_of_candidates_with_an_offer'), '#proportion_of_candidates_with_an_offer', no_visited_state: true),
+    govuk_link_to(t('shared.recruitment_performance_report.report_description_component.offers_accepted'), '#offers_accepted', no_visited_state: true),
+    govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidate_deferrals'), '#candidate_deferrals', no_visited_state: true),
+    govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidates_rejected'), '#candidates_rejected', no_visited_state: true),
+    govuk_link_to(t('shared.recruitment_performance_report.report_description_component.proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response'), '#proportion_with_inactive_applications_table_component', no_visited_state: true),
+  ],
+  type: :number %>
+</div>

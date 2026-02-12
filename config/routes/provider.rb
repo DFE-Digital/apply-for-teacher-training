@@ -49,6 +49,7 @@ namespace :provider_interface, path: '/provider' do
       resource :diversity_report, only: :show, path: 'diversity-report(/:recruitment_cycle_year)'
       resource :withdrawal_reasons_report, only: :show, path: 'withdrawal-reasons-report'
       resource :recruitment_performance_report, only: :show, path: 'recruitment-performance-report'
+      resources :regional_report_filters, only: %i[new create], path: 'regional-report-filter'
     end
   end
 

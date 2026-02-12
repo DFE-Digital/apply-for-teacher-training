@@ -9,11 +9,6 @@
     <p class="govuk-body">
       <%= t('.proportion_of_candidates_waiting_more_than_30_days', provider_name: @provider.name) %>
     </p>
-    <p class="govuk-body">
-      <%= t('.you_can_compare_the_data_to') %>
-    </p>
-    <%= govuk_list([t('.last_cycle'), type_of_data], type: :bullet) %>
-
     <p class="govuk-body"><%= t('.responding_to_applications_include') %></p>
     <%= govuk_list(
           [t('.making_an_offer'),

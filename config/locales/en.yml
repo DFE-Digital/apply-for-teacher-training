@@ -111,6 +111,7 @@ en:
     get_your_details_back: Get your details back
     dismiss: Dismiss
   page_titles:
+    recruitment_performance_report: Recruitment performance report
     application_submit_interruption: Check before you submit your application
     application_submit_degree_grade_interruption: This course requires a degree of %{grade}
     previous_teacher_training: Previous teacher training
@@ -478,6 +479,14 @@ en:
         course_option: The new course
     errors:
       models:
+        support_interface/regional_report_form:
+          attributes:
+            region:
+              blank: Select an area
+        provider_interface/regional_report_form:
+          attributes:
+            region:
+              blank: Select an area
         support_interface/vendor_api_token_form:
           attributes:
             provider_id:

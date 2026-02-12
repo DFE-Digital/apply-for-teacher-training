@@ -1,14 +1,25 @@
 module ProviderInterface
   module Reports
-    class RecruitmentPerformanceReportsController < ProviderInterfaceController
+    class RegionalReportFiltersController < ProviderInterfaceController
       before_action :set_provider
-      before_action :set_region
+      before_action :set_region, only: %i[new]
 
-      def show
-        @provider_report = latest_report.present? ? Publications::ProviderRecruitmentPerformanceReportPresenter.new(latest_report) : nil
-        @provider_data = @provider_report&.statistics
-        @report_type = @region == all_of_england ? :NATIONAL : :REGIONAL
-        @statistics = @region == all_of_england ? national_report&.statistics : regional_report&.statistics
+      def new
+        @form = RegionalReportForm.initialize_from_report_filter(
+          provider_id: @provider.id,
+          provider_user_id: current_user.id,
+        )
+      end
+
+      def create
+        @form = RegionalReportForm.new(form_params)
+
+        if @form.save
+          flash[:success] = 'Comparison region updated'
+          redirect_to provider_interface_reports_provider_recruitment_performance_report_path
+        else
+          render :new
+        end
       end
 
     private
@@ -54,6 +65,23 @@ module ProviderInterface
           .where(provider: @provider)
           .order(:recruitment_cycle_year, :cycle_week)
           .last
+      end
+
+      def provider_id
+        params.permit(:provider_id)[:provider_id]
+      end
+
+      def form_params
+        expected_params.merge(
+          provider_id: @provider.id,
+          provider_user_id: current_user.id,
+        )
+      end
+
+      def expected_params
+        params.expect(
+          provider_interface_regional_report_form: [:region],
+        )
       end
     end
   end

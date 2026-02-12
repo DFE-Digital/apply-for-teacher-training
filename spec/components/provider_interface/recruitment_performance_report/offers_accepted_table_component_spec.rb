@@ -8,7 +8,7 @@ RSpec.describe RecruitmentPerformanceReport::OffersAcceptedTableComponent do
 
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-    expect(page).to have_table('5. Offers accepted')
+    expect(page).to have_table('4. Offers accepted')
     expect(page).to have_content(description)
 
     expect(page).to have_content provider.name

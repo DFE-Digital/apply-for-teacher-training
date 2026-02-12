@@ -8,22 +8,31 @@ en:
         national_this_cycle: This cycle
         national_last_cycle: Last cycle
         national_percentage_change: Percentage change
-        candidates_who_have_submitted_applications: 2. Candidates who have submitted applications
-        candidates_with_an_offer: 3. Candidates that received an offer
-        proportion_of_candidates_with_an_offer: 4. Proportion of candidates with an offer
-        offers_accepted: 5. Offers accepted
-        candidates_rejected: 7. Candidates rejected
-        proportion_with_inactive_applications_table_component: 8. Proportion of candidates who have waited more than 30 working days for a response
+        candidates_who_have_submitted_applications: 1. Candidates who have submitted applications
+        candidates_with_an_offer: 2. Candidates that received an offer
+        proportion_of_candidates_with_an_offer: 3. Proportion of candidates with an offer
+        offers_accepted: 4. Offers accepted
+        candidates_rejected: 6. Candidates rejected
+        proportion_with_inactive_applications_table_component: 7. Proportion of candidates who have waited more than 30 working days for a response
       report_description_component:
         last_updated: 'Last updated: %{date}'
         this_report_shows: >
           This report shows your organisation’s initial teacher training (ITT) recruitment performance for the %{cycle_name}
           recruitment cycle, starting on %{start_date}, ending on %{end_date}.
+        regional:
+          this_report_shows: >
+            This report shows your organisation's cumulative recruitment data from the start of the %{start_date} to %{end_date} cycle to the date displayed above. It compares your data to the same point in the previous cycle and to your chosen comparison region or England.
+          this_report_will_update_html: >
+            Candidates who withdrew or deferred applications after submitting them are included in the figures.
+
+            <p class="govuk-body">
+              This report is updated every Monday.
+            </p>
         this_report_will_update: >
           This report will update weekly on a Monday, starting from %{date}. You will only be able to view
           data from the most recent week.
         next_reports_will_be_available: >
-          The weekly reports for the %{next_cycle_name} recruitment cycle will be available from %{next_reporting_start_date}.
+          The recruitment performance reports for the %{next_cycle_name} recruitment cycle will be available from %{next_reporting_start_date}.
         this_report_compares: >
           The report compares your organisation’s recruitment data this cycle to the same time last recruitment cycle.
           It also includes national level data.
@@ -96,7 +105,7 @@ en:
       submitted_applications_table_component:
         number_of_candidates_submitted: >
           This table shows the number of candidates who have submitted one or more applications to %{provider_name} so
-          far this recruitment cycle. You can compare the data to:
+          far this recruitment cycle.
         last_cycle: last cycle,
         national_data: national data.
         regional_data: regional data.
@@ -115,7 +124,7 @@ en:
       proportion_candidates_with_offers_table_component:
         proportion_of_all_candidates: >
           This table shows the proportion of all candidates who submitted one or more applications to %{provider_name} who
-          have received an offer so far this recruitment cycle. You can compare the data to:
+          have received an offer so far this recruitment cycle.
         last_cycle: last cycle,
         national_data: national data.
         regional_data: regional data.
@@ -141,7 +150,7 @@ en:
         withdrawn_by_candidate: withdrawn by candidates
         deferred: deferred until the next cycle
       deferrals_table_component:
-        caption: 6. Deferrals
+        caption: "5. Deferrals"
         deferrals: Deferrals
         deferrals_last_cycle_to_this_cycle: Deferrals from last cycle to this cycle
         deferrals_this_cycle_to_next: Deferrals this cycle (so far) to next cycle
@@ -181,7 +190,7 @@ en:
     subject: Subject
     all_subjects: All subjects
     not_available: Not available
-    all: All providers
+    all_of_england: All providers
     west_midlands: Providers in the West Midlands (England)
     north_west: Providers in the North West (England)
     london: Providers in London

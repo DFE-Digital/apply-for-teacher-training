@@ -230,6 +230,13 @@ RSpec.describe RecruitmentCycleTimetable do
     end
   end
 
+  describe '#previous_cycle_range_name' do
+    it 'returns a string describing the recruitment cycle year range' do
+      timetable = described_class.find_by(recruitment_cycle_year: 2024)
+      expect(timetable.previous_cycle_range_name).to eq '2022 to 2023'
+    end
+  end
+
   describe '#cycle_range_name_with_current_indicator' do
     it 'returns year range with "current"' do
       TestSuiteTimeMachine.travel_temporarily_to(DateTime.new(2024, 8, 8)) do
