@@ -3,7 +3,7 @@
 <%= render CandidateInterface::DeadlineBannerComponent.new(application_form: current_application, flash_empty: flash.empty?) %>
 <%= render CandidateInterface::ReopenBannerComponent.new(application_form: current_application, flash_empty: flash.empty?) %>
 
-<%= render ServiceInformationBanner.new(namespace: :candidate) %>
+<%= render ServiceInformationBanner.new(interface: :apply) %>
 <%= render CandidateInterface::InviteReminderBannerComponent.new(invites: @not_responded_invites) %>
 
 <% if current_candidate.recoverable? %>

@@ -268,8 +268,11 @@ namespace :support_interface, path: '/support' do
     get '/service-banners' => 'settings#service_banners', as: :service_banners
     get '/service-banners/configuration' => 'show_service_banner#edit', as: :edit_show_service_banner
     patch '/service-banners/configuration/' => 'show_service_banner#update', as: :update_show_service_banner
-    get '/service-banners/configuration/edit' => 'configure_service_banner#edit', as: :edit_configure_service_banner
-    patch '/service-banners/configuration/edit' => 'configure_service_banner#update', as: :update_configure_service_banner
+    get '/service-banners/configuration/new' => 'configure_service_banner#new', as: :new_configure_service_banner
+    post '/service-banners/configuration/new' => 'configure_service_banner#create', as: :create_configure_service_banner
+    get '/service-banners/configuration/:id/edit' => 'configure_service_banner#edit', as: :edit_configure_service_banner
+    patch '/service-banners/configuration/:id' => 'configure_service_banner#update', as: :update_configure_service_banner
+    get '/service-banners/configuration/:id/preview' => 'configure_service_banner#preview', as: :preview_configure_service_banner
 
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/create-fake-provider' => 'tasks#create_fake_provider'

@@ -11,7 +11,7 @@ module SupportInterface
 
       if @show_service_banner_form.valid?
         if @show_service_banner_form.show_service_banner?
-          redirect_to support_interface_edit_configure_service_banner_path(interface: @interface)
+          redirect_to support_interface_new_configure_service_banner_path(interface: @interface)
         else
           redirect_to support_interface_service_banners_path
         end
@@ -24,7 +24,9 @@ module SupportInterface
   private
 
     def show_service_banner_params
-      params.expect(support_interface_show_service_banner_form: [:show_service_banner])
+      params
+      .fetch(:support_interface_show_service_banner_form, {})
+      .permit(:show_service_banner)
     end
 
     def interface_param

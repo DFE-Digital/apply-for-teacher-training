@@ -1,0 +1,4 @@
+<% content_for :title, t('page_titles.preview_service_banner', interface: @interface) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_edit_configure_service_banner_path(interface: @interface)) %>
+
+<%= render ServiceInformationBanner.new(interface: @interface, preview: true) %>

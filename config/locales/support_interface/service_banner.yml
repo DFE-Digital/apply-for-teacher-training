@@ -5,6 +5,11 @@ en:
         request_legend: Show %{interface} service banner
         continue: Continue
     configure_service_banner:
+      new:
+        banner_header_label: Header
+        banner_content_label: Banner content (optional)
+        caption: Markdown supported
+        preview: Preview banner
       edit:
         banner_header_label: Header
         banner_content_label: Banner content (optional)

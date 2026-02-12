@@ -3,10 +3,33 @@ module SupportInterface
     include ActiveModel::Model
     include ActiveModel::Attributes
 
-    attribute :banner_header
-    attribute :banner_content
+    attribute :header
+    attribute :body
+    attribute :interface
 
-    validates :banner_header, presence: true
-    validates :banner_content, presence: true, length: { maximum: 400 }
+    attr_accessor :banner
+
+    validates :header, presence: true
+    validates :body, presence: true, length: { maximum: 400 }
+
+    def save
+      return false if invalid?
+
+      if banner.present?
+        banner.update!(
+          interface: interface.downcase,
+          header:,
+          body:,
+          status: 'draft',
+        )
+      else
+        ServiceBanner.create!(
+          interface: interface.downcase,
+          header:,
+          body:,
+          status: 'draft',
+        )
+      end
+    end
   end
 end

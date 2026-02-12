@@ -375,6 +375,7 @@ en:
     application_guidance: The teacher training application process
     show_service_banner: Show %{interface} service banner
     configure_service_banner: Configure %{interface} service banner
+    preview_service_banner: Preview %{interface} service banner
   privacy_urls:
     education_providers_workforce:
       url: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers

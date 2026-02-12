@@ -3,7 +3,7 @@
 <%= render CandidateInterface::DeadlineBannerComponent.new(application_form: @application_form_presenter.application_form, flash_empty: flash.empty?) %>
 <%= render CandidateInterface::ReopenBannerComponent.new(application_form: @application_form_presenter.application_form, flash_empty: flash.empty?) %>
 
-<%= render ServiceInformationBanner.new(namespace: :candidate) %>
+<%= render ServiceInformationBanner.new(interface: :apply) %>
 
 <% if current_candidate.recoverable? %>
   <%= govuk_notification_banner(title_text: t('account_recovery_banner.title'), success: false) do |nb| %>
