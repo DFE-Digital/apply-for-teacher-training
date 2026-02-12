@@ -14,6 +14,10 @@ class Rack::Attack
   end
 
   throttle('vendor_api/ip', limit: VENDOR_API_MAX_REQS_PER_MINUTE, period: 1.minute) do |req|
-    req&.forwarded_for&.first || req.remote_ip if req.path.match(/api\/v1/)
+    if req.path.match(/api\/v1/) && HostingEnvironment.sandbox_mode?
+      req&.forwarded_for&.first || req.remote_ip
+    elsif req.path.match(/api\/v1/)
+      req.remote_ip
+    end
   end
 end
