@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_06_153720) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_12_132912) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1077,6 +1077,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_06_153720) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["application_choice_id"], name: "index_rejection_feedbacks_on_application_choice_id"
+  end
+
+  create_table "service_banners", force: :cascade do |t|
+    t.string "header"
+    t.string "body"
+    t.string "interface"
+    t.string "status", default: "draft", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "session_errors", force: :cascade do |t|
