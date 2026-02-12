@@ -1,4 +1,3 @@
-<%= content_for :title, title_with_error_prefix(t('page_titles.recruitment_performance_report'), @form.errors.any?) %>
 <%= render 'support_interface/providers/provider_navigation', title: t('page_titles.recruitment_performance_report') %>
 <%= govuk_back_link(href: support_interface_provider_recruitment_report_path(region: @region)) %>
 

@@ -479,6 +479,14 @@ en:
         course_option: The new course
     errors:
       models:
+        support_interface/regional_report_form:
+          attributes:
+            region:
+              blank: Select an area
+        provider_interface/regional_report_form:
+          attributes:
+            region:
+              blank: Select an area
         support_interface/vendor_api_token_form:
           attributes:
             provider_id:
