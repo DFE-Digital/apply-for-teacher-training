@@ -37,6 +37,37 @@ module Publications
       end
     end
 
+    def schedule_regional_edi_report
+      Publications::RegionalEdiReport.regions.each_value do |region|
+        Publications::RegionalEdiReport.categories.each_value do |category|
+          next if Publications::RegionalEdiReport.exists?(
+            cycle_week:,
+            recruitment_cycle_year:,
+            region:,
+            category:,
+          )
+
+          Publications::RegionalEdiReportWorker
+            .perform_async(cycle_week, region, category)
+        end
+      end
+    end
+
+    def schedule_provider_edi_report
+      ProvidersForRecruitmentPerformanceReportQuery
+        .call(cycle_week:, recruitment_cycle_year:)
+        .find_each do |provider|
+          Publications::ProviderEdiReport.categories.each do |category|
+            Publications::ProviderEdiReportWorker
+              .perform_async(
+                provider.id,
+                cycle_week,
+                category,
+              )
+          end
+      end
+    end
+
     def schedule_provider_report
       ProvidersForRecruitmentPerformanceReportQuery
         .call(cycle_week:, recruitment_cycle_year:)
