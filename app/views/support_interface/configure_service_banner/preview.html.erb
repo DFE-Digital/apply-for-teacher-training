@@ -3,4 +3,4 @@
 
 <%= render ServiceInformationBanner.new(interface: @interface, preview: true) %>
 
-<%= govuk_button_to 'Publish banner', support_interface_publish_configure_service_banner_path(@banner, interface: @interface), method: :patch %>
+<%= govuk_button_to 'Publish banner', support_interface_publish_configure_service_banner_path(@banner), method: :patch, params: { interface: @interface } %>
