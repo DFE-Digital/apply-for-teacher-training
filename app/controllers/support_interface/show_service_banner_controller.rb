@@ -25,7 +25,7 @@ module SupportInterface
   private
 
     def live_banner
-      ServiceBanner.where(interface: @interface.downcase.tr('_', ' '), status: 'published').first
+      ServiceBanner.where(interface: @interface.downcase.tr('_', ' '), status: 'published').order(created_at: :desc).first
     end
 
     def show_service_banner_params

@@ -1,0 +1,6 @@
+en:
+  support_interface:
+    service_banner_configuration_component:
+      live_banner_html: |
+        <b>%{header}</b>
+        <p>%{body}</p>

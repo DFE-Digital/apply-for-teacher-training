@@ -19,7 +19,7 @@ module SupportInterface
     def show_service_banner_row
       {
         key: 'Show service banner',
-        value: @show_service_banner ? 'Yes' : 'No',
+        value: live_banner ? 'Yes' : 'No',
         action: {
           href: support_interface_edit_show_service_banner_path(interface: @interface),
           visually_hidden_text: 'Change',
@@ -30,7 +30,7 @@ module SupportInterface
     def banner_content_row
       {
         key: 'Banner content',
-        value: '-',
+        value: live_banner ? t('.live_banner_html', header: live_banner.header, body: live_banner.body) : 'None',
       }
     end
 
@@ -39,6 +39,10 @@ module SupportInterface
         key: 'History',
         value: '-',
       }
+    end
+
+    def live_banner
+      ServiceBanner.where(interface: @interface.downcase.tr('_', ' '), status: 'published').order(created_at: :desc).first
     end
   end
 end
