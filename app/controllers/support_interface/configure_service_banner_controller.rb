@@ -46,6 +46,15 @@ module SupportInterface
       @banner = ServiceBanner.find(params[:id])
     end
 
+    def publish
+      @interface = interface_param
+      @banner = ServiceBanner.find(params[:id])
+      @banner.update!(status: 'published')
+
+      redirect_to support_interface_service_banners_path
+      flash[:success] = "#{@interface} service banner enabled"
+    end
+
   private
 
     def configure_service_banner_params

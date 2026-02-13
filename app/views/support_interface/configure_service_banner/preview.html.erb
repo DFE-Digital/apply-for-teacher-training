@@ -2,3 +2,5 @@
 <% content_for :before_content, govuk_back_link_to(support_interface_edit_configure_service_banner_path(interface: @interface)) %>
 
 <%= render ServiceInformationBanner.new(interface: @interface, preview: true) %>
+
+<%= govuk_button_to 'Publish banner', support_interface_publish_configure_service_banner_path(@banner, interface: @interface), method: :patch %>

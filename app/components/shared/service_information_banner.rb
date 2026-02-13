@@ -5,11 +5,11 @@ class ServiceInformationBanner < ViewComponent::Base
   end
 
   def header_content
-    banner&.header
+    banner.header
   end
 
   def body_content
-    banner&.body
+    banner.body
   end
 
   def render?
