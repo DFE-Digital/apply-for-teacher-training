@@ -4,6 +4,8 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
   let(:provider_worker) { Publications::ProviderRecruitmentPerformanceReportWorker }
   let(:national_worker) { Publications::NationalRecruitmentPerformanceReportWorker }
   let(:regional_worker) { Publications::RegionalRecruitmentPerformanceReportWorker }
+  let(:regional_edi_worker) { Publications::RegionalEdiReportWorker }
+  let(:provider_edi_worker) { Publications::ProviderEdiReportWorker }
   let(:course_option) { create(:course_option) }
   let(:application_choice) { create(:application_choice, status: 'awaiting_provider_decision', course_option:, sent_to_provider_at: Time.zone.today - 1.week) }
   let(:provider) { course_option.course.provider }
@@ -162,21 +164,112 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
     end
   end
 
+  context 'regional edi report is generated' do
+    before do
+      allow(HostingEnvironment).to receive(:production?).and_return true
+      allow(regional_edi_worker).to receive(:perform_async)
+    end
+
+    it 'creates a Regional edi report' do
+      described_class.new.call
+
+      Publications::RegionalEdiReport.regions.each_value do |region|
+        Publications::RegionalEdiReport.categories.each_value do |category|
+          expect(regional_edi_worker).to have_received(:perform_async).with(cycle_week, region, category)
+        end
+      end
+    end
+
+    context 'explicit cycle_week is passed' do
+      let(:cycle_week) { 16 }
+
+      it 'does creates a Regional edi report worker when a report already exists for the same cycle_week, but different year' do
+        create(:regional_edi_report, recruitment_cycle_year: previous_year)
+        described_class.new(cycle_week:).call
+
+        expect(regional_edi_worker).to have_received(:perform_async).with(cycle_week, 'London', 'Sex')
+      end
+
+      it 'does not create a Regional edi report worker when a report already exists' do
+        create(:regional_edi_report, recruitment_cycle_year: current_year)
+        described_class.new(cycle_week:).call
+
+        expect(regional_edi_worker).not_to have_received(:perform_async).with(cycle_week, 'London', 'Sex')
+      end
+
+      it 'creates a regional edi report for the cycle_week value' do
+        described_class.new(cycle_week:).call
+
+        Publications::RegionalEdiReport.regions.each_value do |region|
+          Publications::RegionalEdiReport.categories.each_value do |category|
+            expect(regional_edi_worker).to have_received(:perform_async).with(cycle_week, region, category)
+          end
+        end
+      end
+    end
+  end
+
+  context 'provider edi report is generated' do
+    before do
+      allow(HostingEnvironment).to receive(:production?).and_return true
+      allow(provider_edi_worker).to receive(:perform_async)
+      application_choice
+    end
+
+    it 'creates a Provider edi report' do
+      described_class.new.call
+
+      Publications::ProviderEdiReport.categories.each_value do |category|
+        expect(provider_edi_worker).to have_received(:perform_async).with(provider.id, cycle_week, category)
+      end
+    end
+
+    context 'explicit cycle_week is passed' do
+      let(:cycle_week) { 16 }
+
+      it 'does creates a Provider edi report worker when a report already exists for the same cycle_week, but different year' do
+        create(:provider_recruitment_performance_report, provider:, cycle_week:, recruitment_cycle_year: previous_year)
+        described_class.new(cycle_week:).call
+
+        expect(provider_edi_worker).to have_received(:perform_async).with(provider.id, cycle_week, 'Sex')
+      end
+
+      it 'does not create a Provider edi report worker when a report already exists' do
+        create(:provider_recruitment_performance_report, provider:, cycle_week:, recruitment_cycle_year: current_year)
+        described_class.new(cycle_week:).call
+
+        expect(provider_edi_worker).not_to have_received(:perform_async).with(provider.id, cycle_week, 'Sex')
+      end
+
+      it 'creates a Provider edi report for the cycle_week value' do
+        described_class.new(cycle_week:).call
+
+        Publications::ProviderEdiReport.categories.each_value do |category|
+          expect(provider_edi_worker).to have_received(:perform_async).with(provider.id, cycle_week, category)
+        end
+      end
+    end
+  end
+
   context 'non-production environment' do
     let(:provider_worker) { Publications::ProviderRecruitmentPerformanceReportWorker }
     let(:national_worker) { Publications::NationalRecruitmentPerformanceReportWorker }
     let(:regional_worker) { Publications::RegionalRecruitmentPerformanceReportWorker }
+    let(:regional_edi_worker) { Publications::RegionalEdiReportWorker }
+    let(:provider_edi_worker) { Publications::ProviderEdiReportWorker }
     let(:course_option) { create(:course_option) }
     let(:application_choice) { create(:application_choice, status: 'awaiting_provider_decision', course_option:, sent_to_provider_at: Time.zone.today - 1.week) }
     let(:provider) { course_option.course.provider }
 
-    let(:cycle_week) { RecruitmentCycleTimetable.current_cycle_week.pred }
+    let(:cycle_week) { 16 }
     let(:recruitment_cycle_year) { RecruitmentCycleTimetable.current_year }
 
     before do
       allow(HostingEnvironment).to receive(:production?).and_return false
       allow(national_worker).to receive(:perform_async)
       allow(regional_worker).to receive(:perform_async)
+      allow(regional_edi_worker).to receive(:perform_async)
+      allow(provider_edi_worker).to receive(:perform_async)
       allow(provider_worker).to receive(:perform_async)
     end
 
@@ -186,6 +279,17 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
       Publications::RegionalRecruitmentPerformanceReport.regions.each_value do |region|
         expect(regional_worker).not_to have_received(:perform_async).with(cycle_week, region)
       end
+
+      Publications::RegionalEdiReport.regions.each_value do |region|
+        Publications::RegionalEdiReport.categories.each_value do |category|
+          expect(regional_edi_worker).not_to have_received(:perform_async).with(cycle_week, region, category)
+        end
+      end
+
+      Publications::ProviderEdiReport.categories.each_value do |category|
+        expect(provider_edi_worker).not_to have_received(:perform_async).with(provider.id, cycle_week, category)
+      end
+
       expect(provider_worker).not_to have_received(:perform_async).with(provider.id, cycle_week)
     end
   end
