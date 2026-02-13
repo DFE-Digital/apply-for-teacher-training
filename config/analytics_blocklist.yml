@@ -1,5 +1,27 @@
 ---
 :shared:
+  :regional_edi_reports:
+  - id
+  - statistics
+  - cycle_week
+  - recruitment_cycle_year
+  - region
+  - category
+  - publication_date
+  - generation_date
+  - created_at
+  - updated_at
+  :provider_edi_reports:
+  - id
+  - provider_id
+  - statistics
+  - cycle_week
+  - recruitment_cycle_year
+  - category
+  - publication_date
+  - generation_date
+  - created_at
+  - updated_at
   regional_report_filters:
   - id
   - provider_user_id

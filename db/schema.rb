@@ -882,6 +882,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_12_132912) do
     t.index ["provider_user_id"], name: "index_provider_agreements_on_provider_user_id"
   end
 
+  create_table "provider_edi_reports", force: :cascade do |t|
+    t.bigint "provider_id"
+    t.json "statistics"
+    t.integer "cycle_week", null: false
+    t.integer "recruitment_cycle_year", null: false
+    t.string "category", null: false
+    t.date "publication_date", null: false
+    t.date "generation_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider_id"], name: "index_provider_edi_reports_on_provider_id"
+    t.index ["recruitment_cycle_year"], name: "index_provider_edi_reports_on_recruitment_cycle_year"
+  end
+
   create_table "provider_pool_actions", force: :cascade do |t|
     t.string "status"
     t.bigint "application_form_id", null: false
@@ -1047,6 +1061,19 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_12_132912) do
     t.boolean "confidential"
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
     t.index ["feedback_status"], name: "index_references_on_feedback_status"
+  end
+
+  create_table "regional_edi_reports", force: :cascade do |t|
+    t.json "statistics"
+    t.integer "cycle_week", null: false
+    t.integer "recruitment_cycle_year", null: false
+    t.string "region", null: false
+    t.string "category", null: false
+    t.date "publication_date", null: false
+    t.date "generation_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recruitment_cycle_year"], name: "index_regional_edi_reports_on_recruitment_cycle_year"
   end
 
   create_table "regional_recruitment_performance_reports", force: :cascade do |t|
@@ -1277,6 +1304,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_12_132912) do
   add_foreign_key "previous_teacher_trainings", "providers"
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
+  add_foreign_key "provider_edi_reports", "providers", on_delete: :cascade
   add_foreign_key "provider_pool_actions", "application_forms", on_delete: :cascade
   add_foreign_key "provider_pool_actions", "provider_users", column: "actioned_by_id", on_delete: :cascade
   add_foreign_key "provider_recruitment_performance_reports", "providers"
