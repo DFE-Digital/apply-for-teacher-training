@@ -395,5 +395,7 @@
   - body
   - interface
   - status
+  - enabled
+  - environment
   - created_at
   - updated_at

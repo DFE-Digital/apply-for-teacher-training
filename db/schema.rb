@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_12_132912) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_13_160017) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1113,6 +1113,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_12_132912) do
     t.string "status", default: "draft", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "enabled", default: false, null: false
+    t.string "environment"
   end
 
   create_table "session_errors", force: :cascade do |t|
