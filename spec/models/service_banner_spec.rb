@@ -6,6 +6,7 @@ RSpec.describe ServiceBanner do
       expect(described_class.statuses).to eq(
         'draft' => 'draft',
         'published' => 'published',
+        'unpublished' => 'unpublished',
       )
     end
 
@@ -14,8 +15,10 @@ RSpec.describe ServiceBanner do
 
       expect(banner).to respond_to(:draft?)
       expect(banner).to respond_to(:published?)
+      expect(banner).to respond_to(:unpublished?)
       expect(banner).to respond_to(:draft!)
       expect(banner).to respond_to(:published!)
+      expect(banner).to respond_to(:unpublished!)
     end
   end
 

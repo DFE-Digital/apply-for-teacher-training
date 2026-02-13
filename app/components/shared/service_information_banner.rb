@@ -15,7 +15,7 @@ class ServiceInformationBanner < ViewComponent::Base
   def render?
     @preview ||
       (banner.present? &&
-        FeatureFlag.active?('service_information_banner'))
+        banner.published?)
   end
 
 private
@@ -26,6 +26,6 @@ private
 
   def find_banner
     scope = ServiceBanner.where(interface: @interface).order(created_at: :desc)
-    @preview ? scope.first : scope.published.first
+    @preview ? scope.draft.first : scope.published.first
   end
 end

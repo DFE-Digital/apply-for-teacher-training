@@ -13,6 +13,7 @@ module SupportInterface
         if @show_service_banner_form.show_service_banner?
           redirect_to support_interface_new_configure_service_banner_path(interface: @interface)
         else
+          live_banner&.update(status: 'unpublished')
           redirect_to support_interface_service_banners_path
         end
       else
@@ -22,6 +23,10 @@ module SupportInterface
     end
 
   private
+
+    def live_banner
+      ServiceBanner.where(interface: @interface.downcase.tr('_', ' '), status: 'published').first
+    end
 
     def show_service_banner_params
       params
