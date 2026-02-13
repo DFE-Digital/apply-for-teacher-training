@@ -57,7 +57,7 @@ module Publications
       ProvidersForRecruitmentPerformanceReportQuery
         .call(cycle_week:, recruitment_cycle_year:)
         .find_each do |provider|
-          Publications::ProviderEdiReport.categories.each do |category|
+          Publications::ProviderEdiReport.categories.each_value do |category|
             Publications::ProviderEdiReportWorker
               .perform_async(
                 provider.id,
