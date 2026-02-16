@@ -204,6 +204,10 @@ class ApplicationChoice < ApplicationRecord
     application_form.application_choices
   end
 
+  def siblings
+    self_and_siblings.where.not(id:)
+  end
+
   def no_feedback?
     rejection_reason.blank? && structured_rejection_reasons.blank?
   end

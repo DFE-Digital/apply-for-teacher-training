@@ -1,0 +1,15 @@
+en:
+  candidate_interface:
+    offer_other_applications_warning_component:
+      offers_and_inflight_with_interviews:
+        one: If you accept this offer, your other offer will be automatically declined. Your applications that are still in progress will be withdrawn and any upcoming interviews you have will be cancelled.
+        other: If you accept this offer, your other offers will be automatically declined. Your applications that are still in progress will be withdrawn and any upcoming interviews you have will be cancelled.
+      offers_and_inflight_without_interviews:
+        one: If you accept this offer, your other offer will be automatically declined. Your applications that are still in progress will be withdrawn.
+        other: If you accept this offer, your other offers will be automatically declined. Your applications that are still in progress will be withdrawn.
+      offers_and_no_inflight:
+        one: If you accept this offer, your other offer will be automatically declined.
+        other: If you accept this offer, your other offers will be automatically declined.
+      inflight_with_interviews_and_no_offers: If you accept this offer, your applications that are still in progress will be withdrawn and any upcoming interviews will be cancelled.
+      inflight_without_interviews_and_no_offers: If you accept this offer, your applications that are still in progress will be withdrawn.
+
