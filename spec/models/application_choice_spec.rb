@@ -911,4 +911,25 @@ RSpec.describe ApplicationChoice do
       end
     end
   end
+
+  describe '#self_and_siblings' do
+    it 'returns the applications choice and the other choices for the application form' do
+      application_form = create(:application_form)
+      choices = create_list(:application_choice, 3, application_form:)
+      choice = choices.first
+
+      expect(choice.self_and_siblings).to eq choices
+    end
+  end
+
+  describe '#siblings' do
+    it 'returns the other choices associated with the application form' do
+      application_form = create(:application_form)
+      choices = create_list(:application_choice, 3, application_form:)
+      choice = choices.first
+
+      expect(choice.siblings.count).to eq 2
+      expect(choice.siblings).not_to include choice
+    end
+  end
 end
