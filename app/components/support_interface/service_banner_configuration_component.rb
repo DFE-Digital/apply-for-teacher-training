@@ -48,50 +48,9 @@ module SupportInterface
     end
 
     def audit_text
-      return '-' unless recent_audits.any?
+      return '-' unless ServiceBanner.where(interface: @interface.downcase.tr('_', ' ')).any?
 
-      tag.ul(class: %w[govuk-list govuk-list--bullet]) do
-        safe_join(
-          recent_audits.map do |audit|
-            tag.li do
-              safe_join([
-                govuk_link_to("Banner #{action_label_for(audit)} by #{user_label_for(audit)} ", support_interface_show_show_service_banner_path(ServiceBanner.find(audit.auditable_id))),
-                tag.span(class: %w[govuk-hint govuk-!-margin-bottom-0 govuk-!-font-size-16]) do
-                  "#{audit.created_at.to_date.to_fs(:long)} at #{audit.created_at.to_fs(:time)}"
-                end,
-              ])
-            end
-          end,
-        )
-      end
-    end
-
-    def recent_audits
-      Audited::Audit.where(auditable_type: 'ServiceBanner', auditable_id: previous_banners.pluck(:id))
-          .order(created_at: :desc)
-          .limit(4)
-    end
-
-    def previous_banners
-      ServiceBanner.where(interface: @interface.downcase.tr('_', ' '))
-    end
-
-    def user_label_for(audit)
-      if audit.user_type == 'SupportUser'
-        audit.user.email_address
-      elsif audit.username.present?
-        audit.username
-      end
-    end
-
-    def action_label_for(audit)
-      if audit.audited_changes['status'].include?('used')
-        'disabled'
-      elsif ['draft', %w[published draft]].include?(audit.audited_changes['status'])
-        'drafted'
-      elsif audit.audited_changes['status'] == %w[draft published]
-        'enabled'
-      end
+      render SupportInterface::ServiceBannerAuditTrailComponent.new(interface: @interface)
     end
 
     def live_banner

@@ -1,4 +1,8 @@
 <% content_for :title, "#{@banner.interface.capitalize} banner history" %>
 <% content_for :before_content, govuk_back_link_to(support_interface_service_banners_path) %>
 
+<div class="govuk-!-margin-bottom-8">
+  <%= render SupportInterface::ServiceBannerAuditTrailComponent.new(banner_id: @banner.id) %>
+</div>
+
 <%= render ServiceInformationBanner.new(banner_id: @banner.id, preview: true) %>

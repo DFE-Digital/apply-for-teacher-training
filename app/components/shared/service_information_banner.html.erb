@@ -2,7 +2,9 @@
   <div class="govuk-grid-column-full">
     <%= govuk_notification_banner(title_text: t('notification_banner.info')) do |notification_banner| %>
       <% notification_banner.with_heading(text: header_content) %>
+      <% if body_content.present? %>
       <p class="govuk-body"><%= body_content %></p>
+      <% end %>
     <% end %>
   </div>
 </div>

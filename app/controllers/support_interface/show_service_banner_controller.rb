@@ -2,7 +2,6 @@ module SupportInterface
   class ShowServiceBannerController < SupportInterfaceController
     def show
       @banner = ServiceBanner.find(params[:id])
-      @audits = Audited::Audit.where(auditable_type: 'ServiceBanner', auditable_id: @banner.id)
     end
 
     def edit
