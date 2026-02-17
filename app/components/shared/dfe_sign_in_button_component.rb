@@ -1,4 +1,4 @@
-class DfESignInButtonComponent < ViewComponent::Base
+class DfESignInButtonComponent < ApplicationComponent
   include ViewHelper
 
   attr_accessor :bypass

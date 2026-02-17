@@ -1,4 +1,4 @@
-class ProviderInterface::RejectByDefaultBannerComponent < ViewComponent::Base
+class ProviderInterface::RejectByDefaultBannerComponent < ApplicationComponent
   def render?
     show_reject_by_default_banner?
   end

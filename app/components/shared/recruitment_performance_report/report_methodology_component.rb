@@ -1,5 +1,5 @@
 module RecruitmentPerformanceReport
-  class ReportMethodologyComponent < ViewComponent::Base
+  class ReportMethodologyComponent < ApplicationComponent
     def initialize(
       provider_report:,
       current_timetable:,

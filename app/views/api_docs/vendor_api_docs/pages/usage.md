@@ -1,3 +1,4 @@
+
 The scenarios on this page show example request URLs and payloads clients can use to take actions via this API. The examples are only concerned with business logic and are missing details necessary for real-world usage. For example, authentication is completely left out.
 
 At the beginning of each scenario, a candidate has completed an application for initial teacher training via the Apply service and that application is available via the API.
@@ -80,3 +81,4 @@ With a [request body containing a reason](/api-docs/reference/#post-applications
 This returns an [application](/api-docs/reference/#application-object) with an updated `status`.
 
 _See [reject an application](/api-docs/reference/#post-applications-application_id-reject) endpoint._
+

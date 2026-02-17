@@ -1,49 +1,53 @@
 <% case try(:current_namespace) %>
 <% when 'candidate_interface' %>
-  <%= render(
-    HeaderComponent.new(
-      homepage_url: service_link,
-      classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border",
-      navigation_items: NavigationItems.candidate(current_candidate:),
-    ),
-  ) %>
-
-  <%= govuk_service_navigation(
-    service_name: t('service_name.apply'),
-    current_path: request.path,
-    navigation_items: NavigationItems.candidate_primary_navigation(
-      current_candidate:,
-      current_controller: controller,
-    ),
-    navigation_id: 'service-navigation',
-  ) %>
+  <%= govuk_header(classes: ["app-header--#{HostingEnvironment.environment_name} app-header--full-border app-with-extra-content"]) do |header| %>
+    <% account_navigation_items = NavigationItems.candidate(current_candidate:) %>
+    <nav class="app-header__navigation" aria-label="Header menu">
+      <% account_navigation_items.each do |item| %>
+        <div class="app-header__navigation-item">
+          <% if item[:href] %>
+            <%= govuk_link_to(item[:text], item[:href], inverse: true, no_underline: true) %>
+          <% else %>
+            <%= item[:text] %>
+        <% end %>
+        </div>
+      <% end %>
+    </nav>
+    <% header.with_service_navigation(service_name: t('service_name.apply'), service_url: root_path, navigation_items: NavigationItems.candidate_primary_navigation(current_candidate:, current_controller: controller), navigation_id: 'service-navigation') %>
+  <% end %>
 <%= render PhaseBannerComponent.new(no_border: current_candidate.present?) %>
 <% when 'support_interface' %>
-  <%= render(HeaderComponent.new(
-        classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
-        homepage_url: service_link,
-        navigation_items: NavigationItems.for_support_account_nav(try(:current_support_user)),
-      )) %>
-    <%= govuk_service_navigation(
-      service_name: t('service_name.apply'),
-      current_path: request.path,
-      navigation_items: NavigationItems.for_support_primary_nav(try(:current_support_user), controller),
-      navigation_id: 'service-navigation',
-    ) %>
-  <%= yield(:navigation) if content_for?(:navigation) %>
+  <%= govuk_header(classes: ["app-header--#{HostingEnvironment.environment_name} app-header--full-border app-with-extra-content"]) do |header| %>
+      <% account_navigation_items = NavigationItems.for_support_account_nav(try(:current_support_user)) %>
+      <nav class="app-header__navigation" aria-label="Header menu">
+        <% account_navigation_items.each do |item| %>
+          <div class="app-header__navigation-item">
+            <% if item[:href] %>
+              <%= govuk_link_to(item[:text], item[:href], inverse: true, no_underline: true) %>
+            <% else %>
+              <%= item[:text] %>
+          <% end %>
+          </div>
+        <% end %>
+      </nav>
+      <% header.with_service_navigation(service_name: t('service_name.support'), service_url: support_interface_path, navigation_items: NavigationItems.for_support_primary_nav(try(:current_support_user), controller), navigation_id: 'service-navigation') %>
+  <% end %>
 <% when 'provider_interface' %>
-  <%= render(HeaderComponent.new(
-      classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
-      homepage_url: service_link,
-      navigation_items: NavigationItems.for_provider_account_nav(try(:current_provider_user), controller, performing_setup: @provider_setup&.pending?),
-    )) %>
-
-    <%= govuk_service_navigation(
-      service_name: t('service_name.manage'),
-      current_path: request.path,
-      navigation_items: NavigationItems.for_provider_primary_nav(try(:current_provider_user), controller, performing_setup: @provider_setup&.pending?),
-      navigation_id: 'service-navigation',
-    ) %>
+    <%= govuk_header(classes: ["app-header--#{HostingEnvironment.environment_name} app-header--full-border app-with-extra-content"]) do |header| %>
+      <% account_navigation_items = NavigationItems.for_provider_account_nav(try(:current_provider_user), controller) %>
+      <nav class="app-header__navigation" aria-label="Header menu">
+        <% account_navigation_items.each do |item| %>
+          <div class="app-header__navigation-item">
+            <% if item[:href] %>
+              <%= govuk_link_to(item[:text], item[:href], inverse: true, no_underline: true) %>
+            <% else %>
+              <%= item[:text] %>
+          <% end %>
+          </div>
+        <% end %>
+      </nav>
+      <% header.with_service_navigation(service_name: t('service_name.manage'), service_url: provider_interface_path, navigation_items: NavigationItems.for_provider_primary_nav(try(:current_provider_user), controller, performing_setup: @provider_setup&.pending?), navigation_id: 'service-navigation') %>
+    <% end %>
 
   <% if controller.controller_name == 'start_page' %>
     <%= render(PhaseBannerComponent.new(
@@ -60,32 +64,19 @@
       )) %>
   <% end %>
 <% when 'vendor_api_docs' %>
-  <%= render(HeaderComponent.new(
-      classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
-      product_name: service_name,
-      service_link: service_link,
-      phase_tag: true,
-    )) %>
+  <%= govuk_header(classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border") %>
   <%= render(PrimaryNavigationComponent.new(
       items: NavigationItems.for_vendor_api_docs(controller),
     )) %>
 <% when 'register_api_docs' %>
-  <%= render(HeaderComponent.new(
-      classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
-      product_name: service_name,
-      service_link: service_link,
-      phase_tag: true,
-    )) %>
+  <%= govuk_header(classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border") %>
   <%= render(PrimaryNavigationComponent.new(
       items: NavigationItems.for_register_api_docs(controller),
     )) %>
 <% else %>
   <% components_url = '/rails/view_components' if request.path.match(/^\/rails\/view_components/) %>
   <% components_name = 'ViewComponent Previews' if request.path.match(/^\/rails\/view_components/) %>
-  <%= render(HeaderComponent.new(
-    classes: "app-header--#{HostingEnvironment.environment_name}",
-    homepage_url: components_url || try(:service_link),
-  )) %>
+  <%= govuk_header(classes: "app-header--#{HostingEnvironment.environment_name}") %>
 
   <%= govuk_service_navigation(service_name: components_name || try(:service_name), navigation_id: 'service-navigation') %>
 

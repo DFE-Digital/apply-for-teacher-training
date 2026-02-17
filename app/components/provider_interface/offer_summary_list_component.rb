@@ -1,5 +1,5 @@
 module ProviderInterface
-  class OfferSummaryListComponent < ViewComponent::Base
+  class OfferSummaryListComponent < ApplicationComponent
     include ViewHelper
     include ProviderInterface::StatusBoxComponents::CourseRows
 

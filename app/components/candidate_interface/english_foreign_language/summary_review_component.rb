@@ -1,4 +1,4 @@
-class CandidateInterface::EnglishForeignLanguage::SummaryReviewComponent < ViewComponent::Base
+class CandidateInterface::EnglishForeignLanguage::SummaryReviewComponent < ApplicationComponent
   attr_reader :application_form
 
   def initialize(application_form:)

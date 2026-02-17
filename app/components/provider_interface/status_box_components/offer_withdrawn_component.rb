@@ -1,6 +1,6 @@
 module ProviderInterface
   module StatusBoxComponents
-    class OfferWithdrawnComponent < ViewComponent::Base
+    class OfferWithdrawnComponent < ApplicationComponent
       include ViewHelper
       include StatusBoxComponents::CourseRows
 

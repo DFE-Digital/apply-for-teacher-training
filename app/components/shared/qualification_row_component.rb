@@ -1,5 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
-class QualificationRowComponent < ViewComponent::Base
+class QualificationRowComponent < ApplicationComponent
   attr_reader :qualification, :editable
 
   def initialize(qualification:, editable: false)

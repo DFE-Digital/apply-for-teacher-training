@@ -1,5 +1,5 @@
 module RefereeInterface
-  class ReferenceReviewComponent < ViewComponent::Base
+  class ReferenceReviewComponent < ApplicationComponent
     def initialize(reference:, application_form:, token_param: nil, editable: true)
       @reference = reference
       @editable = editable

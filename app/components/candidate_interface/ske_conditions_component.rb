@@ -1,5 +1,5 @@
 module CandidateInterface
-  class SkeConditionsComponent < ViewComponent::Base
+  class SkeConditionsComponent < ApplicationComponent
     include SkeFormatting
 
     attr_reader :ske_conditions

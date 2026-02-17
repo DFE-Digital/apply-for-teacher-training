@@ -1,5 +1,5 @@
 module ProviderInterface
-  class PreviousTeacherTrainingComponent < ViewComponent::Base
+  class PreviousTeacherTrainingComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :application_form

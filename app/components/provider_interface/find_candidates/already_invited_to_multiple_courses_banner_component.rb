@@ -1,4 +1,4 @@
-class ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCoursesBannerComponent < ViewComponent::Base
+class ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCoursesBannerComponent < ApplicationComponent
   def initialize(application_form:, current_provider_user:)
     @application_form = application_form
     @current_provider_user = current_provider_user

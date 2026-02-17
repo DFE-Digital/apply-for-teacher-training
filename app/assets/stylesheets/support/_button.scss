@@ -3,8 +3,8 @@
 // Tertiary button variables
 $button-shadow-size: govuk.$govuk-border-width-form-element;
 $app-button-tertiary-button-colour: govuk.govuk-colour("blue");
-$app-button-tertiary-button-hover-colour: govuk-shade($app-button-tertiary-button-colour, 10%);
-$app-button-tertiary-button-shadow-colour: govuk-shade($app-button-tertiary-button-colour, 40%);
+$app-button-tertiary-button-hover-colour: govuk.govuk-colour("blue", "shade-25");
+$app-button-tertiary-button-shadow-colour: govuk.govuk-colour("blue", "shade-50");
 $app-button-tertiary-button-text-colour: govuk.govuk-colour("white");
 
 .app-button--tertiary {
@@ -23,7 +23,7 @@ $app-button-tertiary-button-text-colour: govuk.govuk-colour("white");
     background-color: $app-button-tertiary-button-hover-colour;
 
     &[disabled] {
-      background-color: $app-button-tertiary-button-colour;
+      background-color: $app-button-tertiary-button-hover-colour;
     }
   }
 }

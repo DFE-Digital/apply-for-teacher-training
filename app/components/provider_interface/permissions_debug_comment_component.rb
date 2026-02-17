@@ -1,5 +1,5 @@
 module ProviderInterface
-  class PermissionsDebugCommentComponent < ViewComponent::Base
+  class PermissionsDebugCommentComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :analysis

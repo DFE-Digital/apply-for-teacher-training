@@ -1,5 +1,5 @@
 module CandidateInterface
-  class OfferOtherApplicationsWarningComponent < ViewComponent::Base
+  class OfferOtherApplicationsWarningComponent < ApplicationComponent
     def initialize(choice_with_offer:)
       @choice_with_offer = choice_with_offer
     end

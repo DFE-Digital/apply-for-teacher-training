@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ChangeCourseDetailsComponent < ViewComponent::Base
+  class ChangeCourseDetailsComponent < ApplicationComponent
     include ViewHelper
     include QualificationValueHelper
 

@@ -20,15 +20,15 @@
 }
 
 .app-status-indicator--grey {
-  color: govuk.govuk-colour("mid-grey");
+  color: govuk.govuk-colour("black", "tint-80");
 }
 
 .app-status-indicator--purple {
   color: govuk.govuk-colour("purple");
 }
 
-.app-status-indicator--turquoise {
-  color: govuk.govuk-colour("turquoise");
+.app-status-indicator--teal {
+  color: govuk.govuk-colour("teal");
 }
 
 .app-status-indicator--blue {
@@ -48,7 +48,7 @@
 }
 
 .app-status-indicator--pink {
-  color: govuk.govuk-colour("pink");
+  color: govuk.govuk-colour("magenta");
 }
 
 .app-status-indicator--green {

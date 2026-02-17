@@ -1,5 +1,5 @@
 module SupportInterface
-  class ReasonsForRejectionDashboardComponent < ViewComponent::Base
+  class ReasonsForRejectionDashboardComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :total_structured_rejection_reasons_count, :total_structured_rejection_reasons_count_this_month,

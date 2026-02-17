@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ApplicationDashboardGuidanceComponent < ViewComponent::Base
+  class ApplicationDashboardGuidanceComponent < ApplicationComponent
     include ViewHelper
     include UtmLinkHelper
 

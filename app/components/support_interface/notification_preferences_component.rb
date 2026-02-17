@@ -1,5 +1,5 @@
 module SupportInterface
-  class NotificationPreferencesComponent < ViewComponent::Base
+  class NotificationPreferencesComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :rows

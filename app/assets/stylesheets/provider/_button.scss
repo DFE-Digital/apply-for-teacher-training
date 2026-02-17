@@ -3,13 +3,14 @@
 $button-shadow-size: govuk.$govuk-border-width-form-element;
 $app-button-inverted-background-colour: govuk.govuk-colour("white");
 $app-button-inverted-foreground-colour: govuk.govuk-colour("blue");
-$app-button-inverted-shadow-colour: govuk-shade(
-  $app-button-inverted-foreground-colour,
-  30%
+$button-shadow-size: govuk.$govuk-border-width-form-element;
+$app-button-inverted-shadow-colour: govuk-colour(
+  "blue",
+  shade-25
 );
-$app-button-inverted-hover-background-colour: govuk-tint(
-  $app-button-inverted-foreground-colour,
-  90%
+$app-button-inverted-hover-background-colour: govuk-colour(
+  "blue",
+  tint-80
 );
 
 .app-button--inverted,

@@ -1,5 +1,5 @@
 module ProviderInterface
-  class OrganisationPermissionsSetupCheckComponent < ViewComponent::Base
+  class OrganisationPermissionsSetupCheckComponent < ApplicationComponent
     attr_reader :current_provider_user, :grouped_relationships_by_name
 
     def initialize(relationships:, current_provider_user:)
