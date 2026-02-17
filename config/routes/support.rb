@@ -268,6 +268,7 @@ namespace :support_interface, path: '/support' do
     get '/service-banners' => 'settings#service_banners', as: :service_banners
     get '/service-banners/configuration' => 'show_service_banner#edit', as: :edit_show_service_banner
     patch '/service-banners/configuration/' => 'show_service_banner#update', as: :update_show_service_banner
+    get '/service-banners/:id/' => 'show_service_banner#show', as: :show_show_service_banner
     get '/service-banners/configuration/new' => 'configure_service_banner#new', as: :new_configure_service_banner
     post '/service-banners/configuration/new' => 'configure_service_banner#create', as: :create_configure_service_banner
     get '/service-banners/configuration/:id/edit' => 'configure_service_banner#edit', as: :edit_configure_service_banner
