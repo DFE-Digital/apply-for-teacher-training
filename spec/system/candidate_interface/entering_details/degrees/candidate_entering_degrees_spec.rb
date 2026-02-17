@@ -208,6 +208,8 @@ RSpec.describe 'Entering a degree', :js do
     then_i_see_the_degrees_review_page_and_no_interruption
   end
 
+private
+
   def and_i_have_application_choices_in_draft
     @application_form = @current_candidate.current_application
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
