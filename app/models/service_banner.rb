@@ -2,6 +2,6 @@ class ServiceBanner < ApplicationRecord
   enum :status, {
     draft: 'draft',
     published: 'published',
-    unpublished: 'unpublished',
+    used: 'used',
   }, default: :draft
 end

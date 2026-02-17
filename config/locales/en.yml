@@ -482,6 +482,14 @@ en:
         course_option: The new course
     errors:
       models:
+        support_interface/show_service_banner_form:
+          attributes:
+            show_service_banner:
+              blank: Select a response
+        support_interface/configure_service_banner_form:
+          attributes:
+            header:
+              blank: Enter a header
         support_interface/regional_report_form:
           attributes:
             region:

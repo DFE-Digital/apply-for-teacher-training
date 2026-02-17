@@ -10,7 +10,7 @@ module SupportInterface
     attr_accessor :banner
 
     validates :header, presence: true
-    validates :body, presence: true, length: { maximum: 400 }
+    validates :body, length: { maximum: 400 }
 
     def save
       return false if invalid?

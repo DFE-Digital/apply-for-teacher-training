@@ -31,7 +31,14 @@ module SupportInterface
       {
         key: 'Banner content',
         value: live_banner ? t('.live_banner_html', header: live_banner.header, body: live_banner.body) : 'None',
-      }
+      }.merge(
+        live_banner ? {
+          action: {
+            href: support_interface_edit_configure_service_banner_path(live_banner, interface: @interface),
+            visually_hidden_text: 'Change',
+          },
+        } : {},
+      )
     end
 
     def history_row
