@@ -31,8 +31,6 @@ RSpec.describe 'Candidate with a degree subject match changes their preferred te
     and_i_see_the_success_message
   end
 
-private
-
   def and_rails_cache_is_enabled
     in_memory_store = ActiveSupport::Cache.lookup_store(:memory_store)
     allow(Rails).to receive(:cache).and_return(in_memory_store)
