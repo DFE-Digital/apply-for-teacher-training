@@ -10,39 +10,39 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
   let(:big_query_instance) { described_class.new(candidate:) }
   let(:rows) do
     [[
-     { name: 'trn', type: 'STRING', value: '1234567' },
-     { name: 'start_academic_year', type: 'INTEGER', value: '2025' },
-     { name: 'trainee_id', type: 'INTEGER', value: '111111' },
-     { name: 'created_at', type: 'DATETIME', value: DateTime.now.beginning_of_day.iso8601 },
-     { name: 'first_name', type: 'STRING', value: 'John' },
-     { name: 'last_name', type: 'STRING', value: 'Doe' },
-     { name: 'date_of_birth', type: 'DATE', value: '01/01/1990' },
-     { name: 'email', type: 'STRING', value: 'john_doe@example.com' },
-     { name: 'training_route', type: 'STRING', value: 'provider_led_postgrad' },
-     { name: 'trainee_start_date', type: 'DATE', value: '01/09/2024' },
-     { name: 'training_route_category', type: 'STRING', value: 'pg_fee_funded' },
-     { name: 'accredited_provider_name', type: 'STRING', value: 'The London Provider' },
-     { name: 'accredited_provider_type', type: 'STRING', value: 'SCITT' },
-     { name: 'accredited_provider_id', type: 'STRING', value: '123' },
-     { name: 'accredited_provider_code', type: 'STRING', value: '1AB' },
-     { name: 'accredited_provider_ukprn', type: 'STRING', value: '1234567890' },
-     { name: 'accredited_provider_apply_sync_enabled', type: 'BOOLEAN', value: true },
-     { name: 'course_education_phase', type: 'STRING', value: 'primary' },
-     { name: 'course_allocation_subject', type: 'STRING', value: 'Primary' },
-     { name: 'course_allocation_subject_id', type: 'STRING', value: '01' },
-     { name: 'course_tad_subject', type: 'STRING', value: 'Primary' },
-     { name: 'course_subject_one', type: 'STRING', value: 'primary teaching' },
-     { name: 'course_subject_two', type: 'STRING', value: nil },
-     { name: 'course_subject_three', type: 'STRING', value: nil },
-     { name: 'course_min_age', type: 'STRING', value: '3' },
-     { name: 'course_max_age', type: 'STRING', value: '7' },
-     { name: 'course_uuid', type: 'STRING', value: 'abcd1234' },
-     { name: 'withdraw_category', type: 'STRING', value: ["does_not_want_to_become_a_teacher"] },
-     { name: 'withdraw_structured_reason', type: 'STRING', value: ["does_not_want_to_become_a_teacher"] },
-     { name: 'withdraw_free_text_reason', type: 'STRING', value: [] },
-     { name: 'withdraw_future_interest', type: 'STRING', value: nil },
-     { name: 'withdraw_trigger', type: 'STRING', value: nil },
-     { name: 'withdraw_date', type: 'DATE', value: '01/01/2025' },
+      { name: 'trn', type: 'STRING', value: '1234567' },
+      { name: 'start_academic_year', type: 'INTEGER', value: '2025' },
+      { name: 'trainee_id', type: 'INTEGER', value: '111111' },
+      { name: 'created_at', type: 'DATETIME', value: DateTime.now.beginning_of_day.iso8601 },
+      { name: 'first_name', type: 'STRING', value: 'John' },
+      { name: 'last_name', type: 'STRING', value: 'Doe' },
+      { name: 'date_of_birth', type: 'DATE', value: '01/01/1990' },
+      { name: 'email', type: 'STRING', value: 'john_doe@example.com' },
+      { name: 'training_route', type: 'STRING', value: 'provider_led_postgrad' },
+      { name: 'trainee_start_date', type: 'DATE', value: '01/09/2024' },
+      { name: 'training_route_category', type: 'STRING', value: 'pg_fee_funded' },
+      { name: 'accredited_provider_name', type: 'STRING', value: 'The London Provider' },
+      { name: 'accredited_provider_type', type: 'STRING', value: 'SCITT' },
+      { name: 'accredited_provider_id', type: 'STRING', value: '123' },
+      { name: 'accredited_provider_code', type: 'STRING', value: '1AB' },
+      { name: 'accredited_provider_ukprn', type: 'STRING', value: '1234567890' },
+      { name: 'accredited_provider_apply_sync_enabled', type: 'BOOLEAN', value: true },
+      { name: 'course_education_phase', type: 'STRING', value: 'primary' },
+      { name: 'course_allocation_subject', type: 'STRING', value: 'Primary' },
+      { name: 'course_allocation_subject_id', type: 'STRING', value: '01' },
+      { name: 'course_tad_subject', type: 'STRING', value: 'Primary' },
+      { name: 'course_subject_one', type: 'STRING', value: 'primary teaching' },
+      { name: 'course_subject_two', type: 'STRING', value: nil },
+      { name: 'course_subject_three', type: 'STRING', value: nil },
+      { name: 'course_min_age', type: 'STRING', value: '3' },
+      { name: 'course_max_age', type: 'STRING', value: '7' },
+      { name: 'course_uuid', type: 'STRING', value: 'abcd1234' },
+      { name: 'withdraw_category', type: 'STRING', value: ['does_not_want_to_become_a_teacher'] },
+      { name: 'withdraw_structured_reason', type: 'STRING', value: ['does_not_want_to_become_a_teacher'] },
+      { name: 'withdraw_free_text_reason', type: 'STRING', value: [] },
+      { name: 'withdraw_future_interest', type: 'STRING', value: nil },
+      { name: 'withdraw_trigger', type: 'STRING', value: nil },
+      { name: 'withdraw_date', type: 'DATE', value: '01/01/2025' },
     ]]
   end
 
@@ -62,7 +62,7 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
           email: 'john_doe@example.com',
           training_route: 'provider_led_postgrad',
           trainee_start_date: '2024-09-01',
-          training_route_category: 'pg_fee_funded' ,
+          training_route_category: 'pg_fee_funded',
           accredited_provider_name: 'The London Provider',
           accredited_provider_type: 'SCITT',
           accredited_provider_id: '123',
@@ -71,7 +71,7 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
           accredited_provider_apply_sync_enabled: true,
           course_education_phase: 'primary',
           course_allocation_subject: 'Primary',
-          course_allocation_subject_id: '01' ,
+          course_allocation_subject_id: '01',
           course_tad_subject: 'Primary',
           course_subject_one: 'primary teaching',
           course_subject_two: nil,
@@ -79,13 +79,13 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
           course_min_age: '3',
           course_max_age: '7',
           course_uuid: 'abcd1234',
-          withdraw_category: ["does_not_want_to_become_a_teacher"],
-          withdraw_structured_reason: ["does_not_want_to_become_a_teacher"],
+          withdraw_category: ['does_not_want_to_become_a_teacher'],
+          withdraw_structured_reason: ['does_not_want_to_become_a_teacher'],
           withdraw_free_text_reason: [],
           withdraw_future_interest: nil,
           withdraw_trigger: nil,
           withdraw_date: '2025-01-01',
-        }
+        },
       ]
     end
 
@@ -136,8 +136,8 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
       expect(response.course_min_age).to eq('3')
       expect(response.course_max_age).to eq('7')
       expect(response.course_uuid).to eq('abcd1234')
-      expect(response.withdraw_category).to contain_exactly("does_not_want_to_become_a_teacher")
-      expect(response.withdraw_structured_reason).to contain_exactly("does_not_want_to_become_a_teacher")
+      expect(response.withdraw_category).to contain_exactly('does_not_want_to_become_a_teacher')
+      expect(response.withdraw_structured_reason).to contain_exactly('does_not_want_to_become_a_teacher')
       expect(response.withdraw_free_text_reason).to eq([])
       expect(response.withdraw_future_interest).to be_nil
       expect(response.withdraw_trigger).to be_nil
@@ -188,14 +188,14 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
       context 'when an unhandled type is returned' do
         before do
           stub_bigquery_non_disclosure_trainee_withdrawals_request(rows: [[
-                                                                            { name: 'some_value', type: 'COFFEE', value: '☕' },
-                                                                          ]])
+            { name: 'some_value', type: 'COFFEE', value: '☕' },
+          ]])
         end
 
         it 'raises an error' do
           expect { trainee_data }.to raise_error(
-                                            DfE::Bigquery::Relation::UnknownTypeError
-                                          ).with_message("cannot parse this type of value: 'COFFEE'")
+            DfE::Bigquery::Relation::UnknownTypeError,
+          ).with_message("cannot parse this type of value: 'COFFEE'")
         end
       end
     end
@@ -210,7 +210,7 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
 
     describe '#attributes' do
       it 'returns the correct #attributes' do
-        expect(result.attributes).to include({'first_name' => 'John', 'last_name' => 'Doe', 'email' => nil})
+        expect(result.attributes).to include({ 'first_name' => 'John', 'last_name' => 'Doe', 'email' => nil })
       end
     end
   end

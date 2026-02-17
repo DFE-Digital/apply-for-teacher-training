@@ -68,7 +68,7 @@ module DfE
       end
 
       def join_for_sql(elements)
-        elements.map{|element| "\"#{element}\""}.join(", ")
+        elements.map { |element| "\"#{element}\"" }.join(', ')
       end
 
       def first_names
