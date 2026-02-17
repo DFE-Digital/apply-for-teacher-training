@@ -55,16 +55,18 @@ module DfE
       end
 
       def trainee_data_query
-        statement = "email = #{candidate.email_address} OR first_name IN (#{first_names}) AND last_name IN (#{last_names}) AND date_of_birth = #{application_forms.sample.date_of_birth}"
-        
         select(SELECT_COLUMNS.join(', '))
-        .where(statement).to_sql
+        .where(sql_statement).to_sql
       end
 
     private
 
       def application_forms
         @application_forms ||= candidate.application_forms
+      end
+
+      def sql_statement
+        "email = #{candidate.email_address} OR first_name IN (#{first_names}) AND last_name IN (#{last_names}) AND date_of_birth = #{application_forms.sample.date_of_birth}"
       end
 
       def join_for_sql(elements)
