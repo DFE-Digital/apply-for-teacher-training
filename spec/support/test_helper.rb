@@ -37,6 +37,12 @@ module DfE
         allow(bigquery_client).to receive(:query_job).and_return(stub_bigquery_provider_edi_report_response(rows:, job_complete:, page_token:, result:))
       end
 
+      def stub_bigquery_non_disclosure_trainee_withdrawals_request(rows: nil, job_complete: true, page_token: nil, result: true)
+        bigquery_client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
+        allow(DfE::Bigquery).to receive(:client).and_return(bigquery_client)
+        allow(bigquery_client).to receive(:query_job).and_return(stub_bigquery_non_disclosure_trainee_withdrawals_response(rows:, job_complete:, page_token:, result:))
+      end
+
       # @param row [nil|Row|'nil']
       #   When nil, it returns a default response
       #   When Row it returns the values defined in the Row
@@ -232,6 +238,46 @@ module DfE
           { name: 'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date', type: 'INTEGER', value: 2 },
           { name: 'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates', type: 'FLOAT', value: 0.0 },
           { name: 'number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle', type: 'FLOAT', value: 0.0 },
+        ]], job_complete:, page_token:, result:)
+      end
+
+      def stub_bigquery_non_disclosure_trainee_withdrawals_response(rows: nil, job_complete: nil, page_token: nil, result: true)
+        return BigqueryStubs.stub_response(rows:, result:) if rows
+
+        BigqueryStubs.stub_response(rows: [[
+          { name: 'trn', type: 'STRING', value: '1234567' },
+          { name: 'start_academic_year', type: 'INTEGER', value: '2025' },
+          { name: 'trainee_id', type: 'INTEGER', value: '111111' },
+          { name: 'created_at', type: 'DATETIME', value: DateTime.now.beginning_of_day.iso8601 },
+          { name: 'first_name', type: 'STRING', value: 'John' },
+          { name: 'last_name', type: 'STRING', value: 'Doe' },
+          { name: 'date_of_birth', type: 'DATE', value: '01/01/1990' },
+          { name: 'email', type: 'STRING', value: 'john_doe@example.com' },
+          { name: 'training_route', type: 'STRING', value: 'provider_led_postgrad' },
+          { name: 'trainee_start_date', type: 'DATE', value: '01/09/2024' },
+          { name: 'training_route_category', type: 'STRING', value: 'pg_fee_funded' },
+          { name: 'accredited_provider_name', type: 'STRING', value: 'The London Provider' },
+          { name: 'accredited_provider_type', type: 'STRING', value: 'SCITT' },
+          { name: 'accredited_provider_id', type: 'STRING', value: '123' },
+          { name: 'accredited_provider_code', type: 'STRING', value: '1AB' },
+          { name: 'accredited_provider_ukprn', type: 'STRING', value: '1234567890' },
+          { name: 'accredited_provider_apply_sync_enabled', type: 'BOOLEAN', value: true },
+          { name: 'course_education_phase', type: 'STRING', value: 'primary' },
+          { name: 'course_allocation_subject', type: 'STRING', value: 'Primary' },
+          { name: 'course_allocation_subject_id', type: 'STRING', value: '01' },
+          { name: 'course_tad_subject', type: 'STRING', value: 'Primary' },
+          { name: 'course_subject_one', type: 'STRING', value: 'primary teaching' },
+          { name: 'course_subject_two', type: 'STRING', value: nil },
+          { name: 'course_subject_three', type: 'STRING', value: nil },
+          { name: 'course_min_age', type: 'STRING', value: '3' },
+          { name: 'course_max_age', type: 'STRING', value: '7' },
+          { name: 'course_uuid', type: 'STRING', value: 'abcd1234' },
+          { name: 'withdraw_category', type: 'STRING', value: ["does_not_want_to_become_a_teacher"] },
+          { name: 'withdraw_structured_reason', type: 'STRING', value: ["does_not_want_to_become_a_teacher"] },
+          { name: 'withdraw_free_text_reason', type: 'STRING', value: [] },
+          { name: 'withdraw_future_interest', type: 'STRING', value: nil },
+          { name: 'withdraw_trigger', type: 'STRING', value: nil },
+          { name: 'withdraw_date', type: 'DATE', value: '01/01/2025' },
         ]], job_complete:, page_token:, result:)
       end
     end
