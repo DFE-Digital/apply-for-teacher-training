@@ -7,10 +7,6 @@ module DfE
                           start_academic_year
                           trainee_id
                           created_at
-                          first_name
-                          last_name
-                          date_of_birth
-                          email
                           training_route
                           training_route_category
                           trainee_start_date

@@ -56,10 +56,6 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
           start_academic_year: 2025,
           trainee_id: 111111,
           created_at: DateTime.now.beginning_of_day,
-          first_name: 'John',
-          last_name: 'Doe',
-          date_of_birth: '1990-01-01',
-          email: 'john_doe@example.com',
           training_route: 'provider_led_postgrad',
           trainee_start_date: '2024-09-01',
           training_route_category: 'pg_fee_funded',
@@ -101,7 +97,7 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
       trainee_data
       expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
-        SELECT trn, start_academic_year, trainee_id, created_at, first_name, last_name, date_of_birth, email, training_route, training_route_category, trainee_start_date, accredited_provider.name, accredited_provider.type, accredited_provider.id, accredited_provider.code, accredited_provider.ukprn, accredited_provider.apply_sync_enabled, course.education_phase, course.allocation_subject, course.allocation_subject_id, course.tad_subject, course.subject_one, course.subject_two, course.subject_three, course.min_age, course.max_age, course.uuid, withdraw.category, withdraw.structured_reason, withdraw.free_text_reason, withdraw.future_interest, withdraw.trigger, withdraw.date
+        SELECT trn, start_academic_year, trainee_id, created_at, training_route, training_route_category, trainee_start_date, accredited_provider.name, accredited_provider.type, accredited_provider.id, accredited_provider.code, accredited_provider.ukprn, accredited_provider.apply_sync_enabled, course.education_phase, course.allocation_subject, course.allocation_subject_id, course.tad_subject, course.subject_one, course.subject_two, course.subject_three, course.min_age, course.max_age, course.uuid, withdraw.category, withdraw.structured_reason, withdraw.free_text_reason, withdraw.future_interest, withdraw.trigger, withdraw.date
         FROM `1_key_tables.non_disclosure_trainee_withdrawals`
         WHERE email = john_doe@example.com OR first_name IN ("john", "johnny") AND last_name IN ("doe") AND date_of_birth = 1990-01-01
       SQL
@@ -113,10 +109,6 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
       expect(response.start_academic_year).to eq(2025)
       expect(response.trainee_id).to eq(111111)
       expect(response.created_at).to eq(DateTime.now.beginning_of_day)
-      expect(response.first_name).to eq('John')
-      expect(response.last_name).to eq('Doe')
-      expect(response.date_of_birth).to eq(Date.parse('1990-01-01'))
-      expect(response.email).to eq('john_doe@example.com')
       expect(response.training_route).to eq('provider_led_postgrad')
       expect(response.trainee_start_date).to eq(Date.parse('2024-09-01'))
       expect(response.training_route_category).to eq('pg_fee_funded')
@@ -202,7 +194,7 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
   end
 
   describe described_class::Result do
-    let(:result) { described_class.new({ first_name: 'John', last_name: 'Doe' }) }
+    let(:result) { described_class.new({ trn: '1234567', accredited_provider_name: 'The London Provider' }) }
 
     before do
       stub_bigquery_non_disclosure_trainee_withdrawals_request(rows:)
@@ -210,7 +202,7 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
 
     describe '#attributes' do
       it 'returns the correct #attributes' do
-        expect(result.attributes).to include({ 'first_name' => 'John', 'last_name' => 'Doe', 'email' => nil })
+        expect(result.attributes).to include({ 'trn' => '1234567', 'accredited_provider_name' => 'The London Provider' })
       end
     end
   end
