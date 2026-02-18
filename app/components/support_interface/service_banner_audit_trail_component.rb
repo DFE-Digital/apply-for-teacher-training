@@ -29,7 +29,7 @@ module SupportInterface
     end
 
     def action_label_for(audit)
-      if audit.audited_changes['status'].include?('used')
+      if audit.audited_changes['status']&.include?('used')
         'disabled'
       else
         'enabled'

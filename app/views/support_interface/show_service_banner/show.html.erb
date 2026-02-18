@@ -1,8 +1,8 @@
-<% content_for :title, t('page_titles.show_service_banner', interface: @banner.interface.humanize.downcase) %>
+<% content_for :title, t('page_titles.banner_history', interface: @banner.interface.humanize.downcase) %>
 <% content_for :suppress_heading, true %>
 <% content_for :before_content, govuk_back_link_to(support_interface_service_banners_path) %>
 
-<h1 class="govuk-heading-l"><%= t('page_titles.show_service_banner', interface: @banner.interface.humanize.titleize) %></h1>
+<h1 class="govuk-heading-l"><%= t('page_titles.banner_history', interface: @banner.interface.humanize.titleize) %></h1>
 
 <div class="govuk-!-margin-bottom-8">
   <%= render SupportInterface::ServiceBannerAuditTrailComponent.new(banner_id: @banner.id) %>
