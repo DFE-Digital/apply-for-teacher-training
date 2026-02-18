@@ -43,7 +43,6 @@ end
 require 'sidekiq/testing'
 require 'clockwork/test'
 require 'audited-rspec'
-require 'rspec/retry'
 require 'rspec/core/formatters/base_text_formatter'
 
 require_relative 'support/capybara'
@@ -52,18 +51,6 @@ require 'support/test_helpers/one_login_helper'
 ENV['SERVICE_TYPE'] = 'test' # this is used for logging
 
 RSpec.configure do |config|
-  # RSpec-retry configuration, retry and log any indeterminate tests.
-  if ENV['CI']
-    reporter = RSpec::Core::Reporter.new(config)
-    formatter = RSpec::Core::Formatters::BaseTextFormatter.new(File.open('tmp/rspec-retry-flakey-specs.log', 'ab'))
-    reporter.register_listener(formatter, 'message')
-    config.retry_reporter = reporter
-
-    config.around do |ex|
-      ex.run_with_retry retry: 3
-    end
-  end
-
   config.include OneLoginHelper
 
   # rspec-expectations config goes here. You can use an alternate

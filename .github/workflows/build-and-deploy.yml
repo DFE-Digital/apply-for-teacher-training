@@ -133,7 +133,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       IMAGE_TAG: ${{ needs.build.outputs.IMAGE_TAG }}
-      flakey_tests: ${{ steps.set_flakey_test_results_var.outputs.flakey_tests }}
     strategy:
       fail-fast: false
       matrix:
@@ -208,6 +207,9 @@ jobs:
         run: apk add chromium chromium-chromedriver
 
       - name: ${{ matrix.tests }} tests with feature flags ${{ matrix.feature-flags }}
+        uses: Wandalen/wretry.action@v3.8.0
+        with:
+          attempt_limit: '3'
         run: bundle exec --verbose parallel_rspec --pattern "${{ env.INCLUDE_PATTERN }}" --exclude-pattern "${{ env.EXCLUDE_PATTERN }}"
         env:
           INCLUDE_PATTERN: ${{ matrix.include-pattern }}
@@ -215,23 +217,6 @@ jobs:
           TEST_MATRIX_NODE_NAME: ${{ matrix.tests }}
           DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
           TEST_DATE_AND_TIME: ${{ matrix.offset-date }}
-
-      - name: Read flakey test results
-        id: set_flakey_test_results_var
-        run: |
-          file_text=$(cat /app/tmp/rspec-retry-flakey-specs.log)
-          if [ ! -z "$file_text" ]
-          then
-            echo "Flakey specs found"
-            echo "file_text: $file_text"
-
-            # Use GitHub SHA as uuidgen is not available
-            echo "flakey_tests<<$GITHUB_SHA" >> $GITHUB_OUTPUT
-            cat /app/tmp/rspec-retry-flakey-specs.log >> $GITHUB_OUTPUT
-            echo "$GITHUB_SHA" >> $GITHUB_OUTPUT
-          else
-            echo "No flakey tests logged"
-          fi
 
       - name: Notify Slack channel on job failure
         if: failure() && github.event_name == 'push'
@@ -251,18 +236,6 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v5
-
-      - name: Comment on flakey specs in pull request
-        uses: actions/github-script@v8
-        if: github.event_name == 'pull_request' && needs.test.outputs.flakey_tests
-        env:
-          FLAKEY_TEST_DATA: |
-            ${{ needs.test.outputs.flakey_tests }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const script = require('/home/runner/work/apply-for-teacher-training/apply-for-teacher-training/.github/scripts/comment_on_flakey_specs.js')
-            script({github, context})
 
   deploy-v2-review-app:
     name: Deployment To Review v2

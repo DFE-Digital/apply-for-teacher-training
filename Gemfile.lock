@@ -65,14 +65,6 @@ GIT
       jwt (~> 2.10)
       omniauth (~> 2.1)
 
-GIT
-  remote: https://github.com/DFE-Digital/rspec-retry.git
-  revision: 306b42b8d5853303982e1a165e82d04744c20ea3
-  branch: main
-  specs:
-    rspec-retry (0.7.0)
-      rspec-core (> 3.3)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -945,7 +937,6 @@ DEPENDENCIES
   request_store_rails
   rouge
   rspec-rails
-  rspec-retry!
   rspec_junit_formatter
   rubocop
   rubocop-capybara
@@ -1216,7 +1207,6 @@ CHECKSUMS
   rspec-expectations (3.13.5) sha256=33a4d3a1d95060aea4c94e9f237030a8f9eae5615e9bd85718fe3a09e4b58836
   rspec-mocks (3.13.5) sha256=e4338a6f285ada9fe56f5893f5457783af8194f5d08884d17a87321d5195ea81
   rspec-rails (8.0.2) sha256=113139a53f5d068d4f48d1c29ad5f982013ed9b0daa69d7f7b266eda5d433ace
-  rspec-retry (0.7.0)
   rspec-support (3.13.4) sha256=184b1814f6a968102b57df631892c7f1990a91c9a3b9e80ef892a0fc2a71a3f7
   rspec_junit_formatter (0.6.0) sha256=40dde674e6ae4e6cc0ff560da25497677e34fefd2338cc467a8972f602b62b15
   rubocop (1.82.1) sha256=09f1a6a654a960eda767aebea33e47603080f8e9c9a3f019bf9b94c9cab5e273
