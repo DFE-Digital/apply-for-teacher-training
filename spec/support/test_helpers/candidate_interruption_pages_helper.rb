@@ -148,5 +148,5 @@ module CandidateInterruptionPagesHelper
   def when_i_click(text)
     click_link_or_button text
   end
-  alias_method :and_i_click, :when_i_click
+  alias and_i_click when_i_click
 end
