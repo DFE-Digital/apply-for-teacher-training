@@ -1,6 +1,6 @@
 class ServiceInformationBanner < ViewComponent::Base
   def initialize(interface: nil, banner_id: nil, preview: false)
-    @interface = interface.to_s.downcase.tr('_', ' ')
+    @interface = interface
     @preview = preview
     @banner_id = banner_id
   end

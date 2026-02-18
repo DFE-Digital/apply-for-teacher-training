@@ -48,13 +48,13 @@ module SupportInterface
     end
 
     def audit_text
-      return '-' unless ServiceBanner.where(interface: @interface.downcase.tr('_', ' ')).any?
+      return '-' unless ServiceBanner.where(interface: @interface).any?
 
       render SupportInterface::ServiceBannerAuditTrailComponent.new(interface: @interface)
     end
 
     def live_banner
-      ServiceBanner.where(interface: @interface.downcase.tr('_', ' '), status: 'published').order(created_at: :desc).first
+      ServiceBanner.where(interface: @interface, status: 'published').order(created_at: :desc).first
     end
   end
 end

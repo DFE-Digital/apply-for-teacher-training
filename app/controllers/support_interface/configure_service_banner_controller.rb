@@ -53,7 +53,7 @@ module SupportInterface
       @banner.update!(status: 'published')
 
       redirect_to support_interface_service_banners_path
-      flash[:success] = I18n.t('support_interface.configure_service_banner.publish.success', interface: @interface)
+      flash[:success] = I18n.t('support_interface.configure_service_banner.publish.success', interface: @interface.humanize.titleize)
     end
 
   private

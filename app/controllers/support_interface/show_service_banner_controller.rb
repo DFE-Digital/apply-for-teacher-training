@@ -19,7 +19,7 @@ module SupportInterface
         else
           live_banner&.update(status: 'used')
           redirect_to support_interface_service_banners_path
-          flash[:success] = I18n.t('support_interface.show_service_banner.update.success', interface: @interface)
+          flash[:success] = I18n.t('support_interface.show_service_banner.update.success', interface: @interface.humanize.titleize)
         end
       else
         @interface = interface_param
@@ -30,7 +30,7 @@ module SupportInterface
   private
 
     def live_banner
-      ServiceBanner.where(interface: @interface.downcase.tr('_', ' '), status: 'published').order(created_at: :desc).first
+      ServiceBanner.where(interface: @interface, status: 'published').order(created_at: :desc).first
     end
 
     def show_service_banner_params

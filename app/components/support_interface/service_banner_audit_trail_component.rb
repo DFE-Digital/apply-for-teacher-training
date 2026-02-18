@@ -17,7 +17,7 @@ module SupportInterface
     end
 
     def previous_banners
-      ServiceBanner.where(interface: @interface.downcase.tr('_', ' '))
+      ServiceBanner.where(interface: @interface)
     end
 
     def user_label_for(audit)

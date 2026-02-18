@@ -1,5 +1,8 @@
-<% content_for :title, t('page_titles.configure_service_banner', interface: @interface) %>
+<% content_for :title, t('page_titles.configure_service_banner', interface: @interface.humanize.downcase) %>
+<% content_for :suppress_heading, true %>
 <% content_for :before_content, govuk_back_link_to(@back_link_path) %>
+
+<h1 class="govuk-heading-l"><%= t('page_titles.configure_service_banner', interface: @interface.humanize.titleize) %></h1>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
