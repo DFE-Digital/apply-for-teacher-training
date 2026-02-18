@@ -21,7 +21,7 @@ module SupportInterface
         key: 'Show service banner',
         value: live_banner ? 'Yes' : 'No',
         action: {
-          href: support_interface_edit_show_service_banner_path(interface: @interface),
+          href: live_banner ? support_interface_edit_show_service_banner_path(interface: @interface, live_banner: true) : support_interface_edit_show_service_banner_path(interface: @interface),
           visually_hidden_text: 'Change',
         },
       }
