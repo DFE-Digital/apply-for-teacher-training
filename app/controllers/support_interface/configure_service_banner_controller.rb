@@ -8,6 +8,7 @@ module SupportInterface
     def edit
       @interface = interface_param
       @banner = ServiceBanner.find(params[:id])
+      @back_link_path = preview_back_link_path
 
       @configure_service_banner_form = SupportInterface::ConfigureServiceBannerForm.new(
         header: @banner.header,
@@ -52,10 +53,18 @@ module SupportInterface
       @banner.update!(status: 'published')
 
       redirect_to support_interface_service_banners_path
-      flash[:success] = "#{@interface} service banner enabled"
+      flash[:success] = I18n.t('support_interface.configure_service_banner.publish.success', interface: @interface)
     end
 
   private
+
+    def preview_back_link_path
+      if params[:return_to] == 'index'
+        support_interface_service_banners_path
+      else
+        support_interface_edit_show_service_banner_path(interface: interface_param)
+      end
+    end
 
     def configure_service_banner_params
       params.expect(support_interface_configure_service_banner_form: %i[header body])

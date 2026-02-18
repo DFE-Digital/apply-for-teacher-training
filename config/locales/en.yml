@@ -374,6 +374,7 @@ en:
     organisation_permissions: How organisation permissions affect what users can do
     application_guidance: The teacher training application process
     show_service_banner: Show %{interface} service banner
+    banner_history: "%{interface} banner history"
     configure_service_banner: Configure %{interface} service banner
     preview_service_banner: Preview %{interface} service banner
   privacy_urls:

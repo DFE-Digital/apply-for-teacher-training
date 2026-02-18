@@ -4,6 +4,8 @@ en:
       edit:
         request_legend: Show %{interface} service banner
         continue: Continue
+      update:
+        success: "%{interface} service banner disabled"
     configure_service_banner:
       new:
         banner_header_label: Header
@@ -15,3 +17,5 @@ en:
         banner_content_label: Banner content (optional)
         caption: Markdown supported
         preview: Preview banner
+      publish:
+        success: "%{interface} service banner enabled"

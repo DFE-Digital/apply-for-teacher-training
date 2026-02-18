@@ -19,7 +19,7 @@ module SupportInterface
         else
           live_banner&.update(status: 'used')
           redirect_to support_interface_service_banners_path
-          flash[:success] = "#{@interface} service banner is disabled"
+          flash[:success] = I18n.t('support_interface.show_service_banner.update.success', interface: @interface)
         end
       else
         @interface = interface_param

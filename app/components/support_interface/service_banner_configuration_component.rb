@@ -34,7 +34,7 @@ module SupportInterface
         key: 'Banner content',
         value: t('.live_banner_html', header: live_banner.header, body: live_banner.body),
         action: {
-          href: support_interface_edit_configure_service_banner_path(live_banner, interface: @interface),
+          href: support_interface_edit_configure_service_banner_path(live_banner, interface: @interface, return_to: 'index'),
           visually_hidden_text: 'Change',
         },
       }

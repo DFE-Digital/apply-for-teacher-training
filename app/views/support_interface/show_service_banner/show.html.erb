@@ -1,4 +1,4 @@
-<% content_for :title, "#{@banner.interface.capitalize} banner history" %>
+<% content_for :title, t('page_titles.show_service_banner', interface: @banner.interface.capitalize) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_service_banners_path) %>
 
 <div class="govuk-!-margin-bottom-8">
@@ -6,3 +6,5 @@
 </div>
 
 <%= render ServiceInformationBanner.new(banner_id: @banner.id, preview: true) %>
+
+<%= govuk_link_to 'Back', support_interface_service_banners_path, class: 'govuk-button govuk-button--secondary' %>
