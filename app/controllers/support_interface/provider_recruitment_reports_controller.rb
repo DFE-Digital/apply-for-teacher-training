@@ -17,15 +17,6 @@ module SupportInterface
       ).select('DISTINCT ON (category) *').order(:category, created_at: :desc).map do |report|
         ProviderEdiReportDecorator.new(report, @region)
       end
-
-      @provider_edi_reports = Publications::ProviderEdiReport.where(
-        provider: @provider,
-        cycle_week: @provider_report.cycle_week,
-        recruitment_cycle_year: current_timetable.recruitment_cycle_year,
-        category: ReportSharedEnums.edi_categories.keys,
-      ).select('DISTINCT ON (category) *').order(:category, created_at: :desc).map do |report|
-        ProviderEdiReportDecorator.new(report, @region)
-      end
     end
 
   private
