@@ -62,7 +62,7 @@ module DfE
       end
 
       def sql_statement
-        "email = #{candidate.email_address} OR first_name IN (#{first_names}) AND last_name IN (#{last_names}) AND date_of_birth = #{application_forms.sample.date_of_birth}"
+        "email = #{candidate.email_address} OR (first_name IN (#{first_names}) AND last_name IN (#{last_names}) AND date_of_birth = #{application_forms.sample.date_of_birth})"
       end
 
       def join_for_sql(elements)

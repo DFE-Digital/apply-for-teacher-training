@@ -50,6 +50,8 @@ class PreviousTeacherTraining < ApplicationRecord
       end
       published!
       application_form.touch
+
+      NonDisclosureTraineeWithdrawalWorker.perform_async(application_form.candidate_id)
     end
   end
 end

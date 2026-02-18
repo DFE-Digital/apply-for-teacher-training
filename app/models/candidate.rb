@@ -34,6 +34,7 @@ class Candidate < ApplicationRecord
     dependent: :destroy,
     class_name: 'Pool::Invite',
   )
+  has_many :previous_teacher_trainings, through: :application_forms
   has_many :possible_previous_teacher_trainings, dependent: :destroy
 
   PUBLISHED_FIELDS = %w[email_address].freeze

@@ -2,6 +2,8 @@ require 'rails_helper'
 
 module CandidateInterface
   RSpec.describe SubmitApplicationChoice do
+    include DfE::Bigquery::TestHelper
+
     subject(:submit_application) { described_class.new(application_choice).call }
 
     let(:application_form) { application_choice.application_form }
@@ -141,6 +143,15 @@ module CandidateInterface
             preference: nil,
             application_choice:,
           )
+        end
+
+        it 'enqueues a NonDisclosureTraineeWithdrawalWorker' do
+          allow(NonDisclosureTraineeWithdrawalWorker).to receive(:perform_async)
+          submit_application
+
+          expect(
+            NonDisclosureTraineeWithdrawalWorker,
+          ).to have_received(:perform_async).with(application_form.candidate.id)
         end
       end
     end
