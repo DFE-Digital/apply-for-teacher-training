@@ -452,7 +452,7 @@ FactoryBot.define do
             'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates' => 0.1823529411764706,
             'number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle' => 0.1948051948051948 },
 
-          { 'nonprovider_filter' => "Black, African, Black British Or Caribbean",
+          { 'nonprovider_filter' => 'Black, African, Black British Or Caribbean',
             'nonprovider_filter_category' => 'Ethnic group',
             'cycle_week' => 19,
             'recruitment_cycle_year' => 2026,

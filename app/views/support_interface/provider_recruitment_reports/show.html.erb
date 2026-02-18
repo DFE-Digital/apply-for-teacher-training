@@ -1,5 +1,5 @@
 <%= render 'support_interface/providers/provider_navigation', title: t('page_titles.recruitment_performance_report') %>
-<% if @statistics.present? && @provider_data.present? %>
+<% if @statistics.present? && @provider_data.present? && @provider_edi_reports %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l"><%= t('.title', cycle_year_range: @provider_report.cycle_range_name) %></h1>
@@ -42,15 +42,15 @@
       <h2 class="govuk-heading-m" id="edi_title">
         8. Sex, disability, ethnicity and age of candidates
       </h2>
-      <p class= "govuk-body">
+      <p class="govuk-body">
         This report shows the sex, disability, ethnicity and age of candidates who applied to your organisation from 8 October 2024 onwards.
       </p>
 
-      <p class= "govuk-body">
+      <p class="govuk-body">
         Sex, disability and ethnicity data comes from candidates who completed the equal opportunities questionnaire when applying. Not all candidates answer these questions.
       </p>
 
-      <p class= "govuk-body">
+      <p class="govuk-body">
         Ages shown are as of the current report date.
       </p>
 
@@ -111,18 +111,18 @@
 
                 <%= row.with_cell(
                   text: data['number_of_candidates_submitted_to_date'],
-                  numeric: true
+                  numeric: true,
                 ) %>
                 <%= row.with_cell(
                   text: data['number_of_candidates_with_offers_to_date'],
-                  numeric: true
+                  numeric: true,
                 ) %>
                 <%= row.with_cell(
                   text: report.recruited_number(
                     data['number_of_candidates_accepted_to_date'],
-                    data['number_of_candidates_accepted_to_date_as_proportion_of_last_cycle']
+                    data['number_of_candidates_accepted_to_date_as_proportion_of_last_cycle'],
                   ),
-                  numeric: true
+                  numeric: true,
                 ) %>
               <% end %>
 
@@ -131,15 +131,15 @@
 
                 <%= row.with_cell(
                   text: data['number_of_candidates_submitted_to_same_date_previous_cycle'],
-                  numeric: true
+                  numeric: true,
                 ) %>
                 <%= row.with_cell(
                   text: data['number_of_candidates_with_offers_to_same_date_previous_cycle'],
-                  numeric: true
+                  numeric: true,
                 ) %>
                 <%= row.with_cell(
                   text: data['number_of_candidates_accepted_to_same_date_previous_cycle'],
-                  numeric: true
+                  numeric: true,
                 ) %>
               <% end %>
 
@@ -149,15 +149,15 @@
 
                 <%= row.with_cell(
                   text: report.regional_report_submitted_to_date(data['nonprovider_filter']),
-                  numeric: true
+                  numeric: true,
                 ) %>
                 <%= row.with_cell(
                   text: report.regional_report_offered_to_date(data['nonprovider_filter']),
-                  numeric: true
+                  numeric: true,
                 ) %>
                 <%= row.with_cell(
                   text: report.regional_report_recruited_to_date(data['nonprovider_filter']),
-                  numeric: true
+                  numeric: true,
                 ) %>
               <% end %>
 
@@ -166,15 +166,15 @@
 
                 <%= row.with_cell(
                   text: report.regional_report_submitted_to_date_previous_cycle(data['nonprovider_filter']),
-                  numeric: true
+                  numeric: true,
                 ) %>
                 <%= row.with_cell(
                   text: report.regional_report_offered_to_date_previous_cycle(data['nonprovider_filter']),
-                  numeric: true
+                  numeric: true,
                 ) %>
                 <%= row.with_cell(
                   text: report.regional_report_recruited_to_date_previous_cycle(data['nonprovider_filter']),
-                  numeric: true
+                  numeric: true,
                 ) %>
               <% end %>
             <% end %>
