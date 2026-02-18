@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate signs up for an adviser', :js do
+RSpec.describe 'Candidate signs up for an adviser' do
   include_context 'get into teaching api stubbed endpoints'
 
   include CandidateHelper
 
-  it 'redirects back to review their application' do
+  it 'redirects back to review their application', :js do
     given_i_am_signed_in_with_one_login
     and_adviser_teaching_subjects_exist
     and_rails_cache_is_enabled
@@ -66,7 +66,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def and_i_have_an_eligible_application
-    @application_form = create(:application_form_eligible_for_adviser, candidate: @current_candidate)
+    @application_form = create(:application_form_eligible_for_adviser, candidate: current_candidate)
   end
 
   def and_i_visit_your_details_page
