@@ -8,7 +8,7 @@ module SupportInterface
     def edit
       @interface = interface_param
       @banner = ServiceBanner.find(params[:id])
-      @back_link_path = preview_back_link_path
+      @back_link_path = edit_back_link_path
 
       @configure_service_banner_form = SupportInterface::ConfigureServiceBannerForm.new(
         header: @banner.header,
@@ -58,7 +58,7 @@ module SupportInterface
 
   private
 
-    def preview_back_link_path
+    def edit_back_link_path
       if params[:return_to] == 'index'
         support_interface_service_banners_path
       else
