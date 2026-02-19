@@ -30,7 +30,7 @@ jobs:
       url: ${{ steps.deploy_app_v2.outputs.deploy-url }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Deploy App to ${{ github.event.inputs.environment }}
         id: deploy_app_v2
