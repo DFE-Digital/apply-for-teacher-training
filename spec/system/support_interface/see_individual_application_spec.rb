@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'See an application' do
   include DfESignInHelpers
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   it 'Support agent visits application page' do
     given_i_am_a_support_user

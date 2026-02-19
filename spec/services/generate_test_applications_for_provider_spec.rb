@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe GenerateTestApplicationsForProvider, :sidekiq do
+  include DfE::Bigquery::TestHelper
+  
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
+
   let(:provider) { create(:provider) }
   let(:courses_per_application) { 3 }
   let(:application_count) { 1 }

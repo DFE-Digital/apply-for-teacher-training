@@ -2,9 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate submits an application up to 4 choices' do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
 
   before do
     given_courses_exist
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
   end
 
   scenario 'when candidate has a conditions not met and only one free slot' do

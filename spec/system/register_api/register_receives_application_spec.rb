@@ -4,6 +4,11 @@ require 'rails_helper'
 # the presenter, see spec/presenters/register_api/single_application_presenter_spec.rb.
 RSpec.describe 'Register receives an application data', time: CycleTimetableHelper.mid_cycle(2025) do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   before do
     @current_year = current_year

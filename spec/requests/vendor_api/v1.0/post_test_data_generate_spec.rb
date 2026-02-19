@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
   include VendorAPISpecHelpers
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   it 'generates test data' do
     create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))

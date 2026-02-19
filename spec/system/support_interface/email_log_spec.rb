@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Email log' do
   include DfESignInHelpers
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   it 'Emails are logged' do
     given_i_am_a_support_user

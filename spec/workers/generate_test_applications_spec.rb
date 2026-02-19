@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe GenerateTestApplications do
   include CycleTimetableHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   it 'generates test candidates with applications in various states', :sidekiq, time: mid_cycle do
     previous_cycle = previous_year

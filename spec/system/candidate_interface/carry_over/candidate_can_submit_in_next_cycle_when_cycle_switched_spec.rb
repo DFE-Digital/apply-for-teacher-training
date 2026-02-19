@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Carry over next cycle with cycle switcher' do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   context 'candidate preferences feature flag is activated' do
     it 'candidate can submit in next cycle after dismissing candidate preferences' do

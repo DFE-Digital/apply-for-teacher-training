@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate has references with personal email addresses when submitting' do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   scenario 'Candidate sees interruption and chooses to submit with personal references', time: mid_cycle do
     given_i_am_a_candidate_with_references_with_personal_email_addresses

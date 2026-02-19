@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate attempts to submit their application without a valid address' do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   it 'The candidate has completed their contact details without entering an address' do
     given_i_complete_my_application

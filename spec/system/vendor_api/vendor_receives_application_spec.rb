@@ -4,6 +4,11 @@ require 'rails_helper'
 # the presenter, see spec/presenters/vendor_api/single_application_presenter_spec.rb.
 RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid_cycle(2025) do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   scenario 'A completed postgraduate application is submitted with references' do
     given_a_candidate_has_submitted_their_postgraduate_application

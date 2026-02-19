@@ -31,11 +31,7 @@ private
   end
 
   def data
-    @data ||= begin
-      DfE::Bigquery::NonDisclosureTraineeWithdrawals.new(candidate:).trainee_data
-    rescue StandardError
-      []
-    end
+    @data = DfE::Bigquery::NonDisclosureTraineeWithdrawals.new(candidate:).trainee_data
   end
 
   def previous_teacher_training_declared?(possible_previous_teacher_training_data)
