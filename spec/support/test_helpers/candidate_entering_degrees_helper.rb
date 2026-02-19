@@ -1,6 +1,6 @@
 module CandidateEnteringDegreesHelper
   def and_i_have_application_choices_in_draft
-    @application_form = @current_candidate.current_application
+    @application_form = current_candidate.current_application
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     @course_1 = create(
       :course,
