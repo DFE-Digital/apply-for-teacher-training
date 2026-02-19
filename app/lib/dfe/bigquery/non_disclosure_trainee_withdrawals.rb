@@ -62,19 +62,18 @@ module DfE
       end
 
       def sql_statement
-        "email = #{candidate.email_address} OR (first_name IN (#{first_names}) AND last_name IN (#{last_names}) AND date_of_birth = #{application_forms.sample.date_of_birth})"
-      end
-
-      def join_for_sql(elements)
-        elements.map { |element| "\"#{element}\"" }.join(', ')
+        ActiveRecord::Base.send(
+          :sanitize_sql_for_conditions,
+          ['email = ? OR (first_name IN (?) AND last_name IN (?) AND date_of_birth = ?)', candidate.email_address, first_names, last_names, application_forms.sample.date_of_birth.to_s],
+        )
       end
 
       def first_names
-        join_for_sql(application_forms.pluck(:first_name).uniq)
+        application_forms.pluck(:first_name).uniq
       end
 
       def last_names
-        join_for_sql(application_forms.pluck(:last_name).uniq)
+        application_forms.pluck(:last_name).uniq
       end
 
       def result_class = self.class::Result
