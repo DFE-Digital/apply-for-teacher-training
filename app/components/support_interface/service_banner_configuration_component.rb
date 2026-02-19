@@ -22,7 +22,7 @@ module SupportInterface
         value: live_banner ? 'Yes' : 'No',
         action: {
           href: live_banner ? support_interface_edit_show_service_banner_path(interface: @interface, live_banner: true) : support_interface_edit_show_service_banner_path(interface: @interface),
-          visually_hidden_text: 'Change',
+          visually_hidden_text: 'Change service banner to active',
         },
       }
     end
@@ -35,7 +35,7 @@ module SupportInterface
         value: GovukMarkdown.render(t('.live_banner', header: live_banner.header, body: live_banner.body)).html_safe,
         action: {
           href: support_interface_edit_configure_service_banner_path(live_banner, interface: @interface, return_to: 'index'),
-          visually_hidden_text: 'Change',
+          visually_hidden_text: 'Change service banner content',
         },
       }
     end
@@ -54,7 +54,7 @@ module SupportInterface
     end
 
     def live_banner
-      ServiceBanner.where(interface: @interface, status: 'published').order(created_at: :desc).first
+      ServiceBanner.published.where(interface: @interface).order(created_at: :desc).first
     end
   end
 end

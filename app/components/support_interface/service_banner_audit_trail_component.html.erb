@@ -1,15 +1,1 @@
-<ul class="govuk-list govuk-list--bullet">
-  <% audits.map do |audit| %>
-    <li>
-      <% if @banner_id %>
-       <%= "Banner #{action_label_for(audit)} by #{user_label_for(audit)} " %>
-      <% else %>
-        <%= govuk_link_to(
-          "Banner #{action_label_for(audit)} by #{user_label_for(audit)} ",
-          support_interface_show_show_service_banner_path(ServiceBanner.find(audit.auditable_id)),
-        ) %>
-      <% end %>
-        <span class="govuk-hint govuk-!-margin-bottom-0 govuk-!-font-size-16"><%= l(audit.created_at.to_date, format: :long) %> at <%= l(audit.created_at, format: :time) %></span>
-    </li>
-  <% end %>
-</ul>
+<%= govuk_list audit_list_items, type: :bullet %>

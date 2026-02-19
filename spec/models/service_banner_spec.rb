@@ -1,25 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe ServiceBanner do
+  subject(:banner) { described_class.new }
+
   describe 'enums' do
-    it 'defines the correct status values' do
-      expect(described_class.statuses).to eq(
-        'draft' => 'draft',
-        'published' => 'published',
-        'used' => 'used',
-      )
-    end
+    it {
+      expect(banner).to define_enum_for(:status)
+        .backed_by_column_of_type(:string)
+        .with_values(draft: 'draft', published: 'published', used: 'used')
+    }
 
-    it 'responds to enum helper methods' do
-      banner = described_class.new
-
-      expect(banner).to respond_to(:draft?)
-      expect(banner).to respond_to(:published?)
-      expect(banner).to respond_to(:used?)
-      expect(banner).to respond_to(:draft!)
-      expect(banner).to respond_to(:published!)
-      expect(banner).to respond_to(:used!)
-    end
+    it {
+      expect(banner).to define_enum_for(:interface)
+        .backed_by_column_of_type(:string)
+        .with_values(apply: 'apply', manage: 'manage', support_console: 'support_console')
+    }
   end
 
   describe 'defaults' do

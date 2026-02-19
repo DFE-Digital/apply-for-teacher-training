@@ -7,6 +7,12 @@ class ServiceBanner < ApplicationRecord
     used: 'used',
   }, default: :draft
 
+  enum :interface, {
+    apply: 'apply',
+    manage: 'manage',
+    support_console: 'support_console',
+  }
+
 private
 
   def audit_enabled?

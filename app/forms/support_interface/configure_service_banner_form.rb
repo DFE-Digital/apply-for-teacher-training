@@ -24,14 +24,14 @@ module SupportInterface
 
       if banner.present?
         banner.update!(
-          interface: interface,
+          interface:,
           header:,
           body:,
           status: 'draft',
         )
       else
         ServiceBanner.create!(
-          interface: interface,
+          interface:,
           header:,
           body:,
           status: 'draft',

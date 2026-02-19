@@ -4,6 +4,6 @@
 
 <h1 class="govuk-heading-l"><%= t('page_titles.preview_service_banner', interface: @interface.humanize.titleize) %></h1>
 
-<%= render ServiceInformationBanner.new(interface: @interface, preview: true) %>
+<%= render ServiceInformationBannerPreview.new(banner_id: @banner.id) %>
 
 <%= govuk_button_to 'Publish banner', support_interface_publish_configure_service_banner_path(@banner), method: :patch, params: { interface: @interface } %>

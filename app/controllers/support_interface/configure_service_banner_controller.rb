@@ -13,7 +13,6 @@ module SupportInterface
       @configure_service_banner_form = SupportInterface::ConfigureServiceBannerForm.new(
         header: @banner.header,
         body: @banner.body,
-        interface: @interface,
       )
     end
 
@@ -50,7 +49,7 @@ module SupportInterface
     def publish
       @interface = interface_param
       @banner = ServiceBanner.find(params[:id])
-      @banner.update!(status: 'published')
+      @banner.published!
 
       redirect_to support_interface_service_banners_path
       flash[:success] = I18n.t('support_interface.configure_service_banner.publish.success', interface: @interface.humanize.titleize)

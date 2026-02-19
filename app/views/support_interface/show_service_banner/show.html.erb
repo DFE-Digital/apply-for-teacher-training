@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.banner_history', interface: @banner.interface.humanize.downcase) %>
+<% content_for :title, t('page_titles.banner_history', interface: @banner.interface.humanize) %>
 <% content_for :suppress_heading, true %>
 <% content_for :before_content, govuk_back_link_to(support_interface_service_banners_path) %>
 
@@ -8,6 +8,6 @@
   <%= render SupportInterface::ServiceBannerAuditTrailComponent.new(banner_id: @banner.id) %>
 </div>
 
-<%= render ServiceInformationBanner.new(banner_id: @banner.id, preview: true) %>
+<%= render ServiceInformationBannerPreview.new(banner_id: @banner.id) %>
 
 <%= govuk_link_to 'Back', support_interface_service_banners_path, class: 'govuk-button govuk-button--secondary' %>

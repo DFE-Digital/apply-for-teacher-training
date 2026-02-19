@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.configure_service_banner', interface: @interface.humanize.downcase) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.configure_service_banner', interface: @interface.humanize.downcase), @configure_service_banner_form.errors.any?) %>
 <% content_for :suppress_heading, true %>
 <% content_for :before_content, govuk_back_link_to(@back_link_path) %>
 
@@ -9,7 +9,7 @@
     <%= form_with(model: @configure_service_banner_form, url: support_interface_update_configure_service_banner_path(interface: @interface), method: :patch) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_text_field :header, label: { text: t('.banner_header_label'), size: 'm' }, link_errors: true %>
+      <%= f.govuk_text_field :header, label: { text: t('.banner_header_label'), size: 'm' } %>
 
       <%= f.govuk_text_area :body, label: { text: t('.banner_content_label'), size: 'm' }, hint: { text: t('.caption') }, max_chars: 400, link_errors: true %>
 
