@@ -47,6 +47,8 @@ en:
         candidates_rejected: Candidates rejected
         proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response: >
           Proportion of candidates who have waited more than 30 working days for a response
+        edi_title: >
+          Sex, disability, ethnicity and age of candidates
       about_this_data_section_component:
         section_heading: 1. About this data
         subsection_heading_one: Changes for the %{cycle_range} recruitment cycle

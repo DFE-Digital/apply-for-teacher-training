@@ -184,14 +184,14 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
       let(:cycle_week) { 16 }
 
       it 'does creates a Regional edi report worker when a report already exists for the same cycle_week, but different year' do
-        create(:regional_edi_report, recruitment_cycle_year: previous_year)
+        create(:regional_edi_report, recruitment_cycle_year: previous_year, region: :london)
         described_class.new(cycle_week:).call
 
         expect(regional_edi_worker).to have_received(:perform_async).with(cycle_week, 'London', 'Sex')
       end
 
       it 'does not create a Regional edi report worker when a report already exists' do
-        create(:regional_edi_report, recruitment_cycle_year: current_year)
+        create(:regional_edi_report, recruitment_cycle_year: current_year, region: :london)
         described_class.new(cycle_week:).call
 
         expect(regional_edi_worker).not_to have_received(:perform_async).with(cycle_week, 'London', 'Sex')
