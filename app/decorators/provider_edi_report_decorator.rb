@@ -26,39 +26,51 @@ class ProviderEdiReportDecorator < SimpleDelegator
   end
 
   def recruited_number(number, proportion)
-    if number.present? && proportion.present?
-      "#{number} (#{number_to_percentage((proportion - 1) * 100, precision: 0)})"
+    if number.nil? && proportion.nil?
+      'Not available'
+    elsif number.present? && proportion.present?
+      "#{number_with_delimiter(number)} (#{number_to_percentage((proportion - 1) * 100, precision: 0)})"
     else
       0
     end
   end
 
   def recruited_to_date_previous_cycle
-    statistics['number_of_candidates_accepted_to_same_date_previous_cycle']
+    number_with_delimiter(
+      statistics['number_of_candidates_accepted_to_same_date_previous_cycle'],
+    )
   end
 
   def regional_report_submitted_to_date(filter_value)
-    regional_report&.statistics&.find do |statistic|
+    number = regional_report&.statistics&.find do |statistic|
       statistic[filter_report_type] == filter_value
-    end&.fetch('number_of_candidates_submitted_to_date', nil) || 0
+    end&.fetch('number_of_candidates_submitted_to_date', nil)
+
+    number_with_delimiter(number) || 'Not available'
   end
 
   def regional_report_submitted_to_date_previous_cycle(filter_value)
-    regional_report&.statistics&.find do |statistic|
+    number = regional_report&.statistics&.find do |statistic|
       statistic[filter_report_type] == filter_value
-    end&.fetch('number_of_candidates_submitted_to_same_date_previous_cycle', nil) || 0
+    end&.fetch('number_of_candidates_submitted_to_same_date_previous_cycle', nil)
+
+    number_with_delimiter(number) || 'Not available'
   end
 
   def regional_report_offered_to_date(filter_value)
-    regional_report&.statistics&.find do |statistic|
+    number = regional_report&.statistics&.find do |statistic|
       statistic[filter_report_type] == filter_value
-    end&.fetch('number_of_candidates_submitted_to_date', nil) || 0
+    end&.fetch('number_of_candidates_submitted_to_date', nil)
+
+    number_with_delimiter(number) || 'Not available'
   end
 
   def regional_report_offered_to_date_previous_cycle(filter_value)
-    regional_report&.statistics&.find do |statistic|
+    number = regional_report&.statistics&.find do |statistic|
       statistic[filter_report_type] == filter_value
-    end&.fetch('number_of_candidates_with_offers_to_same_date_previous_cycle', nil) || 0
+    end&.fetch('number_of_candidates_with_offers_to_same_date_previous_cycle', nil)
+
+    number_with_delimiter(number) || 'Not available'
   end
 
   def regional_report_recruited_to_date(filter_value)
@@ -69,16 +81,20 @@ class ProviderEdiReportDecorator < SimpleDelegator
     number = regional_report_data&.fetch('number_of_candidates_accepted_to_date', nil)
     proportion = regional_report_data&.fetch('number_of_candidates_accepted_to_date_as_proportion_of_last_cycle', nil)
 
-    if number.present? && proportion.present?
-      "#{number} (#{number_to_percentage((proportion - 1) * 100, precision: 0)})"
+    if number.nil? && proportion.nil?
+      'Not available'
+    elsif number.present? && proportion.present?
+      "#{number_with_delimiter(number)} (#{number_to_percentage((proportion - 1) * 100, precision: 0)})"
     else
       0
     end
   end
 
   def regional_report_recruited_to_date_previous_cycle(filter_value)
-    regional_report&.statistics&.find do |statistic|
+    number = regional_report&.statistics&.find do |statistic|
       statistic[filter_report_type] == filter_value
-    end&.fetch('number_of_candidates_accepted_to_same_date_previous_cycle', nil) || 0
+    end&.fetch('number_of_candidates_accepted_to_same_date_previous_cycle', nil)
+
+    number_with_delimiter(number) || 'Not available'
   end
 end

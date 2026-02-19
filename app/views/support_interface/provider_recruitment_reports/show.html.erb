@@ -39,7 +39,7 @@
     ) %>
 
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m" id="edi_title">
+      <h2 class="govuk-heading-m" id="sex_disability_and_ethnicity_tables">
         8. Sex, disability, ethnicity and age of candidates
       </h2>
       <p class="govuk-body">
@@ -110,11 +110,11 @@
                 <%= row.with_cell(header: true, text: 'This cycle') %>
 
                 <%= row.with_cell(
-                  text: data['number_of_candidates_submitted_to_date'],
+                  text: number_with_delimiter(data['number_of_candidates_submitted_to_date']) || 'Not available',
                   numeric: true,
                 ) %>
                 <%= row.with_cell(
-                  text: data['number_of_candidates_with_offers_to_date'],
+                  text: number_with_delimiter(data['number_of_candidates_with_offers_to_date']) || 'Not available',
                   numeric: true,
                 ) %>
                 <%= row.with_cell(
@@ -130,15 +130,15 @@
                 <%= row.with_cell(header: true, text: 'Last cycle') %>
 
                 <%= row.with_cell(
-                  text: data['number_of_candidates_submitted_to_same_date_previous_cycle'],
+                  text: number_with_delimiter(data['number_of_candidates_submitted_to_same_date_previous_cycle']) || 'Not available',
                   numeric: true,
                 ) %>
                 <%= row.with_cell(
-                  text: data['number_of_candidates_with_offers_to_same_date_previous_cycle'],
+                  text: number_with_delimiter(data['number_of_candidates_with_offers_to_same_date_previous_cycle']) || 'Not available',
                   numeric: true,
                 ) %>
                 <%= row.with_cell(
-                  text: data['number_of_candidates_accepted_to_same_date_previous_cycle'],
+                  text: number_with_delimiter(data['number_of_candidates_accepted_to_same_date_previous_cycle']) || 'Not available',
                   numeric: true,
                 ) %>
               <% end %>
