@@ -6,6 +6,8 @@ RSpec.describe 'Candidate adds preferences' do
 
   before do
     stub_bigquery_non_disclosure_trainee_withdrawals_request
+    allow(GoogleMapsAPI::Client).to receive(:new).and_return(client)
+    allow(client).to receive(:autocomplete).and_return(api_response)
   end
 
   let(:provider) { create(:provider) }
@@ -21,11 +23,6 @@ RSpec.describe 'Candidate adds preferences' do
     [
       { name: 'BN1 3AA', place_id: 'test_id' },
     ]
-  end
-
-  before do
-    allow(GoogleMapsAPI::Client).to receive(:new).and_return(client)
-    allow(client).to receive(:autocomplete).and_return(api_response)
   end
 
   scenario 'Candidate opts in to find a candidate with specific locations' do

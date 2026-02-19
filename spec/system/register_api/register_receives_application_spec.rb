@@ -8,9 +8,6 @@ RSpec.describe 'Register receives an application data', time: CycleTimetableHelp
 
   before do
     stub_bigquery_non_disclosure_trainee_withdrawals_request
-  end
-
-  before do
     @current_year = current_year
   end
 

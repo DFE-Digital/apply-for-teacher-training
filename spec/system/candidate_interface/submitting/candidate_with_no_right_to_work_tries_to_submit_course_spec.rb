@@ -6,9 +6,6 @@ RSpec.describe 'Candidate with no right to work or study' do
 
   before do
     stub_bigquery_non_disclosure_trainee_withdrawals_request
-  end
-
-  before do
     given_i_am_signed_in_with_one_login
     and_there_are_course_options
   end
