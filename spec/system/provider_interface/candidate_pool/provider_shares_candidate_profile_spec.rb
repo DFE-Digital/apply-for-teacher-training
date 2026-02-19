@@ -4,7 +4,7 @@ RSpec.describe 'Provider shares candidate profile' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  let!(:current_provider) { create(:provider) }
+  let(:current_provider) { create(:provider) }
 
   scenario 'View a candidate', :js do
     given_i_am_a_provider_user_with_dfe_sign_in
@@ -48,6 +48,7 @@ RSpec.describe 'Provider shares candidate profile' do
 
   def when_i_visit_the_find_candidates_page
     visit provider_interface_candidate_pool_root_path
+    click_on 'Find candidates'
   end
 
   def and_i_click_on_a_candidate
