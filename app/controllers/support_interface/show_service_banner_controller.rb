@@ -6,7 +6,7 @@ module SupportInterface
 
     def edit
       @show_service_banner_form = SupportInterface::ShowServiceBannerForm.new(
-        show_service_banner: params[:live_banner] ? 'yes' : nil,
+        show_service_banner: params[:live_banner] || params[:draft_banner] ? 'yes' : 'no',
       )
       @interface = interface_param
     end

@@ -62,7 +62,7 @@ module SupportInterface
       if params[:return_to] == 'index'
         support_interface_service_banners_path
       else
-        support_interface_edit_show_service_banner_path(interface: interface_param)
+        support_interface_edit_show_service_banner_path(interface: interface_param, draft_banner: true)
       end
     end
 
