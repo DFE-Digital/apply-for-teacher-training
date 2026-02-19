@@ -557,7 +557,7 @@ GEM
     pundit (2.5.2)
       activesupport (>= 3.0.0)
     racc (1.8.1)
-    rack (2.2.21)
+    rack (2.2.22)
     rack-attack (6.8.0)
       rack (>= 1.0, < 4)
     rack-mini-profiler (4.0.1)
@@ -735,11 +735,12 @@ GEM
     sentry-rails (6.3.0)
       railties (>= 5.2.0)
       sentry-ruby (~> 6.3.0)
-    sentry-ruby (6.3.0)
+    sentry-ruby (6.3.1)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (6.3.0)
-      sentry-ruby (~> 6.3.0)
+      logger
+    sentry-sidekiq (6.3.1)
+      sentry-ruby (~> 6.3.1)
       sidekiq (>= 5.0)
     shellany (0.0.1)
     shoulda-matchers (7.0.1)
@@ -1176,7 +1177,7 @@ CHECKSUMS
   puma (7.2.0) sha256=bf8ef4ab514a4e6d4554cb4326b2004eba5036ae05cf765cfe51aba9706a72a8
   pundit (2.5.2) sha256=e374152baa24f90b630428293faf4b4c5468fc3cc010165f7d8fcb44ce108bbd
   racc (1.8.1) sha256=4a7f6929691dbec8b5209a0b373bc2614882b55fc5d2e447a21aaa691303d62f
-  rack (2.2.21) sha256=14e2f72f0765455fe424ff601588ac5ce84e95784f59e99251ffe1527152f739
+  rack (2.2.22) sha256=c5cf0b7f872559966d974abe3101a57d51caf12504ee76290b98720004f64542
   rack-attack (6.8.0) sha256=f2499fdebf85bcc05573a22dff57d24305ac14ec2e4156cd3c28d47cafeeecf2
   rack-mini-profiler (4.0.1) sha256=485810c23211f908196c896ea10cad72ed68780ee2998bec1f1dfd7558263d78
   rack-oauth2 (2.2.1) sha256=c73aa87c508043e2258f02b4fb110cacba9b37d2ccf884e22487d014a120d1a5
@@ -1238,8 +1239,8 @@ CHECKSUMS
   selenium-webdriver (4.40.0) sha256=16ef7aa9853c1d4b9d52eac45aafa916e3934c5c83cb4facb03f250adfd15e5b
   semantic_logger (4.17.0) sha256=c54b60d8596abe2e22bd4f20648d4f6c46e4287fba357779c7932335c8d130e9
   sentry-rails (6.3.0) sha256=2ea15aba6d5b08621764b3dab7d87af34823a890813d5023e0e07ae3d17a3eef
-  sentry-ruby (6.3.0) sha256=14b5806b25d5101002959e21ed1970cb48c038bda3ac0713c1b9a3f1b746f2a5
-  sentry-sidekiq (6.3.0) sha256=f5aa846295a70c7f4852a4f5633cbc13816c3f41724da88653403ce6ad079360
+  sentry-ruby (6.3.1) sha256=b2de4e9bada1053a36f4224d75617a2b44d33157e9030b20b86a791358c2e154
+  sentry-sidekiq (6.3.1) sha256=0811300644a537977aa58b2e427f5fdc519df59e71ca3f33fb571b8cf39560be
   shellany (0.0.1) sha256=0e127a9132698766d7e752e82cdac8250b6adbd09e6c0a7fbbb6f61964fedee7
   shoulda-matchers (7.0.1) sha256=b4bfd8744c10e0a36c8ac1a687f921ee7e25ed529e50488d61b79a8688749c77
   sidekiq (6.5.12) sha256=b4f93b2204c42220d0b526a7b8e0c49b5f9da82c1ce1a05d2baf1e8f744c197f
