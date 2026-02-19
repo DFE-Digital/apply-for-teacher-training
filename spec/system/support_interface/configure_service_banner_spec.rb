@@ -13,9 +13,6 @@ RSpec.describe 'Configure service banner' do
     when_i_click_to_configure_the_support_console_service_banner
     then_i_see_the_show_service_banner_page
 
-    click_link_or_button 'Continue'
-    then_i_see_validation_error_for_not_selecting_a_response
-
     when_i_select_yes
     then_i_see_the_form_for_configuring_custom_banner_content
 
@@ -41,7 +38,8 @@ RSpec.describe 'Configure service banner' do
     and_i_click_on_service_banners
     and_i_click_to_configure_the_support_console_service_banner
     and_i_choose_no
-    then_i_see_the_banner_has_been_disabled
+    then_i_see_a_success_message_saying_the_banner_is_disabled('Support Console')
+    and_i_see_the_banner_has_been_disabled
   end
 
   scenario 'Edit then disable a service banner and view audit history', :with_audited do
@@ -60,11 +58,43 @@ RSpec.describe 'Configure service banner' do
 
     when_i_click_to_configure_the_apply_service_banner
     and_i_choose_no
-    then_i_see_a_success_message_saying_the_banner_is_disabled
+    then_i_see_a_success_message_saying_the_banner_is_disabled('Apply')
     and_new_audit_entries_are_in_the_history_row
 
     when_i_click_the_latest_audit_link
     then_i_see_the_audit_history_for_this_banner
+  end
+
+  scenario 'Publish and unpublish banners in Apply interface' do
+    given_i_am_a_support_user
+    and_service_banners_exist_for_each_interace
+    and_an_application_form_exists
+
+    when_i_visit_apply
+    then_i_see_the_apply_banner_is_visible
+
+    when_i_visit_the_settings_page
+    and_i_click_on_service_banners
+
+    when_i_click_to_configure_the_apply_service_banner
+    and_i_choose_no
+    then_i_see_a_success_message_saying_the_banner_is_disabled('Apply')
+
+    when_i_visit_apply
+    then_i_see_the_apply_banner_is_no_longer_visible
+  end
+
+  scenario 'Publish and unpublish banners in Manage interface' do
+    given_i_am_a_provider_user
+    and_i_sign_in_to_the_provider_interface
+    and_service_banners_exist_for_each_interace
+
+    when_i_visit_the_provider_interface
+    then_i_see_the_manage_banner_is_visible
+
+    when_the_banner_is_unpublished
+    and_i_visit_manage
+    then_i_see_the_manage_banner_is_no_longer_visible
   end
 
 private
@@ -74,12 +104,36 @@ private
     @support_user = SupportUser.find_by(email_address: 'user@apply-support.com')
   end
 
+  def given_i_am_a_provider_user
+    @provider_user = create(:provider_user, :with_dfe_sign_in)
+    user_exists_in_dfe_sign_in(email_address: @provider_user.email_address)
+  end
+
+  def when_i_visit_the_provider_interface
+    visit provider_interface_applications_path
+  end
+  alias_method :and_i_visit_manage, :when_i_visit_the_provider_interface
+
+  def and_i_sign_in_to_the_provider_interface
+    provider_signs_in_using_dfe_sign_in
+  end
+
+  def and_an_application_form_exists
+    create(:application_form, :unsubmitted, first_name: 'Test', last_name: 'Candidate')
+  end
+
   def and_a_service_banner_for_apply_exists_with_activity
     @banner = create(:service_banner, :published) # Apply by default
 
     Audited.audit_class.as_user(@support_user) do
       @banner.update!(header: 'The service will be unavailable from 6pm this evening until midnight')
     end
+  end
+
+  def and_service_banners_exist_for_each_interace
+    @apply_banner = create(:service_banner, :published) # Apply by default
+    @manage_banner = create(:service_banner, :manage, :published)
+    @support_banner = create(:service_banner, :support_console, :published)
   end
 
   def when_i_visit_the_settings_page
@@ -126,10 +180,6 @@ private
     expect(page).to have_content 'Configure Support Console service banner'
     expect(page).to have_content 'Header'
     expect(page).to have_content 'Banner content (optional)'
-  end
-
-  def then_i_see_validation_error_for_not_selecting_a_response
-    expect(page).to have_content 'Select a response'
   end
 
   def then_i_see_validation_error_for_not_supplying_header_text
@@ -182,9 +232,7 @@ private
     click_link_or_button 'Continue'
   end
 
-  def then_i_see_the_banner_has_been_disabled
-    expect(page).to have_content('Support Console service banner disabled')
-
+  def and_i_see_the_banner_has_been_disabled
     click_link_or_button 'Candidates'
     expect(page).to have_no_content('Important')
     expect(page).to have_no_content('The service will be offline from 6pm to 9pm this evening')
@@ -255,7 +303,39 @@ private
     expect(page).to have_content('Changed body content')
   end
 
-  def then_i_see_a_success_message_saying_the_banner_is_disabled
-    expect(page).to have_content('Apply service banner disabled')
+  def then_i_see_a_success_message_saying_the_banner_is_disabled(interface)
+    expect(page).to have_content("#{interface} service banner disabled")
+  end
+
+  def when_i_visit_apply
+    click_link_or_button 'Candidates'
+    click_link_or_button 'Test Candidate'
+    click_link_or_button 'Sign in as this candidate'
+  end
+
+  def then_i_see_the_apply_banner_is_visible
+    expect(page).to have_content(@apply_banner.header)
+    expect(page).to have_content(@apply_banner.body)
+  end
+
+  def then_i_see_the_apply_banner_is_no_longer_visible
+    expect(page).to have_no_selector('.govuk-notification-banner__title', text: 'Information')
+    expect(page).to have_no_content(@apply_banner.header)
+    expect(page).to have_no_content(@apply_banner.body)
+  end
+
+  def then_i_see_the_manage_banner_is_visible
+    expect(page).to have_content(@manage_banner.header)
+    expect(page).to have_content(@manage_banner.body)
+  end
+
+  def when_the_banner_is_unpublished
+    @manage_banner.update!(status: 'used')
+  end
+
+  def then_i_see_the_manage_banner_is_no_longer_visible
+    expect(page).to have_no_selector('.govuk-notification-banner__title', text: 'Information')
+    expect(page).to have_no_content(@manage_banner.header)
+    expect(page).to have_no_content(@manage_banner.body)
   end
 end
