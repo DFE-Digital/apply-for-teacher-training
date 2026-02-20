@@ -48,6 +48,7 @@ RSpec.describe 'Provider shares candidate profile' do
 
   def when_i_visit_the_find_candidates_page
     visit provider_interface_candidate_pool_root_path
+    click_on 'Find candidates'
   end
 
   def and_i_click_on_a_candidate

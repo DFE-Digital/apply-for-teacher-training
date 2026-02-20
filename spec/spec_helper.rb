@@ -62,6 +62,12 @@ RSpec.configure do |config|
     config.around do |ex|
       ex.run_with_retry retry: 3
     end
+
+    config.retry_callback = proc do |ex|
+      if ex.metadata[:js]
+        Capybara.reset!
+      end
+    end
   end
 
   config.include OneLoginHelper
