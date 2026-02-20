@@ -1,5 +1,4 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.configure_service_banner', interface: @interface.humanize.downcase), @configure_service_banner_form.errors.any?) %>
-<% content_for :suppress_heading, true %>
+<%= render 'support_interface/settings/settings_navigation', title: title_with_error_prefix(t('page_titles.configure_service_banner', interface: @interface.humanize.capitalize), @configure_service_banner_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_edit_show_service_banner_path(interface: @interface)) %>
 
 <h1 class="govuk-heading-l"><%= t('page_titles.configure_service_banner', interface: @interface.humanize.titleize) %></h1>

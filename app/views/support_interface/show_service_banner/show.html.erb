@@ -1,5 +1,4 @@
-<% content_for :title, t('page_titles.banner_history', interface: @banner.interface.humanize) %>
-<% content_for :suppress_heading, true %>
+<%= render 'support_interface/settings/settings_navigation', title: t('page_titles.banner_history', interface: @banner.interface.humanize.capitalize) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_service_banners_path) %>
 
 <h1 class="govuk-heading-l"><%= t('page_titles.banner_history', interface: @banner.interface.humanize.titleize) %></h1>

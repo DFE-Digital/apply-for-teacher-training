@@ -7,7 +7,7 @@
   { name: 'Tasks', url: support_interface_tasks_path },
   { name: 'Support users', url: support_interface_support_users_path },
   { name: 'Send Notify template', url: support_interface_notify_template_path },
-  { name: 'Service banners', url: support_interface_service_banners_path },
+  { name: 'Service banners', url: support_interface_service_banners_path, current: request.path.include?('/support/settings/service-banners') },
 ]) %>
 
 <h2 class="govuk-visually-hidden"><%= title %></h2>
