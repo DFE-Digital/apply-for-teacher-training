@@ -1,5 +1,5 @@
 # To use or update to a ruby version, change {BASE_RUBY_IMAGE}
-ARG BASE_RUBY_IMAGE=ruby:3.4.4-alpine3.20
+ARG BASE_RUBY_IMAGE=ruby:3.4.8-alpine3.23
 
 # Stage 1: gems-node-modules, build gems and node modules.
 FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
