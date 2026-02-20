@@ -4,9 +4,15 @@ ARG BASE_RUBY_IMAGE=ruby:3.4.4-alpine3.22
 # Stage 1: gems-node-modules, build gems and node modules.
 FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
-RUN apk -U upgrade && \
-    apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
-    libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 yaml-dev libxslt graphviz chromium gcompat \
+RUN apk add --update --no-cache \
+    git gcc libc-dev make postgresql-dev build-base \
+    libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 yaml-dev libxslt graphviz  \
+    chromium \
+    chromium-chromedriver \
+    ttf-dejavu ttf-droid ttf-liberation \
+    nss harfbuzz freetype \
+    postgresql-client \
+    gcompat \
     'aom>=3.9.1-r0'
 
 RUN echo "Europe/London" > /etc/timezone && \
@@ -59,9 +65,15 @@ ENV LANG=en_GB.UTF-8 \
     REDIS_CACHE_URL=redis://127.0.0.1:6379 \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-RUN apk -U upgrade && \
-    apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz \
-    ttf-dejavu ttf-droid ttf-liberation libx11 openssl nodejs chromium gcompat \
+RUN apk add --update --no-cache \
+    tzdata libpq libxml2 libxslt graphviz \
+    libx11 openssl nodejs \
+    chromium \
+    chromium-chromedriver \
+    ttf-dejavu ttf-droid ttf-liberation \
+    nss harfbuzz freetype \
+    postgresql-client \
+    gcompat \
     'aom>=3.9.1-r0' && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime

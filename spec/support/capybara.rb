@@ -4,9 +4,14 @@ require 'capybara/rspec'
 if ENV['TEST_ENV_NUMBER']
   Capybara.server_port = 9887 + ENV['TEST_ENV_NUMBER'].to_i
 end
+Capybara.server = :puma, { Silent: true, Threads: '1:1' }
 Capybara.default_normalize_ws = true
 
 options = Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+  if ENV['CI'] == 'true'
+    opts.binary = ENV.fetch('CHROME_BIN', '/usr/bin/chromium-browser')
+  end
+
   opts.add_argument('--no-sandbox')
   opts.add_argument('--disable-dev-shm-usage')
   opts.add_argument('--disable-gpu')
@@ -18,7 +23,7 @@ Capybara.register_driver :chrome do |app|
 end
 
 Capybara.register_driver :chrome_headless do |app|
-  options.add_argument('--headless')
+  options.add_argument('--headless=new')
   Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
 end
 

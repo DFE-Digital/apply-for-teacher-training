@@ -147,10 +147,10 @@ jobs:
             integration_candidate,
           ]
         feature-flags: [on, off]
-        # Use these offsets as the end of cycle approaches
-        offset-date: [real_world]
         # Use these offsets through mid-cycle
-        # offset-date: [real_world]
+        offset-date: [real_world]
+        # Use these offsets as the end of cycle approaches
+        # offset-date: [real_world, after_apply_deadline, before_apply_reopens, after_apply_reopens]
 
         include:
           - tests: unit_shared
@@ -172,28 +172,32 @@ jobs:
     services:
       redis:
         image: redis:alpine
-        ports:
-          - 6379:6379
       postgres:
         image: postgres:14
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >
+          --health-cmd "pg_isready -U postgres -d postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+          --health-start-period 20s
     defaults:
       run:
         working-directory: /app
     container:
       image: ghcr.io/dfe-digital/apply-teacher-training:${{ needs.build.outputs.IMAGE_TAG }}
-      options: --user root
+      options: --user root --shm-size=1g
       credentials:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
       env:
         RAILS_ENV: test
+        CHROME_BIN: /usr/bin/chromium-browser
+        SE_SKIP_DRIVER_DOWNLOAD: true
+        WEB_DRIVERS_SKIP_DOWNLOAD: true
         DB_HOSTNAME: postgres
         DB_USERNAME: postgres
         DB_PASSWORD: postgres
@@ -201,14 +205,49 @@ jobs:
         DB_PORT: 5432
         ZENDESK_MESSAGING_KEY: ${{ secrets.ZENDESK_MESSAGING_KEY_CI }}
     steps:
-      - name: Setup Parallel Database
-        run: bundle exec rake parallel:setup
+      - name: Wait for Postgres
+        run: |
+          set -euo pipefail
 
-      - name: Install chromedriver
-        run: apk add chromium chromium-chromedriver
+          echo "Checking Postgres DNS:"
+          getent hosts postgres || true
+
+          echo "Checking Postgres port:"
+          nc -zv postgres 5432 || true
+
+          echo "Waiting for postgres to accept connections on DB 'postgres'..."
+          for i in $(seq 1 60); do
+            if pg_isready -h postgres -p 5432 -U postgres -d postgres; then
+              break
+            fi
+            sleep 1
+          done
+
+          echo "Smoke test query via psql:"
+          PGPASSWORD="$DB_PASSWORD" psql -h postgres -U postgres -d postgres -c "SELECT 1;"
+
+      - name: Build schema snapshot (no tests yet)
+        run: |
+          set -euo pipefail
+          # Create a single test DB and migrate it so we can dump a current snapshot.
+          bundle exec rails db:drop db:create RAILS_ENV=test
+          bundle exec rails db:migrate RAILS_ENV=test
+
+          bundle exec rails db:schema:dump RAILS_ENV=test || true
+
+      - name: Setup Parallel Database with snapshot
+        run: |
+          set -euo pipefail
+
+          bundle exec rake parallel:drop parallel:create
+          bundle exec rake parallel:load_schema
 
       - name: ${{ matrix.tests }} tests with feature flags ${{ matrix.feature-flags }}
-        run: bundle exec --verbose parallel_rspec --pattern "${{ env.INCLUDE_PATTERN }}" --exclude-pattern "${{ env.EXCLUDE_PATTERN }}"
+        run: |
+          set -euo pipefail
+
+          echo "Starting tests…"
+          bundle exec --verbose parallel_rspec --pattern "${{ env.INCLUDE_PATTERN }}" --exclude-pattern "${{ env.EXCLUDE_PATTERN }}"
         env:
           INCLUDE_PATTERN: ${{ matrix.include-pattern }}
           EXCLUDE_PATTERN: ${{ matrix.exclude-pattern || ' ' }}
