@@ -68,7 +68,7 @@ ENV LANG=en_GB.UTF-8 \
 RUN apk add --update --no-cache \
     tzdata libpq libxml2 libxslt graphviz \
     libx11 openssl nodejs \
-    chromium \
+    'chromium=~131.0' \
     chromium-chromedriver \
     ttf-dejavu ttf-droid ttf-liberation \
     nss harfbuzz freetype \
