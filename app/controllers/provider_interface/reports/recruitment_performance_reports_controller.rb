@@ -15,17 +15,11 @@ module ProviderInterface
           end
           format.zip do
             if latest_report.present?
-              zip_filename = ProviderInterface::RecruitmentPerformanceReportExport.new(
-                provider: @provider,
-                region: @region,
-                provider_report: @provider_report,
-                report_type: @report_type,
-              ).call
-              provider_name = @provider.name
+              exporter
 
               send_file(
-                zip_filename,
-                filename: "#{provider_name.parameterize}-recruitment-performance-report-#{Time.zone.today}.zip",
+                exporter,
+                filename: "#{@provider.name.parameterize}-recruitment-performance-report-#{Time.zone.today}.zip",
                 type: 'application/zip',
               )
             else
@@ -36,6 +30,15 @@ module ProviderInterface
       end
 
     private
+
+      def exporter
+        @exporter ||= ProviderInterface::RecruitmentPerformanceReportExport.new(
+          provider: @provider,
+          region: @region,
+          provider_report: @provider_report,
+          report_type: @report_type,
+        ).call
+      end
 
       def set_provider
         @provider ||= current_user.providers.find(

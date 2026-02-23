@@ -122,14 +122,14 @@ module ProviderInterface
 
       CSV.open("#{export_folder}/#{file_name}_#{timestamp}.csv", 'w', headers: true) do |csv|
         row_methods = if field_mapping.keys.include?(:percentage_change)
-          csv << ['', provider.name, '', '', region_title, '', '']
-          csv << ['Subject', 'Last cycle', 'This cycle', 'Percentage change', 'Last cycle', 'This cycle', 'Percentage change']
-          %w[last_cycle this_cycle percentage_change national_last_cycle national_this_cycle national_percentage_change]
-        else
-          csv << ['', provider.name, '', region_title, '']
-          csv << ['Subject', 'Last cycle', 'This cycle', 'Last cycle', 'This cycle']
-          %w[last_cycle this_cycle national_last_cycle national_this_cycle]
-        end
+                        csv << ['', provider.name, '', '', region_title, '', '']
+                        csv << ['Subject', 'Last cycle', 'This cycle', 'Percentage change', 'Last cycle', 'This cycle', 'Percentage change']
+                        %w[last_cycle this_cycle percentage_change national_last_cycle national_this_cycle national_percentage_change]
+                      else
+                        csv << ['', provider.name, '', region_title, '']
+                        csv << ['Subject', 'Last cycle', 'This cycle', 'Last cycle', 'This cycle']
+                        %w[last_cycle this_cycle national_last_cycle national_this_cycle]
+                      end
         rows.subject_rows.each do |subject_row|
           csv << format_row(row: subject_row, row_methods:, summary: false, percentage_values: percentage_values)
         end
@@ -141,7 +141,7 @@ module ProviderInterface
     def format_row(row:, row_methods:, summary: false, percentage_values: false)
       formatted_row = summary ? ['All subjects'] : [row.title]
       row_methods.each do |row_method|
-        as_percentage = %w[percentage_change national_percentage_change].include?(row_method) ? true : percentage_values
+        as_percentage = %w[percentage_change national_percentage_change].include?(row_method) || percentage_values
         formatted_row << format_number(number: row.try(row_method), percentage: percentage_values, as_percentage:)
       end
       formatted_row
