@@ -95,6 +95,7 @@ class GetCourseOptionFromCodes
       .joins(:course_options)
       .merge(CourseOption.selectable.where(course: record.course))
       .where(code: value)
+      .uniq
 
     if sites.many?
       record.errors.add(
