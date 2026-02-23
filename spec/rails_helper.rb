@@ -76,7 +76,7 @@ end
 RSpec::Matchers.define :have_csv_file_content do |filename, expected_content|
   match do |zip_file|
     csv_data = read_csv_from_zip(zip_file, filename)
-    expected_content = CSV.parse(expected_content, headers: true).to_a unless csv_data.is_a?(Array)
+    expected_content = CSV.parse(expected_content, headers: true).to_a unless expected_content.is_a?(Array)
     csv_data == expected_content
   end
 
