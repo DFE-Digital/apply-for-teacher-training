@@ -131,4 +131,12 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
       expect(service.call).to be_nil
     end
   end
+
+  describe 'when there are both full time and part time options for a course with the same site code' do
+    let!(:part_time_course_option) { create(:course_option, course: course_option.course, study_mode: 'part_time', site: course_option.site) }
+
+    it 'is valid' do
+      expect(service.valid?).to be true
+    end
+  end
 end
