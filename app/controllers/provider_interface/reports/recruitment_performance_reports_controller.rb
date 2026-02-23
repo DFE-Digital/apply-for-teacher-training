@@ -21,10 +21,11 @@ module ProviderInterface
                 provider_report: @provider_report,
                 report_type: @report_type,
               ).call
+              provider_name = @provider.name
 
               send_file(
                 zip_filename,
-                filename: "#{@provider.name.parameterize}-recruitment-performance-report-#{Time.zone.today}.zip",
+                filename: "#{provider_name.parameterize}-recruitment-performance-report-#{Time.zone.today}.zip",
                 type: 'application/zip',
               )
             else

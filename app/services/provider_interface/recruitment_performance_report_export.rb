@@ -38,13 +38,9 @@ module ProviderInterface
 
       FileUtils.mkdir_p(export_folder)
 
-      submitted_application_report(export_folder, timestamp)
-      candidates_with_offers_report(export_folder, timestamp)
-      proportion_candidates_with_offers_report(export_folder, timestamp)
-      offer_accepted_report(export_folder, timestamp)
-      deferrals_report(export_folder, timestamp)
-      rejected_report(export_folder, timestamp)
-      waiting_for_a_response_report(export_folder, timestamp)
+      REPORTS.each do |report_name|
+        send("#{report_name}_report", export_folder, timestamp)
+      end
 
       zip_filename = "#{export_folder}.zip"
       Zip::OutputStream.open(zip_filename) do |zos|
@@ -62,28 +58,28 @@ module ProviderInterface
 
   private
 
-    def submitted_application_report(export_folder, timestamp)
+    def candidates_who_have_submitted_applications_report(export_folder, timestamp)
       field_mapping = RecruitmentPerformanceReport::SubmittedApplicationsTableComponent::BIG_QUERY_COLUMN_NAMES_MAPPING
       rows = build_subject_rows(field_mapping)
       file_name = CANDIDATES_WHO_HAVE_SUBMITTED_APPLICATIONS
       rows_to_csv(file_name:, rows:, field_mapping:, export_folder:, timestamp:)
     end
 
-    def candidates_with_offers_report(export_folder, timestamp)
+    def candidates_that_received_an_offer_report(export_folder, timestamp)
       field_mapping = RecruitmentPerformanceReport::CandidatesWithOffersTableComponent::BIG_QUERY_COLUMN_NAMES_MAPPING
       rows = build_subject_rows(field_mapping)
       file_name = CANDIDATES_THAT_RECEIVED_AN_OFFER
       rows_to_csv(file_name:, rows:, field_mapping:, export_folder:, timestamp:)
     end
 
-    def proportion_candidates_with_offers_report(export_folder, timestamp)
+    def proportion_of_candidates_with_an_offer_report(export_folder, timestamp)
       field_mapping = RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent::BIG_QUERY_COLUMN_NAMES_MAPPING
       rows = build_subject_rows(field_mapping)
       file_name = PROPORTION_OF_CANDIDATES_WITH_AN_OFFER
       rows_to_csv(file_name:, rows:, field_mapping:, export_folder:, timestamp:, percentage_values: true)
     end
 
-    def offer_accepted_report(export_folder, timestamp)
+    def offers_accepted_report(export_folder, timestamp)
       field_mapping = RecruitmentPerformanceReport::OffersAcceptedTableComponent::BIG_QUERY_COLUMN_NAMES_MAPPING
       rows = build_subject_rows(field_mapping)
       file_name = OFFERS_ACCEPTED
@@ -107,14 +103,14 @@ module ProviderInterface
       end
     end
 
-    def rejected_report(export_folder, timestamp)
+    def candidates_rejected_report(export_folder, timestamp)
       field_mapping = RecruitmentPerformanceReport::CandidatesRejectedTableComponent::BIG_QUERY_COLUMN_NAMES_MAPPING
       rows = build_subject_rows(field_mapping)
       file_name = CANDIDATES_REJECTED
       rows_to_csv(file_name:, rows:, field_mapping:, export_folder:, timestamp:)
     end
 
-    def waiting_for_a_response_report(export_folder, timestamp)
+    def proportion_of_candidates_who_have_waited_more_than_30_working_days_for_a_response_report(export_folder, timestamp)
       field_mapping = RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent::BIG_QUERY_COLUMN_NAMES_MAPPING
       rows = build_subject_rows(field_mapping)
       file_name = WAITING_FOR_A_RESPONSE
@@ -125,52 +121,30 @@ module ProviderInterface
       summary_row = rows.summary_row
 
       CSV.open("#{export_folder}/#{file_name}_#{timestamp}.csv", 'w', headers: true) do |csv|
-        if field_mapping.keys.include?(:percentage_change)
+        row_methods = if field_mapping.keys.include?(:percentage_change)
           csv << ['', provider.name, '', '', region_title, '', '']
           csv << ['Subject', 'Last cycle', 'This cycle', 'Percentage change', 'Last cycle', 'This cycle', 'Percentage change']
-          rows.subject_rows.each do |subject_row|
-            csv << [
-              subject_row.title,
-              format_number(number: subject_row.last_cycle, as_percentage: percentage_values),
-              format_number(number: subject_row.this_cycle, as_percentage: percentage_values),
-              format_number(number: subject_row.percentage_change, as_percentage: true),
-              format_number(number: subject_row.national_last_cycle, as_percentage: percentage_values),
-              format_number(number: subject_row.national_this_cycle, as_percentage: percentage_values),
-              format_number(number: subject_row.national_percentage_change, as_percentage: true),
-            ]
-          end
-          next if summary_row.blank?
-
-          csv << [
-            'All subjects',
-            format_number(number: summary_row.last_cycle, as_percentage: percentage_values),
-            format_number(number: summary_row.this_cycle, as_percentage: percentage_values),
-            format_number(number: summary_row.percentage_change, as_percentage: true),
-            format_number(number: summary_row.national_last_cycle, as_percentage: percentage_values),
-            format_number(number: summary_row.national_this_cycle, as_percentage: percentage_values),
-            format_number(number: summary_row.national_percentage_change, as_percentage: true),
-          ]
+          %w[last_cycle this_cycle percentage_change national_last_cycle national_this_cycle national_percentage_change]
         else
           csv << ['', provider.name, '', region_title, '']
           csv << ['Subject', 'Last cycle', 'This cycle', 'Last cycle', 'This cycle']
-          rows.subject_rows.each do |subject_row|
-            csv << [
-              subject_row.title,
-              format_number(number: subject_row.last_cycle, percentage: percentage_values, as_percentage: percentage_values),
-              format_number(number: subject_row.this_cycle, percentage: percentage_values, as_percentage: percentage_values),
-              format_number(number: subject_row.national_last_cycle, percentage: percentage_values, as_percentage: percentage_values),
-              format_number(number: subject_row.national_this_cycle, percentage: percentage_values, as_percentage: percentage_values),
-            ]
-          end
-          csv << [
-            'All subjects',
-            format_number(number: summary_row.last_cycle, percentage: percentage_values, as_percentage: percentage_values),
-            format_number(number: summary_row.this_cycle, percentage: percentage_values, as_percentage: percentage_values),
-            format_number(number: summary_row.national_last_cycle, percentage: percentage_values, as_percentage: percentage_values),
-            format_number(number: summary_row.national_this_cycle, percentage: percentage_values, as_percentage: percentage_values),
-          ]
+          %w[last_cycle this_cycle national_last_cycle national_this_cycle]
         end
+        rows.subject_rows.each do |subject_row|
+          csv << format_row(row: subject_row, row_methods:, summary: false, percentage_values: percentage_values)
+        end
+
+        csv << format_row(row: summary_row, row_methods:, summary: true, percentage_values: percentage_values)
       end
+    end
+
+    def format_row(row:, row_methods:, summary: false, percentage_values: false)
+      formatted_row = summary ? ['All subjects'] : [row.title]
+      row_methods.each do |row_method|
+        as_percentage = %w[percentage_change national_percentage_change].include?(row_method) ? true : percentage_values
+        formatted_row << format_number(number: row.try(row_method), percentage: percentage_values, as_percentage:)
+      end
+      formatted_row
     end
 
     def format_number(number:, percentage: false, as_percentage: false)
