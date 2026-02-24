@@ -33,10 +33,15 @@ module CandidateInterface
     private
 
       def english_proficiency
-        current_application.english_proficiency
+        if FeatureFlag.active?(:application_form_has_many_english_proficiencies)
+          current_application.english_proficiencies
+        else
+          current_application.english_proficiency
+        end
       end
 
       def check_for_english_proficiency
+        binding.pry
         if english_proficiency.blank?
           redirect_to_efl_root
         end

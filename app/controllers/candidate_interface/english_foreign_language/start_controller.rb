@@ -12,7 +12,6 @@ module CandidateInterface
 
       def create
         @start_form = EnglishForeignLanguage::StartForm.new(start_params)
-
         if @start_form.save
           redirect_to @start_form.next_path
         else
@@ -36,11 +35,16 @@ module CandidateInterface
     private
 
       def start_params
-        strip_whitespace params
-          .fetch(:candidate_interface_english_foreign_language_start_form, {})
-          .permit(:qualification_status, :no_qualification_details)
-          .merge(application_form: current_application)
-          .merge(return_to: params[:'return-to'])
+        if FeatureFlag.active?(:application_form_has_many_english_proficiencies)
+          strip_whitespace params
+            .fetch(:candidate_interface_english_foreign_language_start_form, {})
+            .permit(qualification_status: [])
+        else
+          strip_whitespace params
+            .fetch(:candidate_interface_english_foreign_language_start_form, {})
+            .permit(:qualification_status, :no_qualification_details)
+        end.merge(application_form: current_application)
+           .merge(return_to: params[:'return-to'])
       end
     end
   end
