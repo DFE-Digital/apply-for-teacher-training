@@ -315,7 +315,6 @@
   - email_address
   - name
   - relationship
-  - safeguarding_concerns
   - relationship_correction
   :application_forms:
   - address_line1
@@ -323,7 +322,6 @@
   - address_line3
   - address_line4
   - subject_knowledge
-  - safeguarding_issues
   - subject_knowledge_completed
   - address_type
   - latitude

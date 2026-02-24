@@ -256,6 +256,7 @@ shared:
     - equality_and_diversity_completed_at
     - previous_teacher_training_completed
     - previous_teacher_training_completed_at
+    - safeguarding_issues
   application_qualifications:
     - application_form_id
     - award_year
@@ -539,6 +540,7 @@ shared:
     - refused
     - feedback
     - confidential
+    - safeguarding_concerns
   rejection_feedbacks:
     - id
     - helpful
