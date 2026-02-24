@@ -130,6 +130,7 @@ RSpec.describe 'Editing address' do
 
   def and_i_see_my_international_address_details_comment_in_the_audit_log
     click_link_or_button 'History'
+    click_link_or_button 'Next'
     expect(page).to have_content 'Updated as part of Zen Desk ticket #56789'
   end
 end
