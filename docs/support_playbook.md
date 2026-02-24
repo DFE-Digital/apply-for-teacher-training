@@ -953,6 +953,7 @@ provider_name = PROVIDER_NAME
 started_at = STARTED_AT # this should be Date.new(yyyy/m/d)
 ended_at = STARTED_AT # this should be Date.new(yyyy/m/d)
 details = DETAILS # up to 200 words
+audit_comment = 'ZENDESK_URL'
 
-PreviousTeacherTraining.create(application_form_id:, provider_id:, status: 'published', started: 'yes', provider_name:, started_at:, ended_at:, details:)
+PreviousTeacherTraining.create(application_form_id:, provider_id:, status: 'published', started: 'yes', provider_name:, started_at:, ended_at:, details:, audit_comment:)
 ```
