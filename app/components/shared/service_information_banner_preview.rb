@@ -11,13 +11,9 @@ class ServiceInformationBannerPreview < ViewComponent::Base
     banner.body
   end
 
-  def render?
-    banner.present?
-  end
-
 private
 
   def banner
-    ServiceBanner.find(@banner_id)
+    @banner ||= ServiceBanner.find(@banner_id)
   end
 end

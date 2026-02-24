@@ -18,7 +18,6 @@ FactoryBot.define do
     end
 
     trait :manage do
-      header { 'The service will be unavailable this evening between 6pm and 9pm' }
       body { 'You may lose data if you are processing applications at this time' }
       interface { 'manage' }
     end

@@ -12,12 +12,12 @@ class ServiceInformationBanner < ViewComponent::Base
   end
 
   def render?
-    banner.present? && banner.published?
+    banner.present?
   end
 
 private
 
   def banner
-    ServiceBanner.published.where(interface: @interface).order(created_at: :desc).first
+    @banner ||= ServiceBanner.published.where(interface: @interface).order(created_at: :desc).first
   end
 end

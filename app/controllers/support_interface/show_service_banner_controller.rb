@@ -15,21 +15,14 @@ module SupportInterface
       @show_service_banner_form = SupportInterface::ShowServiceBannerForm.new(show_service_banner_params)
       @interface = interface_param
 
-      if @show_service_banner_form.valid?
-        if @show_service_banner_form.show_service_banner?
-          if live_banner
-            redirect_to support_interface_edit_configure_service_banner_path(live_banner, interface: @interface)
-          else
-            redirect_to support_interface_new_configure_service_banner_path(interface: @interface)
-          end
-        else
-          live_banner&.update(status: 'used')
-          redirect_to support_interface_service_banners_path
-          flash[:success] = I18n.t('support_interface.show_service_banner.update.success', interface: @interface.humanize.titleize)
-        end
+      return render(:edit, status: :unprocessable_entity) unless @show_service_banner_form.valid?
+
+      if @show_service_banner_form.show_service_banner?
+        redirect_to(live_banner ? support_interface_edit_configure_service_banner_path(live_banner, interface: @interface) : support_interface_new_configure_service_banner_path(interface: @interface))
       else
-        @interface = interface_param
-        render :edit, status: :unprocessable_entity
+        live_banner&.update(status: 'used')
+        redirect_to support_interface_service_banners_path
+        flash[:success] = I18n.t('support_interface.show_service_banner.update.success', interface: @interface.humanize.titleize)
       end
     end
 
