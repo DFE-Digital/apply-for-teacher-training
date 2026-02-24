@@ -10,9 +10,7 @@ module SupportInterface
 
     before_validation :normalize_interface_attribute
 
-    INTERFACES = %w[support_console apply manage].freeze
-
-    validates :interface, inclusion: { in: INTERFACES }
+    validates :interface, inclusion: { in: ServiceBanner.interfaces.keys }
 
     attr_accessor :banner
 

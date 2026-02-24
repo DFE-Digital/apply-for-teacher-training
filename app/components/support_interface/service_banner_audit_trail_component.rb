@@ -16,7 +16,11 @@ module SupportInterface
     def audit_list_items
       audits.map do |audit|
         content = banner_link_or_text(audit)
-        content + timestamp_hint(audit)
+        safe_join([
+          content,
+          tag.br,
+          tag.span(timestamp_hint(audit), class: 'govuk-hint govuk-!-margin-bottom-0 govuk-!-font-size-16'),
+        ])
       end
     end
 
@@ -42,10 +46,7 @@ module SupportInterface
     end
 
     def timestamp_hint(audit)
-      tag.span(
-        "#{l(audit.created_at.to_date, format: :long)} at #{l(audit.created_at, format: :time)}",
-        class: 'govuk-hint govuk-!-margin-bottom-0 govuk-!-font-size-16',
-      )
+      "#{l(audit.created_at.to_date, format: :long)} at #{l(audit.created_at, format: :time)}"
     end
 
     def user_label_for(audit)
