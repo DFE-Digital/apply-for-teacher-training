@@ -35,10 +35,9 @@ private
   end
 
   def previous_teacher_training_declared?(possible_previous_teacher_training_data)
-    raise possible_previous_teacher_training_data
     provider_record = accredited_provider(possible_previous_teacher_training_data.accredited_provider_code)
     started_at = possible_previous_teacher_training_data.trainee_start_date.to_time.beginning_of_month
-    ended_at = possible_previous_teacher_training_data.withdraw_date.to_time.end_of_month
+    ended_at = possible_previous_teacher_training_data.date.to_time.end_of_month
     previous_teacher_training_in_timeframe = candidate.previous_teacher_trainings.where(
       started_at: started_at..,
       ended_at: ..ended_at,
