@@ -64,12 +64,17 @@ module DfE
       def sql_statement
         ActiveRecord::Base.send(
           :sanitize_sql_for_conditions,
-          ['email = ? OR (first_name IN (?) AND last_name IN (?) AND date_of_birth = ?)',
+          ['email = ? OR (first_name IN (?) AND last_name IN (?) AND date_of_birth = PARSE_DATE(?, ?))',
            candidate.email_address,
            first_names,
            last_names,
-           application_forms.sample.date_of_birth&.to_s],
+           date_format,
+           application_forms.sample.date_of_birth&.strftime(date_format)],
         )
+      end
+
+      def date_format
+        '%d/%m/%Y'
       end
 
       def first_names
