@@ -1,4 +1,4 @@
-<%= render ServiceInformationBanner.new(namespace: :candidate) %>
+<%= render ServiceInformationBanner.new(interface: :apply) %>
 <%= render CandidateInterface::DeadlineBannerComponent.new(application_form: current_application, flash_empty: flash.empty?) %>
 <%= render CandidateInterface::SponsorshipApplicationDeadlines::ApplicationsDashboardBannerComponent.new(application_form: current_application) %>
 

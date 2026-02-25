@@ -1,6 +1,6 @@
 <% content_for :title, title_with_error_prefix(create_account_page_title, @create_account_or_sign_in_form.errors.any?) %>
 
-<%= render ServiceInformationBanner.new(namespace: :candidate) %>
+<%= render ServiceInformationBanner.new(interface: :apply) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

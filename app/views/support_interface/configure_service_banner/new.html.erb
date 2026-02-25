@@ -1,0 +1,18 @@
+<%= render 'support_interface/settings/settings_navigation', title: title_with_error_prefix(t('page_titles.configure_service_banner', interface: @interface.humanize.capitalize), @configure_service_banner_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_edit_show_service_banner_path(interface: @interface)) %>
+
+<h1 class="govuk-heading-l"><%= t('page_titles.configure_service_banner', interface: @interface.humanize.titleize) %></h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <%= form_with(model: @configure_service_banner_form, url: support_interface_create_configure_service_banner_path(interface: @interface), method: :post) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_text_field :header, label: { text: t('.banner_header_label'), size: 'm' } %>
+
+      <%= f.govuk_text_area :body, label: { text: t('.banner_content_label'), size: 'm' }, hint: { text: t('.caption') }, max_chars: 400, link_errors: true %>
+
+      <%= f.govuk_submit t('.preview') %>
+    <% end %>
+  </div>
+</div>

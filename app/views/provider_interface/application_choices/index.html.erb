@@ -1,6 +1,6 @@
 <% content_for :browser_title, "Applications (#{@pagy.count})" %>
 
-<%= render ServiceInformationBanner.new(namespace: :provider) %>
+<%= render ServiceInformationBanner.new(interface: :manage) %>
 
 <%= render ProviderInterface::RejectByDefaultBannerComponent.new %>
 

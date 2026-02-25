@@ -1,0 +1,12 @@
+<%= render 'support_interface/settings/settings_navigation', title: t('page_titles.banner_history', interface: @banner.interface.humanize.capitalize) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_service_banners_path) %>
+
+<h1 class="govuk-heading-l"><%= t('page_titles.banner_history', interface: @banner.interface.humanize.titleize) %></h1>
+
+<div class="govuk-!-margin-bottom-8">
+  <%= render SupportInterface::ServiceBannerAuditTrailComponent.new(banner_id: @banner.id) %>
+</div>
+
+<%= render ServiceInformationBannerPreview.new(banner_id: @banner.id) %>
+
+<%= govuk_link_to 'Back', support_interface_service_banners_path, class: 'govuk-button govuk-button--secondary' %>

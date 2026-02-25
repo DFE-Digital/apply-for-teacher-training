@@ -83,7 +83,7 @@ class NavigationItems
           {
             text: 'Settings',
             href: support_interface_settings_path,
-            active: active?(current_controller, %w[settings tasks support_users]),
+            active: active?(current_controller, %w[settings tasks support_users show_service_banner configure_service_banner]),
           },
           {
             text: 'Documentation',

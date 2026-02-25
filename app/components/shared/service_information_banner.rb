@@ -1,17 +1,23 @@
 class ServiceInformationBanner < ViewComponent::Base
-  def initialize(namespace:)
-    @namespace = namespace
+  def initialize(interface:)
+    @interface = interface
   end
 
   def header_content
-    HostingEnvironment.sandbox_mode? ? t("service_information_banner.#{@namespace}.sandbox_header") : t("service_information_banner.#{@namespace}.header")
+    banner.header
   end
 
   def body_content
-    HostingEnvironment.sandbox_mode? ? t("service_information_banner.#{@namespace}.sandbox_body") : t("service_information_banner.#{@namespace}.body")
+    banner.body
   end
 
   def render?
-    FeatureFlag.active?('service_information_banner')
+    banner.present?
+  end
+
+private
+
+  def banner
+    @banner ||= ServiceBanner.published.where(interface: @interface).order(created_at: :desc).first
   end
 end

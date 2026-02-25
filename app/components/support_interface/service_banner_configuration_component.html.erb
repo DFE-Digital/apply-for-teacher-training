@@ -1,0 +1,3 @@
+<%= render SummaryCardComponent.new(rows: rows) do %>
+  <%= render SummaryCardHeaderComponent.new(title: "#{@interface.humanize.titleize} service banner", heading_level: 2) %>
+<% end %>

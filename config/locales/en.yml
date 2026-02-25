@@ -373,6 +373,10 @@ en:
     dates_and_deadlines: Dates and deadlines
     organisation_permissions: How organisation permissions affect what users can do
     application_guidance: The teacher training application process
+    show_service_banner: Show %{interface} service banner
+    banner_history: "%{interface} banner history"
+    configure_service_banner: Configure %{interface} service banner
+    preview_service_banner: Preview %{interface} service banner
   privacy_urls:
     education_providers_workforce:
       url: https://www.gov.uk/government/publications/privacy-information-education-providers-workforce-including-teachers/privacy-information-education-providers-workforce-including-teachers
@@ -479,6 +483,14 @@ en:
         course_option: The new course
     errors:
       models:
+        support_interface/show_service_banner_form:
+          attributes:
+            show_service_banner:
+              blank: Select a response
+        support_interface/configure_service_banner_form:
+          attributes:
+            header:
+              blank: You must include a banner header
         support_interface/regional_report_form:
           attributes:
             region:
