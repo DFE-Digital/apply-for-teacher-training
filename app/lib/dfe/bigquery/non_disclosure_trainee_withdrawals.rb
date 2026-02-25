@@ -68,7 +68,7 @@ module DfE
            candidate.email_address,
            first_names,
            last_names,
-           application_forms.sample.date_of_birth&.strftime('%d/%m/%Y')],
+           application_forms.sample.date_of_birth&.to_s],
         )
       end
 
