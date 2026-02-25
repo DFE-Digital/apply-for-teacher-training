@@ -1,6 +1,34 @@
 require 'rails_helper'
 
 RSpec.describe PreviousTeacherTraining do
+  describe 'auditing', :with_audited do
+    it 'creates audit entries' do
+      previous_teacher_training = create(:previous_teacher_training, status: 'draft')
+
+      previous_teacher_training.update!(status: 'published')
+      expect(previous_teacher_training.audits.count).to eq 1
+      previous_teacher_training.update!(details: 'I intermitted for personal reasons')
+      expect(previous_teacher_training.audits.count).to eq 2
+    end
+
+    it 'creates an associated object in each audit record' do
+      previous_teacher_training = create(:previous_teacher_training, status: 'draft')
+      previous_teacher_training.update!(status: 'published')
+
+      expect(previous_teacher_training.audits.last.associated).to eq previous_teacher_training.application_form
+    end
+
+    it 'audit record can be attributed to a candidate' do
+      candidate = create(:candidate)
+      previous_teacher_training = Audited.audit_class.as_user(candidate) do
+        draft_training = create(:previous_teacher_training, status: 'draft')
+        draft_training.update!(status: 'published')
+        draft_training
+      end
+      expect(previous_teacher_training.audits.last.user).to eq candidate
+    end
+  end
+
   describe 'associations' do
     it { is_expected.to belong_to(:application_form) }
     it { is_expected.to belong_to(:provider).optional }

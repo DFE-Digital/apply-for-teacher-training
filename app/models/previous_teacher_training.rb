@@ -4,6 +4,9 @@ class PreviousTeacherTraining < ApplicationRecord
   belongs_to :duplicate_previous_teacher_training, class_name: 'PreviousTeacherTraining', optional: true
   has_one :source_previous_teacher_training, class_name: 'PreviousTeacherTraining', foreign_key: 'duplicate_previous_teacher_training_id'
 
+  audited associated_with: :application_form, if: :audit_enabled?
+  has_associated_audits
+
   enum :started, {
     yes: 'yes',
     no: 'no',
@@ -15,6 +18,10 @@ class PreviousTeacherTraining < ApplicationRecord
   }, default: 'draft'
 
   scope :order_by_dates, -> { order(:started_at, :ended_at) }
+
+  def audit_enabled?
+    status == 'published'
+  end
 
   def create_draft_dup!
     duplicate_previous_teacher_training&.destroy! if duplicate_previous_teacher_training&.draft?
