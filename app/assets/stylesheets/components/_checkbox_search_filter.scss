@@ -1,5 +1,4 @@
 @use "../base/govuk";
-@use "moj";
 
 .app-checkbox-filter {
   position: relative;
@@ -93,5 +92,5 @@
 }
 
 .app-checkbox-filter__tag {
-  @extend .moj-filter__tag; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+// Moved to
 }

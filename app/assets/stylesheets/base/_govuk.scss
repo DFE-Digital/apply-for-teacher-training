@@ -1,6 +1,6 @@
 // Shared (govuk-frontend)
 // https://sass-lang.com/documentation/at-rules/forward/
-@forward "govuk-frontend/dist/govuk/index" with (
+@forward "node_modules/govuk-frontend/dist/govuk/index" with (
   $govuk-assets-path: "/",
   $govuk-global-styles: true,
   $govuk-breakpoints: (

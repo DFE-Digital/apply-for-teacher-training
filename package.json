@@ -6,7 +6,7 @@
     "yarn": "^1.22.0"
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^3.6.2",
+    "@ministryofjustice/frontend": "^8.0.1",
     "accessible-autocomplete": "^3.0.1",
     "dfe-autocomplete": "github:DFE-Digital/dfe-autocomplete#8e7389ff62a38bc8880323f6c58eed9c8d10f080",
     "govuk-frontend": "^5.14.0",
@@ -34,6 +34,7 @@
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
     "prettier": "^3.8.1",
+    "sass-migrator": "^2.5.7",
     "standard": "^17.1.2",
     "stylelint": "^16.26.1",
     "stylelint-config-gds": "^2.0.0",
@@ -44,7 +45,7 @@
     "test": "jest",
     "lint": "standard 'app/javascript'",
     "lint:css": "stylelint 'app/assets/stylesheets'",
-    "build:css": "sass ./app/assets/stylesheets/:./app/assets/builds/ --no-source-map --load-path=node_modules --quiet-deps",
+    "build:css": "sass ./app/assets/stylesheets/:./app/assets/builds/ --no-source-map --load-path=. --quiet-deps",
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets"
   },
   "jest": {
