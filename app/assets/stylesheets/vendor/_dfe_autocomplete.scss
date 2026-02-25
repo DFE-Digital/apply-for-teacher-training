@@ -1,0 +1,167 @@
+@use "../base/govuk";
+
+// Everything below this line is copied from
+// node_modules/dfe-autocomplete/src/dfe-autocomplete.scss
+// The only changes are the switch from @import to @use and
+// to prefix govuk mixins and variables with "govuk."
+@use "node_modules/accessible-autocomplete/src/autocomplete";
+
+// Overrides
+body .suggestions .autocomplete__menu {
+  top: 20px;
+  border-top: 2px solid black;
+}
+
+body .suggestions .autocomplete__wrapper ul::before {
+  content: 'Suggestions';
+  padding: 4px 8px;
+  border-bottom: 2px solid black;
+  background-color: #f3f2f1;
+  width: 100%;
+  display: block;
+}
+
+// Regular styles from source
+.suggestions {
+  .autocomplete__wrapper {
+    @include govuk.govuk-typography-common();
+    position: relative;
+  }
+
+  .autocomplete__hint,
+  .autocomplete__input {
+    -webkit-appearance: none;
+    border: govuk.$govuk-border-width-form-element solid govuk.$govuk-input-border-colour;
+    border-radius: 0;
+    box-sizing: border-box;
+    margin-bottom: 0;
+    width: 100%;
+  }
+
+  .autocomplete__input {
+    background-color: transparent;
+    padding: govuk.govuk-spacing(1);
+    position: relative;
+  }
+
+  .autocomplete__hint {
+    color: govuk.govuk-colour("mid-grey");
+    position: absolute;
+  }
+
+  .autocomplete__input--focused {
+    outline: govuk.$govuk-focus-width solid govuk.$govuk-focus-colour;
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 govuk.$govuk-border-width-form-element;
+  }
+
+  .autocomplete__input--show-all-values {
+    padding-right: (govuk.govuk-spacing(1) + 24px + govuk.govuk-spacing(2));
+    cursor: pointer;
+  }
+
+  .autocomplete__dropdown-arrow-down {
+    display: inline-block;
+    height: 24px;
+    position: absolute;
+    right: govuk.govuk-spacing(2);
+    top: govuk.govuk-spacing(2);
+    width: 24px;
+  }
+
+  .autocomplete__menu {
+    background-color: govuk.govuk-colour("white");
+    border: govuk.$govuk-border-width-form-element solid govuk.$govuk-input-border-colour;
+    border-top: 0;
+    color: govuk.$govuk-text-colour;
+    margin: 0;
+    max-height: 342px;
+    overflow-x: hidden;
+    padding: 0;
+    width: 100%;
+    width: calc(100% - #{govuk.govuk-spacing(1)});
+  }
+
+  .autocomplete__menu--visible {
+    display: block;
+  }
+
+  .autocomplete__menu--hidden {
+    display: none;
+  }
+
+  .autocomplete__menu--overlay {
+    box-shadow: rgba(0,0,0,.256863) 0 2px 6px;
+    left: 0;
+    position: absolute;
+    top: 100%;
+    z-index: 100;
+  }
+
+  .autocomplete__menu--inline {
+    position: relative;
+  }
+
+  .autocomplete__option {
+    border-bottom: solid govuk.govuk-colour("mid-grey");
+    border-width: 1px 0;
+    cursor: pointer;
+    display: block;
+    position: relative;
+  }
+
+  .autocomplete__option > * {
+    pointer-events: none;
+  }
+
+  .autocomplete__option:first-of-type {
+    border-top-width: 0;
+  }
+
+  .autocomplete__option:last-of-type {
+    border-bottom-width: 0;
+  }
+
+  .autocomplete__option--odd {
+    background-color: govuk.govuk-colour("light-grey");
+  }
+
+  .autocomplete__option--hint {
+    color: govuk.$govuk-secondary-text-colour;
+  }
+
+  .autocomplete__option--focused,
+  .autocomplete__option:hover {
+    background-color: govuk.govuk-colour("blue");
+    border-color: govuk.govuk-colour("blue");
+    color: govuk.govuk-colour("white");
+    outline: 0;
+
+    .autocomplete__option--hint {
+      color: govuk.govuk-colour("white");
+    }
+  }
+
+  .autocomplete__option--no-results {
+    background-color: govuk.govuk-colour("light-grey");
+    color: govuk.govuk-colour("dark-grey");
+    cursor: not-allowed;
+  }
+
+  .autocomplete__hint,
+  .autocomplete__input,
+  .autocomplete__option {
+    @include govuk.govuk-font(19);
+  }
+
+  .autocomplete__hint,
+  .autocomplete__option {
+    padding: govuk.govuk-spacing(1);
+  }
+
+  // https://github.com/alphagov/accessible-autocomplete/issues/202
+  .autocomplete__dropdown-arrow-down {
+    pointer-events: none;
+  }
+}
+
