@@ -73,4 +73,3 @@ RSpec.describe 'Support interface - Provider recruitment report' do
     end
   end
 end
-

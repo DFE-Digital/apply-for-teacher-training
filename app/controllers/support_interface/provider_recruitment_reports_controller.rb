@@ -17,7 +17,7 @@ module SupportInterface
             cycle_week: @provider_report&.cycle_week,
             recruitment_cycle_year: current_timetable.recruitment_cycle_year,
             category: ReportSharedEnums.edi_categories.keys,
-            ).select('DISTINCT ON (category) *').order(:category, created_at: :desc).map do |report|
+          ).select('DISTINCT ON (category) *').order(:category, created_at: :desc).map do |report|
             ProviderEdiReportDecorator.new(report, @region)
           end
         end
@@ -29,7 +29,7 @@ module SupportInterface
               exporter,
               filename: "#{@provider.name.parameterize}-#{@region}-recruitment-performance-report-#{Time.zone.today}.zip",
               type: 'application/zip',
-              )
+            )
           else
             head :not_found
           end
