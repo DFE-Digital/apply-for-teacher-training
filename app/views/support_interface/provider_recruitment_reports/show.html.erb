@@ -3,6 +3,9 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l"><%= t('.title', cycle_year_range: @provider_report.cycle_range_name) %></h1>
+      <p class="govuk-body">
+        <%= govuk_link_to 'Export data (ZIP)', support_interface_provider_recruitment_report_path(provider_id: @provider, region: @region, format: :zip) %>
+      </p>
       <% unless RecruitmentPerformanceReportTimetable.report_season? %>
         <p class="govuk-body govuk-!-font-weight-bold"><%= t('.not_available_yet_to_providers', first_publication_date: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:govuk_date)) %></p>
       <% end %>

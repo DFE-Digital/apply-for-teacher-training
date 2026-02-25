@@ -19,7 +19,7 @@ module ProviderInterface
 
               send_file(
                 exporter,
-                filename: "#{@provider.name.parameterize}-recruitment-performance-report-#{Time.zone.today}.zip",
+                filename: "#{@provider.name.parameterize}-#{@region}-recruitment-performance-report-#{Time.zone.today}.zip",
                 type: 'application/zip',
               )
             else

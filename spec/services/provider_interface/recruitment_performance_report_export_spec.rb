@@ -240,7 +240,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReportExport do
           csv_filename = 'candidates_who_have_submitted_applications_*.csv'
           csv_data =
             [
-              ['', provider.name, '', '', 'Providers in london', '', ''],
+              ['', provider.name, '', '', 'Providers in London', '', ''],
               ['Subject', 'Last cycle', 'This cycle', 'Percentage change', 'Last cycle', 'This cycle', 'Percentage change'],
               %w[Primary 58 15 -74% 1014 920 -9%],
               %w[Secondary 136 50 -63% 3341 4387 31%],
@@ -271,7 +271,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReportExport do
           csv_filename = 'candidates_that_received_an_offer_*.csv'
           csv_data =
             [
-              ['', provider.name, '', '', 'Providers in london', '', ''],
+              ['', provider.name, '', '', 'Providers in London', '', ''],
               ['Subject', 'Last cycle', 'This cycle', 'Percentage change', 'Last cycle', 'This cycle', 'Percentage change'],
               %w[Primary 8 8 0% 359 409 14%],
               %w[Secondary 25 25 0% 574 582 1%],
@@ -298,7 +298,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReportExport do
           csv_filename = 'proportion_of_candidates_with_an_offer_*.csv'
           csv_data =
             [
-              ['', provider.name, '', 'Providers in london', ''],
+              ['', provider.name, '', 'Providers in London', ''],
               ['Subject', 'Last cycle', 'This cycle', 'Last cycle', 'This cycle'],
               %w[Primary 14% 53% 35% 44%],
               %w[Secondary 18% 50% 17% 13%],
@@ -325,7 +325,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReportExport do
           csv_filename = 'offers_accepted_*.csv'
           csv_data =
             [
-              ['', provider.name, '', '', 'Providers in london', '', ''],
+              ['', provider.name, '', '', 'Providers in London', '', ''],
               ['Subject', 'Last cycle', 'This cycle', 'Percentage change', 'Last cycle', 'This cycle', 'Percentage change'],
               %w[Primary 7 7 0% 266 323 21%],
               %w[Secondary 21 22 5% 424 445 5%],
@@ -351,7 +351,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReportExport do
           csv_filename = 'deferrals_*.csv'
           csv_data =
             [
-              ['Deferrals', provider.name, 'Providers in london'],
+              ['Deferrals', provider.name, 'Providers in London'],
               ['Deferrals this cycle to next', '0', '42'],
               ['Deferrals last cycle to this cycle', '0', '22'],
             ]
@@ -364,7 +364,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReportExport do
           csv_filename = 'candidates_rejected_*.csv'
           csv_data =
             [
-              ['', provider.name, '', '', 'Providers in london', '', ''],
+              ['', provider.name, '', '', 'Providers in London', '', ''],
               ['Subject', 'Last cycle', 'This cycle', 'Percentage change', 'Last cycle', 'This cycle', 'Percentage change'],
               %w[Primary 40 2 -95% 168 211 26%],
               %w[Secondary 94 11 -88% 1103 1996 81%],
@@ -395,7 +395,7 @@ RSpec.describe ProviderInterface::RecruitmentPerformanceReportExport do
           csv_filename = 'proportion_of_candidates_who_have_waited_more_than_30_working_days_for_a_response_*.csv'
           csv_data =
             [
-              ['', provider.name, '', 'Providers in london', ''],
+              ['', provider.name, '', 'Providers in London', ''],
               ['Subject', 'Last cycle', 'This cycle', 'Last cycle', 'This cycle'],
               %w[Primary 4% 7% 13% 7%],
               %w[Secondary 4% 7% 12% 20%],

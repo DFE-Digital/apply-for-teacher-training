@@ -175,7 +175,7 @@ module ProviderInterface
       @regional_report ||=
         Publications::RegionalRecruitmentPerformanceReport.where(
           cycle_week: provider_report.cycle_week,
-          region: region,
+          region:,
         ).last
     end
 
@@ -198,7 +198,7 @@ module ProviderInterface
       @region_title ||= if report_type == :NATIONAL
                           'All providers'
                         else
-                          "Providers in #{region}"
+                          I18n.t("shared.#{region}")
                         end
     end
   end
