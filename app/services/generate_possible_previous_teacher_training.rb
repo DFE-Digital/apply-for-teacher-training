@@ -15,10 +15,10 @@ class GeneratePossiblePreviousTeacherTraining
 
         PossiblePreviousTeacherTraining.find_or_create_by!(
           candidate:,
-          provider_name: possible_previous_teacher_training_data.accredited_provider_name,
-          provider: accredited_provider(possible_previous_teacher_training_data.accredited_provider_code),
+          provider_name: possible_previous_teacher_training_data.name,
+          provider: accredited_provider(possible_previous_teacher_training_data.code),
           started_on: possible_previous_teacher_training_data.trainee_start_date,
-          ended_on: possible_previous_teacher_training_data.withdraw_date,
+          ended_on: possible_previous_teacher_training_data.date,
         )
       end
     end
@@ -35,7 +35,7 @@ private
   end
 
   def previous_teacher_training_declared?(possible_previous_teacher_training_data)
-    provider_record = accredited_provider(possible_previous_teacher_training_data.accredited_provider_code)
+    provider_record = accredited_provider(possible_previous_teacher_training_data.code)
     started_at = possible_previous_teacher_training_data.trainee_start_date.to_time.beginning_of_month
     ended_at = possible_previous_teacher_training_data.date.to_time.end_of_month
     previous_teacher_training_in_timeframe = candidate.previous_teacher_trainings.where(
@@ -47,7 +47,7 @@ private
 
     ((provider_record.present? && previous_teacher_training_in_timeframe.find_by(provider: provider_record)) ||
       previous_teacher_training_in_timeframe.find_by(
-        provider_name: possible_previous_teacher_training_data.accredited_provider_name,
+        provider_name: possible_previous_teacher_training_data.name,
       )).present?
   end
 end

@@ -79,7 +79,7 @@ module DfE
       def result_class = self.class::Result
 
       class Result
-        ATTRIBUTES = SELECT_COLUMNS.map { |column| column.to_s.tr('.', '_') }
+        ATTRIBUTES = SELECT_COLUMNS.map { |column| column.to_s.split('.').last }
         attr_reader(*ATTRIBUTES)
 
         def initialize(attributes)
