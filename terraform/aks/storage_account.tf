@@ -30,6 +30,6 @@ resource "azurerm_storage_account" "data_exports_sa" {
 resource "azurerm_storage_container" "data_exports_container" {
   count                 = var.create_storage_account ? 1 : 0
   name                  = "storage"
-  storage_account_name  = azurerm_storage_account.data_exports_sa[count.index].name
+  storage_account_id  = azurerm_storage_account.data_exports_sa[count.index].id
   container_access_type = "private"
 }
