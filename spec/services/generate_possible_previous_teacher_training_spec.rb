@@ -4,9 +4,9 @@ RSpec.describe GeneratePossiblePreviousTeacherTraining do
   include DfE::Bigquery::TestHelper
 
   let(:candidate) { build(:candidate, email_address: 'john_doe@example.com') }
-  let!(:application_1) { create(:application_form, candidate:, first_name: 'john', last_name: 'doe', date_of_birth: '01/01/1990') }
-  let!(:application_2) { create(:application_form, candidate:, first_name: 'johnny', last_name: 'doe', date_of_birth: '01/01/1990') }
-  let!(:application_3) { create(:application_form, first_name: 'johnathan', last_name: 'doe', date_of_birth: '01/01/1990') }
+  let!(:application_1) { create(:application_form, candidate:, first_name: 'John', last_name: 'Doe', date_of_birth: '01/01/1990') }
+  let!(:application_2) { create(:application_form, candidate:, first_name: 'Johnny', last_name: 'Doe', date_of_birth: '01/01/1990') }
+  let!(:application_3) { create(:application_form, first_name: 'Johnathan', last_name: 'Doe', date_of_birth: '01/01/1990') }
 
   subject(:generate_pptt) { described_class.new(candidate) }
 
@@ -45,10 +45,6 @@ RSpec.describe GeneratePossiblePreviousTeacherTraining do
             { name: 'start_academic_year', type: 'INTEGER', value: '2025' },
             { name: 'trainee_id', type: 'INTEGER', value: '111111' },
             { name: 'created_at', type: 'DATETIME', value: DateTime.now.beginning_of_day.iso8601 },
-            { name: 'first_name', type: 'STRING', value: 'John' },
-            { name: 'last_name', type: 'STRING', value: 'Doe' },
-            { name: 'date_of_birth', type: 'DATE', value: '01/01/1990' },
-            { name: 'email', type: 'STRING', value: 'john_doe@example.com' },
             { name: 'training_route', type: 'STRING', value: 'provider_led_postgrad' },
             { name: 'trainee_start_date', type: 'DATE', value: '01/09/2024' },
             { name: 'training_route_category', type: 'STRING', value: 'pg_fee_funded' },
@@ -80,10 +76,6 @@ RSpec.describe GeneratePossiblePreviousTeacherTraining do
             { name: 'start_academic_year', type: 'INTEGER', value: '2024' },
             { name: 'trainee_id', type: 'INTEGER', value: '111111' },
             { name: 'created_at', type: 'DATETIME', value: DateTime.now.beginning_of_day.iso8601 },
-            { name: 'first_name', type: 'STRING', value: 'Johnny' },
-            { name: 'last_name', type: 'STRING', value: 'Doe' },
-            { name: 'date_of_birth', type: 'DATE', value: '01/01/1990' },
-            { name: 'email', type: 'STRING', value: 'jd@example.com' },
             { name: 'training_route', type: 'STRING', value: 'provider_led_postgrad' },
             { name: 'trainee_start_date', type: 'DATE', value: '01/09/2023' },
             { name: 'training_route_category', type: 'STRING', value: 'pg_fee_funded' },

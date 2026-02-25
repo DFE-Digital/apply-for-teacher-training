@@ -69,11 +69,11 @@ module DfE
       end
 
       def first_names
-        application_forms.pluck(:first_name).uniq
+        application_forms.map { |application_form| application_form.first_name.downcase }.uniq
       end
 
       def last_names
-        application_forms.pluck(:last_name).uniq
+        application_forms.map { |application_form| application_form.last_name.downcase }.uniq
       end
 
       def result_class = self.class::Result
