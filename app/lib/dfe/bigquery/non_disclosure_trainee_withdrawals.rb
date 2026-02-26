@@ -3,37 +3,9 @@ module DfE
     class NonDisclosureTraineeWithdrawals
       include ::DfE::Bigquery::Relation
 
-      SELECT_COLUMNS = %w[trn
-                          start_academic_year
-                          trainee_id
-                          created_at
-                          training_route
-                          training_route_category
-                          trainee_start_date
-
+      SELECT_COLUMNS = %w[trainee_start_date
                           accredited_provider.name
-                          accredited_provider.type
-                          accredited_provider.id
                           accredited_provider.code
-                          accredited_provider.ukprn
-                          accredited_provider.apply_sync_enabled
-
-                          course.education_phase
-                          course.allocation_subject
-                          course.allocation_subject_id
-                          course.tad_subject
-                          course.subject_one
-                          course.subject_two
-                          course.subject_three
-                          course.min_age
-                          course.max_age
-                          course.uuid
-
-                          withdraw.category
-                          withdraw.structured_reason
-                          withdraw.free_text_reason
-                          withdraw.future_interest
-                          withdraw.trigger
                           withdraw.date].freeze
 
       attr_reader :candidate
