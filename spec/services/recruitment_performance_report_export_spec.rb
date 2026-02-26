@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::RecruitmentPerformanceReportExport do
+RSpec.describe RecruitmentPerformanceReportExport do
   let(:provider) { create(:provider) }
   let(:region) { Publications::RegionalRecruitmentPerformanceReport.all_of_england_key }
   let(:provider_report) { nil }

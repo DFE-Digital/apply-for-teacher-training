@@ -32,7 +32,7 @@ module ProviderInterface
     private
 
       def exporter
-        @exporter ||= ProviderInterface::RecruitmentPerformanceReportExport.new(
+        @exporter ||= RecruitmentPerformanceReportExport.new(
           provider: @provider,
           region: @region,
           provider_report: @provider_report,
