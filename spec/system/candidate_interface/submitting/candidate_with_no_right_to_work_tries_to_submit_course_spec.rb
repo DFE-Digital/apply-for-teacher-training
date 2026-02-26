@@ -2,8 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate with no right to work or study' do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
 
   before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
     given_i_am_signed_in_with_one_login
     and_there_are_course_options
   end

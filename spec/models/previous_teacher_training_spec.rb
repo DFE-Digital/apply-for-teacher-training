@@ -103,8 +103,25 @@ RSpec.describe PreviousTeacherTraining do
       let(:previous_teacher_training) { create(:previous_teacher_training) }
       let(:application_form) { previous_teacher_training.application_form }
 
+      before do
+        Feature.find_or_create_by(name: 'import_non_disclosure_trainee_withdrawals', active: true)
+      end
+
+      after do
+        FeatureFlag.deactivate(:import_non_disclosure_trainee_withdrawals)
+      end
+
       it 'changes the previous teacher training status to published' do
         expect { previous_teacher_training.make_published }.to change(previous_teacher_training, :status).to('published')
+      end
+
+      it 'enqueues a NonDisclosureTraineeWithdrawalWorker' do
+        allow(NonDisclosureTraineeWithdrawalWorker).to receive(:perform_async)
+        previous_teacher_training.make_published
+
+        expect(
+          NonDisclosureTraineeWithdrawalWorker,
+        ).to have_received(:perform_async).with(application_form.candidate.id)
       end
 
       context 'when the previous teacher training has a duplicate record' do

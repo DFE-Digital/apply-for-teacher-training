@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate is redirected correctly' do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   it 'Candidate reviews completed application and updates personal details section' do
     given_i_am_signed_in_with_one_login

@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Carry over application and submit new application choices' do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   it 'Candidate carries over unsubmitted application with a course to new cycle', time: mid_cycle do
     given_i_am_signed_in_with_one_login

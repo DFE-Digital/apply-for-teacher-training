@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate submits application with feedback form previously completed' do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   it 'Candidate submits application, skips feedback and goes straight to the application dashboard' do
     given_i_complete_my_application

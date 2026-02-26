@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Vendor makes unconditional offer', time: CycleTimetableHelper.mid_cycle(2024) do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   scenario 'A vendor makes an unconditional offer and this is accepted by the candidate' do
     given_a_candidate_has_submitted_their_application

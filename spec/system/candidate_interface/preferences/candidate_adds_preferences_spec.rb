@@ -2,6 +2,13 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate adds preferences' do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+    allow(GoogleMapsAPI::Client).to receive(:new).and_return(client)
+    allow(client).to receive(:autocomplete).and_return(api_response)
+  end
 
   let(:provider) { create(:provider) }
   let(:location_preferences) { [home_location, choice_location] }
@@ -16,11 +23,6 @@ RSpec.describe 'Candidate adds preferences' do
     [
       { name: 'BN1 3AA', place_id: 'test_id' },
     ]
-  end
-
-  before do
-    allow(GoogleMapsAPI::Client).to receive(:new).and_return(client)
-    allow(client).to receive(:autocomplete).and_return(api_response)
   end
 
   scenario 'Candidate opts in to find a candidate with specific locations' do

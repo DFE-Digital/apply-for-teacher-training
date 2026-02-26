@@ -3,6 +3,11 @@ require 'rails_helper'
 RSpec.describe 'International candidate submits the application' do
   include CandidateHelper
   include EFLHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   it 'International candidate completes and submits an application' do
     given_i_am_signed_in_with_one_login

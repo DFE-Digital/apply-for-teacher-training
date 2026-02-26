@@ -1,6 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe GenerateTestApplicationsForProvider, :sidekiq do
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+    training_provider = create(:provider)
+    3.times { create(:course_option, course: create(:course, :open, provider:)) }
+    3.times { create(:course_option, course: create(:course, :open, provider: training_provider, accredited_provider: provider)) }
+    3.times { create(:course_option, course: create(:course, :previous_year, provider:)) }
+  end
+
   let(:provider) { create(:provider) }
   let(:courses_per_application) { 3 }
   let(:application_count) { 1 }
@@ -18,13 +28,6 @@ RSpec.describe GenerateTestApplicationsForProvider, :sidekiq do
       for_test_provider_courses:,
       previous_cycle:,
     }
-  end
-
-  before do
-    training_provider = create(:provider)
-    3.times { create(:course_option, course: create(:course, :open, provider:)) }
-    3.times { create(:course_option, course: create(:course, :open, provider: training_provider, accredited_provider: provider)) }
-    3.times { create(:course_option, course: create(:course, :previous_year, provider:)) }
   end
 
   describe '#call' do

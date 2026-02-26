@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate viewing Science GCSE' do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   it 'Candidate views a Science GCSE only when a primary course is chosen', time: mid_cycle do
     given_i_am_signed_in_with_one_login

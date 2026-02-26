@@ -25,6 +25,10 @@ module CandidateInterface
         SendNewApplicationEmailToProvider.new(application_choice:).call
         CandidateMailer.application_choice_submitted(application_choice).deliver_later
 
+        if FeatureFlag.active?(:import_non_disclosure_trainee_withdrawals)
+          NonDisclosureTraineeWithdrawalWorker.perform_async(application_form.candidate_id)
+        end
+
         LocationPreferences.add_dynamic_location(
           preference: application_form.published_preference,
           application_choice:,

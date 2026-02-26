@@ -63,7 +63,7 @@ module DfE
           Integer(raw_value)
         when 'DATE'
           Date.parse(raw_value)
-        when 'DATETIME', 'TIME'
+        when 'DATETIME', 'TIME', 'TIMESTAMP'
           Time.zone.parse(raw_value)
         when 'BOOLEAN'
           ActiveModel::Type::Boolean.new.cast(raw_value)

@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate submits the application' do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   scenario 'Candidate with more than the max unsuccessful apps' do
     given_i_am_signed_in_with_one_login

@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Previous teacher training' do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   scenario 'Candidate adds previous teacher training' do
     given_i_am_signed_in_with_one_login

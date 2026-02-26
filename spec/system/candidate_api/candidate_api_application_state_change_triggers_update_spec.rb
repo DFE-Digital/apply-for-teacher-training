@@ -3,9 +3,11 @@ require 'rails_helper'
 RSpec.describe 'Candidate API application status change' do
   include SignInHelper
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
 
   before do
     TestSuiteTimeMachine.travel_permanently_to(mid_cycle)
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
   end
 
   it 'candidate_api_updated_at is updated when each state transition occurs' do

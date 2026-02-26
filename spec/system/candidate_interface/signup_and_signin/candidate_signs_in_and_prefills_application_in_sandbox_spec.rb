@@ -3,6 +3,11 @@ require 'rails_helper'
 RSpec.describe 'Candidate signs in and prefills application in Sandbox', :sandbox do
   include SignInHelper
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+  end
 
   scenario 'User is directed to prefill option page and chooses to prefill the application' do
     and_a_course_is_available

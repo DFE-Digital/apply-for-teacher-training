@@ -37,6 +37,12 @@ module DfE
         allow(bigquery_client).to receive(:query_job).and_return(stub_bigquery_provider_edi_report_response(rows:, job_complete:, page_token:, result:))
       end
 
+      def stub_bigquery_non_disclosure_trainee_withdrawals_request(rows: nil, job_complete: true, page_token: nil, result: true)
+        bigquery_client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
+        allow(DfE::Bigquery).to receive(:client).and_return(bigquery_client)
+        allow(bigquery_client).to receive(:query_job).and_return(stub_bigquery_non_disclosure_trainee_withdrawals_response(rows:, job_complete:, page_token:, result:))
+      end
+
       # @param row [nil|Row|'nil']
       #   When nil, it returns a default response
       #   When Row it returns the values defined in the Row
@@ -232,6 +238,17 @@ module DfE
           { name: 'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date', type: 'INTEGER', value: 2 },
           { name: 'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates', type: 'FLOAT', value: 0.0 },
           { name: 'number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle', type: 'FLOAT', value: 0.0 },
+        ]], job_complete:, page_token:, result:)
+      end
+
+      def stub_bigquery_non_disclosure_trainee_withdrawals_response(rows: nil, job_complete: nil, page_token: nil, result: true)
+        return BigqueryStubs.stub_response(rows:, result:) if rows
+
+        BigqueryStubs.stub_response(rows: [[
+          { name: 'trainee_start_date', type: 'DATE', value: '01/09/2024' },
+          { name: 'name', type: 'STRING', value: 'The London Provider' },
+          { name: 'code', type: 'STRING', value: '1AB' },
+          { name: 'date', type: 'DATE', value: '01/01/2025' },
         ]], job_complete:, page_token:, result:)
       end
     end
