@@ -6,12 +6,39 @@ module ProviderInterface
 
       def show
         @provider_report = latest_report.present? ? Publications::ProviderRecruitmentPerformanceReportPresenter.new(latest_report) : nil
-        @provider_data = @provider_report&.statistics
         @report_type = @region == all_of_england ? :NATIONAL : :REGIONAL
-        @statistics = @region == all_of_england ? national_report&.statistics : regional_report&.statistics
+
+        respond_to do |format|
+          format.html do
+            @provider_data = @provider_report&.statistics
+            @statistics = @region == all_of_england ? national_report&.statistics : regional_report&.statistics
+          end
+          format.zip do
+            if latest_report.present?
+              exporter
+
+              send_file(
+                exporter,
+                filename: "#{@provider.name.parameterize}-#{@region}-recruitment-performance-report-#{Time.zone.today}.zip",
+                type: 'application/zip',
+              )
+            else
+              head :not_found
+            end
+          end
+        end
       end
 
     private
+
+      def exporter
+        @exporter ||= RecruitmentPerformanceReportExport.new(
+          provider: @provider,
+          region: @region,
+          provider_report: @provider_report,
+          report_type: @report_type,
+        ).call
+      end
 
       def set_provider
         @provider ||= current_user.providers.find(

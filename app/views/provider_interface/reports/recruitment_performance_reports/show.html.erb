@@ -5,6 +5,9 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l"><%= t('page_titles.recruitment_performance_report') %></h1>
+      <p class="govuk-body">
+        <%= govuk_link_to 'Export data (ZIP)', provider_interface_reports_provider_recruitment_performance_report_path(provider_id: @provider, format: :zip) %>
+      </p>
     </div>
 
     <%= render RecruitmentPerformanceReport::ReportMethodologyComponent.new(
