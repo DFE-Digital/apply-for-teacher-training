@@ -116,7 +116,7 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
   end
 
   describe described_class::Result do
-    let(:result) { described_class.new({ code: '1AB' , name: 'The London Provider' }) }
+    let(:result) { described_class.new({ code: '1AB', name: 'The London Provider' }) }
 
     before do
       stub_bigquery_non_disclosure_trainee_withdrawals_request(rows:)
