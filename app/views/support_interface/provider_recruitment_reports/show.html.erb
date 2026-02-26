@@ -89,7 +89,7 @@
     <div class="govuk-grid-column-full">
       <% @provider_edi_reports.each do |report| %>
         <%= govuk_table do |table| %>
-          <%= table.with_caption(text: 'Regional equality diversity and inclusion report', html_attributes: { class: 'govuk-visually-hidden' }) %>
+          <%= table.with_caption(text: "Regional equality diversity and inclusion report (#{report.category})", html_attributes: { class: 'govuk-visually-hidden' }) %>
 
           <%= table.with_head do |head| %>
             <%= head.with_row do |row| %>
@@ -106,7 +106,11 @@
             <% report.ordered_statistics.each do |data| %>
               <%= body.with_row do |row| %>
                 <%= row.with_cell(rowspan: 4) do %>
-                  <%= data['nonprovider_filter'] %>
+                  <% if report.category == 'disability' %>
+                    <%= report.disability_category(data['nonprovider_filter'] || data['nonregion_filter']) %>
+                  <% else %>
+                    <%= data['nonprovider_filter'] || data['nonregion_filter'] %>
+                  <% end %>
                 <% end %>
 
                 <%= row.with_cell(rowspan: 2, header: true, text: @provider.name) %>
@@ -151,15 +155,15 @@
                 <%= row.with_cell(header: true, text: 'This cycle') %>
 
                 <%= row.with_cell(
-                  text: report.regional_report_submitted_to_date(data['nonprovider_filter']),
+                  text: report.regional_report_submitted_to_date(data['nonprovider_filter'] || data['nonregion_filter']),
                   numeric: true,
                 ) %>
                 <%= row.with_cell(
-                  text: report.regional_report_offered_to_date(data['nonprovider_filter']),
+                  text: report.regional_report_offered_to_date(data['nonprovider_filter'] || data['nonregion_filter']),
                   numeric: true,
                 ) %>
                 <%= row.with_cell(
-                  text: report.regional_report_recruited_to_date(data['nonprovider_filter']),
+                  text: report.regional_report_recruited_to_date(data['nonprovider_filter'] || data['nonregion_filter']),
                   numeric: true,
                 ) %>
               <% end %>
@@ -168,15 +172,15 @@
                 <%= row.with_cell(header: true, text: 'Last cycle') %>
 
                 <%= row.with_cell(
-                  text: report.regional_report_submitted_to_date_previous_cycle(data['nonprovider_filter']),
+                  text: report.regional_report_submitted_to_date_previous_cycle(data['nonprovider_filter'] || data['nonregion_filter']),
                   numeric: true,
                 ) %>
                 <%= row.with_cell(
-                  text: report.regional_report_offered_to_date_previous_cycle(data['nonprovider_filter']),
+                  text: report.regional_report_offered_to_date_previous_cycle(data['nonprovider_filter'] || data['nonregion_filter']),
                   numeric: true,
                 ) %>
                 <%= row.with_cell(
-                  text: report.regional_report_recruited_to_date_previous_cycle(data['nonprovider_filter']),
+                  text: report.regional_report_recruited_to_date_previous_cycle(data['nonprovider_filter'] || data['nonregion_filter']),
                   numeric: true,
                 ) %>
               <% end %>

@@ -44,6 +44,12 @@ module Hesa
       all(cycle_year).find { |hesa_disability| hesa_disability.value == converted_value }
     end
 
+    def self.find_by_code(code, cycle_year = RecruitmentCycleTimetable.current_year)
+      all(cycle_year).find do |disability|
+        disability.hesa_code.to_i == code.to_i
+      end
+    end
+
     def self.convert_disabilities(disabilities)
       Array(disabilities).compact.map do |disability|
         if disability.in?(OLD_HESA_CONVERSION.keys)

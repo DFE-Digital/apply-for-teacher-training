@@ -97,4 +97,8 @@ class ProviderEdiReportDecorator < SimpleDelegator
 
     number_with_delimiter(number) || 'Not available'
   end
+
+  def disability_category(non_provider_filter)
+    Hesa::Disability.find_by_code(non_provider_filter, recruitment_cycle_year)&.value || non_provider_filter
+  end
 end

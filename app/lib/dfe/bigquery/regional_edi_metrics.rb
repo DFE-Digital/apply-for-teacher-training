@@ -55,7 +55,7 @@ module DfE
         select(SELECT_COLUMNS.join(', '))
         .where(
           region_filter: region,
-          nonregion_filter_category: category,
+          nonregion_filter_category: category.downcase == 'disability' ? 'HESA disability' : category,
           region_filter_category: 'ITL1',
           cycle_week:,
           recruitment_cycle_year:,
