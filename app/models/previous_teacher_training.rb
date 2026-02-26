@@ -51,7 +51,9 @@ class PreviousTeacherTraining < ApplicationRecord
       published!
       application_form.touch
 
-      NonDisclosureTraineeWithdrawalWorker.perform_async(application_form.candidate_id)
+      if FeatureFlag.active?(:import_non_disclosure_trainee_withdrawals)
+        NonDisclosureTraineeWithdrawalWorker.perform_async(application_form.candidate_id)
+      end
     end
   end
 end

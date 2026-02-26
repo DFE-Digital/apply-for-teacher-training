@@ -43,11 +43,11 @@ module DfE
       end
 
       def first_names
-        @first_names ||= application_forms.map { |application_form| application_form.first_name&.downcase }.compact.uniq
+        @first_names ||= application_forms.map { |application_form| application_form.first_name&.downcase&.strip }.compact.uniq
       end
 
       def last_names
-        @last_names ||= application_forms.map { |application_form| application_form.last_name&.downcase }.compact.uniq
+        @last_names ||= application_forms.map { |application_form| application_form.last_name&.downcase&.strip }.compact.uniq
       end
 
       def date_of_birth

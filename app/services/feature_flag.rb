@@ -29,6 +29,7 @@ class FeatureFlag
     [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],
     [:api_token_management, 'Allow provider users to manage their own api tokens', 'Apply team'],
     [:ms_clarity, 'Record sessions with MS Clarity'],
+    [:import_non_disclosure_trainee_withdrawals, 'Import Non-disclosure data from BigQuery to generate Possible Previous Teacher Training records', 'Apply team'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

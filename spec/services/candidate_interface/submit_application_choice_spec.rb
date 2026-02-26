@@ -146,12 +146,16 @@ module CandidateInterface
         end
 
         it 'enqueues a NonDisclosureTraineeWithdrawalWorker' do
+          Feature.find_or_create_by(name: 'import_non_disclosure_trainee_withdrawals', active: true)
+
           allow(NonDisclosureTraineeWithdrawalWorker).to receive(:perform_async)
           submit_application
 
           expect(
             NonDisclosureTraineeWithdrawalWorker,
           ).to have_received(:perform_async).with(application_form.candidate.id)
+
+          FeatureFlag.deactivate(:import_non_disclosure_trainee_withdrawals)
         end
       end
     end
