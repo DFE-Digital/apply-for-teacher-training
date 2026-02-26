@@ -19,6 +19,8 @@ module DfE
       end
 
       def trainee_data
+        return [] if first_names.blank? || last_names.blank? || date_of_birth.blank?
+
         query(trainee_data_query)
       end
 
@@ -36,16 +38,20 @@ module DfE
       def sql_statement
         ActiveRecord::Base.send(
           :sanitize_sql_for_conditions,
-          ['email = ? OR (first_name IN (?) AND last_name IN (?) AND date_of_birth = ?)', candidate.email_address, first_names, last_names, application_forms.sample.date_of_birth.to_s],
+          ['email = ? OR (first_name IN (?) AND last_name IN (?) AND date_of_birth = ?)', candidate.email_address, first_names, last_names, date_of_birth],
         )
       end
 
       def first_names
-        application_forms.map { |application_form| application_form.first_name.downcase }.uniq
+        @first_names ||= application_forms.map { |application_form| application_form.first_name&.downcase }.compact.uniq
       end
 
       def last_names
-        application_forms.map { |application_form| application_form.last_name.downcase }.uniq
+        @last_names ||= application_forms.map { |application_form| application_form.last_name&.downcase }.compact.uniq
+      end
+
+      def date_of_birth
+        @date_of_birth ||= application_forms.sample.date_of_birth.to_s
       end
 
       def result_class = self.class::Result
