@@ -8,8 +8,23 @@
     <% end %>
 
   <%= govuk_details(summary_text: 'Guidance given to candidates', classes: 'govuk-!-margin-bottom-4') do %>
-    <%= render 'candidate_interface/personal_statement/guidance' %>
-  <% end %>
+    <p class="govuk-body">You can write about these 3 areas in your personal statement to show how your knowledge, qualifications and experience make you suited to teaching. Include any information that you think supports your application.</p>
+
+    <ul class="govuk-list govuk-list--number">
+      <li><span class="govuk-!-font-weight-bold">Explain why you want to be a teacher.</span></li>
+      <p class="govuk-body">Reflect on what motivates you about a career in teaching.</p>
+
+      <li><span class="govuk-!-font-weight-bold">Describe why you want to teach this subject or specialism. For primary, describe why you want to teach this age group.</span></li>
+      <p class="govuk-body">Highlight your expertise in a subject gained through your qualifications or work experience.</p>
+
+      <li><span class="govuk-!-font-weight-bold">Describe your relevant experience and personal characteristics and explain how they would make you a great teacher.</span></li>
+      <p class="govuk-body">Discuss any relevant experience of working or volunteering with young people and any transferable skills or strengths gained through life experience that would support you in the classroom.</p>
+    </ul>
+
+    <p class="govuk-body">The most successful personal statements are between 500 and 1,000 words long, so make sure you include enough detail.</p>
+    <p class="govuk-body">Read more about <%= govuk_link_to('what to include in your personal statement', t('get_into_teaching.url_apply_personal_statement'), new_tab: true) %>.</p>
+
+<% end %>
 
   <%= simple_format becoming_a_teacher, class: 'govuk-body' %>
 
