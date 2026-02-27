@@ -4,6 +4,14 @@ RSpec.describe 'Provider user views application with possible previous teacher t
   include CourseOptionHelpers
   include DfESignInHelpers
 
+  before do
+    Feature.find_or_create_by(name: 'import_non_disclosure_trainee_withdrawals', active: true)
+  end
+
+  after do
+    FeatureFlag.deactivate(:import_non_disclosure_trainee_withdrawals)
+  end
+
   scenario 'the possible previous teacher training is visible' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
