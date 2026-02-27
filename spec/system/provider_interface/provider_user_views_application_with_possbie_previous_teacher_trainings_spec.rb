@@ -156,6 +156,6 @@ private
   end
 
   def and_i_do_not_see_the_possible_previous_teacher_training_card
-    expect(page).not_to have_css('.app-section.possible-previous-teacher-training-card')
+    expect(page).to have_no_css('.app-section.possible-previous-teacher-training-card')
   end
 end
