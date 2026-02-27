@@ -41,7 +41,6 @@ module CandidateInterface
       end
 
       def check_for_english_proficiency
-        binding.pry
         if english_proficiency.blank?
           redirect_to_efl_root
         end
