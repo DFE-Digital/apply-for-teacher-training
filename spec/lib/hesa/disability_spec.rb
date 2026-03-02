@@ -138,4 +138,18 @@ RSpec.describe Hesa::Disability do
       )
     end
   end
+
+  describe '.find_by_code' do
+    context 'A valid code is provided' do
+      it 'returns a disability' do
+        expect(described_class.find_by_code('51').value).to eq 'A specific learning difficulty such as dyslexia, dyspraxia or AD(H)D'
+      end
+    end
+
+    context 'an invalid code is provided' do
+      it 'returns nil' do
+        expect(described_class.find_by_code('yo')).to be_nil
+      end
+    end
+  end
 end

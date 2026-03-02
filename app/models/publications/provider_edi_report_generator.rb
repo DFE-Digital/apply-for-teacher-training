@@ -25,7 +25,7 @@ module Publications
 
       @client = DfE::Bigquery::NationalEdiMetrics.new(
         cycle_week:,
-        category:,
+        category: category.downcase == 'disability' ? 'HESA disability' : category,
         provider_id:,
       )
     end

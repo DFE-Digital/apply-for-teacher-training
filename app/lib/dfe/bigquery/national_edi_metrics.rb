@@ -70,7 +70,7 @@ module DfE
           teach_first_or_iot_filter: 'All',
           cycle_week:,
           recruitment_cycle_year:,
-          nonprovider_filter_category: category,
+          nonprovider_filter_category: category.downcase == 'disability' ? 'HESA disability' : category,
         ).to_sql
       end
 
@@ -85,7 +85,7 @@ module DfE
             provider_filter_category: 'All',
             cycle_week:,
             recruitment_cycle_year:,
-            nonprovider_filter_category: category,
+            nonprovider_filter_category: category.downcase == 'disability' ? 'HESA disability' : category,
           ).to_sql
       end
 
