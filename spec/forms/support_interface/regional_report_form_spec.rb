@@ -58,7 +58,7 @@ module SupportInterface
           value: 'east_midlands',
         ),
         SupportInterface::RegionalReportForm::Region.new(
-          label: 'East of England',
+          label: 'East (England)',
           value: 'east_of_england',
         ),
         SupportInterface::RegionalReportForm::Region.new(
