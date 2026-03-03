@@ -26,14 +26,22 @@ RSpec.describe 'User views sections when reports have been generated' do
 
   scenario 'when reports are available to provider (ie, during report season) reports generated' do
     given_it_is_during_report_season
+    and_a_provider_exists
+
     and_national_and_provider_reports_have_been_generated
     and_regional_and_provider_reports_have_been_generated
-    and_a_provider_exists
+
+    and_edi_report_has_been_generated
+
     sign_in_as_support_user
     when_i_navigate_to_the_providers_report_page_in_support
     and_i_do_not_see_the_text_that_providers_do_not_yet_see_the_report
+
+    and_i_do_see_the_performance_reports
     when_i_set_london_as_my_region
+
     and_i_do_not_see_the_text_that_providers_do_not_yet_see_the_report
+    and_i_do_see_the_performance_reports
   end
 
   scenario 'when reports are available to provider (ie, during report season) reports not generated' do
@@ -108,6 +116,33 @@ private
     end
   end
 
+  def and_edi_report_has_been_generated
+    create(
+      :regional_edi_report,
+      recruitment_cycle_year: current_year,
+      cycle_week: RecruitmentCycleTimetable.current_cycle_week,
+      generation_date: DateTime.now,
+      publication_date: DateTime.now,
+      region: :all_of_england,
+    )
+    create(
+      :regional_edi_report,
+      recruitment_cycle_year: current_year,
+      cycle_week: RecruitmentCycleTimetable.current_cycle_week,
+      generation_date: DateTime.now,
+      publication_date: DateTime.now,
+      region: :london,
+    )
+    create(
+      :provider_edi_report,
+      provider: @provider,
+      recruitment_cycle_year: current_year,
+      cycle_week: RecruitmentCycleTimetable.current_cycle_week,
+      generation_date: DateTime.now,
+      publication_date: DateTime.now,
+    )
+  end
+
   def when_i_navigate_to_the_providers_report_page_in_support
     visit support_interface_path
     click_on 'Providers'
@@ -158,5 +193,9 @@ private
   def then_i_see_the_explanation_about_when_reports_are_available
     date = RecruitmentPerformanceReportTimetable.first_publication_date.to_datetime.to_fs(:govuk_date)
     "The reports for the #{current_timetable.cycle_range_name} recruitment cycle are not available until #{date}."
+  end
+
+  def and_i_do_see_the_performance_reports
+    expect(page).to have_text('Recruitment performance report')
   end
 end
