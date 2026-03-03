@@ -115,7 +115,7 @@ module ProviderInterface
         ),
         ProviderInterface::RegionalReportForm::Region.new(
           label: 'North East (England)',
-          value: 'nort_east',
+          value: 'north_east',
         ),
         ProviderInterface::RegionalReportForm::Region.new(
           label: 'South West (England)',

@@ -4,7 +4,7 @@ class ReportSharedEnums
       west_midlands: 'West Midlands (England)',
       north_west: 'North West (England)',
       london: 'London',
-      nort_east: 'North East (England)',
+      north_east: 'North East (England)',
       south_west: 'South West (England)',
       east_midlands: 'East Midlands (England)',
       east_of_england: 'East of England',

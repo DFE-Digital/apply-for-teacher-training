@@ -47,7 +47,7 @@ module SupportInterface
         ),
         SupportInterface::RegionalReportForm::Region.new(
           label: 'North East (England)',
-          value: 'nort_east',
+          value: 'north_east',
         ),
         SupportInterface::RegionalReportForm::Region.new(
           label: 'South West (England)',
