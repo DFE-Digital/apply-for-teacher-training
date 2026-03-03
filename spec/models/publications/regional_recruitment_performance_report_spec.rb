@@ -21,10 +21,10 @@ RSpec.describe Publications::RegionalRecruitmentPerformanceReport do
           west_midlands: 'West Midlands (England)',
           north_west: 'North West (England)',
           london: 'London',
-          nort_east: 'North East (England)',
+          north_east: 'North East (England)',
           south_west: 'South West (England)',
           east_midlands: 'East Midlands (England)',
-          east_of_england: 'East of England',
+          east_of_england: 'East (England)',
           yorkshire_and_the_humber: 'Yorkshire and The Humber',
           south_east: 'South East (England)',
         )
