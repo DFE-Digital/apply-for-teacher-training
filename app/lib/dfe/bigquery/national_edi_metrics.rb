@@ -3,38 +3,42 @@ module DfE
     class NationalEdiMetrics
       include ::DfE::Bigquery::Relation
 
-      SELECT_COLUMNS = %w[nonprovider_filter
-                          nonprovider_filter_category
-                          cycle_week
-                          recruitment_cycle_year
-                          provider.id
+      SELECT_COLUMNS = %w[
+        nonprovider_filter
+        nonprovider_filter_category
+        cycle_week
+        recruitment_cycle_year
+        provider.id
 
-                          number_of_candidates_submitted_to_date
-                          number_of_candidates_submitted_to_same_date_previous_cycle
-                          number_of_candidates_submitted_to_date_as_proportion_of_last_cycle
+        number_of_candidates_submitted_to_date
+        number_of_candidates_submitted_to_same_date_previous_cycle
+        number_of_candidates_submitted_to_date_as_proportion_of_last_cycle
 
-                          number_of_candidates_with_offers_to_date
-                          number_of_candidates_with_offers_to_same_date_previous_cycle
-                          number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle
+        number_of_candidates_with_offers_to_date
+        number_of_candidates_with_offers_to_same_date_previous_cycle
+        number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle
 
-                          offer_rate_to_date
-                          offer_rate_to_same_date_previous_cycle
+        offer_rate_to_date
+        offer_rate_to_same_date_previous_cycle
 
-                          number_of_candidates_accepted_to_date
-                          number_of_candidates_accepted_to_same_date_previous_cycle
-                          number_of_candidates_accepted_to_date_as_proportion_of_last_cycle
+        number_of_candidates_accepted_to_date
+        number_of_candidates_accepted_to_same_date_previous_cycle
+        number_of_candidates_accepted_to_date_as_proportion_of_last_cycle
 
-                          number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date
-                          number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle
-                          number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle
+        number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date
+        number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle
+        number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle
 
-                          number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date
-                          number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle
-                          number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle
+        number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date
+        number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle
+        number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle
 
-                          number_of_candidates_who_had_an_inactive_application_this_cycle_to_date
-                          number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates
-                          number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle].freeze
+        number_of_candidates_who_had_an_inactive_application_this_cycle_to_date
+        number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates
+        number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle
+        recruited_rate_to_date
+        recruited_rate_to_same_date_previous_cycle
+      ].freeze
 
       attr_reader :cycle_week,
                   :recruitment_cycle_year,
