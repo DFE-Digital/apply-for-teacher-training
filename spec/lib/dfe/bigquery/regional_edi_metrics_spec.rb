@@ -39,6 +39,8 @@ RSpec.describe DfE::Bigquery::RegionalEdiMetrics do
         { name: 'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date', type: 'INTEGER', value: '12' },
         { name: 'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates', type: 'FLOAT', value: '0.12' },
         { name: 'number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle', type: 'FLOAT', value: '0.12' },
+        { name: 'recruited_rate_to_date', type: 'FLOAT', value: '0.12' },
+        { name: 'recruited_rate_to_same_date_previous_cycle', type: 'FLOAT', value: '0.12' },
       ]]
     end
 
@@ -70,6 +72,8 @@ RSpec.describe DfE::Bigquery::RegionalEdiMetrics do
           number_of_candidates_who_had_an_inactive_application_this_cycle_to_date: 12,
           number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates: 0.12,
           number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle: 0.12,
+          recruited_rate_to_date: 0.12,
+          recruited_rate_to_same_date_previous_cycle: 0.12,
         },
       ]
     end
@@ -86,7 +90,7 @@ RSpec.describe DfE::Bigquery::RegionalEdiMetrics do
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
       region_statistics
       expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
-        SELECT nonregion_filter, nonregion_filter_category, cycle_week, recruitment_cycle_year, region_filter, number_of_candidates_submitted_to_date, number_of_candidates_submitted_to_same_date_previous_cycle, number_of_candidates_submitted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_offers_to_date, number_of_candidates_with_offers_to_same_date_previous_cycle, number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle, offer_rate_to_date, offer_rate_to_same_date_previous_cycle, number_of_candidates_accepted_to_date, number_of_candidates_accepted_to_same_date_previous_cycle, number_of_candidates_accepted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates, number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle
+        SELECT nonregion_filter, nonregion_filter_category, cycle_week, recruitment_cycle_year, region_filter, number_of_candidates_submitted_to_date, number_of_candidates_submitted_to_same_date_previous_cycle, number_of_candidates_submitted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_offers_to_date, number_of_candidates_with_offers_to_same_date_previous_cycle, number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle, offer_rate_to_date, offer_rate_to_same_date_previous_cycle, number_of_candidates_accepted_to_date, number_of_candidates_accepted_to_same_date_previous_cycle, number_of_candidates_accepted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates, number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle, recruited_rate_to_date, recruited_rate_to_same_date_previous_cycle
         FROM `1_key_tables.application_metrics_by_region`
         WHERE region_filter = "London"
         AND nonregion_filter_category = "Sex"
@@ -121,6 +125,8 @@ RSpec.describe DfE::Bigquery::RegionalEdiMetrics do
       expect(region_statistics.first.number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates).to eq 0.12
       expect(region_statistics.first.number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle).to eq 0.12
       expect(region_statistics.first.number_of_candidates_submitted_to_date).to eq 100
+      expect(region_statistics.first.recruited_rate_to_date).to eq 0.12
+      expect(region_statistics.first.recruited_rate_to_same_date_previous_cycle).to eq 0.12
     end
 
     context 'when the api returns no data' do
