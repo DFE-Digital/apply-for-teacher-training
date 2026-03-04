@@ -1,6 +1,8 @@
 module CandidateInterface
   module EnglishForeignLanguage
     class TypeController < CandidateInterfaceController
+      include EflRoutingConcern
+
       def new
         @type_form = EnglishForeignLanguage::TypeForm.new(type_params)
         return_to = if current_application.english_proficiency.present?

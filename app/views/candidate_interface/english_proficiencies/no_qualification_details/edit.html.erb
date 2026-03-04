@@ -1,0 +1,22 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.efl.start'), @no_qualification_details_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_english_proficiencies_start_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(model: @no_qualification_details_form, url: candidate_interface_english_proficiencies_no_qualification_details_path(@english_proficiency), method: :patch) do |f| %>
+      <%= f.govuk_error_summary %>
+      <%= f.govuk_radio_buttons_fieldset(:declare_no_qualification_details,
+         caption: { text: t('page_titles.efl.start'), size: 'xl' },
+         legend: { text: 'You may need an English as a foreign language assessment', size: 'xl', tag: 'h1' },
+         hint: { text: 'Training providers may need to see evidence of your level of English. Contact them to find out about their requirements.' }) do %>
+        <%= f.govuk_radio_button :declare_no_qualification_details, 1, label: { text: 'Yes' }, link_errors: true do %>
+          <%= f.govuk_text_area :no_qualification_details, label: { text: 'Give details of when and what type of assessment you plan to take'} %>
+        <% end %>
+        <%= f.govuk_radio_button :declare_no_qualification_details, 0, label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>
+

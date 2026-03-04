@@ -1,7 +1,7 @@
 module CandidateInterface
   module EnglishForeignLanguage
     class IeltsController < CandidateInterfaceController
-      include EflRootConcern
+      include EflRoutingConcern
 
       def new
         @ielts_form = EnglishForeignLanguage::IeltsForm.new

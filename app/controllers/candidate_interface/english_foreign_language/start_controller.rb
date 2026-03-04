@@ -1,6 +1,8 @@
 module CandidateInterface
   module EnglishForeignLanguage
     class StartController < CandidateInterfaceController
+      include EflRoutingConcern
+
       def new
         @start_form = EnglishForeignLanguage::StartForm.new
       end
@@ -35,16 +37,11 @@ module CandidateInterface
     private
 
       def start_params
-        if FeatureFlag.active?(:application_form_has_many_english_proficiencies)
-          strip_whitespace params
-            .fetch(:candidate_interface_english_foreign_language_start_form, {})
-            .permit(qualification_status: [])
-        else
-          strip_whitespace params
-            .fetch(:candidate_interface_english_foreign_language_start_form, {})
-            .permit(:qualification_status, :no_qualification_details)
-        end.merge(application_form: current_application)
-           .merge(return_to: params[:'return-to'])
+        strip_whitespace params
+          .fetch(:candidate_interface_english_foreign_language_start_form, {})
+          .permit(:qualification_status, :no_qualification_details)
+          .merge(application_form: current_application)
+         .merge(return_to: params[:'return-to'])
       end
     end
   end
