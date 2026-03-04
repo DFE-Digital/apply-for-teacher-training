@@ -1,0 +1,27 @@
+---
+openapi: 3.0.0
+info:
+  version: v1.7
+  title: Apply API
+  contact:
+    name: DfE
+    email: becomingateacher@digital.education.gov.uk
+  description: |
+    API for DfE’s Apply for teacher training service.
+    Endpoints with the `/applications` prefix are considered stable.
+    Experimental endpoints prefixed with `/test-data` may change or be removed.
+servers:
+- description: Sandbox (test environment for vendors)
+  url: https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.7
+- description: Production
+  url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.7
+components:
+  schemas:
+    ApplicationAttributes:
+      properties:
+        possible_undeclared_previous_teacher_training_url:
+          type: string
+          description: A URL to view data concerning possible undeclared previous teacher training details associated with an application.
+          example: https://www.apply-for-teacher-training.service.gov.uk/provider/applications/1234567#previous_teacher_trainings
+      required:
+        - possible_undeclared_previous_teacher_training_url
