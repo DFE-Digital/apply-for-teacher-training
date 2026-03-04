@@ -1,9 +1,7 @@
 <div class="govuk-grid-column-full">
-  <h2 class="govuk-heading-m">Disability</h2>
+  <h2 class="govuk-heading-m">Ethnic group</h2>
   <% statistics.each do |data| %>
-    <p class="govuk-body">
-      <%= disability_category(data['nonprovider_filter'] || data['nonregion_filter']) %>
-    </p>
+    <p class="govuk-body"><%= data['nonprovider_filter'] %></p>
 
     <%= govuk_table do |table| %>
       <%= table.with_caption(text: 'Regional equality diversity and inclusion report', html_attributes: { class: 'govuk-visually-hidden' }) %>

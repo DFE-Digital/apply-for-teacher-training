@@ -87,11 +87,28 @@
     </div>
 
     <%= render RecruitmentPerformanceReport::AgeGroupComponent.new(
-      provider: @provider, edi_reports: @provider_edi_reports, region: @region
+      provider: @provider,
+      edi_reports: @provider_edi_reports,
+      region: @region
     ) %>
 
     <%= render RecruitmentPerformanceReport::DisabilityComponent.new(
-      provider: @provider, edi_reports: @provider_edi_reports, region: @region
+      provider: @provider,
+      edi_reports: @provider_edi_reports,
+      region: @region,
+      recruitment_cycle_year: @current_timetable.recruitment_cycle_year,
+    ) %>
+
+    <%= render RecruitmentPerformanceReport::EthnicGroupComponent.new(
+      provider: @provider,
+      edi_reports: @provider_edi_reports,
+      region: @region
+    ) %>
+
+    <%= render RecruitmentPerformanceReport::SexComponent.new(
+      provider: @provider,
+      edi_reports: @provider_edi_reports,
+      region: @region
     ) %>
 <% else %>
   <div class="govuk-grid-row">

@@ -1,8 +1,8 @@
 module RecruitmentPerformanceReport
-  class AgeGroupComponent < EdiReportComponent
+  class SexComponent < EdiReportComponent
     def report
       @report ||= edi_reports.find do |edi_report|
-        edi_report.category == 'age_group'
+        edi_report.category == 'sex'
       end
     end
   end
