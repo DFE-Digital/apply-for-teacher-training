@@ -98,6 +98,12 @@
       region: @region,
     ) %>
 
+    <%= render RecruitmentPerformanceReport::DisabilityDeclarationComponent.new(
+      provider: @provider,
+      edi_reports: @provider_edi_reports,
+      region: @region,
+    ) %>
+
     <%= render RecruitmentPerformanceReport::EthnicGroupComponent.new(
       provider: @provider,
       edi_reports: @provider_edi_reports,
