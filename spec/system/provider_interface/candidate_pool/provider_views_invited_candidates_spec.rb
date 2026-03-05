@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Invited candidate list' do
   include DfESignInHelpers
 
-  let(:submitted_application_choice) { create(:application_choice, :awaiting_provider_decision) }
+  let(:application_form) { create(:completed_application_form, first_name: 'Joe', last_name: 'Bloggs') }
+  let(:submitted_application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: application_form) }
   let(:current_provider) { submitted_application_choice.provider }
 
   let(:invite_with_application) do

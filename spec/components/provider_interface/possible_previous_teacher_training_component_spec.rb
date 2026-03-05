@@ -32,7 +32,7 @@ RSpec.describe ProviderInterface::PossiblePreviousTeacherTrainingComponent do
 
         expect(rendered_component).to have_element(
           :div,
-          text: 'This candidate may have previously started the below course',
+          text: 'This candidate may have previously started a course with the below provider',
           class: 'govuk-warning-text',
         )
 
@@ -58,7 +58,7 @@ RSpec.describe ProviderInterface::PossiblePreviousTeacherTrainingComponent do
           class: 'govuk-details__summary-text',
         )
         expect(rendered_component).to have_text(
-          'A candidate with the same first name, last name and date of birth previously started the course above.',
+          'A candidate with the same first name, last name and date of birth was previously on a course with the above provider.',
         )
       end
     end
@@ -101,7 +101,7 @@ RSpec.describe ProviderInterface::PossiblePreviousTeacherTrainingComponent do
 
         expect(rendered_component).to have_element(
           :div,
-          text: 'This candidate may have previously started the below courses',
+          text: 'This candidate may have previously started a course with the below providers',
           class: 'govuk-warning-text',
         )
 
@@ -159,7 +159,7 @@ RSpec.describe ProviderInterface::PossiblePreviousTeacherTrainingComponent do
           class: 'govuk-details__summary-text',
         )
         expect(rendered_component).to have_text(
-          'A candidate with the same first name, last name and date of birth previously started the courses above.',
+          'A candidate with the same first name, last name and date of birth was previously on a course with the above providers.',
         )
       end
     end
