@@ -2,8 +2,8 @@ en:
   provider_interface:
     possible_previous_teacher_training_component:
       candidate_previously_started:
-        one: This candidate may have previously started the below course
-        other: This candidate may have previously started the below courses
+        one: This candidate may have previously started a course with the below provider
+        other: This candidate may have previously started a course with the below providers
       provider_name: Name of the training provider
       training_dates: Training dates
       why_we_think_they_trained:
@@ -11,7 +11,7 @@ en:
       previous_training_data_html:
         one:
           <p class="govuk-body">
-            A candidate with the same first name, last name and date of birth previously started the course above.
+            A candidate with the same first name, last name and date of birth was previously on a course with the above provider.
           </p>
 
           <p class="govuk-body">This could be</p>
@@ -21,7 +21,7 @@ en:
           </ul>
 
           <p class="govuk-body">
-            Name and date of birth matches are not unique. They're particularly common for applicants from countries with lower name diversity.
+            Name and date of birth matches are not unique. They‘re particularly common for applicants from countries with lower name diversity.
           </p>
 
           <p class="govuk-body">
@@ -43,7 +43,7 @@ en:
           </p>
         other:
           <p class="govuk-body">
-            A candidate with the same first name, last name and date of birth previously started the courses above.
+            A candidate with the same first name, last name and date of birth was previously on a course with the above providers.
           </p>
 
           <p class="govuk-body">This could be</p>
@@ -53,7 +53,7 @@ en:
           </ul>
 
           <p class="govuk-body">
-            Name and date of birth matches are not unique. They're particularly common for applicants from countries with lower name diversity.
+            Name and date of birth matches are not unique. They‘re particularly common for applicants from countries with lower name diversity.
           </p>
 
           <p class="govuk-body">

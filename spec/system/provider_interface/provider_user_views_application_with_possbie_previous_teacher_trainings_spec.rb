@@ -93,13 +93,13 @@ private
     within('.possible-previous-teacher-training-card') do
       expect(page).to have_element(
         :strong,
-        text: 'This candidate may have previously started the below courses',
+        text: 'This candidate may have previously started a course with the below providers',
         class: 'govuk-warning-text__text',
       )
       expect(page).to have_element(:span, text: 'Why we think they may have trained before', class: 'govuk-details__summary-text')
       expect(page).to have_element(
         :p,
-        text: 'A candidate with the same first name, last name and date of birth previously started the courses above.',
+        text: 'A candidate with the same first name, last name and date of birth was previously on a course with the above providers.',
         class: 'govuk-body',
         visible: :all,
       )
@@ -108,7 +108,7 @@ private
       expect(page).to have_element(:li, text: 'a different person with the same details', visible: :all)
       expect(page).to have_element(
         :p,
-        text: "Name and date of birth matches are not unique. They're particularly common for applicants from countries with lower name diversity.",
+        text: "Name and date of birth matches are not unique. They‘re particularly common for applicants from countries with lower name diversity.",
         class: 'govuk-body',
         visible: :all,
       )
