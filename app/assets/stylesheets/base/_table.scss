@@ -1,3 +1,5 @@
+@use "govuk";
+
 .govuk-table {
   .govuk-summary-list__row:last-of-type .govuk-summary-list__key,
   .govuk-summary-list__row:last-of-type .govuk-summary-list__value,
@@ -15,7 +17,7 @@
 
 .app_table__header--border-right,
 .app_table__cell--border-right {
-  border-right: 1px solid $govuk-border-colour;
+  border-right: 1px solid govuk.$govuk-border-colour;
 }
 
 .app-table__row--no-bottom-border {

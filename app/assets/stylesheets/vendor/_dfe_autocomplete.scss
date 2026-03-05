@@ -1,0 +1,192 @@
+@use "../base/govuk";
+
+// Everything below this line is copied from with sylelint fixes
+// node_modules/dfe-autocomplete/src/dfe-autocomplete.scss
+// The only changes are the switch from @import to @use and
+// to prefix govuk mixins and variables with "govuk."
+@use "node_modules/accessible-autocomplete/src/autocomplete";
+
+// Overrides
+body .suggestions .autocomplete__menu {
+  top: 20px;
+
+  border-top: 2px solid govuk.govuk-colour("black");
+}
+
+body .suggestions .autocomplete__wrapper ul::before {
+  display: block;
+
+  width: 100%;
+
+  padding: 4px 8px;
+
+  content: 'Suggestions';
+
+  background-color: #f3f2f1;
+  border-bottom: 2px solid govuk.govuk-colour("black");
+}
+
+// Regular styles from source
+.suggestions {
+  .autocomplete__wrapper {
+    @include govuk.govuk-typography-common;
+    position: relative;
+  }
+
+  .autocomplete__hint,
+  .autocomplete__input {
+    box-sizing: border-box;
+
+    width: 100%;
+
+    margin-bottom: 0;
+
+    -webkit-appearance: none;
+
+    border: govuk.$govuk-border-width-form-element solid govuk.$govuk-input-border-colour;
+    border-radius: 0;
+  }
+
+  .autocomplete__input {
+    position: relative;
+
+    padding: govuk.govuk-spacing(1);
+
+    background-color: transparent;
+  }
+
+  .autocomplete__hint {
+    position: absolute;
+
+    color: govuk.govuk-colour("mid-grey");
+  }
+
+  .autocomplete__input--focused {
+    outline: govuk.$govuk-focus-width solid govuk.$govuk-focus-colour;
+    outline-offset: 0;
+
+    box-shadow: inset 0 0 0 govuk.$govuk-border-width-form-element;
+  }
+
+  .autocomplete__input--show-all-values {
+    padding-right: (govuk.govuk-spacing(1) + 24px + govuk.govuk-spacing(2));
+
+    cursor: pointer;
+  }
+
+  .autocomplete__dropdown-arrow-down {
+    position: absolute;
+    top: govuk.govuk-spacing(2);
+    right: govuk.govuk-spacing(2);
+
+    display: inline-block;
+
+    width: 24px;
+    height: 24px;
+    // https://github.com/alphagov/accessible-autocomplete/issues/202
+    pointer-events: none;
+  }
+
+  .autocomplete__menu {
+    width: 100%;
+    width: calc(100% - #{govuk.govuk-spacing(1)});
+    max-height: 342px;
+
+    padding: 0;
+    margin: 0;
+
+    overflow-x: hidden;
+
+    color: govuk.$govuk-text-colour;
+
+    background-color: govuk.govuk-colour("white");
+    border: govuk.$govuk-border-width-form-element solid govuk.$govuk-input-border-colour;
+    border-top: 0;
+  }
+
+  .autocomplete__menu--visible {
+    display: block;
+  }
+
+  .autocomplete__menu--hidden {
+    display: none;
+  }
+
+  .autocomplete__menu--overlay {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 100;
+
+    box-shadow: rgba(0, 0, 0, .2569) 0 2px 6px;
+  }
+
+  .autocomplete__menu--inline {
+    position: relative;
+  }
+
+  .autocomplete__option {
+    position: relative;
+
+    display: block;
+
+    cursor: pointer;
+
+    border-width: 1px 0;
+    border-bottom: solid govuk.govuk-colour("mid-grey");
+  }
+
+  .autocomplete__option > * {
+    pointer-events: none;
+  }
+
+  .autocomplete__option:first-of-type {
+    border-top-width: 0;
+  }
+
+  .autocomplete__option:last-of-type {
+    border-bottom-width: 0;
+  }
+
+  .autocomplete__option--odd {
+    background-color: govuk.govuk-colour("light-grey");
+  }
+
+  .autocomplete__option--hint {
+    color: govuk.$govuk-secondary-text-colour;
+  }
+
+  .autocomplete__option--focused,
+  .autocomplete__option:hover {
+    color: govuk.govuk-colour("white");
+
+    outline: 0;
+
+    background-color: govuk.govuk-colour("blue");
+    border-color: govuk.govuk-colour("blue");
+
+    .autocomplete__option--hint {
+      color: govuk.govuk-colour("white");
+    }
+  }
+
+  .autocomplete__option--no-results {
+    color: govuk.govuk-colour("dark-grey");
+
+    cursor: not-allowed;
+
+    background-color: govuk.govuk-colour("light-grey");
+  }
+
+  .autocomplete__hint,
+  .autocomplete__input,
+  .autocomplete__option {
+    @include govuk.govuk-font(19);
+  }
+
+  .autocomplete__hint,
+  .autocomplete__option {
+    padding: govuk.govuk-spacing(1);
+  }
+}
+

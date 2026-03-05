@@ -1,14 +1,16 @@
-.validation-results-header {
-  padding-bottom: govuk-spacing(2);
+@use "../base/govuk";
 
-  @include govuk-media-query($from: desktop) {
-    padding-top: govuk-spacing(2);
+.validation-results-header {
+  padding-bottom: govuk.govuk-spacing(2);
+
+  @include govuk.govuk-media-query($from: desktop) {
+    padding-top: govuk.govuk-spacing(2);
   }
 
   &__cta {
     display: none;
 
-    margin: govuk-spacing(1) 0;
+    margin: govuk.govuk-spacing(1) 0;
 
     .js-enabled & {
       display: block;
@@ -16,7 +18,7 @@
   }
 
   .govuk-form {
-    @include govuk-media-query($from: desktop) {
+    @include govuk.govuk-media-query($from: desktop) {
       text-align: right;
     }
   }
@@ -26,10 +28,10 @@
 
     display: inline-block;
 
-    margin-top: govuk-spacing(2);
+    margin-top: govuk.govuk-spacing(2);
     margin-bottom: 0;
 
-    @include govuk-media-query($from: desktop) {
+    @include govuk.govuk-media-query($from: desktop) {
       margin: 0;
     }
   }
@@ -37,10 +39,10 @@
   .govuk-button {
     float: right;
 
-    margin: govuk-spacing(2) 0 0;
+    margin: govuk.govuk-spacing(2) 0 0;
 
-    @include govuk-media-query($from: desktop) {
-      margin: 0 0 0 govuk-spacing(2);
+    @include govuk.govuk-media-query($from: desktop) {
+      margin: 0 0 0 govuk.govuk-spacing(2);
     }
 
     .js-enabled & {
@@ -51,13 +53,13 @@
   select {
     width: 100%;
 
-    @include govuk-media-query($from: desktop) {
+    @include govuk.govuk-media-query($from: desktop) {
       width: 220px;
     }
   }
 
   .sortedby-label {
-    @include govuk-media-query($from: desktop) {
+    @include govuk.govuk-media-query($from: desktop) {
       display: inline;
 
       margin-right: 0.5em;

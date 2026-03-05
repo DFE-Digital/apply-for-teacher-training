@@ -1,3 +1,5 @@
+@use "../base/govuk";
+
 .withdrawal-reasons-report-table {
   &__wrapper {
     overflow-x: auto;
@@ -8,27 +10,27 @@
   }
 
   &__cell--main-reason {
-    font-weight: $govuk-font-weight-bold;
+    font-weight: govuk.$govuk-font-weight-bold;
 
-    background: govuk-colour("light-grey");
-    border-top: 2px solid  $govuk-input-border-colour;
+    background: govuk.govuk-colour("light-grey");
+    border-top: 2px solid  govuk.$govuk-input-border-colour;
   }
 
   &__cell--second-level-reason {
-    padding-left: govuk-spacing(3);
+    padding-left: govuk.govuk-spacing(3);
   }
 
   &__cell--third-level-reason {
-    padding-left: govuk-spacing(5);
+    padding-left: govuk.govuk-spacing(5);
   }
 
   &__cell--second-level-with-nested-reasons {
-    padding-left: govuk-spacing(3);
+    padding-left: govuk.govuk-spacing(3);
 
-    background: govuk-tint(govuk-colour('light-grey'), 50);
+    background: govuk-tint(govuk.govuk-colour('light-grey'), 50);
   }
 
   &__cell--light-grey-background {
-    background: govuk-tint(govuk-colour('light-grey'), 50);
+    background: govuk-tint(govuk.govuk-colour('light-grey'), 50);
   }
 }

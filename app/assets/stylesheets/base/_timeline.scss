@@ -1,11 +1,13 @@
+@use "govuk";
+
 .app-timeline {
   position: relative;
 
-  margin-bottom: govuk-spacing(4);
+  margin-bottom: govuk.govuk-spacing(4);
 
   &::before {
     position: absolute;
-    top: govuk-spacing(2);
+    top: govuk.govuk-spacing(2);
     left: 0;
 
     width: 5px;
@@ -13,7 +15,7 @@
 
     content: "";
 
-    background-color: govuk-colour("blue");
+    background-color: govuk.govuk-colour("blue");
   }
 }
 
@@ -28,12 +30,12 @@
 .app-timeline__item {
   position: relative;
 
-  padding-bottom: govuk-spacing(6);
-  padding-left: govuk-spacing(4);
+  padding-bottom: govuk.govuk-spacing(6);
+  padding-left: govuk.govuk-spacing(4);
 
   &::before {
     position: absolute;
-    top: govuk-spacing(2);
+    top: govuk.govuk-spacing(2);
     left: 0;
 
     width: 15px;
@@ -41,7 +43,7 @@
 
     content: "";
 
-    background-color: govuk-colour("blue");
+    background-color: govuk.govuk-colour("blue");
   }
 }
 
@@ -56,34 +58,34 @@
 
     content: "";
 
-    background-color: govuk-colour("blue");
+    background-color: govuk.govuk-colour("blue");
   }
 }
 
 .app-timeline__title {
-  @include govuk-font($size: 19, $weight: bold);
+  @include govuk.govuk-font($size: 19, $weight: bold);
   display: inline;
 }
 
 .app-timeline__actor_and_date {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
   display: inline;
 
   margin: 0;
 
-  color: $govuk-secondary-text-colour;
+  color: govuk.$govuk-secondary-text-colour;
 }
 
 .app-timeline__date {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
   margin: 0;
 
-  color: $govuk-secondary-text-colour;
+  color: govuk.$govuk-secondary-text-colour;
 }
 
 .app-timeline__event_link {
-  @include govuk-font($size: 19);
-  margin-top: govuk-spacing(4);
+  @include govuk.govuk-font($size: 19);
+  margin-top: govuk.govuk-spacing(4);
 }
 
 .app-timeline__log-card__note:last-of-type {
@@ -95,13 +97,13 @@
 }
 
 .app-timeline__log-card__note--title {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
   margin-bottom: 5px;
 }
 
 .app-timeline__log-card__note--content {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
   margin-bottom: 20px;
 
-  color: $govuk-secondary-text-colour;
+  color: govuk.$govuk-secondary-text-colour;
 }

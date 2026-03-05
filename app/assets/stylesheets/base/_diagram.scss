@@ -1,3 +1,5 @@
+@use "govuk";
+
 .app-diagram {
   text-align: center;
 
@@ -6,13 +8,13 @@
     height: 100%;
 
     a:focus polygon {
-      fill: $govuk-focus-colour;
-      stroke: $govuk-text-colour;
-      stroke-width: $govuk-focus-width;
+      fill: govuk.$govuk-focus-colour;
+      stroke: govuk.$govuk-text-colour;
+      stroke-width: govuk.$govuk-focus-width;
     }
 
     a:focus text {
-      fill: $govuk-text-colour;
+      fill: govuk.$govuk-text-colour;
     }
   }
 }

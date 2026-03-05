@@ -1,6 +1,8 @@
-$button-shadow-size: $govuk-border-width-form-element;
-$app-button-inverted-background-colour: govuk-colour("white");
-$app-button-inverted-foreground-colour: govuk-colour("blue");
+@use "../base/govuk";
+
+$button-shadow-size: govuk.$govuk-border-width-form-element;
+$app-button-inverted-background-colour: govuk.govuk-colour("white");
+$app-button-inverted-foreground-colour: govuk.govuk-colour("blue");
 $app-button-inverted-shadow-colour: govuk-shade(
   $app-button-inverted-foreground-colour,
   30%
@@ -26,9 +28,9 @@ $app-button-inverted-hover-background-colour: govuk-tint(
 }
 
 .app-button--inverted:focus:not(:hover) {
-  color: $govuk-focus-text-colour;
+  color: govuk.$govuk-focus-text-colour;
 
-  background-color: $govuk-focus-colour;
+  background-color: govuk.$govuk-focus-colour;
 }
 
 .app-button--inverted:active,
@@ -36,6 +38,6 @@ $app-button-inverted-hover-background-colour: govuk-tint(
   color: $app-button-inverted-foreground-colour;
 
   background-color: $app-button-inverted-hover-background-colour;
-  border-color: $govuk-focus-colour;
-  box-shadow: inset 0 0 0 2px $govuk-focus-colour;
+  border-color: govuk.$govuk-focus-colour;
+  box-shadow: inset 0 0 0 2px govuk.$govuk-focus-colour;
 }

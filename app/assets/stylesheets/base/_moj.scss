@@ -1,0 +1,7 @@
+@forward "node_modules/@ministryofjustice/frontend/moj/all"with (
+  $moj-assets-path: "/"
+);
+
+.app-checkbox-filter__tag {
+  @extend .moj-filter__tag; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+}

@@ -1,13 +1,15 @@
+@use "govuk";
+
 .app-status-indicator {
   display: inline-flex;
 
   align-items: center;
   justify-content: center;
 
-  width: govuk-spacing(1);
-  height: govuk-spacing(1);
+  width: govuk.govuk-spacing(1);
+  height: govuk.govuk-spacing(1);
 
-  margin-right: govuk-spacing(1);
+  margin-right: govuk.govuk-spacing(1);
 
   border: 4px currentColor solid;
   border-radius: 100%;
@@ -18,37 +20,37 @@
 }
 
 .app-status-indicator--grey {
-  color: govuk-colour("mid-grey");
+  color: govuk.govuk-colour("mid-grey");
 }
 
 .app-status-indicator--purple {
-  color: govuk-colour("purple");
+  color: govuk.govuk-colour("purple");
 }
 
 .app-status-indicator--turquoise {
-  color: govuk-colour("turquoise");
+  color: govuk.govuk-colour("turquoise");
 }
 
 .app-status-indicator--blue {
-  color: govuk-colour("blue");
+  color: govuk.govuk-colour("blue");
 }
 
 .app-status-indicator--yellow {
-  color: govuk-colour("yellow");
+  color: govuk.govuk-colour("yellow");
 }
 
 .app-status-indicator--orange {
-  color: govuk-colour("orange");
+  color: govuk.govuk-colour("orange");
 }
 
 .app-status-indicator--red {
-  color: govuk-colour("red");
+  color: govuk.govuk-colour("red");
 }
 
 .app-status-indicator--pink {
-  color: govuk-colour("pink");
+  color: govuk.govuk-colour("pink");
 }
 
 .app-status-indicator--green {
-  color: govuk-colour("green");
+  color: govuk.govuk-colour("green");
 }

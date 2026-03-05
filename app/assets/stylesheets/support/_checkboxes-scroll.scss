@@ -1,12 +1,14 @@
+@use "../base/govuk";
+
 .app-checkboxes-scroll {
   height: 75vh;
   min-height: 13.5em;
 
-  padding: govuk-spacing(2);
+  padding: govuk.govuk-spacing(2);
 
   overflow-y: scroll;
 
-  border: $govuk-border-width-form-element solid $govuk-input-border-colour;
+  border: govuk.$govuk-border-width-form-element solid govuk.$govuk-input-border-colour;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -15,6 +17,6 @@
 }
 
 .app-checkboxes-scroll::-webkit-scrollbar-thumb {
-  background-color: govuk-colour("mid-grey");
-  border: $govuk-border-width solid govuk-colour("white");
+  background-color: govuk.govuk-colour("mid-grey");
+  border: govuk.$govuk-border-width solid govuk.govuk-colour("white");
 }

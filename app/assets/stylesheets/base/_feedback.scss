@@ -1,5 +1,7 @@
+@use "govuk";
+
 .app-feedback {
-  @include govuk-clearfix;
+  @include govuk.govuk-clearfix;
   box-sizing: border-box;
 
   flex-wrap: wrap;
@@ -8,32 +10,32 @@
 
   min-height: 80px;
 
-  padding: govuk-spacing(2) govuk-spacing(5);
+  padding: govuk.govuk-spacing(2) govuk.govuk-spacing(5);
 
   outline: 0;
 
-  background-color: govuk-colour("light-grey");
+  background-color: govuk.govuk-colour("light-grey");
 }
 
 .app-feedback-helpful {
-  padding-top: govuk-spacing(3);
-  margin-top: govuk-spacing(4);
-  margin-right: govuk-spacing(1);
+  padding-top: govuk.govuk-spacing(3);
+  margin-top: govuk.govuk-spacing(4);
+  margin-right: govuk.govuk-spacing(1);
 
   line-height: 38px;
 
-  border-top: 1px solid $govuk-border-colour;
+  border-top: 1px solid govuk.$govuk-border-colour;
 }
 
 .app-feedback-helpful form {
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     display: inline-block;
   }
 }
 
 .app-feedback-helpful .govuk-button {
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     margin-bottom: 0;
-    margin-left: govuk-spacing(1);
+    margin-left: govuk.govuk-spacing(1);
   }
 }

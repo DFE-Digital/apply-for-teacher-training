@@ -1,5 +1,7 @@
+@use "govuk";
+
 .app-conditions-list__tag {
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     text-align: right;
   }
 }

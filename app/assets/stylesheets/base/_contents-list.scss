@@ -1,3 +1,5 @@
+@use "govuk";
+
 // Originally taken from the GOV.UK "Contents list" component
 //
 // https://components.publishing.service.gov.uk/component-guide/contents_list
@@ -8,32 +10,32 @@
   position: relative;
   z-index: 1;
 
-  margin: 0 0 govuk-spacing(4);
+  margin: 0 0 govuk.govuk-spacing(4);
 
-  background: govuk-colour("white");
-  box-shadow: 0 20px 15px -10px govuk-colour("white");
+  background: govuk.govuk-colour("white");
+  box-shadow: 0 20px 15px -10px govuk.govuk-colour("white");
 }
 
 .app-contents-list--font-size-19 .app-contents-list__title,
 .app-contents-list--font-size-19 .app-contents-list__list {
-  @include govuk-font($size: 19, $line-height: 1.5);
+  @include govuk.govuk-font($size: 19, $line-height: 1.5);
 }
 
 .app-contents-list--font-size-24 .app-contents-list__title,
 .app-contents-list--font-size-24 .app-contents-list__list {
-  @include govuk-font($size: 24, $line-height: 1.5);
+  @include govuk.govuk-font($size: 24, $line-height: 1.5);
 }
 
 .app-contents-list__title {
-  @include govuk-text-colour;
-  @include govuk-font($size: 16, $weight: regular, $line-height: 1.5);
+  @include govuk.govuk-text-colour;
+  @include govuk.govuk-font($size: 16, $weight: regular, $line-height: 1.5);
   margin: 0;
 }
 
 .app-contents-list__list,
 .app-contents-list__nested-list {
-  @include govuk-text-colour;
-  @include govuk-font($size: 16);
+  @include govuk.govuk-text-colour;
+  @include govuk.govuk-font($size: 16);
   padding: 0;
   margin: 0;
 
@@ -54,7 +56,7 @@
 }
 
 .app-contents-list__list-item {
-  padding-top: govuk-spacing(2);
+  padding-top: govuk.govuk-spacing(2);
 
   line-height: 1.3;
 
@@ -62,7 +64,7 @@
 }
 
 .app-contents-list__list-item--dashed {
-  $contents-spacing: govuk-spacing(5);
+  $contents-spacing: govuk.govuk-spacing(5);
   position: relative;
 
   padding-right: $contents-spacing;
@@ -72,7 +74,7 @@
     position: absolute;
     left: 0;
 
-    width: govuk-spacing(4);
+    width: govuk.govuk-spacing(4);
 
     overflow: hidden;
 

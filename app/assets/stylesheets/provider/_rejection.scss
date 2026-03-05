@@ -1,8 +1,10 @@
+@use "../base/govuk";
+
 .app-rejection {
   position: relative;
 
   padding-right: 70px;
-  margin-bottom: govuk-spacing(6);
+  margin-bottom: govuk.govuk-spacing(6);
 
   p {
     margin-bottom: 0;

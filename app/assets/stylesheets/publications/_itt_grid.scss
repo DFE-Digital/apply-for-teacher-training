@@ -1,3 +1,5 @@
+@use "../base/govuk";
+
 .govuk-grid-row:has(.itt-grid) {
   margin-right: 0;
 }
@@ -7,10 +9,10 @@
 
   grid-template-columns: repeat(1, 1fr);
 
-  gap: govuk-spacing(3) govuk-spacing(4);
+  gap: govuk.govuk-spacing(3) govuk.govuk-spacing(4);
 }
 
-@include govuk-media-query($from: tablet) {
+@include govuk.govuk-media-query($from: tablet) {
   .itt-grid {
     grid-template-columns: repeat(2, 1fr);
   }
