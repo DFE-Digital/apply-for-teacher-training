@@ -1,0 +1,52 @@
+module CandidateInterface
+  module EnglishProficiencies
+    class ToeflForm
+      include ActiveModel::Model
+
+      attr_accessor :registration_number, :total_score, :award_year, :application_form
+
+      validates :registration_number, presence: true, length: { maximum: 255 }
+      validates :total_score, numericality: true, presence: true, length: { maximum: 255 }
+      validates :award_year, presence: true,
+                numericality: { greater_than_or_equal_to: 1964, only_integer: true },
+                year: { future: true }
+
+      def save
+        return false unless valid?
+
+        raise_error_unless_application_form
+
+        toefl = ToeflQualification.new(
+          registration_number:,
+          total_score:,
+          award_year:,
+          )
+        UpdateEnglishProficiencies.new(
+          application_form,
+          qualification_statuses: persisting_qualification_statuses << 'has_qualification',
+          efl_qualification: toefl,
+        ).call
+      end
+
+      def fill(toefl:)
+        self.registration_number = toefl.registration_number
+        self.total_score = toefl.total_score
+        self.award_year = toefl.award_year
+        self
+      end
+
+      private
+
+      def raise_error_unless_application_form
+        if application_form.blank?
+          raise MissingApplicationFormError
+        end
+      end
+
+      def persisting_qualification_statuses
+        @persisting_qualification_statuses ||= application_form.english_proficiencies.pluck(:qualification_status)
+      end
+    end
+  end
+end
+

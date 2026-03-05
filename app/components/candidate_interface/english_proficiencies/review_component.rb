@@ -136,6 +136,51 @@ module CandidateInterface
         ]
       end
 
+      def toefl_rows
+        [
+          {
+            key: { text: 'Type of assessment' },
+            value: { text: 'TOEFL' },
+            actions: [
+              {
+                href: candidate_interface_english_proficiencies_type_path,
+                visually_hidden_text: 'type of assessment',
+              }
+            ],
+          },
+          {
+            key: { text:'TOEFL registration number' },
+            value: { text: english_proficiency_qualification.registration_number },
+            actions: [
+              {
+                href: candidate_interface_edit_toefl_path,
+                visually_hidden_text: 'registration number',
+              },
+            ],
+          },
+          {
+            key: { text: 'Year completed' },
+            value: { text: english_proficiency_qualification.award_year },
+            actions: [
+              {
+                href: candidate_interface_edit_toefl_path,
+                visually_hidden_text: 'year completed',
+              },
+            ],
+          },
+          {
+            key: { text: 'Total score' },
+            value: { text: english_proficiency_qualification.total_score },
+            actions: [
+              {
+                href: candidate_interface_edit_toefl_path,
+                visually_hidden_text: 'total score',
+              }
+            ],
+          },
+        ]
+      end
+
       def no_qualification_english_proficiency
         @no_qualification_english_proficiency ||= english_proficiencies.where(
           qualification_status: %w[no_qualification degree_taught_in_english],
