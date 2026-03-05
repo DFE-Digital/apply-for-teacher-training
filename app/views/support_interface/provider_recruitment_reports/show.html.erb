@@ -89,7 +89,7 @@
     <%= render RecruitmentPerformanceReport::AgeGroupComponent.new(
       provider: @provider,
       edi_reports: @provider_edi_reports,
-      region: @region
+      region: @region,
     ) %>
 
     <%= render RecruitmentPerformanceReport::DisabilityComponent.new(
@@ -102,13 +102,13 @@
     <%= render RecruitmentPerformanceReport::EthnicGroupComponent.new(
       provider: @provider,
       edi_reports: @provider_edi_reports,
-      region: @region
+      region: @region,
     ) %>
 
     <%= render RecruitmentPerformanceReport::SexComponent.new(
       provider: @provider,
       edi_reports: @provider_edi_reports,
-      region: @region
+      region: @region,
     ) %>
 <% else %>
   <div class="govuk-grid-row">
