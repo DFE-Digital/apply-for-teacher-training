@@ -108,7 +108,7 @@ private
       expect(page).to have_element(:li, text: 'a different person with the same details', visible: :all)
       expect(page).to have_element(
         :p,
-        text: "Name and date of birth matches are not unique. They‘re particularly common for applicants from countries with lower name diversity.",
+        text: 'Name and date of birth matches are not unique. They‘re particularly common for applicants from countries with lower name diversity.',
         class: 'govuk-body',
         visible: :all,
       )
