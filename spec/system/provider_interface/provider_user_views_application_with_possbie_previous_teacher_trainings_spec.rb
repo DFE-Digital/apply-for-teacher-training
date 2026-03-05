@@ -112,19 +112,20 @@ private
         class: 'govuk-body',
         visible: :all,
       )
-      expect(page).to have_element(:h4, text: 'What you must do', class: 'govuk-heading-s', visible: :all)
+      expect(page).to have_element(:h4, text: 'What you should consider', class: 'govuk-heading-s', visible: :all)
       expect(page).to have_element(
         :p,
         text: 'Check if this is the same person who trained before:',
         class: 'govuk-body',
         visible: :all,
       )
-      expect(page).to have_element(:li, text: 'contact their previous provider', visible: :all)
-      expect(page).to have_element(:li, text: 'ask why they left or were removed', visible: :all)
-      expect(page).to have_element(:li, text: 'decide if this is a safeguarding concern', visible: :all)
+      expect(page).to have_element(:li, text: 'contact the candidate', visible: :all)
+      expect(page).to have_element(:li, text: 'ask why they withdrew, left or were removed', visible: :all)
+      expect(page).to have_element(:li, text: 'ask the candidate to request a reference from the previous provider', visible: :all)
+      expect(page).to have_element(:li, text: 'contact the previous provider, if necessary', visible: :all)
       expect(page).to have_element(
         :p,
-        text: 'ITT criteria require you to check that candidates do not pose a safeguarding risk. This includes checking if they left a previous ITT programme due to safeguarding concerns.',
+        text: "You should carry out the above actions before taking a decision on the candidate's suitability",
         class: 'govuk-body',
         visible: :all,
       )

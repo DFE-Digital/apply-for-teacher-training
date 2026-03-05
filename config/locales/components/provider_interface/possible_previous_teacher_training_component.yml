@@ -24,18 +24,22 @@ en:
             Name and date of birth matches are not unique. They're particularly common for applicants from countries with lower name diversity.
           </p>
 
-          <h4 class="govuk-heading-s">What you must do</h4>
+          <p class="govuk-body">
+            They may also have withdrawn before the start of the course.
+          </p>
+
+          <h4 class="govuk-heading-s">What you should consider</h4>
 
           <p class="govuk-body">Check if this is the same person who trained before:</p>
           <ul class="govuk-list govuk-list--bullet">
-            <li>contact their previous provider</li>
-            <li>ask why they left or were removed</li>
-            <li>decide if this is a safeguarding concern</li>
+            <li>contact the candidate</li>
+            <li>ask why they withdrew, left or were removed</li>
+            <li>ask the candidate to request a reference from the previous provider</li>
+            <li>contact the previous provider, if necessary</li>
           </ul>
 
           <p class="govuk-body">
-            ITT criteria require you to check that candidates do not pose a safeguarding risk.
-            This includes checking if they left a previous ITT programme due to safeguarding concerns.
+            You should carry out the above actions before taking a decision on the candidate's suitability.
           </p>
         other:
           <p class="govuk-body">
@@ -52,16 +56,20 @@ en:
             Name and date of birth matches are not unique. They're particularly common for applicants from countries with lower name diversity.
           </p>
 
-          <h4 class="govuk-heading-s">What you must do</h4>
+          <p class="govuk-body">
+            They may also have withdrawn before the start of the course.
+          </p>
+
+          <h4 class="govuk-heading-s">What you should consider</h4>
 
           <p class="govuk-body">Check if this is the same person who trained before:</p>
           <ul class="govuk-list govuk-list--bullet">
-            <li>contact their previous provider</li>
-            <li>ask why they left or were removed</li>
-            <li>decide if this is a safeguarding concern</li>
+            <li>contact the candidate</li>
+            <li>ask why they withdrew, left or were removed</li>
+            <li>ask the candidate to request a reference from the previous provider</li>
+            <li>contact the previous provider, if necessary</li>
           </ul>
 
           <p class="govuk-body">
-            ITT criteria require you to check that candidates do not pose a safeguarding risk.
-            This includes checking if they left a previous ITT programme due to safeguarding concerns.
+            You should carry out the above actions before taking a decision on the candidate's suitability.
           </p>
