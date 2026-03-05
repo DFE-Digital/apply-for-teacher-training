@@ -12,7 +12,7 @@ module RecruitmentPerformanceReport
       provider_statistics,
       statistics,
       report_type: :NATIONAL,
-      region: Publications::RegionalRecruitmentPerformanceReport.all_of_england_key
+      region: ReportSharedEnums.all_of_england_key
     )
       @provider = provider
       @report_type = report_type
