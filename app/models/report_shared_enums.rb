@@ -14,6 +14,7 @@ class ReportSharedEnums
   end
 
   def self.england_regions_including_england
+    # if you add/remove one think about RegionReportFilter
     { all_of_england_key.to_sym => all_of_england_value }
       .merge(england_regions)
   end
@@ -32,6 +33,7 @@ class ReportSharedEnums
       sex: 'Sex',
       age_group: 'Age group',
       disability: 'Disability',
+      disability_declaration: 'Disability declaration',
     }
   end
 end

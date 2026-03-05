@@ -58,6 +58,7 @@ RSpec.describe ReportSharedEnums do
           sex: 'Sex',
           age_group: 'Age group',
           disability: 'Disability',
+          disability_declaration: 'Disability declaration',
         },
       )
     end

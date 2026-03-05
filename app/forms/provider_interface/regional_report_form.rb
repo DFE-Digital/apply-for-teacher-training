@@ -13,8 +13,8 @@ module ProviderInterface
       end
       result.prepend(
         Region.new(
-          Publications::RegionalRecruitmentPerformanceReport.all_of_england_value,
-          Publications::RegionalRecruitmentPerformanceReport.all_of_england_key,
+          ReportSharedEnums.all_of_england_value,
+          ReportSharedEnums.all_of_england_key,
         ),
       )
       result

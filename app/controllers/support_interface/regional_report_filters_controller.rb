@@ -24,7 +24,7 @@ module SupportInterface
     end
 
     def all_of_england
-      Publications::RegionalRecruitmentPerformanceReport.all_of_england_key
+      ReportSharedEnums.all_of_england_key
     end
 
     def set_region

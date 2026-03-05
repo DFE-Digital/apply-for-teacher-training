@@ -32,16 +32,4 @@ RSpec.describe Publications::RegionalRecruitmentPerformanceReport do
       )
     }
   end
-
-  describe '.all_of_england_key' do
-    it 'return all of england key' do
-      expect(described_class.all_of_england_key).to eq('all_of_england')
-    end
-  end
-
-  describe '.all_of_england_value' do
-    it 'return all of england value' do
-      expect(described_class.all_of_england_value).to eq('All of England')
-    end
-  end
 end
