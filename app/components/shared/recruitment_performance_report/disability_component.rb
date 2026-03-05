@@ -7,7 +7,10 @@ module RecruitmentPerformanceReport
     end
 
     def disability_category(non_provider_filter)
-      Hesa::Disability.find_by_code(non_provider_filter, recruitment_cycle_year)&.value || non_provider_filter
+      Hesa::Disability.find_by_code(
+        non_provider_filter,
+        report.recruitment_cycle_year,
+      )&.value || non_provider_filter
     end
   end
 end

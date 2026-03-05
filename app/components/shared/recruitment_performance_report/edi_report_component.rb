@@ -1,13 +1,11 @@
 module RecruitmentPerformanceReport
   class EdiReportComponent < ViewComponent::Base
-    attr_reader :provider, :edi_reports, :region, :recruitment_cycle_year,
-                :filter_report_type
+    attr_reader :provider, :edi_reports, :region, :filter_report_type
 
-    def initialize(provider:, edi_reports:, region:, recruitment_cycle_year: nil)
+    def initialize(provider:, edi_reports:, region:)
       @provider = provider
       @edi_reports = edi_reports
       @region = region
-      @recruitment_cycle_year = recruitment_cycle_year
       @filter_report_type = if region == ReportSharedEnums.all_of_england_key
                               'nonprovider_filter'
                             else
@@ -20,11 +18,12 @@ module RecruitmentPerformanceReport
         region:,
         category: report.category,
         cycle_week: report.cycle_week,
+        recruitment_cycle_year: report.recruitment_cycle_year,
       ).order(created_at: :desc).first
     end
 
     def render?
-      statistics.present?
+      statistics.present? && regional_edi_report.present?
     end
 
     def title
@@ -45,6 +44,10 @@ module RecruitmentPerformanceReport
       else
         number_to_percentage(proportion * 100, precision: 0)
       end
+    end
+
+    def provider_report_number(stat)
+      number_with_delimiter(stat) || 'Not available'
     end
 
     def regional_report_number(filter_value, stat)
