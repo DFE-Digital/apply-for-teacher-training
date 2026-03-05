@@ -23,6 +23,7 @@ RSpec.describe Publications::RegionalEdiReport do
           sex: 'Sex',
           age_group: 'Age group',
           disability: 'Disability',
+          disability_declaration: 'Disability declaration',
         )
         .backed_by_column_of_type(:string),
       )

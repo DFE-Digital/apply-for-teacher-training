@@ -33,6 +33,7 @@ class ReportSharedEnums
       sex: 'Sex',
       age_group: 'Age group',
       disability: 'Disability',
+      disability_declaration: 'Disability declaration',
     }
   end
 end
