@@ -27,6 +27,10 @@ module RecruitmentPerformanceReport
       statistics.present?
     end
 
+    def title
+      raise 'Need to define a report title in your component'
+    end
+
     def report
       raise 'Need to define a report in your component'
     end
