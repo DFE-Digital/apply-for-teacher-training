@@ -1,10 +1,10 @@
 <div class="govuk-grid-column-full">
   <h2 class="govuk-heading-m"><%= title %></h2>
 
-  <% statistics.each do |data| %>
+  <% serialized_statistics.each do |data| %>
     <%= govuk_table(html_attributes: { class: 'govuk-!-margin-bottom-8' }) do |table| %>
       <%= table.with_caption do %>
-        <h3 class="govuk-body govuk-!-margin-bottom-0"><%= data['nonprovider_filter'] %></h3>
+        <h3 class="govuk-body govuk-!-margin-bottom-0"><%= data['subcategory'] || data['nonprovider_filter'] %></h3>
       <% end %>
 
       <%= table.with_head do |head| %>

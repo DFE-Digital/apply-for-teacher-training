@@ -502,6 +502,103 @@ FactoryBot.define do
       end
     end
 
+    trait :disability_declaration do
+      category { :disability_declaration }
+      statistics do
+        filter_report_type = region == :all_of_england ? 'nonprovider_filter' : 'nonregion_filter'
+        filter_category_type = region == :all_of_england ? 'nonprovider_filter_category' : 'nonregion_filter_category'
+        [
+          {
+            filter_report_type => 'Prefer not to say',
+            filter_category_type => 'Disability declaration',
+            'cycle_week' => cycle_week,
+            'recruitment_cycle_year' => recruitment_cycle_year,
+            'provider_id' => nil,
+            'number_of_candidates_submitted_to_date' => submitted_to_date,
+            'number_of_candidates_submitted_to_same_date_previous_cycle' => submitted_previous_cycle,
+            'number_of_candidates_submitted_to_date_as_proportion_of_last_cycle' => '0.86363636363636365',
+            'number_of_candidates_with_offers_to_date' => '48',
+            'number_of_candidates_with_offers_to_same_date_previous_cycle' => '48',
+            'number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle' => '1.0',
+            'offer_rate_to_date' => '0.36090225563909772',
+            'offer_rate_to_same_date_previous_cycle' => '0.31168831168831168',
+            'number_of_candidates_accepted_to_date' => accepted_to_date,
+            'number_of_candidates_accepted_to_same_date_previous_cycle' => accepted_last_cycle,
+            'number_of_candidates_accepted_to_date_as_proportion_of_last_cycle' => '1.027027027027027',
+            'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date' => '4',
+            'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle' => '2',
+            'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle' => '2.0',
+            'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date' => '32',
+            'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle' => '26',
+            'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle' => '1.2307692307692308',
+            'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date' => '14',
+            'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates' => '0.10526315789473684',
+            'number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle' => '0.05844155844155844',
+            'recruited_rate_to_date' => recruited_rate,
+            'recruited_rate_to_same_date_previous_cycle' => recruited_rate_last_cycle,
+          },
+          {
+            filter_report_type => 'Disability declared',
+            filter_category_type => 'Disability declaration',
+            'cycle_week' => cycle_week,
+            'recruitment_cycle_year' => recruitment_cycle_year,
+            'provider_id' => nil,
+            'number_of_candidates_submitted_to_date' => submitted_to_date,
+            'number_of_candidates_submitted_to_same_date_previous_cycle' => submitted_previous_cycle,
+            'number_of_candidates_submitted_to_date_as_proportion_of_last_cycle' => '0.86363636363636365',
+            'number_of_candidates_with_offers_to_date' => '48',
+            'number_of_candidates_with_offers_to_same_date_previous_cycle' => '48',
+            'number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle' => '1.0',
+            'offer_rate_to_date' => '0.36090225563909772',
+            'offer_rate_to_same_date_previous_cycle' => '0.31168831168831168',
+            'number_of_candidates_accepted_to_date' => accepted_to_date,
+            'number_of_candidates_accepted_to_same_date_previous_cycle' => accepted_last_cycle,
+            'number_of_candidates_accepted_to_date_as_proportion_of_last_cycle' => '1.027027027027027',
+            'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date' => '4',
+            'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle' => '2',
+            'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle' => '2.0',
+            'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date' => '32',
+            'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle' => '26',
+            'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle' => '1.2307692307692308',
+            'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date' => '14',
+            'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates' => '0.10526315789473684',
+            'number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle' => '0.05844155844155844',
+            'recruited_rate_to_date' => recruited_rate,
+            'recruited_rate_to_same_date_previous_cycle' => recruited_rate_last_cycle,
+          },
+          {
+            filter_report_type => 'No disability declared',
+            filter_category_type => 'Disability declaration',
+            'cycle_week' => cycle_week,
+            'recruitment_cycle_year' => recruitment_cycle_year,
+            'provider_id' => nil,
+            'number_of_candidates_submitted_to_date' => submitted_to_date,
+            'number_of_candidates_submitted_to_same_date_previous_cycle' => submitted_previous_cycle,
+            'number_of_candidates_submitted_to_date_as_proportion_of_last_cycle' => '0.86363636363636365',
+            'number_of_candidates_with_offers_to_date' => '48',
+            'number_of_candidates_with_offers_to_same_date_previous_cycle' => '48',
+            'number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle' => '1.0',
+            'offer_rate_to_date' => '0.36090225563909772',
+            'offer_rate_to_same_date_previous_cycle' => '0.31168831168831168',
+            'number_of_candidates_accepted_to_date' => accepted_to_date,
+            'number_of_candidates_accepted_to_same_date_previous_cycle' => accepted_last_cycle,
+            'number_of_candidates_accepted_to_date_as_proportion_of_last_cycle' => '1.027027027027027',
+            'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date' => '4',
+            'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle' => '2',
+            'number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle' => '2.0',
+            'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date' => '32',
+            'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle' => '26',
+            'number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle' => '1.2307692307692308',
+            'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date' => '14',
+            'number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates' => '0.10526315789473684',
+            'number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle' => '0.05844155844155844',
+            'recruited_rate_to_date' => recruited_rate,
+            'recruited_rate_to_same_date_previous_cycle' => recruited_rate_last_cycle,
+          },
+        ]
+      end
+    end
+
     trait :ethnic_group do
       category { :ethnic_group }
       statistics do

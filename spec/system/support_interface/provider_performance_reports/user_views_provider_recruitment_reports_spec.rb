@@ -8,6 +8,7 @@ RSpec.describe 'User views sections when reports have been generated' do
     and_a_provider_exists
     and_national_and_provider_reports_have_been_generated
     and_regional_and_provider_reports_have_been_generated
+    and_edi_report_has_been_generated
     sign_in_as_support_user
     when_i_navigate_to_the_providers_report_page_in_support
     then_i_see_the_report_data
@@ -122,30 +123,7 @@ private
   end
 
   def and_edi_report_has_been_generated
-    create(
-      :regional_edi_report,
-      recruitment_cycle_year: current_year,
-      cycle_week: RecruitmentCycleTimetable.current_cycle_week,
-      generation_date: DateTime.now,
-      publication_date: DateTime.now,
-      region: :all_of_england,
-    )
-    create(
-      :regional_edi_report,
-      recruitment_cycle_year: current_year,
-      cycle_week: RecruitmentCycleTimetable.current_cycle_week,
-      generation_date: DateTime.now,
-      publication_date: DateTime.now,
-      region: :london,
-    )
-    create(
-      :provider_edi_report,
-      provider: @provider,
-      recruitment_cycle_year: current_year,
-      cycle_week: RecruitmentCycleTimetable.current_cycle_week,
-      generation_date: DateTime.now,
-      publication_date: DateTime.now,
-    )
+    GenerateRecruitmentPerformanceReports.call
   end
 
   def when_i_navigate_to_the_providers_report_page_in_support
@@ -168,6 +146,11 @@ private
     description = "This report shows your organisation's cumulative recruitment data from the start of the #{cycle_name} cycle to the date displayed above. It compares your data to the same point in the previous cycle and to your chosen comparison region or England."
     expect(page).to have_content(description)
     expect(page).to have_content('Sex, disability, ethnicity and age of candidates')
+    expect(page).to have_css('.govuk-heading-m', text: 'Age group')
+    expect(page).to have_css('.govuk-heading-m', text: 'Disability')
+    expect(page).to have_css('.govuk-heading-m', text: 'Disability declaration')
+    expect(page).to have_css('.govuk-heading-m', text: 'Ethnic group')
+    expect(page).to have_css('.govuk-heading-m', text: 'Sex')
   end
 
   def and_i_see_the_text_that_providers_do_not_yet_see_the_report

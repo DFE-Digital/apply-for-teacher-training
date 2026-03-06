@@ -23,7 +23,7 @@ module RecruitmentPerformanceReport
     end
 
     def render?
-      statistics.present? && regional_edi_report.present?
+      serialized_statistics.present? && regional_edi_report.present?
     end
 
     def title
@@ -34,8 +34,8 @@ module RecruitmentPerformanceReport
       raise 'Need to define a report in your component'
     end
 
-    def statistics
-      @statistics ||= report&.statistics&.sort_by { |data| data['nonprovider_filter'] }
+    def serialized_statistics
+      @serialized_statistics ||= report&.statistics&.sort_by { |data| data['nonprovider_filter'] }
     end
 
     def provider_percentage(proportion)
