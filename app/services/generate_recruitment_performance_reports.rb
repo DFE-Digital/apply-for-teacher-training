@@ -7,7 +7,7 @@ class GenerateRecruitmentPerformanceReports
     return if HostingEnvironment.production?
 
     recruitment_cycle_year = RecruitmentCycleTimetable.current_year
-    cycle_week = 32
+    cycle_week = RecruitmentCycleTimetable.current_cycle_week
     ActiveRecord::Base.transaction do
       FactoryBot.create(:regional_edi_report, recruitment_cycle_year:, cycle_week:)
       FactoryBot.create(:regional_edi_report, :disability, recruitment_cycle_year:, cycle_week:)

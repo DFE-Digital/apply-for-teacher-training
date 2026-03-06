@@ -1,7 +1,7 @@
 module RecruitmentPerformanceReport
   class EthnicGroupComponent < EdiReportComponent
     def title
-      'Ethnic Group'
+      'Ethnic group'
     end
 
     def report
