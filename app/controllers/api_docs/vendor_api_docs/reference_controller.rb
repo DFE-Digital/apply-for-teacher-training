@@ -46,6 +46,8 @@ module APIDocs
           api_docs_spec_1_5_url
         when '1.6'
           api_docs_spec_1_6_url
+        when '1.7'
+          api_docs_spec_1_7_url
         end
       end
       helper_method :spec_url_for_current_version
