@@ -27,6 +27,7 @@
   - provider_user_id
   - provider_id
   - region
+  - recruitment_cycle_year
   - created_at
   - updated_at
   :regional_recruitment_performance_reports:
