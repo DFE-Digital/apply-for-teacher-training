@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_24_162406) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_09_111108) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1094,6 +1094,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_24_162406) do
     t.string "region", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "recruitment_cycle_year"
     t.index ["provider_id"], name: "index_regional_report_filters_on_provider_id"
     t.index ["provider_user_id"], name: "index_regional_report_filters_on_provider_user_id"
   end

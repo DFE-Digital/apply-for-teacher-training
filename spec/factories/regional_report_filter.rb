@@ -3,5 +3,6 @@ FactoryBot.define do
     provider_user
     provider
     region { 'London' }
+    recruitment_cycle_year { 2026 }
   end
 end
