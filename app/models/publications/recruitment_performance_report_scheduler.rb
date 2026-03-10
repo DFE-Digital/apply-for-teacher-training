@@ -15,8 +15,6 @@ module Publications
       schedule_provider_report
     end
 
-  private
-
     attr_accessor :cycle_week, :recruitment_cycle_year
 
     def schedule_national_report
