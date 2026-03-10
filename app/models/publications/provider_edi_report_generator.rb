@@ -27,6 +27,7 @@ module Publications
         cycle_week:,
         category: category.downcase == 'disability' ? 'HESA disability' : category,
         provider_id:,
+        recruitment_cycle_year:,
       )
     end
 
