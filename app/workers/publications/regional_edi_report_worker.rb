@@ -4,13 +4,14 @@ module Publications
 
     sidekiq_options retry: 3, queue: :default
 
-    def perform(cycle_week, region, category)
+    def perform(cycle_week, region, category, recruitment_cycle_year)
       Publications::RegionalEdiReportGenerator.new(
         cycle_week:,
         region:,
         category:,
         generation_date:,
         publication_date:,
+        recruitment_cycle_year:,
       ).call
     end
 

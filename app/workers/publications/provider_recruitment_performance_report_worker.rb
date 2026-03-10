@@ -4,12 +4,13 @@ module Publications
 
     sidekiq_options retry: 3, queue: :default
 
-    def perform(provider_id, cycle_week)
+    def perform(provider_id, cycle_week, recruitment_cycle_year)
       ProviderRecruitmentPerformanceReportGenerator.new(
         provider_id:,
         cycle_week:,
         generation_date:,
         publication_date:,
+        recruitment_cycle_year:,
       ).call
     end
 

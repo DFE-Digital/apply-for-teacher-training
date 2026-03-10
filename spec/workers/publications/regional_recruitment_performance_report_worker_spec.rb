@@ -14,10 +14,11 @@ RSpec.describe Publications::RegionalRecruitmentPerformanceReportWorker do
   let(:region) { 'London' }
   let(:generation_date) { RecruitmentPerformanceReportTimetable.current_generation_date }
   let(:publication_date) { RecruitmentPerformanceReportTimetable.current_generation_date }
+  let(:recruitment_cycle_year) { 2026 }
 
   describe '#perform' do
     it 'calls the National Report Generator' do
-      described_class.new.perform(cycle_week, region)
+      described_class.new.perform(cycle_week, region, recruitment_cycle_year)
 
       expect(@instance).to have_received(:call)
       expect(Publications::RegionalRecruitmentPerformanceReportGenerator).to have_received(:new).with(
@@ -25,6 +26,7 @@ RSpec.describe Publications::RegionalRecruitmentPerformanceReportWorker do
         region:,
         generation_date:,
         publication_date:,
+        recruitment_cycle_year:,
       )
     end
   end
