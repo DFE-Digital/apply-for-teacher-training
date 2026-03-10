@@ -10,7 +10,7 @@ module Publications
         region:,
         generation_date:,
         publication_date:,
-        recruitment_cycle_year:
+        recruitment_cycle_year:,
       ).call
     end
 
