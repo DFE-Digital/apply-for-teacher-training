@@ -11,7 +11,8 @@ class ProviderInterface::FindCandidates::PersonalStatementComponent < ViewCompon
   end
 
   def show_full_personal_statement?
-    personal_statement.to_s.split.size <= MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT
+    # personal_statement.to_s.split.size <= MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT
+    true
   end
 
   def truncated_personal_statement
