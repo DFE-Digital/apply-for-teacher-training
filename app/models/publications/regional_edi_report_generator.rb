@@ -25,12 +25,14 @@ module Publications
                   DfE::Bigquery::NationalEdiMetrics.new(
                     cycle_week:,
                     category:,
+                    recruitment_cycle_year:,
                   )
                 else
                   DfE::Bigquery::RegionalEdiMetrics.new(
                     cycle_week:,
                     region:,
                     category:,
+                    recruitment_cycle_year:,
                   )
                 end
     end

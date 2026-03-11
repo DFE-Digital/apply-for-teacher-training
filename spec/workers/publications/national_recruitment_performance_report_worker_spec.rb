@@ -9,13 +9,19 @@ RSpec.describe Publications::NationalRecruitmentPerformanceReportWorker do
   let(:cycle_week) { current_cycle_week.pred }
   let(:generation_date) { RecruitmentPerformanceReportTimetable.current_generation_date }
   let(:publication_date) { RecruitmentPerformanceReportTimetable.current_generation_date }
+  let(:recruitment_cycle_year) { 2026 }
 
   describe '#perform' do
     it 'calls the National Report Generator' do
-      described_class.new.perform(cycle_week)
+      described_class.new.perform(cycle_week, recruitment_cycle_year)
 
       expect(@instance).to have_received(:call)
-      expect(Publications::NationalRecruitmentPerformanceReportGenerator).to have_received(:new).with(cycle_week:, generation_date:, publication_date:)
+      expect(Publications::NationalRecruitmentPerformanceReportGenerator).to have_received(:new).with(
+        cycle_week:,
+        generation_date:,
+        publication_date:,
+        recruitment_cycle_year:,
+      )
     end
   end
 end

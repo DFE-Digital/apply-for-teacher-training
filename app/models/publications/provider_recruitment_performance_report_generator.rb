@@ -15,7 +15,11 @@ module Publications
       @report_expected_time = 1.week.until(@generation_date).end_of_week
       @recruitment_cycle_year = recruitment_cycle_year
       @cycle_week = cycle_week
-      @client = DfE::Bigquery::ApplicationMetricsByProvider.new(cycle_week:, provider_id:)
+      @client = DfE::Bigquery::ApplicationMetricsByProvider.new(
+        cycle_week:,
+        provider_id:,
+        recruitment_cycle_year:,
+      )
     end
 
     def call
