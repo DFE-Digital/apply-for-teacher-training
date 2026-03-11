@@ -1,5 +1,6 @@
 Sentry.init do |config|
   config.environment = HostingEnvironment.environment_name
+  config.enabled_environments = %w[production qa sandbox]
   config.release = ENV['SHA']
   filter = ActiveSupport::ParameterFilter.new(Rails.application.config.filter_parameters)
 
