@@ -1,5 +1,5 @@
 module ProviderInterface
-  class SetupCompleteNextStepsComponent < ViewComponent::Base
+  class SetupCompleteNextStepsComponent < ApplicationComponent
     attr_reader :provider_user
 
     def initialize(provider_user:)

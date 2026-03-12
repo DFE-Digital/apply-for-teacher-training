@@ -1,5 +1,5 @@
 module ProviderInterface
-  class PersonalInformationComponent < ViewComponent::Base
+  class PersonalInformationComponent < ApplicationComponent
     MISSING = '<em>Not provided</em>'.html_safe
     RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES = {
       'yes' => 'Yes',

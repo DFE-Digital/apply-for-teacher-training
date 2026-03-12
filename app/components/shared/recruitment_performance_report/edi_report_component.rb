@@ -1,5 +1,5 @@
 module RecruitmentPerformanceReport
-  class EdiReportComponent < ViewComponent::Base
+  class EdiReportComponent < ApplicationComponent
     attr_reader :provider, :edi_reports, :region, :filter_report_type
 
     def initialize(provider:, edi_reports:, region:)

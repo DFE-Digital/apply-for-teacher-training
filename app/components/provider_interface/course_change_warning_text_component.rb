@@ -1,5 +1,5 @@
 module ProviderInterface
-  class CourseChangeWarningTextComponent < ViewComponent::Base
+  class CourseChangeWarningTextComponent < ApplicationComponent
     attr_reader :application_choice, :wizard
 
     def initialize(application_choice:, wizard:)

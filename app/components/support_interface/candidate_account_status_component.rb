@@ -1,5 +1,5 @@
 module SupportInterface
-  class CandidateAccountStatusComponent < ViewComponent::Base
+  class CandidateAccountStatusComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :candidate_account_status

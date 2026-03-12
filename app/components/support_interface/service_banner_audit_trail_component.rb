@@ -1,5 +1,5 @@
 module SupportInterface
-  class ServiceBannerAuditTrailComponent < ViewComponent::Base
+  class ServiceBannerAuditTrailComponent < ApplicationComponent
     def initialize(interface: nil, banner_id: nil)
       @interface = interface
       @banner_id = banner_id

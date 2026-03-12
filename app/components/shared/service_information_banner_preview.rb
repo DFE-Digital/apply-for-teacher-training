@@ -1,4 +1,4 @@
-class ServiceInformationBannerPreview < ViewComponent::Base
+class ServiceInformationBannerPreview < ApplicationComponent
   def initialize(banner_id:)
     @banner_id = banner_id
   end

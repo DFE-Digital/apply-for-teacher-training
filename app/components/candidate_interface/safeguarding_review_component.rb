@@ -1,5 +1,5 @@
 module CandidateInterface
-  class SafeguardingReviewComponent < ViewComponent::Base
+  class SafeguardingReviewComponent < ApplicationComponent
     def initialize(application_form:, editable: true, missing_error: false, submitting_application: false, return_to_application_review: false)
       @application_form = application_form
       @safeguarding = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)

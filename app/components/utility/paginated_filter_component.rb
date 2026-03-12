@@ -1,4 +1,4 @@
-class PaginatedFilterComponent < ViewComponent::Base
+class PaginatedFilterComponent < ApplicationComponent
   attr_reader :filter, :collection
 
   def initialize(filter:, collection:)

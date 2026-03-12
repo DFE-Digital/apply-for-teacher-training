@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ConditionsFormComponent < ViewComponent::Base
+  class ConditionsFormComponent < ApplicationComponent
     include CheckboxOptionsHelper
 
     attr_reader :form_object, :application_choice, :form_method, :form_caption, :form_heading

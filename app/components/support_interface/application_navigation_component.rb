@@ -1,5 +1,5 @@
 module SupportInterface
-  class ApplicationNavigationComponent < ViewComponent::Base
+  class ApplicationNavigationComponent < ApplicationComponent
     include ViewHelper
 
     def initialize(application_form)

@@ -1,4 +1,4 @@
-class CandidateInterface::GcseRequirementsComponent < ViewComponent::Base
+class CandidateInterface::GcseRequirementsComponent < ApplicationComponent
   include ViewHelper
 
   attr_accessor :application_choice, :missing_uk_gcses, :pending_uk_gcses

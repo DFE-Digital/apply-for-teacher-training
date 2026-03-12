@@ -3,7 +3,7 @@
 # See https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/docs/app_concepts/reasons-for-rejection.md
 #
 module CandidateInterface
-  class RejectionReasons::ReasonsForRejectionComponent < ViewComponent::Base
+  class RejectionReasons::ReasonsForRejectionComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :application_choice

@@ -1,4 +1,4 @@
-class CandidateInterface::GcseEquivalencyRequiredComponent < ViewComponent::Base
+class CandidateInterface::GcseEquivalencyRequiredComponent < ApplicationComponent
   attr_accessor :application_choice, :missing_uk_gcses, :accept_english_gcse_equivalency, :accept_maths_gcse_equivalency, :accept_science_gcse_equivalency
 
   def initialize(application_choice, missing_uk_gcses)

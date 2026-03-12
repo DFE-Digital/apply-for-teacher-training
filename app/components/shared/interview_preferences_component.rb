@@ -1,5 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
-class InterviewPreferencesComponent < ViewComponent::Base
+class InterviewPreferencesComponent < ApplicationComponent
   attr_reader :application_form
   delegate :interview_preferences, to: :application_form
 

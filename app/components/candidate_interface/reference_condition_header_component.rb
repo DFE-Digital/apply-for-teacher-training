@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ReferenceConditionHeaderComponent < ViewComponent::Base
+  class ReferenceConditionHeaderComponent < ApplicationComponent
     attr_accessor :reference_condition, :provider_name, :show_extra_content
     delegate :description, :met?, to: :reference_condition, allow_nil: true
 

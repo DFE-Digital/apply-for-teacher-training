@@ -1,4 +1,4 @@
-class CandidateInterface::ApplicationChoiceItemComponent < ViewComponent::Base
+class CandidateInterface::ApplicationChoiceItemComponent < ApplicationComponent
   def initialize(application_choice:, previous_application: false)
     @application_choice = application_choice
     @previous_application = previous_application

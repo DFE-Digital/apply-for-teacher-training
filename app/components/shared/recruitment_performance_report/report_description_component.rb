@@ -1,5 +1,5 @@
 module RecruitmentPerformanceReport
-  class ReportDescriptionComponent < ViewComponent::Base
+  class ReportDescriptionComponent < ApplicationComponent
     def initialize(provider_report)
       @provider_report = provider_report
     end
