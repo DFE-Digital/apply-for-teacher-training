@@ -1,3 +1,4 @@
+
 This is API documentation for the Department for Education (DfE)’s new Apply for teacher training service.
 
 Apply has replaced the online UCAS teacher training service for postgraduate initial teacher training in England. All vendors of student record systems (SRS) and some training providers will need to make changes to integrate with Apply.
@@ -143,3 +144,4 @@ Any changes made to an application are time stamped to identify when they occure
 ## Testing
 
 To get familiar with our system and perform testing, you can use [our sandbox environment](https://sandbox.apply-for-teacher-training.service.gov.uk).
+
