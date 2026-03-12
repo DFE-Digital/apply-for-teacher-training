@@ -88,8 +88,12 @@ RSpec.describe 'ApplicationForm factory' do
   end
 
   trait :with_a_levels do
-    it 'creates between one and three A levels' do
-      expect { record }.to change { ApplicationQualification.a_levels.count }.by(1..3)
+    it 'creates at least one A level' do
+      expect { record }.to change { ApplicationQualification.a_levels.count }.by_at_least(1)
+    end
+
+    it 'creates at most 3 A levels' do
+      expect { record }.to change { ApplicationQualification.a_levels.count }.by_at_most(3)
     end
 
     it 'associates the A levels' do
@@ -103,7 +107,7 @@ RSpec.describe 'ApplicationForm factory' do
     end
 
     it 'creates some GCSEs' do
-      expect { record }.to change { ApplicationQualification.gcses.count }.by(1..)
+      expect { record }.to change { ApplicationQualification.gcses.count }.by_at_least(1)
     end
 
     it 'associates the degree and GCSEs' do
