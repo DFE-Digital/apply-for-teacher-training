@@ -22,12 +22,6 @@ en:
         regional:
           this_report_shows: >
             This report shows your organisation's cumulative recruitment data from the start of the %{start_date} to %{end_date} cycle to the date displayed above. It compares your data to the same point in the previous cycle and to your chosen comparison region or England.
-          this_report_will_update_html: >
-            Candidates who withdrew or deferred applications after submitting them are included in the figures.
-
-            <p class="govuk-body">
-              This report is updated every Monday.
-            </p>
         this_report_will_update: >
           This report will update weekly on a Monday, starting from %{date}. You will only be able to view
           data from the most recent week.

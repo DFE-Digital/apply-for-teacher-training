@@ -11,5 +11,9 @@ module Publications
     def previous_cycle?
       recruitment_cycle_year < RecruitmentCycleTimetable.current_year
     end
+
+    def current_cycle?
+      recruitment_cycle_year == RecruitmentCycleTimetable.current_year
+    end
   end
 end

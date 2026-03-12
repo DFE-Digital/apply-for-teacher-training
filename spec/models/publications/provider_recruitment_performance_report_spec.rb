@@ -22,4 +22,14 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReport do
       expect(report.reporting_end_date).to eq(Date.new(2025, 6, 8))
     end
   end
+
+  describe '#current_cycle?' do
+    it 'returns true if report is in current cycle' do
+      report = build(
+        :provider_recruitment_performance_report,
+        recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+      )
+      expect(report.current_cycle?).to be(true)
+    end
+  end
 end

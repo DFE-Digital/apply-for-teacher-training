@@ -74,6 +74,10 @@ module_function
     RecruitmentPerformanceReportTimetable.first_publication_date + 1.day
   end
 
+  def before_recruitment_performance_report_season
+    RecruitmentPerformanceReportTimetable.first_publication_date - 1.day
+  end
+
   def after_apply_deadline(year = nil)
     timetable = get_timetable(year)
     timetable.apply_deadline_at + 1.day

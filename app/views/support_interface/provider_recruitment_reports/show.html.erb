@@ -14,9 +14,8 @@
     <%= render(
       RecruitmentPerformanceReport::ReportMethodologyComponent.new(
         provider_report: @provider_report,
-        current_timetable: @current_timetable,
-        interface: 'support',
         region: @region,
+        comparison_link: new_support_interface_regional_report_filter_path(region: @region),
       ),
     ) %>
     <%= render RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(
@@ -115,6 +114,7 @@
       edi_reports: @provider_edi_reports,
       region: @region,
     ) %>
+  </div>
 <% else %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">

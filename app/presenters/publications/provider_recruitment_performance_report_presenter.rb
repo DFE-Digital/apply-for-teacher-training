@@ -5,7 +5,10 @@ module Publications
              :relative_previous_timetable,
              :cycle_week_date_range,
              :find_opens_at,
-             :find_closes_at, to: :recruitment_cycle_timetable
+             :find_closes_at,
+             :relative_previous_year,
+             :relative_next_year,
+             to: :recruitment_cycle_timetable
 
     def next_reporting_start_date
       relative_next_timetable
@@ -44,6 +47,14 @@ module Publications
 
     def show_changes_section?
       recruitment_cycle_year == 2024
+    end
+
+    def show?
+      statistics.present? &&
+        (
+          RecruitmentPerformanceReportTimetable.report_season? ||
+          previous_cycle?
+        )
     end
   end
 end
