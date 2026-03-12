@@ -4,10 +4,15 @@
   subject_rows: @row_builder.subject_rows,
   summary_row: @row_builder.summary_row,
   region:,
+  recruitment_cycle_year:,
 ) do %>
   <span>
     <p class="govuk-body">
-      <%= t('.number_of_candidates_submitted', provider_name: @provider.name) %>
+      <% if recruitment_cycle_year == RecruitmentCycleTimetable.previous_year %>
+        This table shows the number of candidates who have submitted one or more applications to <%= @provider.name %> in <%= recruitment_cycle_year %> cycle.
+      <% else %>
+        <%= t('.number_of_candidates_submitted', provider_name: @provider.name) %>
+      <% end %>
     </p>
     <p class="govuk-body">
       <%= t('.candidates_who_withdrew') %>

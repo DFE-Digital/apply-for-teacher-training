@@ -1,12 +1,22 @@
 module RecruitmentPerformanceReport
   class SubjectTableComponent < ViewComponent::Base
-    attr_reader :provider, :table_caption, :summary_row, :subject_rows, :region
-    def initialize(provider, table_caption:, summary_row:, subject_rows:, region:)
+    attr_reader :provider, :table_caption, :summary_row, :subject_rows, :region,
+                :recruitment_cycle_year
+
+    def initialize(
+      provider,
+      table_caption:,
+      summary_row:,
+      subject_rows:,
+      region:,
+      recruitment_cycle_year: RecruitmentCycleTimetable.current_year
+    )
       @provider = provider
       @table_caption = table_caption
       @summary_row = summary_row
       @subject_rows = subject_rows
       @region = region
+      @recruitment_cycle_year = recruitment_cycle_year
     end
 
     def format_number(row, column_name)
@@ -28,6 +38,20 @@ module RecruitmentPerformanceReport
 
     def columns
       %i[last_cycle this_cycle percentage_change national_last_cycle national_this_cycle national_percentage_change]
+    end
+
+    def column_text(column)
+      if %i[last_cycle national_last_cycle].include?(column) &&
+         recruitment_cycle_year == RecruitmentCycleTimetable.previous_year
+
+        "#{recruitment_cycle_year - 1} cycle"
+      elsif %i[this_cycle national_this_cycle].include?(column) &&
+            recruitment_cycle_year == RecruitmentCycleTimetable.previous_year
+
+        "#{recruitment_cycle_year} cycle"
+      else
+        I18n.t("shared.recruitment_performance_report.subject_table_component.#{column}")
+      end
     end
 
     def colspan

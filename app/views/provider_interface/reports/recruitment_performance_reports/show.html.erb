@@ -24,29 +24,64 @@
     <%= render RecruitmentPerformanceReport::ReportMethodologyComponent.new(
       provider_report: @provider_report,
       comparison_link: new_provider_interface_reports_provider_regional_report_filter_path(
-        recruitment_cycle_year: @recruitment_cycle_year,
+        recruitment_cycle_year: @provider_report.recruitment_cycle_year,
       ),
     ) %>
     <%= render RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(
-      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+      @provider,
+      @provider_data,
+      @statistics,
+      report_type: @report_type,
+      region: @region,
+      recruitment_cycle_year: @provider_report.recruitment_cycle_year,
     ) %>
     <%= render RecruitmentPerformanceReport::CandidatesWithOffersTableComponent.new(
-      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+      @provider,
+      @provider_data,
+      @statistics,
+      report_type: @report_type,
+      region: @region,
+      recruitment_cycle_year: @provider_report.recruitment_cycle_year,
     ) %>
     <%= render RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent.new(
-      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+      @provider,
+      @provider_data,
+      @statistics,
+      report_type: @report_type,
+      region: @region,
+      recruitment_cycle_year: @provider_report.recruitment_cycle_year,
     ) %>
     <%= render RecruitmentPerformanceReport::OffersAcceptedTableComponent.new(
-      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+      @provider,
+      @provider_data,
+      @statistics,
+      report_type: @report_type,
+      region: @region,
+      recruitment_cycle_year: @provider_report.recruitment_cycle_year,
     ) %>
     <%= render RecruitmentPerformanceReport::DeferralsTableComponent.new(
-      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+      @provider,
+      @provider_data,
+      @statistics,
+      report_type: @report_type,
+      region: @region,
+      recruitment_cycle_year: @provider_report.recruitment_cycle_year,
     ) %>
     <%= render RecruitmentPerformanceReport::CandidatesRejectedTableComponent.new(
-      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+      @provider,
+      @provider_data,
+      @statistics,
+      report_type: @report_type,
+      region: @region,
+      recruitment_cycle_year: @provider_report.recruitment_cycle_year,
     ) %>
     <%= render RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(
-      @provider, @provider_data, @statistics, report_type: @report_type, region: @region
+      @provider,
+      @provider_data,
+      @statistics,
+      report_type: @report_type,
+      region: @region,
+      recruitment_cycle_year: @provider_report.recruitment_cycle_year,
     ) %>
 
     <% if FeatureFlag.active?(:provider_edi_report) %>

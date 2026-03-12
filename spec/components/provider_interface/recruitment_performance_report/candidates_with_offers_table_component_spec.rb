@@ -14,7 +14,57 @@ RSpec.describe RecruitmentPerformanceReport::CandidatesWithOffersTableComponent 
     expect(page).to have_content provider.name
     expect(page).to have_content 'All providers'
     expect(page).to have_content 'Subject'
+
     ['This cycle', 'Last cycle', 'Percentage change'].each do |heading|
+      expect(page).to have_element('th', scope: 'col', class: 'govuk-table__header', text: heading).twice
+    end
+
+    primary_row = page.find('tr.govuk-table__row', text: 'Primary')
+    expect(primary_row).to have_content '8'
+    expect(primary_row).to have_content '8'
+    expect(primary_row).to have_content '0%'
+    expect(primary_row).to have_content '7,311'
+    expect(primary_row).to have_content '7,949'
+    expect(primary_row).to have_content '-8%'
+
+    %w[Primary Secondary].each do |heading|
+      expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: heading)
+    end
+
+    secondary_subject_headings.each do |heading|
+      expect(page).to have_element(
+        'th',
+        scope: 'row',
+        class: 'govuk-table__header recruitment-performance-report-table__cell--secondary-subject',
+        text: heading,
+      )
+    end
+  end
+
+  it 'renders the report with expected columns for previous cycle' do
+    provider_report = create(:provider_recruitment_performance_report)
+    provider = provider_report.provider
+    national_statistics = create(:national_recruitment_performance_report).statistics
+    previous_cycle_year = RecruitmentCycleTimetable.previous_year
+
+    render_inline described_class.new(
+      provider,
+      provider_report.statistics,
+      national_statistics,
+      recruitment_cycle_year: previous_cycle_year,
+    )
+
+    expect(page).to have_table('2. Candidates that received an offer')
+    expect(page).to have_content(previous_cycle_description(provider.name, previous_cycle_year))
+
+    expect(page).to have_content provider.name
+    expect(page).to have_content 'All providers'
+    expect(page).to have_content 'Subject'
+
+    [
+      "#{previous_cycle_year} cycle",
+      "#{previous_cycle_year - 1} cycle",
+    ].each do |heading|
       expect(page).to have_element('th', scope: 'col', class: 'govuk-table__header', text: heading).twice
     end
 
@@ -57,5 +107,9 @@ RSpec.describe RecruitmentPerformanceReport::CandidatesWithOffersTableComponent 
 
   def description(provider_name)
     "This table shows candidates who have received one or more offers from #{provider_name} so far this recruitment cycle."
+  end
+
+  def previous_cycle_description(provider_name, cycle_year)
+    "This table shows candidates who have received one or more offers from #{provider_name} in #{cycle_year} cycle."
   end
 end

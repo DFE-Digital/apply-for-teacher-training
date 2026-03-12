@@ -39,6 +39,54 @@ RSpec.describe RecruitmentPerformanceReport::SubmittedApplicationsTableComponent
     end
   end
 
+  it 'renders the report with expected columns previous_cycle', :aggregate_failures do
+    provider_report = create(:provider_recruitment_performance_report)
+    provider = provider_report.provider
+    national_statistics = create(:national_recruitment_performance_report).statistics
+    previous_cycle_year = RecruitmentCycleTimetable.previous_year
+
+    render_inline described_class.new(
+      provider,
+      provider_report.statistics,
+      national_statistics,
+      recruitment_cycle_year: previous_cycle_year,
+    )
+
+    expect(page).to have_table('1. Candidates who have submitted applications')
+
+    expect(page).to have_content provider.name
+    expect(page).to have_content 'All providers'
+    expect(page).to have_content 'Subject'
+    [
+      "#{previous_cycle_year} cycle",
+      "#{previous_cycle_year - 1} cycle",
+      'Percentage change',
+    ].each do |heading|
+      expect(page).to have_element('th', scope: 'col', class: 'govuk-table__header', text: heading).twice
+    end
+
+    %w[Primary Secondary].each do |heading|
+      expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: heading)
+    end
+
+    primary_row = page.find('tr.govuk-table__row', text: 'Primary')
+    expect(primary_row).to have_content '15'
+    expect(primary_row).to have_content '58'
+    expect(primary_row).to have_content '-74%'
+    expect(primary_row).to have_content '13,214'
+    expect(primary_row).to have_content '13,364'
+    expect(primary_row).to have_content '-1%'
+
+    secondary_subject_headings.each do |heading|
+      expect(page).to have_element(
+        'th',
+        scope: 'row',
+        class: 'govuk-table__header recruitment-performance-report-table__cell--secondary-subject',
+        text: heading,
+      )
+    end
+  end
+
   describe 'provider report only has secondary data' do
     it 'does not render primary data' do
       provider_report = create(:provider_recruitment_performance_report, :secondary_only)

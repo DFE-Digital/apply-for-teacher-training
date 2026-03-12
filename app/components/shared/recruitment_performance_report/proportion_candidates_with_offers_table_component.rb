@@ -5,14 +5,15 @@ module RecruitmentPerformanceReport
       last_cycle: 'offer_rate_to_same_date_previous_cycle',
     }.freeze
 
-    attr_reader :report_type, :region
+    attr_reader :report_type, :region, :recruitment_cycle_year
 
     def initialize(
       provider,
       provider_statistics,
       statistics,
       report_type: :NATIONAL,
-      region: ReportSharedEnums.all_of_england_key
+      region: ReportSharedEnums.all_of_england_key,
+      recruitment_cycle_year: RecruitmentCycleTimetable.current_year
     )
       @provider = provider
       @report_type = report_type
@@ -23,6 +24,7 @@ module RecruitmentPerformanceReport
         statistics:,
         report_type:,
       )
+      @recruitment_cycle_year = recruitment_cycle_year
     end
   end
 end

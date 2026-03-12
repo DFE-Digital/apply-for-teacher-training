@@ -40,6 +40,55 @@ RSpec.describe RecruitmentPerformanceReport::OffersAcceptedTableComponent do
     end
   end
 
+  it 'renders the report with expected columns previous cycle', :aggregate_failures do
+    provider_report = create(:provider_recruitment_performance_report)
+    provider = provider_report.provider
+    national_statistics = create(:national_recruitment_performance_report).statistics
+    previous_cycle_year = RecruitmentCycleTimetable.previous_year
+
+    render_inline described_class.new(
+      provider,
+      provider_report.statistics,
+      national_statistics,
+      recruitment_cycle_year: previous_cycle_year,
+    )
+
+    expect(page).to have_table('4. Offers accepted')
+    expect(page).to have_content(previous_cycle_description(previous_cycle_year))
+
+    expect(page).to have_content provider.name
+    expect(page).to have_content 'All providers'
+    expect(page).to have_content 'Subject'
+    [
+      "#{previous_cycle_year} cycle",
+      "#{previous_cycle_year - 1} cycle",
+      'Percentage change',
+    ].each do |heading|
+      expect(page).to have_element('th', scope: 'col', class: 'govuk-table__header', text: heading).twice
+    end
+
+    primary_row = page.find('tr.govuk-table__row', text: 'Primary')
+    expect(primary_row).to have_content '7'
+    expect(primary_row).to have_content '7'
+    expect(primary_row).to have_content '0%'
+    expect(primary_row).to have_content '6,503'
+    expect(primary_row).to have_content '7,115'
+    expect(primary_row).to have_content '-9%'
+
+    %w[Primary Secondary].each do |heading|
+      expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: heading)
+    end
+
+    secondary_subject_headings.each do |heading|
+      expect(page).to have_element(
+        'th',
+        scope: 'row',
+        class: 'govuk-table__header recruitment-performance-report-table__cell--secondary-subject',
+        text: heading,
+      )
+    end
+  end
+
 private
 
   def secondary_subject_headings
@@ -58,5 +107,9 @@ private
 
   def description
     'The table includes candidates who accepted and then deferred an offer from the provider in a previous cycle, which has been confirmed this cycle. It also includes candidates who accepted offers, but then did not meet the conditions of that offer.'
+  end
+
+  def previous_cycle_description(cycle_year)
+    "The table includes candidates who accepted and then deferred an offer from the provider in a previous cycle, which has been confirmed in #{cycle_year} cycle. It also includes candidates who accepted offers, but then did not meet the conditions of that offer."
   end
 end

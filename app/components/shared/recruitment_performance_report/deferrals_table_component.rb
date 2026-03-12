@@ -10,7 +10,8 @@ module RecruitmentPerformanceReport
       provider_statistics,
       statistics,
       report_type: :NATIONAL,
-      region: ReportSharedEnums.all_of_england_key
+      region: ReportSharedEnums.all_of_england_key,
+      recruitment_cycle_year: RecruitmentCycleTimetable.current_year
     )
       @provider = provider
       @report_type = report_type
@@ -21,6 +22,21 @@ module RecruitmentPerformanceReport
         statistics:,
         report_type:,
       )
+      @recruitment_cycle_year = recruitment_cycle_year
+    end
+
+    def column_text(title)
+      if title == :deferrals_this_cycle_to_next &&
+         @recruitment_cycle_year == RecruitmentCycleTimetable.previous_year
+
+        "Deferrals #{@recruitment_cycle_year} cycle"
+      elsif title == :deferrals_last_cycle_to_this_cycle &&
+            @recruitment_cycle_year == RecruitmentCycleTimetable.previous_year
+
+        "Deferrals #{@recruitment_cycle_year - 1} cycle"
+      else
+        I18n.t("shared.recruitment_performance_report.deferrals_table_component.#{title}")
+      end
     end
 
     def format_number(row, column_name)
