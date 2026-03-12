@@ -34,16 +34,24 @@ RSpec.describe ProviderInterface::Reports::RecruitmentPerformanceReportsControll
 
   describe 'GET show' do
     it 'returns 200' do
-      get provider_interface_reports_provider_recruitment_performance_report_path(provider_id: provider.id)
+      get provider_interface_reports_provider_recruitment_performance_report_path(
+        provider_id: provider.id,
+        recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
+      )
 
       expect(response).to have_http_status :ok
       expect(response.content_type).to eq('text/html; charset=utf-8')
     end
 
     context 'when format is ZIP' do
+      let(:provider_report) do
+        create(:provider_recruitment_performance_report, provider:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
+      end
+
       it 'returns 200' do
         get provider_interface_reports_provider_recruitment_performance_report_path(
           provider_id: provider.id,
+          recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
           format: :zip,
         )
 
@@ -59,6 +67,7 @@ RSpec.describe ProviderInterface::Reports::RecruitmentPerformanceReportsControll
         it 'returns 404' do
           get provider_interface_reports_provider_recruitment_performance_report_path(
             provider_id: provider.id,
+            recruitment_cycle_year: RecruitmentCycleTimetable.current_year,
             format: :zip,
           )
 

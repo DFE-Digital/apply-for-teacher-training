@@ -3,7 +3,7 @@ module ProviderInterface
     Region = Data.define(:label, :value)
     include ActiveModel::Model
 
-    attr_accessor :region, :provider_id, :provider_user_id
+    attr_accessor :region, :provider_id, :provider_user_id, :recruitment_cycle_year
 
     validates :region, presence: true
 
@@ -20,13 +20,14 @@ module ProviderInterface
       result
     end
 
-    def self.initialize_from_report_filter(provider_id:, provider_user_id:)
+    def self.initialize_from_report_filter(provider_id:, provider_user_id:, recruitment_cycle_year:)
       region = RegionalReportFilter.find_by(
         provider_id:,
         provider_user_id:,
+        recruitment_cycle_year:,
       )&.region
 
-      new({ region:, provider_id:, provider_user_id: })
+      new({ region:, provider_id:, provider_user_id:, recruitment_cycle_year: })
     end
 
     def save
@@ -36,10 +37,12 @@ module ProviderInterface
         region:,
         provider_id:,
         provider_user_id:,
+        recruitment_cycle_year:,
       )
       RegionalReportFilter.where(
         provider_id:,
         provider_user_id:,
+        recruitment_cycle_year:,
       ).where.not(id: regional_filter.id)&.delete_all
 
       regional_filter

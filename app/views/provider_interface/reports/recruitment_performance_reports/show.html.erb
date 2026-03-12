@@ -1,10 +1,21 @@
-<% if @statistics.present? && @provider_data.present? && RecruitmentPerformanceReportTimetable.report_season? %>
-  <%= content_for :title, t('.title') %>
-  <%= content_for :before_content,
-                  breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path, t('page_titles.recruitment_performance_report') => nil) %>
+<%= content_for :title, t('.title', cycle_year: @recruitment_cycle_year) %>
+<%= content_for(
+  :before_content,
+  breadcrumbs(
+    t('page_titles.provider.reports') => provider_interface_reports_path,
+    t('page_titles.provider_recruitment_performance_report', cycle_year: @recruitment_cycle_year) => nil,
+  ),
+) %>
+
+<% if @reports_ready %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l"><%= t('page_titles.recruitment_performance_report') %></h1>
+      <h1 class="govuk-heading-l">
+        <%= t(
+          'page_titles.provider_recruitment_performance_report',
+          cycle_year: @recruitment_cycle_year,
+        ) %>
+      </h1>
       <p class="govuk-body">
         <%= govuk_link_to 'Export data (ZIP)', provider_interface_reports_provider_recruitment_performance_report_path(provider_id: @provider, format: :zip) %>
       </p>
@@ -12,8 +23,9 @@
 
     <%= render RecruitmentPerformanceReport::ReportMethodologyComponent.new(
       provider_report: @provider_report,
-      current_timetable: @current_timetable,
-      interface: 'provider',
+      comparison_link: new_provider_interface_reports_provider_regional_report_filter_path(
+        recruitment_cycle_year: @recruitment_cycle_year,
+      ),
     ) %>
     <%= render RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(
       @provider, @provider_data, @statistics, report_type: @report_type, region: @region
@@ -36,19 +48,100 @@
     <%= render RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(
       @provider, @provider_data, @statistics, report_type: @report_type, region: @region
     ) %>
+
+    <% if FeatureFlag.active?(:provider_edi_report) %>
+      <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m" id="sex_disability_and_ethnicity_tables">
+          8. Sex, disability, ethnicity and age of candidates
+        </h2>
+        <p class="govuk-body">
+        This report shows the sex, disability, ethnicity and age of candidates who applied to your organisation from 8 October 2024 onwards.
+        </p>
+
+        <p class="govuk-body">
+        Sex, disability and ethnicity data comes from candidates who completed the equal opportunities questionnaire when applying. Not all candidates answer these questions.
+        </p>
+
+        <p class="govuk-body">
+        Ages shown are as of the current report date.
+        </p>
+
+        <%= govuk_details(summary_text: 'Full methodology') do %>
+          <h2 class="govuk-heading-s">When this data starts</h2>
+          <p class="govuk-body">
+          Diversity data is available for candidates who submitted applications from <%= @current_timetable.apply_opens_at.to_fs(:govuk_date) %> onwards.
+          </p>
+          <p class="govuk-body">
+          Not all candidates answer the sex, disability and ethnicity questions. Candidates can select "prefer not to say" for any question.
+          </p>
+
+          <h2 class="govuk-heading-s">Age</h2>
+          <p class="govuk-body">
+          Age data comes from all candidates. It's based on each candidate's date of birth, which they must enter as part of their application. Ages shown in this report are calculated as of the current report date.
+          </p>
+
+          <h2 class="govuk-heading-s">How candidates are asked about their disabilities and health conditions</h2>
+          <p class="govuk-body">
+          Candidates are asked: "Do you have a disability or health condition?"
+          </p>
+          <p class="govuk-body">
+          If they answer yes, they can select one or more types from a list. Candidates can select multiple options, so the numbers in disability tables may not match the totals.
+          </p>
+
+          <h2 class="govuk-heading-s">How candidates are asked about their ethnicity</h2>
+          <p class="govuk-body">
+          Candidates are asked to select an ethnic group from a list. If candidates select an ethnic group, they're then asked to select a more specific background. For example, if they select "Asian or Asian British", they can then choose backgrounds such as "Bangladeshi", "Indian", "Pakistani" or others.
+          </p>
+        <% end %>
+      </div>
+
+      <%= render RecruitmentPerformanceReport::AgeGroupComponent.new(
+        provider: @provider,
+        edi_reports: @provider_edi_reports,
+        region: @region,
+      ) %>
+
+      <%= render RecruitmentPerformanceReport::DisabilityComponent.new(
+        provider: @provider,
+        edi_reports: @provider_edi_reports,
+        region: @region,
+      ) %>
+
+      <%= render RecruitmentPerformanceReport::DisabilityDeclarationComponent.new(
+        provider: @provider,
+        edi_reports: @provider_edi_reports,
+        region: @region,
+      ) %>
+
+      <%= render RecruitmentPerformanceReport::EthnicGroupComponent.new(
+        provider: @provider,
+        edi_reports: @provider_edi_reports,
+        region: @region,
+      ) %>
+
+      <%= render RecruitmentPerformanceReport::SexComponent.new(
+        provider: @provider,
+        edi_reports: @provider_edi_reports,
+        region: @region,
+      ) %>
+    <% end %>
   </div>
 <% else %>
-  <%= content_for :title, t('.empty_report_title') %>
-  <%= content_for :before_content,
-                  breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path, t('.empty_report_heading') => nil) %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l"><%= t('.empty_report_heading') %></h1>
+      <h1 class="govuk-heading-l">
+        <%= t(
+          'page_titles.provider_recruitment_performance_report',
+          cycle_year: @recruitment_cycle_year,
+        ) %>
+      </h1>
       <p class="govuk-body"><%= t('.not_ready_to_view') %></p>
 
       <%= govuk_link_to(
         'Set your comparison area',
-        new_provider_interface_reports_provider_regional_report_filter_path,
+        new_provider_interface_reports_provider_regional_report_filter_path(
+          recruitment_cycle_year: @recruitment_cycle_year,
+        ),
         class: 'govuk-button govuk-button--secondary',
       ) %>
     </div>

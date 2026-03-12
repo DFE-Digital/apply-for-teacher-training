@@ -18,6 +18,7 @@ module ProviderInterface
               region: filter.region,
               provider_id: filter.provider_id,
               provider_user_id: filter.provider_user_id,
+              recruitment_cycle_year: 2026,
             },
           )
 
@@ -32,6 +33,7 @@ module ProviderInterface
             :regional_report_filter,
             provider_user:,
             provider: provider_user.providers.last,
+            recruitment_cycle_year: 2026,
           )
           different_user_filter = create(:regional_report_filter)
 
@@ -40,6 +42,7 @@ module ProviderInterface
               region: 'all_of_england',
               provider_id: existing_filter.provider_id,
               provider_user_id: existing_filter.provider_user_id,
+              recruitment_cycle_year: 2026,
             },
           )
 
@@ -62,6 +65,7 @@ module ProviderInterface
               region: 'all_of_england',
               provider_id: provider.id,
               provider_user_id: provider_user.id,
+              recruitment_cycle_year: 2026,
             },
           )
 
@@ -69,6 +73,7 @@ module ProviderInterface
           expect(new_filter.region).to eq('all_of_england')
           expect(new_filter.provider).to eq(provider)
           expect(new_filter.provider_user).to eq(provider_user)
+          expect(new_filter.recruitment_cycle_year).to eq(2026)
         end
       end
     end
@@ -80,6 +85,7 @@ module ProviderInterface
         report_form = described_class.initialize_from_report_filter(
           provider_id: report_filter.provider_id,
           provider_user_id: report_filter.provider_user.id,
+          recruitment_cycle_year: 2026,
         )
 
         expect(report_form.region).to eq('london')

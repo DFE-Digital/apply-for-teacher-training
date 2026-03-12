@@ -2,7 +2,10 @@
 <% content_for(
   :before_content,
   govuk_back_link(
-    href: provider_interface_reports_provider_recruitment_performance_report_path(@provider),
+    href: provider_interface_reports_provider_recruitment_performance_report_path(
+      @provider,
+      @recruitment_cycle_year,
+    ),
   ),
 ) %>
 
@@ -13,6 +16,7 @@
       url: provider_interface_reports_provider_regional_report_filters_path,
     ) do |f| %>
       <%= f.govuk_error_summary %>
+      <%= f.hidden_field :recruitment_cycle_year, value: @recruitment_cycle_year %>
 
       <%= f.govuk_collection_radio_buttons(
         :region,

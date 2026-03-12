@@ -1,6 +1,8 @@
 module ProviderInterface
   module Reports
     class RecruitmentPerformanceReportsController < ProviderInterfaceController
+      before_action :set_cycle_year
+      before_action :verify_recruitment_cycle
       before_action :set_provider
       before_action :set_region
 
@@ -12,6 +14,22 @@ module ProviderInterface
           format.html do
             @provider_data = @provider_report&.statistics
             @statistics = @region == all_of_england ? national_report&.statistics : regional_report&.statistics
+
+            if FeatureFlag.active?(:provider_edi_report)
+              @provider_edi_reports = Publications::ProviderEdiReport.where(
+                provider: @provider,
+                cycle_week: @provider_report&.cycle_week,
+                recruitment_cycle_year: @provider_report&.recruitment_cycle_year,
+                category: ReportSharedEnums.edi_categories.keys,
+              ).select('DISTINCT ON (category) *').order(:category, created_at: :desc)
+
+              @reports_ready = @provider_report&.show? &&
+                               @statistics.present? &&
+                               @provider_edi_reports.present?
+            else
+              @reports_ready = @provider_report&.show? &&
+                               @statistics.present?
+            end
           end
           format.zip do
             if latest_report.present?
@@ -40,6 +58,17 @@ module ProviderInterface
         ).call
       end
 
+      def verify_recruitment_cycle
+        unless @recruitment_cycle_year == RecruitmentCycleTimetable.current_year ||
+               @recruitment_cycle_year == RecruitmentCycleTimetable.previous_year
+          redirect_to provider_interface_reports_path
+        end
+      end
+
+      def set_cycle_year
+        @recruitment_cycle_year = params.permit(:recruitment_cycle_year)[:recruitment_cycle_year]&.to_i
+      end
+
       def set_provider
         @provider ||= current_user.providers.find(
           params.permit(:provider_id)[:provider_id],
@@ -54,6 +83,7 @@ module ProviderInterface
         @region = RegionalReportFilter.find_by(
           provider_id: @provider.id,
           provider_user_id: current_user.id,
+          recruitment_cycle_year: @recruitment_cycle_year || RecruitmentCycleTimetable.current_year,
         )&.region || all_of_england
       end
 
@@ -77,10 +107,25 @@ module ProviderInterface
       end
 
       def latest_report
-        Publications::ProviderRecruitmentPerformanceReport
-          .where(provider: @provider)
-          .order(:recruitment_cycle_year, :cycle_week)
-          .last
+        if @recruitment_cycle_year == RecruitmentCycleTimetable.previous_year
+          previous_cycle_national_report = Publications::NationalRecruitmentPerformanceReport
+            .last_in_year(@recruitment_cycle_year)
+
+          return if previous_cycle_national_report.nil?
+
+          Publications::ProviderRecruitmentPerformanceReport
+            .where(
+              provider: @provider,
+              cycle_week: previous_cycle_national_report.cycle_week,
+              recruitment_cycle_year: @recruitment_cycle_year,
+            ).last
+        else
+          Publications::ProviderRecruitmentPerformanceReport
+            .where(
+              provider: @provider,
+              recruitment_cycle_year: @recruitment_cycle_year,
+            ).order(:cycle_week).last
+        end
       end
     end
   end
