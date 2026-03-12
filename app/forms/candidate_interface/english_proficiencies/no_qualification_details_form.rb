@@ -15,12 +15,16 @@ module CandidateInterface
         UpdateEnglishProficiencies.new(
           application_form,
           qualification_statuses: persisting_qualification_statuses,
-          no_qualification_details: qualification_details_declared? ? no_qualification_details : nil ,
-          persist: false,
+          no_qualification_details: qualification_details_declared? ? no_qualification_details : nil,
+          publish: true,
         ).call
       end
 
-      def fill(english_proficiency)
+      def fill
+        current_english_proficiency = application_form.english_proficiency
+        return self if current_english_proficiency.blank? ||
+                       !(current_english_proficiency.no_qualification || current_english_proficiency.degree_taught_in_english)
+
         self.declare_no_qualification_details = english_proficiency.no_qualification_details.present? ? 1 : 0
         self.no_qualification_details = english_proficiency.no_qualification_details
         self
@@ -39,7 +43,7 @@ module CandidateInterface
     private
 
       def persisting_qualification_statuses
-        @persisting_qualification_statuses ||= application_form.english_proficiencies.pluck(:qualification_status)
+        @persisting_qualification_statuses ||= english_proficiency.qualification_statuses
       end
     end
   end

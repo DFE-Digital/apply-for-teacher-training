@@ -518,26 +518,20 @@ namespace :candidate_interface, path: '/candidate' do
       get '/edit' => 'english_proficiencies/start#edit', as: :english_proficiencies_edit_start
       patch '/edit' => 'english_proficiencies/start#update'
 
-      get '/no_qualification_details/:english_proficiency_id' => 'english_proficiencies/no_qualification_details#edit', as: :english_proficiencies_no_qualification_details
-      patch '/no_qualification_details/:english_proficiency_id' => 'english_proficiencies/no_qualification_details#update'
+      get '/no-qualification-details/:english_proficiency_id' => 'english_proficiencies/no_qualification_details#new', as: :english_proficiencies_no_qualification_details
+      patch '/no-qualification-details/:english_proficiency_id' => 'english_proficiencies/no_qualification_details#create'
 
-      get '/type' => 'english_proficiencies/type#new', as: :english_proficiencies_type
-      post '/type' => 'english_proficiencies/type#create'
+      get '/type/:english_proficiency_id' => 'english_proficiencies/type#new', as: :english_proficiencies_type
+      post '/type/:english_proficiency_id' => 'english_proficiencies/type#create'
 
-      get '/ielts' => 'english_proficiencies/ielts#new', as: :english_proficiencies_ielts
-      post '/ielts' => 'english_proficiencies/ielts#create'
-      get '/ielts/edit' => 'english_proficiencies/ielts#edit', as: :english_proficiencies_edit_ielts
-      patch '/ielts/edit' => 'english_proficiencies/ielts#update'
+      get '/ielts/:english_proficiency_id' => 'english_proficiencies/ielts#new', as: :english_proficiencies_ielts
+      post '/ielts/:english_proficiency_id' => 'english_proficiencies/ielts#create'
 
-      get '/toefl' => 'english_proficiencies/toefl#new', as: :english_proficiencies_toefl
-      post '/toefl' => 'english_proficiencies/toefl#create'
-      get '/toefl/edit' => 'english_proficiencies/toefl#edit', as: :english_proficiencies_edit_toefl
-      patch '/toefl/edit' => 'english_proficiencies/toefl#update'
+      get '/toefl/:english_proficiency_id' => 'english_proficiencies/toefl#new', as: :english_proficiencies_toefl
+      post '/toefl/:english_proficiency_id' => 'english_proficiencies/toefl#create'
 
-      get '/other' => 'english_proficiencies/other_efl_qualification#new', as: :english_proficiencies_other_efl_qualification
-      post '/other' => 'english_proficiencies/other_efl_qualification#create'
-      get '/other/edit' => 'english_proficiencies/other_efl_qualification#edit', as: :english_proficiencies_edit_other_efl_qualification
-      patch '/other/edit' => 'english_proficiencies/other_efl_qualification#update'
+      get '/other/:english_proficiency_id' => 'english_proficiencies/other_efl_qualification#new', as: :english_proficiencies_other_efl_qualification
+      post '/other/:english_proficiency_id' => 'english_proficiencies/other_efl_qualification#create'
 
       get '/review' => 'english_proficiencies/review#show', as: :english_proficiencies_review
       patch '/review' => 'english_proficiencies/review#complete', as: :english_proficiencies_complete

@@ -8,7 +8,7 @@
 
   <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
 
-  <%= render CandidateInterface::EnglishProficiencies::ReviewComponent.new(current_application.english_proficiencies) %>
+  <%= render CandidateInterface::EnglishProficiencies::ReviewComponent.new(current_application.english_proficiency) %>
 
   <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
 <% end %>

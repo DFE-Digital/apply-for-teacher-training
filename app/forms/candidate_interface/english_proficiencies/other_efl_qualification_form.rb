@@ -1,14 +1,14 @@
 module CandidateInterface
   module EnglishProficiencies
-    class ToeflForm
+    class OtherEflQualificationForm
       include ActiveModel::Model
 
-      attr_accessor :registration_number, :total_score, :award_year, :application_form, :english_proficiency
+      attr_accessor :name, :grade, :award_year, :application_form, :english_proficiency
 
-      validates :registration_number, presence: true, length: { maximum: 255 }
-      validates :total_score, numericality: true, presence: true, length: { maximum: 255 }
+      validates :name, presence: true, length: { maximum: 255 }
+      validates :grade, presence: true, length: { maximum: 255 }
       validates :award_year, presence: true,
-                             numericality: { greater_than_or_equal_to: 1964, only_integer: true },
+                             numericality: { only_integer: true },
                              year: { future: true }
 
       def save
@@ -16,26 +16,27 @@ module CandidateInterface
 
         raise_error_unless_application_form
 
-        toefl = ToeflQualification.new(
-          registration_number:,
-          total_score:,
+        other_qualification = OtherEflQualification.new(
+          name:,
+          grade:,
           award_year:,
         )
+
         UpdateEnglishProficiencies.new(
           application_form,
           qualification_statuses: persisting_qualification_statuses,
-          efl_qualification: toefl,
+          efl_qualification: other_qualification,
           publish: true,
         ).call
       end
 
       def fill
-        return self unless english_proficiency.efl_qualification_type == 'ToeflQualification'
+        return self unless english_proficiency.efl_qualification_type == 'OtherEflQualification'
 
-        toefl = english_proficiency.efl_qualification
-        self.registration_number = toefl.registration_number
-        self.total_score = toefl.total_score
-        self.award_year = toefl.award_year
+        qualification = english_proficiency.efl_qualification
+        self.name = qualification.name
+        self.grade = qualification.grade
+        self.award_year = qualification.award_year
         self
       end
 

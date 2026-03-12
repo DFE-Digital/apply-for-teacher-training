@@ -4,7 +4,7 @@ module CandidateInterface
       def show
         @section_complete_form = SectionCompleteForm.new(
           completed: current_application.efl_completed,
-          )
+        )
         @return_to = return_to_after_edit(default: application_form_path)
       end
 

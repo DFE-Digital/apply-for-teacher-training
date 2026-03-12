@@ -5,13 +5,13 @@ module CandidateInterface
 
       BandScore = Struct.new(:value, :option)
 
-      attr_accessor :trf_number, :band_score, :award_year, :application_form
+      attr_accessor :trf_number, :band_score, :award_year, :application_form, :english_proficiency
 
       validates :trf_number, presence: true, length: { maximum: 255 }
       validates :band_score, presence: true
       validates :award_year, presence: true,
-                numericality: { greater_than_or_equal_to: 1980, only_integer: true },
-                year: { future: true }
+                             numericality: { greater_than_or_equal_to: 1980, only_integer: true },
+                             year: { future: true }
       validate :band_score_is_a_valid_score
 
       def save
@@ -26,19 +26,23 @@ module CandidateInterface
         )
         UpdateEnglishProficiencies.new(
           application_form,
-          qualification_statuses: persisting_qualification_statuses << 'has_qualification',
+          qualification_statuses: persisting_qualification_statuses,
           efl_qualification: ielts,
+          publish: true,
         ).call
       end
 
-      def fill(ielts:)
+      def fill
+        return self unless english_proficiency.efl_qualification_type == 'IeltsQualification'
+
+        ielts = english_proficiency.efl_qualification
         self.trf_number = ielts.trf_number
         self.band_score = ielts.band_score
         self.award_year = ielts.award_year
         self
       end
 
-      private
+    private
 
       def band_score_is_a_valid_score
         unless sanitize(band_score).in? IeltsQualification::VALID_SCORES
@@ -63,7 +67,7 @@ module CandidateInterface
       end
 
       def persisting_qualification_statuses
-        @persisting_qualification_statuses ||= application_form.english_proficiencies.pluck(:qualification_status)
+        @persisting_qualification_statuses ||= english_proficiency.qualification_statuses
       end
     end
   end

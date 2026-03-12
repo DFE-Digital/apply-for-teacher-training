@@ -16,21 +16,16 @@ module CandidateInterface
 
         raise_error_unless_application_form
 
-        UpdateEnglishProficiencies.new(
-          application_form,
-          qualification_statuses: qualification_statuses,
-          persist: true,
-        ).call
+        update_english_proficiencies.call
       end
 
       def next_path
-        if qualification_statuses.include?('has_qualification')
-          candidate_interface_english_proficiencies_type_path(return_to_params)
-        elsif qualification_statuses.include?('no_qualification') || qualification_statuses.include?('degree_taught_in_english')
-          english_proficiency = application_form
-            .english_proficiencies
-            .where(qualification_status: %w[no_qualification degree_taught_in_english]).last
-          candidate_interface_english_proficiencies_no_qualification_details_path(english_proficiency)
+        new_english_proficiency = update_english_proficiencies.new_english_proficiency
+
+        if new_english_proficiency.has_qualification
+          candidate_interface_english_proficiencies_type_path(new_english_proficiency)
+        elsif new_english_proficiency.no_qualification || new_english_proficiency.degree_taught_in_english
+          candidate_interface_english_proficiencies_no_qualification_details_path(new_english_proficiency)
         else
           candidate_interface_english_proficiencies_review_path
         end
@@ -44,7 +39,9 @@ module CandidateInterface
 
       def fill(application_form)
         self.application_form = application_form
-        self.qualification_statuses = application_form.english_proficiencies.pluck(:qualification_status).compact_blank
+        self.qualification_statuses = (
+          application_form.english_proficiency || application_form.english_proficiencies.last
+        )&.qualification_statuses
         self
       end
 
@@ -58,6 +55,15 @@ module CandidateInterface
 
       def return_to_params
         return_to == 'application-review' ? { 'return-to' => 'application-review' } : {}
+      end
+
+      def update_english_proficiencies
+        @update_english_proficiencies ||= UpdateEnglishProficiencies.new(
+          application_form,
+          qualification_statuses: qualification_statuses,
+          english_proficiency: application_form.english_proficiency,
+          persist: true,
+        )
       end
     end
   end

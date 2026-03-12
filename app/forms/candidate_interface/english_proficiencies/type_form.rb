@@ -4,7 +4,7 @@ module CandidateInterface
       include ActiveModel::Model
       include Rails.application.routes.url_helpers
 
-      attr_accessor :type, :return_to
+      attr_accessor :type, :return_to, :english_proficiency
 
       validates :type, presence: true, inclusion: { in: %w[ielts toefl other] }
 
@@ -14,14 +14,24 @@ module CandidateInterface
         true
       end
 
+      def fill
+        efl_qualification_types = {
+          'IeltsQualification' => 'ielts',
+          'ToeflQualification' => 'toefl',
+          'OtherEflQualification' => 'other',
+        }
+        self.type = efl_qualification_types[english_proficiency.efl_qualification_type]
+        self
+      end
+
       def next_path
         case type
         when 'ielts'
-          candidate_interface_english_proficiencies_ielts_path(return_to_params)
+          candidate_interface_english_proficiencies_ielts_path(english_proficiency)
         when 'toefl'
-          candidate_interface_english_proficiencies_toefl_path(return_to_params)
+          candidate_interface_english_proficiencies_toefl_path(english_proficiency)
         when 'other'
-          english_proficiencies_other_efl_qualification_path(return_to_params)
+          candidate_interface_english_proficiencies_other_efl_qualification_path(english_proficiency)
         end
       end
 
