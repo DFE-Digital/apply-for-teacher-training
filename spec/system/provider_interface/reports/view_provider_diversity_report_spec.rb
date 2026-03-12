@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Provider views the diversity report' do
   include DfESignInHelpers
 
+  before do
+    FeatureFlag.deactivate(:provider_edi_report)
+  end
+
   scenario 'when provider user views the diversity report' do
     given_a_provider_and_provider_user_exists
     and_application_forms_exist_for_the_provider
