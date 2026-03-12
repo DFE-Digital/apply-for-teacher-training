@@ -23,7 +23,7 @@ module CandidateInterface
       when 'offer', 'pending_conditions', 'recruited'
         'green'
       when 'offer_withdrawn'
-        'pink'
+        'magenta'
       when 'offer_deferred', 'interviewing', 'inactive'
         'yellow'
       when 'withdrawn', 'application_not_sent', 'rejected'

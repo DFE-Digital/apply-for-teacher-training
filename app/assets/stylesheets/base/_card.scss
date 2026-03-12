@@ -7,7 +7,7 @@
 
   display: block;
 
-  background-color: govuk.govuk-colour("light-grey");
+  background-color: govuk.govuk-colour("black", "tint-95");
 }
 
 .app-card--blue {
@@ -17,9 +17,9 @@
 }
 
 .app-card--light-blue {
-  color: govuk-tint(govuk.govuk-colour("dark-blue"), 5);
+  color: govuk.govuk-colour("blue", "shade-50");
 
-  background: govuk-tint(govuk.govuk-colour("light-blue"), 73.5);
+  background: govuk.govuk-colour("blue", "tint-80");
 }
 
 .app-card--green {
@@ -29,9 +29,9 @@
 }
 
 .app-card--red {
-  color: govuk-shade(govuk.govuk-colour("red"), 30);
+  color: govuk.govuk-colour("red", "tint-25");
 
-  background: govuk-tint(govuk.govuk-colour("red"), 80);
+  background: govuk.govuk-colour("red", "tint-80");
 }
 
 .app-card--white {
@@ -90,5 +90,5 @@
   font-size: 18px;
 
   background-color: govuk.govuk-colour("white");
-  border: 1px solid govuk.govuk-colour("mid-grey");
+  border: 1px solid govuk.govuk-colour("black", "tint-80");
 }

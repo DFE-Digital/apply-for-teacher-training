@@ -20,7 +20,7 @@ module ProviderInterface
       when 'interviewing', 'offer_deferred'
         'yellow'
       when 'offer'
-        'turquoise'
+        'teal'
       when 'pending_conditions'
         'blue'
       when 'recruited'
