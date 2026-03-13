@@ -9,10 +9,10 @@
   <span>
     <% if recruitment_cycle_year == RecruitmentCycleTimetable.previous_year %>
       <p class="govuk-body">
-        This table shows candidates who have received one or more offers from <%= @provider.name %> in <%= recruitment_cycle_year %> cycle.
+        This table shows candidates who have received one or more offers from <%= @provider.name %> in the <%= recruitment_cycle_year %> cycle.
       </p>
       <p>
-        This table includes candidates who have received at least one offer on at least one of their applications in <%= recruitment_cycle_year %> cycle. They are included whether or not the offer was:
+        This table includes candidates who have received at least one offer on at least one of their applications in the <%= recruitment_cycle_year %> cycle. They are included whether or not the offer was:
       </p>
     <% else %>
       <p class="govuk-body">

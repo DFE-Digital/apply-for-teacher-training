@@ -114,6 +114,6 @@ RSpec.describe RecruitmentPerformanceReport::CandidatesRejectedTableComponent do
   end
 
   def previous_cycle_description(provider_name, cycle_year)
-    "This table shows the number of candidates who have had all their applications to #{provider_name} rejected in #{cycle_year} cycle."
+    "This table shows the number of candidates who have had all their applications to #{provider_name} rejected in the #{cycle_year} cycle."
   end
 end

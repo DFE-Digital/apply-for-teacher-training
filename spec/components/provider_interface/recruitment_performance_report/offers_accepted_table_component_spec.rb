@@ -110,6 +110,6 @@ private
   end
 
   def previous_cycle_description(cycle_year)
-    "The table includes candidates who accepted and then deferred an offer from the provider in a previous cycle, which has been confirmed in #{cycle_year} cycle. It also includes candidates who accepted offers, but then did not meet the conditions of that offer."
+    "The table includes candidates who accepted and then deferred an offer from the provider in a previous cycle, which has been confirmed in the #{cycle_year} cycle. It also includes candidates who accepted offers, but then did not meet the conditions of that offer."
   end
 end

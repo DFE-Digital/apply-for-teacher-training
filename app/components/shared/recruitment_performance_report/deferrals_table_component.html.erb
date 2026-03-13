@@ -4,10 +4,10 @@
   </h2>
   <% if @recruitment_cycle_year == RecruitmentCycleTimetable.previous_year %>
     <p class="govuk-body">
-      This table shows the number of deferred offers from <%= @provider.name %> in <%= @recruitment_cycle_year %> cycle, compared to national data.
+      This table shows the number of deferred offers from <%= @provider.name %> in the <%= @recruitment_cycle_year %> cycle, compared to national data.
     </p>
     <p class="govuk-body">
-      This table includes candidates who have received an offer in <%= @recruitment_cycle_year %> cycle but deferred it to the next cycle, excluding offers for withdrawn applications. Offers that were deferred and then withdrawn are not included. Candidates who deferred again to the next cycle after that, are included in the cycle they first deferred in.
+      This table includes candidates who have received an offer in the <%= @recruitment_cycle_year %> cycle but deferred it to the next cycle, excluding offers for withdrawn applications. Offers that were deferred and then withdrawn are not included. Candidates who deferred again to the next cycle after that, are included in the cycle they first deferred in.
     </p>
   <% else %>
     <p class="govuk-body"><%= t('.deferred_offers_this_cycle', provider_name:) %></p>

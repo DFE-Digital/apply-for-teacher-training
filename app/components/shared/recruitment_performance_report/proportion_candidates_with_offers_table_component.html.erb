@@ -10,12 +10,12 @@
 
     <% if recruitment_cycle_year == RecruitmentCycleTimetable.previous_year %>
       <p class="govuk-body">
-        This table shows the proportion of all candidates who submitted one or more applications to Durham University who have received an offer in <%= recruitment_cycle_year %> cycle.
+        This table shows the proportion of all candidates who submitted one or more applications to Durham University who have received an offer in the <%= recruitment_cycle_year %> cycle.
       </p>
 
       <%= govuk_list(
         [
-          "candidates who have received one or more offers in #{recruitment_cycle_year} cycle",
+          "candidates who have received one or more offers in the #{recruitment_cycle_year} cycle",
           'offers which were then withdrawn or deferred by the provider',
           'candidates who deferred or declined their offers, or withdrew after accepting an offer',
           'candidates that failed to meet the conditions of their offer',

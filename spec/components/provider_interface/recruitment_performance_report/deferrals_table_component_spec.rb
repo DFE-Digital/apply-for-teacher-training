@@ -68,6 +68,6 @@ RSpec.describe RecruitmentPerformanceReport::DeferralsTableComponent do
   end
 
   def previous_cycle_description(provider_name, cycle_year)
-    "This table shows the number of deferred offers from #{provider_name} in #{cycle_year} cycle, compared to national data."
+    "This table shows the number of deferred offers from #{provider_name} in the #{cycle_year} cycle, compared to national data."
   end
 end

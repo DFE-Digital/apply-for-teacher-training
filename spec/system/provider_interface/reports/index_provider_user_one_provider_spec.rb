@@ -31,8 +31,8 @@ RSpec.describe 'Provider reports index' do
 
   def then_the_page_has_the_right_content
     expect(page).to have_css('h1', text: 'Reports')
-    expect(page).to have_css('h2', text: "Application data for this recruitment cycle (#{current_timetable.cycle_range_name})")
-    expect(page).to have_css('h2', text: "Application data for the previous recruitment cycle (#{previous_timetable.cycle_range_name})")
+    expect(page).to have_css('h2', text: "#{current_timetable.cycle_range_name} recruitment cycle")
+    expect(page).to have_css('h2', text: "#{previous_timetable.cycle_range_name} recruitment cycle")
     expect(page).to have_link('Status of active applications', href: provider_interface_reports_provider_status_of_active_applications_path(provider_id: @provider))
     expect(page).to have_link('Withdrawal reasons', href: provider_interface_reports_provider_withdrawal_reasons_report_path(@provider))
     expect(page).to have_link(

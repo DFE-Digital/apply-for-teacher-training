@@ -9,7 +9,7 @@
   <span>
     <p class="govuk-body">
       <% if recruitment_cycle_year == RecruitmentCycleTimetable.previous_year %>
-        This table shows the number of candidates who have submitted one or more applications to <%= @provider.name %> in <%= recruitment_cycle_year %> cycle.
+        This table shows the number of candidates who have submitted one or more applications to <%= @provider.name %> in the <%= recruitment_cycle_year %> cycle.
       <% else %>
         <%= t('.number_of_candidates_submitted', provider_name: @provider.name) %>
       <% end %>

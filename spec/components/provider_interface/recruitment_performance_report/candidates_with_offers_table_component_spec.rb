@@ -110,6 +110,6 @@ RSpec.describe RecruitmentPerformanceReport::CandidatesWithOffersTableComponent 
   end
 
   def previous_cycle_description(provider_name, cycle_year)
-    "This table shows candidates who have received one or more offers from #{provider_name} in #{cycle_year} cycle."
+    "This table shows candidates who have received one or more offers from #{provider_name} in the #{cycle_year} cycle."
   end
 end
