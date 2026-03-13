@@ -12,7 +12,7 @@
         The table includes candidates who accepted and then deferred an offer from the provider in a previous cycle, which has been confirmed in the <%= recruitment_cycle_year %> cycle. It also includes candidates who accepted offers, but then did not meet the conditions of that offer.
       </p>
       <p class="govuk-body">
-        <%= t('.table_does_not_include') %>
+        <%= t('hared.recruitment_performance_report.offers_accepted_table_component.table_does_not_include') %>
       </p>
       <%= govuk_list([
         'withdrawn by the provider',
@@ -21,15 +21,15 @@
       ], type: :bullet) %>
     <% else %>
       <p class="govuk-body">
-        <%= t('.candidates_who_have_accepted_offers') %>
+        <%= t('shared.recruitment_performance_report.offers_accepted_table_component.candidates_who_have_accepted_offers') %>
       </p>
       <p class="govuk-body">
-        <%= t('.table_does_not_include') %>
+        <%= t('shared.recruitment_performance_report.offers_accepted_table_component.table_does_not_include') %>
       </p>
       <%= govuk_list([
-        t('.withdrawn_by_provider'),
-        t('.withdrawn_by_candidate'),
-        t('.deferred'),
+        t('shared.recruitment_performance_report.offers_accepted_table_component.withdrawn_by_provider'),
+        t('shared.recruitment_performance_report.offers_accepted_table_component.withdrawn_by_candidate'),
+        t('shared.recruitment_performance_report.offers_accepted_table_component.deferred'),
       ], type: :bullet) %>
     <% end %>
   </span>

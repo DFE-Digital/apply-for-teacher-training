@@ -128,9 +128,10 @@ module CandidateInterface
     def unconditional_offer_row
       {
         key: 'Conditions',
-        value: tag.p('Contact the provider to find out more about any conditions.', class: 'govuk-body') +
-          tag.p('They’ll confirm your place once you have met any conditions and they’ve checked your
-references.', class: 'govuk-body'),
+        value: safe_join([
+          tag.p('Contact the provider to find out more about any conditions.', class: 'govuk-body'),
+          tag.p('They’ll confirm your place once you have met any conditions and they’ve checked your references.', class: 'govuk-body'),
+        ], ' '),
       }
     end
   end

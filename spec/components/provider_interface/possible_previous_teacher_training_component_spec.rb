@@ -42,14 +42,24 @@ RSpec.describe ProviderInterface::PossiblePreviousTeacherTrainingComponent do
           class: 'govuk-summary-card__title',
         )
         expect(rendered_component).to have_element(
-          :div,
-          text: 'Name of the training provider The London Provider',
-          class: 'govuk-summary-list__row',
+          :dt,
+          text: 'Name of the training provider',
+          class: 'govuk-summary-list__key',
         )
         expect(rendered_component).to have_element(
-          :div,
-          text: 'Training dates From January 2024 to July 2024',
-          class: 'govuk-summary-list__row',
+          :dd,
+          text: 'The London Provider',
+          class: 'govuk-summary-list__value',
+        )
+        expect(rendered_component).to have_element(
+          :dt,
+          text: 'Training dates',
+          class: 'govuk-summary-list__key',
+        )
+        expect(rendered_component).to have_element(
+          :dd,
+          text: 'From January 2024 to July 2024',
+          class: 'govuk-summary-list__value',
         )
 
         expect(rendered_component).to have_element(
@@ -111,14 +121,24 @@ RSpec.describe ProviderInterface::PossiblePreviousTeacherTrainingComponent do
           class: 'govuk-summary-card__title',
         )
         expect(rendered_component).to have_element(
-          :div,
-          text: 'Name of the training provider The London Provider',
-          class: 'govuk-summary-list__row',
+          :dt,
+          text: 'Name of the training provider',
+          class: 'govuk-summary-list__key',
         )
         expect(rendered_component).to have_element(
-          :div,
-          text: 'Training dates From January 2023 to July 2023',
-          class: 'govuk-summary-list__row',
+          :dd,
+          text: 'The London Provider',
+          class: 'govuk-summary-list__value',
+        )
+        expect(rendered_component).to have_element(
+          :dt,
+          text: 'Training dates',
+          class: 'govuk-summary-list__key',
+        )
+        expect(rendered_component).to have_element(
+          :dd,
+          text: 'From January 2023 to July 2023',
+          class: 'govuk-summary-list__value',
         )
 
         expect(rendered_component).to have_element(
@@ -127,14 +147,24 @@ RSpec.describe ProviderInterface::PossiblePreviousTeacherTrainingComponent do
           class: 'govuk-summary-card__title',
         )
         expect(rendered_component).to have_element(
-          :div,
-          text: 'Name of the training provider The Manchester Provider',
-          class: 'govuk-summary-list__row',
+          :dt,
+          text: 'Name of the training provider',
+          class: 'govuk-summary-list__key',
         )
         expect(rendered_component).to have_element(
-          :div,
-          text: 'Training dates From January 2024 to July 2024',
-          class: 'govuk-summary-list__row',
+          :dd,
+          text: 'The Manchester Provider',
+          class: 'govuk-summary-list__value',
+        )
+        expect(rendered_component).to have_element(
+          :dt,
+          text: 'Training dates',
+          class: 'govuk-summary-list__key',
+        )
+        expect(rendered_component).to have_element(
+          :dd,
+          text: 'From January 2024 to July 2024',
+          class: 'govuk-summary-list__value',
         )
 
         expect(rendered_component).to have_element(
@@ -143,14 +173,24 @@ RSpec.describe ProviderInterface::PossiblePreviousTeacherTrainingComponent do
           class: 'govuk-summary-card__title',
         )
         expect(rendered_component).to have_element(
-          :div,
-          text: 'Name of the training provider The Liverpool Provider',
-          class: 'govuk-summary-list__row',
+          :dt,
+          text: 'Name of the training provider',
+          class: 'govuk-summary-list__key',
         )
         expect(rendered_component).to have_element(
-          :div,
-          text: 'Training dates From January 2025 to July 2025',
-          class: 'govuk-summary-list__row',
+          :dd,
+          text: 'The Liverpool Provider',
+          class: 'govuk-summary-list__value',
+        )
+        expect(rendered_component).to have_element(
+          :dt,
+          text: 'Training dates',
+          class: 'govuk-summary-list__key',
+        )
+        expect(rendered_component).to have_element(
+          :dd,
+          text: 'From January 2025 to July 2025',
+          class: 'govuk-summary-list__value',
         )
 
         expect(rendered_component).to have_element(

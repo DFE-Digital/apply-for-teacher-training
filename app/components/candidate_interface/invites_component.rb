@@ -20,23 +20,23 @@ module CandidateInterface
       elsif invite.declined?
         govuk_tag text: invite.candidate_decision.capitalize, colour: 'red'
       elsif invite.course_closed?
-        govuk_tag text: t('.closed'), colour: 'grey'
+        govuk_tag text: t('candidate_interface.invites_component.closed'), colour: 'grey'
       end
     end
 
     def hint_text
       if invites.blank?
-        t('.no_invites')
+        t('candidate_interface.invites_component.no_invites')
       else
-        t('.previous_invitations_hint')
+        t('candidate_interface.invites_component.previous_invitations_hint')
       end
     end
 
     def action_link(invite)
       if invite.accepted? && invite.application_choice.present?
-        govuk_link_to t('.view_application'), application_choice_link(invite)
+        govuk_link_to t('candidate_interface.invites_component.view_application'), application_choice_link(invite)
       else
-        govuk_link_to t('.view_course'), invite.course.find_url
+        govuk_link_to t('candidate_interface.invites_component.view_course'), invite.course.find_url
       end
     end
   end

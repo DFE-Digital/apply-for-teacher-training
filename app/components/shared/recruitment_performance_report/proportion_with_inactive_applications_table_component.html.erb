@@ -8,14 +8,14 @@
 ) do %>
   <span>
     <p class="govuk-body">
-      <%= t('.proportion_of_candidates_waiting_more_than_30_days', provider_name: @provider.name) %>
+      <%= t('shared.recruitment_performance_report.proportion_with_inactive_applications_table_component.proportion_of_candidates_waiting_more_than_30_days', provider_name: @provider.name) %>
     </p>
-    <p class="govuk-body"><%= t('.responding_to_applications_include') %></p>
+    <p class="govuk-body"><%= t('shared.recruitment_performance_report.proportion_with_inactive_applications_table_component.responding_to_applications_include') %></p>
     <%= govuk_list(
-          [t('.making_an_offer'),
-           t('.interviewing'),
-           t('.rejecting_application'),
-           t('.withdrawing')], type: :bullet
+          [t('shared.recruitment_performance_report.proportion_with_inactive_applications_table_component.making_an_offer'),
+           t('shared.recruitment_performance_report.proportion_with_inactive_applications_table_component.interviewing'),
+           t('shared.recruitment_performance_report.proportion_with_inactive_applications_table_component.rejecting_application'),
+           t('shared.recruitment_performance_report.proportion_with_inactive_applications_table_component.withdrawing')], type: :bullet
         ) %>
   </span>
 <% end %>

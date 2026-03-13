@@ -97,7 +97,7 @@ RSpec.describe 'Candidate account' do
   end
 
   def then_i_am_signed_in
-    within '.govuk-header__navigation-list' do
+    within '.app-header__navigation' do
       expect(page).to have_content 'Sign out'
     end
   end

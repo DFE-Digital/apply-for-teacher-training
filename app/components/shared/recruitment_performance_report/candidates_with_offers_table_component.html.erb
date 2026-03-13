@@ -16,16 +16,16 @@
       </p>
     <% else %>
       <p class="govuk-body">
-        <%= t('.candidates_who_have_received_offer', provider_name: @provider.name) %>
+        <%= t('shared.recruitment_performance_report.candidates_with_offers_table_component.candidates_who_have_received_offer', provider_name: @provider.name) %>
       </p>
       <p class="govuk-body">
-        <%= t('.table_includes') %>
+        <%= t('shared.recruitment_performance_report.candidates_with_offers_table_component.table_includes') %>
       </p>
     <% end %>
     <%= govuk_list([
-         t('.declined'),
-         t('.withdrawn_before_they_could_accept'),
-         t('.deferred_withdrawn_unsuccessful'),
+         t('shared.recruitment_performance_report.candidates_with_offers_table_component..declined'),
+         t('shared.recruitment_performance_report.candidates_with_offers_table_component..withdrawn_before_they_could_accept'),
+         t('shared.recruitment_performance_report.candidates_with_offers_table_component..deferred_withdrawn_unsuccessful'),
        ], type: :bullet) %>
   </span>
 <% end %>
