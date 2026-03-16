@@ -3,16 +3,21 @@ require 'rails_helper'
 RSpec.describe 'Visit provider recruitment performance report page' do
   include DfESignInHelpers
 
+  before do
+    FeatureFlag.activate(:provider_edi_report)
+  end
+
+  after do
+    FeatureFlag.deactivate(:provider_edi_report)
+  end
+
   scenario 'provider report has been generated', time: recruitment_performance_report_season do
     given_a_provider_and_provider_user_exists
-    and_a_provider_recruitment_performance_report_has_been_generated
-    and_national_recruitment_performance_report_has_been_generated
-    and_regional_recruitment_performance_report_has_been_generated
-    and_reports_from_a_later_week_were_generated_for_last_year
+    given_the_reports_are_generated
 
     and_i_am_signed_in_as_provider_user
-    and_i_visit_the_new_provider_recruitment_report_page
-    then_i_see_the_report_for_the_current_year
+    and_i_visit_current_cycle_recruitment_report_page
+    then_i_see_the_report_for_the_current_cycle_year
     and_i_can_navigate_to_report_sections
 
     when_i_set_london_as_my_region
@@ -23,15 +28,33 @@ RSpec.describe 'Visit provider recruitment performance report page' do
 
     when_i_go_to_set_my_comparison_area
     then_the_london_option_is_ticked
+
+    and_i_visit_previous_cycle_recruitment_report_page
+    then_i_see_the_report_from_previous_cycle
+  end
+
+  scenario 'Before report season', time: before_recruitment_performance_report_season do
+    given_a_provider_and_provider_user_exists
+    given_the_reports_are_generated
+
+    and_i_am_signed_in_as_provider_user
+    and_i_visit_current_cycle_recruitment_report_page
+    then_i_see_no_report_message
+
+    and_i_visit_previous_cycle_recruitment_report_page
+    then_i_see_the_report_from_previous_cycle
   end
 
   scenario 'provider report has not been generated', mid_cycle do
     given_a_provider_and_provider_user_exists
     and_i_am_signed_in_as_provider_user
-    and_i_visit_the_new_provider_recruitment_report_page
+    and_i_visit_current_cycle_recruitment_report_page
     then_i_see_no_report_message
 
     when_i_set_london_as_my_region
+    then_i_see_no_report_message
+
+    and_i_visit_previous_cycle_recruitment_report_page
     then_i_see_no_report_message
   end
 
@@ -64,17 +87,46 @@ private
     create(:regional_recruitment_performance_report, recruitment_cycle_year: previous_year, cycle_week: 43)
   end
 
-  def and_i_visit_the_new_provider_recruitment_report_page
-    visit provider_interface_reports_provider_recruitment_performance_report_path(@provider)
+  def and_i_visit_current_cycle_recruitment_report_page
+    visit provider_interface_reports_provider_recruitment_performance_report_path(
+      @provider,
+      recruitment_cycle_year: current_year,
+    )
   end
-  alias_method :when_i_visit_the_new_recruitment_report_page, :and_i_visit_the_new_provider_recruitment_report_page
+  alias_method :when_i_visit_the_new_recruitment_report_page, :and_i_visit_current_cycle_recruitment_report_page
 
-  def then_i_see_the_report_for_the_current_year
-    year = current_year
-    cycle_name = "#{year - 1} to #{year}"
-    expect(page).to have_content('Recruitment performance report')
+  def and_i_visit_previous_cycle_recruitment_report_page
+    visit provider_interface_reports_provider_recruitment_performance_report_path(
+      @provider,
+      recruitment_cycle_year: previous_year,
+    )
+  end
+
+  def then_i_see_the_report_for_the_current_cycle_year
+    cycle_name = "#{current_year - 1} to #{current_year}"
+    expect(page).to have_content("Recruitment performance report #{current_year} cycle")
     description = "This report shows your organisation's cumulative recruitment data from the start of the #{cycle_name} cycle to the date displayed above. It compares your data to the same point in the previous cycle and to your chosen comparison region or England."
     expect(page).to have_content(description)
+    expect(page).to have_content('Sex, disability, ethnicity and age of candidates')
+    expect(page).to have_css('.govuk-heading-m', text: 'Age group')
+    expect(page).to have_css('.govuk-heading-m', text: 'Disability')
+    expect(page).to have_css('.govuk-heading-m', text: 'Disability declaration')
+    expect(page).to have_css('.govuk-heading-m', text: 'Ethnic group')
+    expect(page).to have_css('.govuk-heading-m', text: 'Sex')
+  end
+
+  def then_i_see_the_report_from_previous_cycle
+    cycle_name = "#{previous_year - 1} to #{previous_year}"
+    expect(page).to have_content("Recruitment performance report #{previous_year} cycle")
+    description = "This report shows your organisation's recruitment data for the #{cycle_name} cycle. It compares your data in the previous cycle to data two cycles ago, and to your chosen comparison region or England."
+
+    expect(page).to have_content(description)
+    expect(page).to have_content('Sex, disability, ethnicity and age of candidates')
+    expect(page).to have_css('.govuk-heading-m', text: 'Age group')
+    expect(page).to have_css('.govuk-heading-m', text: 'Disability')
+    expect(page).to have_css('.govuk-heading-m', text: 'Disability declaration')
+    expect(page).to have_css('.govuk-heading-m', text: 'Ethnic group')
+    expect(page).to have_css('.govuk-heading-m', text: 'Sex')
   end
 
   def and_i_can_navigate_to_report_sections(report_region: 'All providers')
@@ -132,6 +184,11 @@ private
       text: '7. Proportion of candidates who have waited more than 30 working days for a response',
       id: 'proportion_with_inactive_applications_table_component',
     )
+    expect(page).to have_css(
+      'h2',
+      text: '8. Sex, disability, ethnicity and age of candidates',
+      id: 'sex_disability_and_ethnicity_tables',
+    )
 
     expect(page).to have_content(report_region)
   end
@@ -164,5 +221,9 @@ private
 
   def then_the_london_option_is_ticked
     expect(page).to have_checked_field('London')
+  end
+
+  def given_the_reports_are_generated
+    GenerateRecruitmentPerformanceReports.call
   end
 end

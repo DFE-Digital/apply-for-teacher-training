@@ -40,6 +40,56 @@ RSpec.describe RecruitmentPerformanceReport::CandidatesRejectedTableComponent do
     end
   end
 
+  it 'renders the report with expected columns previous cycle', :aggregate_failures do
+    provider_report = create(:provider_recruitment_performance_report)
+    provider = provider_report.provider
+    national_statistics = create(:national_recruitment_performance_report).statistics
+    previous_cycle_year = RecruitmentCycleTimetable.previous_year
+
+    render_inline described_class.new(
+      provider,
+      provider_report.statistics,
+      national_statistics,
+      recruitment_cycle_year: previous_cycle_year,
+    )
+
+    expect(page).to have_table('6. Candidates rejected')
+    expect(page).to have_content(previous_cycle_description(provider.name, previous_cycle_year))
+
+    expect(page).to have_content provider.name
+    expect(page).to have_content 'All providers'
+    expect(page).to have_content 'Subject'
+
+    [
+      "#{previous_cycle_year} cycle",
+      "#{previous_cycle_year - 1} cycle",
+      'Percentage change',
+    ].each do |heading|
+      expect(page).to have_element('th', scope: 'col', class: 'govuk-table__header', text: heading).twice
+    end
+
+    primary_row = page.find('tr.govuk-table__row', text: 'Primary')
+    expect(primary_row).to have_content '2'
+    expect(primary_row).to have_content '40'
+    expect(primary_row).to have_content '-95%'
+    expect(primary_row).to have_content '2,446'
+    expect(primary_row).to have_content '2,951'
+    expect(primary_row).to have_content '-17%'
+
+    %w[Primary Secondary].each do |heading|
+      expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: heading)
+    end
+
+    secondary_subject_headings.each do |heading|
+      expect(page).to have_element(
+        'th',
+        scope: 'row',
+        class: 'govuk-table__header recruitment-performance-report-table__cell--secondary-subject',
+        text: heading,
+      )
+    end
+  end
+
   def secondary_subject_headings
     ['Art & Design',
      'Biology',
@@ -61,5 +111,9 @@ RSpec.describe RecruitmentPerformanceReport::CandidatesRejectedTableComponent do
 
   def description(provider_name)
     "This table shows the number of candidates who have had all their applications to #{provider_name} rejected so far this recruitment cycle."
+  end
+
+  def previous_cycle_description(provider_name, cycle_year)
+    "This table shows the number of candidates who have had all their applications to #{provider_name} rejected in the #{cycle_year} cycle."
   end
 end

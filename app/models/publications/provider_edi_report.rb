@@ -5,5 +5,9 @@ module Publications
     belongs_to :provider
 
     enum :category, ReportSharedEnums.edi_categories
+
+    def previous_cycle?
+      recruitment_cycle_year < RecruitmentCycleTimetable.current_year
+    end
   end
 end

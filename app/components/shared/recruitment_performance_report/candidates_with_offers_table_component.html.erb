@@ -4,14 +4,24 @@
   subject_rows: @row_builder.subject_rows,
   summary_row: @row_builder.summary_row,
   region:,
+  recruitment_cycle_year:,
 ) do %>
   <span>
-    <p class="govuk-body">
-      <%= t('.candidates_who_have_received_offer', provider_name: @provider.name) %>
-    </p>
-    <p class="govuk-body">
-      <%= t('.table_includes') %>
-    </p>
+    <% if recruitment_cycle_year == RecruitmentCycleTimetable.previous_year %>
+      <p class="govuk-body">
+        This table shows candidates who have received one or more offers from <%= @provider.name %> in the <%= recruitment_cycle_year %> cycle.
+      </p>
+      <p>
+        This table includes candidates who have received at least one offer on at least one of their applications in the <%= recruitment_cycle_year %> cycle. They are included whether or not the offer was:
+      </p>
+    <% else %>
+      <p class="govuk-body">
+        <%= t('.candidates_who_have_received_offer', provider_name: @provider.name) %>
+      </p>
+      <p class="govuk-body">
+        <%= t('.table_includes') %>
+      </p>
+    <% end %>
     <%= govuk_list([
          t('.declined'),
          t('.withdrawn_before_they_could_accept'),

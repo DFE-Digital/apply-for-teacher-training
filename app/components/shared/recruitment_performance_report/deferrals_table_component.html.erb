@@ -2,8 +2,18 @@
   <h2 class="govuk-heading-m" id="candidate_deferrals">
     <%= t('.caption') %>
   </h2>
-  <p class="govuk-body"><%= t('.deferred_offers_this_cycle', provider_name:) %></p>
-  <p class="govuk-body"><%= t('.deferred_to_the_next_cycle') %></p>
+  <% if @recruitment_cycle_year == RecruitmentCycleTimetable.previous_year %>
+    <p class="govuk-body">
+      This table shows the number of deferred offers from <%= @provider.name %> in the <%= @recruitment_cycle_year %> cycle, compared to national data.
+    </p>
+    <p class="govuk-body">
+      This table includes candidates who have received an offer in the <%= @recruitment_cycle_year %> cycle but deferred it to the next cycle, excluding offers for withdrawn applications. Offers that were deferred and then withdrawn are not included. Candidates who deferred again to the next cycle after that, are included in the cycle they first deferred in.
+    </p>
+  <% else %>
+    <p class="govuk-body"><%= t('.deferred_offers_this_cycle', provider_name:) %></p>
+    <p class="govuk-body"><%= t('.deferred_to_the_next_cycle') %></p>
+  <% end %>
+
   <% if deferral_rows.empty? %>
     <p class="govuk-body"><%= t('shared.empty_state') %></p>
   <% else %>
@@ -24,7 +34,7 @@
         <% table.with_body do |body| %>
           <% deferral_rows.each do |deferral_row| %>
             <% body.with_row do |row| %>
-              <%= row.with_cell(header: true, text: t(".#{deferral_row.title}")) %>
+              <%= row.with_cell(header: true, text: column_text(deferral_row.title)) %>
               <%= row.with_cell(text: format_number(deferral_row, :provider_deferrals_count), numeric: true) %>
               <%= row.with_cell(text: format_number(deferral_row, :national_deferrals_count), numeric: true) %>
             <% end %>

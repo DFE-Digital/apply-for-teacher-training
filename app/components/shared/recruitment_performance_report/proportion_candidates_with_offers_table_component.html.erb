@@ -4,16 +4,35 @@
   subject_rows: @row_builder.subject_rows,
   summary_row: @row_builder.summary_row,
   region:,
+  recruitment_cycle_year:,
 ) do %>
   <span>
-    <p class="govuk-body">
-      <%= t('.proportion_of_all_candidates', provider_name: @provider.name) %>
-    </p>
-    <%= govuk_list(
-          [t('.candidates_with_offers_received'),
-           t('.offers_withdrawn_or_deferred_by_providers'),
-           t('.candidates_deferred_or_declined_after_accepting'),
-           t('.candidates_failed_to_meet_conditions')], type: :bullet
-        ) %>
+
+    <% if recruitment_cycle_year == RecruitmentCycleTimetable.previous_year %>
+      <p class="govuk-body">
+        This table shows the proportion of all candidates who submitted one or more applications to Durham University who have received an offer in the <%= recruitment_cycle_year %> cycle.
+      </p>
+
+      <%= govuk_list(
+        [
+          "candidates who have received one or more offers in the #{recruitment_cycle_year} cycle",
+          'offers which were then withdrawn or deferred by the provider',
+          'candidates who deferred or declined their offers, or withdrew after accepting an offer',
+          'candidates that failed to meet the conditions of their offer',
+        ],
+        type: :bullet,
+      ) %>
+    <% else %>
+      <p class="govuk-body">
+        <%= t('.proportion_of_all_candidates', provider_name: @provider.name) %>
+      </p>
+
+      <%= govuk_list(
+        [t('.candidates_with_offers_received'),
+         t('.offers_withdrawn_or_deferred_by_providers'),
+         t('.candidates_deferred_or_declined_after_accepting'),
+         t('.candidates_failed_to_meet_conditions')], type: :bullet
+      ) %>
+    <% end %>
   </span>
 <% end %>

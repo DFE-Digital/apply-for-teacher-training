@@ -34,6 +34,14 @@ module RecruitmentPerformanceReport
       raise 'Need to define a report in your component'
     end
 
+    def this_cycle_header
+      report.previous_cycle? ? "#{report.recruitment_cycle_year} cycle" : 'This cycle'
+    end
+
+    def last_cycle_header
+      report.previous_cycle? ? "#{report.recruitment_cycle_year - 1} cycle" : 'Last cycle'
+    end
+
     def serialized_statistics
       @serialized_statistics ||= report&.statistics&.sort_by { |data| data['nonprovider_filter'] }
     end

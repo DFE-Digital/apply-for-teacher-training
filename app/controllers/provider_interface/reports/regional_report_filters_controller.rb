@@ -5,18 +5,23 @@ module ProviderInterface
       before_action :set_region, only: %i[new]
 
       def new
+        @recruitment_cycle_year = recruitment_cycle_year
         @form = RegionalReportForm.initialize_from_report_filter(
           provider_id: @provider.id,
           provider_user_id: current_user.id,
+          recruitment_cycle_year:,
         )
       end
 
       def create
         @form = RegionalReportForm.new(form_params)
+        @recruitment_cycle_year = recruitment_cycle_year
 
         if @form.save
           flash[:success] = 'Comparison region updated'
-          redirect_to provider_interface_reports_provider_recruitment_performance_report_path
+          redirect_to provider_interface_reports_provider_recruitment_performance_report_path(
+            recruitment_cycle_year:,
+          )
         else
           render :new
         end
@@ -71,6 +76,11 @@ module ProviderInterface
         params.permit(:provider_id)[:provider_id]
       end
 
+      def recruitment_cycle_year
+        params.permit(:recruitment_cycle_year)[:recruitment_cycle_year] ||
+          expected_params[:recruitment_cycle_year]
+      end
+
       def form_params
         expected_params.merge(
           provider_id: @provider.id,
@@ -80,7 +90,7 @@ module ProviderInterface
 
       def expected_params
         params.expect(
-          provider_interface_regional_report_form: [:region],
+          provider_interface_regional_report_form: %i[region recruitment_cycle_year],
         )
       end
     end
