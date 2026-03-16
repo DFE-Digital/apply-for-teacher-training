@@ -53,13 +53,9 @@ module CandidateInterface
         end
       end
 
-      def return_to_params
-        return_to == 'application-review' ? { 'return-to' => 'application-review' } : {}
-      end
-
       def update_english_proficiencies
         @update_english_proficiencies ||= UpdateEnglishProficiencies.new(
-          application_form,
+          application_form:,
           qualification_statuses: qualification_statuses,
           english_proficiency: application_form.english_proficiency,
           persist: true,

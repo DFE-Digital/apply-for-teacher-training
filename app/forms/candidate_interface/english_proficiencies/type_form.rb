@@ -34,12 +34,6 @@ module CandidateInterface
           candidate_interface_english_proficiencies_other_efl_qualification_path(english_proficiency)
         end
       end
-
-    private
-
-      def return_to_params
-        return_to == 'application-review' ? { 'return-to' => 'application-review' } : {}
-      end
     end
   end
 end

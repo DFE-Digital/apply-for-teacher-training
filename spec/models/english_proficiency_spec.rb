@@ -69,6 +69,48 @@ RSpec.describe EnglishProficiency do
     end
   end
 
+  describe '#create_draft_dup!' do
+    let(:application_form) { create(:application_form) }
+    let(:english_proficiency) { create(:english_proficiency, application_form: application_form) }
+    let(:draft_english_proficiency) { create(:english_proficiency, :draft, application_form: application_form) }
+
+    before { draft_english_proficiency}
+
+    it 'duplicates the english proficiency and destroys any draft english proficiencies' do
+      english_proficiency.create_draft_dup!
+      application_form.reload
+
+      expect(application_form.english_proficiency).to eq(english_proficiency)
+      expect(application_form.english_proficiencies.draft).not_to contain_exactly(draft_english_proficiency)
+
+      duplicate_english_proficiency = application_form.english_proficiencies.draft.last
+
+      matching_attributes = english_proficiency.attributes.except("id", "created_at", "updated_at", "draft")
+      expect(duplicate_english_proficiency).to have_attributes(matching_attributes)
+      expect(duplicate_english_proficiency.draft).to be(true)
+    end
+  end
+
+  describe '#publish' do
+    let(:application_form) { create(:application_form) }
+    let(:english_proficiency) { create(:english_proficiency, application_form: application_form) }
+    let(:draft_english_proficiency) { create(:english_proficiency, application_form: application_form) }
+    let(:new_english_proficiency) { create(:english_proficiency, :draft, application_form: application_form) }
+
+    before do
+      english_proficiency
+      draft_english_proficiency
+    end
+
+
+    it 'destroys any associated english proficiencies and toggles the draft attribute to false' do
+      new_english_proficiency.publish!
+      expect(application_form.english_proficiency).to eq(new_english_proficiency)
+      expect(application_form.english_proficiencies).to contain_exactly(new_english_proficiency)
+      expect(new_english_proficiency.draft).to be(false)
+    end
+  end
+
   describe '#qualification_statuses' do
     let(:english_proficiency) do
       create(

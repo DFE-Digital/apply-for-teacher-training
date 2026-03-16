@@ -37,7 +37,7 @@ class EnglishProficiency < ApplicationRecord
 
   def publish!
     ActiveRecord::Base.transaction do
-      application_form.english_proficiencies.where(draft: false).destroy_all
+      application_form.english_proficiencies.where.not(id: self.id).destroy_all
 
       self.draft = false
       save!

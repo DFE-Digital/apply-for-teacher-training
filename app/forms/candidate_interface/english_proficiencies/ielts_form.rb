@@ -18,6 +18,7 @@ module CandidateInterface
         return false unless valid?
 
         raise_error_unless_application_form
+        raise_error_unless_english_proficiency
 
         ielts = IeltsQualification.new(
           trf_number:,
@@ -25,7 +26,7 @@ module CandidateInterface
           award_year:,
         )
         UpdateEnglishProficiencies.new(
-          application_form,
+          application_form:,
           qualification_statuses: persisting_qualification_statuses,
           efl_qualification: ielts,
           publish: true,
@@ -63,6 +64,12 @@ module CandidateInterface
       def raise_error_unless_application_form
         if application_form.blank?
           raise MissingApplicationFormError
+        end
+      end
+
+      def raise_error_unless_english_proficiency
+        if english_proficiency.blank?
+          raise MissingEnglishProficiencyFormError
         end
       end
 

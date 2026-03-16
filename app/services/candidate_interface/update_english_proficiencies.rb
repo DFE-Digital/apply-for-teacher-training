@@ -3,7 +3,7 @@ module CandidateInterface
     attr_reader :application_form, :qualification_statuses, :efl_qualification, :no_qualification_details,
                 :english_proficiency, :persist, :publish
 
-    def initialize(application_form, qualification_statuses:, english_proficiency: nil, efl_qualification: nil, no_qualification_details: nil, persist: false, publish: false)
+    def initialize(application_form:, qualification_statuses:, english_proficiency: nil, efl_qualification: nil, no_qualification_details: nil, persist: false, publish: false)
       @application_form = application_form
       @qualification_statuses = qualification_statuses
       @english_proficiency = english_proficiency
@@ -38,13 +38,6 @@ module CandidateInterface
       end
     end
 
-    def assign_qualification_status
-      new_english_proficiency.has_qualification = qualification_statuses.include?('has_qualification')
-      new_english_proficiency.no_qualification = qualification_statuses.include?('no_qualification')
-      new_english_proficiency.degree_taught_in_english = qualification_statuses.include?('degree_taught_in_english')
-      new_english_proficiency.qualification_not_needed = qualification_statuses.include?('qualification_not_needed')
-    end
-
     def new_english_proficiency
       @new_english_proficiency ||= if english_proficiency.nil?
                                      application_form.english_proficiencies.build
@@ -53,6 +46,15 @@ module CandidateInterface
                                    else
                                      english_proficiency
                                    end
+    end
+
+  private
+
+    def assign_qualification_status
+      new_english_proficiency.has_qualification = qualification_statuses.include?('has_qualification')
+      new_english_proficiency.no_qualification = qualification_statuses.include?('no_qualification')
+      new_english_proficiency.degree_taught_in_english = qualification_statuses.include?('degree_taught_in_english')
+      new_english_proficiency.qualification_not_needed = qualification_statuses.include?('qualification_not_needed')
     end
   end
 end

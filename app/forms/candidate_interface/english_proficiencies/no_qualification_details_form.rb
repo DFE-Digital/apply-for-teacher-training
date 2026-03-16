@@ -12,8 +12,11 @@ module CandidateInterface
       def save
         return false unless valid?
 
+        raise_error_unless_application_form
+        raise_error_unless_english_proficiency
+
         UpdateEnglishProficiencies.new(
-          application_form,
+          application_form:,
           qualification_statuses: persisting_qualification_statuses,
           no_qualification_details: qualification_details_declared? ? no_qualification_details : nil,
           publish: true,
@@ -41,6 +44,18 @@ module CandidateInterface
       end
 
     private
+
+      def raise_error_unless_application_form
+        if application_form.blank?
+          raise MissingApplicationFormError
+        end
+      end
+
+      def raise_error_unless_english_proficiency
+        if english_proficiency.blank?
+          raise MissingEnglishProficiencyFormError
+        end
+      end
 
       def persisting_qualification_statuses
         @persisting_qualification_statuses ||= english_proficiency.qualification_statuses

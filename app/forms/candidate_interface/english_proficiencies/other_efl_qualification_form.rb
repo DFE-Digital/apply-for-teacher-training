@@ -15,6 +15,7 @@ module CandidateInterface
         return false unless valid?
 
         raise_error_unless_application_form
+        raise_error_unless_english_proficiency
 
         other_qualification = OtherEflQualification.new(
           name:,
@@ -23,7 +24,7 @@ module CandidateInterface
         )
 
         UpdateEnglishProficiencies.new(
-          application_form,
+          application_form:,
           qualification_statuses: persisting_qualification_statuses,
           efl_qualification: other_qualification,
           publish: true,
@@ -45,6 +46,12 @@ module CandidateInterface
       def raise_error_unless_application_form
         if application_form.blank?
           raise MissingApplicationFormError
+        end
+      end
+
+      def raise_error_unless_english_proficiency
+        if english_proficiency.blank?
+          raise MissingEnglishProficiencyFormError
         end
       end
 
