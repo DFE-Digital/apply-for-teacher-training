@@ -22,6 +22,8 @@ en:
         regional:
           this_report_shows: >
             This report shows your organisation's cumulative recruitment data from the start of the %{start_date} to %{end_date} cycle to the date displayed above. It compares your data to the same point in the previous cycle and to your chosen comparison region or England.
+          previous_cycle_description: >
+            This report shows your organisation's recruitment data for the %{start_date} to %{end_date} cycle. It compares your data in the previous cycle to data two cycles ago, and to your chosen comparison region or England.
         this_report_will_update: >
           This report will update weekly on a Monday, starting from %{date}. You will only be able to view
           data from the most recent week.

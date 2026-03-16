@@ -31,7 +31,7 @@ RSpec.describe RecruitmentPerformanceReport::ReportMethodologyComponent do
           'Candidates who withdrew or deferred applications after submitting them are included in the figures.',
         )
         expect(rendered_component).to have_text(
-          'This report is updated every Monday.',
+          'This report updates weekly on a Monday, starting from 12 January 2026.',
         )
         expect(rendered_component).to have_text(
           'The 2025 to 2026 recruitment cycle started 30 September 2025 and ends on 28 September 2026.',
@@ -71,7 +71,7 @@ RSpec.describe RecruitmentPerformanceReport::ReportMethodologyComponent do
 
       it 'shows content for previous cycle' do
         expect(rendered_component).to have_text(
-          "This report shows your organisation's cumulative recruitment data from the start of the 2024 to 2025 cycle to the date displayed above. It compares your data to the same point in the previous cycle and to your chosen comparison region or England.",
+          "This report shows your organisation's recruitment data for the 2024 to 2025 cycle. It compares your data in the previous cycle to data two cycles ago, and to your chosen comparison region or England.",
         )
         expect(rendered_component).to have_text(
           'Candidates who withdrew or deferred applications after submitting them are included in the figures.',

@@ -7,9 +7,7 @@
   </p>
 
   <p class="govuk-body">
-    <%= t('shared.recruitment_performance_report.report_description_component.regional.this_report_shows',
-          start_date: @provider_report.relative_previous_year,
-          end_date: @provider_report.recruitment_cycle_year) %>
+    <%= description %>
   </p>
 
   <% if @provider_report.current_cycle? %>

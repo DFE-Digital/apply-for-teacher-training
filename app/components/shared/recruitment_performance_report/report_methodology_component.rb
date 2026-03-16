@@ -11,6 +11,22 @@ module RecruitmentPerformanceReport
       @comparison_link = comparison_link
     end
 
+    def description
+      if @provider_report.current_cycle?
+        I18n.t(
+          'shared.recruitment_performance_report.report_description_component.regional.this_report_shows',
+          start_date: @provider_report.relative_previous_year,
+          end_date: @provider_report.recruitment_cycle_year,
+        )
+      elsif @provider_report.previous_cycle?
+        I18n.t(
+          'shared.recruitment_performance_report.report_description_component.regional.previous_cycle_description',
+          start_date: @provider_report.relative_previous_year,
+          end_date: @provider_report.recruitment_cycle_year,
+        )
+      end
+    end
+
     def links_list
       list = [
         govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidates_who_have_submitted_applications'), '#candidates_who_have_submitted_applications', no_visited_state: true),
