@@ -17,7 +17,7 @@ RSpec.describe 'Visit provider recruitment performance report page' do
 
     and_i_am_signed_in_as_provider_user
     and_i_visit_current_cycle_recruitment_report_page
-    then_i_see_the_report_for_the_cycle_year(current_year)
+    then_i_see_the_report_for_the_current_cycle_year
     and_i_can_navigate_to_report_sections
 
     when_i_set_london_as_my_region
@@ -30,7 +30,7 @@ RSpec.describe 'Visit provider recruitment performance report page' do
     then_the_london_option_is_ticked
 
     and_i_visit_previous_cycle_recruitment_report_page
-    then_i_see_the_report_for_the_cycle_year(previous_year)
+    then_i_see_the_report_from_previous_cycle
   end
 
   scenario 'Before report season', time: before_recruitment_performance_report_season do
@@ -42,7 +42,7 @@ RSpec.describe 'Visit provider recruitment performance report page' do
     then_i_see_no_report_message
 
     and_i_visit_previous_cycle_recruitment_report_page
-    then_i_see_the_report_for_the_cycle_year(previous_year)
+    then_i_see_the_report_from_previous_cycle
   end
 
   scenario 'provider report has not been generated', mid_cycle do
@@ -102,10 +102,24 @@ private
     )
   end
 
-  def then_i_see_the_report_for_the_cycle_year(cycle_year)
-    cycle_name = "#{cycle_year - 1} to #{cycle_year}"
-    expect(page).to have_content("Recruitment performance report #{cycle_year} cycle")
+  def then_i_see_the_report_for_the_current_cycle_year
+    cycle_name = "#{current_year - 1} to #{current_year}"
+    expect(page).to have_content("Recruitment performance report #{current_year} cycle")
     description = "This report shows your organisation's cumulative recruitment data from the start of the #{cycle_name} cycle to the date displayed above. It compares your data to the same point in the previous cycle and to your chosen comparison region or England."
+    expect(page).to have_content(description)
+    expect(page).to have_content('Sex, disability, ethnicity and age of candidates')
+    expect(page).to have_css('.govuk-heading-m', text: 'Age group')
+    expect(page).to have_css('.govuk-heading-m', text: 'Disability')
+    expect(page).to have_css('.govuk-heading-m', text: 'Disability declaration')
+    expect(page).to have_css('.govuk-heading-m', text: 'Ethnic group')
+    expect(page).to have_css('.govuk-heading-m', text: 'Sex')
+  end
+
+  def then_i_see_the_report_from_previous_cycle
+    cycle_name = "#{previous_year - 1} to #{previous_year}"
+    expect(page).to have_content("Recruitment performance report #{previous_year} cycle")
+    description = "This report shows your organisation's recruitment data for the #{cycle_name} cycle. It compares your data in the previous cycle to data two cycles ago, and to your chosen comparison region or England."
+
     expect(page).to have_content(description)
     expect(page).to have_content('Sex, disability, ethnicity and age of candidates')
     expect(page).to have_css('.govuk-heading-m', text: 'Age group')
