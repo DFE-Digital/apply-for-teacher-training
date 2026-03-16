@@ -83,7 +83,7 @@ module ProviderInterface
         @region = RegionalReportFilter.find_by(
           provider_id: @provider.id,
           provider_user_id: current_user.id,
-          recruitment_cycle_year: @recruitment_cycle_year || RecruitmentCycleTimetable.current_year,
+          recruitment_cycle_year: @recruitment_cycle_year,
         )&.region || all_of_england
       end
 

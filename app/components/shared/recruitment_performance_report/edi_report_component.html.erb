@@ -9,8 +9,8 @@
 
       <%= table.with_head do |head| %>
         <%= head.with_row do |row| %>
-          <%= row.with_cell(scope: false, html_attributes: { class: 'th-border-none' }) %>
-          <%= row.with_cell(scope: false, html_attributes: { class: 'th-border-none' }) %>
+          <%= row.with_cell(scope: false, html_attributes: { class: 'th-border-none govuk-visually-hidden' }) %>
+          <%= row.with_cell(scope: false, html_attributes: { class: 'th-border-none govuk-visually-hidden' }) %>
           <%= row.with_cell(text: 'Applied', html_attributes: { class: 'govuk-!-text-align-right th-border-none' }) %>
           <%= row.with_cell(text: 'Offered', html_attributes: { class: 'govuk-!-text-align-right th-border-none' }) %>
           <%= row.with_cell(text: 'Recruited', html_attributes: { class: 'govuk-!-text-align-right th-border-none' }) %>
