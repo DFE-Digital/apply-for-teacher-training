@@ -99,19 +99,34 @@ RSpec.describe PreviousTeacherTraining::ListComponent do
     )
 
     expect(previous_teacher_training_card).to have_element(
-      :div,
-      text: "Name of the training provider #{previous_teacher_training.provider_name}",
-      class: 'govuk-summary-list__row',
+      :dt,
+      text: 'Name of the training provider',
+      class: 'govuk-summary-list__key',
     )
     expect(previous_teacher_training_card).to have_element(
-      :div,
-      text: "Training dates #{previous_teacher_training.formatted_dates}",
-      class: 'govuk-summary-list__row',
+      :dd,
+      text: previous_teacher_training.provider_name,
+      class: 'govuk-summary-list__value',
     )
     expect(previous_teacher_training_card).to have_element(
-      :div,
-      text: "Details #{previous_teacher_training.details}",
-      class: 'govuk-summary-list__row',
+      :dt,
+      text: 'Training dates',
+      class: 'govuk-summary-list__key',
+    )
+    expect(previous_teacher_training_card).to have_element(
+      :dd,
+      text: previous_teacher_training.formatted_dates,
+      class: 'govuk-summary-list__value',
+    )
+    expect(previous_teacher_training_card).to have_element(
+      :dt,
+      text: 'Details',
+      class: 'govuk-summary-list__key',
+    )
+    expect(previous_teacher_training_card).to have_element(
+      :dd,
+      text: previous_teacher_training.details,
+      class: 'govuk-summary-list__value',
     )
   end
 end

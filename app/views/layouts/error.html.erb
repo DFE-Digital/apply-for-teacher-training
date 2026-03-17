@@ -19,12 +19,11 @@
   </head>
 
   <body class="govuk-template__body">
-    <%= render(HeaderComponent.new(
-      classes: "app-header--#{HostingEnvironment.environment_name}",
-      service_name: t('service_name.apply'),
-      service_link: '#',
-    )) %>
+    <%= govuk_header(classes: "app-header--#{HostingEnvironment.environment_name}") do |header| %>
+      <% header.with_service_navigation(service_name: t('service_name.apply'), service_url: root_path) %>
+    <% end %>
     <%= render PhaseBannerComponent.new %>
+
     <div class="govuk-width-container">
       <main class="govuk-main-wrapper" id="main-content" role="main">
         <%= yield %>
