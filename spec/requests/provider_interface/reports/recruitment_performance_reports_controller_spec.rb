@@ -22,11 +22,13 @@ RSpec.describe ProviderInterface::Reports::RecruitmentPerformanceReportsControll
       recruitment_cycle_year: provider_report.recruitment_cycle_year,
     )
   end
+  let(:edi_report) { create(:provider_edi_report, provider:) }
 
   before do
     provider_report
     regional_report
     national_report
+    edi_report
 
     user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
     get auth_dfe_callback_path
@@ -63,6 +65,7 @@ RSpec.describe ProviderInterface::Reports::RecruitmentPerformanceReportsControll
         let(:provider_report) { nil }
         let(:regional_report) { nil }
         let(:national_report) { nil }
+        let(:edi_report) { nil }
 
         it 'returns 404' do
           get provider_interface_reports_provider_recruitment_performance_report_path(

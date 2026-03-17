@@ -5,19 +5,34 @@ RSpec.describe RecruitmentPerformanceReportExport do
   let(:region) { ReportSharedEnums.all_of_england_key }
   let(:provider_report) { nil }
   let(:report_type) { :NATIONAL }
+  let(:edi_reports) { nil }
+  let(:timetable) { RecruitmentCycleTimetable }
+  let(:cycle_year) { timetable.current_year }
 
   describe '.call' do
-    subject(:call) { described_class.new(provider:, region:, provider_report:, report_type:).call }
+    subject(:export) {
+      described_class.new(
+        provider:,
+        region:,
+        provider_report:,
+        report_type:,
+        edi_reports:,
+      )
+    }
 
     context 'when the provider report does not exist' do
       it 'returns nil' do
-        expect(call).to be_nil
+        expect(export.call).to be_nil
       end
     end
 
     context 'when the provider report exists' do
       let(:provider_report) do
-        create(:provider_recruitment_performance_report, provider:, recruitment_cycle_year: 2025)
+        create(
+          :provider_recruitment_performance_report,
+          provider:,
+          recruitment_cycle_year: current_year,
+        )
       end
       let(:regional_report) do
         create(
@@ -33,11 +48,20 @@ RSpec.describe RecruitmentPerformanceReportExport do
           recruitment_cycle_year: provider_report.recruitment_cycle_year,
         )
       end
+      let(:edi_reports) do
+        Publications::ProviderEdiReport.where(
+          provider: provider,
+          recruitment_cycle_year: cycle_year,
+          category: ReportSharedEnums.edi_categories.keys,
+        ).select('DISTINCT ON (category) *').order(:category, created_at: :desc)
+      end
 
       before do
         provider_report
         regional_report
         national_report
+        GenerateRecruitmentPerformanceReports.call
+        edi_reports
       end
 
       around { |example| Timecop.freeze { example.run } }
@@ -48,18 +72,18 @@ RSpec.describe RecruitmentPerformanceReportExport do
 
       context 'when the region is all of england' do
         it 'exports the report' do
-          zip_file = call
+          zip_file = export.call
           expect(zip_file).to be_a(String)
           expect(File.exist?(zip_file)).to be(true)
 
-          described_class::REPORTS.each do |report|
+          export.reports.each do |report|
             csv_filename = "#{report}_*.csv"
             expect(zip_file).to have_csv_files(csv_filename)
           end
         end
 
         it 'exports a candidates_who_have_submitted_applications report' do
-          zip_file = call
+          zip_file = export.call
           csv_filename = 'candidates_who_have_submitted_applications_*.csv'
           csv_data =
             [
@@ -90,7 +114,7 @@ RSpec.describe RecruitmentPerformanceReportExport do
         end
 
         it 'exports a candidates_that_received_an_offer report' do
-          zip_file = call
+          zip_file = export.call
           csv_filename = 'candidates_that_received_an_offer_*.csv'
           csv_data =
             [
@@ -117,7 +141,7 @@ RSpec.describe RecruitmentPerformanceReportExport do
         end
 
         it 'exports a proportion_of_candidates_with_an_offer report' do
-          zip_file = call
+          zip_file = export.call
           csv_filename = 'proportion_of_candidates_with_an_offer_*.csv'
           csv_data =
             [
@@ -144,7 +168,7 @@ RSpec.describe RecruitmentPerformanceReportExport do
         end
 
         it 'exports a offers_accepted report' do
-          zip_file = call
+          zip_file = export.call
           csv_filename = 'offers_accepted_*.csv'
           csv_data =
             [
@@ -170,7 +194,7 @@ RSpec.describe RecruitmentPerformanceReportExport do
         end
 
         it 'exports a deferrals report' do
-          zip_file = call
+          zip_file = export.call
           csv_filename = 'deferrals_*.csv'
           csv_data =
             [
@@ -183,7 +207,7 @@ RSpec.describe RecruitmentPerformanceReportExport do
         end
 
         it 'exports a candidates_rejected report' do
-          zip_file = call
+          zip_file = export.call
           csv_filename = 'candidates_rejected_*.csv'
           csv_data =
             [
@@ -214,7 +238,7 @@ RSpec.describe RecruitmentPerformanceReportExport do
         end
 
         it 'exports a proportion_of_candidates_who_have_waited_more_than_30_working_days_for_a_response report' do
-          zip_file = call
+          zip_file = export.call
           csv_filename = 'proportion_of_candidates_who_have_waited_more_than_30_working_days_for_a_response_*.csv'
           csv_data =
             [
@@ -229,14 +253,100 @@ RSpec.describe RecruitmentPerformanceReportExport do
 
           expect(zip_file).to have_csv_file_content(csv_filename, csv_data)
         end
+
+        it 'exports age group report' do
+          zip_file = export.call
+          csv_filename = 'age_group_*.csv'
+          csv_data = [
+            'Age group',
+            '18 to 24',
+            '25 to 29',
+            'Applied', 'Offered', 'Recruited', 'Percentage recruited',
+            provider.name,
+            'All providers',
+            'This cycle',
+            'Last cycle'
+          ]
+
+          expect(zip_file).to contain_csv_file_content(csv_filename, csv_data)
+        end
+
+        it 'exports disability report' do
+          zip_file = export.call
+          csv_filename = 'disability_*.csv'
+          csv_data = [
+            'Disability',
+            'A disability, impairment or medical condition that is not listed above',
+            'A long standing illness or health condition such as cancer, HIV, diabetes, chronic heart disease, or epilepsy',
+            'Applied', 'Offered', 'Recruited', 'Percentage recruited',
+            provider.name,
+            'All providers',
+            'This cycle',
+            'Last cycle'
+          ]
+
+          expect(zip_file).to contain_csv_file_content(csv_filename, csv_data)
+        end
+
+        it 'exports disability declaration report' do
+          zip_file = export.call
+          csv_filename = 'disability_declaration_*.csv'
+          csv_data = [
+            'Disability declaration',
+            'At least one disability or health condition declared',
+            'I do not have any of these disabilities or health conditions',
+            'Applied', 'Offered', 'Recruited', 'Percentage recruited',
+            provider.name,
+            'All providers',
+            'This cycle',
+            'Last cycle'
+          ]
+
+          expect(zip_file).to contain_csv_file_content(csv_filename, csv_data)
+        end
+
+        it 'exports ethnic group report' do
+          zip_file = export.call
+          csv_filename = 'ethnic_group_*.csv'
+          csv_data = [
+            'Ethnic group',
+            'Another Ethnic Group',
+            'White',
+            'Applied', 'Offered', 'Recruited', 'Percentage recruited',
+            provider.name,
+            'All providers',
+            'This cycle',
+            'Last cycle'
+          ]
+
+          expect(zip_file).to contain_csv_file_content(csv_filename, csv_data)
+        end
+
+        it 'exports sex report' do
+          zip_file = export.call
+          csv_filename = 'sex_*.csv'
+          csv_data = [
+            'Sex',
+            'Female',
+            'Male',
+            'Applied', 'Offered', 'Recruited', 'Percentage recruited',
+            provider.name,
+            'All providers',
+            'This cycle',
+            'Last cycle'
+          ]
+
+          expect(zip_file).to contain_csv_file_content(csv_filename, csv_data)
+        end
       end
 
-      context 'when the region is not all of england' do
+      context 'when the region is not all of england and previous cycle' do
         let(:region) { :london }
         let(:report_type) { :REGIONAL }
+        let(:cycle_year) { timetable.previous_year }
 
         it 'exports a candidates_who_have_submitted_applications report for the selected region' do
-          zip_file = call
+          zip_file = export.call
           csv_filename = 'candidates_who_have_submitted_applications_*.csv'
           csv_data =
             [
@@ -267,7 +377,7 @@ RSpec.describe RecruitmentPerformanceReportExport do
         end
 
         it 'exports a candidates_that_received_an_offer report for the selected region' do
-          zip_file = call
+          zip_file = export.call
           csv_filename = 'candidates_that_received_an_offer_*.csv'
           csv_data =
             [
@@ -294,7 +404,7 @@ RSpec.describe RecruitmentPerformanceReportExport do
         end
 
         it 'exports a proportion_of_candidates_with_an_offer report for the selected region' do
-          zip_file = call
+          zip_file = export.call
           csv_filename = 'proportion_of_candidates_with_an_offer_*.csv'
           csv_data =
             [
@@ -321,7 +431,7 @@ RSpec.describe RecruitmentPerformanceReportExport do
         end
 
         it 'exports a offers_accepted report for the selected region' do
-          zip_file = call
+          zip_file = export.call
           csv_filename = 'offers_accepted_*.csv'
           csv_data =
             [
@@ -347,7 +457,7 @@ RSpec.describe RecruitmentPerformanceReportExport do
         end
 
         it 'exports a deferrals report for the selected region' do
-          zip_file = call
+          zip_file = export.call
           csv_filename = 'deferrals_*.csv'
           csv_data =
             [
@@ -360,7 +470,7 @@ RSpec.describe RecruitmentPerformanceReportExport do
         end
 
         it 'exports a candidates_rejected report for the selected region' do
-          zip_file = call
+          zip_file = export.call
           csv_filename = 'candidates_rejected_*.csv'
           csv_data =
             [
@@ -391,7 +501,7 @@ RSpec.describe RecruitmentPerformanceReportExport do
         end
 
         it 'exports a proportion_of_candidates_who_have_waited_more_than_30_working_days_for_a_response report for the selected region' do
-          zip_file = call
+          zip_file = export.call
           csv_filename = 'proportion_of_candidates_who_have_waited_more_than_30_working_days_for_a_response_*.csv'
           csv_data =
             [
@@ -405,6 +515,91 @@ RSpec.describe RecruitmentPerformanceReportExport do
             ]
 
           expect(zip_file).to have_csv_file_content(csv_filename, csv_data)
+        end
+
+        it 'exports age group report' do
+          zip_file = export.call
+          csv_filename = 'age_group_*.csv'
+          csv_data = [
+            'Age group',
+            '18 to 24',
+            '25 to 29',
+            'Applied', 'Offered', 'Recruited', 'Percentage recruited',
+            provider.name,
+            'Providers in London',
+            "#{timetable.previous_year} cycle",
+            "#{timetable.previous_year - 1} cycle"
+          ]
+
+          expect(zip_file).to contain_csv_file_content(csv_filename, csv_data)
+        end
+
+        it 'exports disability report' do
+          zip_file = export.call
+          csv_filename = 'disability_*.csv'
+          csv_data = [
+            'Disability',
+            'A disability, impairment or medical condition that is not listed above',
+            'A long standing illness or health condition such as cancer, HIV, diabetes, chronic heart disease, or epilepsy',
+            'Applied', 'Offered', 'Recruited', 'Percentage recruited',
+            provider.name,
+            'Providers in London',
+            "#{timetable.previous_year} cycle",
+            "#{timetable.previous_year - 1} cycle"
+          ]
+
+          expect(zip_file).to contain_csv_file_content(csv_filename, csv_data)
+        end
+
+        it 'exports disability declaration report' do
+          zip_file = export.call
+          csv_filename = 'disability_declaration_*.csv'
+          csv_data = [
+            'Disability declaration',
+            'At least one disability or health condition declared',
+            'I do not have any of these disabilities or health conditions',
+            'Applied', 'Offered', 'Recruited', 'Percentage recruited',
+            provider.name,
+            'Providers in London',
+            "#{timetable.previous_year} cycle",
+            "#{timetable.previous_year - 1} cycle"
+          ]
+
+          expect(zip_file).to contain_csv_file_content(csv_filename, csv_data)
+        end
+
+        it 'exports ethnic group report' do
+          zip_file = export.call
+          csv_filename = 'ethnic_group_*.csv'
+          csv_data = [
+            'Ethnic group',
+            'Another Ethnic Group',
+            'White',
+            'Applied', 'Offered', 'Recruited', 'Percentage recruited',
+            provider.name,
+            'Providers in London',
+            "#{timetable.previous_year} cycle",
+            "#{timetable.previous_year - 1} cycle"
+          ]
+
+          expect(zip_file).to contain_csv_file_content(csv_filename, csv_data)
+        end
+
+        it 'exports sex report' do
+          zip_file = export.call
+          csv_filename = 'sex_*.csv'
+          csv_data = [
+            'Sex',
+            'Female',
+            'Male',
+            'Applied', 'Offered', 'Recruited', 'Percentage recruited',
+            provider.name,
+            'Providers in London',
+            "#{timetable.previous_year} cycle",
+            "#{timetable.previous_year - 1} cycle"
+          ]
+
+          expect(zip_file).to contain_csv_file_content(csv_filename, csv_data)
         end
       end
     end

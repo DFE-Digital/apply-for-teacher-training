@@ -23,11 +23,6 @@ module RecruitmentPerformanceReport
       ).order(created_at: :desc).first
     end
 
-    def subcategory
-      serialized_statistics.first['subcategory'] ||
-        serialized_statistics.first['nonprovider_filter']
-    end
-
     def table_headers
       [
         'Applied',

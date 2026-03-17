@@ -10,26 +10,28 @@ module ProviderInterface
         @provider_report = latest_report.present? ? Publications::ProviderRecruitmentPerformanceReportPresenter.new(latest_report) : nil
         @report_type = @region == all_of_england ? :NATIONAL : :REGIONAL
 
+        if FeatureFlag.active?(:provider_edi_report)
+          @provider_edi_reports = Publications::ProviderEdiReport.where(
+            provider: @provider,
+            cycle_week: @provider_report&.cycle_week,
+            recruitment_cycle_year: @provider_report&.recruitment_cycle_year,
+            category: ReportSharedEnums.edi_categories.keys,
+          ).select('DISTINCT ON (category) *').order(:category, created_at: :desc)
+        end
+
         respond_to do |format|
           format.html do
             @provider_data = @provider_report&.statistics
             @statistics = @region == all_of_england ? national_report&.statistics : regional_report&.statistics
 
-            if FeatureFlag.active?(:provider_edi_report)
-              @provider_edi_reports = Publications::ProviderEdiReport.where(
-                provider: @provider,
-                cycle_week: @provider_report&.cycle_week,
-                recruitment_cycle_year: @provider_report&.recruitment_cycle_year,
-                category: ReportSharedEnums.edi_categories.keys,
-              ).select('DISTINCT ON (category) *').order(:category, created_at: :desc)
-
-              @reports_ready = @provider_report&.show? &&
-                               @statistics.present? &&
-                               @provider_edi_reports.present?
-            else
-              @reports_ready = @provider_report&.show? &&
-                               @statistics.present?
-            end
+            @reports_ready = if FeatureFlag.active?(:provider_edi_report)
+                               @provider_report&.show? &&
+                                 @statistics.present? &&
+                                 @provider_edi_reports.present?
+                             else
+                               @provider_report&.show? &&
+                                 @statistics.present?
+                             end
           end
           format.zip do
             if latest_report.present?
@@ -55,6 +57,7 @@ module ProviderInterface
           region: @region,
           provider_report: @provider_report,
           report_type: @report_type,
+          edi_reports: @provider_edi_reports,
         ).call
       end
 

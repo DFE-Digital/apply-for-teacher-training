@@ -27,11 +27,13 @@ RSpec.describe 'Support interface - Provider recruitment report' do
       recruitment_cycle_year: provider_report.recruitment_cycle_year,
     )
   end
+  let(:edi_report) { create(:provider_edi_report, provider:) }
 
   before do
     provider_report
     regional_report
     national_report
+    edi_report
 
     support_user_exists_dsi(dfe_sign_in_uid: support_user.dfe_sign_in_uid)
     get auth_dfe_support_callback_path
@@ -60,6 +62,7 @@ RSpec.describe 'Support interface - Provider recruitment report' do
         let(:provider_report) { nil }
         let(:regional_report) { nil }
         let(:national_report) { nil }
+        let(:edi_report) { nil }
 
         it 'returns 404' do
           get support_interface_provider_recruitment_report_path(

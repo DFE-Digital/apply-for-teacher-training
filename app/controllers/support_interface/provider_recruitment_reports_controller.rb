@@ -6,7 +6,6 @@ module SupportInterface
     def show
       @provider_report = latest_report.present? ? Publications::ProviderRecruitmentPerformanceReportPresenter.new(latest_report) : nil
       @report_type = @region == all_of_england ? :NATIONAL : :REGIONAL
-
       @provider_edi_reports = Publications::ProviderEdiReport.where(
         provider: @provider,
         cycle_week: @provider_report&.cycle_week,
