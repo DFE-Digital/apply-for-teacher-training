@@ -103,15 +103,15 @@ RSpec.describe FilterComponent do
     expect(result.text).to include('Selected filters')
   end
 
-  # it 'selected filters dialogue should not appear if is nothing filtered for' do
-  #   filter = ProviderInterface::ProviderApplicationsFilter.new(
-  #     params: ActionController::Parameters.new({}),
-  #     provider_user: current_provider_user,
-  #     state_store:,
-  #   )
+  it 'selected filters dialogue should not appear if is nothing filtered for' do
+    filter = ProviderInterface::ProviderApplicationsFilter.new(
+      params: ActionController::Parameters.new({}),
+      provider_user: current_provider_user,
+      state_store:,
+    )
 
-  #   result = render_inline described_class.new(filter:)
+    result = render_inline described_class.new(filter:)
 
-  #   expect(result.text).not_to include('Selected filters')
-  # end
+    expect(result.text).not_to include('Selected filters')
+  end
 end
