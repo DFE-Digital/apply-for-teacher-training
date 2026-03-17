@@ -175,13 +175,139 @@ RSpec.describe CandidateInterface::UpdateEnglishProficiencies do
       context 'when the english proficiency is in a draft state' do
         let(:english_proficiency) { create(:english_proficiency, :draft) }
 
-        it 'updates the given english proficiency' do
+        it 'updates and published the given english proficiency' do
           expect{ call }.to change(application_form.english_proficiencies, :count).by(0)
           expect(english_proficiency.qualification_not_needed).to eq(true)
           expect(english_proficiency.no_qualification).to eq(false)
           expect(english_proficiency.degree_taught_in_english).to eq(false)
           expect(english_proficiency.has_qualification).to eq(false)
           expect(english_proficiency.draft).to eq(false)
+        end
+
+        context 'when the qualification statuses is "no_qualification"' do
+          let(:qualification_statuses) { ['no_qualification'] }
+
+          it 'updates the given english proficiency' do
+            expect{ call }.to change(application_form.english_proficiencies, :count).by(0)
+            expect(english_proficiency.qualification_not_needed).to eq(false)
+            expect(english_proficiency.no_qualification).to eq(true)
+            expect(english_proficiency.degree_taught_in_english).to eq(false)
+            expect(english_proficiency.has_qualification).to eq(false)
+            expect(english_proficiency.draft).to eq(true)
+          end
+        end
+
+        context 'when publish is true' do
+          let(:publish) { true }
+          let(:qualification_statuses) { ['no_qualification'] }
+
+          it 'updates the given english proficiency' do
+            expect{ call }.to change(application_form.english_proficiencies, :count).by(0)
+            expect(english_proficiency.qualification_not_needed).to eq(false)
+            expect(english_proficiency.no_qualification).to eq(true)
+            expect(english_proficiency.degree_taught_in_english).to eq(false)
+            expect(english_proficiency.has_qualification).to eq(false)
+            expect(english_proficiency.draft).to eq(false)
+          end
+        end
+      end
+    end
+
+    context 'when an efl qualification is given' do
+      let(:efl_qualification) { create(:ielts_qualification) }
+
+      context 'when the qualification status is "has_qualification"' do
+        let(:qualification_statuses) { ['has_qualification'] }
+
+        it 'assigns the efl qualification' do
+          expect{ call }.to change(application_form.english_proficiencies, :count).by(1)
+          expect(application_form.english_proficiency).to be_nil
+
+          new_english_proficiency = application_form.english_proficiencies.last
+          expect(new_english_proficiency.efl_qualification).to eq(efl_qualification)
+        end
+      end
+
+      context 'when the qualification status is not "has_qualification"' do
+        let(:qualification_statuses) { ['no_qualification'] }
+
+        it 'assigns the efl qualification' do
+          expect{ call }.to change(application_form.english_proficiencies, :count).by(1)
+
+          expect(application_form.english_proficiency).to be_nil
+
+          new_english_proficiency = application_form.english_proficiencies.last
+          expect(new_english_proficiency.efl_qualification).to be_nil
+        end
+      end
+
+      context 'when persist is true' do
+        let(:persist) { true }
+        let(:qualification_statuses) { ['has_qualification'] }
+
+        it 'assigns the efl qualification' do
+          expect{ call }.to change(application_form.english_proficiencies, :count).by(1)
+          expect(application_form.english_proficiency).to be_nil
+
+          new_english_proficiency = application_form.english_proficiencies.last
+          expect(new_english_proficiency.efl_qualification).to be_nil
+        end
+      end
+    end
+
+    context 'when "no_qualification_details" are given' do
+      let(:no_qualification_details) { "Work in progress" }
+
+      context 'when the qualification status is "no_qualification"' do
+        let(:qualification_statuses) { ['no_qualification'] }
+
+        it 'assigns the "no_qualification_details"' do
+          expect{ call }.to change(application_form.english_proficiencies, :count).by(1)
+
+          expect(application_form.english_proficiency).to be_nil
+
+          new_english_proficiency = application_form.english_proficiencies.last
+          expect(new_english_proficiency.no_qualification_details).to eq('Work in progress')
+        end
+      end
+
+      context 'when the qualification status is "degree_taught_in_english"' do
+        let(:qualification_statuses) { ['degree_taught_in_english'] }
+
+        it 'assigns the "no_qualification_details"' do
+          expect{ call }.to change(application_form.english_proficiencies, :count).by(1)
+
+          expect(application_form.english_proficiency).to be_nil
+
+          new_english_proficiency = application_form.english_proficiencies.last
+          expect(new_english_proficiency.no_qualification_details).to eq('Work in progress')
+        end
+      end
+
+      context 'when the qualification status is no "degree_taught_in_english" or "no_qualification"' do
+        let(:qualification_statuses) { ['has_qualification'] }
+
+        it 'does not assign the "no_qualification_details"' do
+          expect{ call }.to change(application_form.english_proficiencies, :count).by(1)
+
+          expect(application_form.english_proficiency).to be_nil
+
+          new_english_proficiency = application_form.english_proficiencies.last
+          expect(new_english_proficiency.no_qualification_details).to be_nil
+        end
+      end
+
+      context 'when persist is true' do
+        let(:qualification_statuses) { ['degree_taught_in_english'] }
+        let(:persist) { true }
+
+        it 'does not assign the "no_qualification_details"' do
+          expect{ call }.to change(application_form.english_proficiencies, :count).by(1)
+
+          expect(application_form.english_proficiency).to be_nil
+
+          new_english_proficiency = application_form.english_proficiencies.last
+          expect(new_english_proficiency.no_qualification_details).to be_nil
         end
       end
     end
