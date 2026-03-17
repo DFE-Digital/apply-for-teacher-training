@@ -11,7 +11,7 @@
   <% items << { name: 'Emails', url: support_interface_docs_mailer_previews_path } %>
 <% end %>
 
-<% if Rails.application.config.view_component.show_previews %>
+<% if Rails.application.config.view_component.previews.enabled %>
   <% items << { name: 'Components', url: support_interface_docs_component_previews_path } %>
 <% end %>
 
