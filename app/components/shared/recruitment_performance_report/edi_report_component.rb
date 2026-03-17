@@ -1,6 +1,7 @@
 module RecruitmentPerformanceReport
   class EdiReportComponent < ViewComponent::Base
     attr_reader :provider, :edi_reports, :region, :filter_report_type
+    Row = Data.define(:subcategory, :stats_for, :cycle, :applied, :offered, :recruited, :percentage_recruited)
 
     def initialize(provider:, edi_reports:, region:)
       @provider = provider
@@ -20,6 +21,88 @@ module RecruitmentPerformanceReport
         cycle_week: report.cycle_week,
         recruitment_cycle_year: report.recruitment_cycle_year,
       ).order(created_at: :desc).first
+    end
+
+    def subcategory
+      serialized_statistics.first['subcategory'] ||
+        serialized_statistics.first['nonprovider_filter']
+    end
+
+    def table_headers
+      [
+        'Applied',
+        'Offered',
+        'Recruited',
+        'Percentage recruited',
+      ]
+    end
+
+    def rows(data)
+      [
+        Row.new(
+          subcategory: data['subcategory'] || data['nonprovider_filter'],
+          stats_for: provider.name,
+          cycle: this_cycle_header,
+          applied: number_with_delimiter(data['number_of_candidates_submitted_to_date']) || 'Not available',
+          offered: number_with_delimiter(data['number_of_candidates_with_offers_to_date']) || 'Not available',
+          recruited: number_with_delimiter(data['number_of_candidates_accepted_to_date']) || 'Not available',
+          percentage_recruited: provider_percentage(data['recruited_rate_to_date']),
+        ),
+        Row.new(
+          subcategory: data['subcategory'] || data['nonprovider_filter'],
+          stats_for: nil,
+          cycle: last_cycle_header,
+          applied: number_with_delimiter(data['number_of_candidates_submitted_to_same_date_previous_cycle']) || 'Not available',
+          offered: number_with_delimiter(data['number_of_candidates_with_offers_to_same_date_previous_cycle']) || 'Not available',
+          recruited: number_with_delimiter(data['number_of_candidates_accepted_to_same_date_previous_cycle']) || 'Not available',
+          percentage_recruited: provider_percentage(data['recruited_rate_to_same_date_previous_cycle']),
+        ),
+
+        Row.new(
+          subcategory: data['subcategory'] || data['nonprovider_filter'],
+          stats_for: I18n.t("shared.#{@region}"),
+          cycle: this_cycle_header,
+          applied: regional_report_number(
+            data['nonprovider_filter'],
+            'number_of_candidates_submitted_to_date',
+          ),
+          offered: regional_report_number(
+            data['nonprovider_filter'],
+            'number_of_candidates_with_offers_to_date',
+          ),
+          recruited: regional_report_number(
+            data['nonprovider_filter'],
+            'number_of_candidates_accepted_to_date',
+          ),
+
+          percentage_recruited: regional_percentage(
+            data['nonprovider_filter'],
+            'recruited_rate_to_date',
+          ),
+        ),
+
+        Row.new(
+          subcategory: data['subcategory'] || data['nonprovider_filter'],
+          stats_for: nil,
+          cycle: last_cycle_header,
+          applied: regional_report_number(
+            data['nonprovider_filter'],
+            'number_of_candidates_submitted_to_same_date_previous_cycle',
+          ),
+          offered: regional_report_number(
+            data['nonprovider_filter'],
+            'number_of_candidates_with_offers_to_same_date_previous_cycle',
+          ),
+          recruited: regional_report_number(
+            data['nonprovider_filter'],
+            'number_of_candidates_accepted_to_same_date_previous_cycle',
+          ),
+          percentage_recruited: regional_percentage(
+            data['nonprovider_filter'],
+            'recruited_rate_to_same_date_previous_cycle',
+          ),
+        ),
+      ]
     end
 
     def render?

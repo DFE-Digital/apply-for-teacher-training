@@ -7,17 +7,17 @@ module SupportInterface
       @provider_report = latest_report.present? ? Publications::ProviderRecruitmentPerformanceReportPresenter.new(latest_report) : nil
       @report_type = @region == all_of_england ? :NATIONAL : :REGIONAL
 
+      @provider_edi_reports = Publications::ProviderEdiReport.where(
+        provider: @provider,
+        cycle_week: @provider_report&.cycle_week,
+        recruitment_cycle_year: @provider_report&.recruitment_cycle_year,
+        category: ReportSharedEnums.edi_categories.keys,
+      ).select('DISTINCT ON (category) *').order(:category, created_at: :desc)
+
       respond_to do |format|
         format.html do
           @provider_data = @provider_report&.statistics
           @statistics = @region == all_of_england ? national_report&.statistics : regional_report&.statistics
-
-          @provider_edi_reports = Publications::ProviderEdiReport.where(
-            provider: @provider,
-            cycle_week: @provider_report&.cycle_week,
-            recruitment_cycle_year: @provider_report&.recruitment_cycle_year,
-            category: ReportSharedEnums.edi_categories.keys,
-          ).select('DISTINCT ON (category) *').order(:category, created_at: :desc)
         end
         format.zip do
           if latest_report.present?
@@ -43,6 +43,7 @@ module SupportInterface
         region: @region,
         provider_report: @provider_report,
         report_type: @report_type,
+        edi_reports: @provider_edi_reports,
       ).call
     end
 

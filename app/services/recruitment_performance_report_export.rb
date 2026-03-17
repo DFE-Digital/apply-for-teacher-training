@@ -2,6 +2,7 @@ require 'zip'
 
 class RecruitmentPerformanceReportExport
   include ActiveSupport::NumberHelper
+  include ActionView::Helpers::NumberHelper
 
   attr_reader :provider, :region, :report_type, :provider_report
 
@@ -12,6 +13,11 @@ class RecruitmentPerformanceReportExport
   DEFERRALS = 'deferrals'.freeze
   CANDIDATES_REJECTED = 'candidates_rejected'.freeze
   WAITING_FOR_A_RESPONSE = 'proportion_of_candidates_who_have_waited_more_than_30_working_days_for_a_response'.freeze
+  AGE_GROUP = 'age_group'.freeze
+  DISABILITY = 'disability'.freeze
+  DISABILITY_DECLARATION = 'disability_declaration'.freeze
+  ETHNIC_GROUP = 'ethnic_group'.freeze
+  SEX = 'sex'.freeze
   REPORTS = [
     CANDIDATES_WHO_HAVE_SUBMITTED_APPLICATIONS,
     CANDIDATES_THAT_RECEIVED_AN_OFFER,
@@ -20,13 +26,25 @@ class RecruitmentPerformanceReportExport
     DEFERRALS,
     CANDIDATES_REJECTED,
     WAITING_FOR_A_RESPONSE,
+    AGE_GROUP,
+    DISABILITY,
+    DISABILITY_DECLARATION,
+    ETHNIC_GROUP,
+    SEX,
   ].freeze
 
-  def initialize(provider:, region:, provider_report: nil, report_type: :NATIONAL)
+  def initialize(
+    provider:,
+    region:,
+    edi_reports:,
+    provider_report: nil,
+    report_type: :NATIONAL
+  )
     @provider = provider
     @region = region
     @provider_report = provider_report || latest_report
     @report_type = report_type
+    @edi_reports = edi_reports
   end
 
   def call
@@ -114,6 +132,141 @@ private
     rows = build_subject_rows(field_mapping)
     file_name = WAITING_FOR_A_RESPONSE
     rows_to_csv(file_name:, rows:, field_mapping:, export_folder:, timestamp:, percentage_values: true)
+  end
+
+  def age_group_report(export_folder, timestamp)
+    age_group_component = RecruitmentPerformanceReport::AgeGroupComponent.new(
+      provider: @provider,
+      edi_reports: @edi_reports,
+      region: @region,
+    )
+    file_name = AGE_GROUP
+
+    CSV.open("#{export_folder}/#{file_name}_#{timestamp}.csv", 'w', headers: true) do |csv|
+      csv << [age_group_component.title]
+      csv << [age_group_component.subcategory]
+      csv << (['', ''] + age_group_component.table_headers)
+      age_group_component.serialized_statistics.each do |data|
+        age_group_component.rows(data).each do |row|
+          csv << [
+            row.stats_for,
+            row.cycle,
+            row.applied,
+            row.offered,
+            row.recruited,
+            row.percentage_recruited,
+          ]
+        end
+      end
+    end
+  end
+
+  def disability_report(export_folder, timestamp)
+    disability_component = RecruitmentPerformanceReport::DisabilityComponent.new(
+      provider: @provider,
+      edi_reports: @edi_reports,
+      region: @region,
+    )
+    file_name = DISABILITY
+
+    CSV.open("#{export_folder}/#{file_name}_#{timestamp}.csv", 'w', headers: true) do |csv|
+      csv << [disability_component.title]
+      csv << [disability_component.subcategory]
+      csv << (['', ''] + disability_component.table_headers)
+      disability_component.serialized_statistics.each do |data|
+        disability_component.rows(data).each do |row|
+          csv << [
+            row.stats_for,
+            row.cycle,
+            row.applied,
+            row.offered,
+            row.recruited,
+            row.percentage_recruited,
+          ]
+        end
+      end
+    end
+  end
+
+  def disability_declaration_report(export_folder, timestamp)
+    disability_declaration_component = RecruitmentPerformanceReport::DisabilityDeclarationComponent.new(
+      provider: @provider,
+      edi_reports: @edi_reports,
+      region: @region,
+    )
+    file_name = DISABILITY_DECLARATION
+
+    CSV.open("#{export_folder}/#{file_name}_#{timestamp}.csv", 'w', headers: true) do |csv|
+      csv << [disability_declaration_component.title]
+      csv << [disability_declaration_component.subcategory]
+      csv << (['', ''] + disability_declaration_component.table_headers)
+      disability_declaration_component.serialized_statistics.each do |data|
+        disability_declaration_component.rows(data).each do |row|
+          csv << [
+            row.stats_for,
+            row.cycle,
+            row.applied,
+            row.offered,
+            row.recruited,
+            row.percentage_recruited,
+          ]
+        end
+      end
+    end
+  end
+
+  def ethnic_group_report(export_folder, timestamp)
+    ethnic_group_component = RecruitmentPerformanceReport::EthnicGroupComponent.new(
+      provider: @provider,
+      edi_reports: @edi_reports,
+      region: @region,
+    )
+    file_name = ETHNIC_GROUP
+
+    CSV.open("#{export_folder}/#{file_name}_#{timestamp}.csv", 'w', headers: true) do |csv|
+      csv << [ethnic_group_component.title]
+      csv << [ethnic_group_component.subcategory]
+      csv << (['', ''] + ethnic_group_component.table_headers)
+      ethnic_group_component.serialized_statistics.each do |data|
+        ethnic_group_component.rows(data).each do |row|
+          csv << [
+            row.stats_for,
+            row.cycle,
+            row.applied,
+            row.offered,
+            row.recruited,
+            row.percentage_recruited,
+          ]
+        end
+      end
+    end
+  end
+
+  def sex_report(export_folder, timestamp)
+    sex_component = RecruitmentPerformanceReport::SexComponent.new(
+      provider: @provider,
+      edi_reports: @edi_reports,
+      region: @region,
+    )
+    file_name = SEX
+
+    CSV.open("#{export_folder}/#{file_name}_#{timestamp}.csv", 'w', headers: true) do |csv|
+      csv << [sex_component.title]
+      csv << [sex_component.subcategory]
+      csv << (['', ''] + sex_component.table_headers)
+      sex_component.serialized_statistics.each do |data|
+        sex_component.rows(data).each do |row|
+          csv << [
+            row.stats_for,
+            row.cycle,
+            row.applied,
+            row.offered,
+            row.recruited,
+            row.percentage_recruited,
+          ]
+        end
+      end
+    end
   end
 
   def rows_to_csv(file_name:, rows:, field_mapping:, export_folder:, timestamp:, percentage_values: false)

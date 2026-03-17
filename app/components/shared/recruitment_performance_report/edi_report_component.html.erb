@@ -4,138 +4,53 @@
   <% serialized_statistics.each do |data| %>
     <%= govuk_table(html_attributes: { class: 'govuk-!-margin-bottom-8' }) do |table| %>
       <%= table.with_caption do %>
-        <h3 class="govuk-body govuk-!-margin-bottom-0"><%= data['subcategory'] || data['nonprovider_filter'] %></h3>
+        <h3 class="govuk-body govuk-!-margin-bottom-0"><%= subcategory %></h3>
       <% end %>
 
       <%= table.with_head do |head| %>
         <%= head.with_row do |row| %>
-          <%= row.with_cell(scope: false, html_attributes: { class: 'th-border-none govuk-visually-hidden' }) %>
-          <%= row.with_cell(scope: false, html_attributes: { class: 'th-border-none govuk-visually-hidden' }) %>
-          <%= row.with_cell(text: 'Applied', html_attributes: { class: 'govuk-!-text-align-right th-border-none' }) %>
-          <%= row.with_cell(text: 'Offered', html_attributes: { class: 'govuk-!-text-align-right th-border-none' }) %>
-          <%= row.with_cell(text: 'Recruited', html_attributes: { class: 'govuk-!-text-align-right th-border-none' }) %>
-          <%= row.with_cell(text: 'Percentage recruited', html_attributes: { class: 'govuk-!-text-align-right th-border-none' }) %>
+          <%= row.with_cell(scope: false, html_attributes: { class: 'th-border-none' }) %>
+          <%= row.with_cell(scope: false, html_attributes: { class: 'th-border-none' }) %>
+          <% table_headers.each do |header| %>
+            <%= row.with_cell(text: header, html_attributes: { class: 'govuk-!-text-align-right th-border-none' }) %>
+          <% end %>
         <% end %>
       <% end %>
 
       <%= table.with_body do |body| %>
-        <%= body.with_row do |row| %>
-          <%= row.with_cell(rowspan: 2, header: true, text: provider.name) %>
-          <%= row.with_cell(header: true, text: this_cycle_header, html_attributes: { class: 'th-border-none' }) %>
+        <% rows(data).each do|edi_row| %>
+          <%= body.with_row do |row| %>
+            <% if edi_row.stats_for.present? %>
+              <%= row.with_cell(rowspan: 2, header: true, text: edi_row.stats_for) %>
+            <% end %>
+            <%= row.with_cell(
+              header: true,
+              text: edi_row.cycle,
+              html_attributes: { class: edi_row.stats_for.present? ? 'th-border-none' : '' },
+            ) %>
 
-          <%= row.with_cell(
-            text: number_with_delimiter(data['number_of_candidates_submitted_to_date']) || 'Not available',
-            numeric: true,
-            html_attributes: { class: 'th-border-none' },
-          ) %>
-          <%= row.with_cell(
-            text: number_with_delimiter(data['number_of_candidates_with_offers_to_date']) || 'Not available',
-            numeric: true,
-            html_attributes: { class: 'th-border-none' },
-          ) %>
-          <%= row.with_cell(
-            text: number_with_delimiter(data['number_of_candidates_accepted_to_date']) || 'Not available',
-            numeric: true,
-            html_attributes: { class: 'th-border-none' },
-          ) %>
+            <%= row.with_cell(
+              text: edi_row.applied,
+              numeric: true,
+              html_attributes: { class: edi_row.stats_for.present? ? 'th-border-none' : '' },
+            ) %>
+            <%= row.with_cell(
+              text: edi_row.offered,
+              numeric: true,
+              html_attributes: { class: edi_row.stats_for.present? ? 'th-border-none' : '' },
+            ) %>
+            <%= row.with_cell(
+              text: edi_row.recruited,
+              numeric: true,
+              html_attributes: { class: edi_row.stats_for.present? ? 'th-border-none' : '' },
+            ) %>
 
-          <%= row.with_cell(
-            text: provider_percentage(data['recruited_rate_to_date']),
-            numeric: true,
-            html_attributes: { class: 'th-border-none' },
-          ) %>
-        <% end %>
-
-        <%= body.with_row do |row| %>
-          <%= row.with_cell(header: true, text: last_cycle_header) %>
-
-          <%= row.with_cell(
-            text: number_with_delimiter(data['number_of_candidates_submitted_to_same_date_previous_cycle']) || 'Not available',
-            numeric: true,
-          ) %>
-          <%= row.with_cell(
-            text: number_with_delimiter(data['number_of_candidates_with_offers_to_same_date_previous_cycle']) || 'Not available',
-            numeric: true,
-          ) %>
-          <%= row.with_cell(
-            text: number_with_delimiter(data['number_of_candidates_accepted_to_same_date_previous_cycle']) || 'Not available',
-            numeric: true,
-          ) %>
-          <%= row.with_cell(
-            text: provider_percentage(data['recruited_rate_to_same_date_previous_cycle']),
-            numeric: true,
-          ) %>
-        <% end %>
-
-        <%= body.with_row do |row| %>
-          <%= row.with_cell(rowspan: 2, header: true, text: t("shared.#{@region}")) %>
-          <%= row.with_cell(header: true, text: this_cycle_header, html_attributes: { class: 'th-border-none' }) %>
-
-          <%= row.with_cell(
-            text: regional_report_number(
-              data['nonprovider_filter'],
-              'number_of_candidates_submitted_to_date',
-            ),
-            numeric: true,
-            html_attributes: { class: 'th-border-none' },
-          ) %>
-          <%= row.with_cell(
-            text: regional_report_number(
-              data['nonprovider_filter'],
-              'number_of_candidates_with_offers_to_date',
-            ),
-            numeric: true,
-            html_attributes: { class: 'th-border-none' },
-          ) %>
-          <%= row.with_cell(
-            text: regional_report_number(
-              data['nonprovider_filter'],
-              'number_of_candidates_accepted_to_date',
-            ),
-            numeric: true,
-            html_attributes: { class: 'th-border-none' },
-          ) %>
-          <%= row.with_cell(
-            text: regional_percentage(
-              data['nonprovider_filter'],
-              'recruited_rate_to_date',
-            ),
-            numeric: true,
-            html_attributes: { class: 'th-border-none' },
-          ) %>
-        <% end %>
-
-        <%= body.with_row(html_attributes: { class: 'condition-divider' }) do |row| %>
-          <%= row.with_cell(header: true, text: last_cycle_header) %>
-
-          <%= row.with_cell(
-            text: regional_report_number(
-              data['nonprovider_filter'],
-              'number_of_candidates_submitted_to_same_date_previous_cycle',
-            ),
-            numeric: true,
-          ) %>
-          <%= row.with_cell(
-            text: regional_report_number(
-              data['nonprovider_filter'],
-              'number_of_candidates_with_offers_to_same_date_previous_cycle',
-            ),
-            numeric: true,
-          ) %>
-          <%= row.with_cell(
-            text: regional_report_number(
-              data['nonprovider_filter'],
-              'number_of_candidates_accepted_to_same_date_previous_cycle',
-            ),
-            numeric: true,
-          ) %>
-          <%= row.with_cell(
-            text: regional_percentage(
-              data['nonprovider_filter'],
-              'recruited_rate_to_same_date_previous_cycle',
-            ),
-            numeric: true,
-          ) %>
+            <%= row.with_cell(
+              text: edi_row.percentage_recruited,
+              numeric: true,
+              html_attributes: { class: edi_row.stats_for.present? ? 'th-border-none' : '' },
+            ) %>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>
