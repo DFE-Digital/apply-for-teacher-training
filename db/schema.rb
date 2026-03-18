@@ -648,7 +648,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_18_091333) do
     t.boolean "no_qualification", default: false, null: false
     t.boolean "qualification_not_needed", default: false, null: false
     t.boolean "degree_taught_in_english", default: false, null: false
-    t.boolean "draft", default: true
+    t.boolean "draft", default: true, null: false
     t.index ["application_form_id"], name: "index_english_proficiencies_on_application_form_id"
     t.index ["degree_taught_in_english"], name: "index_english_proficiencies_on_degree_taught_in_english"
     t.index ["draft"], name: "index_english_proficiencies_on_draft"
