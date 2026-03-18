@@ -14,7 +14,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ToeflForm, type: :model
       registration_number: '12345',
       total_score: '20',
       award_year: 2000,
-      )
+    )
   end
 
   describe 'validations' do
@@ -134,7 +134,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ToeflForm, type: :model
   describe '#fill' do
     let(:valid_form) do
       described_class.new(
-        english_proficiency:
+        english_proficiency:,
       )
     end
     let(:english_proficiency) do
@@ -143,7 +143,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ToeflForm, type: :model
         :with_toefl_qualification,
         has_qualification: true,
         efl_qualification:,
-        )
+      )
     end
     let(:efl_qualification) { create(:toefl_qualification, total_score: 5) }
 
@@ -154,7 +154,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ToeflForm, type: :model
       expect(form.award_year).to eq(efl_qualification.award_year)
     end
 
-    context "when the efl qualification is not an ToeflQualification" do
+    context 'when the efl qualification is not an ToeflQualification' do
       let(:efl_qualification) { create(:ielts_qualification) }
 
       it 'does not assign the qualification attributes to the form' do

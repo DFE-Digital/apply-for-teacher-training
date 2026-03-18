@@ -148,7 +148,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::NoQualificationDetailsF
           :english_proficiency,
           application_form:,
           no_qualification: true,
-          no_qualification_details: "Work in progress",
+          no_qualification_details: 'Work in progress',
         )
       end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate enters their english proficiency as has another EFL qualification' do
+RSpec.describe 'Candidate enters their english proficiency as has IELTS qualification and English is my first language' do
   include CandidateHelper
 
   before do
@@ -19,37 +19,39 @@ RSpec.describe 'Candidate enters their english proficiency as has another EFL qu
     then_i_see_the_proving_your_level_of_english_page
 
     when_i_select_i_have_an_efl_assessment
+    and_i_select_english_is_my_first_language
     and_i_click_on_continue
     then_i_see_the_efl_assessment_type_page
 
     when_i_click_on_back
     then_i_see_the_proving_your_level_of_english_edit_page
     and_i_see_i_have_an_efl_assessment_selected
+    and_i_see_english_is_my_first_language_selected
 
     when_i_click_on_continue
     then_i_see_the_efl_assessment_type_page
 
-    when_i_select_other
+    when_i_select_ielts
     and_i_click_on_continue
-    then_i_see_the_other_efl_results_page
+    then_i_see_the_ielts_results_page
 
     when_i_click_on_back
     then_i_see_the_efl_assessment_type_page
-    and_i_see_other_selected
+    and_i_see_ielts_selected
 
     when_i_click_on_continue
-    then_i_see_the_other_efl_results_page
+    then_i_see_the_ielts_results_page
 
-    when_i_fill_in_the_other_efl_results_form
+    when_i_fill_in_the_ielts_results_form
     and_i_click_on_save_and_continue
     then_i_see_the_review_page
-    and_i_see_that_my_level_of_english_is_i_have_an_efl_assessment
+    and_i_see_that_my_level_of_english_is_i_have_an_efl_assessment_and_english_is_my_first_language
 
     when_i_select_yes_i_have_completed_this_section
     and_i_click_on_continue
   end
 
-  private
+private
 
   def and_english_is_not_my_first_language
     @application_form = create(:application_form, :international_address, first_nationality: 'American', candidate: current_candidate)
@@ -88,6 +90,10 @@ RSpec.describe 'Candidate enters their english proficiency as has another EFL qu
     check 'I have an English as a foreign language (EFL) assessment'
   end
 
+  def and_i_select_english_is_my_first_language
+    check 'English is my first language'
+  end
+
   def and_i_click_on_continue
     click_on 'Continue'
   end
@@ -112,27 +118,31 @@ RSpec.describe 'Candidate enters their english proficiency as has another EFL qu
     expect(page).to have_checked_field('I have an English as a foreign language (EFL) assessment', type: 'checkbox')
   end
 
-  def when_i_select_other
-    choose 'Other'
+  def and_i_see_english_is_my_first_language_selected
+    expect(page).to have_checked_field('English is my first language', type: 'checkbox')
   end
 
-  def then_i_see_the_other_efl_results_page
+  def when_i_select_ielts
+    choose 'International English Language Testing System (IELTS)'
+  end
+
+  def then_i_see_the_ielts_results_page
     english_proficiency = @application_form.english_proficiencies.last
-    expect(page).to have_current_path candidate_interface_english_proficiencies_other_efl_qualification_path(english_proficiency)
+    expect(page).to have_current_path candidate_interface_english_proficiencies_ielts_path(english_proficiency)
     expect(page).to have_element(:span, text: 'English as a foreign language assessment', class: 'govuk-caption-xl')
-    expect(page).to have_element(:h1, text: 'Your English language assessment result', class: 'govuk-heading-xl')
-    expect(page).to have_field('Assessment name', type: 'text')
-    expect(page).to have_field('Score or grade', type: 'text')
+    expect(page).to have_element(:h1, text: 'Your IELTS result', class: 'govuk-heading-xl')
+    expect(page).to have_field('Test report form (TRF) number', type: 'text')
+    expect(page).to have_field('Overall band score', type: 'text')
     expect(page).to have_field('When did you complete the assessment?', type: 'text')
   end
 
-  def and_i_see_other_selected
-    expect(page).to have_checked_field('Other')
+  def and_i_see_ielts_selected
+    expect(page).to have_checked_field('International English Language Testing System (IELTS)')
   end
 
-  def when_i_fill_in_the_other_efl_results_form
-    fill_in 'Assessment name', with: 'EFL Assessment ABC'
-    fill_in 'Score or grade', with: 'A+'
+  def when_i_fill_in_the_ielts_results_form
+    fill_in 'Test report form (TRF) number', with: 'ABCD1234'
+    fill_in 'Overall band score', with: '8'
     fill_in 'When did you complete the assessment?', with: '2020'
   end
 
@@ -145,21 +155,21 @@ RSpec.describe 'Candidate enters their english proficiency as has another EFL qu
     expect(page).to have_element(:h1, text: 'Check your English as a foreign language assessment', class: 'govuk-heading-xl')
   end
 
-  def and_i_see_that_my_level_of_english_is_i_have_an_efl_assessment
+  def and_i_see_that_my_level_of_english_is_i_have_an_efl_assessment_and_english_is_my_first_language
     within('.govuk-summary-card') do
       expect(page).to have_element(:h2, text: 'English as a foreign language assessment', class: 'govuk-summary-card__title')
       expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
       expect(page).to have_element(
         :dd,
-        text: 'I have an English as a foreign language (EFL) assessment',
+        text: 'English is my first language I have an English as a foreign language (EFL) assessment',
         class: 'govuk-summary-list__value',
       )
       expect(page).to have_element(:dt, text: 'Type of assessment', class: 'govuk-summary-list__key')
-      expect(page).to have_element(:dd, text: 'EFL Assessment ABC', class: 'govuk-summary-list__value')
-      expect(page).to have_element(:dt, text: 'Assessment name', class: 'govuk-summary-list__key')
-      expect(page).to have_element(:dd, text: 'EFL Assessment ABC', class: 'govuk-summary-list__value')
-      expect(page).to have_element(:dt, text: 'Score or grade', class: 'govuk-summary-list__key')
-      expect(page).to have_element(:dd, text: 'A+', class: 'govuk-summary-list__value')
+      expect(page).to have_element(:dd, text: 'IETLS', class: 'govuk-summary-list__value')
+      expect(page).to have_element(:dt, text: 'Test report form (TRF) number', class: 'govuk-summary-list__key')
+      expect(page).to have_element(:dd, text: 'ABCD1234', class: 'govuk-summary-list__value')
+      expect(page).to have_element(:dt, text: 'Overall band score', class: 'govuk-summary-list__key')
+      expect(page).to have_element(:dd, text: '8.0', class: 'govuk-summary-list__value')
       expect(page).to have_element(:dt, text: 'Year completed', class: 'govuk-summary-list__key')
       expect(page).to have_element(:dd, text: '2020', class: 'govuk-summary-list__value')
     end

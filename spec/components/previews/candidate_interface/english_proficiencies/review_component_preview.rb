@@ -88,7 +88,7 @@ class CandidateInterface::EnglishProficiencies::ReviewComponentPreview < ViewCom
       qualification_not_needed: true,
       degree_taught_in_english: true,
       efl_qualification: FactoryBot.build_stubbed(:ielts_qualification),
-      )
+    )
 
     render(CandidateInterface::EnglishProficiencies::ReviewComponent.new(english_proficiency))
   end

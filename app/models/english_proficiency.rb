@@ -37,12 +37,13 @@ class EnglishProficiency < ApplicationRecord
 
   def publish!
     ActiveRecord::Base.transaction do
-      application_form.english_proficiencies.where.not(id: self.id).destroy_all
+      application_form.english_proficiencies.where.not(id: id).destroy_all
 
       self.draft = false
       save!
     end
   end
+
   def qualification_statuses
     statuses = []
     EnglishProficiency.qualification_statuses.each_key do |key|

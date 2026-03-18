@@ -74,7 +74,7 @@ RSpec.describe EnglishProficiency do
     let(:english_proficiency) { create(:english_proficiency, application_form: application_form) }
     let(:draft_english_proficiency) { create(:english_proficiency, :draft, application_form: application_form) }
 
-    before { draft_english_proficiency}
+    before { draft_english_proficiency }
 
     it 'duplicates the english proficiency and destroys any draft english proficiencies' do
       english_proficiency.create_draft_dup!
@@ -85,7 +85,7 @@ RSpec.describe EnglishProficiency do
 
       duplicate_english_proficiency = application_form.english_proficiencies.draft.last
 
-      matching_attributes = english_proficiency.attributes.except("id", "created_at", "updated_at", "draft")
+      matching_attributes = english_proficiency.attributes.except('id', 'created_at', 'updated_at', 'draft')
       expect(duplicate_english_proficiency).to have_attributes(matching_attributes)
       expect(duplicate_english_proficiency.draft).to be(true)
     end
@@ -101,7 +101,6 @@ RSpec.describe EnglishProficiency do
       english_proficiency
       draft_english_proficiency
     end
-
 
     it 'destroys any associated english proficiencies and toggles the draft attribute to false' do
       new_english_proficiency.publish!

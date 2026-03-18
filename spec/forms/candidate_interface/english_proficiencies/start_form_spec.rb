@@ -88,7 +88,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
 
         it 'creates a draft english proficiency' do
           valid_form.application_form = application_form
-          expect{ valid_form.save }.to change { application_form.english_proficiencies.count }.by(1)
+          expect { valid_form.save }.to change { application_form.english_proficiencies.count }.by(1)
           english_proficiency = application_form.english_proficiencies.last
           expect(english_proficiency.draft).to be(true)
           expect(english_proficiency.has_qualification).to be(true)
@@ -107,7 +107,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
 
         it 'creates a draft english proficiency' do
           valid_form.application_form = application_form
-          expect{ valid_form.save }.to change { application_form.english_proficiencies.count }.by(1)
+          expect { valid_form.save }.to change { application_form.english_proficiencies.count }.by(1)
           english_proficiency = application_form.english_proficiencies.last
           expect(english_proficiency.draft).to be(true)
           expect(english_proficiency.has_qualification).to be(false)
@@ -116,7 +116,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
           expect(english_proficiency.no_qualification).to be(false)
           expect(
             english_proficiency.qualification_statuses,
-            ).to contain_exactly('degree_taught_in_english')
+          ).to contain_exactly('degree_taught_in_english')
         end
       end
 
@@ -126,7 +126,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
 
         it 'creates a published english proficiency' do
           valid_form.application_form = application_form
-          expect{ valid_form.save }.to change { application_form.english_proficiencies.count }.by(1)
+          expect { valid_form.save }.to change { application_form.english_proficiencies.count }.by(1)
           english_proficiency = application_form.english_proficiencies.last
           expect(english_proficiency.draft).to be(false)
           expect(english_proficiency.has_qualification).to be(false)
@@ -135,7 +135,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
           expect(english_proficiency.no_qualification).to be(false)
           expect(
             english_proficiency.qualification_statuses,
-            ).to contain_exactly('qualification_not_needed')
+          ).to contain_exactly('qualification_not_needed')
         end
       end
 
@@ -145,7 +145,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
 
         it 'creates a draft english proficiency' do
           valid_form.application_form = application_form
-          expect{ valid_form.save }.to change { application_form.english_proficiencies.count }.by(1)
+          expect { valid_form.save }.to change { application_form.english_proficiencies.count }.by(1)
           english_proficiency = application_form.english_proficiencies.last
           expect(english_proficiency.draft).to be(true)
           expect(english_proficiency.has_qualification).to be(false)
@@ -154,17 +154,17 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
           expect(english_proficiency.no_qualification).to be(true)
           expect(
             english_proficiency.qualification_statuses,
-            ).to contain_exactly('no_qualification')
+          ).to contain_exactly('no_qualification')
         end
       end
 
       context 'when more than one qualification_status is given' do
         let(:application_form) { create(:application_form) }
-        let(:qualification_statuses) { %w[has_qualification degree_taught_in_english qualification_not_needed ] }
+        let(:qualification_statuses) { %w[has_qualification degree_taught_in_english qualification_not_needed] }
 
         it 'creates a draft english proficiency' do
           valid_form.application_form = application_form
-          expect{ valid_form.save }.to change { application_form.english_proficiencies.count }.by(1)
+          expect { valid_form.save }.to change { application_form.english_proficiencies.count }.by(1)
           english_proficiency = application_form.english_proficiencies.last
           expect(english_proficiency.draft).to be(true)
           expect(english_proficiency.has_qualification).to be(true)
@@ -173,7 +173,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
           expect(english_proficiency.no_qualification).to be(false)
           expect(
             english_proficiency.qualification_statuses,
-            ).to contain_exactly('has_qualification', 'degree_taught_in_english', 'qualification_not_needed')
+          ).to contain_exactly('has_qualification', 'degree_taught_in_english', 'qualification_not_needed')
         end
       end
     end
@@ -184,7 +184,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
       described_class.new(qualification_statuses:, application_form:)
     end
     let(:application_form) { create(:application_form) }
-    let(:qualification_statuses) { ['has_qualification', 'qualification_not_needed'] }
+    let(:qualification_statuses) { %w[has_qualification qualification_not_needed] }
 
     before { form.save }
 
@@ -209,7 +209,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
     end
 
     context 'when the english proficiency qualification includes "degree_taught_in_english"' do
-      let(:qualification_statuses) { ['degree_taught_in_english', 'qualification_not_needed'] }
+      let(:qualification_statuses) { %w[degree_taught_in_english qualification_not_needed] }
 
       it 'returns the path for entering no qualification details' do
         english_proficiency = application_form.english_proficiencies.last
@@ -223,9 +223,9 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
       let(:qualification_statuses) { ['qualification_not_needed'] }
 
       it 'returns the review path' do
-        english_proficiency = application_form.english_proficiencies.last
+        application_form.english_proficiencies.last
         expect(form.next_path).to eq(
-          "/candidate/application/english-proficiencies/review",
+          '/candidate/application/english-proficiencies/review',
         )
       end
     end
@@ -257,8 +257,8 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
         form = described_class.new.fill(application_form)
         expect(form.application_form).to eq(application_form)
         expect(form.qualification_statuses).to contain_exactly(
-         'qualification_not_needed', 'degree_taught_in_english', 'has_qualification'
-       )
+          'qualification_not_needed', 'degree_taught_in_english', 'has_qualification'
+        )
       end
     end
   end

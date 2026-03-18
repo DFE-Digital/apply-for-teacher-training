@@ -1,13 +1,13 @@
 module CandidateInterface
   module EnglishProficiencies
     class StartController < CandidateInterfaceController
-      before_action :set_return_to, only: [:edit, :update]
+      before_action :set_return_to, only: %i[edit update]
       def new
         @start_form = EnglishProficiencies::StartForm.new
       end
 
       def edit
-        @start_form = EnglishProficiencies::StartForm.new.fill(current_application)
+        @start_form = EnglishProficiencies::StartForm.new.fill(current_application, english_proficiency)
       end
 
       def create

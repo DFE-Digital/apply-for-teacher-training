@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate enters their english proficiency as has TOEFL qualification' do
+RSpec.describe 'Candidate enters their english proficiency as degree taught in English' do
   include CandidateHelper
 
   before do
@@ -11,45 +11,64 @@ RSpec.describe 'Candidate enters their english proficiency as has TOEFL qualific
     FeatureFlag.deactivate(:application_form_has_many_english_proficiencies)
   end
 
-  scenario do
+  scenario 'with no details' do
     given_i_am_signed_in_with_one_login
     and_english_is_not_my_first_language
     and_visit_my_details
     when_i_click_on_english_as_a_foreign_language
     then_i_see_the_proving_your_level_of_english_page
 
-    when_i_select_i_have_an_efl_assessment
+    when_i_select_degree_taught_in_english
     and_i_click_on_continue
-    then_i_see_the_efl_assessment_type_page
+    then_i_see_the_may_need_to_an_efl_assessment_page
 
     when_i_click_on_back
     then_i_see_the_proving_your_level_of_english_edit_page
-    and_i_see_i_have_an_efl_assessment_selected
+    and_i_see_degree_taught_in_english_selected
 
-    when_i_click_on_continue
-    then_i_see_the_efl_assessment_type_page
-
-    when_i_select_toefl
     and_i_click_on_continue
-    then_i_see_the_toefl_results_page
+    then_i_see_the_may_need_to_an_efl_assessment_page
 
-    when_i_click_on_back
-    then_i_see_the_efl_assessment_type_page
-    and_i_see_toefl_selected
+    when_i_select_no
+    and_i_click_on_continue
 
-    when_i_click_on_continue
-    then_i_see_the_toefl_results_page
-
-    when_i_fill_in_the_toefl_results_form
-    and_i_click_on_save_and_continue
     then_i_see_the_review_page
-    and_i_see_that_my_level_of_english_is_i_have_an_efl_assessment
+    and_i_see_that_my_level_of_english_is_degree_taught_in_english_with_no_details
 
     when_i_select_yes_i_have_completed_this_section
     and_i_click_on_continue
   end
 
-  private
+  scenario 'with details' do
+    given_i_am_signed_in_with_one_login
+    and_english_is_not_my_first_language
+    and_visit_my_details
+    when_i_click_on_english_as_a_foreign_language
+    then_i_see_the_proving_your_level_of_english_page
+
+    when_i_select_degree_taught_in_english
+    and_i_click_on_continue
+    then_i_see_the_may_need_to_an_efl_assessment_page
+
+    when_i_click_on_back
+    then_i_see_the_proving_your_level_of_english_edit_page
+    and_i_see_degree_taught_in_english_selected
+
+    when_i_click_on_continue
+    then_i_see_the_may_need_to_an_efl_assessment_page
+
+    when_i_select_yes
+    and_i_enter_the_details_of_my_assessment
+    and_i_click_on_continue
+
+    then_i_see_the_review_page
+    and_i_see_that_my_level_of_english_is_degree_taught_in_english_with_details
+
+    when_i_select_yes_i_have_completed_this_section
+    and_i_click_on_continue
+  end
+
+private
 
   def and_english_is_not_my_first_language
     @application_form = create(:application_form, :international_address, first_nationality: 'American', candidate: current_candidate)
@@ -84,8 +103,8 @@ RSpec.describe 'Candidate enters their english proficiency as has TOEFL qualific
     expect(page).to have_field('None of these', type: 'checkbox')
   end
 
-  def when_i_select_i_have_an_efl_assessment
-    check 'I have an English as a foreign language (EFL) assessment'
+  def when_i_select_degree_taught_in_english
+    check 'My degree was taught in English'
   end
 
   def and_i_click_on_continue
@@ -93,51 +112,34 @@ RSpec.describe 'Candidate enters their english proficiency as has TOEFL qualific
   end
   alias_method :when_i_click_on_continue, :and_i_click_on_continue
 
-  def then_i_see_the_efl_assessment_type_page
-    english_proficiency = @application_form.english_proficiencies.last
-    expect(page).to have_current_path(candidate_interface_english_proficiencies_type_path(english_proficiency), ignore_query: true)
-    expect(page).to have_element(:span, text: 'English as a foreign language assessment', class: 'govuk-caption-xl')
-    expect(page).to have_element(:h1, text: 'What English language assessment did you do?', class: 'govuk-fieldset__heading')
-
-    expect(page).to have_field('International English Language Testing System (IELTS)', type: 'radio')
-    expect(page).to have_field('Test of English as a Foreign Language (TOEFL)', type: 'radio')
-    expect(page).to have_field('Other', type: 'radio')
-  end
-
   def when_i_click_on_back
     click_on 'Back'
   end
 
-  def and_i_see_i_have_an_efl_assessment_selected
-    expect(page).to have_checked_field('I have an English as a foreign language (EFL) assessment', type: 'checkbox')
+  def and_i_see_degree_taught_in_english_selected
+    expect(page).to have_checked_field('My degree was taught in English', type: 'checkbox')
   end
 
-  def when_i_select_toefl
-    choose 'Test of English as a Foreign Language (TOEFL)'
-  end
-
-  def then_i_see_the_toefl_results_page
+  def then_i_see_the_may_need_to_an_efl_assessment_page
     english_proficiency = @application_form.english_proficiencies.last
-    expect(page).to have_current_path candidate_interface_english_proficiencies_toefl_path(english_proficiency)
+    expect(page).to have_current_path(candidate_interface_english_proficiencies_no_qualification_details_path(english_proficiency.id))
     expect(page).to have_element(:span, text: 'English as a foreign language assessment', class: 'govuk-caption-xl')
-    expect(page).to have_element(:h1, text: 'Your TOEFL result', class: 'govuk-heading-xl')
-    expect(page).to have_field('TOEFL registration number', type: 'text')
-    expect(page).to have_field('Total score', type: 'number')
-    expect(page).to have_field('When did you complete the assessment?', type: 'text')
+    expect(page).to have_element(:h1, text: 'You may need an English as a foreign language assessment', class: 'govuk-fieldset__heading')
+
+    expect(page).to have_field('Yes', type: 'radio')
+    expect(page).to have_field('No', type: 'radio')
   end
 
-  def and_i_see_toefl_selected
-    expect(page).to have_checked_field('Test of English as a Foreign Language (TOEFL)')
+  def when_i_select_no
+    choose 'No'
   end
 
-  def when_i_fill_in_the_toefl_results_form
-    fill_in 'TOEFL registration number', with: 'ABCD1234'
-    fill_in 'Total score', with: '89'
-    fill_in 'When did you complete the assessment?', with: '2020'
+  def when_i_select_yes
+    choose 'Yes'
   end
 
-  def and_i_click_on_save_and_continue
-    click_on 'Save and continue'
+  def and_i_enter_the_details_of_my_assessment
+    fill_in 'Give details of when and what type of assessment you plan to take', with: 'Work in progress'
   end
 
   def then_i_see_the_review_page
@@ -145,23 +147,37 @@ RSpec.describe 'Candidate enters their english proficiency as has TOEFL qualific
     expect(page).to have_element(:h1, text: 'Check your English as a foreign language assessment', class: 'govuk-heading-xl')
   end
 
-  def and_i_see_that_my_level_of_english_is_i_have_an_efl_assessment
+  def and_i_see_that_my_level_of_english_is_degree_taught_in_english_with_no_details
     within('.govuk-summary-card') do
       expect(page).to have_element(:h2, text: 'English as a foreign language assessment', class: 'govuk-summary-card__title')
       expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+      expect(page).to have_element(:dd, text: 'My degree was taught in English', class: 'govuk-summary-list__value')
       expect(page).to have_element(
-        :dd,
-        text: 'I have an English as a foreign language (EFL) assessment',
-        class: 'govuk-summary-list__value',
+        :dt,
+        text: 'Do you plan on taking an English as a foreign language assessment?',
+        class: 'govuk-summary-list__key',
       )
-      expect(page).to have_element(:dt, text: 'Type of assessment', class: 'govuk-summary-list__key')
-      expect(page).to have_element(:dd, text: 'TOEFL', class: 'govuk-summary-list__value')
-      expect(page).to have_element(:dt, text: 'TOEFL registration number', class: 'govuk-summary-list__key')
-      expect(page).to have_element(:dd, text: 'ABCD1234', class: 'govuk-summary-list__value')
-      expect(page).to have_element(:dt, text: 'Year completed', class: 'govuk-summary-list__key')
-      expect(page).to have_element(:dd, text: '2020', class: 'govuk-summary-list__value')
-      expect(page).to have_element(:dt, text: 'Total score', class: 'govuk-summary-list__key')
-      expect(page).to have_element(:dd, text: '89', class: 'govuk-summary-list__value')
+      expect(page).to have_element(:dd, text: 'No', class: 'govuk-summary-list__value')
+    end
+  end
+
+  def and_i_see_that_my_level_of_english_is_degree_taught_in_english_with_details
+    within('.govuk-summary-card') do
+      expect(page).to have_element(:h2, text: 'English as a foreign language assessment', class: 'govuk-summary-card__title')
+      expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+      expect(page).to have_element(:dd, text: 'My degree was taught in English', class: 'govuk-summary-list__value')
+      expect(page).to have_element(
+        :dt,
+        text: 'Do you plan on taking an English as a foreign language assessment?',
+        class: 'govuk-summary-list__key',
+      )
+      expect(page).to have_element(:dd, text: 'Yes', class: 'govuk-summary-list__value')
+      expect(page).to have_element(
+        :dt,
+        text: 'Details',
+        class: 'govuk-summary-list__key',
+      )
+      expect(page).to have_element(:dd, text: 'Work in progress', class: 'govuk-summary-list__value')
     end
   end
 

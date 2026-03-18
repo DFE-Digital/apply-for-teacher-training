@@ -4,7 +4,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::TypeForm, type: :model 
   describe 'validations' do
     let(:valid_form) do
       described_class.new(
-        type:
+        type:,
       )
     end
     let(:type) { 'ielts' }
@@ -43,22 +43,22 @@ RSpec.describe CandidateInterface::EnglishProficiencies::TypeForm, type: :model 
   describe '#save' do
     let(:valid_form) do
       described_class.new(
-        type:
+        type:,
       )
     end
     let(:type) { 'ielts' }
 
     context 'when the type is valid' do
       it 'returns true' do
-        expect(valid_form.save).to eq(true)
+        expect(valid_form.save).to be(true)
       end
     end
 
-    context 'when the type is valid' do
+    context 'when the type is invalid' do
       let(:type) { 'invalid' }
 
-      it 'returns true' do
-        expect(valid_form.save).to eq(false)
+      it 'returns false' do
+        expect(valid_form.save).to be(false)
       end
     end
   end
@@ -66,8 +66,8 @@ RSpec.describe CandidateInterface::EnglishProficiencies::TypeForm, type: :model 
   describe '#fill' do
     let(:valid_form) do
       described_class.new(
-        type: "ielts",
-        english_proficiency:
+        type: 'ielts',
+        english_proficiency:,
       )
     end
     let(:english_proficiency) do
@@ -125,7 +125,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::TypeForm, type: :model 
         :with_ielts_qualification,
         has_qualification: true,
         efl_qualification: create(:ielts_qualification, band_score: '2'),
-        )
+      )
     end
     let(:type) { 'ielts' }
 

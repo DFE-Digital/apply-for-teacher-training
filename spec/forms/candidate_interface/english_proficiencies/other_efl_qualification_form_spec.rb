@@ -123,7 +123,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::OtherEflQualificationFo
   describe '#fill' do
     let(:valid_form) do
       described_class.new(
-        english_proficiency:
+        english_proficiency:,
       )
     end
     let(:english_proficiency) do
@@ -143,7 +143,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::OtherEflQualificationFo
       expect(form.award_year).to eq(efl_qualification.award_year)
     end
 
-    context "when the efl qualification is not an OtherEflQualification" do
+    context 'when the efl qualification is not an OtherEflQualification' do
       let(:efl_qualification) { create(:toefl_qualification) }
 
       it 'does not assign the qualification attributes to the form' do

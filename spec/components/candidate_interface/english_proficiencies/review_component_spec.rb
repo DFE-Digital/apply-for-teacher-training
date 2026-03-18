@@ -69,9 +69,9 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
       it 'displays both qualification statuses' do
         render_inline described_class.new(english_proficiency)
         expect(rendered_content).to have_css(
-                                      'h2.govuk-summary-card__title',
-                                      text: 'English as a foreign language assessment',
-                                      )
+          'h2.govuk-summary-card__title',
+          text: 'English as a foreign language assessment',
+        )
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your level of English')
         expect(rendered_content).to have_css(
           'dd.govuk-summary-list__value',
@@ -168,7 +168,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Overall band score')
         expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: '2')
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Year completed')
-        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: efl_qualification.award_year )
+        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: efl_qualification.award_year)
       end
     end
 
@@ -207,7 +207,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Overall band score')
         expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: '2')
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Year completed')
-        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: efl_qualification.award_year )
+        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: efl_qualification.award_year)
       end
 
       context 'when the qualification status "degree_taught_in_english" is true' do
@@ -246,13 +246,13 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
           expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Overall band score')
           expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: '2')
           expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Year completed')
-          expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: efl_qualification.award_year )
+          expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: efl_qualification.award_year)
 
-          expect(rendered_content).not_to have_css(
+          expect(rendered_content).to have_no_css(
             'dt.govuk-summary-list__key',
             text: 'Do you plan on taking an English as a foreign language assessment?',
           )
-          expect(rendered_content).not_to have_css('dd.govuk-summary-list__value', text: 'No')
+          expect(rendered_content).to have_no_css('dd.govuk-summary-list__value', text: 'No')
         end
       end
     end
@@ -276,8 +276,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
         )
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your level of English')
         expect(rendered_content).to have_css('dd.govuk-summary-list__value',
-          text: 'I have an English as a foreign language (EFL) assessment',
-        )
+                                             text: 'I have an English as a foreign language (EFL) assessment')
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Type of assessment')
         expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: 'TOEFL')
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'TOEFL registration number')
@@ -286,9 +285,9 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
           text: efl_qualification.registration_number,
         )
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Year completed')
-        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text:  efl_qualification.award_year)
+        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: efl_qualification.award_year)
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Total score')
-        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: efl_qualification.total_score )
+        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: efl_qualification.total_score)
       end
     end
 
@@ -299,7 +298,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
           :with_other_efl_qualification,
           has_qualification: true,
           efl_qualification:,
-          )
+        )
       end
       let(:efl_qualification) { create(:other_efl_qualification) }
 
@@ -321,7 +320,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Score or grade')
         expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: efl_qualification.grade)
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Year completed')
-        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text:  efl_qualification.award_year)
+        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: efl_qualification.award_year)
       end
     end
   end

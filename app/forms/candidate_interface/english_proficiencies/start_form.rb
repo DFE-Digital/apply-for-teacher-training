@@ -37,11 +37,16 @@ module CandidateInterface
         self.qualification_statuses = qualification_statuses.compact_blank
       end
 
-      def fill(application_form)
+      def fill(application_form, english_proficiency = nil)
         self.application_form = application_form
-        self.qualification_statuses = (
-          application_form.english_proficiency || application_form.english_proficiencies.last
-        )&.qualification_statuses
+        editable_english_proficiency = if english_proficiency.present?
+                                         english_proficiency
+                                       elsif application_form.english_proficiency.present?
+                                         application_form.english_proficiency
+                                       else
+                                         application_form.english_proficiencies.last
+                                       end
+        self.qualification_statuses = editable_english_proficiency&.qualification_statuses
         self
       end
 

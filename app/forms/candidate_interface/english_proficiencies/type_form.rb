@@ -16,15 +16,15 @@ module CandidateInterface
 
       def fill(type = nil)
         self.type = if type.present?
-          type
-        else
-          efl_qualification_types = {
-            'IeltsQualification' => 'ielts',
-            'ToeflQualification' => 'toefl',
-            'OtherEflQualification' => 'other',
-          }
-          efl_qualification_types[english_proficiency.efl_qualification_type]
-        end
+                      type
+                    else
+                      efl_qualification_types = {
+                        'IeltsQualification' => 'ielts',
+                        'ToeflQualification' => 'toefl',
+                        'OtherEflQualification' => 'other',
+                      }
+                      efl_qualification_types[english_proficiency.efl_qualification_type]
+                    end
 
         self
       end
