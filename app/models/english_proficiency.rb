@@ -10,7 +10,10 @@ class EnglishProficiency < ApplicationRecord
     has_qualification: 'has_qualification',
     no_qualification: 'no_qualification',
     qualification_not_needed: 'qualification_not_needed',
+    degree_taught_in_english: 'degree_taught_in_english',
   }
+
+  scope :draft, -> { where(draft: true) }
 
   def formatted_qualification_description
     return if efl_qualification.blank?
@@ -21,5 +24,14 @@ class EnglishProficiency < ApplicationRecord
     reference = "Reference: #{efl_qualification.unique_reference_number}" if efl_qualification.unique_reference_number.present?
 
     [name, grade, award_year, reference].compact.join(', ')
+  end
+
+  def qualification_statuses
+    statuses = []
+    EnglishProficiency.qualification_statuses.each_key do |key|
+      statuses << key if try(key)
+    end
+
+    statuses
   end
 end

@@ -2,6 +2,11 @@ FactoryBot.define do
   factory :english_proficiency do
     application_form
     qualification_status { 'no_qualification' }
+    draft { false }
+
+    trait :draft do
+      draft { true }
+    end
 
     trait :no_qualification do
       qualification_status { 'no_qualification' }

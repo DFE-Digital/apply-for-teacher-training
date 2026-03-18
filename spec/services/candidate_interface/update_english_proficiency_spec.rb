@@ -61,6 +61,7 @@ RSpec.describe CandidateInterface::UpdateEnglishProficiency do
         expect(application_form.english_proficiency.no_qualification_details).to eq(
           'Waiting for my results.',
         )
+        expect(application_form.english_proficiency.draft).to be(false)
       end
 
       context 'when an EnglishProficiency record already exists' do
@@ -82,6 +83,7 @@ RSpec.describe CandidateInterface::UpdateEnglishProficiency do
           expect(EnglishProficiency.count).to eq 1
           expect(ToeflQualification.count).to eq 0
           expect(application_form.english_proficiency).to be_no_qualification
+          expect(application_form.english_proficiency.draft).to be(false)
         end
       end
     end
@@ -100,6 +102,7 @@ RSpec.describe CandidateInterface::UpdateEnglishProficiency do
 
         expect(application_form.english_proficiency).to be_qualification_not_needed
         expect(application_form.english_proficiency.no_qualification_details).to be_blank
+        expect(application_form.english_proficiency.draft).to be(false)
       end
 
       context 'when an EnglishProficiency record already exists' do
@@ -121,6 +124,7 @@ RSpec.describe CandidateInterface::UpdateEnglishProficiency do
           expect(EnglishProficiency.count).to eq 1
           expect(ToeflQualification.count).to eq 0
           expect(application_form.english_proficiency).to be_qualification_not_needed
+          expect(application_form.english_proficiency.draft).to be(false)
         end
       end
     end
