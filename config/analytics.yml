@@ -378,6 +378,11 @@ shared:
     - id
     - qualification_status
     - updated_at
+    - has_qualification
+    - no_qualification
+    - qualification_not_needed
+    - degree_taught_in_english
+    - draft
   field_test_events:
     - id
     - field_test_membership_id

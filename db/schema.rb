@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_09_111108) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_18_091333) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -642,10 +642,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_09_111108) do
     t.bigint "efl_qualification_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "qualification_status", null: false
+    t.string "qualification_status"
     t.text "no_qualification_details"
+    t.boolean "has_qualification", default: false, null: false
+    t.boolean "no_qualification", default: false, null: false
+    t.boolean "qualification_not_needed", default: false, null: false
+    t.boolean "degree_taught_in_english", default: false, null: false
+    t.boolean "draft", default: true, null: false
     t.index ["application_form_id"], name: "index_english_proficiencies_on_application_form_id"
+    t.index ["degree_taught_in_english"], name: "index_english_proficiencies_on_degree_taught_in_english"
+    t.index ["draft"], name: "index_english_proficiencies_on_draft"
     t.index ["efl_qualification_type", "efl_qualification_id"], name: "index_elp_on_efl_qualification_type_and_id"
+    t.index ["has_qualification"], name: "index_english_proficiencies_on_has_qualification"
+    t.index ["no_qualification"], name: "index_english_proficiencies_on_no_qualification"
+    t.index ["qualification_not_needed"], name: "index_english_proficiencies_on_qualification_not_needed"
   end
 
   create_table "features", force: :cascade do |t|
