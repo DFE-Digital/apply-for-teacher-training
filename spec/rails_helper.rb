@@ -92,6 +92,26 @@ RSpec::Matchers.define :have_csv_file_content do |filename, expected_content|
   end
 end
 
+RSpec::Matchers.define :contain_csv_file_content do |filename, csv_rows|
+  match do |zip_file|
+    csv_data = read_csv_from_zip(zip_file, filename).flatten
+    csv_rows.all? do |row|
+      csv_data.include?(row)
+    end
+  end
+
+  failure_message do |zip_file|
+    "Expected #{zip_file} to have CSV file #{filename} with content:\n#{csv_rows}\n\nbut found:\n#{read_csv_from_zip(zip_file, filename).flatten}"
+  end
+
+  def read_csv_from_zip(zip_file, filename)
+    Zip::File.open(zip_file) do |zip|
+      csv_data = zip.glob(filename).first.get_input_stream.read
+      CSV.parse(csv_data, headers: true).to_a
+    end
+  end
+end
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [Rails.root.join('spec/fixtures').to_s]
