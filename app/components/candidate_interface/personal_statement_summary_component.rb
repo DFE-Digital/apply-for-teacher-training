@@ -18,6 +18,8 @@ module CandidateInterface
       render(ReadMoreReadLessComponent.new(
                personal_statement,
                preview_word_count: MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT,
+               show_more_text: 'Show more',
+               show_less_text: 'Show less',
              ))
     end
   end
