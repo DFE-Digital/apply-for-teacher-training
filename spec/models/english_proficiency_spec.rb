@@ -16,12 +16,12 @@ RSpec.describe EnglishProficiency do
           no_qualification: 'no_qualification',
           qualification_not_needed: 'qualification_not_needed',
           degree_taught_in_english: 'degree_taught_in_english',
-          ).backed_by_column_of_type(:string),
-        )
+        ).backed_by_column_of_type(:string),
+      )
     }
   end
 
-  describe "scopes" do
+  describe 'scopes' do
     describe '.draft' do
       let(:published_english_proficiency) { create(:english_proficiency) }
       let(:draft_english_proficiency) { create(:english_proficiency, :draft) }
@@ -77,22 +77,22 @@ RSpec.describe EnglishProficiency do
         no_qualification:,
         degree_taught_in_english:,
         qualification_not_needed:,
-        )
+      )
     end
     let(:has_qualification) { true }
     let(:no_qualification) { false }
     let(:degree_taught_in_english) { true }
     let(:qualification_not_needed) { true }
 
-    context "when many qualifications statuses are true" do
+    context 'when many qualifications statuses are true' do
       it 'returns the true qualification status attributes as an array' do
         expect(
-          english_proficiency.qualification_statuses
+          english_proficiency.qualification_statuses,
         ).to contain_exactly('has_qualification', 'qualification_not_needed', 'degree_taught_in_english')
       end
     end
 
-    context "when one qualifications statuses are true" do
+    context 'when one qualifications statuses are true' do
       let(:has_qualification) { false }
       let(:no_qualification) { true }
       let(:degree_taught_in_english) { false }
@@ -100,7 +100,7 @@ RSpec.describe EnglishProficiency do
 
       it 'returns the true qualification status attribute as an array' do
         expect(
-          english_proficiency.qualification_statuses
+          english_proficiency.qualification_statuses,
         ).to contain_exactly('no_qualification')
       end
     end
