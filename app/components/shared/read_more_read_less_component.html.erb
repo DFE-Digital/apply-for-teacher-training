@@ -1,0 +1,42 @@
+<% if show_full_text? %>
+  <%= simple_format(full_text, class: 'govuk-body') %>
+<% else %>
+  <div class="app-read-more-read-less" data-controller="read-more-read-less">
+    <%= simple_format(
+          short_text,
+          {
+            class: 'govuk-body',
+            data: { read_more_read_less_target: 'shortText' },
+          },
+          { wrapper_tag: 'span' },
+        ) %>
+    <%= simple_format(
+          remaining_text,
+          {
+            class: 'govuk-body',
+            data: { read_more_read_less_target: 'remainingText' },
+          },
+          { wrapper_tag: 'span' },
+        ) %>
+    <%= govuk_link_to(
+          options[:show_more_text],
+          '#',
+          data: {
+            action: 'read-more-read-less#showMore',
+            read_more_read_less_target: 'moreLink',
+          },
+        ) %>
+    <%= govuk_link_to(
+          options[:show_less_text],
+          '#',
+          data: {
+            action: 'read-more-read-less#showLess',
+            read_more_read_less_target: 'lessLink',
+          },
+        ) %>
+  </div>
+<% end %>
+
+<noscript>
+  <%= simple_format(full_text, class: 'govuk-body') %>
+</noscript>

@@ -4,11 +4,11 @@ import $ from 'jquery'
 window.$ = $
 
 const filter = () => {
-  const main_content = document.querySelector('#main-content')
-  if (!main_content) {
+  const mainContent = document.querySelector('#main-content')
+  if (!mainContent) {
     return
   }
-  new FilterToggleButton(main_content, {
+  new FilterToggleButton(mainContent, {
     bigModeMediaQuery: '(min-width: 48.063em)',
     startHidden: false,
     toggleButton: {

@@ -10,16 +10,7 @@ class ProviderInterface::FindCandidates::PersonalStatementComponent < Applicatio
     @application_form = application_form
   end
 
-  def show_full_personal_statement?
-    true
-    # personal_statement.to_s.split.size <= MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT
-  end
-
-  def truncated_personal_statement
-    personal_statement.truncate_words(MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT)
-  end
-
-  def remaining_personal_statement_text
-    personal_statement[truncated_personal_statement.size..]
+  def call
+    render(ReadMoreReadLessComponent.new(personal_statement))
   end
 end
