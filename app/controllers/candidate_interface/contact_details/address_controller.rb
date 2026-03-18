@@ -27,6 +27,7 @@ module CandidateInterface
       @contact_details_form = ContactDetailsForm.build_from_application(current_application)
       @return_to = return_to_after_edit(default: candidate_interface_contact_information_review_path)
       @contact_details_form.assign_attributes(contact_details_params)
+      @address_same_as_nationality = address_same_as_nationality?
 
       if @contact_details_form.save_address(current_application)
         redirect_to @return_to[:back_path]
@@ -39,15 +40,24 @@ module CandidateInterface
   private
 
     def address_same_as_nationality?
-      nationality = current_application.first_nationality
       country = current_application.country
 
       record = CODES_AND_NATIONALITIES[country]
 
-      return false if nationality.blank?
+      return false if nationalities.empty?
       return false unless record
 
-      record == nationality
+      record.in?(nationalities)
+    end
+
+    def nationalities
+      [
+        current_application&.first_nationality,
+        current_application&.second_nationality,
+        current_application&.third_nationality,
+        current_application&.fourth_nationality,
+        current_application&.fifth_nationality,
+      ].compact_blank
     end
 
     def load_contact_form
