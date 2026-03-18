@@ -37,7 +37,7 @@ module CandidateInterface
         return_path = if params[:return_to] == 'review'
                         candidate_interface_english_proficiencies_review_path
                       else
-                        candidate_interface_english_proficiencies_type_path(english_proficiency)
+                        candidate_interface_english_proficiencies_type_path(english_proficiency, type: 'toefl')
                       end
         @return_to = return_to_after_edit(default: return_path)
       end

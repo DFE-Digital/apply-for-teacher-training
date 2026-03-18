@@ -9,7 +9,6 @@ module CandidateInterface
       end
 
       def complete
-        # @component_instance = ChooseEflReviewComponent.call(english_proficiency)
         @section_complete_form = SectionCompleteForm.new(completion_params)
         @return_to = return_to_after_edit(default: candidate_interface_details_path)
 

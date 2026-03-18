@@ -1,13 +1,13 @@
 module CandidateInterface
   module EnglishProficiencies
     class StartController < CandidateInterfaceController
+      before_action :set_return_to, only: [:edit, :update]
       def new
         @start_form = EnglishProficiencies::StartForm.new
       end
 
       def edit
         @start_form = EnglishProficiencies::StartForm.new.fill(current_application)
-        @return_to = return_to_after_edit(default: candidate_interface_english_proficiencies_review_path)
       end
 
       def create
@@ -22,7 +22,6 @@ module CandidateInterface
 
       def update
         @start_form = EnglishProficiencies::StartForm.new(start_params)
-        @return_to = return_to_after_edit(default: candidate_interface_english_proficiencies_review_path)
 
         if @start_form.save
           redirect_to @start_form.next_path
@@ -40,6 +39,21 @@ module CandidateInterface
          .permit(qualification_statuses: [])
          .merge(application_form: current_application)
          .merge(return_to: params[:'return-to'])
+      end
+
+      def set_return_to
+        return_path = if english_proficiency.draft
+                        application_form_path
+                      else
+                        candidate_interface_english_proficiencies_review_path
+                      end
+        @return_to = return_to_after_edit(default: return_path)
+      end
+
+      def english_proficiency
+        @english_proficiency ||= current_application
+                                   .english_proficiencies
+                                   .find(params[:english_proficiency_id])
       end
     end
   end

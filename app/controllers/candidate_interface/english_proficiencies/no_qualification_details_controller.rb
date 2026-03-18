@@ -40,8 +40,6 @@ module CandidateInterface
       def set_return_to
         return_path = if params[:return_to] == 'review'
                         candidate_interface_english_proficiencies_review_path
-                      elsif current_application.english_proficiency.blank?
-                        candidate_interface_english_proficiencies_start_path
                       else
                         candidate_interface_english_proficiencies_edit_start_path(english_proficiency)
                       end

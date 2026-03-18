@@ -12,7 +12,7 @@ module CandidateInterface
           {
             key: { text: 'Proving your level of English' },
             value: { text: english_proficiency_status },
-            actions: [{ href: candidate_interface_english_proficiencies_edit_start_path, visually_hidden_text: 'level of english' }],
+            actions: [{ href: candidate_interface_english_proficiencies_edit_start_path(english_proficiency), visually_hidden_text: 'level of english' }],
           },
         ].concat(no_qualification_details_rows)
          .concat(qualification_rows)

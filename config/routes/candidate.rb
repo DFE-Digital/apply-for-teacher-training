@@ -515,8 +515,8 @@ namespace :candidate_interface, path: '/candidate' do
     scope '/english-proficiencies' do
       get '/' => 'english_proficiencies/start#new', as: :english_proficiencies_start
       post '/' => 'english_proficiencies/start#create'
-      get '/edit' => 'english_proficiencies/start#edit', as: :english_proficiencies_edit_start
-      patch '/edit' => 'english_proficiencies/start#update'
+      get '/edit/:english_proficiency_id' => 'english_proficiencies/start#edit', as: :english_proficiencies_edit_start
+      patch '/edit/:english_proficiency_id' => 'english_proficiencies/start#update'
 
       get '/no-qualification-details/:english_proficiency_id' => 'english_proficiencies/no_qualification_details#new', as: :english_proficiencies_no_qualification_details
       patch '/no-qualification-details/:english_proficiency_id' => 'english_proficiencies/no_qualification_details#create'
