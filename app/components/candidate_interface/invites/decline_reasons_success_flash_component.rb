@@ -1,4 +1,4 @@
-class CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent < ViewComponent::Base
+class CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent < ApplicationComponent
   def initialize(invite:)
     @invite = invite
   end

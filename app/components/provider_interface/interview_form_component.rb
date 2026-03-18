@@ -1,5 +1,5 @@
 module ProviderInterface
-  class InterviewFormComponent < ViewComponent::Base
+  class InterviewFormComponent < ApplicationComponent
     attr_reader :application_choice, :form_model, :form_url, :form_heading, :form_method
 
     def initialize(application_choice:, form_model:, form_url:, form_heading:, form_method: :post)

@@ -11,11 +11,11 @@
       <% if recruitment_cycle_year == RecruitmentCycleTimetable.previous_year %>
         This table shows the number of candidates who have submitted one or more applications to <%= @provider.name %> in the <%= recruitment_cycle_year %> cycle.
       <% else %>
-        <%= t('.number_of_candidates_submitted', provider_name: @provider.name) %>
+        <%= t('shared.recruitment_performance_report.submitted_applications_table_component.number_of_candidates_submitted', provider_name: @provider.name) %>
       <% end %>
     </p>
     <p class="govuk-body">
-      <%= t('.candidates_who_withdrew') %>
+      <%= t('shared.recruitment_performance_report.submitted_applications_table_component.candidates_who_withdrew') %>
     </p>
   </span>
 <% end %>

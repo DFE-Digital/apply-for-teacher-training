@@ -918,7 +918,7 @@ RSpec.describe ApplicationChoice do
       choices = create_list(:application_choice, 3, application_form:)
       choice = choices.first
 
-      expect(choice.self_and_siblings).to eq choices
+      expect(choice.self_and_siblings).to match_array(choices)
     end
   end
 

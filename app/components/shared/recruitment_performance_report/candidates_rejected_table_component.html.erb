@@ -13,12 +13,12 @@
       </p>
     <% else %>
       <p class="govuk-body">
-        <%= t('.number_of_rejected_candidates', provider_name: @provider.name) %>
+        <%= t('shared.recruitment_performance_report.candidates_rejected_table_component.number_of_rejected_candidates', provider_name: @provider.name) %>
       </p>
     <% end %>
 
     <p class="govuk-body">
-      <%= t('.candidates_rejected_and_awaiting_decisions', provider_name: @provider.name) %>
+      <%= t('shared.recruitment_performance_report.candidates_rejected_table_component.candidates_rejected_and_awaiting_decisions', provider_name: @provider.name) %>
     </p>
   </span>
 <% end %>

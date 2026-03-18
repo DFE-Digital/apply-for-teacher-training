@@ -1,4 +1,4 @@
-class ProviderInterface::FindCandidates::OtherQualificationsComponent < ViewComponent::Base
+class ProviderInterface::FindCandidates::OtherQualificationsComponent < ApplicationComponent
   attr_accessor :application_form
   def initialize(application_form)
     @application_form = application_form

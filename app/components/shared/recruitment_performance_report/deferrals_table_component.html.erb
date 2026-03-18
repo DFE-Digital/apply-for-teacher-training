@@ -1,6 +1,6 @@
 <div class="govuk-grid-column-two-thirds">
   <h2 class="govuk-heading-m" id="candidate_deferrals">
-    <%= t('.caption') %>
+    <%= t('shared.recruitment_performance_report.deferrals_table_component.caption') %>
   </h2>
   <% if @recruitment_cycle_year == RecruitmentCycleTimetable.previous_year %>
     <p class="govuk-body">
@@ -10,8 +10,8 @@
       This table includes candidates who have received an offer in the <%= @recruitment_cycle_year %> cycle but deferred it to the next cycle, excluding offers for withdrawn applications. Offers that were deferred and then withdrawn are not included. Candidates who deferred again to the next cycle after that, are included in the cycle they first deferred in.
     </p>
   <% else %>
-    <p class="govuk-body"><%= t('.deferred_offers_this_cycle', provider_name:) %></p>
-    <p class="govuk-body"><%= t('.deferred_to_the_next_cycle') %></p>
+    <p class="govuk-body"><%= t('shared.recruitment_performance_report.deferrals_table_component.deferred_offers_this_cycle', provider_name:) %></p>
+    <p class="govuk-body"><%= t('shared.recruitment_performance_report.deferrals_table_component.deferred_to_the_next_cycle') %></p>
   <% end %>
 
   <% if deferral_rows.empty? %>
@@ -19,11 +19,11 @@
   <% else %>
     <div class="recruitment-performance-report-table__wrapper">
       <%= govuk_table do |table| %>
-        <%= table.with_caption(text: t('.caption'),
+        <%= table.with_caption(text: t('shared.recruitment_performance_report.deferrals_table_component.caption'),
                                html_attributes: { class: 'govuk-visually-hidden' }) %>
         <%= table.with_head do |head| %>
           <%= head.with_row do |row| %>
-            <%= row.with_cell(text: t('.deferrals'),
+            <%= row.with_cell(text: t('shared.recruitment_performance_report.deferrals_table_component.deferrals'),
                               html_attributes: { class: 'recruitment-performance-report-table__subheading' }) %>
             <%= row.with_cell(text: provider_name, numeric: true,
                               html_attributes: { class: 'recruitment-performance-report-table__subheading' }) %>

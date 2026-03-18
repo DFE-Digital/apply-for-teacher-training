@@ -1,5 +1,5 @@
 module SupportInterface
-  class ServiceBannerConfigurationComponent < ViewComponent::Base
+  class ServiceBannerConfigurationComponent < ApplicationComponent
     attr_reader :interface
 
     def initialize(interface:)

@@ -1,4 +1,4 @@
-class CollectionSelectComponent < ViewComponent::Base
+class CollectionSelectComponent < ApplicationComponent
   include ViewHelper
 
   attr_reader :attribute, :collection, :bold_labels,

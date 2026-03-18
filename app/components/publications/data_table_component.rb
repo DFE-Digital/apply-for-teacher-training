@@ -1,5 +1,5 @@
 module Publications
-  class DataTableComponent < ViewComponent::Base
+  class DataTableComponent < ApplicationComponent
     attr_reader :caption, :title, :data
 
     def initialize(caption:, title:, data:, key: title)

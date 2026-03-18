@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ConditionStatusTagComponent < ViewComponent::Base
+  class ConditionStatusTagComponent < ApplicationComponent
     attr_reader :condition
 
     def initialize(condition)

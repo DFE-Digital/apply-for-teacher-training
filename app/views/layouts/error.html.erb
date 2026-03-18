@@ -10,21 +10,22 @@
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="<%= image_path('rebrand/images/favicon.ico') %>" type="image/x-icon">
-    <link rel="mask-icon" href="<%= image_path('rebrand/images/govuk-icon-mask.svg') %>" color="#0b0c0c">
-    <link rel="apple-touch-icon" href="<%= image_path('rebrand/images/govuk-icon-180.png') %>">
+    <link rel="icon" sizes="48x48" href="/assets/images/favicon.ico">
+    <link rel="icon" sizes="48x48" href="/assets/images/favicon.ico">
+    <link rel="icon" sizes="any" href="/assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="mask-icon" href="/assets/images/govuk-icon-mask.svg" color="#1d70b8">
+    <link rel="apple-touch-icon" href="/assets/images/govuk-icon-180.png">
 
-    <meta property="og:image" content="<%= image_path('rebrand/images/govuk-opengraph-image.png') %>">
+    <meta property="og:image" content="https://www.apply-for-teacher-training.service.gov.uk/assets/images/govuk-opengraph-image.png">
     <%= stylesheet_link_tag 'application', media: 'all' %>
   </head>
 
   <body class="govuk-template__body">
-    <%= render(HeaderComponent.new(
-      classes: "app-header--#{HostingEnvironment.environment_name}",
-      service_name: t('service_name.apply'),
-      service_link: '#',
-    )) %>
+    <%= govuk_header(classes: "app-header--#{HostingEnvironment.environment_name}") do |header| %>
+      <% header.with_service_navigation(service_name: t('service_name.apply')) %>
+    <% end %>
     <%= render PhaseBannerComponent.new %>
+
     <div class="govuk-width-container">
       <main class="govuk-main-wrapper" id="main-content" role="main">
         <%= yield %>

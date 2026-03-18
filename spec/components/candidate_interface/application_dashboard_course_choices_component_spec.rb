@@ -147,13 +147,25 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
       rendered_component = render_inline(
         described_class.new(application_form:, editable: false, show_status: true),
       )
-      expect(rendered_component).to summarise(
-        key: 'Status',
-        value: "Offer received What to do if you are unable to start training in #{application_choice.course_option.course.start_date.to_fs(:month_and_year)} You can defer your offer and start your course a year later. Contact #{application_choice.course_option.course.provider.name} to ask if it is possible to defer, this will not affect your existing offer. If your provider agrees, you will need to accept the offer first.",
+      expect(rendered_component).to have_element(
+        :dt,
+        text: 'Status',
+        class: 'govuk-summary-list__key',
       )
-      expect(rendered_component).to summarise(
-        key: 'Conditions',
-        value: 'DBS check Get a haircut Contact the provider to find out more about these conditions. They’ll confirm your place once you have met the conditions and they’ve checked your references.',
+      expect(rendered_component).to have_element(
+        :dd,
+        text: "Offer received What to do if you are unable to start training in #{application_choice.course_option.course.start_date.to_fs(:month_and_year)} You can defer your offer and start your course a year later. Contact #{application_choice.course_option.course.provider.name} to ask if it is possible to defer, this will not affect your existing offer. If your provider agrees, you will need to accept the offer first.",
+        class: 'govuk-summary-list__value',
+      )
+      expect(rendered_component).to have_element(
+        :dt,
+        text: 'Conditions',
+        class: 'govuk-summary-list__key',
+      )
+      expect(rendered_component).to have_element(
+        :dd,
+        text: 'DBS check Get a haircut Contact the provider to find out more about these conditions. They’ll confirm your place once you have met the conditions and they’ve checked your references.',
+        class: 'govuk-summary-list__value',
       )
     end
 
@@ -167,9 +179,15 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
           show_status: true,
         ),
       )
-      expect(rendered_component).to summarise(
-        key: 'Conditions',
-        value: 'Contact the provider to find out more about any conditions. They’ll confirm your place once you have met any conditions and they’ve checked your references.',
+      expect(rendered_component).to have_element(
+        :dt,
+        text: 'Conditions',
+        class: 'govuk-summary-list__key',
+      )
+      expect(rendered_component).to have_element(
+        :dd,
+        text: 'Contact the provider to find out more about any conditions. They’ll confirm your place once you have met any conditions and they’ve checked your references.',
+        class: 'govuk-summary-list__value',
       )
     end
 

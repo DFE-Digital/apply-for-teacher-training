@@ -1,5 +1,5 @@
 module RefereeInterface
-  class FeedbackHintsComponent < ViewComponent::Base
+  class FeedbackHintsComponent < ApplicationComponent
     attr_reader :reference, :referee_type, :application
 
     def initialize(reference:)

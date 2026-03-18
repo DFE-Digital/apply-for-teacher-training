@@ -1,5 +1,5 @@
 module ProviderInterface
-  class MakeOfferComponent < ViewComponent::Base
+  class MakeOfferComponent < ApplicationComponent
     include ViewHelper
     include QualificationValueHelper
 

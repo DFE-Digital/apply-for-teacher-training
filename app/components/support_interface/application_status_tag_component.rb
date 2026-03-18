@@ -1,5 +1,5 @@
 module SupportInterface
-  class ApplicationStatusTagComponent < ViewComponent::Base
+  class ApplicationStatusTagComponent < ApplicationComponent
     def initialize(application_choice:)
       @status = application_choice.status
       @supplementary_statuses =
@@ -17,7 +17,7 @@ module SupportInterface
       when 'awaiting_provider_decision', 'interviewing', 'offer_deferred', 'inactive'
         'yellow'
       when 'offer'
-        'turquoise'
+        'teal'
       when 'pending_conditions'
         'blue'
       when 'recruited'

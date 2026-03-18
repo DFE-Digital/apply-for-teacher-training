@@ -41,9 +41,9 @@ RSpec.describe TaskListItemComponent do
     end
 
     it 'renders custom colors' do
-      result = render_component(completed: false, custom_status: 'In progress', custom_color: 'pink')
+      result = render_component(completed: false, custom_status: 'In progress', custom_color: 'magenta')
       expect(result.css('#personal-details-badge-id').text).to include('In progress')
-      expect(result.css('#personal-details-badge-id').first[:class]).to include('govuk-tag--pink')
+      expect(result.css('#personal-details-badge-id').first[:class]).to include('govuk-tag--magenta')
     end
   end
 end

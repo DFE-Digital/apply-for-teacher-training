@@ -1,5 +1,5 @@
 module SupportInterface
-  class ContactInformationComponent < ViewComponent::Base
+  class ContactInformationComponent < ApplicationComponent
     MISSING = '<em>Not provided</em>'.html_safe
 
     delegate :phone_number,

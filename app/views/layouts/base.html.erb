@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="govuk-template govuk-template--rebranded">
+<html lang="en" class="govuk-template">
   <head>
     <%= render 'shared/analytics' if @google_analytics_id.present? %>
     <%= render 'shared/tag_manager' if @google_tag_manager_id.present? %>
@@ -14,11 +14,11 @@
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="<%= image_path('rebrand/images/favicon.ico') %>" type="image/x-icon">
-    <link rel="mask-icon" href="<%= image_path('rebrand/images/govuk-icon-mask.svg') %>" color="#0b0c0c">
-    <link rel="apple-touch-icon" href="<%= image_path('rebrand/images/govuk-icon-180.png') %>">
+    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="<%= image_path('images/favicon.ico') %>" type="image/x-icon">
+    <link rel="mask-icon" href="<%= image_path('images/govuk-icon-mask.svg') %>" color="#0b0c0c">
+    <link rel="apple-touch-icon" href="<%= image_path('images/govuk-icon-180.png') %>">
 
-    <meta property="og:image" content="<%= image_path('rebrand/images/govuk-opengraph-image.png') %>">
+    <meta property="og:image" content="https://www.apply-for-teacher-training.service.gov.uk/assets/images/govuk-opengraph-image.png">
 
     <% case try(:current_namespace) %>
     <% when 'candidate_interface' %>

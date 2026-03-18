@@ -1,5 +1,5 @@
 module SupportInterface
-  class EmailLogRowComponent < ViewComponent::Base
+  class EmailLogRowComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :email
@@ -33,7 +33,7 @@ module SupportInterface
         delivered: 'green',
         notify_error: 'red',
         permanent_failure: 'red',
-        temporary_failure: 'pink',
+        temporary_failure: 'magenta',
         technical_failure: 'orange',
       }[email.delivery_status.to_sym]
 

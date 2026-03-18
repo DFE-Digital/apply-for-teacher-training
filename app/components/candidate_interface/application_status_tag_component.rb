@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ApplicationStatusTagComponent < ViewComponent::Base
+  class ApplicationStatusTagComponent < ApplicationComponent
     delegate :status, to: :application_choice
 
     def initialize(application_choice:, display_info_text: true)
@@ -23,7 +23,7 @@ module CandidateInterface
       when 'offer', 'pending_conditions', 'recruited'
         'green'
       when 'offer_withdrawn'
-        'pink'
+        'magenta'
       when 'offer_deferred', 'interviewing', 'inactive'
         'yellow'
       when 'withdrawn', 'application_not_sent', 'rejected'

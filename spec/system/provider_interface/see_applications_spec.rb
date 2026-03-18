@@ -54,7 +54,7 @@ RSpec.describe 'See applications' do
 
   def and_i_see_the_applications_menu_item_highlighted
     link = page.find_link('Applications', class: 'govuk-service-navigation__link')
-    expect(link['aria-current']).to eq('page')
+    expect(link['aria-current']).to eq('true')
   end
 
   def when_i_click_on_an_application

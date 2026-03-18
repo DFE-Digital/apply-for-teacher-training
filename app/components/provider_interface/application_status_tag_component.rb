@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ApplicationStatusTagComponent < ViewComponent::Base
+  class ApplicationStatusTagComponent < ApplicationComponent
     delegate :status, to: :application_choice
 
     def initialize(application_choice:)
@@ -20,7 +20,7 @@ module ProviderInterface
       when 'interviewing', 'offer_deferred'
         'yellow'
       when 'offer'
-        'turquoise'
+        'teal'
       when 'pending_conditions'
         'blue'
       when 'recruited'

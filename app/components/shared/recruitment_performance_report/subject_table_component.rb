@@ -1,5 +1,5 @@
 module RecruitmentPerformanceReport
-  class SubjectTableComponent < ViewComponent::Base
+  class SubjectTableComponent < ApplicationComponent
     attr_reader :provider, :table_caption, :summary_row, :subject_rows, :region,
                 :recruitment_cycle_year
 

@@ -1,4 +1,4 @@
-class CandidateInterface::PendingGcseRequiredComponent < ViewComponent::Base
+class CandidateInterface::PendingGcseRequiredComponent < ApplicationComponent
   attr_accessor :application_choice, :pending_uk_gcses
 
   def initialize(application_choice, pending_uk_gcses)

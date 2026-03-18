@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ApplicationFeedbackComponent < ViewComponent::Base
+  class ApplicationFeedbackComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :path, :page_title

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class TabsComponent < ViewComponent::Base
+  class TabsComponent < ApplicationComponent
     attr_reader :tabs
 
     def initialize(tabs:)

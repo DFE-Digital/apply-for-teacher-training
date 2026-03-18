@@ -1,4 +1,4 @@
-class RejectionReasons::FormattedTextComponent < ViewComponent::Base
+class RejectionReasons::FormattedTextComponent < ApplicationComponent
   include ViewHelper
 
   def initialize(application_choice:)

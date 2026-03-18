@@ -25,7 +25,9 @@ private
   end
 
   def and_i_visit_the_candidate_account_page
-    click_on 'GOV.UK'
+    within '.govuk-service-navigation__service-name' do
+      click_on 'Apply for teacher training'
+    end
   end
 
   def then_i_am_redirected_back_to_account_details

@@ -1,4 +1,4 @@
-class PreviousTeacherTraining::StartedDeclarationComponent < ViewComponent::Base
+class PreviousTeacherTraining::StartedDeclarationComponent < ApplicationComponent
   include ViewHelper
 
   attr_reader :application_form, :actions

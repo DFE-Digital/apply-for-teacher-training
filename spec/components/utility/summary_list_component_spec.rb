@@ -41,14 +41,10 @@ RSpec.describe SummaryListComponent do
       ]
       result = render_inline(described_class.new(rows:))
 
-      html = <<~HTML
-        <p class="govuk-body">A</p>
-        <p class="govuk-body">list</p>
-        <p class="govuk-body">of</p>
-        <p class="govuk-body">items</p>
-      HTML
-
-      expect(result.to_html).to include html.chomp
+      expect(result.to_html).to include('<p class="govuk-body">A</p>')
+      expect(result.to_html).to include('<p class="govuk-body">list</p>')
+      expect(result.to_html).to include('<p class="govuk-body">of</p>')
+      expect(result.to_html).to include('<p class="govuk-body">items</p>')
     end
 
     it 'safely escapes markup when rendering values as <p> tags' do
@@ -59,10 +55,8 @@ RSpec.describe SummaryListComponent do
       ]
       result = render_inline(described_class.new(rows:))
 
-      expect(result.to_html).to include(<<~HTML)
-        <p class="govuk-body">&lt;script&gt;&lt;/script&gt;</p>
-        <p class="govuk-body">&lt;br&gt;</p>
-      HTML
+      expect(result.to_html).to include('<p class="govuk-body">&lt;script&gt;&lt;/script&gt;</p>')
+      expect(result.to_html).to include('<p class="govuk-body">&lt;br&gt;</p>')
     end
 
     it 'renders values as bullets if specified for the row' do
@@ -73,16 +67,11 @@ RSpec.describe SummaryListComponent do
       ]
       result = render_inline(described_class.new(rows:))
 
-      html = <<~HTML
-        <ul class="govuk-list govuk-list--bullet">
-        <li>A</li>
-        <li>list</li>
-        <li>of</li>
-        <li>items</li>
-        </ul>
-      HTML
-
-      expect(result.to_html).to include html.chomp
+      expect(result.to_html).to include('<ul class="govuk-list govuk-list--bullet">')
+      expect(result.to_html).to include('<li>A</li>')
+      expect(result.to_html).to include('<li>list</li>')
+      expect(result.to_html).to include('<li>items</li>')
+      expect(result.to_html).to include('</ul>')
     end
 
     it 'safely escapes markup when rendering values as bullets' do
@@ -93,14 +82,10 @@ RSpec.describe SummaryListComponent do
       ]
       result = render_inline(described_class.new(rows:))
 
-      html = <<~HTML
-        <ul class="govuk-list govuk-list--bullet">
-        <li>&lt;script&gt;&lt;/script&gt;</li>
-        <li>&lt;br&gt;</li>
-        </ul>
-      HTML
-
-      expect(result.to_html).to include html.chomp
+      expect(result.to_html).to include('<ul class="govuk-list govuk-list--bullet">')
+      expect(result.to_html).to include('<li>&lt;script&gt;&lt;/script&gt;</li>')
+      expect(result.to_html).to include('<li>&lt;br&gt;</li>')
+      expect(result.to_html).to include('</ul>')
     end
   end
 

@@ -1,4 +1,4 @@
-class ProviderInterface::CandidateInvitedBannerComponent < ViewComponent::Base
+class ProviderInterface::CandidateInvitedBannerComponent < ApplicationComponent
   delegate :course, to: :matching_invite
 
   def initialize(application_choice:, current_provider_user:)

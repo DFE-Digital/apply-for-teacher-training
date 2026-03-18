@@ -1,5 +1,5 @@
 module SupportInterface
-  class InterviewDetailsComponent < ViewComponent::Base
+  class InterviewDetailsComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :interview

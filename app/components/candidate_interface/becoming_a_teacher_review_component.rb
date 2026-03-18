@@ -1,5 +1,5 @@
 module CandidateInterface
-  class BecomingATeacherReviewComponent < ViewComponent::Base
+  class BecomingATeacherReviewComponent < ApplicationComponent
     def initialize(application_form:, editable: true, missing_error: false, submitting_application: false, return_to_application_review: false)
       @application_form = application_form
       @becoming_a_teacher_form = CandidateInterface::BecomingATeacherForm.build_from_application(

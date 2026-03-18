@@ -1,5 +1,5 @@
 module ProviderInterface
-  class SafeguardingDeclarationComponent < ViewComponent::Base
+  class SafeguardingDeclarationComponent < ApplicationComponent
     include ViewHelper
 
     attr_reader :application_choice, :current_provider_user

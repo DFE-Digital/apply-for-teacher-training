@@ -1,4 +1,4 @@
-class IconComponent < ViewComponent::Base
+class IconComponent < ApplicationComponent
   include ViewHelper
 
   attr_reader :type

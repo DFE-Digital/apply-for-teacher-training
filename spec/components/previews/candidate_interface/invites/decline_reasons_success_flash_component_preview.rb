@@ -1,6 +1,4 @@
 class CandidateInterface::Invites::DeclineReasonsSuccessFlashComponentPreview < ViewComponent::Preview
-  include ViewComponent::TestHelpers
-
   def default
     invite = FactoryBot.build_stubbed(:pool_invite)
 
