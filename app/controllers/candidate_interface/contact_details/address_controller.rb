@@ -38,6 +38,18 @@ module CandidateInterface
 
   private
 
+    def address_same_as_nationality?
+      nationality = current_application.first_nationality
+      country = current_application.country
+
+      record = CODES_AND_NATIONALITIES[country]
+
+      return false if nationality.blank?
+      return false unless record
+
+      record == nationality
+    end
+
     def load_contact_form
       ContactDetailsForm.build_from_application(current_application)
     end
