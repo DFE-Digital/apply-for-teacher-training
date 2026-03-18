@@ -38,6 +38,13 @@ en:
       country:
         label: Which country or territory?
         default_option: Select a country or territory
+      residency:
+        new:
+          legend: Have you lived in %{country} since birth?
+          hint: You can ignore short absences such as holidays, education, employment or a gap year.
+        edit:
+          legend: Have you lived in %{country} since birth?
+          hint: You can ignore short absences such as holidays, education, employment or a gap year.
 
   activemodel:
     errors:

@@ -6,7 +6,6 @@ module CandidateInterface
 
     def edit
       @contact_details_form = load_contact_form
-      @return_to = return_to_after_edit(default: candidate_interface_contact_information_review_path)
     end
 
     def create
@@ -16,7 +15,8 @@ module CandidateInterface
       @contact_details_form.assign_attributes(contact_details_params)
 
       if @contact_details_form.save_address(current_application)
-        redirect_to candidate_interface_contact_information_review_path
+        path = address_same_as_nationality? ? candidate_interface_new_residency_path : candidate_interface_new_residency_dates_path
+        redirect_to path
       else
         track_validation_error(@contact_details_form)
         render :new
@@ -25,12 +25,11 @@ module CandidateInterface
 
     def update
       @contact_details_form = ContactDetailsForm.build_from_application(current_application)
-      @return_to = return_to_after_edit(default: candidate_interface_contact_information_review_path)
       @contact_details_form.assign_attributes(contact_details_params)
-      @address_same_as_nationality = address_same_as_nationality?
 
       if @contact_details_form.save_address(current_application)
-        redirect_to @return_to[:back_path]
+        path = address_same_as_nationality? ? candidate_interface_edit_residency_path : candidate_interface_edit_residency_dates_path
+        redirect_to path
       else
         track_validation_error(@contact_details_form)
         render :edit
@@ -40,15 +39,16 @@ module CandidateInterface
   private
 
     def address_same_as_nationality?
-      country = current_application.country
+      country_of_residence = current_application.country
 
-      record = CODES_AND_NATIONALITIES[country]
+      record = CODES_AND_NATIONALITIES[country_of_residence]
 
       return false if nationalities.empty?
       return false unless record
 
       record.in?(nationalities)
     end
+    # TODO: include person with British nationality living in list of UK islands/BOTs in British journey
 
     def nationalities
       [

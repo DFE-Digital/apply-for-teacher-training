@@ -228,6 +228,16 @@ namespace :candidate_interface, path: '/candidate' do
       get '/address/edit' => 'contact_details/address#edit', as: :edit_address
       patch '/address/edit' => 'contact_details/address#update'
 
+      get '/residency' => 'contact_details/residency#new', as: :new_residency
+      post '/residency' => 'contact_details/residency#create'
+      get '/residency/edit' => 'contact_details/residency#edit', as: :edit_residency
+      patch '/residency/edit' => 'contact_details/residency#update'
+
+      get '/residency_dates' => 'contact_details/residency_dates#new', as: :new_residency_dates
+      post '/residency_dates' => 'contact_details/residency_dates#create'
+      get '/residency_dates/edit' => 'contact_details/residency_dates#edit', as: :edit_residency_dates
+      patch '/residency_dates/edit' => 'contact_details/residency_dates#update'
+
       get '/review' => 'contact_details/review#show', as: :contact_information_review
       patch '/complete' => 'contact_details/review#complete', as: :contact_information_complete
     end
