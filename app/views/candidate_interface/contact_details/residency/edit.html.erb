@@ -6,9 +6,9 @@
     <%= form_with(model: @residency_form, url: candidate_interface_residency_edit_path, method: :patch) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset(:have_you_always_lived_there, legend: { size: 'l', tag: 'h1', text: t('application_form.contact_details.residency.edit.legend', country: @country_of_residence) }, hint: { text: t('application_form.contact_details.residency.edit.hint') }) do %>
-        <%= f.govuk_radio_button :have_you_always_lived_there, 'yes', label: { text: 'Yes' }, link_errors: true %>
-        <%= f.govuk_radio_button :have_you_always_lived_there, 'no', label: { text: 'No' } %>
+      <%= f.govuk_radio_buttons_fieldset(:since_birth, legend: { size: 'l', tag: 'h1', text: t('application_form.contact_details.residency.edit.legend', country: @country_of_residence) }, hint: { text: t('application_form.contact_details.residency.edit.hint') }) do %>
+        <%= f.govuk_radio_button :since_birth, 'yes', label: { text: 'Yes' }, link_errors: true %>
+        <%= f.govuk_radio_button :since_birth, 'no', label: { text: 'No' } %>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>
