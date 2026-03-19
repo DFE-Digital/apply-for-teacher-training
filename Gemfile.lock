@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: 31c25462e5fa824c1e75a1099c06e0676724731c
-  tag: v1.15.14
+  revision: b8dd37585c87f52e2f107a70fe94afbd331c0788
+  tag: v1.15.15
   specs:
-    dfe-analytics (1.15.14)
+    dfe-analytics (1.15.15)
       google-cloud-bigquery (~> 1.38)
       httparty (~> 0.24)
       multi_xml (~> 0.6.0)
@@ -275,7 +275,7 @@ GEM
       railties (>= 5.0.0)
     faker (2.22.0)
       i18n (>= 1.8.11, < 2)
-    faraday (2.14.0)
+    faraday (2.14.1)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
@@ -312,7 +312,7 @@ GEM
       csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-apis-bigquery_v2 (0.97.0)
+    google-apis-bigquery_v2 (0.99.0)
       google-apis-core (>= 0.15.0, < 2.a)
     google-apis-core (1.0.2)
       addressable (~> 2.8, >= 2.8.7)
@@ -338,7 +338,7 @@ GEM
       faraday (>= 1.0, < 3.a)
     google-cloud-errors (1.5.0)
     google-logging-utils (0.2.0)
-    googleauth (1.16.1)
+    googleauth (1.16.2)
       faraday (>= 1.0, < 3.a)
       google-cloud-env (~> 2.2)
       google-logging-utils (~> 0.1)
@@ -403,7 +403,7 @@ GEM
       reline (>= 0.4.2)
     jsbundling-rails (1.3.1)
       railties (>= 6.0.0)
-    json (2.18.0)
+    json (2.19.2)
     json-jwt (1.17.0)
       activesupport (>= 4.2)
       aes_key_wrap
@@ -653,7 +653,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    retriable (3.1.2)
+    retriable (3.4.1)
     rexml (3.4.4)
     rice (4.5.0)
     rouge (4.6.1)
@@ -1046,7 +1046,7 @@ CHECKSUMS
   declarative (0.0.20) sha256=8021dd6cb17ab2b61233c56903d3f5a259c5cf43c80ff332d447d395b17d9ff9
   deepsort (0.5.0) sha256=8db57207449e54d693e250bc3d62c2e92724602b0f4d680fa846021934f6419f
   devise (4.9.4) sha256=920042fe5e704c548aa4eb65ebdd65980b83ffae67feb32c697206bfd975a7f8
-  dfe-analytics (1.15.14)
+  dfe-analytics (1.15.15)
   dfe-autocomplete (0.2.1)
   dfe-reference-data (3.8.6)
   dfe-wizard (0.1.0)
@@ -1066,7 +1066,7 @@ CHECKSUMS
   factory_bot (6.4.6) sha256=1a9486ce98d318d740d8f5804b885a8265a28f326ecf2bcd4ce9fb27a71a6e04
   factory_bot_rails (6.4.3) sha256=ea73ceac1c0ff3dc11fff390bf2ea8a2604066525ed8ecd3b3bc2c267226dcc8
   faker (2.22.0) sha256=6525d450cf5bb98ddeeb8bdd235bd2323f4fab829f491855397fb79f72ba48d9
-  faraday (2.14.0) sha256=8699cfe5d97e55268f2596f9a9d5a43736808a943714e3d9a53e6110593941cd
+  faraday (2.14.1) sha256=a43cceedc1e39d188f4d2cdd360a8aaa6a11da0c407052e426ba8d3fb42ef61c
   faraday-encoding (0.0.6) sha256=d7b9216c8ce26d0deb96c865524fd9d6cbe27a9f884b75697c87110196274654
   faraday-follow_redirects (0.5.0) sha256=5cde93c894b30943a5d2b93c2fe9284216a6b756f7af406a1e55f211d97d10ad
   faraday-gzip (2.0.1) sha256=45d686da637e5812854635f93dff343165a765faff1d7176b714e19a74fa92d1
@@ -1083,14 +1083,14 @@ CHECKSUMS
   get_into_teaching_api_client (4.3.7.2)
   get_into_teaching_api_client_faraday (4.3.7.2)
   globalid (1.2.1) sha256=70bf76711871f843dbba72beb8613229a49429d1866828476f9c9d6ccc327ce9
-  google-apis-bigquery_v2 (0.97.0) sha256=065b8cf46ee85bcbd29bd92510bff4a7cc1b99f65c4e6ad5b80208d708031e95
+  google-apis-bigquery_v2 (0.99.0) sha256=09692637c3e5201985c9b97136940c754a91d625e5e8efc25c4b8d6b34974fdc
   google-apis-core (1.0.2) sha256=ba4579aaadc902d6cc7bc8db88f566ab00f5e31ea87ab41e9f9a032c470f2629
   google-cloud-bigquery (1.62.0) sha256=ec47296f978acae7eb7df70b09bda152e7e4d45fe87c07413abc6f72f0cf0e65
   google-cloud-core (1.8.0) sha256=e572edcbf189cfcab16590628a516cec3f4f63454b730e59f0b36575120281cf
   google-cloud-env (2.3.1) sha256=0faac01eb27be78c2591d64433663b1a114f8f7af55a4f819755426cac9178e7
   google-cloud-errors (1.5.0) sha256=b56be28b8c10628125214dde571b925cfcebdbc58619e598250c37a2114f7b4b
   google-logging-utils (0.2.0) sha256=675462b4ea5affa825a3442694ca2d75d0069455a1d0956127207498fca3df7b
-  googleauth (1.16.1) sha256=36776bce9d55d8c1a0c6638c939b000dcee5954ca5b728f06ec4c2df4a46709c
+  googleauth (1.16.2) sha256=15009502e2e38af71948cda918f230e27d327f6882a1e47967a5a4664930a638
   govuk-components (6.0.0) sha256=38feaed165ea2afe4c6f9f68bfcdfdb56426be133d2402912817e21830cbce81
   govuk_design_system_formbuilder (5.13.0) sha256=126ff4af70b36f06395e8f4f09d399944bcc10e9a41c2ff7d7773e81e92ca885
   govuk_markdown (2.0.3) sha256=30fc99b502d96cf81751cbfc115e3717f8252940735dc40ee6dc83b454b1b35e
@@ -1112,7 +1112,7 @@ CHECKSUMS
   io-like (0.4.0) sha256=808994312907b3d59c548e75215183ccd950e63101ad08800c4df4188a2a0211
   irb (1.17.0) sha256=168c4ddb93d8a361a045c41d92b2952c7a118fa73f23fe14e55609eb7a863aae
   jsbundling-rails (1.3.1) sha256=0fa03f6d051c694cbf55a022d8be53399879f2c4cf38b2968f86379c62b1c2ca
-  json (2.18.0) sha256=b10506aee4183f5cf49e0efc48073d7b75843ce3782c68dbeb763351c08fd505
+  json (2.19.2) sha256=e7e1bd318b2c37c4ceee2444841c86539bc462e81f40d134cf97826cb14e83cf
   json-jwt (1.17.0) sha256=6ff99026b4c54281a9431179f76ceb81faa14772d710ef6169785199caadc4cc
   json-schema (6.2.0) sha256=e8bff46ed845a22c1ab2bd0d7eccf831c01fe23bb3920caa4c74db4306813666
   json_api_client (1.23.0) sha256=6a9cf48b5ae840adf8e5eda757dcba31e96f79cfa37d6f72051c518a33d4f5db
@@ -1209,7 +1209,7 @@ CHECKSUMS
   request_store-sidekiq (0.1.0) sha256=058ecc01b8dc36ca8700c4bb20bb58b17eeb3ab9b6faa582abd59d2626e630e0
   request_store_rails (2.0.0) sha256=2dbae9fb29de6bd8bf3cbd44fbef4ee49b71c849f8ccf235cba3e8b491701d2f
   responders (3.1.1) sha256=92f2a87e09028347368639cfb468f5fefa745cb0dc2377ef060db1cdd79a341a
-  retriable (3.1.2) sha256=0a5a5d0ca4ba61a76fb31a17ab8f7f80281beb040c329d34dfc137a1398688e0
+  retriable (3.4.1) sha256=fb3f114b7d492121c158c01f3d5152b5a615c5b70d5877d0bc08c7ec3725c3bc
   rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142
   rice (4.5.0) sha256=2d4481793f05432f0c1c3fdecb303f2b64416817d4886fa261dc9c81c9fe8f3a
   rouge (4.6.1) sha256=5075346d5797d6864be93f7adc75a16047a7dbfa572c63c502419ffa582c77de
