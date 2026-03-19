@@ -18,6 +18,10 @@ RSpec.describe 'Candidate enters their english proficiency as English is my firs
     when_i_click_on_english_as_a_foreign_language
     then_i_see_the_proving_your_level_of_english_page
 
+    when_i_click_on_continue
+    then_i_see_the_proving_your_level_of_english_page
+    and_i_see_validation_errors_for_not_selecting_a_level_of_english
+
     when_i_select_english_is_my_first_language
     and_i_click_on_continue
     then_i_see_the_review_page
@@ -59,6 +63,7 @@ private
   def and_i_click_on_continue
     click_on 'Continue'
   end
+  alias_method :when_i_click_on_continue, :and_i_click_on_continue
 
   def then_i_see_the_review_page
     expect(page).to have_current_path candidate_interface_english_proficiencies_review_path
@@ -79,5 +84,13 @@ private
 
   def then_i_see_the_english_as_a_foreign_language_assessment_section_completed
     expect(page).to have_element(:div, text: 'English as a foreign language assessment Completed', class: 'app-task-list__content')
+  end
+
+  def and_i_see_validation_errors_for_not_selecting_a_level_of_english
+    expect(page).to have_element(
+      :div,
+      text: 'Select a way of proving your level of English, or select ‘None of these’',
+      class: 'govuk-error-summary__body',
+    )
   end
 end

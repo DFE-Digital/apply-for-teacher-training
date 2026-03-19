@@ -40,6 +40,14 @@ RSpec.describe 'Candidate enters their english proficiency as has TOEFL qualific
     when_i_click_on_continue
     then_i_see_the_toefl_results_page
 
+    when_i_click_on_save_and_continue
+    then_i_see_the_toefl_results_page
+    and_i_see_validation_errors_for_not_entering_my_assessment_results
+
+    when_i_fill_in_the_toefl_results_form_with_invalid_inputs
+    and_i_click_on_save_and_continue
+    and_i_see_validation_errors_for_entering_invalid_inputs
+
     when_i_fill_in_the_toefl_results_form
     and_i_click_on_save_and_continue
     then_i_see_the_review_page
@@ -139,6 +147,7 @@ private
   def and_i_click_on_save_and_continue
     click_on 'Save and continue'
   end
+  alias_method :when_i_click_on_save_and_continue, :and_i_click_on_save_and_continue
 
   def then_i_see_the_review_page
     expect(page).to have_current_path candidate_interface_english_proficiencies_review_path
@@ -174,6 +183,48 @@ private
       :div,
       text: 'English as a foreign language assessment Completed',
       class: 'app-task-list__content',
+    )
+  end
+
+  def and_i_see_validation_errors_for_not_entering_my_assessment_results
+    expect(page).to have_element(
+      :div,
+      text: 'Enter your registration number',
+      class: 'govuk-error-summary__body',
+    )
+    expect(page).to have_element(
+      :div,
+      text: 'Enter your total score (this should be a number)',
+      class: 'govuk-error-summary__body',
+    )
+    expect(page).to have_element(
+      :div,
+      text: 'Enter year the assessment was done',
+      class: 'govuk-error-summary__body',
+    )
+  end
+
+  def when_i_fill_in_the_toefl_results_form_with_invalid_inputs
+    fill_in 'TOEFL registration number', with: 'a' * 256
+    fill_in 'Total score', with: 'ABC'
+    fill_in 'When did you complete the assessment?', with: '1963'
+  end
+
+  def and_i_see_validation_errors_for_entering_invalid_inputs
+    expect(page).to have_element(
+      :div,
+      text: 'Registration number must be 255 characters or fewer',
+      class: 'govuk-error-summary__body',
+    )
+    expect(page).to have_element(
+      :div,
+      text: 'Enter your total score (this should be a number)',
+      class: 'govuk-error-summary__body',
+    )
+    expect(page).to have_element(
+      :div,
+      text: 'Assessment year cannot be before 1964',
+      class: 'govuk-error-summary__body',
     )
   end
 end

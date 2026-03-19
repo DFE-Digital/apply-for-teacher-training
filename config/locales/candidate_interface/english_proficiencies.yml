@@ -20,8 +20,8 @@ en:
         candidate_interface/english_proficiencies/start_form:
           attributes:
             qualification_statuses:
-              blank: Have you done an English as a foreign language assessment?
-              inclusion: Have you done an English as a foreign language assessment?
+              blank: Select a way of proving your level of English, or select ‘None of these’
+              inclusion: Select a way of proving your level of English, or select ‘None of these’
         candidate_interface/english_proficiencies/no_qualification_details_form:
           attributes:
             declare_no_qualification_details:

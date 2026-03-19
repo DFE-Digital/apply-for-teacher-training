@@ -29,6 +29,10 @@ RSpec.describe 'Candidate enters their english proficiency as has IELTS qualific
     when_i_click_on_continue
     then_i_see_the_efl_assessment_type_page
 
+    when_i_click_on_continue
+    then_i_see_the_efl_assessment_type_page
+    and_i_see_validation_errors_for_selecting_a_type_of_assessment
+
     when_i_select_ielts
     and_i_click_on_continue
     then_i_see_the_ielts_results_page
@@ -39,6 +43,15 @@ RSpec.describe 'Candidate enters their english proficiency as has IELTS qualific
 
     when_i_click_on_continue
     then_i_see_the_ielts_results_page
+
+    when_i_click_on_save_and_continue
+    then_i_see_the_ielts_results_page
+    and_i_see_validation_errors_for_not_entering_my_assessment_results
+
+    when_i_fill_in_the_ielts_results_form_with_invalid_inputs
+    and_i_click_on_save_and_continue
+    then_i_see_the_ielts_results_page
+    and_i_see_validation_errors_for_entering_invalid_inputs
 
     when_i_fill_in_the_ielts_results_form
     and_i_click_on_save_and_continue
@@ -139,6 +152,7 @@ private
   def and_i_click_on_save_and_continue
     click_on 'Save and continue'
   end
+  alias_method :when_i_click_on_save_and_continue, :and_i_click_on_save_and_continue
 
   def then_i_see_the_review_page
     expect(page).to have_current_path candidate_interface_english_proficiencies_review_path
@@ -174,6 +188,51 @@ private
       :div,
       text: 'English as a foreign language assessment Completed',
       class: 'app-task-list__content',
+    )
+  end
+
+  def and_i_see_validation_errors_for_selecting_a_type_of_assessment
+    expect(page).to have_element(
+      :div,
+      text: 'Select your type of assessment',
+      class: 'govuk-error-summary__body',
+    )
+  end
+
+  def and_i_see_validation_errors_for_not_entering_my_assessment_results
+    expect(page).to have_element(
+      :div,
+      text: 'Enter your TRF number',
+      class: 'govuk-error-summary__body',
+    )
+    expect(page).to have_element(
+      :div,
+      text: 'Enter your overall band score',
+      class: 'govuk-error-summary__body',
+    )
+    expect(page).to have_element(
+      :div,
+      text: 'Enter year the assessment was done',
+      class: 'govuk-error-summary__body',
+    )
+  end
+
+  def when_i_fill_in_the_ielts_results_form_with_invalid_inputs
+    fill_in 'Test report form (TRF) number', with: 'a' * 256
+    fill_in 'Overall band score', with: '8'
+    fill_in 'When did you complete the assessment?', with: '1979'
+  end
+
+  def and_i_see_validation_errors_for_entering_invalid_inputs
+    expect(page).to have_element(
+      :div,
+      text: 'Trf number must be 255 characters or fewer',
+      class: 'govuk-error-summary__body',
+    )
+    expect(page).to have_element(
+      :div,
+      text: 'Assessment year cannot be before 1980',
+      class: 'govuk-error-summary__body',
     )
   end
 end

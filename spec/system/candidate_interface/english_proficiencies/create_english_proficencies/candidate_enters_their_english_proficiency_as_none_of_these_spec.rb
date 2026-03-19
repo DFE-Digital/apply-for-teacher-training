@@ -57,7 +57,15 @@ RSpec.describe 'Candidate enters their english proficiency as none of these' do
     when_i_click_on_continue
     then_i_see_the_may_need_to_an_efl_assessment_page
 
+    when_i_click_on_continue
+    then_i_see_the_may_need_to_an_efl_assessment_page
+    and_i_see_validation_errors_for_not_selecting_whether_or_not_i_plan_to_take_an_assessment
+
     when_i_select_yes
+    and_i_click_on_continue
+    then_i_see_the_may_need_to_an_efl_assessment_page
+    and_i_see_validation_errors_for_not_entering_the_details_of_my_assessment
+
     and_i_enter_the_details_of_my_assessment
     and_i_click_on_continue
 
@@ -190,6 +198,22 @@ private
       :div,
       text: 'English as a foreign language assessment Completed',
       class: 'app-task-list__content',
+    )
+  end
+
+  def and_i_see_validation_errors_for_not_selecting_whether_or_not_i_plan_to_take_an_assessment
+    expect(page).to have_element(
+      :div,
+      text: 'Select whether or not you plan on taking an English as a foreign language assessment',
+      class: 'govuk-error-summary__body',
+    )
+  end
+
+  def and_i_see_validation_errors_for_not_entering_the_details_of_my_assessment
+    expect(page).to have_element(
+      :div,
+      text: 'Enter the details of the assessment you plan to take',
+      class: 'govuk-error-summary__body',
     )
   end
 end

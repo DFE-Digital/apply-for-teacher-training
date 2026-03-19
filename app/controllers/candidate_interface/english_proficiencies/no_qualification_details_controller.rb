@@ -17,7 +17,7 @@ module CandidateInterface
           redirect_to @no_qualification_details_form.next_path
         else
           track_validation_error(@no_qualification_details_form)
-          render :edit
+          render :new
         end
       end
 
