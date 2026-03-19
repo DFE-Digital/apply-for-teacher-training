@@ -50,7 +50,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::IeltsForm, type: :model
       expect(form.errors.full_messages).to eq  ['Award year Assessment year must be a real year', 'Award year Assessment year must be a real year', 'Award year Enter a single award year']
     end
 
-    it 'is invalid if award year is before ietls was introduced' do
+    it 'is invalid if award year is before ielts was introduced' do
       form = valid_form.tap { |f| f.award_year = 1979 }
 
       expect(form).not_to be_valid

@@ -159,7 +159,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
           'dt.govuk-summary-list__key',
           text: 'Type of assessment',
         )
-        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: 'IETLS')
+        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: 'IELTS')
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Test report form (TRF) number')
         expect(rendered_content).to have_css(
           'dd.govuk-summary-list__value',
@@ -198,7 +198,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
           'dt.govuk-summary-list__key',
           text: 'Type of assessment',
         )
-        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: 'IETLS')
+        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: 'IELTS')
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Test report form (TRF) number')
         expect(rendered_content).to have_css(
           'dd.govuk-summary-list__value',
@@ -237,7 +237,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
             'dt.govuk-summary-list__key',
             text: 'Type of assessment',
           )
-          expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: 'IETLS')
+          expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: 'IELTS')
           expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Test report form (TRF) number')
           expect(rendered_content).to have_css(
             'dd.govuk-summary-list__value',
@@ -291,7 +291,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
       end
     end
 
-    context 'when the efl qualification is not a IETLS or TOEFL' do
+    context 'when the efl qualification is not a IELTS or TOEFL' do
       let(:english_proficiency) do
         create(
           :english_proficiency,

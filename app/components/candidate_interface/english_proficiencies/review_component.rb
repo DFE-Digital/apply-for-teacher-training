@@ -99,7 +99,7 @@ module CandidateInterface
         [
           {
             key: { text: 'Type of assessment' },
-            value: { text: 'IETLS' },
+            value: { text: 'IELTS' },
             actions: [
               {
                 href: candidate_interface_english_proficiencies_type_path(
@@ -145,7 +145,7 @@ module CandidateInterface
                   english_proficiency,
                   return_to: 'review',
                 ),
-                visually_hidden_text: 'award year',
+                visually_hidden_text: 'year completed',
               },
             ],
           },

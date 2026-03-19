@@ -175,7 +175,7 @@ private
         class: 'govuk-summary-list__value',
       )
       expect(page).to have_element(:dt, text: 'Type of assessment', class: 'govuk-summary-list__key')
-      expect(page).to have_element(:dd, text: 'IETLS', class: 'govuk-summary-list__value')
+      expect(page).to have_element(:dd, text: 'IELTS', class: 'govuk-summary-list__value')
       expect(page).to have_element(:dt, text: 'Test report form (TRF) number', class: 'govuk-summary-list__key')
       expect(page).to have_element(:dd, text: 'ABCD1234', class: 'govuk-summary-list__value')
       expect(page).to have_element(:dt, text: 'Overall band score', class: 'govuk-summary-list__key')
