@@ -47,13 +47,12 @@ jobs:
           max-cache: false
           docker-repository: ${{ env.DOCKER_IMAGE }}
 
-      - name: Notify slack on failure
-        uses: rtCamp/action-slack-notify@master
+      - name: Notify teams channel on job failure
         if: ${{ failure() }}
+        uses: DFE-Digital/github-actions/send-to-teams-channel@master
         with:
-          SLACK_USERNAME: CI Deployment
-          SLACK_COLOR: failure
-          SLACK_ICON_EMOJI: ":github-logo:"
-          SLACK_TITLE: "Build failure"
-          SLACK_MESSAGE: ":alert: Rebuild docker cache failure :sadparrot:"
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          title: "Build failure"
+          service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
+          message: |
+            Rebuild docker cache failure
