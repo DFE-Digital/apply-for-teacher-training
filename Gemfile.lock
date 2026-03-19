@@ -41,12 +41,12 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/get-into-teaching-api-ruby-client.git
-  revision: cf34bef1945381469e1098164c685dc1e6266eab
+  revision: 0e6f57f43497eca98ef15498055a6a10d22d487e
   specs:
-    get_into_teaching_api_client (4.3.7.2)
+    get_into_teaching_api_client (4.3.7.3)
       faraday (>= 1.0.1, < 3.0)
       faraday-multipart
-    get_into_teaching_api_client_faraday (4.3.7.2)
+    get_into_teaching_api_client_faraday (4.3.7.3)
       activesupport
       faraday
       faraday-encoding
@@ -286,13 +286,13 @@ GEM
     faraday-gzip (2.0.1)
       faraday (>= 1.0)
       zlib (~> 3.0)
-    faraday-http-cache (2.5.1)
+    faraday-http-cache (2.6.1)
       faraday (>= 0.8)
-    faraday-multipart (1.1.1)
+    faraday-multipart (1.2.0)
       multipart-post (~> 2.0)
     faraday-net_http (3.4.2)
       net-http (~> 0.5)
-    faraday-retry (2.3.2)
+    faraday-retry (2.4.0)
       faraday (~> 2.0)
     faraday_middleware-circuit_breaker (0.6.0)
       faraday (>= 0.9, < 3.0)
@@ -902,7 +902,7 @@ DEPENDENCIES
   faker (= 2.22.0)
   field_test (~> 0.8.0)
   geocoder
-  get_into_teaching_api_client_faraday (= 4.3.7.2)!
+  get_into_teaching_api_client_faraday (= 4.3.7.3)!
   google-cloud-bigquery
   govuk-components (~> 6.0)
   govuk_design_system_formbuilder (~> 6.0.0)
@@ -1070,18 +1070,18 @@ CHECKSUMS
   faraday-encoding (0.0.6) sha256=d7b9216c8ce26d0deb96c865524fd9d6cbe27a9f884b75697c87110196274654
   faraday-follow_redirects (0.5.0) sha256=5cde93c894b30943a5d2b93c2fe9284216a6b756f7af406a1e55f211d97d10ad
   faraday-gzip (2.0.1) sha256=45d686da637e5812854635f93dff343165a765faff1d7176b714e19a74fa92d1
-  faraday-http-cache (2.5.1) sha256=cbfc129a85e1ad8580130189832cf59e7e117d94fe277547d61fc531f7689483
-  faraday-multipart (1.1.1) sha256=77a18ff40149030fd1aef55bb4fc7a67ce46419a8a3fcd010e28c2526e8d8903
+  faraday-http-cache (2.6.1) sha256=7772ae61c5fe1c0243452dec1f069b15bcc3304e9436e4f8545ccdb5963c4285
+  faraday-multipart (1.2.0) sha256=7d89a949693714176f612323ca13746a2ded204031a6ba528adee788694ef757
   faraday-net_http (3.4.2) sha256=f147758260d3526939bf57ecf911682f94926a3666502e24c69992765875906c
-  faraday-retry (2.3.2) sha256=2402d2029032ebd238a2046221e67f6ef0da78c5a8ce8cd4f8b9c62e4d6451d1
+  faraday-retry (2.4.0) sha256=7b79c48fb7e56526faf247b12d94a680071ff40c9fda7cf1ec1549439ad11ebe
   faraday_middleware-circuit_breaker (0.6.0) sha256=965239939030ae0332dfe24d8f22257b03d14954c0a2facb8a59a304fc9ca9a4
   ffi (1.17.3) sha256=0e9f39f7bb3934f77ad6feab49662be77e87eedcdeb2a3f5c0234c2938563d4c
   ffi-compiler (1.3.2) sha256=a94f3d81d12caf5c5d4ecf13980a70d0aeaa72268f3b9cc13358bcc6509184a0
   field_test (0.8.0) sha256=ff6d6f637748fdb2e1153498ed17587979a48c9333114841bfd6813317ce8327
   formatador (1.1.0) sha256=54e23e2af4d60bb9327c7fac62b29968e4cf28cee0111f726d0bdeadc85e06d0
   geocoder (1.8.6) sha256=e0ca1554b499f466de9b003f7dff70f89a5888761c2ca68ed9f86b6e5e24e74c
-  get_into_teaching_api_client (4.3.7.2)
-  get_into_teaching_api_client_faraday (4.3.7.2)
+  get_into_teaching_api_client (4.3.7.3)
+  get_into_teaching_api_client_faraday (4.3.7.3)
   globalid (1.2.1) sha256=70bf76711871f843dbba72beb8613229a49429d1866828476f9c9d6ccc327ce9
   google-apis-bigquery_v2 (0.99.0) sha256=09692637c3e5201985c9b97136940c754a91d625e5e8efc25c4b8d6b34974fdc
   google-apis-core (1.0.2) sha256=ba4579aaadc902d6cc7bc8db88f566ab00f5e31ea87ab41e9f9a032c470f2629
