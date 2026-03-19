@@ -10,29 +10,27 @@ class EflQualificationCardComponent < ApplicationComponent
   end
 
   def render?
-    !application_form.british_or_irish? && english_proficiency.present?
+    !application_form.british_or_irish? && english_proficiencies.present?
   end
 
-  def english_proficiency
-    @english_proficiency ||= application_form.english_proficiency
+  def english_proficiencies
+    @english_proficiencies ||= application_form.english_proficiencies
   end
 
-  def efl_qualification
-    @efl_qualification ||= english_proficiency.efl_qualification
-  end
-
-  def qualification_status
-    if english_proficiency.has_qualification?
+  def qualification_status(proficiency_record)
+    if proficiency_record.has_qualification?
       'Candidate has done an English as a foreign language assessment.'
-    elsif english_proficiency.no_qualification?
+    elsif proficiency_record.no_qualification? && no_qualification_details.nil?
+      'Candidate does not plan to do an English as a foreign language assessment.'
+    elsif proficiency_record.no_qualification?
       'Candidate has not done an English as a foreign language assessment yet.'
-    else
+    elsif proficiency_record.qualification_not_needed?
       'Candidate said that English is not a foreign language to them.'
     end
   end
 
-  def grade_title
-    case english_proficiency.efl_qualification_type
+  def grade_title(proficiency_record)
+    case proficiency_record.efl_qualification_type
     when 'IeltsQualification'
       'Overall band score'
     when 'ToeflQualification'
@@ -42,8 +40,8 @@ class EflQualificationCardComponent < ApplicationComponent
     end
   end
 
-  def reference_number_title
-    case english_proficiency.efl_qualification_type
+  def reference_number_title(proficiency_record)
+    case proficiency_record.efl_qualification_type
     when 'IeltsQualification'
       'TRF number'
     when 'ToeflQualification'
@@ -51,6 +49,6 @@ class EflQualificationCardComponent < ApplicationComponent
     end
   end
 
-  delegate :name, :award_year, :grade, :unique_reference_number, to: :efl_qualification
-  delegate :no_qualification_details, to: :english_proficiency
+  # delegate :name, :award_year, :grade, :unique_reference_number, to: :efl_qualification
+  # delegate :no_qualification_details, to: :english_proficiency
 end
