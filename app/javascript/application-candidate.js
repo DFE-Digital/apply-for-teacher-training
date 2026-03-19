@@ -6,15 +6,16 @@ import { candidateAutocompleteInputs } from './autocompletes/candidate/candidate
 import { candidateAutosuggestInputs } from './autosuggests/candidate/candidate-autosuggest-inputs'
 import nationalitiesComponent from './utils/nationalities-component'
 import cookieBanners from './cookies/cookie-banners'
-import showMoreShowLess from './components/show-more-show-less'
 import initClarityCookies from './utils/clarity-initializer'
 
 // stimulus
 import { Application } from '@hotwired/stimulus'
 import LocationAutocompleteController from './controllers/location_autocomplete_controller'
+import ReadMoreReadLessController from './controllers/read_more_read_less_controller'
 
 window.Stimulus = Application.start()
 window.Stimulus.register('location-autocomplete', LocationAutocompleteController)
+window.Stimulus.register('read-more-read-less', ReadMoreReadLessController)
 
 govUKFrontendInitAll()
 
@@ -29,5 +30,4 @@ candidateAutosuggestInputs.forEach((autoSuggestInput) => {
 initWarnOnUnsavedChanges()
 nationalitiesComponent()
 cookieBanners()
-showMoreShowLess()
 initClarityCookies('apply')

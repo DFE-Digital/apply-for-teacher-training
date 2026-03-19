@@ -9,29 +9,18 @@ module CandidateInterface
       @application_choice = application_choice
     end
 
-    def full_personal_statement?
-      number_of_words = personal_statement.to_s.split.size
-
-      number_of_words <= MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT
-    end
-
-    def personal_statement_short_version
-      personal_statement.truncate_words(
-        MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT,
-        omission: ' ',
-      )
-    end
-
-    def personal_statement_remaining_version
-      personal_statement[personal_statement_short_version.size..]
-    end
-
-    def personal_statement
-      @personal_statement ||= if unsubmitted?
-                                @application_choice.application_form.becoming_a_teacher
-                              else
-                                @application_choice.personal_statement
-                              end
+    def call
+      personal_statement = if unsubmitted?
+                             application_choice.application_form.becoming_a_teacher
+                           else
+                             application_choice.personal_statement
+                           end
+      render(ReadMoreReadLessComponent.new(
+               personal_statement,
+               preview_word_count: MAXIMUM_WORDS_FULL_PERSONAL_STATEMENT,
+               show_more_text: 'Show more',
+               show_less_text: 'Show less',
+             ))
     end
   end
 end
