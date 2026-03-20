@@ -40,7 +40,7 @@ module CandidateInterface
   private
 
     def country_of_residence
-      COUNTRIES_AND_TERRITORIES[current_application.country]
+      COUNTRIES_AND_TERRITORIES[current_application.country] || 'your current country of residence'
     end
 
     def residency_params
