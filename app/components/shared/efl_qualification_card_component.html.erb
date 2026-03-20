@@ -5,9 +5,11 @@
   id: 'english-as-a-foreign-language',
 ) %>
 
-<p class="govuk-body"><%= qualification_status %></p>
+<% qualification_statuses.each do |status_content| %>
+  <p class="govuk-body"><%= status_content %></p>
+<% end %>
 
-<% if english_proficiency.has_qualification? %>
+<% if qualification? %>
   <div class="govuk-grid">
     <div class="govuk-grid-row app-grid-row--flex">
       <div class="govuk-grid-column-one-third">
@@ -31,10 +33,10 @@
       </div>
     </div>
   </div>
-<% elsif english_proficiency.no_qualification? %>
+<% elsif no_qualification? %>
   <%= content_tag(
     sub_header_tag(header_tag:),
-    'Reason given',
+    'Details',
     class: 'govuk-heading-s govuk-!-margin-bottom-2',
   ) %>
   <p class="govuk-body govuk-!-margin-bottom-0"><%= no_qualification_details %></p>

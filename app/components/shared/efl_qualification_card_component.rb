@@ -14,11 +14,45 @@ class EflQualificationCardComponent < ApplicationComponent
   end
 
   def english_proficiency
-    @english_proficiency ||= application_form.english_proficiency
+    @english_proficiency ||= if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
+                               application_form.published_english_proficiencies.first
+                             else
+                               application_form.english_proficiency
+                             end
   end
 
   def efl_qualification
     @efl_qualification ||= english_proficiency.efl_qualification
+  end
+
+  def qualification_statuses
+    if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
+      statuses
+    else
+      [qualification_status]
+    end
+  end
+
+  def statuses
+    content = []
+
+    if qualification_not_needed
+      content << 'Candidate said that English is not a foreign language to them.'
+    end
+
+    if has_qualification
+      content << 'Candidate has done an English as a foreign language assessment.'
+    end
+
+    return content if qualification_not_needed || has_qualification
+
+    content << if no_qualification_details.present?
+                 'Candidate plans to do an English as a foreign language assessment.'
+               else
+                 'Candidate does not plan to do an English as a foreign language assessment.'
+               end
+
+    content
   end
 
   def qualification_status
@@ -28,6 +62,22 @@ class EflQualificationCardComponent < ApplicationComponent
       'Candidate has not done an English as a foreign language assessment yet.'
     else
       'Candidate said that English is not a foreign language to them.'
+    end
+  end
+
+  def qualification?
+    if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
+      english_proficiency.has_qualification
+    else
+      english_proficiency.has_qualification?
+    end
+  end
+
+  def no_qualification?
+    if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
+      no_qualification_details.present?
+    else
+      english_proficiency.no_qualification?
     end
   end
 
@@ -52,5 +102,10 @@ class EflQualificationCardComponent < ApplicationComponent
   end
 
   delegate :name, :award_year, :grade, :unique_reference_number, to: :efl_qualification
-  delegate :no_qualification_details, to: :english_proficiency
+  delegate(
+    :no_qualification_details,
+    :has_qualification,
+    :qualification_not_needed,
+    to: :english_proficiency,
+  )
 end
