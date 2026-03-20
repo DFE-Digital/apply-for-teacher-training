@@ -290,7 +290,7 @@ jobs:
 
       - name: Post sticky pull request comment
         if: success()
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           header: review-app-v2
           message: |
