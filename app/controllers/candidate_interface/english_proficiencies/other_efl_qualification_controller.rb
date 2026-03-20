@@ -23,7 +23,7 @@ module CandidateInterface
       def english_proficiency
         @english_proficiency ||= current_application
                                    .english_proficiencies
-                                   .find(params[:english_proficiency_id])
+                                   .find(params[:english_proficiency_id]) || current_application.english_proficiency
       end
 
       def other_params
