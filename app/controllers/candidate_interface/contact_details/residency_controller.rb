@@ -2,13 +2,13 @@ module CandidateInterface
   class ContactDetails::ResidencyController < CandidateInterfaceController
     def new
       @country_of_residence = country_of_residence
-      @residency_form = CandidateInterface::ResidencyForm.new
+      @residency_form = CandidateInterface::ResidencyForm.build_from_application(current_application)
     end
 
     def edit
       @country_of_residence = country_of_residence
       @residency_form = CandidateInterface::ResidencyForm.build_from_application(current_application)
-      # @return_to = return_to_after_edit(default: candidate_interface_contact_information_review_path)
+      @return_to = return_to_after_edit(default: candidate_interface_contact_information_review_path)
     end
 
     def create
@@ -16,7 +16,7 @@ module CandidateInterface
 
       if @residency_form.valid?
         @residency_form.save(current_application)
-        path = @residency_form.since_birth? ? candidate_interface_contact_information_review_path : candidate_interface_new_residency_dates_path
+        path = @residency_form.since_birth? ? candidate_interface_contact_information_review_path : candidate_interface_new_residency_date_path
         redirect_to path
       else
         track_validation_error(@residency_form)
@@ -25,13 +25,11 @@ module CandidateInterface
     end
 
     def update
-      # @return_to = return_to_after_edit(default: candidate_interface_contact_information_review_path)
-      # redirect_to @return_to[:back_path]
       @residency_form = CandidateInterface::ResidencyForm.new(residency_params)
 
       if @residency_form.valid?
         @residency_form.save(current_application)
-        path = @residency_form.since_birth? ? candidate_interface_contact_information_review_path : candidate_interface_new_residency_dates_path
+        path = @residency_form.since_birth? ? candidate_interface_contact_information_review_path : candidate_interface_edit_residency_date_path
         redirect_to path
       else
         track_validation_error(@residency_form)

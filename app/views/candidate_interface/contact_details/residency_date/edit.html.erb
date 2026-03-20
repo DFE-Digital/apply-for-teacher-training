@@ -1,0 +1,8 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.residency_date', country: @country_of_residence), @residency_date_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
+
+<%= form_with(model: @residency_date_form, url: candidate_interface_edit_residency_date_path(@return_to[:params]), method: :patch) do |f| %>
+  <%= f.govuk_date_field(:residency_date_from, legend: { text: t('application_form.contact_details.residency_date.label', country: @country_of_residence) }, hint: { text: t('application_form.contact_details.residency_date.hint') }) %>
+
+  <%= f.govuk_submit 'Continue' %>
+<% end %>
