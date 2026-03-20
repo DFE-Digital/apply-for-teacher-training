@@ -1,15 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate updates their english proficiency to degree taught in English' do
+RSpec.describe 'Candidate updates their english proficiency to degree taught in English',
+               feature_flag: '2027_application_form_has_many_english_proficiencies' do
   include CandidateHelper
-
-  before do
-    Feature.find_or_create_by(name: 'application_form_has_many_english_proficiencies', active: true)
-  end
-
-  after do
-    FeatureFlag.deactivate(:application_form_has_many_english_proficiencies)
-  end
 
   scenario 'with no details' do
     given_i_am_signed_in_with_one_login
@@ -185,7 +178,13 @@ private
     english_proficiency = @application_form.english_proficiencies.last
     expect(page).to have_current_path(candidate_interface_english_proficiencies_no_qualification_details_path(english_proficiency.id))
     expect(page).to have_element(:span, text: 'English as a foreign language assessment', class: 'govuk-caption-xl')
-    expect(page).to have_element(:h1, text: 'You may need an English as a foreign language assessment', class: 'govuk-fieldset__heading')
+    expect(page).to have_element(:h1, text: 'You may need an English as a foreign language assessment', class: 'govuk-heading-xl')
+    expect(page).to have_element(
+      :p,
+      text: 'Training providers may need to see evidence of your level of English. Contact them to find out about their requirements.',
+      class: 'govuk-body',
+    )
+    expect(page).to have_element(:h2, text: 'Do you plan on taking an English as a foreign language assessment?', class: 'govuk-fieldset__heading')
 
     expect(page).to have_field('Yes', type: 'radio')
     expect(page).to have_field('No', type: 'radio')

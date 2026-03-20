@@ -25,7 +25,7 @@ en:
         candidate_interface/english_proficiencies/no_qualification_details_form:
           attributes:
             declare_no_qualification_details:
-              blank: Select whether or not you plan on taking an English as a foreign language assessment
+              blank: Select if you plan to do an English as a foreign language assessment
             no_qualification_details:
               blank: Enter the details of the assessment you plan to take
         candidate_interface/english_proficiencies/type_form:

@@ -14,22 +14,31 @@ module CandidateInterface
     end
 
     def call
-      return unless FeatureFlag.active?(:application_form_has_many_english_proficiencies)
+      return unless FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
 
       ActiveRecord::Base.transaction do
         assign_qualification_status
 
-        if !persist && (new_english_proficiency.no_qualification || new_english_proficiency.degree_taught_in_english)
-          new_english_proficiency.no_qualification_details = no_qualification_details
+        unless persist
+          if new_english_proficiency.no_qualification || new_english_proficiency.degree_taught_in_english
+            new_english_proficiency.no_qualification_details = no_qualification_details
+          end
+
+          if new_english_proficiency.has_qualification
+            new_english_proficiency.efl_qualification = efl_qualification
+          end
         end
 
-        if !persist && new_english_proficiency.has_qualification
-          new_english_proficiency.efl_qualification = efl_qualification
+        unless new_english_proficiency.has_qualification
+          new_english_proficiency.efl_qualification = nil
+        end
+
+        if new_english_proficiency.qualification_not_needed && new_english_proficiency.no_qualification_details.present?
+          new_english_proficiency.no_qualification_details = nil
         end
 
         if publish ||
-           (new_english_proficiency.qualification_not_needed &&
-             !(new_english_proficiency.has_qualification || new_english_proficiency.degree_taught_in_english))
+           (new_english_proficiency.qualification_not_needed && !new_english_proficiency.has_qualification)
           new_english_proficiency.publish!
         end
 

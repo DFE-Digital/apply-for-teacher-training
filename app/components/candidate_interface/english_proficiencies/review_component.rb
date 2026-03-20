@@ -31,8 +31,7 @@ module CandidateInterface
       end
 
       def no_qualification_details_rows
-        return [] unless (!english_proficiency.has_qualification &&
-                         english_proficiency.degree_taught_in_english) || english_proficiency.no_qualification
+        return [] if english_proficiency.has_qualification || english_proficiency.qualification_not_needed
 
         if english_proficiency.no_qualification_details.present?
           [

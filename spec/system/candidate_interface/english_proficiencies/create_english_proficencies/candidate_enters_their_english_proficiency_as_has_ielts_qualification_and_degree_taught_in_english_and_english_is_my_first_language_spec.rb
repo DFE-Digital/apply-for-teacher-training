@@ -1,15 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate enters their english proficiency as has IELTS qualification and degree taught in English and English is my first language' do
+RSpec.describe 'Candidate enters their english proficiency as has IELTS qualification and degree taught in English and English is my first language',
+               feature_flag: '2027_application_form_has_many_english_proficiencies' do
   include CandidateHelper
-
-  before do
-    Feature.find_or_create_by(name: 'application_form_has_many_english_proficiencies', active: true)
-  end
-
-  after do
-    FeatureFlag.deactivate(:application_form_has_many_english_proficiencies)
-  end
 
   scenario do
     given_i_am_signed_in_with_one_login

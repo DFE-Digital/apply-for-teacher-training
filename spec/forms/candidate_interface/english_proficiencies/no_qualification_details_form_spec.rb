@@ -1,14 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::EnglishProficiencies::NoQualificationDetailsForm, type: :model do
-  before do
-    Feature.find_or_create_by(name: 'application_form_has_many_english_proficiencies', active: true)
-  end
-
-  after do
-    FeatureFlag.deactivate(:application_form_has_many_english_proficiencies)
-  end
-
+RSpec.describe CandidateInterface::EnglishProficiencies::NoQualificationDetailsForm,
+               feature_flag: '2027_application_form_has_many_english_proficiencies',
+               type: :model do
   let(:valid_form) do
     described_class.new(
       declare_no_qualification_details: 1,
@@ -50,7 +44,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::NoQualificationDetailsF
       expect(form).not_to be_valid
       expect(
         form.errors.full_messages,
-      ).to eq ['Declare no qualification details Select whether or not you plan on taking an English as a foreign language assessment']
+      ).to eq ['Declare no qualification details Select if you plan to do an English as a foreign language assessment']
     end
   end
 

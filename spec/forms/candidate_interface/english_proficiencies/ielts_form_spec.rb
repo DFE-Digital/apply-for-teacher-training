@@ -1,14 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::EnglishProficiencies::IeltsForm, type: :model do
-  before do
-    Feature.find_or_create_by(name: 'application_form_has_many_english_proficiencies', active: true)
-  end
-
-  after do
-    FeatureFlag.deactivate(:application_form_has_many_english_proficiencies)
-  end
-
+RSpec.describe CandidateInterface::EnglishProficiencies::IeltsForm,
+               feature_flag: '2027_application_form_has_many_english_proficiencies',
+               type: :model do
   let(:valid_form) do
     described_class.new(
       trf_number: '12345',

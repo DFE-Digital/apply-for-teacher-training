@@ -1,14 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model do
-  before do
-    Feature.find_or_create_by(name: 'application_form_has_many_english_proficiencies', active: true)
-  end
-
-  after do
-    FeatureFlag.deactivate(:application_form_has_many_english_proficiencies)
-  end
-
+RSpec.describe CandidateInterface::EnglishProficiencies::StartForm,
+               feature_flag: '2027_application_form_has_many_english_proficiencies',
+               type: :model do
   let(:valid_form) do
     described_class.new(
       qualification_statuses:,
@@ -208,24 +202,23 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
       end
     end
 
-    context 'when the english proficiency qualification includes "degree_taught_in_english"' do
+    context 'when the english proficiency qualification includes "qualification_not_needed"' do
       let(:qualification_statuses) { %w[degree_taught_in_english qualification_not_needed] }
+
+      it 'returns the review path' do
+        expect(form.next_path).to eq(
+          '/candidate/application/english-proficiencies/review',
+        )
+      end
+    end
+
+    context 'when the english proficiency qualification is "degree_taught_in_english"' do
+      let(:qualification_statuses) { ['degree_taught_in_english'] }
 
       it 'returns the path for entering no qualification details' do
         english_proficiency = application_form.english_proficiencies.last
         expect(form.next_path).to eq(
           "/candidate/application/english-proficiencies/no-qualification-details/#{english_proficiency.id}",
-        )
-      end
-    end
-
-    context 'when the english proficiency qualification is "qualification_not_needed"' do
-      let(:qualification_statuses) { ['qualification_not_needed'] }
-
-      it 'returns the review path' do
-        application_form.english_proficiencies.last
-        expect(form.next_path).to eq(
-          '/candidate/application/english-proficiencies/review',
         )
       end
     end

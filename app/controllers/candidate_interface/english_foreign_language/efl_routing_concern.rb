@@ -10,7 +10,7 @@ module CandidateInterface
     private
 
       def application_form_has_many_english_proficiencies
-        FeatureFlag.active?(:application_form_has_many_english_proficiencies)
+        FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
       end
 
       def redirect_to_english_proficiencies

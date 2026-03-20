@@ -24,10 +24,10 @@ module CandidateInterface
 
         if new_english_proficiency.has_qualification
           candidate_interface_english_proficiencies_type_path(new_english_proficiency)
-        elsif new_english_proficiency.no_qualification || new_english_proficiency.degree_taught_in_english
-          candidate_interface_english_proficiencies_no_qualification_details_path(new_english_proficiency)
-        else
+        elsif new_english_proficiency.qualification_not_needed
           candidate_interface_english_proficiencies_review_path
+        else
+          candidate_interface_english_proficiencies_no_qualification_details_path(new_english_proficiency)
         end
       end
 

@@ -77,11 +77,6 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
           'dd.govuk-summary-list__value',
           text: 'English is my first language My degree was taught in English',
         )
-        expect(rendered_content).to have_css(
-          'dt.govuk-summary-list__key',
-          text: 'Do you plan on taking an English as a foreign language assessment?',
-        )
-        expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: 'No')
       end
     end
 
