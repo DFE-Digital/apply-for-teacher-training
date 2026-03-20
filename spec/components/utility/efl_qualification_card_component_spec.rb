@@ -10,6 +10,44 @@ RSpec.describe EflQualificationCardComponent, type: :component do
     end
   end
 
+  context 'new stuff' do
+    let(:application_form) { create(:application_form, first_nationality: 'French') }
+
+    context 'English is my first language' do
+      let(:english_proficiency) { create(:english_proficiency, :qualification_not_needed) }
+
+      before { application_form.english_proficiency = english_proficiency }
+
+      it 'renders the expected output' do
+        result = render_inline(described_class.new(application_form))
+        expect(result.text).to include 'Candidate said that English is not a foreign language to them.'
+      end
+    end
+
+    context 'English is my first language and have efl' do
+      let(:english_proficiency) { create(:english_proficiency, :qualification_not_needed, :with_ielts_qualification) }
+
+      before { application_form.english_proficiency = english_proficiency }
+
+      it 'renders the expected output' do
+        result = render_inline(described_class.new(application_form))
+        expect(result.text).to include 'Candidate said that English is not a foreign language to them.'
+        expect(result.text).to include 'Candidate has done an English as a foreign language assessment.'
+      end
+    end
+
+    context 'None of these' do
+      let(:english_proficiency) { create(:english_proficiency) }
+
+      before { application_form.english_proficiency = english_proficiency }
+
+      it 'renders the expected output' do
+        result = render_inline(described_class.new(application_form))
+        expect(result.text).to include 'Candidate does not plan to do an English as a foreign language assessment.'
+      end
+    end
+  end
+
   context 'when the application_form does not have an English speaking nationality' do
     let(:application_form) { create(:application_form, first_nationality: 'French') }
 
@@ -23,6 +61,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
           result = render_inline(described_class.new(application_form))
 
           expect(result.text).to include 'Candidate has done an English as a foreign language assessment.'
+          expect(result.text).not_to include 'Candidate said that English is not a foreign language to them.'
 
           details_card = result.css('[data-qa="english-proficiency-qualification"]')
           expect(details_card.text).to include 'IELTS'
@@ -43,6 +82,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
           result = render_inline(described_class.new(application_form))
 
           expect(result.text).to include 'Candidate has done an English as a foreign language assessment.'
+          expect(result.text).not_to include 'Candidate said that English is not a foreign language to them.'
 
           details_card = result.css('[data-qa="english-proficiency-qualification"]')
           expect(details_card.text).to include 'TOEFL'
@@ -63,6 +103,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
           result = render_inline(described_class.new(application_form))
 
           expect(result.text).to include 'Candidate has done an English as a foreign language assessment.'
+          expect(result.text).not_to include 'Candidate said that English is not a foreign language to them.'
 
           details_card = result.css('[data-qa="english-proficiency-qualification"]')
           expect(details_card.text).to include 'Cockney Rhyming Slang Proficiency Test'

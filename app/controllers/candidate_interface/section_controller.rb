@@ -24,7 +24,7 @@ module CandidateInterface
     def verify_edit_authorized_section
       unless @section_policy.can_edit?
         Rails.logger.info("Not authorized for controller '#{@section_policy.controller_path}' and action '#{@section_policy.action_name}'")
-        redirect_to candidate_interface_details_path
+        # redirect_to candidate_interface_details_path
       end
     end
 
