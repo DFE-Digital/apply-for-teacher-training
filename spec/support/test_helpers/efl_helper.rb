@@ -1,8 +1,9 @@
 module EFLHelper
   def when_i_declare_a_non_english_nationality
-    current_candidate.current_application.update(
+    @application_form ||= create(:application_form,
       first_nationality: 'Hong Konger',
       second_nationality: 'Pakistani',
+      candidate: current_candidate,
     )
     visit candidate_interface_details_path
   end
