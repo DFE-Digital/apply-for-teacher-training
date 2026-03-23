@@ -216,7 +216,13 @@ module CandidateInterface
     end
 
     def english_as_a_foreign_language_path
-      if application_form.english_proficiency.present?
+      if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
+        if application_form.english_proficiency.present?
+          Rails.application.routes.url_helpers.candidate_interface_english_proficiencies_review_path
+        else
+          Rails.application.routes.url_helpers.candidate_interface_english_proficiencies_start_path
+        end
+      elsif application_form.english_proficiency.present?
         Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_review_path
       else
         Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_start_path

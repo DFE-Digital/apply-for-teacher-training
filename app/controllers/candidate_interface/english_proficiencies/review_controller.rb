@@ -1,6 +1,7 @@
 module CandidateInterface
   module EnglishProficiencies
     class ReviewController < SectionController
+      before_action :check_for_english_proficiency
       def show
         @section_complete_form = SectionCompleteForm.new(
           completed: current_application.efl_completed,
@@ -25,6 +26,12 @@ module CandidateInterface
       end
 
     private
+
+      def check_for_english_proficiency
+        if current_application.english_proficiency.blank?
+          candidate_interface_english_proficiencies_start_path
+        end
+      end
 
       def completion_params
         strip_whitespace params

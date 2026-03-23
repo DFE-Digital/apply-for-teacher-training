@@ -66,14 +66,13 @@ class Section
         controller: 'CandidateInterface::Gcse',
         editable_condition: ->(section, policy) { section.science_gcse?(policy) },
       ),
-      Section.new(:efl, controller: 'CandidateInterface::EnglishForeignLanguage'),
       Section.new(:other_qualifications, controller: 'CandidateInterface::OtherQualifications'),
       Section.new(:degrees, controller: 'CandidateInterface::Degrees'),
       Section.new(:work_history, controller: 'CandidateInterface::RestructuredWorkHistory'),
       Section.new(:volunteering, controller: 'CandidateInterface::Volunteering'),
       Section.new(:references, controller: 'CandidateInterface::References'),
       Section.new(:safeguarding_issues, controller: 'CandidateInterface::Safeguarding'),
-    ]
+    ] << efl_section
   end
 
   def self.editable
@@ -82,5 +81,13 @@ class Section
 
   def self.non_editable
     all.difference(editable)
+  end
+
+  def self.efl_section
+    if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
+      Section.new(:efl, controller: 'CandidateInterface::EnglishProficiencies')
+    else
+      Section.new(:efl, controller: 'CandidateInterface::EnglishForeignLanguage')
+    end
   end
 end
