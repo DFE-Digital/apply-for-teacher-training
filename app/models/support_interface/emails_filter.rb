@@ -10,13 +10,60 @@ module SupportInterface
       @applied_filters = compact_params(params)
     end
 
+    def filtered?
+      filters.pluck(:name).each do |filter|
+        return true if applied_filters[filter].present?
+      end
+
+      false
+    end
+
     def filters
-      @filters ||= [free_text] + [delivery_status] + [mailer]
+      @filters ||= [recipient] + [subject] + [notify_reference] +
+        [email_body] + [free_text] + [delivery_status] + [mailer]
     end
 
   private
 
+    def recipient
+      {
+        type: :search,
+        heading: 'Recipient (To)',
+        value: applied_filters[:to],
+        name: 'to',
+      }
+    end
+
+    def subject
+      {
+        type: :search,
+        heading: 'Subject',
+        value: applied_filters[:subject],
+        name: 'subject',
+      }
+    end
+
+    def notify_reference
+      {
+        type: :search,
+        heading: 'Notify reference',
+        value: applied_filters[:notify_reference],
+        name: 'notify_reference',
+      }
+    end
+
+    def email_body
+      {
+        type: :search,
+        heading: 'Email body',
+        value: applied_filters[:email_body],
+        name: 'email_body',
+      }
+    end
+
     def free_text
+      return {}
+
       {
         type: :search,
         heading: 'Search',

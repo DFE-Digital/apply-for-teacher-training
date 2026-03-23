@@ -1,19 +1,25 @@
 <%= render 'support_interface/performance/performance_navigation', title: 'Email log' %>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @emails) do %>
-  <table class="govuk-table">
-    <caption class="govuk-table__caption govuk-heading-m">Emails sent since <%= @filter.applied_filters[:created_since].to_fs(:govuk_date_and_time) %></caption>
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time</th>
-        <th class="govuk-table__header govuk-table__header govuk-!-width-three-quarters">Email</th>
-      </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-    <% @emails.each do |email| %>
-      <%= render SupportInterface::EmailLogRowComponent.new(email: email) %>
-    <% end %>
-    </tbody>
-  </table>
-  <%= govuk_pagination(pagy: @pagy) %>
+  <% if @filter.filtered? %>
+    <table class="govuk-table">
+      <caption class="govuk-table__caption govuk-heading-m">Emails sent since <%= @filter.applied_filters[:created_since].to_fs(:govuk_date_and_time) %></caption>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time</th>
+          <th class="govuk-table__header govuk-table__header govuk-!-width-three-quarters">Email</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+      <% @emails.each do |email| %>
+        <%= render SupportInterface::EmailLogRowComponent.new(email: email) %>
+      <% end %>
+      </tbody>
+    </table>
+    <%= govuk_pagination(pagy: @pagy) %>
+  <% else %>
+    <p class="govuk-body">
+      Use the filter to search for emails.
+    </p>
+  <% end %>
 <% end %>
