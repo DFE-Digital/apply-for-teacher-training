@@ -28,7 +28,7 @@ module SupportInterface
       courses = @provider.courses.includes(accredited_provider: [:provider_agreements]).order(:name).group_by(&:recruitment_cycle_year)
       years = RecruitmentCycleTimetable.years_visible_in_support.each_with_object({}) { |year, hash| hash[year] = [] } # rubocop:disable Rails/IndexWith
 
-      @courses_by_year = years.merge(courses)
+      @courses_by_year = years.merge(courses).reverse
     end
 
     def ratified_courses
