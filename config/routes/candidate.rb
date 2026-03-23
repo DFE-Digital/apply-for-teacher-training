@@ -512,6 +512,31 @@ namespace :candidate_interface, path: '/candidate' do
       patch '/review' => 'english_foreign_language/review#complete', as: :english_foreign_language_complete
     end
 
+    scope '/english-proficiencies' do
+      get '/' => 'english_proficiencies/start#new', as: :english_proficiencies_start
+      post '/' => 'english_proficiencies/start#create'
+      get '/edit/:english_proficiency_id' => 'english_proficiencies/start#edit', as: :english_proficiencies_edit_start
+      patch '/edit/:english_proficiency_id' => 'english_proficiencies/start#update'
+
+      get '/no-qualification-details/:english_proficiency_id' => 'english_proficiencies/no_qualification_details#new', as: :english_proficiencies_no_qualification_details
+      patch '/no-qualification-details/:english_proficiency_id' => 'english_proficiencies/no_qualification_details#create'
+
+      get '/type/:english_proficiency_id' => 'english_proficiencies/type#new', as: :english_proficiencies_type
+      post '/type/:english_proficiency_id' => 'english_proficiencies/type#create'
+
+      get '/ielts/:english_proficiency_id' => 'english_proficiencies/ielts#new', as: :english_proficiencies_ielts
+      post '/ielts/:english_proficiency_id' => 'english_proficiencies/ielts#create'
+
+      get '/toefl/:english_proficiency_id' => 'english_proficiencies/toefl#new', as: :english_proficiencies_toefl
+      post '/toefl/:english_proficiency_id' => 'english_proficiencies/toefl#create'
+
+      get '/other/:english_proficiency_id' => 'english_proficiencies/other_efl_qualification#new', as: :english_proficiencies_other_efl_qualification
+      post '/other/:english_proficiency_id' => 'english_proficiencies/other_efl_qualification#create'
+
+      get '/review' => 'english_proficiencies/review#show', as: :english_proficiencies_review
+      patch '/review' => 'english_proficiencies/review#complete', as: :english_proficiencies_complete
+    end
+
     scope '/references' do
       get '/start' => 'references/review#show', as: :references_start
 

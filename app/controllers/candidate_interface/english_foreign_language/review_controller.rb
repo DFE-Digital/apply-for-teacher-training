@@ -1,7 +1,7 @@
 module CandidateInterface
   module EnglishForeignLanguage
     class ReviewController < SectionController
-      include EflRootConcern
+      include EflRoutingConcern
 
       before_action :check_for_english_proficiency
 

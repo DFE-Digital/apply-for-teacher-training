@@ -1,0 +1,13 @@
+<%= f.govuk_error_summary %>
+<%= f.govuk_check_boxes_fieldset :qualification_statuses,
+    caption: { text: t('page_titles.efl.start'), size: 'xl' },
+    legend: { text: 'Proving your level of English', size: 'xl', tag: 'h1' },
+    hint: { text: 'Select all that apply' } do %>
+  <%= f.govuk_check_box :qualification_statuses, 'qualification_not_needed', label: { text: 'English is my first language' }, link_errors: true %>
+  <%= f.govuk_check_box :qualification_statuses, 'degree_taught_in_english', label: { text: 'My degree was taught in English' } %>
+  <%= f.govuk_check_box :qualification_statuses, 'has_qualification', label: { text: 'I have an English as a foreign language (EFL) assessment' } %>
+  <%= f.govuk_check_box_divider %>
+  <%= f.govuk_check_box :qualification_statuses, 'no_qualification', label: { text: 'None of these' }, exclusive: true %>
+<% end %>
+
+<%= f.govuk_submit t('continue') %>

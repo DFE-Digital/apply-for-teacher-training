@@ -1,7 +1,7 @@
 module CandidateInterface
   module EnglishForeignLanguage
     class OtherEflQualificationController < CandidateInterfaceController
-      include EflRootConcern
+      include EflRoutingConcern
 
       def new
         @other_qualification_form = EnglishForeignLanguage::OtherEflQualificationForm.new

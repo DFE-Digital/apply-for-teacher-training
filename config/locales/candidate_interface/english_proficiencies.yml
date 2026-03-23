@@ -1,0 +1,74 @@
+en:
+  candidate_interface:
+    english_proficiencies:
+      summary_review_component:
+        subtitle: English as a foreign language assessment
+        type: Type of assessment
+        trf: Test Report Form (TRF) number
+        toefl_registration: TOEFL registration number
+        band_score: Overall band score
+        total_score: Total score
+        grade: Score or grade
+        award_year: Year completed
+        have_you_done_assessment: Have you done an English as a foreign language assessment?
+        not_foreign_language: No, English is not a foreign language to me
+        no_assessment: No, I have not done an English as a foreign language assessment
+
+  activemodel:
+    errors:
+      models:
+        candidate_interface/english_proficiencies/start_form:
+          attributes:
+            qualification_statuses:
+              blank: Select a way of proving your level of English, or select ‘None of these’
+              inclusion: Select a way of proving your level of English, or select ‘None of these’
+        candidate_interface/english_proficiencies/no_qualification_details_form:
+          attributes:
+            declare_no_qualification_details:
+              blank: Select if you plan to do an English as a foreign language assessment
+            no_qualification_details:
+              blank: Enter the details of the assessment you plan to take
+        candidate_interface/english_proficiencies/type_form:
+          attributes:
+            type:
+              blank: Select your type of assessment
+        candidate_interface/english_proficiencies/ielts_form:
+          attributes:
+            trf_number:
+              blank: Enter your TRF number
+            band_score:
+              blank: Enter your overall band score
+              invalid: Enter an overall band score in the correct format
+            award_year:
+              blank: Enter year the assessment was done
+              not_an_integer: Assessment year must be a real year
+              invalid_year: Assessment year must be a real year
+              not_a_number: Assessment year must be a real year
+              greater_than_or_equal_to: Assessment year cannot be before 1980
+              future: Assessment year cannot be in the future
+        candidate_interface/english_proficiencies/other_efl_qualification_form:
+          attributes:
+            name:
+              blank: Enter assessment name
+            grade:
+              blank: Enter your grade
+            award_year:
+              blank: Enter year the assessment was done
+              invalid_year: Assessment year must be a real year
+              not_an_integer: Assessment year must be a real year
+              not_a_number: Assessment year must be a real year
+              future: Assessment year cannot be in the future
+        candidate_interface/english_proficiencies/toefl_form:
+          attributes:
+            registration_number:
+              blank: Enter your registration number
+            total_score:
+              blank: Enter your total score
+              not_a_number: Enter your total score (this should be a number)
+            award_year:
+              blank: Enter year the assessment was done
+              invalid_year: Assessment year must be a real year
+              not_an_integer: Assessment year must be a real year
+              not_a_number: Assessment year must be a real year
+              greater_than_or_equal_to: Assessment year cannot be before 1964
+              future: Assessment year cannot be in the future

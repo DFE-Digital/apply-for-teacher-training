@@ -26,6 +26,24 @@ class EnglishProficiency < ApplicationRecord
     [name, grade, award_year, reference].compact.join(', ')
   end
 
+  def create_draft_dup!
+    application_form.english_proficiencies.draft.destroy_all
+
+    dup_record = dup
+    dup_record.draft = true
+    dup_record.save!
+    dup_record
+  end
+
+  def publish!
+    ActiveRecord::Base.transaction do
+      application_form.english_proficiencies.where.not(id: id).destroy_all
+
+      self.draft = false
+      save!
+    end
+  end
+
   def qualification_statuses
     statuses = []
     EnglishProficiency.qualification_statuses.each_key do |key|

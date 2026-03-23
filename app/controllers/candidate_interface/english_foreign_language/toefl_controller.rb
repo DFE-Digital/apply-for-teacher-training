@@ -1,7 +1,7 @@
 module CandidateInterface
   module EnglishForeignLanguage
     class ToeflController < CandidateInterfaceController
-      include EflRootConcern
+      include EflRoutingConcern
 
       def new
         @toefl_form = EnglishForeignLanguage::ToeflForm.new(toefl_params)

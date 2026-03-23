@@ -1,0 +1,27 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.efl.start'), @no_qualification_details_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(model: @no_qualification_details_form, url: candidate_interface_english_proficiencies_no_qualification_details_path(@english_proficiency), method: :patch) do |f| %>
+      <%= f.govuk_error_summary %>
+      <h1 class='govuk-heading-xl'>
+        <span class="govuk-caption-xl"><%= t('page_titles.efl.start') %></span>
+        You may need an English as a foreign language assessment
+      </h1>
+      <p class='govuk-body'>
+        Training providers may need to see evidence of your level of English. Contact them to find out about their requirements.
+      </p>
+
+      <%= f.govuk_radio_buttons_fieldset(:declare_no_qualification_details,
+         legend: { text: 'Do you plan on taking an English as a foreign language assessment?', tag: 'h2' }) do %>
+        <%= f.govuk_radio_button :declare_no_qualification_details, 1, label: { text: 'Yes' }, link_errors: true do %>
+          <%= f.govuk_text_area :no_qualification_details, label: { text: 'Give details of when and what type of assessment you plan to take' } %>
+        <% end %>
+        <%= f.govuk_radio_button :declare_no_qualification_details, 0, label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>
