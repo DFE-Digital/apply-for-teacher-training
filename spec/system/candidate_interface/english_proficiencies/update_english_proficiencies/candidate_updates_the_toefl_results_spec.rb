@@ -106,7 +106,7 @@ private
 
   def and_i_see_my_toefl_results_prefilled
     expect(page).to have_field('TOEFL registration number', type: 'text', with: @efl_qualification.registration_number)
-    expect(page).to have_field('Total score', type: 'number', with: @efl_qualification.total_score)
+    expect(page).to have_field('Total score', type: 'text', with: @efl_qualification.total_score)
     expect(page).to have_field('When did you complete the assessment?', type: 'text', with: @efl_qualification.award_year)
   end
 

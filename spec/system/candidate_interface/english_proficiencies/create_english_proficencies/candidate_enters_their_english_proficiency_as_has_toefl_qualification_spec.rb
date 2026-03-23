@@ -123,7 +123,7 @@ private
     expect(page).to have_element(:span, text: 'English as a foreign language assessment', class: 'govuk-caption-xl')
     expect(page).to have_element(:h1, text: 'Your TOEFL result', class: 'govuk-heading-xl')
     expect(page).to have_field('TOEFL registration number', type: 'text')
-    expect(page).to have_field('Total score', type: 'number')
+    expect(page).to have_field('Total score', type: 'text')
     expect(page).to have_field('When did you complete the assessment?', type: 'text')
   end
 
