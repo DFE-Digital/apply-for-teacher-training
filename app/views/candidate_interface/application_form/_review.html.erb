@@ -49,7 +49,11 @@
   <% if @application_form.international_applicant? %>
     <h3 class="govuk-heading-m"><%= t('page_titles.efl.start') %></h3>
     <% if @application_form.english_proficiency.present? %>
-      <%= render(CandidateInterface::ChooseEflReviewComponent.call(@application_form.english_proficiency, return_to_application_review: true)) %>
+      <% if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies') %>
+        <%= render(CandidateInterface::EnglishProficiencies::ReviewComponent.new(@application_form.english_proficiency)) %>
+      <% else %>
+        <%= render(CandidateInterface::ChooseEflReviewComponent.call(@application_form.english_proficiency, return_to_application_review: true)) %>
+      <% end %>
     <% else %>
       <%= render(CandidateInterface::IncompleteSectionComponent.new(section: 'efl', section_path: candidate_interface_english_foreign_language_start_path, error: missing_error)) %>
     <% end %>
