@@ -139,7 +139,6 @@ en:
       start: English as a foreign language assessment
       toefl: Your TOEFL result
       type: What English language assessment did you do?
-      assessment_plan:
     error_prefix: "Error: "
     success_prefix: "Success: "
     course_not_found: Course not found
