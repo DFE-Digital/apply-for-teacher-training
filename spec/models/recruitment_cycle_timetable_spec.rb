@@ -164,6 +164,8 @@ RSpec.describe RecruitmentCycleTimetable do
 
         expect(result.max).to eq described_class.current_year
         expect(result.min).to eq 2019
+        expect(result.first).to eq result.min
+        expect(result.last).to eq result.max
       end
     end
 
@@ -177,6 +179,8 @@ RSpec.describe RecruitmentCycleTimetable do
 
         expect(result.max).to eq described_class.next_year
         expect(result.min).to eq 2019
+        expect(result.first).to eq result.min
+        expect(result.last).to eq result.max
       end
     end
   end

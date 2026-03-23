@@ -79,7 +79,7 @@ class RecruitmentCycleTimetable < ApplicationRecord
   def self.years_visible_in_support
     max_year = HostingEnvironment.production? ? current_year : next_year
 
-    pluck(:recruitment_cycle_year).reject { |year| year > max_year }
+    pluck(:recruitment_cycle_year).reject { |year| year > max_year }&.sort
   end
 
   def self.years_visible_to_providers
