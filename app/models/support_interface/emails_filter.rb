@@ -20,7 +20,7 @@ module SupportInterface
 
     def filters
       @filters ||= [recipient] + [subject] + [notify_reference] +
-        [email_body] + [free_text] + [delivery_status] + [mailer]
+        [email_body] + [delivery_status] + [mailer]
     end
 
   private
@@ -58,17 +58,6 @@ module SupportInterface
         heading: 'Email body',
         value: applied_filters[:email_body],
         name: 'email_body',
-      }
-    end
-
-    def free_text
-      return {}
-
-      {
-        type: :search,
-        heading: 'Search',
-        value: applied_filters[:q],
-        name: 'q',
       }
     end
 

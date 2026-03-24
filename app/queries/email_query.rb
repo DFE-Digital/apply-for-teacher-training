@@ -66,7 +66,7 @@ class EmailQuery
   def mailer_template_scope(scope)
     return scope if params[:mail_template].blank?
 
-    scope.where(mailer: params[:mail_template])
+    scope.where(mail_template: params[:mail_template])
   end
 
   def application_form_scope(scope)
