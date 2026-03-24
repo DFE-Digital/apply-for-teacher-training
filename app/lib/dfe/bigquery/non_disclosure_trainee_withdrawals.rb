@@ -42,12 +42,20 @@ module DfE
         )
       end
 
+      def email_address
+        @email_address ||= CGI.escape(candidate.email_address)
+      end
+
       def first_names
-        @first_names ||= application_forms.map { |application_form| application_form.first_name&.downcase&.strip }.compact.uniq
+        @first_names ||= application_forms.map do |application_form|
+          CGI.escape(application_form.first_name&.downcase&.strip || '')
+        end.compact.uniq
       end
 
       def last_names
-        @last_names ||= application_forms.map { |application_form| application_form.last_name&.downcase&.strip }.compact.uniq
+        @last_names ||= application_forms.map do |application_form|
+          CGI.escape(application_form.last_name&.downcase&.strip || '')
+        end.compact.uniq
       end
 
       def date_of_birth
