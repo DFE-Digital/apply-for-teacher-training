@@ -232,6 +232,10 @@ jobs:
             echo "No flakey tests logged"
           fi
 
+      - name: Install bash and curl
+        if: failure() && github.event_name == 'push'
+        run: apk add bash curl
+
       - name: Notify teams channel on job failure
         if: failure() && github.event_name == 'push'
         uses: DFE-Digital/github-actions/send-to-teams-channel@master
