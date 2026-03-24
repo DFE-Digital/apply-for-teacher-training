@@ -50,9 +50,9 @@
     <h3 class="govuk-heading-m"><%= t('page_titles.efl.start') %></h3>
     <% if @application_form.english_proficiency.present? %>
       <% if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies') %>
-        <%= render(CandidateInterface::EnglishProficiencies::ReviewComponent.new(
-          @application_form.english_proficiency,
-          heading_level: 4)) %>
+        <%= render(
+          CandidateInterface::EnglishProficiencies::ReviewComponent.new(@application_form.english_proficiency, heading_level: 4),
+        ) %>
       <% else %>
         <%= render(CandidateInterface::ChooseEflReviewComponent.call(@application_form.english_proficiency, return_to_application_review: true)) %>
       <% end %>
