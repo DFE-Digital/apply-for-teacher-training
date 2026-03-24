@@ -2,16 +2,28 @@ module SupportInterface
   class EmailsFilter
     include FilterParamsHelper
 
+    FILTERABLE_BY = [
+      :to,
+      :subject,
+      :notify_reference,
+      :email_body,
+      :delivery_status,
+      :mailer,
+      :mail_template,
+      :application_form_id,
+    ]
+
     attr_reader :applied_filters
 
     def initialize(params:)
+      @params = params
       params.with_defaults!(days_ago: 10)
       params[:created_since] = params.fetch(:days_ago).to_i.days.ago.beginning_of_day
       @applied_filters = compact_params(params)
     end
 
     def filtered?
-      filters.pluck(:name).each do |filter|
+      FILTERABLE_BY.each do |filter|
         return true if applied_filters[filter].present?
       end
 
@@ -19,17 +31,39 @@ module SupportInterface
     end
 
     def filters
-      @filters ||= [recipient] + [subject] + [notify_reference] +
-        [email_body] + [delivery_status] + [mailer]
+      @filters ||= ([application_form] + [recipient] + [subject] + [notify_reference] +
+        [email_body] + [days_ago] + [delivery_status] + [mailer]).compact_blank
     end
 
   private
+
+    def application_form
+      return {} unless @params[:application_form_id].present?
+
+      {
+        type: :search,
+        heading: 'Application form ID',
+        value: applied_filters[:application_form_id]&.strip,
+        name: 'application_form_id',
+      }
+    end
+
+    def days_ago
+      return {} unless filtered?
+
+      {
+        type: :search,
+        heading: 'Days ago',
+        value: applied_filters[:days_ago].to_s&.strip,
+        name: 'days_ago',
+      }
+    end
 
     def recipient
       {
         type: :search,
         heading: 'Recipient (To)',
-        value: applied_filters[:to],
+        value: applied_filters[:to]&.strip,
         name: 'to',
       }
     end
@@ -38,7 +72,7 @@ module SupportInterface
       {
         type: :search,
         heading: 'Subject',
-        value: applied_filters[:subject],
+        value: applied_filters[:subject]&.strip,
         name: 'subject',
       }
     end
@@ -47,7 +81,7 @@ module SupportInterface
       {
         type: :search,
         heading: 'Notify reference',
-        value: applied_filters[:notify_reference],
+        value: applied_filters[:notify_reference]&.strip,
         name: 'notify_reference',
       }
     end
@@ -56,7 +90,7 @@ module SupportInterface
       {
         type: :search,
         heading: 'Email body',
-        value: applied_filters[:email_body],
+        value: applied_filters[:email_body]&.strip,
         name: 'email_body',
       }
     end
