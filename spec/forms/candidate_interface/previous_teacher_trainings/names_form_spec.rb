@@ -10,11 +10,10 @@ module CandidateInterface
       let(:previous_teacher_training) { create(:previous_teacher_training) }
 
       describe '#providers' do
-        it 'returns an array of providers' do
-          provider = create(:provider)
-          create(:course, :open, provider:)
+        it 'returns an array of all providers' do
+          create_list(:provider, 2)
 
-          expect(form.providers).to eq([provider])
+          expect(form.providers.count).to eq 2
         end
       end
 
