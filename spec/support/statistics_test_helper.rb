@@ -60,8 +60,8 @@ module StatisticsTestHelper
   end
 
   def load_subjects(level)
-    CSV.table(File.expand_path("./data/#{level}_subjects.csv", __dir__), strip: true).each_with_object({}) do |row, hash|
-      hash[row[:name]] = Subject.find_by(row.to_h).presence || create(:subject, row.to_h)
+    CSV.table(File.expand_path("./data/#{level}_subjects.csv", __dir__), strip: true).to_h do |row|
+      [row[:name], Subject.find_by(row.to_h).presence || create(:subject, row.to_h)]
     end
   end
 

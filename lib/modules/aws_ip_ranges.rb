@@ -3,7 +3,8 @@ module Modules
     # Used based on this AWS instruction: https://forums.aws.amazon.com/ann.jspa?annID=2051
     PATH = 'https://ip-ranges.amazonaws.com/ip-ranges.json'.freeze
     COMPATIBLE_REGIONS = %w[GLOBAL eu-west-2].freeze
-    ResponseError = Class.new(StandardError)
+    class ResponseError < StandardError
+    end
 
     def self.cloudfront_ips
       uri = URI(PATH)

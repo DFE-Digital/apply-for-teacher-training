@@ -2,7 +2,7 @@ module ProviderInterface
   class SkeLengthComponent < ApplicationComponent
     attr_reader :form, :offer_wizard
 
-    SkeLength = Struct.new(:value, :label, keyword_init: true)
+    SkeLength = Struct.new(:value, :label)
 
     def initialize(form:, offer_wizard:, radio_options: {})
       @form = form

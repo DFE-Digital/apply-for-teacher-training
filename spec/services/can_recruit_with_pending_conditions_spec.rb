@@ -10,7 +10,7 @@ RSpec.describe CanRecruitWithPendingConditions do
     let(:provider_type) { :scitt }
 
     before do
-      offer.conditions.reject { |condition| condition.is_a?(SkeCondition) }.each do |condition|
+      offer.conditions.grep_v(SkeCondition).each do |condition|
         condition.update!(status: :met)
       end
       offer.application_choice.provider.update(provider_type: provider_type)

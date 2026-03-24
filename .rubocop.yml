@@ -38,6 +38,9 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
+Style/OneClassPerFile:
+  Enabled: false
+
 Style/OptionalBooleanParameter:
   Exclude:
     - 'app/workers/**/*'

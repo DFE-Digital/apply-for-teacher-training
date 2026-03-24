@@ -18,7 +18,6 @@ module SupportInterface
         :course_code,
         :site_name,
         :study_mode,
-        keyword_init: true,
       )
 
       def course_options

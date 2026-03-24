@@ -9,7 +9,7 @@ RSpec.describe RecruitedWithPendingConditions do
     let(:offer) { create(:offer, :with_ske_conditions) }
 
     before do
-      offer.conditions.reject { |condition| condition.is_a?(SkeCondition) }.each do |condition|
+      offer.conditions.grep_v(SkeCondition).each do |condition|
         condition.update!(status: :met)
       end
     end
