@@ -18,11 +18,6 @@
     </table>
     <%= govuk_pagination(pagy: @pagy) %>
   <% else %>
-    <p class="govuk-body">
-      No filters have been selected.
-    </p>
-    <p class="govuk-body">
-      Use the filters to begin searching for emails.
-    </p>
+    <%= govuk_inset_text(text: 'Select filters to search for emails') %>
   <% end %>
 <% end %>
