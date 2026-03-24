@@ -26,7 +26,7 @@
               <ul class="moj-filter-tags">
                 <% tags_for_active_filter(active_filter).each do |tag| %>
                   <li>
-                    <%= link_to(tag[:remove_link], class: 'app-checkbox-filter__tag', id: "tag-#{tag[:title].parameterize}") do %>
+                    <%= link_to(tag[:remove_link], class: 'app-checkbox-filter__tag', id: "tag-#{tag[:title].to_s.parameterize}") do %>
                       <span class="govuk-visually-hidden">Remove this filter</span>
                       <%= tag[:title] %>
                     <% end %>
