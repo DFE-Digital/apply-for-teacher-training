@@ -1,10 +1,11 @@
 module CandidateInterface
   module EnglishProficiencies
     class ReviewComponent < ViewComponent::Base
-      attr_reader :english_proficiency
+      attr_reader :english_proficiency, :heading_level
 
-      def initialize(english_proficiency)
+      def initialize(english_proficiency, heading_level: 2)
         @english_proficiency = english_proficiency
+        @heading_level = heading_level
       end
 
       def rows
