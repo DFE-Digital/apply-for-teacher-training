@@ -68,7 +68,7 @@ private
 
   def then_i_can_see_english_is_my_first_language
     expect(page).to have_element(
-      :h2,
+      :h3,
       text: 'English as a foreign language assessment',
       class: 'govuk-summary-card__title',
     )
@@ -78,7 +78,7 @@ private
 
   def then_i_can_see_english_is_my_first_language_with_a_degree_taught_in_english
     expect(page).to have_element(
-      :h2,
+      :h3,
       text: 'English as a foreign language assessment',
       class: 'govuk-summary-card__title',
     )

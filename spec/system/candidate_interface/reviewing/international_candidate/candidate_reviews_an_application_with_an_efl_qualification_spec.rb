@@ -129,7 +129,7 @@ private
 
   def then_i_can_see_my_ielts_qualification
     expect(page).to have_element(
-      :h2,
+      :h3,
       text: 'English as a foreign language assessment',
       class: 'govuk-summary-card__title',
     )
@@ -147,7 +147,7 @@ private
 
   def then_i_can_see_my_toefl_qualification
     expect(page).to have_element(
-      :h2,
+      :h3,
       text: 'English as a foreign language assessment',
       class: 'govuk-summary-card__title',
     )
@@ -165,7 +165,7 @@ private
 
   def then_i_can_see_my_efl_qualification
     expect(page).to have_element(
-      :h2,
+      :h3,
       text: 'English as a foreign language assessment',
       class: 'govuk-summary-card__title',
     )
@@ -183,7 +183,7 @@ private
 
   def then_i_can_see_my_ielts_qualification_with_english_is_my_first_language
     expect(page).to have_element(
-      :h2,
+      :h3,
       text: 'English as a foreign language assessment',
       class: 'govuk-summary-card__title',
     )
@@ -205,7 +205,7 @@ private
 
   def then_i_can_see_my_ielts_qualification_with_degree_taught_in_english
     expect(page).to have_element(
-      :h2,
+      :h3,
       text: 'English as a foreign language assessment',
       class: 'govuk-summary-card__title',
     )
@@ -227,7 +227,7 @@ private
 
   def then_i_can_see_my_ielts_qualification_with_degree_taught_in_english_and_english_is_my_first_language
     expect(page).to have_element(
-      :h2,
+      :h3,
       text: 'English as a foreign language assessment',
       class: 'govuk-summary-card__title',
     )

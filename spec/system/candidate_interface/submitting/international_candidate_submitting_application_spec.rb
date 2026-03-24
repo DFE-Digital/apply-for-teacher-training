@@ -203,7 +203,7 @@ RSpec.describe 'International candidate submits the application' do
 
   def and_i_can_see_my_efl_assessment_qualification
     expect(page).to have_element(
-      :h2,
+      :h3,
       text: 'English as a foreign language assessment',
       class: 'govuk-summary-card__title',
     )

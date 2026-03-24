@@ -64,7 +64,7 @@ private
 
   def then_i_can_see_a_degree_taught_in_english_with_no_details
     expect(page).to have_element(
-      :h2,
+      :h3,
       text: 'English as a foreign language assessment',
       class: 'govuk-summary-card__title',
     )
@@ -88,7 +88,7 @@ private
 
   def then_i_can_see_a_degree_taught_in_english_with_details
     expect(page).to have_element(
-      :h2,
+      :h3,
       text: 'English as a foreign language assessment',
       class: 'govuk-summary-card__title',
     )
