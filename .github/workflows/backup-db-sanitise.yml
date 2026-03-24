@@ -104,7 +104,8 @@ jobs:
         azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         backup-file: ${{ env.BACKUP_FILE }}.sql
         db-server-name: ${{ inputs.db-server }}
-        slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+        teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+        service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
         exclude-tables: ${{ env.EXCLUDE_TABLES }}
 
     - name: Disk cleanup

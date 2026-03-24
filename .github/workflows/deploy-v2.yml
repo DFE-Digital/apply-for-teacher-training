@@ -41,4 +41,4 @@ jobs:
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           environment: ${{ github.event.inputs.environment }}
           sha: ${{ github.event.inputs.sha }}
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+          teams-webhook: ${{ secrets.TEAMS_WEBHOOK_URL }}

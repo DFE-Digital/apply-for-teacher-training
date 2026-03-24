@@ -71,16 +71,15 @@ jobs:
           docker-repository: ${{ env.DOCKER_IMAGE }}
           extra-cache-repo: ${{ env.GEMS_NODE_MODULES_IMAGE }}
 
-      - name: Notify Slack channel on job failure
+      - name: Notify teams channel on job failure
         if: failure() && github.event_name == 'push'
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_USERNAME: CI Deployment
-          SLACK_TITLE: Build failure
-          SLACK_MESSAGE: Build failure on branch ${{env.GIT_BRANCH}}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_COLOR: failure
-          SLACK_FOOTER: Sent from build job in build workflow
+        uses: DFE-Digital/github-actions/send-to-teams-channel@master
+        with:
+          teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          title: Build failure
+          service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
+          message: |
+            Build failure on branch ${{env.GIT_BRANCH}}
 
   lint:
     name: Lint
@@ -116,16 +115,16 @@ jobs:
         run: ${{ env.COMMAND }}
         env:
           COMMAND: ${{ matrix.command }}
-      - name: Notify Slack channel on job failure
+
+      - name: Notify teams channel on job failure
         if: failure() && github.event_name == 'push'
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_USERNAME: CI Deployment
-          SLACK_TITLE: Lint failure
-          SLACK_MESSAGE: ${{ matrix.tests }} lint failure on branch ${{ needs.build.outputs.GIT_BRANCH }}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_COLOR: failure
-          SLACK_FOOTER: Sent from lint job in build workflow
+        uses: DFE-Digital/github-actions/send-to-teams-channel@master
+        with:
+          teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          title: Lint failure
+          service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
+          message: |
+            ${{ matrix.tests }} lint failure on branch ${{ needs.build.outputs.GIT_BRANCH }}
 
   test:
     name: Tests
@@ -233,16 +232,15 @@ jobs:
             echo "No flakey tests logged"
           fi
 
-      - name: Notify Slack channel on job failure
+      - name: Notify teams channel on job failure
         if: failure() && github.event_name == 'push'
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_USERNAME: CI Deployment
-          SLACK_TITLE: Test failure
-          SLACK_MESSAGE: ${{ matrix.tests }} (feature-flags ${{ matrix.feature-flags }}) test failure on branch ${{ needs.build.outputs.GIT_BRANCH }}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_COLOR: failure
-          SLACK_FOOTER: Sent from test job in build workflow
+        uses: DFE-Digital/github-actions/send-to-teams-channel@master
+        with:
+          teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          title: Test failure
+          service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
+          message: |
+            ${{ matrix.tests }} (feature-flags ${{ matrix.feature-flags }}) test failure on branch ${{ needs.build.outputs.GIT_BRANCH }}
 
   report-flakey-specs:
     name: Report on flakey specs in pull request
@@ -286,7 +284,7 @@ jobs:
           environment: review
           pr-number: ${{ github.event.pull_request.number }}
           sha: ${{ needs.build.outputs.IMAGE_TAG }}
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+          teams-webhook: ${{ secrets.TEAMS_WEBHOOK_URL }}
 
       - name: Post sticky pull request comment
         if: success()
@@ -344,7 +342,7 @@ jobs:
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           environment: ${{ matrix.environment }}
           sha: ${{ github.sha }}
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+          teams-webhook: ${{ secrets.TEAMS_WEBHOOK_URL }}
 
   deploy-aks-production:
     name: Production deployment v2
@@ -367,7 +365,7 @@ jobs:
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           environment: production
           sha: ${{ github.sha }}
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+          teams-webhook: ${{ secrets.TEAMS_WEBHOOK_URL }}
 
   # TODO Update needs to deploy-aks-production when production is deployed
   deploy-aks-after-production:
@@ -391,7 +389,7 @@ jobs:
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           environment: sandbox
           sha: ${{ github.sha }}
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+          teams-webhook: ${{ secrets.TEAMS_WEBHOOK_URL }}
 
   deploy_domains_infra:
     name: Deploy Domains Infrastructure
@@ -410,7 +408,8 @@ jobs:
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID  }}
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID   }}
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID   }}
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+          teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
           terraform-base: terraform/custom_domains/infrastructure
 
   deploy_domains_env:
@@ -436,5 +435,6 @@ jobs:
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID   }}
           environment: ${{ matrix.domain_environment }}
           healthcheck: integrations/monitoring/
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+          teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
           terraform-base: terraform/custom_domains/environment_domains
