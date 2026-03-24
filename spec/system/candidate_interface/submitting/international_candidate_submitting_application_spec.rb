@@ -36,6 +36,35 @@ RSpec.describe 'International candidate submits the application' do
     then_i_can_see_my_application_has_been_successfully_submitted
   end
 
+  it 'International candidate completes and submits an application',
+     feature_flag: '2027_application_form_has_many_english_proficiencies' do
+    given_i_am_signed_in_with_one_login
+
+    when_i_have_completed_everything_except_the_efl_and_other_qualifications_section
+    when_i_review_my_details
+    then_i_see_the_efl_and_other_qualifications_section_is_incomplete
+    when_i_try_to_add_secondary_course
+    then_i_see_a_warning_about_incomplete_details
+
+    when_i_click_on_complete_your_details
+    and_i_complete_my_efl_assessment
+    and_i_complete_the_other_qualifications_section
+    then_i_see_all_sections_are_complete
+
+    when_i_review_my_choices
+    then_i_can_see_my_course_choices
+
+    when_i_review_my_application
+    and_i_can_see_my_personal_details
+    and_i_can_see_my_efl_assessment_qualification
+
+    when_i_click('Continue')
+    then_i_see_the_international_candidate_interruption
+    when_i_submit_my_application
+
+    then_i_can_see_my_application_has_been_successfully_submitted
+  end
+
   def then_i_see_the_international_candidate_interruption
     expect(page).to have_content('Check before you submit your application')
   end
@@ -121,6 +150,18 @@ RSpec.describe 'International candidate submits the application' do
     candidate_fills_in_efl_section
   end
 
+  def when_i_click_on_complete_your_details
+    click_on 'complete your details'
+  end
+
+  def and_i_complete_my_efl_assessment
+    click_link_or_button 'English as a foreign language'
+    check 'English is my first language'
+    click_link_or_button t('continue')
+    choose 'Yes, I have completed this section'
+    click_link_or_button t('continue')
+  end
+
   def and_i_complete_the_other_qualifications_section
     click_link_or_button 'Other qualifications'
     candidate_fills_in_their_other_qualifications
@@ -158,5 +199,15 @@ RSpec.describe 'International candidate submits the application' do
 
   def when_i_review_my_application
     candidate_reviews_application
+  end
+
+  def and_i_can_see_my_efl_assessment_qualification
+    expect(page).to have_element(
+      :h3,
+      text: 'English as a foreign language assessment',
+      class: 'govuk-summary-card__title',
+    )
+    expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+    expect(page).to have_element(:dd, text: 'English is my first language', class: 'govuk-summary-list__value')
   end
 end
