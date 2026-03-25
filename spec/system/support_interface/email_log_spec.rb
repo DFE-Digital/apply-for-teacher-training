@@ -70,7 +70,7 @@ RSpec.describe 'Email log' do
     visit support_interface_email_log_path
 
     expect(page).to have_current_path('/support/email-log', ignore_query: true)
-    expect(page).to have_element(:div, text: 'Select filters to search for emails', class: 'govuk-inset-text')
+    expect(page).to have_element(:div, text: 'Select filters to search for emails.', class: 'govuk-inset-text')
   end
 
   def and_i_filter_emails_for_harry

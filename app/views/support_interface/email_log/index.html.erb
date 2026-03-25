@@ -2,7 +2,7 @@
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @emails) do %>
   <% if !@filter.filtered? %>
-   <%= govuk_inset_text(text: 'Select filters to search for emails') %>
+   <%= govuk_inset_text(text: 'Select filters to search for emails.') %>
   <% elsif @emails.any? %>
     <table class="govuk-table">
       <caption class="govuk-table__caption govuk-heading-m">Emails sent since <%= @filter.applied_filters[:created_since].to_fs(:govuk_date_and_time) %></caption>
