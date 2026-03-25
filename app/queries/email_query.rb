@@ -14,6 +14,7 @@ class EmailQuery
     scope = date_scope(scope)
     scope = recipient_scope(scope)
     scope = subject_scope(scope)
+    scope = body_scope(scope)
     scope = delivery_status_scope(scope)
     scope = mailer_scope(scope)
     scope = mailer_template_scope(scope)
@@ -21,9 +22,11 @@ class EmailQuery
     notify_scope(scope)
   end
 
-  private
+private
 
   def date_scope(scope)
+    return scope if params[:created_since].blank?
+
     scope.where('created_at >= ?', params[:created_since])
   end
 
@@ -42,7 +45,7 @@ class EmailQuery
   def notify_scope(scope)
     return scope if params[:notify_reference].blank?
 
-    scope.where(notify_reference: params[:notify_reference].downcase.strip)
+    scope.where('lower(emails.notify_reference) = ?', params[:notify_reference].downcase.strip)
   end
 
   def body_scope(scope)

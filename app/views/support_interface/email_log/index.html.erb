@@ -1,7 +1,9 @@
 <%= render 'support_interface/performance/performance_navigation', title: 'Email log' %>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @emails) do %>
-  <% if @filter.filtered? %>
+  <% if !@filter.filtered? %>
+   <%= govuk_inset_text(text: 'Select filters to search for emails') %>
+  <% elsif @emails.any? %>
     <table class="govuk-table">
       <caption class="govuk-table__caption govuk-heading-m">Emails sent since <%= @filter.applied_filters[:created_since].to_fs(:govuk_date_and_time) %></caption>
       <thead class="govuk-table__head">
@@ -18,6 +20,10 @@
     </table>
     <%= govuk_pagination(pagy: @pagy) %>
   <% else %>
-    <%= govuk_inset_text(text: 'Select filters to search for emails') %>
+    <%= govuk_inset_text do %>
+      <p class="govuk-body">There are no emails found for the selected filters.</p>
+      <p class="govuk-body">Try changing the selected filters.</p>
+      <p class="govuk-body">Ensure that the recipient email address and notify reference match exactly.</p>
+    <% end %>
   <% end %>
 <% end %>

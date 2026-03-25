@@ -2,16 +2,16 @@ module SupportInterface
   class EmailsFilter
     include FilterParamsHelper
 
-    FILTERABLE_BY = [
-      :to,
-      :subject,
-      :notify_reference,
-      :email_body,
-      :delivery_status,
-      :mailer,
-      :mail_template,
-      :application_form_id,
-    ]
+    FILTERABLE_BY = %i[
+      to
+      subject
+      notify_reference
+      email_body
+      delivery_status
+      mailer
+      mail_template
+      application_form_id
+    ].freeze
 
     attr_reader :applied_filters
 
@@ -38,7 +38,7 @@ module SupportInterface
   private
 
     def application_form
-      return {} unless @params[:application_form_id].present?
+      return {} if @params[:application_form_id].blank?
 
       {
         type: :search,
@@ -54,7 +54,7 @@ module SupportInterface
       {
         type: :search,
         heading: 'Days ago',
-        value: applied_filters[:days_ago].to_s&.strip,
+        value: applied_filters[:days_ago].to_s.strip,
         name: 'days_ago',
       }
     end

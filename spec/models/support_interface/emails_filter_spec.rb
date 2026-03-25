@@ -52,13 +52,75 @@ RSpec.describe SupportInterface::EmailsFilter do
       expect(emails_filter.filters).to all(include(:type, :heading, :name))
     end
 
-    context 'when search value is present in the params' do
+    context 'when application form id value is present in the params' do
       it 'returns a search filter with the correct value' do
-        emails_filter = described_class.new(params: { q: 'search value' })
+        emails_filter = described_class.new(params: { application_form_id: '123' })
 
-        search_filter = emails_filter.filters.find { |filter| filter[:name] == 'q' }
+        application_form_filter = emails_filter.filters.find { |filter| filter[:name] == 'application_form_id' }
 
-        expect(search_filter).to eq(type: :search, heading: 'Search', value: 'search value', name: 'q')
+        expect(application_form_filter).to eq(type: :search, heading: 'Application form ID', value: '123', name: 'application_form_id')
+      end
+    end
+
+    context 'when days ago value is present in the params' do
+      context 'when no other params is present' do
+        it 'returns no search filter for days ago' do
+          emails_filter = described_class.new(params: { days_ago: 12 })
+
+          days_ago_filter = emails_filter.filters.find { |filter| filter[:name] == 'days_ago' }
+
+          expect(days_ago_filter).to be_nil
+        end
+      end
+
+      context 'when other params are present' do
+        it 'returns a search filter with the correct value' do
+          emails_filter = described_class.new(params: { days_ago: 12, to: 'bob@example.com' })
+
+          days_ago_filter = emails_filter.filters.find { |filter| filter[:name] == 'days_ago' }
+
+          expect(days_ago_filter).to eq(type: :search, heading: 'Days ago', value: '12', name: 'days_ago')
+        end
+      end
+    end
+
+    context 'when to value is present in the params' do
+      it 'returns a search filter with the correct value' do
+        emails_filter = described_class.new(params: { to: 'bob@example.com' })
+
+        recipient_filter = emails_filter.filters.find { |filter| filter[:name] == 'to' }
+
+        expect(recipient_filter).to eq(type: :search, heading: 'Recipient (To)', value: 'bob@example.com', name: 'to')
+      end
+    end
+
+    context 'when subject value is present in the params' do
+      it 'returns a search filter with the correct value' do
+        emails_filter = described_class.new(params: { subject: 'A subject' })
+
+        subject_filter = emails_filter.filters.find { |filter| filter[:name] == 'subject' }
+
+        expect(subject_filter).to eq(type: :search, heading: 'Subject', value: 'A subject', name: 'subject')
+      end
+    end
+
+    context 'when notify reference value is present in the params' do
+      it 'returns a search filter with the correct value' do
+        emails_filter = described_class.new(params: { notify_reference: '123ABC' })
+
+        notify_filter = emails_filter.filters.find { |filter| filter[:name] == 'notify_reference' }
+
+        expect(notify_filter).to eq(type: :search, heading: 'Notify reference', value: '123ABC', name: 'notify_reference')
+      end
+    end
+
+    context 'when email body value is present in the params' do
+      it 'returns a search filter with the correct value' do
+        emails_filter = described_class.new(params: { email_body: 'Hello there' })
+
+        email_body_filter = emails_filter.filters.find { |filter| filter[:name] == 'email_body' }
+
+        expect(email_body_filter).to eq(type: :search, heading: 'Email body', value: 'Hello there', name: 'email_body')
       end
     end
 
@@ -161,6 +223,22 @@ RSpec.describe SupportInterface::EmailsFilter do
             },
           ],
         )
+      end
+    end
+  end
+
+  describe '#filtered?' do
+    %i[to subject notify_reference email_body delivery_status mailer mail_template application_form_id].each do |filter|
+      context "when #{filter} value is present in the params" do
+        it 'returns true' do
+          expect(described_class.new(params: { "#{filter}": 'valid' }).filtered?).to be(true)
+        end
+      end
+    end
+
+    context 'when an invalid filter is present in the params' do
+      it 'returns false' do
+        expect(described_class.new(params: { random: 'valid' }).filtered?).to be(false)
       end
     end
   end
