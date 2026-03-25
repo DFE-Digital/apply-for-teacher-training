@@ -150,6 +150,7 @@ module CandidateInterface
 
     def residency_date_row
       return unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
+      return if @application_form.country_residency_since_birth.nil?
       return if @residency_date_form.residency_date_from == @application_form.date_of_birth
 
       {

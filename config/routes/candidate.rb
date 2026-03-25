@@ -228,17 +228,15 @@ namespace :candidate_interface, path: '/candidate' do
       get '/address/edit' => 'contact_details/address#edit', as: :edit_address
       patch '/address/edit' => 'contact_details/address#update'
 
-      if FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
-        get '/residency' => 'contact_details/residency#new', as: :new_residency
-        post '/residency' => 'contact_details/residency#create'
-        get '/residency/edit' => 'contact_details/residency#edit', as: :edit_residency
-        patch '/residency/edit' => 'contact_details/residency#update'
+      get '/residency' => 'contact_details/residency#new', as: :new_residency
+      post '/residency' => 'contact_details/residency#create'
+      get '/residency/edit' => 'contact_details/residency#edit', as: :edit_residency
+      patch '/residency/edit' => 'contact_details/residency#update'
 
-        get '/residency_date' => 'contact_details/residency_date#new', as: :new_residency_date
-        post '/residency_date' => 'contact_details/residency_date#create'
-        get '/residency_date/edit' => 'contact_details/residency_date#edit', as: :edit_residency_date
-        patch '/residency_date/edit' => 'contact_details/residency_date#update'
-      end
+      get '/residency_date' => 'contact_details/residency_date#new', as: :new_residency_date
+      post '/residency_date' => 'contact_details/residency_date#create'
+      get '/residency_date/edit' => 'contact_details/residency_date#edit', as: :edit_residency_date
+      patch '/residency_date/edit' => 'contact_details/residency_date#update'
 
       get '/review' => 'contact_details/review#show', as: :contact_information_review
       patch '/complete' => 'contact_details/review#complete', as: :contact_information_complete
