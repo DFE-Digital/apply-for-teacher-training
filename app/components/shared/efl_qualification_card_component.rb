@@ -9,13 +9,21 @@ class EflQualificationCardComponent < ApplicationComponent
     @header_tag = header_tag
   end
 
+  def header_class
+    if header_tag == 'h4'
+      'govuk-heading-s'
+    else
+      'govuk-heading-m'
+    end
+  end
+
   def render?
     !application_form.british_or_irish? && english_proficiency.present?
   end
 
   def english_proficiency
     @english_proficiency ||= if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
-                               application_form.published_english_proficiencies.first
+                               application_form.published_english_proficiency
                              else
                                application_form.english_proficiency
                              end
