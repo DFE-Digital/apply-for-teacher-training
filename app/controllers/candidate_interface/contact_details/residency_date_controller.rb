@@ -2,7 +2,7 @@ module CandidateInterface
   class ContactDetails::ResidencyDateController < CandidateInterfaceController
     def new
       @country_of_residence = country_of_residence
-      @residency_date_form = CandidateInterface::ResidencyDateForm.build_from_application(current_application)
+      @residency_date_form = CandidateInterface::ResidencyDateForm.new(application_form: current_application)
     end
 
     def edit
@@ -12,10 +12,11 @@ module CandidateInterface
     end
 
     def create
-      @residency_date_form = CandidateInterface::ResidencyDateForm.new(residency_date_params)
+      @country_of_residence = country_of_residence
+      @residency_date_form = CandidateInterface::ResidencyDateForm.new(application_form: current_application, **residency_date_params)
 
       if @residency_date_form.valid?
-        @residency_date_form.save(current_application)
+        @residency_date_form.save
         redirect_to candidate_interface_contact_information_review_path
       else
         track_validation_error(@residency_date_form)
@@ -24,10 +25,11 @@ module CandidateInterface
     end
 
     def update
-      @residency_date_form = CandidateInterface::ResidencyDateForm.new(residency_date_params)
+      @country_of_residence = country_of_residence
+      @residency_date_form = CandidateInterface::ResidencyDateForm.new(application_form: current_application, **residency_date_params)
 
       if @residency_date_form.valid?
-        @residency_date_form.save(current_application)
+        @residency_date_form.save
         redirect_to candidate_interface_contact_information_review_path
       else
         track_validation_error(@residency_date_form)

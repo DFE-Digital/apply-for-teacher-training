@@ -73,8 +73,8 @@ module SupportInterface
       return if @application_form.country_residency_date_from.blank?
 
       {
-        key: "Lived in #{find_country} since:",
-        value: @application_form.country_residency_date_from == @application_form.date_of_birth ? 'Birth' : @application_form.country_residency_date_from.to_fs(:month_and_year),
+        key: "Lived in #{find_country} since",
+        value: @application_form.country_residency_since_birth ? 'Birth' : @application_form.country_residency_date_from.to_fs(:month_and_year),
       }
     end
 

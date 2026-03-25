@@ -26,9 +26,17 @@ module CandidateInterface
     end
 
     def show_invalid_banner?
-      @editable &&
-        @submitting_application &&
-        !ContactDetailsForm.build_from_application(@application_form).valid_for_submission?
+      return false unless @editable && @submitting_application
+
+      if FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
+        !(
+          @contact_details_form.valid_for_submission? ||
+          @residency_form.valid? ||
+          @residency_date_form.valid?
+        )
+      else
+        !@contact_details_form.valid_for_submission?
+      end
     end
 
   private
@@ -150,8 +158,7 @@ module CandidateInterface
 
     def residency_date_row
       return unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
-      return if @application_form.country_residency_since_birth.nil?
-      return if @residency_date_form.residency_date_from == @application_form.date_of_birth
+      return unless @application_form.country_residency_since_birth == false
 
       {
         key: t('application_form.contact_details.residency_date.label', country: country_of_residence),

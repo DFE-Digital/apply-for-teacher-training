@@ -29,7 +29,7 @@ module CandidateInterface
 
       if @residency_form.valid?
         @residency_form.save(current_application)
-        path = @residency_form.since_birth? ? candidate_interface_contact_information_review_path : candidate_interface_edit_residency_date_path
+        path = @residency_form.since_birth? ? candidate_interface_contact_information_review_path : candidate_interface_new_residency_date_path
         redirect_to path
       else
         track_validation_error(@residency_form)

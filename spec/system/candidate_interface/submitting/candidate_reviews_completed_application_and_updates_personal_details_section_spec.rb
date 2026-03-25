@@ -130,11 +130,11 @@ RSpec.describe 'Candidate is redirected correctly' do
   end
 
   def then_i_see_the_phone_number_form
-    expect(page).to have_current_path(candidate_interface_edit_phone_number_path)
+    expect(page).to have_current_path(candidate_interface_edit_phone_number_path, ignore_query: true)
   end
 
   def then_i_see_the_address_type_form
-    expect(page).to have_current_path(candidate_interface_edit_address_type_path)
+    expect(page).to have_current_path(candidate_interface_edit_address_type_path, ignore_query: true)
   end
 
   def when_i_click_back

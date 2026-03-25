@@ -233,10 +233,10 @@ namespace :candidate_interface, path: '/candidate' do
       get '/residency/edit' => 'contact_details/residency#edit', as: :edit_residency
       patch '/residency/edit' => 'contact_details/residency#update'
 
-      get '/residency_date' => 'contact_details/residency_date#new', as: :new_residency_date
-      post '/residency_date' => 'contact_details/residency_date#create'
-      get '/residency_date/edit' => 'contact_details/residency_date#edit', as: :edit_residency_date
-      patch '/residency_date/edit' => 'contact_details/residency_date#update'
+      get '/residency-date' => 'contact_details/residency_date#new', as: :new_residency_date
+      post '/residency-date' => 'contact_details/residency_date#create'
+      get '/residency-date/edit' => 'contact_details/residency_date#edit', as: :edit_residency_date
+      patch '/residency-date/edit' => 'contact_details/residency_date#update'
 
       get '/review' => 'contact_details/review#show', as: :contact_information_review
       patch '/complete' => 'contact_details/review#complete', as: :contact_information_complete

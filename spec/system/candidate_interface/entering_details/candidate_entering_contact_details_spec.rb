@@ -138,7 +138,9 @@ RSpec.describe 'Entering their contact information' do
   end
 
   def when_i_click_to_change_my_phone_number
-    find_link('Change', href: candidate_interface_edit_phone_number_path).click
+    within("[data-qa='contact-details-phone-number']") do
+      click_link 'Change'
+    end
   end
 
   def then_i_can_see_my_phone_number
@@ -155,7 +157,9 @@ RSpec.describe 'Entering their contact information' do
   end
 
   def when_i_click_to_change_my_address_type
-    find_link('Change', href: candidate_interface_edit_address_type_path).click
+    within("[data-qa='contact-details-address']") do
+      click_link 'Change'
+    end
   end
 
   def then_i_can_see_my_address_type

@@ -1,10 +1,14 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.residency_date', country: @country_of_residence), @residency_date_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_new_residency_path) %>
 
-<%= form_with(model: @residency_date_form, url: candidate_interface_residency_date_path, method: :post) do |f| %>
-  <%= f.govuk_error_summary %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <%= form_with(model: @residency_date_form, url: candidate_interface_residency_date_path, method: :post) do |f| %>
+      <%= f.govuk_error_summary %>
 
-  <%= f.govuk_date_field(:residency_date_from, omit_day: true, legend: { text: t('application_form.contact_details.residency_date.label', country: @country_of_residence) }, hint: { text: t('application_form.contact_details.residency_date.hint') }) %>
+      <%= f.govuk_date_field(:residency_date_from, omit_day: true, legend: { size: 'l', text: t('application_form.contact_details.residency_date.legend', country: @country_of_residence) }, hint: { text: t('application_form.contact_details.residency_date.hint') }) %>
 
-  <%= f.govuk_submit 'Continue' %>
-<% end %>
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

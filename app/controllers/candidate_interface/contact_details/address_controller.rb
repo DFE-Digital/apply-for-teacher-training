@@ -6,6 +6,7 @@ module CandidateInterface
 
     def edit
       @contact_details_form = load_contact_form
+      @return_to_params = return_to_params
     end
 
     def create
@@ -34,7 +35,7 @@ module CandidateInterface
       @contact_details_form.assign_attributes(contact_details_params)
 
       if @contact_details_form.save_address(current_application)
-        if FeatureFlag.inactive?('2027_application_form_contact_details_residency_questions')
+        if params['return-to'] == 'application-review' || FeatureFlag.inactive?('2027_application_form_contact_details_residency_questions')
           redirect_to candidate_interface_contact_information_review_path
         elsif address_same_as_nationality?
           redirect_to candidate_interface_edit_residency_path
@@ -78,6 +79,10 @@ module CandidateInterface
         current_application&.fourth_nationality,
         current_application&.fifth_nationality,
       ].compact_blank
+    end
+
+    def return_to_params
+      { 'return-to' => 'application-review' }
     end
 
     def load_contact_form
