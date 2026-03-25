@@ -15,7 +15,9 @@ module CandidateInterface
       @contact_details_form.assign_attributes(contact_details_params)
 
       if @contact_details_form.save_address(current_application)
-        if address_same_as_nationality?
+        if FeatureFlag.inactive?('2027_application_form_contact_details_residency_questions')
+          redirect_to candidate_interface_contact_information_review_path
+        elsif address_same_as_nationality?
           redirect_to candidate_interface_new_residency_path
         else
           current_application.update(country_residency_since_birth: false)
@@ -32,7 +34,9 @@ module CandidateInterface
       @contact_details_form.assign_attributes(contact_details_params)
 
       if @contact_details_form.save_address(current_application)
-        if address_same_as_nationality?
+        if FeatureFlag.inactive?('2027_application_form_contact_details_residency_questions')
+          redirect_to candidate_interface_contact_information_review_path
+        elsif address_same_as_nationality?
           redirect_to candidate_interface_edit_residency_path
         else
           current_application.update(country_residency_since_birth: false)

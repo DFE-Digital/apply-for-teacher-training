@@ -47,6 +47,12 @@ RSpec.describe ApplicationForm do
   end
 
   describe 'callbacks' do
+    before do
+      allow(FeatureFlag).to receive(:active?)
+        .with('2027_application_form_contact_details_residency_questions')
+        .and_return(true)
+    end
+
     describe 'set_residency_date_from' do
       let(:dob) { Date.new(1990, 1, 1) }
 
@@ -91,6 +97,26 @@ RSpec.describe ApplicationForm do
 
         it 'does not set country_residency_date_from' do
           form.valid?
+          expect(form.country_residency_date_from).to be_nil
+        end
+      end
+
+      context 'when the feature flag is off' do
+        before do
+          allow(FeatureFlag).to receive(:active?)
+            .with('2027_application_form_contact_details_residency_questions')
+            .and_return(false)
+        end
+
+        it 'does not run the callback' do
+          form = described_class.new(
+            country_residency_since_birth: true,
+            date_of_birth: Date.new(1990, 1, 1),
+            country_residency_date_from: nil,
+          )
+
+          form.valid?
+
           expect(form.country_residency_date_from).to be_nil
         end
       end

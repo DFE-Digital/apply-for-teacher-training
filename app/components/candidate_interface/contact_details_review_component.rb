@@ -116,6 +116,8 @@ module CandidateInterface
     end
 
     def residency_row
+      return unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
+
       if @residency_form.since_birth.present?
         {
           key: t('application_form.contact_details.residency.label', country: country_of_residence),
@@ -147,6 +149,7 @@ module CandidateInterface
     end
 
     def residency_date_row
+      return unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
       return if @residency_date_form.residency_date_from == @application_form.date_of_birth
 
       {

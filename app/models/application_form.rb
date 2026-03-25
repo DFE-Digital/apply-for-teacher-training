@@ -4,7 +4,9 @@ class ApplicationForm < ApplicationRecord
   audited
   has_associated_audits
   geocoded_by :address_formatted_for_geocoding, params: { region: 'uk' }
-  before_validation :set_residency_date_from
+
+  before_validation :set_residency_date_from,
+                    if: -> { FeatureFlag.active?('2027_application_form_contact_details_residency_questions') }
 
   include Chased
   include AdviserEligibility
