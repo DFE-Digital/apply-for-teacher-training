@@ -4,6 +4,7 @@ class ApplicationForm < ApplicationRecord
   audited
   has_associated_audits
   geocoded_by :address_formatted_for_geocoding, params: { region: 'uk' }
+  before_validation :set_residency_date_from
 
   include Chased
   include AdviserEligibility
@@ -828,6 +829,13 @@ private
       saved_change_to_country? ||
       saved_change_to_postcode? ||
       saved_change_to_address_type?
+  end
+
+  def set_residency_date_from
+    return unless country_residency_since_birth?
+    return if date_of_birth.blank?
+
+    self.country_residency_date_from = date_of_birth
   end
 
   def add_support_reference

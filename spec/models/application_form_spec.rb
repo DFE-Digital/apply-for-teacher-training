@@ -46,6 +46,57 @@ RSpec.describe ApplicationForm do
     it { is_expected.to delegate_method(:opt_in?).to(:published_preference).with_prefix.allow_nil }
   end
 
+  describe 'callbacks' do
+    describe 'set_residency_date_from' do
+      let(:dob) { Date.new(1990, 1, 1) }
+
+      context 'when residency is since birth' do
+        let(:form) do
+          described_class.new(
+            country_residency_since_birth: true,
+            date_of_birth: dob,
+            country_residency_date_from: nil,
+          )
+        end
+
+        it 'sets country_residency_date_from to the date_of_birth' do
+          form.valid?
+          expect(form.country_residency_date_from).to eq(dob)
+        end
+      end
+
+      context 'when date_of_birth is missing' do
+        let(:form) do
+          described_class.new(
+            country_residency_since_birth: true,
+            date_of_birth: nil,
+            country_residency_date_from: nil,
+          )
+        end
+
+        it 'does not set country_residency_date_from' do
+          form.valid?
+          expect(form.country_residency_date_from).to be_nil
+        end
+      end
+
+      context 'when residency is not since birth' do
+        let(:form) do
+          described_class.new(
+            country_residency_since_birth: false,
+            date_of_birth: dob,
+            country_residency_date_from: nil,
+          )
+        end
+
+        it 'does not set country_residency_date_from' do
+          form.valid?
+          expect(form.country_residency_date_from).to be_nil
+        end
+      end
+    end
+  end
+
   describe '#cannot_add_more_choices?' do
     let(:application_form) { create(:application_form) }
 
