@@ -69,6 +69,12 @@ class ApplicationForm < ApplicationRecord
   has_one :subsequent_application_form, class_name: 'ApplicationForm', foreign_key: 'previous_application_form_id', inverse_of: 'previous_application_form', dependent: :destroy
   has_one :english_proficiency, -> { where(draft: false).order(:created_at) }, class_name: 'EnglishProficiency', dependent: :destroy
   has_many :english_proficiencies, dependent: :destroy
+  has_one(
+    :published_english_proficiency,
+    -> { where(draft: false).order(created_at: :desc) },
+    dependent: :destroy,
+    class_name: 'EnglishProficiency',
+  )
 
   has_many :application_feedback
 

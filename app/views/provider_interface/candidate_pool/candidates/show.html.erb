@@ -76,13 +76,7 @@
         </p>
       <% end %>
 
-      <% if !@application_form.british_or_irish? && @application_form.english_proficiency.present? %>
-        <h3 class="govuk-heading-m" id='efl-qualification'>
-          <%= t('.english_as_a_foreign_language') %>
-        </h3>
-        <%= render ProviderInterface::FindCandidates::EflQualificationCardComponent.new(@application_form) %>
-      <% end %>
-
+      <%= render EflQualificationCardComponent.new(@application_form, header_tag: 'h3') %>
     </section>
   </div>
   <div class="govuk-grid-column-two-thirds">
