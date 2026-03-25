@@ -21,7 +21,7 @@ RSpec.describe 'Support user filters emails by days' do
     and_i_see_an_email_for_bob_sent_11_days_ago
   end
 
-  private
+private
 
   def given_i_am_a_support_user
     sign_in_as_support_user
@@ -41,7 +41,7 @@ RSpec.describe 'Support user filters emails by days' do
   end
 
   def then_i_do_not_see_the_days_ago_filter
-    expect(page).not_to have_field('Days ago')
+    expect(page).to have_no_field('Days ago')
   end
 
   def when_i_filter_emails_by_recipient

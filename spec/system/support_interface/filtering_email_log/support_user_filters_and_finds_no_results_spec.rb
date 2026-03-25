@@ -11,7 +11,7 @@ RSpec.describe 'Support user filters and finds no results' do
     then_i_no_emails_have_been_found
   end
 
-  private
+private
 
   def given_i_am_a_support_user
     sign_in_as_support_user

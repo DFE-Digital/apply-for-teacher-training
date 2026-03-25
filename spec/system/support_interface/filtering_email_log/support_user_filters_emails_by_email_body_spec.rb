@@ -12,7 +12,7 @@ RSpec.describe 'Support user filters emails by email body' do
     and_i_do_not_see_an_email_for_jane
   end
 
-  private
+private
 
   def given_i_am_a_support_user
     sign_in_as_support_user

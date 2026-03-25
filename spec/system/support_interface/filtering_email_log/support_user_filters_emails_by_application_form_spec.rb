@@ -12,7 +12,7 @@ RSpec.describe 'Support user filters emails by application form' do
     and_i_see_the_application_form_filter
   end
 
-  private
+private
 
   def given_i_am_a_support_user
     sign_in_as_support_user
@@ -63,7 +63,7 @@ RSpec.describe 'Support user filters emails by application form' do
 
   def and_i_see_the_application_form_filter
     within('.moj-filter__content') do
-      expect(page).to have_field("Application form", with: @bob_application_form.id)
+      expect(page).to have_field('Application form', with: @bob_application_form.id)
     end
   end
 end
