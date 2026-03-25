@@ -1,6 +1,6 @@
 module CandidateInterface
   class ContactDetailsReviewComponent < ApplicationComponent
-    def initialize(application_form:, editable: true, missing_error: false, submitting_application: false, return_to_application_review: false)
+    def initialize(application_form:, editable: true, missing_error: false, submitting_application: false, return_to_application_review: true)
       @application_form = application_form
       @contact_details_form = CandidateInterface::ContactDetailsForm.build_from_application(
         @application_form,

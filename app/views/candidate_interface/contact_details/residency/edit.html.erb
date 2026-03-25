@@ -1,9 +1,9 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.residency', country: @country_of_residence), @residency_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
+<% content_for :before_content, govuk_back_link_to(@back_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <%= form_with(model: @residency_form, url: candidate_interface_residency_edit_path(@return_to[:params]), method: :patch) do |f| %>
+    <%= form_with(model: @residency_form, url: candidate_interface_residency_edit_path, method: :patch) do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset(:since_birth, legend: { size: 'l', tag: 'h1', text: t('application_form.contact_details.residency.label', country: @country_of_residence) }, hint: { text: t('application_form.contact_details.residency.hint') }) do %>

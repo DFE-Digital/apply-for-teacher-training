@@ -8,7 +8,7 @@ module CandidateInterface
     def edit
       @country_of_residence = country_of_residence
       @residency_date_form = CandidateInterface::ResidencyDateForm.build_from_application(current_application)
-      @return_to = return_to_after_edit(default: candidate_interface_contact_information_review_path)
+      @back_path = back_path
     end
 
     def create
@@ -39,6 +39,19 @@ module CandidateInterface
 
     def country_of_residence
       COUNTRIES_AND_TERRITORIES[current_application.country] || 'your current country of residence'
+    end
+
+    def back_path
+      param = params[:origin] || params[:'return-to']
+
+      case param
+      when 'application-review'
+        candidate_interface_contact_information_review_path
+      when 'address'
+        candidate_interface_edit_address_path
+      else
+        candidate_interface_edit_residency_path
+      end
     end
 
     def residency_date_params

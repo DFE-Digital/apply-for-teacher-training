@@ -15,8 +15,12 @@ module CandidateInterface
       @contact_details_form.assign_attributes(contact_details_params)
 
       if @contact_details_form.save_address(current_application)
-        path = address_same_as_nationality? ? candidate_interface_new_residency_path : candidate_interface_new_residency_date_path
-        redirect_to path
+        if address_same_as_nationality?
+          redirect_to candidate_interface_new_residency_path
+        else
+          current_application.update(country_residency_since_birth: false)
+          redirect_to candidate_interface_new_residency_date_path(origin: 'address')
+        end
       else
         track_validation_error(@contact_details_form)
         render :new
@@ -28,8 +32,12 @@ module CandidateInterface
       @contact_details_form.assign_attributes(contact_details_params)
 
       if @contact_details_form.save_address(current_application)
-        path = address_same_as_nationality? ? candidate_interface_edit_residency_path : candidate_interface_edit_residency_date_path
-        redirect_to path
+        if address_same_as_nationality?
+          redirect_to candidate_interface_edit_residency_path
+        else
+          current_application.update(country_residency_since_birth: false)
+          redirect_to candidate_interface_edit_residency_date_path(origin: 'address')
+        end
       else
         track_validation_error(@contact_details_form)
         render :edit
