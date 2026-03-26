@@ -28,8 +28,9 @@ module OneLoginHelper
     if FeatureFlag.inactive?(:one_login_candidate_sign_in)
       FeatureFlag.activate(:one_login_candidate_sign_in)
     end
-
-    @current_candidate = create(:candidate)
+    puts "Start: @current_candidate #{@current_candidate&.id}"
+    @current_candidate ||= create(:candidate)
+    puts "Created: @current_candidate #{@current_candidate&.id}"
     user_exists_in_one_login(email_address: @current_candidate.email_address)
     visit candidate_interface_create_account_or_sign_in_path
     click_link_or_button 'Continue'
