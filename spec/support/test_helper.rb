@@ -41,7 +41,7 @@ module DfE
         bigquery_client = instance_double(Google::Apis::BigqueryV2::BigqueryService)
         allow(DfE::Bigquery).to receive(:client).and_return(bigquery_client)
         if auth_error
-          allow(bigquery_client).to receive(:query_job).and_raise(Google::Auth::AuthorizationError.new(error: "unsupported_grant_type", error_description: "Invalid grant_type: "))
+          allow(bigquery_client).to receive(:query_job).and_raise(Google::Auth::AuthorizationError.new(error: 'unsupported_grant_type', error_description: 'Invalid grant_type: '))
         else
           allow(bigquery_client).to receive(:query_job).and_return(stub_bigquery_non_disclosure_trainee_withdrawals_response(rows:, job_complete:, page_token:, result:))
         end
