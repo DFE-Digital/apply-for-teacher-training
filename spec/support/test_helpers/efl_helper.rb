@@ -1,16 +1,16 @@
 module EFLHelper
   def when_i_declare_a_non_english_nationality
-   if current_candidate&.application_forms.present?
-     current_candidate.current_application.update(
-       first_nationality: 'Hong Konger',
-       second_nationality: 'Pakistani',
-       )
-   else
-     create(:application_form,
-            first_nationality: 'Hong Konger',
-            second_nationality: 'Pakistani',
-            candidate: current_candidate)
-   end
+    if current_candidate&.application_forms.present?
+      current_candidate.current_application.update(
+        first_nationality: 'Hong Konger',
+        second_nationality: 'Pakistani',
+      )
+    else
+      create(:application_form,
+             first_nationality: 'Hong Konger',
+             second_nationality: 'Pakistani',
+             candidate: current_candidate)
+    end
 
     visit candidate_interface_details_path
   end
