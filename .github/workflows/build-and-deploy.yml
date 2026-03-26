@@ -168,6 +168,9 @@ jobs:
             include-pattern: spec/system/provider_interface/.*_spec.rb
           - tests: integration_candidate
             include-pattern: spec/system/candidate_interface/.*_spec.rb
+            exclude-pattern: spec/system/candidate_interface/entering_details.*_spec.rb
+          - tests: integration_candidate_entering_details
+            include-pattern: spec/system/candidate_interface/entering_details.*_spec.rb
     services:
       redis:
         image: redis:alpine
