@@ -15,6 +15,7 @@ module EFLHelper
   end
 
   def when_i_click_on_the_efl_section_link
+    puts current_path
     click_link_or_button efl_link_text
   end
 
