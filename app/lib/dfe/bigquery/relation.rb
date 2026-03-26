@@ -46,6 +46,8 @@ module DfE
         end
 
         processed_results.map { |row| result_class.new(row) }
+      rescue Google::Auth::AuthorizationError => _e
+        try(:retry_worker)
       end
 
       def table_name
