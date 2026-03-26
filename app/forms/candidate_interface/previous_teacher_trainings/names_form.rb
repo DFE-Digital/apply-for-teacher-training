@@ -13,7 +13,7 @@ module CandidateInterface
       end
 
       def providers
-        @providers ||= GetAvailableProviders.call
+        @providers ||= Provider.all
       end
 
       def save
