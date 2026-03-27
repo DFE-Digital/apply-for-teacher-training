@@ -303,7 +303,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
             provider_code: course_option.provider.code,
             course_code: course_option.course.code,
             study_mode: course_option.course.study_mode,
-            site_code: 'ZZZZ',
+            site_code: 'ZZZZZZZ',
             audit_comment_ticket: zendesk_ticket,
             accept_guidance: true,
           )
@@ -311,27 +311,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
           form.save(application_choice.id)
 
           expect(form.errors[:site_code]).to include(
-            'Site code must be 2 characters',
-          )
-        end
-      end
-
-      context 'if the site code is too short' do
-        it 'raises a validation error' do
-          form = described_class.new(
-            application_choice_id: application_choice.id,
-            provider_code: course_option.provider.code,
-            course_code: course_option.course.code,
-            study_mode: course_option.course.study_mode,
-            site_code: 'Z',
-            audit_comment_ticket: zendesk_ticket,
-            accept_guidance: true,
-          )
-
-          form.save(application_choice.id)
-
-          expect(form.errors[:site_code]).to include(
-            'Site code must be 2 characters',
+            'Site code must be less than 5 characters',
           )
         end
       end
@@ -351,7 +331,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
           form.save(application_choice.id)
 
           expect(form.errors[:site_code]).to include(
-            'Site code can only contain upper case letters A to Z',
+            'Site code can only contain numbers and upper case letters A to Z',
           )
         end
       end

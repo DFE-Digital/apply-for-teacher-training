@@ -122,8 +122,8 @@ en:
               blank: Enter a site code
               invalid_site_code_for_study_mode: This site code is not available for this course and study mode.
               invalid_site_code: This site code is not available with this training provider
-              invalid_length: Site code must be 2 characters
-              invalid_format: Site code can only contain upper case letters A to Z
+              invalid_length: Site code must be less than %{max_code_length} characters
+              invalid_format: Site code can only contain numbers and upper case letters A to Z
             study_mode:
               blank: Select a study mode option
               invalid_study_mode: This study mode is not available for this course
