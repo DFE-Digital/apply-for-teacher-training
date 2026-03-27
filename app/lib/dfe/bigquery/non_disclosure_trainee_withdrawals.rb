@@ -31,6 +31,7 @@ module DfE
 
       def retry_worker
         NonDisclosureTraineeWithdrawalWorker.perform_in(10.minutes, candidate.id)
+        []
       end
 
     private
