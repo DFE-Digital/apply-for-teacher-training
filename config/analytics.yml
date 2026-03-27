@@ -51,6 +51,7 @@ shared:
     - sign_up_email_bounced
     - updated_at
     - email_address
+    - unsubscribed_from_emails
   pool_invites:
     - id
     - candidate_id
