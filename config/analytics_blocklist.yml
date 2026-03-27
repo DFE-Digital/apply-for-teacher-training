@@ -347,7 +347,6 @@
   :candidates:
   - magic_link_token
   - fraud_match_id
-  - unsubscribed_from_emails
   - submission_blocked
   - account_locked
   :provider_user_filters:
