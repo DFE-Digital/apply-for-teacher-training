@@ -6,7 +6,7 @@
     <%= form_with(model: @residency_date_form, url: candidate_interface_residency_date_path, method: :post) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_date_field(:residency_date_from, omit_day: true, legend: { size: 'l', text: t('application_form.contact_details.residency_date.legend', country: @country_of_residence) }, hint: { text: t('application_form.contact_details.residency_date.hint') }) %>
+      <%= f.govuk_date_field(:date, omit_day: true, legend: { size: 'l', text: t('application_form.contact_details.residency_date.legend', country: @country_of_residence) }, hint: { text: t('application_form.contact_details.residency_date.hint') }, link_errors: true) %>
 
       <%= f.govuk_submit 'Continue' %>
     <% end %>

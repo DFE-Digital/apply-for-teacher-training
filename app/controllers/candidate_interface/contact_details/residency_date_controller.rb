@@ -59,11 +59,11 @@ module CandidateInterface
     def residency_date_params
       params.expect(
         candidate_interface_residency_date_form: %i[
-          residency_date_from(1i)
-          residency_date_from(2i)
-          residency_date_from(3i)
+          date(1i)
+          date(2i)
+          date(3i)
         ],
-      ).transform_keys { |key| start_date_field_to_attribute(key, 'residency_date_from') }
+      ).transform_keys { |key| start_date_field_to_attribute(key, 'date') }
     end
   end
 end

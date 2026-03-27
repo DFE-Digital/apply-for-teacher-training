@@ -10,11 +10,6 @@ module CandidateInterface
     validate :date_must_be_in_the_past
     validate :date_must_not_be_before_birth
 
-    def initialize(attrs = {})
-      super
-      self.residency_date_from = date
-    end
-
     def save
       return false if invalid?
 

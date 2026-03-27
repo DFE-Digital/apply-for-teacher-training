@@ -162,7 +162,7 @@ module CandidateInterface
 
       {
         key: t('application_form.contact_details.residency_date.label', country: country_of_residence),
-        value: @residency_date_form.residency_date_from.to_fs(:month_and_year),
+        value: @residency_date_form.date.to_fs(:month_and_year),
         action: {
           href: candidate_interface_edit_residency_date_path(return_to_params),
           visually_hidden_text: t('application_form.contact_details.residency_date.change_action'),
