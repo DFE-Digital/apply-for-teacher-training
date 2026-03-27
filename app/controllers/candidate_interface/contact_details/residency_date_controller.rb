@@ -1,18 +1,19 @@
 module CandidateInterface
   class ContactDetails::ResidencyDateController < CandidateInterfaceController
     def new
-      @country_of_residence = country_of_residence
+      @country_of_residence = current_application.country_of_residence
       @residency_date_form = CandidateInterface::ResidencyDateForm.new(application_form: current_application)
+      @back_path = back_path
     end
 
     def edit
-      @country_of_residence = country_of_residence
+      @country_of_residence = current_application.country_of_residence
       @residency_date_form = CandidateInterface::ResidencyDateForm.build_from_application(current_application)
       @back_path = back_path
     end
 
     def create
-      @country_of_residence = country_of_residence
+      @country_of_residence = current_application.country_of_residence
       @residency_date_form = CandidateInterface::ResidencyDateForm.new(application_form: current_application, **residency_date_params)
 
       if @residency_date_form.valid?
@@ -25,7 +26,7 @@ module CandidateInterface
     end
 
     def update
-      @country_of_residence = country_of_residence
+      @country_of_residence = current_application.country_of_residence
       @residency_date_form = CandidateInterface::ResidencyDateForm.new(application_form: current_application, **residency_date_params)
 
       if @residency_date_form.valid?
@@ -39,10 +40,6 @@ module CandidateInterface
 
   private
 
-    def country_of_residence
-      COUNTRIES_AND_TERRITORIES[current_application.country] || 'your current country of residence'
-    end
-
     def back_path
       param = params[:origin] || params[:'return-to']
 
@@ -50,10 +47,16 @@ module CandidateInterface
       when 'application-review'
         candidate_interface_contact_information_review_path
       when 'address'
-        candidate_interface_edit_address_path
+        current_application.country_residency_date_from ? candidate_interface_edit_address_path : candidate_interface_new_address_path
+      when 'new-residency'
+        candidate_interface_new_residency_path
       else
-        candidate_interface_edit_residency_path
+        candidate_interface_edit_residency_path(return_to_params)
       end
+    end
+
+    def return_to_params
+      { 'return-to' => 'application-review' }
     end
 
     def residency_date_params

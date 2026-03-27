@@ -103,7 +103,7 @@ module SupportInterface
     end
 
     def find_country
-      CountryFinder.find_name_from_hesa_code(@application_form.country)
+      @find_country ||= CountryFinder.find_name_from_hesa_code(@application_form.country)
     end
   end
 end

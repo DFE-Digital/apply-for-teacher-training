@@ -174,4 +174,36 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
       expect(result.css('.govuk-summary-list__value').text).to include('January 1991')
     end
   end
+
+  context 'when residency since birth is false and a residency start date has not been provided' do
+    let(:application_form) do
+      build_stubbed(
+        :application_form,
+        phone_number: '07700 900 982',
+        address_line1: '42',
+        address_line2: 'Much Wow Street',
+        address_line3: 'London',
+        address_line4: 'England',
+        postcode: 'SW1P 3BT',
+        country_residency_since_birth: false,
+        country_residency_date_from: nil,
+        country: 'DE',
+      )
+    end
+
+    before do
+      allow(FeatureFlag).to receive(:active?)
+        .with('2027_application_form_contact_details_residency_questions')
+        .and_return(true)
+    end
+
+    it 'renders the residency row with the dates missing row' do
+      result = render_inline(described_class.new(application_form:))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Have you lived in Germany since birth?')
+      expect(result.css('.govuk-summary-list__value').text).to include('No')
+      expect(result.css('.govuk-summary-list__key').text).to include('Lived in Germany since')
+      expect(result.css('.govuk-summary-list__value').text).to include('Enter from what date you have lived in Germany')
+    end
+  end
 end

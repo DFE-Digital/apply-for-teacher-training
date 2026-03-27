@@ -10,10 +10,10 @@ module CandidateInterface
     def save(application)
       return false unless valid?
 
-      application.update(country_residency_since_birth: since_birth?)
+      application.update!(country_residency_since_birth: since_birth?)
 
-      if since_birth && application.date_of_birth.present?
-        application.update(country_residency_date_from: application.date_of_birth)
+      if application.date_of_birth.present?
+        application.update(country_residency_date_from: since_birth? ? application.date_of_birth : nil)
       end
     end
 

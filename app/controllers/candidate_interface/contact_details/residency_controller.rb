@@ -1,12 +1,12 @@
 module CandidateInterface
   class ContactDetails::ResidencyController < CandidateInterfaceController
     def new
-      @country_of_residence = country_of_residence
+      @country_of_residence = current_application.country_of_residence
       @residency_form = CandidateInterface::ResidencyForm.build_from_application(current_application)
     end
 
     def edit
-      @country_of_residence = country_of_residence
+      @country_of_residence = current_application.country_of_residence
       @residency_form = CandidateInterface::ResidencyForm.build_from_application(current_application)
       @back_path = back_path
     end
@@ -16,7 +16,7 @@ module CandidateInterface
 
       if @residency_form.valid?
         @residency_form.save(current_application)
-        path = @residency_form.since_birth? ? candidate_interface_contact_information_review_path : candidate_interface_new_residency_date_path
+        path = @residency_form.since_birth? ? candidate_interface_contact_information_review_path : candidate_interface_new_residency_date_path(origin: 'new-residency')
         redirect_to path
       else
         track_validation_error(@residency_form)
@@ -38,10 +38,6 @@ module CandidateInterface
     end
 
   private
-
-    def country_of_residence
-      COUNTRIES_AND_TERRITORIES[current_application.country] || 'your current country of residence'
-    end
 
     def back_path
       case params[:'return-to']

@@ -54,9 +54,9 @@ RSpec.describe 'Entering their contact information with residency questions enab
     then_i_see_the_residency_dates_question
 
     when_i_click_back
-    then_i_see_the_residency_since_birth_question
+    then_i_see_the_address_form
 
-    click_link_or_button 'Continue'
+    click_link_or_button 'Save and continue'
     then_i_see_the_residency_dates_question
 
     when_i_fill_in_the_dates

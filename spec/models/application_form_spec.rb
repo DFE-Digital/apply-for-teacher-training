@@ -1906,4 +1906,33 @@ RSpec.describe ApplicationForm do
       expect(application_form.international_qualification?).to be(false)
     end
   end
+
+  describe '#country_of_residence' do
+    context 'when the country exists' do
+      it 'returns the mapped value' do
+        application_form = described_class.new(country: 'GB-WLS')
+
+        expect(application_form.country_of_residence)
+          .to eq('Wales')
+      end
+    end
+
+    context 'when the country does not exist in the mapping' do
+      it 'returns the fallback string' do
+        application_form = described_class.new(country: 'XX')
+
+        expect(application_form.country_of_residence)
+          .to eq('your current country of residence')
+      end
+    end
+
+    context 'when the country is nil' do
+      it 'returns the fallback string' do
+        application_form = described_class.new(country: nil)
+
+        expect(application_form.country_of_residence)
+          .to eq('your current country of residence')
+      end
+    end
+  end
 end

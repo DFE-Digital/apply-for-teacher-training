@@ -798,6 +798,10 @@ class ApplicationForm < ApplicationRecord
     courses.all? { |course| course.salary? || course.apprenticeship? }
   end
 
+  def country_of_residence
+    COUNTRIES_AND_TERRITORIES[country] || 'your current country of residence'
+  end
+
 private
 
   def geocode_address_and_update_region_if_required

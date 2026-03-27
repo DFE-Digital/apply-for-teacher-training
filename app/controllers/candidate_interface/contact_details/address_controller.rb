@@ -52,12 +52,12 @@ module CandidateInterface
   private
 
     def address_same_as_nationality?
-      country_of_residence = current_application&.country
+      country = current_application&.country
 
       # true if candidate is British and lives in an overseas territory
-      return true if 'British'.in?(nationalities) && british_overseas_territory_or_island?(country_of_residence)
+      return true if 'British'.in?(nationalities) && british_overseas_territory_or_island?(country)
 
-      record = CODES_AND_NATIONALITIES[country_of_residence]
+      record = CODES_AND_NATIONALITIES[country]
 
       return false if nationalities.empty?
       return false unless record
@@ -66,9 +66,7 @@ module CandidateInterface
     end
 
     def british_overseas_territory_or_island?(country)
-      bots_and_islands = %w[GB GB-WLS GB-CYM GB-SCT GB-NIR IM GG JE AI BM BAT IO VG KY FK GI MS PN GS SH TC]
-
-      country.in?(bots_and_islands)
+      country.in?(BRITISH_OVERSEAS_TERRITORIES_AND_ISLANDS_CODES)
     end
 
     def nationalities

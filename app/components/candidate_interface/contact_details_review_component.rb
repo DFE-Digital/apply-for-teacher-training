@@ -128,7 +128,7 @@ module CandidateInterface
 
       if @residency_form.since_birth.present?
         {
-          key: t('application_form.contact_details.residency.label', country: country_of_residence),
+          key: t('application_form.contact_details.residency.label', country: @application_form.country_of_residence),
           value: @residency_form.since_birth.capitalize,
           action: {
             href: candidate_interface_edit_residency_path(return_to_params),
@@ -142,7 +142,7 @@ module CandidateInterface
         }
       else
         {
-          key: t('application_form.contact_details.residency.label', country: country_of_residence),
+          key: t('application_form.contact_details.residency.label', country: @application_form.country_of_residence),
           value: govuk_link_to(
             'Enter residency information',
             candidate_interface_edit_residency_path(return_to_params),
@@ -160,19 +160,34 @@ module CandidateInterface
       return unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
       return unless @application_form.country_residency_since_birth == false
 
-      {
-        key: t('application_form.contact_details.residency_date.label', country: country_of_residence),
-        value: @residency_date_form.date.to_fs(:month_and_year),
-        action: {
-          href: candidate_interface_edit_residency_date_path(return_to_params),
-          visually_hidden_text: t('application_form.contact_details.residency_date.change_action'),
-        },
-        html_attributes: {
-          data: {
-            qa: 'contact-details-residency-date',
+      if @residency_date_form.date.is_a?(Date)
+        {
+          key: t('application_form.contact_details.residency_date.label', country: @application_form.country_of_residence),
+          value: @residency_date_form.date.to_fs(:month_and_year),
+          action: {
+            href: candidate_interface_edit_residency_date_path(return_to_params),
+            visually_hidden_text: t('application_form.contact_details.residency_date.change_action'),
           },
-        },
-      }
+          html_attributes: {
+            data: {
+              qa: 'contact-details-residency-date',
+            },
+          },
+        }
+      else
+        {
+          key: t('application_form.contact_details.residency_date.label', country: @application_form.country_of_residence),
+          value: govuk_link_to(
+            "Enter from what date you have lived in #{@application_form.country_of_residence}",
+            candidate_interface_edit_residency_date_path(return_to_params),
+          ),
+          html_attributes: {
+            data: {
+              qa: 'contact-details-residency-date',
+            },
+          },
+        }
+      end
     end
 
     def full_address
@@ -200,10 +215,6 @@ module CandidateInterface
     def address_only_missing_postcode?
       @contact_details_form.validate(:address)
       @contact_details_form.errors.attribute_names == %i[postcode]
-    end
-
-    def country_of_residence
-      COUNTRIES_AND_TERRITORIES[@application_form&.country] || 'your current country of residence'
     end
 
     def return_to_params
