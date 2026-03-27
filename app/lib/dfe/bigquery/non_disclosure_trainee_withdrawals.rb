@@ -29,6 +29,10 @@ module DfE
         .where(sql_statement).to_sql
       end
 
+      def retry_worker
+        NonDisclosureTraineeWithdrawalWorker.perform_in(10.minutes, candidate.id)
+      end
+
     private
 
       def application_forms

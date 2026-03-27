@@ -112,6 +112,21 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
           ).with_message("cannot parse this type of value: 'COFFEE'")
         end
       end
+
+      context 'when a Google::Auth::AuthorizationError is returneed' do
+        before do
+          stub_bigquery_non_disclosure_trainee_withdrawals_request(auth_error: true)
+          allow(NonDisclosureTraineeWithdrawalWorker).to receive(:perform_in)
+        end
+
+        it 'enqueues the worker for 10 minutes later' do
+          trainee_data
+
+          expect(
+            NonDisclosureTraineeWithdrawalWorker,
+          ).to have_received(:perform_in).with(10.minutes, candidate.id)
+        end
+      end
     end
   end
 
