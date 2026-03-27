@@ -97,9 +97,9 @@ module SupportInterface
       def site_exists
         return if course_option.present?
 
-        if site_code.to_s.length.to_i != 2
-          errors.add(:site_code, :invalid_length)
-        elsif !site_code.to_s.match?(/[A-Z]{2}/)
+        if site_code.to_s.length.to_i > Site::CODE_LENGTH
+          errors.add(:site_code, :invalid_length, max_code_length: Site::CODE_LENGTH)
+        elsif site_code.to_s.match?(/[a-z]+/)
           errors.add(:site_code, :invalid_format)
         elsif option_study_mode.present?
           errors.add(:site_code, :invalid_site_code_for_study_mode)
