@@ -13,7 +13,10 @@ RSpec.describe 'Remove offer conditions' do
     when_i_navigate_to_an_offer
     and_i_navigate_to_the_offer_tab
     and_i_click_on_add_or_change_conditions
-    and_i_remove_all_conditions
+    and_i_remove_condition(3)
+    and_i_remove_condition(2)
+    and_i_remove_condition(1)
+    click_link_or_button 'Continue'
     then_i_expect_to_see_the_updated_conditions
 
     when_i_click_on_add_or_change_conditions
@@ -31,7 +34,10 @@ RSpec.describe 'Remove offer conditions' do
     when_i_navigate_to_an_offer
     and_i_navigate_to_the_offer_tab
     and_i_click_on_add_or_change_conditions
-    and_i_remove_all_conditions
+    and_i_remove_condition(3)
+    and_i_remove_condition(2)
+    and_i_remove_condition(1)
+    click_link_or_button 'Continue'
     then_i_expect_to_see_the_updated_conditions
 
     when_i_click_on_add_or_change_conditions
@@ -85,11 +91,8 @@ RSpec.describe 'Remove offer conditions' do
 
   alias_method :when_i_click_on_add_or_change_conditions, :and_i_click_on_add_or_change_conditions
 
-  def and_i_remove_all_conditions
-    click_link_or_button 'Remove condition 3'
-    click_link_or_button 'Remove condition 2'
-    click_link_or_button 'Remove condition 1'
-    click_link_or_button 'Continue'
+  def and_i_remove_condition(number)
+    click_link_or_button "Remove condition #{number}"
   end
 
   def then_i_expect_to_see_the_updated_conditions
