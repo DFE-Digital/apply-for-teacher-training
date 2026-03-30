@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_18_091333) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_30_090636) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1227,6 +1227,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_18_091333) do
     t.bigint "provider_id"
     t.string "request_method"
     t.jsonb "response_headers"
+    t.index ["provider_id"], name: "index_vendor_api_requests_on_provider_id"
+    t.index ["request_path"], name: "index_vendor_api_requests_on_request_path"
+    t.index ["status_code"], name: "index_vendor_api_requests_on_status_code"
   end
 
   create_table "vendor_api_tokens", force: :cascade do |t|
