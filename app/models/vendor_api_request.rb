@@ -6,11 +6,13 @@ class VendorAPIRequest < ApplicationRecord
   scope :errors, -> { where.not(status_code: [200, 302, 301]) }
   scope :successful, -> { where(status_code: [200]) }
 
-  def self.list_of_distinct_errors_with_count
-    error_messages = unprocessable_entities.flat_map do |request|
-      request.response_body['errors']&.map do |error|
-        [request.request_path, error['error'], error['message']]
-      end
+  def self.list_of_distinct_errors_with_count(requests = unprocessable_entities)
+    error_requests = requests
+                       .select(:request_path, :response_body, Arel.sql("response_body -> 'errors' as response_errors"))
+                       .where.not(response_body: [nil, {}])
+                       .where("(response_body->'errors') IS NOT NULL")
+    error_messages = error_requests.map do |request|
+      [request.request_path, request.response_errors.first['error'], request.response_errors.first['message']]
     end
 
     tally_errors(error_messages)
