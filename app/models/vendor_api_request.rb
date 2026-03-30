@@ -6,7 +6,7 @@ class VendorAPIRequest < ApplicationRecord
   scope :errors, -> { where.not(status_code: [200, 302, 301]) }
   scope :successful, -> { where(status_code: [200]) }
 
-  def self.list_of_distinct_errors_with_count(requests = unprocessable_entities)
+  def self.list_of_distinct_errors_with_count(requests = current_recruitment_unprocessable_entities)
     error_requests = requests
                        .select(:request_path, :response_body, Arel.sql("response_body -> 'errors' as response_errors"))
                        .where.not(response_body: [nil, {}])
@@ -19,7 +19,7 @@ class VendorAPIRequest < ApplicationRecord
   end
 
   def self.search_validation_errors(params)
-    scope = unprocessable_entities
+    scope = current_recruitment_unprocessable_entities
     scope = scope.where(request_path: params[:request_path]) if params[:request_path]
     scope = scope.where(provider_id: params[:provider_id]) if params[:provider_id]
     scope = scope.where(id: params[:id]) if params[:id]
@@ -32,6 +32,10 @@ class VendorAPIRequest < ApplicationRecord
       .tally
       .sort_by { |_attributes, total| total }
       .reverse
+  end
+
+  def self.current_recruitment_unprocessable_entities
+    unprocessable_entities.where('created_at > ?', RecruitmentCycleTimetable.current_timetable.apply_opens_at)
   end
 
   private_class_method :tally_errors
