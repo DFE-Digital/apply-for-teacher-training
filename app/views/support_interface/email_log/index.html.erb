@@ -2,7 +2,8 @@
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @emails) do %>
   <% if !@filter.filtered? %>
-   <%= govuk_inset_text(text: 'Select filters to search for emails.') %>
+    <p class="govuk-body">Select filters to search for emails.</p>
+    <p class="govuk-body">You must enter either an Application form ID, Recipient (To) or Provider code.</p>
   <% elsif @emails.any? %>
     <table class="govuk-table">
       <caption class="govuk-table__caption govuk-heading-m">Emails sent since <%= @filter.applied_filters[:created_since].to_fs(:govuk_date_and_time) %></caption>
