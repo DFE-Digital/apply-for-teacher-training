@@ -19,6 +19,7 @@ class EmailQuery
     scope = mailer_scope(scope)
     scope = mailer_template_scope(scope)
     scope = application_form_scope(scope)
+    scope = provider_scope(scope)
     notify_scope(scope)
   end
 
@@ -76,5 +77,15 @@ private
     return scope if params[:application_form_id].blank?
 
     scope.where(application_form_id: params[:application_form_id])
+  end
+
+  def provider_scope(scope)
+    return scope if params[:provider_code].blank?
+
+    provider = Provider.find_by(code: params[:provider_code])
+    return scope if provider.blank?
+
+    provider_email_addresses = provider.provider_users.map{ |user| user.email_address.downcase }
+    scope.where('lower(emails.to) IN (?)', provider_email_addresses)
   end
 end

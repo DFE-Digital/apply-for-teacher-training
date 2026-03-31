@@ -11,6 +11,7 @@ module SupportInterface
       mailer
       mail_template
       application_form_id
+      provider_code
     ].freeze
 
     attr_reader :applied_filters
@@ -31,7 +32,7 @@ module SupportInterface
     end
 
     def filters
-      @filters ||= ([application_form] + [recipient] + [subject] + [notify_reference] +
+      @filters ||= ([application_form] + [recipient] + [provider_code] + [subject] + [notify_reference] +
         [email_body] + [days_ago] + [delivery_status] + [mailer]).compact_blank
     end
 
@@ -56,6 +57,15 @@ module SupportInterface
         value:,
         name: 'days_ago',
         selection_hidden: value == '10',
+      }
+    end
+
+    def provider_code
+      {
+        type: :search,
+        heading: 'Provider code',
+        value: applied_filters[:provider_code]&.strip,
+        name: 'provider_code',
       }
     end
 
