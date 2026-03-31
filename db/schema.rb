@@ -258,7 +258,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_30_090636) do
     t.boolean "adviser_interruption_response"
     t.datetime "previous_teacher_training_completed_at", precision: nil
     t.boolean "previous_teacher_training_completed"
-    t.date "country_residency_date_from"
+    t.datetime "country_residency_date_from"
     t.boolean "country_residency_since_birth"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["recruitment_cycle_year"], name: "index_application_forms_on_recruitment_cycle_year"
