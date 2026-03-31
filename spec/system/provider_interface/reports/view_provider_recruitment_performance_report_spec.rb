@@ -40,12 +40,13 @@ RSpec.describe 'Visit provider recruitment performance report page' do
     and_i_am_signed_in_as_provider_user
     and_i_visit_current_cycle_recruitment_report_page
     then_i_see_no_report_message
+    and_i_do_not_see_the_set_comparison_area_button
 
     and_i_visit_previous_cycle_recruitment_report_page
     then_i_see_the_report_from_previous_cycle
   end
 
-  scenario 'provider report has not been generated', mid_cycle do
+  scenario 'provider report has not been generated', time: recruitment_performance_report_season do
     given_a_provider_and_provider_user_exists
     and_i_am_signed_in_as_provider_user
     and_i_visit_current_cycle_recruitment_report_page
@@ -212,7 +213,7 @@ private
   def when_i_set_london_as_my_region
     click_on 'Set your comparison area'
     choose 'London'
-    click_on 'Update comparison are'
+    click_on 'Update comparison area'
   end
 
   def when_i_go_to_set_my_comparison_area
@@ -225,5 +226,9 @@ private
 
   def given_the_reports_are_generated
     GenerateRecruitmentPerformanceReports.call
+  end
+
+  def and_i_do_not_see_the_set_comparison_area_button
+    expect(page).to have_no_content 'Set your comparison area'
   end
 end
