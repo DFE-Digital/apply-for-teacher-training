@@ -38,8 +38,6 @@ module SupportInterface
   private
 
     def application_form
-      return {} if @params[:application_form_id].blank?
-
       {
         type: :search,
         heading: 'Application form ID',
@@ -51,11 +49,13 @@ module SupportInterface
     def days_ago
       return {} unless filtered?
 
+      value = applied_filters[:days_ago].to_s.strip
       {
         type: :search,
         heading: 'Days ago',
-        value: applied_filters[:days_ago].to_s.strip,
+        value:,
         name: 'days_ago',
+        selection_hidden: value == "10",
       }
     end
 

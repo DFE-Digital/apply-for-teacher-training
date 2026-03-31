@@ -79,7 +79,17 @@ RSpec.describe SupportInterface::EmailsFilter do
 
           days_ago_filter = emails_filter.filters.find { |filter| filter[:name] == 'days_ago' }
 
-          expect(days_ago_filter).to eq(type: :search, heading: 'Days ago', value: '12', name: 'days_ago')
+          expect(days_ago_filter).to eq(type: :search, heading: 'Days ago', value: '12', name: 'days_ago', hidden: false)
+        end
+      end
+
+      context 'when days ago value is 10' do
+        it 'returns a hidden search filter' do
+          emails_filter = described_class.new(params: { days_ago: 10, to: 'bob@example.com' })
+
+          days_ago_filter = emails_filter.filters.find { |filter| filter[:name] == 'days_ago' }
+
+          expect(days_ago_filter).to eq(type: :search, heading: 'Days ago', value: '10', name: 'days_ago', hidden: true)
         end
       end
     end
