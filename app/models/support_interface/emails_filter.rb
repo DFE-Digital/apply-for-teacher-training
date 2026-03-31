@@ -2,17 +2,7 @@ module SupportInterface
   class EmailsFilter
     include FilterParamsHelper
 
-    FILTERABLE_BY = %i[
-      to
-      subject
-      notify_reference
-      email_body
-      delivery_status
-      mailer
-      mail_template
-      application_form_id
-      provider_code
-    ].freeze
+    REQUIRED_FILTERS = %i[to application_form_id provider_code notify_reference].freeze
 
     attr_reader :applied_filters
 
@@ -24,7 +14,7 @@ module SupportInterface
     end
 
     def filtered?
-      FILTERABLE_BY.each do |filter|
+      REQUIRED_FILTERS.each do |filter|
         return true if applied_filters[filter].present?
       end
 

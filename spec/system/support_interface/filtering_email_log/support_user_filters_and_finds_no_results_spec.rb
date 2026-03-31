@@ -26,7 +26,12 @@ private
     visit support_interface_email_log_path
 
     expect(page).to have_current_path('/support/email-log', ignore_query: true)
-    expect(page).to have_element(:div, text: 'Select filters to search for emails.', class: 'govuk-inset-text')
+    expect(page).to have_element(:p, text: 'Select filters to search for emails.', class: 'govuk-body')
+    expect(page).to have_element(:p, text: 'You must enter at least one of the follow fields:', class: 'govuk-body')
+    expect(page).to have_element(:li, text: 'Application form ID')
+    expect(page).to have_element(:li, text: 'Recipient (to)')
+    expect(page).to have_element(:li, text: 'Provider code')
+    expect(page).to have_element(:li, text: 'Notify reference')
   end
 
   def and_i_filter_emails_by_an_invalid_recipient
@@ -37,10 +42,12 @@ private
   end
 
   def then_i_no_emails_have_been_found
-    within('.govuk-inset-text') do
-      expect(page).to have_element(:p, text: 'There are no emails found for the selected filters.', class: 'govuk-body')
-      expect(page).to have_element(:p, text: 'Try changing the selected filters.', class: 'govuk-body')
-      expect(page).to have_element(:p, text: 'Ensure that the recipient email address and notify reference match exactly.', class: 'govuk-body')
-    end
+    expect(page).to have_element(:p, text: 'There are no emails found for the selected filters.', class: 'govuk-body')
+    expect(page).to have_element(:p, text: 'Try changing the selected filters.', class: 'govuk-body')
+    expect(page).to have_element(
+      :p,
+      text: 'Ensure that the application form ID, recipient email address, provider code and notify reference match exactly.',
+      class: 'govuk-body',
+    )
   end
 end

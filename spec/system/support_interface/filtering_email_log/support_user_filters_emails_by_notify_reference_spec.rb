@@ -27,7 +27,12 @@ private
     visit support_interface_email_log_path
 
     expect(page).to have_current_path('/support/email-log', ignore_query: true)
-    expect(page).to have_element(:div, text: 'Select filters to search for emails.', class: 'govuk-inset-text')
+    expect(page).to have_element(:p, text: 'Select filters to search for emails.', class: 'govuk-body')
+    expect(page).to have_element(:p, text: 'You must enter at least one of the follow fields:', class: 'govuk-body')
+    expect(page).to have_element(:li, text: 'Application form ID')
+    expect(page).to have_element(:li, text: 'Recipient (to)')
+    expect(page).to have_element(:li, text: 'Provider code')
+    expect(page).to have_element(:li, text: 'Notify reference')
   end
 
   def and_i_filter_emails_by_notify_reference

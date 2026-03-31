@@ -8,6 +8,9 @@ RSpec.describe 'Support user filters emails by mailer' do
     and_an_emails_has_been_dispatched
     when_i_visit_the_email_logs_page
     and_i_filter_emails_by_mailer
+    then_i_see_i_must_enter_a_required_field
+
+    when_i_filter_emails_by_application_form_id
     then_i_see_an_email_for_bob
     and_i_see_an_email_for_harry
     and_i_do_not_see_an_email_for_jane
@@ -20,22 +23,40 @@ private
   end
 
   def and_an_emails_has_been_dispatched
-    @bob_email = create(:email, to: 'bob@example.com', subject: 'Hello Bob', mailer: 'support_mailer')
-    @harry_email = create(:email, to: 'harry@example.com', subject: 'Hello Harry', mailer: 'candidate_mailer')
-    @jane_email = create(:email, to: 'jane@example.com', subject: 'Hello Jane', mailer: 'referee_mailer')
+    @application_form = create(:application_form)
+    @bob_email = create(:email, to: 'bob@example.com', subject: 'Hello Bob', mailer: 'support_mailer', application_form: @application_form)
+    @harry_email = create(:email, to: 'harry@example.com', subject: 'Hello Harry', mailer: 'candidate_mailer', application_form: @application_form)
+    @jane_email = create(:email, to: 'jane@example.com', subject: 'Hello Jane', mailer: 'referee_mailer', application_form: @application_form)
   end
 
   def when_i_visit_the_email_logs_page
     visit support_interface_email_log_path
 
     expect(page).to have_current_path('/support/email-log', ignore_query: true)
-    expect(page).to have_element(:div, text: 'Select filters to search for emails.', class: 'govuk-inset-text')
+    expect(page).to have_element(:p, text: 'Select filters to search for emails.', class: 'govuk-body')
+    and_i_see_i_must_enter_a_required_field
   end
+
+  def and_i_see_i_must_enter_a_required_field
+    expect(page).to have_element(:p, text: 'You must enter at least one of the follow fields:', class: 'govuk-body')
+    expect(page).to have_element(:li, text: 'Application form ID')
+    expect(page).to have_element(:li, text: 'Recipient (to)')
+    expect(page).to have_element(:li, text: 'Provider code')
+    expect(page).to have_element(:li, text: 'Notify reference')
+  end
+  alias_method :then_i_see_i_must_enter_a_required_field, :and_i_see_i_must_enter_a_required_field
 
   def and_i_filter_emails_by_mailer
     within('.moj-filter__content') do
       check 'Support mailer'
       check 'Candidate mailer'
+      click_on 'Apply filters'
+    end
+  end
+
+  def when_i_filter_emails_by_application_form_id
+    within('.moj-filter__content') do
+      fill_in 'Application form ID', with: @application_form.id
       click_on 'Apply filters'
     end
   end

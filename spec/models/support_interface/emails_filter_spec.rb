@@ -238,10 +238,18 @@ RSpec.describe SupportInterface::EmailsFilter do
   end
 
   describe '#filtered?' do
-    %i[to subject notify_reference email_body delivery_status mailer mail_template application_form_id].each do |filter|
+    %i[to notify_reference application_form_id provider_code].each do |filter|
       context "when #{filter} value is present in the params" do
         it 'returns true' do
           expect(described_class.new(params: { "#{filter}": 'valid' }).filtered?).to be(true)
+        end
+      end
+    end
+
+    %i[subject email_body delivery_status mailer mail_template].each do |filter|
+      context "when #{filter} value is the only present field in the params" do
+        it 'returns false' do
+          expect(described_class.new(params: { "#{filter}": 'invalid' }).filtered?).to be(false)
         end
       end
     end

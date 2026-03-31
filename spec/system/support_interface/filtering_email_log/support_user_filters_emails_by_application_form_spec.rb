@@ -32,13 +32,6 @@ private
     expect(page).not_to have_element(:div, text: 'Select filters to search for emails.', class: 'govuk-inset-text')
   end
 
-  def and_i_filter_emails_by_recipient
-    within('.moj-filter__content') do
-      fill_in 'Recipient (To)', with: 'bob@example.com'
-      click_on 'Apply filters'
-    end
-  end
-
   def then_i_see_an_email_for_bob
     within('.govuk-table') do
       expect(page).to have_element(:dt, text: 'Status')
