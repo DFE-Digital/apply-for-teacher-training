@@ -85,7 +85,7 @@ en:
         candidate_interface/residency_form:
           attributes:
             since_birth:
-              blank: Choose an option
+              blank: Select whether you have lived in %{country} since birth
         candidate_interface/residency_date_form:
           attributes:
             date:

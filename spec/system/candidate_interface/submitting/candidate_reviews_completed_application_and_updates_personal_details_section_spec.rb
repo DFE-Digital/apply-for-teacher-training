@@ -6,6 +6,7 @@ RSpec.describe 'Candidate is redirected correctly' do
 
   before do
     stub_bigquery_non_disclosure_trainee_withdrawals_request
+    FeatureFlag.deactivate('2027_application_form_contact_details_residency_questions')
   end
 
   it 'Candidate reviews completed application and updates personal details section' do

@@ -12,10 +12,11 @@ module CandidateInterface
     end
 
     def create
-      @residency_form = CandidateInterface::ResidencyForm.new(residency_params)
+      @country_of_residence = current_application.country_of_residence
+      @residency_form = CandidateInterface::ResidencyForm.new(residency_params.merge(application_form: current_application))
 
       if @residency_form.valid?
-        @residency_form.save(current_application)
+        @residency_form.save
         path = @residency_form.since_birth? ? candidate_interface_contact_information_review_path : candidate_interface_new_residency_date_path(origin: 'new-residency')
         redirect_to path
       else
@@ -25,10 +26,11 @@ module CandidateInterface
     end
 
     def update
-      @residency_form = CandidateInterface::ResidencyForm.new(residency_params)
+      @country_of_residence = current_application.country_of_residence
+      @residency_form = CandidateInterface::ResidencyForm.new(residency_params.merge(application_form: current_application))
 
       if @residency_form.valid?
-        @residency_form.save(current_application)
+        @residency_form.save
         path = @residency_form.since_birth? ? candidate_interface_contact_information_review_path : candidate_interface_new_residency_date_path
         redirect_to path
       else
@@ -50,8 +52,8 @@ module CandidateInterface
 
     def residency_params
       params
-      .fetch(:candidate_interface_residency_form, {})
-      .permit(:since_birth)
+        .fetch(:candidate_interface_residency_form, {})
+        .permit(:since_birth)
     end
   end
 end

@@ -6,7 +6,6 @@ module CandidateInterface
 
     def edit
       @contact_details_form = load_contact_form
-      @return_to_params = return_to_params
     end
 
     def create
@@ -77,10 +76,6 @@ module CandidateInterface
         current_application&.fourth_nationality,
         current_application&.fifth_nationality,
       ].compact_blank
-    end
-
-    def return_to_params
-      { 'return-to' => 'application-review' }
     end
 
     def load_contact_form
