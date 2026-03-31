@@ -79,7 +79,7 @@ RSpec.describe SupportInterface::EmailsFilter do
 
           days_ago_filter = emails_filter.filters.find { |filter| filter[:name] == 'days_ago' }
 
-          expect(days_ago_filter).to eq(type: :search, heading: 'Days ago', value: '12', name: 'days_ago', hidden: false)
+          expect(days_ago_filter).to eq(type: :search, heading: 'Days ago', value: '12', name: 'days_ago', selection_hidden: false)
         end
       end
 
@@ -89,7 +89,7 @@ RSpec.describe SupportInterface::EmailsFilter do
 
           days_ago_filter = emails_filter.filters.find { |filter| filter[:name] == 'days_ago' }
 
-          expect(days_ago_filter).to eq(type: :search, heading: 'Days ago', value: '10', name: 'days_ago', hidden: true)
+          expect(days_ago_filter).to eq(type: :search, heading: 'Days ago', value: '10', name: 'days_ago', selection_hidden: true)
         end
       end
     end

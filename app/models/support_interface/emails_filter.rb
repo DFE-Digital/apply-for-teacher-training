@@ -55,7 +55,7 @@ module SupportInterface
         heading: 'Days ago',
         value:,
         name: 'days_ago',
-        selection_hidden: value == "10",
+        selection_hidden: value == '10',
       }
     end
 

@@ -22,7 +22,7 @@
             </div>
 
             <% active_filters.each do |active_filter| %>
-              <% next if active_filter.dig(:selection_hidden) %>
+              <% next if active_filter[:selection_hidden] %>
 
               <h4 class="govuk-heading-s govuk-!-margin-bottom-0"><%= active_filter[:heading] %></h4>
               <ul class="moj-filter-tags">
