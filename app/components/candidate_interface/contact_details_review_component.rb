@@ -5,12 +5,6 @@ module CandidateInterface
       @contact_details_form = CandidateInterface::ContactDetailsForm.build_from_application(
         @application_form,
       )
-      @residency_form = CandidateInterface::ResidencyForm.build_from_application(
-        @application_form,
-      )
-      @residency_date_form = CandidateInterface::ResidencyDateForm.build_from_application(
-        @application_form,
-      )
       @editable = editable
       @missing_error = missing_error
       @submitting_application = submitting_application
@@ -31,8 +25,8 @@ module CandidateInterface
       if FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
         !(
           @contact_details_form.valid_for_submission? ||
-          @residency_form.valid? ||
-          @residency_date_form.valid?
+          residency_form.valid? ||
+          residency_date_form.valid?
         )
       else
         !@contact_details_form.valid_for_submission?
@@ -126,10 +120,10 @@ module CandidateInterface
     def residency_row
       return unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
 
-      if @residency_form.since_birth.present?
+      if residency_form.since_birth.present?
         {
           key: t('application_form.contact_details.residency.label', country: @application_form.country_of_residence),
-          value: @residency_form.since_birth.capitalize,
+          value: residency_form.since_birth.capitalize,
           action: {
             href: candidate_interface_edit_residency_path(return_to_params),
             visually_hidden_text: t('application_form.contact_details.residency.change_action'),
@@ -160,10 +154,10 @@ module CandidateInterface
       return unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
       return unless @application_form.country_residency_since_birth == false
 
-      if @residency_date_form.date.is_a?(Date)
+      if residency_date_form.date.is_a?(Date)
         {
           key: t('application_form.contact_details.residency_date.label', country: @application_form.country_of_residence),
-          value: @residency_date_form.date.to_fs(:month_and_year),
+          value: residency_date_form.date.to_fs(:month_and_year),
           action: {
             href: candidate_interface_edit_residency_date_path(return_to_params),
             visually_hidden_text: t('application_form.contact_details.residency_date.change_action'),
@@ -219,6 +213,22 @@ module CandidateInterface
 
     def return_to_params
       { 'return-to' => 'application-review' } if @return_to_application_review
+    end
+
+    def residency_form
+      unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
+        raise 'Residency form accessed but residency questions feature flag is inactive'
+      end
+
+      @residency_form ||= CandidateInterface::ResidencyForm.build_from_application(@application_form)
+    end
+
+    def residency_date_form
+      unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
+        raise 'Residency date form accessed but residency questions feature flag is inactive'
+      end
+
+      @residency_date_form ||= CandidateInterface::ResidencyDateForm.build_from_application(@application_form)
     end
   end
 end
