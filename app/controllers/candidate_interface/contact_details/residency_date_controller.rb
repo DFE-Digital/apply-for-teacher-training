@@ -46,12 +46,16 @@ module CandidateInterface
       case param
       when 'application-review'
         candidate_interface_contact_information_review_path
-      when 'address'
-        current_application.country_residency_date_from ? candidate_interface_edit_address_path : candidate_interface_new_address_path
+      when 'new-address'
+        candidate_interface_address_path
+      when 'edit-address'
+        candidate_interface_edit_address_path
       when 'new-residency'
         candidate_interface_new_residency_path
-      else
+      when 'change-residency'
         candidate_interface_edit_residency_path(return_to_params)
+      else
+        candidate_interface_edit_residency_path
       end
     end
 

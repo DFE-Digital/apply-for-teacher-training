@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <%= form_with(model: @residency_form, url: candidate_interface_residency_edit_path, method: :patch) do |f| %>
+    <%= form_with(model: @residency_form, url: candidate_interface_residency_edit_path(params['return-to'] ? { 'return-to': 'application-review' } : {}), method: :patch) do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset(:since_birth, legend: { size: 'l', tag: 'h1', text: t('application_form.contact_details.residency.label', country: @country_of_residence) }, hint: { text: t('application_form.contact_details.residency.hint') }) do %>

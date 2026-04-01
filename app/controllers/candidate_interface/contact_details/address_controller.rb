@@ -21,7 +21,7 @@ module CandidateInterface
           redirect_to candidate_interface_new_residency_path
         else
           current_application.update(country_residency_since_birth: false)
-          redirect_to candidate_interface_new_residency_date_path(origin: 'address')
+          redirect_to candidate_interface_new_residency_date_path(origin: 'new-address')
         end
       else
         track_validation_error(@contact_details_form)
@@ -40,7 +40,7 @@ module CandidateInterface
           redirect_to candidate_interface_edit_residency_path
         else
           current_application.update(country_residency_since_birth: false)
-          redirect_to candidate_interface_edit_residency_date_path(origin: 'address')
+          redirect_to candidate_interface_edit_residency_date_path(origin: 'edit-address')
         end
       else
         track_validation_error(@contact_details_form)

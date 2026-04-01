@@ -31,7 +31,7 @@ module CandidateInterface
 
       if @residency_form.valid?
         @residency_form.save
-        path = @residency_form.since_birth? ? candidate_interface_contact_information_review_path : candidate_interface_new_residency_date_path
+        path = @residency_form.since_birth? ? candidate_interface_contact_information_review_path : edit_residency_date_path
         redirect_to path
       else
         track_validation_error(@residency_form)
@@ -47,6 +47,14 @@ module CandidateInterface
         candidate_interface_contact_information_review_path
       else
         candidate_interface_edit_address_path
+      end
+    end
+
+    def edit_residency_date_path
+      if params['return-to'] == 'application-review'
+        candidate_interface_edit_residency_date_path(origin: 'change-residency')
+      else
+        candidate_interface_edit_residency_date_path
       end
     end
 
