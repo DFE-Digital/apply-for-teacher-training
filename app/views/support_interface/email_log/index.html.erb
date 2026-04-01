@@ -1,19 +1,34 @@
 <%= render 'support_interface/performance/performance_navigation', title: 'Email log' %>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @emails) do %>
-  <table class="govuk-table">
-    <caption class="govuk-table__caption govuk-heading-m">Emails sent since <%= @filter.applied_filters[:created_since].to_fs(:govuk_date_and_time) %></caption>
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time</th>
-        <th class="govuk-table__header govuk-table__header govuk-!-width-three-quarters">Email</th>
-      </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-    <% @emails.each do |email| %>
-      <%= render SupportInterface::EmailLogRowComponent.new(email: email) %>
+  <% if !@filter.filtered? %>
+    <p class="govuk-body">Select filters to search for emails.</p>
+    <p class="govuk-body">You must enter at least one of the following fields:</p>
+    <%= govuk_list(type: :bullet) do %>
+      <li>Application form ID</li>
+      <li>Recipient (to)</li>
+      <li>Provider code</li>
+      <li>Notify reference</li>
     <% end %>
-    </tbody>
-  </table>
-  <%= govuk_pagination(pagy: @pagy) %>
+  <% elsif @emails.any? %>
+    <table class="govuk-table">
+      <caption class="govuk-table__caption govuk-heading-m">Emails sent since <%= @filter.applied_filters[:created_since].to_fs(:govuk_date_and_time) %></caption>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time</th>
+          <th class="govuk-table__header govuk-table__header govuk-!-width-three-quarters">Email</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+      <% @emails.each do |email| %>
+        <%= render SupportInterface::EmailLogRowComponent.new(email: email) %>
+      <% end %>
+      </tbody>
+    </table>
+    <%= govuk_pagination(pagy: @pagy) %>
+  <% else %>
+    <p class="govuk-body">There are no emails found for the selected filters.</p>
+    <p class="govuk-body">Try changing the selected filters.</p>
+    <p class="govuk-body">Ensure that the application form ID, recipient email address, provider code and notify reference match exactly.</p>
+  <% end %>
 <% end %>

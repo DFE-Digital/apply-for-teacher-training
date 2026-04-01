@@ -2,26 +2,96 @@ module SupportInterface
   class EmailsFilter
     include FilterParamsHelper
 
+    REQUIRED_FILTERS = %i[to application_form_id provider_code notify_reference].freeze
+
     attr_reader :applied_filters
 
     def initialize(params:)
+      @params = params
       params.with_defaults!(days_ago: 10)
       params[:created_since] = params.fetch(:days_ago).to_i.days.ago.beginning_of_day
       @applied_filters = compact_params(params)
     end
 
+    def filtered?
+      REQUIRED_FILTERS.each do |filter|
+        return true if applied_filters[filter].present?
+      end
+
+      false
+    end
+
     def filters
-      @filters ||= [free_text] + [delivery_status] + [mailer]
+      @filters ||= ([application_form] + [recipient] + [provider_code] + [subject] + [notify_reference] +
+        [email_body] + [days_ago] + [delivery_status] + [mailer]).compact_blank
     end
 
   private
 
-    def free_text
+    def application_form
       {
         type: :search,
-        heading: 'Search',
-        value: applied_filters[:q],
-        name: 'q',
+        heading: 'Application form ID',
+        value: applied_filters[:application_form_id]&.strip,
+        name: 'application_form_id',
+      }
+    end
+
+    def days_ago
+      return {} unless filtered?
+
+      value = applied_filters[:days_ago].to_s.strip
+      {
+        type: :search,
+        heading: 'Days ago',
+        value:,
+        name: 'days_ago',
+        selection_hidden: value == '10',
+      }
+    end
+
+    def provider_code
+      {
+        type: :search,
+        heading: 'Provider code',
+        value: applied_filters[:provider_code]&.strip,
+        name: 'provider_code',
+      }
+    end
+
+    def recipient
+      {
+        type: :search,
+        heading: 'Recipient (To)',
+        value: applied_filters[:to]&.strip,
+        name: 'to',
+      }
+    end
+
+    def subject
+      {
+        type: :search,
+        heading: 'Subject',
+        value: applied_filters[:subject]&.strip,
+        name: 'subject',
+      }
+    end
+
+    def notify_reference
+      {
+        type: :search,
+        heading: 'Notify reference',
+        value: applied_filters[:notify_reference]&.strip,
+        name: 'notify_reference',
+      }
+    end
+
+    def email_body
+      {
+        type: :search,
+        heading: 'Email body',
+        value: applied_filters[:email_body]&.strip,
+        name: 'email_body',
       }
     end
 

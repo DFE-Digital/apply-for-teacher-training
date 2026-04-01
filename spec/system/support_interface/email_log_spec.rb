@@ -14,6 +14,7 @@ RSpec.describe 'Email log' do
     and_an_application_is_submitted
     and_an_email_with_an_application_id_is_sent
     and_i_visit_the_email_log
+    and_i_filter_emails_for_harry
     then_i_see_the_custom_reference_email_in_the_log
     then_i_see_the_application_reference_in_the_log
     then_i_see_the_all_emails_have_a_reference_in_the_log
@@ -67,6 +68,21 @@ RSpec.describe 'Email log' do
 
   def and_i_visit_the_email_log
     visit support_interface_email_log_path
+
+    expect(page).to have_current_path('/support/email-log', ignore_query: true)
+    expect(page).to have_element(:p, text: 'Select filters to search for emails.', class: 'govuk-body')
+    expect(page).to have_element(:p, text: 'You must enter at least one of the following fields:', class: 'govuk-body')
+    expect(page).to have_element(:li, text: 'Application form ID')
+    expect(page).to have_element(:li, text: 'Recipient (to)')
+    expect(page).to have_element(:li, text: 'Provider code')
+    expect(page).to have_element(:li, text: 'Notify reference')
+  end
+
+  def and_i_filter_emails_for_harry
+    within('.moj-filter__content') do
+      fill_in 'Recipient (To)', with: 'harry@example.com'
+      click_on 'Apply filters'
+    end
   end
 
   def then_i_see_the_custom_reference_email_in_the_log
@@ -102,13 +118,13 @@ RSpec.describe 'Email log' do
   end
 
   def then_the_delivery_status_is_displayed_on_the_page
-    visit support_interface_email_log_path(delivery_status: 'permanent_failure')
+    visit support_interface_email_log_path(to: 'harry@example.com', delivery_status: 'permanent_failure')
 
     within '.moj-filter-layout__content' do
       expect(page).to have_content 'Permanent failure'
     end
 
-    visit support_interface_email_log_path(delivery_status: 'delivered')
+    visit support_interface_email_log_path(to: 'harry@example.com', delivery_status: 'delivered')
 
     within '.moj-filter-layout__content' do
       expect(page).to have_no_content 'Permanent failure'
@@ -123,7 +139,7 @@ RSpec.describe 'Email log' do
   end
 
   def and_i_search_by_email_address
-    fill_in :q, with: 'harry@example'
+    fill_in 'Recipient (To)', with: 'harry@example.com'
     uncheck 'Permanent failure'
     uncheck 'Delivered'
     click_link_or_button 'Apply filters'
