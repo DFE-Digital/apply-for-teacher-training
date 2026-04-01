@@ -24,6 +24,7 @@ module CandidateInterface
           right_to_work_or_study:,
           right_to_work_or_study_details: nil,
           immigration_status: nil,
+          visa_expired_at: nil,
         )
       end
     end

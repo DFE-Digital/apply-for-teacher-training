@@ -40,6 +40,7 @@ RSpec.describe CandidateInterface::ImmigrationRightToWorkForm, type: :model do
         right_to_work_or_study: 'yes',
         immigration_status: 'other',
         right_to_work_or_study_details: 'I have permanent residence',
+        visa_expired_at: Time.zone.today,
       }
       application_form = create(:application_form, application_data)
       form = described_class.new(right_to_work_or_study: 'no')
@@ -47,6 +48,7 @@ RSpec.describe CandidateInterface::ImmigrationRightToWorkForm, type: :model do
       expect(form.save(application_form)).to be(true)
       expect(application_form.reload.right_to_work_or_study).to eq('no')
       expect(application_form.immigration_status).to be_nil
+      expect(application_form.visa_expired_at).to be_nil
     end
 
     it 'does not reset attributes if right to work is true' do
@@ -54,6 +56,7 @@ RSpec.describe CandidateInterface::ImmigrationRightToWorkForm, type: :model do
         right_to_work_or_study: 'no',
         immigration_status: 'other',
         right_to_work_or_study_details: 'I have permanent residence',
+        visa_expired_at: Time.zone.today,
       }
       application_form = create(:application_form, application_data)
       form = described_class.new(right_to_work_or_study: 'yes')
@@ -62,6 +65,7 @@ RSpec.describe CandidateInterface::ImmigrationRightToWorkForm, type: :model do
       expect(application_form.reload.right_to_work_or_study).to eq('yes')
       expect(application_form.immigration_status).not_to be_nil
       expect(application_form.right_to_work_or_study_details).not_to be_nil
+      expect(application_form.visa_expired_at).not_to be_nil
     end
   end
 end

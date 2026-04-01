@@ -83,6 +83,29 @@ RSpec.describe DateValidator do
       end
     end
 
+    context 'when past: true' do
+      let(:test_date_validator) do
+        Class.new do
+          include ActiveModel::Validations
+          include ActiveModel::Model
+
+          attr_accessor :date
+
+          validates :date, date: { past: true }
+        end
+      end
+      let(:model) { TestDateValidator.new(date:) }
+
+      context 'when date is in the past' do
+        let(:date) { Time.zone.today - 1.month }
+
+        it 'returns :past error' do
+          expect(model).not_to be_valid
+          expect(model.errors[:date]).to contain_exactly(I18n.t('errors.messages.past', article: 'a', attribute: :date))
+        end
+      end
+    end
+
     context 'when presence: true' do
       let(:test_date_validator) do
         Class.new do

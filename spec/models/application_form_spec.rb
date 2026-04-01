@@ -1935,4 +1935,80 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#temporary_immigration_status?' do
+    context 'feature flag on' do
+      before do
+        FeatureFlag.activate('2027_visa_expiry')
+      end
+
+      after do
+        FeatureFlag.deactivate('2027_visa_expiry')
+      end
+
+      it 'returns true for non British and temporary immigration' do
+        application_form = build(:application_form, first_nationality: 'French', immigration_status: :eu_pre_settled)
+
+        expect(application_form.temporary_immigration_status?).to be(true)
+      end
+
+      it 'returns true immigration status param passed in' do
+        application_form = build(:application_form, first_nationality: 'French', immigration_status: :eu_settled)
+
+        expect(application_form.temporary_immigration_status?('eu_pre_settled')).to be(true)
+      end
+
+      it 'returns true for non British with settled status' do
+        application_form = build(:application_form, first_nationality: 'French', immigration_status: :eu_settled)
+
+        expect(application_form.temporary_immigration_status?).to be(false)
+      end
+
+      it 'returns true for non British with ilr status' do
+        application_form = build(
+          :application_form,
+          first_nationality: 'French',
+          immigration_status: :indefinite_leave_to_remain_in_the_uk,
+        )
+
+        expect(application_form.temporary_immigration_status?).to be(false)
+      end
+
+      it 'returns false for British' do
+        application_form = build(:application_form, first_nationality: 'British')
+
+        expect(application_form.temporary_immigration_status?).to be(false)
+      end
+
+      it 'returns false for Irish' do
+        application_form = build(:application_form, first_nationality: 'Irish')
+
+        expect(application_form.temporary_immigration_status?).to be(false)
+      end
+    end
+
+    context 'feature flag off' do
+      before do
+        FeatureFlag.deactivate('2027_visa_expiry')
+      end
+
+      it 'returns false for non British and temporary immigration' do
+        application_form = build(:application_form, first_nationality: 'French', immigration_status: :eu_pre_settled)
+
+        expect(application_form.temporary_immigration_status?).to be(false)
+      end
+
+      it 'returns false for British' do
+        application_form = build(:application_form, first_nationality: 'British')
+
+        expect(application_form.temporary_immigration_status?).to be(false)
+      end
+
+      it 'returns false for Irish' do
+        application_form = build(:application_form, first_nationality: 'Irish')
+
+        expect(application_form.temporary_immigration_status?).to be(false)
+      end
+    end
+  end
 end

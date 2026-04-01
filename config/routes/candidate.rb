@@ -161,6 +161,8 @@ namespace :candidate_interface, path: '/candidate' do
       get '/immigration-status/edit' => 'personal_details/immigration_status#edit', as: :edit_immigration_status
       patch '/immigration-status/edit' => 'personal_details/immigration_status#update'
 
+      resource :visa_expiry, only: %i[new create edit update], controller: 'personal_details/visa_expiry', path: 'visa-expiry'
+
       get '/review' => 'personal_details/review#show', as: :personal_details_show
       patch '/review' => 'personal_details/review#complete', as: :personal_details_complete
     end

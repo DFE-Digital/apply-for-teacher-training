@@ -17,7 +17,11 @@ module CandidateInterface
         )
 
         if @form.save(current_application)
-          redirect_to candidate_interface_personal_details_show_path
+          if current_application.temporary_immigration_status?
+            redirect_to new_candidate_interface_visa_expiry_path
+          else
+            redirect_to candidate_interface_personal_details_show_path
+          end
         else
           track_validation_error(@form)
           render :new
@@ -30,7 +34,11 @@ module CandidateInterface
         )
 
         if @form.save(current_application)
-          redirect_to candidate_interface_personal_details_show_path
+          if current_application.temporary_immigration_status?
+            redirect_to new_candidate_interface_visa_expiry_path
+          else
+            redirect_to candidate_interface_personal_details_show_path
+          end
         else
           track_validation_error(@form)
           render :edit
