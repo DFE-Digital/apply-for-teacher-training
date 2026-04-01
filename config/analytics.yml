@@ -108,6 +108,8 @@ shared:
     - created_at
     - updated_at
   application_choices:
+    - visa_explanation
+    - visa_explanation_details
     - created_at
     - accepted_at
     - application_form_id
@@ -173,6 +175,7 @@ shared:
     - path
     - updated_at
   application_forms:
+    - visa_expired_at
     - phone_number
     - first_name
     - last_name

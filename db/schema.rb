@@ -124,6 +124,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_30_090636) do
     t.text "personal_statement"
     t.datetime "inactive_at"
     t.boolean "school_placement_auto_selected", default: false, null: false
+    t.string "visa_explanation"
+    t.string "visa_explanation_details"
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
     t.index ["current_recruitment_cycle_year"], name: "index_application_choices_on_current_recruitment_cycle_year"
@@ -260,6 +262,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_30_090636) do
     t.boolean "previous_teacher_training_completed"
     t.datetime "country_residency_date_from"
     t.boolean "country_residency_since_birth"
+    t.datetime "visa_expired_at"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["recruitment_cycle_year"], name: "index_application_forms_on_recruitment_cycle_year"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
