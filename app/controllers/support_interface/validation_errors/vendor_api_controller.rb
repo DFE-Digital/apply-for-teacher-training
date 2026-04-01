@@ -7,6 +7,7 @@ module SupportInterface
         unprocessable_entities = VendorAPIRequest.unprocessable_entities.since_six_weeks_ago
         @grouped_counts = unprocessable_entities.group(:request_path).order(count_all: :desc).count
         @list_of_distinct_errors_with_counts = VendorAPIRequest.list_of_distinct_errors_with_count(unprocessable_entities)
+        @filter = SupportInterface::VendorAPIRequestsFilter.new(params:)
       end
 
       def search

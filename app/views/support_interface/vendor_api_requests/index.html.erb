@@ -1,41 +1,49 @@
 <%= render 'support_interface/performance/performance_navigation', title: 'Vendor API Requests' %>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @vendor_api_requests) do %>
-  <table class="govuk-table">
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time</th>
-        <th class="govuk-table__header govuk-table__header govuk-!-width-three-quarters">Request</th>
-      </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-      <% @vendor_api_requests.each do |vendor_api_request| %>
+  <% if !@filter.filtered? %>
+    <p class="govuk-body">Select filters to search for vendor API requests.</p>
+    <p class="govuk-body">You must enter a provider code as part of your search.</p>
+  <% elsif @vendor_api_requests.any? %>
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">
-            <%= vendor_api_request.created_at.to_fs(:govuk_date_and_time) %>
-          </td>
-          <td class="govuk-table__cell govuk-!-padding-top-0">
-            <%= render SupportInterface::VendorAPIRequestDetailsComponent.new(vendor_api_request) %>
-            <%= govuk_details(summary_text: 'Details') do %>
-              <h3 class="govuk-!-margin-top-0">Headers</h3>
-              <%= tag.pre(JSON.pretty_generate(vendor_api_request.request_headers), class: 'app-json-code-sample') %>
-              <% if vendor_api_request.request_body.present? %>
-                <h3>Request <%= vendor_api_request.request_method == 'GET' ? 'params' : 'body' %></h3>
-                <%= tag.pre(JSON.pretty_generate(vendor_api_request.request_body), class: 'app-json-code-sample') %>
-              <% end %>
-              <% if vendor_api_request.response_headers.present? %>
-                <h3>Response headers</h3>
-                <%= tag.pre(JSON.pretty_generate(vendor_api_request.response_headers), class: 'app-json-code-sample') %>
-              <% end %>
-              <% if vendor_api_request.response_body.present? %>
-                <h3>Response body</h3>
-                <%= tag.pre(JSON.pretty_generate(vendor_api_request.response_body), class: 'app-json-code-sample') %>
-              <% end %>
-            <% end %>
-          </td>
+          <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time</th>
+          <th class="govuk-table__header govuk-table__header govuk-!-width-three-quarters">Request</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <%= govuk_pagination(pagy: @pagy) %>
+      </thead>
+      <tbody class="govuk-table__body">
+        <% @vendor_api_requests.each do |vendor_api_request| %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <%= vendor_api_request.created_at.to_fs(:govuk_date_and_time) %>
+            </td>
+            <td class="govuk-table__cell govuk-!-padding-top-0">
+              <%= render SupportInterface::VendorAPIRequestDetailsComponent.new(vendor_api_request) %>
+              <%= govuk_details(summary_text: 'Details') do %>
+                <h3 class="govuk-!-margin-top-0">Headers</h3>
+                <%= tag.pre(JSON.pretty_generate(vendor_api_request.request_headers), class: 'app-json-code-sample') %>
+                <% if vendor_api_request.request_body.present? %>
+                  <h3>Request <%= vendor_api_request.request_method == 'GET' ? 'params' : 'body' %></h3>
+                  <%= tag.pre(JSON.pretty_generate(vendor_api_request.request_body), class: 'app-json-code-sample') %>
+                <% end %>
+                <% if vendor_api_request.response_headers.present? %>
+                  <h3>Response headers</h3>
+                  <%= tag.pre(JSON.pretty_generate(vendor_api_request.response_headers), class: 'app-json-code-sample') %>
+                <% end %>
+                <% if vendor_api_request.response_body.present? %>
+                  <h3>Response body</h3>
+                  <%= tag.pre(JSON.pretty_generate(vendor_api_request.response_body), class: 'app-json-code-sample') %>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= govuk_pagination(pagy: @pagy) %>
+  <% else %>
+    <p class="govuk-body">There are no vender API requests found for the selected filters.</p>
+    <p class="govuk-body">Try changing the selected filters.</p>
+  <% end %>
 <% end %>
