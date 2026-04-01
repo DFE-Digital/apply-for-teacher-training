@@ -29,7 +29,7 @@ private
     visit support_interface_email_log_path(application_form_id: @bob_application_form.id)
 
     expect(page).to have_current_path('/support/email-log', ignore_query: true)
-    expect(page).not_to have_element(:div, text: 'Select filters to search for emails.', class: 'govuk-inset-text')
+    expect(page).not_to have_element(:p, text: 'Select filters to search for emails.', class: 'govuk-body')
   end
 
   def then_i_see_an_email_for_bob
