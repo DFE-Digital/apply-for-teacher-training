@@ -18,7 +18,7 @@ class VendorAPIRequestQuery
     scope.limit(5000)
   end
 
-  private
+private
 
   def search_scope(scope)
     return scope if params[:q].blank?

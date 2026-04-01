@@ -31,7 +31,6 @@ module SupportInterface
     end
 
     def status_code
-
       options = STATUS_CODES.map do |status_code|
         {
           value: status_code,
@@ -70,7 +69,7 @@ module SupportInterface
         type: :search,
         heading: 'Provider code',
         name: 'provider_code',
-        value: applied_filters[:provider_code]
+        value: applied_filters[:provider_code],
       }
     end
   end
