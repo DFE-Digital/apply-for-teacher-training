@@ -59,7 +59,7 @@ RSpec.describe 'Add course to submitted application' do
   def and_the_course_subject_requires_ske
     @application_choice.course_option.course.subjects.delete_all
     @application_choice.course_option.course.subjects << build(
-      :subject, code: 'G1', name: 'Mathematics'
+      :subject, code: 'F1', name: 'Chemistry'
     )
   end
 
@@ -87,7 +87,7 @@ RSpec.describe 'Add course to submitted application' do
 
   def when_i_add_a_new_ske_condition_and_click_update_conditions_without_a_support_ticket_url
     choose('Yes')
-    choose('Their degree subject was not Mathematics')
+    choose('Their degree subject was not Chemistry')
     choose('8 weeks')
     click_link_or_button 'Update conditions'
   end
@@ -100,7 +100,7 @@ RSpec.describe 'Add course to submitted application' do
   def when_i_add_a_new_ske_condition_and_click_update_conditions_with_a_support_ticket_url
     fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
     choose('Yes')
-    choose('Their degree subject was not Mathematics')
+    choose('Their degree subject was not Chemistry')
     choose('8 weeks')
     click_link_or_button 'Update conditions'
   end
@@ -108,13 +108,13 @@ RSpec.describe 'Add course to submitted application' do
   def then_i_see_the_new_ske_condition
     expect(page).to have_content('Subject knowledge enhancement course')
     expect(page).to have_content('Length 8 weeks')
-    expect(page).to have_content('Reason Their degree subject was not Mathematics')
+    expect(page).to have_content('Reason Their degree subject was not Chemistry')
   end
 
   def and_i_change_the_length_of_the_ske_condition
     fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
     choose('Yes')
-    choose('Their degree subject was not Mathematics')
+    choose('Their degree subject was not Chemistry')
     choose('20 weeks')
     click_link_or_button 'Update conditions'
   end
@@ -122,7 +122,7 @@ RSpec.describe 'Add course to submitted application' do
   def then_i_see_the_updated_ske_condition
     expect(page).to have_content('Subject knowledge enhancement course')
     expect(page).to have_content('Length 20 weeks')
-    expect(page).to have_content('Reason Their degree subject was not Mathematics')
+    expect(page).to have_content('Reason Their degree subject was not Chemistry')
   end
 
   def and_i_delete_the_ske_condition

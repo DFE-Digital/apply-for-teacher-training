@@ -544,7 +544,7 @@ RSpec.describe ProviderInterface::OfferWizard do
         context 'when ske is required' do
           before do
             wizard.course_option.course.subjects.delete_all
-            wizard.course_option.course.subjects << build(:subject, code: 'G1', name: 'Mathematics')
+            wizard.course_option.course.subjects << build(:subject, code: 'F1', name: 'Chemistry')
           end
 
           it 'returns :ske_requirements' do
