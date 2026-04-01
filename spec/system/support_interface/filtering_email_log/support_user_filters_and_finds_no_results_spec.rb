@@ -27,7 +27,7 @@ private
 
     expect(page).to have_current_path('/support/email-log', ignore_query: true)
     expect(page).to have_element(:p, text: 'Select filters to search for emails.', class: 'govuk-body')
-    expect(page).to have_element(:p, text: 'You must enter at least one of the follow fields:', class: 'govuk-body')
+    expect(page).to have_element(:p, text: 'You must enter at least one of the following fields:', class: 'govuk-body')
     expect(page).to have_element(:li, text: 'Application form ID')
     expect(page).to have_element(:li, text: 'Recipient (to)')
     expect(page).to have_element(:li, text: 'Provider code')

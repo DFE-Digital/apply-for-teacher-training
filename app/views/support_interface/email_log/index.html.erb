@@ -3,7 +3,7 @@
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @emails) do %>
   <% if !@filter.filtered? %>
     <p class="govuk-body">Select filters to search for emails.</p>
-    <p class="govuk-body">You must enter at least one of the follow fields:</p>
+    <p class="govuk-body">You must enter at least one of the following fields:</p>
     <%= govuk_list(type: :bullet) do %>
       <li>Application form ID</li>
       <li>Recipient (to)</li>
