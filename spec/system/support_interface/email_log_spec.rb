@@ -70,7 +70,12 @@ RSpec.describe 'Email log' do
     visit support_interface_email_log_path
 
     expect(page).to have_current_path('/support/email-log', ignore_query: true)
-    expect(page).to have_element(:div, text: 'Select filters to search for emails.', class: 'govuk-inset-text')
+    expect(page).to have_element(:p, text: 'Select filters to search for emails.', class: 'govuk-body')
+    expect(page).to have_element(:p, text: 'You must enter at least one of the following fields:', class: 'govuk-body')
+    expect(page).to have_element(:li, text: 'Application form ID')
+    expect(page).to have_element(:li, text: 'Recipient (to)')
+    expect(page).to have_element(:li, text: 'Provider code')
+    expect(page).to have_element(:li, text: 'Notify reference')
   end
 
   def and_i_filter_emails_for_harry
@@ -113,13 +118,13 @@ RSpec.describe 'Email log' do
   end
 
   def then_the_delivery_status_is_displayed_on_the_page
-    visit support_interface_email_log_path(delivery_status: 'permanent_failure')
+    visit support_interface_email_log_path(to: 'harry@example.com', delivery_status: 'permanent_failure')
 
     within '.moj-filter-layout__content' do
       expect(page).to have_content 'Permanent failure'
     end
 
-    visit support_interface_email_log_path(delivery_status: 'delivered')
+    visit support_interface_email_log_path(to: 'harry@example.com', delivery_status: 'delivered')
 
     within '.moj-filter-layout__content' do
       expect(page).to have_no_content 'Permanent failure'
