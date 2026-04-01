@@ -258,6 +258,8 @@ shared:
     - previous_teacher_training_completed
     - previous_teacher_training_completed_at
     - safeguarding_issues
+    - country_residency_date_from
+    - country_residency_since_birth
   application_qualifications:
     - application_form_id
     - award_year
