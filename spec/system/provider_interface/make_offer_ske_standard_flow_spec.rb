@@ -116,7 +116,7 @@ RSpec.describe 'Provider makes an offer with SKE enabled in standard courses' do
   def given_the_course_subject_requires_ske
     application_choice.course_option.course.subjects.delete_all
     application_choice.course_option.course.subjects << build(
-      :subject, code: 'G1', name: 'Mathematics'
+      :subject, code: 'F1', name: 'Chemistry'
     )
   end
 
