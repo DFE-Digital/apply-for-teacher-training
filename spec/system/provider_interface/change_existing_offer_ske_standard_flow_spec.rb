@@ -131,7 +131,7 @@ RSpec.describe 'Provider changes an existing offer' do
   def given_the_provider_user_can_offer_multiple_provider_courses
     @selected_provider = create(:provider)
     create(:provider_permissions, provider: @selected_provider, provider_user:, make_decisions: true)
-    @ske_subject = create(:subject, code: 'F1', name: 'Chemistry')
+    @ske_subject = create(:subject, code: 'G1', name: 'Mathematics')
     @non_ske_subject = create(:subject, code: 'W1', name: 'Art and design')
     courses = create_list(:course, 2, subjects: [@ske_subject], study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider)
     @selected_course = courses.sample

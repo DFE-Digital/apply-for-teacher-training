@@ -51,7 +51,7 @@ RSpec.describe 'Provider makes an offer on undergraduate applications' do
   def and_the_course_subject_requires_ske
     @application_choice.course_option.course.subjects.delete_all
     @application_choice.course_option.course.subjects << build(
-      :subject, code: 'F1', name: 'Chemistry'
+      :subject, code: 'G1', name: 'Mathematics'
     )
   end
 
