@@ -16,8 +16,10 @@ class VendorAPIRequest < ApplicationRecord
 
   def self.list_of_distinct_errors_with_count(requests = unprocessable_entities.since_six_weeks_ago)
     error_requests = requests.with_error_response_body
-    error_messages = error_requests.map do |request|
-      [request.request_path, request.response_errors.first['error'], request.response_errors.first['message']]
+    error_messages = error_requests.flat_map do |request|
+      request.response_errors.map do |response_error|
+        [request.request_path, response_error['error'], response_error['message']]
+      end
     end
 
     tally_errors(error_messages)

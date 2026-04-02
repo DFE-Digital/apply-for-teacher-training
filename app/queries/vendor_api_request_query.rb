@@ -1,6 +1,8 @@
 class VendorAPIRequestQuery
   attr_reader :params
 
+  LIMIT = 5000
+
   def initialize(params: {})
     @params = params
   end
@@ -15,7 +17,7 @@ class VendorAPIRequestQuery
     scope = status_code_scope(scope)
     scope = request_method_scope(scope)
     scope = provider_scope(scope)
-    scope.limit(5000)
+    scope.limit(LIMIT)
   end
 
 private
@@ -35,13 +37,15 @@ private
   def request_method_scope(scope)
     return scope if params[:request_method].blank?
 
-    scope.where(status_code: params[:request_method])
+    scope.where(request_method: params[:request_method])
   end
 
   def provider_scope(scope)
     return scope if params[:provider_code].blank?
 
     provider = Provider.find_by(code: params[:provider_code].strip)
-    scope.where(provider_id: provider&.id)
+    return VendorAPIRequest.none if provider.nil?
+
+    scope.where(provider_id: provider.id)
   end
 end

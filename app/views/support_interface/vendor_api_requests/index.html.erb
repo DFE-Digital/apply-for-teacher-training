@@ -14,7 +14,7 @@
       </thead>
       <tbody class="govuk-table__body">
         <% @vendor_api_requests.each do |vendor_api_request| %>
-          <tr class="govuk-table__row">
+          <tr class="govuk-table__row" id="vender-api-request-<%= vendor_api_request.id %>">
             <td class="govuk-table__cell">
               <%= vendor_api_request.created_at.to_fs(:govuk_date_and_time) %>
             </td>
