@@ -60,7 +60,7 @@ RSpec.describe 'Entering their contact information with residency questions enab
     then_i_see_the_residency_dates_question
 
     when_i_fill_in_the_dates
-    click_link_or_button 'Continue'
+    click_link_or_button 'Save and continue'
     then_i_see_the_review_page_with_expected_values_including_dates
 
     when_i_click_to_change_my_residency_dates_response
@@ -127,7 +127,7 @@ RSpec.describe 'Entering their contact information with residency questions enab
 
   def when_i_answer_yes
     find('label', text: 'Yes').click
-    click_link_or_button 'Continue'
+    click_link_or_button 'Save and continue'
   end
 
   def then_i_see_the_review_page_with_the_expected_values

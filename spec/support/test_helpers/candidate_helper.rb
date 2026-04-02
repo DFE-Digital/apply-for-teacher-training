@@ -377,7 +377,7 @@ module CandidateHelper
 
     if FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
       choose 'Yes'
-      click_link_or_button 'Continue'
+      click_link_or_button 'Save and continue'
     end
 
     choose t('application_form.completed_radio')
@@ -399,7 +399,7 @@ module CandidateHelper
 
     if FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
       choose 'Yes'
-      click_link_or_button 'Continue'
+      click_link_or_button 'Save and continue'
     end
 
     choose t('application_form.completed_radio')

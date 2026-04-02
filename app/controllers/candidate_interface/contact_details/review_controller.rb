@@ -2,7 +2,7 @@ module CandidateInterface
   class ContactDetails::ReviewController < SectionController
     def show
       @application_form = current_application
-      @can_complete = ContactDetailsForm.build_from_application(current_application).valid_for_submission?
+      @can_complete = valid_for_submission?
       @section_complete_form = SectionCompleteForm.new(
         completed: current_application.contact_details_completed,
       )
@@ -41,6 +41,16 @@ module CandidateInterface
     def contact_details_form
       @contact_details_form ||=
         CandidateInterface::ContactDetailsForm.build_from_application(@application_form)
+    end
+
+    def valid_for_submission?
+      if FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
+        ContactDetailsForm.build_from_application(current_application).valid_for_submission? &&
+          ResidencyForm.build_from_application(current_application).valid? &&
+          ResidencyDateForm.build_from_application(current_application).valid?
+      else
+        ContactDetailsForm.build_from_application(current_application).valid_for_submission?
+      end
     end
   end
 end

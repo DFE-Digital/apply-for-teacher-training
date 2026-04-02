@@ -8,7 +8,7 @@
 
       <%= f.govuk_date_field(:date, month: :start_date_month, year: :start_date_year, omit_day: true, legend: { size: 'l', text: t('application_form.contact_details.residency_date.legend', country: @country_of_residence) }, hint: { text: t('application_form.contact_details.residency_date.hint') }, link_errors: true) %>
 
-      <%= f.govuk_submit 'Continue' %>
+      <%= f.govuk_submit 'Save and continue' %>
     <% end %>
   </div>
 </div>

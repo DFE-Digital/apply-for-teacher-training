@@ -97,7 +97,7 @@ RSpec.describe 'Candidate selects no on adviser interruption' do
   alias_method :then_i_do_not_see_the_interruption_page, :then_i_see_my_details_page
 
   def when_i_navigate_to_any_section
-    click_link_or_button 'Contact information'
+    click_link_or_button 'Personal information'
   end
 
   def and_the_adviser_call_to_action_is_still_visible
