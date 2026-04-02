@@ -4,7 +4,7 @@ module SupportInterface
       PAGY_PER_PAGE = 30
 
       def index
-        unprocessable_entities = VendorAPIRequest.unprocessable_entities.since_six_weeks_ago
+        unprocessable_entities = VendorAPIRequest.unprocessable_entities
         @grouped_counts = unprocessable_entities.group(:request_path).order(count_all: :desc).count
         @list_of_distinct_errors_with_counts = VendorAPIRequest.list_of_distinct_errors_with_count(unprocessable_entities)
       end

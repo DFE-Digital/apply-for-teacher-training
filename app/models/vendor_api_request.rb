@@ -5,16 +5,13 @@ class VendorAPIRequest < ApplicationRecord
   scope :decisions, -> { where(request_method: 'POST') }
   scope :errors, -> { where.not(status_code: [200, 302, 301]) }
   scope :successful, -> { where(status_code: [200]) }
-  scope :since_six_weeks_ago, lambda {
-    where('created_at > ?', 6.weeks.ago)
-  }
   scope :with_error_response_body, lambda {
     select(:request_path, :response_body, Arel.sql("response_body -> 'errors' as response_errors"))
       .where.not(response_body: [nil, {}])
       .where("(response_body->'errors') IS NOT NULL")
   }
 
-  def self.list_of_distinct_errors_with_count(requests = unprocessable_entities.since_six_weeks_ago)
+  def self.list_of_distinct_errors_with_count(requests = unprocessable_entities)
     error_requests = requests.with_error_response_body
     error_messages = error_requests.flat_map do |request|
       request.response_errors.map do |response_error|
@@ -26,7 +23,7 @@ class VendorAPIRequest < ApplicationRecord
   end
 
   def self.search_validation_errors(params)
-    scope = unprocessable_entities.since_six_weeks_ago
+    scope = unprocessable_entities
     scope = scope.where(request_path: params[:request_path]) if params[:request_path]
     scope = scope.where(provider_id: params[:provider_id]) if params[:provider_id]
     scope = scope.where(id: params[:id]) if params[:id]
