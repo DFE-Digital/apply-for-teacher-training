@@ -208,7 +208,7 @@ RSpec.describe EmailQuery do
         expect(call).to contain_exactly(user_1_email, user_2_email)
       end
 
-      context "when the provider code given does not match a provider" do
+      context 'when the provider code given does not match a provider' do
         let(:params) { { provider_code: 'XXX' } }
 
         it 'returns no email records' do
