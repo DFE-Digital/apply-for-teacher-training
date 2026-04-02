@@ -311,6 +311,9 @@ FactoryBot.define do
         end
       }
 
+      country_residency_since_birth { true }
+      country_residency_date_from { date_of_birth }
+
       # Checkboxes to mark a section as complete
       becoming_a_teacher_completed { true }
       contact_details_completed { true }
