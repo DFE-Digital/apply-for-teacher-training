@@ -8,7 +8,7 @@ module CandidateInterface
     let(:application_form) { create(:application_form) }
 
     describe 'validations' do
-      context 'when started_at is nil' do
+      context 'when visa_expired_at is nil' do
         let(:application_form) { build(:application_form, visa_expired_at: nil) }
 
         it 'is invalid' do

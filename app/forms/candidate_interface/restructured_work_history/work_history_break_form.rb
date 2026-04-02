@@ -7,8 +7,8 @@ module CandidateInterface
       attr_accessor :start_date_day, :start_date_month, :start_date_year,
                     :end_date_day, :end_date_month, :end_date_year, :reason
 
-      validates :start_date, date: { presence: true, future: true, month_and_year: true, before: :end_date }
-      validates :end_date, date: { presence: true, future: true, month_and_year: true }, unless: :start_date_blank?
+      validates :start_date, date: { presence: true, past: true, month_and_year: true, before: :end_date }
+      validates :end_date, date: { presence: true, past: true, month_and_year: true }, unless: :start_date_blank?
 
       validates :reason, presence: true, word_count: { maximum: 400 }
 

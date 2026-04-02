@@ -56,7 +56,7 @@ RSpec.describe YearValidator do
     end
   end
 
-  context 'when future: true' do
+  context 'when past: true' do
     let(:test_date_validator) do
       Class.new do
         include ActiveModel::Validations
@@ -64,16 +64,16 @@ RSpec.describe YearValidator do
 
         attr_accessor :year
 
-        validates :year, year: { future: true }
+        validates :year, year: { past: true }
       end
     end
 
     context 'when the year is in the future' do
       let(:year) { '2050' }
 
-      it 'returns :future error' do
+      it 'returns :past error' do
         expect(model).not_to be_valid
-        expect(model.errors[:year]).to contain_exactly(I18n.t('errors.messages.future', article: 'a', attribute: 'year'))
+        expect(model.errors[:year]).to contain_exactly(I18n.t('errors.messages.past', article: 'a', attribute: 'year'))
       end
     end
   end

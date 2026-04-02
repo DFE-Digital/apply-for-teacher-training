@@ -510,7 +510,7 @@ en:
         candidate_interface/visa_expiry_form:
           attributes:
             visa_expired_at:
-              past: Enter a visa expiry date that is in the future
+              future: Enter a visa expiry date that is in the future
               blank_date: Enter a visa expiry date
               blank_date_fields: Enter the %{fields} when your visa will expire
               invalid_date: Enter a real visa expiry date, for example 31 5 2026

@@ -5,7 +5,7 @@ module CandidateInterface
 
     attr_accessor :application_form, :visa_expired_day, :visa_expired_month,
                   :visa_expired_year
-    validates :visa_expired_at, date: { presence: true, past: true }
+    validates :visa_expired_at, date: { presence: true, future: true }
 
     def initialize(application_form)
       @application_form = application_form

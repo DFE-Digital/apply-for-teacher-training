@@ -44,19 +44,19 @@ class DateValidator < ActiveModel::EachValidator
       )
     end
 
-    if value > Time.zone.today && options[:future]
+    if value > Time.zone.today && options[:past]
       return record.errors.add(
         attribute,
-        :future,
+        :past,
         article: article(attribute),
         attribute: humanize(attribute),
       )
     end
 
-    if value < Time.zone.today && options[:past]
+    if value < Time.zone.today && options[:future]
       return record.errors.add(
         attribute,
-        :past,
+        :future,
         article: article(attribute),
         attribute: humanize(attribute),
       )

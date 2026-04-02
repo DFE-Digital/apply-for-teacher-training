@@ -20,7 +20,7 @@ module SupportInterface
       validates :grade, presence: true, if: -> { should_validate_grade? }
       validates :other_uk_qualification_type, presence: true, if: -> { other_uk_qualification_type? }
       validates :non_uk_qualification_type, presence: true, if: -> { non_uk_qualification_type? }
-      validates :award_year, presence: true, year: { future: true }
+      validates :award_year, presence: true, year: { past: true }
       validates :subject, :grade, length: { maximum: 255 }
       validates :other_uk_qualification_type, length: { maximum: 100 }
       validates_with ZendeskUrlValidator

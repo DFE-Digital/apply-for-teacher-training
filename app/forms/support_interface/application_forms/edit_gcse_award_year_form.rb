@@ -7,7 +7,7 @@ module SupportInterface
       attr_reader :gcse
       attr_accessor :award_year, :audit_comment
 
-      validates :award_year, year: { presence: true, future: true }
+      validates :award_year, year: { presence: true, past: true }
       validates :audit_comment, presence: true
       validates_with ZendeskUrlValidator
 

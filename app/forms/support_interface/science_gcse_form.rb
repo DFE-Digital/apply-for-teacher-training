@@ -37,7 +37,7 @@ module SupportInterface
 
     validates :grade, presence: true, unless: ->(record) { record.missing_qualification? || record.gcse? }
     validates :grade, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_GRADE_LENGTH }
-    validates :award_year, presence: true, year: { future: true }, unless: :missing_qualification?
+    validates :award_year, presence: true, year: { past: true }, unless: :missing_qualification?
     validates :award_year, o_level_award_year: true, unless: ->(c) { c.errors.attribute_names.include?(:award_year) }
 
     validates :other_uk_qualification_type, presence: true, if: :other_uk_qualification?

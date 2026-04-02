@@ -8,8 +8,8 @@ module CandidateInterface
                     :end_date_day, :end_date_month, :end_date_year,
                     :previous_teacher_training
 
-      validates :started_at, date: { month_and_year: true, presence: true, future: true, before: :ended_at }
-      validates :ended_at, date: { month_and_year: true, presence: true, future: true }
+      validates :started_at, date: { month_and_year: true, presence: true, past: true, before: :ended_at }
+      validates :ended_at, date: { month_and_year: true, presence: true, past: true }
 
       def initialize(previous_teacher_training)
         @previous_teacher_training = previous_teacher_training
