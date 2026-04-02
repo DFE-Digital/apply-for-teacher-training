@@ -144,9 +144,9 @@
     <% if @presenter.first_year_of_continuous_applications? %>
       <p class="govuk-body">New definitions and methodology have been introduced for the 2024 to 2025 academic year
         because candidates can now submit applications to courses individually up to a maximum
-        of <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> open applications at a time. Previously, candidates
-        submitted one application form with up to <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> course
-        choices at the same time. All <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> course choices had to
+        of <%= ApplicationForm::IN_PROGRESS_LIMIT %> open applications at a time. Previously, candidates
+        submitted one application form with up to <%= ApplicationForm::IN_PROGRESS_LIMIT %> course
+        choices at the same time. All <%= ApplicationForm::IN_PROGRESS_LIMIT %> course choices had to
         receive a decision before the candidate could submit another application form in the same recruitment cycle.
       </p>
 
@@ -187,7 +187,7 @@
 
     <p class="govuk-body">Candidates can apply for different courses. On later dates they may then apply for further courses. Any of their applications may change status throughout their lifecycle. This means that over time, some statistics may go up or down.</p>
 
-    <p class="govuk-body">For example, if a candidate’s initial <%= ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES %> applications had been rejected, they may have submitted a fifth application. Before this date, they would have been included in the count of candidates with rejected applications. After this date, they would not be included in this count. If that fifth application were also rejected, they would then be included in the count of rejected applications again. </p>
+    <p class="govuk-body">For example, if a candidate’s initial <%= ApplicationForm::IN_PROGRESS_LIMIT %> applications had been rejected, they may have submitted a fifth application. Before this date, they would have been included in the count of candidates with rejected applications. After this date, they would not be included in this count. If that fifth application were also rejected, they would then be included in the count of rejected applications again. </p>
 
     <p class="govuk-body">
       The data is collected throughout the recruitment cycle which runs a year before the academic year that the applicants will start training in. The data is from the <%= @presenter.current_cycle_name %> recruitment cycle which covers application for courses starting in the <%= @presenter.academic_year_name %> academic year.

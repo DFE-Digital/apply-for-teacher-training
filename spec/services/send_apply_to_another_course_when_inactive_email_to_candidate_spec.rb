@@ -37,7 +37,7 @@ RSpec.describe SendApplyToAnotherCourseWhenInactiveEmailToCandidate do
     end
 
     before do
-      create_list(:application_choice, ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES, :awaiting_provider_decision, application_form:)
+      create_list(:application_choice, ApplicationForm::IN_PROGRESS_LIMIT, :awaiting_provider_decision, application_form:)
 
       mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
       allow(CandidateMailer).to receive(:apply_to_multiple_courses_after_30_working_days).and_return(mail)
@@ -62,7 +62,7 @@ RSpec.describe SendApplyToAnotherCourseWhenInactiveEmailToCandidate do
     end
 
     before do
-      create_list(:application_choice, ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS, :withdrawn, application_form:)
+      create_list(:application_choice, ApplicationForm::UNSUCCESSFUL_RETRY_LIMIT, :withdrawn, application_form:)
 
       mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
       allow(CandidateMailer).to receive(:apply_to_multiple_courses_after_30_working_days).and_return(mail)

@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::ApplicationsLeftMessageComponent do
   let(:application_form) { create(:application_form) }
 
+  before { FeatureFlag.activate(:mid_cycle_cap) }
+
   subject(:message) do
     render_inline(described_class.new(application_form)).text
   end
@@ -30,7 +32,11 @@ RSpec.describe CandidateInterface::ApplicationsLeftMessageComponent do
         create(:application_choice, :awaiting_provider_decision, application_form:)
         create(:application_choice, :rejected, application_form:)
         create(:application_choice, :inactive, application_form:)
-        expect(message).to include('You can submit 2 more applications.')
+        if application_form.mid_cycle_cap_applies?
+          expect(message).to include('You cannot add any more applications')
+        else
+          expect(message).to include('You can submit 2 more applications.')
+        end
       end
     end
 

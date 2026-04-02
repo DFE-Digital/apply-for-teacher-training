@@ -12,7 +12,7 @@ module CandidateInterface
              :can_add_more_choices?,
              :can_add_course_choice?,
              :english_main_language,
-             :application_limit_reached?,
+             :unsuccessful_limit_reached?,
              :first_name,
              :first_nationality,
              :previous_application_form,

@@ -85,21 +85,22 @@ RSpec.describe 'After sign in redirects' do
 
   context 'when reaching maximum number of choices' do
     it 'redirects to your applications and shows a message to the candidate' do
-      create_list(:application_choice, ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES, :awaiting_provider_decision, application_form:)
+      create_list(:application_choice, ApplicationForm::IN_PROGRESS_LIMIT, :awaiting_provider_decision, application_form:)
       get candidate_interface_interstitial_path
       expect(response).to redirect_to(candidate_interface_application_choices_path)
       follow_redirect!
-      expect(response.body).to include(I18n.t('errors.messages.too_many_course_choices', max_applications: ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES, course_name: course_from_find.name))
+      expect(response.body).to include(I18n.t('errors.messages.too_many_course_choices', max_applications: ApplicationForm::IN_PROGRESS_LIMIT, course_name: course_from_find.name))
     end
   end
 
   context 'when reaching maximum unsuccessful number of choices', time: mid_cycle do
     it 'redirects to your applications and shows a message to the candidate' do
-      create_list(:application_choice, ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS, :rejected, application_form:)
+      create_list(:application_choice, application_form.unsuccessful_retry_limit, :rejected, application_form:)
       get candidate_interface_interstitial_path
       expect(response).to redirect_to(candidate_interface_application_choices_path)
       follow_redirect!
-      expect(response.body).to include(I18n.t('errors.messages.too_many_unsuccessful_choices', max_unsuccessful_applications: ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS))
+      message = I18n.t('errors.messages.too_many_unsuccessful_choices', max_unsuccessful_applications: application_form.unsuccessful_retry_limit)
+      expect(response.body).to include(message)
     end
   end
 

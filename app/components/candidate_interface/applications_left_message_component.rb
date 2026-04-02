@@ -18,7 +18,9 @@ module CandidateInterface
   private
 
     def inactive_application_message
-      t('candidate_interface.applications_left_message.inactive_application_message')
+      return nil if application_form.unsuccessful_retry_limit.zero?
+
+      t('candidate_interface.applications_left_message.inactive_application_message', count: application_form.unsuccessful_retry_limit)
     end
 
     def maximum_number_of_applications_message
@@ -26,7 +28,7 @@ module CandidateInterface
 
       if cannot_add_more_choices?
         [
-          t('candidate_interface.applications_left_message.can_not_add_more_heading', maximum_number_of_course_choices: ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES),
+          t('candidate_interface.applications_left_message.can_not_add_more_heading', maximum_number_of_course_choices: application_form.in_progress_limit),
           t('candidate_interface.applications_left_message.can_not_add_more_message'),
         ]
       else
@@ -35,7 +37,7 @@ module CandidateInterface
     end
 
     def default_message
-      t('candidate_interface.applications_left_message.default_message', maximum_number_of_course_choices: ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES)
+      t('candidate_interface.applications_left_message.default_message', maximum_number_of_course_choices: application_form.in_progress_limit)
     end
   end
 end

@@ -49,7 +49,7 @@
       <li>you withdraw an application</li>
     </ul>
 
-    <p class="govuk-body">You will not be able to submit another application in the same recruitment cycle if you have already submitted more than <%= ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS %> applications in that cycle that have a status of:</p>
+    <p class="govuk-body">You will not be able to submit another application in the same recruitment cycle if you have already submitted more than <%= ApplicationForm::UNSUCCESSFUL_RETRY_LIMIT %> applications in that cycle that have a status of:</p>
 
     <ul class="govuk-list govuk-list--bullet">
       <li>withdrawn</li>

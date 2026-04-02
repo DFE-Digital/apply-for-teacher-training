@@ -180,7 +180,7 @@ RSpec.describe 'Marking section as complete or incomplete' do
   end
 
   def when_i_add_the_maximum_number_of_choices
-    (ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES - 1).times do
+    (ApplicationForm::IN_PROGRESS_LIMIT - 1).times do
       create(:application_choice, :unsubmitted, application_form: @application_form)
     end
   end

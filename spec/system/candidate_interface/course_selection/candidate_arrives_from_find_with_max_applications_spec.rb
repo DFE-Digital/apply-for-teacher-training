@@ -25,7 +25,7 @@ RSpec.describe 'Candidate arrives from Find with provider and course that is alr
   end
 
   def and_i_already_have_max_applications
-    create_list(:application_choice, ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES,
+    create_list(:application_choice, ApplicationForm::IN_PROGRESS_LIMIT,
                 :unsubmitted,
                 application_form: current_candidate.current_application)
   end
