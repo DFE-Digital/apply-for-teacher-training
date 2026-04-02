@@ -144,6 +144,7 @@ jobs:
             integration_shared,
             integration_provider,
             integration_candidate,
+            integration_candidate_entering_details,
           ]
         feature-flags: [on, off]
         # Use these offsets as the end of cycle approaches
