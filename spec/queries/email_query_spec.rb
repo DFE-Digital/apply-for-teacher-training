@@ -189,16 +189,31 @@ RSpec.describe EmailQuery do
     end
 
     context 'when given a provider code param' do
-      let(:provider) { create(:provider) }
+      let(:provider) { create(:provider, code: 'ZZZ') }
       let(:provider_user_1) { create(:provider_user, providers: [provider]) }
       let(:provider_user_2) { create(:provider_user, providers: [provider]) }
       let(:provider_user_3) { create(:provider_user) }
       let(:user_1_email) { create(:email, to: provider_user_1.email_address) }
       let(:user_2_email) { create(:email, to: provider_user_2.email_address) }
       let(:user_3_email) { create(:email, to: provider_user_3.email_address) }
+      let(:params) { { provider_code: 'ZZZ' } }
+
+      before do
+        user_1_email
+        user_2_email
+        user_3_email
+      end
 
       it 'returns only emails for users associated with the given provider' do
         expect(call).to contain_exactly(user_1_email, user_2_email)
+      end
+
+      context "when the provider code given does not match a provider" do
+        let(:params) { { provider_code: 'XXX' } }
+
+        it 'returns no email records' do
+          expect(call).to eq(Email.none)
+        end
       end
     end
   end

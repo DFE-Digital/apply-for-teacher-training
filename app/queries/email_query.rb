@@ -83,7 +83,7 @@ private
     return scope if params[:provider_code].blank?
 
     provider = Provider.find_by(code: params[:provider_code])
-    return scope if provider.blank?
+    return Email.none if provider.blank?
 
     provider_email_addresses = provider.provider_users.map { |user| user.email_address.downcase }
     scope.where('lower(emails.to) IN (?)', provider_email_addresses)
