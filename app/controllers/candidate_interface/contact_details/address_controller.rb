@@ -6,7 +6,6 @@ module CandidateInterface
 
     def edit
       @contact_details_form = load_contact_form
-      @return_to = return_to_after_edit(default: candidate_interface_contact_information_review_path)
     end
 
     def create
@@ -16,7 +15,14 @@ module CandidateInterface
       @contact_details_form.assign_attributes(contact_details_params)
 
       if @contact_details_form.save_address(current_application)
-        redirect_to candidate_interface_contact_information_review_path
+        if FeatureFlag.inactive?('2027_application_form_contact_details_residency_questions')
+          redirect_to candidate_interface_contact_information_review_path
+        elsif address_same_as_nationality?
+          redirect_to candidate_interface_new_residency_path
+        else
+          current_application.update(country_residency_since_birth: false)
+          redirect_to candidate_interface_new_residency_date_path(origin: 'new-address')
+        end
       else
         track_validation_error(@contact_details_form)
         render :new
@@ -25,11 +31,17 @@ module CandidateInterface
 
     def update
       @contact_details_form = ContactDetailsForm.build_from_application(current_application)
-      @return_to = return_to_after_edit(default: candidate_interface_contact_information_review_path)
       @contact_details_form.assign_attributes(contact_details_params)
 
       if @contact_details_form.save_address(current_application)
-        redirect_to @return_to[:back_path]
+        if params['return-to'] == 'application-review' || FeatureFlag.inactive?('2027_application_form_contact_details_residency_questions')
+          redirect_to candidate_interface_contact_information_review_path
+        elsif address_same_as_nationality?
+          redirect_to candidate_interface_edit_residency_path
+        else
+          current_application.update(country_residency_since_birth: false)
+          redirect_to candidate_interface_edit_residency_date_path(origin: 'edit-address')
+        end
       else
         track_validation_error(@contact_details_form)
         render :edit
@@ -37,6 +49,35 @@ module CandidateInterface
     end
 
   private
+
+    def address_same_as_nationality?
+      return false if nationalities.empty?
+
+      country = current_application&.country
+
+      # true if candidate is British and lives in an overseas territory
+      return true if 'British'.in?(nationalities) && british_overseas_territory_or_island?(country)
+
+      record = CODES_AND_NATIONALITIES[country]
+
+      return false unless record
+
+      record.in?(nationalities)
+    end
+
+    def british_overseas_territory_or_island?(country_code)
+      country_code.in?(BRITISH_OVERSEAS_TERRITORIES_AND_ISLANDS_CODES)
+    end
+
+    def nationalities
+      [
+        current_application&.first_nationality,
+        current_application&.second_nationality,
+        current_application&.third_nationality,
+        current_application&.fourth_nationality,
+        current_application&.fifth_nationality,
+      ].compact_blank
+    end
 
     def load_contact_form
       ContactDetailsForm.build_from_application(current_application)

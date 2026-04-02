@@ -40,12 +40,15 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
     end
 
     it 'provides the correct SQL' do
+      first_names = %w[john johnny].sort
+      first_names_sql = "('#{first_names.join("','")}')"
+
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
       trainee_data
       expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
         SELECT trainee_start_date, accredited_provider.name, accredited_provider.code, withdraw.date
         FROM `1_key_tables.non_disclosure_trainee_withdrawals`
-        WHERE email = 'john_doe@example.com' OR (first_name IN ('john','johnny') AND last_name IN ('doe') AND date_of_birth = '1990-01-01')
+        WHERE email = 'john_doe@example.com' OR (first_name IN #{first_names_sql} AND last_name IN ('doe') AND date_of_birth = '1990-01-01')
       SQL
     end
 

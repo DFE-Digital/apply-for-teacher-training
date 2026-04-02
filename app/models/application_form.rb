@@ -5,6 +5,9 @@ class ApplicationForm < ApplicationRecord
   has_associated_audits
   geocoded_by :address_formatted_for_geocoding, params: { region: 'uk' }
 
+  before_validation :set_residency_date_from,
+                    if: -> { FeatureFlag.active?('2027_application_form_contact_details_residency_questions') }
+
   include Chased
   include AdviserEligibility
   include HasApplicableDegreeForAdviser
@@ -795,6 +798,10 @@ class ApplicationForm < ApplicationRecord
     courses.all? { |course| course.salary? || course.apprenticeship? }
   end
 
+  def country_of_residence
+    COUNTRIES_AND_TERRITORIES[country] || 'your current country of residence'
+  end
+
 private
 
   def geocode_address_and_update_region_if_required
@@ -828,6 +835,13 @@ private
       saved_change_to_country? ||
       saved_change_to_postcode? ||
       saved_change_to_address_type?
+  end
+
+  def set_residency_date_from
+    return unless country_residency_since_birth?
+    return if date_of_birth.blank?
+
+    self.country_residency_date_from = date_of_birth
   end
 
   def add_support_reference

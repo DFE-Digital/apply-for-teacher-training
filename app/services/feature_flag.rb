@@ -32,6 +32,7 @@ class FeatureFlag
     [:provider_edi_report, 'Regional edi reports for providers', 'Apply team'],
     ['2027_application_form_has_many_english_proficiencies', 'Change application form association from has one english proficiency to has many english proficiencies', 'Apply team'],
     ['2027_visa_expiry', 'Collect visa expiry dates for candidates', 'Apply team'],
+    ['2027_application_form_contact_details_residency_questions', 'Add residency questions to contact details flow in candidate interface', 'Apply team'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

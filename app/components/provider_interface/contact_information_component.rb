@@ -17,6 +17,7 @@ module ProviderInterface
         phone_number_row,
         email_row,
         address_row,
+        residency_row,
       ].compact
     end
 
@@ -40,6 +41,16 @@ module ProviderInterface
       {
         key: 'Address',
         value: application_form.full_address,
+      }
+    end
+
+    def residency_row
+      return unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
+      return if @application_form.country_residency_date_from.blank?
+
+      {
+        key: "Lived in #{CountryFinder.find_name_from_hesa_code(@application_form.country)} since",
+        value: @application_form.country_residency_since_birth ? 'Birth' : @application_form.country_residency_date_from.to_fs(:month_and_year),
       }
     end
 

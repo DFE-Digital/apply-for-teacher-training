@@ -29,7 +29,7 @@ module CandidateInterface
       @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
 
       if @contact_details_form.save_address_type(current_application)
-        redirect_to candidate_interface_edit_address_path
+        redirect_to candidate_interface_edit_address_path(return_to_params)
       else
         track_validation_error(@contact_details_form)
         render :edit
@@ -40,6 +40,10 @@ module CandidateInterface
 
     def load_contact_form
       ContactDetailsForm.build_from_application(current_application)
+    end
+
+    def return_to_params
+      { 'return-to' => 'application-review' }
     end
 
     def address_type_params

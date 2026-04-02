@@ -46,6 +46,83 @@ RSpec.describe ApplicationForm do
     it { is_expected.to delegate_method(:opt_in?).to(:published_preference).with_prefix.allow_nil }
   end
 
+  describe 'callbacks' do
+    before do
+      allow(FeatureFlag).to receive(:active?)
+        .with('2027_application_form_contact_details_residency_questions')
+        .and_return(true)
+    end
+
+    describe 'set_residency_date_from' do
+      let(:dob) { Date.new(1990, 1, 1) }
+
+      context 'when residency is since birth' do
+        let(:form) do
+          described_class.new(
+            country_residency_since_birth: true,
+            date_of_birth: dob,
+            country_residency_date_from: nil,
+          )
+        end
+
+        it 'sets country_residency_date_from to the date_of_birth' do
+          form.valid?
+          expect(form.country_residency_date_from).to eq(dob)
+        end
+      end
+
+      context 'when date_of_birth is missing' do
+        let(:form) do
+          described_class.new(
+            country_residency_since_birth: true,
+            date_of_birth: nil,
+            country_residency_date_from: nil,
+          )
+        end
+
+        it 'does not set country_residency_date_from' do
+          form.valid?
+          expect(form.country_residency_date_from).to be_nil
+        end
+      end
+
+      context 'when residency is not since birth' do
+        let(:form) do
+          described_class.new(
+            country_residency_since_birth: false,
+            date_of_birth: dob,
+            country_residency_date_from: nil,
+          )
+        end
+
+        it 'does not set country_residency_date_from' do
+          form.valid?
+          expect(form.country_residency_date_from).to be_nil
+        end
+      end
+
+      context 'when the feature flag is off' do
+        before do
+          allow(FeatureFlag).to receive(:active?)
+            .with('2027_application_form_contact_details_residency_questions')
+            .and_return(false)
+        end
+
+        it 'does not run the callback' do
+          form = described_class.new(
+            country_residency_since_birth: true,
+            date_of_birth: Date.new(1990, 1, 1),
+            country_residency_date_from: nil,
+          )
+
+          form.valid?
+
+          expect(form.country_residency_date_from).to be_nil
+        end
+      end
+    end
+  end
+
   describe '#cannot_add_more_choices?' do
     let(:application_form) { create(:application_form) }
 
@@ -1827,6 +1904,35 @@ RSpec.describe ApplicationForm do
       create(:application_qualification, international: false, application_form:)
 
       expect(application_form.international_qualification?).to be(false)
+    end
+  end
+
+  describe '#country_of_residence' do
+    context 'when the country exists' do
+      it 'returns the mapped value' do
+        application_form = described_class.new(country: 'GB-WLS')
+
+        expect(application_form.country_of_residence)
+          .to eq('Wales')
+      end
+    end
+
+    context 'when the country does not exist in the mapping' do
+      it 'returns the fallback string' do
+        application_form = described_class.new(country: 'XX')
+
+        expect(application_form.country_of_residence)
+          .to eq('your current country of residence')
+      end
+    end
+
+    context 'when the country is nil' do
+      it 'returns the fallback string' do
+        application_form = described_class.new(country: nil)
+
+        expect(application_form.country_of_residence)
+          .to eq('your current country of residence')
+      end
     end
   end
 end

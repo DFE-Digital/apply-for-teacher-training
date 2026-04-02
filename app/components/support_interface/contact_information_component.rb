@@ -17,6 +17,7 @@ module SupportInterface
         phone_number_row,
         email_row,
         address_row,
+        residency_row,
       ].compact
     end
 
@@ -67,11 +68,21 @@ module SupportInterface
       )
     end
 
+    def residency_row
+      return unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
+      return if @application_form.country_residency_date_from.blank?
+
+      {
+        key: "Lived in #{find_country} since",
+        value: @application_form.country_residency_since_birth ? 'Birth' : @application_form.country_residency_date_from.to_fs(:month_and_year),
+      }
+    end
+
     def full_address
       if @application_form.address_type == 'uk'
         local_address.compact_blank
       else
-        local_address.push(CountryFinder.find_name_from_hesa_code(@application_form.country)).compact_blank
+        local_address.push(find_country).compact_blank
       end
     end
 
@@ -89,6 +100,10 @@ module SupportInterface
 
     def editable?
       application_form.editable?
+    end
+
+    def find_country
+      @find_country ||= CountryFinder.find_name_from_hesa_code(@application_form.country)
     end
   end
 end
