@@ -73,7 +73,7 @@ class Pool::Candidates
                            status: ApplicationStateChange::UNSUCCESSFUL_STATES,
                          })
                          .group(:id)
-                         .having("count(CASE WHEN application_choices.status != 'inactive' THEN 1 END) < ?", ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS)
+                         .having("count(CASE WHEN application_choices.status != 'inactive' THEN 1 END) < ?", ApplicationForm::UNSUCCESSFUL_RETRY_LIMIT)
                          .select(:id)
 
     # Final query

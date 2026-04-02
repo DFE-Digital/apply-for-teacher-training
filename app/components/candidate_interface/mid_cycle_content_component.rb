@@ -51,7 +51,7 @@ module CandidateInterface
     end
 
     def max_number_of_applications
-      ApplicationForm::MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS
+      [application_form.unsuccessful_retry_limit, application_form.in_progress_limit].max
     end
 
     def apply_reopens_date

@@ -178,7 +178,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def and_i_am_informed_i_already_have_4_courses
-    expect(page).to have_content I18n.t('errors.messages.too_many_course_choices', max_applications: ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES, course_name: @course_with_multiple_sites.name)
+    expect(page).to have_content I18n.t('errors.messages.too_many_course_choices', max_applications: ApplicationForm::IN_PROGRESS_LIMIT, course_name: @course_with_multiple_sites.name)
   end
 
   def when_i_sign_out

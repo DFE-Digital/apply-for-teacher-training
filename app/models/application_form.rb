@@ -1,5 +1,3 @@
-# The Application Form is filled in and submitted by the Candidate. Candidates
-# can initially apply to 3 different courses, represented by an Application Choice.
 class ApplicationForm < ApplicationRecord
   audited
   has_associated_audits
@@ -11,6 +9,7 @@ class ApplicationForm < ApplicationRecord
   include Chased
   include AdviserEligibility
   include HasApplicableDegreeForAdviser
+  include ChoiceLimitsCalculator
 
   has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
   delegate :apply_deadline_at,
@@ -112,8 +111,6 @@ class ApplicationForm < ApplicationRecord
   MAXIMUM_REFERENCES = 10
   EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
-  MAXIMUM_NUMBER_OF_COURSE_CHOICES = 4
-  MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS = 15
   RECOMMENDED_PERSONAL_STATEMENT_WORD_COUNT = 500
 
   BEGINNING_OF_FREE_SCHOOL_MEALS = Date.new(1964, 9, 1)
@@ -389,56 +386,6 @@ class ApplicationForm < ApplicationRecord
   def unsuccessful_and_apply_deadline_has_passed?
     ended_without_success? && after_apply_deadline?
   end
-
-  ##########################################
-  #
-  # Limiting choices on applications form
-  #
-  ##########################################
-
-  def maximum_number_of_choices_reached?
-    application_limit_reached? || cannot_add_more_choices?
-  end
-
-  def application_limit_reached?
-    application_choices.count(&:application_unsuccessful?) >= MAXIMUM_NUMBER_OF_UNSUCCESSFUL_APPLICATIONS
-  end
-
-  ## A slot represents the availability of one course choice
-
-  def can_add_more_choices?
-    number_of_slots_left.positive?
-  end
-
-  def can_submit_more_choices?
-    number_of_in_progress_slots_left.positive?
-  end
-
-  def cannot_add_more_choices?
-    number_of_slots_left.zero?
-  end
-
-  def number_of_slots_left
-    MAXIMUM_NUMBER_OF_COURSE_CHOICES - number_of_slots_taken
-  end
-
-  def number_of_in_progress_slots_left
-    MAXIMUM_NUMBER_OF_COURSE_CHOICES - number_of_in_progress_slots_taken
-  end
-
-  def number_of_slots_taken
-    slots_taken.count
-  end
-
-  def number_of_in_progress_slots_taken
-    application_choices.count(&:application_in_progress?)
-  end
-
-  def slots_taken
-    application_choices.reject(&:application_unsuccessful?)
-  end
-
-  ## End Limiting choices on applications form
 
   def recruited?
     application_choices.recruited.any?

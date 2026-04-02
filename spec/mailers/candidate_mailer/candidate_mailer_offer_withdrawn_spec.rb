@@ -48,19 +48,8 @@ RSpec.describe CandidateMailer do
     context 'mid cycle', time: mid_cycle do
       let(:recruitment_cycle_year) { current_year }
 
-      it_behaves_like(
-        'a mail with subject and content',
-        'Offer withdrawn by Arithmetic College',
-        'greeting' => 'Dear Fred',
-        'still interested' => 'If now’s the right time for you, you can still apply for up to 4 more courses this year.',
-        'offer details' => 'Arithmetic College has withdrawn their offer for you to study Mathematics (M101)',
-        'withdrawal reason' => 'You lied to us about secretly being Spiderman',
-        'realistic job preview' => 'Try the realistic job preview tool',
-        'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
-      )
-
-      context 'with a course recommendation url' do
-        let(:email) { described_class.offer_withdrawn(application_form.application_choices.first, 'https://www.find-postgraduate-teacher-training.service.gov.uk/results') }
+      context 'without mid cycle cap' do
+        before { FeatureFlag.deactivate(:mid_cycle_cap) }
 
         it_behaves_like(
           'a mail with subject and content',
@@ -71,9 +60,60 @@ RSpec.describe CandidateMailer do
           'withdrawal reason' => 'You lied to us about secretly being Spiderman',
           'realistic job preview' => 'Try the realistic job preview tool',
           'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
-          'course recommendation' => 'Based on the details in your previous application, you could be suitable for other teacher training courses.',
-          'course recommendation link' => 'https://www.find-postgraduate-teacher-training.service.gov.uk/results',
         )
+      end
+
+      context 'with the mid cycle cap' do
+        before { FeatureFlag.activate(:mid_cycle_cap) }
+
+        it_behaves_like(
+          'a mail with subject and content',
+          'Offer withdrawn by Arithmetic College',
+          'greeting' => 'Dear Fred',
+          'still interested' => 'If now’s the right time for you, you can still apply for up to 3 more courses this year.',
+          'offer details' => 'Arithmetic College has withdrawn their offer for you to study Mathematics (M101)',
+          'withdrawal reason' => 'You lied to us about secretly being Spiderman',
+          'realistic job preview' => 'Try the realistic job preview tool',
+          'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
+        )
+      end
+
+      context 'with a course recommendation url' do
+        let(:email) { described_class.offer_withdrawn(application_form.application_choices.first, 'https://www.find-postgraduate-teacher-training.service.gov.uk/results') }
+
+        context 'without mid-cycle cap' do # rubocop:disable RSpec/NestedGroups
+          before { FeatureFlag.deactivate(:mid_cycle_cap) }
+
+          it_behaves_like(
+            'a mail with subject and content',
+            'Offer withdrawn by Arithmetic College',
+            'greeting' => 'Dear Fred',
+            'still interested' => 'If now’s the right time for you, you can still apply for up to 4 more courses this year.',
+            'offer details' => 'Arithmetic College has withdrawn their offer for you to study Mathematics (M101)',
+            'withdrawal reason' => 'You lied to us about secretly being Spiderman',
+            'realistic job preview' => 'Try the realistic job preview tool',
+            'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
+            'course recommendation' => 'Based on the details in your previous application, you could be suitable for other teacher training courses.',
+            'course recommendation link' => 'https://www.find-postgraduate-teacher-training.service.gov.uk/results',
+          )
+        end
+
+        context 'with mid-cycle cap' do # rubocop:disable RSpec/NestedGroups
+          before { FeatureFlag.activate(:mid_cycle_cap) }
+
+          it_behaves_like(
+            'a mail with subject and content',
+            'Offer withdrawn by Arithmetic College',
+            'greeting' => 'Dear Fred',
+            'still interested' => 'If now’s the right time for you, you can still apply for up to 3 more courses this year.',
+            'offer details' => 'Arithmetic College has withdrawn their offer for you to study Mathematics (M101)',
+            'withdrawal reason' => 'You lied to us about secretly being Spiderman',
+            'realistic job preview' => 'Try the realistic job preview tool',
+            'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
+            'course recommendation' => 'Based on the details in your previous application, you could be suitable for other teacher training courses.',
+            'course recommendation link' => 'https://www.find-postgraduate-teacher-training.service.gov.uk/results',
+          )
+        end
       end
     end
   end

@@ -65,7 +65,7 @@ module ApplicationHelper
   end
 
   def max_course_choices
-    ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES
+    ApplicationForm::IN_PROGRESS_LIMIT
   end
 
   def markdown(source)

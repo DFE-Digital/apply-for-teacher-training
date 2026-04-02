@@ -30,6 +30,7 @@ class FeatureFlag
     [:ms_clarity, 'Record sessions with MS Clarity'],
     [:import_non_disclosure_trainee_withdrawals, 'Import Non-disclosure data from BigQuery to generate Possible Previous Teacher Training records', 'Apply team'],
     [:provider_edi_report, 'Regional edi reports for providers', 'Apply team'],
+    [:mid_cycle_cap, 'For implementing a cap on applications', 'Apply team'],
     ['2027_application_form_has_many_english_proficiencies', 'Change application form association from has one english proficiency to has many english proficiencies', 'Apply team'],
     ['2027_visa_expiry', 'Collect visa expiry dates for candidates', 'Apply team'],
     ['2027_application_form_contact_details_residency_questions', 'Add residency questions to contact details flow in candidate interface', 'Apply team'],
@@ -75,6 +76,13 @@ class FeatureFlag
     raise unless feature_name.in?(FEATURES)
 
     feature_statuses[feature_name].presence || false
+  end
+
+  def self.activated_at(feature_name)
+    raise unless feature_name.in?(FEATURES)
+
+    feature = Feature.find_or_initialize_by(name: feature_name)
+    feature.updated_at if feature.active?
   end
 
   def self.inactive?(feature_name)

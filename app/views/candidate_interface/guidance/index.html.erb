@@ -50,7 +50,7 @@
           <div class="app-timeline__log-card">
             <div class="app-timeline__log-card__note">
               <div class="app-timeline__log-card__note--title govuk-body">
-             <%= simple_format(t('.start_applying', max_courses: ApplicationForm::MAXIMUM_NUMBER_OF_COURSE_CHOICES)) %>
+             <%= simple_format(t('.start_applying', max_courses: ApplicationForm::IN_PROGRESS_LIMIT)) %>
 
               <% if current_candidate.present? %>
                 <% if current_application.submitted_applications? %>
