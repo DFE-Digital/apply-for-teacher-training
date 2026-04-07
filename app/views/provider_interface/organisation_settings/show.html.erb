@@ -27,6 +27,13 @@
             <% end %>
           </li>
         <% end %>
+        <% if FeatureFlag.active?(:interview_handling) %>
+          <li>
+            <%= govuk_link_to provider_interface_organisation_settings_organisation_interview_options_path(organisation_id: provider.id) do %>
+              <%= t('page_titles.provider.interview_options') %><span class="govuk-visually-hidden"> <%= provider.name %></span>
+            <% end %>
+          </li>
+        <% end %>
       </ul>
     <% end %>
   </div>
