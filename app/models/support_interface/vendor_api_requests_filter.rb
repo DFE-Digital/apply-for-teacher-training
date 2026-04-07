@@ -20,7 +20,7 @@ module SupportInterface
     end
 
     def valid_provider?
-      Provider.find_by(code: applied_filters[:provider_code]).present?
+      Provider.find_by(code: applied_filters[:provider_code].upcase).present?
     end
 
   private

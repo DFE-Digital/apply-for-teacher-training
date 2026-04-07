@@ -25,7 +25,7 @@ private
   def search_scope(scope)
     return scope if params[:q].blank?
 
-    scope.where("CONCAT(request_path, ' ', request_body, ' ', response_body) ILIKE ?", "%#{params[:q].strip.upcase}%")
+    scope.where("CONCAT(request_path, ' ', request_body, ' ', response_body) ILIKE ?", "%#{params[:q].strip}%")
   end
 
   def status_code_scope(scope)
@@ -43,7 +43,7 @@ private
   def provider_scope(scope)
     return scope if params[:provider_code].blank?
 
-    provider = Provider.find_by(code: params[:provider_code].strip)
+    provider = Provider.find_by(code: params[:provider_code].strip.upcase)
     return VendorAPIRequest.none if provider.nil?
 
     scope.where(provider_id: provider.id)
