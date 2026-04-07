@@ -65,6 +65,14 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
   end
 
   describe '#save' do
+    before do
+      FeatureFlag.activate('2027_visa_expiry')
+    end
+
+    after do
+      FeatureFlag.deactivate('2027_visa_expiry')
+    end
+
     it 'returns false if not valid' do
       form = described_class.new
 
@@ -85,6 +93,7 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
         right_to_work_or_study: 'yes',
         immigration_status: 'other',
         right_to_work_or_study_details: 'I have permanent residence',
+        visa_expired_at: Time.zone.now,
       }
       application_form = create(:application_form, application_data)
       form = described_class.new(form_data)
@@ -93,6 +102,22 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
       expect(application_form.reload.right_to_work_or_study).to eq('yes')
       expect(application_form.immigration_status).to eq('other')
       expect(application_form.right_to_work_or_study_details).to eq('I have settled status')
+      expect(application_form.visa_expired_at).not_to be_nil
+    end
+
+    it 'does reset visa_expired_at if immigration status is permanent' do
+      application_data = {
+        right_to_work_or_study: 'yes',
+        immigration_status: 'other',
+        right_to_work_or_study_details: 'I have permanent residence',
+        visa_expired_at: Time.zone.now,
+      }
+      application_form = create(:application_form, application_data)
+      form = described_class.new({ immigration_status: 'eu_settled' })
+
+      expect(form.save(application_form)).to be(true)
+      expect(application_form.immigration_status).to eq('eu_settled')
+      expect(application_form.visa_expired_at).to be_nil
     end
   end
 end

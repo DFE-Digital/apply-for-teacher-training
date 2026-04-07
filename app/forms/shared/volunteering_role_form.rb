@@ -24,15 +24,15 @@ module Shared
               presence: true
 
     validates :role, :organisation, length: { maximum: 60 }
-    validates :start_date, date: { presence: true, future: true, month_and_year: true, before: :end_date }
+    validates :start_date, date: { presence: true, past: true, month_and_year: true, before: :end_date }
 
     validates :start_date_unknown, inclusion: { in: %w[true false] }
     validates :end_date_unknown, inclusion: { in: %w[true false] }
     validates :currently_working, presence: true
     validates :currently_working, inclusion: { in: %w[true false] }, if: -> { currently_working.present? }
-    validates :end_date, date: { presence: true, future: true, month_and_year: true }, if: -> { not_currently_employed_in_this_role? }
+    validates :end_date, date: { presence: true, past: true, month_and_year: true }, if: -> { not_currently_employed_in_this_role? }
 
-    validates :end_date, date: { future: true, month_and_year: true }, unless: :dont_validate_end_date
+    validates :end_date, date: { past: true, month_and_year: true }, unless: :dont_validate_end_date
 
     validates :details, presence: true, word_count: { maximum: 150 }
 

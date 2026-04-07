@@ -45,7 +45,7 @@ en:
               invalid_year: Assessment year must be a real year
               not_a_number: Assessment year must be a real year
               greater_than_or_equal_to: Assessment year cannot be before 1980
-              future: Assessment year cannot be in the future
+              past: Assessment year cannot be in the future
         candidate_interface/english_proficiencies/other_efl_qualification_form:
           attributes:
             name:
@@ -57,7 +57,7 @@ en:
               invalid_year: Assessment year must be a real year
               not_an_integer: Assessment year must be a real year
               not_a_number: Assessment year must be a real year
-              future: Assessment year cannot be in the future
+              past: Assessment year cannot be in the future
         candidate_interface/english_proficiencies/toefl_form:
           attributes:
             registration_number:
@@ -71,4 +71,4 @@ en:
               not_an_integer: Assessment year must be a real year
               not_a_number: Assessment year must be a real year
               greater_than_or_equal_to: Assessment year cannot be before 1964
-              future: Assessment year cannot be in the future
+              past: Assessment year cannot be in the future

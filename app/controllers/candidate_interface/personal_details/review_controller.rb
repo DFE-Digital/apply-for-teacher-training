@@ -35,13 +35,24 @@ module CandidateInterface
     private
 
       def all_sections_valid?
-        @personal_details_form.valid? && @nationalities_form.valid? && right_to_work_valid?
+        @personal_details_form.valid? &&
+          @nationalities_form.valid? &&
+          right_to_work_valid? &&
+          visa_expiry_valid?
       end
 
       def right_to_work_valid?
         return true if current_application.british_or_irish?
 
         @immigration_right_to_work_form.valid?
+      end
+
+      def visa_expiry_valid?
+        if current_application.temporary_immigration_status?
+          VisaExpiryForm.new(current_application).valid?
+        else
+          true
+        end
       end
 
       def save_section_complete_form

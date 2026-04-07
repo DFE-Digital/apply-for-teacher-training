@@ -11,7 +11,7 @@ module CandidateInterface
       validates :band_score, presence: true
       validates :award_year, presence: true,
                              numericality: { greater_than_or_equal_to: 1980, only_integer: true },
-                             year: { future: true }
+                             year: { past: true }
       validate :band_score_is_a_valid_score
 
       def save

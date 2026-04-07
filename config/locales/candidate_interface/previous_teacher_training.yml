@@ -75,13 +75,13 @@ en:
               blank_date: Enter the date that you started the training course
               blank_date_fields: Enter the %{fields} that you started the training course
               before: Enter a course start date that is before the date you have left the course
-              future: Date that you started the training course must be in the past
+              past: Date that you started the training course must be in the past
               invalid_date_month_and_year: Enter a real course start date, for example 5 2019
             ended_at:
               blank_date: Enter the date that you left the training course
               blank_date_fields: Enter the %{fields} that you left the training course
               invalid_date_month_and_year: Enter a real course leave date, for example 5 2019
-              future: Date that you left the training course must be in the past
+              past: Date that you left the training course must be in the past
         candidate_interface/previous_teacher_trainings/details_form:
           attributes:
             details:

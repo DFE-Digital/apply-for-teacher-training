@@ -22,8 +22,8 @@ module Shared
               :commitment,
               presence: true
     validates :role, :organisation, length: { maximum: 100 }
-    validates :start_date, date: { future: true, month_and_year: true, presence: true, before: :end_date }
-    validates :end_date, date: { future: true, month_and_year: true, presence: true }, if: :not_currently_employed_in_this_role?
+    validates :start_date, date: { past: true, month_and_year: true, presence: true, before: :end_date }
+    validates :end_date, date: { past: true, month_and_year: true, presence: true }, if: :not_currently_employed_in_this_role?
     validates :start_date_unknown, inclusion: { in: %w[true false] }
     validates :end_date_unknown, inclusion: { in: %w[true false] }
     # Force the order in which these appear in govuk_error_summary by declaring

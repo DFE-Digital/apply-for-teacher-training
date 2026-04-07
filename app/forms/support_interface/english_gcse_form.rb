@@ -53,7 +53,7 @@ module SupportInterface
     validate :validate_grade_format, unless: :multiple_gcse?
     validate :validate_grades_format, if: :multiple_gcse?
     validate :gcse_selected, if: :multiple_gcse?
-    validates :award_year, presence: true, year: { future: true }, unless: :missing_qualification?
+    validates :award_year, presence: true, year: { past: true }, unless: :missing_qualification?
     validates :award_year, o_level_award_year: true, unless: ->(c) { c.errors.attribute_names.include?(:award_year) }
 
     validates :other_uk_qualification_type, presence: true, if: :other_uk_qualification?

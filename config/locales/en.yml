@@ -111,6 +111,7 @@ en:
     get_your_details_back: Get your details back
     dismiss: Dismiss
   page_titles:
+    visa_expiry: Visa expiry
     recruitment_performance_report: Recruitment performance report
     provider_recruitment_performance_report: Recruitment performance report %{cycle_year} cycle
     application_submit_interruption: Check before you submit your application
@@ -506,6 +507,13 @@ en:
           attributes:
             provider_id:
               blank: Select a provider
+        candidate_interface/visa_expiry_form:
+          attributes:
+            visa_expired_at:
+              future: Enter a visa expiry date that is in the future
+              blank_date: Enter a visa expiry date
+              blank_date_fields: Enter the %{fields} when your visa will expire
+              invalid_date: Enter a real visa expiry date, for example 31 5 2026
         candidate_interface/adviser_interruption_form:
           attributes:
             proceed_to_request_adviser:
@@ -740,7 +748,8 @@ en:
       multiple_year: Enter a single %{attribute}
       invalid_date: Enter a real %{attribute}
       invalid_date_month_and_year: Enter a real %{attribute}, for example 5 2019
-      future: Enter %{article} %{attribute} that is not in the future
+      past: Enter %{article} %{attribute} that is not in the future
+      future: Enter %{article} %{attribute} that is in the future
       blank_date_fields: The %{attribute} must include a %{fields}
       blank_date: Enter %{article} %{attribute}
       before: Enter %{article} %{attribute} that is before the %{compared_attribute}

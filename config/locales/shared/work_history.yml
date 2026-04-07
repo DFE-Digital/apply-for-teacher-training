@@ -17,10 +17,10 @@ en:
             start_date:
               blank_date: Enter the month and year you started this job
               before: The month and year you started must be the same as or before the month and year you left
-              future: The month and year you started must not be in the future
+              past: The month and year you started must not be in the future
             end_date:
               blank_date: Enter the month and year you left this job
-              future: The month and year you left must not be in the future
+              past: The month and year you left must not be in the future
             currently_working:
               blank: Select yes if you are still working in this job
             relevant_skills:

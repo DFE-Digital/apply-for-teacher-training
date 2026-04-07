@@ -256,6 +256,17 @@ class ApplicationForm < ApplicationRecord
 
   after_update :geocode_address_and_update_region_if_required
 
+  TEMPORARY_IMMIGRATION_STATUSES = immigration_statuses.keys - %w[
+    eu_settled
+    indefinite_leave_to_remain_in_the_uk
+  ].freeze
+
+  def temporary_immigration_status?(status = nil)
+    FeatureFlag.active?('2027_visa_expiry') &&
+      !british_or_irish? &&
+      TEMPORARY_IMMIGRATION_STATUSES.include?(status.presence || immigration_status)
+  end
+
   def touch_choices
     return unless application_choices.any?
 

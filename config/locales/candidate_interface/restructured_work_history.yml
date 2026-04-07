@@ -70,10 +70,10 @@ en:
             start_date:
               blank_date: Enter the month and year this break started
               before: The month and year your break started must be the same as or after the month and year your break ended
-              future: The month and year the break started must not be in the future
+              past: The month and year the break started must not be in the future
             end_date:
               blank_date: Enter the month and year this break ended
-              future: The month and year the break ended must not be in the future
+              past: The month and year the break ended must not be in the future
             reason:
               blank: Enter the reasons for break in work history
               too_many_words: Reasons for break in work history must be %{maximum} words or less

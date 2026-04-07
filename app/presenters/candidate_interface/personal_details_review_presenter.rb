@@ -23,6 +23,7 @@ module CandidateInterface
       ]
 
       assembled_rows += right_to_work_rows || []
+      assembled_rows << visa_expiry_row if @application_form.temporary_immigration_status?
       assembled_rows.compact
     end
 
@@ -141,6 +142,32 @@ module CandidateInterface
         }
       end
       rows
+    end
+
+    def visa_expiry_row
+      value = if @application_form.visa_expired_at.present?
+                @application_form.visa_expired_at.to_fs(:govuk_date)
+              else
+                govuk_link_to(
+                  'Enter your visa expiry date',
+                  new_candidate_interface_visa_expiry_path(
+                    { 'return-to' => 'application-review' },
+                  ),
+                )
+              end
+
+      {
+        key: 'Visa expiry',
+        value: value,
+      }.tap do |row|
+        if @application_form.visa_expired_at.present? && @editable && !@application_form.submitted_applications?
+          row[:action] =
+            {
+              href: edit_candidate_interface_visa_expiry_path,
+              visually_hidden_text: 'Change visa expiry',
+            }
+        end
+      end
     end
 
     def british_or_irish?

@@ -9,7 +9,7 @@ module CandidateInterface
       validates :grade, presence: true, length: { maximum: 255 }
       validates :award_year, presence: true,
                              numericality: { only_integer: true },
-                             year: { future: true }
+                             year: { past: true }
 
       def save
         return false unless valid?

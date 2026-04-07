@@ -1,0 +1,10 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.visa_expiry'), @form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(@back_link, 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @form, url: candidate_interface_visa_expiry_path(@submit_params), method: :post do |f| %>
+      <%= render partial: 'form', locals: { f: f } %>
+    <% end %>
+  </div>
+</div>

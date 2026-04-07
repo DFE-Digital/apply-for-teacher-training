@@ -24,6 +24,9 @@ module CandidateInterface
       application_form.update(
         immigration_status:,
         right_to_work_or_study_details: other_immigration_status? ? right_to_work_or_study_details : nil,
+        visa_expired_at: if application_form.temporary_immigration_status?(immigration_status)
+                           application_form.visa_expired_at
+                         end,
       )
     end
 
