@@ -521,6 +521,7 @@ shared:
     - vendor_id
     - selectable_school
     - email_address
+    - handle_interviews
   reference_tokens:
     - application_reference_id
     - created_at
