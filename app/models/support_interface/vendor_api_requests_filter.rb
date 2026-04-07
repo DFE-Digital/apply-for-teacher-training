@@ -4,38 +4,23 @@ module SupportInterface
 
     attr_reader :applied_filters
 
+    STATUS_CODES = [200, 302, 401, 403, 404, 422, 429].freeze
+    REQUEST_METHODS = %w[GET POST HEAD OPTIONS].freeze
+
     def initialize(params:)
       @applied_filters = compact_params(params)
     end
 
     def filters
-      @filters ||= [free_text] + [request_method] + [status_code] + [provider]
+      @filters ||= [provider_code] + [free_text] + [request_method] + [status_code]
     end
 
-    def filter_records(vendor_api_requests)
-      if applied_filters[:q].present?
-        vendor_api_requests = vendor_api_requests.where("CONCAT(request_path, ' ', request_body, ' ', response_body) ILIKE ?", "%#{applied_filters[:q]}%")
-      end
+    def filtered?
+      applied_filters[:provider_code].present?
+    end
 
-      if applied_filters[:status_code].present?
-        vendor_api_requests = vendor_api_requests.where(status_code: applied_filters[:status_code])
-      end
-
-      if applied_filters[:request_method].present?
-        vendor_api_requests = vendor_api_requests.where(request_method: applied_filters[:request_method])
-      end
-
-      if applied_filters[:provider_id].present?
-        vendor_api_requests = vendor_api_requests.where(provider_id: applied_filters[:provider_id])
-      end
-
-      %w[created_at request_path].each do |column|
-        next if applied_filters[column].blank?
-
-        vendor_api_requests = vendor_api_requests.where(column => applied_filters[column])
-      end
-
-      vendor_api_requests
+    def valid_provider?
+      Provider.find_by(code: applied_filters[:provider_code].upcase).present?
     end
 
   private
@@ -50,7 +35,7 @@ module SupportInterface
     end
 
     def status_code
-      options = VendorAPIRequest.distinct(:status_code).pluck(:status_code).map(&:to_s).map do |status_code|
+      options = STATUS_CODES.map do |status_code|
         {
           value: status_code,
           label: status_code,
@@ -67,7 +52,7 @@ module SupportInterface
     end
 
     def request_method
-      options = VendorAPIRequest.distinct(:request_method).pluck(:request_method).compact.map do |request_method|
+      options = REQUEST_METHODS.map do |request_method|
         {
           value: request_method,
           label: request_method,
@@ -83,20 +68,12 @@ module SupportInterface
       }
     end
 
-    def provider
-      options = Provider.where(id: VendorAPIRequest.distinct(:provider_id).select(:provider_id)).map do |provider|
-        {
-          value: provider.id.to_s,
-          label: provider.name,
-          checked: applied_filters[:provider_id]&.include?(provider.id.to_s),
-        }
-      end
-
+    def provider_code
       {
-        type: :checkboxes,
-        heading: 'Provider',
-        name: 'provider_id',
-        options:,
+        type: :search,
+        heading: 'Provider code',
+        name: 'provider_code',
+        value: applied_filters[:provider_code],
       }
     end
   end

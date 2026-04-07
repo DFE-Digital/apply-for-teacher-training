@@ -16,7 +16,7 @@ RSpec.describe SupportInterface::ValidationErrorsListComponent do
     }
   end
 
-  let(:source_name) { :vendor_api }
+  let(:source_name) { :candidate }
 
   subject(:component) do
     described_class.new(
@@ -29,15 +29,15 @@ RSpec.describe SupportInterface::ValidationErrorsListComponent do
   end
 
   it 'renders the attribute error links with correct scope' do
-    expect(render_result.css('.govuk-link')[0].text.strip).to eq('/api/v1/applications')
+    expect(render_result.css('.govuk-link')[0].text.strip).to eq('/API/v1/applications')
     expect(render_result.css('.govuk-link')[0].attributes['href'].value).to eq(
-      Rails.application.routes.url_helpers.support_interface_validation_errors_vendor_api_search_path(
+      Rails.application.routes.url_helpers.support_interface_validation_errors_candidate_search_path(
         scope: '/api/v1/applications',
       ),
     )
-    expect(render_result.css('.govuk-link')[1].text.strip).to eq('ParameterInvalid')
+    expect(render_result.css('.govuk-link')[1].text.strip).to eq('Parameter invalid')
     expect(render_result.css('.govuk-link')[1].attributes['href'].value).to eq(
-      Rails.application.routes.url_helpers.support_interface_validation_errors_vendor_api_search_path(
+      Rails.application.routes.url_helpers.support_interface_validation_errors_candidate_search_path(
         scope: '/api/v1/applications',
         attribute: 'ParameterInvalid',
       ),
@@ -57,9 +57,9 @@ RSpec.describe SupportInterface::ValidationErrorsListComponent do
   end
 
   it 'renders the grouped counts links' do
-    expect(render_result.css('.govuk-link')[4].text.strip).to eq('/api/v1/applications')
+    expect(render_result.css('.govuk-link')[4].text.strip).to eq('/API/v1/applications')
     expect(render_result.css('.govuk-link')[4].attributes['href'].value).to eq(
-      Rails.application.routes.url_helpers.support_interface_validation_errors_vendor_api_search_path(
+      Rails.application.routes.url_helpers.support_interface_validation_errors_candidate_search_path(
         scope: '/api/v1/applications',
       ),
     )
@@ -68,7 +68,7 @@ RSpec.describe SupportInterface::ValidationErrorsListComponent do
   describe '#format_value' do
     context 'with source as vendor API' do
       it 'does not format the object' do
-        expect(component.format_value('/api/v1/applications')).to eq('/api/v1/applications')
+        expect(component.format_value('/api/v1/applications')).to eq('/API/v1/applications')
       end
     end
 
