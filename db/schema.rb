@@ -10,13 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_30_090636) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_07_081305) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
   enable_extension "unaccent"
+
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "handle_interviews", ["in_manage", "outside_service"]
 
   create_table "account_recovery_request_codes", force: :cascade do |t|
     t.bigint "account_recovery_request_id", null: false
@@ -1020,6 +1024,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_30_090636) do
     t.string "email_address"
     t.string "phone_number"
     t.boolean "selectable_school", default: false, null: false
+    t.enum "handle_interviews", default: "in_manage", null: false, enum_type: "handle_interviews"
     t.index ["code"], name: "index_providers_on_code", unique: true
     t.index ["vendor_id"], name: "index_providers_on_vendor_id"
   end
