@@ -50,6 +50,13 @@ RSpec.describe 'Vendor API Requests' do
     then_i_see_that_i_must_filter_by_provider_code
 
     when_i_filter_by_an_invalid_provider_code
+    then_i_see_that_i_have_entered_an_invalid_provider_code
+
+    when_i_clear_filters
+    then_i_see_that_i_must_filter_by_provider_code
+
+    when_i_filter_by_provider
+    and_i_filter_by_a_request_method_with_no_associated_records
     then_i_see_there_are_no_results
   end
 
@@ -271,8 +278,17 @@ RSpec.describe 'Vendor API Requests' do
     click_link_or_button 'Apply filters'
   end
 
+  def then_i_see_that_i_have_entered_an_invalid_provider_code
+    expect(page).to have_element(:p, text: 'Enter a valid provider code.')
+  end
+
   def then_i_see_there_are_no_results
     expect(page).to have_element(:p, text: 'There are no vender API requests found for the selected filters.')
     expect(page).to have_element(:p, text: 'Try changing the selected filters.')
+  end
+
+  def and_i_filter_by_a_request_method_with_no_associated_records
+    check 'HEAD'
+    click_link_or_button 'Apply filters'
   end
 end

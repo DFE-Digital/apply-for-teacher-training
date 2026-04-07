@@ -42,6 +42,8 @@
       </tbody>
     </table>
     <%= govuk_pagination(pagy: @pagy) %>
+  <% elsif !@filter.valid_provider? %>
+    <p class="govuk-body">Enter a valid provider code.</p>
   <% else %>
     <p class="govuk-body">There are no vender API requests found for the selected filters.</p>
     <p class="govuk-body">Try changing the selected filters.</p>

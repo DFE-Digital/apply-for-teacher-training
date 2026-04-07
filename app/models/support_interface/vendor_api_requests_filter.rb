@@ -19,6 +19,10 @@ module SupportInterface
       applied_filters[:provider_code].present?
     end
 
+    def valid_provider?
+      Provider.find_by(code: applied_filters[:provider_code]).present?
+    end
+
   private
 
     def free_text

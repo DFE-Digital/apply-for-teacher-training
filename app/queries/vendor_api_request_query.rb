@@ -25,7 +25,7 @@ private
   def search_scope(scope)
     return scope if params[:q].blank?
 
-    scope.where("CONCAT(request_path, ' ', request_body, ' ', response_body) ILIKE ?", "%#{params[:q].strip}%")
+    scope.where("CONCAT(request_path, ' ', request_body, ' ', response_body) ILIKE ?", "%#{params[:q].strip.upcase}%")
   end
 
   def status_code_scope(scope)
