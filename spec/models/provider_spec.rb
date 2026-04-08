@@ -1,12 +1,25 @@
 require 'rails_helper'
 
 RSpec.describe Provider do
+  describe 'validations' do
+    it { is_expected.to validate_inclusion_of(:handle_interviews).in_array(%w[in_manage outside_service]) }
+  end
+
   describe 'associations' do
     it { is_expected.to belong_to(:vendor).optional }
   end
 
   describe 'delegations' do
     it { is_expected.to delegate_method(:name).to(:vendor).with_prefix.allow_nil }
+  end
+
+  describe 'enums' do
+    it 'defines the expected values for handle_interviews' do
+      expect(described_class.new).to define_enum_for(:handle_interviews)
+                                   .with_values(in_manage: 'in_manage', outside_service: 'outside_service')
+                                   .backed_by_column_of_type(:enum)
+                                   .with_default('in_manage')
+    end
   end
 
   describe '#onboarded?' do

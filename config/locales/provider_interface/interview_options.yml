@@ -1,0 +1,23 @@
+en:
+  provider_interface:
+    interview_options:
+      show:
+        heading: Interview options
+        handle_interview_details:
+          How do you want to handle interview details?
+        in_manage: Record interview details in Manage
+        outside_service: Arrange interviews outside this service
+        change: Change
+        change_how_interview_details_are_handled_hidden:
+          How interview details are handled
+      edit:
+        heading: How do you want to handle interview details?
+        in_manage: Record interview details in Manage
+        in_manage_description:
+          When you move a candidate to interviewing, we’ll ask for the proposed date, time and format, then email the candidate.
+        outside_service: Arrange interviews outside this service
+        outside_service_description:
+          Moves the candidate to interviewing. We won’t ask for details, send any notifications or log the interview.
+        save: Save
+      update:
+        success: Interview options updated

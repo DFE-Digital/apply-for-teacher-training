@@ -191,6 +191,13 @@ namespace :provider_interface, path: '/provider' do
   resource :organisation_settings, path: '/organisation-settings', only: :show do
     resources :organisations, only: [] do
       get '/', to: redirect('/provider/organisation-settings'), on: :collection
+
+      scope path: '/interview-options' do
+        get '/' => 'interview_options#show', as: :interview_options
+        get '/edit' => 'interview_options#edit', as: :edit_interview_options
+        post 'update' => 'interview_options#update', as: :update_interview_options
+      end
+
       resources :organisation_permissions, path: '/organisation-permissions', only: %i[index edit update]
       resources :users, path: '/users', only: %i[index show destroy] do
         member do

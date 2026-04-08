@@ -1,0 +1,29 @@
+<% content_for :title, title_with_error_prefix(t('.heading'), @provider.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_organisation_settings_organisation_interview_options_path(organisation_id: @provider.id)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @provider,
+      url: provider_interface_organisation_settings_organisation_update_interview_options_path(organisation_id: @provider.id),
+      method: :post,
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset :handle_interviews,
+         legend: { text: t('.heading'), size: 'xl', tag: 'h1' } do %>
+        <%= f.govuk_radio_button :handle_interviews,
+          'in_manage',
+          label: { text: t('.in_manage') },
+          hint: { text: t('.in_manage_description') },
+          link_errors: true %>
+        <%= f.govuk_radio_button :handle_interviews,
+          'outside_service',
+          label: { text: t('.outside_service') },
+          hint: { text: t('.outside_service_description') } %>
+      <% end %>
+
+      <%= f.govuk_submit t('.save') %>
+    <% end %>
+  </div>
+</div>

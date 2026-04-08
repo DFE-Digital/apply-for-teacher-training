@@ -31,6 +31,14 @@ module ProviderInterface
     }
 
     rescue_from ProviderInterface::AccessDenied, with: :permission_error
+    rescue_from Pundit::NotAuthorizedError, with: lambda {
+      error = AccessDenied.new(
+        permission: 'manage_organisations',
+        training_provider: @provider || Provider.new,
+        provider_user: current_provider_user,
+      )
+      permission_error(error)
+    }
 
     helper_method :current_provider_user
 

@@ -1,0 +1,22 @@
+<% content_for :before_content, govuk_back_link_to(provider_interface_organisation_settings_organisations_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l"><%= @provider.name %></span>
+      <%= t('.heading') %>
+    </h1>
+
+    <%= govuk_summary_list(actions: policy(@provider).manage_organisation_permissions?) do |summary_list| %>
+      <%= summary_list.with_row do |row| %>
+        <%= row.with_key { t('.handle_interview_details') } %>
+        <%= row.with_value { t(".#{@provider.handle_interviews}") } %>
+        <% row.with_action(
+          text: t('.change'),
+          href: provider_interface_organisation_settings_organisation_edit_interview_options_path(organisation_id: @provider.id),
+          visually_hidden_text: t('.change_how_interview_details_are_handled_hidden'),
+        ) %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -39,6 +39,11 @@ class Provider < ApplicationRecord
     university: 'university',
   }
 
+  enum :handle_interviews, {
+    in_manage: 'in_manage',
+    outside_service: 'outside_service',
+  }, default: 'in_manage', validate: true
+
   audited
   has_associated_audits
 
