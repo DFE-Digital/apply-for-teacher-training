@@ -18,8 +18,13 @@ en:
           confirm: Send new interview details
       create:
         success: Interview set up
+        move_candidate_without_interview_details_html:
+          To move candidates to interviewing without adding interview details,
+          update your <a href="/provider/organisation-settings">organisation settings</a>.
       update:
         success: Interview changed
+      move_to_interview_if_outside_service:
+        success: Application moved to Interviewing
       cancel:
         new:
           page_title: Cancel Interview

@@ -9,6 +9,7 @@ module ProviderInterface
     before_action :redirect_to_index_if_store_cleared, only: %i[create]
     before_action :redirect_to_index_if_edit_store_cleared, only: %i[update]
     before_action :redirect_to_index_if_cancel_store_cleared, only: %i[destroy]
+    before_action :move_to_interview_if_outside_service, only: %i[new]
 
     def index
       application_at_interviewable_stage = ApplicationStateChange::INTERVIEWABLE_STATES.include?(
@@ -50,7 +51,15 @@ module ProviderInterface
 
         @wizard.clear_state!
 
-        flash[:success] = t('.success')
+        flash[:success] = if FeatureFlag.active?(:interview_handling)
+                            [
+                              t('.success'),
+                              t('.move_candidate_without_interview_details_html'),
+                            ]
+                          else
+                            t('.success')
+                          end
+
         redirect_to provider_interface_application_choice_interviews_path(@application_choice)
       else
         track_validation_error(@wizard)
@@ -176,6 +185,14 @@ module ProviderInterface
 
     def wizard_flow_controllers
       ['provider_interface/interviews', 'provider_interface/interviews/checks'].freeze
+    end
+
+    def move_to_interview_if_outside_service
+      return if FeatureFlag.inactive?(:interview_handling) || @application_choice.provider.handle_interviews_in_manage?
+
+      ApplicationStateChange.new(@application_choice).interview!
+      flash[:success] = t('provider_interface.interviews.move_to_interview_if_outside_service.success')
+      redirect_to provider_interface_application_choice_path(@application_choice)
     end
   end
 end
