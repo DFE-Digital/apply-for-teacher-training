@@ -25,7 +25,7 @@ RSpec.describe 'Provider user changes their interview options', feature_flag: :i
     and_the_interview_option_is_set_to_outside_service
   end
 
-  private
+private
 
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
@@ -56,7 +56,7 @@ RSpec.describe 'Provider user changes their interview options', feature_flag: :i
   end
 
   def and_the_interview_option_is_set_to_in_manage
-    within('.govuk-summary-list')do
+    within('.govuk-summary-list') do
       expect(page).to have_element(:dt, text: 'How do you want to handle interview details?', class: 'govuk-summary-list__key')
       expect(page).to have_element(:dd, text: 'Record interview details in Manage', class: 'govuk-summary-list__value')
     end
@@ -84,7 +84,7 @@ RSpec.describe 'Provider user changes their interview options', feature_flag: :i
   end
 
   def and_the_interview_option_is_set_to_outside_service
-    within('.govuk-summary-list')do
+    within('.govuk-summary-list') do
       expect(page).to have_element(:dt, text: 'How do you want to handle interview details?', class: 'govuk-summary-list__key')
       expect(page).to have_element(:dd, text: 'Arrange interviews outside this service', class: 'govuk-summary-list__value')
     end

@@ -10,7 +10,7 @@
     <%= govuk_summary_list do |summary_list| %>
       <%= summary_list.with_row do |row| %>
         <%= row.with_key { t('.handle_interview_details') } %>
-        <%= row.with_value { t(".#{@provider.handle_interviews.to_s}") } %>
+        <%= row.with_value { t(".#{@provider.handle_interviews}") } %>
         <% row.with_action(
           text: t('.change'),
           href: provider_interface_organisation_settings_organisation_edit_interview_options_path(organisation_id: @provider.id),
