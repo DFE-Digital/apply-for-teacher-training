@@ -188,7 +188,7 @@ class PerformanceStatistics
   end
 
   def withdrawn_at_candidates_request_count
-    audits_joins_sql = <<-SQL.squish
+    audits_joins_sql = <<~SQL.squish
       INNER JOIN audits ON audits.auditable_type = 'ApplicationChoice'
       AND audits.auditable_id = application_choices.id
       AND audits.user_type = 'ProviderUser'

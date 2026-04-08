@@ -1,9 +1,14 @@
 module DfE
   module Bigquery
     module Relation
-      JobIncompleteError = Class.new(StandardError)
-      MorePagesError = Class.new(StandardError)
-      UnknownTypeError = Class.new(StandardError)
+      class JobIncompleteError < StandardError
+      end
+
+      class MorePagesError < StandardError
+      end
+
+      class UnknownTypeError < StandardError
+      end
 
       def table
         ::DfE::Bigquery::Table.new(name: table_name)

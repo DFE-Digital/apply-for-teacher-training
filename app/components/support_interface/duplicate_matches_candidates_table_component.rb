@@ -3,8 +3,7 @@ module SupportInterface
     include ViewHelper
 
     DuplicatedMatch = Struct.new(
-      :email_address, :candidate_id, :created_at, :name, :date_of_birth, :address, :application_status, :account_status,
-      keyword_init: true
+      :email_address, :candidate_id, :created_at, :name, :date_of_birth, :address, :application_status, :account_status
     )
 
     attr_reader :match

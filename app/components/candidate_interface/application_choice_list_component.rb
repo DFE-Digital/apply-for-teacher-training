@@ -3,7 +3,7 @@ module CandidateInterface
     attr_reader :application_form, :application_choices
 
     ALL_APPLICATIONS_TAB = 'all'.freeze
-    ApplicationTab = Struct.new(:text, :link, :active?, keyword_init: true)
+    ApplicationTab = Struct.new(:text, :link, :active?)
 
     def initialize(application_form:, application_choices:, current_tab_name: nil)
       @application_form = application_form

@@ -19,7 +19,7 @@ private
 
   def try_exact_name
     relevant_subjects.any? do |relevant_subject|
-      (relevant_subject.name.downcase == subject_name)
+      relevant_subject.name.downcase == subject_name
     end
   end
 

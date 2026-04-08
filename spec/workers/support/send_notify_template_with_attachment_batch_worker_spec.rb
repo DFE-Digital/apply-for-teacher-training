@@ -11,8 +11,10 @@ RSpec.describe Support::SendNotifyTemplateWithAttachmentBatchWorker, :sidekiq do
     allow(Notifications::Client).to receive(:new).and_return(@notify_instance)
     allow(@notify_instance).to receive(:send_email).and_return(true)
 
+    # rubocop:disable Style/FileOpen
     attachment = File.open('spec/fixtures/send_notify_template/hello_world.txt')
     notify_request.file.attach(attachment)
+    # rubocop:enable Style/FileOpen
   end
 
   it 'sends a email with an attachment per email address' do

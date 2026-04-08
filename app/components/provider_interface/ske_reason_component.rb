@@ -2,7 +2,7 @@ module ProviderInterface
   class SkeReasonComponent < ApplicationComponent
     attr_reader :application_choice, :offer_wizard, :form, :key
 
-    SkeReason = Struct.new(:id, :name, keyword_init: true)
+    SkeReason = Struct.new(:id, :name)
 
     def initialize(application_choice:, offer_wizard:, form:, radio_options: {}, key: :reason)
       @key = key

@@ -87,9 +87,7 @@ class OfferValidations
 private
 
   def ske_conditions
-    Array(structured_conditions).select do |structured_condition|
-      structured_condition.is_a?(SkeCondition)
-    end
+    Array(structured_conditions).grep(SkeCondition)
   end
 
   def reference_condition

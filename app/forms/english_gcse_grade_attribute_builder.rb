@@ -138,7 +138,9 @@ module EnglishGcseGradeAttributeBuilder
       errors.add(:grade_english_double, :blank) and return if grade_english_double.blank?
 
       return if DOUBLE_GCSE_GRADES.include?(sanitize(grade_english_double))
+
       self.grade_english_double = 'A*A' and return if sanitize(grade_english_double) == 'AA*'
+
       grade_english_double.reverse! and return if DOUBLE_GCSE_GRADES.include?(sanitize(grade_english_double).reverse)
 
       errors.add(:grade_english_double, :invalid)

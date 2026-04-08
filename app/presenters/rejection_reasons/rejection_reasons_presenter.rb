@@ -26,14 +26,14 @@ class RejectionReasons
     def rejection_reasons
       return {} unless structured_rejection_reasons&.any?
 
-      reasons.each_with_object({}) do |reason, hash|
-        hash[reason.label] = if reason.details&.text.present?
-                               [reason.details.text]
-                             elsif reason.selected_reasons
-                               nested_reasons(reason)
-                             else
-                               [I18n.t("rejection_reasons.#{reason.id}.description")] # Course full
-                             end
+      reasons.to_h do |reason|
+        [reason.label, if reason.details&.text.present?
+                         [reason.details.text]
+                       elsif reason.selected_reasons
+                         nested_reasons(reason)
+                       else
+                         [I18n.t("rejection_reasons.#{reason.id}.description")] # Course full
+                       end]
       end
     end
 
