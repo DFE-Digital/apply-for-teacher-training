@@ -7,7 +7,7 @@
       <%= t('.heading') %>
     </h1>
 
-    <%= govuk_summary_list do |summary_list| %>
+    <%= govuk_summary_list(actions: policy(@provider).manage_organisation_permissions?) do |summary_list| %>
       <%= summary_list.with_row do |row| %>
         <%= row.with_key { t('.handle_interview_details') } %>
         <%= row.with_value { t(".#{@provider.handle_interviews}") } %>

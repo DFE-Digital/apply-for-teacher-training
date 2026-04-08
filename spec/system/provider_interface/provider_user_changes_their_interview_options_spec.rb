@@ -5,9 +5,10 @@ RSpec.describe 'Provider user changes their interview options', feature_flag: :i
 
   let(:current_provider) { create(:provider) }
 
-  scenario do
+  scenario 'Provider user has permission to manage the organisation settings' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_sign_in_to_the_provider_interface
+    and_i_have_permission_to_manage_organisation_permissions
     when_i_visit_the_organisation_settings
     then_i_see_a_link_to_interview_options
 
@@ -25,11 +26,31 @@ RSpec.describe 'Provider user changes their interview options', feature_flag: :i
     and_the_interview_option_is_set_to_outside_service
   end
 
+  scenario 'Provider user does not have permission to manage the organisation settings' do
+    given_i_am_a_provider_user_with_dfe_sign_in
+    and_i_sign_in_to_the_provider_interface
+    when_i_visit_the_organisation_settings
+    then_i_see_a_link_to_interview_options
+
+    when_i_click_on_interview_options
+    then_i_see_the_interview_option_page
+    and_the_interview_option_is_set_to_in_manage
+    and_i_can_not_see_the_change_link
+
+    when_i_visit_the_interview_options_form
+    then_i_see_my_access_is_denied
+  end
+
 private
 
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
-    provider_user_exists_in_apply_database(provider_code: current_provider.code)
+    @provider_user = provider_user_exists_in_apply_database(provider_code: current_provider.code)
+  end
+
+  def and_i_have_permission_to_manage_organisation_permissions
+    permission = ProviderPermissions.find_or_create_by!(provider: current_provider, provider_user: @provider_user)
+    permission.update!(manage_organisations: true)
   end
 
   def when_i_visit_the_organisation_settings
@@ -92,5 +113,21 @@ private
 
   def and_i_see_the_interview_option_has_been_successfully_changed
     expect(page).to have_element(:div, text: 'Interview options updated', class: 'govuk-notification-banner--success')
+  end
+
+  def and_i_can_not_see_the_change_link
+    expect(page).to have_no_link(
+      'Change',
+      href: "/provider/organisation-settings/interview-options/organisations/#{current_provider.id}/edit",
+    )
+  end
+
+  def when_i_visit_the_interview_options_form
+    visit provider_interface_organisation_settings_organisation_edit_interview_options_path(organisation_id: current_provider.id)
+  end
+
+  def then_i_see_my_access_is_denied
+    expect(page).to have_element(:h1, text: 'Access denied')
+    expect(page).to have_element(:p, text: 'To perform this action you need permission to ‘manage_organisations’.')
   end
 end

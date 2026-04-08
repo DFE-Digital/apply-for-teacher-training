@@ -14,10 +14,10 @@ en:
         heading: How do you want to handle interview details?
         in_manage: Record interview details in Manage
         in_manage_description:
-          When you move a candidate to interviewing, we'll ask for the proposed date, time and format, then email the candidate.
+          When you move a candidate to interviewing, we’ll ask for the proposed date, time and format, then email the candidate.
         outside_service: Arrange interviews outside this service
         outside_service_description:
-          Moves the candidate to interviewing. We won't ask for details, send any notifications or log the interview.
+          Moves the candidate to interviewing. We won’t ask for details, send any notifications or log the interview.
         save: Save
       update:
         success: Interview options updated

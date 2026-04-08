@@ -1,6 +1,7 @@
 module ProviderInterface
   class InterviewOptionsController < ProviderInterfaceController
     before_action :set_provider
+    before_action :authorize_user, only: %i[edit update]
 
     def show; end
 
@@ -17,6 +18,10 @@ module ProviderInterface
     end
 
   private
+
+    def authorize_user
+      authorize @provider, :manage_organisation_permissions?
+    end
 
     def interview_option_params
       params.fetch(:provider, {}).permit(:handle_interviews)
