@@ -19,6 +19,7 @@ RSpec.describe Provider do
                                    .with_values(in_manage: 'in_manage', outside_service: 'outside_service')
                                    .backed_by_column_of_type(:enum)
                                    .with_default('in_manage')
+                                   .with_prefix
     end
   end
 
