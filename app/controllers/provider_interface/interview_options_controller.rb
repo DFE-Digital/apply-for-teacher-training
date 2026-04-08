@@ -1,6 +1,7 @@
 module ProviderInterface
   class InterviewOptionsController < ProviderInterfaceController
     before_action :set_provider
+
     def show; end
 
     def edit; end
