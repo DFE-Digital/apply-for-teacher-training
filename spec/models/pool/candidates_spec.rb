@@ -172,4 +172,23 @@ RSpec.describe Pool::Candidates do
       expect(application_forms).to be_empty
     end
   end
+
+  describe '#application_forms_in_the_pool, when mid_cycle_cap has applied' do
+    it 'applies different application choices limits based on submission date' do
+      FeatureFlag.deactivate(:mid_cycle_cap)
+      no_mid_cycle_cap = create(:application_form, :submitted, submitted_at: 2.minutes.ago)
+      create(:candidate_preference, application_form: no_mid_cycle_cap)
+      create_list(:application_choice, 4, :rejected, application_form: no_mid_cycle_cap)
+
+      FeatureFlag.activate(:mid_cycle_cap)
+      yes_mid_cycle_cap = create(:application_form, :submitted, submitted_at: 1.minute.from_now)
+      create(:candidate_preference, application_form: yes_mid_cycle_cap)
+      create_list(:application_choice, 4, :rejected, application_form: yes_mid_cycle_cap)
+
+      application_forms = described_class.new.application_forms_in_the_pool
+
+      expect(application_forms).to include(no_mid_cycle_cap)
+      expect(application_forms).not_to include(yes_mid_cycle_cap)
+    end
+  end
 end
