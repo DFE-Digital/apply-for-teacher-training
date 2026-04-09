@@ -57,15 +57,15 @@ module Publications
       ProvidersForRecruitmentPerformanceReportQuery
         .call(cycle_week:, recruitment_cycle_year:)
         .find_each do |provider|
-          Publications::ProviderEdiReport.categories.each_value do |category|
-            Publications::ProviderEdiReportWorker
-              .perform_async(
-                provider.id,
-                cycle_week,
-                category,
-                recruitment_cycle_year,
-              )
-          end
+        Publications::ProviderEdiReport.categories.each_value do |category|
+          Publications::ProviderEdiReportWorker
+            .perform_async(
+              provider.id,
+              cycle_week,
+              category,
+              recruitment_cycle_year,
+            )
+        end
       end
     end
 
@@ -73,12 +73,12 @@ module Publications
       ProvidersForRecruitmentPerformanceReportQuery
         .call(cycle_week:, recruitment_cycle_year:)
         .find_each do |provider|
-          Publications::ProviderRecruitmentPerformanceReportWorker
-            .perform_async(
-              provider.id,
-              cycle_week,
-              recruitment_cycle_year,
-            )
+        Publications::ProviderRecruitmentPerformanceReportWorker
+          .perform_async(
+            provider.id,
+            cycle_week,
+            recruitment_cycle_year,
+          )
       end
     end
   end

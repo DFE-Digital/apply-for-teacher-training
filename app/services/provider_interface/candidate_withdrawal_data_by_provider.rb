@@ -36,8 +36,7 @@ module ProviderInterface
     def withdrawal_query
       current_cycle_applications_visible_to_provider
         .pluck(Arel.sql('CASE WHEN accepted_at IS NULL THEN \'withdrawn_before_acceptance\' ELSE \'withdrawn_after_acceptance\' END AS withdrawal_status, unnest(structured_withdrawal_reasons) as reason'))
-        .group_by(&:itself)
-        .transform_values(&:count)
+        .tally
     end
 
     def current_cycle_applications_visible_to_provider

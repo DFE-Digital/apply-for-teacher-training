@@ -10,7 +10,7 @@ class GetProvidersToNotifyAboutFindAndApply
 
   def self.providers_whose_users_have_been_chased_this_year
     find_opens_at = RecruitmentCycleTimetable.current_timetable.find_opens_at
-    <<-SQL.squish
+    <<~SQL.squish
       EXISTS(
         SELECT 1
         FROM chasers_sent

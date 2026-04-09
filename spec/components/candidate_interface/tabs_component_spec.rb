@@ -12,7 +12,7 @@ RSpec.describe CandidateInterface::TabsComponent do
   subject(:result) { render_inline(tabs_component) }
 
   before do
-    stub_const('Tab', Struct.new(:text, :link, :active?, keyword_init: true))
+    stub_const('Tab', Struct.new(:text, :link, :active?))
   end
 
   it 'render all tabs' do

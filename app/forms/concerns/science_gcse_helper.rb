@@ -39,7 +39,9 @@ module ScienceGcseHelper
       self.double_award_grade = grade
 
       return if DOUBLE_GCSE_GRADES.include?(sanitize(grade))
+
       self.grade = 'A*A' and return if sanitize(grade) == 'AA*'
+
       grade.reverse! and return if DOUBLE_GCSE_GRADES.include?(sanitize(grade).reverse)
 
       errors.add(:double_award_grade, :invalid)

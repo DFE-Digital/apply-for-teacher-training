@@ -11,9 +11,14 @@ module WorkloadIdentityFederation
       "\r\n\tstatus:\t#{@status}\r\n\tbody:\t#{@body}"
     end
   end
-  AzureAPIError = Class.new(WorkloadIdentityFederationError)
-  GoogleAPIError = Class.new(WorkloadIdentityFederationError)
-  STSAPIError = Class.new(WorkloadIdentityFederationError)
+  class AzureAPIError < WorkloadIdentityFederationError
+  end
+
+  class GoogleAPIError < WorkloadIdentityFederationError
+  end
+
+  class STSAPIError < WorkloadIdentityFederationError
+  end
   GoogleCloudCredentialsError = Class.new(StandardError) do
     def message
       'Google Cloud Credentials could not be parsed'

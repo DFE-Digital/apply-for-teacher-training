@@ -38,7 +38,7 @@ RSpec.describe ProviderInterface::ConfirmConditionsWizard do
     context 'when built from an offer' do
       it 'returns the conditions of the offer without SKE conditions' do
         expect(wizard.conditions).to eq(conditions)
-        expect(wizard.conditions.any? { |condition| condition.is_a?(SkeCondition) }).to be(true)
+        expect(wizard.conditions.any?(SkeCondition)).to be(true)
       end
     end
 

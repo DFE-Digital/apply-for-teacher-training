@@ -7,6 +7,7 @@ module ProviderInterface
 
     def new
       redirect_to provider_interface_applications_path and return if impersonation?
+
       redirect_to provider_interface_applications_path and return if current_provider_user
 
       if FeatureFlag.active?('dfe_sign_in_fallback')
