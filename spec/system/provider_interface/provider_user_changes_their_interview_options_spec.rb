@@ -26,7 +26,6 @@ RSpec.describe 'Provider user changes their interview options', feature_flag: :i
     and_the_interview_option_is_set_to_outside_service
   end
 
-
   scenario 'Provider user does not have permission to manage the organisation settings' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_sign_in_to_the_provider_interface
