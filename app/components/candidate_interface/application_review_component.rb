@@ -121,9 +121,15 @@ module CandidateInterface
     def interview_row
       return unless interviewing?
 
+      interviews = @application_choice.interviews.kept
+      value = if interviews.exists?
+                interviews.map { |interview| render(InterviewSummaryComponent.new(interview:)) }
+              else
+                'The provider has contacted you with details of your interview.'
+              end
       {
         key: 'Interview',
-        value: @application_choice.interviews.kept.map { |interview| render(InterviewSummaryComponent.new(interview:)) },
+        value:,
       }
     end
 
