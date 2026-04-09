@@ -12,11 +12,13 @@
 </p>
 
 <div class="govuk-button-group">
-  <% if FeatureFlag.active?(:interview_handling) && set_up_interview? %>
-    <% interview_text = application_choice.provider&.handle_interviews_outside_service? ? 'Move to interview' : 'Set up interview' %>
+  <% if set_up_interview? %>
+    <% if FeatureFlag.active?(:interview_handling) && application_choice.provider&.handle_interviews_outside_service? %>
+      <% interview_text = 'Move to interview' %>
+    <% else %>
+      <% interview_text = 'Set up interview' %>
+    <% end %>
     <%= govuk_button_link_to interview_text, new_provider_interface_application_choice_interview_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
-  <% elsif set_up_interview? %>
-    <%= govuk_button_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
   <% end %>
 
   <% if respond_to_application? %>
