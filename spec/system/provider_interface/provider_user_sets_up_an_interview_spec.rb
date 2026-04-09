@@ -12,6 +12,9 @@ RSpec.describe 'Provider user sets up an interview', feature_flag: :interview_ha
     and_an_application_for_the_provider_exists
     when_i_visit_the_application_page
     then_i_see_i_can_set_up_an_interview
+
+    when_i_click_on_set_up_interview
+    then_i_see_the_interview_details_page
   end
 
 private
@@ -31,6 +34,7 @@ private
       provider_ids: [current_provider.id],
       status: :awaiting_provider_decision,
       course_option:,
+      reject_by_default_at: Time.now + 3.months,
     )
   end
 
@@ -42,8 +46,16 @@ private
     expect(page).to have_element(:h2, text: 'Set up an interview or make a decision', class: 'govuk-heading-m')
     expect(page).to have_element(:p, text: 'This application was received today. You should try and respond to the candidate within 30 days.')
     expect(page).to have_link('Set up interview')
-    expect(page).to have_link('Make a decision')
+    expect(page).to have_link('Make decision')
 
     expect(page).to have_no_link('Move to interview')
+  end
+
+  def when_i_click_on_set_up_interview
+    click_on 'Set up interview'
+  end
+
+  def then_i_see_the_interview_details_page
+    binding.pry
   end
 end
