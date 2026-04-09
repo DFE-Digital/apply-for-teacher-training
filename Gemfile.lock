@@ -350,7 +350,7 @@ GEM
       html-attributes-utils (~> 1.0.0, >= 1.0.0)
       pagy (>= 6, < 10)
       view_component (>= 4.0, < 4.7)
-    govuk_design_system_formbuilder (6.0.0)
+    govuk_design_system_formbuilder (6.1.0)
       actionview (>= 6.1)
       activemodel (>= 6.1)
       activesupport (>= 6.1)
@@ -905,7 +905,7 @@ DEPENDENCIES
   get_into_teaching_api_client_faraday (= 4.3.7.2)!
   google-cloud-bigquery
   govuk-components (~> 6.0)
-  govuk_design_system_formbuilder (~> 6.0.0)
+  govuk_design_system_formbuilder (~> 6.1.0)
   govuk_markdown
   grover
   guard-rspec
@@ -1092,7 +1092,7 @@ CHECKSUMS
   google-logging-utils (0.2.0) sha256=675462b4ea5affa825a3442694ca2d75d0069455a1d0956127207498fca3df7b
   googleauth (1.16.2) sha256=15009502e2e38af71948cda918f230e27d327f6882a1e47967a5a4664930a638
   govuk-components (6.1.0) sha256=242bdcc7d573eb5ae6086409754bf92656428ac8235454358b76fa5e54f0e79c
-  govuk_design_system_formbuilder (6.0.0) sha256=30025c64e05b71018a48b8618e6e9501efe4bf049d5e127d90e2fd48c0b60ea8
+  govuk_design_system_formbuilder (6.1.0) sha256=b0fdb3714e59665f1a522291840bcc89801cb4325f243e8717e0f9be87d1192c
   govuk_markdown (2.0.4) sha256=c744f0a041607d60942c24dcf3d8fd24eaf73c4eb8299ea025455691a211242e
   grover (1.2.9) sha256=d4cd3e9f697cc073166a6d2c6163101a4ffa5c4b829d72613ed9148da1ec339b
   guard (2.18.1) sha256=a3893d3b23d538a9b2d6f05a27713e0ed53ea881df0f0550b21a3393c6d87c09
