@@ -303,6 +303,14 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
     it 'shows provider contact information' do
       expect(result.text).to include('Contact training provider')
     end
+
+    context 'when the application has no interviews' do
+      let(:interviews) { [] }
+
+      it 'shows text indicating the provider will contact the candidate' do
+        expect(result.text).to include('The provider has contacted you with details of your interview.')
+      end
+    end
   end
 
   context 'when application is inactive' do
