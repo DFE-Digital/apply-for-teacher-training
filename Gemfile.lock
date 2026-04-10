@@ -298,11 +298,10 @@ GEM
       faraday (>= 0.9, < 3.0)
       stoplight (>= 2.1, < 4.0)
     ffi (1.17.4)
-    field_test (0.8.0)
-      activerecord (>= 7.1)
+    field_test (1.0.0)
+      activerecord (>= 7.2)
       browser (>= 2)
-      railties (>= 7.1)
-      rice (>= 4.3.3)
+      railties (>= 7.2)
     formatador (1.1.0)
     geocoder (1.8.6)
       base64 (>= 0.1.0)
@@ -647,7 +646,6 @@ GEM
       railties (>= 5.2)
     retriable (3.4.1)
     rexml (3.4.4)
-    rice (4.5.0)
     rouge (4.6.1)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
@@ -784,7 +782,7 @@ GEM
     thor (1.5.0)
     timecop (0.9.10)
     timeliness (0.5.3)
-    timeout (0.6.0)
+    timeout (0.6.1)
     trailblazer-option (0.1.2)
     tsort (0.2.0)
     tzinfo (2.0.6)
@@ -892,7 +890,7 @@ DEPENDENCIES
   erb_lint
   factory_bot_rails
   faker (= 2.22.0)
-  field_test (~> 0.8.0)
+  field_test (~> 1.0.0)
   geocoder
   get_into_teaching_api_client_faraday (= 4.3.7.3)!
   google-cloud-bigquery
@@ -1068,7 +1066,7 @@ CHECKSUMS
   faraday-retry (2.4.0) sha256=7b79c48fb7e56526faf247b12d94a680071ff40c9fda7cf1ec1549439ad11ebe
   faraday_middleware-circuit_breaker (0.6.0) sha256=965239939030ae0332dfe24d8f22257b03d14954c0a2facb8a59a304fc9ca9a4
   ffi (1.17.4) sha256=bcd1642e06f0d16fc9e09ac6d49c3a7298b9789bcb58127302f934e437d60acf
-  field_test (0.8.0) sha256=ff6d6f637748fdb2e1153498ed17587979a48c9333114841bfd6813317ce8327
+  field_test (1.0.0) sha256=8a6f10d3791cbb2d48fc3dbda1fe8f8b3f3231ff1c2bd9866ae06204397cf9b6
   formatador (1.1.0) sha256=54e23e2af4d60bb9327c7fac62b29968e4cf28cee0111f726d0bdeadc85e06d0
   geocoder (1.8.6) sha256=e0ca1554b499f466de9b003f7dff70f89a5888761c2ca68ed9f86b6e5e24e74c
   get_into_teaching_api_client (4.3.7.3)
@@ -1201,7 +1199,6 @@ CHECKSUMS
   responders (3.1.1) sha256=92f2a87e09028347368639cfb468f5fefa745cb0dc2377ef060db1cdd79a341a
   retriable (3.4.1) sha256=fb3f114b7d492121c158c01f3d5152b5a615c5b70d5877d0bc08c7ec3725c3bc
   rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142
-  rice (4.5.0) sha256=2d4481793f05432f0c1c3fdecb303f2b64416817d4886fa261dc9c81c9fe8f3a
   rouge (4.6.1) sha256=5075346d5797d6864be93f7adc75a16047a7dbfa572c63c502419ffa582c77de
   rspec (3.13.0) sha256=d490914ac1d5a5a64a0e1400c1d54ddd2a501324d703b8cfe83f458337bab993
   rspec-core (3.13.6) sha256=a8823c6411667b60a8bca135364351dda34cd55e44ff94c4be4633b37d828b2d
@@ -1253,7 +1250,7 @@ CHECKSUMS
   thor (1.5.0) sha256=e3a9e55fe857e44859ce104a84675ab6e8cd59c650a49106a05f55f136425e73
   timecop (0.9.10) sha256=12ba45ce57cdcf6b1043cb6cdffa6381fd89ce10d369c28a7f6f04dc1b0cd8eb
   timeliness (0.5.3) sha256=6175e14a0e072b50d2433d253de3c18ce10c573d909edf55c4b510271ecd5aed
-  timeout (0.6.0) sha256=6d722ad619f96ee383a0c557ec6eb8c4ecb08af3af62098a0be5057bf00de1af
+  timeout (0.6.1) sha256=78f57368a7e7bbadec56971f78a3f5ecbcfb59b7fcbb0a3ed6ddc08a5094accb
   trailblazer-option (0.1.2) sha256=20e4f12ea4e1f718c8007e7944ca21a329eee4eed9e0fa5dde6e8ad8ac4344a3
   tsort (0.2.0) sha256=9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f
   tzinfo (2.0.6) sha256=8daf828cc77bcf7d63b0e3bdb6caa47e2272dcfaf4fbfe46f8c3a9df087a829b
