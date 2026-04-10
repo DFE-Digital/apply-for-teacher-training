@@ -10,6 +10,13 @@
 <% if @reports_ready %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <%= govuk_notification_banner(title_text: 'Important') do |notification_banner| %>
+        <% notification_banner.with_heading(text: 'Tell us what you think of the changes to this report') %>
+        <p class="govuk-body">
+          <%= govuk_link_to 'Give us your feedback', 'https://dferesearch.fra1.qualtrics.com/jfe/form/SV_cuOh0pL2oj64yKa' %> to help improve reports.
+        </p>
+      <% end %>
+
       <h1 class="govuk-heading-l">
         <%= t(
           'page_titles.provider_recruitment_performance_report',
