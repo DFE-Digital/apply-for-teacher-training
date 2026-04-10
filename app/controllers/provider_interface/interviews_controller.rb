@@ -188,7 +188,8 @@ module ProviderInterface
     end
 
     def move_to_interview_if_outside_service
-      return if FeatureFlag.inactive?(:interview_handling) || @application_choice.provider.handle_interviews_in_manage?
+      return if FeatureFlag.inactive?(:interview_handling) ||
+                @application_choice.provider.handle_interviews_in_manage?
 
       ApplicationStateChange.new(@application_choice).interview!
       flash[:success] = t('provider_interface.interviews.move_to_interview_if_outside_service.success')
