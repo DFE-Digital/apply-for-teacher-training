@@ -14,7 +14,7 @@
     "lodash.debounce": "^4.0.8",
     "postcss": "^8.5.8",
     "puppeteer": "^24.40.0",
-    "sass": "^1.98.0",
+    "sass": "^1.99.0",
     "stimulus": "^3.2.2"
   },
   "devDependencies": {
