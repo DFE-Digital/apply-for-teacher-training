@@ -32,7 +32,7 @@ RSpec.describe CandidateMailer do
       it_behaves_like(
         'a mail with subject and content',
         'Update on your application',
-        'rejection reasons' => "Qualifications\r\n\r\n        ^ A levels do not meet course requirements:\r\n        ^\r\n        ^ No sufficient grade",
+        'rejection reasons' => "Qualifications\n\n        ^ A levels do not meet course requirements:\n        ^\n        ^ No sufficient grade",
       )
     end
   end
