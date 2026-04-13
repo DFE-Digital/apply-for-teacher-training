@@ -27,7 +27,9 @@ class RejectionReasons
       @selected_reasons = attrs[:selected_reasons].map { |rattrs| self.class.new(rattrs) } if attrs.key?(:selected_reasons)
     end
 
-    def as_json
+    # the options parameter mimics the ActiveModel::Serializers::JSON#as_json method
+    # File activemodel/lib/active_model/serializers/json.rb, line 96
+    def as_json(*)
       json = { id:, label: }
       json = json.merge(selected_reasons:) if selected_reasons.present?
       json = json.merge(details:) if details&.text.present?

@@ -4,7 +4,7 @@ default: &default
   host: postgres
   username: postgres
   password: postgres
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
