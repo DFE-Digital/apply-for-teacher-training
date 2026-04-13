@@ -13,8 +13,14 @@
 
 <div class="govuk-button-group">
   <% if set_up_interview? %>
-    <%= govuk_button_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
+    <% if FeatureFlag.active?(:interview_handling) && application_choice.provider&.handle_interviews_outside_service? %>
+      <% interview_text = 'Move to interview' %>
+    <% else %>
+      <% interview_text = 'Set up interview' %>
+    <% end %>
+    <%= govuk_button_link_to interview_text, new_provider_interface_application_choice_interview_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
   <% end %>
+
   <% if respond_to_application? %>
     <%= govuk_button_link_to 'Make decision', new_provider_interface_application_choice_decision_path(application_choice), class: make_decision_button_class %>
   <% end %>

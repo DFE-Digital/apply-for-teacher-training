@@ -42,7 +42,7 @@ class Provider < ApplicationRecord
   enum :handle_interviews, {
     in_manage: 'in_manage',
     outside_service: 'outside_service',
-  }, default: 'in_manage', validate: true
+  }, default: 'in_manage', validate: true, prefix: true
 
   audited
   has_associated_audits
