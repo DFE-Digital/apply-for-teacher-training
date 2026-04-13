@@ -30,9 +30,11 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 
 RUN bundler -v && \
-    bundle config set no-cache 'true' && \
-    bundle config set no-binstubs 'true' && \
-    bundle --retry=5 --jobs=4 --without=development && \
+    bundle config set --local deployment 'true' && \
+    bundle config set --local without 'development' && \
+    bundle config set --local retry 5 && \
+    bundle config set --local jobs 4 && \
+    bundle install --no-cache && \
     rm -rf /usr/local/bundle/cache
 
 COPY package.json yarn.lock ./
