@@ -24,6 +24,11 @@ module CandidateInterface
           application_choice:,
           edit: true,
         )
+        @back_link = if params[:return_to] == 'review'
+                       candidate_interface_course_choices_course_review_path
+                     else
+                       @wizard.previous_step_path
+                     end
       end
 
       def create
