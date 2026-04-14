@@ -1,0 +1,9 @@
+en:
+  candidate_interface:
+    visa_explanation_component:
+      expires_after_course: My visa expires after the course ends
+      renew: I will be able to renew or extend my current visa
+      leads_to_permanent_visa: My current visa leads to indefinite leave to remain (ILR) or settled status
+      switch_to_different_visa: I expect to switch to a different UK visa category
+      not_sure: "I’m not sure"
+      other: Other

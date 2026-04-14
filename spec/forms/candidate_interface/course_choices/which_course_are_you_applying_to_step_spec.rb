@@ -16,7 +16,7 @@ RSpec.describe CandidateInterface::CourseChoices::WhichCourseAreYouApplyingToSte
   end
   let(:course_option) { create(:course_option, :full_time, course:) }
   let(:current_application) { create(:application_form, :completed, candidate:, submitted_at: nil) }
-  let(:application_choice) { nil }
+  let(:application_choice) { build(:application_choice) }
   let(:edit) { false }
   let(:step_params) { ActionController::Parameters.new({ which_course_are_you_applying_to: { course_id:, provider_id: } }) }
   let(:wizard) do
@@ -31,6 +31,10 @@ RSpec.describe CandidateInterface::CourseChoices::WhichCourseAreYouApplyingToSte
 
   let(:provider_id) { nil }
   let(:course_id) { nil }
+
+  before do
+    wizard.store.application_choice = application_choice
+  end
 
   describe '.route_name' do
     subject { which_course_are_you_applying_to_step.class.route_name }
@@ -160,7 +164,7 @@ RSpec.describe CandidateInterface::CourseChoices::WhichCourseAreYouApplyingToSte
     end
     let(:provider_id) { provider.id }
     let(:course_id) { course.id }
-    let(:application_choice) { nil }
+    let(:application_choice) { build(:application_choice) }
 
     context 'when course has multiple study modes' do
       before do
@@ -194,6 +198,32 @@ RSpec.describe CandidateInterface::CourseChoices::WhichCourseAreYouApplyingToSte
 
       it 'returns :course_site' do
         expect(which_course_are_you_applying_to_step.next_step).to be(:course_site)
+      end
+    end
+
+    context 'when application choice visa expires soon' do
+      before do
+        FeatureFlag.activate('2027_visa_expiry')
+      end
+
+      let(:current_application) do
+        create(
+          :application_form,
+          :completed,
+          candidate:,
+          visa_expired_at: 1.day.from_now,
+        )
+      end
+      let(:application_choice) do
+        build(
+          :application_choice,
+          course_option:,
+          application_form: current_application,
+        )
+      end
+
+      it 'returns :visa_expiry_interruption' do
+        expect(which_course_are_you_applying_to_step.next_step).to be(:visa_expiry_interruption)
       end
     end
 

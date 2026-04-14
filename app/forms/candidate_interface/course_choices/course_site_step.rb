@@ -70,11 +70,24 @@ module CandidateInterface
       end
 
       def next_step
-        :course_review
+        if completed? && !application_choice.visa_expires_soon?
+          :course_review
+        else
+          :visa_expiry_interruption
+        end
       end
 
       def next_step_path_arguments
         { application_choice_id: application_choice.id }
+      end
+
+      # When editing an application choice, we want to load the show path for
+      # some steps that don't have an edit action / template
+      def next_edit_step_path(next_step_klass)
+        classes_without_edit = [VisaExpiryInterruptionStep]
+        return next_step_path(next_step_klass) if classes_without_edit.include?(next_step_klass)
+
+        super
       end
     end
   end

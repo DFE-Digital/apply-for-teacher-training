@@ -27,6 +27,7 @@ module CandidateInterface
         personal_statement_row,
         interview_row,
         rejection_reasons_row,
+        visa_explanation_row,
       ].compact
     end
 
@@ -88,7 +89,11 @@ module CandidateInterface
       }.tap do |row|
         if unsubmitted? && current_course.currently_has_both_study_modes_available?
           row[:action] = {
-            href: candidate_interface_edit_course_choices_course_study_mode_path(application_choice.id, current_course.id),
+            href: candidate_interface_edit_course_choices_course_study_mode_path(
+              application_choice.id,
+              current_course.id,
+              return_to: 'review',
+            ),
             visually_hidden_text: "full time or part time for #{current_course.name_and_code}",
           }
         end
@@ -104,7 +109,12 @@ module CandidateInterface
       }.tap do |row|
         if unsubmitted? && current_course.multiple_sites?
           row[:action] = {
-            href: candidate_interface_edit_course_choices_course_site_path(application_choice.id, current_course.id, current_course_option.study_mode),
+            href: candidate_interface_edit_course_choices_course_site_path(
+              application_choice.id,
+              current_course.id,
+              current_course_option.study_mode,
+              return_to: 'review',
+            ),
             visually_hidden_text: "location for #{current_course.name_and_code}",
           }
         end
@@ -147,6 +157,39 @@ module CandidateInterface
           ),
         ),
       }
+    end
+
+    def visa_explanation_row
+      return if FeatureFlag.inactive?('2027_visa_expiry')
+      return unless application_choice.visa_expires_soon?
+
+      {
+        key: 'Based on your visa expiry date, which of these applies to you?',
+      }.tap do |row|
+        if application_choice.visa_explanation.nil?
+          row[:value] = govuk_link_to(
+            'Enter your visa explanation',
+            candidate_interface_course_choices_visa_expiry_interruption_path(
+              @application_choice,
+              return_to: 'review',
+            ),
+          )
+        else
+          row[:value] = render(
+            CandidateInterface::VisaExplanationComponent.new(@application_choice),
+          )
+
+          if unsubmitted?
+            row[:action] = {
+              href: candidate_interface_edit_course_choices_visa_explanation_path(
+                application_choice,
+                return_to: 'review',
+              ),
+              visually_hidden_text: 'visa explanation',
+            }
+          end
+        end
+      end
     end
 
     def show_what_happens_next?
