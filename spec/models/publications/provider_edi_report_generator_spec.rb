@@ -113,5 +113,36 @@ RSpec.describe Publications::ProviderEdiReportGenerator do
         })
       end
     end
+
+    context 'when the response from BigQuery contains multiple category data' do
+      before do
+        stub_bigquery_provider_edi_request(
+          rows: [
+            [
+              { name: 'nonprovider_filter', type: 'STRING', value: 'Prefer not to say' },
+              { name: 'nonprovider_filter_category', type: 'STRING', value: category },
+              { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+              { name: 'id', type: 'STRING', value: provider.id },
+            ],
+            [
+              { name: 'nonprovider_filter', type: 'STRING', value: '60 to 64' },
+              { name: 'nonprovider_filter_category', type: 'STRING', value: 'Age group' },
+              { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+              { name: 'id', type: 'STRING', value: provider.id },
+            ],
+            [
+              { name: 'nonprovider_filter', type: 'STRING', value: 'Female' },
+              { name: 'nonprovider_filter_category', type: 'STRING', value: category },
+              { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+              { name: 'id', type: 'STRING', value: provider.id },
+            ],
+          ],
+        )
+      end
+
+      it 'creates a new report' do
+        expect { generator.call }.to change(Publications::ProviderEdiReport, :count).by(1)
+      end
+    end
   end
 end

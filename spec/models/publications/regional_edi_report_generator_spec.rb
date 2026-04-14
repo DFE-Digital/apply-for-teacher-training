@@ -179,6 +179,37 @@ RSpec.describe Publications::RegionalEdiReportGenerator do
           })
         end
       end
+
+      context 'when the response from BigQuery contains multiple category data' do
+        before do
+          stub_bigquery_regional_edi_request(
+            rows: [
+              [
+                { name: 'nonregion_filter', type: 'STRING', value: 'Prefer not to say' },
+                { name: 'nonregion_filter_category', type: 'STRING', value: category },
+                { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+                { name: 'region_filter', type: 'STRING', value: region },
+              ],
+              [
+                { name: 'nonregion_filter', type: 'STRING', value: '60 to 64' },
+                { name: 'nonregion_filter_category', type: 'STRING', value: 'Age group' },
+                { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+                { name: 'region_filter', type: 'STRING', value: region },
+              ],
+              [
+                { name: 'nonregion_filter', type: 'STRING', value: 'Female' },
+                { name: 'nonregion_filter_category', type: 'STRING', value: category },
+                { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+                { name: 'region_filter', type: 'STRING', value: region },
+              ]
+            ],
+          )
+        end
+
+        it 'creates a new report per category' do
+          expect { generator.call }.to change(Publications::RegionalEdiReport, :count).by(2)
+        end
+      end
     end
 
     context 'when region is national' do
@@ -246,6 +277,34 @@ RSpec.describe Publications::RegionalEdiReportGenerator do
             'cycle_week' => cycle_week,
             'statistics' => national_attributes,
           })
+        end
+      end
+
+      context 'when the response from BigQuery contains multiple category data' do
+        before do
+          stub_bigquery_regional_edi_request(
+            rows: [
+              [
+                { name: 'nonprovider_filter', type: 'STRING', value: 'Prefer not to say' },
+                { name: 'nonprovider_filter_category', type: 'STRING', value: category },
+                { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+              ],
+              [
+                { name: 'nonprovider_filter', type: 'STRING', value: '60 to 64'  },
+                { name: 'nonprovider_filter_category', type: 'STRING', value: 'Age group' },
+                { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+              ],
+              [
+                { name: 'nonprovider_filter', type: 'STRING', value: 'Female' },
+                { name: 'nonprovider_filter_category', type: 'STRING', value: category },
+                { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+              ]
+            ],
+            )
+        end
+
+        it 'creates a new report per category' do
+          expect { generator.call }.to change(Publications::RegionalEdiReport, :count).by(2)
         end
       end
     end
