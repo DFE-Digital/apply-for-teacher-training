@@ -16,7 +16,7 @@
 
       <p class="govuk-body">
         You may want to contact
-        <%= govuk_mail_to @application_choice.provider.email_address, @application_choice.provider.name %>
+        <%= govuk_link_to @application_choice.provider.name, @find_provider_url, new_tab: true %>
         to confirm the exact course end date.
       </p>
 

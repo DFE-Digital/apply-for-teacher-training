@@ -96,6 +96,18 @@ class ApplicationChoice < ApplicationRecord
     visa_expired_at.present? && visa_expired_at < current_course.start_date + 9.months
   end
 
+  def find_provider_url
+    url = if HostingEnvironment.sandbox_mode?
+            I18n.t('find_teacher_training.sandbox_url')
+          elsif HostingEnvironment.qa?
+            I18n.t('find_teacher_training.qa_url')
+          else
+            I18n.t('find_teacher_training.production_url')
+          end
+
+    "#{url}courses/#{provider.code}/#{current_course.code}/provider"
+  end
+
   def application_work_experiences
     return application_form.application_work_experiences if work_experiences.blank?
 

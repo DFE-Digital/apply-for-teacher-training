@@ -965,4 +965,22 @@ RSpec.describe ApplicationChoice do
       expect(choice.siblings).not_to include choice
     end
   end
+
+  describe '#find_provider_url' do
+    let(:application_choice) { create(:application_choice) }
+
+    it 'returns the sandbox url when in sandbox', :sandbox do
+      expect(application_choice.find_provider_url).to match(/sandbox/)
+    end
+
+    it 'returns the production url when not in sandbox', sandbox: false do
+      expect(application_choice.find_provider_url).not_to match(/sandbox/)
+    end
+
+    it 'returns the qa url when in qa' do
+      allow(HostingEnvironment).to receive(:qa?).and_return(true)
+
+      expect(application_choice.find_provider_url).to match(/qa/)
+    end
+  end
 end
