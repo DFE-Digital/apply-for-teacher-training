@@ -485,7 +485,7 @@ shared:
     - reference_received
     - provider_user_id
     - updated_at
-    - marketing_email
+    - marketing_emails
   provider_users:
     - created_at
     - dfe_sign_in_uid
