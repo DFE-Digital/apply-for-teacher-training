@@ -201,7 +201,7 @@ RSpec.describe Publications::RegionalEdiReportGenerator do
                 { name: 'nonregion_filter_category', type: 'STRING', value: category },
                 { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
                 { name: 'region_filter', type: 'STRING', value: region },
-              ]
+              ],
             ],
           )
         end
@@ -290,7 +290,7 @@ RSpec.describe Publications::RegionalEdiReportGenerator do
                 { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
               ],
               [
-                { name: 'nonprovider_filter', type: 'STRING', value: '60 to 64'  },
+                { name: 'nonprovider_filter', type: 'STRING', value: '60 to 64' },
                 { name: 'nonprovider_filter_category', type: 'STRING', value: 'Age group' },
                 { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
               ],
@@ -298,9 +298,9 @@ RSpec.describe Publications::RegionalEdiReportGenerator do
                 { name: 'nonprovider_filter', type: 'STRING', value: 'Female' },
                 { name: 'nonprovider_filter_category', type: 'STRING', value: category },
                 { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
-              ]
+              ],
             ],
-            )
+          )
         end
 
         it 'creates a new report per category' do
