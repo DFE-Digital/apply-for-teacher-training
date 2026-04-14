@@ -393,4 +393,51 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
       expect(result.text).not_to include('Contact training provider')
     end
   end
+
+  context 'visa expires soon and feature flag on' do
+    before do
+      FeatureFlag.activate('2027_visa_expiry')
+    end
+
+    let(:application_form) { create(:application_form, visa_expired_at: 1.day.from_now) }
+    let(:application_choice) do
+      create(:application_choice, :unsubmitted, course:, application_form:)
+    end
+
+    it 'renders visa explanation row' do
+      expect(result.text).to include(
+        'Based on your visa expiry date, which of these applies to you?',
+      )
+    end
+  end
+
+  context 'visa does not expire soon and feature flag on' do
+    before do
+      FeatureFlag.activate('2027_visa_expiry')
+    end
+
+    let(:application_form) { create(:application_form, visa_expired_at: 2.years.from_now) }
+    let(:application_choice) do
+      create(:application_choice, :unsubmitted, course:, application_form:)
+    end
+
+    it 'renders visa explanation row' do
+      expect(result.text).not_to include(
+        'Based on your visa expiry date, which of these applies to you?',
+      )
+    end
+  end
+
+  context 'visa expiry feature flag is off' do
+    let(:application_form) { create(:application_form, visa_expired_at: 2.years.from_now) }
+    let(:application_choice) do
+      create(:application_choice, :unsubmitted, course:, application_form:)
+    end
+
+    it 'renders visa explanation row' do
+      expect(result.text).not_to include(
+        'Based on your visa expiry date, which of these applies to you?',
+      )
+    end
+  end
 end

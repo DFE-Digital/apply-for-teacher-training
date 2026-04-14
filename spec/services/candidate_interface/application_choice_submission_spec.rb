@@ -82,6 +82,35 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
       end
     end
 
+    context 'when visa explanation is required but not present' do
+      before do
+        FeatureFlag.activate('2027_visa_expiry')
+      end
+
+      let(:course) do
+        create(
+          :course,
+          :open,
+        )
+      end
+      let(:application_choice) do
+        create(
+          :application_choice,
+          :unsubmitted,
+          course_option: create(:course_option, course:),
+          application_form:,
+        )
+      end
+      let(:application_form) { create(:application_form, :completed, :with_degree, visa_expired_at: 1.day.ago) }
+
+      it 'is invalid' do
+        expect(application_choice_submission).not_to be_valid
+        expect(application_choice_submission.errors[:application_choice].first).to include(
+          'You need to provide an explanation regarding your visa expiry date',
+        )
+      end
+    end
+
     context 'incomplete_undergraduate_course_details validation' do
       let(:course) do
         create(
