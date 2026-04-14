@@ -71,6 +71,15 @@ class ApplicationChoice < ApplicationRecord
     vendor_api_rejection_reasons: 'vendor_api_rejection_reasons', # Rejection reasons via the Vendor API.
   }, prefix: :rejection_reasons_type
 
+  enum :visa_explanation, {
+    expires_after_course: 'expires_after_course',
+    renew: 'renew',
+    leads_to_permanent_visa: 'leads_to_permanent_visa',
+    switch_to_different_visa: 'switch_to_different_visa',
+    not_sure: 'not_sure',
+    other: 'other',
+  }, prefix: :visa_explanation
+
   scope :visible_to_provider, -> { where(status: ApplicationStateChange.states_visible_to_provider) }
   scope :reappliable, -> { where(status: ApplicationStateChange.reapply_states) }
   scope :not_reappliable, -> { where(status: ApplicationStateChange.non_reapply_states) }
@@ -78,6 +87,14 @@ class ApplicationChoice < ApplicationRecord
   scope :decision_pending_and_inactive, -> { where(status: ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES) }
   scope :accepted, -> { where(status: ApplicationStateChange::ACCEPTED_STATES) }
   scope :inactive_past_day, -> { inactive.where(inactive_at: 1.day.ago..Time.zone.now) }
+
+  def visa_expires_soon?
+    return false if FeatureFlag.inactive?('2027_visa_expiry')
+
+    visa_expired_at = application_form.visa_expired_at
+
+    visa_expired_at.present? && visa_expired_at < current_course.start_date + 9.months
+  end
 
   def application_work_experiences
     return application_form.application_work_experiences if work_experiences.blank?

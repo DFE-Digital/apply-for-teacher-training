@@ -447,6 +447,13 @@ namespace :candidate_interface, path: '/candidate' do
       get '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'course_choices/course_site#edit', as: :edit_course_choices_course_site
       patch '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'course_choices/course_site#update'
 
+      get '/:application_choice_id/visa-expiry-interruption' => 'course_choices/visa_expiry_interruption#new', as: :course_choices_visa_expiry_interruption
+
+      get '/:application_choice_id/visa-explanation' => 'course_choices/visa_explanation#new', as: :course_choices_visa_explanation
+      post '/:application_choice_id/visa-explanation' => 'course_choices/visa_explanation#create'
+      get '/:application_choice_id/visa-explanation/edit' => 'course_choices/visa_explanation#edit', as: :edit_course_choices_visa_explanation
+      patch '/:application_choice_id/visa-explanation' => 'course_choices/visa_explanation#update'
+
       get '/confirm-selection/:course_id' => 'course_choices/find_course_selection#new', as: :course_choices_course_confirm_selection
       post '/confirm-selection/:course_id' => 'course_choices/find_course_selection#create'
 
