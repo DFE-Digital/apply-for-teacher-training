@@ -218,14 +218,11 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
       described_class.new.call
 
       Publications::RegionalEdiReport.regions.each_value do |region|
-        Publications::RegionalEdiReport.categories.each_value do |category|
-          expect(regional_edi_worker).to have_received(:perform_async).with(
-            cycle_week,
-            region,
-            category,
-            recruitment_cycle_year,
-          )
-        end
+        expect(regional_edi_worker).to have_received(:perform_async).with(
+          cycle_week,
+          region,
+          recruitment_cycle_year,
+        )
       end
     end
 
@@ -239,19 +236,18 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
         expect(regional_edi_worker).to have_received(:perform_async).with(
           cycle_week,
           'London',
-          'Sex',
           recruitment_cycle_year,
         )
       end
 
       it 'does not create a Regional edi report worker when a report already exists' do
         create(:regional_edi_report, recruitment_cycle_year: current_year, region: :london)
+        allow(Publications::ProviderEdiReport).to receive(:categories).and_return({ 'sex' => 'Sex' })
         described_class.new(cycle_week:).call
 
         expect(regional_edi_worker).not_to have_received(:perform_async).with(
           cycle_week,
           'London',
-          'Sex',
           recruitment_cycle_year,
         )
       end
@@ -260,14 +256,11 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
         described_class.new(cycle_week:).call
 
         Publications::RegionalEdiReport.regions.each_value do |region|
-          Publications::RegionalEdiReport.categories.each_value do |category|
-            expect(regional_edi_worker).to have_received(:perform_async).with(
-              cycle_week,
-              region,
-              category,
-              recruitment_cycle_year,
-            )
-          end
+          expect(regional_edi_worker).to have_received(:perform_async).with(
+            cycle_week,
+            region,
+            recruitment_cycle_year,
+          )
         end
       end
     end
@@ -283,14 +276,11 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
     it 'creates a Provider edi report' do
       described_class.new.call
 
-      Publications::ProviderEdiReport.categories.each_value do |category|
-        expect(provider_edi_worker).to have_received(:perform_async).with(
-          provider.id,
-          cycle_week,
-          category,
-          recruitment_cycle_year,
-        )
-      end
+      expect(provider_edi_worker).to have_received(:perform_async).with(
+        provider.id,
+        cycle_week,
+        recruitment_cycle_year,
+      )
     end
 
     context 'explicit cycle_week is passed' do
@@ -303,7 +293,6 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
         expect(provider_edi_worker).to have_received(:perform_async).with(
           provider.id,
           cycle_week,
-          'Sex',
           recruitment_cycle_year,
         )
       end
@@ -315,7 +304,6 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
         expect(provider_edi_worker).not_to have_received(:perform_async).with(
           provider.id,
           cycle_week,
-          'Sex',
           recruitment_cycle_year,
         )
       end
@@ -323,14 +311,11 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
       it 'creates a Provider edi report for the cycle_week value' do
         described_class.new(cycle_week:).call
 
-        Publications::ProviderEdiReport.categories.each_value do |category|
-          expect(provider_edi_worker).to have_received(:perform_async).with(
-            provider.id,
-            cycle_week,
-            category,
-            recruitment_cycle_year,
-          )
-        end
+        expect(provider_edi_worker).to have_received(:perform_async).with(
+          provider.id,
+          cycle_week,
+          recruitment_cycle_year,
+        )
       end
     end
   end

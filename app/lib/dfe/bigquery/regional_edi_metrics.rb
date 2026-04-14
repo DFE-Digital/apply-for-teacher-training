@@ -34,14 +34,12 @@ module DfE
       ].freeze
 
       attr_reader :cycle_week,
-                  :category,
                   :region,
                   :recruitment_cycle_year
 
-      def initialize(cycle_week:, region:, category:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
+      def initialize(cycle_week:, region:, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
         @cycle_week = cycle_week
         @region = region
-        @category = category
         @recruitment_cycle_year = recruitment_cycle_year
       end
 
@@ -57,7 +55,6 @@ module DfE
         select(SELECT_COLUMNS.join(', '))
         .where(
           region_filter: region,
-          nonregion_filter_category: category.downcase == 'disability' ? 'HESA disability' : category,
           region_filter_category: 'ITL1',
           cycle_week:,
           recruitment_cycle_year:,

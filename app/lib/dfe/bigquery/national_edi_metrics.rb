@@ -44,19 +44,16 @@ module DfE
                   :recruitment_cycle_year,
                   :nonprovider_filter,
                   :provider_filter,
-                  :provider_filter_category,
-                  :category
+                  :provider_filter_category
 
       def initialize(
         cycle_week:,
-        category:,
         provider_id: nil,
         recruitment_cycle_year: RecruitmentCycleTimetable.current_year
       )
         @provider_id = provider_id&.to_s
         @cycle_week = cycle_week
         @recruitment_cycle_year = recruitment_cycle_year
-        @category = category
       end
 
       def table_name
@@ -74,7 +71,6 @@ module DfE
           teach_first_or_iot_filter: 'All',
           cycle_week:,
           recruitment_cycle_year:,
-          nonprovider_filter_category: category.downcase == 'disability' ? 'HESA disability' : category,
         ).to_sql
       end
 
@@ -89,7 +85,6 @@ module DfE
             provider_filter_category: 'All',
             cycle_week:,
             recruitment_cycle_year:,
-            nonprovider_filter_category: category.downcase == 'disability' ? 'HESA disability' : category,
           ).to_sql
       end
 

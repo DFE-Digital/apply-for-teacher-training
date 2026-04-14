@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Publications::ProviderEdiReportGenerator do
   include DfE::Bigquery::TestHelper
 
-  subject(:generator) { described_class.new(provider_id: provider.id, cycle_week:, category:) }
+  subject(:generator) { described_class.new(provider_id: provider.id, cycle_week:) }
 
   before do
     stub_bigquery_provider_edi_request(
@@ -18,7 +18,7 @@ RSpec.describe Publications::ProviderEdiReportGenerator do
 
   let(:provider) { create(:provider) }
   let(:cycle_week) { 11 }
-  let(:category) { 'sex' }
+  let(:category) { 'Sex' }
   let(:generation_date) { Time.zone.today }
   let(:provider_attributes) do
     [
@@ -73,7 +73,6 @@ RSpec.describe Publications::ProviderEdiReportGenerator do
           'publication_date' => Time.zone.today,
           'generation_date' => Time.zone.today,
           'cycle_week' => cycle_week,
-          'category' => category,
           'statistics' => provider_attributes,
         })
       end
@@ -91,14 +90,13 @@ RSpec.describe Publications::ProviderEdiReportGenerator do
           'publication_date' => generation_date,
           'generation_date' => generation_date,
           'cycle_week' => 15,
-          'category' => category,
           'statistics' => provider_attributes,
         })
       end
     end
 
     context 'when setting a future generation date' do
-      subject(:generator) { described_class.new(provider_id: provider.id, cycle_week:, generation_date:, category:) }
+      subject(:generator) { described_class.new(provider_id: provider.id, cycle_week:, generation_date:) }
 
       let(:generation_date) { 1.week.from_now.to_date }
 
@@ -110,7 +108,6 @@ RSpec.describe Publications::ProviderEdiReportGenerator do
         expect(model).to have_attributes({
           'publication_date' => generation_date,
           'generation_date' => generation_date,
-          'category' => category,
           'cycle_week' => cycle_week,
           'statistics' => provider_attributes,
         })

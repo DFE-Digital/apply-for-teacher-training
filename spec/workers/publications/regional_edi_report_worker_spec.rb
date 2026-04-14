@@ -12,20 +12,18 @@ RSpec.describe Publications::RegionalEdiReportWorker do
 
   let(:cycle_week) { current_cycle_week.pred }
   let(:region) { 'London' }
-  let(:category) { 'Sex' }
   let(:generation_date) { RecruitmentPerformanceReportTimetable.current_generation_date }
   let(:publication_date) { RecruitmentPerformanceReportTimetable.current_generation_date }
   let(:recruitment_cycle_year) { 2026 }
 
   describe '#perform' do
     it 'calls the regional edi report generator' do
-      described_class.new.perform(cycle_week, region, category, recruitment_cycle_year)
+      described_class.new.perform(cycle_week, region, recruitment_cycle_year)
 
       expect(@instance).to have_received(:call)
       expect(Publications::RegionalEdiReportGenerator).to have_received(:new).with(
         cycle_week:,
         region:,
-        category:,
         generation_date:,
         publication_date:,
         recruitment_cycle_year:,
