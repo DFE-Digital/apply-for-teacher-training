@@ -9,7 +9,7 @@ RSpec.describe DfE::Bigquery::NationalEdiMetrics do
 
   describe '.data' do
     subject(:national_statistics) do
-      described_class.new(cycle_week: 18, category: 'Sex').data
+      described_class.new(cycle_week: 18).data
     end
 
     let(:rows) do
@@ -96,7 +96,6 @@ RSpec.describe DfE::Bigquery::NationalEdiMetrics do
         AND provider_filter_category = "All"
         AND cycle_week = 18
         AND recruitment_cycle_year = 2024
-        AND nonprovider_filter_category = "Sex"
       SQL
     end
 
@@ -142,7 +141,7 @@ RSpec.describe DfE::Bigquery::NationalEdiMetrics do
 
   describe '.provider_data' do
     subject(:provider_statistics) do
-      described_class.new(cycle_week: 18, provider_id: 1, category: 'Sex').provider_data
+      described_class.new(cycle_week: 18, provider_id: 1).provider_data
     end
 
     let(:rows) do
@@ -229,7 +228,6 @@ RSpec.describe DfE::Bigquery::NationalEdiMetrics do
         AND teach_first_or_iot_filter = "All"
         AND cycle_week = 18
         AND recruitment_cycle_year = 2024
-        AND nonprovider_filter_category = "Sex"
       SQL
     end
 
@@ -292,7 +290,7 @@ RSpec.describe DfE::Bigquery::NationalEdiMetrics do
 
   describe 'when the query returns nil for rows' do
     subject(:national_statistics) do
-      described_class.new(cycle_week: 18, category: 'Sex').data
+      described_class.new(cycle_week: 18).data
     end
 
     let(:stub_bigquery_response) do
@@ -310,7 +308,7 @@ RSpec.describe DfE::Bigquery::NationalEdiMetrics do
 
   describe 'when there is an error' do
     subject(:national_statistics) do
-      described_class.new(cycle_week: 7, category: 'Sex').data
+      described_class.new(cycle_week: 7).data
     end
 
     context 'when there is more than one page' do

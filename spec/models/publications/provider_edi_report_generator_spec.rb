@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Publications::ProviderEdiReportGenerator do
   include DfE::Bigquery::TestHelper
 
-  subject(:generator) { described_class.new(provider_id: provider.id, cycle_week:, category:) }
+  subject(:generator) { described_class.new(provider_id: provider.id, cycle_week:) }
 
   before do
     stub_bigquery_provider_edi_request(
@@ -18,7 +18,7 @@ RSpec.describe Publications::ProviderEdiReportGenerator do
 
   let(:provider) { create(:provider) }
   let(:cycle_week) { 11 }
-  let(:category) { 'sex' }
+  let(:category) { 'Sex' }
   let(:generation_date) { Time.zone.today }
   let(:provider_attributes) do
     [
@@ -73,7 +73,6 @@ RSpec.describe Publications::ProviderEdiReportGenerator do
           'publication_date' => Time.zone.today,
           'generation_date' => Time.zone.today,
           'cycle_week' => cycle_week,
-          'category' => category,
           'statistics' => provider_attributes,
         })
       end
@@ -91,14 +90,13 @@ RSpec.describe Publications::ProviderEdiReportGenerator do
           'publication_date' => generation_date,
           'generation_date' => generation_date,
           'cycle_week' => 15,
-          'category' => category,
           'statistics' => provider_attributes,
         })
       end
     end
 
     context 'when setting a future generation date' do
-      subject(:generator) { described_class.new(provider_id: provider.id, cycle_week:, generation_date:, category:) }
+      subject(:generator) { described_class.new(provider_id: provider.id, cycle_week:, generation_date:) }
 
       let(:generation_date) { 1.week.from_now.to_date }
 
@@ -110,10 +108,40 @@ RSpec.describe Publications::ProviderEdiReportGenerator do
         expect(model).to have_attributes({
           'publication_date' => generation_date,
           'generation_date' => generation_date,
-          'category' => category,
           'cycle_week' => cycle_week,
           'statistics' => provider_attributes,
         })
+      end
+    end
+
+    context 'when the response from BigQuery contains multiple category data' do
+      before do
+        stub_bigquery_provider_edi_request(
+          rows: [
+            [
+              { name: 'nonprovider_filter', type: 'STRING', value: 'Prefer not to say' },
+              { name: 'nonprovider_filter_category', type: 'STRING', value: category },
+              { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+              { name: 'id', type: 'STRING', value: provider.id },
+            ],
+            [
+              { name: 'nonprovider_filter', type: 'STRING', value: '60 to 64' },
+              { name: 'nonprovider_filter_category', type: 'STRING', value: 'Age group' },
+              { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+              { name: 'id', type: 'STRING', value: provider.id },
+            ],
+            [
+              { name: 'nonprovider_filter', type: 'STRING', value: 'Female' },
+              { name: 'nonprovider_filter_category', type: 'STRING', value: category },
+              { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+              { name: 'id', type: 'STRING', value: provider.id },
+            ],
+          ],
+        )
+      end
+
+      it 'creates a new report' do
+        expect { generator.call }.to change(Publications::ProviderEdiReport, :count).by(2)
       end
     end
   end

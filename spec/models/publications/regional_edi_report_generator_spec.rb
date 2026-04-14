@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe Publications::RegionalEdiReportGenerator do
   include DfE::Bigquery::TestHelper
 
-  subject(:generator) { described_class.new(cycle_week:, region:, category:) }
+  subject(:generator) { described_class.new(cycle_week:, region:) }
 
   let(:cycle_week) { 11 }
   let(:region) { 'London' }
-  let(:category) { 'sex' }
+  let(:category) { 'Sex' }
   let(:generation_date) { Time.zone.today }
   let(:regional_attributes) do
     [
@@ -139,7 +139,6 @@ RSpec.describe Publications::RegionalEdiReportGenerator do
             'publication_date' => Time.zone.today,
             'generation_date' => Time.zone.today,
             'cycle_week' => cycle_week,
-            'category' => category,
             'statistics' => regional_attributes,
           })
         end
@@ -157,14 +156,13 @@ RSpec.describe Publications::RegionalEdiReportGenerator do
             'publication_date' => generation_date,
             'generation_date' => generation_date,
             'cycle_week' => 15,
-            'category' => category,
             'statistics' => regional_attributes,
           })
         end
       end
 
       context 'when setting a future generation date' do
-        subject(:generator) { described_class.new(cycle_week:, generation_date:, region:, category:) }
+        subject(:generator) { described_class.new(cycle_week:, generation_date:, region:) }
 
         let(:generation_date) { 1.week.from_now.to_date }
 
@@ -176,10 +174,40 @@ RSpec.describe Publications::RegionalEdiReportGenerator do
           expect(model).to have_attributes({
             'publication_date' => generation_date,
             'generation_date' => generation_date,
-            'category' => category,
             'cycle_week' => cycle_week,
             'statistics' => regional_attributes,
           })
+        end
+      end
+
+      context 'when the response from BigQuery contains multiple category data' do
+        before do
+          stub_bigquery_regional_edi_request(
+            rows: [
+              [
+                { name: 'nonregion_filter', type: 'STRING', value: 'Prefer not to say' },
+                { name: 'nonregion_filter_category', type: 'STRING', value: category },
+                { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+                { name: 'region_filter', type: 'STRING', value: region },
+              ],
+              [
+                { name: 'nonregion_filter', type: 'STRING', value: '60 to 64' },
+                { name: 'nonregion_filter_category', type: 'STRING', value: 'Age group' },
+                { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+                { name: 'region_filter', type: 'STRING', value: region },
+              ],
+              [
+                { name: 'nonregion_filter', type: 'STRING', value: 'Female' },
+                { name: 'nonregion_filter_category', type: 'STRING', value: category },
+                { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+                { name: 'region_filter', type: 'STRING', value: region },
+              ],
+            ],
+          )
+        end
+
+        it 'creates a new report per category' do
+          expect { generator.call }.to change(Publications::RegionalEdiReport, :count).by(2)
         end
       end
     end
@@ -211,7 +239,6 @@ RSpec.describe Publications::RegionalEdiReportGenerator do
             'publication_date' => Time.zone.today,
             'generation_date' => Time.zone.today,
             'cycle_week' => cycle_week,
-            'category' => category,
             'statistics' => national_attributes,
           })
         end
@@ -229,14 +256,13 @@ RSpec.describe Publications::RegionalEdiReportGenerator do
             'publication_date' => generation_date,
             'generation_date' => generation_date,
             'cycle_week' => 15,
-            'category' => category,
             'statistics' => national_attributes,
           })
         end
       end
 
       context 'when setting a future generation date' do
-        subject(:generator) { described_class.new(cycle_week:, generation_date:, region:, category:) }
+        subject(:generator) { described_class.new(cycle_week:, generation_date:, region:) }
 
         let(:generation_date) { 1.week.from_now.to_date }
 
@@ -248,10 +274,37 @@ RSpec.describe Publications::RegionalEdiReportGenerator do
           expect(model).to have_attributes({
             'publication_date' => generation_date,
             'generation_date' => generation_date,
-            'category' => category,
             'cycle_week' => cycle_week,
             'statistics' => national_attributes,
           })
+        end
+      end
+
+      context 'when the response from BigQuery contains multiple category data' do
+        before do
+          stub_bigquery_regional_edi_request(
+            rows: [
+              [
+                { name: 'nonprovider_filter', type: 'STRING', value: 'Prefer not to say' },
+                { name: 'nonprovider_filter_category', type: 'STRING', value: category },
+                { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+              ],
+              [
+                { name: 'nonprovider_filter', type: 'STRING', value: '60 to 64' },
+                { name: 'nonprovider_filter_category', type: 'STRING', value: 'Age group' },
+                { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+              ],
+              [
+                { name: 'nonprovider_filter', type: 'STRING', value: 'Female' },
+                { name: 'nonprovider_filter_category', type: 'STRING', value: category },
+                { name: 'cycle_week', type: 'INTEGER', value: cycle_week.to_s },
+              ],
+            ],
+          )
+        end
+
+        it 'creates a new report per category' do
+          expect { generator.call }.to change(Publications::RegionalEdiReport, :count).by(2)
         end
       end
     end

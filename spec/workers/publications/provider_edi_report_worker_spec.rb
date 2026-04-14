@@ -12,20 +12,18 @@ RSpec.describe Publications::ProviderEdiReportWorker do
 
   let(:provider_id) { 1 }
   let(:cycle_week) { current_cycle_week.pred }
-  let(:category) { 'Sex' }
   let(:generation_date) { RecruitmentPerformanceReportTimetable.current_generation_date }
   let(:publication_date) { RecruitmentPerformanceReportTimetable.current_generation_date }
   let(:recruitment_cycle_year) { 2026 }
 
   describe '#perform' do
     it 'calls the provider edi report generator' do
-      described_class.new.perform(provider_id, cycle_week, category, recruitment_cycle_year)
+      described_class.new.perform(provider_id, cycle_week, recruitment_cycle_year)
 
       expect(@instance).to have_received(:call)
       expect(Publications::ProviderEdiReportGenerator).to have_received(:new).with(
         provider_id:,
         cycle_week:,
-        category:,
         generation_date:,
         publication_date:,
         recruitment_cycle_year:,
