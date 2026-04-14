@@ -972,7 +972,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_14_151957) do
     t.boolean "application_withdrawn", default: true, null: false
     t.boolean "chase_provider_decision", default: true, null: false
     t.datetime "created_at", null: false
-    t.boolean "marketing_email", default: true, null: false
+    t.boolean "marketing_emails", default: true, null: false
     t.boolean "offer_accepted", default: true, null: false
     t.boolean "offer_declined", default: true, null: false
     t.bigint "provider_user_id", null: false
