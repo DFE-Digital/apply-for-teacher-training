@@ -141,7 +141,7 @@ RSpec.describe Publications::ProviderEdiReportGenerator do
       end
 
       it 'creates a new report' do
-        expect { generator.call }.to change(Publications::ProviderEdiReport, :count).by(1)
+        expect { generator.call }.to change(Publications::ProviderEdiReport, :count).by(2)
       end
     end
   end
