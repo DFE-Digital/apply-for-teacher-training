@@ -9,6 +9,7 @@ en:
         candidate_interface/application_choice_submission:
           attributes:
             application_choice:
+              visa_explanation: You need to provide an explanation regarding your visa expiry date
               applications_closed: |-
                 This course is not yet open to applications. You will be able to submit your application on %{date}.
               course_unavailable: |-
