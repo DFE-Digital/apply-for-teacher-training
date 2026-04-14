@@ -55,7 +55,7 @@ module Publications
         next if category_data.empty?
 
         Publications::RegionalEdiReport.create!(
-          statistics: data,
+          statistics: category_data,
           region:,
           category:,
           cycle_week:,
