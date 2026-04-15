@@ -1,6 +1,9 @@
 module CandidateInterface
   module CourseChoices
     class VisaExplanationController < BaseController
+      skip_before_action :redirect_to_your_applications_if_maximum_amount_of_choices_have_been_used
+      skip_before_action :redirect_to_your_applications_if_maximum_amount_of_unsuccessful_applications_have_been_reached
+
       def create
         @wizard = CandidateInterface::CourseChoices::CourseSelectionWizard.new(
           current_step:,

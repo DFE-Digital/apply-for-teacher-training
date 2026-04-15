@@ -160,7 +160,6 @@ module CandidateInterface
     end
 
     def visa_explanation_row
-      return if FeatureFlag.inactive?('2027_visa_expiry')
       return unless application_choice.visa_expires_soon?
 
       {

@@ -25,7 +25,7 @@ en:
         visa_explanation:
           attributes:
             visa_explanation:
-              blank: Select which option applis to you
+              blank: Select which option applies to you
             visa_explanation_details:
               blank: Enter details explaining your option
         find_course_selection:

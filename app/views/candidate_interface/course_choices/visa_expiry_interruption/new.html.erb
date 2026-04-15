@@ -7,7 +7,7 @@
       <h1 class="govuk-heading-l"><%= t('page_titles.visa_expiry_interruption') %></h1>
       <p class="govuk-body">
         Your visa expires on <%= current_application.visa_expired_at.to_fs(:govuk_date) %>.<br>
-        This course starts on <%= @application_choice.current_course.start_date.to_fs(:govuk_date) %>.
+        This course starts in <%= @application_choice.current_course.start_date.to_fs(:month_and_year) %>.
       </p>
 
       <p class="govuk-body">
@@ -21,7 +21,7 @@
       </p>
 
       <p class="govuk-body">
-        Or consider <%= govuk_link_to 'finding a course that offers visa sponsorship', find_url, new_tab: true %>
+        Or consider <%= govuk_link_to 'finding a course that offers visa sponsorship', @find_url_with_visa_filter, new_tab: true %>
       </p>
   </div>
   <div class="govuk-button-group app-course-choice__confirm-submission">

@@ -102,6 +102,7 @@ RSpec.describe 'Selecting a course' do
   end
 
   it 'Candidate selects a course when visa expires soon and does not enter an explanation' do
+    given_visa_expiry_feature_is_on
     given_i_am_signed_in_with_one_login
     and_visa_will_expire_soon
     and_there_are_course_options
@@ -127,8 +128,7 @@ RSpec.describe 'Selecting a course' do
     then_i_see_an_error
     and_i_choose_a_course
 
-    given_visa_expiry_feature_is_on
-    refresh_current_page
+    given_i_am_on_the_review_page
     when_i_click('Enter your visa explanation')
     then_i_see_the_visa_expiry_interruption
     when_i_click('Continue to submit this application')
@@ -143,7 +143,7 @@ RSpec.describe 'Selecting a course' do
   end
 
   def and_visa_will_expire_soon
-    current_candidate.current_application.update(visa_expired_at: 1.day.from_now)
+    ApplicationForm.last.update(visa_expired_at: 1.day.from_now)
   end
 
   def then_i_see_the_visa_expiry_interruption
@@ -164,8 +164,8 @@ RSpec.describe 'Selecting a course' do
     choose 'My visa expires after the course ends'
   end
 
-  def refresh_current_page
-    visit current_path
+  def given_i_am_on_the_review_page
+    visit candidate_interface_course_choices_course_review_path(current_candidate.current_application.application_choices.first)
   end
 
   def then_i_cannot_review_my_application
