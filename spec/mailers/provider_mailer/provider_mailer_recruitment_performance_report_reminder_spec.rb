@@ -8,6 +8,10 @@ RSpec.describe ProviderMailer do
       described_class.recruitment_performance_report_reminder(provider_user)
     end
 
+    before do
+      allow(provider_user).to receive(:generate_token_for).with(:unsubscribe_link).and_return('abc123')
+    end
+
     it_behaves_like(
       'a mail with subject and content',
       'Your weekly recruitment performance report is now available - manage teacher training applications',
@@ -22,6 +26,8 @@ RSpec.describe ProviderMailer do
       'report compares' => 'The report compares your recruitment data for this cycle with the same point in the previous cycle. It also includes national-level data.',
       'find information on' =>
         /- Number of candidates who have submitted applications\s+- Number of candidates with an offer\s+- Proportion of candidates with an offer\s+- Number of candidates who have accepted an offer\s+- Number of deferrals\s+- Number of candidates rejected\s+- Proportion of candidates waiting more than 30 days for a response/,
+      'unsubscribe' => 'Unsubscribe from reminder emails like this one](http://localhost:3000/provider/unsubscribe-from-emails/abc123). You will still receive essential updates about applications.',
+      'unsubscribe_link' => 'http://localhost:3000/provider/unsubscribe-from-emails/abc123',
       'footer' => 'Get help, report a problem or give feedback',
     )
   end

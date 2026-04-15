@@ -12,6 +12,7 @@ class ProviderUserNotificationPreferences < ApplicationRecord
     offer_accepted
     offer_declined
     reference_received
+    marketing_emails
   ].freeze
 
   def update_all_preferences(value)

@@ -20,6 +20,7 @@ RSpec.describe SaveProviderUserNotificationPreferences do
           offer_accepted: false,
           offer_declined: false,
           reference_received: false,
+          marketing_emails: false,
         }
       end
 
@@ -41,6 +42,7 @@ RSpec.describe SaveProviderUserNotificationPreferences do
           offer_accepted: true,
           offer_declined: false,
           reference_received: true,
+          marketing_emails: true,
         }
       end
 
@@ -54,6 +56,7 @@ RSpec.describe SaveProviderUserNotificationPreferences do
           'offer_accepted' => true,
           'offer_declined' => false,
           'reference_received' => true,
+          'marketing_emails' => true,
         )
       end
     end

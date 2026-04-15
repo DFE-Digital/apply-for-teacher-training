@@ -49,9 +49,24 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReminderWorker do
       end
     end
 
+    context 'when the provider user has unsubscribed to marketing emails' do
+      before do
+        national_recruitment_performance_report
+        provider_recruitment_performance_report
+        allow(ProviderMailer).to receive(:recruitment_performance_report_reminder).and_call_original
+        provider_user.notification_preferences.update!(marketing_emails: false)
+      end
+
+      it 'does not send an email to the provider user' do
+        described_class.new.perform
+        expect(ProviderMailer).not_to have_received(:recruitment_performance_report_reminder).with(provider_user)
+      end
+    end
+
     context 'when batching emails fewer than 3000 emails' do
       let(:relation_double) { instance_double(ActiveRecord::Relation) }
-      let(:users_double) { Array.new(300) { instance_double(ProviderUser) } }
+      let(:notification_preferences) { instance_double(ProviderUserNotificationPreferences, marketing_emails?: true) }
+      let(:users_double) { Array.new(300) { instance_double(ProviderUser, notification_preferences:) } }
       let(:scheduled_times) { [] }
 
       before do
@@ -80,7 +95,8 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReminderWorker do
 
     context 'when batching more than 3000 emails' do
       let(:relation_double) { instance_double(ActiveRecord::Relation) }
-      let(:users_double) { Array.new(7000) { instance_double(ProviderUser) } }
+      let(:notification_preferences) { instance_double(ProviderUserNotificationPreferences, marketing_emails?: true) }
+      let(:users_double) { Array.new(7000) { instance_double(ProviderUser, notification_preferences:) } }
       let(:scheduled_times) { [] }
 
       before do

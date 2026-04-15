@@ -1,6 +1,8 @@
 class ProviderUser < ApplicationRecord
   include AuthenticatedUsingMagicLinks
 
+  generates_token_for :unsubscribe_link
+
   has_many :provider_permissions, dependent: :destroy
   has_many :providers, through: :provider_permissions
   has_many :notes, dependent: :destroy
