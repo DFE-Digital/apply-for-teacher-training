@@ -91,41 +91,39 @@
       recruitment_cycle_year: @provider_report.recruitment_cycle_year,
     ) %>
 
-    <% if FeatureFlag.active?(:provider_edi_report) %>
-      <%= render RecruitmentPerformanceReport::EdiReportDescription.new(
-        provider_report: @provider_report,
-      ) %>
+    <%= render RecruitmentPerformanceReport::EdiReportDescription.new(
+      provider_report: @provider_report,
+    ) %>
 
-      <%= render RecruitmentPerformanceReport::AgeGroupComponent.new(
-        provider: @provider,
-        edi_reports: @provider_edi_reports,
-        region: @region,
-      ) %>
+    <%= render RecruitmentPerformanceReport::AgeGroupComponent.new(
+      provider: @provider,
+      edi_reports: @provider_edi_reports,
+      region: @region,
+    ) %>
 
-      <%= render RecruitmentPerformanceReport::DisabilityComponent.new(
-        provider: @provider,
-        edi_reports: @provider_edi_reports,
-        region: @region,
-      ) %>
+    <%= render RecruitmentPerformanceReport::DisabilityComponent.new(
+      provider: @provider,
+      edi_reports: @provider_edi_reports,
+      region: @region,
+    ) %>
 
-      <%= render RecruitmentPerformanceReport::DisabilityDeclarationComponent.new(
-        provider: @provider,
-        edi_reports: @provider_edi_reports,
-        region: @region,
-      ) %>
+    <%= render RecruitmentPerformanceReport::DisabilityDeclarationComponent.new(
+      provider: @provider,
+      edi_reports: @provider_edi_reports,
+      region: @region,
+    ) %>
 
-      <%= render RecruitmentPerformanceReport::EthnicGroupComponent.new(
-        provider: @provider,
-        edi_reports: @provider_edi_reports,
-        region: @region,
-      ) %>
+    <%= render RecruitmentPerformanceReport::EthnicGroupComponent.new(
+      provider: @provider,
+      edi_reports: @provider_edi_reports,
+      region: @region,
+    ) %>
 
-      <%= render RecruitmentPerformanceReport::SexComponent.new(
-        provider: @provider,
-        edi_reports: @provider_edi_reports,
-        region: @region,
-      ) %>
-    <% end %>
+    <%= render RecruitmentPerformanceReport::SexComponent.new(
+      provider: @provider,
+      edi_reports: @provider_edi_reports,
+      region: @region,
+    ) %>
   </div>
 <% else %>
   <div class="govuk-grid-row">

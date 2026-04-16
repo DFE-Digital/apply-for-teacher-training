@@ -3,14 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Provider reports index' do
   include DfESignInHelpers
 
-  before do
-    FeatureFlag.activate(:provider_edi_report)
-  end
-
-  after do
-    FeatureFlag.deactivate(:provider_edi_report)
-  end
-
   scenario 'when provider user has one provider', time: recruitment_performance_report_season do
     given_a_provider_and_provider_user_exists
     and_i_am_signed_in_as_provider_user
