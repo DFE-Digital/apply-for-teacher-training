@@ -2,12 +2,24 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::CourseChoices::CourseSiteStep do
   subject(:course_site_step) do
-    described_class.new(provider_id:, course_id:, course_option_id:)
+    described_class.new(provider_id:, course_id:, course_option_id:, wizard:)
+  end
+
+  before do
+    wizard.store.application_choice = application_choice
   end
 
   let(:provider_id) { nil }
   let(:course_id) { nil }
   let(:course_option_id) { nil }
+  let(:wizard) do
+    CandidateInterface::CourseChoices::CourseSelectionWizard.new(
+      current_step: :course_site,
+      step_params: nil,
+      application_choice:,
+    )
+  end
+  let(:application_choice) { build(:application_choice) }
 
   describe '.route_name' do
     subject { course_site_step.class.route_name }
@@ -132,8 +144,34 @@ RSpec.describe CandidateInterface::CourseChoices::CourseSiteStep do
   end
 
   describe '#next_step' do
-    it 'returns :course_study_mode' do
+    it 'returns :course_review' do
       expect(course_site_step.next_step).to be(:course_review)
+    end
+
+    context 'when visa expiry flag is on and visa expires soon' do
+      before do
+        FeatureFlag.activate('2027_visa_expiry')
+      end
+
+      let(:application_form) { create(:application_form, visa_expired_at: 1.day.from_now) }
+      let(:application_choice) { create(:application_choice, application_form:) }
+
+      it 'returns :visa_expiry_interruption' do
+        expect(course_site_step.next_step).to be(:visa_expiry_interruption)
+      end
+    end
+
+    context 'when visa expiry flag is on and visa will not expire soon' do
+      before do
+        FeatureFlag.activate('2027_visa_expiry')
+      end
+
+      let(:application_form) { create(:application_form, visa_expired_at: 2.years.from_now) }
+      let(:application_choice) { create(:application_choice, application_form:) }
+
+      it 'returns :course_review' do
+        expect(course_site_step.next_step).to be(:course_review)
+      end
     end
   end
 end

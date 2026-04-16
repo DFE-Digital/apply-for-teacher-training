@@ -1,0 +1,31 @@
+<% content_for :title, t('page_titles.visa_expiry_interruption') %>
+<% content_for(:before_content, govuk_back_link_to(@back_link)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <div class="app-grid-column--grey">
+      <h1 class="govuk-heading-l"><%= t('page_titles.visa_expiry_interruption') %></h1>
+      <p class="govuk-body">
+        Your visa expires on <%= current_application.visa_expired_at.to_fs(:govuk_date) %>.<br>
+        This course starts in <%= @application_choice.current_course.start_date.to_fs(:month_and_year) %>.
+      </p>
+
+      <p class="govuk-body">
+        You must have a visa that is valid until the end of your course.
+      </p>
+
+      <p class="govuk-body">
+        You may want to contact
+        <%= govuk_link_to @application_choice.provider.name, @find_provider_url, new_tab: true %>
+        to confirm the exact course end date.
+      </p>
+
+      <p class="govuk-body">
+        Or consider <%= govuk_link_to 'finding a course that offers visa sponsorship', @find_url_with_visa_filter, new_tab: true %>
+      </p>
+  </div>
+  <div class="govuk-button-group app-course-choice__confirm-submission">
+    <%= govuk_button_link_to('Continue to submit this application', @wizard.next_step_path, method: :get) %>
+    <%= govuk_link_to('Go to your account', candidate_interface_details_path) %>
+  </div>
+</div>

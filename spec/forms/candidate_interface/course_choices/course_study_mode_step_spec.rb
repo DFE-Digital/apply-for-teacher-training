@@ -1,10 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::CourseChoices::CourseStudyModeStep do
-  subject(:course_study_mode_step) { described_class.new(provider_id:, course_id:) }
+  subject(:course_study_mode_step) { described_class.new(provider_id:, course_id:, wizard:) }
 
   let(:provider_id) { nil }
   let(:course_id) { nil }
+  let(:wizard) do
+    CandidateInterface::CourseChoices::CourseSelectionWizard.new(
+      current_step: :course_site,
+      step_params: nil,
+      application_choice:,
+    )
+  end
+  let(:application_choice) { build(:application_choice) }
+
+  before do
+    wizard.store.application_choice = application_choice
+  end
 
   describe '.route_name' do
     subject { course_study_mode_step.class.route_name }
@@ -62,6 +74,32 @@ RSpec.describe CandidateInterface::CourseChoices::CourseStudyModeStep do
         create(:course_option, :full_time, course:, site:)
         create(:course_option, :part_time, course:, site:)
       end
+
+      it 'returns :course_review' do
+        expect(course_study_mode_step.next_step).to be(:course_review)
+      end
+    end
+
+    context 'when visa expiry flag is on and visa expires soon' do
+      before do
+        FeatureFlag.activate('2027_visa_expiry')
+      end
+
+      let(:application_form) { create(:application_form, visa_expired_at: 1.day.from_now) }
+      let(:application_choice) { create(:application_choice, application_form:) }
+
+      it 'returns :visa_expiry_interruption' do
+        expect(course_study_mode_step.next_step).to be(:visa_expiry_interruption)
+      end
+    end
+
+    context 'when visa expiry flag is on and visa will not expire soon' do
+      before do
+        FeatureFlag.activate('2027_visa_expiry')
+      end
+
+      let(:application_form) { create(:application_form, visa_expired_at: 2.years.from_now) }
+      let(:application_choice) { create(:application_choice, application_form:) }
 
       it 'returns :course_review' do
         expect(course_study_mode_step.next_step).to be(:course_review)

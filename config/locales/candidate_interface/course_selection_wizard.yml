@@ -22,6 +22,12 @@ en:
           attributes:
             course_option_id:
               blank: Select which location you are interested in
+        visa_explanation:
+          attributes:
+            visa_explanation:
+              blank: Select which option applies to you
+            visa_explanation_details:
+              blank: Enter details explaining your option
         find_course_selection:
           attributes:
             confirm:

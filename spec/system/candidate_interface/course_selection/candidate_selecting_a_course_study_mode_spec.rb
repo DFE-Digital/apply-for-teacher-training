@@ -20,6 +20,68 @@ RSpec.describe 'Selecting a study mode' do
     and_the_application_is_not_school_placement_auto_selected
   end
 
+  scenario 'When visa expires soon' do
+    given_visa_expiry_feature_is_on
+    given_i_am_signed_in_with_one_login
+    and_visa_will_expire_soon
+    and_there_are_course_options
+
+    when_i_select_a_part_time_course
+    then_i_can_only_select_sites_with_a_part_time_course
+
+    when_i_select_a_site
+    then_i_see_the_visa_expiry_interruption
+    when_i_click('Continue to submit this application')
+    then_i_explain_my_visa_situation
+    when_i_click('Continue')
+    then_i_see_my_course_choice
+    and_i_can_see_my_visa_explanation
+    when_i_change_my_visa_explanation
+    then_i_can_see_my_new_visa_explanation
+
+    given_there_is_a_single_site_full_time_course_option
+    when_i_select_the_single_site_full_time_course
+    and_i_visit_my_course_choices_page
+    then_the_site_is_resolved_automatically_and_i_see_the_course_choice
+    and_the_application_is_not_school_placement_auto_selected
+  end
+
+  def given_visa_expiry_feature_is_on
+    FeatureFlag.activate('2027_visa_expiry')
+  end
+
+  def and_visa_will_expire_soon
+    current_candidate.current_application.update(visa_expired_at: 1.day.from_now)
+  end
+
+  def then_i_see_the_visa_expiry_interruption
+    expect(page).to have_text('Your visa may expire before the course ends')
+  end
+
+  def then_i_explain_my_visa_situation
+    expect(page).to have_text('Based on your visa expiry date, which of these applies to you?')
+    choose 'My visa expires after the course ends'
+  end
+
+  def and_i_can_see_my_visa_explanation
+    expect(page).to have_text('Based on your visa expiry date, which of these applies to you?')
+    expect(page).to have_text('My visa expires after the course ends')
+  end
+
+  def when_i_change_my_visa_explanation
+    click_link_or_button 'Change visa explanation'
+    choose 'I will be able to renew or extend my current visa'
+    click_link_or_button 'Continue'
+  end
+
+  def then_i_can_see_my_new_visa_explanation
+    expect(page).to have_text('I will be able to renew or extend my current visa')
+  end
+
+  def when_i_click(button)
+    click_link_or_button button
+  end
+
   def and_there_are_course_options
     @provider = create(:provider, name: 'University of Alien Dance', selectable_school: true)
 

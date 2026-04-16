@@ -47,7 +47,7 @@ module CandidateInterface
       end
 
       def next_step
-        return :course_review if completed?
+        return :course_review if completed? && !application_choice.visa_expires_soon?
 
         if reapplication_limit_reached?
           :reached_reapplication_limit
@@ -61,13 +61,15 @@ module CandidateInterface
           :course_study_mode
         elsif multiple_sites?
           :course_site
+        elsif application_choice.visa_expires_soon?
+          :visa_expiry_interruption
         end
       end
 
       # When editing an application choice, we want to load the show path for
       # some steps that don't have an edit action / template
       def next_edit_step_path(next_step_klass)
-        classes_without_edit = [DuplicateCourseSelectionStep, FullCourseSelectionStep, ClosedCourseSelectionStep]
+        classes_without_edit = [DuplicateCourseSelectionStep, FullCourseSelectionStep, ClosedCourseSelectionStep, VisaExpiryInterruptionStep]
         return next_step_path(next_step_klass) if classes_without_edit.include?(next_step_klass)
 
         super

@@ -28,6 +28,7 @@ RSpec.describe 'Selecting a course' do
     then_i_see_an_error
     and_i_choose_a_course
     then_i_am_on_the_application_choice_review_page
+
     and_i_click_the_back_button
     then_i_am_on_the_application_choices_page
     and_i_see_my_course_choices
@@ -45,6 +46,130 @@ RSpec.describe 'Selecting a course' do
     then_i_see_the_provider_name_in_caption
     then_the_course_choices_am_a_dropdown
     and_the_select_box_has_no_value_selected
+  end
+
+  it 'Candidate selects a course choice when visa expires soon' do
+    given_visa_expiry_feature_is_on
+    given_i_am_signed_in_with_one_login
+    and_visa_will_expire_soon
+    and_there_are_course_options
+
+    when_i_visit_the_site
+    and_i_click_on_course_choices
+    and_i_click_continue
+    then_i_see_an_error_message_about_to_select_if_i_know_which_course
+
+    and_i_choose_that_i_know_where_i_want_to_apply
+
+    and_i_click_continue
+    then_i_see_an_error_message_about_to_select_provider
+    and_i_choose_a_provider
+    then_i_see_a_course_and_its_description
+
+    and_i_click_the_back_link
+    then_i_see_the_provider_chosen_selected
+    and_i_click_continue
+    then_i_see_the_provider_name_in_caption
+
+    when_submit_without_choosing_a_course
+    then_i_see_an_error
+    and_i_choose_a_course
+
+    then_i_see_the_visa_expiry_interruption
+    when_i_click('Continue to submit this application')
+    then_i_explain_my_visa_situation
+    when_i_click('Continue')
+    then_i_am_on_the_application_choice_review_page
+    and_i_can_see_my_visa_explanation
+
+    and_i_click_the_back_button
+    then_i_am_on_the_application_choices_page
+    and_i_see_my_course_choices
+
+    when_the_course_is_full
+    when_i_visit_the_course_choices_page
+    when_i_click_to_view_my_application
+    then_i_see_that_the_course_is_unavailable
+    and_i_can_change_the_course
+
+    given_the_provider_has_over_twenty_courses
+    and_i_click_on_course_choices
+    when_i_choose_that_i_know_where_i_want_to_apply
+    and_i_choose_a_provider
+    then_i_see_the_provider_name_in_caption
+    then_the_course_choices_am_a_dropdown
+    and_the_select_box_has_no_value_selected
+  end
+
+  it 'Candidate selects a course when visa expires soon and does not enter an explanation' do
+    given_visa_expiry_feature_is_on
+    given_i_am_signed_in_with_one_login
+    and_visa_will_expire_soon
+    and_there_are_course_options
+
+    when_i_visit_the_site
+    and_i_click_on_course_choices
+    and_i_click_continue
+    then_i_see_an_error_message_about_to_select_if_i_know_which_course
+
+    and_i_choose_that_i_know_where_i_want_to_apply
+
+    and_i_click_continue
+    then_i_see_an_error_message_about_to_select_provider
+    and_i_choose_a_provider
+    then_i_see_a_course_and_its_description
+
+    and_i_click_the_back_link
+    then_i_see_the_provider_chosen_selected
+    and_i_click_continue
+    then_i_see_the_provider_name_in_caption
+
+    when_submit_without_choosing_a_course
+    then_i_see_an_error
+    and_i_choose_a_course
+
+    given_i_am_on_the_review_page
+    when_i_click('Enter your visa explanation')
+    then_i_see_the_visa_expiry_interruption
+    when_i_click('Continue to submit this application')
+    then_i_explain_my_visa_situation
+    when_i_click('Continue')
+    then_i_am_on_the_application_choice_review_page
+    and_i_can_see_my_visa_explanation
+  end
+
+  def given_visa_expiry_feature_is_on
+    FeatureFlag.activate('2027_visa_expiry')
+  end
+
+  def and_visa_will_expire_soon
+    ApplicationForm.last.update(visa_expired_at: 1.day.from_now)
+  end
+
+  def then_i_see_the_visa_expiry_interruption
+    expect(page).to have_text('Your visa may expire before the course ends')
+  end
+
+  def and_i_can_see_my_visa_explanation
+    expect(page).to have_text('Based on your visa expiry date, which of these applies to you?')
+    expect(page).to have_text('My visa expires after the course ends')
+  end
+
+  def when_i_click(button)
+    click_link_or_button button
+  end
+
+  def then_i_explain_my_visa_situation
+    expect(page).to have_text('Based on your visa expiry date, which of these applies to you?')
+    choose 'My visa expires after the course ends'
+  end
+
+  def given_i_am_on_the_review_page
+    visit candidate_interface_course_choices_course_review_path(current_candidate.current_application.application_choices.first)
+  end
+
+  def then_i_cannot_review_my_application
+    expect(page).to have_no_button('Review application')
   end
 
   def and_there_are_course_options
@@ -159,7 +284,7 @@ RSpec.describe 'Selecting a course' do
   end
 
   def and_i_can_change_the_course
-    click_link_or_button 'Change'
+    click_link_or_button 'Change course'
     expect(page).to have_content('Which course are you applying to?')
   end
 

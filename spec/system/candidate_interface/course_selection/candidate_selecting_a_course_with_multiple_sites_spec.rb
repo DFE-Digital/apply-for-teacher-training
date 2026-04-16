@@ -24,6 +24,61 @@ RSpec.describe 'Selecting a course with multiple sites' do
     then_i_am_on_the_application_choice_review_page
   end
 
+  it 'Candidate selects a course choice when visa expires soon' do
+    given_visa_expiry_feature_is_on
+    given_i_am_signed_in_with_one_login
+    and_visa_will_expire_soon
+    and_there_are_course_options
+
+    when_i_visit_the_site
+    and_i_click_on_course_choices
+
+    and_i_choose_that_i_know_where_i_want_to_apply
+    and_i_click_continue
+    and_i_choose_a_provider
+    and_i_choose_a_course
+
+    then_i_choose_a_location_preference
+    and_i_click_continue
+
+    then_i_am_seeing_an_error_message
+    and_i_choose_a_location
+
+    then_i_see_the_visa_expiry_interruption
+    when_i_click('Continue to submit this application')
+    then_i_explain_my_visa_situation
+    when_i_click('Continue')
+    and_i_can_see_my_visa_explanation
+
+    then_i_am_on_the_application_choice_review_page
+  end
+
+  def given_visa_expiry_feature_is_on
+    FeatureFlag.activate('2027_visa_expiry')
+  end
+
+  def then_i_see_the_visa_expiry_interruption
+    expect(page).to have_text('Your visa may expire before the course ends')
+  end
+
+  def and_i_can_see_my_visa_explanation
+    expect(page).to have_text('Based on your visa expiry date, which of these applies to you?')
+    expect(page).to have_text('My visa expires after the course ends')
+  end
+
+  def when_i_click(button)
+    click_link_or_button button
+  end
+
+  def then_i_explain_my_visa_situation
+    expect(page).to have_text('Based on your visa expiry date, which of these applies to you?')
+    choose 'My visa expires after the course ends'
+  end
+
+  def and_visa_will_expire_soon
+    current_candidate.current_application.update(visa_expired_at: 1.day.from_now)
+  end
+
   def when_i_visit_the_site
     visit candidate_interface_details_path
   end

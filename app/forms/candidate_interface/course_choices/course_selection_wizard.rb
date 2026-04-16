@@ -17,11 +17,22 @@ module CandidateInterface
           { course_study_mode: CourseChoices::CourseStudyModeStep },
           { course_site: CourseChoices::CourseSiteStep },
           { find_course_selection: CourseChoices::FindCourseSelectionStep },
+          { visa_expiry_interruption: CourseChoices::VisaExpiryInterruptionStep },
+          { visa_explanation: CourseChoices::VisaExplanationStep },
           { course_review: CourseChoices::CourseReviewStep },
         ]
       end
 
       store CourseSelectionStore
+
+      def update_visa_explanation
+        return false unless valid_step? && current_step_name == :visa_explanation
+
+        application_choice.update(
+          visa_explanation: step_params[:visa_explanation],
+          visa_explanation_details: step_params[:visa_explanation_details].presence,
+        )
+      end
 
       def logger
         DfE::Wizard::Logger.new(Rails.logger, if: -> { HostingEnvironment.test_environment? })

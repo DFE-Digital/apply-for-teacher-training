@@ -1,0 +1,54 @@
+<%= f.govuk_error_summary %>
+<%= f.hidden_field(:application_choice_id, value: params[:application_choice_id]) %>
+
+<%= f.govuk_radio_buttons_fieldset(
+  :visa_explanation,
+  legend: { text: 'Based on your visa expiry date, which of these applies to you?', tag: 'h1', size: 'l' },
+) do %>
+  <%= f.govuk_radio_button(
+    :visa_explanation,
+    :expires_after_course,
+    link_errors: true,
+    label: { text: 'My visa expires after the course ends' },
+  ) %>
+  <%= f.govuk_radio_button(
+    :visa_explanation,
+    :renew,
+    label: { text: 'I will be able to renew or extend my current visa' },
+  ) %>
+  <%= f.govuk_radio_button(
+    :visa_explanation,
+    :leads_to_permanent_visa,
+    label: { text: 'My current visa leads to indefinite leave to remain (ILR) or settled status' },
+  ) %>
+  <%= f.govuk_radio_button(
+    :visa_explanation,
+    :switch_to_different_visa,
+    label: { text: 'I expect to switch to a different UK visa category' },
+  ) %>
+
+  <%= f.govuk_radio_button(
+    :visa_explanation,
+    :other,
+    label: { text: 'Other' },
+  ) do %>
+    <%= f.govuk_text_area(
+      :visa_explanation_details,
+      label: { text: 'Details', size: 's' },
+      max_words: 200,
+      rows: 5,
+    ) %>
+  <% end %>
+
+  <%= f.govuk_radio_button(
+    :visa_explanation,
+    :not_sure,
+    label: { text: 'I’m not sure' },
+  ) do %>
+    <p class='govuk-hint'>
+      You can submit your application, but it is unlikely to be successful.
+    </p>
+  <% end %>
+<% end %>
+
+<%= f.govuk_submit t('continue') %>
