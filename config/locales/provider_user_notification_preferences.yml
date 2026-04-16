@@ -12,3 +12,5 @@ en:
       legend: Offer declined
     reference_received:
       legend: Reference received
+    marketing_emails:
+      legend: Marketing emails

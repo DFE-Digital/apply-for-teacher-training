@@ -20,6 +20,8 @@ module Publications
 
       ArrayBatchDelivery.new(relation:, stagger_over: stagger_over(relation)).each do |scheduled_time, batch|
         batch.each do |provider_user|
+          next unless provider_user.notification_preferences.marketing_emails?
+
           ProviderMailer
           .recruitment_performance_report_reminder(provider_user)
           .deliver_later(wait_until: scheduled_time)

@@ -310,4 +310,10 @@ private
       application_choice.application_form.support_reference,
     )
   end
+
+  def provider_user_unsubscribe_link(provider_user)
+    token = provider_user.generate_token_for :unsubscribe_link
+    provider_interface_unsubscribe_from_emails_url(token:)
+  end
+  helper_method :provider_user_unsubscribe_link
 end
