@@ -28,7 +28,7 @@ module RecruitmentPerformanceReport
     end
 
     def links_list
-      list = [
+      [
         govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidates_who_have_submitted_applications'), '#candidates_who_have_submitted_applications', no_visited_state: true),
         govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidates_with_an_offer'), '#candidates_with_an_offer', no_visited_state: true),
         govuk_link_to(t('shared.recruitment_performance_report.report_description_component.proportion_of_candidates_with_an_offer'), '#proportion_of_candidates_with_an_offer', no_visited_state: true),
@@ -36,13 +36,8 @@ module RecruitmentPerformanceReport
         govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidate_deferrals'), '#candidate_deferrals', no_visited_state: true),
         govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidates_rejected'), '#candidates_rejected', no_visited_state: true),
         govuk_link_to(t('shared.recruitment_performance_report.report_description_component.proportion_of_candidates_who_have_waited_30_days_or_more_for_a_response'), '#proportion_with_inactive_applications_table_component', no_visited_state: true),
+        govuk_link_to(t('shared.recruitment_performance_report.report_description_component.edi_title'), '#sex_disability_and_ethnicity_tables', no_visited_state: true),
       ]
-
-      if FeatureFlag.active?(:provider_edi_report)
-        list << govuk_link_to(t('shared.recruitment_performance_report.report_description_component.edi_title'), '#sex_disability_and_ethnicity_tables', no_visited_state: true)
-      end
-
-      list
     end
   end
 end

@@ -3,14 +3,6 @@ require 'rails_helper'
 RSpec.describe 'User views sections when reports have been generated' do
   include DfESignInHelpers
 
-  before do
-    FeatureFlag.activate(:provider_edi_report)
-  end
-
-  after do
-    FeatureFlag.deactivate(:provider_edi_report)
-  end
-
   scenario 'before reports are available to providers (ie, before report season), reports generated' do
     given_it_is_before_report_season
     and_a_provider_exists

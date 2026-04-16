@@ -29,7 +29,6 @@ class FeatureFlag
     [:api_token_management, 'Allow provider users to manage their own api tokens', 'Apply team'],
     [:ms_clarity, 'Record sessions with MS Clarity'],
     [:import_non_disclosure_trainee_withdrawals, 'Import Non-disclosure data from BigQuery to generate Possible Previous Teacher Training records', 'Apply team'],
-    [:provider_edi_report, 'Regional edi reports for providers', 'Apply team'],
     [:mid_cycle_cap, 'For implementing a cap on applications', 'Apply team'],
     [:interview_handling, 'Allow provider users to state whether or not interview scheduling is handled outside of the Manage service.', 'Apply team'],
     ['2027_application_form_has_many_english_proficiencies', 'Change application form association from has one english proficiency to has many english proficiencies', 'Apply team'],

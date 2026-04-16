@@ -37,11 +37,6 @@
         <li>
           <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider) %>
         </li>
-        <% if FeatureFlag.inactive?(:provider_edi_report) %>
-          <li>
-            <%= govuk_link_to t('.diversity_report_link_text'), provider_interface_reports_provider_diversity_report_path(provider_id: provider) %>
-          </li>
-        <% end %>
         <li>
           <%= govuk_link_to t('page_titles.provider.withdrawal_report'), provider_interface_reports_provider_withdrawal_reasons_report_path(provider) %>
         </li>
@@ -54,27 +49,15 @@
         <h3 class="govuk-heading-s"><%= provider.name %></h3>
       <% end %>
       <ul class="govuk-list govuk-list--spaced">
-        <% if FeatureFlag.active?(:provider_edi_report) %>
-          <li>
-            <%= govuk_link_to(
-              'Recruitment performance report',
-              provider_interface_reports_provider_recruitment_performance_report_path(
-                provider.id,
-                recruitment_cycle_year: @previous_timetable.recruitment_cycle_year,
-              ),
-            ) %>
-          </li>
-        <% else %>
-          <li>
-            <%= govuk_link_to(
-              t('.diversity_report_link_text'),
-              provider_interface_reports_provider_diversity_report_path(
-                provider_id: provider,
-                recruitment_cycle_year: @previous_timetable.recruitment_cycle_year,
-              ),
-            ) %>
-          </li>
-        <% end %>
+        <li>
+          <%= govuk_link_to(
+            'Recruitment performance report',
+            provider_interface_reports_provider_recruitment_performance_report_path(
+              provider.id,
+              recruitment_cycle_year: @previous_timetable.recruitment_cycle_year,
+            ),
+          ) %>
+        </li>
       </ul>
     <% end %>
 
