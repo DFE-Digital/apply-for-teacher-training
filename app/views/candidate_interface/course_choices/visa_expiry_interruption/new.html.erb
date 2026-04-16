@@ -25,7 +25,7 @@
       </p>
   </div>
   <div class="govuk-button-group app-course-choice__confirm-submission">
-    <%= govuk_button_to('Continue to submit this application', @wizard.next_step_path, method: :get) %>
+    <%= govuk_button_link_to('Continue to submit this application', @wizard.next_step_path, method: :get) %>
     <%= govuk_link_to('Go to your account', candidate_interface_details_path) %>
   </div>
 </div>
