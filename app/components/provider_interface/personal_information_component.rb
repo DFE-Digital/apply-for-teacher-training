@@ -14,8 +14,9 @@ module ProviderInterface
              :candidate,
              to: :application_form
 
-    def initialize(application_form:)
+    def initialize(application_form:, application_choice:)
       @application_form = application_form
+      @application_choice = application_choice
     end
 
     def rows
@@ -27,6 +28,8 @@ module ProviderInterface
         right_to_work_or_study_row,
         residency_details_row,
         candidate_id_number,
+        visa_expiry_row,
+        visa_explanation_row,
       ].compact
     end
 
@@ -76,6 +79,29 @@ module ProviderInterface
         key: 'Candidate number',
         value: application_form.candidate_id,
       }
+    end
+
+    def visa_expiry_row
+      if @application_form.temporary_immigration_status? &&
+         @application_form.visa_expired_at.present?
+
+        {
+          key: t('page_titles.visa_expiry'),
+          value: @application_form.visa_expired_at.to_fs(:govuk_date),
+        }
+      end
+    end
+
+    def visa_explanation_row
+      if @application_form.temporary_immigration_status? &&
+         @application_choice&.visa_explanation.present? &&
+         @application_choice&.visa_expires_soon?
+
+        {
+          key: t('visa_expiry_form.visa_explanation_label'),
+          value: render(VisaExplanationComponent.new(@application_choice)),
+        }
+      end
     end
 
     def date_of_birth_row
