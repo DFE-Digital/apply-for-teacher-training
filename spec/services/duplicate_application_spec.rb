@@ -169,6 +169,11 @@ RSpec.describe DuplicateApplication do
       expect(result.efl_completed).to be true
       expect(result.english_proficiency.present?).to be(true)
       expect(result.english_proficiency.efl_qualification).to be_nil
+      expect(result.english_proficiency.qualification_not_needed).to be(true)
+      expect(result.english_proficiency.has_qualification).to be(false)
+      expect(result.english_proficiency.no_qualification).to be(false)
+      expect(result.english_proficiency.degree_taught_in_english).to be(false)
+      expect(result.english_proficiency.draft).to be(false)
     end
 
     it 'carries over english proficiency data with elf qualification' do
@@ -179,6 +184,31 @@ RSpec.describe DuplicateApplication do
       expect(result.english_proficiency.present?).to be(true)
       expect(result.english_proficiency.efl_qualification.present?).to be(true)
       expect(result.english_proficiency.efl_qualification_type).to eq 'ToeflQualification'
+      expect(result.english_proficiency.has_qualification).to be(true)
+      expect(result.english_proficiency.no_qualification).to be(false)
+      expect(result.english_proficiency.degree_taught_in_english).to be(false)
+      expect(result.english_proficiency.qualification_not_needed).to be(false)
+      expect(result.english_proficiency.draft).to be(false)
+    end
+
+    it 'carries over english proficiency with no qualification details' do
+      create(
+        :english_proficiency,
+        :qualification_not_needed,
+        degree_taught_in_english: true,
+        no_qualification_details: 'Work in progress',
+        application_form: @original_application_form,
+      )
+      result = duplicate_application_form
+
+      expect(result.efl_completed).to be true
+      expect(result.english_proficiency.present?).to be(true)
+      expect(result.english_proficiency.has_qualification).to be(false)
+      expect(result.english_proficiency.no_qualification).to be(false)
+      expect(result.english_proficiency.degree_taught_in_english).to be(true)
+      expect(result.english_proficiency.qualification_not_needed).to be(true)
+      expect(result.english_proficiency.draft).to be(false)
+      expect(result.english_proficiency.no_qualification_details).to eq('Work in progress')
     end
   end
 
