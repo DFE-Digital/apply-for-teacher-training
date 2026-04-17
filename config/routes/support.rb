@@ -51,6 +51,9 @@ namespace :support_interface, path: '/support' do
     get '/right-to-work-or-study' => 'application_forms/immigration_right_to_work#edit', as: :application_form_edit_immigration_right_to_work
     patch '/right-to-work-or-study' => 'application_forms/immigration_right_to_work#update'
 
+    get '/visa-expiry' => 'application_forms/visa_expiry#edit', as: :application_form_edit_visa_expiry
+    patch '/visa-expiry' => 'application_forms/visa_expiry#update'
+
     get '/immigration-status' => 'application_forms/immigration_status#edit', as: :application_form_edit_immigration_status
     patch '/immigration-status' => 'application_forms/immigration_status#update'
 
@@ -106,6 +109,7 @@ namespace :support_interface, path: '/support' do
 
   resources :application_choices, only: [], path: 'application-choices' do
     resource :course_recommendation, path: 'course-recommendation', only: %i[show], module: :application_choices
+    resource :visa_explanation, path: 'visa-explanation', only: %i[edit update], module: :application_choices
   end
 
   get '/candidates' => 'candidates#index'

@@ -91,6 +91,22 @@ en:
   activemodel:
     errors:
       models:
+        support_interface/application_choices/visa_explanation_form:
+          attributes:
+            visa_explanation:
+              blank: Select which option applies to you
+            visa_explanation_details:
+              blank: Enter details explaining your option
+            audit_comment:
+              blank: You must provide an audit comment
+        support_interface/application_forms/visa_expiry_form:
+          attributes:
+            visa_expired_at:
+              blank_date: Enter a visa expiry date
+              blank_date_fields: Enter the %{fields} when your visa will expire
+              invalid_date: Enter a real visa expiry date, for example 31 5 2026
+            audit_comment:
+              blank: You must provide an audit comment
         support_interface/candidates/bulk_unsubscribe_form:
           attributes:
             email_addresses:

@@ -505,4 +505,49 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       expect(result.text).to include('Recommended courses')
     end
   end
+
+  context 'visa_explanation_row' do
+    before do
+      FeatureFlag.activate('2027_visa_expiry')
+    end
+
+    it 'renders the visa explanation' do
+      application_form = create(:application_form, visa_expired_at: 1.day.from_now)
+      application_choice = create(
+        :application_choice,
+        application_form:,
+        visa_explanation: 'other',
+        visa_explanation_details: 'details',
+      )
+
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.text).to include('Other:')
+      expect(result.text).to include('details')
+    end
+
+    it 'renders none if the candidate does not have one but needs one' do
+      application_form = create(:application_form, visa_expired_at: 1.day.from_now)
+      application_choice = create(
+        :application_choice,
+        application_form:,
+      )
+
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.text).to include('None')
+    end
+
+    it 'does not render row if the visa does not expire soon' do
+      application_form = create(:application_form, visa_expired_at: 2.years.from_now)
+      application_choice = create(
+        :application_choice,
+        application_form:,
+      )
+
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.text).not_to include('Based on your visa expiry date, which of these applies to you?')
+    end
+  end
 end

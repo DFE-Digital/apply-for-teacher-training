@@ -129,5 +129,51 @@ RSpec.describe SupportInterface::PersonalInformationComponent do
         expect(result.css('.govuk-summary-list__key').text).not_to include('Visa or immigration status')
       end
     end
+
+    context 'with visa_expiry_row' do
+      before do
+        FeatureFlag.activate('2027_visa_expiry')
+      end
+
+      let(:application_form) do
+        create(
+          :application_form,
+          visa_expired_at:,
+          immigration_status:,
+        )
+      end
+      let(:visa_expired_at) { 1.day.ago }
+      let(:immigration_status) { 'other' }
+
+      it 'renders the visa_expiry_row' do
+        expect(result.css('.govuk-summary-list__value').text).to include(
+          visa_expired_at.to_fs(:govuk_date),
+        )
+        expect(result.css('a').text).to include('Change visa expiry')
+      end
+
+      context 'when visa_expired_at is null' do
+        let(:visa_expired_at) { nil }
+
+        it 'renders None when visa_expired_at is null but candidate needs one' do
+          expect(result.css('.govuk-summary-list__value').text).to include(
+            'None',
+          )
+          expect(result.css('a').text).to include('Change visa expiry')
+        end
+      end
+
+      context 'when visa_expiry_row should not be shown' do
+        let(:visa_expired_at) { nil }
+        let(:immigration_status) { 'eu_settled' }
+
+        it 'renders None when visa_expired_at is null but candidate needs one' do
+          expect(result.css('.govuk-summary-list__value').text).not_to include(
+            'Visa expiry',
+          )
+          expect(result.css('a').text).not_to include('Change visa expiry')
+        end
+      end
+    end
   end
 end

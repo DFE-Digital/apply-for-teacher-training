@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Editing visa or immigration status, non eu' do
   include DfESignInHelpers
 
+  before do
+    FeatureFlag.deactivate('2027_visa_expiry')
+  end
+
   scenario 'editing the immigration status of a candidate', :with_audited do
     given_i_am_a_support_user
     and_an_application_exists
@@ -91,6 +95,166 @@ RSpec.describe 'Editing visa or immigration status, non eu' do
     and_i_add_an_audit_comment
     and_i_click_save_and_continue
     then_i_see_the_correct_visa_in_the_summary('Refugee status')
+  end
+
+  context 'visa expiry flag on' do
+    before do
+      FeatureFlag.activate('2027_visa_expiry')
+    end
+
+    scenario 'editing the immigration status of a candidate', :with_audited do
+      given_i_am_a_support_user
+      and_an_application_exists
+      and_i_visit_the_application_page
+      and_i_click_change_immigration_status
+
+      when_i_choose_the_visa('Indefinite leave to remain in the UK')
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      then_i_see_the_correct_visa_in_the_summary('Indefinite leave to remain in the UK')
+
+      when_click_change_immigration_status
+      and_i_choose_the_visa('Student visa')
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      when_i_set_a_visa_expiry_date(2.days.from_now)
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      then_i_see_the_correct_visa_expiry(2.days.from_now)
+      then_i_see_the_correct_visa_in_the_summary('Student visa')
+
+      when_click_change_immigration_status
+      and_i_choose_the_visa('Graduate visa')
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      when_i_set_a_visa_expiry_date(2.days.from_now)
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      then_i_see_the_correct_visa_expiry(2.days.from_now)
+      then_i_see_the_correct_visa_in_the_summary('Graduate visa')
+
+      when_click_change_immigration_status
+      and_i_choose_the_visa('Skilled Worker visa')
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      when_i_set_a_visa_expiry_date(2.days.from_now)
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      then_i_see_the_correct_visa_expiry(2.days.from_now)
+      then_i_see_the_correct_visa_in_the_summary('Skilled Worker visa')
+
+      when_click_change_immigration_status
+      and_i_choose_the_visa('Dependent on partner’s or parent’s visa')
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      when_i_set_a_visa_expiry_date(2.days.from_now)
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      then_i_see_the_correct_visa_expiry(2.days.from_now)
+      then_i_see_the_correct_visa_in_the_summary('Dependent on partner’s or parent’s visa')
+
+      when_click_change_immigration_status
+      and_i_choose_the_visa('Family visa')
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      when_i_set_a_visa_expiry_date(2.days.from_now)
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      then_i_see_the_correct_visa_expiry(2.days.from_now)
+      then_i_see_the_correct_visa_in_the_summary('Family visa')
+
+      when_click_change_immigration_status
+      and_i_choose_the_visa('British National (Overseas) visa')
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      when_i_set_a_visa_expiry_date(2.days.from_now)
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      then_i_see_the_correct_visa_expiry(2.days.from_now)
+      then_i_see_the_correct_visa_in_the_summary('British National (Overseas) visa')
+
+      when_click_change_immigration_status
+      and_i_choose_the_visa('UK Ancestry visa')
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      when_i_set_a_visa_expiry_date(2.days.from_now)
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      then_i_see_the_correct_visa_expiry(2.days.from_now)
+      then_i_see_the_correct_visa_in_the_summary('UK Ancestry visa')
+
+      when_click_change_immigration_status
+      and_i_choose_the_visa('High Potential Individual visa')
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      when_i_set_a_visa_expiry_date(2.days.from_now)
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      then_i_see_the_correct_visa_expiry(2.days.from_now)
+      then_i_see_the_correct_visa_in_the_summary('High Potential Individual visa')
+
+      when_click_change_immigration_status
+      and_i_choose_the_visa('Youth Mobility Scheme')
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      when_i_set_a_visa_expiry_date(2.days.from_now)
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      then_i_see_the_correct_visa_expiry(2.days.from_now)
+      then_i_see_the_correct_visa_in_the_summary('Youth Mobility Scheme')
+
+      when_click_change_immigration_status
+      and_i_choose_the_visa('India Young Professionals Scheme visa')
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      when_i_set_a_visa_expiry_date(2.days.from_now)
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      then_i_see_the_correct_visa_expiry(2.days.from_now)
+      then_i_see_the_correct_visa_in_the_summary('India Young Professionals Scheme visa')
+
+      when_click_change_immigration_status
+      and_i_choose_the_visa('Ukraine Family Scheme or Ukraine Sponsorship Scheme visa')
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      when_i_set_a_visa_expiry_date(2.days.from_now)
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      then_i_see_the_correct_visa_expiry(2.days.from_now)
+      then_i_see_the_correct_visa_in_the_summary('Ukraine Family Scheme or Ukraine Sponsorship Scheme visa')
+
+      when_click_change_immigration_status
+      and_i_choose_the_visa('Afghan Citizens Resettlement Scheme (ACRS) or Afghan Relocations and Assistance Policy (ARAP)')
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      when_i_set_a_visa_expiry_date(2.days.from_now)
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      then_i_see_the_correct_visa_expiry(2.days.from_now)
+      then_i_see_the_correct_visa_in_the_summary('Afghan Citizens Resettlement Scheme (ACRS) or Afghan Relocations and Assistance Policy (ARAP)')
+
+      when_click_change_immigration_status
+      and_i_choose_the_visa('Refugee status')
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      when_i_set_a_visa_expiry_date(2.days.from_now)
+      and_i_add_an_audit_comment
+      and_i_click_save_and_continue
+      then_i_see_the_correct_visa_expiry(2.days.from_now)
+      then_i_see_the_correct_visa_in_the_summary('Refugee status')
+    end
+  end
+
+  def when_i_set_a_visa_expiry_date(date)
+    fill_in('Day', with: date.day)
+    fill_in('Month', with: date.month)
+    fill_in('Year', with: date.year)
+  end
+
+  def then_i_see_the_correct_visa_expiry(date)
+    within '.govuk-summary-list__row', text: 'Visa expiry' do
+      expect(page).to have_text(date.to_fs(:govuk_date))
+    end
   end
 
   def given_i_am_a_support_user

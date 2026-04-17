@@ -113,6 +113,8 @@ en:
   page_titles:
     visa_expiry_interruption: Your visa may expire before the course ends
     visa_expiry: Visa expiry
+    edit_applicant_visa_expiry: Edit applicant visa expiry
+    edit_applicant_visa_explanation: Edit applicant visa explanation
     recruitment_performance_report: Recruitment performance report
     provider_recruitment_performance_report: Recruitment performance report %{cycle_year} cycle
     application_submit_interruption: Check before you submit your application

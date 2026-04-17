@@ -29,6 +29,7 @@ module SupportInterface
         domicile_row,
         right_to_work_or_study_row,
         residency_details_row,
+        visa_expiry_row,
       ].compact
     end
 
@@ -118,6 +119,25 @@ module SupportInterface
           visually_hidden_text: I18n.t('support_interface.edit_immigration_status.visa_or_immigration_status_text').downcase,
         },
       )
+    end
+
+    def visa_expiry_row
+      if @application_form.temporary_immigration_status?
+        value = if @application_form.visa_expired_at.present?
+                  @application_form.visa_expired_at.to_fs(:govuk_date)
+                else
+                  'None'
+                end
+
+        {
+          key: t('page_titles.visa_expiry'),
+          value:,
+          action: {
+            href: support_interface_application_form_edit_visa_expiry_path(@application_form),
+            visually_hidden_text: t('page_titles.visa_expiry').downcase,
+          },
+        }
+      end
     end
 
     def date_of_birth_row

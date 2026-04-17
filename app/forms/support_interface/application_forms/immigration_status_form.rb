@@ -26,11 +26,17 @@ module SupportInterface
 
         return false unless valid?
 
-        application_form.update(
+        update_result = application_form.update(
           immigration_status:,
           right_to_work_or_study_details: other_immigration_status? ? right_to_work_or_study_details : nil,
+          visa_expired_at: if application_form.temporary_immigration_status?(immigration_status)
+                             application_form.visa_expired_at
+                           end,
           audit_comment:,
         )
+
+        update_visa_explanation(application_form)
+        update_result
       end
 
       def eu_nationality?
@@ -41,6 +47,14 @@ module SupportInterface
 
       def other_immigration_status?
         immigration_status == 'other'
+      end
+
+      def update_visa_explanation(application_form)
+        if !application_form.temporary_immigration_status?
+          application_form.application_choices.where.not(visa_explanation: nil).each do |choice|
+            choice.update(visa_explanation: nil, visa_explanation_details: nil)
+          end
+        end
       end
     end
   end
