@@ -6,13 +6,22 @@ module CandidateInterface
     include GovukVisuallyHiddenHelper
     include ActionView::Helpers::UrlHelper
 
-    def initialize(personal_details_form:, nationalities_form:, right_to_work_form:, application_form:, editable: true, return_to_application_review: false)
+    def initialize(
+      personal_details_form:,
+      nationalities_form:,
+      right_to_work_form:,
+      application_form:,
+      editable: true,
+      return_to_application_review: false,
+      application_choice: nil
+    )
       @personal_details_form = personal_details_form
       @nationalities_form = nationalities_form
       @right_to_work_or_study_form = right_to_work_form
       @application_form = application_form
       @editable = editable
       @return_to_application_review = return_to_application_review
+      @application_choice = application_choice
     end
 
     def rows
@@ -24,6 +33,7 @@ module CandidateInterface
 
       assembled_rows += right_to_work_rows || []
       assembled_rows << visa_expiry_row if @application_form.temporary_immigration_status?
+      assembled_rows << visa_explanation_row
       assembled_rows.compact
     end
 
@@ -157,16 +167,28 @@ module CandidateInterface
               end
 
       {
-        key: 'Visa expiry',
+        key: I18n.t('page_titles.visa_expiry'),
         value: value,
       }.tap do |row|
         if @application_form.visa_expired_at.present? && @editable && !@application_form.submitted_applications?
           row[:action] =
             {
               href: edit_candidate_interface_visa_expiry_path,
-              visually_hidden_text: 'Change visa expiry',
+              visually_hidden_text: I18n.t('page_titles.visa_expiry').downcase,
             }
         end
+      end
+    end
+
+    def visa_explanation_row
+      if @application_form.temporary_immigration_status? &&
+         @application_choice&.visa_explanation.present? &&
+         @application_choice&.visa_expires_soon?
+
+        {
+          key: I18n.t('visa_expiry_form.visa_explanation_label'),
+          value: VisaExplanationComponent.new(@application_choice).formatted_content,
+        }
       end
     end
 

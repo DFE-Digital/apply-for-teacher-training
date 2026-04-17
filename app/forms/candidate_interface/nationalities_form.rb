@@ -32,6 +32,7 @@ module CandidateInterface
           fifth_nationality: nationalities[4],
           right_to_work_or_study: nil,
           right_to_work_or_study_details: nil,
+          visa_expired_at: nil,
         )
       else
         application_form.update!(
