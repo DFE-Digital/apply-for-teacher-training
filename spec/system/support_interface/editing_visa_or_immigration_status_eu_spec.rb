@@ -135,18 +135,18 @@ def then_i_am_presented_with_the_correct_eu_options
     expect(page).to have_no_text('India Young Professionals Scheme visa')
     expect(page).to have_no_text('Afghan Citizens Resettlement Scheme (ACRS) or Afghan Relocations and Assistance Policy (ARAP)')
   end
+end
 
-  def and_i_click_save_and_continue
-    click_link_or_button 'Save and continue'
-  end
+def and_i_click_save_and_continue
+  click_link_or_button 'Save and continue'
+end
 
-  def when_i_set_a_visa_expiry_date(date)
-    fill_in('Day', with: date.day)
-    fill_in('Month', with: date.month)
-    fill_in('Year', with: date.year)
-  end
+def when_i_set_a_visa_expiry_date(date)
+  fill_in('Day', with: date.day)
+  fill_in('Month', with: date.month)
+  fill_in('Year', with: date.year)
+end
 
-  def and_i_add_an_audit_comment
-    fill_in 'Audit log comment', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
-  end
+def and_i_add_an_audit_comment
+  fill_in 'Audit log comment', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
 end
