@@ -7,6 +7,10 @@ module SupportInterface
       assign_revert_attrs
     end
 
+    def save
+      super && destroy_withdrawal_reasons
+    end
+
   private
 
     attr_reader :application_choice, :zendesk_ticket
@@ -22,6 +26,11 @@ module SupportInterface
           structured_withdrawal_reasons: [],
         )
       end
+    end
+
+    def destroy_withdrawal_reasons
+      @application_choice.withdrawal_reasons.destroy_all
+      true
     end
   end
 end

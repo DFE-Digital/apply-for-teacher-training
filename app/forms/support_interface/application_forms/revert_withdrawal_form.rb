@@ -17,7 +17,6 @@ module SupportInterface
         return false if errors.any?
 
         ActiveRecord::Base.transaction do
-          revert_withdrawal_service.withdrawal_reasons.destroy_all
           revert_withdrawal_service.save
         end
       end

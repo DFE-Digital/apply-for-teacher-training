@@ -443,7 +443,7 @@ You should use an adapted version of the revert rejection service to set the sta
       )
 ```
 
-### Revert a withdrawn offer
+### Revert a provider withdrawn offer
 
 This must be done manually via the console.
 
@@ -454,7 +454,16 @@ choice.update!(status: "awaiting_provider_decision", offer_withdrawal_reason: ni
 
 ### Revert a candidate withdrawn application
 
-If a candidate accidentally withdraws their application, it can be reverted via the Support UI
+If a candidate accidentally withdraws their application, it can be reverted via the Support UI.
+
+Alternatively, you can use the SupportInterface::RevertWithdrawal service.
+
+```ruby
+application_choice = ApplicationChoice.find(id)
+SupportInterface::RevertWithdrawal.new(application_choice:, zendesk_ticket: ZENDESK_URL)
+```
+
+This will revert the application to the `awaiting_provider_decision` status, and delete any associated WithdrawalReason records.
 
 ### Accept offer declined by default
 
