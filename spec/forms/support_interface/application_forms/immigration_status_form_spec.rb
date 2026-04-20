@@ -115,5 +115,38 @@ RSpec.describe SupportInterface::ApplicationForms::ImmigrationStatusForm, type: 
       expect(application_form.immigration_status).to eq('other')
       expect(application_form.right_to_work_or_study_details).to eq('I have settled status')
     end
+
+    context 'when visa expiry flag is on' do
+      before do
+        FeatureFlag.activate('2027_visa_expiry')
+      end
+
+      let(:form_data) do
+        {
+          immigration_status: 'eu_settled',
+          right_to_work_or_study_details: 'I have settled status',
+          audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345',
+        }
+      end
+
+      it 'sets visa_expiry to nil if immigration changes to settled' do
+        application_data = {
+          right_to_work_or_study: 'yes',
+          immigration_status: 'other',
+          visa_expired_at: 1.day.from_now,
+        }
+        application_form = create(:application_form, application_data)
+        application_choice = create(
+          :application_choice,
+          application_form:,
+          visa_explanation: 'other',
+        )
+        form = described_class.new(form_data)
+
+        expect(form.save(application_form)).to be(true)
+        expect(application_form.visa_expired_at).to be_nil
+        expect(application_choice.reload.visa_explanation).to be_nil
+      end
+    end
   end
 end

@@ -27,6 +27,7 @@ module SupportInterface
         register_api_row,
         interviews_row,
         recommendations_row,
+        visa_explanation_row,
       ].compact
     end
 
@@ -177,6 +178,26 @@ module SupportInterface
       end
 
       { key:, value: }
+    end
+
+    def visa_explanation_row
+      if application_choice.visa_expires_soon?
+        value = if application_choice.visa_explanation.present?
+                  render(VisaExplanationComponent.new(@application_choice))
+                else
+                  'None'
+                end
+        {
+          key: t('visa_expiry_form.visa_explanation_label'),
+          value:,
+          action: {
+            href: edit_support_interface_application_choice_visa_explanation_path(
+              application_choice,
+            ),
+            visually_hidden_text: 'visa explanation',
+          },
+        }
+      end
     end
 
     def rejection_reasons_text

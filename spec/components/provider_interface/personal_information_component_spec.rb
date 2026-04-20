@@ -13,8 +13,16 @@ RSpec.describe ProviderInterface::PersonalInformationComponent do
       candidate_id:,
     )
   end
+  let(:application_choice) { build(:application_choice) }
 
-  subject(:result) { render_inline(described_class.new(application_form:)) }
+  subject(:result) {
+    render_inline(
+      described_class.new(
+        application_form:,
+        application_choice:,
+      ),
+    )
+  }
 
   it 'renders component with correct labels' do
     ['First name', 'Last name', 'Date of birth', 'Nationality'].each do |key|
@@ -42,6 +50,45 @@ RSpec.describe ProviderInterface::PersonalInformationComponent do
     expect(result.css('.govuk-summary-list__value').text).to include(candidate_id)
   end
 
+  context 'with visa expiry flag on and candidate is international' do
+    before do
+      FeatureFlag.activate('2027_visa_expiry')
+    end
+
+    let(:application_form) do
+      create(
+        :completed_application_form,
+        support_reference: 'AB123',
+        date_of_birth: Date.new(2000, 1, 1),
+        first_nationality: 'French',
+        visa_expired_at:,
+        immigration_status: 'graduate_visa',
+      )
+    end
+    let(:application_choice) do
+      create(
+        :application_choice,
+        application_form:,
+        visa_explanation: 'other',
+        visa_explanation_details:,
+      )
+    end
+    let(:visa_expired_at) { 1.day.from_now }
+    let(:visa_explanation_details) { 'visa details' }
+
+    it 'renders the visa expiry' do
+      expect(result.css('.govuk-summary-list__value').text).to include(visa_expired_at.to_fs(:govuk_date))
+    end
+
+    it 'renders the visa explanation' do
+      expect(result.css('.govuk-summary-list__value').text).to include('Other:')
+    end
+
+    it 'renders the visa explanation details' do
+      expect(result.css('.govuk-summary-list__value').text).to include(visa_explanation_details)
+    end
+  end
+
   it 'does not render right to work fields if nationality is British or Irish' do
     expect(result.text).not_to include('Has the right to work or study in the UK?')
     expect(result.text).not_to include('Residency details')
@@ -60,7 +107,7 @@ RSpec.describe ProviderInterface::PersonalInformationComponent do
     it 'renders their right to work or study status' do
       ProviderInterface::PersonalInformationComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.each do |key, value|
         application_form.right_to_work_or_study = key
-        result = render_inline(described_class.new(application_form:))
+        result = render_inline(described_class.new(application_form:, application_choice:))
         row_title = result.css('.govuk-summary-list__row')[4].css('dt').text
         row_value = result.css('.govuk-summary-list__row')[4].css('dd').text
         expect(row_title).to include 'Has the right to work or study in the UK?'

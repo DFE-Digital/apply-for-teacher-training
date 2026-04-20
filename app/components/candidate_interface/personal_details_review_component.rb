@@ -1,6 +1,12 @@
 module CandidateInterface
   class PersonalDetailsReviewComponent < ApplicationComponent
-    def initialize(application_form:, editable: true, missing_error: false, return_to_application_review: false)
+    def initialize(
+      application_form:,
+      editable: true,
+      missing_error: false,
+      return_to_application_review: false,
+      application_choice: nil
+    )
       @application_form = application_form
       @personal_details_form = CandidateInterface::PersonalDetailsForm.build_from_application(
         application_form,
@@ -15,6 +21,7 @@ module CandidateInterface
       @editable = editable
       @missing_error = missing_error
       @return_to_application_review = return_to_application_review
+      @application_choice = application_choice
     end
 
     def rows
@@ -25,6 +32,7 @@ module CandidateInterface
         right_to_work_form: @right_to_work_or_study_form,
         return_to_application_review: @return_to_application_review,
         editable: @editable,
+        application_choice: @application_choice,
       ).rows
     end
 

@@ -55,12 +55,23 @@ RSpec.describe SupportInterface::ApplicationForms::ImmigrationRightToWorkForm, t
       let(:right_to_work_or_study) { 'no' }
 
       it 'updates application form and sets right_to_work_or_study_details and immigration_status to nil' do
-        application_form = create(:application_form, immigration_status: 'eu_settled')
+        application_form = create(
+          :application_form,
+          immigration_status: 'eu_settled',
+          visa_expired_at: 1.day.from_now,
+        )
+        application_choice = create(
+          :application_choice,
+          application_form:,
+          visa_explanation: 'other',
+        )
 
         expect(form.save(application_form)).to be(true)
         expect(application_form.right_to_work_or_study).to eq('no')
         expect(application_form.right_to_work_or_study_details).to be_nil
         expect(application_form.immigration_status).to be_nil
+        expect(application_form.visa_expired_at).to be_nil
+        expect(application_choice.reload.visa_explanation).to be_nil
       end
     end
   end

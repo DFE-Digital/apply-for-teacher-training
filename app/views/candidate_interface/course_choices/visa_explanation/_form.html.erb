@@ -3,7 +3,7 @@
 
 <%= f.govuk_radio_buttons_fieldset(
   :visa_explanation,
-  legend: { text: 'Based on your visa expiry date, which of these applies to you?', tag: 'h1', size: 'l' },
+  legend: { text: t('visa_expiry_form.visa_explanation_label'), tag: 'h1', size: 'l' },
 ) do %>
   <%= f.govuk_radio_button(
     :visa_explanation,

@@ -95,7 +95,12 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
       end
 
       it 'updates the provided ApplicationForms nationalities and resets the right to work fields to nil' do
-        application_form = build(:application_form, right_to_work_or_study: 'yes', right_to_work_or_study_details: 'I have a visa.')
+        application_form = build(
+          :application_form,
+          right_to_work_or_study: 'yes',
+          right_to_work_or_study_details: 'I have a visa.',
+          visa_expired_at: 1.day.from_now,
+        )
         nationalities = described_class.new(form_data)
 
         expect(nationalities.save(application_form)).to be(true)
@@ -106,6 +111,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
         expect(application_form.fifth_nationality).to eq 'Swedish'
         expect(application_form.right_to_work_or_study).to be_nil
         expect(application_form.right_to_work_or_study_details).to be_nil
+        expect(application_form.visa_expired_at).to be_nil
       end
     end
 

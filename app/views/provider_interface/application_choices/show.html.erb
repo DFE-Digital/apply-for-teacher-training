@@ -52,7 +52,10 @@
   </div>
 </section>
 
-<%= render ProviderInterface::PersonalInformationComponent.new(application_form: @application_choice.application_form) %>
+<%= render ProviderInterface::PersonalInformationComponent.new(
+  application_form: @application_choice.application_form,
+  application_choice: @application_choice,
+) %>
 
 <%= render ProviderInterface::ContactInformationComponent.new(application_form: @application_choice.application_form) %>
 

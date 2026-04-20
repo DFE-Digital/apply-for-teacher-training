@@ -11,7 +11,11 @@ module SupportInterface
         @immigration_status_form = ImmigrationStatusForm.new(immigration_status_params.merge(nationalities: @application_form.nationalities))
 
         if @immigration_status_form.save(@application_form)
-          redirect_to support_interface_application_form_path(@application_form)
+          if @application_form.temporary_immigration_status?
+            redirect_to support_interface_application_form_edit_visa_expiry_path(@application_form)
+          else
+            redirect_to support_interface_application_form_path(@application_form)
+          end
         else
           render :edit
         end

@@ -31,7 +31,7 @@ module SupportInterface
         nationalities = candidates_nationalities
 
         if british.present? || irish.present?
-          application_form.update!(
+          update_result = application_form.update!(
             first_nationality: nationalities[0],
             second_nationality: nationalities[1],
             third_nationality: nationalities[2],
@@ -39,8 +39,12 @@ module SupportInterface
             fifth_nationality: nationalities[4],
             right_to_work_or_study: nil,
             right_to_work_or_study_details: nil,
+            visa_expired_at: nil,
             audit_comment:,
           )
+          update_visa_explanation(application_form)
+
+          update_result
         else
           application_form.update!(
             first_nationality: nationalities[0],
@@ -65,6 +69,14 @@ module SupportInterface
           # 'nationalities' needs to be set in order for govuk form builder to be able to display this error
           self.nationalities = ['other', british, irish].compact
           errors.add(:other_nationality1, :blank)
+        end
+      end
+
+      def update_visa_explanation(application_form)
+        if british.present? || irish.present?
+          application_form.application_choices.where.not(visa_explanation: nil).each do |choice|
+            choice.update(visa_explanation: nil, visa_explanation_details: nil)
+          end
         end
       end
     end

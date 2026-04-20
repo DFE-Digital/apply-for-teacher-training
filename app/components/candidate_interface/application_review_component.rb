@@ -163,7 +163,7 @@ module CandidateInterface
       return unless application_choice.visa_expires_soon?
 
       {
-        key: 'Based on your visa expiry date, which of these applies to you?',
+        key: t('visa_expiry_form.visa_explanation_label'),
       }.tap do |row|
         if application_choice.visa_explanation.nil?
           row[:value] = govuk_link_to(
@@ -174,9 +174,7 @@ module CandidateInterface
             ),
           )
         else
-          row[:value] = render(
-            CandidateInterface::VisaExplanationComponent.new(@application_choice),
-          )
+          row[:value] = render(VisaExplanationComponent.new(@application_choice))
 
           if unsubmitted?
             row[:action] = {

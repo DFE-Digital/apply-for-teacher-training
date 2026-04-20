@@ -19,12 +19,16 @@ module SupportInterface
       def save(application_form)
         return false unless valid?
 
-        application_form.update(
+        update_result = application_form.update(
           right_to_work_or_study:,
           right_to_work_or_study_details: set_right_to_work_or_study_details,
           immigration_status: immigration_status_value(application_form),
+          visa_expired_at: right_to_work_or_study? ? application_form.visa_expired_at : nil,
           audit_comment:,
         )
+        update_visa_explanation(application_form)
+
+        update_result
       end
 
     private
@@ -39,6 +43,14 @@ module SupportInterface
 
       def immigration_status_value(application_form)
         right_to_work_or_study? ? application_form.immigration_status : nil
+      end
+
+      def update_visa_explanation(application_form)
+        if !right_to_work_or_study?
+          application_form.application_choices.where.not(visa_explanation: nil).each do |choice|
+            choice.update(visa_explanation: nil, visa_explanation_details: nil)
+          end
+        end
       end
     end
   end
