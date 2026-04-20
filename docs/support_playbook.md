@@ -460,7 +460,7 @@ Alternatively, you can use the SupportInterface::RevertWithdrawal service.
 
 ```ruby
 application_choice = ApplicationChoice.find(id)
-SupportInterface::RevertWithdrawal.new(application_choice:, zendesk_ticket: ZENDESK_URL)
+SupportInterface::RevertWithdrawal.new(application_choice:, zendesk_ticket: ZENDESK_URL).save
 ```
 
 This will revert the application to the `awaiting_provider_decision` status, and delete any associated WithdrawalReason records.
