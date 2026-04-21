@@ -522,7 +522,12 @@ class ApplicationForm < ApplicationRecord
 
     if self[:english_main_language].nil?
       return true if british_or_irish?
-      return true if english_proficiency&.qualification_not_needed?
+
+      if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
+        return published_english_proficiency&.qualification_not_needed
+      elsif english_proficiency&.qualification_not_needed?
+        return true
+      end
 
       false
     else
@@ -530,12 +535,21 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
+  def reset_form
+    application_choices.destroy_all
+    update(submitted_at: nil)
+  end
+
   def english_language_details
     self[:english_language_details].presence || english_proficiency&.formatted_qualification_description
   end
 
   def english_language_qualification_details
-    english_proficiency&.formatted_qualification_description.presence || self[:english_language_details]
+    if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
+      published_english_proficiency&.formatted_qualification_description.presence || self[:english_language_details]
+    else
+      english_proficiency&.formatted_qualification_description.presence || self[:english_language_details]
+    end
   end
 
   def selected_enough_references?
