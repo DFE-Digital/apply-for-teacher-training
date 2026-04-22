@@ -43,6 +43,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
                   name: 'Geography',
                   code: 'H234',
                   recruitment_cycle_year: 2020,
+                  start_date: Date.new(2020, 1, 1),
                   accredited_provider: nil,
                   qualifications: %w[qts pgce],
                   funding_type: 'fee',
@@ -55,6 +56,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
                   name: 'Geography',
                   code: 'H234',
                   recruitment_cycle_year: 2020,
+                  start_date: Date.new(2020, 2, 1),
                   accredited_provider: nil,
                   qualifications: %w[qts pgce],
                   funding_type: 'fee')
@@ -89,11 +91,12 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
   def row_text_selector(row_name, render)
     rows = { provider: 0,
              course: 1,
-             full_or_part_time: 2,
-             location: 3,
-             accredited_body: 4,
-             qualification: 5,
-             funding_type: 6 }
+             start_date: 2,
+             full_or_part_time: 3,
+             location: 4,
+             accredited_body: 5,
+             qualification: 6,
+             funding_type: 7 }
 
     render.css('.govuk-summary-list__row')[rows[row_name]].text
   end
@@ -134,6 +137,13 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
       expect(render_text).to include('Geography (H234)')
       expect(render_text).to include('Change')
     end
+
+    it 'renders the course start date' do
+      render_text = row_text_selector(:start_date, render)
+
+      expect(render_text).to include('Date course starts')
+      expect(render_text).to include('January 2020')
+    end
   end
 
   context 'when only one course' do
@@ -143,6 +153,13 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
       expect(render_text).to include('Course')
       expect(render_text).to include('Geography (H234)')
       expect(render_text).not_to include('Change')
+    end
+
+    it 'renders the course start date' do
+      render_text = row_text_selector(:start_date, render)
+
+      expect(render_text).to include('Date course starts')
+      expect(render_text).to include('January 2020')
     end
   end
 

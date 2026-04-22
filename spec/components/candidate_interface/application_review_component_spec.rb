@@ -84,6 +84,12 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
     end
   end
 
+  shared_examples_for 'course start date row' do
+    it 'shows the course start date' do
+      expect(result.text).to include("Date course starts#{course.start_date.to_fs(:month_and_year)}")
+    end
+  end
+
   subject(:result) do
     render_inline(component)
   end
@@ -111,6 +117,7 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
 
     it_behaves_like 'course length row'
     it_behaves_like 'course fee row'
+    it_behaves_like 'course start date row'
 
     it 'shows change course link' do
       expect(links).to include("Change course for #{application_choice.current_course.name_and_code}")
@@ -181,6 +188,7 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
 
   context 'when application is submitted (awaiting_provider_decision)' do
     it_behaves_like 'course length row'
+    it_behaves_like 'course start date row'
 
     it 'shows the application status' do
       expect(result.text).to include('StatusAwaiting decision')

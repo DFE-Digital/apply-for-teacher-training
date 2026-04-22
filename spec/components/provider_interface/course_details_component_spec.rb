@@ -56,6 +56,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
            code: 'H234',
            recruitment_cycle_year: 2020,
            accredited_provider: nil,
+           start_date: Date.new(2020, 1, 1),
            qualifications: %w[qts pgce],
            funding_type: 'fee',
            provider:)
@@ -68,6 +69,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
            recruitment_cycle_year: 2020,
            provider: accredited_provider,
            accredited_provider:,
+           start_date: Date.new(2020, 1, 1),
            qualifications: ['qts'],
            funding_type: 'fee')
   end
@@ -102,11 +104,12 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
     rows = { provider: 0,
              course: 1,
              cycle: 2,
-             full_or_part_time: 3,
-             location: 4,
-             accredited_body: 5,
-             qualification: 6,
-             funding_type: 7 }
+             start_date: 3,
+             full_or_part_time: 4,
+             location: 5,
+             accredited_body: 6,
+             qualification: 7,
+             funding_type: 8 }
 
     render.css('.govuk-summary-list__row')[rows[row_name]].text
   end
@@ -143,6 +146,13 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
 
     expect(render_text).to include('Course')
     expect(render_text).to include('Geography (H234)')
+  end
+
+  it 'renders the course start date' do
+    render_text = row_text_selector(:start_date, render)
+
+    expect(render_text).to include('Date course starts')
+    expect(render_text).to include('January 2020')
   end
 
   it 'renders the recruitment cycle year' do

@@ -28,6 +28,17 @@ RSpec.describe SupportInterface::CourseOptionDetailsComponent do
     end
   end
 
+  describe 'Course start date' do
+    it 'renders the course start date' do
+      @application_choice = build_stubbed(:application_choice)
+      @course_option = @application_choice.course_option
+      @course = @course_option.course
+
+      expect(render_component.css('.govuk-summary-list__key').text).to include('Date course starts')
+      expect(render_component.css('.govuk-summary-list__value').text).to include(@course.start_date.to_fs(:month_and_year))
+    end
+  end
+
   describe 'Location' do
     context 'when it is the applications original course option and the location is auto selected' do
       it 'renders auto selected Location' do
