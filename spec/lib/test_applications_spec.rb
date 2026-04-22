@@ -12,7 +12,7 @@ RSpec.describe TestApplications do
     end
 
     it 'creates a test application' do
-      expect { create_application }.to change{ ApplicationForm.count }.by(1)
+      expect { create_application }.to change { ApplicationForm.count }.by(1)
       application_form = ApplicationForm.last
       application_choice = application_form.application_choices.first
       expect(application_choice.course).to eq(courses_to_apply_to.last)
@@ -33,7 +33,7 @@ RSpec.describe TestApplications do
       let(:states) { %i[awaiting_provider_decision awaiting_provider_decision] }
 
       it 'creates an international application' do
-        expect { create_application }.to change{ ApplicationChoice.count }.by(2)
+        expect { create_application }.to change { ApplicationChoice.count }.by(2)
         application_form = ApplicationForm.last
         expect(application_form.english_proficiency.present?).to be(true)
         expect(application_form.first_nationality).to eq('American')
@@ -47,9 +47,9 @@ RSpec.describe TestApplications do
 
       context 'when 2027_visa_expiry feature flag is on', feature_flag: '2027_visa_expiry' do
         it 'assigns visa expiry details to the application' do
-          expect { create_application }.to change{ ApplicationChoice.count }.by(2)
+          expect { create_application }.to change { ApplicationChoice.count }.by(2)
           application_form = ApplicationForm.last
-          expect(application_form.visa_expired_at).to eq(2.years.from_now)
+          expect(application_form.visa_expired_at.to_date).to eq(2.years.from_now.to_date)
 
           application_choices = application_form.application_choices
           expect(application_choices.pluck(:visa_explanation).uniq).to contain_exactly('expires_after_course')

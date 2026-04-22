@@ -339,6 +339,9 @@ private
   end
 
   def accept_offer(choice, incomplete_references)
+    application_form = choice.application_form
+    return if application_form.any_offer_accepted? || application_form.application_choices.exists?(status: 'withdrawn')
+
     fast_forward
     AcceptOffer.new(application_choice: choice).save!
     @application_form.reload
@@ -379,6 +382,9 @@ private
   end
 
   def make_offer(choice, conditions: ['Complete DBS'])
+    application_form = choice.application_form
+    return if application_form.any_offer_accepted? || application_form.application_choices.exists?(status: 'withdrawn')
+
     as_provider_user(choice) do
       fast_forward
       update_conditions_service = SaveOfferConditionsFromText.new(application_choice: choice, conditions:)
@@ -455,6 +461,9 @@ private
   end
 
   def defer_offer(choice)
+    application_form = choice.application_form
+    return if application_form.any_offer_accepted? || application_form.application_choices.exists?(status: 'withdrawn')
+
     as_provider_user(choice) do
       fast_forward
       confirm_offer_conditions(choice) if rand > 0.5 # 'recruited' can also be deferred
