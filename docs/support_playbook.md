@@ -21,6 +21,7 @@
 19. [Generating Vendor API tokens](#generating-vendor-api-tokens)
 20. [Change application choices to main site](#changing-application-choices-to-main-site)
 21. [Previous teacher training](#previous-teacher-training)
+22. [Create DuplicateMatch](#create-duplicatematch)
 
 ## Support Trello board
 
@@ -965,4 +966,26 @@ details = DETAILS # up to 200 words
 audit_comment = 'ZENDESK_URL'
 
 PreviousTeacherTraining.create(application_form_id:, provider_id:, status: 'published', started: 'yes', provider_name:, started_at:, ended_at:, details:, audit_comment:)
+```
+
+## Create DuplicateMatch
+
+Sometimes our duplicate `UpdateDuplicateMatchesWorker` will not pick up some candidates, especially if they had an application_form in a previous_cycle. Their ApplicationForm#previous_application_form_id is present.
+
+In cases like this we can manually create a DuplicateMatch which will be displayed in the support console and support users can deal with.
+
+You'll have to make sure that the candidate has a duplicated account, we generally match on last_name, date_of_birth and postcode.
+
+Check the Duplicate candidate matches view in support after running this.
+```ruby
+# Get the candidates that are duplicated
+candidates = Candidate.where(id: [duplicated_ids])
+
+DuplicateMatch.create!(
+  recruitment_cycle_year: current_cycle,
+  last_name:,
+  postcode:,
+  date_of_birth:,
+  candidates:,
+)
 ```
