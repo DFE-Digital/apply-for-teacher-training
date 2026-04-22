@@ -976,6 +976,7 @@ In cases like this we can manually create a DuplicateMatch which will be display
 
 You'll have to make sure that the candidate has a duplicated account, we generally match on last_name, date_of_birth and postcode.
 
+Check the Duplicate candidate matches view in support after running this.
 ```ruby
 # Get the candidates that are duplicated
 candidates = Candidate.where(id: [duplicated_ids])
