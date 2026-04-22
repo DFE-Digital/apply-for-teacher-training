@@ -8,7 +8,7 @@
 
     <h2 class="govuk-heading-m"><%= @current_timetable.cycle_range_name %> recruitment cycle</h2>
 
-    <% unless @performance_reports && RecruitmentPerformanceReportTimetable.report_season? %>
+    <% unless RecruitmentPerformanceReportTimetable.report_season? %>
       <%= t(
         '.available_in_the_future_html',
         current_cycle_range: @current_timetable.cycle_range_name,
