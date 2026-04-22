@@ -5,6 +5,7 @@ module ProviderInterface
         { key: 'Training provider', value: provider_name },
         { key: 'Course', value: course_name_and_code },
         { key: 'Cycle', value: cycle },
+        { key: 'Date course starts', value: course.start_date.to_fs(:month_and_year) },
         { key: 'Full time or part time', value: study_mode },
         { key: location_key, value: preferred_location },
         { key: 'Accredited body', value: accredited_body },

@@ -16,6 +16,7 @@ module SupportInterface
         { key: 'Course', value: render(SupportInterface::CourseNameAndStatusComponent.new(course_option:)) },
         { key: 'Course type', value: course_option.course.course_type.capitalize },
         { key: 'Cycle', value: course_option.course.recruitment_cycle_year },
+        { key: 'Date course starts', value: course_option.course.start_date.to_fs(:month_and_year) },
         { key: 'Full time or part time', value: course_option.study_mode.humanize },
         { key: location_key, value: course_option.site.name_and_code },
       ]
