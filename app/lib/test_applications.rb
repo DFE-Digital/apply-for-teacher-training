@@ -459,7 +459,7 @@ private
   end
 
   def defer_offer(choice)
-    return if unable_to_change_state(choice)
+    return if choice.application_form.application_choices.exists?(status: 'withdrawn')
 
     as_provider_user(choice) do
       fast_forward
