@@ -626,7 +626,6 @@ private
     if FeatureFlag.active?('2027_visa_expiry')
       application_form.application_choices.update_all(
         visa_explanation: 'expires_after_course',
-        visa_explanation_details: Faker::Lorem.paragraph(sentence_count: 10),
       )
     end
 

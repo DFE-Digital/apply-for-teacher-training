@@ -53,7 +53,6 @@ RSpec.describe TestApplications do
 
           application_choices = application_form.application_choices
           expect(application_choices.pluck(:visa_explanation).uniq).to contain_exactly('expires_after_course')
-          expect(application_choices.map { |ac| ac.visa_explanation_details.present? }.uniq).to contain_exactly(true)
         end
       end
     end
