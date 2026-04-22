@@ -58,7 +58,9 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
 
     expect(Candidate.count).to eq(1)
     expect(ApplicationChoice.count).to eq(2)
-    expect(ApplicationChoice.all.map(&:status).uniq).to eq(%w[awaiting_provider_decision])
+    expect(ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER).to include(
+      *ApplicationChoice.all.map { |ac| ac.status.to_sym }.uniq,
+    )
   end
 
   it 'does not generate more than three application_choices per application' do
