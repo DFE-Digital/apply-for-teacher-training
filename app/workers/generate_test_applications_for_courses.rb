@@ -35,8 +35,12 @@ private
     elsif previous_cycle
       states_for_previous_cycle(courses_per_application)
     else
-      [:awaiting_provider_decision] * courses_per_application
+      [states_for_this_cycle.sample] * courses_per_application
     end
+  end
+
+  def states_for_this_cycle
+    ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER - [:inactive]
   end
 
   def states_for_next_cycle

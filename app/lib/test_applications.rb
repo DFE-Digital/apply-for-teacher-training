@@ -161,7 +161,7 @@ private
 
       fast_forward
 
-      application_choices = courses.map do |course|
+      courses.each_with_index do |course, i|
         FactoryBot.create(
           :application_choice,
           status: 'unsubmitted',
@@ -170,12 +170,19 @@ private
           created_at: time,
           updated_at: time,
         )
+
+        if @application_form.efl_completed ||
+           ((course.can_sponsor_skilled_worker_visa || course.can_sponsor_student_visa) && i.even?)
+          internationalize_application(@application_form)
+        end
       end
+
+      application_choices = @application_form.application_choices
 
       if states == [:cancelled]
         # The cancelled state doesn't exist anymore in the current system,
         # so we have to set this manually.
-        @application_form.application_choices.each do |application_choice|
+        application_choices.each do |application_choice|
           application_choice.update!(
             status: 'cancelled',
           )
@@ -585,5 +592,47 @@ private
         created_at: time,
       )
     end
+  end
+
+  def internationalize_application(application_form)
+    unless application_form.efl_completed
+      application_form.update!(
+        first_nationality: 'American',
+        second_nationality: nil,
+        address_type: :international,
+        country: Faker::Address.country_code,
+        right_to_work_or_study: 'yes',
+        immigration_status: 'student_visa',
+        region_code: 'rest_of_the_world',
+        efl_completed_at: Time.zone.now,
+        efl_completed: true,
+        visa_expired_at: if FeatureFlag.active?('2027_visa_expiry')
+                           2.years.from_now
+                         end,
+      )
+    end
+
+    if FeatureFlag.active?('2027_visa_expiry')
+      application_form.application_choices.update_all(
+        visa_explanation: 'expires_after_course',
+        visa_explanation_details: Faker::Lorem.paragraph(sentence_count: 10),
+      )
+    end
+
+    return if application_form.english_proficiency.present?
+
+    qualification_status = EnglishProficiency.qualification_statuses.values.sample
+    EnglishProficiency.create!(
+      application_form:,
+      qualification_status:,
+      qualification_status.to_s => true,
+      draft: false,
+      no_qualification_details: if %w[no_qualification degree_taught_in_english].include?(qualification_status.to_s.downcase)
+                                  Faker::Lorem.paragraph(sentence_count: 10)
+                                end,
+      efl_qualification: if qualification_status == 'has_qualification'
+                           FactoryBot.build(:ielts_qualification)
+                         end,
+    )
   end
 end
