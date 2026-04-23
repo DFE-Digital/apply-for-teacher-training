@@ -19,6 +19,6 @@ module VendorAPI::ApplicationPresenter::EnglishAsAForeignLanguageCandidateRespon
   end
 
   def obtaining_english_language_qualification_details
-    published_english_proficiency.no_qualification_details
+    published_english_proficiency&.no_qualification_details
   end
 end
