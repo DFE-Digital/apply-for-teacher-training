@@ -10,15 +10,15 @@ module VendorAPI::ApplicationPresenter::EnglishAsAForeignLanguageCandidateRespon
     })
   end
 
-  def published_english_proficiency
-    @published_english_proficiency ||= application_form&.published_english_proficiency
+  def english_proficiency
+    @english_proficiency ||= application_form&.english_proficiency
   end
 
   def will_obtain_english_language_qualifications
-    published_english_proficiency&.no_qualification_details.present?
+    english_proficiency&.no_qualification_details.present?
   end
 
   def obtaining_english_language_qualification_details
-    published_english_proficiency&.no_qualification_details
+    english_proficiency&.no_qualification_details
   end
 end

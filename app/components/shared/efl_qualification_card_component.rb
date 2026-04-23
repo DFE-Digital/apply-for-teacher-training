@@ -22,11 +22,7 @@ class EflQualificationCardComponent < ApplicationComponent
   end
 
   def english_proficiency
-    @english_proficiency ||= if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
-                               application_form.published_english_proficiency
-                             else
-                               application_form.english_proficiency
-                             end
+    @english_proficiency ||= application_form.english_proficiency
   end
 
   def efl_qualification

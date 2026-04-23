@@ -845,7 +845,7 @@ RSpec.describe ApplicationForm do
   describe '#english_language_qualification_details' do
     let(:application_form) { build(:application_form, english_main_language: nil) }
 
-    context 'when published_english_proficiency is present' do
+    context 'when english_proficiency is present' do
       it 'returns formatted response from english proficiency record' do
         create(
           :english_proficiency,
