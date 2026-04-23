@@ -803,6 +803,10 @@ RSpec.describe ApplicationForm do
     context 'database value is nil' do
       let(:application_form) { build(:application_form, english_main_language: nil) }
 
+      before do
+        FeatureFlag.deactivate('2027_application_form_has_many_english_proficiencies')
+      end
+
       it 'returns false by default' do
         expect(application_form.english_main_language).to be false
       end
