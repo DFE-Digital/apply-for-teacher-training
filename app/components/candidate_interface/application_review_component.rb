@@ -22,6 +22,7 @@ module CandidateInterface
         course_fee_row(application_choice, current_course),
         qualifications_row,
         course_length_row,
+        start_date_row,
         study_mode_row,
         location_row,
         personal_statement_row,
@@ -79,6 +80,13 @@ module CandidateInterface
       {
         key: 'Course length',
         value: DisplayCourseLength.call(course_length: current_course.course_length),
+      }
+    end
+
+    def start_date_row
+      {
+        key: 'Date course starts',
+        value: current_course.start_date.to_fs(:month_and_year),
       }
     end
 

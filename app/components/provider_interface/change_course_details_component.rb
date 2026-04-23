@@ -45,6 +45,10 @@ module ProviderInterface
           },
         },
         {
+          key: 'Date course starts',
+          value: course.start_date.to_fs(:month_and_year),
+        },
+        {
           key: 'Full time or part time',
           value: study_mode,
           action: {
