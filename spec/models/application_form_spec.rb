@@ -803,10 +803,6 @@ RSpec.describe ApplicationForm do
     context 'database value is nil' do
       let(:application_form) { build(:application_form, english_main_language: nil) }
 
-      before do
-        FeatureFlag.deactivate('2027_application_form_has_many_english_proficiencies')
-      end
-
       it 'returns false by default' do
         expect(application_form.english_main_language).to be false
       end
@@ -829,48 +825,6 @@ RSpec.describe ApplicationForm do
       end
     end
 
-    context 'when english_proficiency flag is on' do
-      let(:application_form) { build(:application_form, english_main_language: nil) }
-
-      before do
-        FeatureFlag.activate('2027_application_form_has_many_english_proficiencies')
-      end
-
-      context 'when british_or_irish? is true' do
-        it 'returns true' do
-          application_form.first_nationality = 'British'
-
-          expect(application_form.english_main_language).to be true
-        end
-      end
-
-      context 'when the english_proficiency record declares that a qualification is not needed' do
-        it 'returns true' do
-          create(
-            :english_proficiency,
-            :qualification_not_needed,
-            draft: false,
-            application_form:,
-          )
-
-          expect(application_form.english_main_language).to be true
-        end
-      end
-
-      context 'when the english_proficiency record does not declare that a qualification is not needed' do
-        it 'returns false' do
-          create(
-            :english_proficiency,
-            :no_qualification,
-            draft: false,
-            application_form:,
-          )
-
-          expect(application_form.english_main_language).to be false
-        end
-      end
-    end
-
     context 'database value is true' do
       let(:application_form) { build(:application_form, english_main_language: true) }
 
@@ -889,64 +843,29 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#english_language_qualification_details' do
-    context 'when english_proficiency flag is on' do
-      let(:application_form) { build(:application_form, english_main_language: nil) }
+    let(:application_form) { build(:application_form, english_main_language: nil) }
 
-      before do
-        FeatureFlag.activate('2027_application_form_has_many_english_proficiencies')
-      end
+    context 'when published_english_proficiency is present' do
+      it 'returns formatted response from english proficiency record' do
+        create(
+          :english_proficiency,
+          :with_ielts_qualification,
+          application_form:,
+        )
 
-      context 'when published_english_proficiency is present' do
-        it 'returns formatted response from published record' do
-          create(
-            :english_proficiency,
-            :with_ielts_qualification,
-            draft: false,
-            application_form:,
-          )
-
-          expect(application_form.english_language_qualification_details).to eq(
-            'Name: IELTS, Grade: 6.5, Awarded: 1999, Reference: 123456',
-          )
-        end
-      end
-
-      context 'when legacy english_language_details is present' do
-        it 'returns formatted response from legacy column' do
-          application_form[:english_language_details] = 'test'
-
-          expect(application_form.english_language_qualification_details).to eq(
-            'test',
-          )
-        end
+        expect(application_form.english_language_qualification_details).to eq(
+          'Name: IELTS, Grade: 6.5, Awarded: 1999, Reference: 123456',
+        )
       end
     end
 
-    context 'when english_proficiency flag is off' do
-      let(:application_form) { build(:application_form, english_main_language: nil) }
+    context 'when legacy english_language_details is present' do
+      it 'returns formatted response from legacy column' do
+        application_form[:english_language_details] = 'test'
 
-      context 'when published_english_proficiency is present' do
-        it 'returns formatted response from english proficiency record' do
-          create(
-            :english_proficiency,
-            :with_ielts_qualification,
-            application_form:,
-          )
-
-          expect(application_form.english_language_qualification_details).to eq(
-            'Name: IELTS, Grade: 6.5, Awarded: 1999, Reference: 123456',
-          )
-        end
-      end
-
-      context 'when legacy english_language_details is present' do
-        it 'returns formatted response from legacy column' do
-          application_form[:english_language_details] = 'test'
-
-          expect(application_form.english_language_qualification_details).to eq(
-            'test',
-          )
-        end
+        expect(application_form.english_language_qualification_details).to eq(
+          'test',
+        )
       end
     end
   end
