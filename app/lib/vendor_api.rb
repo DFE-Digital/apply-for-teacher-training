@@ -9,7 +9,9 @@ module VendorAPI
   VERSION_1_5 = '1.5'.freeze
   VERSION_1_6 = '1.6'.freeze
   VERSION_1_7 = '1.7'.freeze
-  VERSION = VERSION_1_7
+  VERSION_1_8 = '1.8pre'.freeze # the pre suffix should make v1.8 available to dev envs and sandbox only
+
+  VERSION = '1.8'.freeze
 
   VERSIONS = {
     '1.0' => [
@@ -73,6 +75,9 @@ module VendorAPI
     ],
     '1.7' => [
       Changes::V17::AddPossibleUndeclaredPreviousTeacherTrainingUrl,
+    ],
+    '1.8pre' => [
+      Changes::V18::EnglishAsAForeignLanguageCandidateResponse,
     ],
   }.freeze
 end

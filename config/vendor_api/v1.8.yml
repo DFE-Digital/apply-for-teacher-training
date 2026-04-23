@@ -1,0 +1,32 @@
+---
+openapi: 3.0.0
+info:
+  version: v1.8
+  title: Apply API
+  contact:
+    name: DfE
+    email: becomingateacher@digital.education.gov.uk
+  description: |
+    API for DfE’s Apply for teacher training service.
+    Endpoints with the `/applications` prefix are considered stable.
+    Experimental endpoints prefixed with `/test-data` may change or be removed.
+servers:
+- description: Sandbox (test environment for vendors)
+  url: https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.8
+- description: Production
+  url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.8
+components:
+  schemas:
+    Candidate:
+      properties:
+        will_obtain_english_language_qualifications:
+          type: boolean
+          description: The candidate’s intension to gain english language qualification
+          example: true
+        obtaining_english_language_qualification_details:
+          type: string
+          description: If the candidate intends to gain this qualification they can explain their intension
+          example: "I will gain it next year"
+      required:
+        - will_obtain_english_language_qualifications
+        - obtaining_english_language_qualification_details
