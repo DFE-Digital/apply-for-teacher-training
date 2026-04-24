@@ -260,9 +260,6 @@ namespace :support_interface, path: '/support' do
       post '/recruitment-cycle-timetable/:recruitment_cycle_year', to: 'recruitment_cycle_timetables#update', as: :update_recruitment_cycle_timetable
     end
 
-    get '/notify-template', to: 'settings#notify_template', as: :notify_template
-    post '/send-notify-template', to: 'settings#send_notify_template', as: :send_notify_template
-
     get '/service-banners' => 'settings#service_banners', as: :service_banners
     get '/service-banners/configuration' => 'show_service_banner#edit', as: :edit_show_service_banner
     patch '/service-banners/configuration/' => 'show_service_banner#update', as: :update_show_service_banner
