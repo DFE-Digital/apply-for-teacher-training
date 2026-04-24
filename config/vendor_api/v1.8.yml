@@ -21,11 +21,11 @@ components:
       properties:
         will_obtain_english_language_qualifications:
           type: boolean
-          description: The candidate’s intension to gain english language qualification
+          description: The candidate’s intention to gain english language qualification
           example: true
         obtaining_english_language_qualification_details:
           type: string
-          description: If the candidate intends to gain this qualification they can explain their intension
+          description: If the candidate intends to gain this qualification they can explain their intention
           example: "I will gain it next year"
       required:
         - will_obtain_english_language_qualifications
