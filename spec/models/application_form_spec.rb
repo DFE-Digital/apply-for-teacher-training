@@ -842,6 +842,34 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#english_language_qualification_details' do
+    let(:application_form) { build(:application_form, english_main_language: nil) }
+
+    context 'when english_proficiency is present' do
+      it 'returns formatted response from english proficiency record' do
+        create(
+          :english_proficiency,
+          :with_ielts_qualification,
+          application_form:,
+        )
+
+        expect(application_form.english_language_qualification_details).to eq(
+          'Name: IELTS, Grade: 6.5, Awarded: 1999, Reference: 123456',
+        )
+      end
+    end
+
+    context 'when legacy english_language_details is present' do
+      it 'returns formatted response from legacy column' do
+        application_form[:english_language_details] = 'test'
+
+        expect(application_form.english_language_qualification_details).to eq(
+          'test',
+        )
+      end
+    end
+  end
+
   describe '#international_applicant?' do
     let(:application_with_english_speaking_nationality) do
       build_stubbed(:application_form, first_nationality: 'British', second_nationality: 'French')

@@ -10,7 +10,7 @@
 <ol class="app-contents-list__list">
   <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'API Versions', '#versions', class: 'app-contents-list__link' %></li>
   <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Testing draft changes', '#testing-draft', class: 'app-contents-list__link' %></li>
-  <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Version 1.7 changes', '#changes', class: 'app-contents-list__link' %></li>
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Version 1.8 changes', '#changes', class: 'app-contents-list__link' %></li>
   <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Developing on the API', '#developing', class: 'app-contents-list__link' %></li>
   <li class="app-contents-list__list-item app-contents-list__list-item--parent">
     <%= govuk_link_to 'Endpoints', '#endpoints', class: 'app-contents-list__link' %>
@@ -52,37 +52,48 @@
   <li>using the correct version of the API</li>
 </ul>
 
-<h3 class="govuk-heading-l" id="testing-draft">Testing draft version 1.7</h3>
+<h3 class="govuk-heading-l" id="testing-draft">Testing draft version 1.8</h3>
 
 <p class="govuk-body">
   When an API version is in draft, you can test it using our sandbox test environment.
 </p>
 
 <p class="govuk-body">
-  You can test draft version <code>1.7</code> by using:
+  You can test draft version <code>1.8</code> by using:
 </p>
 <ul class="govuk-list govuk-list--bullet">
-  <li>the sandbox URL for the version, which is <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.7', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.7' %></li>
+  <li>the sandbox URL for the version, which is <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.8', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.8' %></li>
   <li>your sandbox API token - email <%= govuk_mail_to 'becomingateacher@digital.education.gov.uk' %> if you do not have one</li>
 </ul>
 
 <p class="govuk-body">
-  After version <code>1.7</code> has been released it will also be available in the sandbox on <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1' %>.
+  After version <code>1.8</code> has been released it will also be available in the sandbox on <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1' %>.
 </p>
 
-<h2 class="govuk-heading-l" id="changes">Version 1.7 changes</h2>
+<h2 class="govuk-heading-l" id="changes">Version 1.8 changes</h2>
 
-<p class="govuk-heading-s">New attribute added to the application object for viewing data on possible undeclared previous ITT</p>
+<p class="govuk-heading-s">New attributes added to the candidate object for viewing the candidates intention of taking an English as a foreign language assessment if they don't have one</p>
 
 <p class="govuk-body">
-  A new attribute, <code>possible_undeclared_previous_teacher_training_url</code>, has been added to the application object.
+  A new attribute, <code>will_obtain_english_language_qualifications</code>, has been added to the candidate object.
 </p>
 <p class="govuk-body">
-  If we have identified possible undeclared previous teacher training, this attribute provides a URL that can be used to view possible undeclared previous teacher training details associated with an application.
-  If no undeclared previous training experiences have been found, the value of the attribute will be `null`.
+  A new attribute, <code>obtaining_english_language_qualification_details</code>, has been added to the candidate object.
+</p>
+
+<p class="govuk-body">
+  If a candidate does not have an English language qualification, they can state their intention of gaining one or not. If they express their intension of gaining such qualification they will be able to add more details about their intension.
+  If a candidate intends to gain this qualification the <code>will_obtain_english_language_qualifications</code> attribute will be true and <code>obtaining_english_language_qualification_details</code> will contain more details about their intention.
+</p>
+<p class="govuk-body">
+  If a candidate intends to gain this qualification the <code>will_obtain_english_language_qualifications</code> attribute will be <code>true</code> and <code>obtaining_english_language_qualification_details</code> will contain more details about their intention.
+</p>
+
+<p class="govuk-body">
+  If a candidate does not have an English language qualification and they don't intend to gain one the attribute <code>will_obtain_english_language_qualifications</code> will be <code>false</code> and <code>obtaining_english_language_qualification_details</code> will be <code>nil</code>.
 </p>
 <p class=">govuk-body">
-  This is speculative data based on the comparison of records with some matching attributes. More information on how to use this information and providers’ duties with regard to it is provided at the link destination.
+  If a candidate has an English language qualifications both attributes will be <code>nil</code>.
 </p>
 
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
@@ -101,10 +112,10 @@
 
 <p class="govuk-body">
   We have a production environment and a sandbox environment.
-  When version 1.7 is launched initially for testing, it will only be accessible
+  When version 1.8 is launched initially for testing, it will only be accessible
   in the sandbox environment by determining the version in the URL as so:
-  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.7',
-                    'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.7' %>.
+  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.8',
+                    'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.8' %>.
   Only after testing is complete, the production environment will automatically upgrade
   to the latest minor version without the need to update the URL.
 </p>

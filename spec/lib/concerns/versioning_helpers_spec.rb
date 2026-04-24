@@ -16,13 +16,13 @@ RSpec.describe VersioningHelpers do
       before { allow(HostingEnvironment).to receive(:sandbox_mode?).and_return true }
 
       it 'returns the release' do
-        expect(released_version).to eq '1.7'
+        expect(released_version).to eq '1.8'
       end
     end
 
     context 'development environments' do
       it 'returns the release' do
-        expect(released_version).to eq '1.7'
+        expect(released_version).to eq '1.8'
       end
     end
   end
