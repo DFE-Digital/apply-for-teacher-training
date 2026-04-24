@@ -3,7 +3,6 @@ module VendorAPI::ApplicationPresenter::EnglishAsAForeignLanguageCandidateRespon
     super.deep_merge!({
       attributes: {
         candidate: {
-          will_obtain_english_language_qualifications:,
           obtaining_english_language_qualification_details:,
         },
       },
@@ -12,10 +11,6 @@ module VendorAPI::ApplicationPresenter::EnglishAsAForeignLanguageCandidateRespon
 
   def english_proficiency
     @english_proficiency ||= application_form&.english_proficiency
-  end
-
-  def will_obtain_english_language_qualifications
-    english_proficiency&.no_qualification_details.present?
   end
 
   def obtaining_english_language_qualification_details
