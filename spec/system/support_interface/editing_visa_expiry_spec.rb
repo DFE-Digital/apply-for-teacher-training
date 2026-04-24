@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Editing visa exipiry' do
+RSpec.describe 'Editing visa expiry' do
   include DfESignInHelpers
 
   before do
@@ -24,7 +24,13 @@ RSpec.describe 'Editing visa exipiry' do
   end
 
   def and_an_application_exists
-    @form = create(:completed_application_form, first_nationality: 'Canadian', second_nationality: nil, right_to_work_or_study: 'yes')
+    @form = create(
+      :completed_application_form,
+      first_nationality: 'Canadian',
+      second_nationality: nil,
+      right_to_work_or_study: 'yes',
+      immigration_status: ApplicationForm::TEMPORARY_IMMIGRATION_STATUSES.sample,
+    )
   end
 
   def and_i_visit_the_application_page
