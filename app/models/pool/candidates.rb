@@ -67,14 +67,35 @@ class Pool::Candidates
                                                                 .where('pool_invite_decline_reasons.reason ILIKE ?', '%no_longer_interested%')
 
     # Subquery: To include only those forms who have not used all their application slows
-    forms_with_available_slots = current_cycle_forms
-                         .joins(:application_choices)
-                         .where(application_choices: {
-                           status: ApplicationStateChange::UNSUCCESSFUL_STATES,
-                         })
-                         .group(:id)
-                         .having("count(CASE WHEN application_choices.status != 'inactive' THEN 1 END) < ?", ApplicationForm::UNSUCCESSFUL_RETRY_LIMIT)
-                         .select(:id)
+    if FeatureFlag.active?(:mid_cycle_cap)
+      active_date = FeatureFlag.activated_at(:mid_cycle_cap)
+      forms_with_available_slots_with_restriction = current_cycle_forms
+                                                      .where('submitted_at > ?', active_date)
+                                                      .joins(:application_choices)
+                                                      .group(:id)
+                                                      .having("COUNT(DISTINCT application_choices.id) < #{ApplicationForm::IN_PROGRESS_LIMIT}")
+                                                      .select(:id)
+
+      forms_with_available_slots_without_restriction = current_cycle_forms
+                                                         .where('submitted_at < ?', active_date)
+                                                         .joins(:application_choices)
+                                                         .where(application_choices: {
+                                                           status: ApplicationStateChange::UNSUCCESSFUL_STATES,
+                                                         })
+                                                         .group(:id)
+                                                         .having("count(CASE WHEN application_choices.status != 'inactive' THEN 1 END) < ?", ApplicationForm::UNSUCCESSFUL_RETRY_LIMIT)
+                                                         .select(:id)
+      forms_with_available_slots = forms_with_available_slots_with_restriction + forms_with_available_slots_without_restriction
+    else
+      forms_with_available_slots = current_cycle_forms
+                           .joins(:application_choices)
+                           .where(application_choices: {
+                             status: ApplicationStateChange::UNSUCCESSFUL_STATES,
+                           })
+                           .group(:id)
+                           .having("count(CASE WHEN application_choices.status != 'inactive' THEN 1 END) < ?", ApplicationForm::UNSUCCESSFUL_RETRY_LIMIT)
+                           .select(:id)
+    end
 
     # Final query
     current_cycle_forms
