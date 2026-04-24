@@ -78,6 +78,8 @@ module VendorAPI
     ],
     '1.8pre' => [
       Changes::V18::EnglishAsAForeignLanguageCandidateResponse,
+      Changes::V18::VisaExpiry,
+      Changes::V18::LengthOfResidency,
     ],
   }.freeze
 end

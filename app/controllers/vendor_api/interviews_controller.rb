@@ -5,14 +5,18 @@ module VendorAPI
     rescue_from InterviewWorkflowConstraints::WorkflowError, with: :handle_as_validation_error
 
     def create
-      CreateInterview.new(
-        actor: audit_user,
-        application_choice:,
-        provider: provider_for_interview(interview_params[:provider_code]),
-        date_and_time: date_and_time(interview_params[:date_and_time]),
-        location: interview_params[:location],
-        additional_details: interview_params[:additional_details],
-      ).save!
+      if provider_for_interview(interview_params[:provider_code]).handle_interviews_in_manage?
+        CreateInterview.new(
+          actor: audit_user,
+          application_choice:,
+          provider: provider_for_interview(interview_params[:provider_code]),
+          date_and_time: date_and_time(interview_params[:date_and_time]),
+          location: interview_params[:location],
+          additional_details: interview_params[:additional_details],
+        ).save!
+      else
+        ApplicationStateChange.new(application_choice).interview!
+      end
 
       render_application
     end
@@ -49,7 +53,7 @@ module VendorAPI
     end
 
     def provider_for_interview(code)
-      if code.present? # supporting partial updates
+      @provider_for_interview ||= if code.present? # supporting partial updates
         Provider.find_by(code:) || raise(ValidationException, ['Provider code is not valid'])
       end
     end
