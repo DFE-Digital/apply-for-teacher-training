@@ -122,7 +122,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
     end
 
     context 'candidate has been a resident of their country since birth' do
-      let(:country_residency_date_from) { 24.years.ago }
+      let(:country_residency_date_from) { 24.years.ago.at_beginning_of_day }
 
       describe '#attributes' do
         it 'return the country residency details' do
@@ -143,7 +143,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
     end
 
     context 'candidate has not been a resident of their country since birth' do
-      let(:country_residency_date_from) { 2.years.ago }
+      let(:country_residency_date_from) { 2.years.ago.at_beginning_of_day }
 
       describe '#attributes' do
         it 'return the country residency details' do
