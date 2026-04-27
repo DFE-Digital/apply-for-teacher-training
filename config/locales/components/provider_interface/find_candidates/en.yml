@@ -116,6 +116,7 @@ en:
         search_by_candidate_number: Search by candidate number
         clear_search: Clear search
         search: Search
+        subject: Subject
       candidate_search_component:
         search_by_candidate_number: Search by candidate number
         clear_search: Clear search
