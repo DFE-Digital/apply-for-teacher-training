@@ -129,6 +129,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
           application_form = create(
             :application_form,
             :submitted,
+            date_of_birth: country_residency_date_from,
             country_residency_date_from:,
             country_residency_since_birth: true,
           )
