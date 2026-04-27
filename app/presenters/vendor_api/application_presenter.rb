@@ -10,7 +10,7 @@ module VendorAPI
 
     API_APPLICATION_STATES = { offer_withdrawn: 'rejected',
                                inactive: 'awaiting_provider_decision',
-                               interviewing: 'awaiting_provider_decision' }.freeze
+                               interviewing: 'interviewing' }.freeze
     CACHE_EXPIRES_IN = 1.day
 
     attr_reader :application_choice

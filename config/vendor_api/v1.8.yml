@@ -27,6 +27,26 @@ components:
           type: string
           description: If the candidate intends to gain this qualification they can explain their intention
           example: "I will gain it next year"
+        visa_expired_at:
+          type: date-time
+          description: The date when the candidate's visa will expire
+          example: "2019-06-13T10:44:31Z"
+        visa_explanation:
+          type: string
+          description: The candidate's intention to resolve any issues with their visa expiring
+          example: "expires_after_course"
+        visa_explanation_details:
+          type: string
+          description: Additional details regarding the candidate's visa explanation, if the visa explanation is "other"
+          example: 'Details of renewing my visa'
+        country_residency_date_from:
+          type: date-time
+          description: The date when the candidate moved to their current country of residence
+          example: "2019-06-13T10:44:31Z"
+        country_residency_since_birth:
+          type: boolean
+          description: Whether or not the candidate has been a resident of their current country of residence since birth
+          example: true
       required:
         - will_obtain_english_language_qualifications
         - obtaining_english_language_qualification_details

@@ -96,6 +96,52 @@
   If a candidate has an English language qualifications both attributes will be <code>nil</code>.
 </p>
 
+<p class="govuk-heading-s">New attributes added to the candidate object for viewing the candidates visa expiry details</p>
+
+<p class="govuk-body">
+  A new attribute, <code>visa_expired_at</code>, has been added to the candidate object.
+</p>
+<p class="govuk-body">
+  A new attribute, <code>visa_explanation</code>, has been added to the candidate object.
+</p>
+<p class="govuk-body">
+  A new attribute, <code>visa_explanation_details</code>, has been added to the candidate object.
+</p>
+
+<p class="govuk-body">
+  If the candidate is an international candidate, they can state when their visa is due to expire.
+  If the candidate has declared their visa expiry date, the <code>visa_expired_at</code> attribute will contain a date.
+</p>
+
+<p class="govuk-body">
+  If the candidate has declared their plans to renew their visa, or if their visa expires before the end date of the course they have applied for,
+  the <code>visa_explanation</code> attribute will contain the candidate's details of the candidate's visa circumstances.
+</p>
+
+<p class="govuk-body">
+  If the candidate has selected <code>other</code> as their <code>visa_explanation</code>,
+  the <code>visa_explanation_details</code> attribute will contain the details candidate's has provided regarding their visa.
+</p>
+
+<p class="govuk-heading-s">New attributes added to the candidate object for viewing the candidates country of residence details</p>
+
+<p class="govuk-body">
+  A new attribute, <code>country_residency_date_from</code>, has been added to the candidate object.
+</p>
+<p class="govuk-body">
+  A new attribute, <code>country_residency_since_birth</code>, has been added to the candidate object.
+</p>
+
+<p class="govuk-body">
+  If the candidate is an international candidate, will have declared the date when they began residing in that country.
+  If the candidate has declared the date from which they resided in their declared country, the <code>country_residency_date_from</code> attribute will contain a date.
+</p>
+
+<p class="govuk-body">
+  If the candidate has resided in their declared country of residence since birth, the <code>country_residency_since_birth</code>
+  attribute will be <code>true</code>.
+</p>
+
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
 
 <h2 class="govuk-heading-l" id="developing">Developing on the API</h2>
