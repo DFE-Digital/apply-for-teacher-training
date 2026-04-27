@@ -759,7 +759,7 @@ GEM
       simplecov (~> 0.19)
     simplecov-html (0.13.2)
     simplecov_json_formatter (0.1.4)
-    skylight (7.1.0)
+    skylight (7.1.1)
       activesupport (>= 7.2.0)
     smart_properties (1.17.0)
     sniffer (0.5.0)
@@ -1242,7 +1242,7 @@ CHECKSUMS
   simplecov-cobertura (3.1.0) sha256=6d7f38aa32c965ca2174b2e5bd88cb17138eaf629518854976ac50e628925dc5
   simplecov-html (0.13.2) sha256=bd0b8e54e7c2d7685927e8d6286466359b6f16b18cb0df47b508e8d73c777246
   simplecov_json_formatter (0.1.4) sha256=529418fbe8de1713ac2b2d612aa3daa56d316975d307244399fa4838c601b428
-  skylight (7.1.0) sha256=f2cde8336c3a3a7ecdfa9973a4bb86badd7c69e8f8328c0b26150a0da0d206d6
+  skylight (7.1.1) sha256=90b09ad73288ad11322f7db4e25b3f096b522d752a368d2c9e70bc346986e951
   smart_properties (1.17.0) sha256=f9323f8122e932341756ddec8e0ac9ec6e238408a7661508be99439ca6d6384b
   sniffer (0.5.0) sha256=cd040cc51929c04749b20baa4dd8f5985174210e13437491f4923b8de27e1359
   stoplight (3.0.2) sha256=9bc2697a9c380aa6d8380d820c2663bda50cee3a9680a256ea035f8cf0e918ee
