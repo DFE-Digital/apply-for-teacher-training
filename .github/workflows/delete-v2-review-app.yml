@@ -66,7 +66,7 @@ jobs:
 
       - name: Post sticky pull request comment
         if: env.TF_STATE_EXISTS == 'true'
-        uses: marocchino/sticky-pull-request-comment@v3
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # Pinned at v3.0.4
         with:
           header: review-app-v2
           message: |

@@ -295,7 +295,7 @@ jobs:
 
       - name: Post sticky pull request comment
         if: success()
-        uses: marocchino/sticky-pull-request-comment@v3
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # Pinned at v3.0.4
         with:
           header: review-app-v2
           message: |
@@ -317,7 +317,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Merge minor dependency updates
-        uses: fastify/github-action-merge-dependabot@v3
+        uses: fastify/github-action-merge-dependabot@30c3f8f14a4f7b315ba38dbc1b793d27128fef82 #Pinned at v3.12.0
         with:
           github-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
           target: minor
