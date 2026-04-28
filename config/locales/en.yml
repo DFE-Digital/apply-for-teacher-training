@@ -690,6 +690,10 @@ en:
               decline_by_default_after_reject_by_default: Enter a decline by default date that is after the reject by default date
             find_closes_at:
               find_closes_after_decline_by_default: Enter a Find close date that is after the decline by default date
+            winter_reject_by_default_at:
+              winter_reject_by_default_at_after_find_closes_at: Enter a winter reject reject by default date that is after find closes
+            winter_decline_by_default_at:
+              winter_decline_by_default_at_after_winter_reject_by_default_at: Enter a winter decline by default date that is after the winter reject by default
         candidate:
           attributes:
             email_address:

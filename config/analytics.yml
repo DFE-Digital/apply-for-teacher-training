@@ -628,3 +628,6 @@ shared:
     - recruitment_cycle_year
     - created_at
     - updated_at
+    - winter_reject_by_default_at
+    - winter_decline_by_default_at
+

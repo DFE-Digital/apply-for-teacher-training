@@ -6,6 +6,8 @@ class RecruitmentCycleTimetable < ApplicationRecord
             :reject_by_default_at,
             :decline_by_default_at,
             :find_closes_at,
+            :winter_reject_by_default_at,
+            :winter_decline_by_default_at,
             presence: true
   validates :recruitment_cycle_year, uniqueness: { allow_nil: false }
   validates_with RecruitmentCycleTimetableDateSequenceValidator
@@ -19,6 +21,7 @@ class RecruitmentCycleTimetable < ApplicationRecord
   end
 
   def self.find_cycle_week_by_datetime(datetime)
+    datetime = datetime.to_time
     timetable = find_timetable_by_datetime(datetime)
     weeks = (datetime - timetable.find_opens_at.beginning_of_week).seconds.in_weeks.to_i
     (weeks % 53)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_14_151957) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_27_150116) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1040,6 +1040,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_14_151957) do
     t.integer "recruitment_cycle_year"
     t.datetime "reject_by_default_at"
     t.datetime "updated_at", null: false
+    t.datetime "winter_decline_by_default_at"
+    t.datetime "winter_reject_by_default_at"
     t.index ["recruitment_cycle_year"], name: "index_recruitment_cycle_timetables_on_recruitment_cycle_year", unique: true
   end
 
