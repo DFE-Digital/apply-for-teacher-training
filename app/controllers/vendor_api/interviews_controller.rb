@@ -5,7 +5,7 @@ module VendorAPI
     rescue_from InterviewWorkflowConstraints::WorkflowError, with: :handle_as_validation_error
 
     def create
-      if version_number.to_f >= 1.8 && interview_params.blank? && handle_interviews_outside_service?
+      if version_number.to_f >= 1.8 && interview_params.blank?
         ApplicationStateChange.new(application_choice).interview!
       else
         CreateInterview.new(
@@ -88,10 +88,6 @@ module VendorAPI
       params.require(:data).permit(:reason).tap do |data|
         data.require(:reason)
       end[:reason]
-    end
-
-    def handle_interviews_outside_service?
-      @handle_interviews_outside_service ||= application_choice.provider.handle_interviews_outside_service?
     end
   end
 end

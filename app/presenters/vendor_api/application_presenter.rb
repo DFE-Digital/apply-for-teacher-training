@@ -7,6 +7,7 @@ module VendorAPI
     include WorkExperienceAPIData
     include DecisionsAPIData
     include HesaIttDataAPIData
+    include ApplicationStateAPIData
 
     CACHE_EXPIRES_IN = 1.day
 
