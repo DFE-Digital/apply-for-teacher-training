@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DetectInvariantsHourlyCheck do
+RSpec.describe DetectInvariantsHourlyCheck, :with_cache do
   before do
     allow(Sentry).to receive(:capture_exception)
 

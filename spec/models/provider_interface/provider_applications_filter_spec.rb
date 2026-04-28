@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::ProviderApplicationsFilter do
+RSpec.describe ProviderInterface::ProviderApplicationsFilter, :with_cache do
   let(:provider_1_subjects) { create_list(:subject, 2) }
   let(:provider_2_subjects) { create_list(:subject, 1) }
   let(:provider_3_subjects) { create_list(:subject, 1) }

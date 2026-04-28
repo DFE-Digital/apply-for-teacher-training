@@ -7,7 +7,7 @@ RSpec.describe 'Entering a degree' do
     given_i_am_on_the_cycle_when_candidates_can_enter_details_for_undergraduate_course
   end
 
-  scenario 'Candidate does not have a degree' do
+  scenario 'Candidate does not have a degree', :with_cache do
     given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
     then_i_can_see_the_university_degree_page
@@ -35,7 +35,7 @@ RSpec.describe 'Entering a degree' do
     and_i_see_the_no_degree_option_chosen
   end
 
-  scenario 'Candidate does have a university degree' do
+  scenario 'Candidate does have a university degree', :with_cache do
     given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
     then_i_can_see_the_university_degree_page
@@ -67,7 +67,7 @@ RSpec.describe 'Entering a degree' do
     and_i_still_have_one_degree
   end
 
-  scenario 'Candidate has a university degree with an unstructured degree grade' do
+  scenario 'Candidate has a university degree with an unstructured degree grade', :with_cache do
     given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
     then_i_can_see_the_university_degree_page

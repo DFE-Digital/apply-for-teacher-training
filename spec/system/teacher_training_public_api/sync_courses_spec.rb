@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Sync courses', :sidekiq do
+RSpec.describe 'Sync courses', :sidekiq, :with_cache do
   include TeacherTrainingPublicAPIHelper
 
   it 'Creates and updates courses' do

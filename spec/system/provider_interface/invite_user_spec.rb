@@ -4,7 +4,7 @@ RSpec.describe 'Provider user invitation' do
   include DfESignInHelpers
   include DsiAPIHelper
 
-  scenario 'Provider invites user' do
+  scenario 'Provider invites user', :with_cache do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_sign_in_to_the_provider_interface
     and_i_go_to_the_users_page

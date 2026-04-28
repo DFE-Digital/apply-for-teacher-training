@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Entering an international degree' do
+RSpec.describe 'Entering an international degree', :with_cache do
   include CandidateHelper
 
   scenario 'Candidate enters their degree' do

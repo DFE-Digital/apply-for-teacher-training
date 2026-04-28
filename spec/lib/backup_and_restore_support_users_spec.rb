@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe BackupAndRestoreSupportUsers do
+RSpec.describe BackupAndRestoreSupportUsers, :with_cache do
   it 'backs up and restores support users' do
     create(:support_user)
     described_class.backup!

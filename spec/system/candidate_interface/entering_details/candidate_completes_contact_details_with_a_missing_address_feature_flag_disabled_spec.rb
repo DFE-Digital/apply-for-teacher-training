@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate attempts to submit their application without a valid address' do
+RSpec.describe 'Candidate attempts to submit their application without a valid address', :with_cache do
   include CandidateHelper
   include DfE::Bigquery::TestHelper
 

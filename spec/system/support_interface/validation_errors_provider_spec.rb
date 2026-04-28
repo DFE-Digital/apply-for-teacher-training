@@ -8,7 +8,7 @@ RSpec.describe 'Validation errors Provider' do
   let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option:) }
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
 
-  scenario 'Review validation errors' do
+  scenario 'Review validation errors', :with_cache do
     given_i_signed_in_as_a_provider_user
     and_i_enter_an_invalid_interview_time
 

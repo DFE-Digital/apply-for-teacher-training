@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::IntermediateDataService do
     @state_store.delete
   end
 
-  describe '#read' do
+  describe '#read', :with_cache do
     it 'returns an initial empty hash' do
       service = create_service
       expect(service.read).to eq({})
@@ -24,7 +24,7 @@ RSpec.describe CandidateInterface::IntermediateDataService do
     end
   end
 
-  describe '#write' do
+  describe '#write', :with_cache do
     it 'merges new data over existing' do
       service = create_service
       initial_data = { 'key1' => 'one', 'key2' => 'two', 'key3' => 'three' }

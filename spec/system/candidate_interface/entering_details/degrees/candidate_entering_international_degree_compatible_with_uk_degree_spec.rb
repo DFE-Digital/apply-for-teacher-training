@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Entering an international degree from a country with uk compatible degrees' do
+RSpec.describe 'Entering an international degree from a country with uk compatible degrees', :with_cache do
   include CandidateHelper
 
   scenario 'From country with compatible degrees, select bachelor' do

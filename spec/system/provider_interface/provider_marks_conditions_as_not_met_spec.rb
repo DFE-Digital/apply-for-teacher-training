@@ -5,7 +5,7 @@ RSpec.describe 'Confirm conditions met' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
-  scenario 'Provider user confirms offer conditions have been met by the candidate' do
+  scenario 'Provider user confirms offer conditions have been met by the candidate', :with_cache do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface

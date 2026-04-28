@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Entering a PhD' do
   include CandidateHelper
 
-  scenario 'Candidate enters their PhD' do
+  scenario 'Candidate enters their PhD', :with_cache do
     given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
 

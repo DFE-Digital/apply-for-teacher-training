@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Degrees' do
   include CandidateHelper
 
-  scenario 'Candidate editing degree' do
+  scenario 'Candidate editing degree', :with_cache do
     given_i_am_signed_in_with_one_login
     and_i_have_completed_the_degree_section
     when_i_view_the_degree_section

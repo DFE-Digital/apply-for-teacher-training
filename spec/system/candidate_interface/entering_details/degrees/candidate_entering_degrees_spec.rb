@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Entering a degree', :js do
   include CandidateHelper
 
-  scenario 'Candidate enters their degree' do
+  scenario 'Candidate enters their degree', :with_cache do
     given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
 
@@ -67,7 +67,7 @@ RSpec.describe 'Entering a degree', :js do
     then_i_can_check_my_answers
   end
 
-  scenario 'Candidate enters a degree with university as free text' do
+  scenario 'Candidate enters a degree with university as free text', :with_cache do
     given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
 
@@ -131,7 +131,7 @@ RSpec.describe 'Entering a degree', :js do
     then_i_can_check_my_answers_with_free_text_university
   end
 
-  scenario 'Candidate enters their degree with degree grade interruption' do
+  scenario 'Candidate enters their degree with degree grade interruption', :with_cache do
     given_i_am_signed_in_with_one_login
     and_i_have_application_choices_in_draft
     when_i_view_the_degree_section

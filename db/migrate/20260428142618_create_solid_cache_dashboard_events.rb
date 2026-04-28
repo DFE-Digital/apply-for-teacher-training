@@ -7,7 +7,7 @@ class CreateSolidCacheDashboardEvents < ActiveRecord::Migration[7.0]
       t.integer :byte_size, limit: 4
       t.float :duration
       t.datetime :created_at, null: false
-      
+
       t.index [:event_type]
       t.index [:key_hash]
       t.index [:created_at]

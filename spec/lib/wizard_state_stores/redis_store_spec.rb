@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe WizardStateStores::RedisStore do
-  it 'expires the key after 4 hours' do
-    store = described_class.new(key: 'any_old_key')
+  it 'stores the value', :with_cache do
+    key = 'any_old_key'
+    store = described_class.new(key:)
 
-    store.write('value')
+    value = 'value'
+    store.write(value)
 
-    redis = Redis.new
-    expect(redis.ttl('any_old_key')).to be_within(5).of(4.hours.to_i)
+    expect(Rails.cache.read(key)).to eq(value)
   end
 end

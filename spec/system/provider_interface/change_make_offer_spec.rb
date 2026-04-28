@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider makes an offer' do
+RSpec.describe 'Provider makes an offer', :with_cache do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 

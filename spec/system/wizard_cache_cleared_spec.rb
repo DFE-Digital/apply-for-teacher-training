@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Clearing the wizard cache' do
+RSpec.describe 'Clearing the wizard cache', :with_cache do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper

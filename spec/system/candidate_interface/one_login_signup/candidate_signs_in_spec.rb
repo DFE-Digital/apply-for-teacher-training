@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate signs in' do
+RSpec.describe 'Candidate signs in', :with_cache do
   include OneLoginHelper
 
   before do

@@ -4,7 +4,7 @@ RSpec.describe 'Provider changes a course on pending conditions' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
-  scenario 'Change training provider' do
+  scenario 'Change training provider', :with_cache do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_the_provider_user_can_offer_multiple_provider_courses
@@ -35,7 +35,7 @@ RSpec.describe 'Provider changes a course on pending conditions' do
     )
   end
 
-  scenario 'Change course' do
+  scenario 'Change course', :with_cache do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_the_provider_user_can_offer_multiple_provider_courses
@@ -66,7 +66,7 @@ RSpec.describe 'Provider changes a course on pending conditions' do
     )
   end
 
-  scenario 'Change study_mode' do
+  scenario 'Change study_mode', :with_cache do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_the_provider_user_can_offer_multiple_provider_courses
@@ -94,7 +94,7 @@ RSpec.describe 'Provider changes a course on pending conditions' do
     )
   end
 
-  scenario 'Change site' do
+  scenario 'Change site', :with_cache do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_the_provider_user_can_offer_multiple_provider_courses

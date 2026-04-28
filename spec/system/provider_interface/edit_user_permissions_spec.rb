@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'User permissions' do
   include DfESignInHelpers
 
-  scenario 'Provider user edits another user’s permissions' do
+  scenario 'Provider user edits another user’s permissions', :with_cache do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_manage_users_for_one_provider
     and_i_sign_in_to_the_provider_interface

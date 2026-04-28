@@ -16,7 +16,7 @@ RSpec.describe 'Providers should be able to filter applications' do
   let(:accredited_provider1) { create(:provider, name: 'College of Dumbervale') }
   let(:accredited_provider2) { create(:provider, name: 'Wimleydown University') }
 
-  scenario 'can filter applications by status and provider' do
+  scenario 'can filter applications by status and provider', :with_cache do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_from_multiple_providers
     and_my_organisation_has_courses_with_applications
@@ -80,7 +80,7 @@ RSpec.describe 'Providers should be able to filter applications' do
     and_i_click_the_sign_out_button
   end
 
-  scenario 'filter should not have accredited providers heading if none are available' do
+  scenario 'filter should not have accredited providers heading if none are available', :with_cache do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_from_multiple_providers
     and_my_organisation_has_courses_with_applications_without_accredited_providers
@@ -91,7 +91,7 @@ RSpec.describe 'Providers should be able to filter applications' do
     and_i_click_the_sign_out_button
   end
 
-  scenario 'filters should persist across sessions' do
+  scenario 'filters should persist across sessions', :with_cache do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_from_multiple_providers
     and_my_organisation_has_courses_with_applications
@@ -116,7 +116,7 @@ RSpec.describe 'Providers should be able to filter applications' do
     and_i_click_the_sign_out_button
   end
 
-  scenario 'when filtering by course type' do
+  scenario 'when filtering by course type', :with_cache do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_from_multiple_providers
     and_my_organisation_has_courses_with_applications_without_accredited_providers
