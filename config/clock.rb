@@ -37,6 +37,7 @@ class Clock
   # Daily jobs
   every(1.day, 'DeleteExpiredSessionsWorker', at: '5:01') { DeleteExpiredSessionsWorker.perform_async }
   every(1.day, 'RemoveInactiveSupportUsersWorker', at: '5:02') { RemoveInactiveSupportUsersWorker.perform_async }
+  every(1.day, 'RemoveInactiveProviderUsersWorker', at: '5:05') { RemoveInactiveProviderUsersWorker.perform_async }
   every(1.day, 'DeleteAllDrafts', at: '4:01') { DeleteAllDraftsWorker.perform_async }
   every(1.day, 'Chasers::Candidate::OfferWorker', at: '10:30') { Chasers::Candidate::OfferWorker.perform_async }
 
@@ -88,5 +89,4 @@ class Clock
 
   every(7.days, 'Schedule Recruitment Performance reports', at: 'Monday 05:30', if: ->(_period) { RecruitmentPerformanceReportTimetable.report_season? }) { Publications::RecruitmentPerformanceReportScheduler.new.call }
   every(7.days, 'ProviderRecruitmentPerformanceReportReminder', at: 'Monday 12:00') { Publications::ProviderRecruitmentPerformanceReminderWorker.perform_async }
-  every(7.days, 'RemoveInactiveProviderUsersWorker', at: 'Monday 1:00') { RemoveInactiveProviderUsersWorker.perform_async }
 end
