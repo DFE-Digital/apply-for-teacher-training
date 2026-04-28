@@ -40,7 +40,6 @@ RSpec.describe 'Vendor API - POST /api/v1.8/applications/:application_id/intervi
 
     context 'when not passed interview params' do
       it 'succeeds and renders a SingleApplicationResponse' do
-        application_choice.provider.update!(handle_interviews: 'outside_service')
         post_interview! params: {}
 
         expect(response).to have_http_status(:ok)
