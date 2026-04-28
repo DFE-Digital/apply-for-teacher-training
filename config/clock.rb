@@ -88,4 +88,5 @@ class Clock
 
   every(7.days, 'Schedule Recruitment Performance reports', at: 'Monday 05:30', if: ->(_period) { RecruitmentPerformanceReportTimetable.report_season? }) { Publications::RecruitmentPerformanceReportScheduler.new.call }
   every(7.days, 'ProviderRecruitmentPerformanceReportReminder', at: 'Monday 12:00') { Publications::ProviderRecruitmentPerformanceReminderWorker.perform_async }
+  every(7.days, 'RemoveInactiveProviderUsersWorker', at: 'Monday 1:00') { RemoveInactiveProviderUsersWorker.perform_async }
 end
