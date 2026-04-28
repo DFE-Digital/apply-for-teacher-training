@@ -87,22 +87,6 @@ module VendorAPI
       end
     end
 
-    def api_application_states
-      if version >= '1.8'
-        {
-          offer_withdrawn: 'rejected',
-          inactive: 'awaiting_provider_decision',
-          interviewing: 'interviewing',
-        }.freeze
-      else
-        {
-          offer_withdrawn: 'rejected',
-          inactive: 'awaiting_provider_decision',
-          interviewing: 'awaiting_provider_decision',
-        }.freeze
-      end
-    end
-
     def application_form
       @application_form ||= application_choice.application_form
     end
