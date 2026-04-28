@@ -1,5 +1,5 @@
 # To use or update to a ruby version, change {BASE_RUBY_IMAGE}
-ARG BASE_RUBY_IMAGE=ruby:3.4.4-alpine3.20
+ARG BASE_RUBY_IMAGE=ruby:4.0.2-alpine3.23
 
 # Stage 1: gems-node-modules, build gems and node modules.
 FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
@@ -30,9 +30,11 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 
 RUN bundler -v && \
-    bundle config set no-cache 'true' && \
-    bundle config set no-binstubs 'true' && \
-    bundle --retry=5 --jobs=4 --without=development && \
+    bundle config set --local deployment 'true' && \
+    bundle config set --local without 'development' && \
+    bundle config set --local retry 5 && \
+    bundle config set --local jobs 4 && \
+    bundle install --no-cache && \
     rm -rf /usr/local/bundle/cache
 
 COPY package.json yarn.lock ./
