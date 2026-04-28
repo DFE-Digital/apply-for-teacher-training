@@ -325,6 +325,7 @@ namespace :support_interface, path: '/support' do
   mount SupportInterface::RackApp.new(Sidekiq::Web) => '/sidekiq', as: :sidekiq
   mount SupportInterface::RackApp.new(Blazer::Engine) => '/blazer', as: :blazer
   mount SupportInterface::RackApp.new(FieldTest::Engine) => '/field-test', as: :field_test
+  mount MissionControl::Jobs::Engine => '/jobs', as: :jobs
 
   get '*path', to: 'errors#not_found'
 end
