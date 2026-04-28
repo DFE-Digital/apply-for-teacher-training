@@ -80,6 +80,7 @@ module VendorAPI
       Changes::V18::EnglishAsAForeignLanguageCandidateResponse,
       Changes::V18::VisaExpiry,
       Changes::V18::LengthOfResidency,
+      Changes::V18::MarkInterviewObjectAsOptional,
     ],
   }.freeze
 end
