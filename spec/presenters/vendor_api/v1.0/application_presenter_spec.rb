@@ -105,8 +105,8 @@ RSpec.describe 'ApplicationPresenter' do
     context 'when the application status is interviewing' do
       let!(:application_choice) { create(:application_choice, :awaiting_provider_decision, :interviewing, :with_completed_application_form) }
 
-      it 'returns interviewing' do
-        expect(attributes[:status]).to eq('interviewing')
+      it 'returns awaiting_provider_decision' do
+        expect(attributes[:status]).to eq('awaiting_provider_decision')
       end
     end
 

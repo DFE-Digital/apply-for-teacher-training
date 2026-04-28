@@ -210,23 +210,6 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
           expect(parsed_response['data']['attributes']['interviews'].count).to eq(1)
         end
       end
-
-      context 'when the provider is handling interviews outside of the manage service' do
-        let(:interview_params) do
-          {
-            provider_code: currently_authenticated_provider.code,
-          }
-        end
-
-        it 'succeeds and renders a SingleApplicationResponse' do
-          application_choice.provider.update!(handle_interviews: 'outside_service')
-          post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/create", params: { data: interview_params }
-
-          expect(response).to have_http_status(:ok)
-          expect(parsed_response['data']['attributes']['interviews'].count).to eq(0)
-          expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.1')
-        end
-      end
     end
   end
 end

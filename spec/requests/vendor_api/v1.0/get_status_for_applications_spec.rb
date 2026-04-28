@@ -8,7 +8,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/applications' do
     expected_statuses = [
       'awaiting_provider_decision',
       'awaiting_provider_decision', # inactive mapped to awaiting_provider_decision
-      'interviewing',
+      'awaiting_provider_decision', # interview mapped to awaiting_provider_decision
       'conditions_not_met',
       'declined',
       'offer',

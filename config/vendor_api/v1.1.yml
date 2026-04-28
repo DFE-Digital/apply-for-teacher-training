@@ -438,7 +438,6 @@ components:
           - recruited
           - rejected
           - withdrawn
-          - interviewing
         withdrawn_or_declined_for_candidate:
           type: boolean
           nullable: true

@@ -90,8 +90,8 @@ module VendorAPI
       end[:reason]
     end
 
-    def handle_interviews_in_manage?
-      @handle_interviews_in_manage ||= application_choice.provider.handle_interviews_in_manage?
+    def handle_interviews_outside_service?
+      @handle_interviews_outside_service ||= application_choice.provider.handle_interviews_outside_service?
     end
   end
 end
