@@ -225,4 +225,14 @@ RSpec.configure do |config|
       example.run
     end
   end
+
+  config.before(:each, :with_cache) do
+    allow(Rails).to receive(:cache) do
+      ActiveSupport::Cache.lookup_store(:solid_cache_store)
+    end
+    Rails.cache.clear
+  end
+  config.after(:each, :with_cache) do
+    allow(Rails).to receive(:cache).and_return(nil)
+  end
 end
