@@ -54,7 +54,7 @@ private
 
   def mark_user_as_bounced
     candidate = Candidate.find(@id)
-    candidate.update!(sign_up_email_bounced: true, hide_in_reporting: true)
+    candidate.update!(sign_up_email_bounced: true)
   end
 
   def reference_request_email?
