@@ -35,4 +35,19 @@ class CollectionSelectComponentPreview < ViewComponent::Preview
                                          page_title: 'Select course',
                                          caption: 'Jane Doe')
   end
+
+  def course_select_example_with_over_20_courses
+    courses = FactoryBot.build_stubbed_list(:course, 25)
+    form_object = FormObject.new(course_id: courses.last.id)
+    render CollectionSelectComponent.new(attribute: :course_id,
+                                         collection: courses,
+                                         value_method: :id,
+                                         text_method: :name_and_code,
+                                         hint_method: :description_and_accredited_provider,
+                                         bold_labels: false,
+                                         form_object:,
+                                         form_path: '',
+                                         page_title: 'Select course',
+                                         caption: 'Jane Doe')
+  end
 end

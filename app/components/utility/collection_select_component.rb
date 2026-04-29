@@ -20,4 +20,18 @@ class CollectionSelectComponent < ApplicationComponent
     @page_title = page_title
     @caption = caption
   end
+
+  def collection_options_for_select
+    collection.map do |option|
+      [
+        (hint_method.present? ? "#{option.try(text_method)} - #{option.try(hint_method)}" : option.try(text_method)),
+        option.try(value_method),
+      ]
+    end.unshift([nil, nil])
+  end
+
+  def collection_count
+    count_of_items = collection.count
+    count_of_items.is_a?(Hash) ? count_of_items.keys.count : count_of_items
+  end
 end
