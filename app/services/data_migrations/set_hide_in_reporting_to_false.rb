@@ -1,5 +1,5 @@
 module DataMigrations
-  class SetHideInReportingToFalseAfter2022
+  class SetHideInReportingToFalse
     TIMESTAMP = 20260429101756
     MANUAL_RUN = false
 

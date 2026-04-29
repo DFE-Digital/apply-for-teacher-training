@@ -21,7 +21,7 @@ RSpec.describe ProcessNotifyCallback do
     application_form = create(:application_form)
     create(:reference, feedback_status: 'feedback_requested', application_form:)
   end
-  let(:candidate) { create(:candidate, sign_up_email_bounced: false, hide_in_reporting: false) }
+  let(:candidate) { create(:candidate, sign_up_email_bounced: false) }
 
   context 'when expected Notify reference is provided with reference request' do
     let(:notify_reference) { "example_env-reference_request-#{reference.id}" }
@@ -69,14 +69,6 @@ RSpec.describe ProcessNotifyCallback do
         expect(candidate.reload.sign_up_email_bounced).to be(true)
       end
 
-      it 'updates hide in reporting to true for candidate' do
-        process_notify_callback = described_class.new(notify_reference:, status:)
-
-        process_notify_callback.call
-
-        expect(candidate.reload.hide_in_reporting).to be(true)
-      end
-
       it 'sets not found to true if candidate cannot be found' do
         allow(Candidate).to receive(:find).with(candidate.id.to_s).and_raise(ActiveRecord::RecordNotFound)
 
@@ -105,14 +97,13 @@ RSpec.describe ProcessNotifyCallback do
 
       it_behaves_like 'a callback that does not change the feedback status of a reference'
 
-      it 'does not update sign up email bounced and hide in reporting to true for candidate' do
+      it 'does not update sign up email bounced to true for candidate' do
         notify_reference = "example_env-#{email_type}-#{candidate.id}"
         process_notify_callback = described_class.new(notify_reference:, status:)
 
         process_notify_callback.call
 
         expect(candidate.reload.sign_up_email_bounced).to be(false)
-        expect(candidate.reload.hide_in_reporting).to be(false)
       end
     end
   end

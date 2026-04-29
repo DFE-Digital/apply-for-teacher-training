@@ -1,6 +1,6 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
-  'DataMigrations::SetHideInReportingToFalseAfter2022',
+  'DataMigrations::SetHideInReportingToFalse',
   'DataMigrations::RemoveProviderEdiReportFeatureFlag',
   'DataMigrations::PublishEnglishProficiencies',
   'DataMigrations::RemoveServiceInformationBannerFeatureFlag',

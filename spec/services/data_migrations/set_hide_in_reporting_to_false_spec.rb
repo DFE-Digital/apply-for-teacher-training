@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DataMigrations::SetHideInReportingToFalseAfter2022 do
+RSpec.describe DataMigrations::SetHideInReportingToFalse do
   describe '#call' do
     it 'sets hide_in_reporting false for candidate with application in 2022 or after' do
       candidate_2022 = create(
