@@ -6,6 +6,8 @@ class RemoveInactiveProviderUsersWorker
   INACTIVE_MONTHS_AGO = 12
 
   def perform
+    return unless HostingEnvironment.production?? || HostingEnvironment.staging? || HostingEnvironment.sandbox?
+
     ProviderUser.where('last_signed_in_at < ?', INACTIVE_MONTHS_AGO.months.ago)
       .or(ProviderUser.where(
             'last_signed_in_at IS NULL AND created_at < ?', INACTIVE_MONTHS_AGO.months.ago
