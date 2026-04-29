@@ -16,6 +16,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
     when_i_check_degrees
     and_i_check_english_gcse
     and_i_add_an_audit_comment
+    and_i_check_to_say_i_have_spoken_to_the_policy_team
     and_click_update
     then_i_see_the_application_page
     and_the_application_is_now_updated_with_the_temporarily_editable_sections
@@ -77,7 +78,10 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
   end
 
   def then_i_see_a_validation_message
-    expect(page).to have_content('Add a link to the Zendesk ticket')
+    within('.govuk-error-summary__list') do
+      expect(page).to have_content('Add a link to the Zendesk ticket')
+      expect(page).to have_content('Select if you have received Policy confirmation')
+    end
   end
 
   def when_i_check_degrees
@@ -90,6 +94,10 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
 
   def and_i_add_an_audit_comment
     fill_in 'Zendesk ticket', with: 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+  end
+
+  def and_i_check_to_say_i_have_spoken_to_the_policy_team
+    check 'I have spoken to and received confirmation from the Policy team to action this request.'
   end
 
   def and_click_update

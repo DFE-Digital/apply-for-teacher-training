@@ -6,6 +6,7 @@ module SupportInterface
     attr_writer :sections, :editable_until
 
     validates :audit_comment, :policy_confirmation, presence: true
+    validates :policy_confirmation, inclusion: { in: %w[true] }
     validates_with ZendeskUrlValidator
 
     def non_editable_sections
