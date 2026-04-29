@@ -395,3 +395,86 @@
   - status
   - created_at
   - updated_at
+  :solid_queue_semaphores:
+  - id
+  - key
+  - value
+  - expires_at
+  - created_at
+  - updated_at
+  :solid_queue_recurring_tasks:
+  - id
+  - key
+  - schedule
+  - command
+  - class_name
+  - arguments
+  - queue_name
+  - priority
+  - static
+  - description
+  - created_at
+  - updated_at
+  :solid_queue_processes:
+  - id
+  - kind
+  - last_heartbeat_at
+  - supervisor_id
+  - pid
+  - hostname
+  - metadata
+  - created_at
+  - name
+  :solid_queue_pauses:
+  - id
+  - queue_name
+  - created_at
+  :solid_queue_jobs:
+  - id
+  - queue_name
+  - class_name
+  - arguments
+  - priority
+  - active_job_id
+  - scheduled_at
+  - finished_at
+  - concurrency_key
+  - created_at
+  - updated_at
+  :solid_queue_scheduled_executions:
+  - id
+  - job_id
+  - queue_name
+  - priority
+  - scheduled_at
+  - created_at
+  :solid_queue_recurring_executions:
+  - id
+  - job_id
+  - task_key
+  - run_at
+  - created_at
+  :solid_queue_ready_executions:
+  - id
+  - job_id
+  - queue_name
+  - priority
+  - created_at
+  :solid_queue_failed_executions:
+  - id
+  - job_id
+  - error
+  - created_at
+  :solid_queue_claimed_executions:
+  - id
+  - job_id
+  - process_id
+  - created_at
+  :solid_queue_blocked_executions:
+  - id
+  - job_id
+  - queue_name
+  - priority
+  - concurrency_key
+  - expires_at
+  - created_at
