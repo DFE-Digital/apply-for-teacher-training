@@ -3,15 +3,30 @@
     <%= form_with model: form_object, url: form_path, method: form_method do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_collection_radio_buttons attribute,
-                                           collection,
-                                           value_method,
-                                           text_method,
-                                           hint_method,
-                                           hint:,
-                                           bold_labels: bold_labels,
-                                           legend: { text: page_title, size: 'l' },
-                                           caption: { text: caption, size: 'l' } %>
+      <% if collection_count < 20 %>
+        <%= f.govuk_collection_radio_buttons attribute,
+                                             collection,
+                                             value_method,
+                                             text_method,
+                                             hint_method,
+                                             hint:,
+                                             bold_labels: bold_labels,
+                                             legend: { text: page_title, size: 'l' },
+                                             caption: { text: caption, size: 'l' } %>
+      <% else %>
+        <%= render DfE::Autocomplete::View.new(
+          f,
+          attribute_name: attribute,
+          form_field: f.govuk_select(
+            attribute,
+            options_for_select(collection_options_for_select, form_object.try(attribute)),
+            data: { controller: 'autocomplete' },
+            label: { text: page_title, size: 'l' },
+            caption: { text: caption, size: 'l' },
+            hint: { text: hint },
+          ),
+        ) %>
+      <% end %>
       <%= f.govuk_submit t('continue') %>
     <% end %>
     <%= content %>

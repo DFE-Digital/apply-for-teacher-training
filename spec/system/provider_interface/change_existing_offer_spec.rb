@@ -76,6 +76,60 @@ RSpec.describe 'Provider changes an existing offer' do
     then_i_see_that_the_offer_was_successfully_updated
   end
 
+  context 'when there are more than 20 courses' do
+    scenario 'Changing an offer which has already been made' do
+      given_i_am_a_provider_user
+      and_i_am_permitted_to_make_decisions_for_my_provider
+      and_i_sign_in_to_the_provider_interface
+
+      given_the_provider_user_can_offer_more_than_20_provider_courses
+
+      when_i_visit_the_provider_interface
+      and_i_click_an_application_choice_with_an_offer
+      and_i_click_on_the_offer_tab
+      then_i_see_the_offer_details
+
+      when_i_choose_to_change_the_provider
+      then_i_am_taken_to_the_change_provider_page
+
+      when_i_select_a_different_provider
+      and_i_click_continue
+
+      when_i_select_a_different_course_from_the_dropdown
+      and_i_click_continue
+      then_no_study_mode_is_pre_selected
+
+      when_i_select_a_study_mode
+      and_i_click_continue
+
+      when_i_select_a_new_location_from_the_dropdown
+      and_i_click_continue
+
+      then_the_conditions_page_is_loaded
+      and_the_conditions_of_the_original_offer_are_filled_in
+
+      when_i_add_a_further_condition
+      and_i_add_another_and_then_remove_a_further_condition
+      then_the_correct_conditions_are_displayed
+
+      and_i_click_continue
+
+      then_the_review_page_is_loaded
+      and_i_can_confirm_the_changed_offer_details
+
+      when_i_send_the_offer
+      then_i_see_that_the_offer_was_successfully_updated
+
+      when_i_choose_to_change_the_conditions
+      and_i_click_continue
+
+      then_the_review_page_is_loaded
+      when_i_send_the_offer
+
+      then_i_see_that_the_offer_was_successfully_updated
+    end
+  end
+
   def given_i_am_a_provider_user
     user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
   end
@@ -98,6 +152,32 @@ RSpec.describe 'Provider changes an existing offer' do
                       create(:course_option, :full_time, course: @selected_course),
                       create(:course_option, :full_time, course: @selected_course),
                       create(:course_option, :part_time, course: @selected_course)]
+
+    create(
+      :provider_relationship_permissions,
+      training_provider: provider,
+      ratifying_provider:,
+      ratifying_provider_can_make_decisions: true,
+    )
+
+    create(
+      :provider_relationship_permissions,
+      training_provider: @selected_provider,
+      ratifying_provider:,
+      ratifying_provider_can_make_decisions: true,
+    )
+
+    @selected_course_option = course_options.sample
+  end
+
+  def given_the_provider_user_can_offer_more_than_20_provider_courses
+    @selected_provider = create(:provider)
+    create(:provider_permissions, provider: @selected_provider, provider_user:, make_decisions: true)
+    courses = create_list(:course, 25, :with_course_options, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider)
+    @selected_course = courses.sample
+
+    course_options = create_list(:course_option, 25, :part_time, course: @selected_course)
+    create(:course_option, :full_time, course: @selected_course)
 
     create(
       :provider_relationship_permissions,
@@ -155,6 +235,10 @@ RSpec.describe 'Provider changes an existing offer' do
     choose @selected_course.name_and_code
   end
 
+  def when_i_select_a_different_course_from_the_dropdown
+    select @selected_course.name_and_code, from: 'Course'
+  end
+
   def then_no_study_mode_is_pre_selected
     expect(find_field('Full time')).not_to be_checked
     expect(find_field('Part time')).not_to be_checked
@@ -166,6 +250,10 @@ RSpec.describe 'Provider changes an existing offer' do
 
   def when_i_select_a_new_location
     choose @selected_course_option.site_name
+  end
+
+  def when_i_select_a_new_location_from_the_dropdown
+    select @selected_course_option.site_name, from: 'Location'
   end
 
   def then_the_conditions_page_is_loaded
