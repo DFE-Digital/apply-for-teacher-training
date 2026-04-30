@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_14_151957) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_30_153248) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1184,6 +1184,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_14_151957) do
     t.boolean "uuid_generated_by_apply", default: false
     t.index ["provider_id"], name: "index_sites_on_provider_id"
     t.index ["uuid", "provider_id"], name: "index_sites_on_uuid_and_provider_id", unique: true
+  end
+
+  create_table "solid_cache_dashboard_events", force: :cascade do |t|
+    t.integer "byte_size"
+    t.datetime "created_at", null: false
+    t.float "duration"
+    t.string "event_type", null: false
+    t.bigint "key_hash", null: false
+    t.string "key_string"
+    t.index ["created_at"], name: "index_solid_cache_dashboard_events_on_created_at"
+    t.index ["event_type"], name: "index_solid_cache_dashboard_events_on_event_type"
+    t.index ["key_hash"], name: "index_solid_cache_dashboard_events_on_key_hash"
+  end
+
+  create_table "solid_cache_entries", force: :cascade do |t|
+    t.integer "byte_size", null: false
+    t.datetime "created_at", null: false
+    t.binary "key", null: false
+    t.bigint "key_hash", null: false
+    t.binary "value", null: false
+    t.index ["byte_size"], name: "index_solid_cache_entries_on_byte_size"
+    t.index ["key_hash", "byte_size"], name: "index_solid_cache_entries_on_key_hash_and_byte_size"
+    t.index ["key_hash"], name: "index_solid_cache_entries_on_key_hash", unique: true
   end
 
   create_table "subjects", force: :cascade do |t|
