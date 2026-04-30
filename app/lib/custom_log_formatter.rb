@@ -9,6 +9,7 @@ class CustomLogFormatter < SemanticLogger::Formatters::Raw
     add_custom_fields
     sanitize_payload_fields
     remove_post_params
+    redact_mailer_arguments
 
     hash.to_json
   end
@@ -56,6 +57,13 @@ private
     return unless method_is_post_or_put_or_patch? && hash.dig(:payload, :params).present?
 
     hash[:payload][:params].clear
+  end
+
+  def redact_mailer_arguments
+    return unless hash.dig(:payload, :job_class).include? 'ActionMailer::MailDeliveryJob'
+    return if hash.dig(:payload, :arguments).blank?
+
+    hash[:payload][:arguments] = REDACTED
   end
 
   def method_is_post_or_put_or_patch?
