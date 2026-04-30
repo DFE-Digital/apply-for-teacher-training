@@ -122,8 +122,6 @@ namespace :support_interface, path: '/support' do
 
   scope path: '/candidates/:candidate_id' do
     get '/' => 'candidates#show', as: :candidate
-    post '/hide' => 'candidates#hide_in_reporting', as: :hide_candidate
-    post '/show' => 'candidates#show_in_reporting', as: :show_candidate
     post '/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
     get '/status' => 'candidates#edit_candidate_account_status', as: :edit_candidate_account_status
     patch '/status' => 'candidates#update_candidate_account_status', as: :update_candidate_account_status

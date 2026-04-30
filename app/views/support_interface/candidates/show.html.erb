@@ -14,12 +14,6 @@
   <%= govuk_button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@candidate), form_class: 'govuk-!-display-inline-block' %>
 <% end %>
 
-<% if @candidate.hide_in_reporting? %>
-  <%= govuk_button_to 'Include this candidate in service performance data', support_interface_show_candidate_path(@candidate), secondary: true, form_class: 'govuk-!-display-inline-block' %>
-<% else %>
-  <%= govuk_button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@candidate), secondary: true, form_class: 'govuk-!-display-inline-block' %>
-<% end %>
-
 <% unless @application_forms.empty? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">Candidate’s applications</h2>
   <%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @application_forms) %>
