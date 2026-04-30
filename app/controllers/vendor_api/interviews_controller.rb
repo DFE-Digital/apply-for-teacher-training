@@ -5,14 +5,18 @@ module VendorAPI
     rescue_from InterviewWorkflowConstraints::WorkflowError, with: :handle_as_validation_error
 
     def create
-      CreateInterview.new(
-        actor: audit_user,
-        application_choice:,
-        provider: provider_for_interview(interview_params[:provider_code]),
-        date_and_time: date_and_time(interview_params[:date_and_time]),
-        location: interview_params[:location],
-        additional_details: interview_params[:additional_details],
-      ).save!
+      if version_number.to_f >= 1.8 && interview_params.blank?
+        ApplicationStateChange.new(application_choice).interview!
+      else
+        CreateInterview.new(
+          actor: audit_user,
+          application_choice:,
+          provider: provider_for_interview(interview_params[:provider_code]),
+          date_and_time: date_and_time(interview_params[:date_and_time]),
+          location: interview_params[:location],
+          additional_details: interview_params[:additional_details],
+        ).save!
+      end
 
       render_application
     end
@@ -49,9 +53,9 @@ module VendorAPI
     end
 
     def provider_for_interview(code)
-      if code.present? # supporting partial updates
-        Provider.find_by(code:) || raise(ValidationException, ['Provider code is not valid'])
-      end
+      @provider_for_interview ||= if code.present? # supporting partial updates
+                                    Provider.find_by(code:) || raise(ValidationException, ['Provider code is not valid'])
+                                  end
     end
 
     def date_and_time(date_time_string)
@@ -69,6 +73,8 @@ module VendorAPI
     end
 
     def interview_params
+      return {} if params[:data].blank? && version_number.to_f >= 1.8
+
       params.require(:data).permit(:provider_code, :date_and_time, :location, :additional_details).tap do |data|
         data.require(%i[provider_code date_and_time location])
       end

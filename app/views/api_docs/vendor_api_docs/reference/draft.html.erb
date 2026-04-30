@@ -96,6 +96,74 @@
   If a candidate has an English language qualifications both attributes will be <code>nil</code>.
 </p>
 
+<p class="govuk-heading-s">New attributes added to the candidate object for viewing the candidates visa expiry details</p>
+
+<p class="govuk-body">
+  A new attribute, <code>visa_expired_at</code>, has been added to the candidate object.
+</p>
+<p class="govuk-body">
+  A new attribute, <code>visa_explanation</code>, has been added to the candidate object.
+</p>
+<p class="govuk-body">
+  A new attribute, <code>visa_explanation_details</code>, has been added to the candidate object.
+</p>
+
+<p class="govuk-body">
+  If the candidate is an international candidate, they can state when their visa is due to expire.
+  If the candidate has declared their visa expiry date, the <code>visa_expired_at</code> attribute will contain a date.
+</p>
+
+<p class="govuk-body">
+  If the candidate has declared their plans to renew their visa, or if their visa expires before the end date of the course they have applied for,
+  the <code>visa_explanation</code> attribute will contain the candidate's details of the candidate's visa circumstances.
+</p>
+
+<p class="govuk-body">
+  If the candidate has selected <code>other</code> as their <code>visa_explanation</code>,
+  the <code>visa_explanation_details</code> attribute will contain the details candidate's has provided regarding their visa.
+</p>
+
+<p class="govuk-heading-s">New attributes added to the candidate object for viewing the candidates country of residence details</p>
+
+<p class="govuk-body">
+  A new attribute, <code>country_residency_date_from</code>, has been added to the candidate object.
+</p>
+<p class="govuk-body">
+  A new attribute, <code>country_residency_since_birth</code>, has been added to the candidate object.
+</p>
+
+<p class="govuk-body">
+  If the candidate has declared the date from when they began residing in their current country of residence, the <code>country_residency_date_from</code> attribute will contain a date.
+</p>
+
+<p class="govuk-body">
+  If the candidate has resided in their declared country of residence since birth, the <code>country_residency_since_birth</code>
+  attribute will be <code>true</code>.
+</p>
+
+<p class="govuk-heading-s">Mark the CreateInterview object as optional on the CreateInterview endpoint</p>
+
+<p class="govuk-body">
+  The <%= govuk_link_to 'CreateInterview', '#createinterview-object' %> object is now optional.
+</p>
+<p class="govuk-body">
+  Sending a request to the <%= govuk_link_to 'create interview endpoint', '#post-applications-application_id-interviews-create' %> with a CreateInterview object
+  will update the application status to <code>interviewing</code> and schedule an interview on the service.
+</p>
+<p class="govuk-body">
+  Sending a request to the endpoint without an interview object will update the status only.
+</p>
+
+<p class="govuk-heading-s">Applications with a status of interviewing will show as <code>interviewing</code> in version 1.8 and above</p>
+
+<p class="govuk-body">
+  In versions 1.7 and below, an application shows as <code>awaiting_provider_decision</code> until a decision is made, even if its status in the UI is <code>interviewing</code>.
+</p>
+
+<p class="govuk-body">
+  In version 1.8 and above, applications with a status of <code>interviewing</code> will show as <code>interviewing</code> in the API.
+</p>
+
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
 
 <h2 class="govuk-heading-l" id="developing">Developing on the API</h2>
