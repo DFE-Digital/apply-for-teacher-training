@@ -2,7 +2,7 @@ require 'rails_helper'
 
 # This is an end-to-end test for the API response. To test complex logic in
 # the presenter, see spec/presenters/register_api/single_application_presenter_spec.rb.
-RSpec.describe 'Register receives an application data', time: CycleTimetableHelper.mid_cycle(2025) do
+RSpec.describe 'Register receives an application data', :with_cache, time: CycleTimetableHelper.mid_cycle(2025) do
   include CandidateHelper
   include DfE::Bigquery::TestHelper
 

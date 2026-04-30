@@ -5,7 +5,7 @@ RSpec.describe 'Remove offer conditions' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
-  scenario 'Provider user removes the conditions from an offer with javascript on', :js do
+  scenario 'Provider user removes the conditions from an offer with javascript on', :js, :with_cache do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface
@@ -26,7 +26,7 @@ RSpec.describe 'Remove offer conditions' do
     then_the_candidate_has_the_new_conditions
   end
 
-  scenario 'Provider user removes the conditions from an offer with javascript off', js: false do
+  scenario 'Provider user removes the conditions from an offer with javascript off', :with_cache, js: false do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface

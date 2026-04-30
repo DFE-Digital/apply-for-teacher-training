@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Validation errors provider summary' do
+RSpec.describe 'Validation errors provider summary', :with_cache do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
   include CourseOptionHelpers

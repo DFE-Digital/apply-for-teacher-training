@@ -6,7 +6,7 @@ RSpec.describe 'Provider user sets up an interview', feature_flag: :interview_ha
 
   let(:current_provider) { create(:provider) }
 
-  scenario 'Provider user has permission to manage the organisation settings' do
+  scenario 'Provider user has permission to manage the organisation settings', :with_cache do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_sign_in_to_the_provider_interface
     and_an_application_for_the_provider_exists

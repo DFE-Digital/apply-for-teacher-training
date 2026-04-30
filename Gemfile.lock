@@ -357,6 +357,8 @@ GEM
     govuk_markdown (2.0.4)
       activesupport
       redcarpet
+    groupdate (6.8.0)
+      activesupport (>= 7.2)
     grover (1.2.10)
       nokogiri (~> 1)
     guard (2.18.1)
@@ -765,6 +767,15 @@ GEM
     sniffer (0.5.0)
       anyway_config (>= 1.0)
       dry-initializer (~> 3)
+    solid_cache (1.0.10)
+      activejob (>= 7.2)
+      activerecord (>= 7.2)
+      railties (>= 7.2)
+    solid_cache_dashboard (0.2.0)
+      chartkick (>= 5.0)
+      groupdate (>= 6.5)
+      pagy (>= 6.0)
+      solid_cache (>= 0.2.0)
     stoplight (3.0.2)
       redlock (~> 1.0)
     stringio (3.2.0)
@@ -961,6 +972,8 @@ DEPENDENCIES
   simplecov
   simplecov-cobertura
   skylight
+  solid_cache (~> 1.0)
+  solid_cache_dashboard
   strip_attributes
   strong_migrations
   super_diff
@@ -1088,6 +1101,7 @@ CHECKSUMS
   govuk-components (6.1.0) sha256=242bdcc7d573eb5ae6086409754bf92656428ac8235454358b76fa5e54f0e79c
   govuk_design_system_formbuilder (6.1.0) sha256=b0fdb3714e59665f1a522291840bcc89801cb4325f243e8717e0f9be87d1192c
   govuk_markdown (2.0.4) sha256=c744f0a041607d60942c24dcf3d8fd24eaf73c4eb8299ea025455691a211242e
+  groupdate (6.8.0) sha256=16f90ea18ca981c38e41e592416480b28353aa5e5cc3e7cb13a68b8fb5d40510
   grover (1.2.10) sha256=989b21d1a0048e3793b9939b392152fb309c7a107911ad04c10e422de4e1479b
   guard (2.18.1) sha256=a3893d3b23d538a9b2d6f05a27713e0ed53ea881df0f0550b21a3393c6d87c09
   guard-compat (1.2.1) sha256=3ad21ab0070107f92edfd82610b5cdc2fb8e368851e72362ada9703443d646fe
@@ -1245,6 +1259,8 @@ CHECKSUMS
   skylight (7.1.1) sha256=90b09ad73288ad11322f7db4e25b3f096b522d752a368d2c9e70bc346986e951
   smart_properties (1.17.0) sha256=f9323f8122e932341756ddec8e0ac9ec6e238408a7661508be99439ca6d6384b
   sniffer (0.5.0) sha256=cd040cc51929c04749b20baa4dd8f5985174210e13437491f4923b8de27e1359
+  solid_cache (1.0.10) sha256=bc05a2fb3ac78a6f43cbb5946679cf9db67dd30d22939ededc385cb93e120d41
+  solid_cache_dashboard (0.2.0) sha256=b59d4145d80c0989c4958125052a3edec709d066b1f4297a5b7d85ddce4bd994
   stoplight (3.0.2) sha256=9bc2697a9c380aa6d8380d820c2663bda50cee3a9680a256ea035f8cf0e918ee
   stringio (3.2.0) sha256=c37cb2e58b4ffbd33fe5cd948c05934af997b36e0b6ca6fdf43afa234cf222e1
   strip_attributes (2.0.1) sha256=604cb833fc69aedefffc60a79bd91a7faf3753caf34db3889beaf2d88afa7e8b

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'International candidate submits the application' do
+RSpec.describe 'International candidate submits the application', :with_cache do
   include CandidateHelper
   include EFLHelper
   include DfE::Bigquery::TestHelper

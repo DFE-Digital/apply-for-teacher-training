@@ -25,7 +25,7 @@ RSpec.describe 'Provider changes an existing offer' do
   end
   let(:course_option) { build(:course_option, course:) }
 
-  scenario 'Changing an offer which has already been made' do
+  scenario 'Changing an offer which has already been made', :with_cache do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_i_sign_in_to_the_provider_interface

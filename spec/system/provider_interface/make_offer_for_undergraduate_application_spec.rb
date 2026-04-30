@@ -10,7 +10,7 @@ RSpec.describe 'Provider makes an offer on undergraduate applications' do
   let(:provider_user) { @provider_user }
   let(:application_choice) { @application_choice }
 
-  scenario 'Making an offer for the requested course option' do
+  scenario 'Making an offer for the requested course option', :with_cache do
     given_there_is_an_undergraduate_application
     and_the_course_subject_requires_ske
     and_i_am_a_provider_user

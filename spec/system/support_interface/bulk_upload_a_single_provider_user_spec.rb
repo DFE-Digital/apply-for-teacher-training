@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'bulk upload provider users' do
+RSpec.describe 'bulk upload provider users', :with_cache do
   include DfESignInHelpers
   include DsiAPIHelper
 

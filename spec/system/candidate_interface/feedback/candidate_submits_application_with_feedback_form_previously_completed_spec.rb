@@ -8,7 +8,7 @@ RSpec.describe 'Candidate submits application with feedback form previously comp
     stub_bigquery_non_disclosure_trainee_withdrawals_request
   end
 
-  it 'Candidate submits application, skips feedback and goes straight to the application dashboard' do
+  it 'Candidate submits application, skips feedback and goes straight to the application dashboard', :with_cache do
     given_i_complete_my_application
     and_the_feedback_form_was_previously_submitted
     then_i_submit_my_application

@@ -8,7 +8,7 @@ RSpec.describe 'Vendor makes unconditional offer', time: CycleTimetableHelper.mi
     stub_bigquery_non_disclosure_trainee_withdrawals_request
   end
 
-  scenario 'A vendor makes an unconditional offer and this is accepted by the candidate' do
+  scenario 'A vendor makes an unconditional offer and this is accepted by the candidate', :with_cache do
     given_a_candidate_has_submitted_their_application
     when_i_make_an_unconditional_offer_for_the_application_over_the_api
     then_i_can_see_the_offer_was_made_successfully

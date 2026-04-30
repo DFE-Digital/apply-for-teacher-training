@@ -18,7 +18,7 @@ RSpec.describe 'Provider makes an offer' do
   end
   let(:course_option) { build(:course_option, course: course) }
 
-  scenario 'Making an offer for the requested course option' do
+  scenario 'Making an offer for the requested course option', :with_cache do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_i_sign_in_to_the_provider_interface

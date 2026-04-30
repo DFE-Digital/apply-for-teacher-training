@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Deleting and replacing a degree' do
+RSpec.describe 'Deleting and replacing a degree', :with_cache do
   include CandidateHelper
 
   scenario 'Candidate deletes and replaces their degree' do

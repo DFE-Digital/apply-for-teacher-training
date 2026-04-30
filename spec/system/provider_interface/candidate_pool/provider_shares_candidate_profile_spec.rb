@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider shares candidate profile' do
+RSpec.describe 'Provider shares candidate profile', :with_cache do
   include CourseOptionHelpers
   include DfESignInHelpers
 

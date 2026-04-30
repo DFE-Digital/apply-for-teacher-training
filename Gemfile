@@ -199,3 +199,6 @@ gem 'cssbundling-rails', '1.4.3'
 gem 'jsbundling-rails', '~> 1.3'
 
 gem 'propshaft', '~> 1.3'
+
+gem 'solid_cache', '~> 1.0'
+gem 'solid_cache_dashboard'
