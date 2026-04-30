@@ -10,6 +10,10 @@ class Clock
 
   # More-than-hourly jobs
 
+  # every(5.minutes, 'SolidQueueTestJob') do
+  #   SolidQueueTestJob.perform_later
+  # end
+
   every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI', skip_first_run: true) do
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true)
   end

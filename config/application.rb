@@ -76,6 +76,10 @@ module ApplyForPostgraduateTeacherTraining
 
     config.active_job.queue_adapter = :sidekiq
 
+    # Set up UI for SolidQueue, accessible at /support/jobs (only works when the queue adapter is set to mission control for the whole app)
+    MissionControl::Jobs.http_basic_auth_user = 'dev'
+    MissionControl::Jobs.http_basic_auth_password = 'secret'
+
     config.action_controller.perform_caching = true
     config.cache_store = :memory_store
 

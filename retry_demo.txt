@@ -1,0 +1,4 @@
+RetryDemoJob attempt 1 at 2026-04-30 14:20:47 +0100
+RetryDemoJob attempt 2 at 2026-04-30 14:20:58 +0100
+RetryDemoJob attempt 3 at 2026-04-30 14:21:09 +0100
+RetryDemoJob succeeded on attempt 3 at 2026-04-30 14:21:09 +0100
