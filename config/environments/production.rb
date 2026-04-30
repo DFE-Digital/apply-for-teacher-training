@@ -84,7 +84,7 @@ Rails.application.configure do
   config.cache_store = :redis_cache_store, { url: ENV.fetch("REDIS_CACHE_URL") }
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
-  # config.active_job.queue_adapter = :resque
+  config.active_job.queue_adapter = :solid_queue
   # config.active_job.queue_name_prefix = "apply_for_postgraduate_teacher_training_production"
 
   # Disable caching for Action Mailer templates even if Action Controller

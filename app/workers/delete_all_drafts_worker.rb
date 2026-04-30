@@ -1,11 +1,13 @@
-class DeleteAllDraftsWorker
-  include Sidekiq::Worker
+class DeleteAllDraftsWorker < ApplicationJob
+  # include Sidekiq::Worker
 
-  sidekiq_options queue: :low_priority
+  # sidekiq_options queue: :low_priority
+  self.queue_adapter = :solid_queue
+
 
   def perform
-    Candidate::DeleteDraftWithdrawalReasonRecordsWorker.perform_async
-    Provider::DeleteDraftPoolInvitesWorker.perform_async
-    Candidate::DeleteDraftCandidatePreferencesWorker.perform_async
+    Candidate::DeleteDraftWithdrawalReasonRecordsWorker.perform_later
+    Provider::DeleteDraftPoolInvitesWorker.perform_later
+    Candidate::DeleteDraftCandidatePreferencesWorker.perform_later
   end
 end
