@@ -60,8 +60,8 @@ private
   end
 
   def redact_mailer_arguments
+    return if hash.dig(:payload, :job_class).blank? || hash.dig(:payload, :arguments).blank?
     return unless hash.dig(:payload, :job_class).include? 'ActionMailer::MailDeliveryJob'
-    return if hash.dig(:payload, :arguments).blank?
 
     hash[:payload][:arguments] = REDACTED
   end
