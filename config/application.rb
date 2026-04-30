@@ -77,7 +77,14 @@ module ApplyForPostgraduateTeacherTraining
     config.active_job.queue_adapter = :sidekiq
 
     config.action_controller.perform_caching = true
-    config.cache_store = :solid_cache_store
+
+    config.cache_store = [
+      :splitter_cache_store,
+      caches: {
+        redis: :redis_cache_store,
+        solid_cache: :solid_cache_store
+      },
+    ]
 
     config.i18n.load_path += Dir[Rails.root.join("config/locales/**/*.{rb,yml}")]
 
