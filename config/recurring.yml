@@ -12,7 +12,7 @@
 development:
   solid_queue_test_job:
     class: SolidQueueTestJob
-    schedule: every 1 minute
+    schedule: every 3 minutes # you can use natural language like this, or cron
 
 
 production:

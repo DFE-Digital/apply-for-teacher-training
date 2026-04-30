@@ -1,9 +1,9 @@
-class Candidate::DeleteDraftWithdrawalReasonRecordsWorker
-  include Sidekiq::Worker
+class Candidate::DeleteDraftWithdrawalReasonRecordsWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
-  sidekiq_options queue: :low_priority
+  queue_as :low_priority
 
   def perform
-    WithdrawalReason.draft.where('updated_at < ?', 3.days.ago).delete_all
+    WithdrawalReason.draft.delete_all
   end
 end

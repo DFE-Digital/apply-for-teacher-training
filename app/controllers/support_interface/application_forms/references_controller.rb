@@ -3,6 +3,9 @@ module SupportInterface
     class ReferencesController < SupportInterfaceController
       def edit_reference_details
         @details_form = EditReferenceDetailsForm.build_from_reference(reference)
+        # ScheduledTestJob
+        #   .set(wait_until: Time.zone.parse('2026-05-02 12:00'))
+        #   .perform_later
       end
 
       def update_reference_details
