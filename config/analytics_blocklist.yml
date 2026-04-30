@@ -1,5 +1,20 @@
 ---
 :shared:
+  :solid_cache_entries:
+  - id
+  - key
+  - value
+  - created_at
+  - key_hash
+  - byte_size
+  :solid_cache_dashboard_events:
+  - id
+  - event_type
+  - key_hash
+  - key_string
+  - byte_size
+  - duration
+  - created_at
   :regional_edi_reports:
   - id
   - statistics
