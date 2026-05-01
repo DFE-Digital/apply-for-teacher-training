@@ -59,7 +59,7 @@ module CandidateInterface
   private
 
     def set_application_choice
-      @application_choice = @current_application.application_choices.find(params[:id])
+      @application_choice = active_application_choices.find(params[:id])
     end
 
     def single_application_choice?

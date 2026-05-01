@@ -17,6 +17,13 @@ module CandidateInterface
             .includes(:course, :site, :provider, :current_course, :current_course_option, :interviews)
             .includes(offer: :conditions),
       )
+      @previous_application_choices = CandidateInterface::SortApplicationChoices.call(
+        application_choices:
+          previous_application
+            .application_choices
+            .includes(:course, :site, :provider, :current_course, :current_course_option, :interviews)
+            .includes(offer: :conditions),
+        )
     end
 
     # POST /candidate/application/course-choices/:id/submit

@@ -95,8 +95,16 @@ class Candidate < ApplicationRecord
                         end
   end
 
+  def previous_application
+    application_forms.order(:created_at, :id).where.not(id: current_application.id).last
+  end
+
   def current_application_choices
     current_application.application_choices
+  end
+
+  def active_application_choices
+    application_choices.where(application_form: [current_application, previous_application])
   end
 
   def last_updated_application

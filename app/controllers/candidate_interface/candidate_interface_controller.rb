@@ -64,6 +64,16 @@ module CandidateInterface
     end
     helper_method :current_application
 
+    def previous_application
+      @previous_application ||= current_candidate.previous_application
+    end
+    helper_method :previous_application
+
+    def active_application_choices
+      @active_application_choices ||= current_candidate.active_application_choices
+    end
+    helper_method :active_application_choices
+
   private
 
     def track_adviser_offering

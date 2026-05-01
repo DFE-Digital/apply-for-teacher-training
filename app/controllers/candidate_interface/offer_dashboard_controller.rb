@@ -8,7 +8,7 @@ module CandidateInterface
     def show
       authorize %i[candidate_interface offer_dashboard], :show?
       @application_form = current_application
-      choices = current_application.application_choices.includes(:offer, course_option: [course: :provider])
+      choices = active_application_choices.includes(:offer, course_option: [course: :provider])
       @application_choice = choices.pending_conditions.first || choices.recruited.first || choices.offer_deferred.first
       @provider = @application_choice.current_provider
       @course_name_and_code = @application_choice.current_course.name_and_code
