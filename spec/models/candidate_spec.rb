@@ -654,4 +654,73 @@ RSpec.describe Candidate do
       expect(candidate.applied_only_to_salaried_courses?).to be(false)
     end
   end
+
+  describe '#active_previous_application' do
+    let(:candidate) { create(:candidate) }
+    let(:current_application_form) { create(:application_form, candidate: candidate) }
+    let(:previous_application_form) { create(:application_form, candidate: candidate, created_at: 1.year.ago) }
+
+    before do
+      current_application_form
+      previous_application_form
+      previous_application_choice
+    end
+
+    context 'when the previous application has application choices with "in progress" states' do
+      %i[awaiting_provider_decision interviewing pending_conditions recruited offer_deferred offer].each do |status|
+        let(:previous_application_choice) { create(:application_choice, application_form: previous_application_form, status:) }
+
+        it 'returns the previous application form' do
+          expect(candidate.active_previous_application).to eq(previous_application_form)
+        end
+      end
+    end
+
+    context 'when the previous application does not have application choices with "in progress" states' do
+      %i[unsubmitted cancelled inactive rejected application_not_sent offer_withdrawn declined
+         withdrawn conditions_not_met].each do |status|
+        let(:previous_application_choice) { create(:application_choice, application_form: previous_application_form, status:) }
+
+        it 'returns the previous application form' do
+          expect(candidate.active_previous_application).to be_nil
+        end
+      end
+    end
+  end
+
+  describe '#active_application_choices' do
+    let(:candidate) { create(:candidate) }
+    let(:current_application_form) { create(:application_form, candidate: candidate) }
+    let(:previous_application_form) { create(:application_form, candidate: candidate, created_at: 1.year.ago) }
+    let(:current_application_choice) { create(:application_choice, application_form: current_application_form) }
+
+    before do
+      current_application_choice
+      previous_application_choice
+    end
+
+    context 'when the previous application has application choices with "in progress" states' do
+      before { previous_application_choice }
+
+      let(:previous_application_choice) do
+        create(:application_choice, application_form: previous_application_form, status: :awaiting_provider_decision)
+      end
+
+      it 'returns application choices for both the current application form and previous application form' do
+        expect(candidate.active_application_choices).to contain_exactly(current_application_choice, previous_application_choice)
+      end
+    end
+
+    context 'when the previous application has application choices with "in progress" states' do
+      before { previous_application_choice }
+
+      let(:previous_application_choice) do
+        create(:application_choice, application_form: previous_application_form, status: :rejected)
+      end
+
+      it 'returns application choices for both the current application form and previous application form' do
+        expect(candidate.active_application_choices).to contain_exactly(current_application_choice)
+      end
+    end
+  end
 end

@@ -126,6 +126,95 @@ RSpec.describe ApplicationChoice do
     end
   end
 
+  describe '.course_starts_after_september' do
+    let(:current_recruitment_cycle_year) { 2026 }
+    let(:august_course) { create(:course, start_date: Date.parse('01/08/2026')) }
+    let(:start_september_course) { create(:course, start_date: Date.parse('01/09/2026')) }
+    let(:end_september_course) { create(:course, start_date: Date.parse('30/09/2026')) }
+    let(:previous_recruitment_cycle_course) { create(:course, start_date: Date.parse('01/09/2025')) }
+    let(:next_recruitment_cycle_course) { create(:course, start_date: Date.parse('01/09/2027')) }
+    let(:october_course) { create(:course, start_date: Date.parse('01/10/2026')) }
+    let(:january_course) { create(:course, start_date: Date.parse('01/01/2027')) }
+    let(:may_course) { create(:course, start_date: Date.parse('01/05/2027')) }
+    let(:august_application_choice) do
+      create(
+        :application_choice,
+        current_recruitment_cycle_year:,
+        course_option: create(:course_option, course: august_course),
+      )
+    end
+    let(:start_september_application_choice) do
+      create(
+        :application_choice,
+        current_recruitment_cycle_year:,
+        course_option: create(:course_option, course: start_september_course),
+      )
+    end
+    let(:end_september_application_choice) do
+      create(
+        :application_choice,
+        current_recruitment_cycle_year:,
+        course_option: create(:course_option, course: end_september_course),
+      )
+    end
+    let(:previous_recruitment_cycle_choice) do
+      create(
+        :application_choice,
+        current_recruitment_cycle_year: current_recruitment_cycle_year - 1,
+        course_option: create(:course_option, course: previous_recruitment_cycle_course),
+      )
+    end
+    let(:next_recruitment_cycle_choice) do
+      create(
+        :application_choice,
+        current_recruitment_cycle_year: current_recruitment_cycle_year + 1,
+        course_option: create(:course_option, course: next_recruitment_cycle_course),
+      )
+    end
+    let(:october_choice) do
+      create(
+        :application_choice,
+        current_recruitment_cycle_year:,
+        course_option: create(:course_option, course: october_course),
+      )
+    end
+    let(:january_choice) do
+      create(
+        :application_choice,
+        current_recruitment_cycle_year:,
+        course_option: create(:course_option, course: january_course),
+      )
+    end
+    let(:may_choice) do
+      create(
+        :application_choice,
+        current_recruitment_cycle_year:,
+        course_option: create(:course_option, course: may_course),
+      )
+    end
+
+    before do
+      august_application_choice
+      start_september_application_choice
+      end_september_application_choice
+      previous_recruitment_cycle_choice
+      next_recruitment_cycle_choice
+      october_choice
+      january_choice
+      may_choice
+    end
+
+    it 'returns application choices associated with courses starting after september' do
+      expect(
+        described_class.course_starts_after_september(current_recruitment_cycle_year),
+      ).to contain_exactly(
+        october_choice,
+        january_choice,
+        may_choice,
+      )
+    end
+  end
+
   describe '.in_progress' do
     it 'returns nothing when there are no in progress choices' do
       create(:application_choice, :rejected)
@@ -981,6 +1070,32 @@ RSpec.describe ApplicationChoice do
       allow(HostingEnvironment).to receive(:qa?).and_return(true)
 
       expect(application_choice.find_provider_url).to match(/qa/)
+    end
+  end
+
+  describe '#starts_after_september?' do
+    let(:application_choice) do
+      create(
+        :application_choice,
+        current_recruitment_cycle_year: 2026,
+        course_option: create(:course_option, course:),
+      )
+    end
+
+    context 'when the application choice course start date is after september' do
+      let(:course) { create(:course, start_date: Date.parse('01/10/2026')) }
+
+      it 'returns true' do
+        expect(application_choice.starts_after_september?).to be(true)
+      end
+    end
+
+    context 'when the application choice course start date before the end of september' do
+      let(:course) { create(:course, start_date: Date.parse('01/09/2026')) }
+
+      it 'returns false' do
+        expect(application_choice.starts_after_september?).to be(false)
+      end
     end
   end
 end

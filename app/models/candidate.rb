@@ -87,7 +87,7 @@ class Candidate < ApplicationRecord
   end
 
   def current_application
-    application_form = application_forms.order(:created_at, :id).last
+    application_form = ordered_application_forms.last
     application_form || if RecruitmentCycleTimetable.current_timetable.after_apply_deadline?
                           application_forms.create!(recruitment_cycle_year: RecruitmentCycleTimetable.next_year)
                         else
@@ -95,8 +95,20 @@ class Candidate < ApplicationRecord
                         end
   end
 
+  def active_previous_application
+    ordered_application_forms
+      .joins(:application_choices)
+      .where.not(id: current_application)
+      .where(application_choices: { status: ApplicationStateChange::IN_PROGRESS_STATES })
+      .last
+  end
+
   def current_application_choices
     current_application.application_choices
+  end
+
+  def active_application_choices
+    application_choices.where(application_form: [current_application, active_previous_application])
   end
 
   def last_updated_application
@@ -161,6 +173,10 @@ class Candidate < ApplicationRecord
   end
 
 private
+
+  def ordered_application_forms
+    @ordered_application_forms ||= application_forms.order(:created_at, :id)
+  end
 
   def downcase_email
     email_address.try(:downcase!)
