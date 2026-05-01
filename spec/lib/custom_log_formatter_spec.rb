@@ -82,4 +82,30 @@ RSpec.describe CustomLogFormatter do
     expect(log_hash[:payload][:subject]).to eq('[REDACTED]')
     expect(log_hash[:payload][:to]).to eq('[REDACTED]')
   end
+
+  it 'filters out arguments when the job class is "ActionMailer::MailDeliveryJob"' do
+    log.message = 'Enqueued Message'
+    log.payload = {
+      job_class: 'ActionMailer::MailDeliveryJob',
+      arguments: {
+        token: 'ABC123',
+        email_address: 'email@email.example.com',
+      },
+      event_name: 'deliver.action_mailer',
+      mailer: 'CandidateMailer',
+      action: nil,
+      message_id: '1234@apply-review-1234-worker-1234-1234.mail',
+      perform_deliveries: true,
+      subject: '[REVIEW] You have submitted your teacher training application',
+      to: ['some.email+testlog@education.gov.uk'],
+      from: nil,
+      bcc: nil,
+      cc: nil,
+      date: '2024-07-19 14:12:25 UTC',
+      duration: 101.07,
+      args: nil,
+    }
+
+    expect(log_hash[:payload][:arguments]).to eq('[REDACTED]')
+  end
 end
