@@ -4,8 +4,6 @@ class SolidQueueTestJob < ApplicationJob
   queue_as :low_priority
 
   def perform
-    Rails.root.join('test_success.txt').open('a') do |file|
-      file.puts "✅ Solid Queue job ran successfully at #{Time.current}"
-    end
+    ApplicationForm.last.update(updated_at: Time.zone.now)
   end
 end
