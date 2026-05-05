@@ -6,7 +6,7 @@ RSpec.describe ActiveSupport::Cache::SplitterCacheStore do
   let(:options) do
     {
       caches: {
-        redis: [:redis_cache_store, { url: 'redis://localhost:6379/0' }],
+        redis: [:redis_cache_store, { url: ENV.fetch('REDIS_URL', 'redis://redis:6379/0') }],
         solid_cache: :solid_cache_store,
       },
     }
