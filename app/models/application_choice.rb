@@ -87,6 +87,16 @@ class ApplicationChoice < ApplicationRecord
   scope :decision_pending_and_inactive, -> { where(status: ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES) }
   scope :accepted, -> { where(status: ApplicationStateChange::ACCEPTED_STATES) }
   scope :inactive_past_day, -> { inactive.where(inactive_at: 1.day.ago..Time.zone.now) }
+  scope :course_starts_after_september, lambda { |recruitment_cycle_year|
+    start_date = Date.parse("30/09/#{recruitment_cycle_year}").at_end_of_day
+    joins(course_option: :course)
+      .where(current_recruitment_cycle_year: recruitment_cycle_year)
+      .where('courses.start_date > ?', start_date)
+  }
+
+  def starts_after_september?
+    course.start_date > Date.parse("30/09/#{current_recruitment_cycle_year}").at_end_of_day
+  end
 
   def visa_expires_soon?
     return false if FeatureFlag.inactive?('2027_visa_expiry')

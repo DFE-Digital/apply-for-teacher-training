@@ -18,6 +18,7 @@ class ApplicationStateChange
 
   TERMINAL_STATES = UNSUCCESSFUL_STATES + %i[recruited].freeze
   IN_PROGRESS_STATES = DECISION_PENDING_STATUSES + ACCEPTED_STATES + %i[offer].freeze - %i[conditions_not_met]
+  ACTIVE_PREVIOUS_STATUSES = (ApplicationStateChange::IN_PROGRESS_STATES + %i[inactive] - %i[offer_deferred]).freeze
 
   attr_reader :application_choice
 
