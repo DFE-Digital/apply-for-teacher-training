@@ -681,7 +681,7 @@ RSpec.describe Candidate do
          withdrawn conditions_not_met].each do |status|
         let(:previous_application_choice) { create(:application_choice, application_form: previous_application_form, status:) }
 
-        it 'returns the previous application form' do
+        it 'returns nil' do
           expect(candidate.active_previous_application).to be_nil
         end
       end
@@ -700,8 +700,6 @@ RSpec.describe Candidate do
     end
 
     context 'when the previous application has application choices with an "in progress" states' do
-      before { previous_application_choice }
-
       let(:previous_application_choice) do
         create(:application_choice, application_form: previous_application_form, status: :awaiting_provider_decision)
       end
@@ -712,8 +710,6 @@ RSpec.describe Candidate do
     end
 
     context 'when the previous application has application choices not with an "in progress" states' do
-      before { previous_application_choice }
-
       let(:previous_application_choice) do
         create(:application_choice, application_form: previous_application_form, status: :rejected)
       end

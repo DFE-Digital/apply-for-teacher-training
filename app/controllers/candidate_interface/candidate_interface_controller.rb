@@ -72,6 +72,7 @@ module CandidateInterface
     def active_application_choices
       @active_application_choices ||= current_candidate.active_application_choices
     end
+    helper_method :active_application_choices
 
   private
 
