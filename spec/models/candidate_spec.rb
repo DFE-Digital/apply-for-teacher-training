@@ -663,25 +663,22 @@ RSpec.describe Candidate do
     before do
       current_application_form
       previous_application_form
-      previous_application_choice
     end
 
     context 'when the previous application has application choices with "in progress" states' do
-      %i[awaiting_provider_decision interviewing pending_conditions recruited offer_deferred offer].each do |status|
-        let(:previous_application_choice) { create(:application_choice, application_form: previous_application_form, status:) }
-
-        it 'returns the previous application form' do
+      %i[awaiting_provider_decision interviewing pending_conditions recruited offer_deferred offer inactive].each do |status|
+        it "returns the previous application form (status: #{status})" do
+          create(:application_choice, application_form: previous_application_form, status:)
           expect(candidate.active_previous_application).to eq(previous_application_form)
         end
       end
     end
 
     context 'when the previous application does not have application choices with "in progress" states' do
-      %i[unsubmitted cancelled inactive rejected application_not_sent offer_withdrawn declined
+      %i[unsubmitted cancelled rejected application_not_sent offer_withdrawn declined
          withdrawn conditions_not_met].each do |status|
-        let(:previous_application_choice) { create(:application_choice, application_form: previous_application_form, status:) }
-
-        it 'returns nil' do
+        it "returns nil (status: #{status})" do
+          create(:application_choice, application_form: previous_application_form, status:)
           expect(candidate.active_previous_application).to be_nil
         end
       end
