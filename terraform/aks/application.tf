@@ -97,7 +97,7 @@ module "solid_queue_worker" {
 
   is_web                       = false
   namespace                    = var.namespace
-  environment                  = var.app_name_suffix
+  environment                  = local.app_name_suffix
   service_name                 = var.service_name
   name                         = "solid-queue-worker"
   docker_image                 = var.docker_image
