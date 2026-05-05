@@ -99,7 +99,7 @@ class Candidate < ApplicationRecord
     ordered_application_forms
       .joins(:application_choices)
       .where.not(id: current_application)
-      .where(application_choices: { status: (ApplicationStateChange::IN_PROGRESS_STATES + %i[inactive]) })
+      .where(application_choices: { status: (ApplicationStateChange::IN_PROGRESS_STATES + %i[inactive] - %i[offer_deferred]) })
       .last
   end
 
