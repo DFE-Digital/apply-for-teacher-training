@@ -699,7 +699,7 @@ RSpec.describe Candidate do
       previous_application_choice
     end
 
-    context 'when the previous application has application choices with "in progress" states' do
+    context 'when the previous application has application choices with an "in progress" states' do
       before { previous_application_choice }
 
       let(:previous_application_choice) do
@@ -711,7 +711,7 @@ RSpec.describe Candidate do
       end
     end
 
-    context 'when the previous application has application choices with "in progress" states' do
+    context 'when the previous application has application choices not with an "in progress" states' do
       before { previous_application_choice }
 
       let(:previous_application_choice) do
