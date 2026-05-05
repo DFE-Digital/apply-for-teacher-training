@@ -13,12 +13,12 @@ class ApplicationStateChange
   SUCCESSFUL_STATES = %i[pending_conditions offer offer_deferred recruited].freeze
   DECISION_PENDING_STATUSES = %i[awaiting_provider_decision interviewing].freeze
   DECISION_PENDING_AND_INACTIVE_STATUSES = %i[awaiting_provider_decision interviewing inactive].freeze
-  ACTIVE_PREVIOUS_STATUSES = (ApplicationStateChange::IN_PROGRESS_STATES + %i[inactive] - %i[offer_deferred]).freeze
 
   REAPPLY_STATUSES = %i[rejected cancelled withdrawn declined offer_withdrawn].freeze
 
   TERMINAL_STATES = UNSUCCESSFUL_STATES + %i[recruited].freeze
   IN_PROGRESS_STATES = DECISION_PENDING_STATUSES + ACCEPTED_STATES + %i[offer].freeze - %i[conditions_not_met]
+  ACTIVE_PREVIOUS_STATUSES = (ApplicationStateChange::IN_PROGRESS_STATES + %i[inactive] - %i[offer_deferred]).freeze
 
   attr_reader :application_choice
 
