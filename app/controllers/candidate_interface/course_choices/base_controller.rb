@@ -95,7 +95,7 @@ module CandidateInterface
       end
 
       def application_choice
-        @application_choice ||= current_application.application_choices.find(params[:application_choice_id])
+        @application_choice ||= active_application_choices.find(params[:application_choice_id])
       end
 
     private

@@ -7,11 +7,11 @@ module CandidateInterface
   private
 
     def any_offer_pending_conditions?
-      current_application.application_choices.map(&:status).include?('pending_conditions')
+      active_application_choices.pluck(:status).include?('pending_conditions')
     end
 
     def any_deferred_offer?
-      current_application.application_choices.map(&:status).include?('offer_deferred')
+      active_application_choices.pluck(:status).include?('offer_deferred')
     end
 
     class Scope < ApplicationPolicy::Scope
