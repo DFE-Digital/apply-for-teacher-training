@@ -6,6 +6,7 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', :sidekiq 
     create(:reference, feedback_status: 'feedback_requested', application_form:)
   end
   let(:notify_callback_token) { ENV.fetch('GOVUK_NOTIFY_CALLBACK_API_KEY') }
+  # test the other key
   let(:headers) do
     { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{notify_callback_token}" }
   end
