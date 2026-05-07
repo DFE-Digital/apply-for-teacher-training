@@ -10,6 +10,10 @@ class Clock
 
   # More-than-hourly jobs
 
+  every(2.minutes, 'DeleteAllDrafts', skip_first_run: true) do
+    DeleteAllDraftsWorker.perform_later
+  end
+
   every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI', skip_first_run: true) do
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true)
   end
@@ -38,7 +42,7 @@ class Clock
   every(1.day, 'DeleteExpiredSessionsWorker', at: '5:01') { DeleteExpiredSessionsWorker.perform_async }
   every(1.day, 'RemoveInactiveSupportUsersWorker', at: '5:02') { RemoveInactiveSupportUsersWorker.perform_async }
   every(1.day, 'RemoveInactiveProviderUsersWorker', at: '5:05') { RemoveInactiveProviderUsersWorker.perform_async }
-  every(1.day, 'DeleteAllDrafts', at: '4:01') { DeleteAllDraftsWorker.perform_async }
+  # every(1.day, 'DeleteAllDrafts', at: '4:01') { DeleteAllDraftsWorker.perform_later }
   every(1.day, 'Chasers::Candidate::OfferWorker', at: '10:30') { Chasers::Candidate::OfferWorker.perform_async }
 
   every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_async }

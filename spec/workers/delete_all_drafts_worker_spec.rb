@@ -2,24 +2,41 @@ require 'rails_helper'
 
 RSpec.describe DeleteAllDraftsWorker do
   describe '#perform' do
-    let(:delete_drafts) { described_class.new.perform }
+    subject(:perform) { described_class.new.perform }
 
-    it 'queues up delete draft withdrawal reasons worker' do
-      expect { delete_drafts }.to change(
-        Candidate::DeleteDraftWithdrawalReasonRecordsWorker.jobs, :size
-      ).by(1)
+    before do
+      allow(Candidate::DeleteDraftWithdrawalReasonRecordsWorker)
+        .to receive(:perform_later)
+
+      allow(Provider::DeleteDraftPoolInvitesWorker)
+        .to receive(:perform_later)
+
+      allow(Candidate::DeleteDraftCandidatePreferencesWorker)
+        .to receive(:perform_later)
     end
 
-    it 'queues up delete draft pool invites worker' do
-      expect { delete_drafts }.to change(
-        Provider::DeleteDraftPoolInvitesWorker.jobs, :size
-      ).by(1)
+    it 'runs delete draft withdrawal reasons worker' do
+      perform
+
+      expect(
+        Candidate::DeleteDraftWithdrawalReasonRecordsWorker,
+      ).to have_received(:perform_later)
     end
 
-    it 'queues up delete draft candidate preferences worker' do
-      expect { delete_drafts }.to change(
-        Candidate::DeleteDraftCandidatePreferencesWorker.jobs, :size
-      ).by(1)
+    it 'runs delete draft pool invites worker' do
+      perform
+
+      expect(
+        Provider::DeleteDraftPoolInvitesWorker,
+      ).to have_received(:perform_later)
+    end
+
+    it 'runs delete draft candidate preferences worker' do
+      perform
+
+      expect(
+        Candidate::DeleteDraftCandidatePreferencesWorker,
+      ).to have_received(:perform_later)
     end
   end
 end
