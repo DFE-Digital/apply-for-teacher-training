@@ -33,4 +33,18 @@ RSpec.describe CandidateMailer do
       expect(email.body).to have_content 'Contact our support team'
     end
   end
+
+  describe 'bursary information' do
+    it 'renders bursary and scholarship information for british candidates' do
+      eligible_form = create(:application_form, first_nationality: 'British')
+      email = described_class.nudge_unsubmitted(eligible_form)
+      expect(email.body).to have_content 'Some subjects and courses have bursaries of up to £29,000 and scholarships of up to £31,000. These courses fill up more quickly than other courses.'
+    end
+
+    it 'does not render bursary and scholarship information for international candidates' do
+      ineligible_form = create(:application_form, first_nationality: 'American', second_nationality: nil)
+      email = described_class.nudge_unsubmitted(ineligible_form)
+      expect(email.body).to have_no_content 'Some subjects and courses have bursaries of up to £29,000 and scholarships of up to £31,000. These courses fill up more quickly than other courses.'
+    end
+  end
 end

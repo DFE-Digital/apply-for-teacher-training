@@ -6,7 +6,7 @@ module CandidateInterface
       {
         key: I18n.t('course_fee_row_helper.course_fee'),
         value: domestic_fee(course) + international_fee(course) +
-          funding_advise(application_choice, course),
+          funding_advice(application_choice, course),
       }
     end
 
@@ -34,9 +34,8 @@ module CandidateInterface
       )
     end
 
-    def funding_advise(application_choice, course)
-      return '' unless application_choice.application_form.international_applicant? &&
-                       !(Subject.languages.intersect?(course.subjects) || Subject.physics.intersect?(course.subjects))
+    def funding_advice(application_choice, _course)
+      return '' if application_choice.application_form.british_or_irish?
 
       content_tag :p, class: 'govuk-body secondary-text' do
         concat(
