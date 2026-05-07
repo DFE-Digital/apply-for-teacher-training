@@ -1,7 +1,7 @@
 default: &default
   store_options:
     max_age: <%= 7.days.to_i %>
-    max_size: <%= 2.5.gigabytes %>
+    max_size: <%= 1.gigabytes %>
     namespace: <%= Rails.env %>
     expiry_method: :job
     expiry_queue: low_priority
