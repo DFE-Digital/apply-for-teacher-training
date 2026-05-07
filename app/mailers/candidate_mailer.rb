@@ -692,8 +692,6 @@ private
   end
 
   def include_fee_funded_nudge?(application_choice)
-    # I think this is fine because british and irish candidates are still eligible for FI.
-
     application_choice.application_form.british_or_irish? &&
       application_choice.structured_rejection_reasons.to_json.include?('salary_course_full')
   end
