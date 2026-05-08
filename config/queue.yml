@@ -4,7 +4,7 @@ default: &default
       batch_size: 500
   workers:
     - queues: "*"
-      threads: ENV.fetch("SOLIDQUEUE_THREADS", 5)
+      threads: <%= ENV.fetch("SOLIDQUEUE_THREADS", 5) %>
       processes: <%= ENV.fetch("JOB_CONCURRENCY", 2) %>
       polling_interval: 0.1
 
