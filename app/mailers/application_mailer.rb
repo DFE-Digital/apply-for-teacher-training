@@ -1,5 +1,5 @@
 class ApplicationMailer < Mail::Notify::Mailer
-  GENERIC_NOTIFY_TEMPLATE = '2744ea53-34f1-431f-8173-8388fadd826a'.freeze
+  GENERIC_NOTIFY_TEMPLATE = '7214bb3c-acb8-4a1a-9a46-8f9df0dc5020'.freeze
 
   rescue_from Notifications::Client::RequestError do
     # WARNING: this needs to be a block, otherwise the exception will not be
