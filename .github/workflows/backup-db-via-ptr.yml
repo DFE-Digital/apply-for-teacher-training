@@ -1,4 +1,4 @@
-name: Backup database to Azure storage
+name: Backup database via PTR to Azure storage
 
 on:
   workflow_dispatch:
@@ -22,6 +22,9 @@ on:
       db-server:
         description: |
           Name of the database server. Default is the live server. When backing up a point-in-time (PTR) server, use the full name of the PTR server. (Optional)
+
+  schedule:
+    - cron: "50 5 * * *" # 05:50 UTC
 
 env:
   SERVICE_NAME: apply
@@ -78,8 +81,31 @@ jobs:
           BACKUP_FILE=${BACKUP_FILE}
         fi
         echo "BACKUP_FILE=${BACKUP_FILE}" >> $GITHUB_ENV
+        if [[ -n "${{ inputs.db-server }}" ]]; then
+          DB_SERVER="${{ inputs.db-server }}"
+        else
+          DB_SERVER="${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG}-psql"
+        fi
+        echo "DB_SERVER=${DB_SERVER}" >> $GITHUB_ENV
+
+        echo "NEW_DB_SERVER=${DB_SERVER}-temp-backup-ptr" >> $GITHUB_ENV
+        echo "RESTORE_TIME=$(date '+%FT%H:%M:%S')" >> $GITHUB_ENV
+
+    - name: Restore ${{ inputs.environment }} postgres
+      id: create_ptr
+      uses: DFE-Digital/github-actions/ptr-postgres@master
+      with:
+        resource-group: ${{ env.RESOURCE_GROUP_NAME }}
+        source-server: ${{ env.DB_SERVER }}
+        new-server: ${{ env.NEW_DB_SERVER }}
+        restore-time: ${{ env.RESTORE_TIME }}
+        cluster: ${{ env.CLUSTER }}
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     - name: Backup ${{ env.DEPLOY_ENV }} postgres
+      if: ${{ steps.create_ptr.outcome == 'success' }}
       uses: DFE-Digital/github-actions/backup-postgres@master
       with:
         storage-account: ${{ env.STORAGE_ACCOUNT_NAME }}
@@ -91,6 +117,11 @@ jobs:
         azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         backup-file: ${{ env.BACKUP_FILE }}.sql
-        db-server-name: ${{ inputs.db-server }}
+        db-server-name: ${{ env.NEW_DB_SERVER }}
         teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
         service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
+
+    - name: Delete Backup PTR
+      if: ${{ always() && steps.create_ptr.outcome == 'success' }}
+      run: |
+        az postgres flexible-server delete --resource-group ${{ env.RESOURCE_GROUP_NAME }} --name ${{ env.NEW_DB_SERVER }} --yes
