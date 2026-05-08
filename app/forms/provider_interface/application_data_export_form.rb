@@ -17,25 +17,33 @@ module ProviderInterface
 
     def years_to_export
       user_provider_ids = providers_that_actor_belongs_to.pluck(:id)
+      visible_states = ApplicationStateChange.states_visible_to_provider
+
+      connection = ApplicationRecord.connection
+
+      provider_ids_sql = "ARRAY[#{user_provider_ids.join(',')}]::bigint[]"
+
+      states_sql = visible_states.map { |state| connection.quote(state) }.join(', ')
 
       sql = <<~SQL
-        SELECT distinct on (current_recruitment_cycle_year) current_recruitment_cycle_year
+        SELECT DISTINCT ON (current_recruitment_cycle_year)
+              current_recruitment_cycle_year
         FROM application_choices
-        WHERE application_choices.provider_ids && ARRAY[#{user_provider_ids.join(', ')}]::bigint[]
-        AND application_choices.status IN (#{ApplicationStateChange.states_visible_to_provider.map { |s| "'#{s}'" }.join(', ')})
+        WHERE application_choices.provider_ids && #{provider_ids_sql}
+          AND application_choices.status IN (#{states_sql})
       SQL
 
-      years = ActiveRecord::Base.connection
-        .execute(sql)
-        .map { |row| row['current_recruitment_cycle_year'].to_i }
+      years = connection
+        .exec_query(sql)
+        .rows
+        .flatten
+        .map(&:to_i)
 
       RecruitmentCycleYearsPresenter.call(
         start_year: years.min,
         end_year: years.max,
         with_current_indicator: true,
-      ).filter do |year, _label|
-        year.to_i.in? years
-      end
+      ).select { |year, _| year.to_i.in?(years) }
     end
 
     def providers_that_actor_belongs_to
