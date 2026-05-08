@@ -3,7 +3,7 @@ module EndOfCycle
     include Sidekiq::Worker
 
     def first_full_sync_after
-      start_syncing_after = 8.weeks.before(current_timetable.apply_deadline_at).change(hour: 0o0, min: 4)
+      start_syncing_after = 2.weeks.before(current_timetable.apply_deadline_at).change(hour: 0o0, min: 4)
       start_syncing_after = start_syncing_after.next_occurring(:friday) unless start_syncing_after.friday?
       start_syncing_after
     end
