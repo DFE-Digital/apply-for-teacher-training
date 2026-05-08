@@ -100,6 +100,16 @@ variable "enable_prometheus_monitoring" {
   default = false
 }
 
+variable "solid_queue_worker_memory_max" {
+  type = string
+  default = "1Gi"
+}
+
+variable "solid_queue_worker_replicas" {
+  type = number
+  default = 1
+}
+
 variable "enable_logit" { default = false }
 
 locals {
