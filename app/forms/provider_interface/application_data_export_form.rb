@@ -16,11 +16,19 @@ module ProviderInterface
     end
 
     def years_to_export
-      choices = GetApplicationChoicesForProviders.call(
-        providers: providers_that_actor_belongs_to,
-        recruitment_cycle_year: RecruitmentCycleTimetable.pluck(:recruitment_cycle_year),
-      )
-      years = choices.map(&:current_recruitment_cycle_year).uniq
+      user_provider_ids = providers_that_actor_belongs_to.pluck(:id)
+
+      sql = <<~SQL
+        SELECT distinct on (current_recruitment_cycle_year) current_recruitment_cycle_year
+        FROM application_choices
+        WHERE application_choices.provider_ids && ARRAY[#{user_provider_ids.join(', ')}]::bigint[]
+        AND application_choices.status IN (#{ApplicationStateChange.states_visible_to_provider.map { |s| "'#{s}'" }.join(', ')})
+      SQL
+
+      years = ActiveRecord::Base.connection
+        .execute(sql)
+        .map { |row| row['current_recruitment_cycle_year'].to_i }
+
       RecruitmentCycleYearsPresenter.call(
         start_year: years.min,
         end_year: years.max,
