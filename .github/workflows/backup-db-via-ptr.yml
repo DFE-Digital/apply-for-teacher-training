@@ -38,16 +38,6 @@ jobs:
   backup:
     name: Backup database
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:14
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     environment:
       name: ${{ inputs.environment || 'production' }}
     env:
@@ -118,8 +108,6 @@ jobs:
         azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         backup-file: ${{ env.BACKUP_FILE }}.sql
         db-server-name: ${{ env.NEW_DB_SERVER }}
-        teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
-        service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
 
     - name: Delete Backup PTR
       if: ${{ always() && steps.create_ptr.outcome == 'success' }}
