@@ -93,6 +93,12 @@ class ApplicationChoice < ApplicationRecord
       .where(current_recruitment_cycle_year: recruitment_cycle_year)
       .where('courses.start_date > ?', start_date)
   }
+  scope :course_start_in_september, lambda { |recruitment_cycle_year|
+    start_date = Date.parse("30/09/#{recruitment_cycle_year}").at_end_of_day
+    joins(course_option: :course)
+      .where(current_recruitment_cycle_year: recruitment_cycle_year)
+      .where('courses.start_date <= ?', start_date)
+  }
 
   def starts_after_september?
     course.start_date > Date.parse("30/09/#{current_recruitment_cycle_year}").at_end_of_day

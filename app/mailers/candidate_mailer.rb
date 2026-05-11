@@ -463,6 +463,10 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def respond_to_offer_before_winter_deadline(_application_form)
+    raise 'Mailer still in development'
+  end
+
   def reject_by_default_explainer(application_form)
     timetable = application_form.recruitment_cycle_timetable
     @this_academic_year = timetable.previously_closed_academic_year_range
@@ -473,6 +477,10 @@ class CandidateMailer < ApplicationMailer
       application_form,
       subject: I18n.t!('candidate_mailer.reject_by_default_explainer.subject'),
     )
+  end
+
+  def winter_reject_by_default_explainer(_application_form)
+    raise 'Mailer still in development'
   end
 
   def find_has_opened(application_form)

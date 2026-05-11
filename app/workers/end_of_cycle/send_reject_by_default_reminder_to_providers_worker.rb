@@ -13,10 +13,17 @@ module EndOfCycle
     end
 
     def relation
-      Provider
-        .joins(:application_choices)
-        .where('application_choices.status': EndOfCycle::RejectByDefaultService::REJECTABLE_STATUSES)
-        .distinct
+      if EndOfCycle::ProviderEmailTimetabler.new.winter_reject_by_default_reminder_provider_date.present?
+        ids = ApplicationChoice.joins(:provider).course_start_in_september(RecruitmentCycleTimetable.current_year)
+          .where('application_choices.status': EndOfCycle::RejectByDefaultService::REJECTABLE_STATUSES)
+                         .pluck('providers.id').uniq
+        Provider.where(id: ids)
+      else
+        Provider
+          .joins(:application_choices)
+          .where('application_choices.status': EndOfCycle::RejectByDefaultService::REJECTABLE_STATUSES)
+          .distinct
+      end
     end
 
   private
