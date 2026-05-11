@@ -59,6 +59,8 @@ class Clock
   every(1.day, 'EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker', at: '09:00') { EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker.new.perform }
   every(1.day, 'EndOfCycle:SendRejectByDefaultExplainerToCandidatesWorker', at: '09:01') { EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesWorker.new.perform }
   every(1.day, 'Candidate::PoolEligibleApplicationFormWorker', at: '09:02') { Candidate::PoolEligibleApplicationFormWorker.new.perform }
+  every(1.day, 'EndOfCycle:SendWinterRejectByDefaultExplainerToCandidatesWorker', at: '09:03') { EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWorker.new.perform }
+  every(1.day, 'EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker', at: '09:04') { EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker.new.perform }
 
   # End of cycle january start dates/winter end dates jobs
   # every(1.day, 'EndOfCycle:SendWinterRejectByDefaultExplainerToCandidatesWorker', at: '09:03') { EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWorker.new.perform }
