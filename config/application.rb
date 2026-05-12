@@ -76,6 +76,9 @@ module ApplyForPostgraduateTeacherTraining
 
     config.active_job.queue_adapter = :sidekiq
 
+    config.mission_control.jobs.adapters = [ :solid_queue ]
+    config.mission_control.jobs.http_basic_auth_enabled = false
+
     config.action_controller.perform_caching = true
     config.cache_store = :memory_store
 
