@@ -76,6 +76,7 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
           let(:january_course) { create(:course, start_date: Date.parse("01/01/#{year + 1}")) }
 
           it 'enqueues the secondary worker' do
+            allow(instance).to receive(:winter_rejection_by_default_set?).and_return(true)
             allow(instance).to receive(:run_winter_reject_by_default?).and_return(false)
 
             inactive_choice = create(:application_choice, :inactive, course_option: create(:course_option, course: september_course))
@@ -110,7 +111,9 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
           let(:january_course) { create(:course, start_date: Date.parse("01/01/#{year + 1}")) }
 
           it 'does not enqueue the secondary worker' do
+            allow(instance).to receive(:winter_rejection_by_default_set?).and_return(true)
             allow(instance).to receive(:run_winter_reject_by_default?).and_return(false)
+
             create(:application_choice, :inactive)
             create(
               :application_choice,
@@ -129,6 +132,7 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
           let(:january_course) { create(:course, start_date: Date.parse("01/01/#{year + 1}")) }
 
           it 'enqueues the secondary worker' do
+            allow(instance).to receive(:winter_rejection_by_default_set?).and_return(true)
             allow(instance).to receive(:run_winter_reject_by_default?).and_return(true)
 
             inactive_choice = create(
