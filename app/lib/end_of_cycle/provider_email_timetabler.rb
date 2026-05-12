@@ -16,7 +16,7 @@ module EndOfCycle
     end
 
     def send_winter_reject_by_default_reminder_to_providers?
-      current_date == reject_by_default_reminder_provider_date
+      current_date == winter_reject_by_default_reminder_provider_date
     end
 
     def winter_reject_by_default_reminder_provider_date

@@ -5,7 +5,7 @@ module EndOfCycle
     BATCH_SIZE = 120
 
     def perform
-      return unless CandidateEmailTimetabler.new.send_winter_reject_by_default_explainer?
+      return unless send_emails?
 
       BatchDelivery.new(relation:, batch_size: BATCH_SIZE).each do |batch_time, application_forms|
         SendWinterRejectByDefaultExplainerEmailToCandidatesBatchWorker.perform_at(batch_time, application_forms.pluck(:id))
@@ -14,13 +14,19 @@ module EndOfCycle
 
     def relation
       ids = ApplicationChoice.course_starts_after_september(RecruitmentCycleTimetable.previous_year)
+              .where('rejected_by_default': true)
                                               .pluck(:application_form_id).uniq
       ApplicationForm
         .previous_cycle
         .joins(:candidate).merge(Candidate.for_transaction_emails)
-        .joins(:application_choices).where('application_choices.rejected_by_default': true)
         .where(id: ids)
         .distinct
+    end
+
+    private
+
+    def send_emails?
+      CandidateEmailTimetabler.new.send_winter_reject_by_default_explainer?
     end
   end
 

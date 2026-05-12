@@ -1,5 +1,5 @@
 module EndOfCycle
-  class SendWinterRejectByDefaultReminderToProviderService < SendRejectByDefaultReminderToProvidersService
+  class SendWinterRejectByDefaultReminderToProvidersService < SendRejectByDefaultReminderToProvidersService
     def chaser_type
       :respond_to_applications_before_winter_reject_by_default_date
     end

@@ -51,6 +51,39 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersWorker do
         end
       end
     end
+
+    context 'when winter reject by default is set, and it is on the reminder date' do
+      let(:instance) { described_class.new }
+
+      it 'calls batch worker with application choices with september start dates' do
+        travel_temporarily_to(email_send_date) do
+          allow(instance).to receive(:winter_reject_by_default_set?).and_return(true)
+          current_year = RecruitmentCycleTimetable.current_year
+
+          september_course = create(:course, start_date: Date.parse("01/09/#{current_year}"))
+          _inactive_application = create(:application_choice, :inactive, course_option: create(:course_option, course: september_course))
+          _interview_application = create(:application_choice, :interviewing, course_option: create(:course_option, course: september_course))
+          _awaiting_application = create(:application_choice, :awaiting_provider_decision, course_option: create(:course_option, course: september_course))
+
+          january_course = create(:course, start_date: Date.parse("01/01/#{current_year + 1}"))
+          _jan_inactive_application = create(:application_choice, :inactive, course_option: create(:course_option, course: january_course))
+          _jan_interview_application = create(:application_choice, :interviewing, course_option: create(:course_option, course: january_course))
+          _jan_awaiting_application = create(:application_choice, :awaiting_provider_decision, course_option: create(:course_option, course: january_course))
+
+          # These two application choices should not be included
+          create(:application_choice, :rejected)
+          create(:application_choice, :unsubmitted)
+
+          allow(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker).to receive(:perform_at)
+          instance.perform
+
+          expect(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker)
+            .to have_received(:perform_at).with(kind_of(Time), [
+              september_course.provider.id,
+            ])
+        end
+      end
+    end
   end
 
   def email_send_date

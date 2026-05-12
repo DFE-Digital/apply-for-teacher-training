@@ -13,7 +13,7 @@ module EndOfCycle
     end
 
     def relation
-      if EndOfCycle::ProviderEmailTimetabler.new.winter_reject_by_default_reminder_provider_date.present?
+      if winter_reject_by_default_set?
         ids = ApplicationChoice.joins(:provider).course_start_in_september(RecruitmentCycleTimetable.current_year)
           .where('application_choices.status': EndOfCycle::RejectByDefaultService::REJECTABLE_STATUSES)
                          .pluck('providers.id').uniq
@@ -30,6 +30,10 @@ module EndOfCycle
 
     def send_email?
       EndOfCycle::ProviderEmailTimetabler.new.send_reject_by_default_reminder_to_providers?
+    end
+
+    def winter_reject_by_default_set?
+      EndOfCycle::ProviderEmailTimetabler.new.winter_reject_by_default_reminder_provider_date.present?
     end
   end
 
