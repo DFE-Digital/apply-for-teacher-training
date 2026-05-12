@@ -67,8 +67,8 @@ RSpec.describe EndOfCycle::JobTimetabler do
     let(:instance) { described_class.new }
 
     context 'when the timetable winter_reject_by_default_at attribute is nil' do
-      it 'returns nil' do
-        expect(instance.run_winter_reject_by_default?).to be_nil
+      it 'returns false' do
+        expect(instance.run_winter_reject_by_default?).to be(false)
       end
     end
 
@@ -100,8 +100,8 @@ RSpec.describe EndOfCycle::JobTimetabler do
     let(:instance) { described_class.new }
 
     context 'when the timetable winter_decline_by_default_at attribute is nil' do
-      it 'returns nil' do
-        expect(instance.run_winter_decline_by_default?).to be_nil
+      it 'returns false' do
+        expect(instance.run_winter_decline_by_default?).to be(false)
       end
     end
 

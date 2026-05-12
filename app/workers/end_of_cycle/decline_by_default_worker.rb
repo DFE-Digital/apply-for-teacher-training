@@ -35,6 +35,10 @@ module EndOfCycle
     def winter_decline_by_default_set?
       @winter_decline_by_default_set ||= EndOfCycle::WinterJobTimetabler.new.winter_decline_by_default_set?
     end
+
+    def winter_decline_by_default_set?
+      @winter_decline_by_default_set ||= EndOfCycle::JobTimetabler.new.winter_decline_by_default_set?
+    end
   end
 
   class DeclineByDefaultSecondaryWorker
