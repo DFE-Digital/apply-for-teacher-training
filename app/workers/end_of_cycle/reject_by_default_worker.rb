@@ -6,7 +6,7 @@ module EndOfCycle
     STAGGER_OVER = 1.hour
 
     def perform(force = false)
-      return unless EndOfCycle::JobTimetabler.new.run_reject_by_default? || !run_winter_reject_by_default?.nil? || force
+      return unless run_reject_by_default? || run_winter_reject_by_default? || force
 
       BatchDelivery.new(relation:, stagger_over: STAGGER_OVER, batch_size: BATCH_SIZE).each do |batch_time, applications|
         RejectByDefaultSecondaryWorker.perform_at(batch_time, applications.pluck(:id))
@@ -22,7 +22,7 @@ module EndOfCycle
   private
 
     def cycle_application_forms
-      if run_winter_reject_by_default?.nil?
+      if !winter_rejection_by_default_set?
         ApplicationForm.current_cycle
       elsif run_reject_by_default?
         application_form_ids = ApplicationChoice.course_start_in_september(RecruitmentCycleTimetable.current_year)
@@ -43,6 +43,10 @@ module EndOfCycle
 
     def run_winter_reject_by_default?
       @run_winter_reject_by_default ||= EndOfCycle::JobTimetabler.new.run_winter_reject_by_default?
+    end
+
+    def winter_rejection_by_default_set?
+      @winter_rejection_by_default_set ||= EndOfCycle::JobTimetabler.new.winter_rejection_by_default_set?
     end
   end
 
