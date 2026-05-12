@@ -1,25 +1,100 @@
-<h2 class="govuk-heading-l" id="important">Version 1.8 changes</h2>
+<span id="important">
+  <h2 class="govuk-heading-l" id="changes">Version 1.8 changes</h2>
+</span>
 
-<p class="govuk-heading-s">New attributes added to the candidate object for viewing the candidates intention of taking an English as a foreign language assessment if they don't have one</p>
-
-<p class="govuk-body">
-  A new attribute, <code>will_obtain_english_language_qualifications</code>, has been added to the candidate object.
-</p>
-<p class="govuk-body">
-  A new attribute, <code>obtaining_english_language_qualification_details</code>, has been added to the candidate object.
-</p>
+<h3 class="govuk-heading-m">
+  Candidate object new attributes
+</h3>
 
 <p class="govuk-body">
-  If a candidate does not have an English language qualification, they can state their intention of gaining one or not. If they do intend to gain this qualification they can add further details about their plans
-  If a candidate intends to gain this qualification the <code>will_obtain_english_language_qualifications</code> attribute will be true and <code>obtaining_english_language_qualification_details</code> will contain more details about their intention.
+  We have added attributes to <%= govuk_link_to 'the Candidate object', '#candidate-object' %> to help providers better understand an international candidate’s suitability for a course.
+  Candidates will not be asked to provide this data until the 2027 recruitment cycle.
 </p>
+
+<h4 class="govuk-heading-s">
+  Candidate object - English language qualification details
+</h4>
+
 <p class="govuk-body">
-  If a candidate intends to gain this qualification the <code>will_obtain_english_language_qualifications</code> attribute will be <code>true</code> and <code>obtaining_english_language_qualification_details</code> will contain more details about their intention.
+  The following attribute has been added related to English language qualifications:
+  <ul class="govuk-list govuk-list--bullet">
+    <li><code>obtaining_english_language_qualification_details</code> (string)</li>
+  </ul>
 </p>
 
 <p class="govuk-body">
-  If a candidate does not have an English language qualification and they don't intend to gain one the attribute <code>will_obtain_english_language_qualifications</code> will be <code>false</code> and <code>obtaining_english_language_qualification_details</code> will be <code>nil</code>.
+  Starting in the 2027 recruitment cycle, international candidates who have not yet obtained an English language qualification may provide details about their future plans as free text.
+  This will be null for candidates who have English as a first language.
 </p>
-<p class=">govuk-body">
-  If a candidate has an English language qualifications both attributes will be <code>nil</code>.
+
+<h4 class="govuk-heading-s">
+  Candidate object - Residency details
+</h4>
+
+<p class="govuk-body">
+  The following attributes have been added related to a candidate’s residency:
+  <ul class="govuk-list govuk-list--bullet">
+    <li><code>country_residency_date_from</code> (date-time)</li>
+    <li><code>country_residency_since_birth</code> (boolean)</li>
+  </ul>
+</p>
+
+<p class="govuk-body">
+  Starting in the 2027 recruitment cycle, if the candidate has declared the date from when they began residing in their current country of residence, the <code>country_residency_date_from</code> attribute will contain a date.
+</p>
+
+<p class="govuk-body">
+  If the candidate has resided in their declared country of residence since birth, the <code>country_residency_since_birth</code>
+  attribute will be <code>true</code>.
+</p>
+
+<h4 class="govuk-heading-s">
+  Candidate object - Visa expiration
+</h4>
+
+<p class="govuk-body">
+  The following attributes have been added related to visa expiration:
+  <ul class="govuk-list govuk-list--bullet">
+    <li><code>visa_expired_at</code> (date-time)</li>
+    <li><code>visa_explanation</code> (string, enum)</li>
+    <li><code>visa_explanation_details</code> (string)</li>
+  </ul>
+</p>
+
+<p class="govuk-body">
+  Starting in the 2027 recruitment cycle, candidates who have a visa which allows them to work or study in the UK will be asked for more information about their visa expiry.
+</p>
+
+<p class="govuk-body">
+  The visa expiry date, if given, will appear on the attribute <code>visa_expired_at</code>.
+</p>
+
+<p class="govuk-body">
+  If their visa is likely to expire before the end of the course, the <code>visa_explanation</code> attribute will contain some structured data about how the candidate plans to maintain their status for the duration of the course.
+  If the candidate has selected <code>other</code> as their <code>visa_explanation</code>,
+  the <code>visa_explanation_details</code> attribute will contain the candidate’s free-text explanation.
+</p>
+
+<h3 class="govuk-heading-m">
+  Interview status on the ApplicationAttributes object
+</h3>
+
+<p class="govuk-body">
+  In versions 1.7 and below, an application shows as <code>awaiting_provider_decision</code> until a decision is made, even if its status in the Manage User Interface is <code>interviewing</code>.
+</p>
+<p class="govuk-body">
+  In version 1.8, the possible statuses returned with the <%= govuk_link_to 'ApplicationAttributes object', '#applicationattributes-object' %> now include <code>interviewing</code>. A candidate can transition to the <code>interviewing</code> state from <code>awaiting_provider_decision</code>.
+</p>
+
+<h3 class="govuk-heading-m">
+  CreateInterview object now optional
+</h3>
+
+<p class="govuk-body">
+  Sending a request to the <%= govuk_link_to 'create interview endpoint', '#post-applications-application_id-interviews-create' %> with a <%= govuk_link_to 'CreateInterview', '#createinterview-object' %> object
+  will update the application status to <code>interviewing</code> and schedule an interview on the service.
+</p>
+
+<p class="govuk-body">
+  Starting with version 1.8, sending a request to the endpoint without an interview object will update the status only.
 </p>
