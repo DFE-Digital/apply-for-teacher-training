@@ -201,3 +201,4 @@ gem 'jsbundling-rails', '~> 1.3'
 gem 'propshaft', '~> 1.3'
 
 gem 'solid_queue', '~> 1.4'
+gem 'mission_control-jobs'

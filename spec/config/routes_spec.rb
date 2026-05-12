@@ -6,6 +6,9 @@ RSpec.describe 'routes.rb' do
 
     paths.each do |path|
       next if path.starts_with?('/rails')
+      next if path == '/recede_historical_location(.:format)'
+      next if path == '/resume_historical_location(.:format)'
+      next if path == '/refresh_historical_location(.:format)'
       next if path == '/_system_test_entrypoint(.:format)'
 
       has_underscores = path.split('/').any? { |component| !component.start_with?(':') && component.match('_') }
