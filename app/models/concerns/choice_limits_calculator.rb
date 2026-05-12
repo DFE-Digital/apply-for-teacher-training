@@ -12,17 +12,10 @@ module ChoiceLimitsCalculator
   end
 
   def limits
-    @limits ||= if mid_cycle_cap_applies?
-                  Limits.new(
-                    unsuccessful_retry_limit: MID_CYCLE_UNSUCCESSFUL_RETRY_LIMIT,
-                    in_progress_limit: IN_PROGRESS_LIMIT,
-                  )
-                else
-                  Limits.new(
-                    unsuccessful_retry_limit: UNSUCCESSFUL_RETRY_LIMIT,
-                    in_progress_limit: IN_PROGRESS_LIMIT,
-                  )
-                end
+    @limits ||= Limits.new(
+      unsuccessful_retry_limit: UNSUCCESSFUL_RETRY_LIMIT,
+      in_progress_limit: IN_PROGRESS_LIMIT,
+    )
   end
 
   def unsuccessful_count
@@ -63,12 +56,6 @@ module ChoiceLimitsCalculator
 
   def in_progress_limit_reached?
     in_progress_count >= in_progress_limit
-  end
-
-  def mid_cycle_cap_applies?
-    FeatureFlag.active?(:mid_cycle_cap) &&
-      # The cap only applies to people who were unsubmitted at the time the cap was introduced
-      (submitted_at.nil? || submitted_at.after?(FeatureFlag.activated_at(:mid_cycle_cap)))
   end
 
   def can_add_more_choices?
