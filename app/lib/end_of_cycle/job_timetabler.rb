@@ -20,7 +20,7 @@ module EndOfCycle
     end
 
     def run_winter_reject_by_default?
-      return unless timetable.try(:winter_reject_by_default_at)
+      return false unless timetable.try(:winter_reject_by_default_at)
 
       previous_timetable = if timetable == RecruitmentCycleTimetable.current_timetable
                              RecruitmentCycleTimetable.previous_timetable
@@ -32,7 +32,7 @@ module EndOfCycle
     end
 
     def run_winter_decline_by_default?
-      return if timetable.try(:winter_decline_by_default_at).blank?
+      return false if timetable.try(:winter_decline_by_default_at).blank?
 
       previous_timetable = if timetable == RecruitmentCycleTimetable.current_timetable
                              RecruitmentCycleTimetable.previous_timetable
