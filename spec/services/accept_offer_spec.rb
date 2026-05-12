@@ -114,6 +114,42 @@ RSpec.describe AcceptOffer do
       expect(other_choice_interviewing.reload.status).to eq('withdrawn')
       expect(other_choice_inactive.reload.status).to eq('withdrawn')
     end
+
+    it 'with offers in a previous recruitment cycle' do
+      application_choice = create(:application_choice, :offered)
+      application_form = application_choice.application_form
+      candidate = application_form.candidate
+      previous_application_form = create(
+        :application_form,
+        candidate:,
+        recruitment_cycle_year: application_form.recruitment_cycle_year - 1,
+      )
+      other_choice_with_offer = create(:application_choice, :offered, application_form: previous_application_form)
+
+      described_class.new(application_choice:).save!
+
+      expect(other_choice_with_offer.reload.status).to eq('declined')
+    end
+
+    it 'that are pending provider decisions from previous recruitment cycle are withdrawn' do
+      application_choice = create(:application_choice, :offered)
+      application_form = application_choice.application_form
+      candidate = application_form.candidate
+      previous_application_form = create(
+        :application_form,
+        candidate:,
+        recruitment_cycle_year: application_form.recruitment_cycle_year - 1,
+      )
+      other_choice_awaiting_decision = create(:application_choice, :awaiting_provider_decision, application_form: previous_application_form)
+      other_choice_interviewing = create(:application_choice, :interviewing, application_form: previous_application_form)
+      other_choice_inactive = create(:application_choice, :inactive, application_form: previous_application_form)
+
+      described_class.new(application_choice:).save!
+
+      expect(other_choice_awaiting_decision.reload.status).to eq('withdrawn')
+      expect(other_choice_interviewing.reload.status).to eq('withdrawn')
+      expect(other_choice_inactive.reload.status).to eq('withdrawn')
+    end
   end
 
   describe 'emails', :sidekiq do

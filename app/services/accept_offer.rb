@@ -42,16 +42,17 @@ protected
   end
 
   def other_application_choices_with_offers
-    application_choice
-      .self_and_siblings
+    active_application_choices
       .offer
       .where.not(id: application_choice.id)
   end
 
   def application_choices_awaiting_provider_decision
-    application_choice
-      .self_and_siblings
-      .decision_pending_and_inactive
+    active_application_choices.decision_pending_and_inactive
+  end
+
+  def active_application_choices
+    @active_application_choices ||= application_choice.candidate.active_application_choices
   end
 
   def references_completed
