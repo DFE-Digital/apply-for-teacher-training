@@ -30,10 +30,9 @@ RSpec.describe EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker do
 
           september_course = create(:course, start_date: Date.parse("01/09/#{previous_year}"))
           _inactive_application = create(:application_choice,
-            :inactive,
-            current_recruitment_cycle_year: previous_year,
-            course_option: create(:course_option, course: september_course),
-          )
+                                         :inactive,
+                                         current_recruitment_cycle_year: previous_year,
+                                         course_option: create(:course_option, course: september_course))
           _interview_application = create(
             :application_choice,
             :interviewing,

@@ -300,7 +300,7 @@ RSpec.describe ApplicationChoice do
         august_application_choice,
         start_september_application_choice,
         end_september_application_choice,
-     )
+      )
     end
   end
 
