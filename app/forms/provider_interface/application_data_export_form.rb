@@ -44,7 +44,9 @@ module ProviderInterface
         start_year: years.min,
         end_year: years.max,
         with_current_indicator: true,
-      ).select { |year, _| year.to_i.in?(years) }
+      ).filter do |year, _label|
+        year.to_i.in? years
+      end
     end
 
     def providers_that_actor_belongs_to

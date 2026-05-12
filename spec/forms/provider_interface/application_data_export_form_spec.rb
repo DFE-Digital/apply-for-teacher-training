@@ -49,6 +49,13 @@ RSpec.describe ProviderInterface::ApplicationDataExportForm do
       years = form.years_to_export
 
       expect(years.keys.map(&:to_i)).to eq([application_choice.current_recruitment_cycle_year, application_choice_2.current_recruitment_cycle_year])
+    end
+
+    it 'returns only the years for the relevant providers' do
+      form = described_class.new(current_provider_user: provider_user)
+
+      years = form.years_to_export
+
       expect(years.keys.map(&:to_i)).not_to include(application_choice_3.current_recruitment_cycle_year)
     end
   end
