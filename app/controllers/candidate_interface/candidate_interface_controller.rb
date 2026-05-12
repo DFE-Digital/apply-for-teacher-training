@@ -105,12 +105,7 @@ module CandidateInterface
     def redirect_to_candidate_root
       return if current_application.any_offer_accepted? || active_previous_application&.any_offer_accepted?
 
-      can_carry_over = if active_previous_application.present?
-                         current_application.carry_over? && active_previous_application.carry_over?
-                       else
-                         current_application.carry_over?
-                       end
-      if can_carry_over
+      if current_application.carry_over?
         redirect_to candidate_interface_carry_over_path
       elsif candidate_made_choices_and_completed_details
         redirect_to candidate_interface_application_choices_path
@@ -128,16 +123,7 @@ module CandidateInterface
       completed_application_form = CandidateInterface::CompletedApplicationForm.new(
         application_form: current_application,
       )
-      previous_completed_application_form = if active_previous_application.present?
-                                              CandidateInterface::CompletedApplicationForm.new(
-                                                application_form: active_previous_application,
-                                              )
-                                            end
-      if previous_completed_application_form.present?
-        completed_application_form.valid? && previous_completed_application_form.valid?
-      else
-        completed_application_form.valid?
-      end
+      completed_application_form.valid?
     end
 
     def redirect_to_application_if_signed_in
