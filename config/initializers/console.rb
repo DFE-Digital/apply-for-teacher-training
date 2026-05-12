@@ -1,3 +1,5 @@
+require 'irb'
+
 module ApplyConsole
   def start
     show_warning_message_about_environments
