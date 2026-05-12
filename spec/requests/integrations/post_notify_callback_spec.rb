@@ -5,7 +5,7 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', :sidekiq 
   let(:reference) do
     create(:reference, feedback_status: 'feedback_requested', application_form:)
   end
-  let(:notify_callback_token) { ENV.fetch('GOVUK_NOTIFY_CALLBACK_API_KEY') }
+  let(:notify_callback_token) { ENV.fetch('NEW_GOVUK_NOTIFY_CALLBACK_API_KEY') }
   let(:headers) do
     { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{notify_callback_token}" }
   end
@@ -16,15 +16,32 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', :sidekiq 
     end
   end
 
-  it 'returns success if token matches environment variable' do
-    request_body = {
-      reference: "test-reference_request-#{reference.id}",
-      status: 'permanent-failure',
-    }.to_json
+  context 'with old callback key' do
+    let(:notify_callback_token) { ENV.fetch('GOVUK_NOTIFY_CALLBACK_API_KEY') }
 
-    post '/integrations/notify/callback', headers: headers, params: request_body
+    it 'returns success if token matches environment variable' do
+      request_body = {
+        reference: "test-reference_request-#{reference.id}",
+        status: 'permanent-failure',
+      }.to_json
 
-    expect(response).to have_http_status(:success)
+      post '/integrations/notify/callback', headers: headers, params: request_body
+
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  context 'with new callback key' do
+    it 'returns success if token matches environment variable' do
+      request_body = {
+        reference: "test-reference_request-#{reference.id}",
+        status: 'permanent-failure',
+      }.to_json
+
+      post '/integrations/notify/callback', headers: headers, params: request_body
+
+      expect(response).to have_http_status(:success)
+    end
   end
 
   it 'returns unauthorized if token is not provided' do
