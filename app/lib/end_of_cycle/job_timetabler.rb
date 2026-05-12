@@ -40,7 +40,7 @@ module EndOfCycle
     end
 
     def run_winter_decline_by_default?
-      return false if winter_decline_by_default_set?
+      return false unless winter_decline_by_default_set?
 
       previous_timetable = if timetable == RecruitmentCycleTimetable.current_timetable
                              RecruitmentCycleTimetable.previous_timetable
