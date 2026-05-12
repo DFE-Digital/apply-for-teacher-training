@@ -19,25 +19,26 @@ module ProviderInterface
       user_provider_ids = providers_that_actor_belongs_to.pluck(:id)
       visible_states = ApplicationStateChange.states_visible_to_provider
 
-      connection = ApplicationRecord.connection
+      sql = ApplicationRecord.send(
+        :sanitize_sql_array,
+        [
+          <<~SQL,
+            SELECT DISTINCT ON (current_recruitment_cycle_year)
+                  current_recruitment_cycle_year
+            FROM application_choices
+            WHERE application_choices.provider_ids && ARRAY[:provider_ids]::bigint[]
+              AND application_choices.status IN (:states)
+          SQL
+          {
+            provider_ids: user_provider_ids,
+            states: visible_states,
+          },
+        ],
+      )
 
-      provider_ids_sql = "ARRAY[#{user_provider_ids.join(',')}]::bigint[]"
-
-      states_sql = visible_states.map { |state| connection.quote(state) }.join(', ')
-
-      sql = <<~SQL
-        SELECT DISTINCT ON (current_recruitment_cycle_year)
-              current_recruitment_cycle_year
-        FROM application_choices
-        WHERE application_choices.provider_ids && #{provider_ids_sql}
-          AND application_choices.status IN (#{states_sql})
-      SQL
-
-      years = connection
-        .exec_query(sql)
-        .rows
-        .flatten
-        .map(&:to_i)
+      years = ActiveRecord::Base.connection
+            .execute(sql)
+            .map { |row| row['current_recruitment_cycle_year'].to_i }
 
       RecruitmentCycleYearsPresenter.call(
         start_year: years.min,
