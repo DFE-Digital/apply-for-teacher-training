@@ -63,8 +63,7 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
           let(:january_course) { create(:course, start_date: Date.parse("01/01/#{year + 1}")) }
 
           it 'enqueues secondary worker for offered application choices' do
-            allow(instance).to receive(:winter_decline_by_default_set?).and_return(true)
-            allow(instance).to receive(:run_winter_decline_by_default?).and_return(false)
+            allow(instance).to receive_messages(winter_decline_by_default_set?: true, run_winter_decline_by_default?: false)
 
             declineable = create(:application_choice, :offer, current_recruitment_cycle_year: year, course_option: create(:course_option, course: september_course))
             _undeclineable = create(
@@ -86,8 +85,7 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
           let(:january_course) { create(:course, start_date: Date.parse("01/01/#{year + 1}")) }
 
           it 'does not enqueues secondary worker' do
-            allow(instance).to receive(:winter_decline_by_default_set?).and_return(true)
-            allow(instance).to receive(:run_winter_decline_by_default?).and_return(false)
+            allow(instance).to receive_messages(winter_decline_by_default_set?: true, run_winter_decline_by_default?: false)
 
             create(:application_choice, :offer, course_option: create(:course_option, course: september_course))
             create(
@@ -108,8 +106,7 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
           let(:january_course) { create(:course, start_date: Date.parse("01/01/#{year + 1}")) }
 
           it 'enqueues secondary worker for offered application choices' do
-            allow(instance).to receive(:winter_decline_by_default_set?).and_return(true)
-            allow(instance).to receive(:run_winter_decline_by_default?).and_return(true)
+            allow(instance).to receive_messages(winter_decline_by_default_set?: true, run_winter_decline_by_default?: true)
 
             _undeclineable = create(:application_choice, :offer, course_option: create(:course_option, course: september_course))
             declineable = create(
