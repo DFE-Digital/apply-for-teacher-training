@@ -103,7 +103,7 @@ module CandidateInterface
     end
 
     def redirect_to_candidate_root
-      return if current_application.any_offer_accepted?
+      return if current_application.any_offer_accepted? || active_previous_application&.any_offer_accepted?
 
       if current_application.carry_over?
         redirect_to candidate_interface_carry_over_path
@@ -115,12 +115,15 @@ module CandidateInterface
     end
 
     def candidate_made_choices_and_completed_details
+      candidate_made_choices = active_application_choices.any?
+      candidate_made_choices && candidate_details_complete
+    end
+
+    def candidate_details_complete
       completed_application_form = CandidateInterface::CompletedApplicationForm.new(
         application_form: current_application,
       )
-      candidate_details_complete = completed_application_form.valid?
-      candidate_made_choices = current_application.application_choices.any?
-      candidate_made_choices && candidate_details_complete
+      completed_application_form.valid?
     end
 
     def redirect_to_application_if_signed_in
@@ -175,11 +178,11 @@ module CandidateInterface
     end
 
     def any_accepted_offer?
-      current_application.application_choices.map(&:status).include?('pending_conditions')
+      active_application_choices.pluck(:status).include?('pending_conditions')
     end
 
     def any_deferred_offer?
-      current_application.application_choices.map(&:status).include?('offer_deferred')
+      active_application_choices.pluck(:status).include?('offer_deferred')
     end
 
     def no_offers_accepted_or_deferred_and_not_recruited?

@@ -59,11 +59,11 @@ module CandidateInterface
   private
 
     def set_application_choice
-      @application_choice = @current_application.application_choices.find(params[:id])
+      @application_choice = active_application_choices.find(params[:id])
     end
 
     def single_application_choice?
-      @current_application.application_choices.size == 1
+      active_application_choices.size == 1
     end
     helper_method :single_application_choice?
 

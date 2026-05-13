@@ -5,7 +5,7 @@ module CandidateInterface
       skip_before_action :redirect_to_your_applications_if_cycle_is_over
 
       def show
-        @application_choice = current_application.application_choices.find(params[:application_choice_id])
+        @application_choice = active_application_choices.find(params[:application_choice_id])
 
         if params['return_to'] == 'invite'
           invite = application_choice.published_invites.last

@@ -115,7 +115,7 @@
     <% elsif @application_form_presenter.can_submit_more_applications? %>
       <div class="app-grid-column--grey">
         <h2 class="govuk-heading-m">You have completed your details</h2>
-        <% if current_application.application_choices.any? %>
+        <% if active_application_choices.any? %>
           <p class="govuk-body">You can apply to courses now.</p>
         <% else %>
           <p class="govuk-body">You can start applying to courses.</p>
