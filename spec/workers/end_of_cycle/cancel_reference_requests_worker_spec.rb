@@ -46,7 +46,22 @@ RSpec.describe EndOfCycle::CancelReferenceRequestsWorker do
       end
     end
 
-    context 'after the decline by default date, and the course starting after september' do
+    context 'after the decline by default date, and the application has courses ending in september and january' do
+      it 'does not enqueue a secondary worker for references with requested feedback, with a september course' do
+        create(
+          :application_choice,
+          application_form: september_application_choice.application_form,
+          current_recruitment_cycle_year: year,
+          course_option: build(:course_option, course: january_course),
+        )
+        allow(EndOfCycle::CancelReferenceRequestsSecondaryWorker).to receive(:perform_at)
+        described_class.new.perform
+        expect(EndOfCycle::CancelReferenceRequestsSecondaryWorker)
+          .not_to have_received(:perform_at).with(kind_of(Time), contain_exactly(september_reference.id))
+      end
+    end
+
+    context 'after the winter decline by default date, and the course starting after september' do
       let(:instance) { described_class.new }
 
       it 'enqueues secondary worker for references with requested feedback, with a january course' do

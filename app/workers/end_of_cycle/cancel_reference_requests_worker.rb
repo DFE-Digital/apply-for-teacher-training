@@ -18,10 +18,15 @@ module EndOfCycle
       requested_references = ApplicationReference.joins(application_form: :application_choices).feedback_requested
       choice_ids = requested_references.pluck('application_choices.id')
       requested_reference_choice_ids = if run_cancel_reference_requests?
-                                         ApplicationChoice
-                                           .course_start_in_september(RecruitmentCycleTimetable.current_year)
+                                         september_choice_ids = ApplicationChoice
+                                                                .course_start_in_september(RecruitmentCycleTimetable.current_year)
+                                                                .where(id: choice_ids)
+                                                                .ids
+                                         january_choice_ids = ApplicationChoice
+                                           .course_starts_after_september(RecruitmentCycleTimetable.current_year)
                                            .where(id: choice_ids)
                                            .ids
+                                         september_choice_ids - january_choice_ids
                                        elsif run_winter_cancel_reference_requests?
                                          ApplicationChoice
                                            .course_starts_after_september(RecruitmentCycleTimetable.previous_year)
