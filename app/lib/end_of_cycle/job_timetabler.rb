@@ -27,6 +27,14 @@ module EndOfCycle
       !timetable.try(:winter_decline_by_default_at).nil?
     end
 
+    def run_cancel_reference_requests?
+      run_decline_by_default?
+    end
+
+    def run_winter_cancel_reference_requests?
+      run_winter_decline_by_default?
+    end
+
     def run_winter_reject_by_default?
       return false unless winter_rejection_by_default_set?
 
