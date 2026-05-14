@@ -324,7 +324,6 @@ namespace :support_interface, path: '/support' do
   mount SupportInterface::RackApp.new(Blazer::Engine) => '/blazer', as: :blazer
   mount SupportInterface::RackApp.new(FieldTest::Engine) => '/field-test', as: :field_test
   mount SupportInterface::RackApp.new(MissionControl::Jobs::Engine) => '/jobs', as: :jobs
-  mount SupportInterface::RackApp.new(SolidCacheDashboard::Engine) => '/solid-cache', as: :solid_cache
 
   get '*path', to: 'errors#not_found'
 end
