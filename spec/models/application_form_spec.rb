@@ -2039,4 +2039,20 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '.previous_cycle' do
+    let(:older_application_form) { create(:application_form, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year - 1) }
+    let(:previous_application_form) { create(:application_form, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year) }
+    let(:current_application_form) { create(:application_form, recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
+
+    before do
+      older_application_form
+      previous_application_form
+      current_application_form
+    end
+
+    it 'returns only application forms for the previous cycle' do
+      expect(described_class.previous_cycle).to contain_exactly(previous_application_form)
+    end
+  end
 end

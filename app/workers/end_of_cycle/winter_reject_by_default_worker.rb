@@ -1,0 +1,40 @@
+module EndOfCycle
+  class WinterRejectByDefaultWorker
+    include Sidekiq::Worker
+
+    BATCH_SIZE = 120
+    STAGGER_OVER = 1.hour
+
+    def perform(force = false)
+      return unless run_winter_reject_by_default? || force
+
+      BatchDelivery.new(relation:, stagger_over: STAGGER_OVER, batch_size: BATCH_SIZE).each do |batch_time, applications|
+        WinterRejectByDefaultSecondaryWorker.perform_at(batch_time, applications.pluck(:id))
+      end
+    end
+
+    def relation
+      application_form_ids = ApplicationChoice.course_starts_after_september(RecruitmentCycleTimetable.previous_year)
+                                              .where(status: EndOfCycle::RejectByDefaultService::REJECTABLE_STATUSES)
+                                              .pluck(:application_form_id).uniq
+      ApplicationForm.where(id: application_form_ids)
+    end
+
+  private
+
+    def run_winter_reject_by_default?
+      @run_winter_reject_by_default ||= EndOfCycle::WinterJobTimetabler.new.run_winter_reject_by_default?
+    end
+  end
+
+  class WinterRejectByDefaultSecondaryWorker
+    include Sidekiq::Worker
+
+    def perform(application_form_ids)
+      application_forms = ApplicationForm.where(id: application_form_ids).includes(:application_choices)
+      application_forms.find_each do |application_form|
+        RejectByDefaultService.new(application_form).call
+      end
+    end
+  end
+end

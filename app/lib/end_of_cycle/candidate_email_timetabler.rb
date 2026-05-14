@@ -21,7 +21,14 @@ module EndOfCycle
         find_has_opened_announcement_date: find_opens_at.to_date,
         # We have delayed the "apply has opened" email in the past to deal with rate limiting from Notify on the first day of applications.
         apply_has_opened_announcement_date: (apply_opens_at + 2.days).to_date,
+        winter_reject_by_default_explainer_date:,
       }
+    end
+
+    def winter_reject_by_default_explainer_date
+      if timetable.try(:winter_reject_by_default_at).present?
+        (timetable.try(:winter_reject_by_default_at) + 1.day).to_date
+      end
     end
 
     def send_first_end_of_cycle_reminder?
@@ -46,6 +53,10 @@ module EndOfCycle
 
     def send_reject_by_default_explainer?
       current_date == email_schedule.fetch(:reject_by_default_explainer_date)
+    end
+
+    def send_winter_reject_by_default_explainer?
+      current_date == email_schedule.fetch(:winter_reject_by_default_explainer_date)
     end
 
   private

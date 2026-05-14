@@ -15,6 +15,16 @@ module EndOfCycle
       get_weekday(reject_by_default_at - 2.weeks).to_date
     end
 
+    def send_winter_reject_by_default_reminder_to_providers?
+      current_date == winter_reject_by_default_reminder_provider_date
+    end
+
+    def winter_reject_by_default_reminder_provider_date
+      return if timetable.try(:winter_reject_by_default_at).blank?
+
+      get_weekday(timetable.winter_reject_by_default_at - 2.weeks).to_date
+    end
+
   private
 
     def current_date

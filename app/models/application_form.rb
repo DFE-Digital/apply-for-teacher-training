@@ -78,6 +78,7 @@ class ApplicationForm < ApplicationRecord
   has_many :not_responded_published_invites, -> { published.not_responded.where(course_open: true) }, class_name: 'Pool::Invite'
 
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
+  scope :previous_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.previous_year) }
   scope :unsubmitted, -> { where(submitted_at: nil) }
   scope :inactive_since, ->(time) { where('application_forms.updated_at < ?', time) }
   scope :with_completion, ->(completion_attributes) { where(completion_attributes.map { |attr| "#{attr} = true" }.join(' AND ')) }

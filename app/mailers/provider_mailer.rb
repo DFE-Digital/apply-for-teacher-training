@@ -259,6 +259,10 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def respond_to_applications_before_winter_reject_by_default_date(_provider_user)
+    raise 'Mailer still in development'
+  end
+
   def recruitment_performance_report_reminder(provider_user)
     @provider_user = provider_user
     @recruitment_cycle_timetable = RecruitmentCycleTimetable.current_timetable
