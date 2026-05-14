@@ -55,8 +55,8 @@ RSpec.describe EndOfCycle::WinterRejectByDefaultWorker do
                     inactive_choice.application_form.id,
                     interviewing_choice.application_form.id,
                     awaiting_decision_choice.application_form.id,
-                    ),
-                  )
+                  ),
+                )
       end
     end
 
@@ -73,8 +73,8 @@ RSpec.describe EndOfCycle::WinterRejectByDefaultWorker do
                     inactive_choice.application_form.id,
                     interviewing_choice.application_form.id,
                     awaiting_decision_choice.application_form.id,
-                    ),
-                  )
+                  ),
+                )
       end
     end
 

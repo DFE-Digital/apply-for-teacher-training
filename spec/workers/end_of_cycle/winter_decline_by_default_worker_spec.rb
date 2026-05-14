@@ -14,7 +14,7 @@ RSpec.describe EndOfCycle::WinterDeclineByDefaultWorker do
       :offer,
       current_recruitment_cycle_year: year - 1,
       course_option: create(:course_option, course: january_course),
-      )
+    )
   end
 
   describe '#perform' do
