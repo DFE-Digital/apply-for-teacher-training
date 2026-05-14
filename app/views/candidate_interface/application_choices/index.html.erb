@@ -1,8 +1,12 @@
 <%= render 'banners' %>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <%= render CandidateInterface::ApplicationChoices::IndexContentComponent.new(application_form: current_application) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% if current_application.between_cycles? %>
+      <%= render CandidateInterface::ApplicationChoices::AfterDeadlineContentComponent.new(application_form: current_application) %>
+    <% else %>
+      <%= render CandidateInterface::ApplicationChoices::MidCycleContentComponent.new(application_form: current_application) %>
+    <% end %>
     <div>
       <%= render CandidateInterface::ApplicationChoiceListComponent.new(
         application_form: current_application,

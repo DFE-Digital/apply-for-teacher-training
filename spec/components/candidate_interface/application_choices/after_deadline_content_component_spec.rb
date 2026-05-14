@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
+RSpec.describe CandidateInterface::ApplicationChoices::AfterDeadlineContentComponent do
   describe 'delegations' do
     subject(:component) { described_class.new(application_form:) }
 

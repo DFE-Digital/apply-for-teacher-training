@@ -17,6 +17,9 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       phase
       personal_details_completed
       support_reference
+      in_progress_limit
+      total_application_limit
+      number_of_in_progress_applications_left
     ].each do |method|
       it "delegates '##{method}' to the application form" do
         described_class.new(application_form_spy).send(method)

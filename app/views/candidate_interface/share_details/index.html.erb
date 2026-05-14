@@ -97,7 +97,8 @@
       <% end %>
       <% accordion.with_section(heading_text: 'How many applications can I submit?') do %>
         <p class="govuk-body">
-          Application sharing works alongside the <%= govuk_link_to('current applications process', candidate_interface_guidance_path) %>. You can submit a maximum of 4 applications at a time. When an application becomes inactive, is rejected or withdrawn, you can submit another choice, up to a maximum of 15 total applications in a single recruitment cycle.
+          Application sharing works alongside the <%= govuk_link_to('current applications process', candidate_interface_guidance_path) %>.
+          You can submit a maximum of <%= current_application.total_application_limit %> applications.
         </p>
         <p class="govuk-body">
           If you are invited to apply to a course and you submit an application, it will count towards your total application choices.

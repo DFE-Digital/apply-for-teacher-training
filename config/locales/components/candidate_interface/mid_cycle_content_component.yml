@@ -3,25 +3,35 @@ en:
     title: Your applications
     you_cannot_submit_more: You cannot submit any more applications this year
     you_will_be_able_to_apply_again: >
-      You will be able to apply again in %{apply_reopens_date} when applications open for courses starting in September %{next_year}
+      You will be able to submit more applications in the next recruitment cycle starting %{apply_reopens_date}.
     email_for_help_html: Email %{email_address} if you need help with your applications.
     becoming_a_teacher_email: becomingateacher@digital.education.gov.uk
     training_providers_offer_places_throughout_the_year: >
-      Training providers offer places on courses as people apply throughout the year. Courses can fill up quickly, so you should apply as soon as you are ready rather than putting it off.
-    courses_fill_up_quickly: Courses can fill up quickly, so you should apply as soon as you are ready rather than putting it off.
-    read_how_the_application_process_works: Read how the application process works
+      Training providers offer places on courses throughout the year. Courses can fill up quickly, so you should apply as soon as you are ready.
+    once_a_course_is_full: Once a course is full, it will close. You will not be able to apply for that course with that training provider until next year.
+    read_how_the_application_process_works: Find out how the application process works.
     add_application: Add application
-    you_cannot_add_any_more_applications: You cannot create any more applications at the moment.
-    you_can_add_more_applications_if: "You can create another application if one of your applications is either:"
+    can_submit: "You can submit %{count} applications."
+    you_cannot_add_any_more_applications: "You currently have %{count} active applications, so you cannot start a new one right now."
+    you_can_add_more_applications_if: "You can add another application if one of your current applications:"
     once_you_have_reached_the_limit: >
-      Once you have a total of %{max_number_of_applications} applications that are in one of the states described above, you will not be able to submit any more applications until %{next_year}.
-    rejected_by_provider: rejected by the training provider,
-    withdrawn_by_provider: 'withdrawn by you or the provider'
-    inactive_html: 'submitted over 30 working days ago and still waiting for a response <br role="presentation"> or:'
-    inactive_with_response_time_warning_html: 'submitted over 30 working days ago and still waiting for a response - around the Easter and Christmas breaks it can take longer for training providers to respond to applications.  <br role="presentation"> or:'
-    declined_offer: 'you declined the offer'
-    conditions_not_met: 'you did not meet the conditions of an offer'
+      Once you’ve submitted %{count} applications, you will not be able to submit any more until the next recruitment cycle starting %{apply_reopens_date}.
+    rejected_by_provider: is rejected by the provider
+    withdrawn_by_provider: is withdrawn (by you or the provider)
+    inactive: has been waiting for a response from a provider for more than 30 working days
+    inactive_with_response_time_warning: has been waiting for a response from a provider for more than 30 working days  - around the Easter and Christmas breaks it can take longer for training providers to respond to applications
+    declined_offer: has an offer that you declined
+    conditions_not_met: has an offer where you did not meet the conditions
     christmas_warning: If training providers do not respond to you within 30 working days, you will be able to apply to another course while you wait for a response. We do not count the days between Christmas day and New Years day as working days.
     easter_warning: If training providers do not respond to you within 30 working days, you will be able to apply to another course while you wait for a response. Around the Easter holidays it can take longer for training providers to respond to applications.
     incomplete_details_message: 'You will not be able to submit applications until you have completed %{link}.'
-    once_a_course_is_full: Once a course is full, it will close and you will not be able to submit an application until next year.
+    max_unsuccessful_applications: "This is because you have reached the limit of %{count} applications in this recruitment cycle."
+    total_applications_limit: "This is because you’ve submitted all %{count} of your applications in this recruitment cycle."
+    delete_drafts: If you have a draft application, you’ll need to delete it before you can start a new application.
+    unsuccessful_applications: "All of your applications have since:"
+    unsuccessful:
+      rejected_by_provider: "been rejected by the provider"
+      withdrawn_by_provider: "been withdrawn (by you or the training provider)"
+      declined_offer: "received an offer you declined"
+      conditions_not_met: "received an offer where you did not meet the conditions"
+      inactive: been waiting for a response for more than 30 working days

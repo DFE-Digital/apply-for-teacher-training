@@ -45,61 +45,6 @@ en:
           Proportion of candidates who have waited more than 30 working days for a response
         edi_title: >
           Sex, disability, ethnicity and age of candidates
-      about_this_data_section_component:
-        section_heading: 1. About this data
-        subsection_heading_one: Changes for the %{cycle_range} recruitment cycle
-        whats_new_in_2024_html: >
-          <p class="govuk-body">These statistics cover applications in the 2023 to 2024 recruitment cycle for courses in
-          England starting in the 2024 to 2025 academic year. To allow for comparison, statistics covering the 2022 to
-          2023 recruitment cycle 2023 to 2024 academic year are also included.</p>
-
-          <p class="govuk-body">New definitions and methodology have been introduced for the 2023 to 2024 recruitment
-          cycle to 2025 academic year because candidates can now submit applications to courses individually up to a
-          maximum of 4 open applications at a time. Previously, candidates submitted one application form with up to
-          4 course choices at the same time. All 4 course choices had to receive a decision before the candidate could
-          submit another application form in the same recruitment cycle.</p>
-
-          <p class="govuk-body">Improvements have also been made for clarity.</p>
-        subsection_heading_two: Data which is not included in these reports
-        these_applications_are_not_included: "These applications are not included in the reports:"
-        applications_made_directly_to_providers: teacher training applications made directly to providers
-        undergraduate_except_tda: undergraduate teacher training (except teacher degree apprenticeship (TDA) courses)
-        further_education_applications: applications to train to teach in Further Education
-        understanding_the_figures_in_the_table_heading: Understanding the figures in the tables
-        understanding_the_figures_explanation_html: >
-          <p class="govuk-body">All figures in this table are counts of candidates. A candidate is a person who has
-          submitted at least one application to an initial teacher training (ITT) course in England.</p>
-
-          <p class="govuk-body">Because candidates can apply for multiple courses throughout the recruitment cycle,
-          their application statuses change over time. This means that over time, some numbers in this report can go
-          up or down.</p>
-
-          <p class="govuk-body">For example, if a candidate’s first application to a provider is rejected, they might
-          submit a second application.</p>
-
-          <p class="govuk-body">After their first application is rejected, but before they submit their second
-          application, they are included in the count of candidates with rejected applications.</p>
-
-          <p class="govuk-body"> If their second application is also rejected, they would be included in the count of
-          rejected applications again.</p>
-
-          <p class="govuk-body">Candidates can submit applications for more than one subject. These candidates are
-          counted under all subjects that they have applied to. This means that the ‘All subjects’ row does not equal
-          the total of the rows above it.</p>
-
-          <p class="govuk-body">Subjects with no applications are not included in the tables. This means that some
-          subjects may appear in some tables and not others.</p>
-        data_timeframes_heading: Data timeframes
-        data_timeframes_explanation_html:
-          <p class="govuk-body">The recruitment cycle does not start on the same date each year. Where a table
-          compares data from last cycle to this cycle, the data will not be for the same dates, but it will be for the
-          same number of days.</p>
-
-          <p class="govuk-body">The time period that is used for comparison is the same number of days from the start
-          of the last cycle, as the report date is from the start of this cycle.</p>
-
-          <p class="govuk-body">These statistics are updated up to and including the day before they are published.
-          The report is published weekly on a Monday.</p>
       submitted_applications_table_component:
         number_of_candidates_submitted: >
           This table shows the number of candidates who have submitted one or more applications to %{provider_name} so

@@ -1,0 +1,23 @@
+<p class="govuk-body"><%= t('mid_cycle_content_component.can_submit', count: number_of_in_progress_applications_left) %></p>
+<%= govuk_warning_text(text: t('mid_cycle_content_component.you_cannot_add_any_more_applications', count: in_progress_limit)) %>
+
+<% if show_how_to_add_more_applications? %>
+  <p class="govuk-body"><%= t('mid_cycle_content_component.you_can_add_more_applications_if') %></p>
+
+  <%= govuk_list(
+        [
+          t('mid_cycle_content_component.rejected_by_provider'),
+          t('mid_cycle_content_component.withdrawn_by_provider'),
+          inactive_bullet,
+          t('mid_cycle_content_component.declined_offer'),
+          t('mid_cycle_content_component.conditions_not_met'),
+        ],
+        type: :bullet,
+        ) %>
+<% end %>
+
+<p class="govuk-body"><%= t('mid_cycle_content_component.delete_drafts') %></p>
+<p class="govuk-body"><%= t('mid_cycle_content_component.once_you_have_reached_the_limit', count: max_number_of_applications, apply_reopens_date: apply_reopens_date_text) %></p>
+<p class="govuk-body">
+  <%= govuk_link_to t('mid_cycle_content_component.read_how_the_application_process_works'), candidate_interface_guidance_path %>
+</p>

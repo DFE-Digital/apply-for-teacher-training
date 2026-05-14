@@ -1,0 +1,19 @@
+<%= govuk_warning_text(text: t('mid_cycle_content_component.you_cannot_submit_more')) %>
+<% if show_total_applications_limit? %>
+  <p class="govuk-body"><%= t('mid_cycle_content_component.total_applications_limit', count: application_form.total_application_limit) %></p>
+<% else %>
+  <p class="govuk-body"><%= t('mid_cycle_content_component.max_unsuccessful_applications', count: application_form.unsuccessful_retry_limit) %></p>
+
+  <p class="govuk-body"><%= t('mid_cycle_content_component.unsuccessful_applications') %></p>
+  <%= govuk_list(
+        [
+          t('mid_cycle_content_component.unsuccessful.rejected_by_provider'),
+          t('mid_cycle_content_component.unsuccessful.withdrawn_by_provider'),
+          t('mid_cycle_content_component.unsuccessful.inactive'),
+          t('mid_cycle_content_component.unsuccessful.declined_offer'),
+          t('mid_cycle_content_component.unsuccessful.conditions_not_met'),
+        ],
+        type: :bullet,
+        ) %>
+<% end %>
+<p class="govuk-body"><%= t('mid_cycle_content_component.you_will_be_able_to_apply_again', apply_reopens_date: apply_reopens_date_text) %></p>

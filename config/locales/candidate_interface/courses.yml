@@ -1,17 +1,10 @@
 en:
   application_form:
     courses:
-      intro: You can apply for up to 4 courses.
       delete: Delete choice
       confirm_delete: Yes I’m sure - delete this application
       continue_application: Continue application
-      another:
-        button: Add another course
       withdraw: Withdraw
-      complete:
-        hint_text:
-          one: You can add one more course
-          other: You can add %{count} more courses
       view_and_respond_to_offer: View and respond to offer
     confirm_selection:
       heading: You selected a course

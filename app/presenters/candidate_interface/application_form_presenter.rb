@@ -20,6 +20,10 @@ module CandidateInterface
              :personal_details_completed,
              :no_degree_and_degree_not_completed?,
              :previous_teacher_training_completed,
+             :unsuccessful_retry_limit,
+             :in_progress_limit,
+             :total_application_limit,
+             :number_of_in_progress_applications_left,
              :support_reference, to: :application_form
 
     def initialize(application_form)
