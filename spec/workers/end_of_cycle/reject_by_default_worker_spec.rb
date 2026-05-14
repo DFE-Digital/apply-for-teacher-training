@@ -76,7 +76,7 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
           let(:january_course) { create(:course, start_date: Date.parse("01/01/#{year + 1}")) }
 
           it 'enqueues the secondary worker' do
-            allow(instance).to receive_messages(winter_rejection_by_default_set?: true, run_winter_reject_by_default?: false)
+            allow(instance).to receive_messages(winter_rejection_by_default_set?: true)
 
             inactive_choice = create(:application_choice, :inactive, course_option: create(:course_option, course: september_course))
             interviewing_choice = create(:application_choice, :interviewing, course_option: create(:course_option, course: september_course))
@@ -110,7 +110,7 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
           let(:january_course) { create(:course, start_date: Date.parse("01/01/#{year + 1}")) }
 
           it 'does not enqueue the secondary worker' do
-            allow(instance).to receive_messages(winter_rejection_by_default_set?: true, run_winter_reject_by_default?: false)
+            allow(instance).to receive_messages(winter_rejection_by_default_set?: true)
 
             create(:application_choice, :inactive)
             create(
@@ -122,54 +122,6 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
             allow(EndOfCycle::RejectByDefaultSecondaryWorker).to receive(:perform_at)
             instance.perform
             expect(EndOfCycle::RejectByDefaultSecondaryWorker).not_to have_received(:perform_at)
-          end
-        end
-
-        context 'when winter reject dates are set, after the winter reject dates', time: decline_by_default_run_date(year) do
-          let(:september_course) { create(:course, start_date: Date.parse("01/09/#{year}")) }
-          let(:january_course) { create(:course, start_date: Date.parse("01/01/#{year + 1}")) }
-
-          it 'enqueues the secondary worker' do
-            allow(instance).to receive_messages(winter_rejection_by_default_set?: true, run_winter_reject_by_default?: true)
-
-            inactive_choice = create(
-              :application_choice,
-              :inactive,
-              current_recruitment_cycle_year: year - 1,
-              course_option: create(:course_option, course: january_course),
-            )
-            interviewing_choice = create(
-              :application_choice,
-              :interviewing,
-              current_recruitment_cycle_year: year - 1,
-              course_option: create(:course_option, course: january_course),
-            )
-            awaiting_decision_choice = create(
-              :application_choice,
-              :awaiting_provider_decision,
-              current_recruitment_cycle_year: year - 1,
-              course_option: create(:course_option, course: january_course),
-            )
-            _unrejectable_choice = create(
-              :application_choice,
-              course_option: create(:course_option, course: september_course),
-            )
-
-            # It will not include the offered application choice
-            create(:application_choice, :offer)
-
-            allow(EndOfCycle::RejectByDefaultSecondaryWorker).to receive(:perform_at)
-            instance.perform
-            expect(EndOfCycle::RejectByDefaultSecondaryWorker)
-              .to have_received(:perform_at)
-                    .with(
-                      kind_of(Time),
-                      contain_exactly(
-                        inactive_choice.application_form.id,
-                        interviewing_choice.application_form.id,
-                        awaiting_decision_choice.application_form.id,
-                      ),
-                    )
           end
         end
       end

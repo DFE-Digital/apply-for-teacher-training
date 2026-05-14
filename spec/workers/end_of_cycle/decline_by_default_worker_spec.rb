@@ -63,7 +63,7 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
           let(:january_course) { create(:course, start_date: Date.parse("01/01/#{year + 1}")) }
 
           it 'enqueues secondary worker for offered application choices' do
-            allow(instance).to receive_messages(winter_decline_by_default_set?: true, run_winter_decline_by_default?: false)
+            allow(instance).to receive_messages(winter_decline_by_default_set?: true)
 
             declineable = create(:application_choice, :offer, current_recruitment_cycle_year: year, course_option: create(:course_option, course: september_course))
             _undeclineable = create(
@@ -85,7 +85,7 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
           let(:january_course) { create(:course, start_date: Date.parse("01/01/#{year + 1}")) }
 
           it 'does not enqueues secondary worker' do
-            allow(instance).to receive_messages(winter_decline_by_default_set?: true, run_winter_decline_by_default?: false)
+            allow(instance).to receive_messages(winter_decline_by_default_set?: true)
 
             create(:application_choice, :offer, course_option: create(:course_option, course: september_course))
             create(
@@ -98,28 +98,6 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
             allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
             instance.perform
             expect(EndOfCycle::DeclineByDefaultSecondaryWorker).not_to have_received(:perform_at)
-          end
-        end
-
-        context 'when winter decline dates are set, after winter decline by default date', time: after_find_closes(year) do
-          let(:september_course) { create(:course, start_date: Date.parse("01/09/#{year}")) }
-          let(:january_course) { create(:course, start_date: Date.parse("01/01/#{year + 1}")) }
-
-          it 'enqueues secondary worker for offered application choices' do
-            allow(instance).to receive_messages(winter_decline_by_default_set?: true, run_winter_decline_by_default?: true)
-
-            _undeclineable = create(:application_choice, :offer, course_option: create(:course_option, course: september_course))
-            declineable = create(
-              :application_choice,
-              :offer,
-              current_recruitment_cycle_year: year - 1,
-              course_option: create(:course_option, course: january_course),
-            )
-
-            allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
-            instance.perform
-            expect(EndOfCycle::DeclineByDefaultSecondaryWorker)
-              .to have_received(:perform_at).with(kind_of(Time), contain_exactly(declineable.application_form.id))
           end
         end
       end
