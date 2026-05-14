@@ -1734,10 +1734,10 @@
   resolved "https://registry.yarnpkg.com/@pkgr/core/-/core-0.2.7.tgz#eb5014dfd0b03e7f3ba2eeeff506eed89b028058"
   integrity sha512-YLT9Zo3oNPJoBjBc4q8G2mjU4tqIbf5CEOORbUUr48dCD9q3umJ3IPlVqOqDakPfd2HuwccBaqlGhN4Gmr5OWg==
 
-"@puppeteer/browsers@2.13.0":
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/@puppeteer/browsers/-/browsers-2.13.0.tgz#10f980c6d65efeff77f8a3cac6e1a7ac10604500"
-  integrity sha512-46BZJYJjc/WwmKjsvDFykHtXrtomsCIrwYQPOP7VfMJoZY2bsDF9oROBABR3paDjDcmkUye1Pb1BqdcdiipaWA==
+"@puppeteer/browsers@2.13.1":
+  version "2.13.1"
+  resolved "https://registry.yarnpkg.com/@puppeteer/browsers/-/browsers-2.13.1.tgz#be1a50cc550ad1c9a8e6af7fd9e336b2f071311f"
+  integrity sha512-zmS4RTK9fbrc++WlAJhxYbfz3IjDeOmkK/CwwbLmk7ydfS9e2CiEeRJHEPvjDVElO/bwXbidwGA37Bsm6LzCnQ==
   dependencies:
     debug "^4.4.3"
     extract-zip "^2.0.1"
@@ -2792,10 +2792,10 @@ detect-newline@^3.1.0:
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-3.1.0.tgz#576f5dfc63ae1a192ff192d8ad3af6308991b651"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
 
-devtools-protocol@0.0.1595872:
-  version "0.0.1595872"
-  resolved "https://registry.yarnpkg.com/devtools-protocol/-/devtools-protocol-0.0.1595872.tgz#6f3f537a8518887d30d5181e41788f697f2a4ab2"
-  integrity sha512-kRfgp8vWVjBu/fbYCiVFiOqsCk3CrMKEo3WbgGT2NXK2dG7vawWPBljixajVgGK9II8rDO9G0oD0zLt3I1daRg==
+devtools-protocol@0.0.1608973:
+  version "0.0.1608973"
+  resolved "https://registry.yarnpkg.com/devtools-protocol/-/devtools-protocol-0.0.1608973.tgz#56e0a2a999b06d416ee928ca06aeba95a5880515"
+  integrity sha512-Tpm17fxYzt+J7VrGdc1k8YdRqS3YV7se/M6KeemEqvUbq/n7At1rWVuXMxQgpWkdwSdIEKYbU//Bve+Shm4YNQ==
 
 "dfe-autocomplete@github:DFE-Digital/dfe-autocomplete#8e7389ff62a38bc8880323f6c58eed9c8d10f080":
   version "0.0.1"
@@ -5441,30 +5441,30 @@ punycode@^2.1.0, punycode@^2.3.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.3.1.tgz#027422e2faec0b25e1549c3e1bd8309b9133b6e5"
   integrity sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==
 
-puppeteer-core@24.42.0:
-  version "24.42.0"
-  resolved "https://registry.yarnpkg.com/puppeteer-core/-/puppeteer-core-24.42.0.tgz#85c1f6c73e6225be0d50fc6a4f2914690280e8cf"
-  integrity sha512-T4zXokk/izH01fYPhyyev1A4piWiOKrYq7CUFpdoYQxmOnXoV6YjUabmfIjCYkNspSoAXIxRid3Tw+Vg0fthYg==
+puppeteer-core@24.43.0:
+  version "24.43.0"
+  resolved "https://registry.yarnpkg.com/puppeteer-core/-/puppeteer-core-24.43.0.tgz#8a2fe71c3a02ac9b43d055b884f0906581707431"
+  integrity sha512-cCRNXsUlhyPoKDz6+TiSpfZpRS3mD6Y1YFKhkdr6ik6TMfuJb7fAtXq9ThUFc4sphxObDk3BuAvdxc1Y6YOnqQ==
   dependencies:
-    "@puppeteer/browsers" "2.13.0"
+    "@puppeteer/browsers" "2.13.1"
     chromium-bidi "14.0.0"
     debug "^4.4.3"
-    devtools-protocol "0.0.1595872"
-    typed-query-selector "^2.12.1"
+    devtools-protocol "0.0.1608973"
+    typed-query-selector "^2.12.2"
     webdriver-bidi-protocol "0.4.1"
-    ws "^8.19.0"
+    ws "^8.20.0"
 
-puppeteer@^24.42.0:
-  version "24.42.0"
-  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-24.42.0.tgz#2efe442c240ea44c05138a12a98aa0fdba1a6b83"
-  integrity sha512-94MoPfFp2eY3eYIMdINkez4IOP5TMHntlZbVx06fHlQTtiQiYgaY0L2Zzfod8PVUkPqP7m3Qlre2v8YS8cudPA==
+puppeteer@^24.43.0:
+  version "24.43.0"
+  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-24.43.0.tgz#98b4a0bc36bcc53c2c9d6afb80d0464b26d5cdf7"
+  integrity sha512-DRnMFz+J3s4lFUQcjqKl0/7h0jzlCZuUFU9lNjtKrnMl5WI1RwCaIItpHVu9empuPyUreYueN0sUW3/pnfdqsg==
   dependencies:
-    "@puppeteer/browsers" "2.13.0"
+    "@puppeteer/browsers" "2.13.1"
     chromium-bidi "14.0.0"
     cosmiconfig "^9.0.0"
-    devtools-protocol "0.0.1595872"
-    puppeteer-core "24.42.0"
-    typed-query-selector "^2.12.1"
+    devtools-protocol "0.0.1608973"
+    puppeteer-core "24.43.0"
+    typed-query-selector "^2.12.2"
 
 pure-rand@^7.0.0:
   version "7.0.1"
@@ -6407,10 +6407,10 @@ typed-array-length@^1.0.6:
     is-typed-array "^1.1.13"
     possible-typed-array-names "^1.0.0"
 
-typed-query-selector@^2.12.1:
-  version "2.12.1"
-  resolved "https://registry.yarnpkg.com/typed-query-selector/-/typed-query-selector-2.12.1.tgz#04423bfb71b8f3aee3df1c29598ed6c7c8f55284"
-  integrity sha512-uzR+FzI8qrUEIu96oaeBJmd9E7CFEiQ3goA5qCVgc4s5llSubcfGHq9yUstZx/k4s9dXHVKsE35YWoFyvEqEHA==
+typed-query-selector@^2.12.2:
+  version "2.12.2"
+  resolved "https://registry.yarnpkg.com/typed-query-selector/-/typed-query-selector-2.12.2.tgz#65e2462ac6b0aecfae1bfac1a4f3027070dbabaa"
+  integrity sha512-EOPFbyIub4ngnEdqi2yOcNeDLaX/0jcE1JoAXQDDMIthap7FoN795lc/SHfIq2d416VufXpM8z/lD+WRm2gfOQ==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"
@@ -6686,10 +6686,10 @@ ws@^8.18.0:
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.18.2.tgz#42738b2be57ced85f46154320aabb51ab003705a"
   integrity sha512-DMricUmwGZUVr++AEAe2uiVM7UoO9MAVZMDu05UQOaUII0lp+zOzLLU4Xqh/JvTqklB1T4uELaaPBKyjE1r4fQ==
 
-ws@^8.19.0:
-  version "8.19.0"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-8.19.0.tgz#ddc2bdfa5b9ad860204f5a72a4863a8895fd8c8b"
-  integrity sha512-blAT2mjOEIi0ZzruJfIhb3nps74PRWTCz1IjglWEEpQl5XS/UNama6u2/rjFkDDouqr4L67ry+1aGIALViWjDg==
+ws@^8.20.0:
+  version "8.20.1"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.20.1.tgz#91a9ae2b312ccf98e0a85ec499b48cef45ab0ddb"
+  integrity sha512-It4dO0K5v//JtTXuPkfEOaI3uUN87iYPnqo/ZzqCoG3g8uhA66QUMs/SrM0YK7/NAu+r4LMh/9dq2A7k+rHs+w==
 
 xdg-basedir@^4.0.0:
   version "4.0.0"
