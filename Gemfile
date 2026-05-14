@@ -202,3 +202,5 @@ gem 'propshaft', '~> 1.3'
 
 gem 'solid_queue', '~> 1.4'
 gem 'mission_control-jobs'
+gem 'solid_cache', '~> 1.0'
+gem 'solid_cache_dashboard'
