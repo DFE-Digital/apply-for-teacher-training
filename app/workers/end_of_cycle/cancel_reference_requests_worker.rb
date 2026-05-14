@@ -45,7 +45,7 @@ module EndOfCycle
     end
 
     def run_winter_cancel_reference_requests?
-      @run_winter_cancel_reference_requests ||= EndOfCycle::JobTimetabler.new.run_winter_cancel_reference_requests?
+      @run_winter_cancel_reference_requests ||= EndOfCycle::WinterJobTimetabler.new.run_winter_cancel_reference_requests?
     end
   end
 

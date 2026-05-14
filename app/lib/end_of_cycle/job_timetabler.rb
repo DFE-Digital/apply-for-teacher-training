@@ -19,44 +19,8 @@ module EndOfCycle
       current_time.between?(decline_by_default_at, find_closes_at)
     end
 
-    def winter_rejection_by_default_set?
-      !timetable.try(:winter_reject_by_default_at).nil?
-    end
-
-    def winter_decline_by_default_set?
-      !timetable.try(:winter_decline_by_default_at).nil?
-    end
-
     def run_cancel_reference_requests?
       run_decline_by_default?
-    end
-
-    def run_winter_cancel_reference_requests?
-      run_winter_decline_by_default?
-    end
-
-    def run_winter_reject_by_default?
-      return false unless winter_rejection_by_default_set?
-
-      previous_timetable = if timetable == RecruitmentCycleTimetable.current_timetable
-                             RecruitmentCycleTimetable.previous_timetable
-                           else
-                             timetable
-                           end
-
-      current_time.between?(previous_timetable.winter_reject_by_default_at, previous_timetable.winter_decline_by_default_at)
-    end
-
-    def run_winter_decline_by_default?
-      return false unless winter_decline_by_default_set?
-
-      previous_timetable = if timetable == RecruitmentCycleTimetable.current_timetable
-                             RecruitmentCycleTimetable.previous_timetable
-                           else
-                             timetable
-                           end
-
-      current_time.between?(previous_timetable.winter_decline_by_default_at, previous_timetable.winter_decline_by_default_at + 1.month)
     end
 
   private
