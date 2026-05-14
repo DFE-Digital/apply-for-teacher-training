@@ -48,12 +48,12 @@ RSpec.describe 'Delete a candidate application (by anonymising all of their data
     @candidate_dob = @application_form.date_of_birth.to_fs(:govuk_date)
     @candidate_email = @application_form.candidate.email_address
     within_summary_row 'First name' do
-      expect(page).to have_content(@candidate_first_name)
+      expect(page).to have_text(@candidate_first_name)
     end
     within_summary_row 'Last name' do
-      expect(page).to have_content(@candidate_last_name)
+      expect(page).to have_text(@candidate_last_name)
     end
-    expect(page).to have_content(@candidate_dob)
+    expect(page).to have_text(@candidate_dob)
   end
 
   def and_i_see_a_delete_application_link
@@ -70,8 +70,8 @@ RSpec.describe 'Delete a candidate application (by anonymising all of their data
         application_form_id: @application_form.id,
       ),
     )
-    expect(page).to have_content("Are you sure you want to delete all the personal information for #{@candidate_email}")
-    expect(page).to have_content('This operation cannot be undone.')
+    expect(page).to have_text("Are you sure you want to delete all the personal information for #{@candidate_email}")
+    expect(page).to have_text('This operation cannot be undone.')
   end
 
   def when_i_delete_the_account
@@ -82,8 +82,8 @@ RSpec.describe 'Delete a candidate application (by anonymising all of their data
     expect(page).to have_current_path(
       support_interface_delete_application_form_path(application_form_id: @application_form.id),
     )
-    expect(page).to have_content('Enter a Zendesk ticket URL')
-    expect(page).to have_content('Select that you have read the guidance')
+    expect(page).to have_text('Enter a Zendesk ticket URL')
+    expect(page).to have_text('Select that you have read the guidance')
   end
 
   def when_i_add_an_audit_comment_and_click_continue
@@ -97,15 +97,15 @@ RSpec.describe 'Delete a candidate application (by anonymising all of their data
   end
 
   def and_the_application_is_now_deleted
-    expect(page).to have_no_content(@candidate_email)
+    expect(page).to have_no_text(@candidate_email)
     within_summary_row 'First name' do
-      expect(page).to have_no_content(@candidate_first_name)
+      expect(page).to have_no_text(@candidate_first_name)
     end
     within_summary_row 'Last name' do
-      expect(page).to have_no_content(@candidate_last_name)
+      expect(page).to have_no_text(@candidate_last_name)
     end
     within_summary_row 'Date of birth' do
-      expect(page).to have_no_content(@candidate_dob)
+      expect(page).to have_no_text(@candidate_dob)
     end
   end
 end

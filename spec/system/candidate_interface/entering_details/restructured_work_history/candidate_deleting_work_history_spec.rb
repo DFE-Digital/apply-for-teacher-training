@@ -86,7 +86,7 @@ RSpec.describe 'Entering their work history' do
   end
 
   def then_i_see_a_two_month_break_between_my_job_and_now
-    expect(page).to have_content('You have a break in your work history (2 months)')
+    expect(page).to have_text('You have a break in your work history (2 months)')
   end
 
   def then_i_see_the_start_and_end_date_filled_in_for_my_break_that_covers_the_last_2_months
@@ -115,7 +115,7 @@ RSpec.describe 'Entering their work history' do
   end
 
   def then_i_see_my_reason_for_my_break_for_the_last_2_months_on_the_review_page
-    expect(page).to have_content('Painting is tiring.')
+    expect(page).to have_text('Painting is tiring.')
   end
 
   def when_i_delete_my_job
@@ -127,6 +127,6 @@ RSpec.describe 'Entering their work history' do
   end
 
   def and_i_do_not_see_my_previous_break_entry
-    expect(page).to have_no_content('Painting is tiring.')
+    expect(page).to have_no_text('Painting is tiring.')
   end
 end

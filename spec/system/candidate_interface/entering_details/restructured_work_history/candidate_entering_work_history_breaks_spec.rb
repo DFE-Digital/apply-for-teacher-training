@@ -131,11 +131,11 @@ RSpec.describe 'Entering reasons for their work history breaks' do
   end
 
   def then_i_see_a_two_months_break_between_my_first_job_and_my_second_job
-    expect(page).to have_content('You have a break in your work history (2 months)')
+    expect(page).to have_text('You have a break in your work history (2 months)')
   end
 
   def and_i_see_a_one_month_break_between_my_second_job_and_now
-    expect(page).to have_content('You have a break in your work history (1 month)')
+    expect(page).to have_text('You have a break in your work history (1 month)')
   end
 
   def given_i_am_on_review_work_history_page
@@ -160,13 +160,13 @@ RSpec.describe 'Entering reasons for their work history breaks' do
   end
 
   def then_i_see_my_reason_for_my_first_break_on_the_review_page
-    expect(page).to have_content('Painting is tiring.')
+    expect(page).to have_text('Painting is tiring.')
   end
 
   def when_i_mark_this_section_as_completed
     choose t('application_form.completed_radio')
     click_link_or_button t('continue')
-    expect(page).to have_content(t('page_titles.application_form'))
+    expect(page).to have_text(t('page_titles.application_form'))
   end
 
   def then_i_see_the_section_is_completed
@@ -184,7 +184,7 @@ RSpec.describe 'Entering reasons for their work history breaks' do
   end
 
   def then_i_see_my_updated_reason_for_my_first_break_on_the_review_page
-    expect(page).to have_content('Some updated reason about painting.')
+    expect(page).to have_text('Some updated reason about painting.')
   end
 
   def when_i_visit_the_application_form_page
@@ -200,7 +200,7 @@ RSpec.describe 'Entering reasons for their work history breaks' do
   end
 
   def then_i_see_a_section_complete_error
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
   def and_i_click_to_delete_my_first_break
@@ -212,6 +212,6 @@ RSpec.describe 'Entering reasons for their work history breaks' do
   end
 
   def then_i_no_longer_see_my_reason_on_the_review_page
-    expect(page).to have_no_content('Some updated reason about painting.')
+    expect(page).to have_no_text('Some updated reason about painting.')
   end
 end

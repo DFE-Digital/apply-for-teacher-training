@@ -134,7 +134,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     let(:school_placement_auto_selected) { true }
 
     it 'renders no change link' do
-      expect(render).to have_content('(not selected by candidate)')
+      expect(render).to have_text('(not selected by candidate)')
     end
   end
 
@@ -142,7 +142,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     let(:course) { build_stubbed(:course, study_mode: :full_time) }
 
     it 'renders no change link' do
-      expect(render).to have_content('(selected by candidate)')
+      expect(render).to have_text('(selected by candidate)')
     end
   end
 
@@ -250,7 +250,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
       let(:conditions) { [] }
 
       it 'renders the SKE conditions' do
-        expect(render).to have_content('Subject knowledge enhancement course')
+        expect(render).to have_text('Subject knowledge enhancement course')
       end
     end
   end

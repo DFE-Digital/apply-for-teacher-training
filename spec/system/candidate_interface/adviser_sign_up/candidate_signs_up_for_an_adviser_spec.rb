@@ -91,7 +91,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   alias_method :and_i_click_request_an_adviser, :when_i_click_request_an_adviser
 
   def then_i_see_validation_errors_for_preferred_teaching_subject
-    expect(page).to have_content(
+    expect(page).to have_text(
       t('activemodel.errors.models.adviser/sign_up_form.attributes.preferred_teaching_subject_id.inclusion'),
     )
   end
@@ -113,7 +113,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def and_i_see_the_success_message
-    expect(page).to have_content(t('candidate_interface.adviser_sign_ups.create.flash.success'))
+    expect(page).to have_text(t('candidate_interface.adviser_sign_ups.create.flash.success'))
   end
 
   def and_an_adviser_sign_up_job_is_enqueued

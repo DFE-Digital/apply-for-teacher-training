@@ -54,6 +54,6 @@ RSpec.describe 'Candidate arrives from Find with provider and course that is alr
   end
 
   def and_i_see_a_message_about_the_duplication
-    expect(page).to have_content('You have already added an application for Potions.')
+    expect(page).to have_text('You have already added an application for Potions.')
   end
 end

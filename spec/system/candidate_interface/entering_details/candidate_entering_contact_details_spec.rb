@@ -82,7 +82,7 @@ RSpec.describe 'Entering their contact information' do
   end
 
   def then_i_see_validation_errors_for_my_phone_number
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.phone_number.invalid')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.phone_number.invalid')
   end
 
   def and_a_validation_error_is_logged_for_phone_number
@@ -103,11 +103,11 @@ RSpec.describe 'Entering their contact information' do
   end
 
   def then_i_see_validation_errors_for_my_address_type
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_type.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_type.blank')
   end
 
   def when_i_select_live_in_uk
-    expect(page).to have_content('Where do you live?')
+    expect(page).to have_text('Where do you live?')
     choose 'In the UK'
     click_link_or_button t('save_and_continue')
   end
@@ -118,8 +118,8 @@ RSpec.describe 'Entering their contact information' do
   end
 
   def then_i_see_validation_errors_for_my_address
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.blank')
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.postcode.invalid')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.postcode.invalid')
   end
 
   def when_i_fill_in_my_address
@@ -133,8 +133,8 @@ RSpec.describe 'Entering their contact information' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content t('application_form.contact_details.phone_number.label')
-    expect(page).to have_content '07700 900 982'
+    expect(page).to have_text t('application_form.contact_details.phone_number.label')
+    expect(page).to have_text '07700 900 982'
   end
 
   def when_i_click_to_change_my_phone_number
@@ -152,8 +152,8 @@ RSpec.describe 'Entering their contact information' do
   end
 
   def then_i_can_check_my_revised_phone_number
-    expect(page).to have_content t('application_form.contact_details.phone_number.label')
-    expect(page).to have_content '07700 424 242'
+    expect(page).to have_text t('application_form.contact_details.phone_number.label')
+    expect(page).to have_text '07700 424 242'
   end
 
   def when_i_click_to_change_my_address_type
@@ -167,7 +167,7 @@ RSpec.describe 'Entering their contact information' do
   end
 
   def when_i_select_outside_the_uk
-    expect(page).to have_content('Where do you live?')
+    expect(page).to have_text('Where do you live?')
     choose 'Outside the UK'
     select('India', from: t('application_form.contact_details.country.label'))
     click_link_or_button t('save_and_continue')
@@ -180,11 +180,11 @@ RSpec.describe 'Entering their contact information' do
   end
 
   def then_i_see_validation_errors_for_address_line1
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.blank')
   end
 
   def then_i_see_validation_errors_for_address_line1_for_my_international_address
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.international_blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.international_blank')
   end
 
   def when_i_fill_in_an_international_address
@@ -194,10 +194,10 @@ RSpec.describe 'Entering their contact information' do
   end
 
   def then_i_can_check_my_revised_address
-    expect(page).to have_content '123 Chandni Chowk'
-    expect(page).to have_content 'New Delhi'
-    expect(page).to have_content '110006'
-    expect(page).to have_content 'India'
+    expect(page).to have_text '123 Chandni Chowk'
+    expect(page).to have_text 'New Delhi'
+    expect(page).to have_text '110006'
+    expect(page).to have_text 'India'
   end
 
   def when_i_mark_the_section_as_completed
@@ -213,7 +213,7 @@ RSpec.describe 'Entering their contact information' do
   end
 
   def then_i_see_the_form
-    expect(page).to have_content(t('page_titles.application_form'))
+    expect(page).to have_text(t('page_titles.application_form'))
   end
 
   def and_that_the_section_is_completed

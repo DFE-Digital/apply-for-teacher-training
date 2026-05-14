@@ -23,6 +23,6 @@ RSpec.describe 'Full courses' do
   end
 
   def then_i_see_the_list_of_course_options
-    expect(page).to have_content 'No vacancies'
+    expect(page).to have_text 'No vacancies'
   end
 end

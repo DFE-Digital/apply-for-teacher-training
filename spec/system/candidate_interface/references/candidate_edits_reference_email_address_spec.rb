@@ -55,22 +55,22 @@ private
   end
 
   def then_i_do_not_see_the_interruption_page
-    expect(page).to have_content "How do you know #{@reference.name} and how long have you known them?"
+    expect(page).to have_text "How do you know #{@reference.name} and how long have you known them?"
   end
 
   def then_i_see_the_interruption_page
-    expect(page).to have_content 'now_personal@yahoo.com looks like a personal email address'
-    expect(page).to have_content "You should ask #{@reference.name} if they have a work email address you can use instead and update your application."
+    expect(page).to have_text 'now_personal@yahoo.com looks like a personal email address'
+    expect(page).to have_text "You should ask #{@reference.name} if they have a work email address you can use instead and update your application."
   end
 
   def and_i_can_save_my_changes_with_the_personal_email_address
     click_on 'Save and continue'
     expect(page).to have_current_path candidate_interface_references_review_path
-    expect(page).to have_content 'now_personal@yahoo.com'
+    expect(page).to have_text 'now_personal@yahoo.com'
   end
 
   def then_my_changes_are_saved_with_the_professional_email_address
-    expect(page).to have_content 'now_professional@open.ac.uk'
+    expect(page).to have_text 'now_professional@open.ac.uk'
     expect(page).to have_current_path candidate_interface_references_review_path
   end
 end

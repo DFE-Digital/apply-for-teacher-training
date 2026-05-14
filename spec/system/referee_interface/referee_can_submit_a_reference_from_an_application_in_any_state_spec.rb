@@ -73,7 +73,7 @@ RSpec.describe 'Referee can submit reference in any application choice states', 
   end
 
   def then_i_see_a_message_about_the_candidate
-    expect(page).to have_content("#{current_candidate.current_application.full_name} has said you can give them a reference for their teacher training application.")
+    expect(page).to have_text("#{current_candidate.current_application.full_name} has said you can give them a reference for their teacher training application.")
   end
 
   def and_i_select_yes_to_giving_a_reference
@@ -82,7 +82,7 @@ RSpec.describe 'Referee can submit reference in any application choice states', 
   end
 
   def then_i_am_asked_to_confirm_my_relationship_with_the_candidate
-    expect(page).to have_content("Confirm how #{@application.full_name} knows you")
+    expect(page).to have_text("Confirm how #{@application.full_name} knows you")
   end
 
   def and_i_select_yes_to_reference_can_be_shared
@@ -101,7 +101,7 @@ RSpec.describe 'Referee can submit reference in any application choice states', 
   end
 
   def then_i_see_the_safeguarding_page
-    expect(page).to have_content("Why #{@application.full_name} should not work with children")
+    expect(page).to have_text("Why #{@application.full_name} should not work with children")
   end
 
   def when_i_choose_the_candidate_is_suitable_for_working_with_children
@@ -119,8 +119,8 @@ RSpec.describe 'Referee can submit reference in any application choice states', 
   end
 
   def then_i_see_the_reference_comment_page
-    expect(page).to have_content('when their course started and ended')
-    expect(page).to have_content('their academic record')
+    expect(page).to have_text('when their course started and ended')
+    expect(page).to have_text('their academic record')
   end
 
   def when_i_fill_in_the_reference_field
@@ -128,7 +128,7 @@ RSpec.describe 'Referee can submit reference in any application choice states', 
   end
 
   def then_i_see_the_reference_review_page
-    expect(page).to have_content("Check your reference for #{@application.full_name}")
+    expect(page).to have_text("Check your reference for #{@application.full_name}")
   end
 
   def and_i_click_the_submit_reference_button
@@ -140,13 +140,13 @@ RSpec.describe 'Referee can submit reference in any application choice states', 
   end
 
   def then_i_see_am_told_i_submitted_my_reference
-    expect(page).to have_content("Your reference for #{@application.full_name}")
+    expect(page).to have_text("Your reference for #{@application.full_name}")
   end
 
   def and_i_receive_an_email_confirmation
     open_email('terri@example.com')
 
-    expect(current_email.subject).to have_content(t('reference_confirmation_email.subject', candidate_name: @application.full_name))
+    expect(current_email.subject).to have_text(t('reference_confirmation_email.subject', candidate_name: @application.full_name))
   end
 
   def and_the_candidate_receives_a_notification
@@ -156,12 +156,12 @@ RSpec.describe 'Referee can submit reference in any application choice states', 
   end
 
   def then_i_see_the_thank_you_page
-    expect(page).to have_content('Thank you')
-    expect(page).to have_no_content('You do not need to give a reference anymore.')
+    expect(page).to have_text('Thank you')
+    expect(page).to have_no_text('You do not need to give a reference anymore.')
   end
 
   def and_i_am_told_i_will_be_contacted
-    expect(page).to have_content('Our user research team will contact you shortly')
+    expect(page).to have_text('Our user research team will contact you shortly')
   end
 
   def when_i_retry_to_edit_the_feedback

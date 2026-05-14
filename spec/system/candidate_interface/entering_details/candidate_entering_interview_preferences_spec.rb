@@ -56,12 +56,12 @@ RSpec.describe 'Entering interview preferences' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'Check your answers to interview availability'
-    expect(page).to have_content 'Hello world'
+    expect(page).to have_text 'Check your answers to interview availability'
+    expect(page).to have_text 'Hello world'
   end
 
   def then_i_see_validation_errors
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/interview_preferences_form.attributes.any_preferences.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/interview_preferences_form.attributes.any_preferences.blank')
   end
 
   def and_i_choose_no
@@ -69,8 +69,8 @@ RSpec.describe 'Entering interview preferences' do
   end
 
   def then_i_can_check_my_revised_answers
-    expect(page).to have_content 'Check your answers to interview availability'
-    expect(page).to have_content t('application_form.interview_preferences.no_value')
+    expect(page).to have_text 'Check your answers to interview availability'
+    expect(page).to have_text t('application_form.interview_preferences.no_value')
   end
 
   def when_i_mark_the_section_as_completed
@@ -83,11 +83,11 @@ RSpec.describe 'Entering interview preferences' do
   alias_method :and_i_submit_my_interview_preferences, :when_i_click_on_continue
 
   def then_i_see_a_section_complete_error
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
   def then_i_see_the_form
-    expect(page).to have_content(t('page_titles.interview_preferences.heading'))
+    expect(page).to have_text(t('page_titles.interview_preferences.heading'))
   end
 
   def and_that_the_section_is_completed

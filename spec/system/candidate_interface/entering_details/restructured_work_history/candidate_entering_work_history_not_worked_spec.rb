@@ -48,7 +48,7 @@ RSpec.describe 'Entering their work history' do
   end
 
   def and_i_see_my_explanation
-    expect(page).to have_content('I was not working')
+    expect(page).to have_text('I was not working')
   end
 
   def when_i_click_on_change
@@ -61,7 +61,7 @@ RSpec.describe 'Entering their work history' do
   end
 
   def then_i_see_my_updated_explanation
-    expect(page).to have_content('I was not working due to childcare')
+    expect(page).to have_text('I was not working due to childcare')
   end
 
   def when_i_mark_this_section_as_completed
@@ -73,7 +73,7 @@ RSpec.describe 'Entering their work history' do
   end
 
   def then_i_see_the_form
-    expect(page).to have_content(t('page_titles.application_form'))
+    expect(page).to have_text(t('page_titles.application_form'))
   end
 
   def and_that_the_section_is_completed

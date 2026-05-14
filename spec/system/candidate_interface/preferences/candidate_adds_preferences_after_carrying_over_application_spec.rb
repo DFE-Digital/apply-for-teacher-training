@@ -56,7 +56,7 @@ RSpec.describe 'Candidate adds preferences' do
   alias_method :and_i_click, :when_i_click
 
   def then_i_am_redirected_to_review_page
-    expect(page).to have_content('Check your application sharing preferences')
+    expect(page).to have_text('Check your application sharing preferences')
 
     summary_list = [
       {
@@ -81,15 +81,15 @@ RSpec.describe 'Candidate adds preferences' do
 
     summary_list.each_with_index do |item, index|
       within ".govuk-summary-list__row:nth-of-type(#{index + 1})" do
-        expect(page).to have_content(item[:label])
-        expect(page).to have_content(item[:value])
+        expect(page).to have_text(item[:label])
+        expect(page).to have_text(item[:value])
       end
     end
   end
 
   def then_i_am_redirected_to_confirmation_page
     expect(page).to have_current_path(show_candidate_interface_pool_opt_ins_path)
-    expect(page).to have_content('You have chosen to share your application details')
+    expect(page).to have_text('You have chosen to share your application details')
   end
 
   def and_my_duplicate_preference_is_published
@@ -99,6 +99,6 @@ RSpec.describe 'Candidate adds preferences' do
   def given_i_am_on_the_share_details_page
     visit candidate_interface_share_details_path
 
-    expect(page).to have_content('Application sharing How application sharing works')
+    expect(page).to have_text('Application sharing How application sharing works')
   end
 end

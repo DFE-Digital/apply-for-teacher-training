@@ -69,30 +69,30 @@ private
   end
 
   def then_i_see_my_application_choices_listed_from_the_previous_two_years
-    expect(page).to have_content("Applications for courses in the #{@application_form.recruitment_cycle_year - 2} to #{@application_form.recruitment_cycle_year - 1} recruitment cycle")
+    expect(page).to have_text("Applications for courses in the #{@application_form.recruitment_cycle_year - 2} to #{@application_form.recruitment_cycle_year - 1} recruitment cycle")
 
     expect(page).to have_link(@withdrawn_application_choice_previous_year.provider.name, href: "/candidate/application/choices/previous-applications/#{@withdrawn_application_choice_previous_year.id}")
-    expect(page).to have_content(@withdrawn_application_choice_previous_year.course.name_and_code)
-    expect(page).to have_content(@withdrawn_application_choice_previous_year.course.study_mode.humanize)
-    expect(page).to have_content('Application withdrawn')
+    expect(page).to have_text(@withdrawn_application_choice_previous_year.course.name_and_code)
+    expect(page).to have_text(@withdrawn_application_choice_previous_year.course.study_mode.humanize)
+    expect(page).to have_text('Application withdrawn')
 
-    expect(page).to have_content("Applications for courses in the #{@application_form.recruitment_cycle_year - 3} to #{@application_form.recruitment_cycle_year - 2} recruitment cycle")
+    expect(page).to have_text("Applications for courses in the #{@application_form.recruitment_cycle_year - 3} to #{@application_form.recruitment_cycle_year - 2} recruitment cycle")
 
     expect(page).to have_link(@declined_application_choice_previous_two_years.provider.name, href: "/candidate/application/choices/previous-applications/#{@declined_application_choice_previous_two_years.id}")
-    expect(page).to have_content(@declined_application_choice_previous_two_years.course.name_and_code)
-    expect(page).to have_content(@declined_application_choice_previous_two_years.course.study_mode.humanize)
-    expect(page).to have_content('Offer declined')
+    expect(page).to have_text(@declined_application_choice_previous_two_years.course.name_and_code)
+    expect(page).to have_text(@declined_application_choice_previous_two_years.course.study_mode.humanize)
+    expect(page).to have_text('Offer declined')
 
     expect(page).to have_link(@rejected_application_choice_previous_two_years.provider.name, href: "/candidate/application/choices/previous-applications/#{@rejected_application_choice_previous_two_years.id}")
-    expect(page).to have_content(@rejected_application_choice_previous_two_years.course.name_and_code)
-    expect(page).to have_content(@rejected_application_choice_previous_two_years.course.study_mode.humanize)
-    expect(page).to have_content('Unsuccessful')
+    expect(page).to have_text(@rejected_application_choice_previous_two_years.course.name_and_code)
+    expect(page).to have_text(@rejected_application_choice_previous_two_years.course.study_mode.humanize)
+    expect(page).to have_text('Unsuccessful')
   end
 
   def and_the_draft_application_is_not_listed
     expect(page).to have_no_link(@draft_application_choice_previous_year.provider.name, href: "/candidate/application/choices/previous-applications/#{@draft_application_choice_previous_year.id}")
-    expect(page).to have_no_content(@draft_application_choice_previous_year.course.name_and_code)
-    expect(page).to have_no_content('Draft')
+    expect(page).to have_no_text(@draft_application_choice_previous_year.course.name_and_code)
+    expect(page).to have_no_text('Draft')
   end
 
   def when_i_click_on_one_of_my_previous_applications
@@ -100,11 +100,11 @@ private
   end
 
   def then_i_see_the_details_page
-    expect(page).to have_content("Your application to #{@rejected_application_choice_previous_two_years.provider.name}")
-    expect(page).to have_content(@rejected_application_choice_previous_two_years.course.name_and_code)
-    expect(page).to have_content(@rejected_application_choice_previous_two_years.course.qualifications_to_s)
-    expect(page).to have_content(@rejected_application_choice_previous_two_years.course.study_mode.humanize.to_s)
-    expect(page).to have_content(@rejected_application_choice_previous_two_years.personal_statement)
+    expect(page).to have_text("Your application to #{@rejected_application_choice_previous_two_years.provider.name}")
+    expect(page).to have_text(@rejected_application_choice_previous_two_years.course.name_and_code)
+    expect(page).to have_text(@rejected_application_choice_previous_two_years.course.qualifications_to_s)
+    expect(page).to have_text(@rejected_application_choice_previous_two_years.course.study_mode.humanize.to_s)
+    expect(page).to have_text(@rejected_application_choice_previous_two_years.personal_statement)
   end
 
   def when_i_click_back
@@ -116,11 +116,11 @@ private
   end
 
   def then_i_see_my_current_application_choices_page
-    expect(page).to have_content('Your applications')
+    expect(page).to have_text('Your applications')
   end
 
   def and_i_do_not_see_any_of_my_current_cycle_applications_listed
-    expect(page).to have_no_content("Applications for courses in the #{@application_form.recruitment_cycle_year - 1} to #{@application_form.recruitment_cycle_year} recruitment cycle")
-    expect(page).to have_no_content(@application_form.application_choices.first.provider.name)
+    expect(page).to have_no_text("Applications for courses in the #{@application_form.recruitment_cycle_year - 1} to #{@application_form.recruitment_cycle_year} recruitment cycle")
+    expect(page).to have_no_text(@application_form.application_choices.first.provider.name)
   end
 end

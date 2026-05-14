@@ -15,8 +15,8 @@ end
 
 RSpec.shared_examples 'an email with unsubscribe option' do
   it 'has the unsubscribe link' do
-    expect(email.body).to have_content 'You will still receive essential updates about your application. You cannot undo this.'
-    expect(email.body).to have_content 'Unsubscribe from reminder emails like this'
-    expect(email.body).to have_content 'http://localhost:3000/candidate/unsubscribe-from-emails/'
+    expect(email.body).to have_text 'You will still receive essential updates about your application. You cannot undo this.'
+    expect(email.body).to have_text 'Unsubscribe from reminder emails like this'
+    expect(email.body).to have_text 'http://localhost:3000/candidate/unsubscribe-from-emails/'
   end
 end

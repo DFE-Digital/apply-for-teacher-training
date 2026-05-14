@@ -28,19 +28,19 @@ RSpec.describe 'API tokens' do
       click_link_or_button 'Revoke'
     end
 
-    expect(page).to have_content('Confirm revocation')
+    expect(page).to have_text('Confirm revocation')
     click_link_or_button 'Revoke'
   end
 
   def then_that_provider_no_longer_has_an_api_token
     within '.govuk-table' do
-      expect(page).to have_no_content('Provider 1')
+      expect(page).to have_no_text('Provider 1')
     end
   end
 
   def but_the_other_provider_still_has_an_api_token
     within '.govuk-table' do
-      expect(page).to have_content('Provider 2')
+      expect(page).to have_text('Provider 2')
     end
   end
 end

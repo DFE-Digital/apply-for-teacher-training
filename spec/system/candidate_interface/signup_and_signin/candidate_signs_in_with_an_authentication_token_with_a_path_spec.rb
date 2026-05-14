@@ -89,7 +89,7 @@ RSpec.describe 'Candidates authentication token has the path attribute populated
 
   def then_i_receive_an_email_inviting_me_to_sign_in
     open_email(@candidate.email_address)
-    expect(current_email.subject).to have_content t('authentication.sign_in.email.subject')
+    expect(current_email.subject).to have_text t('authentication.sign_in.email.subject')
   end
 
   def given_i_have_a_reference_in_the_not_requested_yet_state

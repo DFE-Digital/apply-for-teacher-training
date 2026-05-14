@@ -84,7 +84,7 @@ RSpec.describe 'Candidate entering GCSE English details' do
   end
 
   def then_i_see_the_add_gcse_english_page
-    expect(page).to have_content 'What type of qualification in English do you have?'
+    expect(page).to have_text 'What type of qualification in English do you have?'
   end
 
   def when_i_select_gcse_option
@@ -96,12 +96,12 @@ RSpec.describe 'Candidate entering GCSE English details' do
   end
 
   def then_i_see_the_english_gcse_grade_page
-    expect(page).to have_content t('multiple_gcse_edit_grade.page_title', subject: 'english')
-    expect(page).to have_content t('multiple_gcse_edit_grade.page_title', subject: 'english')
+    expect(page).to have_text t('multiple_gcse_edit_grade.page_title', subject: 'english')
+    expect(page).to have_text t('multiple_gcse_edit_grade.page_title', subject: 'english')
   end
 
   def then_i_see_the_gcses_blank_error
-    expect(page).to have_content 'Select at least one GCSE'
+    expect(page).to have_text 'Select at least one GCSE'
   end
 
   def when_i_click_english_single_award
@@ -111,11 +111,11 @@ RSpec.describe 'Candidate entering GCSE English details' do
   alias_method :and_i_click_english_single_award, :when_i_click_english_single_award
 
   def then_i_see_the_enter_your_english_single_award_grade_error
-    expect(page).to have_content 'Enter your English (Single award) grade'
+    expect(page).to have_text 'Enter your English (Single award) grade'
   end
 
   def then_i_see_the_enter_your_other_english_grade_error
-    expect(page).to have_content 'Enter your other English subject grade'
+    expect(page).to have_text 'Enter your other English subject grade'
   end
 
   def and_i_enter_an_invalid_grade
@@ -125,7 +125,7 @@ RSpec.describe 'Candidate entering GCSE English details' do
   end
 
   def then_i_see_the_invalid_english_single_award_grade_error
-    expect(page).to have_content 'Enter a real English (Single award) grade'
+    expect(page).to have_text 'Enter a real English (Single award) grade'
   end
 
   def and_i_uncheck_english_single_award
@@ -137,7 +137,7 @@ RSpec.describe 'Candidate entering GCSE English details' do
   end
 
   def then_i_see_the_enter_an_english_gcse_error
-    expect(page).to have_content 'Enter an English GCSE'
+    expect(page).to have_text 'Enter an English GCSE'
   end
 
   def and_i_enter_a_valid_english_gcse
@@ -153,7 +153,7 @@ RSpec.describe 'Candidate entering GCSE English details' do
   end
 
   def then_i_see_the_grade_year_page
-    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'English', qualification_type: 'GCSE')
+    expect(page).to have_text t('gcse_edit_year.page_title', subject: 'English', qualification_type: 'GCSE')
   end
 
   def when_i_fill_in_the_award_year
@@ -161,8 +161,8 @@ RSpec.describe 'Candidate entering GCSE English details' do
   end
 
   def then_i_see_the_check_answers_page
-    expect(page).to have_content('A* (Cockney Rhyming Slang)')
-    expect(page).to have_content('Change grade for GCSE')
+    expect(page).to have_text('A* (Cockney Rhyming Slang)')
+    expect(page).to have_text('Change grade for GCSE')
   end
 
   def when_i_click_to_change_my_grades
@@ -182,7 +182,7 @@ RSpec.describe 'Candidate entering GCSE English details' do
   end
 
   def then_i_see_my_new_grade_on_the_review_page
-    expect(page).to have_content('B (Cockney Rhyming Slang)')
+    expect(page).to have_text('B (Cockney Rhyming Slang)')
   end
 
   def when_i_try_to_manually_navigate_to_the_review_page

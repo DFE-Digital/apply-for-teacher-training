@@ -66,7 +66,7 @@ RSpec.describe 'International candidate submits the application' do
   end
 
   def then_i_see_the_international_candidate_interruption
-    expect(page).to have_content('Check before you submit your application')
+    expect(page).to have_text('Check before you submit your application')
   end
 
   def when_i_click(button)
@@ -142,7 +142,7 @@ RSpec.describe 'International candidate submits the application' do
   end
 
   def then_i_see_a_warning_about_incomplete_details
-    expect(page).to have_content 'You cannot submit this application until you complete your details.'
+    expect(page).to have_text 'You cannot submit this application until you complete your details.'
   end
 
   def when_i_complete_the_efl_section
@@ -174,18 +174,18 @@ RSpec.describe 'International candidate submits the application' do
   end
 
   def then_i_can_see_my_course_choices
-    expect(page).to have_content 'Gorse SCITT'
-    expect(page).to have_content 'Drama (2397)'
+    expect(page).to have_text 'Gorse SCITT'
+    expect(page).to have_text 'Drama (2397)'
   end
 
   def and_i_can_see_my_personal_details
-    expect(page).to have_content 'Lando Calrissian'
-    expect(page).to have_content '6 April 1990'
-    expect(page).to have_content 'Indian'
+    expect(page).to have_text 'Lando Calrissian'
+    expect(page).to have_text '6 April 1990'
+    expect(page).to have_text 'Indian'
   end
 
   def and_i_can_see_my_efl_qualification
-    expect(page).to have_content 'No, English is not a foreign language to me'
+    expect(page).to have_text 'No, English is not a foreign language to me'
   end
 
   def when_i_try_to_add_secondary_course
@@ -194,7 +194,7 @@ RSpec.describe 'International candidate submits the application' do
 
   def then_i_can_see_my_application_has_been_successfully_submitted
     expect(page).to have_current_path new_candidate_interface_pool_opt_in_path(submit_application: true)
-    expect(page).to have_content 'Application submitted'
+    expect(page).to have_text 'Application submitted'
   end
 
   def when_i_review_my_application

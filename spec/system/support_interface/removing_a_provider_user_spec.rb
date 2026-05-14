@@ -51,7 +51,7 @@ RSpec.describe 'Managing provider users v2' do
   end
 
   def then_i_see_a_confirmation_page
-    expect(page).to have_content('Are you sure you want to remove this user’s access to Example provider one')
+    expect(page).to have_text('Are you sure you want to remove this user’s access to Example provider one')
   end
 
   def when_i_click_yes_i_am_sure
@@ -59,7 +59,7 @@ RSpec.describe 'Managing provider users v2' do
   end
 
   def then_i_see_a_flash_message
-    expect(page).to have_content 'User no longer has access to Example provider one'
+    expect(page).to have_text 'User no longer has access to Example provider one'
   end
 
   def and_i_see_that_the_user_is_no_longer_associated_with_that_provider

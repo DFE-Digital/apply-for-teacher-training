@@ -27,7 +27,7 @@ RSpec.describe 'Selecting a course' do
   end
 
   def then_i_am_on_the_application_choice_duplicate_page
-    expect(page).to have_content('You already have an application for Primary (2XT2) at Gorse SCITT')
+    expect(page).to have_text('You already have an application for Primary (2XT2) at Gorse SCITT')
   end
 
   def and_i_have_an_application_to_a_course
@@ -54,8 +54,8 @@ RSpec.describe 'Selecting a course' do
   end
 
   def then_i_see_a_course_and_its_description
-    expect(page).to have_content(@course.name_and_code)
-    expect(page).to have_content(@course.description_to_s)
+    expect(page).to have_text(@course.name_and_code)
+    expect(page).to have_text(@course.description_to_s)
   end
 
   def and_i_choose_a_duplicate_course

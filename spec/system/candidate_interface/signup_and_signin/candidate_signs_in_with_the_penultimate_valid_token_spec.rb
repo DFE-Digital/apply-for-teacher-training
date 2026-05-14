@@ -32,7 +32,7 @@ RSpec.describe 'Candidate tries to sign up using magic link with an invalid toke
 
   def then_i_receive_an_email_inviting_me_to_sign_in
     open_email(@email)
-    expect(current_email.subject).to have_content t('authentication.sign_in.email.subject')
+    expect(current_email.subject).to have_text t('authentication.sign_in.email.subject')
   end
 
   def when_i_click_back_and_go_to_sign_in_again

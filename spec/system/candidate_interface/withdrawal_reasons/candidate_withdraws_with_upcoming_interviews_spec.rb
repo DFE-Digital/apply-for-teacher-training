@@ -42,7 +42,7 @@ RSpec.describe 'A candidate withdraws with upcoming interviews' do
 
   def and_the_provider_has_received_an_email
     open_email(@provider_user.email_address)
-    expect(current_email.subject).to have_content "#{@application_choice.application_form.full_name} withdrew their application"
+    expect(current_email.subject).to have_text "#{@application_choice.application_form.full_name} withdrew their application"
   end
 
   def and_the_interview_has_been_cancelled
@@ -53,7 +53,7 @@ RSpec.describe 'A candidate withdraws with upcoming interviews' do
 
   def and_i_received_an_interview_cancelled_email
     open_email(@current_candidate.email_address)
-    expect(current_email.subject).to have_content('Interview cancelled')
-    expect(current_email.text).to have_content('You withdrew your application.')
+    expect(current_email.subject).to have_text('Interview cancelled')
+    expect(current_email.text).to have_text('You withdrew your application.')
   end
 end

@@ -182,7 +182,7 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def then_i_expect_to_see_the_search_input
-    expect(page).to have_content('Search by candidate name or application number')
+    expect(page).to have_text('Search by candidate name or application number')
   end
 
   def when_i_visit_the_provider_page
@@ -242,7 +242,7 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def then_i_see_the_no_filter_results_error_message
-    expect(page).to have_content("There are no results for 'Simon Says'.")
+    expect(page).to have_text("There are no results for 'Simon Says'.")
   end
 
   def when_i_filter_by_provider

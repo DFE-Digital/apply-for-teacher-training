@@ -41,13 +41,13 @@ RSpec.describe 'Editing application details' do
 
   def then_i_see_the_updated_nationality
     within('[data-qa="personal-information"]') do
-      expect(page).to have_content 'Armenian'
-      expect(page).to have_content 'Has the right to work or study in the UK?'
-      expect(page).to have_content 'Not yet'
+      expect(page).to have_text 'Armenian'
+      expect(page).to have_text 'Has the right to work or study in the UK?'
+      expect(page).to have_text 'Not yet'
     end
 
     click_link_or_button 'History'
-    expect(page).to have_content 'Changed nationality details - zendesk ticket 1234'
+    expect(page).to have_text 'Changed nationality details - zendesk ticket 1234'
   end
 
   def given_i_am_a_support_user
@@ -78,12 +78,12 @@ RSpec.describe 'Editing application details' do
   end
 
   def then_i_see_relevant_blank_error_messages
-    expect(page).to have_content 'First name cannot be blank'
-    expect(page).to have_content 'Last name cannot be blank'
-    expect(page).to have_content 'Email address cannot be blank'
-    expect(page).to have_content 'Enter a date of birth'
-    expect(page).to have_content 'Phone number can’t be blank'
-    expect(page).to have_content 'You must provide an audit comment'
+    expect(page).to have_text 'First name cannot be blank'
+    expect(page).to have_text 'Last name cannot be blank'
+    expect(page).to have_text 'Email address cannot be blank'
+    expect(page).to have_text 'Enter a date of birth'
+    expect(page).to have_text 'Phone number can’t be blank'
+    expect(page).to have_text 'You must provide an audit comment'
   end
 
   def and_i_supply_a_new_phone_number
@@ -117,29 +117,29 @@ RSpec.describe 'Editing application details' do
   end
 
   def then_i_see_a_flash_message
-    expect(page).to have_content 'Applicant details updated'
+    expect(page).to have_text 'Applicant details updated'
   end
 
   def and_i_see_the_new_phone_number
-    expect(page).to have_content '0891 50 50 50'
+    expect(page).to have_text '0891 50 50 50'
   end
 
   def and_i_see_the_new_name_in_full
-    expect(page).to have_content 'Steven'
-    expect(page).to have_content 'Seagal'
+    expect(page).to have_text 'Steven'
+    expect(page).to have_text 'Seagal'
   end
 
   def and_i_see_the_new_date_of_birth
-    expect(page).to have_content '5 May 1950'
+    expect(page).to have_text '5 May 1950'
   end
 
   def and_i_see_the_new_email_address
-    expect(page).to have_content 'steven.seagal@example.com'
+    expect(page).to have_text 'steven.seagal@example.com'
   end
 
   def and_i_see_my_comment_in_the_audit_log
     click_link_or_button 'History'
-    expect(page).to have_content 'https://becomingateacher.zendesk.com/12345'
+    expect(page).to have_text 'https://becomingateacher.zendesk.com/12345'
   end
 
   def when_i_supply_new_applicant_details_with_used_email_address
@@ -149,7 +149,7 @@ RSpec.describe 'Editing application details' do
   end
 
   def then_i_see_a_duplicate_email_error_message
-    expect(page).to have_content 'Email address is already in use'
+    expect(page).to have_text 'Email address is already in use'
   end
 
   def when_i_supply_new_applicant_details

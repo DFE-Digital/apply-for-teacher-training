@@ -36,7 +36,7 @@ RSpec.describe 'Entering their suitability to work with children' do
   end
 
   def then_i_see_declaring_any_safeguarding_issues
-    expect(page).to have_content(t('page_titles.suitability_to_work_with_children'))
+    expect(page).to have_text(t('page_titles.suitability_to_work_with_children'))
   end
 
   def when_i_click_on_declaring_any_safeguarding_issues
@@ -44,7 +44,7 @@ RSpec.describe 'Entering their suitability to work with children' do
   end
 
   def then_i_see_declaring_any_safeguarding_issues_form
-    expect(page).to have_content('Do you want to declare any safeguarding issues, such as a criminal record or professional misconduct?')
+    expect(page).to have_text('Do you want to declare any safeguarding issues, such as a criminal record or professional misconduct?')
   end
 
   def when_i_choose_yes
@@ -56,8 +56,8 @@ RSpec.describe 'Entering their suitability to work with children' do
   end
 
   def then_i_see_my_relevant_information
-    expect(page).to have_content('Check your safeguarding declaration')
-    expect(page).to have_content('I have a criminal conviction.')
+    expect(page).to have_text('Check your safeguarding declaration')
+    expect(page).to have_text('I have a criminal conviction.')
   end
 
   def when_i_click_to_change_sharing_safeguarding_issues
@@ -69,8 +69,8 @@ RSpec.describe 'Entering their suitability to work with children' do
   end
 
   def then_i_see_my_updated_answer
-    expect(page).to have_content 'Check your safeguarding declaration'
-    expect(page).to have_content('No')
+    expect(page).to have_text 'Check your safeguarding declaration'
+    expect(page).to have_text('No')
   end
 
   def when_i_mark_the_section_as_completed
@@ -83,7 +83,7 @@ RSpec.describe 'Entering their suitability to work with children' do
   alias_method :and_i_click_on_continue, :when_i_click_on_continue
 
   def then_i_see_a_section_complete_error
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
   def then_i_see_the_section_is_completed

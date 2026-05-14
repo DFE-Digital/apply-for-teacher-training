@@ -30,7 +30,7 @@ RSpec.describe 'Entering a Masters degree' do
   end
 
   def then_i_can_see_the_country_page
-    expect(page).to have_content('Which country was the degree from?')
+    expect(page).to have_text('Which country was the degree from?')
   end
 
   def when_i_choose_united_kingdom
@@ -50,7 +50,7 @@ RSpec.describe 'Entering a Masters degree' do
   end
 
   def then_i_can_see_the_level_page
-    expect(page).to have_content 'What type of degree is it?'
+    expect(page).to have_text 'What type of degree is it?'
   end
 
   def when_i_choose_the_masters_level
@@ -58,7 +58,7 @@ RSpec.describe 'Entering a Masters degree' do
   end
 
   def then_i_can_see_the_subject_page
-    expect(page).to have_content 'What subject is your degree?'
+    expect(page).to have_text 'What subject is your degree?'
   end
 
   def when_i_fill_in_the_subject
@@ -66,7 +66,7 @@ RSpec.describe 'Entering a Masters degree' do
   end
 
   def then_i_can_see_the_type_page
-    expect(page).to have_content 'What type of master’s degree is it?'
+    expect(page).to have_text 'What type of master’s degree is it?'
   end
 
   def when_i_choose_the_type_of_degree
@@ -74,7 +74,7 @@ RSpec.describe 'Entering a Masters degree' do
   end
 
   def then_i_can_see_the_university_page
-    expect(page).to have_content 'Which university awarded your degree?'
+    expect(page).to have_text 'Which university awarded your degree?'
   end
 
   def when_i_fill_in_the_university
@@ -82,7 +82,7 @@ RSpec.describe 'Entering a Masters degree' do
   end
 
   def then_i_can_see_the_completion_page
-    expect(page).to have_content 'Have you completed your degree?'
+    expect(page).to have_text 'Have you completed your degree?'
   end
 
   def when_i_choose_whether_degree_is_completed
@@ -90,7 +90,7 @@ RSpec.describe 'Entering a Masters degree' do
   end
 
   def then_i_can_see_the_grade_page_with_masters_grade_options
-    expect(page).to have_content('What grade is your degree?')
+    expect(page).to have_text('What grade is your degree?')
 
     expect(page).to have_no_field('First-class honours')
     expect(page).to have_no_field('Upper second-class honours (2:1)')
@@ -108,7 +108,7 @@ RSpec.describe 'Entering a Masters degree' do
   end
 
   def then_i_can_see_the_start_year_page
-    expect(page).to have_content('What year did you start your degree?')
+    expect(page).to have_text('What year did you start your degree?')
   end
 
   def when_i_fill_in_the_start_year
@@ -116,7 +116,7 @@ RSpec.describe 'Entering a Masters degree' do
   end
 
   def then_i_can_see_the_award_year_page
-    expect(page).to have_content('What year did you graduate?')
+    expect(page).to have_text('What year did you graduate?')
   end
 
   def when_i_fill_in_the_award_year
@@ -125,6 +125,6 @@ RSpec.describe 'Entering a Masters degree' do
 
   def then_i_can_check_my_undergraduate_degree
     expect(page).to have_current_path candidate_interface_degree_review_path
-    expect(page).to have_content 'History'
+    expect(page).to have_text 'History'
   end
 end

@@ -24,7 +24,7 @@ RSpec.describe ProviderInterface::UserCardComponent do
 
   context 'when the user has no extra permissions' do
     it 'does not render any permissions' do
-      expect(page).to have_no_content(t('provider_interface.user_card_component.permissions_list_preamble'))
+      expect(page).to have_no_text(t('provider_interface.user_card_component.permissions_list_preamble'))
       expect(page).to have_no_css('ul')
     end
   end

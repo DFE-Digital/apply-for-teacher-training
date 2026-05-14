@@ -57,7 +57,7 @@ RSpec.describe 'Candidate entering GCSE Science details' do
   end
 
   def then_i_see_the_add_gcse_science_page
-    expect(page).to have_content 'What type of qualification in science do you have?'
+    expect(page).to have_text 'What type of qualification in science do you have?'
   end
 
   def when_i_select_gcse_option
@@ -73,8 +73,8 @@ RSpec.describe 'Candidate entering GCSE Science details' do
   end
 
   def then_i_see_the_multiple_science_gcses_grade_page
-    expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'science', qualification_type: 'GCSE')
-    expect(page).to have_content 'Select the GCSE you did and include your grade'
+    expect(page).to have_text t('gcse_edit_grade.page_title', subject: 'science', qualification_type: 'GCSE')
+    expect(page).to have_text 'Select the GCSE you did and include your grade'
   end
 
   def and_i_select_single_award
@@ -82,7 +82,7 @@ RSpec.describe 'Candidate entering GCSE Science details' do
   end
 
   def then_i_see_the_grade_blank_error
-    expect(page).to have_content 'Enter your single award grade'
+    expect(page).to have_text 'Enter your single award grade'
   end
 
   def and_i_enter_an_invalid_grade
@@ -92,7 +92,7 @@ RSpec.describe 'Candidate entering GCSE Science details' do
   end
 
   def then_i_see_the_grade_invalid_error
-    expect(page).to have_content('Enter a real single award grade')
+    expect(page).to have_text('Enter a real single award grade')
   end
 
   def then_i_enter_a_valid_grade
@@ -102,7 +102,7 @@ RSpec.describe 'Candidate entering GCSE Science details' do
   end
 
   def then_i_see_the_grade_year_page
-    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'science', qualification_type: 'GCSE')
+    expect(page).to have_text t('gcse_edit_year.page_title', subject: 'science', qualification_type: 'GCSE')
   end
 
   def then_i_enter_a_valid_grade

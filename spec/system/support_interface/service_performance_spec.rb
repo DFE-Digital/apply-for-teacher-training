@@ -51,15 +51,15 @@ RSpec.describe 'Service performance' do
   alias_method :and_i_visit_the_performance_dashboard_in_support, :when_i_visit_the_performance_dashboard_in_support
 
   def then_i_see_the_total_count_of_candidates
-    expect(page).to have_content '3 unique candidates'
+    expect(page).to have_text '3 unique candidates'
   end
 
   def and_i_see_the_total_count_of_application_forms
-    expect(page).to have_content '3 application forms'
+    expect(page).to have_text '3 application forms'
   end
 
   def then_i_see_the_total_number_of_candidates_in_the_system
-    expect(page).to have_content '6 unique candidates'
+    expect(page).to have_text '6 unique candidates'
   end
 
   def when_i_go_a_report_for_a_specific_year
@@ -67,6 +67,6 @@ RSpec.describe 'Service performance' do
   end
 
   def then_i_only_see_candidates_that_signed_up_that_year
-    expect(page).to have_content '5 unique candidates'
+    expect(page).to have_text '5 unique candidates'
   end
 end

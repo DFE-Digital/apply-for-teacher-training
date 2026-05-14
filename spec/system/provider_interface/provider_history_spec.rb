@@ -31,8 +31,8 @@ RSpec.describe 'Provider history', :with_audited do
   end
 
   def then_i_see_the_changes
-    expect(page).to have_content 'Create Provider'
-    expect(page).to have_content 'Update Provider'
-    expect(page).to have_content 'Create Course Option'
+    expect(page).to have_text 'Create Provider'
+    expect(page).to have_text 'Update Provider'
+    expect(page).to have_text 'Create Course Option'
   end
 end

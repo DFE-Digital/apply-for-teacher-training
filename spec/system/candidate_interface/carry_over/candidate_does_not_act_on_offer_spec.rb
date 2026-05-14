@@ -97,8 +97,8 @@ private
   end
 
   def then_i_see_the_offer
-    expect(page).to have_content @choice_with_offer.provider.name
-    expect(page).to have_content 'Offer received'
+    expect(page).to have_text @choice_with_offer.provider.name
+    expect(page).to have_text 'Offer received'
     click_on @choice_with_offer.provider.name
     expect(page).to have_current_path(candidate_interface_offer_path(id: @choice_with_offer.id))
     click_on 'Your applications'
@@ -112,9 +112,9 @@ private
   end
 
   def and_i_see_unsuccessful_application_choices
-    expect(page).to have_content 'Application not sent'
-    expect(page).to have_content 'Withdrawn'
-    expect(page).to have_content 'Unsuccessful'
+    expect(page).to have_text 'Application not sent'
+    expect(page).to have_text 'Withdrawn'
+    expect(page).to have_text 'Unsuccessful'
   end
   alias_method :i_see_unsuccessful_application_choices, :and_i_see_unsuccessful_application_choices
 
@@ -135,8 +135,8 @@ private
   end
 
   def then_i_see_my_declined_application
-    expect(page).to have_content 'The recruitment deadline has now passed'
-    expect(page).to have_content 'Declined'
+    expect(page).to have_text 'The recruitment deadline has now passed'
+    expect(page).to have_text 'Declined'
   end
 
   def and_i_can_carry_over_my_application
@@ -146,7 +146,7 @@ private
 
   def then_i_cannot_carry_over_my_application
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_content(
+    expect(page).to have_text(
       'You must respond to your offers before this time. They will be declined on your behalf if you don’t.',
     )
   end

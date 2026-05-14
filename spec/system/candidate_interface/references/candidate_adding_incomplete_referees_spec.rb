@@ -68,7 +68,7 @@ RSpec.describe 'Candidate adding incomplete referees' do
   end
 
   def then_i_see_a_validation_error_message
-    expect(page).to have_content 'Enter all required fields for each reference added'
+    expect(page).to have_text 'Enter all required fields for each reference added'
   end
 
   def and_i_cant_see_the_choose_reference_link
@@ -97,7 +97,7 @@ RSpec.describe 'Candidate adding incomplete referees' do
   def then_i_see_that_referee_is_not_created
     visit candidate_interface_references_review_path
     expect(page).to have_current_path candidate_interface_references_review_path, ignore_query: true
-    expect(page.text).to have_no_content('Academic')
+    expect(page.text).to have_no_text('Academic')
   end
 
   def when_i_provide_incomplete_referee_details
@@ -112,9 +112,9 @@ RSpec.describe 'Candidate adding incomplete referees' do
   def then_i_see_that_the_incomplete_referee_is_created
     visit candidate_interface_references_review_path
 
-    within_summary_row('Name') { expect(page.text).to have_content('Mike Dean') }
+    within_summary_row('Name') { expect(page.text).to have_text('Mike Dean') }
     within_summary_row('Email') { expect(page).to have_link('Enter email address') }
-    within_summary_row('Type') { expect(page.text).to have_content('Academic') }
+    within_summary_row('Type') { expect(page.text).to have_text('Academic') }
     within_summary_row('How you know them and for how long') { expect(page).to have_link('Enter how you know them and for how long') }
   end
 
@@ -141,9 +141,9 @@ RSpec.describe 'Candidate adding incomplete referees' do
   end
 
   def and_i_see_that_referee_is_now_complete
-    within_summary_row('Name') { expect(page.text).to have_content('Mike Dean') }
-    within_summary_row('Email') { expect(page.text).to have_content('mike.dean@example.com') }
-    within_summary_row('Type') { expect(page.text).to have_content('Academic') }
-    within_summary_row('How you know them and for how long') { expect(page).to have_content('Gave me a yellow card') }
+    within_summary_row('Name') { expect(page.text).to have_text('Mike Dean') }
+    within_summary_row('Email') { expect(page.text).to have_text('mike.dean@example.com') }
+    within_summary_row('Type') { expect(page.text).to have_text('Academic') }
+    within_summary_row('How you know them and for how long') { expect(page).to have_text('Gave me a yellow card') }
   end
 end

@@ -106,7 +106,7 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def then_i_see_a_course_code_blank_validation_error
-    expect(page).to have_content 'Please enter a course code'
+    expect(page).to have_text 'Please enter a course code'
   end
 
   def when_i_fill_in_the_course_code_for_a_course_that_is_not_associated_with_the_ratifying_provider
@@ -126,7 +126,7 @@ RSpec.describe 'Add course to submitted application' do
       course_code: @unassociated_course_code,
     )
 
-    expect(page).to have_content "No courses for #{@application_choice.provider.name_and_code} found."
+    expect(page).to have_text "No courses for #{@application_choice.provider.name_and_code} found."
   end
 
   def when_i_click_search_again
@@ -156,11 +156,11 @@ RSpec.describe 'Add course to submitted application' do
       course_code: @course_code,
     )
 
-    expect(page).to have_content "Choose a course to replace #{@application_choice.course.name_and_code}"
+    expect(page).to have_text "Choose a course to replace #{@application_choice.course.name_and_code}"
   end
 
   def then_i_see_an_add_course_validation_error
-    expect(page).to have_content('Please select a course')
+    expect(page).to have_text('Please select a course')
   end
 
   def when_i_select_a_course
@@ -185,7 +185,7 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def and_i_see_the_guidance_on_changing_an_offered_course
-    expect(page).to have_content 'An offer can only be changed if:'
+    expect(page).to have_text 'An offer can only be changed if:'
   end
 
   def when_i_provide_an_invalid_zendesk_ticket_link
@@ -193,7 +193,7 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def then_i_am_told_that_i_need_to_provide_a_valid_zendesk_ticket_link
-    expect(page).to have_content 'Enter a valid Zendesk ticket URL'
+    expect(page).to have_text 'Enter a valid Zendesk ticket URL'
   end
 
   def when_i_provide_a_valid_zendesk_ticket
@@ -214,16 +214,16 @@ RSpec.describe 'Add course to submitted application' do
 
   def and_i_see_new_course_has_been_offered
     expect(page).to have_current_path support_interface_application_form_path(application_form_id: @application_form.id)
-    expect(page).to have_content("#{current_year}: #{@course_option.course.name} (#{@course_option.course.code})")
+    expect(page).to have_text("#{current_year}: #{@course_option.course.name} (#{@course_option.course.code})")
   end
   alias_method :and_i_see_new_course_with_no_vacancies_has_been_offered, :and_i_see_new_course_has_been_offered
 
   def then_i_see_a_warning_message
-    expect(page).to have_content(I18n.t('support_interface.errors.messages.course_full_error'))
+    expect(page).to have_text(I18n.t('support_interface.errors.messages.course_full_error'))
   end
 
   def and_a_confirm_course_change_checkbox
-    expect(page).to have_content 'I confirm that I would like to move the candidate to a course with no vacancies'
+    expect(page).to have_text 'I confirm that I would like to move the candidate to a course with no vacancies'
   end
 
   def when_i_confirm_changing_the_course
@@ -242,18 +242,18 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def then_i_see_the_course_results_page_with_results_for_the_same_provider
-    expect(page).to have_content("Choose a course to replace #{@application_choice.course.name_and_code}")
+    expect(page).to have_text("Choose a course to replace #{@application_choice.course.name_and_code}")
 
-    expect(page).to have_content("Courses from the same provider (#{@application_choice.provider.name_and_code})")
+    expect(page).to have_text("Courses from the same provider (#{@application_choice.provider.name_and_code})")
     within '.same-provider' do
-      expect(page).to have_content(@course_option_same_provider.course.name_and_code)
+      expect(page).to have_text(@course_option_same_provider.course.name_and_code)
     end
   end
 
   def and_i_see_the_course_results_page_with_results_for_other_providers
-    expect(page).to have_content('Courses from other providers')
+    expect(page).to have_text('Courses from other providers')
     within '.other-providers' do
-      expect(page).to have_content("#{@course_option_different_provider.course.provider.name_and_code} – #{@course_option_different_provider.course.name_and_code}")
+      expect(page).to have_text("#{@course_option_different_provider.course.provider.name_and_code} – #{@course_option_different_provider.course.name_and_code}")
     end
   end
 end

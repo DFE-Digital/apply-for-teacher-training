@@ -23,7 +23,7 @@ RSpec.describe 'Sidekiq Admin' do
   end
 
   def then_i_see_the_sidekiq_admin_interface
-    expect(page).to have_content 'Sidekiq'
+    expect(page).to have_text 'Sidekiq'
     expect(page).to have_current_path "#{support_interface_sidekiq_path}/" # engine paths end with /
   end
 end

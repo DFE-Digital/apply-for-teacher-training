@@ -76,12 +76,12 @@ RSpec.describe 'Candidate account' do
 
   def then_i_receive_an_email_with_a_signup_link
     open_email(@email)
-    expect(current_email.subject).to have_content t('authentication.sign_up.email.subject')
+    expect(current_email.subject).to have_text t('authentication.sign_up.email.subject')
   end
 
   def then_i_receive_an_email_with_a_signin_link
     open_email(@email)
-    expect(current_email.subject).to have_content t('authentication.sign_in.email.subject')
+    expect(current_email.subject).to have_text t('authentication.sign_in.email.subject')
   end
 
   def when_i_click_on_the_link_in_my_email
@@ -98,7 +98,7 @@ RSpec.describe 'Candidate account' do
 
   def then_i_am_signed_in
     within '.app-header__navigation' do
-      expect(page).to have_content 'Sign out'
+      expect(page).to have_text 'Sign out'
     end
   end
 
@@ -134,6 +134,6 @@ RSpec.describe 'Candidate account' do
   end
 
   def then_i_see_form_errors_on_the_page
-    expect(page).to have_content 'There is a problem'
+    expect(page).to have_text 'There is a problem'
   end
 end

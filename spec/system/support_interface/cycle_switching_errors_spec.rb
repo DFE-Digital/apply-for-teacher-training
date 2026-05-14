@@ -76,12 +76,12 @@ private
   end
 
   def then_i_see_invalid_date_errors
-    expect(page).to have_content('Enter a valid Find open date').twice
-    expect(page).to have_content('Enter a valid Apply open date').twice
-    expect(page).to have_content('Enter a valid Apply deadline date').twice
-    expect(page).to have_content('Enter a valid reject by default date').twice
-    expect(page).to have_content('Enter a valid decline by default date').twice
-    expect(page).to have_content('Enter a valid Find closes date').twice
+    expect(page).to have_text('Enter a valid Find open date').twice
+    expect(page).to have_text('Enter a valid Apply open date').twice
+    expect(page).to have_text('Enter a valid Apply deadline date').twice
+    expect(page).to have_text('Enter a valid reject by default date').twice
+    expect(page).to have_text('Enter a valid decline by default date').twice
+    expect(page).to have_text('Enter a valid Find closes date').twice
   end
 
   def when_i_enter_a_bad_apply_opens_date
@@ -95,7 +95,7 @@ private
   end
 
   def then_i_see_apply_opens_error
-    expect(page).to have_content('Enter an Apply open date that is after Find has opened').twice
+    expect(page).to have_text('Enter an Apply open date that is after Find has opened').twice
   end
 
   def when_i_enter_a_bad_apply_deadline
@@ -109,7 +109,7 @@ private
   end
 
   def then_i_see_apply_deadline_error
-    expect(page).to have_content('Enter an Apply deadline that is after Apply has opened').twice
+    expect(page).to have_text('Enter an Apply deadline that is after Apply has opened').twice
   end
 
   def when_i_enter_a_bad_reject_by_default_date
@@ -123,7 +123,7 @@ private
   end
 
   def then_i_see_reject_by_default_date_error
-    expect(page).to have_content('Enter a reject by default date that is after the Apply deadline').twice
+    expect(page).to have_text('Enter a reject by default date that is after the Apply deadline').twice
   end
 
   def when_i_enter_a_bad_decline_by_default_date
@@ -137,7 +137,7 @@ private
   end
 
   def then_i_see_decline_by_default_date_error
-    expect(page).to have_content('Enter a decline by default date that is after the reject by default date').twice
+    expect(page).to have_text('Enter a decline by default date that is after the reject by default date').twice
   end
 
   def when_i_enter_a_bad_find_closes_date
@@ -151,6 +151,6 @@ private
   end
 
   def then_i_see_find_closes_date_error
-    expect(page).to have_content('Enter a Find close date that is after the decline by default date').twice
+    expect(page).to have_text('Enter a Find close date that is after the decline by default date').twice
   end
 end

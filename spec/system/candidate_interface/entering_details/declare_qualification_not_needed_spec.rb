@@ -21,7 +21,7 @@ RSpec.describe 'Declare EFL qualification not required' do
 
   def then_i_see_the_review_page
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
-    expect(page).to have_content 'No, English is not a foreign language to me'
+    expect(page).to have_text 'No, English is not a foreign language to me'
   end
 
   def and_i_can_complete_this_section

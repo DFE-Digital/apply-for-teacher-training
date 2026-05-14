@@ -30,12 +30,12 @@ RSpec.describe 'Candidate submits application with feedback form previously comp
   end
 
   def then_i_do_not_see_the_feedback_form
-    expect(page).to have_no_content(t('page_titles.your_feedback'))
-    expect(page).to have_no_content('How satisfied are you with this service? (optional)')
+    expect(page).to have_no_text(t('page_titles.your_feedback'))
+    expect(page).to have_no_text('How satisfied are you with this service? (optional)')
   end
 
   def and_i_see_the_preference_opt_in_page_and_success_message
     expect(page).to have_current_path(new_candidate_interface_pool_opt_in_path(submit_application: true))
-    expect(page).to have_content('Application submitted')
+    expect(page).to have_text('Application submitted')
   end
 end

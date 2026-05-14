@@ -76,7 +76,7 @@ RSpec.describe 'See an application' do
   end
 
   def then_i_will_be_on_the_application_view_page
-    expect(page).to have_content @completed_application.candidate.email_address
+    expect(page).to have_text @completed_application.candidate.email_address
   end
 
   def and_i_will_see_a_summary_of_the_completed_application
@@ -86,7 +86,7 @@ RSpec.describe 'See an application' do
         'Submitted',
         'Last updated',
       ].each do |content|
-        expect(page).to have_content content
+        expect(page).to have_text content
       end
     end
 
@@ -95,7 +95,7 @@ RSpec.describe 'See an application' do
         @completed_application.first_name,
         @completed_application.last_name,
       ].each do |content|
-        expect(page).to have_content content
+        expect(page).to have_text content
       end
     end
 
@@ -104,7 +104,7 @@ RSpec.describe 'See an application' do
         @completed_application.candidate.email_address,
         @completed_application.phone_number,
       ].each do |content|
-        expect(page).to have_content content
+        expect(page).to have_text content
       end
     end
   end
@@ -123,9 +123,9 @@ RSpec.describe 'See an application' do
 
   def then_i_will_see_a_summary_of_the_unsubmitted_application
     within '[data-qa="contact-information"]' do
-      expect(page).to have_content 'Phone number'
-      expect(page).to have_content 'Not provided'
-      expect(page).to have_content @unsubmitted_application.candidate.email_address
+      expect(page).to have_text 'Phone number'
+      expect(page).to have_text 'Not provided'
+      expect(page).to have_text @unsubmitted_application.candidate.email_address
     end
   end
 
@@ -135,16 +135,16 @@ RSpec.describe 'See an application' do
 
   def then_i_will_see_the_reference_from_first_referee
     within page.all('[data-qa="reference"]').to_a.first do
-      expect(page).to have_content('This is my feedback')
-      expect(page).to have_content('They can be contacted')
-      expect(page).to have_content('This was confirmed')
+      expect(page).to have_text('This is my feedback')
+      expect(page).to have_text('They can be contacted')
+      expect(page).to have_text('This was confirmed')
     end
   end
 
   def and_i_will_not_see_reference_from_second_referee
     within page.all('[data-qa="reference"]').to_a.second do
-      expect(page).to have_no_content('This is my feedback')
-      expect(page).to have_no_content('They can be contacted')
+      expect(page).to have_no_text('This is my feedback')
+      expect(page).to have_no_text('They can be contacted')
     end
   end
 end

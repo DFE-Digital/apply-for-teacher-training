@@ -94,12 +94,12 @@ RSpec.describe 'Providers views candidate pool details' do
   end
 
   def and_i_see_candidates_in_the_pool
-    expect(page).to have_content '2 candidates found'
+    expect(page).to have_text '2 candidates found'
   end
 
   def then_i_see_the_rejected_candidate_as(status)
     within("#candidate_#{@rejected_candidate.id}") do
-      expect(page).to have_content status
+      expect(page).to have_text status
     end
   end
 
@@ -112,16 +112,16 @@ RSpec.describe 'Providers views candidate pool details' do
   end
 
   def and_i_can_view_their_details
-    expect(page).to have_content(@rejected_candidate.redacted_full_name_current_cycle)
-    expect(page).to have_content('Right to work or study in the UK')
-    expect(page).to have_content('Qualifications')
-    expect(page).to have_content('Applications submitted')
-    expect(page).to have_content('Most recent Personal statement')
-    expect(page).to have_content('Criminal record and professional misconduct')
-    expect(page).to have_content('Work history and unpaid experience')
-    expect(page).to have_content('Qualifications')
-    expect(page).to have_content('A levels and other qualifications')
-    expect(page).to have_content('Criminal record and professional misconduct')
+    expect(page).to have_text(@rejected_candidate.redacted_full_name_current_cycle)
+    expect(page).to have_text('Right to work or study in the UK')
+    expect(page).to have_text('Qualifications')
+    expect(page).to have_text('Applications submitted')
+    expect(page).to have_text('Most recent Personal statement')
+    expect(page).to have_text('Criminal record and professional misconduct')
+    expect(page).to have_text('Work history and unpaid experience')
+    expect(page).to have_text('Qualifications')
+    expect(page).to have_text('A levels and other qualifications')
+    expect(page).to have_text('Criminal record and professional misconduct')
   end
 
   def when_i_click(button)

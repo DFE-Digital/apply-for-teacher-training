@@ -215,6 +215,6 @@ RSpec.describe 'Selecting a study mode' do
   end
 
   def and_the_application_is_not_school_placement_auto_selected
-    expect(page).to have_content('Location')
+    expect(page).to have_text('Location')
   end
 end

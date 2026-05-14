@@ -32,9 +32,9 @@ RSpec.describe 'Add Other qualification' do
 
   def then_i_can_review_my_qualification
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
-    expect(page).to have_content 'Pearson Test of English'
-    expect(page).to have_content '90'
-    expect(page).to have_content 'I have completed this section'
+    expect(page).to have_text 'Pearson Test of English'
+    expect(page).to have_text '90'
+    expect(page).to have_text 'I have completed this section'
   end
 
   def and_i_can_edit_my_qualification
@@ -45,8 +45,8 @@ RSpec.describe 'Add Other qualification' do
     click_link_or_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
-    expect(page).to have_content '2001'
-    expect(page).to have_content 'I have completed this section'
+    expect(page).to have_text '2001'
+    expect(page).to have_text 'I have completed this section'
   end
 
   def and_i_can_complete_this_section

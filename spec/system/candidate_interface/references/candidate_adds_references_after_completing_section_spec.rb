@@ -45,9 +45,9 @@ private
 
   def then_the_section_is_marked_as_incomplete
     expect(@application_form.reload.references_completed).to be false
-    expect(page).to have_content 'Reference 1'
-    expect(page).to have_content 'Enter email address'
-    expect(page).to have_content 'Enter how you know them and for how long'
+    expect(page).to have_text 'Reference 1'
+    expect(page).to have_text 'Enter email address'
+    expect(page).to have_text 'Enter how you know them and for how long'
     completed_section = find_field('Yes, I have completed this section').checked?
     expect(completed_section).to be false
 
@@ -61,8 +61,8 @@ private
   end
 
   def then_i_see_an_error
-    expect(page).to have_content 'There is a problem'
-    expect(page).to have_content 'Enter all required fields for each reference added'
-    expect(page.title).to have_content 'Error:'
+    expect(page).to have_text 'There is a problem'
+    expect(page).to have_text 'Enter all required fields for each reference added'
+    expect(page.title).to have_text 'Error:'
   end
 end

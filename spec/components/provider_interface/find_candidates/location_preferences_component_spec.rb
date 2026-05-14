@@ -10,9 +10,9 @@ RSpec.describe ProviderInterface::FindCandidates::LocationPreferencesComponent, 
 
       render_inline(described_class.new(application_form:))
 
-      expect(page).to have_content 'The candidate has said they can train in the following areas:'
-      expect(page).to have_content 'Within 10.0 miles of Manchester'
-      expect(page).to have_content 'Within 10.0 miles of Liverpool'
+      expect(page).to have_text 'The candidate has said they can train in the following areas:'
+      expect(page).to have_text 'Within 10.0 miles of Manchester'
+      expect(page).to have_text 'Within 10.0 miles of Liverpool'
     end
   end
 
@@ -23,7 +23,7 @@ RSpec.describe ProviderInterface::FindCandidates::LocationPreferencesComponent, 
 
       render_inline(described_class.new(application_form:))
 
-      expect(page).to have_content 'The candidate has said they can train anywhere in England.'
+      expect(page).to have_text 'The candidate has said they can train anywhere in England.'
     end
   end
 end

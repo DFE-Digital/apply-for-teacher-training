@@ -80,8 +80,8 @@ RSpec.describe 'Provider withdraws an offer' do
         @application_offered.id,
       ),
     )
-    expect(page).to have_content 'Check and confirm withdrawal'
-    expect(page).to have_content 'We are very sorry but...'
+    expect(page).to have_text 'Check and confirm withdrawal'
+    expect(page).to have_text 'We are very sorry but...'
     expect(find_by_id('withdraw_offer_offer_withdrawal_reason', visible: false).value).to eq 'We are very sorry but...'
   end
 
@@ -96,11 +96,11 @@ RSpec.describe 'Provider withdraws an offer' do
       ),
     )
 
-    expect(page).to have_content 'We are very sorry but...'
+    expect(page).to have_text 'We are very sorry but...'
   end
 
   def and_i_can_see_the_application_offer_is_withdrawn
-    expect(page).to have_content 'Offer successfully withdrawn'
-    expect(page).to have_content 'Offer withdrawn'
+    expect(page).to have_text 'Offer successfully withdrawn'
+    expect(page).to have_text 'Offer withdrawn'
   end
 end

@@ -200,7 +200,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       application_form = create(:application_form, other_qualifications_completed: true)
       result = render_inline(described_class.new(application_form:, submitting_application: true))
 
-      expect(page).to have_no_content('Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience.')
+      expect(page).to have_no_text('Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience.')
       expect(result.css('.govuk-summary-list__key').text).to include('A levels and other qualifications')
       expect(result.css('.govuk-summary-list__value').text).to include('I do not want to add any A levels and other qualifications')
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
@@ -212,7 +212,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       application_form = create(:application_form, other_qualifications_completed: false)
       result = render_inline(described_class.new(application_form:, submitting_application: true))
 
-      expect(page).to have_content('A levels and other qualifications not marked as complete')
+      expect(page).to have_text('A levels and other qualifications not marked as complete')
       expect(result.css('.govuk-inset-text a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_other_qualification_type_path,
       )

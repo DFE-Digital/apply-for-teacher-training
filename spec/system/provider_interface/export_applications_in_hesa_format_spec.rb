@@ -54,8 +54,8 @@ RSpec.describe 'Export applications in HESA format' do
   end
 
   def then_i_can_see_links_to_the_report_for_the_current_and_previous_cycles
-    expect(page).to have_content("The data will include all candidates who have accepted an offer since #{current_timetable.apply_opens_at.to_fs(:govuk_date)}")
-    expect(page).to have_content("The data will include all candidates who have accepted an offer from #{previous_timetable.apply_opens_at.to_fs(:govuk_date)} to #{previous_timetable.decline_by_default_at.to_fs(:govuk_date)}.")
+    expect(page).to have_text("The data will include all candidates who have accepted an offer since #{current_timetable.apply_opens_at.to_fs(:govuk_date)}")
+    expect(page).to have_text("The data will include all candidates who have accepted an offer from #{previous_timetable.apply_opens_at.to_fs(:govuk_date)} to #{previous_timetable.decline_by_default_at.to_fs(:govuk_date)}.")
   end
 
   def and_i_can_download_application_data_as_csv_for_the_current_recruitment_cycle

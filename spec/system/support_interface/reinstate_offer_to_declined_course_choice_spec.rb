@@ -59,7 +59,7 @@ RSpec.describe 'Reinstate offer to a declined course choice' do
 
   def then_i_see_the_declined_course_choice
     within(first('.app-summary-card__body')) do
-      expect(page).to have_content('Offer declined')
+      expect(page).to have_text('Offer declined')
     end
   end
 
@@ -77,7 +77,7 @@ RSpec.describe 'Reinstate offer to a declined course choice' do
   alias_method :when_i_click_continue, :and_i_click_continue
 
   def then_i_am_told_to_confirm_i_have_followed_the_guidance
-    expect(page).to have_content 'Select that you have read the guidance'
+    expect(page).to have_text 'Select that you have read the guidance'
   end
 
   def when_i_confirm_reinstating_an_offer
@@ -86,7 +86,7 @@ RSpec.describe 'Reinstate offer to a declined course choice' do
   alias_method :and_i_confirm_reinstating_an_offer, :when_i_confirm_reinstating_an_offer
 
   def then_i_am_told_that_i_need_to_provide_a_zendesk_ticket
-    expect(page).to have_content 'Enter a Zendesk ticket URL'
+    expect(page).to have_text 'Enter a Zendesk ticket URL'
   end
 
   def when_i_provide_an_invalid_zendesk_ticket_link
@@ -94,7 +94,7 @@ RSpec.describe 'Reinstate offer to a declined course choice' do
   end
 
   def then_i_am_told_that_i_need_to_provide_a_valid_zendesk_ticket_link
-    expect(page).to have_content 'Enter a valid Zendesk ticket URL'
+    expect(page).to have_text 'Enter a valid Zendesk ticket URL'
   end
 
   def when_i_provide_a_valid_zendesk_ticket
@@ -107,7 +107,7 @@ RSpec.describe 'Reinstate offer to a declined course choice' do
 
   def and_i_see_the_offer_has_been_reinstated
     within(first('.app-summary-card__body')) do
-      expect(page).to have_content('Offer made')
+      expect(page).to have_text('Offer made')
     end
   end
 end

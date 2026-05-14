@@ -65,16 +65,16 @@ RSpec.describe 'Candidate declines an offer' do
   end
 
   def then_i_see_a_flash_message_telling_me_i_have_declined_the_offer
-    expect(page).to have_content "You have declined your offer for #{@application_choice.course.name_and_code} at #{@application_choice.provider.name}"
+    expect(page).to have_text "You have declined your offer for #{@application_choice.course.name_and_code} at #{@application_choice.provider.name}"
   end
 
   def and_i_see_that_i_declined_the_offer
-    expect(page).to have_content 'Offer declined'
+    expect(page).to have_text 'Offer declined'
   end
 
   def and_the_provider_receives_a_notification
     open_email(@provider_user.email_address)
-    expect(current_email.subject).to have_content 'Harry Potter declined your offer'
+    expect(current_email.subject).to have_text 'Harry Potter declined your offer'
   end
 
   def when_i_click_on_view_and_respond_to_my_last_offer_link
@@ -84,6 +84,6 @@ RSpec.describe 'Candidate declines an offer' do
 
   def then_the_candidate_is_sent_an_email
     open_email(@application_form.candidate.email_address)
-    expect(current_email.subject).to have_content 'You have declined an offer: next steps'
+    expect(current_email.subject).to have_text 'You have declined an offer: next steps'
   end
 end

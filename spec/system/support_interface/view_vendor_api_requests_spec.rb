@@ -113,8 +113,8 @@ RSpec.describe 'Vendor API Requests' do
   end
 
   def and_i_see_the_status_of_the_request
-    expect(page).to have_content('401')
-    expect(page).to have_content('200')
+    expect(page).to have_text('401')
+    expect(page).to have_text('200')
   end
 
   def when_i_click_on_details_of_the_post_request
@@ -185,9 +185,9 @@ RSpec.describe 'Vendor API Requests' do
       within('.govuk-details__text') do
         expect(page).to have_element(:h3, text: 'Headers')
         expect(page).to have_element(:h3, text: 'Response body')
-        expect(page).to have_content('errors')
-        expect(page).to have_content('ValidationError')
-        expect(page).to have_content('Some error message')
+        expect(page).to have_text('errors')
+        expect(page).to have_text('ValidationError')
+        expect(page).to have_text('Some error message')
       end
     end
   end

@@ -46,14 +46,14 @@ RSpec.describe 'See candidates' do
 
   def then_i_see_the_candidates
     within("[data-qa='candidate-#{@candidate_with_sign_up_email_bounced.id}']") do
-      expect(page).to have_content @candidate_with_sign_up_email_bounced.email_address
-      expect(page).to have_content('Sign up email bounced')
+      expect(page).to have_text @candidate_with_sign_up_email_bounced.email_address
+      expect(page).to have_text('Sign up email bounced')
     end
     within("[data-qa='candidate-#{@candidate_who_has_signed_up_but_not_signed_in.id}']") do
-      expect(page).to have_content @candidate_who_has_signed_up_but_not_signed_in.email_address
-      expect(page).to have_content('Never signed in')
+      expect(page).to have_text @candidate_who_has_signed_up_but_not_signed_in.email_address
+      expect(page).to have_text('Never signed in')
     end
-    expect(page).to have_content @candidate_with_a_submitted_application.email_address
+    expect(page).to have_text @candidate_with_a_submitted_application.email_address
   end
 
   def when_i_search_for_a_candidate
@@ -67,12 +67,12 @@ RSpec.describe 'See candidates' do
   end
 
   def then_i_see_that_candidate
-    expect(page).to have_content('Never signed in')
-    expect(page).to have_no_content('Sign up email bounced')
+    expect(page).to have_text('Never signed in')
+    expect(page).to have_no_text('Sign up email bounced')
   end
 
   def then_i_see_that_candidate_too
-    expect(page).to have_content(@candidate_with_a_submitted_application.email_address)
+    expect(page).to have_text(@candidate_with_a_submitted_application.email_address)
   end
 
   def and_i_clear_filters
@@ -85,7 +85,7 @@ RSpec.describe 'See candidates' do
   end
 
   def then_i_see_a_message_saying_there_are_no_applications
-    expect(page).to have_content('No candidates found')
+    expect(page).to have_text('No candidates found')
   end
 
   def when_i_click_on_a_candidate_with_no_applications
@@ -109,7 +109,7 @@ RSpec.describe 'See candidates' do
   def then_i_see_a_summary_of_the_application
     application = @candidate_with_a_submitted_application.application_forms.first
     within '[data-qa="application-summary"]' do
-      expect(page).to have_content application.support_reference
+      expect(page).to have_text application.support_reference
     end
   end
 end

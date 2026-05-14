@@ -34,7 +34,7 @@ RSpec.describe 'Candidate tries to sign in without an account' do
 
   def then_i_receive_an_email_inviting_me_to_sign_up
     open_email(@email)
-    expect(current_email.subject).to have_content t('authentication.sign_in_without_account.email.subject')
+    expect(current_email.subject).to have_text t('authentication.sign_in_without_account.email.subject')
   end
 
   def when_i_click_on_the_first_link_in_my_email

@@ -51,7 +51,7 @@ RSpec.describe 'Managing provider users v2' do
   end
 
   def then_i_do_not_see_the_provider_user_listed
-    expect(page).to have_no_content("#{@provider_user.first_name} #{@provider_user.last_name}")
+    expect(page).to have_no_text("#{@provider_user.first_name} #{@provider_user.last_name}")
   end
 
   def when_i_click_add_user
@@ -75,13 +75,13 @@ RSpec.describe 'Managing provider users v2' do
   end
 
   def then_i_see_the_provider_user_has_been_successfully_added
-    expect(page).to have_content("User #{@provider_user.first_name} #{@provider_user.last_name} added")
+    expect(page).to have_text("User #{@provider_user.first_name} #{@provider_user.last_name} added")
   end
 
   def and_the_provider_user_is_now_associated_with_both_providers
     within '.govuk-table__body' do
-      expect(page).to have_content(@provider_one.name)
-      expect(page).to have_content(@provider_two.name)
+      expect(page).to have_text(@provider_one.name)
+      expect(page).to have_text(@provider_two.name)
     end
   end
 end

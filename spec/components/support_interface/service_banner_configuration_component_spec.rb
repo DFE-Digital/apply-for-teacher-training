@@ -7,11 +7,11 @@ RSpec.describe SupportInterface::ServiceBannerConfigurationComponent do
 
       result = render_inline(described_class.new(interface:))
 
-      expect(result).to have_content('Support Console service banner')
-      expect(result).to have_content('-')
+      expect(result).to have_text('Support Console service banner')
+      expect(result).to have_text('-')
 
-      expect(result).to have_no_content('Banner content')
-      expect(result).to have_no_content('Banner enabled by')
+      expect(result).to have_no_text('Banner content')
+      expect(result).to have_no_text('Banner enabled by')
     end
   end
 
@@ -24,10 +24,10 @@ RSpec.describe SupportInterface::ServiceBannerConfigurationComponent do
 
       result = render_inline(described_class.new(interface:))
 
-      expect(result).to have_content('Manage service banner')
-      expect(result).to have_content('The service will be unavailable this evening between 6pm and 9pm')
-      expect(result).to have_content('You may lose data if you are processing applications at this time')
-      expect(result).to have_content('Banner enabled by support@education.gov.uk')
+      expect(result).to have_text('Manage service banner')
+      expect(result).to have_text('The service will be unavailable this evening between 6pm and 9pm')
+      expect(result).to have_text('You may lose data if you are processing applications at this time')
+      expect(result).to have_text('Banner enabled by support@education.gov.uk')
     end
   end
 end

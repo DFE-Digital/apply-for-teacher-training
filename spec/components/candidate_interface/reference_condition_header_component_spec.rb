@@ -9,7 +9,7 @@ RSpec.describe CandidateInterface::ReferenceConditionHeaderComponent, type: :com
     let(:reference_condition) { nil }
 
     it 'renders default message' do
-      expect(result).to have_content('If the people you have chosen to provide references have not responded yet')
+      expect(result).to have_text('If the people you have chosen to provide references have not responded yet')
     end
   end
 
@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::ReferenceConditionHeaderComponent, type: :com
     let(:reference_condition) { build(:reference_condition, description: nil) }
 
     it 'renders default message' do
-      expect(result).to have_content('If the people you have chosen to provide references have not responded yet')
+      expect(result).to have_text('If the people you have chosen to provide references have not responded yet')
     end
   end
 
@@ -27,8 +27,8 @@ RSpec.describe CandidateInterface::ReferenceConditionHeaderComponent, type: :com
     let(:reference_condition) { build(:reference_condition, description: 'Provide many references') }
 
     it 'renders condition description' do
-      expect(content).to have_content('Uni said: Provide many references')
-      expect(content).to have_content('If the people you have chosen to provide references have not responded yet')
+      expect(content).to have_text('Uni said: Provide many references')
+      expect(content).to have_text('If the people you have chosen to provide references have not responded yet')
     end
   end
 

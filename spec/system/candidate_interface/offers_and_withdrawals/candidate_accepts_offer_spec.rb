@@ -177,20 +177,20 @@ RSpec.describe 'Candidate accepts an offer' do
 
   def then_i_see_the_offer
     provider = @course_option.course.provider.name
-    expect(page).to have_content(provider)
-    expect(page).to have_content(t('page_titles.decisions.offer'))
-    expect(page).to have_no_content("Respond before #{current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}")
+    expect(page).to have_text(provider)
+    expect(page).to have_text(t('page_titles.decisions.offer'))
+    expect(page).to have_no_text("Respond before #{current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}")
   end
 
   def then_i_see_the_offer_with_the_deadline_warning_text
     provider = @course_option.course.provider.name
-    expect(page).to have_content(provider)
-    expect(page).to have_content(t('page_titles.decisions.offer'))
-    expect(page).to have_content("Respond before #{current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}")
+    expect(page).to have_text(provider)
+    expect(page).to have_text(t('page_titles.decisions.offer'))
+    expect(page).to have_text("Respond before #{current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}")
   end
 
   def and_i_am_told_my_other_offer_will_be_automatically_declined
-    expect(page).to have_content('If you accept this offer, your other offer will be automatically declined.')
+    expect(page).to have_text('If you accept this offer, your other offer will be automatically declined.')
   end
 
   def when_i_continue_without_selecting_a_response
@@ -198,7 +198,7 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   def then_i_see_and_error_message
-    expect(page).to have_content('Select if you want to accept or decline the offer')
+    expect(page).to have_text('Select if you want to accept or decline the offer')
   end
 
   def when_i_accept_one_offer
@@ -208,9 +208,9 @@ RSpec.describe 'Candidate accepts an offer' do
 
   def then_i_see_my_references
     @application_form.reload.application_references.creation_order.each do |reference|
-      expect(page).to have_content(reference.name)
-      expect(page).to have_content(reference.email_address)
-      expect(page).to have_content(reference.relationship)
+      expect(page).to have_text(reference.name)
+      expect(page).to have_text(reference.email_address)
+      expect(page).to have_text(reference.relationship)
     end
   end
 
@@ -391,7 +391,7 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   def and_i_see_the_new_reference_name
-    expect(page.text).to have_content('Legolas')
+    expect(page.text).to have_text('Legolas')
   end
 
   def when_i_click_to_change_the_reference_type
@@ -404,7 +404,7 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   def and_i_see_the_new_reference_type
-    expect(page.text).to have_content('Character')
+    expect(page.text).to have_text('Character')
   end
 
   def when_i_click_to_change_the_reference_email_address
@@ -417,7 +417,7 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   def and_i_see_the_new_reference_email_address
-    expect(page).to have_content('legolas-middle-earth@education.gov.uk')
+    expect(page).to have_text('legolas-middle-earth@education.gov.uk')
   end
 
   def when_i_click_to_change_the_reference_relationship
@@ -430,20 +430,20 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   def and_i_see_the_new_reference_relationship
-    expect(page).to have_content('The Hobbit')
+    expect(page).to have_text('The Hobbit')
   end
 
   def and_i_confirm_the_acceptance
-    expect(page).to have_content 'Your other applications will be withdrawn and any upcoming interviews will be cancelled.'
+    expect(page).to have_text 'Your other applications will be withdrawn and any upcoming interviews will be cancelled.'
     click_link_or_button 'Accept offer'
   end
 
   def then_i_see_a_flash_message_telling_me_i_have_accepted_the_offer
-    expect(page).to have_content "You have accepted your offer for #{@application_choice.course.name_and_code} at #{@application_choice.provider.name}"
+    expect(page).to have_text "You have accepted your offer for #{@application_choice.course.name_and_code} at #{@application_choice.provider.name}"
   end
 
   def and_i_see_that_i_accepted_the_offer
-    expect(page).to have_content "You have accepted your offer for #{@application_choice.course.name_and_code} at #{@application_choice.course.provider.name}"
+    expect(page).to have_text "You have accepted your offer for #{@application_choice.course.name_and_code} at #{@application_choice.course.provider.name}"
   end
 
   def and_i_see_that_i_declined_the_other_offer
@@ -456,12 +456,12 @@ RSpec.describe 'Candidate accepts an offer' do
 
   def and_the_provider_has_received_an_email
     open_email(@provider_user.email_address)
-    expect(current_email.subject).to have_content "Harry Potter accepted your offer for #{@application_choice.course.name}"
+    expect(current_email.subject).to have_text "Harry Potter accepted your offer for #{@application_choice.course.name}"
   end
 
   def and_the_candidate_has_received_an_email
     open_email(@current_candidate.email_address)
-    expect(current_email.subject).to have_content "You have accepted #{@course_option.course.provider.name}’s offer to study #{@course_option.course.name_and_code}"
+    expect(current_email.subject).to have_text "You have accepted #{@course_option.course.provider.name}’s offer to study #{@course_option.course.name_and_code}"
   end
 
   def when_i_visit_the_offer_page_of_the_declined_offer
@@ -473,7 +473,7 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   def then_i_see_the_page_not_found
-    expect(page).to have_content('Page not found')
+    expect(page).to have_text('Page not found')
   end
 
   def when_i_visit_the_decline_page_of_the_accepted_offer
@@ -487,7 +487,7 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   def then_i_see_an_error_message_about_incomplete_reference
-    expect(page).to have_content(I18n.t('errors.messages.incomplete_references'))
+    expect(page).to have_text(I18n.t('errors.messages.incomplete_references'))
   end
 
   def back_link
@@ -503,7 +503,7 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   def then_i_see_the_new_dashboard_content
-    expect(page).to have_content "You have accepted an offer from #{@course_option.course.provider.name} to study #{@course_option.course.name_and_code}."
+    expect(page).to have_text "You have accepted an offer from #{@course_option.course.provider.name} to study #{@course_option.course.name_and_code}."
   end
 
   def and_i_see_your_application_menu_item_as_active
@@ -523,11 +523,11 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   def then_i_see_the_course_with_an_accepted_offer
-    expect(page).to have_content @application_choice.course.name_and_code
+    expect(page).to have_text @application_choice.course.name_and_code
   end
 
   def and_i_dont_see_the_course_without_an_offer
-    expect(page).to have_no_content @other_application_choice.course.name_and_code
+    expect(page).to have_no_text @other_application_choice.course.name_and_code
   end
 
   def and_the_back_link_point_to_the_offer_dashboard_page

@@ -95,16 +95,16 @@ RSpec.describe 'See activity log' do
   end
 
   def then_i_see_events_for_all_applications_belonging_to_my_providers
-    expect(page).to have_content @choice5.current_course.name
-    expect(page).to have_content @choice3.current_course.name
-    expect(page).to have_content @choice2.current_course.name
-    expect(page).to have_content @choice1.current_course.name
-    expect(page).to have_no_content @choice4.current_course.name
+    expect(page).to have_text @choice5.current_course.name
+    expect(page).to have_text @choice3.current_course.name
+    expect(page).to have_text @choice2.current_course.name
+    expect(page).to have_text @choice1.current_course.name
+    expect(page).to have_no_text @choice4.current_course.name
   end
 
   def then_i_see_the_temporarily_unavailable_notification
-    expect(page).to have_content 'Temporarily unavailable'
-    expect(page).to have_content 'The activity log is currently unavailable. We estimate it will be available by 10 October 2024.'
-    expect(page).to have_no_content @choice1.current_course.name
+    expect(page).to have_text 'Temporarily unavailable'
+    expect(page).to have_text 'The activity log is currently unavailable. We estimate it will be available by 10 October 2024.'
+    expect(page).to have_no_text @choice1.current_course.name
   end
 end

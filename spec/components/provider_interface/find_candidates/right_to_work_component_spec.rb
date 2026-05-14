@@ -7,9 +7,9 @@ RSpec.describe ProviderInterface::FindCandidates::RightToWorkComponent, type: :c
 
       render_inline(described_class.new(application_form:))
 
-      expect(page).to have_content 'Not required'
-      expect(page).to have_content 'Visa or immigration status'
-      expect(page).to have_content 'British or Irish citizen'
+      expect(page).to have_text 'Not required'
+      expect(page).to have_text 'Visa or immigration status'
+      expect(page).to have_text 'British or Irish citizen'
     end
   end
 
@@ -19,9 +19,9 @@ RSpec.describe ProviderInterface::FindCandidates::RightToWorkComponent, type: :c
 
       render_inline(described_class.new(application_form:))
 
-      expect(page).to have_content 'Not required'
-      expect(page).to have_content 'Visa or immigration status'
-      expect(page).to have_content 'Indefinite leave to remain in the UK'
+      expect(page).to have_text 'Not required'
+      expect(page).to have_text 'Visa or immigration status'
+      expect(page).to have_text 'Indefinite leave to remain in the UK'
     end
   end
 
@@ -31,8 +31,8 @@ RSpec.describe ProviderInterface::FindCandidates::RightToWorkComponent, type: :c
 
       render_inline(described_class.new(application_form:))
 
-      expect(page).to have_content 'Required'
-      expect(page).to have_no_content 'Visa or immigration status'
+      expect(page).to have_text 'Required'
+      expect(page).to have_no_text 'Visa or immigration status'
     end
   end
 end

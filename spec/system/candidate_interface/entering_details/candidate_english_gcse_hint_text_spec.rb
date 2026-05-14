@@ -35,14 +35,14 @@ private
   end
 
   def then_i_see_the_correct_hint_text_for_english_non_uk_qualification
-    expect(page).to have_content('For example, High School Diploma, Baccalauréat Général or WASSCE. Do not enter an English as a foreign language assessment here.')
+    expect(page).to have_text('For example, High School Diploma, Baccalauréat Général or WASSCE. Do not enter an English as a foreign language assessment here.')
   end
 
   def then_i_see_the_original_hint_text_for_maths_non_uk_qualification
-    expect(page).to have_content('For example, High School Diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller')
+    expect(page).to have_text('For example, High School Diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller')
   end
 
   def and_i_do_not_see_the_old_hint_text_at_the_top
-    expect(page).to have_no_content('This should not be a qualification showing you speak English as a foreign language.')
+    expect(page).to have_no_text('This should not be a qualification showing you speak English as a foreign language.')
   end
 end

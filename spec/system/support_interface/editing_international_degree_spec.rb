@@ -64,9 +64,9 @@ private
   alias_method :when_i_click_the_change_link_next_to_the_first_degree, :and_i_click_the_change_link_next_to_the_first_degree
 
   def then_i_see_a_prepopulated_form
-    expect(page).to have_content("Edit #{@degree.subject.capitalize} degree")
+    expect(page).to have_text("Edit #{@degree.subject.capitalize} degree")
 
-    expect(page).to have_content 'Does the candidate have an ENIC reference number?'
+    expect(page).to have_text 'Does the candidate have an ENIC reference number?'
   end
 
   def when_i_choose(text)
@@ -80,8 +80,8 @@ private
 
   def then_i_see_the_error(text)
     expect(page.title).to include 'Error:'
-    expect(page).to have_content 'There is a problem'
-    expect(page).to have_content(text).twice
+    expect(page).to have_text 'There is a problem'
+    expect(page).to have_text(text).twice
   end
   alias_method :and_i_see_the_error, :then_i_see_the_error
 
@@ -98,8 +98,8 @@ private
   end
 
   def then_i_see_a_success_message
-    expect(page).to have_content 'Success'
-    expect(page).to have_content 'Degree updated'
+    expect(page).to have_text 'Success'
+    expect(page).to have_text 'Degree updated'
   end
 
   def and_the_enic_reference_details_have_been_updated

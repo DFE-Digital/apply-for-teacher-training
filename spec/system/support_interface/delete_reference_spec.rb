@@ -42,7 +42,7 @@ RSpec.describe 'Deleting references' do
   end
 
   def then_i_see_a_confirmation_form
-    expect(page).to have_content('Are you sure you want to delete the reference from Dumbledore?')
+    expect(page).to have_text('Are you sure you want to delete the reference from Dumbledore?')
   end
 
   def when_i_submit_the_confirmation_form
@@ -50,7 +50,7 @@ RSpec.describe 'Deleting references' do
   end
 
   def then_i_see_blank_zendesk_url_error_message
-    expect(page).to have_content('Enter a Zendesk ticket URL')
+    expect(page).to have_text('Enter a Zendesk ticket URL')
   end
 
   def when_i_complete_the_confirmation_form
@@ -59,16 +59,16 @@ RSpec.describe 'Deleting references' do
   end
 
   def then_i_see_a_flash_message
-    expect(page).to have_content 'Reference deleted'
+    expect(page).to have_text 'Reference deleted'
   end
 
   def and_i_do_not_see_the_deleted_reference_details
-    expect(page).to have_no_content 'Dumbledore'
+    expect(page).to have_no_text 'Dumbledore'
   end
 
   def and_i_see_my_zendesk_ticket_in_the_audit_log
     click_link_or_button 'History'
-    expect(page).to have_content 'Destroy Application Reference'
-    expect(page).to have_content 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+    expect(page).to have_text 'Destroy Application Reference'
+    expect(page).to have_text 'https://becomingateacher.zendesk.com/agent/tickets/12345'
   end
 end

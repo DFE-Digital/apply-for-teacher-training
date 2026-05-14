@@ -57,7 +57,7 @@ RSpec.describe 'Candidate submits restructured work history' do
   end
 
   def then_i_see_date_validation_errors
-    expect(page).to have_content t('errors.messages.invalid_date', article: 'a', attribute: 'start date')
+    expect(page).to have_text t('errors.messages.invalid_date', article: 'a', attribute: 'start date')
   end
 
   def and_i_see_the_incorrect_date_values

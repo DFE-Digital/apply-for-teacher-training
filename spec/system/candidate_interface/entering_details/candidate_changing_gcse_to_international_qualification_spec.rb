@@ -58,27 +58,27 @@ RSpec.describe 'Candidate changing UK GCSE to international qualification' do
   end
 
   def then_i_see_the_add_gcse_maths_page
-    expect(page).to have_content 'What type of qualification in maths do you have?'
+    expect(page).to have_text 'What type of qualification in maths do you have?'
   end
 
   def then_i_see_the_review_page_with_correct_details
-    expect(page).to have_content 'Maths GCSE or equivalent'
+    expect(page).to have_text 'Maths GCSE or equivalent'
 
-    expect(page).to have_content 'GCSE'
-    expect(page).to have_content 'A'
-    expect(page).to have_content '1990'
+    expect(page).to have_text 'GCSE'
+    expect(page).to have_text 'A'
+    expect(page).to have_text '1990'
   end
 
   def then_i_see_add_grade_page
-    expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'maths', qualification_type: 'GCSE')
+    expect(page).to have_text t('gcse_edit_grade.page_title', subject: 'maths', qualification_type: 'GCSE')
   end
 
   def then_i_see_add_new_grade_page
-    expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'maths', qualification_type: 'qualification')
+    expect(page).to have_text t('gcse_edit_grade.page_title', subject: 'maths', qualification_type: 'qualification')
   end
 
   def then_i_see_add_year_page
-    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'maths', qualification_type: 'GCSE')
+    expect(page).to have_text t('gcse_edit_year.page_title', subject: 'maths', qualification_type: 'GCSE')
   end
 
   def when_i_fill_in_the_grade
@@ -105,7 +105,7 @@ RSpec.describe 'Candidate changing UK GCSE to international qualification' do
   end
 
   def then_i_see_the_select_country_page
-    expect(page).to have_content t('gcse_edit_institution_country.page_title', subject: 'Maths')
+    expect(page).to have_text t('gcse_edit_institution_country.page_title', subject: 'Maths')
   end
 
   def when_i_select_a_country
@@ -129,7 +129,7 @@ RSpec.describe 'Candidate changing UK GCSE to international qualification' do
   end
 
   def then_i_see_qualification_year_page
-    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'maths', qualification_type: 'qualification')
+    expect(page).to have_text t('gcse_edit_year.page_title', subject: 'maths', qualification_type: 'qualification')
   end
 
   def when_i_enter_a_different_qualification_year
@@ -137,10 +137,10 @@ RSpec.describe 'Candidate changing UK GCSE to international qualification' do
   end
 
   def then_i_see_the_review_page_with_new_details
-    expect(page).to have_content 'Maths GCSE or equivalent'
+    expect(page).to have_text 'Maths GCSE or equivalent'
 
-    expect(page).to have_content 'Baccalauréat Général'
-    expect(page).to have_content '100%'
-    expect(page).to have_content '2000'
+    expect(page).to have_text 'Baccalauréat Général'
+    expect(page).to have_text '100%'
+    expect(page).to have_text '2000'
   end
 end

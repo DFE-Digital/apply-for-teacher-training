@@ -179,39 +179,39 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def then_teacher_degree_apprenticeship_filter_is_visible
-    expect(page).to have_content('Filter')
-    expect(page).to have_content('Course type')
-    expect(page).to have_content('Postgraduate courses')
-    expect(page).to have_content('Undergraduate courses')
+    expect(page).to have_text('Filter')
+    expect(page).to have_text('Course type')
+    expect(page).to have_text('Postgraduate courses')
+    expect(page).to have_text('Undergraduate courses')
   end
 
   def then_i_do_not_expect_to_see_the_accredited_providers_filter_heading
-    expect(page).to have_content('Filter')
-    expect(page).to have_no_content('Accredited provider')
+    expect(page).to have_text('Filter')
+    expect(page).to have_no_text('Accredited provider')
   end
 
   def then_i_see_locations_that_belong_to_all_of_the_selected_providers_that_have_more_than_one_site
-    expect(page).to have_content('Locations for Hoth Teacher Training')
-    expect(page).to have_content('Locations for Caladan University')
-    expect(page).to have_no_content('Locations for University of Arrakis')
+    expect(page).to have_text('Locations for Hoth Teacher Training')
+    expect(page).to have_text('Locations for Caladan University')
+    expect(page).to have_no_text('Locations for University of Arrakis')
   end
 
   def then_i_only_see_locations_that_belong_to_that_provider
-    expect(page).to have_no_content('Locations for Caladan University')
+    expect(page).to have_no_text('Locations for Caladan University')
   end
 
   def then_location_filters_are_visible
-    expect(page).to have_content('Locations for')
+    expect(page).to have_text('Locations for')
   end
 
   def then_location_filters_are_not_visible
-    expect(page).to have_no_content('Locations for')
+    expect(page).to have_no_text('Locations for')
   end
 
   def then_i_only_see_applications_for_that_provider_location
-    expect(page).to have_no_content('Adam Jones')
-    expect(page).to have_no_content('Tom Jones')
-    expect(page).to have_content('Jim James')
+    expect(page).to have_no_text('Adam Jones')
+    expect(page).to have_no_text('Tom Jones')
+    expect(page).to have_text('Jim James')
   end
 
   def when_i_filter_by_provider_location
@@ -225,11 +225,11 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def then_i_only_see_postgraduate_applications
-    expect(page).to have_content('Jim James')
-    expect(page).to have_content('Greg Taft')
-    expect(page).to have_no_content('Andres Bartell')
-    expect(page).to have_no_content('Quinton Marks')
-    expect(page).to have_no_content('Leland Harris')
+    expect(page).to have_text('Jim James')
+    expect(page).to have_text('Greg Taft')
+    expect(page).to have_no_text('Andres Bartell')
+    expect(page).to have_no_text('Quinton Marks')
+    expect(page).to have_no_text('Leland Harris')
   end
 
   def when_i_filter_by_undergraduate_courses
@@ -239,11 +239,11 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def then_i_only_see_undergraduate_applications
-    expect(page).to have_content('Andres Bartell')
-    expect(page).to have_content('Quinton Marks')
-    expect(page).to have_content('Leland Harris')
-    expect(page).to have_no_content('Jim James')
-    expect(page).to have_no_content('Greg Taft')
+    expect(page).to have_text('Andres Bartell')
+    expect(page).to have_text('Quinton Marks')
+    expect(page).to have_text('Leland Harris')
+    expect(page).to have_no_text('Jim James')
+    expect(page).to have_no_text('Greg Taft')
   end
 
   def when_i_check_both_course_types_filter
@@ -253,11 +253,11 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def then_i_see_postgraduate_and_teacher_degree_apprenticeship_applications
-    expect(page).to have_content('Andres Bartell')
-    expect(page).to have_content('Undergraduate Quinton Marks')
-    expect(page).to have_content('Undergraduate Leland Harris')
-    expect(page).to have_content('Jim James')
-    expect(page).to have_content('Greg Taft')
+    expect(page).to have_text('Andres Bartell')
+    expect(page).to have_text('Undergraduate Quinton Marks')
+    expect(page).to have_text('Undergraduate Leland Harris')
+    expect(page).to have_text('Jim James')
+    expect(page).to have_text('Greg Taft')
   end
 
   def and_i_expect_the_relevant_provider_location_tags_to_be_visible
@@ -270,7 +270,7 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def then_i_only_see_applications_for_that_recruitment_cycle
-    expect(page).to have_no_content('Anne Blast')
+    expect(page).to have_no_text('Anne Blast')
   end
 
   def and_i_expect_the_relevant_recruitment_cycle_tags_to_be_visible
@@ -340,7 +340,7 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def then_i_can_see_applications_from_the_previous_year_too
-    expect(page).to have_content('Anne Blast')
+    expect(page).to have_text('Anne Blast')
   end
 
   def then_i_expect_to_see_the_filter_dialogue
@@ -372,7 +372,7 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def then_i_see_the_no_filter_results_error_message
-    expect(page).to have_content('There are no results for the selected filter.')
+    expect(page).to have_text('There are no results for the selected filter.')
   end
 
   def when_i_filter_for_rejected_and_offered_applications
@@ -423,9 +423,9 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def then_i_only_see_applications_for_a_given_accredited_provider
-    expect(page).to have_content('Adam Jones')
-    expect(page).to have_content('Tom Jones')
-    expect(page).to have_no_content('Jim James')
+    expect(page).to have_text('Adam Jones')
+    expect(page).to have_text('Tom Jones')
+    expect(page).to have_no_text('Jim James')
   end
 
   def then_i_expect_the_relevant_accredited_provider_tags_to_be_visible
@@ -460,9 +460,9 @@ RSpec.describe 'Providers should be able to filter applications' do
   end
 
   def then_i_expect_all_applications_to_be_visible_again
-    expect(page).to have_content('Adam Jones')
-    expect(page).to have_content('Tom Jones')
-    expect(page).to have_content('Jim James')
+    expect(page).to have_text('Adam Jones')
+    expect(page).to have_text('Tom Jones')
+    expect(page).to have_text('Jim James')
   end
 
   def and_i_apply_the_filters

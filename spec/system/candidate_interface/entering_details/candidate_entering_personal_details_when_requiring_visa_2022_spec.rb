@@ -56,50 +56,50 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
     click_link_or_button t('save_and_continue')
 
     # Right to work or study
-    expect(page).to have_content('Do you already have the right to work or study in the UK?')
+    expect(page).to have_text('Do you already have the right to work or study in the UK?')
     choose 'No'
     click_link_or_button t('save_and_continue')
 
     # Review
     expect(page).to have_current_path candidate_interface_personal_details_show_path
-    expect(page).to have_content('Name')
-    expect(page).to have_content('Lando Calrissian')
-    expect(page).to have_content('Pakistani')
-    expect(page).to have_content('Do you have the right to work or study in the UK? No')
+    expect(page).to have_text('Name')
+    expect(page).to have_text('Lando Calrissian')
+    expect(page).to have_text('Pakistani')
+    expect(page).to have_text('Do you have the right to work or study in the UK? No')
   end
 
   def and_i_can_change_state_that_i_have_permanent_residence
     click_change_link('if you have the right to work or study in the UK')
-    expect(page).to have_content('Do you already have the right to work or study in the UK?')
+    expect(page).to have_text('Do you already have the right to work or study in the UK?')
     choose 'Yes'
     click_link_or_button t('save_and_continue')
 
     choose 'Other'
-    expect(page).to have_content('Select your visa or immigration status')
+    expect(page).to have_text('Select your visa or immigration status')
     fill_in 'Enter visa type or immigration status', with: 'I have permanent residence'
     click_link_or_button t('save_and_continue')
 
     if FeatureFlag.active?('2027_visa_expiry')
-      expect(page).to have_content('When does your visa expire?')
+      expect(page).to have_text('When does your visa expire?')
       visa_expired_at = 1.year.from_now
       fill_in('candidate_interface_visa_expiry_form[visa_expired_at(3i)]', with: visa_expired_at.day)
       fill_in('candidate_interface_visa_expiry_form[visa_expired_at(2i)]', with: visa_expired_at.month)
       fill_in('candidate_interface_visa_expiry_form[visa_expired_at(1i)]', with: visa_expired_at.year)
       click_link_or_button t('save_and_continue')
-      expect(page).to have_content(visa_expired_at.to_fs(:govuk_date))
+      expect(page).to have_text(visa_expired_at.to_fs(:govuk_date))
     end
 
     expect(page).to have_current_path candidate_interface_personal_details_show_path
-    expect(page).to have_content('Name')
-    expect(page).to have_content('Lando Calrissian')
-    expect(page).to have_content('Pakistani')
-    expect(page).to have_content('Do you have the right to work or study in the UK? Yes')
-    expect(page).to have_content('immigration status I have permanent residence')
+    expect(page).to have_text('Name')
+    expect(page).to have_text('Lando Calrissian')
+    expect(page).to have_text('Pakistani')
+    expect(page).to have_text('Do you have the right to work or study in the UK? Yes')
+    expect(page).to have_text('immigration status I have permanent residence')
   end
 
   def and_i_can_change_visa_expired_at
     click_change_link('visa expiry')
-    expect(page).to have_content('When does your visa expire?')
+    expect(page).to have_text('When does your visa expire?')
     visa_expired_at = 2.years.from_now
     fill_in('candidate_interface_visa_expiry_form[visa_expired_at(3i)]', with: visa_expired_at.day)
     fill_in('candidate_interface_visa_expiry_form[visa_expired_at(2i)]', with: visa_expired_at.month)
@@ -107,7 +107,7 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
     click_link_or_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_personal_details_show_path
-    expect(page).to have_content(visa_expired_at.to_fs(:govuk_date))
+    expect(page).to have_text(visa_expired_at.to_fs(:govuk_date))
   end
 
   def and_i_can_change_nationality_to_an_eu_country_with_settled_status
@@ -119,29 +119,29 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
     end
     click_link_or_button t('save_and_continue')
 
-    expect(page).to have_content('Do you already have the right to work or study in the UK?')
+    expect(page).to have_text('Do you already have the right to work or study in the UK?')
     choose 'Yes'
     click_link_or_button t('save_and_continue')
 
-    expect(page).to have_content('Visa or immigration status')
+    expect(page).to have_text('Visa or immigration status')
     choose 'EU settled status'
     click_link_or_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_personal_details_show_path
-    expect(page).to have_content('Nationality French')
-    expect(page).to have_content('Do you have the right to work or study in the UK? Yes')
-    expect(page).to have_content('immigration status EU settled status')
+    expect(page).to have_text('Nationality French')
+    expect(page).to have_text('Do you have the right to work or study in the UK? Yes')
+    expect(page).to have_text('immigration status EU settled status')
   end
 
   def and_i_can_change_immigration_status
     click_change_link('visa or immigration status')
 
-    expect(page).to have_content('Visa or immigration status')
+    expect(page).to have_text('Visa or immigration status')
     choose 'EU pre-settled status'
     click_link_or_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_personal_details_show_path
-    expect(page).to have_content('immigration status EU pre-settled status')
+    expect(page).to have_text('immigration status EU pre-settled status')
   end
 
   def and_i_can_mark_the_section_complete

@@ -69,11 +69,11 @@ RSpec.describe 'Provider makes an offer on undergraduate applications' do
   end
 
   def then_the_ske_questions_are_skipped
-    expect(page).to have_no_content('SKE')
+    expect(page).to have_no_text('SKE')
   end
 
   def and_i_can_confirm_my_answers
-    expect(page).to have_content('A* on Maths A Level')
+    expect(page).to have_text('A* on Maths A Level')
   end
 
   def when_i_click_change_course
@@ -87,19 +87,19 @@ RSpec.describe 'Provider makes an offer on undergraduate applications' do
 
   def and_i_can_confirm_the_new_course_selection
     within(all('.govuk-summary-list__row')[2]) do
-      expect(page).to have_content(@selected_course.name_and_code)
+      expect(page).to have_text(@selected_course.name_and_code)
     end
   end
 
   def and_i_can_confirm_the_new_study_mode_selection
     within(all('.govuk-summary-list__row')[3]) do
-      expect(page).to have_content(@selected_course_option.study_mode.humanize)
+      expect(page).to have_text(@selected_course_option.study_mode.humanize)
     end
   end
 
   def and_i_can_confirm_the_new_location_selection
     within(all('.govuk-summary-list__row')[5]) do
-      expect(page).to have_content(@selected_course_option.site.name_and_address(' '))
+      expect(page).to have_text(@selected_course_option.site.name_and_address(' '))
     end
   end
 
@@ -115,7 +115,7 @@ RSpec.describe 'Provider makes an offer on undergraduate applications' do
 
   def and_i_can_confirm_the_new_provider_selection
     within(all('.govuk-summary-list__row')[1]) do
-      expect(page).to have_content(@selected_provider.name_and_code)
+      expect(page).to have_text(@selected_provider.name_and_code)
     end
   end
 
@@ -124,8 +124,8 @@ RSpec.describe 'Provider makes an offer on undergraduate applications' do
   end
 
   def and_the_standard_conditions_are_created
-    expect(page).to have_content('Fitness to train to teach check')
-    expect(page).to have_content('Disclosure and Barring Service (DBS) check')
-    expect(page).to have_content('Satisfactory references')
+    expect(page).to have_text('Fitness to train to teach check')
+    expect(page).to have_text('Disclosure and Barring Service (DBS) check')
+    expect(page).to have_text('Satisfactory references')
   end
 end

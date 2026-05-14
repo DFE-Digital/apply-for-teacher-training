@@ -38,10 +38,10 @@ RSpec.describe 'Editing degree' do
   end
 
   def then_i_see_a_prepopulated_form
-    expect(page).to have_content('Edit Maths degree')
+    expect(page).to have_text('Edit Maths degree')
     expect(page).to have_css("input[value='1999']")
 
-    expect(page).to have_no_content 'Does the candidate have an ENIC reference number?'
+    expect(page).to have_no_text 'Does the candidate have an ENIC reference number?'
   end
 
   def when_i_update_the_form
@@ -55,18 +55,18 @@ RSpec.describe 'Editing degree' do
   end
 
   def then_i_see_a_flash_message
-    expect(page).to have_content 'Degree updated'
+    expect(page).to have_text 'Degree updated'
   end
 
   def and_i_see_the_new_details
     within('.app-qualification') do
-      expect(page).to have_content '1996'
-      expect(page).to have_content '2001'
+      expect(page).to have_text '1996'
+      expect(page).to have_text '2001'
     end
   end
 
   def and_i_see_my_details_comment_in_the_audit_log
     click_link_or_button 'History'
-    expect(page).to have_content 'Got to change it'
+    expect(page).to have_text 'Got to change it'
   end
 end

@@ -42,7 +42,7 @@ RSpec.describe 'Managing notifications' do
   end
 
   def then_my_notification_preferences_are_updated
-    expect(page).to have_content 'Email notification settings saved'
+    expect(page).to have_text 'Email notification settings saved'
 
     ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |type|
       expect(find(:css, "#provider-user-notification-preferences-#{type.to_s.dasherize}-false-field")).to be_checked

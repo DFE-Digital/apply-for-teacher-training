@@ -47,12 +47,12 @@ RSpec.describe 'Entering their disability information' do
   end
 
   def then_i_see_the_application_form
-    expect(page).to have_content(t('page_titles.application_form'))
+    expect(page).to have_text(t('page_titles.application_form'))
   end
 
   def then_i_see_a_training_with_a_disability_validation_error
     within('.govuk-error-summary') do
-      expect(page).to have_content('Select your sex or ‘Prefer not to say’')
+      expect(page).to have_text('Select your sex or ‘Prefer not to say’')
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe 'Entering their disability information' do
   alias_method :and_i_submit_my_details, :when_i_click_on_continue
 
   def then_i_see_a_section_complete_error
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
   def and_i_fill_in_my_disability_information
@@ -81,8 +81,8 @@ RSpec.describe 'Entering their disability information' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'Yes'
-    expect(page).to have_content 'I have difficulty climbing stairs'
+    expect(page).to have_text 'Yes'
+    expect(page).to have_text 'I have difficulty climbing stairs'
   end
 
   def when_i_click_to_change_my_answer
@@ -95,8 +95,8 @@ RSpec.describe 'Entering their disability information' do
   end
 
   def then_i_can_check_my_revised_answers
-    expect(page).to have_content 'No'
-    expect(page).to have_no_content 'I have difficulty climbing stairs'
+    expect(page).to have_text 'No'
+    expect(page).to have_no_text 'I have difficulty climbing stairs'
   end
 
   def when_i_mark_the_section_as_completed
@@ -104,7 +104,7 @@ RSpec.describe 'Entering their disability information' do
   end
 
   def then_i_see_the_form
-    expect(page).to have_content(t('page_titles.training_with_a_disability'))
+    expect(page).to have_text(t('page_titles.training_with_a_disability'))
   end
 
   def and_that_the_section_is_completed

@@ -30,7 +30,7 @@ RSpec.describe 'See applications' do
   end
 
   def then_i_see_the_email_address_not_recognised_page
-    expect(page).to have_content('Your email address is not recognised')
+    expect(page).to have_text('Your email address is not recognised')
   end
 
   def and_my_organisation_has_applications
@@ -47,9 +47,9 @@ RSpec.describe 'See applications' do
 
   def then_i_see_the_applications_from_my_organisation
     expect(page).to have_title 'Applications (2)'
-    expect(page).to have_content 'Applications (2)'
-    expect(page).to have_content @my_provider_choice1.application_form.full_name
-    expect(page).to have_content @my_provider_choice2.application_form.full_name
+    expect(page).to have_text 'Applications (2)'
+    expect(page).to have_text @my_provider_choice1.application_form.full_name
+    expect(page).to have_text @my_provider_choice2.application_form.full_name
   end
 
   def and_i_see_the_applications_menu_item_highlighted
@@ -62,8 +62,8 @@ RSpec.describe 'See applications' do
   end
 
   def then_i_am_on_the_application_view_page
-    expect(page).to have_content @my_provider_choice1.id
+    expect(page).to have_text @my_provider_choice1.id
 
-    expect(page).to have_content @my_provider_choice1.application_form.full_name
+    expect(page).to have_text @my_provider_choice1.application_form.full_name
   end
 end

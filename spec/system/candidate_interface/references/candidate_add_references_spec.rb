@@ -247,7 +247,7 @@ RSpec.describe 'References' do
   end
 
   def then_i_am_told_to_provide_a_type
-    expect(page).to have_content('Choose a type of referee')
+    expect(page).to have_text('Choose a type of referee')
   end
 
   def and_a_validation_error_is_logged_for_type
@@ -275,7 +275,7 @@ RSpec.describe 'References' do
   end
 
   def then_i_am_told_to_provide_a_name
-    expect(page).to have_content('Enter the name of the person who can give a reference')
+    expect(page).to have_text('Enter the name of the person who can give a reference')
   end
 
   def and_a_validation_error_is_logged_for_name
@@ -308,7 +308,7 @@ RSpec.describe 'References' do
   end
 
   def then_i_am_told_to_provide_an_email_address
-    expect(page).to have_content('Enter their email address')
+    expect(page).to have_text('Enter their email address')
   end
 
   def and_a_validation_error_is_logged_for_blank_email_address
@@ -320,7 +320,7 @@ RSpec.describe 'References' do
   end
 
   def then_i_am_told_my_email_address_needs_a_valid_format
-    expect(page).to have_content('Enter an email address in the correct format, like name@example.com')
+    expect(page).to have_text('Enter an email address in the correct format, like name@example.com')
   end
 
   def and_a_validation_error_is_logged_for_invalid_email_address
@@ -340,7 +340,7 @@ RSpec.describe 'References' do
   end
 
   def then_i_am_told_to_provide_a_relationship
-    expect(page).to have_content('Enter how you know them and for how long')
+    expect(page).to have_text('Enter how you know them and for how long')
   end
 
   def and_a_validation_error_is_logged_for_relationship
@@ -352,10 +352,10 @@ RSpec.describe 'References' do
   end
 
   def and_i_see_my_references_details
-    expect(page).to have_content('Academic')
-    expect(page).to have_content('Walter White')
-    expect(page).to have_content('iamtheone@whoknocks.com')
-    expect(page).to have_content('Through nefarious behaviour.')
+    expect(page).to have_text('Academic')
+    expect(page).to have_text('Walter White')
+    expect(page).to have_text('iamtheone@whoknocks.com')
+    expect(page).to have_text('Through nefarious behaviour.')
   end
 
   def when_i_click_change_on_the_references_name
@@ -367,7 +367,7 @@ RSpec.describe 'References' do
   end
 
   def then_i_see_the_updated_name
-    expect(page).to have_content('Jessie Pinkman')
+    expect(page).to have_text('Jessie Pinkman')
   end
 
   def when_i_click_change_on_email_address
@@ -379,7 +379,7 @@ RSpec.describe 'References' do
   end
 
   def then_i_see_the_updated_email_address
-    expect(page).to have_content('jessie@pinkman.com')
+    expect(page).to have_text('jessie@pinkman.com')
   end
 
   def when_i_click_change_on_the_reference_type
@@ -391,7 +391,7 @@ RSpec.describe 'References' do
   end
 
   def then_i_see_the_updated_type
-    expect(page).to have_content('Professional')
+    expect(page).to have_text('Professional')
   end
 
   def when_i_click_change_on_relationship
@@ -403,7 +403,7 @@ RSpec.describe 'References' do
   end
 
   def then_i_see_the_updated_relationship
-    expect(page).to have_content('I sold him a moterhome.')
+    expect(page).to have_text('I sold him a moterhome.')
   end
 
   def then_i_see_the_review_references_page
@@ -411,10 +411,10 @@ RSpec.describe 'References' do
   end
 
   def and_i_see_my_reference
-    expect(page).to have_content('Professional')
-    expect(page).to have_content('Jessie Pinkman')
-    expect(page).to have_content('jessie@pinkman.com')
-    expect(page).to have_content('I sold him a moterhome.')
+    expect(page).to have_text('Professional')
+    expect(page).to have_text('Jessie Pinkman')
+    expect(page).to have_text('jessie@pinkman.com')
+    expect(page).to have_text('I sold him a moterhome.')
   end
 
   def when_i_try_to_edit_someone_elses_reference
@@ -435,19 +435,19 @@ RSpec.describe 'References' do
   end
 
   def and_i_am_told_my_reference_request_has_been_sent
-    expect(page).to have_content('Reference request sent to Jessie Pinkman')
+    expect(page).to have_text('Reference request sent to Jessie Pinkman')
   end
 
   def and_i_do_not_see_the_complete_section
-    expect(page).to have_no_content('Have you completed this section?')
-    expect(page).to have_no_content('Yes, I have completed this section')
-    expect(page).to have_no_content('No, I’ll come back to it later')
+    expect(page).to have_no_text('Have you completed this section?')
+    expect(page).to have_no_text('Yes, I have completed this section')
+    expect(page).to have_no_text('No, I’ll come back to it later')
   end
 
   def and_i_see_the_complete_section
-    expect(page).to have_content('Have you completed this section?')
-    expect(page).to have_content('Yes, I have completed this section')
-    expect(page).to have_content('No, I’ll come back to it later')
+    expect(page).to have_text('Have you completed this section?')
+    expect(page).to have_text('Yes, I have completed this section')
+    expect(page).to have_text('No, I’ll come back to it later')
   end
 
   def when_i_mark_the_section_as_complete

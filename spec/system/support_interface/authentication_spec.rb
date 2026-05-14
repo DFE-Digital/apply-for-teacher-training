@@ -59,12 +59,12 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
 
   def and_i_have_received_an_email_about_the_new_login
     open_email('user@apply-support.com')
-    expect(current_email.subject).to have_content('New sign in to Support for Apply')
+    expect(current_email.subject).to have_text('New sign in to Support for Apply')
     clear_emails
   end
 
   def and_i_see_my_email_address
-    expect(page).to have_content('user@apply-support.com')
+    expect(page).to have_text('user@apply-support.com')
   end
 
   def and_my_profile_details_are_refreshed

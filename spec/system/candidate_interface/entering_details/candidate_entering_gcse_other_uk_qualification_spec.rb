@@ -40,13 +40,13 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def then_i_see_the_add_gcse_maths_page
-    expect(page).to have_content 'What type of qualification in maths do you have?'
+    expect(page).to have_text 'What type of qualification in maths do you have?'
   end
 
   def then_i_see_the_review_page_with_correct_details
-    expect(page).to have_content 'Maths GCSE or equivalent'
+    expect(page).to have_text 'Maths GCSE or equivalent'
 
-    expect(page).to have_content 'Scottish Baccalaureate'
+    expect(page).to have_text 'Scottish Baccalaureate'
   end
 
   def and_i_visit_the_gcse_review_page

@@ -52,8 +52,8 @@ RSpec.describe 'Provider views an application in new cycle' do
 
   def then_i_see_the_applications_from_my_organisation
     expect(page).to have_title 'Applications (1)'
-    expect(page).to have_content 'Applications (1)'
-    expect(page).to have_content @my_provider_choice.application_form.full_name
+    expect(page).to have_text 'Applications (1)'
+    expect(page).to have_text @my_provider_choice.application_form.full_name
   end
 
   def when_i_click_on_an_application
@@ -61,9 +61,9 @@ RSpec.describe 'Provider views an application in new cycle' do
   end
 
   def then_i_am_on_the_application_view_page
-    expect(page).to have_content @my_provider_choice.id
+    expect(page).to have_text @my_provider_choice.id
 
-    expect(page).to have_content @my_provider_choice.application_form.full_name
+    expect(page).to have_text @my_provider_choice.application_form.full_name
   end
 
   def when_i_click_on_the_references_tab
@@ -75,7 +75,7 @@ RSpec.describe 'Provider views an application in new cycle' do
     link = page.find_link('References', class: 'app-tab-navigation__link')
     expect(link['aria-current']).to eq('page')
 
-    expect(page).to have_content pre_offer_message
+    expect(page).to have_text pre_offer_message
 
     expect(page).to have_element(:h3, text: references.first.name, class: 'app-summary-card__title')
     expect(page).to have_element(:h3, text: references.second.name, class: 'app-summary-card__title')
@@ -94,14 +94,14 @@ RSpec.describe 'Provider views an application in new cycle' do
   end
 
   def then_i_see_the_reference_requested_section
-    expect(page).to have_no_content pre_offer_message
-    expect(page).to have_content 'Requested references'
-    expect(page).to have_content 'The candidate has requested 2 references.'
-    expect(page).to have_no_content @my_provider_choice.application_form.application_references.creation_order.first.feedback
+    expect(page).to have_no_text pre_offer_message
+    expect(page).to have_text 'Requested references'
+    expect(page).to have_text 'The candidate has requested 2 references.'
+    expect(page).to have_no_text @my_provider_choice.application_form.application_references.creation_order.first.feedback
   end
 
   def then_i_see_the_reference_feedback
-    expect(page).to have_content @my_provider_choice.application_form.application_references.creation_order.first.feedback
+    expect(page).to have_text @my_provider_choice.application_form.application_references.creation_order.first.feedback
   end
 
   def pre_offer_message

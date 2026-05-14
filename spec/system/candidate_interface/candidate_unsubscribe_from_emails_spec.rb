@@ -69,7 +69,7 @@ private
   end
 
   def and_i_see_unsubscribe_confirmation
-    expect(page).to have_content 'You have successfully unsubscribed'
+    expect(page).to have_text 'You have successfully unsubscribed'
   end
   alias_method :then_i_see_unsubscribe_confirmation, :and_i_see_unsubscribe_confirmation
   def and_i_am_on_application_details_page
@@ -81,6 +81,6 @@ private
   end
 
   def then_i_see_a_404
-    expect(page).to have_content 'Page not found'
+    expect(page).to have_text 'Page not found'
   end
 end

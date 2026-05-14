@@ -39,12 +39,12 @@ RSpec.describe 'Sign in as provider user' do
 
   def then_i_am_logged_in_as_the_provider_user
     click_link_or_button 'Visit Manage'
-    expect(page).to have_content 'Data sharing agreement'
+    expect(page).to have_text 'Data sharing agreement'
   end
 
   def and_i_can_tell_this_is_an_impersonation_from_the_sign_out_link
-    expect(page).to have_no_content('Sign out')
-    expect(page).to have_content('Support')
+    expect(page).to have_no_text('Sign out')
+    expect(page).to have_text('Support')
   end
 
   def when_i_try_to_sign_the_data_sharing_agreement
@@ -57,7 +57,7 @@ RSpec.describe 'Sign in as provider user' do
   end
 
   def then_i_am_told_i_am_a_support_user
-    expect(page).to have_content 'Cannot be signed by a support user'
+    expect(page).to have_text 'Cannot be signed by a support user'
   end
 
   def when_i_click_to_return_to_support
@@ -73,6 +73,6 @@ RSpec.describe 'Sign in as provider user' do
   end
 
   def then_i_am_asked_to_sign_in
-    expect(page).to have_content 'You must sign in to your account to manage teacher training applications.'
+    expect(page).to have_text 'You must sign in to your account to manage teacher training applications.'
   end
 end

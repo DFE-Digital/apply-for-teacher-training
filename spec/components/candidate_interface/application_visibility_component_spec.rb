@@ -167,8 +167,8 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
 
       render_inline(described_class.new(application_form:))
 
-      expect(page).to have_content('Your application details are not currently visible to other providers. You have submitted applications that are waiting for a decision.')
-      expect(page).to have_content('When all your applications are rejected, withdrawn or inactive, providers will be able to view your application details and invite you to apply. However, you should continue to apply to courses yourself. Do not wait to be invited.')
+      expect(page).to have_text('Your application details are not currently visible to other providers. You have submitted applications that are waiting for a decision.')
+      expect(page).to have_text('When all your applications are rejected, withdrawn or inactive, providers will be able to view your application details and invite you to apply. However, you should continue to apply to courses yourself. Do not wait to be invited.')
     end
 
     it 'displays opted in but not visible to providers if the application form is opted in and has choices with a status of interviewing' do
@@ -183,8 +183,8 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
 
       render_inline(described_class.new(application_form:))
 
-      expect(page).to have_content('Your application details are not currently visible to other providers. You have submitted applications that are waiting for a decision.')
-      expect(page).to have_content('When all your applications are rejected, withdrawn or inactive, providers will be able to view your application details and invite you to apply. However, you should continue to apply to courses yourself. Do not wait to be invited.')
+      expect(page).to have_text('Your application details are not currently visible to other providers. You have submitted applications that are waiting for a decision.')
+      expect(page).to have_text('When all your applications are rejected, withdrawn or inactive, providers will be able to view your application details and invite you to apply. However, you should continue to apply to courses yourself. Do not wait to be invited.')
     end
   end
 
@@ -201,8 +201,8 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
 
       render_inline(described_class.new(application_form:))
 
-      expect(page).to have_content('Your application details are not currently visible to other providers. You have offers that you need to respond to.')
-      expect(page).to have_content('When all your applications are rejected, withdrawn or inactive, providers will be able to view your application details and invite you to apply. However, you should continue to apply to courses yourself. Do not wait to be invited.')
+      expect(page).to have_text('Your application details are not currently visible to other providers. You have offers that you need to respond to.')
+      expect(page).to have_text('When all your applications are rejected, withdrawn or inactive, providers will be able to view your application details and invite you to apply. However, you should continue to apply to courses yourself. Do not wait to be invited.')
     end
   end
 
@@ -220,8 +220,8 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
 
       render_inline(described_class.new(application_form:))
 
-      expect(page).to have_content('Your application details are currently visible to other providers. You have no submitted applications that are waiting for a decision.')
-      expect(page).to have_content('Because all your applications are rejected, withdrawn or inactive, providers can view your application details and invite you to apply. However, you should continue to apply to courses yourself. Do not wait to be invited.')
+      expect(page).to have_text('Your application details are currently visible to other providers. You have no submitted applications that are waiting for a decision.')
+      expect(page).to have_text('Because all your applications are rejected, withdrawn or inactive, providers can view your application details and invite you to apply. However, you should continue to apply to courses yourself. Do not wait to be invited.')
     end
   end
 
@@ -240,8 +240,8 @@ RSpec.describe CandidateInterface::ApplicationVisibilityComponent, type: :compon
 
         render_inline(described_class.new(application_form:))
 
-        expect(page).to have_content('Your application details are not currently visible to other providers.')
-        expect(page).to have_content("You have withdrawn an application with the reason 'I do not want to train to teach anymore'.")
+        expect(page).to have_text('Your application details are not currently visible to other providers.')
+        expect(page).to have_text("You have withdrawn an application with the reason 'I do not want to train to teach anymore'.")
         expect(page).to have_link('contact support', href: 'mailto:becomingateacher@digital.education.gov.uk')
       end
     end

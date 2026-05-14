@@ -29,7 +29,7 @@ RSpec.describe 'Smoke test', :smoke, type: :feature do
   end
 
   def then_i_can_create_an_account
-    expect(page).to have_content('Create an account')
+    expect(page).to have_text('Create an account')
   end
 
   def when_i_type_in_my_email_address
@@ -41,7 +41,7 @@ RSpec.describe 'Smoke test', :smoke, type: :feature do
   end
 
   def then_i_have_been_sent_an_email
-    expect(page).to have_content('Check your email')
+    expect(page).to have_text('Check your email')
   end
 
   def then_i_am_redirected_to_one_login

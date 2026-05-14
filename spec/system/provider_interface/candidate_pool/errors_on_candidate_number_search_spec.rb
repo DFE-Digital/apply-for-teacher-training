@@ -39,7 +39,7 @@ private
 
   def then_i_see_the_error(error)
     expect(page.title).to include 'Error:'
-    expect(page).to have_content 'There is a problem'
-    expect(page).to have_content(error).exactly(2).times
+    expect(page).to have_text 'There is a problem'
+    expect(page).to have_text(error).exactly(2).times
   end
 end

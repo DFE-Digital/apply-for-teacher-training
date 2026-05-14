@@ -49,20 +49,20 @@ private
   end
 
   def then_i_see_the_access_denied_no_organisation_page
-    expect(page).to have_content('Access denied')
-    expect(page).to have_content('You are no longer a member of any organisation.')
-    expect(page).to have_content('Contact your administrator if you believe this to be in error.')
+    expect(page).to have_text('Access denied')
+    expect(page).to have_text('You are no longer a member of any organisation.')
+    expect(page).to have_text('Contact your administrator if you believe this to be in error.')
   end
 
   def and_there_is_no_primary_navigation_bar
-    expect(page).to have_no_content('Interview schedule')
-    expect(page).to have_no_content('Find candidates')
-    expect(page).to have_no_content('Reports')
-    expect(page).to have_no_content('Activity log')
+    expect(page).to have_no_text('Interview schedule')
+    expect(page).to have_no_text('Find candidates')
+    expect(page).to have_no_text('Reports')
+    expect(page).to have_no_text('Activity log')
   end
 
   def and_the_secondary_navigation_bar_only_has_my_account
-    expect(page).to have_no_content('Organisation settings')
+    expect(page).to have_no_text('Organisation settings')
   end
 
   def when_i_click_on_my_account
@@ -70,13 +70,13 @@ private
   end
 
   def then_i_see_the_my_account_page_with_personal_details_link
-    expect(page).to have_content('Your account')
-    expect(page).to have_content('Your personal details')
+    expect(page).to have_text('Your account')
+    expect(page).to have_text('Your personal details')
   end
 
   def and_no_other_links
-    expect(page).to have_no_content('Your user permissions')
-    expect(page).to have_no_content('Your email notifications')
+    expect(page).to have_no_text('Your user permissions')
+    expect(page).to have_no_text('Your email notifications')
   end
 
   def when_i_click_personal_details
@@ -84,14 +84,14 @@ private
   end
 
   def then_i_see_the_personal_details_page
-    expect(page).to have_content('Your personal details')
-    expect(page).to have_content('First name')
-    expect(page).to have_content(@provider_user.first_name)
-    expect(page).to have_content('Last name')
-    expect(page).to have_content(@provider_user.last_name)
-    expect(page).to have_content('Email address')
-    expect(page).to have_content(@provider_user.email_address)
-    expect(page).to have_content('Change your details or password in DfE Sign-in')
+    expect(page).to have_text('Your personal details')
+    expect(page).to have_text('First name')
+    expect(page).to have_text(@provider_user.first_name)
+    expect(page).to have_text('Last name')
+    expect(page).to have_text(@provider_user.last_name)
+    expect(page).to have_text('Email address')
+    expect(page).to have_text(@provider_user.email_address)
+    expect(page).to have_text('Change your details or password in DfE Sign-in')
   end
 
   def when_i_manually_try_to_access_applications

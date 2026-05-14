@@ -51,6 +51,6 @@ RSpec.describe 'Candidate arrives from Find with provider and course that is alr
   end
 
   def and_i_see_a_message_about_the_limit
-    expect(page).to have_content('You cannot have more than 4 applications. Remove an application first, and then apply to Potions.')
+    expect(page).to have_text('You cannot have more than 4 applications. Remove an application first, and then apply to Potions.')
   end
 end

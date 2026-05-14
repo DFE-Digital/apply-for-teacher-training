@@ -46,7 +46,7 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def then_i_see_the_not_yet_page
-    expect(page).to have_content 'Are you currently studying for a GCSE in English, or equivalent?'
+    expect(page).to have_text 'Are you currently studying for a GCSE in English, or equivalent?'
   end
 
   def when_i_select_i_am_not
@@ -54,12 +54,12 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def then_i_see_the_equivalency_page
-    expect(page).to have_content 'You need a GCSE in English at grade 4 (C) or above, or equivalent'
+    expect(page).to have_text 'You need a GCSE in English at grade 4 (C) or above, or equivalent'
   end
 
   def then_i_see_the_error_message
-    expect(page).to have_content 'There is a problem'
-    expect(page).to have_content('Qualification details must be 256 characters or fewer').twice
+    expect(page).to have_text 'There is a problem'
+    expect(page).to have_text('Qualification details must be 256 characters or fewer').twice
   end
 
   def when_i_enter_the_missing_explanation
@@ -67,12 +67,12 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def then_i_see_the_review_page_with_correct_details
-    expect(page).to have_content 'What type of English qualification do you have?'
-    expect(page).to have_content 'I don’t have a English qualification yet'
-    expect(page).to have_content 'Other evidence I have the skills required (optional)'
-    expect(page).to have_content 'I’ve completed a course'
-    expect(page).to have_content 'Are you currently studying for this qualification'
-    expect(page).to have_content 'No'
+    expect(page).to have_text 'What type of English qualification do you have?'
+    expect(page).to have_text 'I don’t have a English qualification yet'
+    expect(page).to have_text 'Other evidence I have the skills required (optional)'
+    expect(page).to have_text 'I’ve completed a course'
+    expect(page).to have_text 'Are you currently studying for this qualification'
+    expect(page).to have_text 'No'
   end
 
   def when_i_change_if_i_am_currently_studying
@@ -93,10 +93,10 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def then_i_see_the_review_page_with_the_updated_details
-    expect(page).to have_content 'What type of English qualification do you have?'
-    expect(page).to have_content 'I don’t have a English qualification yet'
-    expect(page).to have_content 'Are you currently studying for this qualification'
-    expect(page).to have_content 'This is in progress'
-    expect(page).to have_no_content 'Other evidence I have the skills required (optional)'
+    expect(page).to have_text 'What type of English qualification do you have?'
+    expect(page).to have_text 'I don’t have a English qualification yet'
+    expect(page).to have_text 'Are you currently studying for this qualification'
+    expect(page).to have_text 'This is in progress'
+    expect(page).to have_no_text 'Other evidence I have the skills required (optional)'
   end
 end

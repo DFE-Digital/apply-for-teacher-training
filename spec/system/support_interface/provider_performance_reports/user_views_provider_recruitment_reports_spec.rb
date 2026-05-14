@@ -142,10 +142,10 @@ private
   def then_i_see_the_report_data
     year = current_year
     cycle_name = "#{year - 1} to #{year}"
-    expect(page).to have_content('Recruitment performance report')
+    expect(page).to have_text('Recruitment performance report')
     description = "This report shows your organisation's cumulative recruitment data from the start of the #{cycle_name} cycle to the date displayed above. It compares your data to the same point in the previous cycle and to your chosen comparison region or England."
-    expect(page).to have_content(description)
-    expect(page).to have_content('Sex, disability, ethnicity and age of candidates')
+    expect(page).to have_text(description)
+    expect(page).to have_text('Sex, disability, ethnicity and age of candidates')
     expect(page).to have_css('.govuk-heading-m', text: 'Age group')
     expect(page).to have_css('.govuk-heading-m', text: 'Disability')
     expect(page).to have_css('.govuk-heading-m', text: 'Disability declaration')
@@ -168,11 +168,11 @@ private
   end
 
   def then_i_see_a_prompt_to_sign_in
-    expect(page).to have_content 'You must sign in to use the support console'
+    expect(page).to have_text 'You must sign in to use the support console'
   end
 
   def then_i_see_no_data_text_and_available_in_future_date
-    expect(page).to have_content 'The reports for the 2025 to 2026 recruitment cycle are not available until 12 January 2026.'
+    expect(page).to have_text 'The reports for the 2025 to 2026 recruitment cycle are not available until 12 January 2026.'
   end
 
   def then_i_see_not_available_text
@@ -249,7 +249,7 @@ private
       id: 'sex_disability_and_ethnicity_tables',
     )
 
-    expect(page).to have_content(report_region)
+    expect(page).to have_text(report_region)
   end
 
   def when_i_go_to_set_my_comparison_area

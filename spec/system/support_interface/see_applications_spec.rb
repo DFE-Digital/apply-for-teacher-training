@@ -39,9 +39,9 @@ RSpec.describe 'See applications' do
   end
 
   def then_i_see_the_latest_applications
-    expect(page).to have_content @completed_application.full_name
-    expect(page).to have_content @application_with_reference.full_name
-    expect(page).to have_content @unsubmitted_application.full_name
+    expect(page).to have_text @completed_application.full_name
+    expect(page).to have_text @application_with_reference.full_name
+    expect(page).to have_text @unsubmitted_application.full_name
   end
 
   def when_i_search_by_application_choice_id
@@ -50,9 +50,9 @@ RSpec.describe 'See applications' do
   end
 
   def then_i_see_only_the_associated_application
-    expect(page).to have_content @application_with_reference.full_name
-    expect(page).to have_no_content @unsubmitted_application.full_name
-    expect(page).to have_no_content @completed_application.full_name
+    expect(page).to have_text @application_with_reference.full_name
+    expect(page).to have_no_text @unsubmitted_application.full_name
+    expect(page).to have_no_text @completed_application.full_name
   end
 
   def and_i_clear_filters
@@ -65,9 +65,9 @@ RSpec.describe 'See applications' do
   end
 
   def then_i_see_only_that_application
-    expect(page).to have_content @completed_application.candidate.email_address
-    expect(page).to have_no_content @application_with_reference.candidate.email_address
-    expect(page).to have_no_content @unsubmitted_application.candidate.email_address
+    expect(page).to have_text @completed_application.candidate.email_address
+    expect(page).to have_no_text @application_with_reference.candidate.email_address
+    expect(page).to have_no_text @unsubmitted_application.candidate.email_address
   end
 
   def when_my_search_returns_nothing
@@ -76,7 +76,7 @@ RSpec.describe 'See applications' do
   end
 
   def then_i_see_a_message_saying_there_are_no_applications
-    expect(page).to have_content 'No applications found'
+    expect(page).to have_text 'No applications found'
   end
 
   def when_i_follow_the_link_to_applications
@@ -84,8 +84,8 @@ RSpec.describe 'See applications' do
   end
 
   def then_i_see_the_application_references
-    expect(page).to have_content @completed_application.support_reference
-    expect(page).to have_content @application_with_reference.support_reference
-    expect(page).to have_content @unsubmitted_application.support_reference
+    expect(page).to have_text @completed_application.support_reference
+    expect(page).to have_text @application_with_reference.support_reference
+    expect(page).to have_text @unsubmitted_application.support_reference
   end
 end

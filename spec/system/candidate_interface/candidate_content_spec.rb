@@ -37,7 +37,7 @@ RSpec.describe 'Candidate content' do
   end
 
   def then_i_can_see_the_ai_guidance
-    expect(page).to have_content(t('page_titles.guidance_for_using_ai'))
+    expect(page).to have_text(t('page_titles.guidance_for_using_ai'))
   end
 
   def given_i_am_on_the_start_page
@@ -49,11 +49,11 @@ RSpec.describe 'Candidate content' do
   end
 
   def then_i_can_see_the_accessibility_statement
-    expect(page).to have_content(t('page_titles.accessibility'))
+    expect(page).to have_text(t('page_titles.accessibility'))
   end
 
   def and_i_can_see_the_cookie_banner
-    expect(page).to have_content('Cookies on Apply for teacher training')
+    expect(page).to have_text('Cookies on Apply for teacher training')
   end
 
   def when_i_click_on_the_cookies_page
@@ -61,18 +61,18 @@ RSpec.describe 'Candidate content' do
   end
 
   def and_i_can_no_longer_see_the_cookie_banner
-    expect(page).to have_no_content('We use cookies to collect information about how you use Apply for teacher training')
+    expect(page).to have_no_text('We use cookies to collect information about how you use Apply for teacher training')
   end
 
   def then_i_can_see_the_cookies_page
-    expect(page).to have_content(t('page_titles.cookies_candidate'))
-    expect(page).to have_content('When you close your browser')
+    expect(page).to have_text(t('page_titles.cookies_candidate'))
+    expect(page).to have_text('When you close your browser')
   end
 
   def and_i_can_opt_in_to_tracking_website_usage
     choose 'Yes'
     click_link_or_button 'Save cookie settings'
-    expect(page).to have_content('Your cookie preferences have been updated')
+    expect(page).to have_text('Your cookie preferences have been updated')
   end
 
   def when_i_click_on_complaints
@@ -96,6 +96,6 @@ RSpec.describe 'Candidate content' do
   end
 
   def then_i_can_see_the_terms_candidate
-    expect(page).to have_content(t('page_titles.terms_candidate'))
+    expect(page).to have_text(t('page_titles.terms_candidate'))
   end
 end

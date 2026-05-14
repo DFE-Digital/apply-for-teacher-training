@@ -42,7 +42,7 @@ RSpec.describe 'Support user can access the RefereeInterface' do
   end
 
   def then_i_see_the_confidentiality_page
-    expect(page).to have_content "Can your reference be shared with #{@application.full_name}?"
+    expect(page).to have_text "Can your reference be shared with #{@application.full_name}?"
   end
 
   def when_i_select_not_to_share_and_continue
@@ -51,7 +51,7 @@ RSpec.describe 'Support user can access the RefereeInterface' do
   end
 
   def then_i_see_the_reference_relationship_page
-    expect(page).to have_content t('page_titles.referee.relationship', full_name: @application.full_name)
+    expect(page).to have_text t('page_titles.referee.relationship', full_name: @application.full_name)
   end
 
   def and_click_the_refuse_feedback_link

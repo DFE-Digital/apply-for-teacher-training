@@ -97,10 +97,10 @@ private
 
   def then_i_see_the_report_for_the_current_cycle_year
     cycle_name = "#{current_year - 1} to #{current_year}"
-    expect(page).to have_content("Recruitment performance report #{current_year} cycle")
+    expect(page).to have_text("Recruitment performance report #{current_year} cycle")
     description = "This report shows your organisation's cumulative recruitment data from the start of the #{cycle_name} cycle to the date displayed above. It compares your data to the same point in the previous cycle and to your chosen comparison region or England."
-    expect(page).to have_content(description)
-    expect(page).to have_content('Sex, disability, ethnicity and age of candidates')
+    expect(page).to have_text(description)
+    expect(page).to have_text('Sex, disability, ethnicity and age of candidates')
     expect(page).to have_css('.govuk-heading-m', text: 'Age group')
     expect(page).to have_css('.govuk-heading-m', text: 'Disability')
     expect(page).to have_css('.govuk-heading-m', text: 'Disability declaration')
@@ -110,11 +110,11 @@ private
 
   def then_i_see_the_report_from_previous_cycle
     cycle_name = "#{previous_year - 1} to #{previous_year}"
-    expect(page).to have_content("Recruitment performance report #{previous_year} cycle")
+    expect(page).to have_text("Recruitment performance report #{previous_year} cycle")
     description = "This report shows your organisation's recruitment data for the #{cycle_name} cycle. It compares your data in the previous cycle to data two cycles ago, and to your chosen comparison region or England."
 
-    expect(page).to have_content(description)
-    expect(page).to have_content('Sex, disability, ethnicity and age of candidates')
+    expect(page).to have_text(description)
+    expect(page).to have_text('Sex, disability, ethnicity and age of candidates')
     expect(page).to have_css('.govuk-heading-m', text: 'Age group')
     expect(page).to have_css('.govuk-heading-m', text: 'Disability')
     expect(page).to have_css('.govuk-heading-m', text: 'Disability declaration')
@@ -183,13 +183,13 @@ private
       id: 'sex_disability_and_ethnicity_tables',
     )
 
-    expect(page).to have_content(report_region)
+    expect(page).to have_text(report_region)
   end
   alias_method :when_i_can_navigate_to_report_sections, :and_i_can_navigate_to_report_sections
 
   def then_i_see_no_report_message
-    expect(page).to have_content('Recruitment performance report')
-    expect(page).to have_content('This report is not ready to view.')
+    expect(page).to have_text('Recruitment performance report')
+    expect(page).to have_text('This report is not ready to view.')
   end
 
   def and_i_am_signed_in_as_provider_user
@@ -221,6 +221,6 @@ private
   end
 
   def and_i_do_not_see_the_set_comparison_area_button
-    expect(page).to have_no_content 'Set your comparison area'
+    expect(page).to have_no_text 'Set your comparison area'
   end
 end

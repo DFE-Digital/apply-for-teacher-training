@@ -36,10 +36,10 @@ RSpec.describe 'Change qualification' do
     click_link_or_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
-    expect(page).to have_content 'TOEFL'
-    expect(page).to have_content '0000 0000'
-    expect(page).to have_content '10'
-    expect(page).to have_content '2007'
-    expect(page).to have_content 'I have completed this section'
+    expect(page).to have_text 'TOEFL'
+    expect(page).to have_text '0000 0000'
+    expect(page).to have_text '10'
+    expect(page).to have_text '2007'
+    expect(page).to have_text 'I have completed this section'
   end
 end

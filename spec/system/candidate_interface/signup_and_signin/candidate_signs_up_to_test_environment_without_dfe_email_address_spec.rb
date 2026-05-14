@@ -43,7 +43,7 @@ RSpec.describe 'Candidate cannot sign up to a test environment (e.g. qa) without
 
   def then_i_see_an_access_forbidden_page
     expect(page).to have_current_path(candidate_interface_external_sign_up_forbidden_path)
-    expect(page).to have_content('Only DfE users can sign in to this website')
+    expect(page).to have_text('Only DfE users can sign in to this website')
   end
 
   def and_i_submit_my_email_address
@@ -53,6 +53,6 @@ RSpec.describe 'Candidate cannot sign up to a test environment (e.g. qa) without
 
   def then_i_receive_an_email_inviting_me_to_sign_up
     open_email(@email)
-    expect(current_email.subject).to have_content t('authentication.sign_up.email.subject')
+    expect(current_email.subject).to have_text t('authentication.sign_up.email.subject')
   end
 end

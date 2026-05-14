@@ -851,8 +851,8 @@ module CandidateHelper
     expect(page).to have_current_path(candidate_interface_details_path)
     click_link_or_button 'Your applications'
     expect(page).to have_current_path(candidate_interface_application_choices_path)
-    expect(page).to have_content('You can have up to 4 applications in progress at any time.')
-    expect(page).to have_content(
+    expect(page).to have_text('You can have up to 4 applications in progress at any time.')
+    expect(page).to have_text(
       'If an application becomes inactive, is withdrawn or rejected you can add another, up to a maximum of 15 in a single recruitment cycle.',
     )
     click_link_or_button 'Add application'
@@ -921,8 +921,8 @@ module CandidateHelper
   end
 
   def then_i_see_that_the_course_is_unavailable
-    expect(page).to have_content('You cannot submit this application because the course is no longer available.')
-    expect(page).to have_content('Remove this application and search for other courses.')
+    expect(page).to have_text('You cannot submit this application because the course is no longer available.')
+    expect(page).to have_text('Remove this application and search for other courses.')
   end
 
   def and_i_click_continue

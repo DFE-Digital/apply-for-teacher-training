@@ -219,22 +219,22 @@ RSpec.describe 'Provider changes a course on pending conditions' do
 
   def then_i_review_the_selections(provider:, course:, study_mode:, site_postcode:)
     within('.govuk-summary-list__row:nth-of-type(1)') do
-      expect(page).to have_content('Training provider')
-      expect(page).to have_content(provider)
+      expect(page).to have_text('Training provider')
+      expect(page).to have_text(provider)
     end
 
     within('.govuk-summary-list__row:nth-of-type(2)') do
-      expect(page).to have_content('Course')
-      expect(page).to have_content(course)
+      expect(page).to have_text('Course')
+      expect(page).to have_text(course)
     end
 
     within('.govuk-summary-list__row:nth-of-type(3)') do
-      expect(page).to have_content('Full time or part time')
-      expect(page).to have_content(study_mode)
+      expect(page).to have_text('Full time or part time')
+      expect(page).to have_text(study_mode)
     end
 
     within('.govuk-summary-list__row:nth-of-type(4)') do
-      expect(page).to have_content(site_postcode)
+      expect(page).to have_text(site_postcode)
     end
   end
 

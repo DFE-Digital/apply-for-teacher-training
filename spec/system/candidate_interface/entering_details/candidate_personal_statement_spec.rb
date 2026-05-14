@@ -46,7 +46,7 @@ RSpec.describe 'Entering "Personal statement"' do
   end
 
   def then_i_see_a_validation_error
-    expect(page).to have_content 'Your answer must be 1000 words or less'
+    expect(page).to have_text 'Your answer must be 1000 words or less'
   end
 
   def and_a_validation_error_is_logged_for_becoming_a_teacher
@@ -71,12 +71,12 @@ RSpec.describe 'Entering "Personal statement"' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'Check your personal statement'
-    expect(page).to have_content 'Hello world'
+    expect(page).to have_text 'Check your personal statement'
+    expect(page).to have_text 'Hello world'
   end
 
   def then_i_see_a_review_page
-    expect(page).to have_content 'Personal statement'
+    expect(page).to have_text 'Personal statement'
   end
 
   def and_i_click_on_continue
@@ -93,8 +93,8 @@ RSpec.describe 'Entering "Personal statement"' do
   end
 
   def and_i_see_that_my_personal_statement_is_over_the_word_limit
-    expect(page).to have_content 'There is a problem'
-    expect(page).to have_content 'Your answer must be 1000 words or less. You have 1 word too many.'
+    expect(page).to have_text 'There is a problem'
+    expect(page).to have_text 'Your answer must be 1000 words or less. You have 1 word too many.'
   end
 
   def when_i_click_to_edit_my_answer
@@ -102,12 +102,12 @@ RSpec.describe 'Entering "Personal statement"' do
   end
 
   def then_i_can_check_my_revised_answers
-    expect(page).to have_content 'Check your personal statement'
-    expect(page).to have_content 'Hello world again'
+    expect(page).to have_text 'Check your personal statement'
+    expect(page).to have_text 'Hello world again'
   end
 
   def then_i_am_told_to_select_whether_i_have_completed_the_section
-    expect(page).to have_content 'Select whether you have completed this section'
+    expect(page).to have_text 'Select whether you have completed this section'
   end
 
   def when_i_mark_the_section_as_completed
@@ -115,7 +115,7 @@ RSpec.describe 'Entering "Personal statement"' do
   end
 
   def then_i_see_the_form
-    expect(page).to have_content('Your personal statement')
+    expect(page).to have_text('Your personal statement')
   end
 
   def and_that_the_section_is_completed
@@ -123,6 +123,6 @@ RSpec.describe 'Entering "Personal statement"' do
   end
 
   def then_i_am_told_to_write_my_personal_statement
-    expect(page).to have_content('Enter your personal statement')
+    expect(page).to have_text('Enter your personal statement')
   end
 end

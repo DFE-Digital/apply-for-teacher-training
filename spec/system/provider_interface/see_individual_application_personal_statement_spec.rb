@@ -31,13 +31,13 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   end
 
   def and_i_will_not_see_the_safeguarding_declaration_details
-    expect(page).to have_content('Safeguarding')
-    expect(page).to have_no_content('View information disclosed by the candidate')
+    expect(page).to have_text('Safeguarding')
+    expect(page).to have_no_text('View information disclosed by the candidate')
   end
 
   def then_i_will_see_the_safeguarding_declaration_section
-    expect(page).to have_content('Safeguarding')
-    expect(page).to have_content(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare'))
+    expect(page).to have_text('Safeguarding')
+    expect(page).to have_text(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare'))
   end
 
   def when_i_am_permitted_to_see_safeguarding_information
@@ -179,80 +179,80 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
   def and_i_will_see_the_candidates_work_history_and_unpaid_experience
     within '[data-qa="work-history-and-unpaid-experience"]' do
       within 'section:eq(1)' do
-        expect(page).to have_content 'Defence co-ordinator'
-        expect(page).to have_content 'Rebel Alliance'
-        expect(page).to have_content 'survive clone attacks'
-        expect(page).to have_content 'Worked with children'
-        expect(page).to have_content 'May 2020 - Present'
+        expect(page).to have_text 'Defence co-ordinator'
+        expect(page).to have_text 'Rebel Alliance'
+        expect(page).to have_text 'survive clone attacks'
+        expect(page).to have_text 'Worked with children'
+        expect(page).to have_text 'May 2020 - Present'
 
         # Volunteering is not editable
-        expect(page).to have_no_content 'Change'
-        expect(page).to have_no_content 'Delete'
+        expect(page).to have_no_text 'Change'
+        expect(page).to have_no_text 'Delete'
       end
       within 'section:eq(2)' do
-        expect(page).to have_content 'Unexplained break (3 years and 1 month)'
-        expect(page).to have_content 'September 2019 - October 2022'
+        expect(page).to have_text 'Unexplained break (3 years and 1 month)'
+        expect(page).to have_text 'September 2019 - October 2022'
       end
 
       within 'section:eq(3)' do
-        expect(page).to have_content 'Bounty Hunter - Full time'
-        expect(page).to have_content 'March 2019 - September 2019'
+        expect(page).to have_text 'Bounty Hunter - Full time'
+        expect(page).to have_text 'March 2019 - September 2019'
       end
 
       within 'section:eq(4)' do
-        expect(page).to have_content 'Break (6 months)'
-        expect(page).to have_content 'September 2018 - March 2019'
+        expect(page).to have_text 'Break (6 months)'
+        expect(page).to have_text 'September 2018 - March 2019'
       end
 
       within 'section:eq(5)' do
-        expect(page).to have_content 'Smuggler - Part time'
-        expect(page).to have_content 'March 2018 - September 2018'
-        expect(page).to have_content 'The Empire'
-        expect(page).to have_no_content 'Worked with children'
+        expect(page).to have_text 'Smuggler - Part time'
+        expect(page).to have_text 'March 2018 - September 2018'
+        expect(page).to have_text 'The Empire'
+        expect(page).to have_no_text 'Worked with children'
       end
 
       within 'section:eq(6)' do
-        expect(page).to have_content 'Unexplained break (6 months)'
-        expect(page).to have_content 'September 2017 - March 2018'
+        expect(page).to have_text 'Unexplained break (6 months)'
+        expect(page).to have_text 'September 2017 - March 2018'
       end
     end
   end
 
   def and_i_will_see_the_candidates_personal_statement
-    expect(page).to have_content 'Personal statement'
-    expect(page).to have_content 'This is my personal statement'
-    expect(page).to have_content 'Nothing further to add'
+    expect(page).to have_text 'Personal statement'
+    expect(page).to have_text 'This is my personal statement'
+    expect(page).to have_text 'Nothing further to add'
   end
 
   def and_i_will_see_the_candidates_language_skills
     within '[data-qa="language-skills"]' do
-      expect(page).to have_content 'Yes'
-      expect(page).to have_content 'I also speak Spanish and German'
+      expect(page).to have_text 'Yes'
+      expect(page).to have_text 'I also speak Spanish and German'
     end
   end
 
   def and_i_will_see_the_candidates_references
     click_link_or_button 'References'
 
-    expect(page).to have_content 'R2D2'
-    expect(page).to have_content 'r2d2@rebellion.org'
-    expect(page).to have_content 'Astromech droid'
-    expect(page).to have_content 'beep boop beep'
+    expect(page).to have_text 'R2D2'
+    expect(page).to have_text 'r2d2@rebellion.org'
+    expect(page).to have_text 'Astromech droid'
+    expect(page).to have_text 'beep boop beep'
 
-    expect(page).to have_content 'C3PO'
-    expect(page).to have_content 'c3p0@rebellion.org'
-    expect(page).to have_content 'Companion droid'
-    expect(page).to have_content 'The possibility of successfully'
+    expect(page).to have_text 'C3PO'
+    expect(page).to have_text 'c3p0@rebellion.org'
+    expect(page).to have_text 'Companion droid'
+    expect(page).to have_text 'The possibility of successfully'
 
-    expect(page).to have_no_content 'BB-8'
+    expect(page).to have_no_text 'BB-8'
   end
 
   def and_i_will_see_the_disability_disclosure
-    expect(page).to have_content 'I am hard of hearing'
+    expect(page).to have_text 'I am hard of hearing'
   end
 
   def and_i_will_see_diversity_information_section
-    expect(page).to have_content 'Sex, disability and ethnicity'
+    expect(page).to have_text 'Sex, disability and ethnicity'
   end
 
   def and_i_will_see_a_link_to_download_as_pdf

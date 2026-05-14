@@ -20,7 +20,7 @@ RSpec.describe 'Candidate tries to sign up' do
   end
 
   def then_i_see_a_validation_error
-    expect(page).to have_content 'Error: Enter your email address'
+    expect(page).to have_text 'Error: Enter your email address'
   end
 
   def and_the_validation_error_is_logged

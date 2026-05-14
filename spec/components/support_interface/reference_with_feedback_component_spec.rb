@@ -90,7 +90,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent, type: :componen
     }
 
     it 'does not include the Type row' do
-      expect(rendered_content).to have_no_content('Type')
+      expect(rendered_content).to have_no_text('Type')
     end
   end
 

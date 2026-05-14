@@ -94,31 +94,31 @@ RSpec.describe 'Candidate entering GCSE details' do
   def when_i_do_not_select_any_gcse_option; end
 
   def then_i_see_the_add_gcse_maths_page
-    expect(page).to have_content 'What type of qualification in maths do you have?'
+    expect(page).to have_text 'What type of qualification in maths do you have?'
   end
 
   def then_i_see_the_review_page_with_correct_details
-    expect(page).to have_content 'Maths GCSE or equivalent'
+    expect(page).to have_text 'Maths GCSE or equivalent'
 
-    expect(page).to have_content 'GCSE'
-    expect(page).to have_content 'A'
-    expect(page).to have_content '1990'
+    expect(page).to have_text 'GCSE'
+    expect(page).to have_text 'A'
+    expect(page).to have_text '1990'
   end
 
   def then_i_see_the_review_page_with_updated_year
-    expect(page).to have_content '2000'
+    expect(page).to have_text '2000'
   end
 
   def then_i_see_add_grade_page
-    expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'maths', qualification_type: 'GCSE')
+    expect(page).to have_text t('gcse_edit_grade.page_title', subject: 'maths', qualification_type: 'GCSE')
   end
 
   def then_i_see_add_year_page
-    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'maths', qualification_type: 'GCSE')
+    expect(page).to have_text t('gcse_edit_year.page_title', subject: 'maths', qualification_type: 'GCSE')
   end
 
   def then_i_see_add_year_page_for_english
-    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'english', qualification_type: 'GCSE')
+    expect(page).to have_text t('gcse_edit_year.page_title', subject: 'english', qualification_type: 'GCSE')
   end
 
   def and_i_fill_in_the_grade
@@ -143,7 +143,7 @@ RSpec.describe 'Candidate entering GCSE details' do
   alias_method :and_i_fill_in_the_year_for_maths_gcse_for_english_gcse, :when_i_fill_in_the_year_for_maths_gcse
 
   def then_i_see_the_qualification_type_error
-    expect(page).to have_content 'Select the type of qualification'
+    expect(page).to have_text 'Select the type of qualification'
   end
 
   def then_i_see_the_gcse_option_selected
@@ -151,7 +151,7 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def then_i_see_the_grade_page
-    expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'maths', qualification_type: 'Scottish National 5')
+    expect(page).to have_text t('gcse_edit_grade.page_title', subject: 'maths', qualification_type: 'Scottish National 5')
   end
 
   def and_i_see_the_gcse_grade_entered
@@ -163,7 +163,7 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def then_i_see_a_section_complete_error
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
   def when_i_select_a_different_qualification_type
@@ -200,11 +200,11 @@ RSpec.describe 'Candidate entering GCSE details' do
   end
 
   def then_i_see_add_english_grade_page
-    expect(page).to have_content t('multiple_gcse_edit_grade.page_title')
+    expect(page).to have_text t('multiple_gcse_edit_grade.page_title')
   end
 
   def then_i_see_the_add_gcse_english_page
-    expect(page).to have_content 'What type of qualification in English do you have?'
+    expect(page).to have_text 'What type of qualification in English do you have?'
   end
 
   def when_i_choose_to_return_later

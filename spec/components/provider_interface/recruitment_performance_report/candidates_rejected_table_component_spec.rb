@@ -9,22 +9,22 @@ RSpec.describe RecruitmentPerformanceReport::CandidatesRejectedTableComponent do
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
     expect(page).to have_table('6. Candidates rejected')
-    expect(page).to have_content(description(provider.name))
+    expect(page).to have_text(description(provider.name))
 
-    expect(page).to have_content provider.name
-    expect(page).to have_content 'All providers'
-    expect(page).to have_content 'Subject'
+    expect(page).to have_text provider.name
+    expect(page).to have_text 'All providers'
+    expect(page).to have_text 'Subject'
     ['This cycle', 'Last cycle', 'Percentage change'].each do |heading|
       expect(page).to have_element('th', scope: 'col', class: 'govuk-table__header', text: heading).twice
     end
 
     primary_row = page.find('tr.govuk-table__row', text: 'Primary')
-    expect(primary_row).to have_content '2'
-    expect(primary_row).to have_content '40'
-    expect(primary_row).to have_content '-95%'
-    expect(primary_row).to have_content '2,446'
-    expect(primary_row).to have_content '2,951'
-    expect(primary_row).to have_content '-17%'
+    expect(primary_row).to have_text '2'
+    expect(primary_row).to have_text '40'
+    expect(primary_row).to have_text '-95%'
+    expect(primary_row).to have_text '2,446'
+    expect(primary_row).to have_text '2,951'
+    expect(primary_row).to have_text '-17%'
 
     %w[Primary Secondary].each do |heading|
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: heading)
@@ -54,11 +54,11 @@ RSpec.describe RecruitmentPerformanceReport::CandidatesRejectedTableComponent do
     )
 
     expect(page).to have_table('6. Candidates rejected')
-    expect(page).to have_content(previous_cycle_description(provider.name, previous_cycle_year))
+    expect(page).to have_text(previous_cycle_description(provider.name, previous_cycle_year))
 
-    expect(page).to have_content provider.name
-    expect(page).to have_content 'All providers'
-    expect(page).to have_content 'Subject'
+    expect(page).to have_text provider.name
+    expect(page).to have_text 'All providers'
+    expect(page).to have_text 'Subject'
 
     [
       "#{previous_cycle_year} cycle",
@@ -69,12 +69,12 @@ RSpec.describe RecruitmentPerformanceReport::CandidatesRejectedTableComponent do
     end
 
     primary_row = page.find('tr.govuk-table__row', text: 'Primary')
-    expect(primary_row).to have_content '2'
-    expect(primary_row).to have_content '40'
-    expect(primary_row).to have_content '-95%'
-    expect(primary_row).to have_content '2,446'
-    expect(primary_row).to have_content '2,951'
-    expect(primary_row).to have_content '-17%'
+    expect(primary_row).to have_text '2'
+    expect(primary_row).to have_text '40'
+    expect(primary_row).to have_text '-95%'
+    expect(primary_row).to have_text '2,446'
+    expect(primary_row).to have_text '2,951'
+    expect(primary_row).to have_text '-17%'
 
     %w[Primary Secondary].each do |heading|
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: heading)

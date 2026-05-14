@@ -60,8 +60,8 @@ RSpec.describe 'Add comments to the application history', :with_audited, mid_cyc
 
   def then_i_see_my_comment_in_application_history
     within('tbody tr:eq(1)') do
-      expect(page).to have_content 'Comment on Application Form'
-      expect(page).to have_content 'I did a thing to this application'
+      expect(page).to have_text 'Comment on Application Form'
+      expect(page).to have_text 'I did a thing to this application'
     end
   end
 end

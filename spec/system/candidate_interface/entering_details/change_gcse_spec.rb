@@ -47,7 +47,7 @@ RSpec.describe 'Change GCSE' do
   end
 
   def then_i_see_a_validation_error_for_my_qualification_type
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/gcse_qualification_type_form.attributes.other_uk_qualification_type.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/gcse_qualification_type_form.attributes.other_uk_qualification_type.blank')
   end
 
   def when_i_fill_in_the_other_uk_qualification
@@ -63,9 +63,9 @@ RSpec.describe 'Change GCSE' do
   end
 
   def then_i_see_the_review_page_with_correct_details
-    expect(page).to have_content 'English GCSE or equivalent'
-    expect(page).to have_content 'GCSE'
-    expect(page).to have_content '94%'
-    expect(page).to have_content '2013'
+    expect(page).to have_text 'English GCSE or equivalent'
+    expect(page).to have_text 'GCSE'
+    expect(page).to have_text '94%'
+    expect(page).to have_text '2013'
   end
 end

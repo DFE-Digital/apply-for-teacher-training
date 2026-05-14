@@ -29,8 +29,8 @@ RSpec.describe ProviderInterface::FindCandidates::ApplicationChoicesComponent, t
       first_card = page.find('div.govuk-summary-card', text: 'Application 1').text
       second_card = page.find('div.govuk-summary-card', text: 'Application 2').text
 
-      expect(first_card).to have_content second_submission_date.to_fs(:govuk_date)
-      expect(second_card).to have_content first_submission_date.to_fs(:govuk_date)
+      expect(first_card).to have_text second_submission_date.to_fs(:govuk_date)
+      expect(second_card).to have_text first_submission_date.to_fs(:govuk_date)
     end
   end
 

@@ -82,8 +82,8 @@ RSpec.describe 'Provider makes an offer' do
   end
 
   def then_i_see_the_decision_page
-    expect(page).to have_content('Make a decision')
-    expect(page).to have_content('Course applied for')
+    expect(page).to have_text('Make a decision')
+    expect(page).to have_text('Course applied for')
   end
 
   def when_i_choose_to_change_and_make_an_offer
@@ -92,7 +92,7 @@ RSpec.describe 'Provider makes an offer' do
   end
 
   def then_the_conditions_page_is_loaded
-    expect(page).to have_content('Conditions of offer')
+    expect(page).to have_text('Conditions of offer')
   end
 
   def and_the_default_conditions_are_checked
@@ -109,17 +109,17 @@ RSpec.describe 'Provider makes an offer' do
   end
 
   def then_the_review_page_is_loaded
-    expect(page).to have_content('Check and send offer')
+    expect(page).to have_text('Check and send offer')
   end
 
   def and_i_can_confirm_my_answers
     within('.app-offer-panel') do
-      expect(page).to have_content('A* on Maths A Level')
+      expect(page).to have_text('A* on Maths A Level')
     end
   end
 
   def then_i_am_taken_to_the_change_location_page
-    expect(page).to have_content('Select location')
+    expect(page).to have_text('Select location')
   end
 
   def when_i_select_a_new_location
@@ -127,7 +127,7 @@ RSpec.describe 'Provider makes an offer' do
   end
 
   def then_i_am_taken_to_the_change_study_mode_page
-    expect(page).to have_content('Select study mode')
+    expect(page).to have_text('Select study mode')
   end
 
   def when_i_select_a_study_mode
@@ -144,7 +144,7 @@ RSpec.describe 'Provider makes an offer' do
   end
 
   def then_i_am_taken_to_the_change_course_page
-    expect(page).to have_content('Select course')
+    expect(page).to have_text('Select course')
   end
 
   def given_the_provider_user_can_offer_multiple_provider_courses
@@ -177,7 +177,7 @@ RSpec.describe 'Provider makes an offer' do
   end
 
   def then_i_am_taken_to_the_change_provider_page
-    expect(page).to have_content('Training provider')
+    expect(page).to have_text('Training provider')
   end
 
   def when_i_select_a_different_provider
@@ -185,10 +185,10 @@ RSpec.describe 'Provider makes an offer' do
   end
 
   def and_i_can_confirm_the_changed_offer_details
-    expect(page).to have_content(@selected_provider.name_and_code)
-    expect(page).to have_content(@selected_course.name_and_code)
-    expect(page).to have_content(@selected_course_option.study_mode.humanize)
-    expect(page).to have_content(@selected_course_option.site.name_and_address(' '))
+    expect(page).to have_text(@selected_provider.name_and_code)
+    expect(page).to have_text(@selected_course.name_and_code)
+    expect(page).to have_text(@selected_course_option.study_mode.humanize)
+    expect(page).to have_text(@selected_course_option.site.name_and_address(' '))
   end
 
   def when_i_send_the_offer
@@ -197,7 +197,7 @@ RSpec.describe 'Provider makes an offer' do
 
   def then_i_see_that_the_offer_was_successfuly_made
     within('.govuk-notification-banner--success') do
-      expect(page).to have_content('Offer sent')
+      expect(page).to have_text('Offer sent')
     end
   end
 

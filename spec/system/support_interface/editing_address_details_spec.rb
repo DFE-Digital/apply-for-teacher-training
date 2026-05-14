@@ -61,7 +61,7 @@ RSpec.describe 'Editing address' do
   end
 
   def then_i_see_the_address_type_page
-    expect(page).to have_content('Where does the candidate live?')
+    expect(page).to have_text('Where does the candidate live?')
   end
 
   def when_i_select_uk
@@ -70,8 +70,8 @@ RSpec.describe 'Editing address' do
   end
 
   def then_i_see_the_uk_address_details_form
-    expect(page).to have_content('What is the candidate’s address?')
-    expect(page).to have_content('Town or city')
+    expect(page).to have_text('What is the candidate’s address?')
+    expect(page).to have_text('Town or city')
   end
 
   def when_i_submit_the_update_form
@@ -80,7 +80,7 @@ RSpec.describe 'Editing address' do
   alias_method :and_i_submit_the_update_form, :when_i_submit_the_update_form
 
   def then_i_see_blank_audit_comment_error_message
-    expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_address_details_form.attributes.audit_comment.blank')
+    expect(page).to have_text t('activemodel.errors.models.support_interface/application_forms/edit_address_details_form.attributes.audit_comment.blank')
   end
 
   def when_i_complete_the_details_form
@@ -91,18 +91,18 @@ RSpec.describe 'Editing address' do
   end
 
   def then_i_see_a_flash_message
-    expect(page).to have_content 'Address details updated'
+    expect(page).to have_text 'Address details updated'
   end
 
   def and_i_see_the_new_details
-    expect(page).to have_content '42 Much Wow Street'
-    expect(page).to have_content 'London'
-    expect(page).to have_content 'SW1P 3BT'
+    expect(page).to have_text '42 Much Wow Street'
+    expect(page).to have_text 'London'
+    expect(page).to have_text 'SW1P 3BT'
   end
 
   def and_i_see_my_details_comment_in_the_audit_log
     click_link_or_button 'History'
-    expect(page).to have_content 'Updated as part of Zendesk ticket #12345'
+    expect(page).to have_text 'Updated as part of Zendesk ticket #12345'
   end
 
   def and_i_select_outside_the_uk
@@ -112,12 +112,12 @@ RSpec.describe 'Editing address' do
   end
 
   def then_i_see_the_international_address_details_form
-    expect(page).to have_content('What is the candidate’s address?')
-    expect(page).to have_content('Address line 1')
+    expect(page).to have_text('What is the candidate’s address?')
+    expect(page).to have_text('Address line 1')
   end
 
   def then_i_see_blank_error_messages
-    expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_address_details_form.attributes.audit_comment.blank')
+    expect(page).to have_text t('activemodel.errors.models.support_interface/application_forms/edit_address_details_form.attributes.audit_comment.blank')
   end
 
   def when_i_fill_in_an_international_address
@@ -128,14 +128,14 @@ RSpec.describe 'Editing address' do
   end
 
   def and_i_see_the_new_international_address_details
-    expect(page).to have_content '123 Chandni Chowk'
-    expect(page).to have_content 'New Delhi'
-    expect(page).to have_content '110006'
-    expect(page).to have_content 'India'
+    expect(page).to have_text '123 Chandni Chowk'
+    expect(page).to have_text 'New Delhi'
+    expect(page).to have_text '110006'
+    expect(page).to have_text 'India'
   end
 
   def and_i_see_my_international_address_details_comment_in_the_audit_log
     click_link_or_button 'History'
-    expect(page).to have_content 'Updated as part of Zendesk ticket #56789'
+    expect(page).to have_text 'Updated as part of Zendesk ticket #56789'
   end
 end

@@ -46,7 +46,7 @@ RSpec.describe CandidateMailer do
     subject(:email) { described_class.eoc_first_deadline_reminder(application_form_with_adviser_eligibility) }
 
     it 'refers to existing adviser' do
-      expect(email.body).to have_content 'You can also contact your teacher training adviser for support with writing your application.'
+      expect(email.body).to have_text 'You can also contact your teacher training adviser for support with writing your application.'
     end
   end
 end

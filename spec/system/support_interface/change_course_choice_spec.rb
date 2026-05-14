@@ -64,7 +64,7 @@ RSpec.describe 'Change course choice' do
         application_choice_id: @application_choice.id,
       ),
     )
-    expect(page).to have_content('Change a course choice')
+    expect(page).to have_text('Change a course choice')
   end
 
   def when_i_click_continue
@@ -78,12 +78,12 @@ RSpec.describe 'Change course choice' do
         application_choice_id: @application_choice.id,
       ),
     )
-    expect(page).to have_content('Enter a provider code')
-    expect(page).to have_content('Enter a course code')
-    expect(page).to have_content('Select a study mode option')
-    expect(page).to have_content('Enter a site code')
-    expect(page).to have_content('Enter a Zendesk ticket URL')
-    expect(page).to have_content('Select that you have read the guidance')
+    expect(page).to have_text('Enter a provider code')
+    expect(page).to have_text('Enter a course code')
+    expect(page).to have_text('Select a study mode option')
+    expect(page).to have_text('Enter a site code')
+    expect(page).to have_text('Enter a Zendesk ticket URL')
+    expect(page).to have_text('Select that you have read the guidance')
   end
 
   def when_i_enter_the_new_course_choice_and_press_change
@@ -109,7 +109,7 @@ RSpec.describe 'Change course choice' do
   end
 
   def then_i_see_a_warning_message
-    expect(page).to have_content(I18n.t('support_interface.errors.messages.course_full_error'))
+    expect(page).to have_text(I18n.t('support_interface.errors.messages.course_full_error'))
   end
 
   def when_i_select_the_confirm_checkbox_and_press_change
@@ -122,10 +122,10 @@ RSpec.describe 'Change course choice' do
   end
 
   def and_the_new_course_choice
-    expect(page).to have_content 'Course successfully changed'
-    expect(page).to have_content @course_option.course.name
-    expect(page).to have_content @course_option.provider.name
-    expect(page).to have_content @course_option.course.study_mode
-    expect(page).to have_content @course_option.site.name
+    expect(page).to have_text 'Course successfully changed'
+    expect(page).to have_text @course_option.course.name
+    expect(page).to have_text @course_option.provider.name
+    expect(page).to have_text @course_option.course.study_mode
+    expect(page).to have_text @course_option.site.name
   end
 end

@@ -79,10 +79,10 @@ RSpec.describe 'See application history', :with_audited do
   end
 
   def then_i_am_able_to_see_history_events
-    expect(page).to have_content 'status'
-    expect(page).to have_content 'rejected → offer'
-    expect(page).to have_content 'awaiting_provider_decision → rejected'
-    expect(page).to have_content 'awaiting_provider_decision'
-    expect(page).to have_content 'Create Application Form'
+    expect(page).to have_text 'status'
+    expect(page).to have_text 'rejected → offer'
+    expect(page).to have_text 'awaiting_provider_decision → rejected'
+    expect(page).to have_text 'awaiting_provider_decision'
+    expect(page).to have_text 'Create Application Form'
   end
 end

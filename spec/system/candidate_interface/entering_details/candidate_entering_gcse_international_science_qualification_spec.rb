@@ -42,7 +42,7 @@ RSpec.describe 'Candidate entering GCSE Science details' do
   end
 
   def then_i_see_the_add_gcse_science_page
-    expect(page).to have_content 'What type of qualification in science do you have?'
+    expect(page).to have_text 'What type of qualification in science do you have?'
   end
 
   def when_i_select_a_non_uk_qualification
@@ -92,17 +92,17 @@ RSpec.describe 'Candidate entering GCSE Science details' do
   end
 
   def then_i_see_qualification_year_page
-    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'science', qualification_type: 'qualification')
+    expect(page).to have_text t('gcse_edit_year.page_title', subject: 'science', qualification_type: 'qualification')
   end
 
   def then_i_see_the_review_page_with_new_details
-    expect(page).to have_content 'Science GCSE or equivalent'
+    expect(page).to have_text 'Science GCSE or equivalent'
 
-    expect(page).to have_content 'Diploma'
-    expect(page).to have_content 'Niger'
-    expect(page).to have_content '12345'
-    expect(page).to have_content 'GCSE (grades A*-C / 9-4)'
-    expect(page).to have_content 'A'
-    expect(page).to have_content '1990'
+    expect(page).to have_text 'Diploma'
+    expect(page).to have_text 'Niger'
+    expect(page).to have_text '12345'
+    expect(page).to have_text 'GCSE (grades A*-C / 9-4)'
+    expect(page).to have_text 'A'
+    expect(page).to have_text '1990'
   end
 end

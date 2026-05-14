@@ -55,7 +55,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def and_i_click_on_work_history
-    expect(page).to have_content 'Your details'
+    expect(page).to have_text 'Your details'
     click_link_or_button 'Work history'
   end
 
@@ -107,12 +107,12 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def then_i_see_the_carry_over_inset_text
-    expect(page).to have_content "You can apply for courses starting in the #{current_timetable.academic_year_range_name} academic year instead."
+    expect(page).to have_text "You can apply for courses starting in the #{current_timetable.academic_year_range_name} academic year instead."
   end
 
   def then_i_see_the_carry_over_content_for_mid_cycle
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_content 'Continue your application'
+    expect(page).to have_text 'Continue your application'
 
     within 'form.button_to[action="/candidate/application/carry-over"]' do
       expect(page).to have_button 'Continue'
@@ -121,7 +121,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
   def then_i_see_the_carry_over_content_for_between_cycles
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_content 'The recruitment deadline has now passed'
+    expect(page).to have_text 'The recruitment deadline has now passed'
 
     within 'form.button_to[action="/candidate/application/carry-over"]' do
       expect(page).to have_button 'Update your details'
@@ -137,7 +137,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
         ),
       )
     expect(page).to have_title("Your application to #{@provider.name}")
-    expect(page).to have_content('Unsuccessful')
+    expect(page).to have_text('Unsuccessful')
   end
 
   def and_the_next_cycle_opens

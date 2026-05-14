@@ -73,7 +73,7 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def then_i_see_the_current_conditions
-    expect(page).to have_content('Conditions Be cool')
+    expect(page).to have_text('Conditions Be cool')
   end
 
   def when_i_click_on_change_conditions
@@ -102,9 +102,9 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def then_i_see_the_new_ske_conditions
-    expect(page).to have_content('Subject knowledge enhancement course')
-    expect(page).to have_content('Length 8 weeks')
-    expect(page).to have_content('Reason Their degree subject was not German')
+    expect(page).to have_text('Subject knowledge enhancement course')
+    expect(page).to have_text('Length 8 weeks')
+    expect(page).to have_text('Reason Their degree subject was not German')
   end
 
   def and_i_change_the_length_of_the_ske_condition
@@ -129,15 +129,15 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def then_i_see_only_one_condition_has_been_removed
-    expect(page).to have_content('Subject knowledge enhancement course')
-    expect(page).to have_content('Reason Their degree subject was not German')
-    expect(page).to have_no_content('Their degree subject was not French')
+    expect(page).to have_text('Subject knowledge enhancement course')
+    expect(page).to have_text('Reason Their degree subject was not German')
+    expect(page).to have_no_text('Their degree subject was not French')
   end
 
   def then_i_see_the_updated_ske_condition
-    expect(page).to have_content('Subject knowledge enhancement course')
-    expect(page).to have_content('Length 16 weeks')
-    expect(page).to have_content('Reason Their degree subject was not German')
+    expect(page).to have_text('Subject knowledge enhancement course')
+    expect(page).to have_text('Length 16 weeks')
+    expect(page).to have_text('Reason Their degree subject was not German')
   end
 
   def and_i_delete_the_ske_condition
@@ -147,6 +147,6 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def then_i_see_that_the_ske_condition_has_been_removed
-    expect(page).to have_no_content('Subject knowledge enhancement course')
+    expect(page).to have_no_text('Subject knowledge enhancement course')
   end
 end

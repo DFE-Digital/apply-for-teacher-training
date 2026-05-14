@@ -38,14 +38,14 @@ RSpec.describe 'API tokens' do
   end
 
   def then_i_see_the_count_of_providers_with_api_tokens
-    expect(page).to have_content '22 API tokens issued'
-    expect(page).to have_content '1 API tokens used in the last 3 months'
+    expect(page).to have_text '22 API tokens issued'
+    expect(page).to have_text '1 API tokens used in the last 3 months'
 
     within '.govuk-table' do
-      expect(page).to have_content 'Provider 1'
-      expect(page).to have_content 'Provider 2'
-      expect(page).to have_content 'vendor_1'
-      expect(page).to have_content 'vendor_2'
+      expect(page).to have_text 'Provider 1'
+      expect(page).to have_text 'Provider 2'
+      expect(page).to have_text 'vendor_1'
+      expect(page).to have_text 'vendor_2'
     end
   end
 
@@ -58,12 +58,12 @@ RSpec.describe 'API tokens' do
   end
 
   def then_i_see_only_the_providers_for_a_specific_vendor
-    expect(page).to have_content '1 API tokens issued'
-    expect(page).to have_content '1 API tokens used in the last 3 months'
+    expect(page).to have_text '1 API tokens issued'
+    expect(page).to have_text '1 API tokens used in the last 3 months'
 
     within '.govuk-table' do
-      expect(page).to have_content 'Provider 1'
-      expect(page).to have_content 'vendor_1'
+      expect(page).to have_text 'Provider 1'
+      expect(page).to have_text 'vendor_1'
     end
   end
 

@@ -12,11 +12,11 @@ RSpec.describe 'Register API docs' do
   end
 
   def then_i_can_see_the_docs
-    expect(page).to have_content 'Apply for teacher training - Register API'
+    expect(page).to have_text 'Apply for teacher training - Register API'
   end
 
   def and_i_can_see_the_release_notes
     click_link_or_button 'Release notes'
-    expect(page).to have_content '7 April 2021'
+    expect(page).to have_text '7 April 2021'
   end
 end

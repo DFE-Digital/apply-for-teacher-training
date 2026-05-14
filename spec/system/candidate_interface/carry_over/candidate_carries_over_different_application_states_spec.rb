@@ -166,8 +166,8 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
   end
 
   def then_i_am_ask_to_apply_for_courses_into_the_new_recruitment_cycle
-    expect(page).to have_content("courses starting in the #{@previous_year} to #{@current_year} academic year, which have now closed.")
-    expect(page).to have_content("apply for courses starting in the #{@current_year} to #{@next_year} academic year instead.")
+    expect(page).to have_text("courses starting in the #{@previous_year} to #{@current_year} academic year, which have now closed.")
+    expect(page).to have_text("apply for courses starting in the #{@current_year} to #{@next_year} academic year instead.")
     then_i_see_the_carry_over_content
   end
 

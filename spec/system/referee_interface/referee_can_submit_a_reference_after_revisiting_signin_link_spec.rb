@@ -63,7 +63,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def when_i_confirm_that_the_described_relationship_is_correct
-    expect(page).to have_content("Confirm how #{@application.full_name} knows you")
+    expect(page).to have_text("Confirm how #{@application.full_name} knows you")
     within_fieldset('Is this description accurate?') do
       choose 'Yes'
     end
@@ -71,7 +71,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_see_the_safeguarding_page
-    expect(page).to have_content("Do you know any reason why #{@application.full_name} should not work with children?")
+    expect(page).to have_text("Do you know any reason why #{@application.full_name} should not work with children?")
   end
 
   def when_i_choose_the_candidate_is_suitable_for_working_with_children
@@ -80,8 +80,8 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_see_the_reference_comment_page
-    expect(page).to have_content('when they worked with you')
-    expect(page).to have_content('their role and responsibilities')
+    expect(page).to have_text('when they worked with you')
+    expect(page).to have_text('their role and responsibilities')
   end
 
   def when_i_fill_in_the_reference_field
@@ -90,7 +90,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_see_the_reference_review_page
-    expect(page).to have_content("Check your reference for #{@application.full_name}")
+    expect(page).to have_text("Check your reference for #{@application.full_name}")
   end
 
   def and_i_click_the_submit_reference_button
@@ -98,7 +98,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_see_am_told_i_submitted_my_reference
-    expect(page).to have_content("Your reference for #{@application.full_name}")
+    expect(page).to have_text("Your reference for #{@application.full_name}")
   end
 
   def then_i_see_the_confirmation_page

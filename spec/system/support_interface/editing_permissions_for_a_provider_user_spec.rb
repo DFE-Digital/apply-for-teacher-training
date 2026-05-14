@@ -56,7 +56,7 @@ RSpec.describe 'Managing provider users v2' do
   end
 
   def then_i_see_the_provider_user_listed
-    expect(page).to have_content("#{@provider_user.first_name} #{@provider_user.last_name}")
+    expect(page).to have_text("#{@provider_user.first_name} #{@provider_user.last_name}")
   end
 
   def when_i_click_update_permissions
@@ -64,12 +64,12 @@ RSpec.describe 'Managing provider users v2' do
   end
 
   def then_i_see_the_edit_permissions_form
-    expect(page).to have_content("Change #{@provider_user.first_name} #{@provider_user.last_name}’s permissions")
+    expect(page).to have_text("Change #{@provider_user.first_name} #{@provider_user.last_name}’s permissions")
   end
 
   def and_i_see_that_can_edit_permissions_for_both_providers
-    expect(page).to have_content(@provider_one.name_and_code)
-    expect(page).to have_content(@provider_two.name_and_code)
+    expect(page).to have_text(@provider_one.name_and_code)
+    expect(page).to have_text(@provider_two.name_and_code)
   end
 
   def when_i_check_permission_to_manage_users_for_the_first_provider
@@ -89,23 +89,23 @@ RSpec.describe 'Managing provider users v2' do
   end
 
   def then_i_can_see_the_provider_user_page
-    expect(page).to have_content("#{@provider_user.first_name} #{@provider_user.last_name}")
+    expect(page).to have_text("#{@provider_user.first_name} #{@provider_user.last_name}")
   end
 
   def and_the_provider_user_has_manage_user_permissions_for_the_first_provider
     within permissions_summary_for_provider(@provider_one) do
-      expect(page).to have_content('Manage users')
+      expect(page).to have_text('Manage users')
     end
   end
 
   def and_access_diversity_info_permissions_for_the_second_provider
     within permissions_summary_for_provider(@provider_two) do
-      expect(page).to have_content('Access diversity information')
+      expect(page).to have_text('Access diversity information')
     end
   end
 
   def then_i_see_the_provider_user_has_been_successfully_added
-    expect(page).to have_content("User #{@provider_user.first_name} #{@provider_user.last_name} updated")
+    expect(page).to have_text("User #{@provider_user.first_name} #{@provider_user.last_name} updated")
   end
 
   def permissions_summary_for_provider(provider)

@@ -70,7 +70,7 @@ private
   alias_method :when_i_click_on, :and_i_click_on
 
   def then_i_see_the_error_message(message)
-    expect(page).to have_content(message).twice
+    expect(page).to have_text(message).twice
   end
 
   def when_i_enter_a_very_long_audit_log_comment
@@ -102,15 +102,15 @@ private
   end
 
   def then_i_see_the_unlink_form
-    expect(page).to have_content "Do you want to unlink GOV.UK One Login for #{@candidate.one_login_auth.email_address}"
+    expect(page).to have_text "Do you want to unlink GOV.UK One Login for #{@candidate.one_login_auth.email_address}"
   end
 
   def and_i_see_the_recovery_warning
-    expect(page).to have_content "The email for this candidate is #{@candidate.email_address}."
+    expect(page).to have_text "The email for this candidate is #{@candidate.email_address}."
   end
 
   def and_i_do_not_see_the_recovery_warning
-    expect(page).to have_no_content "The email for this candidate is #{@candidate.email_address}."
+    expect(page).to have_no_text "The email for this candidate is #{@candidate.email_address}."
   end
 
   def then_i_am_on_the_application_form_summary
@@ -122,7 +122,7 @@ private
   end
 
   def i_see_the_success_message
-    expect(page).to have_content 'GOV.UK One Login has been unlinked'
+    expect(page).to have_text 'GOV.UK One Login has been unlinked'
   end
 
   def and_the_one_login_auth_record_is_deleted

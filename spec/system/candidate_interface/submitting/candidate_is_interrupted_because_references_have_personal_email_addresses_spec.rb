@@ -86,11 +86,11 @@ private
   end
 
   def then_i_see_the_interruption_page
-    expect(page).to have_content 'Give your application the best chance of success'
-    expect(page).to have_content 'At least one of your references looks like it is using a personal email address.'
-    expect(page).to have_content 'Many providers will not accept references from a personal email address (such as gmail.com).'
-    expect(page).to have_content 'You should ask your references if they have a work email address you can use instead and update your application.'
-    expect(page).to have_content 'If you cannot get another email address for the references you can still submit this application. You should explain why you are using a personal email address when you say how you know the person.'
+    expect(page).to have_text 'Give your application the best chance of success'
+    expect(page).to have_text 'At least one of your references looks like it is using a personal email address.'
+    expect(page).to have_text 'Many providers will not accept references from a personal email address (such as gmail.com).'
+    expect(page).to have_text 'You should ask your references if they have a work email address you can use instead and update your application.'
+    expect(page).to have_text 'If you cannot get another email address for the references you can still submit this application. You should explain why you are using a personal email address when you say how you know the person.'
   end
 
   def when_i_choose_to_edit_my_references
@@ -102,33 +102,33 @@ private
   end
 
   def then_i_can_submit_my_application_choice
-    expect(page).to have_content 'Do you want to submit your application?'
+    expect(page).to have_text 'Do you want to submit your application?'
     click_on 'Confirm and submit application'
-    expect(page).to have_content 'Application submitted'
+    expect(page).to have_text 'Application submitted'
     expect(@application_choice.reload.status).to eq 'awaiting_provider_decision'
     expect(@application_form.reload.submitted_at).not_to be_nil
   end
 
   def then_i_see_the_references_review_page
     expect(page).to have_current_path(candidate_interface_references_review_path)
-    expect(page).to have_content 'Check your references'
+    expect(page).to have_text 'Check your references'
   end
 
   def and_i_can_change_the_a_references_email_address
     click_on "Change email address for #{@reference.name}"
     fill_in "What is #{@reference.name}’s email address?", with: 'professional@ucl.ac.uk'
     click_on 'Save and continue'
-    expect(page).to have_content 'professional@ucl.ac.uk'
+    expect(page).to have_text 'professional@ucl.ac.uk'
   end
 
   def then_i_do_not_see_the_interruption_page
-    expect(page).to have_no_content 'Give your application the best chance of success'
+    expect(page).to have_no_text 'Give your application the best chance of success'
     expect(page).to have_current_path candidate_interface_course_choices_course_review_and_submit_path(@application_choice.id)
-    expect(page).to have_content "Review your application to #{@application_choice.provider.name}"
+    expect(page).to have_text "Review your application to #{@application_choice.provider.name}"
   end
 
   def and_i_can_submit_my_application_choice
     click_on 'Confirm and submit application'
-    expect(page).to have_content 'Application submitted'
+    expect(page).to have_text 'Application submitted'
   end
 end

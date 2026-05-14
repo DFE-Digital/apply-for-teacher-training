@@ -139,6 +139,6 @@ RSpec.describe 'Editing a degree' do
 
   def then_i_can_check_my_undergraduate_degree
     expect(page).to have_current_path candidate_interface_degree_review_path
-    expect(page).to have_content 'History'
+    expect(page).to have_text 'History'
   end
 end

@@ -156,7 +156,7 @@ RSpec.describe 'Reject an application' do
   end
 
   def and_i_check_the_a_level_reasons_for_rejection
-    expect(page).to have_content('Check details and reject application')
+    expect(page).to have_text('Check details and reject application')
     expect(email_preview[4..6]).to eq(
       [
         'Qualifications',
@@ -167,8 +167,8 @@ RSpec.describe 'Reject an application' do
   end
 
   def and_i_check_the_reasons_for_rejection
-    expect(page).to have_content('Check details and reject application')
-    expect(page).to have_content('The candidate will be sent this email:')
+    expect(page).to have_text('Check details and reject application')
+    expect(page).to have_text('The candidate will be sent this email:')
 
     expect(email_preview[0..3]).to eq([
       "Dear #{@application_choice.application_form.first_name},",
@@ -252,34 +252,34 @@ RSpec.describe 'Reject an application' do
   end
 
   def then_i_can_see_the_rejected_application_feedback
-    expect(page).to have_content('Application rejected')
+    expect(page).to have_text('Application rejected')
 
-    expect(page).to have_content('Qualifications')
-    expect(page).to have_content('No maths GCSE at minimum grade 4 or C, or equivalent')
-    expect(page).to have_content('Could not verify qualifications:')
-    expect(page).to have_content('We can find no evidence of your GCSEs')
+    expect(page).to have_text('Qualifications')
+    expect(page).to have_text('No maths GCSE at minimum grade 4 or C, or equivalent')
+    expect(page).to have_text('Could not verify qualifications:')
+    expect(page).to have_text('We can find no evidence of your GCSEs')
 
-    expect(page).to have_content('Personal statement')
-    expect(page).to have_content('Quality of writing:')
-    expect(page).to have_content('We do not accept applications written in morse code')
-    expect(page).to have_content('Other:')
-    expect(page).to have_content('This was wayyyyy too personal')
+    expect(page).to have_text('Personal statement')
+    expect(page).to have_text('Quality of writing:')
+    expect(page).to have_text('We do not accept applications written in morse code')
+    expect(page).to have_text('Other:')
+    expect(page).to have_text('This was wayyyyy too personal')
 
-    expect(page).to have_content('Course full')
-    expect(page).to have_content('Other courses exist')
+    expect(page).to have_text('Course full')
+    expect(page).to have_text('Other courses exist')
 
-    expect(page).to have_content('Other')
-    expect(page).to have_content('There are so many other reasons why your application was rejected...')
+    expect(page).to have_text('Other')
+    expect(page).to have_text('There are so many other reasons why your application was rejected...')
   end
 
   def then_i_can_see_the_rejected_undergraduate_application_feedback
-    expect(page).to have_content(
+    expect(page).to have_text(
       'The following feedback was sent to the candidate. Qualifications A levels do not meet course requirements: A level below expected grade',
     )
   end
 
   def and_the_a_levels_rejection_reason_is_not_visible_for_postgraduate_application
-    expect(page).to have_no_content('A levels do not meet course requirements')
+    expect(page).to have_no_text('A levels do not meet course requirements')
   end
 
 private

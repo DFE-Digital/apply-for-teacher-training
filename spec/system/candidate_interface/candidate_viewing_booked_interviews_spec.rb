@@ -25,13 +25,13 @@ RSpec.describe 'Candidate viewing booked interviews' do
   end
 
   def then_i_can_see_details_about_my_booked_interviews
-    expect(page).to have_content 'Information from provider:'
-    expect(page).to have_content 'interview 1'
-    expect(page).to have_content 'interview 2'
+    expect(page).to have_text 'Information from provider:'
+    expect(page).to have_text 'interview 1'
+    expect(page).to have_text 'interview 2'
   end
 
   def and_i_can_not_see_the_cancelled_interviews
-    expect(page).to have_no_content cancelled_location
+    expect(page).to have_no_text cancelled_location
   end
 
   def cancelled_location

@@ -70,18 +70,18 @@ RSpec.describe "withdrawing an application at the candidate's request" do
   end
 
   def then_i_see_the_interview_cancellation_explanation
-    expect(page).to have_content('The upcoming interview will be cancelled.')
+    expect(page).to have_text('The upcoming interview will be cancelled.')
   end
 
   def when_i_confirm_the_withdrawal
-    expect(page).to have_content('Confirm that the candidate wants to withdraw their application')
+    expect(page).to have_text('Confirm that the candidate wants to withdraw their application')
 
     click_link_or_button 'Withdraw application'
   end
 
   def then_i_see_a_message_confirming_that_the_application_has_been_withdrawn
     expect(page).to have_current_path(provider_interface_application_choice_path(@application_choice))
-    expect(page).to have_content('Application withdrawn')
+    expect(page).to have_text('Application withdrawn')
   end
   alias_method :then_i_get_redirected_to_the_application_choice, :then_i_see_a_message_confirming_that_the_application_has_been_withdrawn
 
@@ -91,7 +91,7 @@ RSpec.describe "withdrawing an application at the candidate's request" do
 
   def and_the_candidate_receives_an_email_about_the_withdrawal
     open_email(@application_choice.application_form.candidate.email_address)
-    expect(current_email.subject).to have_content 'Update on your application'
+    expect(current_email.subject).to have_text 'Update on your application'
   end
 
   def and_the_interview_has_been_cancelled

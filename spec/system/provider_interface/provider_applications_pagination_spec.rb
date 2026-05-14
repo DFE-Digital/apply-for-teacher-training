@@ -54,7 +54,7 @@ RSpec.describe 'Providers should be able to sort applications' do
 
   def then_i_not_see_a_paginator
     expect(page).to have_no_link('Next')
-    expect(page).to have_no_content('Showing 1 to')
+    expect(page).to have_no_text('Showing 1 to')
   end
 
   def given_my_organisation_has_more_than_30_applications

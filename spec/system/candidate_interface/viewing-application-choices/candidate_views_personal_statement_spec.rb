@@ -80,12 +80,12 @@ RSpec.describe 'Personal statement', :js do
   end
 
   def then_i_see_the_full_personal_statement
-    expect(page).to have_content(short_personal_statement)
+    expect(page).to have_text(short_personal_statement)
   end
 
   def then_i_only_see_the_short_personal_statement
-    expect(short_text_personal_statement_element).to have_content first_part_long_personal_statement
-    expect(page).to have_no_content remaining_personal_statement
+    expect(short_text_personal_statement_element).to have_text first_part_long_personal_statement
+    expect(page).to have_no_text remaining_personal_statement
   end
 
   def when_i_click_show_more
@@ -93,8 +93,8 @@ RSpec.describe 'Personal statement', :js do
   end
 
   def then_i_see_the_whole_personal_statement
-    expect(short_text_personal_statement_element).to have_content first_part_long_personal_statement
-    expect(remaining_personal_statement_element(true)).to have_content remaining_personal_statement
+    expect(short_text_personal_statement_element).to have_text first_part_long_personal_statement
+    expect(remaining_personal_statement_element(true)).to have_text remaining_personal_statement
   end
 
   def when_i_click_show_less

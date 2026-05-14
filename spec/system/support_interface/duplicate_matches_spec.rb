@@ -75,7 +75,7 @@ RSpec.describe 'See Duplicate candidate matches' do
   end
 
   def then_i_see_list_of_duplicates_from_last_recruitment_cycle
-    expect(page).to have_content('2 candidates with postcode W6 9BH and DOB 8 Aug 1998')
+    expect(page).to have_text('2 candidates with postcode W6 9BH and DOB 8 Aug 1998')
   end
 
   def and_the_update_duplicate_matches_worker_has_run
@@ -96,7 +96,7 @@ RSpec.describe 'See Duplicate candidate matches' do
   end
 
   def then_i_see_list_of_under_review_duplicates
-    expect(page).to have_content('2 candidates with postcode W6 9BH and DOB 8 Aug 1998')
+    expect(page).to have_text('2 candidates with postcode W6 9BH and DOB 8 Aug 1998')
     expect(page).to have_no_link('2 candidates with postcode W3 6ET')
   end
 
@@ -151,7 +151,7 @@ RSpec.describe 'See Duplicate candidate matches' do
   end
 
   def then_i_see_the_details_for_each_duplicate_candidate
-    expect(page).to have_content('2 candidates with postcode W6 9BH and DOB 8 Aug 1998')
+    expect(page).to have_text('2 candidates with postcode W6 9BH and DOB 8 Aug 1998')
     expect(page).to have_button('Mark as resolved')
   end
 
@@ -161,15 +161,15 @@ RSpec.describe 'See Duplicate candidate matches' do
   end
 
   def then_i_see_that_candidates_email_address
-    expect(page).to have_content(@bob.email_address)
+    expect(page).to have_text(@bob.email_address)
   end
 
   def then_i_see_a_message_that_there_are_no_matches
-    expect(page).to have_content 'There are currently no duplicate applications'
+    expect(page).to have_text 'There are currently no duplicate applications'
   end
 
   def then_i_see_list_of_resolved_duplicates
-    expect(page).to have_content('2 candidates with postcode W3 6ET and DOB 12 Oct 1999')
+    expect(page).to have_text('2 candidates with postcode W3 6ET and DOB 12 Oct 1999')
     expect(page).to have_no_link('2 candidates with postcode W6 9BH')
   end
 end

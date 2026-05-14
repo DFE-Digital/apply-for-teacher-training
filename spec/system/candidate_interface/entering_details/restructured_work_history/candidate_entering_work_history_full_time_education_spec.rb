@@ -43,7 +43,7 @@ RSpec.describe 'Entering their work history' do
   end
 
   def and_i_can_see_i_have_selected_i_was_in_full_time_education
-    expect(page).to have_content t('application_form.restructured_work_history.full_time_education.label')
+    expect(page).to have_text t('application_form.restructured_work_history.full_time_education.label')
   end
 
   def when_i_mark_this_section_as_completed
@@ -55,7 +55,7 @@ RSpec.describe 'Entering their work history' do
   end
 
   def then_i_see_the_form
-    expect(page).to have_content(t('page_titles.application_form'))
+    expect(page).to have_text(t('page_titles.application_form'))
   end
 
   def and_that_the_section_is_completed

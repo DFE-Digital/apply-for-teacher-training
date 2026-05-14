@@ -44,9 +44,9 @@ private
   end
 
   def then_i_see_both_offers
-    expect(page).to have_content @first_application_with_offer.current_provider.name
-    expect(page).to have_content @second_application_with_offer.current_provider.name
-    expect(page).to have_content('Offer received').twice
+    expect(page).to have_text @first_application_with_offer.current_provider.name
+    expect(page).to have_text @second_application_with_offer.current_provider.name
+    expect(page).to have_text('Offer received').twice
   end
 
   def then_the_first_offer_is_declined
@@ -58,13 +58,13 @@ private
   end
 
   def offer_is_declined(application_with_offer)
-    expect(page).to have_content 'You have declined your offer'
+    expect(page).to have_text 'You have declined your offer'
     expect(application_with_offer.reload.status).to eq 'declined'
   end
 
   def and_i_am_not_on_the_carry_over_page
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_content 'Your applications'
+    expect(page).to have_text 'Your applications'
   end
 
   def and_i_can_navigate_to_the_application_choices_page
@@ -73,8 +73,8 @@ private
   end
 
   def and_i_see_one_offer_and_one_declined_application
-    expect(page).to have_content 'Declined'
-    expect(page).to have_content('Offer received').once
+    expect(page).to have_text 'Declined'
+    expect(page).to have_text('Offer received').once
   end
 
   def when_i_decline_the_first_offer
@@ -87,7 +87,7 @@ private
 
   def decline_offer(application_with_offer)
     click_on application_with_offer.current_provider.name
-    expect(page).to have_content 'Details of offer'
+    expect(page).to have_text 'Details of offer'
     choose 'Decline offer'
     click_on 'Continue'
     click_on 'Yes I’m sure – decline this offer'

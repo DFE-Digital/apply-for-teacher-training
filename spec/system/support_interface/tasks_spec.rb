@@ -28,7 +28,7 @@ RSpec.describe 'Tasks', sidekiq: false do
   end
 
   def then_i_see_that_the_job_has_been_scheduled
-    expect(page).to have_content 'Scheduled job to generate test applications'
+    expect(page).to have_text 'Scheduled job to generate test applications'
   end
 
   def and_when_i_click_on_generate_fake_provider
@@ -36,9 +36,9 @@ RSpec.describe 'Tasks', sidekiq: false do
   end
 
   def then_i_see_new_providers_details_and_api_token
-    expect(page).to have_content 'Provider name'
-    expect(page).to have_content 'Provider code'
-    expect(page).to have_content 'Vendor API token'
+    expect(page).to have_text 'Provider name'
+    expect(page).to have_text 'Provider code'
+    expect(page).to have_text 'Vendor API token'
   end
 
   def and_i_am_able_to_connect_to_the_api_using_the_token
@@ -47,6 +47,6 @@ RSpec.describe 'Tasks', sidekiq: false do
 
     visit '/api/v1/ping'
 
-    expect(page).to have_content('pong')
+    expect(page).to have_text('pong')
   end
 end

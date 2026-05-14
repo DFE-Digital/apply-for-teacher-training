@@ -37,7 +37,7 @@ RSpec.describe 'Generate test data for provider via support', :sandbox, sidekiq:
   end
 
   def and_i_see_guidance_text
-    expect(page).to have_content `Before we can generate test data, #{@provider.name_and_code} needs at least one course published in the current cycle.`
+    expect(page).to have_text `Before we can generate test data, #{@provider.name_and_code} needs at least one course published in the current cycle.`
   end
 
   def when_the_provider_has_courses_open
@@ -54,6 +54,6 @@ RSpec.describe 'Generate test data for provider via support', :sandbox, sidekiq:
   end
 
   def then_i_see_that_the_job_has_been_scheduled
-    expect(page).to have_content 'Scheduled a job to generate test applications'
+    expect(page).to have_text 'Scheduled a job to generate test applications'
   end
 end

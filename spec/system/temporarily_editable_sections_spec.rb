@@ -69,8 +69,8 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
   end
 
   def then_i_do_not_see_references_or_safeguarding
-    expect(page).to have_no_content 'References'
-    expect(page).to have_no_content 'Safeguarding issues'
+    expect(page).to have_no_text 'References'
+    expect(page).to have_no_text 'Safeguarding issues'
   end
 
   def and_i_click_update
@@ -79,8 +79,8 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
 
   def then_i_see_a_validation_message
     within('.govuk-error-summary__list') do
-      expect(page).to have_content('Add a link to the Zendesk ticket')
-      expect(page).to have_content('Select if you have received Policy confirmation')
+      expect(page).to have_text('Add a link to the Zendesk ticket')
+      expect(page).to have_text('Select if you have received Policy confirmation')
     end
   end
 
@@ -105,7 +105,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
   end
 
   def then_i_see_the_application_page
-    expect(page).to have_content('Candidate can now edit relevant sections of their application')
+    expect(page).to have_text('Candidate can now edit relevant sections of their application')
     expect(page).to have_current_path(support_interface_application_form_path(@application_form.id))
   end
 
@@ -131,7 +131,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
     click_link_or_button 'Your details'
     click_link_or_button 'Degree'
 
-    expect(page).to have_content('Change country for Bachelor of Science, Rocket, School of Awesomeness, 2020')
+    expect(page).to have_text('Change country for Bachelor of Science, Rocket, School of Awesomeness, 2020')
     click_link_or_button 'Change country for Bachelor of Science, Rocket, School of Awesomeness, 2020'
     choose 'Another country'
     select 'Brazil', from: 'Country or territory'
@@ -142,7 +142,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
   def and_candidate_can_edit_english_gcse
     click_link_or_button 'Your details'
     click_link_or_button 'English GCSE or equivalent'
-    expect(page).to have_content('Change qualification for GCSE, english')
+    expect(page).to have_text('Change qualification for GCSE, english')
     click_link_or_button 'Change qualification for GCSE, english'
     choose 'UK O level (from before 1989)'
     and_i_click_save_and_continue
@@ -151,26 +151,26 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
     fill_in 'What year was your English UK O level (from before 1989) awarded?', with: '1988'
     and_i_click_save_and_continue
     expect(page).to have_current_path(candidate_interface_gcse_review_path('english'))
-    expect(page).to have_content('UK O level (from before 1989)')
-    expect(page).to have_content('BB')
-    expect(page).to have_content('1988')
-    expect(page).to have_content('Change qualification for UK O level (from before 1989), english')
+    expect(page).to have_text('UK O level (from before 1989)')
+    expect(page).to have_text('BB')
+    expect(page).to have_text('1988')
+    expect(page).to have_text('Change qualification for UK O level (from before 1989), english')
 
     click_link_or_button 'Change qualification for UK O level (from before 1989), english'
     choose 'GCSE'
     and_i_click_save_and_continue
 
-    expect(page).to have_content('English (Single award)')
+    expect(page).to have_text('English (Single award)')
     check 'English (Single award)'
     fill_in 'candidate_interface_english_gcse_grade_form[grade_english_single]', with: 'C'
     and_i_click_save_and_continue
     fill_in 'What year was your English GCSE awarded?', with: '2022'
     and_i_click_save_and_continue
 
-    expect(page).to have_content('Change qualification for GCSE, english')
-    expect(page).to have_content('Grade')
-    expect(page).to have_content('C (English Single award)')
-    expect(page).to have_content('Year awarded 2022')
+    expect(page).to have_text('Change qualification for GCSE, english')
+    expect(page).to have_text('Grade')
+    expect(page).to have_text('C (English Single award)')
+    expect(page).to have_text('Year awarded 2022')
   end
 
   def when_the_editable_time_is_expired
@@ -182,7 +182,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
   def then_candidate_can_not_edit_degrees
     click_link_or_button 'Your details'
     click_link_or_button 'Degree'
-    expect(page).to have_no_content('Change')
+    expect(page).to have_no_text('Change')
     visit candidate_interface_degree_country_path
     and_i_am_redirected_to_your_details_page
   end
@@ -190,7 +190,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
   def and_candidate_can_not_edit_english_gcse
     click_link_or_button 'Your details'
     click_link_or_button 'English GCSE or equivalent'
-    expect(page).to have_no_content('Change')
+    expect(page).to have_no_text('Change')
     visit candidate_interface_edit_gcse_english_grade_path
     and_i_am_redirected_to_your_details_page
   end
@@ -204,7 +204,7 @@ RSpec.describe 'Unlocking non editable sections temporarily via support' do
   end
 
   def and_candidate_can_not_delete_degrees
-    expect(page).to have_no_content('Delete')
+    expect(page).to have_no_text('Delete')
     visit candidate_interface_confirm_degree_destroy_path(@degree)
     and_i_am_redirected_to_your_details_page
   end

@@ -31,7 +31,7 @@ RSpec.describe 'See applications' do
   end
 
   def then_i_see_the_account_creation_in_progress_page
-    expect(page).to have_content('Your account is not ready yet')
+    expect(page).to have_text('Your account is not ready yet')
   end
 
   def when_i_visit_the_provider_page

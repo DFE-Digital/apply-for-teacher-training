@@ -40,16 +40,16 @@ RSpec.describe 'Entering personal details' do
     click_link_or_button t('save_and_continue')
 
     # Right to work or study
-    expect(page).to have_content 'Do you already have the right to work or study in the UK?'
+    expect(page).to have_text 'Do you already have the right to work or study in the UK?'
     choose 'No'
     click_link_or_button t('save_and_continue')
 
     # Review
     expect(page).to have_current_path candidate_interface_personal_details_show_path
-    expect(page).to have_content 'Name'
-    expect(page).to have_content 'Lando Calrissian'
-    expect(page).to have_content 'Pakistani'
-    expect(page).to have_content 'Do you have the right to work or study in the UK?'
+    expect(page).to have_text 'Name'
+    expect(page).to have_text 'Lando Calrissian'
+    expect(page).to have_text 'Pakistani'
+    expect(page).to have_text 'Do you have the right to work or study in the UK?'
   end
 
   def and_i_can_mark_the_section_complete

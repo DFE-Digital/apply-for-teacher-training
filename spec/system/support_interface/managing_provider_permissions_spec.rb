@@ -44,7 +44,7 @@ RSpec.describe 'Managing provider-provider permissions via support' do
   end
 
   def then_i_see_an_error
-    expect(page).to have_content 'Select who can send offers, invitations and rejections'
+    expect(page).to have_text 'Select who can send offers, invitations and rejections'
   end
 
   def when_i_set_valid_relationships
@@ -58,7 +58,7 @@ RSpec.describe 'Managing provider-provider permissions via support' do
   end
 
   def then_the_relationships_have_been_updated
-    expect(page).to have_content 'Relationships updated'
+    expect(page).to have_text 'Relationships updated'
 
     checkboxes = all('input[type=checkbox]')
     expect(checkboxes.count).to eq 6

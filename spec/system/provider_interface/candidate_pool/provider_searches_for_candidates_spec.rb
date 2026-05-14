@@ -85,7 +85,7 @@ private
   alias_method :when_i_search_with, :and_i_search_with
 
   def then_i_see_no_results_text(text)
-    expect(page).to have_content(text)
+    expect(page).to have_text(text)
   end
 
   def when_i_click(text)
@@ -103,7 +103,7 @@ private
   end
 
   def then_i_see_only_the_relevant_candidate_in_the_results
-    expect(page).to have_no_content(@rejected_candidate.redacted_full_name_current_cycle)
-    expect(page).to have_content(@withdrawn_candidate.redacted_full_name_current_cycle)
+    expect(page).to have_no_text(@rejected_candidate.redacted_full_name_current_cycle)
+    expect(page).to have_text(@withdrawn_candidate.redacted_full_name_current_cycle)
   end
 end

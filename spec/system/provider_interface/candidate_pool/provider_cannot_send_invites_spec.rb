@@ -162,23 +162,23 @@ private
 
   def then_i_only_see_courses_that_i_have_permission_to_make_decisions_form
     @can_make_decisions_provider.courses.open.each do |course|
-      expect(page).to have_content(course.name_code_and_course_provider)
+      expect(page).to have_text(course.name_code_and_course_provider)
     end
 
     @cannot_make_decisions_provider.courses.open.each do |course|
-      expect(page).to have_no_content(course.name_code_and_course_provider)
+      expect(page).to have_no_text(course.name_code_and_course_provider)
     end
   end
 
   def then_i_see_an_error(messsage)
-    expect(page).to have_content 'There is a problem'
-    expect(page).to have_content(messsage).twice
+    expect(page).to have_text 'There is a problem'
+    expect(page).to have_text(messsage).twice
     expect(page.title).to include 'Error:'
   end
 
   def then_i_do_not_see_the_invite_button
-    expect(page).to have_content "Candidate number: #{@candidate.id}"
-    expect(page).to have_no_content 'Invite to apply'
+    expect(page).to have_text "Candidate number: #{@candidate.id}"
+    expect(page).to have_no_text 'Invite to apply'
   end
 
   def when_i_visit_the_invite_page_directly
@@ -186,8 +186,8 @@ private
   end
 
   def then_i_am_redirected_to_the_find_candidate_page
-    expect(page).to have_content 'Candidates can choose to share their application details.'
-    expect(page).to have_no_content 'Select a course to invite C***** C***** to apply to'
+    expect(page).to have_text 'Candidates can choose to share their application details.'
+    expect(page).to have_no_text 'Select a course to invite C***** C***** to apply to'
   end
 
   def and_i_chose_not_to_add_invitation_message

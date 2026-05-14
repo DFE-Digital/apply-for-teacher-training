@@ -58,7 +58,7 @@ RSpec.describe 'Revert a withdrawn application choice' do
 
   def then_i_see_the_withdrawn_course_choice
     within(first('.app-summary-card__body')) do
-      expect(page).to have_content('Withdrawn')
+      expect(page).to have_text('Withdrawn')
     end
   end
 
@@ -76,7 +76,7 @@ RSpec.describe 'Revert a withdrawn application choice' do
   alias_method :when_i_click_continue, :and_i_click_continue
 
   def then_i_am_told_to_confirm_i_have_followed_the_guidance
-    expect(page).to have_content 'Select that you have read the guidance'
+    expect(page).to have_text 'Select that you have read the guidance'
   end
 
   def when_i_confirm_reverting_a_withdrawal
@@ -89,7 +89,7 @@ RSpec.describe 'Revert a withdrawn application choice' do
   end
 
   def then_i_am_told_that_i_need_to_provide_a_valid_zendesk_ticket_link
-    expect(page).to have_content 'Enter a valid Zendesk ticket URL'
+    expect(page).to have_text 'Enter a valid Zendesk ticket URL'
   end
 
   def when_i_provide_a_valid_zendesk_ticket
@@ -102,7 +102,7 @@ RSpec.describe 'Revert a withdrawn application choice' do
 
   def and_i_see_the_choice_is_awaiting_provider_decision
     within(first('.app-summary-card__body')) do
-      expect(page).to have_content('Awaiting provider decision')
+      expect(page).to have_text('Awaiting provider decision')
     end
   end
 end

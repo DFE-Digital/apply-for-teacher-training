@@ -72,10 +72,10 @@ RSpec.describe 'Candidate views their invites' do
   end
 
   def then_i_can_see_my_invites
-    expect(page).to have_content('Application sharing')
+    expect(page).to have_text('Application sharing')
 
     within ".govuk-task-list__item##{@invite.id}" do
-      expect(page).to have_content(
+      expect(page).to have_text(
         "#{@invite.provider_name} #{@invite.course_name_code_and_study_mode}",
       )
       expect(page).to have_link(
@@ -85,7 +85,7 @@ RSpec.describe 'Candidate views their invites' do
     end
 
     within ".govuk-task-list__item##{@applied_invite.id}" do
-      expect(page).to have_content(
+      expect(page).to have_text(
         "#{@applied_invite.provider_name} #{@applied_invite.course_name_code_and_study_mode}",
       )
       expect(page).to have_link(
@@ -95,38 +95,38 @@ RSpec.describe 'Candidate views their invites' do
           return_to: 'invites',
         ),
       )
-      expect(page).to have_content('Accepted')
+      expect(page).to have_text('Accepted')
     end
 
     within ".govuk-task-list__item##{@declined_invite.id}" do
-      expect(page).to have_content(
+      expect(page).to have_text(
         "#{@declined_invite.provider_name} #{@declined_invite.course_name_code_and_study_mode}",
       )
       expect(page).to have_link(
         'View course',
         href: @declined_invite.course.find_url,
       )
-      expect(page).to have_content('Declined')
+      expect(page).to have_text('Declined')
     end
 
     within ".govuk-task-list__item##{@course_closed_invite.id}" do
-      expect(page).to have_content(
+      expect(page).to have_text(
         "#{@course_closed_invite.provider_name} #{@course_closed_invite.course_name_code_and_study_mode}",
       )
       expect(page).to have_link(
         'View course',
         href: @course_closed_invite.course.find_url,
       )
-      expect(page).to have_content('Closed')
+      expect(page).to have_text('Closed')
     end
   end
 
   def then_i_see_the_invite
-    expect(page).to have_content "Your invite from #{@invite.course.provider.name}"
+    expect(page).to have_text "Your invite from #{@invite.course.provider.name}"
   end
 
   def then_i_see_my_application
-    expect(page).to have_content "Your application to #{@applied_invite.application_choice.provider.name}"
+    expect(page).to have_text "Your application to #{@applied_invite.application_choice.provider.name}"
   end
 
   def and_i_am_on_the_application_choices_page

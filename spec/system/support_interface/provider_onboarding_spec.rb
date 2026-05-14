@@ -68,13 +68,13 @@ RSpec.describe 'Provider onboarding monitoring page' do
 
   def and_i_see_the_provider_who_has_not_set_up_relationship_permissions
     within('[data-qa="permissions-not-set-up"]') do
-      expect(page).to have_content 'Relationships not set up'
+      expect(page).to have_text 'Relationships not set up'
     end
   end
 
   def and_i_see_the_provider_who_has_not_made_a_decision_in_the_last_7_days
     within('[data-qa="no-decisions"]') do
-      expect(page).to have_content 'No decisions made'
+      expect(page).to have_text 'No decisions made'
     end
   end
 end

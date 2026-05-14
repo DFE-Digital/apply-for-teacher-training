@@ -8,7 +8,7 @@ RSpec.describe ProviderInterface::ChoicePersonalStatementComponent do
   let(:render) { render_inline(described_class.new(application_choice:)) }
 
   it 'renders the template' do
-    expect(render).to have_content('Personal statement')
-    expect(render).to have_content('I am a personal statement')
+    expect(render).to have_text('Personal statement')
+    expect(render).to have_text('I am a personal statement')
   end
 end

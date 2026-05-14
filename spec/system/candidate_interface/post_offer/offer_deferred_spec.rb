@@ -29,7 +29,7 @@ RSpec.describe 'Post-offer dashboard' do
   end
 
   def then_i_see_that_i_have_deferred_my_offer
-    expect(page).to have_content("Your deferred offer for #{@application_choice.current_course.name_and_code}")
-    expect(page).to have_content("You have chosen to defer your offer from #{@application_choice.course_option.course.provider.name} to study #{@application_choice.course.name_and_code}.")
+    expect(page).to have_text("Your deferred offer for #{@application_choice.current_course.name_and_code}")
+    expect(page).to have_text("You have chosen to defer your offer from #{@application_choice.course_option.course.provider.name} to study #{@application_choice.course.name_and_code}.")
   end
 end

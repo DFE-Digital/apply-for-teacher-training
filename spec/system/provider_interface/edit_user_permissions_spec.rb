@@ -68,8 +68,8 @@ RSpec.describe 'User permissions' do
   end
 
   def then_i_see_a_permissions_form_page
-    expect(page).to have_content("#{@manageable_user.full_name} - #{@manage_users_provider.name}")
-    expect(page).to have_content('User permissions')
+    expect(page).to have_text("#{@manageable_user.full_name} - #{@manage_users_provider.name}")
+    expect(page).to have_text('User permissions')
     expect(page).to have_field('Manage users', checked: true)
     expect(page).to have_field('Manage organisation permissions', checked: false)
     expect(page).to have_field('Manage interviews', checked: false)
@@ -88,7 +88,7 @@ RSpec.describe 'User permissions' do
   end
 
   def then_i_see_the_check_page
-    expect(page).to have_content('Check and save user permissions')
+    expect(page).to have_text('Check and save user permissions')
     expect(page).to have_css('.govuk-summary-list__row', text: 'Manage users No')
     expect(page).to have_css('.govuk-summary-list__row', text: 'Manage organisation permissions No')
     expect(page).to have_css('.govuk-summary-list__row', text: 'Manage interviews Yes')
@@ -108,7 +108,7 @@ RSpec.describe 'User permissions' do
   end
 
   def then_i_see_the_check_page
-    expect(page).to have_content('Check and save user permissions')
+    expect(page).to have_text('Check and save user permissions')
   end
 
   def and_i_see_the_modified_permissions
@@ -125,7 +125,7 @@ RSpec.describe 'User permissions' do
   end
 
   def then_i_see_the_user_page
-    expect(page).to have_content('User permissions updated')
+    expect(page).to have_text('User permissions updated')
     expect(page).to have_css('h1', text: @manageable_user.full_name)
   end
 end

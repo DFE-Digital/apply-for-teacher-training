@@ -67,7 +67,7 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def then_i_see_the_current_conditions
-    expect(page).to have_content('Conditions Be cool')
+    expect(page).to have_text('Conditions Be cool')
   end
 
   def when_i_click_on_change_conditions
@@ -88,7 +88,7 @@ RSpec.describe 'Add course to submitted application' do
 
   def then_i_see_a_validation_error
     expect(page).to have_current_path(support_interface_update_application_choice_conditions_path(@application_choice))
-    expect(page).to have_content('Enter a Zendesk ticket URL')
+    expect(page).to have_text('Enter a Zendesk ticket URL')
   end
 
   def when_i_add_a_new_condition_and_click_update_conditions_with_a_support_ticket_url
@@ -100,10 +100,10 @@ RSpec.describe 'Add course to submitted application' do
 
   def then_i_see_the_new_condition_as_well_as_the_original_ones
     expect(page).to have_current_path(support_interface_application_form_path(@application_choice.application_form_id))
-    expect(page).to have_content('Conditions')
-    expect(page).to have_content('Fitness to train to teach check')
-    expect(page).to have_content('Be cool')
-    expect(page).to have_content('Learn to play piano')
+    expect(page).to have_text('Conditions')
+    expect(page).to have_text('Fitness to train to teach check')
+    expect(page).to have_text('Be cool')
+    expect(page).to have_text('Learn to play piano')
   end
 
   def and_i_remove_all_conditions_and_click_update_conditions
@@ -115,8 +115,8 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def then_i_see_a_confirmation_page_about_candidate_being_recruited
-    expect(page).to have_content('Are you sure you want to make this offer unconditional?')
-    expect(page).to have_content('Because this offer has already been accepted removing all conditions will recruit this candidate immediately.')
+    expect(page).to have_text('Are you sure you want to make this offer unconditional?')
+    expect(page).to have_text('Because this offer has already been accepted removing all conditions will recruit this candidate immediately.')
   end
 
   def when_i_click_yes_im_sure
@@ -125,7 +125,7 @@ RSpec.describe 'Add course to submitted application' do
 
   def then_i_see_that_the_candidate_has_been_recruited_and_conditions_have_been_removed
     expect(page).to have_current_path(support_interface_application_form_path(@application_choice.application_form_id))
-    expect(page).to have_content('Recruited')
+    expect(page).to have_text('Recruited')
     expect(page).to have_css('.govuk-summary-list__row', text: 'Conditions No conditions added Change conditions')
   end
 
@@ -136,6 +136,6 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def then_i_see_specific_references_in_the_list_of_conditions
-    expect(page).to have_content('Specific references')
+    expect(page).to have_text('Specific references')
   end
 end

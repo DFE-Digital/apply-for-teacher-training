@@ -36,8 +36,8 @@ RSpec.describe 'Refusing to give a reference' do
   end
 
   def then_i_see_the_give_a_reference_page
-    expect(page).to have_content("Give a reference for #{@application.full_name}")
-    expect(page).to have_content(@application_choice.provider.name.to_s)
+    expect(page).to have_text("Give a reference for #{@application.full_name}")
+    expect(page).to have_text(@application_choice.provider.name.to_s)
   end
 
   def when_i_select_no_to_giving_a_reference
@@ -46,7 +46,7 @@ RSpec.describe 'Refusing to give a reference' do
   end
 
   def and_i_see_the_confirmation_page
-    expect(page).to have_content("Are you sure you are unable to give #{@application.full_name} a reference?")
+    expect(page).to have_text("Are you sure you are unable to give #{@application.full_name} a reference?")
   end
 
   def and_i_confirm_that_i_wont_give_a_reference
@@ -56,11 +56,11 @@ RSpec.describe 'Refusing to give a reference' do
   def then_an_email_is_sent_to_the_candidate
     open_email(@application.candidate.email_address)
 
-    expect(current_email.subject).to have_content('Terri Tudor is unable to give you a reference')
+    expect(current_email.subject).to have_text('Terri Tudor is unable to give you a reference')
   end
 
   def then_i_see_the_thank_you_page
-    expect(page).to have_content('Thank you')
+    expect(page).to have_text('Thank you')
   end
 
 private

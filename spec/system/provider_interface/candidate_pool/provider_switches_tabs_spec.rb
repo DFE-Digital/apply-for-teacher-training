@@ -134,7 +134,7 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   end
 
   def then_i_see_all_candidates
-    expect(page).to have_content('3 candidates found')
+    expect(page).to have_text('3 candidates found')
     candidates = page.all('.govuk-table__body .govuk-table__row td:first-child').map(&:text)
 
     expected_candidates = [
@@ -177,7 +177,7 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   end
 
   def then_i_see_not_seen_candidates
-    expect(page).to have_content('1 new candidate found')
+    expect(page).to have_text('1 new candidate found')
     candidates = page.all('.govuk-table__body .govuk-table__row td:first-child').map(&:text)
 
     expected_candidates = [candidate_name(@not_seen_application_form)]
@@ -196,7 +196,7 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   end
 
   def and_i_there_are_no_not_seen_candidates
-    expect(page).to have_content('There are no candidates that match that candidate number with the filters you have chosen. Remove some of your filters and try again.')
+    expect(page).to have_text('There are no candidates that match that candidate number with the filters you have chosen. Remove some of your filters and try again.')
   end
 
   def when_i_apply_course_type_filters
@@ -219,13 +219,13 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   end
 
   def then_i_see_the_not_seen_candidate_only
-    expect(page).to have_content '1 new candidate found'
-    expect(page).to have_content "#{@not_seen_application_form.redacted_full_name} (#{@not_seen_application_form.candidate_id})"
+    expect(page).to have_text '1 new candidate found'
+    expect(page).to have_text "#{@not_seen_application_form.redacted_full_name} (#{@not_seen_application_form.candidate_id})"
   end
 
   def then_i_see_the_not_seen_candidate
-    expect(page).to have_content '1 candidate found'
-    expect(page).to have_content "#{@not_seen_application_form.redacted_full_name} (#{@not_seen_application_form.candidate_id})"
+    expect(page).to have_text '1 candidate found'
+    expect(page).to have_text "#{@not_seen_application_form.redacted_full_name} (#{@not_seen_application_form.candidate_id})"
   end
 
   def and_i_see_all_applied_filters
