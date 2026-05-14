@@ -381,17 +381,17 @@ RSpec.describe CandidateMailer do
     let(:email) { described_class.application_rejected(application_choice) }
 
     it 'shows the tailored rejection reason for placements mid cycle', time: mid_cycle do
-      expect(email.body).to have_content 'Text the provider has written'
-      expect(email.body).to have_content 'There are still courses with placements available'
-      expect(email.body).to have_content 'If the course you applied to has no placements,'
-      expect(email.body).to have_content 'you can search again'
-      expect(email.body).to have_content 'https://find-teacher-training-courses.service.gov.uk/)'
-      expect(email.body).to have_content 'You can try increasing the search radius or location to see more options.'
+      expect(email.body).to have_text 'Text the provider has written'
+      expect(email.body).to have_text 'There are still courses with placements available'
+      expect(email.body).to have_text 'If the course you applied to has no placements,'
+      expect(email.body).to have_text 'you can search again'
+      expect(email.body).to have_text 'https://find-teacher-training-courses.service.gov.uk/)'
+      expect(email.body).to have_text 'You can try increasing the search radius or location to see more options.'
     end
 
     it 'only shows the free text between cycles', time: after_apply_deadline do
-      expect(email.body).to have_content 'Text the provider has written'
-      expect(email.body).to have_no_content 'There are still courses with placements available'
+      expect(email.body).to have_text 'Text the provider has written'
+      expect(email.body).to have_no_text 'There are still courses with placements available'
     end
   end
 
@@ -402,9 +402,9 @@ RSpec.describe CandidateMailer do
     subject(:email) { described_class.application_rejected(application_choice) }
 
     it 'refers to existing adviser' do
-      expect(email.body).to have_content 'Your teacher training adviser can help you improve your application. They can support you with:'
-      expect(email.body).to have_content 'making your application stronger before you apply again'
-      expect(email.body).to have_content 'Contact your teacher training adviser to talk about your next steps.'
+      expect(email.body).to have_text 'Your teacher training adviser can help you improve your application. They can support you with:'
+      expect(email.body).to have_text 'making your application stronger before you apply again'
+      expect(email.body).to have_text 'Contact your teacher training adviser to talk about your next steps.'
     end
   end
 
@@ -414,9 +414,9 @@ RSpec.describe CandidateMailer do
     subject(:email) { described_class.application_rejected(application_choice) }
 
     it 'refers to the process for getting an adviser' do
-      expect(email.body).to have_content 'A teacher training adviser can provide free support to help you improve your application. They can support you with:'
-      expect(email.body).to have_content 'All our advisers have years of teaching experience and know the application process inside and out.'
-      expect(email.body).to have_content 'Learn more about teacher training advisers'
+      expect(email.body).to have_text 'A teacher training adviser can provide free support to help you improve your application. They can support you with:'
+      expect(email.body).to have_text 'All our advisers have years of teaching experience and know the application process inside and out.'
+      expect(email.body).to have_text 'Learn more about teacher training advisers'
     end
   end
 
@@ -427,9 +427,9 @@ RSpec.describe CandidateMailer do
       subject(:email) { described_class.application_rejected(application_choice) }
 
       it 'does not include the URL in the email body' do
-        expect(email.body).to have_no_content 'Based on the details in your previous application, you could be suitable for other teacher training courses.'
-        expect(email.body).to have_no_content 'View similar courses and apply'
-        expect(email.body).to have_no_content 'https://find-teacher-training-courses.service.gov.uk/results'
+        expect(email.body).to have_no_text 'Based on the details in your previous application, you could be suitable for other teacher training courses.'
+        expect(email.body).to have_no_text 'View similar courses and apply'
+        expect(email.body).to have_no_text 'https://find-teacher-training-courses.service.gov.uk/results'
       end
     end
 
@@ -437,9 +437,9 @@ RSpec.describe CandidateMailer do
       subject(:email) { described_class.application_rejected(application_choice, 'https://find-teacher-training-courses.service.gov.uk/results') }
 
       it 'includes the provided URL and content in the email body' do
-        expect(email.body).to have_content 'Based on the details in your previous application, you could be suitable for other teacher training courses.'
-        expect(email.body).to have_content 'View similar courses and apply'
-        expect(email.body).to have_content 'https://find-teacher-training-courses.service.gov.uk/results'
+        expect(email.body).to have_text 'Based on the details in your previous application, you could be suitable for other teacher training courses.'
+        expect(email.body).to have_text 'View similar courses and apply'
+        expect(email.body).to have_text 'https://find-teacher-training-courses.service.gov.uk/results'
       end
 
       context 'between cycles' do
@@ -448,9 +448,9 @@ RSpec.describe CandidateMailer do
         end
 
         it 'does not include the URL and content in the email body' do
-          expect(email.body).to have_no_content 'Based on the details in your previous application, you could be suitable for other teacher training courses.'
-          expect(email.body).to have_no_content 'View similar courses and apply'
-          expect(email.body).to have_no_content 'https://find-teacher-training-courses.service.gov.uk/results'
+          expect(email.body).to have_no_text 'Based on the details in your previous application, you could be suitable for other teacher training courses.'
+          expect(email.body).to have_no_text 'View similar courses and apply'
+          expect(email.body).to have_no_text 'https://find-teacher-training-courses.service.gov.uk/results'
         end
       end
     end
@@ -470,8 +470,8 @@ RSpec.describe CandidateMailer do
         let(:email) { described_class.application_rejected(application_choice) }
 
         it 'includes the nudge about applying to fee-funded courses' do
-          expect(email.body).to have_content 'Salaried and apprenticeship routes are in high demand, you have a better chance of success if you apply to a course with fees to pay.'
-          expect(email.body).to have_content 'Select ‘fee - no salary’ from the filters'
+          expect(email.body).to have_text 'Salaried and apprenticeship routes are in high demand, you have a better chance of success if you apply to a course with fees to pay.'
+          expect(email.body).to have_text 'Select ‘fee - no salary’ from the filters'
         end
       end
 
@@ -489,8 +489,8 @@ RSpec.describe CandidateMailer do
         let(:email) { described_class.application_rejected(application_choice) }
 
         it 'does not include nudge about applying to fee-funded courses' do
-          expect(email.body).to have_no_content 'Salaried and apprenticeship routes are in high demand, you have a better chance of success if you apply to a course with fees to pay.'
-          expect(email.body).to have_no_content 'Select ‘fee - no salary’ from the filters'
+          expect(email.body).to have_no_text 'Salaried and apprenticeship routes are in high demand, you have a better chance of success if you apply to a course with fees to pay.'
+          expect(email.body).to have_no_text 'Select ‘fee - no salary’ from the filters'
         end
       end
     end

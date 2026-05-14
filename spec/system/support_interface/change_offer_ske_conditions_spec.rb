@@ -72,7 +72,7 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def then_i_see_the_current_conditions
-    expect(page).to have_content('Conditions Be cool')
+    expect(page).to have_text('Conditions Be cool')
   end
 
   def when_i_click_on_change_conditions
@@ -94,7 +94,7 @@ RSpec.describe 'Add course to submitted application' do
 
   def then_i_see_a_validation_error
     expect(page).to have_current_path(support_interface_update_application_choice_conditions_path(@application_choice))
-    expect(page).to have_content('Enter a Zendesk ticket URL')
+    expect(page).to have_text('Enter a Zendesk ticket URL')
   end
 
   def when_i_add_a_new_ske_condition_and_click_update_conditions_with_a_support_ticket_url
@@ -106,9 +106,9 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def then_i_see_the_new_ske_condition
-    expect(page).to have_content('Subject knowledge enhancement course')
-    expect(page).to have_content('Length 8 weeks')
-    expect(page).to have_content('Reason Their degree subject was not Mathematics')
+    expect(page).to have_text('Subject knowledge enhancement course')
+    expect(page).to have_text('Length 8 weeks')
+    expect(page).to have_text('Reason Their degree subject was not Mathematics')
   end
 
   def and_i_change_the_length_of_the_ske_condition
@@ -120,9 +120,9 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def then_i_see_the_updated_ske_condition
-    expect(page).to have_content('Subject knowledge enhancement course')
-    expect(page).to have_content('Length 20 weeks')
-    expect(page).to have_content('Reason Their degree subject was not Mathematics')
+    expect(page).to have_text('Subject knowledge enhancement course')
+    expect(page).to have_text('Length 20 weeks')
+    expect(page).to have_text('Reason Their degree subject was not Mathematics')
   end
 
   def and_i_delete_the_ske_condition
@@ -132,6 +132,6 @@ RSpec.describe 'Add course to submitted application' do
   end
 
   def then_i_see_that_the_ske_condition_has_been_removed
-    expect(page).to have_no_content('Subject knowledge enhancement course')
+    expect(page).to have_no_text('Subject knowledge enhancement course')
   end
 end

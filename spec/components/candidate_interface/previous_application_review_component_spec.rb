@@ -8,11 +8,11 @@ RSpec.describe CandidateInterface::PreviousApplicationReviewComponent, type: :co
     it 'renders the details of the choice' do
       result = render_inline(described_class.new(application_choice:))
 
-      expect(result).to have_content('Application withdrawn')
-      expect(result).to have_content(application_choice.course.name_and_code)
-      expect(result).to have_content(application_choice.course.qualifications_to_s)
-      expect(result).to have_content(application_choice.course.study_mode.humanize.to_s)
-      expect(result).to have_content(application_choice.personal_statement)
+      expect(result).to have_text('Application withdrawn')
+      expect(result).to have_text(application_choice.course.name_and_code)
+      expect(result).to have_text(application_choice.course.qualifications_to_s)
+      expect(result).to have_text(application_choice.course.study_mode.humanize.to_s)
+      expect(result).to have_text(application_choice.personal_statement)
     end
   end
 end

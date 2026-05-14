@@ -37,7 +37,7 @@ RSpec.describe 'Selecting a course' do
   end
 
   def then_i_am_on_the_application_choice_duplicate_page
-    expect(page).to have_content('You already have an application for Secondary (2XP2) at Gorse SCITT')
+    expect(page).to have_text('You already have an application for Secondary (2XP2) at Gorse SCITT')
   end
 
   def and_i_have_two_applications

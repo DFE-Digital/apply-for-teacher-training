@@ -139,10 +139,10 @@ RSpec.describe 'References' do
   end
 
   def and_my_referees_details
-    within_summary_row('Name') { expect(page.text).to have_content('Jesse Pinkman') }
-    within_summary_row('Email') { expect(page.text).to have_content('j.pinkman@example.com') }
-    within_summary_row('Type') { expect(page.text).to have_content('School experience') }
-    within_summary_row('How you know them and for how long') { expect(page).to have_content('Through nefarious behaviour') }
+    within_summary_row('Name') { expect(page.text).to have_text('Jesse Pinkman') }
+    within_summary_row('Email') { expect(page.text).to have_text('j.pinkman@example.com') }
+    within_summary_row('Type') { expect(page.text).to have_text('School experience') }
+    within_summary_row('How you know them and for how long') { expect(page).to have_text('Through nefarious behaviour') }
   end
 
   def when_i_click_change_on_the_references_name
@@ -166,8 +166,8 @@ RSpec.describe 'References' do
   end
 
   def and_i_do_not_see_academic_or_the_first_name_i_input
-    expect(page).to have_no_content('Academic')
-    expect(page).to have_no_content('Walter White')
+    expect(page).to have_no_text('Academic')
+    expect(page).to have_no_text('Walter White')
   end
 
   def then_i_see_the_review_references_page

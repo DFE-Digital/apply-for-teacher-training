@@ -136,12 +136,12 @@ RSpec.describe 'Entering an international degree from a country with uk compatib
 private
 
   def then_i_see_the_other_degree_review_page
-    expect(page).to have_content 'Check your degree'
-    expect(page).to have_content '3.9 GPA'
-    expect(page).to have_content 'Licenciatura'
-    expect(page).to have_content 'University of Ghana'
-    expect(page).to have_content '4000228363'
-    expect(page).to have_content 'Bachelor (Honours) degree'
+    expect(page).to have_text 'Check your degree'
+    expect(page).to have_text '3.9 GPA'
+    expect(page).to have_text 'Licenciatura'
+    expect(page).to have_text 'University of Ghana'
+    expect(page).to have_text '4000228363'
+    expect(page).to have_text 'Bachelor (Honours) degree'
   end
 
   def and_my_other_degree_has_been_saved_with_international_details
@@ -153,7 +153,7 @@ private
   end
 
   def then_i_can_see_the_international_type_page
-    expect(page).to have_content 'What type of degree is it?'
+    expect(page).to have_text 'What type of degree is it?'
   end
 
   def when_i_fill_in_a_degree_type
@@ -166,7 +166,7 @@ private
   end
 
   def then_i_can_see_the_country_page
-    expect(page).to have_content('Which country was the degree from?')
+    expect(page).to have_text('Which country was the degree from?')
   end
 
   def and_i_click_on_save_and_continue
@@ -174,11 +174,11 @@ private
   end
 
   def then_i_can_see_the_level_page
-    expect(page).to have_content 'What type of degree is it?'
+    expect(page).to have_text 'What type of degree is it?'
   end
 
   def then_i_see_the_type_page_for_a_bachelors_degree
-    expect(page).to have_content 'What type of bachelor’s degree is it?'
+    expect(page).to have_text 'What type of bachelor’s degree is it?'
   end
 
   def when_i_choose_the_type_of_degree
@@ -190,15 +190,15 @@ private
   end
 
   def then_i_can_see_the_subject_page
-    expect(page).to have_content 'What subject is your degree?'
+    expect(page).to have_text 'What subject is your degree?'
   end
 
   def then_i_see_the_review_page
-    expect(page).to have_content 'Check your degree'
-    expect(page).to have_content 'First-class honours'
-    expect(page).to have_content 'University of Ghana'
-    expect(page).to have_content '4000228363'
-    expect(page).to have_content 'Bachelor (Honours) degree'
+    expect(page).to have_text 'Check your degree'
+    expect(page).to have_text 'First-class honours'
+    expect(page).to have_text 'University of Ghana'
+    expect(page).to have_text '4000228363'
+    expect(page).to have_text 'Bachelor (Honours) degree'
   end
 
   def and_my_degree_has_been_saved_with_comparable_details
@@ -210,7 +210,7 @@ private
   end
 
   def then_i_see_the_enic_reason_page
-    expect(page).to have_content 'Show how your degree compares to a UK degree'
+    expect(page).to have_text 'Show how your degree compares to a UK degree'
   end
 
   def when_i_select_obtained
@@ -218,7 +218,7 @@ private
   end
 
   def then_i_see_the_enic_reference_page
-    expect(page).to have_content 'Enter the UK ENIC reference number for your degree'
+    expect(page).to have_text 'Enter the UK ENIC reference number for your degree'
   end
 
   def when_i_enter_an_enic_reference_and_comparable_degree
@@ -227,7 +227,7 @@ private
   end
 
   def then_i_can_see_the_start_year_page
-    expect(page).to have_content('What year did you start your degree?')
+    expect(page).to have_text('What year did you start your degree?')
   end
 
   def when_i_fill_in_the_start_year
@@ -235,7 +235,7 @@ private
   end
 
   def then_i_can_see_the_award_year_page
-    expect(page).to have_content('What year did you graduate?')
+    expect(page).to have_text('What year did you graduate?')
   end
 
   def when_i_fill_in_the_award_year
@@ -260,7 +260,7 @@ private
   end
 
   def then_i_can_see_the_university_page
-    expect(page).to have_content 'Which university awarded your degree?'
+    expect(page).to have_text 'Which university awarded your degree?'
   end
 
   def when_i_enter_a_university
@@ -268,7 +268,7 @@ private
   end
 
   def then_i_can_see_the_completion_page
-    expect(page).to have_content 'Have you completed your degree?'
+    expect(page).to have_text 'Have you completed your degree?'
   end
 
   def when_i_choose_the_degree_is_complete
@@ -276,7 +276,7 @@ private
   end
 
   def then_i_can_see_the_international_grade_page
-    expect(page).to have_content 'Did your degree give a grade?'
+    expect(page).to have_text 'Did your degree give a grade?'
   end
 
   def when_i_select_yes_and_enter_a_grade
@@ -285,7 +285,7 @@ private
   end
 
   def then_i_can_see_the_uk_grade_page
-    expect(page).to have_content 'What grade is your degree?'
+    expect(page).to have_text 'What grade is your degree?'
   end
 
   def when_i_select_the_grade

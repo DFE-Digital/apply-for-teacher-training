@@ -191,26 +191,26 @@ RSpec.describe 'Candidate with no right to work or study' do
   end
 
   def then_i_see_an_error_message_that_the_course_does_not_sponsor_visa
-    expect(page).to have_content('Visa sponsorship is not available for this course.')
-    expect(page).to have_content('Find a course that has visa sponsorship')
+    expect(page).to have_text('Visa sponsorship is not available for this course.')
+    expect(page).to have_text('Find a course that has visa sponsorship')
   end
 
   def then_i_do_not_see_an_error_message_that_the_course_does_not_sponsor_visa
-    expect(page).to have_no_content('Visa sponsorship is not available for this course.')
-    expect(page).to have_no_content('Find a course that has visa sponsorship')
+    expect(page).to have_no_text('Visa sponsorship is not available for this course.')
+    expect(page).to have_no_text('Find a course that has visa sponsorship')
   end
 
   def and_i_submit_the_application
-    expect(page).to have_content('Review application')
+    expect(page).to have_text('Review application')
     when_i_click_to_review_my_application
     when_i_click_to_submit_my_application
   end
 
   def and_i_submit_the_international_application
-    expect(page).to have_content('Review application')
+    expect(page).to have_text('Review application')
     click_link_or_button 'Review application'
     click_link_or_button 'Continue'
-    expect(page).to have_content('Check before you submit your application')
+    expect(page).to have_text('Check before you submit your application')
     click_link_or_button 'Confirm and submit application'
   end
 
@@ -223,7 +223,7 @@ RSpec.describe 'Candidate with no right to work or study' do
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted
-    expect(page).to have_content 'Application submitted'
+    expect(page).to have_text 'Application submitted'
 
     expect(@application_form.application_choices.first).to be_awaiting_provider_decision
   end

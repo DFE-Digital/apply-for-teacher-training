@@ -27,7 +27,7 @@ RSpec.describe 'Choosing no volunteering and school experience' do
   end
 
   def then_i_am_asked_if_i_have_experience_volunteering_with_young_people_or_in_school
-    expect(page).to have_content(t('application_form.volunteering.experience.label'))
+    expect(page).to have_text(t('application_form.volunteering.experience.label'))
   end
 
   def when_i_omit_choosing_if_i_have_experience
@@ -35,7 +35,7 @@ RSpec.describe 'Choosing no volunteering and school experience' do
   end
 
   def then_i_see_validation_errors
-    expect(page).to have_content(
+    expect(page).to have_text(
       t('activemodel.errors.models.candidate_interface/volunteering_experience_form.attributes.experience.blank'),
     )
   end
@@ -49,6 +49,6 @@ RSpec.describe 'Choosing no volunteering and school experience' do
   end
 
   def then_i_see_how_to_get_school_experience
-    expect(page).to have_content(t('application_form.volunteering.no_experience.get_experience'))
+    expect(page).to have_text(t('application_form.volunteering.no_experience.get_experience'))
   end
 end

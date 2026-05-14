@@ -106,7 +106,7 @@ RSpec.describe 'Clearing the wizard cache' do
   end
 
   def then_i_see_an_empty_interview_form
-    expect(page).to have_content('Set up an interview')
+    expect(page).to have_text('Set up an interview')
 
     expect(page.find_field('Day').value).to be_nil
     expect(page.find_field('Month').value).to be_nil
@@ -145,7 +145,7 @@ RSpec.describe 'Clearing the wizard cache' do
     click_link_or_button t('continue')
 
     within '.govuk-error-summary' do
-      expect(page).to have_content('There is a problem')
+      expect(page).to have_text('There is a problem')
       expect(page).to have_css('.govuk-error-summary__list li', count: 1)
     end
   end

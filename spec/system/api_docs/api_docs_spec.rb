@@ -15,23 +15,23 @@ RSpec.describe 'API docs' do
 
   def i_can_browse_the_api_docs
     visit api_docs_home_path
-    expect(page).to have_content 'This is API documentation'
+    expect(page).to have_text 'This is API documentation'
 
     click_link_or_button 'Usage scenarios'
-    expect(page).to have_content 'The scenarios on this page'
+    expect(page).to have_text 'The scenarios on this page'
 
     click_link_or_button 'API reference'
-    expect(page).to have_content 'Developing on the API'
-    expect(page).to have_content 'Field lengths summary'
+    expect(page).to have_text 'Developing on the API'
+    expect(page).to have_text 'Field lengths summary'
 
     click_link_or_button 'Release notes'
-    expect(page).to have_content 'For a log of pre-release changes, see the alpha release notes'
+    expect(page).to have_text 'For a log of pre-release changes, see the alpha release notes'
 
     click_link_or_button 'Get help'
-    expect(page).to have_content 'If you have any questions or'
+    expect(page).to have_text 'If you have any questions or'
 
     click_link_or_button 'Lifecycle'
-    expect(page).to have_content 'Application lifecycle'
+    expect(page).to have_text 'Application lifecycle'
   end
 
   def when_i_enter_an_incorrect_api_version_in_the_url

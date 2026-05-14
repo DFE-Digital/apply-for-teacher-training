@@ -48,7 +48,7 @@ RSpec.describe 'Entering their other qualifications' do
   end
 
   def then_i_see_the_add_btec_qualifications_form
-    expect(page).to have_content('Add BTEC qualification')
+    expect(page).to have_text('Add BTEC qualification')
   end
 
   def when_i_fill_in_some_of_my_qualification_but_omit_some_required_details
@@ -61,7 +61,7 @@ RSpec.describe 'Entering their other qualifications' do
   end
 
   def then_i_see_validation_errors_for_my_qualification
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_details_form.attributes.grade.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/other_qualification_details_form.attributes.grade.blank')
   end
 
   def when_i_complete_the_form
@@ -72,10 +72,10 @@ RSpec.describe 'Entering their other qualifications' do
   def then_i_see_my_btec_on_the_review_page
     expect(page).to have_current_path(candidate_interface_review_other_qualifications_path)
 
-    expect(page).to have_content('BTEC')
-    expect(page).to have_content('Music Theory')
-    expect(page).to have_content('2015')
-    expect(page).to have_content('Merit')
+    expect(page).to have_text('BTEC')
+    expect(page).to have_text('Music Theory')
+    expect(page).to have_text('2015')
+    expect(page).to have_text('Merit')
   end
 
   def and_my_other_uk_qualification_has_the_correct_format
@@ -108,10 +108,10 @@ RSpec.describe 'Entering their other qualifications' do
   def then_i_see_my_gcse_on_the_review_page
     expect(page).to have_current_path(candidate_interface_review_other_qualifications_path)
 
-    expect(page).to have_no_content('BTEC')
-    expect(page).to have_content('GCSE')
-    expect(page).to have_content('Music Theory')
-    expect(page).to have_content('2013')
-    expect(page).to have_content('C')
+    expect(page).to have_no_text('BTEC')
+    expect(page).to have_text('GCSE')
+    expect(page).to have_text('Music Theory')
+    expect(page).to have_text('2013')
+    expect(page).to have_text('C')
   end
 end

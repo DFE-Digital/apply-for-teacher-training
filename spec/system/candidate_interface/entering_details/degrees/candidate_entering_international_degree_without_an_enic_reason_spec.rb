@@ -53,7 +53,7 @@ private
   end
 
   def then_i_can_see_the_subject_page
-    expect(page).to have_content 'What subject is your degree?'
+    expect(page).to have_text 'What subject is your degree?'
   end
 
   def and_i_fill_in_the_subject
@@ -93,6 +93,6 @@ private
 
   def and_i_dont_select_an_enic_reason
     and_i_click_on_save_and_continue
-    expect(page).to have_content 'Select whether you have a UK ENIC reference number or not'
+    expect(page).to have_text 'Select whether you have a UK ENIC reference number or not'
   end
 end

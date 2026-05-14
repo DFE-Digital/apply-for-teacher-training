@@ -10,11 +10,11 @@ RSpec.describe CandidateInterface::PreviousApplicationsComponent do
     it 'does not render component' do
       result = render_inline(described_class.new(candidate:, recruitment_cycle_year: current_application_form.recruitment_cycle_year))
 
-      expect(result).to have_content('')
-      expect(result).to have_no_content("Applications for courses in the #{current_application_form.recruitment_cycle_year - 1} to #{current_application_form.recruitment_cycle_year} recruitment cycle")
-      expect(result).to have_no_content('Withdrawn')
-      expect(result).to have_no_content(withdrawn_application_choice.course.provider.name)
-      expect(result).to have_no_content(withdrawn_application_choice.course.name_and_code)
+      expect(result).to have_text('')
+      expect(result).to have_no_text("Applications for courses in the #{current_application_form.recruitment_cycle_year - 1} to #{current_application_form.recruitment_cycle_year} recruitment cycle")
+      expect(result).to have_no_text('Withdrawn')
+      expect(result).to have_no_text(withdrawn_application_choice.course.provider.name)
+      expect(result).to have_no_text(withdrawn_application_choice.course.name_and_code)
     end
   end
 
@@ -26,11 +26,11 @@ RSpec.describe CandidateInterface::PreviousApplicationsComponent do
     it 'renders component with rejected application choice' do
       result = render_inline(described_class.new(candidate:, recruitment_cycle_year: previous_application_form.recruitment_cycle_year))
 
-      expect(result).to have_no_content("Applications for courses in the #{current_application_form.recruitment_cycle_year - 1} to #{current_application_form.recruitment_cycle_year} recruitment cycle")
-      expect(result).to have_content("Applications for courses in the #{previous_application_form.recruitment_cycle_year - 1} to #{previous_application_form.recruitment_cycle_year} recruitment cycle")
+      expect(result).to have_no_text("Applications for courses in the #{current_application_form.recruitment_cycle_year - 1} to #{current_application_form.recruitment_cycle_year} recruitment cycle")
+      expect(result).to have_text("Applications for courses in the #{previous_application_form.recruitment_cycle_year - 1} to #{previous_application_form.recruitment_cycle_year} recruitment cycle")
       expect(result).to have_link(unsuccessful_application_choice.course.provider.name, href: "/candidate/application/choices/previous-applications/#{unsuccessful_application_choice.id}")
-      expect(result).to have_content(unsuccessful_application_choice.course.name_and_code)
-      expect(result).to have_content('Unsuccessful')
+      expect(result).to have_text(unsuccessful_application_choice.course.name_and_code)
+      expect(result).to have_text('Unsuccessful')
     end
   end
 
@@ -42,11 +42,11 @@ RSpec.describe CandidateInterface::PreviousApplicationsComponent do
     it 'does not component with draft application choice' do
       result = render_inline(described_class.new(candidate:, recruitment_cycle_year: previous_application_form.recruitment_cycle_year))
 
-      expect(result).to have_no_content("Applications for courses in the #{current_application_form.recruitment_cycle_year - 1} to #{current_application_form.recruitment_cycle_year} recruitment cycle")
-      expect(result).to have_no_content("Applications for courses in the #{previous_application_form.recruitment_cycle_year - 1} to #{previous_application_form.recruitment_cycle_year} recruitment cycle")
+      expect(result).to have_no_text("Applications for courses in the #{current_application_form.recruitment_cycle_year - 1} to #{current_application_form.recruitment_cycle_year} recruitment cycle")
+      expect(result).to have_no_text("Applications for courses in the #{previous_application_form.recruitment_cycle_year - 1} to #{previous_application_form.recruitment_cycle_year} recruitment cycle")
       expect(result).to have_no_link(successful_application_choice.course.provider.name, href: "/candidate/application/choices/previous-applications/#{successful_application_choice.id}")
-      expect(result).to have_no_content(successful_application_choice.course.name_and_code)
-      expect(result).to have_no_content('Draft')
+      expect(result).to have_no_text(successful_application_choice.course.name_and_code)
+      expect(result).to have_no_text('Draft')
     end
   end
 

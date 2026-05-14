@@ -29,8 +29,8 @@ RSpec.describe CandidateMailer do
     subject(:email) { described_class.nudge_unsubmitted_with_incomplete_personal_statement(application_form_with_adviser_eligibility) }
 
     it 'refers to existing adviser' do
-      expect(email.body).to have_content 'Your teacher training adviser can help you understand what to put in your personal statement.'
-      expect(email.body).to have_content 'Contact our support team'
+      expect(email.body).to have_text 'Your teacher training adviser can help you understand what to put in your personal statement.'
+      expect(email.body).to have_text 'Contact our support team'
     end
   end
 end

@@ -270,8 +270,8 @@ RSpec.describe 'Providers invites candidates' do
       provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, draft_pool_invite.id),
       ignore_query: true,
     )
-    expect(page).to have_content(course.name_code_and_course_provider)
-    expect(page).to have_content(message)
+    expect(page).to have_text(course.name_code_and_course_provider)
+    expect(page).to have_text(message)
   end
 
   def then_i_am_redirected_to_the_edit_page
@@ -287,7 +287,7 @@ RSpec.describe 'Providers invites candidates' do
       ignore_query: true,
     )
 
-    expect(page).to have_content(
+    expect(page).to have_text(
       "You have invited #{@candidate.redacted_full_name_current_cycle} (#{@candidate.id}) " \
       "to apply to #{course.name_code_and_course_provider}",
     )
@@ -299,7 +299,7 @@ RSpec.describe 'Providers invites candidates' do
       ignore_query: true,
     )
 
-    expect(page).to have_content(
+    expect(page).to have_text(
       "You have invited #{@candidate.redacted_full_name_current_cycle} (#{@candidate.id}) " \
       "to apply to #{course.name_code_and_course_provider}",
     )
@@ -311,15 +311,15 @@ RSpec.describe 'Providers invites candidates' do
       ignore_query: true,
     )
 
-    expect(page).to have_content(
+    expect(page).to have_text(
       "You have invited #{@candidate.redacted_full_name_current_cycle} (#{@candidate.id}) " \
       "to apply to #{course.name_code_and_course_provider}",
     )
   end
 
   def then_i_get_an_error(message)
-    expect(page).to have_content(message)
-    expect(page).to have_content('There is a problem')
+    expect(page).to have_text(message)
+    expect(page).to have_text('There is a problem')
     expect(page.title).to include('Error:')
   end
 

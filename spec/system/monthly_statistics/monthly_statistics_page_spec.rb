@@ -50,7 +50,7 @@ RSpec.describe 'Monthly statistics page' do
   end
 
   def and_i_see_the_monthly_statistics
-    expect(page).to have_content 'Initial teacher training application reports September 2023'
+    expect(page).to have_text 'Initial teacher training application reports September 2023'
   end
 
   def when_i_click_a_link

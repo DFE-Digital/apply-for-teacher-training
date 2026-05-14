@@ -69,7 +69,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       it 'renders the SKE component' do
         result = render_inline(described_class.new(application_choice_with_ske))
 
-        expect(result).to have_content('Subject knowledge enhancement course')
+        expect(result).to have_text('Subject knowledge enhancement course')
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       it 'does not render the SKE component' do
         result = render_inline(described_class.new(application_choice_without_ske))
 
-        expect(result).to have_no_content('Subject knowledge enhancement course')
+        expect(result).to have_no_text('Subject knowledge enhancement course')
       end
     end
   end

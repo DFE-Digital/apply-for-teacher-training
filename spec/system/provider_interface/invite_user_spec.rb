@@ -93,7 +93,7 @@ RSpec.describe 'Provider user invitation' do
   end
 
   def then_i_see_a_duplicate_email_validation_error
-    expect(page).to have_content("A user with this email address already has access to #{@provider.name}")
+    expect(page).to have_text("A user with this email address already has access to #{@provider.name}")
   end
 
   def when_i_fill_in_unique_personal_details
@@ -150,17 +150,17 @@ RSpec.describe 'Provider user invitation' do
   end
 
   def then_i_see_a_success_message
-    expect(page).to have_content('User added')
+    expect(page).to have_text('User added')
   end
 
   def and_the_new_user_appears_in_the_user_list
-    expect(page).to have_content('Jack Smithinson - john.smith@example.com')
+    expect(page).to have_text('Jack Smithinson - john.smith@example.com')
   end
 
   def and_the_new_user_gets_an_invitation_email
     open_email('john.smith@example.com')
-    expect(current_email.subject).to have_content I18n.t('provider_mailer.permissions_granted.subject',
-                                                         permissions_granted_by_user: @provider_user.full_name,
-                                                         organisation: @provider.name)
+    expect(current_email.subject).to have_text I18n.t('provider_mailer.permissions_granted.subject',
+                                                      permissions_granted_by_user: @provider_user.full_name,
+                                                      organisation: @provider.name)
   end
 end

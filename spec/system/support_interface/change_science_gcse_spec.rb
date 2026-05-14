@@ -157,7 +157,7 @@ private
   end
 
   def then_i_see_a_validation_error_about_no_qualification
-    expect(page).to have_content('Choose an option if candidate is currently studying for a GCSE')
+    expect(page).to have_text('Choose an option if candidate is currently studying for a GCSE')
   end
 
   def and_i_added_that_candidate_is_currently_studying_for_the_gcse
@@ -165,14 +165,14 @@ private
   end
 
   def then_i_see_a_validation_error_about_uk_o_level
-    expect(page).to have_content('You must provide an audit comment')
-    expect(page).to have_content('Enter your grade')
+    expect(page).to have_text('You must provide an audit comment')
+    expect(page).to have_text('Enter your grade')
   end
 
   def then_i_see_a_validation_error_about_scottish_national_gcse
-    expect(page).to have_content('You must provide an audit comment')
-    expect(page).to have_content('Enter your grade')
-    expect(page).to have_content('Enter the year you gained your qualification')
+    expect(page).to have_text('You must provide an audit comment')
+    expect(page).to have_text('Enter your grade')
+    expect(page).to have_text('Enter the year you gained your qualification')
   end
 
   def when_i_add_an_award_year_greater_than_1988
@@ -180,11 +180,11 @@ private
   end
 
   def then_i_see_a_validation_error_about_uk_o_level_award_year
-    expect(page).to have_content('Enter a year before 1989 - GCSEs replaced O levels in 1988')
+    expect(page).to have_text('Enter a year before 1989 - GCSEs replaced O levels in 1988')
   end
 
   def then_i_see_a_validation_error_to_enter_details
-    expect(page).to have_content('Enter details of the qualification you are studying for')
+    expect(page).to have_text('Enter details of the qualification you are studying for')
   end
 
   def and_i_choose_scottish_national_gcse
@@ -231,8 +231,8 @@ private
   end
 
   def then_i_see_a_validation_error_about_non_uk_gcse
-    expect(page).to have_content('You must provide an audit comment')
-    expect(page).to have_content('Enter qualification name')
+    expect(page).to have_text('You must provide an audit comment')
+    expect(page).to have_text('Enter qualification name')
   end
   alias_method :then_i_see_a_validation_error_about_another_uk_qualification, :then_i_see_a_validation_error_about_non_uk_gcse
 
@@ -259,7 +259,7 @@ private
   end
 
   def then_i_see_a_validation_error_about_gcse
-    expect(page).to have_content('You must provide an audit comment')
+    expect(page).to have_text('You must provide an audit comment')
   end
 
   def and_i_add_all_details_for_non_uk_gcse
@@ -398,7 +398,7 @@ private
   end
 
   def then_i_see_a_validation_error_about_single_award_grade
-    expect(page).to have_content('Enter your single award grade')
+    expect(page).to have_text('Enter your single award grade')
   end
 
   def then_it_has_saved_the_single_award_gcses_into_the_application_form
@@ -420,7 +420,7 @@ private
   end
 
   def then_i_see_a_validation_error_about_double_award_grade
-    expect(page).to have_content('Enter your double award grade')
+    expect(page).to have_text('Enter your double award grade')
   end
 
   def when_i_add_the_double_award_grade
@@ -447,9 +447,9 @@ private
   end
 
   def then_i_see_a_validation_error_about_triple_award_grade
-    expect(page).to have_content('Enter your chemistry grade')
-    expect(page).to have_content('Enter your biology grade')
-    expect(page).to have_content('Enter your physics grade')
+    expect(page).to have_text('Enter your chemistry grade')
+    expect(page).to have_text('Enter your biology grade')
+    expect(page).to have_text('Enter your physics grade')
   end
 
   def when_i_add_the_triple_award_grades
@@ -482,7 +482,7 @@ private
   end
 
   def and_it_should_update_the_attributes(attributes)
-    expect(page).to have_content('GCSE updated')
+    expect(page).to have_text('GCSE updated')
 
     expect(page).to have_current_path(support_interface_application_form_path(@application_form))
 

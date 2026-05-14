@@ -35,7 +35,7 @@ RSpec.describe 'See applications' do
   end
 
   def then_i_see_no_applications
-    expect(page).to have_content 'You have not received any applications'
+    expect(page).to have_text 'You have not received any applications'
     expect(page).to have_no_css('.govuk-table')
   end
 end

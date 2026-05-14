@@ -10,9 +10,9 @@ RSpec.describe RecruitmentPerformanceReport::SubmittedApplicationsTableComponent
 
     expect(page).to have_table('1. Candidates who have submitted applications')
 
-    expect(page).to have_content provider.name
-    expect(page).to have_content 'All providers'
-    expect(page).to have_content 'Subject'
+    expect(page).to have_text provider.name
+    expect(page).to have_text 'All providers'
+    expect(page).to have_text 'Subject'
     ['This cycle', 'Last cycle', 'Percentage change'].each do |heading|
       expect(page).to have_element('th', scope: 'col', class: 'govuk-table__header', text: heading).twice
     end
@@ -22,12 +22,12 @@ RSpec.describe RecruitmentPerformanceReport::SubmittedApplicationsTableComponent
     end
 
     primary_row = page.find('tr.govuk-table__row', text: 'Primary')
-    expect(primary_row).to have_content '15'
-    expect(primary_row).to have_content '58'
-    expect(primary_row).to have_content '-74%'
-    expect(primary_row).to have_content '13,214'
-    expect(primary_row).to have_content '13,364'
-    expect(primary_row).to have_content '-1%'
+    expect(primary_row).to have_text '15'
+    expect(primary_row).to have_text '58'
+    expect(primary_row).to have_text '-74%'
+    expect(primary_row).to have_text '13,214'
+    expect(primary_row).to have_text '13,364'
+    expect(primary_row).to have_text '-1%'
 
     secondary_subject_headings.each do |heading|
       expect(page).to have_element(
@@ -54,9 +54,9 @@ RSpec.describe RecruitmentPerformanceReport::SubmittedApplicationsTableComponent
 
     expect(page).to have_table('1. Candidates who have submitted applications')
 
-    expect(page).to have_content provider.name
-    expect(page).to have_content 'All providers'
-    expect(page).to have_content 'Subject'
+    expect(page).to have_text provider.name
+    expect(page).to have_text 'All providers'
+    expect(page).to have_text 'Subject'
     [
       "#{previous_cycle_year} cycle",
       "#{previous_cycle_year - 1} cycle",
@@ -70,12 +70,12 @@ RSpec.describe RecruitmentPerformanceReport::SubmittedApplicationsTableComponent
     end
 
     primary_row = page.find('tr.govuk-table__row', text: 'Primary')
-    expect(primary_row).to have_content '15'
-    expect(primary_row).to have_content '58'
-    expect(primary_row).to have_content '-74%'
-    expect(primary_row).to have_content '13,214'
-    expect(primary_row).to have_content '13,364'
-    expect(primary_row).to have_content '-1%'
+    expect(primary_row).to have_text '15'
+    expect(primary_row).to have_text '58'
+    expect(primary_row).to have_text '-74%'
+    expect(primary_row).to have_text '13,214'
+    expect(primary_row).to have_text '13,364'
+    expect(primary_row).to have_text '-1%'
 
     secondary_subject_headings.each do |heading|
       expect(page).to have_element(

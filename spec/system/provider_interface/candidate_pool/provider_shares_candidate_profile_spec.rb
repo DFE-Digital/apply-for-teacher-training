@@ -67,12 +67,12 @@ RSpec.describe 'Provider shares candidate profile' do
 
     host = Capybara.current_session.server.host
     port = Capybara.current_session.server.port
-    expect(page).to have_content(
+    expect(page).to have_text(
       "http://#{host}:#{port}#{provider_interface_candidate_pool_candidate_path(@rejected_candidate)}",
     )
   end
 
   def then_i_can_see_success_message
-    expect(page).to have_content('Link copied to clipboard')
+    expect(page).to have_text('Link copied to clipboard')
   end
 end

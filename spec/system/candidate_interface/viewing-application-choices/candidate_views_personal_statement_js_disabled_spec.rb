@@ -33,7 +33,7 @@ RSpec.describe 'Personal statement' do
   end
 
   def then_i_see_the_full_personal_statement
-    expect(page).to have_content(long_personal_statement)
+    expect(page).to have_text(long_personal_statement)
   end
 
   def number_of_words_to_display_the_show_more_link

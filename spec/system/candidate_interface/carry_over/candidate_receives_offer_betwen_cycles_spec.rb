@@ -61,7 +61,7 @@ private
     choose 'Decline offer'
     click_on 'Continue'
     click_on 'Yes I’m sure – decline this offer'
-    expect(page).to have_content 'You have declined your offer'
+    expect(page).to have_text 'You have declined your offer'
     expect(@application_choice.reload.status).to eq 'declined'
   end
 
@@ -69,12 +69,12 @@ private
     choose 'Accept offer'
     click_on 'Continue'
     click_on 'Accept offer'
-    expect(page).to have_content 'You have accepted your offer'
+    expect(page).to have_text 'You have accepted your offer'
   end
 
   def then_i_can_navigate_to_the_offer
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_content 'Offer received'
+    expect(page).to have_text 'Offer received'
     click_on @application_choice.provider.name
   end
 

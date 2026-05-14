@@ -64,11 +64,11 @@ RSpec.describe 'Organisation users' do
   end
 
   def then_i_see_the_success_message
-    expect(page).to have_content('User removed')
+    expect(page).to have_text('User removed')
   end
 
   def and_the_user_no_longer_belongs_to_the_provider
-    expect(page).to have_no_content(@user_to_remove.full_name)
+    expect(page).to have_no_text(@user_to_remove.full_name)
     expect(@user_to_remove.reload.providers).to contain_exactly(@read_only_provider)
   end
 

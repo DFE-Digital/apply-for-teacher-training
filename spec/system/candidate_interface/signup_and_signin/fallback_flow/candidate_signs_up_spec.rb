@@ -56,7 +56,7 @@ private
   end
 
   def then_i_see_form_errors_on_the_page
-    expect(page).to have_content 'There is a problem'
+    expect(page).to have_text 'There is a problem'
   end
 
   def and_i_submit_my_email_address(email = @email)
@@ -66,7 +66,7 @@ private
 
   def then_i_receive_an_email_with_a_sign_up_link
     open_email(@email)
-    expect(current_email.subject).to have_content 'Confirm your email address to apply for teacher training'
+    expect(current_email.subject).to have_text 'Confirm your email address to apply for teacher training'
   end
 
   def when_i_click_on_the_link_in_my_email
@@ -79,7 +79,7 @@ private
 
   def then_i_am_signed_in
     within '.app-header__navigation' do
-      expect(page).to have_content 'Sign out'
+      expect(page).to have_text 'Sign out'
     end
   end
 
@@ -95,7 +95,7 @@ private
 
   def then_i_receive_an_email_with_a_sign_in_link(email = @email)
     open_email(email)
-    expect(current_email.subject).to have_content 'Sign in to continue your applications for teacher training'
+    expect(current_email.subject).to have_text 'Sign in to continue your applications for teacher training'
   end
 
   def and_i_confirm_sign_in

@@ -319,9 +319,9 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def then_i_see_an_error
-    expect(page).to have_content 'There is a problem'
+    expect(page).to have_text 'There is a problem'
     expect(page.title).to include 'Error:'
-    expect(page).to have_content('Reason for not sharing your application details must be 200 words or less').twice
+    expect(page).to have_text('Reason for not sharing your application details must be 200 words or less').twice
   end
 
   def when_i_enter_a_reason_with_fewer_words
@@ -344,29 +344,29 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def then_i_am_redirected_to_location_preferences(location_preferences)
-    expect(page).to have_content('Areas you can train in')
+    expect(page).to have_text('Areas you can train in')
 
     location_preferences.each_with_index do |location, index|
       within ".govuk-table__body .govuk-table__row:nth-of-type(#{index + 1})" do
-        expect(page).to have_content(location[:name])
-        expect(page).to have_content(location[:within])
+        expect(page).to have_text(location[:name])
+        expect(page).to have_text(location[:within])
       end
     end
   end
 
   def then_i_am_redirected_to_the_dynamic_locations_page
-    expect(page).to have_content 'Add the locations of courses you apply to'
+    expect(page).to have_text 'Add the locations of courses you apply to'
     expect(page.title).to include 'Add the locations of courses you apply to'
   end
 
   def then_i_am_redirected_to_location_preferences_without_locations
-    expect(page).to have_content('Areas you can train in')
-    expect(page).to have_content('You have no location preferences')
+    expect(page).to have_text('Areas you can train in')
+    expect(page).to have_text('You have no location preferences')
   end
 
   def then_i_see_my_location_preferences_page
-    expect(page).to have_content('Areas you can train in')
-    expect(page).to have_content('Training providers will use the locations you enter here to search for candidates near their courses. You should add all locations that you can train in.')
+    expect(page).to have_text('Areas you can train in')
+    expect(page).to have_text('Training providers will use the locations you enter here to search for candidates near their courses. You should add all locations that you can train in.')
   end
 
   def then_i_see_my_location_preferences_page_including_the_dynamic_location
@@ -385,11 +385,11 @@ RSpec.describe 'Candidate adds preferences' do
 
   def then_i_am_redirected_to_invites
     expect(page).to have_current_path(candidate_interface_invites_path)
-    expect(page).to have_content('You are not sharing your application details with providers you have not applied to')
+    expect(page).to have_text('You are not sharing your application details with providers you have not applied to')
   end
 
   def then_i_am_redirected_to_opt_in
-    expect(page).to have_content('Do you want to be invited to apply to similar courses?')
+    expect(page).to have_text('Do you want to be invited to apply to similar courses?')
 
     yes_option = find_by_id('candidate-interface-pool-opt-ins-form-pool-status-opt-in-field')
     expect(yes_option).to be_checked
@@ -400,7 +400,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def then_i_am_redirected_to_review_page
-    expect(page).to have_content('Check your application sharing preferences')
+    expect(page).to have_text('Check your application sharing preferences')
 
     locations = [
       "Within #{home_location[:within]} miles of #{home_location[:name]}",
@@ -427,15 +427,15 @@ RSpec.describe 'Candidate adds preferences' do
 
     summary_list.each_with_index do |item, index|
       within ".govuk-summary-list__row:nth-of-type(#{index + 1})" do
-        expect(page).to have_content(item[:label])
-        expect(page).to have_content(item[:value])
+        expect(page).to have_text(item[:label])
+        expect(page).to have_text(item[:value])
       end
     end
   end
 
   def then_i_am_redirected_to_review_page_without_locations
-    expect(page).to have_content('Check your application sharing preferences')
-    expect(page).to have_content('Anywhere in England')
+    expect(page).to have_text('Check your application sharing preferences')
+    expect(page).to have_text('Anywhere in England')
   end
 
   def and_the_dynamic_locations_is_checked
@@ -449,12 +449,12 @@ RSpec.describe 'Candidate adds preferences' do
 
   def then_i_am_redirected_to_confirmation_page
     expect(page).to have_current_path(show_candidate_interface_pool_opt_ins_path)
-    expect(page).to have_content('You have chosen to share your application details')
+    expect(page).to have_text('You have chosen to share your application details')
   end
 
   def then_i_get_an_error(error_message)
     within '.govuk-error-summary' do
-      expect(page).to have_content(error_message)
+      expect(page).to have_text(error_message)
       expect(page).to have_css('.govuk-error-summary__list li', count: 1)
     end
   end
@@ -464,7 +464,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def then_i_am_redirected_to_remove_location_page
-    expect(page).to have_content('Do you want to remove this location?')
+    expect(page).to have_text('Do you want to remove this location?')
   end
 
   def when_i_remove_all_locations
@@ -488,15 +488,15 @@ RSpec.describe 'Candidate adds preferences' do
   def given_i_am_on_the_share_details_page
     visit candidate_interface_share_details_path
 
-    expect(page).to have_content('Application sharing How application sharing works')
+    expect(page).to have_text('Application sharing How application sharing works')
   end
 
   def then_i_am_redirected_to_opt_in_page
-    expect(page).to have_content('Would you like to share your application details with other training providers?')
+    expect(page).to have_text('Would you like to share your application details with other training providers?')
   end
 
   def then_i_am_redirected_to_training_locations
-    expect(page).to have_content 'Where can you train?'
+    expect(page).to have_text 'Where can you train?'
   end
 
   def when_i_click_change_on_the_last_location
@@ -556,7 +556,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def then_i_am_redirected_funding_type_page
-    expect(page).to have_content('What funding types are you interested in?')
+    expect(page).to have_text('What funding types are you interested in?')
   end
 
   def when_i_check_yes_fee_funding_courses
@@ -570,7 +570,7 @@ RSpec.describe 'Candidate adds preferences' do
 
   def then_i_am_redirected_to_invites_page
     expect(page).to have_current_path(candidate_interface_invites_path)
-    expect(page).to have_content('You have updated your application sharing preferences')
+    expect(page).to have_text('You have updated your application sharing preferences')
   end
 
   def given_google_returns_a_malicious_option
@@ -583,7 +583,7 @@ RSpec.describe 'Candidate adds preferences' do
     expect(page).to have_css('#candidate-interface-location-preferences-form-name-field__listbox', visible: :visible)
     expect(
       page.find('ul', id: 'candidate-interface-location-preferences-form-name-field__listbox'),
-    ).to have_content('<h2><a href="test.com">test.ca</a></h2>')
+    ).to have_text('<h2><a href="test.com">test.ca</a></h2>')
 
     within('#candidate-interface-location-preferences-form-name-field__listbox') do
       expect(page).to have_no_css('a', text: 'test.ca')

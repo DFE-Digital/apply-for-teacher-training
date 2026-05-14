@@ -101,12 +101,12 @@ RSpec.describe 'A candidate withdraws their application', :bullet do
   end
 
   def then_i_see_the_page_not_found
-    expect(page).to have_content('Page not found')
+    expect(page).to have_text('Page not found')
   end
 
   def then_the_provider_has_received_an_email
     open_email(@provider_user.email_address)
-    expect(current_email.subject).to have_content "#{@application_choice.application_form.full_name} withdrew their application"
+    expect(current_email.subject).to have_text "#{@application_choice.application_form.full_name} withdrew their application"
   end
 
   def then_i_see_the_carry_over_content
@@ -117,6 +117,6 @@ RSpec.describe 'A candidate withdraws their application', :bullet do
 
   def then_the_candidate_has_received_an_email
     open_email(@application_choice.application_form.candidate.email_address)
-    expect(current_email.subject).to have_content 'You have withdrawn your application'
+    expect(current_email.subject).to have_text 'You have withdrawn your application'
   end
 end

@@ -101,7 +101,7 @@ RSpec.describe 'Candidate with a degree subject that matches an adviser teaching
 
   def then_i_see_the_review_page_with_the_subject_prefilled
     expect(page).to have_current_path(candidate_interface_adviser_sign_ups_path(preferred_teaching_subject_id: @teaching_subject_1.external_identifier))
-    expect(page).to have_content(@teaching_subject_1.title)
+    expect(page).to have_text(@teaching_subject_1.title)
   end
 
   def then_i_see_my_details_page
@@ -109,6 +109,6 @@ RSpec.describe 'Candidate with a degree subject that matches an adviser teaching
   end
 
   def and_i_see_the_success_message
-    expect(page).to have_content(t('candidate_interface.adviser_sign_ups.create.flash.success'))
+    expect(page).to have_text(t('candidate_interface.adviser_sign_ups.create.flash.success'))
   end
 end

@@ -10,19 +10,19 @@ RSpec.describe RecruitmentPerformanceReport::ProportionCandidatesWithOffersTable
 
     expect(page).to have_table('3. Proportion of candidates with an offer')
 
-    expect(page).to have_content provider.name
-    expect(page).to have_content 'All providers'
-    expect(page).to have_content 'Subject'
+    expect(page).to have_text provider.name
+    expect(page).to have_text 'All providers'
+    expect(page).to have_text 'Subject'
     ['This cycle', 'Last cycle'].each do |heading|
       expect(page).to have_element('th', scope: 'col', class: 'govuk-table__header', text: heading).twice
     end
 
-    expect(page).to have_no_content 'Percentage change'
+    expect(page).to have_no_text 'Percentage change'
     primary_row = page.find('tr.govuk-table__row', text: 'Primary')
-    expect(primary_row).to have_content '53%'
-    expect(primary_row).to have_content '14%'
-    expect(primary_row).to have_content '55%'
-    expect(primary_row).to have_content '59%'
+    expect(primary_row).to have_text '53%'
+    expect(primary_row).to have_text '14%'
+    expect(primary_row).to have_text '55%'
+    expect(primary_row).to have_text '59%'
 
     %w[Primary Secondary].each do |heading|
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: heading)
@@ -53,9 +53,9 @@ RSpec.describe RecruitmentPerformanceReport::ProportionCandidatesWithOffersTable
 
     expect(page).to have_table('3. Proportion of candidates with an offer')
 
-    expect(page).to have_content provider.name
-    expect(page).to have_content 'All providers'
-    expect(page).to have_content 'Subject'
+    expect(page).to have_text provider.name
+    expect(page).to have_text 'All providers'
+    expect(page).to have_text 'Subject'
     [
       "#{previous_cycle_year} cycle",
       "#{previous_cycle_year - 1} cycle",
@@ -63,12 +63,12 @@ RSpec.describe RecruitmentPerformanceReport::ProportionCandidatesWithOffersTable
       expect(page).to have_element('th', scope: 'col', class: 'govuk-table__header', text: heading).twice
     end
 
-    expect(page).to have_no_content 'Percentage change'
+    expect(page).to have_no_text 'Percentage change'
     primary_row = page.find('tr.govuk-table__row', text: 'Primary')
-    expect(primary_row).to have_content '53%'
-    expect(primary_row).to have_content '14%'
-    expect(primary_row).to have_content '55%'
-    expect(primary_row).to have_content '59%'
+    expect(primary_row).to have_text '53%'
+    expect(primary_row).to have_text '14%'
+    expect(primary_row).to have_text '55%'
+    expect(primary_row).to have_text '59%'
 
     %w[Primary Secondary].each do |heading|
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: heading)

@@ -205,8 +205,8 @@ RSpec.describe 'Editing a degree' do
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_type
-    expect(page).to have_content 'Master of Arts'
-    expect(page).to have_content 'MA'
+    expect(page).to have_text 'Master of Arts'
+    expect(page).to have_text 'MA'
   end
 
   def and_i_choose_my_specific_undergraduate_degree_type
@@ -214,34 +214,34 @@ RSpec.describe 'Editing a degree' do
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_start_year
-    expect(page).to have_content '2008'
+    expect(page).to have_text '2008'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_award_year
-    expect(page).to have_content '2011'
+    expect(page).to have_text '2011'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_subject
-    expect(page).to have_content 'Computer games'
+    expect(page).to have_text 'Computer games'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_institution
-    expect(page).to have_content 'University of Oxford'
+    expect(page).to have_text 'University of Oxford'
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_grade
-    expect(page).to have_content 'Merit'
+    expect(page).to have_text 'Merit'
   end
 
   def then_i_can_check_my_revised_completion_status_and_award_year
     completion_status_row = page.all('.govuk-summary-list__row').find { |row| row.has_link? 'Change completion status' }
-    expect(completion_status_row).to have_content 'No'
+    expect(completion_status_row).to have_text 'No'
 
-    expect(page).to have_content current_year.to_s
+    expect(page).to have_text current_year.to_s
   end
 
   def then_i_can_check_my_undergraduate_degree_type_has_been_cleared
-    expect(page).to have_content('What type of degree is it?')
+    expect(page).to have_text('What type of degree is it?')
     expect(page.find_field('candidate-interface-degree-form-type-field').value).to be_nil
   end
 
@@ -254,7 +254,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def then_i_can_change_my_completion_status
-    expect(page).to have_content 'Have you completed your degree?'
+    expect(page).to have_text 'Have you completed your degree?'
     choose 'No'
   end
 
@@ -265,9 +265,9 @@ RSpec.describe 'Editing a degree' do
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_type_again
-    expect(page).to have_content 'Level 6 Diploma'
-    expect(page).to have_no_content 'Master of Arts'
-    expect(page).to have_no_content 'MA'
+    expect(page).to have_text 'Level 6 Diploma'
+    expect(page).to have_no_text 'Master of Arts'
+    expect(page).to have_no_text 'MA'
   end
 
   def when_i_click_to_change_my_undergraduate_degree_type_again
@@ -283,7 +283,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def then_i_can_check_my_revised_masters_undergraduate_degree
-    expect(page).to have_content 'Master of Business Administration'
+    expect(page).to have_text 'Master of Business Administration'
   end
 
   def when_i_click_to_change_my_masters_undergraduate_degree_type

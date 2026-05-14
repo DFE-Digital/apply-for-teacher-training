@@ -57,16 +57,16 @@ RSpec.describe 'Candidate submits the application' do
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted
-    expect(page).to have_content 'Application submitted'
+    expect(page).to have_text 'Application submitted'
   end
 
   def and_i_am_redirected_to_the_application_dashboard
-    expect(page).to have_content t('page_titles.application_dashboard')
-    expect(page).to have_content 'Gorse SCITT'
+    expect(page).to have_text t('page_titles.application_dashboard')
+    expect(page).to have_text 'Gorse SCITT'
   end
 
   def and_i_can_see_i_have_three_choices_left
-    expect(page).to have_content 'You can submit 3 more applications.'
+    expect(page).to have_text 'You can submit 3 more applications.'
   end
 
   def when_my_application_is_rejected
@@ -75,8 +75,8 @@ RSpec.describe 'Candidate submits the application' do
 
   def then_i_am_unable_to_add_any_further_choices
     visit current_path
-    expect(page).to have_content 'You cannot submit any more applications this year'
-    expect(page).to have_content 'This is because you have a total of 15 applications that have been either:'
+    expect(page).to have_text 'You cannot submit any more applications this year'
+    expect(page).to have_text 'This is because you have a total of 15 applications that have been either:'
   end
 
   def when_i_click(button)

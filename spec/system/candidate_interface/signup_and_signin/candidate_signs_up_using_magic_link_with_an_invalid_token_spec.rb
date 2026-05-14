@@ -43,7 +43,7 @@ RSpec.describe 'Candidate tries to sign up using magic link with an invalid toke
 
   def then_i_receive_an_email_inviting_me_to_sign_up
     open_email(@email)
-    expect(current_email.subject).to have_content t('authentication.sign_up.email.subject')
+    expect(current_email.subject).to have_text t('authentication.sign_up.email.subject')
   end
 
   def when_the_magic_link_token_is_expired
@@ -68,7 +68,7 @@ RSpec.describe 'Candidate tries to sign up using magic link with an invalid toke
 
   def then_i_receive_an_email_inviting_me_to_sign_in
     open_email(@email)
-    expect(current_email.subject).to have_content t('authentication.sign_in.email.subject')
+    expect(current_email.subject).to have_text t('authentication.sign_in.email.subject')
   end
 
   def then_i_see_my_application_form

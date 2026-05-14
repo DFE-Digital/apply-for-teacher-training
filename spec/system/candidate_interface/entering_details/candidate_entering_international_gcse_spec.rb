@@ -60,11 +60,11 @@ RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def then_i_see_the_add_gcse_maths_page
-    expect(page).to have_content 'What type of qualification in maths do you have?'
+    expect(page).to have_text 'What type of qualification in maths do you have?'
   end
 
   def then_i_see_the_qualification_type_error
-    expect(page).to have_content 'Select the type of qualification'
+    expect(page).to have_text 'Select the type of qualification'
   end
 
   def when_i_select_non_uk_qualification
@@ -88,7 +88,7 @@ RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
   def when_i_do_not_select_a_country; end
 
   def then_i_see_the_country_blank_error
-    expect(page).to have_content 'Enter the country or territory you studied in'
+    expect(page).to have_text 'Enter the country or territory you studied in'
   end
 
   def when_i_fill_in_a_valid_country
@@ -102,7 +102,7 @@ RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
   def when_i_do_not_input_my_enic_reference_or_choose_an_equivalency; end
 
   def then_i_see_the_do_you_have_a_enic_reference_error
-    expect(page).to have_content 'Select if you have a UK ENIC statement of comparability'
+    expect(page).to have_text 'Select if you have a UK ENIC statement of comparability'
   end
 
   def when_i_choose_yes
@@ -111,11 +111,11 @@ RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
 
   def then_i_see_the_enic_reference_blank_error
     and_i_click_save_and_continue
-    expect(page).to have_content 'Enter your UK ENIC reference number'
+    expect(page).to have_text 'Enter your UK ENIC reference number'
   end
 
   def and_i_see_the_choose_a_equivalency_option_error
-    expect(page).to have_content 'Choose a comparable UK qualification'
+    expect(page).to have_text 'Choose a comparable UK qualification'
   end
 
   def when_i_fill_in_my_enic_reference_and_choose_an_equivalency
@@ -128,21 +128,21 @@ RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def then_i_see_the_review_page_with_correct_details
-    expect(page).to have_content 'Maths GCSE or equivalent'
-    expect(page).to have_content 'High School Diploma'
-    expect(page).to have_content 'Pass'
-    expect(page).to have_content '1990'
-    expect(page).to have_content 'United States'
-    expect(page).to have_content '12345'
-    expect(page).to have_content 'GCSE (grades A*-C / 9-4)'
+    expect(page).to have_text 'Maths GCSE or equivalent'
+    expect(page).to have_text 'High School Diploma'
+    expect(page).to have_text 'Pass'
+    expect(page).to have_text '1990'
+    expect(page).to have_text 'United States'
+    expect(page).to have_text '12345'
+    expect(page).to have_text 'GCSE (grades A*-C / 9-4)'
   end
 
   def then_i_see_add_grade_page
-    expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'maths')
+    expect(page).to have_text t('gcse_edit_grade.page_title', subject: 'maths')
   end
 
   def then_i_see_add_year_page
-    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'maths', qualification_type: 'qualification')
+    expect(page).to have_text t('gcse_edit_year.page_title', subject: 'maths', qualification_type: 'qualification')
   end
 
   def when_i_choose_other

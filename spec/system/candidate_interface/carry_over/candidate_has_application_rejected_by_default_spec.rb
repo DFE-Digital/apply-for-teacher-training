@@ -92,25 +92,25 @@ private
 
   def then_i_see_my_application_is_awaiting_provider_decision
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_content 'Awaiting decision'
+    expect(page).to have_text 'Awaiting decision'
   end
 
   def then_i_see_my_application_is_inactive
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_content 'Inactive'
+    expect(page).to have_text 'Inactive'
   end
 
   def then_i_see_my_application_is_interviewing
-    expect(page).to have_content 'Interviewing'
+    expect(page).to have_text 'Interviewing'
   end
 
   def then_i_see_my_application_is_now_unsuccessful
-    expect(page).to have_content 'Unsuccessful'
+    expect(page).to have_text 'Unsuccessful'
   end
 
   def then_i_cannot_carry_over_my_application
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_content(
+    expect(page).to have_text(
       'Applications that are awaiting provider decision or interviewing will be rejected automatically.',
     )
   end

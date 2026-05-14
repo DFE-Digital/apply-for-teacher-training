@@ -51,6 +51,6 @@ RSpec.describe 'Candidate submits the application' do
   end
 
   def then_i_see_an_error_message
-    expect(page).to have_content('You cannot submit this application until you complete your details.')
+    expect(page).to have_text('You cannot submit this application until you complete your details.')
   end
 end

@@ -73,7 +73,7 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
   end
 
   def then_i_see_a_validation_error
-    expect(page).to have_content 'Enter an email address'
+    expect(page).to have_text 'Enter an email address'
   end
 
   def when_i_provide_my_email_address
@@ -88,7 +88,7 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
 
   def then_i_receive_an_email_with_a_signin_link
     open_email(@email)
-    expect(current_email.subject).to have_content 'Sign in - manage teacher training applications'
+    expect(current_email.subject).to have_text 'Sign in - manage teacher training applications'
   end
 
   def when_i_click_an_incorrect_sign_in_link
@@ -96,7 +96,7 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
   end
 
   def then_i_see_a_404
-    expect(page).to have_content 'Page not found'
+    expect(page).to have_text 'Page not found'
   end
 
   def when_i_visit_the_link_in_my_email
@@ -105,7 +105,7 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
   end
 
   def then_i_see_a_confirm_sign_in_page
-    expect(page).to have_content 'Confirm that you want to sign in'
+    expect(page).to have_text 'Confirm that you want to sign in'
   end
 
   def when_i_click_on_sign_in
@@ -115,7 +115,7 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
 
   def then_i_am_signed_in
     within 'header' do
-      expect(page).to have_content 'Sign out'
+      expect(page).to have_text 'Sign out'
     end
   end
 
@@ -129,12 +129,12 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
 
   def then_i_am_not_signed_in
     within 'header' do
-      expect(page).to have_no_content @email
+      expect(page).to have_no_text @email
     end
   end
 
   def then_i_do_not_see_a_confirm_sign_in_page
-    expect(page).to have_no_content 'Confirm sign in'
+    expect(page).to have_no_text 'Confirm sign in'
   end
 
   def and_i_am_asked_to_sign_in_the_normal_way

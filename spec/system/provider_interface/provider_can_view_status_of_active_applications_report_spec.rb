@@ -51,20 +51,20 @@ RSpec.describe 'View active status of applications report' do
   end
 
   def then_i_can_view_the_active_course_data_for_my_provider
-    expect(page).to have_content('Status of active applications')
-    expect(page).to have_content(provider.name)
+    expect(page).to have_text('Status of active applications')
+    expect(page).to have_text(provider.name)
     within 'table thead tr' do
-      expect(page).to have_content('Course')
-      expect(page).to have_content(I18n.t('provider_application_states.awaiting_provider_decision').to_s)
-      expect(page).to have_content(I18n.t('provider_application_states.interviewing').to_s)
-      expect(page).to have_content(I18n.t('provider_application_states.offer').to_s)
-      expect(page).to have_content(I18n.t('provider_application_states.pending_conditions').to_s)
-      expect(page).to have_content(I18n.t('provider_application_states.recruited').to_s)
+      expect(page).to have_text('Course')
+      expect(page).to have_text(I18n.t('provider_application_states.awaiting_provider_decision').to_s)
+      expect(page).to have_text(I18n.t('provider_application_states.interviewing').to_s)
+      expect(page).to have_text(I18n.t('provider_application_states.offer').to_s)
+      expect(page).to have_text(I18n.t('provider_application_states.pending_conditions').to_s)
+      expect(page).to have_text(I18n.t('provider_application_states.recruited').to_s)
     end
     within 'table tbody' do
-      expect(page).to have_content(course_with_other_accredited_provider.name)
-      expect(page).to have_content(course_without_accredited_provider.name)
-      expect(page).to have_content(course_provider_accredits.name)
+      expect(page).to have_text(course_with_other_accredited_provider.name)
+      expect(page).to have_text(course_without_accredited_provider.name)
+      expect(page).to have_text(course_provider_accredits.name)
     end
   end
 

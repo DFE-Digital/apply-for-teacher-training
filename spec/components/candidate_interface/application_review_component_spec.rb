@@ -221,7 +221,7 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
     end
 
     it 'shows the personal statement' do
-      expect(result).to have_content("Personal statement #{personal_statement}")
+      expect(result).to have_text("Personal statement #{personal_statement}")
     end
 
     it 'does not show the interview row' do
@@ -365,7 +365,7 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
       end
 
       it 'does not show a warning text' do
-        expect(result.text).to have_content(
+        expect(result.text).to have_text(
           'You can add an application for a different training provider while you wait for a decision on this application.',
         )
       end

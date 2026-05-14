@@ -72,23 +72,23 @@ RSpec.describe 'Candidate tries to submit an application choice when the course 
   end
 
   def and_i_do_not_see_notice_to_delete_draft
-    expect(page).to have_no_content('Delete draft application')
+    expect(page).to have_no_text('Delete draft application')
   end
 
   def then_i_see_the_course_closed_error_message
     within('.govuk-warning-text') do
-      expect(page).to have_content('You cannot submit this application because the course has closed.')
+      expect(page).to have_text('You cannot submit this application because the course has closed.')
     end
   end
 
   def then_i_see_the_course_unavailable_error_message
     within('.govuk-warning-text') do
-      expect(page).to have_content('You cannot submit this application because the course is no longer available.')
+      expect(page).to have_text('You cannot submit this application because the course is no longer available.')
     end
   end
 
   def then_i_not_see_the_continue_application_link
-    expect(page).to have_no_content('Continue application')
+    expect(page).to have_no_text('Continue application')
   end
 
   def when_i_visit_the_review_page_directly
@@ -108,7 +108,7 @@ RSpec.describe 'Candidate tries to submit an application choice when the course 
   end
 
   def then_i_see_that_the_course_is_closed
-    expect(page).to have_content('You cannot submit this application because the course has closed.')
-    expect(page).to have_content('Remove this application and search for other courses.')
+    expect(page).to have_text('You cannot submit this application because the course has closed.')
+    expect(page).to have_text('Remove this application and search for other courses.')
   end
 end

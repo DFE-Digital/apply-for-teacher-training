@@ -56,7 +56,7 @@ private
   end
 
   def then_i_see_a_404
-    expect(page).to have_content 'Page not found'
+    expect(page).to have_text 'Page not found'
   end
 
   def and_i_have_generated_multiple_tokens

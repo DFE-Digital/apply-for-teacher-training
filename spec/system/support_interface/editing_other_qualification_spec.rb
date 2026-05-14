@@ -204,12 +204,12 @@ RSpec.describe 'Editing other qualification' do
   alias_method :when_i_submit_the_form, :and_i_submit_the_form
 
   def and_i_see_a_success_flash_message
-    expect(page).to have_content 'Other qualifications updated'
+    expect(page).to have_text 'Other qualifications updated'
   end
 
   def and_i_see_my_zendesk_ticket_in_the_audit_log
     click_link_or_button 'History'
-    expect(page).to have_content 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+    expect(page).to have_text 'https://becomingateacher.zendesk.com/agent/tickets/12345'
   end
 
   def then_i_see_the_audit_comment_validation_error

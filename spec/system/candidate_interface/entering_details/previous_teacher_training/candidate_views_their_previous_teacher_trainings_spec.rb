@@ -82,8 +82,8 @@ RSpec.describe 'Previous teacher training' do
       within('.govuk-summary-card__content') do
         summary_list.each_with_index do |item, index|
           within ".govuk-summary-list__row:nth-of-type(#{index + 1})" do
-            expect(page).to have_content(item[:label])
-            expect(page).to have_content(item[:value])
+            expect(page).to have_text(item[:label])
+            expect(page).to have_text(item[:value])
           end
         end
       end

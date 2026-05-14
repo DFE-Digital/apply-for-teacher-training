@@ -97,8 +97,8 @@ RSpec.describe 'Provider changes a course with error' do
   end
 
   def then_i_see_a_list_of_training_providers_to_select_from
-    expect(page).to have_content "Update course - #{@application_form.full_name}"
-    expect(page).to have_content 'Training provider'
+    expect(page).to have_text "Update course - #{@application_form.full_name}"
+    expect(page).to have_text 'Training provider'
   end
 
   def when_i_select_a_different_provider
@@ -110,8 +110,8 @@ RSpec.describe 'Provider changes a course with error' do
   end
 
   def then_i_see_a_list_of_courses_to_select_from
-    expect(page).to have_content "Update course - #{@application_form.full_name}"
-    expect(page).to have_content 'Course'
+    expect(page).to have_text "Update course - #{@application_form.full_name}"
+    expect(page).to have_text 'Course'
   end
 
   def when_i_select_a_different_course
@@ -119,8 +119,8 @@ RSpec.describe 'Provider changes a course with error' do
   end
 
   def then_the_review_page_is_loaded
-    expect(page).to have_content "Update course - #{@application_form.full_name}"
-    expect(page).to have_content 'Check details and update course'
+    expect(page).to have_text "Update course - #{@application_form.full_name}"
+    expect(page).to have_text 'Check details and update course'
   end
 
   def and_i_click_update_course
@@ -132,6 +132,6 @@ RSpec.describe 'Provider changes a course with error' do
   end
 
   def then_i_see_the_error_message
-    expect(page).to have_content('The course could not be changed')
+    expect(page).to have_text('The course could not be changed')
   end
 end

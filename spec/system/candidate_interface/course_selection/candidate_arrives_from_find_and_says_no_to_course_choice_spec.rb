@@ -52,7 +52,7 @@ RSpec.describe 'Candidate arrives from Find with provider and course params' do
   end
 
   def then_i_see_an_error_message
-    expect(page).to have_content(
+    expect(page).to have_text(
       I18n.t('activemodel.errors.models.find_course_selection.attributes.confirm.blank'),
     )
   end

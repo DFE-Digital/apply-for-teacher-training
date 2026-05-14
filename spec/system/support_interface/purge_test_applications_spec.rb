@@ -33,8 +33,8 @@ RSpec.describe 'Purge test applications' do
   alias_method :and_i_visit_the_candidates_page, :when_i_visit_the_candidates_page
 
   def then_i_see_two_candidates
-    expect(page).to have_content('bob@example.com')
-    expect(page).to have_content('alice@example.net')
+    expect(page).to have_text('bob@example.com')
+    expect(page).to have_text('alice@example.net')
   end
 
   def when_i_visit_the_tasks_page
@@ -50,11 +50,11 @@ RSpec.describe 'Purge test applications' do
   end
 
   def then_i_see_a_message_telling_me_a_job_has_been_queued
-    expect(page).to have_content 'Scheduled job to delete test applications'
+    expect(page).to have_text 'Scheduled job to delete test applications'
   end
 
   def then_i_see_only_one_candidate
-    expect(page).to have_no_content('bob@example.com')
-    expect(page).to have_content('alice@example.net')
+    expect(page).to have_no_text('bob@example.com')
+    expect(page).to have_text('alice@example.net')
   end
 end

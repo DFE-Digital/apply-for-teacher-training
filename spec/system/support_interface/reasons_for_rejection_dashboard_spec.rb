@@ -175,70 +175,70 @@ private
   end
 
   def then_i_see_reasons_for_rejection_title_and_details
-    expect(page).to have_content('2022 to 2023')
-    expect(page).to have_content('(starts 2023) Reasons for rejection')
-    expect(page).to have_content('The report does not include most rejections made through the API, as rejecting applications by code was only added in version 1.2 of the API.')
-    expect(page).to have_content('The percentages for all the categories will not add up to 100% as providers can choose more than 1 reason for rejecting a candidate.')
+    expect(page).to have_text('2022 to 2023')
+    expect(page).to have_text('(starts 2023) Reasons for rejection')
+    expect(page).to have_text('The report does not include most rejections made through the API, as rejecting applications by code was only added in version 1.2 of the API.')
+    expect(page).to have_text('The percentages for all the categories will not add up to 100% as providers can choose more than 1 reason for rejecting a candidate.')
   end
 
   def and_i_see_reasons_for_rejection_course_full
     within '#course-full' do
-      expect(page).to have_content('0%')
-      expect(page).to have_content('0 of 5 rejections included this category')
-      expect(page).to have_content('0 of 2 rejections in December included this category')
+      expect(page).to have_text('0%')
+      expect(page).to have_text('0 of 5 rejections included this category')
+      expect(page).to have_text('0 of 2 rejections in December included this category')
     end
   end
 
   def and_i_see_reasons_for_rejection_qualifications
     within '#qualifications' do
-      expect(page).to have_content('40% 2 of 5 rejections included this category')
-      expect(page).to have_content('50% 1 of 2 rejections in January included this category')
+      expect(page).to have_text('40% 2 of 5 rejections included this category')
+      expect(page).to have_text('50% 1 of 2 rejections in January included this category')
     end
   end
 
   def and_i_see_reasons_for_rejection_safeguarding_concerns
     within '#safeguarding' do
-      expect(page).to have_content('40%')
-      expect(page).to have_content('2 of 5 rejections included this category')
-      expect(page).to have_content('50%')
-      expect(page).to have_content('1 of 2 rejections in December included this category')
+      expect(page).to have_text('40%')
+      expect(page).to have_text('2 of 5 rejections included this category')
+      expect(page).to have_text('50%')
+      expect(page).to have_text('1 of 2 rejections in December included this category')
     end
   end
 
   def and_i_see_sub_reasons_for_rejection_due_to_qualifications
     within '#qualifications' do
-      expect(page).to have_content('40% 2 of 5 rejections included this category')
-      expect(page).to have_content('50% 1 of 2 rejections in January included this category')
-      expect(page).to have_content('No maths gcse 20% 1 of 5 50% 1 of 2 0% 0 of 2 0% 0 of 1')
-      expect(page).to have_content('Unsuitable degree 20% 1 of 5 50% 1 of 2 0% 0 of 2 0% 0 of 1')
+      expect(page).to have_text('40% 2 of 5 rejections included this category')
+      expect(page).to have_text('50% 1 of 2 rejections in January included this category')
+      expect(page).to have_text('No maths gcse 20% 1 of 5 50% 1 of 2 0% 0 of 2 0% 0 of 1')
+      expect(page).to have_text('Unsuitable degree 20% 1 of 5 50% 1 of 2 0% 0 of 2 0% 0 of 1')
     end
   end
 
   def and_i_see_sub_reasons_for_rejection_due_to_safeguarding
     within '#safeguarding' do
-      expect(page).to have_content('40% 2 of 5 rejections included this category')
-      expect(page).to have_content('50% 1 of 2 rejections in January included this category')
+      expect(page).to have_text('40% 2 of 5 rejections included this category')
+      expect(page).to have_text('50% 1 of 2 rejections in January included this category')
     end
   end
 
   def and_i_see_sub_reasons_for_rejection_due_to_teaching_knowledge_and_communication
     within '#teaching-knowledge' do
-      expect(page).to have_content('20% 1 of 5 rejections included this category')
-      expect(page).to have_content('0% 0 of 2 rejections in January included this category')
-      expect(page).to have_content('January within this category Teaching demonstration 20% 1 of 5 100% 1 of 1 0% 0 of 2 0% 0 of 0')
+      expect(page).to have_text('20% 1 of 5 rejections included this category')
+      expect(page).to have_text('0% 0 of 2 rejections in January included this category')
+      expect(page).to have_text('January within this category Teaching demonstration 20% 1 of 5 100% 1 of 1 0% 0 of 2 0% 0 of 0')
     end
 
     within '#communication-and-scheduling' do
-      expect(page).to have_content('20% 1 of 5 rejections included this category')
-      expect(page).to have_content('0% 0 of 2 rejections in January included this category')
-      expect(page).to have_content('Percentage of all rejections in January within this category Did not attend interview 20% 1 of 5 100% 1 of 1 0% 0 of 2 0% 0 of 0')
+      expect(page).to have_text('20% 1 of 5 rejections included this category')
+      expect(page).to have_text('0% 0 of 2 rejections in January included this category')
+      expect(page).to have_text('Percentage of all rejections in January within this category Did not attend interview 20% 1 of 5 100% 1 of 1 0% 0 of 2 0% 0 of 0')
     end
   end
 
   def and_i_see_reasons_for_rejection_cannot_sponsor_visa
     within '#visa-sponsorship' do
-      expect(page).to have_content('40% 2 of 5 rejections included this category')
-      expect(page).to have_content('50% 1 of 2 rejections in January included this category')
+      expect(page).to have_text('40% 2 of 5 rejections included this category')
+      expect(page).to have_text('50% 1 of 2 rejections in January included this category')
     end
   end
 

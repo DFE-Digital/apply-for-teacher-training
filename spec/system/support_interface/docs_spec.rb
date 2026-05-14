@@ -111,8 +111,8 @@ RSpec.describe 'Docs' do
   end
 
   def then_i_can_see_all_qualifications_data
-    expect(page).to have_content('These lists are a reference for the values used throughout the service.')
-    expect(page).to have_content('Degree grades (with HESA codes)')
-    expect(page).to have_content('Degree types')
+    expect(page).to have_text('These lists are a reference for the values used throughout the service.')
+    expect(page).to have_text('Degree grades (with HESA codes)')
+    expect(page).to have_text('Degree types')
   end
 end

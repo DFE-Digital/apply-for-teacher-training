@@ -58,7 +58,7 @@ RSpec.describe 'Vendor makes unconditional offer', time: CycleTimetableHelper.mi
   end
 
   def then_the_candidate_sees_that_they_have_accepted_the_offer
-    expect(page).to have_content "You have accepted your offer for #{@application_choice.course.name_and_code} at #{@application_choice.provider.name}"
+    expect(page).to have_text "You have accepted your offer for #{@application_choice.course.name_and_code} at #{@application_choice.provider.name}"
   end
 
   def unconditional_offer_payload

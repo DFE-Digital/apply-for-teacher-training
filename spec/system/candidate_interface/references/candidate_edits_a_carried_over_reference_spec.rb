@@ -45,18 +45,18 @@ private
   end
 
   def then_i_see_there_are_change_links
-    expect(page).to have_content('Change')
+    expect(page).to have_text('Change')
   end
 
   def and_i_can_delete_the_reference
-    expect(page).to have_content('Delete')
+    expect(page).to have_text('Delete')
   end
 
   def then_i_see_there_are_no_change_links
-    expect(page).to have_no_content('Change')
+    expect(page).to have_no_text('Change')
   end
 
   def and_i_cannot_delete_the_reference
-    expect(page).to have_no_content('Delete')
+    expect(page).to have_no_text('Delete')
   end
 end

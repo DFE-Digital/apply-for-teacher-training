@@ -23,8 +23,8 @@ RSpec.describe CandidateInterface::InterviewSummaryComponent do
     let(:interview) { create(:interview, additional_details: nil, location: '123 Fake Street') }
 
     it 'shows the location in inset text' do
-      expect(component).to have_content('Information from provider:')
-      expect(component.css('.govuk-inset-text')).to have_content('123 Fake Street')
+      expect(component).to have_text('Information from provider:')
+      expect(component.css('.govuk-inset-text')).to have_text('123 Fake Street')
     end
   end
 
@@ -32,8 +32,8 @@ RSpec.describe CandidateInterface::InterviewSummaryComponent do
     let(:interview) { create(:interview, additional_details: 'Bring your CV', location: nil) }
 
     it 'shows the details in inset text' do
-      expect(component).to have_content('Information from provider:')
-      expect(component.css('.govuk-inset-text')).to have_content('Bring your CV')
+      expect(component).to have_text('Information from provider:')
+      expect(component.css('.govuk-inset-text')).to have_text('Bring your CV')
     end
   end
 end

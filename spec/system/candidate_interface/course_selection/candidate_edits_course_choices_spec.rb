@@ -134,19 +134,19 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_i_see_a_change_course_link
-    expect(page).to have_content("Change course for #{@provider.courses.third.name}")
+    expect(page).to have_text("Change course for #{@provider.courses.third.name}")
   end
 
   def and_i_see_the_updated_change_course_link
-    expect(page).to have_content("Change course for #{@provider.courses.first.name}")
+    expect(page).to have_text("Change course for #{@provider.courses.first.name}")
   end
 
   def and_i_do_not_see_a_change_location_link
-    expect(page).to have_no_content("Change location for #{@provider.courses.first.name}")
+    expect(page).to have_no_text("Change location for #{@provider.courses.first.name}")
   end
 
   def and_i_do_not_see_a_change_full_time_or_part_time_link
-    expect(page).to have_no_content("Change full time or part time for #{@provider.courses.first.name}")
+    expect(page).to have_no_text("Change full time or part time for #{@provider.courses.first.name}")
   end
 
   def when_i_click_to_add_another_course
@@ -173,15 +173,15 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_i_see_the_first_site
-    expect(page).to have_content(@provider.courses.second.course_options.first.site.name)
+    expect(page).to have_text(@provider.courses.second.course_options.first.site.name)
   end
 
   def and_i_see_a_change_location_link
-    expect(page).to have_content("Change location for #{@provider.courses.second.name}")
+    expect(page).to have_text("Change location for #{@provider.courses.second.name}")
   end
 
   def and_i_see_a_change_full_time_or_part_time_link
-    expect(page).to have_content("Change full time or part time for #{@provider.courses.second.name}")
+    expect(page).to have_text("Change full time or part time for #{@provider.courses.second.name}")
   end
 
   def and_i_choose_the_single_site_course_as_my_third_course_choice
@@ -190,11 +190,11 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_i_see_another_change_full_time_or_part_time_link
-    expect(page).to have_content("Change full time or part time for #{@provider.courses.third.name}")
+    expect(page).to have_text("Change full time or part time for #{@provider.courses.third.name}")
   end
 
   def and_i_do_not_see_another_change_location_link
-    expect(page).to have_no_content("Change location for #{@provider.courses.third.name}")
+    expect(page).to have_no_text("Change location for #{@provider.courses.third.name}")
   end
 
   def when_i_click_to_change_the_location_of_the_second_course_choice
@@ -207,7 +207,7 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_i_see_the_updated_site
-    expect(page).to have_content(@provider.courses.second.course_options.second.site.name)
+    expect(page).to have_text(@provider.courses.second.course_options.second.site.name)
   end
 
   def when_i_click_to_change_full_time_or_part_time_of_the_second_course_choice
@@ -220,8 +220,8 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_i_am_asked_to_select_site
-    expect(page).to have_content('School placement location')
-    expect(page).to have_content('Which location are you interested in?')
+    expect(page).to have_text('School placement location')
+    expect(page).to have_text('Which location are you interested in?')
   end
 
   def and_i_choose_the_first_site_that_offers_part_time
@@ -230,7 +230,7 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_i_see_the_updated_full_time_or_part_time_section_for_the_second_choice
-    expect(page).to have_content('Full time or part time Part time')
+    expect(page).to have_text('Full time or part time Part time')
   end
 
   def when_i_click_to_change_full_time_or_part_time_of_the_third_course_choice
@@ -238,7 +238,7 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_i_see_the_updated_full_time_or_part_time_section_for_the_third_choice
-    expect(page).to have_content('Full time or part time Part time')
+    expect(page).to have_text('Full time or part time Part time')
   end
 
   def when_i_click_to_continue_my_second_course_choice

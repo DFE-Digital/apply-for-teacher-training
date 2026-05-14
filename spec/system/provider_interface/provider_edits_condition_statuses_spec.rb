@@ -68,7 +68,7 @@ RSpec.describe 'Confirm conditions met' do
   def then_i_see_a_summary_of_the_conditions
     within '.app-box' do
       @conditions.each do |condition|
-        expect(page).to have_content(condition.text)
+        expect(page).to have_text(condition.text)
       end
     end
   end
@@ -86,7 +86,7 @@ RSpec.describe 'Confirm conditions met' do
   end
 
   def then_i_get_feedback_that_my_action_succeeded
-    expect(page).to have_content 'Status of conditions updated'
+    expect(page).to have_text 'Status of conditions updated'
   end
 
   def and_i_am_back_on_the_application_page
@@ -95,6 +95,6 @@ RSpec.describe 'Confirm conditions met' do
 
   def and_the_candidate_is_still_pending_conditions
     expect(@application_choice.reload.pending_conditions?).to be_truthy
-    expect(page).to have_content 'Conditions pending'
+    expect(page).to have_text 'Conditions pending'
   end
 end

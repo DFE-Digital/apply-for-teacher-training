@@ -23,6 +23,6 @@ RSpec.describe 'Data set documentation' do
   end
 
   def then_i_see_the_data_set_documentation
-    expect(page).to have_content 'extract_date'
+    expect(page).to have_text 'extract_date'
   end
 end

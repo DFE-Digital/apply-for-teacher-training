@@ -89,7 +89,7 @@ private
   end
 
   def then_i_see_a_404_page
-    expect(page).to have_content 'Page not found'
+    expect(page).to have_text 'Page not found'
   end
 
   def when_i_go_to_your_applications_tab
@@ -97,7 +97,7 @@ private
   end
 
   def and_i_do_not_see_the_add_course_button
-    expect(page).to have_no_content('Choose a course')
+    expect(page).to have_no_text('Choose a course')
   end
 
   def and_i_can_see_the_add_course_button
@@ -110,13 +110,13 @@ private
     application_form_academic_year_range_name = application_form.academic_year_range_name
     date_and_time_apply_opens = application_form.apply_opens_at.to_fs(:govuk_date_time_time_first)
 
-    expect(page).to have_content('You cannot submit applications at the moment')
-    expect(page).to have_content("You can view and choose courses from #{date_and_time_find_opens}")
-    expect(page).to have_content("You will be able to submit applications for the #{application_form_academic_year_range_name} recruitment cycle from #{date_and_time_apply_opens}.")
+    expect(page).to have_text('You cannot submit applications at the moment')
+    expect(page).to have_text("You can view and choose courses from #{date_and_time_find_opens}")
+    expect(page).to have_text("You will be able to submit applications for the #{application_form_academic_year_range_name} recruitment cycle from #{date_and_time_apply_opens}.")
   end
 
   def and_i_do_not_see_previous_applications_heading
-    expect(page).to have_no_content('Previous applications')
+    expect(page).to have_no_text('Previous applications')
   end
 
   def when_i_visit_add_course_url
@@ -135,7 +135,7 @@ private
     expect(page).to have_title('Your details')
 
     click_link_or_button 'Personal information'
-    expect(page).to have_content(Date.new(1964, 9, 1).to_fs(:govuk_date))
+    expect(page).to have_text(Date.new(1964, 9, 1).to_fs(:govuk_date))
     and_my_application_is_on_the_new_cycle
   end
 

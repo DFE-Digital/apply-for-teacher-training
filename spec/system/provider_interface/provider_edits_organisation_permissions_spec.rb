@@ -89,16 +89,16 @@ RSpec.describe 'Provider edits organisation permissions' do
   def and_an_email_is_sent_to_managing_users_in_the_partner_organisation
     @training_provider_users.each do |user|
       open_email(user.email_address)
-      expect(current_email.subject).to have_content t('provider_mailer.organisation_permissions_updated.subject', provider: @ratifying_provider.name)
+      expect(current_email.subject).to have_text t('provider_mailer.organisation_permissions_updated.subject', provider: @ratifying_provider.name)
     end
   end
 
   def and_i_see_a_flash_message
-    expect(page).to have_content('Organisation permissions updated')
+    expect(page).to have_text('Organisation permissions updated')
   end
 
   def and_my_organisation_is_listed_as_able_to_make_decisions
-    expect(page).to have_content("Send offers, invitations and rejections #{@ratifying_provider.name} #{@training_provider.name}")
+    expect(page).to have_text("Send offers, invitations and rejections #{@ratifying_provider.name} #{@training_provider.name}")
   end
 
   def and_my_organisation_is_able_to_make_decisions

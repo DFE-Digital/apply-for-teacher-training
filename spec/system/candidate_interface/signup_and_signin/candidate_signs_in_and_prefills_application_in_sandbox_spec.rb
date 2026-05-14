@@ -62,14 +62,14 @@ RSpec.describe 'Candidate signs in and prefills application in Sandbox', :sandbo
   end
 
   def and_there_is_a_flash_saying_the_application_was_prefilled
-    expect(page).to have_content 'This application has been prefilled with example data'
+    expect(page).to have_text 'This application has been prefilled with example data'
   end
 
   def and_my_application_has_been_filled_in
-    expect(page).to have_no_content 'Incomplete'
+    expect(page).to have_no_text 'Incomplete'
   end
 
   def then_my_application_is_submitted_successfully
-    expect(page).to have_content 'Application submitted'
+    expect(page).to have_text 'Application submitted'
   end
 end

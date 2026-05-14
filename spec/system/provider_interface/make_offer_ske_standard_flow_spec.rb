@@ -136,8 +136,8 @@ RSpec.describe 'Provider makes an offer with SKE enabled in standard courses' do
   end
 
   def then_i_see_a_error_message_to_select_if_ske_required
-    expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select whether you require the candidate to do a course')
+    expect(page).to have_text('There is a problem')
+    expect(page).to have_text('Select whether you require the candidate to do a course')
   end
 
   def when_i_select_no_ske_required
@@ -161,8 +161,8 @@ RSpec.describe 'Provider makes an offer with SKE enabled in standard courses' do
   end
 
   def then_i_see_a_error_message_to_give_a_reason_for_ske
-    expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select why the candidate needs to take a course')
+    expect(page).to have_text('There is a problem')
+    expect(page).to have_text('Select why the candidate needs to take a course')
   end
 
   def when_i_add_a_ske_reason
@@ -178,8 +178,8 @@ RSpec.describe 'Provider makes an offer with SKE enabled in standard courses' do
   end
 
   def then_i_see_a_error_message_to_give_a_ske_course_length
-    expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Select how long the course must be')
+    expect(page).to have_text('There is a problem')
+    expect(page).to have_text('Select how long the course must be')
   end
 
   def when_i_answer_the_ske_length
@@ -191,7 +191,7 @@ RSpec.describe 'Provider makes an offer with SKE enabled in standard courses' do
   end
 
   def and_i_can_confirm_my_answers
-    expect(page).to have_content('A* on Maths A Level')
+    expect(page).to have_text('A* on Maths A Level')
   end
 
   def when_i_click_change_course
@@ -205,19 +205,19 @@ RSpec.describe 'Provider makes an offer with SKE enabled in standard courses' do
 
   def and_i_can_confirm_the_new_course_selection
     within(all('.govuk-summary-list__row')[2]) do
-      expect(page).to have_content(@selected_course.name_and_code)
+      expect(page).to have_text(@selected_course.name_and_code)
     end
   end
 
   def and_i_can_confirm_the_new_study_mode_selection
     within(all('.govuk-summary-list__row')[3]) do
-      expect(page).to have_content(@selected_course_option.study_mode.humanize)
+      expect(page).to have_text(@selected_course_option.study_mode.humanize)
     end
   end
 
   def and_i_can_confirm_the_new_location_selection
     within(all('.govuk-summary-list__row')[5]) do
-      expect(page).to have_content(@selected_course_option.site.name_and_address(' '))
+      expect(page).to have_text(@selected_course_option.site.name_and_address(' '))
     end
   end
 
@@ -233,7 +233,7 @@ RSpec.describe 'Provider makes an offer with SKE enabled in standard courses' do
 
   def and_i_can_confirm_the_new_provider_selection
     within(all('.govuk-summary-list__row')[1]) do
-      expect(page).to have_content(@selected_provider.name_and_code)
+      expect(page).to have_text(@selected_provider.name_and_code)
     end
   end
 
@@ -242,8 +242,8 @@ RSpec.describe 'Provider makes an offer with SKE enabled in standard courses' do
   end
 
   def and_the_standard_conditions_are_created
-    expect(page).to have_content('Fitness to train to teach check')
-    expect(page).to have_content('Disclosure and Barring Service (DBS) check')
-    expect(page).to have_content('Satisfactory references')
+    expect(page).to have_text('Fitness to train to teach check')
+    expect(page).to have_text('Disclosure and Barring Service (DBS) check')
+    expect(page).to have_text('Satisfactory references')
   end
 end

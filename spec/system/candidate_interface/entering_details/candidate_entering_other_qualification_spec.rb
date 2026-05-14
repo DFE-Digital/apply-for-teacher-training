@@ -140,7 +140,7 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
   alias_method :when_i_click_continue, :and_i_click_continue
 
   def then_i_see_the_other_qualifications_form
-    expect(page).to have_content('Add A level qualification')
+    expect(page).to have_text('Add A level qualification')
   end
 
   def and_the_suggested_subject_data_matches_the_as_and_a_level_subjects_data
@@ -155,7 +155,7 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
   end
 
   def then_i_see_validation_errors_for_my_qualification
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_details_form.attributes.award_year.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/other_qualification_details_form.attributes.award_year.blank')
   end
 
   def when_i_fill_in_my_qualification_details
@@ -217,9 +217,9 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
   end
 
   def and_i_see_my_qualifications
-    expect(page).to have_content('A level Believing in the Heart of the Cards')
-    expect(page).to have_content('A level Oh')
-    expect(page).to have_content('Access Course History, English and Psychology')
+    expect(page).to have_text('A level Believing in the Heart of the Cards')
+    expect(page).to have_text('A level Oh')
+    expect(page).to have_text('Access Course History, English and Psychology')
   end
 
   def and_my_other_uk_qualification_has_the_correct_format
@@ -238,8 +238,8 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
   end
 
   def then_i_see_the_review_page_with_a_flash_warning
-    expect(page).to have_content "To update one of your qualifications use the 'Change' links below"
-    expect(page).to have_content 'Access Course, History, English and Psychology'
+    expect(page).to have_text "To update one of your qualifications use the 'Change' links below"
+    expect(page).to have_text 'Access Course, History, English and Psychology'
   end
 
   def when_i_select_add_another_qualification
@@ -262,7 +262,7 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
   end
 
   def then_i_will_not_see_an_incomplete_as_level_qualification
-    expect(page).to have_no_content('AS level')
+    expect(page).to have_no_text('AS level')
     expect(all('.govuk-summary-list__value').last.text).not_to eq 'Not entered'
   end
 
@@ -277,10 +277,10 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
   end
 
   def then_i_can_only_see_two_qualifications
-    expect(page).to have_no_content 'A level Losing to Yugi'
-    expect(page).to have_content('A level Oh')
-    expect(page).to have_content('Access Course History, English and Psychology')
-    expect(page).to have_no_content('AS level')
+    expect(page).to have_no_text 'A level Losing to Yugi'
+    expect(page).to have_text('A level Oh')
+    expect(page).to have_text('Access Course History, English and Psychology')
+    expect(page).to have_no_text('AS level')
   end
 
   def when_i_click_to_change_my_first_qualification
@@ -300,8 +300,8 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
   end
 
   def and_no_changes_have_occurred
-    expect(page).to have_content('A level Oh')
-    expect(page).to have_content('Access Course History, English and Psychology')
+    expect(page).to have_text('A level Oh')
+    expect(page).to have_text('Access Course History, English and Psychology')
   end
 
   def then_i_see_my_qualification_details_filled_in
@@ -321,7 +321,7 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
   end
 
   def then_i_can_check_my_revised_qualification
-    expect(page).to have_content 'GCSE How to Win Against Kaiba'
+    expect(page).to have_text 'GCSE How to Win Against Kaiba'
   end
 
   def and_the_section_is_not_completed
@@ -348,11 +348,11 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
   end
 
   def then_i_see_a_section_complete_error
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
   def then_i_will_be_told_i_cannot_submit_incomplete_qualifications
-    expect(page).to have_content('You must fill in all your qualifications to complete this section')
+    expect(page).to have_text('You must fill in all your qualifications to complete this section')
   end
 
   def when_i_delete_my_incomplete_qualification
@@ -362,7 +362,7 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
   end
 
   def then_i_see_the_form
-    expect(page).to have_content(t('page_titles.application_form'))
+    expect(page).to have_text(t('page_titles.application_form'))
   end
 
   def and_that_the_section_is_completed
@@ -372,7 +372,7 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
   def when_i_do_not_select_any_type_option; end
 
   def then_i_see_the_qualification_type_error
-    expect(page).to have_content 'Enter the type of qualification'
+    expect(page).to have_text 'Enter the type of qualification'
   end
 
   def and_i_delete_my_remaining_qualifications
@@ -388,7 +388,7 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
 
   def then_i_see_the_your_details_page
     within '.govuk-heading-xl' do
-      expect(page).to have_content 'Your details'
+      expect(page).to have_text 'Your details'
     end
   end
 
@@ -416,7 +416,7 @@ RSpec.describe 'Entering their other qualifications', :mid_cycle do
   end
 
   def then_i_see_the_revised_qualification_with_institution_country_set_to_gb
-    expect(page).to have_content 'Scottish Advanced Higher'
-    expect(page).to have_content 'GB'
+    expect(page).to have_text 'Scottish Advanced Higher'
+    expect(page).to have_text 'GB'
   end
 end

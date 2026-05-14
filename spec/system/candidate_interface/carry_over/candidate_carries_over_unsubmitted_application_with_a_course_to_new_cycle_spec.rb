@@ -116,7 +116,7 @@ private
   end
 
   def then_i_can_see_that_i_need_to_select_courses
-    expect(page).to have_content('You can have up to 4 applications in progress at any time.')
+    expect(page).to have_text('You can have up to 4 applications in progress at any time.')
   end
 
   def when_i_add_a_course
@@ -132,9 +132,9 @@ private
     choose 'Primary (2XT2)'
     click_link_or_button t('continue')
 
-    expect(page).to have_content('Primary (2XT2)')
-    expect(page).to have_content 'You cannot submit this application until you complete your details.'
-    expect(page).to have_content 'Your application will be saved as a draft while you finish adding your details'
+    expect(page).to have_text('Primary (2XT2)')
+    expect(page).to have_text 'You cannot submit this application until you complete your details.'
+    expect(page).to have_text 'Your application will be saved as a draft while you finish adding your details'
   end
 
   def and_i_visit_the_course_choices_section
@@ -155,7 +155,7 @@ private
         application_choice_id: application_choice.id,
       ),
     )
-    expect(page).to have_content 'Draft'
+    expect(page).to have_text 'Draft'
   end
 
   def when_i_complete_the_rest_of_my_details
@@ -168,12 +168,12 @@ private
   end
 
   def then_i_can_submit_my_application
-    expect(page).to have_content 'Review and submit your application'
+    expect(page).to have_text 'Review and submit your application'
     click_on 'Review application'
     click_on 'Confirm and submit application'
-    expect(page).to have_content 'Application submitted'
+    expect(page).to have_text 'Application submitted'
     click_on 'Back to your applications'
-    expect(page).to have_content 'You can submit 3 more applications'
+    expect(page).to have_text 'You can submit 3 more applications'
   end
 
   def and_i_complete_the_section
@@ -188,7 +188,7 @@ private
   end
 
   def then_my_application_is_awaiting_provider_decision
-    expect(page).to have_content 'Awaiting decision'
+    expect(page).to have_text 'Awaiting decision'
     expect(application_choice.status).to eq('awaiting_provider_decision')
   end
 

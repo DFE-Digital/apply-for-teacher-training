@@ -48,7 +48,7 @@ RSpec.describe 'Revert an application choice to pending conditions' do
         application_choice_id: @application_choice.id,
       ),
     )
-    expect(page).to have_content('Are you sure you want to revert this application to pending conditions?')
+    expect(page).to have_text('Are you sure you want to revert this application to pending conditions?')
   end
 
   def when_i_click_continue
@@ -62,8 +62,8 @@ RSpec.describe 'Revert an application choice to pending conditions' do
         application_choice_id: @application_choice.id,
       ),
     )
-    expect(page).to have_content('Enter a Zendesk ticket URL')
-    expect(page).to have_content('Select that you have read the guidance')
+    expect(page).to have_text('Enter a Zendesk ticket URL')
+    expect(page).to have_text('Select that you have read the guidance')
   end
 
   def when_i_add_an_audit_comment_and_click_continue

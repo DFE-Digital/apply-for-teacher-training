@@ -242,34 +242,34 @@ RSpec.describe 'Provider confirms a deferred offer' do
     expect(page).to have_css('h1', text: 'Check offered course details')
 
     within '#check_provider' do
-      expect(page).to have_content('Provider')
-      expect(page).to have_content('Provider Deferring (ZZZ)')
+      expect(page).to have_text('Provider')
+      expect(page).to have_text('Provider Deferring (ZZZ)')
       expect(page).to have_no_link('Change')
     end
 
     within '#check_course' do
-      expect(page).to have_content('Course')
-      expect(page).to have_content('Primary (PR1)')
+      expect(page).to have_text('Course')
+      expect(page).to have_text('Primary (PR1)')
       expect(page).to have_link('Change course', href: provider_interface_deferred_offer_course_path(@deferred_application_choice, return_to: 'review'))
     end
 
     within '#check_study_mode' do
-      expect(page).to have_content('Full time or part time')
-      expect(page).to have_content('Part time')
+      expect(page).to have_text('Full time or part time')
+      expect(page).to have_text('Part time')
       expect(page).to have_link('Change full time or part time', href: provider_interface_deferred_offer_study_mode_path(@deferred_application_choice, return_to: 'review'))
     end
 
     within '#check_location' do
-      expect(page).to have_content('Location')
-      expect(page).to have_content('Main site, 123 Fake Street, E1 1AA')
+      expect(page).to have_text('Location')
+      expect(page).to have_text('Main site, 123 Fake Street, E1 1AA')
       expect(page).to have_link('Change location', href: provider_interface_deferred_offer_location_path(@deferred_application_choice, return_to: 'review'))
     end
 
     expect(page).to have_css('h2', text: 'Conditions of offer')
 
     within '#check_conditions' do
-      expect(page).to have_content('You must obtain a degree')
-      expect(page).to have_content('Pending')
+      expect(page).to have_text('You must obtain a degree')
+      expect(page).to have_text('Pending')
       expect(page).to have_no_link('Change')
     end
   end
@@ -292,8 +292,8 @@ RSpec.describe 'Provider confirms a deferred offer' do
 
   def then_i_can_see_the_updated_course_on_the_check_page
     within '#check_course' do
-      expect(page).to have_content('Course')
-      expect(page).to have_content('Secondary (SC1)')
+      expect(page).to have_text('Course')
+      expect(page).to have_text('Secondary (SC1)')
       expect(page).to have_link('Change course', href: provider_interface_deferred_offer_course_path(@deferred_application_choice, return_to: 'review'))
     end
   end
@@ -310,8 +310,8 @@ RSpec.describe 'Provider confirms a deferred offer' do
 
   def then_i_can_see_the_updated_study_mode_on_the_check_page
     within '#check_study_mode' do
-      expect(page).to have_content('Full time or part time')
-      expect(page).to have_content('Full time')
+      expect(page).to have_text('Full time or part time')
+      expect(page).to have_text('Full time')
       expect(page).to have_link('Change full time or part time', href: provider_interface_deferred_offer_study_mode_path(@deferred_application_choice, return_to: 'review'))
     end
   end
@@ -328,8 +328,8 @@ RSpec.describe 'Provider confirms a deferred offer' do
 
   def then_i_can_see_the_updated_location_on_the_check_page
     within '#check_location' do
-      expect(page).to have_content('Location')
-      expect(page).to have_content('Other site, 567 Really Fake Lane, F2 2BB')
+      expect(page).to have_text('Location')
+      expect(page).to have_text('Other site, 567 Really Fake Lane, F2 2BB')
       expect(page).to have_link('Change location', href: provider_interface_deferred_offer_location_path(@deferred_application_choice, return_to: 'review'))
     end
   end
@@ -352,17 +352,17 @@ RSpec.describe 'Provider confirms a deferred offer' do
   end
 
   def then_i_see_a_recruited_success_banner
-    expect(page).to have_content('Deferred offer successfully confirmed for current cycle')
+    expect(page).to have_text('Deferred offer successfully confirmed for current cycle')
   end
 
   def then_i_see_the_application_details_with_original_course_applied_for
-    expect(page).to have_content('Primary (PR1)')
+    expect(page).to have_text('Primary (PR1)')
 
     within('.govuk-summary-list__row', text: 'Full time or part time') do
-      expect(page).to have_content('Part time')
+      expect(page).to have_text('Part time')
     end
 
-    expect(page).to have_content('123 Fake Street E1 1AA')
+    expect(page).to have_text('123 Fake Street E1 1AA')
   end
 
   def when_i_navigate_to_the_offer_tab
@@ -372,47 +372,47 @@ RSpec.describe 'Provider confirms a deferred offer' do
   end
 
   def then_i_see_the_offer_details_unchanged_with_conditions_met
-    expect(page).to have_content('Primary (PR1)')
+    expect(page).to have_text('Primary (PR1)')
 
     within('.govuk-summary-list__row', text: 'Full time or part time') do
-      expect(page).to have_content('Part time')
+      expect(page).to have_text('Part time')
     end
 
-    expect(page).to have_content('123 Fake Street E1 1AA')
-    expect(page).to have_content('Met')
+    expect(page).to have_text('123 Fake Street E1 1AA')
+    expect(page).to have_text('Met')
   end
 
   def then_i_see_the_offer_details_with_a_new_location_and_conditions_met
-    expect(page).to have_content('Primary (PR1)')
+    expect(page).to have_text('Primary (PR1)')
 
     within('.govuk-summary-list__row', text: 'Full time or part time') do
-      expect(page).to have_content('Part time')
+      expect(page).to have_text('Part time')
     end
 
-    expect(page).to have_content('Other site 567 Really Fake Lane F2 2BB')
-    expect(page).to have_content('Met')
+    expect(page).to have_text('Other site 567 Really Fake Lane F2 2BB')
+    expect(page).to have_text('Met')
   end
 
   def then_i_see_the_offer_details_with_a_new_study_mode_and_conditions_pending
-    expect(page).to have_content('Primary (PR1)')
+    expect(page).to have_text('Primary (PR1)')
 
     within('.govuk-summary-list__row', text: 'Full time or part time') do
-      expect(page).to have_content('Full time')
+      expect(page).to have_text('Full time')
     end
 
-    expect(page).to have_content('123 Fake Street E1 1AA')
-    expect(page).to have_content('Pending')
+    expect(page).to have_text('123 Fake Street E1 1AA')
+    expect(page).to have_text('Pending')
   end
 
   def then_i_see_the_offer_details_with_a_new_course_and_conditions_met
-    expect(page).to have_content('Secondary (SC1)')
+    expect(page).to have_text('Secondary (SC1)')
 
     within('.govuk-summary-list__row', text: 'Full time or part time') do
-      expect(page).to have_content('Full time')
+      expect(page).to have_text('Full time')
     end
 
-    expect(page).to have_content('Other site 567 Really Fake Lane F2 2BB')
-    expect(page).to have_content('Met')
+    expect(page).to have_text('Other site 567 Really Fake Lane F2 2BB')
+    expect(page).to have_text('Met')
   end
 
   def then_i_see_the_offer_details_with_new_attributes_and_conditions_met
@@ -424,13 +424,13 @@ RSpec.describe 'Provider confirms a deferred offer' do
     expect(offer.site.name).to eq('Other site')
     expect(offer.conditions.first.status).to eq('met')
 
-    expect(page).to have_content('Secondary (SC1)')
+    expect(page).to have_text('Secondary (SC1)')
 
     within('.govuk-summary-list__row', text: 'Full time or part time') do
-      expect(page).to have_content('Full time')
+      expect(page).to have_text('Full time')
     end
 
-    expect(page).to have_content('Other site 567 Really Fake Lane F2 2BB')
-    expect(page).to have_content('Met')
+    expect(page).to have_text('Other site 567 Really Fake Lane F2 2BB')
+    expect(page).to have_text('Met')
   end
 end

@@ -40,7 +40,7 @@ RSpec.describe 'Candidate changing their GCSE type' do
   end
 
   def then_i_see_the_add_gcse_maths_page
-    expect(page).to have_content 'What type of qualification in maths do you have?'
+    expect(page).to have_text 'What type of qualification in maths do you have?'
   end
 
   def when_i_select_gcse_option
@@ -52,7 +52,7 @@ RSpec.describe 'Candidate changing their GCSE type' do
   end
 
   def then_i_see_add_grade_page
-    expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'maths', qualification_type: 'GCSE')
+    expect(page).to have_text t('gcse_edit_grade.page_title', subject: 'maths', qualification_type: 'GCSE')
   end
 
   def when_i_fill_in_the_grade
@@ -60,7 +60,7 @@ RSpec.describe 'Candidate changing their GCSE type' do
   end
 
   def then_i_see_add_year_page
-    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'maths', qualification_type: 'GCSE')
+    expect(page).to have_text t('gcse_edit_year.page_title', subject: 'maths', qualification_type: 'GCSE')
   end
 
   def when_i_fill_in_the_year
@@ -68,12 +68,12 @@ RSpec.describe 'Candidate changing their GCSE type' do
   end
 
   def then_i_see_the_review_page_with_correct_details
-    expect(page).to have_content 'Maths GCSE or equivalent'
+    expect(page).to have_text 'Maths GCSE or equivalent'
 
     within('.app-summary-card__body') do
-      expect(page).to have_content 'GCSE'
-      expect(page).to have_content 'A'
-      expect(page).to have_content '1990'
+      expect(page).to have_text 'GCSE'
+      expect(page).to have_text 'A'
+      expect(page).to have_text '1990'
     end
   end
 
@@ -87,15 +87,15 @@ RSpec.describe 'Candidate changing their GCSE type' do
 
   def then_i_see_the_review_page_with_updated_details
     within('.app-summary-card__body') do
-      expect(page).to have_content 'What type of maths qualification do you have?'
-      expect(page).to have_content 'I don’t have a maths qualification yet'
-      expect(page).to have_content 'Are you currently studying for this qualification?'
-      expect(page).to have_content 'Here are the details'
+      expect(page).to have_text 'What type of maths qualification do you have?'
+      expect(page).to have_text 'I don’t have a maths qualification yet'
+      expect(page).to have_text 'Are you currently studying for this qualification?'
+      expect(page).to have_text 'Here are the details'
     end
   end
 
   def then_i_see_the_not_yet_completed_question
-    expect(page).to have_content 'Are you currently studying for a GCSE in maths, or equivalent?'
+    expect(page).to have_text 'Are you currently studying for a GCSE in maths, or equivalent?'
   end
 
   def when_i_select_yes_and_add_details
@@ -105,9 +105,9 @@ RSpec.describe 'Candidate changing their GCSE type' do
 
   def then_i_see_the_review_page_with_empty_details
     within('.app-summary-card__body') do
-      expect(page).to have_content 'GCSE'
-      expect(page).to have_content 'Not entered'
-      expect(page).to have_content 'Not entered'
+      expect(page).to have_text 'GCSE'
+      expect(page).to have_text 'Not entered'
+      expect(page).to have_text 'Not entered'
     end
   end
 end

@@ -21,12 +21,12 @@ module SignInHelper
   end
 
   def confirm_sign_in
-    expect(page).to have_content 'Sign in'
+    expect(page).to have_text 'Sign in'
     click_link_or_button 'Sign in'
   end
 
   def confirm_create_account
-    expect(page).to have_content 'Create an account to apply for teacher training'
+    expect(page).to have_text 'Create an account to apply for teacher training'
     click_link_or_button 'Create account'
   end
 end

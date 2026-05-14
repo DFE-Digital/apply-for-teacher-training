@@ -75,14 +75,14 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
     visit provider_interface_applications_path
     click_link_or_button application_form.full_name
     click_link_or_button 'Make decision'
-    expect(page).to have_content('Make a decision')
-    expect(page).to have_content('Course applied for')
+    expect(page).to have_text('Make a decision')
+    expect(page).to have_text('Course applied for')
     choose('Make an offer', visible: false)
     and_i_click_continue
   end
 
   def then_the_conditions_page_is_loaded
-    expect(page).to have_content('Conditions of offer')
+    expect(page).to have_text('Conditions of offer')
   end
 
   def and_the_default_conditions_are_checked
@@ -107,8 +107,8 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
   def then_the_condition_inputs_are_rendered_correctly
     condition_fields = all('.app-add-condition__item')
     condition_fields.each_with_index do |field, index|
-      expect(field.find('label')).to have_content("Condition #{index + 1}")
-      expect(field.find('.govuk-visually-hidden')).to have_content("condition #{index + 1}")
+      expect(field.find('label')).to have_text("Condition #{index + 1}")
+      expect(field.find('.govuk-visually-hidden')).to have_text("condition #{index + 1}")
     end
   end
 
@@ -119,7 +119,7 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
   alias_method :and_i_click_continue, :when_i_click_continue
 
   def then_the_review_page_is_loaded
-    expect(page).to have_content('Check and send offer')
+    expect(page).to have_text('Check and send offer')
   end
 
   def and_the_conditions_are_displayed(conditions)
@@ -140,7 +140,7 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js do
 
   def then_i_see_that_the_offer_was_successfuly_made
     within('.govuk-notification-banner--success') do
-      expect(page).to have_content('Offer sent')
+      expect(page).to have_text('Offer sent')
     end
   end
 

@@ -43,11 +43,11 @@ RSpec.describe 'Candidate session timeout' do
   end
 
   def then_i_see_my_details
-    expect(page).to have_content 'Your details'
+    expect(page).to have_text 'Your details'
   end
 
   def then_i_see_the_login_page
-    expect(page).to have_content 'Create a GOV.UK One Login or sign in'
+    expect(page).to have_text 'Create a GOV.UK One Login or sign in'
   end
 
 private

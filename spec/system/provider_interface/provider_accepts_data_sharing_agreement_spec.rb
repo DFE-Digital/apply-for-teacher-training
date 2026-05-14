@@ -96,13 +96,13 @@ RSpec.describe 'Accept data sharing agreement' do
   end
 
   def then_i_can_see_the_data_sharing_agreement_success_page
-    expect(page).to have_content('Data sharing agreement signed')
+    expect(page).to have_text('Data sharing agreement signed')
     expect(page).to have_link('view applications')
   end
 
   def then_i_can_see_the_data_sharing_agreement_success_page_with_organisation_setup_steps
-    expect(page).to have_content('Data sharing agreement signed')
-    expect(page).to have_content('Either you or your partner organisations must set up organisation permissions')
+    expect(page).to have_text('Data sharing agreement signed')
+    expect(page).to have_text('Either you or your partner organisations must set up organisation permissions')
     expect(page).to have_link('Continue')
   end
 
@@ -122,6 +122,6 @@ RSpec.describe 'Accept data sharing agreement' do
   def and_i_can_proceed_to_set_up_organisation_permissions
     click_link_or_button 'Continue'
 
-    expect(page).to have_content('Set up organisation permissions')
+    expect(page).to have_text('Set up organisation permissions')
   end
 end

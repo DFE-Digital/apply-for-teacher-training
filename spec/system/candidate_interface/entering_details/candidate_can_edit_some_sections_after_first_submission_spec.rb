@@ -73,7 +73,7 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
                          'Any changes you make will be included in applications you have already submitted.'
                        end
 
-    expect(page).to have_content(expected_content)
+    expect(page).to have_text(expected_content)
 
     method_name = "and_i_can_edit_the_section_#{@section.identifier}"
 

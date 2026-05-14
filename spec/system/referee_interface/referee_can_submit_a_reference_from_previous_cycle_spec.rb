@@ -121,7 +121,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_see_page_not_found
-    expect(page).to have_content('Page not found')
+    expect(page).to have_text('Page not found')
   end
 
   def when_i_click_on_the_link_within_the_email
@@ -139,7 +139,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_am_asked_to_confirm_my_relationship_with_the_candidate
-    expect(page).to have_content("Confirm how #{@application.full_name} knows you")
+    expect(page).to have_text("Confirm how #{@application.full_name} knows you")
   end
 
   def when_i_click_on_save_and_continue
@@ -151,7 +151,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_see_an_error_to_confirm_my_relationship_with_the_candidate
-    expect(page).to have_content('Choose if the described relationship is correct')
+    expect(page).to have_text('Choose if the described relationship is correct')
   end
 
   def when_i_confirm_that_the_described_relationship_is_not_correct
@@ -161,7 +161,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_see_an_error_to_enter_how_i_know_the_candidate
-    expect(page).to have_content("Enter how you know #{@application.full_name}")
+    expect(page).to have_text("Enter how you know #{@application.full_name}")
   end
 
   def when_i_confirm_that_the_described_relationship_is_correct
@@ -177,11 +177,11 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_see_the_safeguarding_page
-    expect(page).to have_content("Why #{@application.full_name} should not work with children")
+    expect(page).to have_text("Why #{@application.full_name} should not work with children")
   end
 
   def then_i_see_an_error_to_choose_if_i_know_any_safeguarding_concerns
-    expect(page).to have_content("Select yes if you know any reason why #{@application.full_name} should not work with children")
+    expect(page).to have_text("Select yes if you know any reason why #{@application.full_name} should not work with children")
   end
 
   def when_i_choose_the_candidate_is_not_suitable_for_working_with_children
@@ -191,7 +191,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_see_an_error_to_enter_my_safeguarding_concerns
-    expect(page).to have_content("Enter a reason why #{@application.full_name} should not work with children")
+    expect(page).to have_text("Enter a reason why #{@application.full_name} should not work with children")
   end
 
   def when_i_choose_the_candidate_is_suitable_for_working_with_children
@@ -215,8 +215,8 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_see_the_reference_comment_page
-    expect(page).to have_content('when their course started and ended')
-    expect(page).to have_content('their academic record')
+    expect(page).to have_text('when their course started and ended')
+    expect(page).to have_text('their academic record')
   end
 
   def when_i_fill_in_the_reference_field
@@ -224,7 +224,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_see_the_reference_review_page
-    expect(page).to have_content("Check your reference for #{@application.full_name}")
+    expect(page).to have_text("Check your reference for #{@application.full_name}")
   end
 
   def when_i_click_change_how_they_know_me
@@ -251,7 +251,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_can_review_the_amended_relationship
-    expect(page).to have_content('he is not my friend')
+    expect(page).to have_text('he is not my friend')
   end
 
   def when_i_click_change_safeguarding_concerns
@@ -266,7 +266,7 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_can_review_the_amended_safeguarding_concerns
-    expect(page).to have_content('telling dirty jokes')
+    expect(page).to have_text('telling dirty jokes')
   end
 
   def and_i_click_the_submit_reference_button
@@ -278,13 +278,13 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_see_am_told_i_submitted_my_reference
-    expect(page).to have_content("Your reference for #{@application.full_name}")
+    expect(page).to have_text("Your reference for #{@application.full_name}")
   end
 
   def and_i_receive_an_email_confirmation
     open_email('terri@example.com')
 
-    expect(current_email.subject).to have_content(t('reference_confirmation_email.subject', candidate_name: @application.full_name))
+    expect(current_email.subject).to have_text(t('reference_confirmation_email.subject', candidate_name: @application.full_name))
   end
 
   def and_the_candidate_receives_a_notification
@@ -294,12 +294,12 @@ RSpec.describe 'Referee can submit reference', :with_audited do
   end
 
   def then_i_see_the_thank_you_page
-    expect(page).to have_content('Thank you')
-    expect(page).to have_no_content('You do not need to give a reference anymore.')
+    expect(page).to have_text('Thank you')
+    expect(page).to have_no_text('You do not need to give a reference anymore.')
   end
 
   def and_i_am_told_i_will_be_contacted
-    expect(page).to have_content('Our user research team will contact you shortly')
+    expect(page).to have_text('Our user research team will contact you shortly')
   end
 
   def when_i_retry_to_edit_the_feedback

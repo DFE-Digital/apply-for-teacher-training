@@ -93,11 +93,11 @@ RSpec.describe 'Editing account status' do
   end
 
   def then_i_see_candidate_account_status_as_access_locked
-    expect(page).to have_content('Account access locked')
+    expect(page).to have_text('Account access locked')
   end
 
   def then_i_see_candidate_account_status_as_submission_blocked
-    expect(page).to have_content('Account submission blocked')
+    expect(page).to have_text('Account submission blocked')
   end
 
   def when_i_click_to_change_candidate_account_status

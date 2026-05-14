@@ -87,7 +87,7 @@ RSpec.describe 'Candidate selects level-two withdrawal reasons' do
   end
 
   def then_i_see_the_review_page
-    expect(page).to have_content 'I am going to apply (or have applied) to a different training provider'
+    expect(page).to have_text 'I am going to apply (or have applied) to a different training provider'
     [
       'I have accepted another offer',
       'I have seen a course that suits me better',
@@ -100,7 +100,7 @@ RSpec.describe 'Candidate selects level-two withdrawal reasons' do
       'The course is not available anymore',
       'Other: Here is some more detail that does not quite match the options above',
     ].each do |review_reason|
-      expect(page).to have_content review_reason
+      expect(page).to have_text review_reason
     end
   end
 

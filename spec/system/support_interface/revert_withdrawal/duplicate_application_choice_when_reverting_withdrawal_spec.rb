@@ -55,7 +55,7 @@ RSpec.describe 'Revert a withdrawn application choice' do
   end
 
   def then_i_see_the_withdrawn_course_choice
-    expect(page).to have_content('Withdrawn').once
+    expect(page).to have_text('Withdrawn').once
   end
 
   def when_i_click_on_the_revert_withdrawal_link
@@ -72,6 +72,6 @@ RSpec.describe 'Revert a withdrawn application choice' do
   alias_method :when_i_click_continue, :and_i_click_continue
 
   def then_i_am_told_there_is_an_existing_application
-    expect(page).to have_content 'cannot apply to the same course when an open application exists'
+    expect(page).to have_text 'cannot apply to the same course when an open application exists'
   end
 end

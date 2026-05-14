@@ -145,9 +145,9 @@ private
   end
 
   def then_i_see_configuration_components_for_each_interface
-    expect(page).to have_content('Manage service banner')
-    expect(page).to have_content('Apply service banner')
-    expect(page).to have_content('Support Console service banner')
+    expect(page).to have_text('Manage service banner')
+    expect(page).to have_text('Apply service banner')
+    expect(page).to have_text('Support Console service banner')
   end
 
   def when_i_click_to_configure_the_support_console_service_banner
@@ -168,7 +168,7 @@ private
   end
 
   def then_i_see_the_show_service_banner_page
-    expect(page).to have_content 'Show Support Console service banner'
+    expect(page).to have_text 'Show Support Console service banner'
   end
 
   def when_i_select_yes
@@ -177,13 +177,13 @@ private
   end
 
   def then_i_see_the_form_for_configuring_custom_banner_content
-    expect(page).to have_content 'Configure Support Console service banner'
-    expect(page).to have_content 'Header'
-    expect(page).to have_content 'Banner content (optional)'
+    expect(page).to have_text 'Configure Support Console service banner'
+    expect(page).to have_text 'Header'
+    expect(page).to have_text 'Banner content (optional)'
   end
 
   def then_i_see_validation_error_for_not_supplying_header_text
-    expect(page).to have_content 'You must include a banner header'
+    expect(page).to have_text 'You must include a banner header'
   end
 
   def when_i_exceed_the_character_limit_for_banner_content
@@ -191,8 +191,8 @@ private
   end
 
   def then_i_also_see_validation_error_for_exceeding_character_limit
-    expect(page).to have_content 'You must include a banner header'
-    expect(page).to have_content 'Body must be 400 characters or fewer'
+    expect(page).to have_text 'You must include a banner header'
+    expect(page).to have_text 'Body must be 400 characters or fewer'
   end
 
   def when_i_enter_valid_header_and_body_content
@@ -201,30 +201,30 @@ private
   end
 
   def then_i_see_a_banner_preview
-    expect(page).to have_content('Preview Support Console service banner')
-    expect(page).to have_content('The service will be offline from 6pm to 9pm this evening')
-    expect(page).to have_content('You may lose your work if it is unsaved at 6pm')
+    expect(page).to have_text('Preview Support Console service banner')
+    expect(page).to have_text('The service will be offline from 6pm to 9pm this evening')
+    expect(page).to have_text('You may lose your work if it is unsaved at 6pm')
   end
 
   def then_i_see_a_success_message
-    expect(page).to have_content('Support Console service banner enabled')
+    expect(page).to have_text('Support Console service banner enabled')
   end
 
   def and_the_component_reflects_banner_state_and_includes_a_preview_of_the_banner_text
     within '.app-summary-card', text: 'Support Console service banner' do
       within '.govuk-summary-list__row', text: 'Show service banner' do
-        expect(page).to have_content('Yes')
+        expect(page).to have_text('Yes')
       end
       within '.govuk-summary-list__row', text: 'Banner content' do
-        expect(page).to have_content('The service will be offline from 6pm to 9pm this evening')
-        expect(page).to have_content('You may lose your work if it is unsaved at 6pm')
+        expect(page).to have_text('The service will be offline from 6pm to 9pm this evening')
+        expect(page).to have_text('You may lose your work if it is unsaved at 6pm')
       end
     end
   end
 
   def then_i_see_the_published_banner
-    expect(page).to have_content('The service will be offline from 6pm to 9pm this evening')
-    expect(page).to have_content('You may lose your work if it is unsaved at 6pm')
+    expect(page).to have_text('The service will be offline from 6pm to 9pm this evening')
+    expect(page).to have_text('You may lose your work if it is unsaved at 6pm')
   end
 
   def and_i_choose_no
@@ -234,15 +234,15 @@ private
 
   def and_i_see_the_banner_has_been_disabled
     click_link_or_button 'Candidates'
-    expect(page).to have_no_content('Important')
-    expect(page).to have_no_content('The service will be offline from 6pm to 9pm this evening')
-    expect(page).to have_no_content('You may lose your work if it is unsaved at 6pm')
+    expect(page).to have_no_text('Important')
+    expect(page).to have_no_text('The service will be offline from 6pm to 9pm this evening')
+    expect(page).to have_no_text('You may lose your work if it is unsaved at 6pm')
   end
 
   def then_i_see_an_entry_in_the_apply_banner_configuration_component_history_row
     within '.app-summary-card', text: 'Apply service banner' do
       within '.govuk-summary-list__row', text: 'History' do
-        expect(page).to have_content('Banner enabled by user@apply-support.com')
+        expect(page).to have_text('Banner enabled by user@apply-support.com')
       end
     end
   end
@@ -263,11 +263,11 @@ private
   def then_i_see_an_updated_preview_in_the_component
     within '.app-summary-card', text: 'Apply service banner' do
       within '.govuk-summary-list__row', text: 'Show service banner' do
-        expect(page).to have_content('Yes')
+        expect(page).to have_text('Yes')
       end
       within '.govuk-summary-list__row', text: 'Banner content' do
-        expect(page).to have_content('Changed header')
-        expect(page).to have_content('Changed body content')
+        expect(page).to have_text('Changed header')
+        expect(page).to have_text('Changed body content')
       end
     end
   end
@@ -275,15 +275,15 @@ private
   def and_new_audit_entries_are_in_the_history_row
     within '.app-summary-card', text: 'Apply service banner' do
       within '.govuk-summary-list__row', text: 'History' do
-        expect(page).to have_content('Banner disabled by user@apply-support.com', count: 1)
-        expect(page).to have_content('Banner enabled by user@apply-support.com', count: 2)
+        expect(page).to have_text('Banner disabled by user@apply-support.com', count: 1)
+        expect(page).to have_text('Banner enabled by user@apply-support.com', count: 2)
       end
     end
   end
 
   def then_i_see_the_edited_banner_is_live
-    expect(page).to have_content('Changed header')
-    expect(page).to have_content('Changed body content')
+    expect(page).to have_text('Changed header')
+    expect(page).to have_text('Changed body content')
   end
 
   def when_i_click_the_latest_audit_link
@@ -295,16 +295,16 @@ private
   end
 
   def then_i_see_the_audit_history_for_this_banner
-    expect(page).to have_content('Apply banner history')
-    expect(page).to have_content('Banner disabled by user@apply-support.com', count: 1)
-    expect(page).to have_content('Banner enabled by user@apply-support.com', count: 2)
+    expect(page).to have_text('Apply banner history')
+    expect(page).to have_text('Banner disabled by user@apply-support.com', count: 1)
+    expect(page).to have_text('Banner enabled by user@apply-support.com', count: 2)
 
-    expect(page).to have_content('Changed header')
-    expect(page).to have_content('Changed body content')
+    expect(page).to have_text('Changed header')
+    expect(page).to have_text('Changed body content')
   end
 
   def then_i_see_a_success_message_saying_the_banner_is_disabled(interface)
-    expect(page).to have_content("#{interface} service banner disabled")
+    expect(page).to have_text("#{interface} service banner disabled")
   end
 
   def when_i_visit_apply
@@ -314,19 +314,19 @@ private
   end
 
   def then_i_see_the_apply_banner_is_visible
-    expect(page).to have_content(@apply_banner.header)
-    expect(page).to have_content(@apply_banner.body)
+    expect(page).to have_text(@apply_banner.header)
+    expect(page).to have_text(@apply_banner.body)
   end
 
   def then_i_see_the_apply_banner_is_no_longer_visible
     expect(page).to have_no_selector('.govuk-notification-banner__title', text: 'Information')
-    expect(page).to have_no_content(@apply_banner.header)
-    expect(page).to have_no_content(@apply_banner.body)
+    expect(page).to have_no_text(@apply_banner.header)
+    expect(page).to have_no_text(@apply_banner.body)
   end
 
   def then_i_see_the_manage_banner_is_visible
-    expect(page).to have_content(@manage_banner.header)
-    expect(page).to have_content(@manage_banner.body)
+    expect(page).to have_text(@manage_banner.header)
+    expect(page).to have_text(@manage_banner.body)
   end
 
   def when_the_banner_is_unpublished
@@ -335,7 +335,7 @@ private
 
   def then_i_see_the_manage_banner_is_no_longer_visible
     expect(page).to have_no_selector('.govuk-notification-banner__title', text: 'Information')
-    expect(page).to have_no_content(@manage_banner.header)
-    expect(page).to have_no_content(@manage_banner.body)
+    expect(page).to have_no_text(@manage_banner.header)
+    expect(page).to have_no_text(@manage_banner.body)
   end
 end

@@ -54,7 +54,7 @@ RSpec.describe 'Candidate tries to submit undergraduate courses with no A levels
   end
 
   def then_i_see_the_content_for_postgraduate_and_undergraduate
-    expect(no_a_levels_hint).to have_content(
+    expect(no_a_levels_hint).to have_text(
       'A levels are required for teacher degree apprenticeships. If you are applying to postgraduate courses, adding A levels and other qualifications will make your application stronger.',
     )
   end
@@ -74,7 +74,7 @@ RSpec.describe 'Candidate tries to submit undergraduate courses with no A levels
   end
 
   def and_i_see_the_postgraduate_and_undergraduate_content_for_no_a_levels
-    expect(page).to have_content(
+    expect(page).to have_text(
       'A levels are required for teacher degree apprenticeships. If you are applying to postgraduate courses, adding A levels and other qualifications will make your application stronger. They demonstrate subject knowledge not covered in your degree or work history.',
     )
   end
@@ -93,7 +93,7 @@ RSpec.describe 'Candidate tries to submit undergraduate courses with no A levels
   end
 
   def then_i_see_that_i_need_a_levels_to_apply_for_an_undergraduate_course
-    expect(page).to have_content(
+    expect(page).to have_text(
       'To apply for this course, you need an A level or equivalent qualification. Add an A level (or equivalent) and complete the rest of your details. You can then submit your application. Your application will be saved as a draft while you finish adding your details.',
     )
   end

@@ -53,7 +53,7 @@ RSpec.describe 'Candidate edits their choice section' do
   end
 
   def then_i_see_only_one_application
-    expect(page).to have_no_content(@first_application_choice.current_course.name_and_code)
+    expect(page).to have_no_text(@first_application_choice.current_course.name_and_code)
   end
 
   def and_visit_my_application_page
@@ -69,7 +69,7 @@ RSpec.describe 'Candidate edits their choice section' do
   end
 
   def and_my_submitted_choice_is_displayed
-    expect(page).to have_content(@second_application_choice.current_course.name_and_code)
+    expect(page).to have_text(@second_application_choice.current_course.name_and_code)
   end
 
   def when_i_visit_the_course_choice_review_page

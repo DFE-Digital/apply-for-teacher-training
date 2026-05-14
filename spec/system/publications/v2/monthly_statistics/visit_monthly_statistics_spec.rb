@@ -51,7 +51,7 @@ RSpec.describe 'Visit Monthly statistics V2 page', mid_cycle: false do
   end
 
   def then_i_see_the_error_page
-    expect(page).to have_content 'Page not found'
+    expect(page).to have_text 'Page not found'
   end
 
   def given_the_monthly_statistics_redirect_is_enabled
@@ -67,6 +67,6 @@ RSpec.describe 'Visit Monthly statistics V2 page', mid_cycle: false do
   end
 
   def and_i_see_the_monthly_statistics
-    expect(page).to have_content 'Initial teacher training application reports December 2023'
+    expect(page).to have_text 'Initial teacher training application reports December 2023'
   end
 end

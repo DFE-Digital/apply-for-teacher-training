@@ -41,11 +41,11 @@ RSpec.describe 'Candidate is redirected when tries to see your details after acc
   def then_i_see_the_post_offer_dashboard
     expect(page).to have_current_path(candidate_interface_application_offer_dashboard_path)
 
-    expect(page).to have_content("Your offer for #{@application_choice.current_course.name_and_code}")
-    expect(page).to have_content("You have accepted an offer from #{@application_choice.course_option.course.provider.name} to study #{@application_choice.course.name_and_code}.")
-    expect(page).to have_content('References')
-    expect(page).to have_content('Offer conditions')
-    expect(page).to have_content("#{@application_choice.offer.conditions.first.text} Pending", normalize_ws: true)
+    expect(page).to have_text("Your offer for #{@application_choice.current_course.name_and_code}")
+    expect(page).to have_text("You have accepted an offer from #{@application_choice.course_option.course.provider.name} to study #{@application_choice.course.name_and_code}.")
+    expect(page).to have_text('References')
+    expect(page).to have_text('Offer conditions')
+    expect(page).to have_text("#{@application_choice.offer.conditions.first.text} Pending", normalize_ws: true)
   end
 
   def when_i_click_to_view_my_submitted_application

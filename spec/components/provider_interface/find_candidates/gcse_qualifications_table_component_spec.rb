@@ -10,8 +10,8 @@ RSpec.describe ProviderInterface::FindCandidates::GcseQualificationsTableCompone
       application_form = international_gcse.application_form
 
       render_inline(described_class.new(application_form))
-      expect(page).to have_content 'Comparability statement for Maths'
-      expect(page).to have_content 'UK ENIC or NARIC statement 4120228363 says this is comparable to Between GCSE and GCSE AS Level'
+      expect(page).to have_text 'Comparability statement for Maths'
+      expect(page).to have_text 'UK ENIC or NARIC statement 4120228363 says this is comparable to Between GCSE and GCSE AS Level'
     end
 
     it 'removes bottom border border between cells when enic text present' do

@@ -56,7 +56,7 @@ RSpec.describe 'Entering their personal details' do
   end
 
   def then_i_do_not_see_the_complete_section_component
-    expect(page).to have_no_content('Have you completed this section?')
+    expect(page).to have_no_text('Have you completed this section?')
   end
 
   def and_i_click_on_personal_information
@@ -85,7 +85,7 @@ RSpec.describe 'Entering their personal details' do
   end
 
   def then_i_see_validation_errors
-    expect(page).to have_content t('errors.messages.invalid_date', article: 'a', attribute: 'date of birth')
+    expect(page).to have_text t('errors.messages.invalid_date', article: 'a', attribute: 'date of birth')
   end
 
   def and_i_see_the_completed_fields
@@ -134,7 +134,7 @@ RSpec.describe 'Entering their personal details' do
   end
 
   def then_i_see_a_section_complete_error
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
   def then_i_see_the_review_page
@@ -142,9 +142,9 @@ RSpec.describe 'Entering their personal details' do
   end
 
   def and_i_can_check_my_answers
-    expect(page).to have_content 'Name'
-    expect(page).to have_content 'Lando Calrissian'
-    expect(page).to have_content 'British and American'
+    expect(page).to have_text 'Name'
+    expect(page).to have_text 'Lando Calrissian'
+    expect(page).to have_text 'British and American'
   end
 
   def and_invisible_whitespace_has_been_removed
@@ -161,8 +161,8 @@ RSpec.describe 'Entering their personal details' do
   end
 
   def then_i_can_check_my_revised_answers
-    expect(page).to have_content 'Name'
-    expect(page).to have_content 'Billy Dee Williams'
+    expect(page).to have_text 'Name'
+    expect(page).to have_text 'Billy Dee Williams'
   end
 
   def when_i_mark_the_section_as_completed
@@ -178,7 +178,7 @@ RSpec.describe 'Entering their personal details' do
   end
 
   def then_i_see_the_form
-    expect(page).to have_content(t('page_titles.personal_information.heading'))
+    expect(page).to have_text(t('page_titles.personal_information.heading'))
   end
 
   def and_that_the_section_is_completed

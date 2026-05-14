@@ -34,7 +34,7 @@ RSpec.describe 'Selecting a course', :js do
   end
 
   def then_i_am_on_the_application_choice_duplicate_page
-    expect(page).to have_content('You already have an application for')
+    expect(page).to have_text('You already have an application for')
   end
 
   def and_there_are_course_options

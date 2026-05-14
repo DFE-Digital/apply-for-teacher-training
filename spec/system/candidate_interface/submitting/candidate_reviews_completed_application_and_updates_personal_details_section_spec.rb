@@ -186,31 +186,31 @@ RSpec.describe 'Candidate is redirected correctly' do
 
   def and_i_see_my_updated_name
     within('[data-qa="personal-details-name"]') do
-      expect(page).to have_content('Ruddeger')
+      expect(page).to have_text('Ruddeger')
     end
   end
 
   def and_i_see_my_updated_date_of_birth
     within('[data-qa="personal-details-dob"]') do
-      expect(page).to have_content('2')
+      expect(page).to have_text('2')
     end
   end
 
   def and_i_see_my_updated_nationality
     within('[data-qa="personal-details-nationality"]') do
-      expect(page).to have_content('Irish')
+      expect(page).to have_text('Irish')
     end
   end
 
   def and_i_see_my_updated_phone_number
     within('[data-qa="contact-details-phone-number"]') do
-      expect(page).to have_content('0736519012')
+      expect(page).to have_text('0736519012')
     end
   end
 
   def and_i_see_my_updated_address
     within('[data-qa="contact-details-address"]') do
-      expect(page).to have_content('Auckland')
+      expect(page).to have_text('Auckland')
     end
   end
 end

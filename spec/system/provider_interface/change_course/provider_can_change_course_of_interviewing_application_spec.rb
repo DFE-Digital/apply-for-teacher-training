@@ -134,8 +134,8 @@ RSpec.describe 'Provider changes a course' do
   end
 
   def then_i_see_a_list_of_training_providers_to_select_from
-    expect(page).to have_content "Update course - #{@application_form.full_name}"
-    expect(page).to have_content 'Training provider'
+    expect(page).to have_text "Update course - #{@application_form.full_name}"
+    expect(page).to have_text 'Training provider'
   end
 
   def when_i_select_a_different_provider
@@ -149,8 +149,8 @@ RSpec.describe 'Provider changes a course' do
   alias_method :when_i_click_continue, :and_i_click_continue
 
   def then_i_see_a_list_of_courses_to_select_from
-    expect(page).to have_content "Update course - #{@application_form.full_name}"
-    expect(page).to have_content 'Course'
+    expect(page).to have_text "Update course - #{@application_form.full_name}"
+    expect(page).to have_text 'Course'
   end
 
   alias_method :then_i_am_taken_to_the_change_course_page, :then_i_see_a_list_of_courses_to_select_from
@@ -164,8 +164,8 @@ RSpec.describe 'Provider changes a course' do
   end
 
   def then_no_study_mode_is_pre_selected
-    expect(page).to have_content "Update course - #{@application_form.full_name}"
-    expect(page).to have_content 'Full time or part time'
+    expect(page).to have_text "Update course - #{@application_form.full_name}"
+    expect(page).to have_text 'Full time or part time'
     expect(find_field('Full time')).not_to be_checked
     expect(find_field('Part time')).not_to be_checked
   end
@@ -175,8 +175,8 @@ RSpec.describe 'Provider changes a course' do
   end
 
   def then_i_am_taken_to_the_change_location_page
-    expect(page).to have_content "Update course - #{@application_form.full_name}"
-    expect(page).to have_content 'Location'
+    expect(page).to have_text "Update course - #{@application_form.full_name}"
+    expect(page).to have_text 'Location'
   end
 
   def when_i_select_a_new_location
@@ -188,8 +188,8 @@ RSpec.describe 'Provider changes a course' do
   end
 
   def then_the_review_page_is_loaded
-    expect(page).to have_content "Update course - #{@application_form.full_name}"
-    expect(page).to have_content 'Check details and update course'
+    expect(page).to have_text "Update course - #{@application_form.full_name}"
+    expect(page).to have_text 'Check details and update course'
   end
 
   def when_i_click_change_course
@@ -212,13 +212,13 @@ RSpec.describe 'Provider changes a course' do
 
   def then_i_see_the_changed_offer_details
     within(all('.govuk-summary-list')[3]) do
-      expect(page).to have_content(@one_mode_and_location_course.provider.name)
-      expect(page).to have_content(@one_mode_and_location_course.name_and_code)
-      expect(page).to have_content(@one_mode_and_location_course.study_mode.humanize)
-      expect(page).to have_content(@one_mode_and_location_course_option.site.name_and_code)
-      expect(page).to have_content(@one_mode_and_location_course_option.site.address_line1)
-      expect(page).to have_content(@one_mode_and_location_course_option.site.address_line2)
-      expect(page).to have_content(@one_mode_and_location_course_option.site.address_line3)
+      expect(page).to have_text(@one_mode_and_location_course.provider.name)
+      expect(page).to have_text(@one_mode_and_location_course.name_and_code)
+      expect(page).to have_text(@one_mode_and_location_course.study_mode.humanize)
+      expect(page).to have_text(@one_mode_and_location_course_option.site.name_and_code)
+      expect(page).to have_text(@one_mode_and_location_course_option.site.address_line1)
+      expect(page).to have_text(@one_mode_and_location_course_option.site.address_line2)
+      expect(page).to have_text(@one_mode_and_location_course_option.site.address_line3)
     end
   end
 end

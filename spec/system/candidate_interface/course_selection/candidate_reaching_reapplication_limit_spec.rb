@@ -51,8 +51,8 @@ RSpec.describe 'Selecting a course' do
   end
 
   def then_i_see_a_course_and_its_description
-    expect(page).to have_content(@course.name_and_code)
-    expect(page).to have_content(@course.description_to_s)
+    expect(page).to have_text(@course.name_and_code)
+    expect(page).to have_text(@course.description_to_s)
   end
 
   def when_i_choose_a_course_rejected_twice
@@ -61,8 +61,8 @@ RSpec.describe 'Selecting a course' do
   end
 
   def then_i_am_on_the_reached_reapplication_limit_page
-    expect(page).to have_content('You cannot apply to this training provider and course again')
-    expect(page).to have_content('You have applied to Gorse SCITT and Primary (2XT2) twice and have been unsuccessful.')
+    expect(page).to have_text('You cannot apply to this training provider and course again')
+    expect(page).to have_text('You have applied to Gorse SCITT and Primary (2XT2) twice and have been unsuccessful.')
   end
 
   def when_i_click_back

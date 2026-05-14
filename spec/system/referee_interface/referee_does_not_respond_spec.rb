@@ -78,7 +78,7 @@ RSpec.describe 'Referee does not respond in time' do
 
     expect(current_emails.size).to be(2)
 
-    expect(current_email.subject).to have_content('Anne Other has not replied to your request for a reference')
+    expect(current_email.subject).to have_text('Anne Other has not replied to your request for a reference')
   end
 
   def when_the_referee_does_not_respond_within_28_days
@@ -104,7 +104,7 @@ RSpec.describe 'Referee does not respond in time' do
     open_email(@application.candidate.email_address)
     expect(current_emails.size).to be(3)
 
-    expect(current_email.subject).to have_content('Anne Other has not replied to your request for a reference')
+    expect(current_email.subject).to have_text('Anne Other has not replied to your request for a reference')
   end
 
   def and_the_referee_is_sent_a_final_chase_email
@@ -112,7 +112,7 @@ RSpec.describe 'Referee does not respond in time' do
 
     expect(current_emails.size).to be(3)
 
-    expect(current_email.subject).to have_content("Teacher training reference needed for #{@application.full_name}")
+    expect(current_email.subject).to have_text("Teacher training reference needed for #{@application.full_name}")
   end
 
   def advance_and_chase(duration)

@@ -9,7 +9,7 @@ RSpec.describe RecruitmentPerformanceReport::DeferralsTableComponent do
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
     expect(page).to have_table('5. Deferrals')
-    expect(page).to have_content(description(provider.name))
+    expect(page).to have_text(description(provider.name))
 
     [provider.name, 'All providers'].each do |heading|
       expect(page).to have_element(
@@ -21,12 +21,12 @@ RSpec.describe RecruitmentPerformanceReport::DeferralsTableComponent do
     end
 
     this_cycle = page.find('tr.govuk-table__row', text: 'Deferrals this cycle (so far) to next cycle')
-    expect(this_cycle).to have_content '0'
-    expect(this_cycle).to have_content '514'
+    expect(this_cycle).to have_text '0'
+    expect(this_cycle).to have_text '514'
 
     last_cycle = page.find('tr.govuk-table__row', text: 'Deferrals from last cycle to this cycle')
-    expect(last_cycle).to have_content '0'
-    expect(last_cycle).to have_content '394'
+    expect(last_cycle).to have_text '0'
+    expect(last_cycle).to have_text '394'
   end
 
   it 'renders the report with expected columns in previous cycle', :aggregate_failures do
@@ -43,7 +43,7 @@ RSpec.describe RecruitmentPerformanceReport::DeferralsTableComponent do
     )
 
     expect(page).to have_table('5. Deferrals')
-    expect(page).to have_content(previous_cycle_description(provider.name, previous_cycle_year))
+    expect(page).to have_text(previous_cycle_description(provider.name, previous_cycle_year))
 
     [provider.name, 'All providers'].each do |heading|
       expect(page).to have_element(
@@ -55,12 +55,12 @@ RSpec.describe RecruitmentPerformanceReport::DeferralsTableComponent do
     end
 
     this_cycle = page.find('tr.govuk-table__row', text: "Deferrals #{previous_cycle_year} cycle")
-    expect(this_cycle).to have_content '0'
-    expect(this_cycle).to have_content '514'
+    expect(this_cycle).to have_text '0'
+    expect(this_cycle).to have_text '514'
 
     last_cycle = page.find('tr.govuk-table__row', text: "Deferrals #{previous_cycle_year - 1} cycle")
-    expect(last_cycle).to have_content '0'
-    expect(last_cycle).to have_content '394'
+    expect(last_cycle).to have_text '0'
+    expect(last_cycle).to have_text '394'
   end
 
   def description(provider_name)

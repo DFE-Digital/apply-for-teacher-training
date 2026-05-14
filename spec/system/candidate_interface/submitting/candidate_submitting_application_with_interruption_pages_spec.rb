@@ -216,31 +216,31 @@ private
   end
 
   def and_i_am_redirected_to_the_application_dashboard
-    expect(page).to have_content t('page_titles.application_dashboard')
+    expect(page).to have_text t('page_titles.application_dashboard')
   end
 
   def then_i_see_a_interruption_page_for_personal_statement
-    expect(page).to have_content 'Your personal statement is 4 words.'
+    expect(page).to have_text 'Your personal statement is 4 words.'
   end
 
   def then_i_see_an_interruption_page_for_incompatible_grade
-    expect(page).to have_content 'Your degree grade does not match the eligibility criteria for this course'
+    expect(page).to have_text 'Your degree grade does not match the eligibility criteria for this course'
   end
 
   def then_i_see_a_interruption_page_for_degree_warning
-    expect(page).to have_content 'Are you sure you want to apply for a teacher degree apprenticeship?'
-    expect(page).to have_content 'Teacher degree apprenticeships are 4 years, and postgraduate teacher training courses are usually one year.'
+    expect(page).to have_text 'Are you sure you want to apply for a teacher degree apprenticeship?'
+    expect(page).to have_text 'Teacher degree apprenticeships are 4 years, and postgraduate teacher training courses are usually one year.'
   end
 
   def then_i_see_a_interruption_page_for_not_needed_enic
-    expect(page).to have_content 'You have not included a UK ENIC reference number'
-    expect(page).to have_content 'Including a UK ENIC reference number in your application makes you around 30% more likely to receive an offer.'
+    expect(page).to have_text 'You have not included a UK ENIC reference number'
+    expect(page).to have_text 'Including a UK ENIC reference number in your application makes you around 30% more likely to receive an offer.'
     expect(page).to have_current_path(candidate_interface_course_choices_course_review_enic_interruption_path(@application_choice.id))
   end
 
   def then_i_see_a_interruption_page_for_waiting_or_maybe_enic
-    expect(page).to have_content 'You have not included a UK ENIC reference number'
-    expect(page).to have_content 'If you have a UK ENIC reference number, you should add it to your qualifications details.'
+    expect(page).to have_text 'You have not included a UK ENIC reference number'
+    expect(page).to have_text 'If you have a UK ENIC reference number, you should add it to your qualifications details.'
     expect(page).to have_current_path(candidate_interface_course_choices_course_review_enic_interruption_path(@application_choice.id))
   end
 
@@ -254,7 +254,7 @@ private
 
   def then_i_see_the_review_and_submit_page
     expect(page).to have_current_path(candidate_interface_course_choices_course_review_and_submit_path(@application_choice.id))
-    expect(page).to have_content 'Review your application'
+    expect(page).to have_text 'Review your application'
   end
 
   def when_i_click(text)

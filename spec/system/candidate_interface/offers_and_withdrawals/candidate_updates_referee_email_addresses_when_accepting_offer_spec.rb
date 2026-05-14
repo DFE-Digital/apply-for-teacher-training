@@ -97,9 +97,9 @@ private
 
   def then_i_see_my_references
     @application_form.reload.application_references.creation_order.each do |reference|
-      expect(page).to have_content(reference.name)
-      expect(page).to have_content(reference.email_address)
-      expect(page).to have_content(reference.relationship)
+      expect(page).to have_text(reference.name)
+      expect(page).to have_text(reference.email_address)
+      expect(page).to have_text(reference.relationship)
     end
 
     @reference = @application_form.application_references.first
@@ -116,8 +116,8 @@ private
   end
 
   def then_i_see_the_interruption_page
-    expect(page).to have_content 'personal_email@gmail.com looks like a personal email address'
-    expect(page).to have_content 'Many providers will not accept references from a personal email address (such as gmail.com).'
+    expect(page).to have_text 'personal_email@gmail.com looks like a personal email address'
+    expect(page).to have_text 'Many providers will not accept references from a personal email address (such as gmail.com).'
   end
 
   def when_i_click_go_back_and_change_the_email_address
@@ -134,7 +134,7 @@ private
   end
 
   def then_i_see_a_flash_message_telling_me_i_have_accepted_the_offer
-    expect(page).to have_content "You have accepted your offer for #{@application_choice.course.name_and_code} at #{@application_choice.provider.name}"
+    expect(page).to have_text "You have accepted your offer for #{@application_choice.course.name_and_code} at #{@application_choice.provider.name}"
   end
 
   def back_link

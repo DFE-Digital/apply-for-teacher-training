@@ -70,7 +70,7 @@ RSpec.describe 'Submitting a postgraduate course' do
 
   def then_i_can_see_degrees_section_is_completed
     expect(page).to have_current_path(candidate_interface_details_path)
-    expect(page).to have_content('Degree Completed')
+    expect(page).to have_text('Degree Completed')
   end
 
   def and_i_click_continue
@@ -87,7 +87,7 @@ RSpec.describe 'Submitting a postgraduate course' do
   end
 
   def then_i_see_that_i_do_not_have_a_degree
-    expect(page).to have_content('Do you have a university degree? No, I do not have a degree Change')
+    expect(page).to have_text('Do you have a university degree? No, I do not have a degree Change')
   end
 
   def when_i_try_to_apply_for_an_postgraduate_course
@@ -104,7 +104,7 @@ RSpec.describe 'Submitting a postgraduate course' do
   end
 
   def then_i_see_that_i_need_degrees_to_apply_for_an_postgraduate_course
-    expect(page).to have_content(
+    expect(page).to have_text(
       'To apply for this course, you need a bachelor’s degree or equivalent qualification. Add your degree (or equivalent) and complete the rest of your details. You can then submit your application. Your application will be saved as a draft while you finish adding your details.',
     )
   end

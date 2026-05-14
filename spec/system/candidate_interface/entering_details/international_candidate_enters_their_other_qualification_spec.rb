@@ -114,11 +114,11 @@ RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def then_i_see_the_other_qualifications_form
-    expect(page).to have_content('Add Master Rules qualification')
+    expect(page).to have_text('Add Master Rules qualification')
   end
 
   def then_i_see_the_new_other_qualifications_form
-    expect(page).to have_content('Add Advanced Rules qualification')
+    expect(page).to have_text('Add Advanced Rules qualification')
   end
 
   def when_i_fill_in_some_of_my_qualification_but_omit_some_required_details
@@ -130,7 +130,7 @@ RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def then_i_see_validation_errors_for_my_qualification
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_details_form.attributes.award_year.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/other_qualification_details_form.attributes.award_year.blank')
   end
 
   def when_i_fill_in_my_qualification
@@ -162,10 +162,10 @@ RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
 
   def and_i_see_my_two_qualifications
     within_summary_card('Master Rules Believing in the Heart of the Cards') do
-      expect(page).to have_content('2015')
+      expect(page).to have_text('2015')
     end
     within_summary_card('Master Rules Shuffling the deck') do
-      expect(page).to have_content('2016')
+      expect(page).to have_text('2016')
     end
   end
 
@@ -184,7 +184,7 @@ RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def then_i_can_check_my_revised_qualification_type
-    expect(page).to have_content 'Battle'
+    expect(page).to have_text 'Battle'
   end
 
   def when_i_click_to_change_my_first_qualification
@@ -204,7 +204,7 @@ RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def then_i_can_check_my_revised_qualification
-    expect(page).to have_content 'Champion'
+    expect(page).to have_text 'Champion'
   end
 
   def when_i_click_add_another_qualification
@@ -221,8 +221,8 @@ RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def then_i_see_my_second_qualification
-    expect(page).to have_content('United States')
-    expect(page).to have_content('2015')
+    expect(page).to have_text('United States')
+    expect(page).to have_text('2015')
   end
 
   def and_leave_grade_and_subject_blank; end
@@ -233,7 +233,7 @@ RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
   alias_method :and_i_click_continue, :when_i_click_on_continue
 
   def then_i_see_a_section_complete_error
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
   def when_i_mark_this_section_as_completed
@@ -241,11 +241,11 @@ RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def then_i_do_not_see_the_incomplete_application
-    expect(page).to have_no_content('Advanced Rules')
+    expect(page).to have_no_text('Advanced Rules')
   end
 
   def then_i_see_the_form
-    expect(page).to have_content(t('page_titles.application_form'))
+    expect(page).to have_text(t('page_titles.application_form'))
   end
 
   def and_that_the_section_is_completed
@@ -253,6 +253,6 @@ RSpec.describe 'Non-uk Other qualifications', mid_cycle: false do
   end
 
   def then_i_see_the_qualification_type_error
-    expect(page).to have_content 'Enter the type of qualification'
+    expect(page).to have_text 'Enter the type of qualification'
   end
 end

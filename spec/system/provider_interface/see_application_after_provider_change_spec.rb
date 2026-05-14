@@ -54,6 +54,6 @@ RSpec.describe 'Application visibility after provider change' do
   end
 
   def then_i_can_see_the_application
-    expect(page).to have_content @application_choice.application_form.full_name
+    expect(page).to have_text @application_choice.application_form.full_name
   end
 end

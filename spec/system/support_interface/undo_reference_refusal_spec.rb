@@ -25,7 +25,7 @@ RSpec.describe 'Undo reference refusal' do
   def and_i_visit_the_application
     visit support_interface_application_form_path(@application_with_reference)
     within_summary_row 'Status' do
-      expect(page).to have_content 'Reference declined'
+      expect(page).to have_text 'Reference declined'
     end
   end
 
@@ -36,7 +36,7 @@ RSpec.describe 'Undo reference refusal' do
 
   def then_the_refusal_is_undone
     within_summary_row 'Status' do
-      expect(page).to have_content 'Requested'
+      expect(page).to have_text 'Requested'
     end
   end
 end

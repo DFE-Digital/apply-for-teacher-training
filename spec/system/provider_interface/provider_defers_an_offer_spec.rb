@@ -58,7 +58,7 @@ RSpec.describe 'Provider defers an offer' do
         @application_offered.id,
       ),
     )
-    expect(page).to have_content 'Defer offer'
+    expect(page).to have_text 'Defer offer'
   end
 
   def when_i_confirm_deferral_of_the_offer
@@ -67,14 +67,14 @@ RSpec.describe 'Provider defers an offer' do
 
   def then_i_am_back_at_the_offer_page
     within '.govuk-heading-xl' do
-      expect(page).to have_content @application_offered.application_form.first_name
-      expect(page).to have_content @application_offered.application_form.last_name
+      expect(page).to have_text @application_offered.application_form.first_name
+      expect(page).to have_text @application_offered.application_form.last_name
     end
 
-    expect(page).to have_content 'Offer'
+    expect(page).to have_text 'Offer'
   end
 
   def and_i_can_see_the_application_offer_is_deferred
-    expect(page).to have_content 'Offer deferred'
+    expect(page).to have_text 'Offer deferred'
   end
 end

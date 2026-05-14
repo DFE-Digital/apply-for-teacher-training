@@ -36,8 +36,8 @@ private
   end
 
   def and_i_see_a_mid_cycle_description_and_content
-    expect(page).to have_content "Apply has opened (#{current_timetable.recruitment_cycle_year})"
-    expect(page).to have_content 'Candidates can make choices and submit applications, providers can act on applications.'
+    expect(page).to have_text "Apply has opened (#{current_timetable.recruitment_cycle_year})"
+    expect(page).to have_text 'Candidates can make choices and submit applications, providers can act on applications.'
   end
 
   def when_i_update_the_current_cycle_so_the_deadline_has_passed
@@ -52,8 +52,8 @@ private
   end
 
   def then_i_see_post_deadline_description
-    expect(page).to have_content 'The cycle has been updated.'
-    expect(page).to have_content "Apply deadline has passed (#{current_timetable.recruitment_cycle_year})"
-    expect(page).to have_content 'The deadline for submitting applications has passed. Candidates without active applications can start preparing applications for next year. Providers can still act on submitted applications.'
+    expect(page).to have_text 'The cycle has been updated.'
+    expect(page).to have_text "Apply deadline has passed (#{current_timetable.recruitment_cycle_year})"
+    expect(page).to have_text 'The deadline for submitting applications has passed. Candidates without active applications can start preparing applications for next year. Providers can still act on submitted applications.'
   end
 end

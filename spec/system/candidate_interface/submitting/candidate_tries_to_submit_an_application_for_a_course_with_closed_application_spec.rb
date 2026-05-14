@@ -21,18 +21,18 @@ RSpec.describe 'Candidate tries to submit an application choice when the course 
   end
 
   def then_i_see_the_course_closed_error_message_until_apply_opens
-    expect(page).to have_content(
+    expect(page).to have_text(
       "This course is not yet open to applications. You will be able to submit your application on #{apply_opens_at.to_fs(:govuk_date)}.",
     )
-    expect(page).to have_no_content('Review application')
+    expect(page).to have_no_text('Review application')
   end
 
   def then_i_do_not_see_any_error_message
-    expect(page).to have_no_content('This course is not yet open to applications.')
+    expect(page).to have_no_text('This course is not yet open to applications.')
   end
 
   def and_i_can_review_my_application
-    expect(page).to have_content('Review application')
+    expect(page).to have_text('Review application')
   end
 
   def apply_opens_at

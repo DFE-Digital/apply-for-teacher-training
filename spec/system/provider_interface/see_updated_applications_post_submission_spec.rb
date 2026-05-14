@@ -38,7 +38,7 @@ RSpec.describe 'See updated applications post-submission' do
 
   def then_the_recently_updated_candidate_card_has_an_updated_notice
     within("##{dom_id(@recently_updated)}") do
-      expect(page).to have_content('updated on ')
+      expect(page).to have_text('updated on ')
     end
   end
 
@@ -48,7 +48,7 @@ RSpec.describe 'See updated applications post-submission' do
 
   def then_the_distantly_updated_candidate_card_has_no_updated_notice
     within("##{dom_id(@distantly_updated)}") do
-      expect(page).to have_no_content('updated on ')
+      expect(page).to have_no_text('updated on ')
     end
   end
 
@@ -91,9 +91,9 @@ RSpec.describe 'See updated applications post-submission' do
 
   def then_i_see_the_applications_from_my_organisation
     expect(page).to have_title 'Applications (2)'
-    expect(page).to have_content 'Applications (2)'
-    expect(page).to have_content @distantly_updated.application_form.full_name
-    expect(page).to have_content @recently_updated.application_form.full_name
+    expect(page).to have_text 'Applications (2)'
+    expect(page).to have_text @distantly_updated.application_form.full_name
+    expect(page).to have_text @recently_updated.application_form.full_name
   end
 
   def when_i_click_on_the_recently_updated_application
@@ -101,17 +101,17 @@ RSpec.describe 'See updated applications post-submission' do
   end
 
   def then_i_am_on_the_application_view_page
-    expect(page).to have_content @recently_updated.id
+    expect(page).to have_text @recently_updated.id
 
-    expect(page).to have_content @recently_updated.application_form.full_name
+    expect(page).to have_text @recently_updated.application_form.full_name
   end
 
   def and_i_see_the_updated_recently_notification
-    expect(page).to have_content 'View the timeline for their updates'
+    expect(page).to have_text 'View the timeline for their updates'
   end
 
   def then_i_do_not_see_the_updated_recently_notification
-    expect(page).to have_no_content 'View the timeline for their updates'
+    expect(page).to have_no_text 'View the timeline for their updates'
   end
 
   def and_i_visit_the_distantly_updated_application

@@ -118,10 +118,10 @@ private
   alias_method :and_i_click, :when_i_click
 
   def then_i_can_see_my_invites
-    expect(page).to have_content('Application sharing')
+    expect(page).to have_text('Application sharing')
 
     within ".govuk-task-list__item##{@invite.id}" do
-      expect(page).to have_content(
+      expect(page).to have_text(
         "#{@invite.provider_name} #{@invite.course_name_code_and_study_mode}",
       )
       expect(page).to have_link(
@@ -131,7 +131,7 @@ private
     end
 
     within ".govuk-task-list__item##{@applied_invite.id}" do
-      expect(page).to have_content(
+      expect(page).to have_text(
         "#{@applied_invite.provider_name} #{@applied_invite.course_name_code_and_study_mode}",
       )
       expect(page).to have_link(
@@ -141,16 +141,16 @@ private
           return_to: 'invites',
         ),
       )
-      expect(page).to have_content('Accepted')
+      expect(page).to have_text('Accepted')
     end
   end
 
   def then_i_see_the_invite
-    expect(page).to have_content "Your invite from #{@invite.course.provider.name}"
+    expect(page).to have_text "Your invite from #{@invite.course.provider.name}"
   end
 
   def then_i_see_my_application
-    expect(page).to have_content "Your application to #{@applied_invite.application_choice.provider.name}"
+    expect(page).to have_text "Your application to #{@applied_invite.application_choice.provider.name}"
   end
 
   def when_i_select_yes_i_want_to_submit_an_application
@@ -168,7 +168,7 @@ private
   end
 
   def then_i_see_the_course_unavailable_page
-    expect(page).to have_content "#{@unavailable_course_invite.course.name_and_code} has closed"
+    expect(page).to have_text "#{@unavailable_course_invite.course.name_and_code} has closed"
   end
 
   def when_i_select_no_i_am_not_interested_in_this_course
@@ -176,7 +176,7 @@ private
   end
 
   def then_i_see_the_decline_reasons_page
-    expect(page).to have_content('Why are you not interested in this course invitation?')
+    expect(page).to have_text('Why are you not interested in this course invitation?')
   end
 
   def when_i_select_a_reason
@@ -185,7 +185,7 @@ private
 
   def and_i_select_another_reason
     check 'Another reason'
-    expect(page).to have_content('Details (optional)')
+    expect(page).to have_text('Details (optional)')
   end
 
   def and_i_add_some_free_text
@@ -194,7 +194,7 @@ private
 
   def then_i_return_to_the_invites_index
     within ".govuk-task-list__item##{@invite.id}" do
-      expect(page).to have_content(
+      expect(page).to have_text(
         "#{@invite.provider_name} #{@invite.course_name_code_and_study_mode}",
       )
       expect(page).to have_link(
@@ -205,30 +205,30 @@ private
   end
 
   def and_i_see_a_flash_message
-    expect(page).to have_content "You have declined #{@invite.course.name_and_code} at #{@invite.course.provider.name}"
-    expect(page).to have_content 'If you have changed your mind you can still apply to this course'
+    expect(page).to have_text "You have declined #{@invite.course.name_and_code} at #{@invite.course.provider.name}"
+    expect(page).to have_text 'If you have changed your mind you can still apply to this course'
     expect(page).to have_link('apply to this course', href: candidate_interface_course_choices_course_confirm_selection_path(@invite.course))
   end
 
   def then_i_see_an_error_message_to_select_a_response
-    expect(page).to have_content 'Select whether you want to apply to this course or not'
+    expect(page).to have_text 'Select whether you want to apply to this course or not'
   end
 
   def then_i_see_an_error_message_to_select_a_reason
-    expect(page).to have_content 'Select at least one reason why you are not interested in this course'
+    expect(page).to have_text 'Select at least one reason why you are not interested in this course'
   end
 
   def then_i_see_the_confirm_selection_wizard_start_page
-    expect(page).to have_content 'You selected a course'
-    expect(page).to have_content @invite.provider.name.to_s
-    expect(page).to have_content @invite.course.name_and_code.to_s
+    expect(page).to have_text 'You selected a course'
+    expect(page).to have_text @invite.provider.name.to_s
+    expect(page).to have_text @invite.course.name_and_code.to_s
   end
 
   def then_i_see_a_new_draft_application_form_for_the_course
     @invite.reload
-    expect(page).to have_content "Your application to #{@invite.application_choice.provider.name}"
-    expect(page).to have_content @invite.application_choice.course.name_and_code.to_s
-    expect(page).to have_content 'Draft'
+    expect(page).to have_text "Your application to #{@invite.application_choice.provider.name}"
+    expect(page).to have_text @invite.application_choice.course.name_and_code.to_s
+    expect(page).to have_text 'Draft'
   end
 
   def when_i_select_yes
@@ -237,10 +237,10 @@ private
 
   def then_i_see_the_invites_index_page_with_a_link_to_my_application
     @invite.reload
-    expect(page).to have_content('Application sharing')
+    expect(page).to have_text('Application sharing')
 
     within ".govuk-task-list__item##{@invite.id}" do
-      expect(page).to have_content(
+      expect(page).to have_text(
         "#{@invite.provider_name} #{@invite.course_name_code_and_study_mode}",
       )
       expect(page).to have_link(

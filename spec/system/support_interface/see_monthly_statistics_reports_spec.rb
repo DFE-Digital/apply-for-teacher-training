@@ -63,10 +63,10 @@ RSpec.describe 'See monthly statistics in support interface' do
   end
 
   def then_i_see_all_generated_monthly_statistics_reports
-    expect(page).to have_content('September 2023')
-    expect(page).to have_content('October 2023')
-    expect(page).to have_content('November 2023')
-    expect(page).to have_content('Draft')
+    expect(page).to have_text('September 2023')
+    expect(page).to have_text('October 2023')
+    expect(page).to have_text('November 2023')
+    expect(page).to have_text('Draft')
   end
 
   def when_i_click_on_the_report_not_published_yet
@@ -75,8 +75,8 @@ RSpec.describe 'See monthly statistics in support interface' do
 
   def then_i_see_the_draft_report
     expect(page).to have_current_path(support_interface_monthly_statistics_report_path(@november_report))
-    expect(page).to have_content('This is currently a draft.')
-    expect(page).to have_content('2. Candidate headline statistics')
+    expect(page).to have_text('This is currently a draft.')
+    expect(page).to have_text('2. Candidate headline statistics')
     expect(page.title).to include('Initial teacher training application statistics for courses starting in the 2024 to 2025 academic year')
   end
 
@@ -86,8 +86,8 @@ RSpec.describe 'See monthly statistics in support interface' do
 
   def then_i_see_the_published_report
     expect(page).to have_current_path(publications_monthly_report_at_path('2023-10'))
-    expect(page).to have_no_content('This is currently a draft.')
-    expect(page).to have_content('2. Candidate headline statistics')
+    expect(page).to have_no_text('This is currently a draft.')
+    expect(page).to have_text('2. Candidate headline statistics')
     expect(page.title).to include('Initial teacher training application statistics for courses starting in the 2024 to 2025 academic year')
   end
 
@@ -97,7 +97,7 @@ RSpec.describe 'See monthly statistics in support interface' do
 
   def then_i_see_the_old_cycle_published_report
     expect(page).to have_current_path(publications_monthly_report_at_path('2023-09'))
-    expect(page).to have_no_content('This is currently a draft.')
-    expect(page.title).to have_content('Initial teacher training application statistics for courses starting in the 2023 to 2024 academic year')
+    expect(page).to have_no_text('This is currently a draft.')
+    expect(page.title).to have_text('Initial teacher training application statistics for courses starting in the 2023 to 2024 academic year')
   end
 end

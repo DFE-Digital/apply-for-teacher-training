@@ -56,7 +56,7 @@ RSpec.describe 'Provider changes a course' do
 
   def then_i_cannot_change_the_course
     within('[data-qa="course-details"]') do
-      expect(page).to have_no_content 'Change'
+      expect(page).to have_no_text 'Change'
     end
   end
 

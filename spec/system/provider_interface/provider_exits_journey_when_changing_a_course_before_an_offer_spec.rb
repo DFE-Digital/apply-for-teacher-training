@@ -87,8 +87,8 @@ RSpec.describe 'Provider exits journey when changing a course' do
   end
 
   def then_i_see_a_list_of_locations_to_select_from
-    expect(page).to have_content "Update course - #{application_form.full_name}"
-    expect(page).to have_content 'Location'
+    expect(page).to have_text "Update course - #{application_form.full_name}"
+    expect(page).to have_text 'Location'
     expect(page).to have_css('.govuk-radios__item')
   end
 

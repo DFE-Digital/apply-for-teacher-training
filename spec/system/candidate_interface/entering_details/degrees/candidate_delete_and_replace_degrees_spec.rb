@@ -55,8 +55,8 @@ RSpec.describe 'Deleting and replacing a degree' do
   end
 
   def then_i_see_the_undergraduate_degree_form
-    expect(page).to have_content 'Degree'
-    expect(page).to have_content 'Add a degree'
+    expect(page).to have_text 'Degree'
+    expect(page).to have_text 'Add a degree'
   end
 
   def when_i_click_add_degree
@@ -133,7 +133,7 @@ RSpec.describe 'Deleting and replacing a degree' do
   alias_method :and_i_click_on_continue, :when_i_click_on_continue
 
   def then_i_see_the_form_and_the_section_is_not_completed
-    expect(page).to have_content(t('page_titles.application_form'))
+    expect(page).to have_text(t('page_titles.application_form'))
     expect(page).to have_no_css('#degree-badge-id', text: 'Completed')
   end
 
@@ -173,8 +173,8 @@ RSpec.describe 'Deleting and replacing a degree' do
   end
 
   def then_i_can_check_my_additional_degree
-    expect(page).to have_content 'Philosophy'
-    expect(page).to have_content 'University of Oxford'
+    expect(page).to have_text 'Philosophy'
+    expect(page).to have_text 'University of Oxford'
   end
 
   def and_i_click_on_delete_degree
@@ -196,8 +196,8 @@ RSpec.describe 'Deleting and replacing a degree' do
 
   def then_i_can_only_see_my_undergraduate_degree
     then_i_can_check_my_undergraduate_degree
-    expect(page).to have_no_content 'Philosophy'
-    expect(page).to have_no_content 'University of Oxford'
+    expect(page).to have_no_text 'Philosophy'
+    expect(page).to have_no_text 'University of Oxford'
   end
 
   def and_i_confirm_i_have_completed_my_degree

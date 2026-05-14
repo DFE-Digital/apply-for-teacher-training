@@ -38,7 +38,7 @@ RSpec.describe 'Cancel previous cycle unsubmitted applications support task', :s
   end
 
   def then_i_see_that_the_job_has_been_scheduled
-    expect(page).to have_content 'Scheduled job to cancel unsubmitted applications, from the previous cycle, that reached end-of-cycle'
+    expect(page).to have_text 'Scheduled job to cancel unsubmitted applications, from the previous cycle, that reached end-of-cycle'
   end
 
   def when_i_lookup_the_candidates_application
@@ -46,6 +46,6 @@ RSpec.describe 'Cancel previous cycle unsubmitted applications support task', :s
   end
 
   def then_i_can_see_that_the_application_has_been_cancelled
-    expect(page).to have_content('Have not started form')
+    expect(page).to have_text('Have not started form')
   end
 end

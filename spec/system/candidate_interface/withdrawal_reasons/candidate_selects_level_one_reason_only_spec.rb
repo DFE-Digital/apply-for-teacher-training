@@ -69,7 +69,7 @@ private
   end
 
   def then_i_see_an_error_message_telling_me_to_select_an_option
-    expect(page).to have_content('Select a reason for withdrawing this application').twice
+    expect(page).to have_text('Select a reason for withdrawing this application').twice
   end
 
   def when_i_select_other
@@ -82,9 +82,9 @@ private
   end
 
   def then_i_see_the_review_page
-    expect(page).to have_content 'Are you sure you want to withdraw this application?'
+    expect(page).to have_text 'Are you sure you want to withdraw this application?'
     expect(page).to have_title 'Are you sure you want to withdraw this application?'
-    expect(page).to have_content 'Other: Some details'
+    expect(page).to have_text 'Other: Some details'
     expect(page).to have_css('.govuk-service-navigation__link', text: 'Your applications')
   end
 
@@ -97,7 +97,7 @@ private
   end
 
   def then_i_see_an_error_message_telling_me_to_add_details
-    expect(page).to have_content('Enter details to explain the reason for withdrawing').twice
+    expect(page).to have_text('Enter details to explain the reason for withdrawing').twice
   end
 
   def when_i_enter_more_than_256_characters
@@ -105,13 +105,13 @@ private
   end
 
   def then_i_see_an_error_message_telling_me_to_be_more_concise
-    expect(page).to have_content('Details must be 200 words or fewer').twice
+    expect(page).to have_text('Details must be 200 words or fewer').twice
   end
 
   def then_i_see_all_the_expected_elements_on_the_page
     expect(page).to have_title 'Why are you withdrawing this application?'
-    expect(page).to have_content 'Why are you withdrawing this application?'
-    level_one_reasons.each { |reason| expect(page).to have_content reason }
+    expect(page).to have_text 'Why are you withdrawing this application?'
+    level_one_reasons.each { |reason| expect(page).to have_text reason }
     expect(page).to have_css('.govuk-service-navigation__link', text: 'Your applications')
   end
 

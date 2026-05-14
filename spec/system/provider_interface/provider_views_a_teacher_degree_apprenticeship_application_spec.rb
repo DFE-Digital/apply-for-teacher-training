@@ -89,26 +89,26 @@ RSpec.describe 'A Provider user views a teacher degree apprenticeship applicatio
   end
 
   def then_i_see_a_message_on_the_degree_section
-    expect(page).to have_content('A degree is not required for a teacher degree apprenticeship (TDA)')
+    expect(page).to have_text('A degree is not required for a teacher degree apprenticeship (TDA)')
   end
 
   def then_i_dont_see_a_message_on_the_degree_section
-    expect(page).to have_no_content('A degree is not required for a teacher degree apprenticeship (TDA)')
+    expect(page).to have_no_text('A degree is not required for a teacher degree apprenticeship (TDA)')
   end
 
   def and_i_see_the_degrees_of_the_candidate
     expect(@postgraduate_application_form.application_qualifications.degrees.count).to be 1
 
     @postgraduate_application_form.application_qualifications.degrees.each do |degree|
-      expect(page).to have_content(degree.subject)
-      expect(page).to have_content(degree.institution_name)
+      expect(page).to have_text(degree.subject)
+      expect(page).to have_text(degree.institution_name)
     end
   end
 
   def and_i_do_not_see_the_degrees_of_the_candidate
     @teacher_degree_apprenticeship_application_form.application_qualifications.degrees.each do |degree|
-      expect(page).to have_no_content(degree.subject)
-      expect(page).to have_no_content(degree.institution_name)
+      expect(page).to have_no_text(degree.subject)
+      expect(page).to have_no_text(degree.institution_name)
     end
   end
 end

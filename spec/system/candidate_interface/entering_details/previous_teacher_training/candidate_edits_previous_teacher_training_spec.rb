@@ -115,7 +115,7 @@ RSpec.describe 'Edit previous teacher training' do
   end
 
   def then_i_see_an_error(error)
-    expect(page).to have_content(error).twice
+    expect(page).to have_text(error).twice
   end
 
   def then_i_am_on_the_start_page
@@ -167,7 +167,7 @@ RSpec.describe 'Edit previous teacher training' do
   end
 
   def then_i_am_on_the_review_page
-    expect(page).to have_content('Check your previous teacher training')
+    expect(page).to have_text('Check your previous teacher training')
 
     published_record = @application_form.published_previous_teacher_trainings.last
     summary_list = [
@@ -202,15 +202,15 @@ RSpec.describe 'Edit previous teacher training' do
     within("#previous-teacher-training-#{published_record.id}") do
       summary_list.each_with_index do |item, index|
         within ".govuk-summary-list__row:nth-of-type(#{index + 1})" do
-          expect(page).to have_content(item[:label])
-          expect(page).to have_content(item[:value])
+          expect(page).to have_text(item[:label])
+          expect(page).to have_text(item[:value])
         end
       end
     end
   end
 
   def then_i_am_on_the_review_page_with_started_no
-    expect(page).to have_content('Check your previous teacher training')
+    expect(page).to have_text('Check your previous teacher training')
 
     published_record = @application_form.published_previous_teacher_trainings.last
     summary_list = [
@@ -222,8 +222,8 @@ RSpec.describe 'Edit previous teacher training' do
 
     summary_list.each_with_index do |item, index|
       within ".govuk-summary-list__row:nth-of-type(#{index + 1})" do
-        expect(page).to have_content(item[:label])
-        expect(page).to have_content(item[:value])
+        expect(page).to have_text(item[:label])
+        expect(page).to have_text(item[:value])
       end
     end
   end

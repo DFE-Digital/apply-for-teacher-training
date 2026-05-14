@@ -64,7 +64,7 @@ private
   end
 
   def then_i_can_see_the_subject_page
-    expect(page).to have_content 'What subject is your degree?'
+    expect(page).to have_text 'What subject is your degree?'
   end
 
   def and_i_fill_in_the_subject
@@ -112,7 +112,7 @@ private
   end
 
   def then_i_see_the_form
-    expect(page).to have_content(t('page_titles.application_form'))
+    expect(page).to have_text(t('page_titles.application_form'))
   end
 
   def and_that_the_section_is_completed
@@ -121,10 +121,10 @@ private
 
   def then_i_can_check_my_international_degree
     expect(page).to have_current_path candidate_interface_degree_review_path
-    expect(page).to have_content 'History'
+    expect(page).to have_text 'History'
     within '[data-qa="degree-grade"]' do
-      expect(page).to have_content 'Grade'
-      expect(page).to have_content 'N/A'
+      expect(page).to have_text 'Grade'
+      expect(page).to have_text 'N/A'
     end
   end
 
@@ -138,21 +138,21 @@ private
 
   def then_i_can_check_the_grade_has_changed
     expect(page).to have_current_path candidate_interface_degree_review_path
-    expect(page).to have_content 'History'
+    expect(page).to have_text 'History'
     within '[data-qa="degree-grade"]' do
-      expect(page).to have_content 'Grade'
-      expect(page).to have_content 'Unknown'
+      expect(page).to have_text 'Grade'
+      expect(page).to have_text 'Unknown'
     end
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'France'
+    expect(page).to have_text 'France'
     within '[data-qa="degree-type"]' do
-      expect(page).to have_content 'Doctor'
+      expect(page).to have_text 'Doctor'
     end
-    expect(page).to have_content 'Purdue University'
-    expect(page).to have_content 'Doctorate of Philosophy, History,'
-    expect(page).to have_content '2006'
-    expect(page).to have_content '2009'
+    expect(page).to have_text 'Purdue University'
+    expect(page).to have_text 'Doctorate of Philosophy, History,'
+    expect(page).to have_text '2006'
+    expect(page).to have_text '2009'
   end
 end

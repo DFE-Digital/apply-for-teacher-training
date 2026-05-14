@@ -72,13 +72,13 @@ private
   end
 
   def when_i_provide_an_email_that_appears_to_be_personal
-    expect(page).to have_content 'Enter their professional email address if you know it. Many providers will not accept references that come from a personal email address'
+    expect(page).to have_text 'Enter their professional email address if you know it. Many providers will not accept references that come from a personal email address'
     fill_in 'What is Walter White’s email address?', with: 'walter.white@gmail.com'
     click_on 'Save and continue'
   end
 
   def and_i_provide_a_work_email_address
-    expect(page).to have_content 'Enter their professional email address if you know it. Many providers will not accept references that come from a personal email address'
+    expect(page).to have_text 'Enter their professional email address if you know it. Many providers will not accept references that come from a personal email address'
     fill_in 'What is Walter White’s email address?', with: 'walter.white@open.ac.uk'
   end
 
@@ -88,14 +88,14 @@ private
   alias_method :when_i_click_back, :when_i_click_go_back_and_change
 
   def then_i_see_the_interruption
-    expect(page).to have_content 'walter.white@gmail.com looks like a personal email address'
-    expect(page).to have_content 'You should ask Walter White if they have a work email address you can use instead and update your application.'
+    expect(page).to have_text 'walter.white@gmail.com looks like a personal email address'
+    expect(page).to have_text 'You should ask Walter White if they have a work email address you can use instead and update your application.'
   end
 
   def then_i_see_the_relationship_page_not_the_interruption
     expect(page).to have_current_path candidate_interface_references_relationship_path(@application.application_references.creation_order.last.id)
-    expect(page).to have_content 'How do you know Walter White and how long have you known them?'
-    expect(page).to have_no_content 'You should ask Walter White if they have a work email address you can use instead and update your application.'
+    expect(page).to have_text 'How do you know Walter White and how long have you known them?'
+    expect(page).to have_no_text 'You should ask Walter White if they have a work email address you can use instead and update your application.'
   end
 
   def when_i_choose_to_continue_with_the_personal_email_address
@@ -108,22 +108,22 @@ private
   end
 
   def and_i_provide_a_work_email_address
-    expect(page).to have_content 'Enter their professional email address if you know it. Many providers will not accept references that come from a personal email address'
+    expect(page).to have_text 'Enter their professional email address if you know it. Many providers will not accept references that come from a personal email address'
     fill_in 'What is Walter White’s email address?', with: 'walter.white@open.ac.uk'
     click_on 'Save and continue'
   end
 
   def then_i_see_my_reference_with_professional_email_address
-    expect(page).to have_content('Academic, such as a university tutor')
-    expect(page).to have_content('Walter White')
-    expect(page).to have_content('walter.white@open.ac.uk')
-    expect(page).to have_content('They were my course supervisor.')
+    expect(page).to have_text('Academic, such as a university tutor')
+    expect(page).to have_text('Walter White')
+    expect(page).to have_text('walter.white@open.ac.uk')
+    expect(page).to have_text('They were my course supervisor.')
   end
 
   def then_i_see_my_reference_with_personal_email_address
-    expect(page).to have_content('Academic, such as a university tutor')
-    expect(page).to have_content('Walter White')
-    expect(page).to have_content('walter.white@gmail.com')
-    expect(page).to have_content('They were my course supervisor.')
+    expect(page).to have_text('Academic, such as a university tutor')
+    expect(page).to have_text('Walter White')
+    expect(page).to have_text('walter.white@gmail.com')
+    expect(page).to have_text('They were my course supervisor.')
   end
 end

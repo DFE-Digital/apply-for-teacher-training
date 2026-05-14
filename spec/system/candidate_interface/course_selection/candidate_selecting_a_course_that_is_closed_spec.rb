@@ -49,8 +49,8 @@ RSpec.describe 'Selecting a course' do
   end
 
   def then_i_see_a_course_and_its_description
-    expect(page).to have_content(@course.name_and_code)
-    expect(page).to have_content(@course.description_to_s)
+    expect(page).to have_text(@course.name_and_code)
+    expect(page).to have_text(@course.description_to_s)
   end
 
   def and_i_choose_a_course_that_has_been_closed
@@ -59,12 +59,12 @@ RSpec.describe 'Selecting a course' do
   end
 
   def then_i_be_on_the_application_choice_closed_page
-    expect(page).to have_content('Unfortunately, you cannot apply to Primary (2XT2) because it is closed')
+    expect(page).to have_text('Unfortunately, you cannot apply to Primary (2XT2) because it is closed')
   end
 
   def and_i_see_that_i_can_apply_to_a_different_provider
-    expect(page).to have_no_content('apply to a different course offered by Gorse SCITT')
-    expect(page).to have_content('You can apply to a different training provider.')
+    expect(page).to have_no_text('apply to a different course offered by Gorse SCITT')
+    expect(page).to have_text('You can apply to a different training provider.')
   end
 
   def when_the_provider_adds_more_vacancies
@@ -74,8 +74,8 @@ RSpec.describe 'Selecting a course' do
   def then_i_see_that_i_can_apply_to_another_course
     visit current_path
 
-    expect(page).to have_content('apply to a different course offered by Gorse SCITT')
-    expect(page).to have_content('apply to a different training provider')
+    expect(page).to have_text('apply to a different course offered by Gorse SCITT')
+    expect(page).to have_text('apply to a different training provider')
   end
 
   def when_i_click_back

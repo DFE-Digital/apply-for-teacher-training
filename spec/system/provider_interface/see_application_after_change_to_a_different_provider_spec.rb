@@ -52,7 +52,7 @@ RSpec.describe 'An application was changed to another provider' do
   end
 
   def then_i_can_see_the_application
-    expect(page).to have_content @application_choice.application_form.full_name
+    expect(page).to have_text @application_choice.application_form.full_name
   end
 
   def when_i_click_on_the_individual_application

@@ -19,8 +19,8 @@ RSpec.describe CandidateMailer do
           expect(email.to).to eq(['candidate@email.address'])
           expect(email.subject).to include('A provider has invited you to apply for teacher training')
           expect(email.body).to have_text('Dear Joe,')
-          expect(email.body).to have_content pool_invite.course.provider.name
-          expect(email.body).to have_content pool_invite.course.name_and_code
+          expect(email.body).to have_text pool_invite.course.provider.name
+          expect(email.body).to have_text pool_invite.course.name_and_code
         end
       end
     end

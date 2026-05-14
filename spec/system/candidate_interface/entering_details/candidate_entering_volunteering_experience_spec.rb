@@ -40,7 +40,7 @@ RSpec.describe 'Entering volunteering experience' do
   end
 
   def then_i_see_the_start_page
-    expect(page).to have_content(t('application_form.volunteering.experience.label'))
+    expect(page).to have_text(t('application_form.volunteering.experience.label'))
   end
 
   def when_i_choose_yes_experience
@@ -52,7 +52,7 @@ RSpec.describe 'Entering volunteering experience' do
   end
 
   def then_i_see_the_add_volunteering_role_form
-    expect(page).to have_content(t('page_titles.add_volunteering_role'))
+    expect(page).to have_text(t('page_titles.add_volunteering_role'))
   end
 
   def when_i_fill_in_the_job_form_with_incorrect_date_fields
@@ -77,7 +77,7 @@ RSpec.describe 'Entering volunteering experience' do
   end
 
   def then_i_see_date_validation_errors
-    expect(page).to have_content t('errors.messages.invalid_date', article: 'a', attribute: 'start date')
+    expect(page).to have_text t('errors.messages.invalid_date', article: 'a', attribute: 'start date')
   end
 
   def and_i_see_the_incorrect_date_values
@@ -118,7 +118,7 @@ RSpec.describe 'Entering volunteering experience' do
   end
 
   def then_i_see_a_section_complete_error
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
+    expect(page).to have_text t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
   def when_i_mark_this_section_as_completed
@@ -127,7 +127,7 @@ RSpec.describe 'Entering volunteering experience' do
   end
 
   def then_i_see_the_section_is_completed
-    expect(page).to have_content(t('page_titles.application_form'))
+    expect(page).to have_text(t('page_titles.application_form'))
     expect(page).to have_css('#unpaid-experience-badge-id', text: 'Completed')
   end
 

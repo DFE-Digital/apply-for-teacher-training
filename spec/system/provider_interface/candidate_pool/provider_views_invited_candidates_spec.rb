@@ -120,8 +120,8 @@ private
 
   def then_i_see_a_list_of_invited_candidates
     expect(page).to have_title 'Find candidates - Invited'
-    expect(page).to have_content 'Find candidates'
-    expect(page).to have_content '4 candidates invited'
+    expect(page).to have_text 'Find candidates'
+    expect(page).to have_text '4 candidates invited'
   end
 
   def and_the_path_has_pagination
@@ -141,14 +141,14 @@ private
   def then_i_see_the_not_in_pool_page
     candidate_id = invite_with_opted_out_candidate.candidate_id
     expect(page).to have_title 'Candidate details no longer available'
-    expect(page).to have_content "Candidate number: #{candidate_id}"
-    expect(page).to have_content 'You cannot see this candidate’s profile information.'
+    expect(page).to have_text "Candidate number: #{candidate_id}"
+    expect(page).to have_text 'You cannot see this candidate’s profile information.'
   end
 
   def then_i_see_their_pool_profile
     candidate_id = invite_with_candidate_in_pool.candidate_id
     expect(page).to have_title 'Candidate details'
-    expect(page).to have_content "Candidate number: #{candidate_id}"
+    expect(page).to have_text "Candidate number: #{candidate_id}"
   end
 
   def when_i_click_back
@@ -165,7 +165,7 @@ private
   end
 
   def then_i_see_a_list_of_filtered_candidates
-    expect(page).to have_content '2 candidates invited'
+    expect(page).to have_text '2 candidates invited'
   end
 
   def when_i_visit_the_invited_candidates_page_with_bad_pagination
@@ -174,6 +174,6 @@ private
 
   def and_i_can_view_the_application
     click_on 'Application received'
-    expect(page).to have_content 'Application details'
+    expect(page).to have_text 'Application details'
   end
 end

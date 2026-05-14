@@ -85,7 +85,7 @@ private
   end
 
   def then_i_see_the_list_of_candidates
-    expect(page).to have_content '2 new candidates found'
+    expect(page).to have_text '2 new candidates found'
   end
 
   def and_i_click_on_a_candidate
@@ -97,12 +97,12 @@ private
   end
 
   def the_viewed_candidate_is_not_on_the_list
-    expect(page).to have_no_content(@declined_candidate_form.redacted_full_name)
+    expect(page).to have_no_text(@declined_candidate_form.redacted_full_name)
   end
 
   def the_not_viewed_candidate_is_on_the_list
-    expect(page).to have_content('1 new candidate found')
-    expect(page).to have_content(@rejected_candidate_form.redacted_full_name)
+    expect(page).to have_text('1 new candidate found')
+    expect(page).to have_text(@rejected_candidate_form.redacted_full_name)
   end
 
   def and_the_url_includes_pagination

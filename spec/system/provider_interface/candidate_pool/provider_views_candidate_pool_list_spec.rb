@@ -199,11 +199,11 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def and_i_expect_to_see_the_total_results_count
-    expect(page).to have_content('3 candidates found')
+    expect(page).to have_text('3 candidates found')
   end
 
   def and_i_expect_to_see_the_updated_results_count
-    expect(page).to have_content('1 candidate found')
+    expect(page).to have_text('1 candidate found')
   end
 
   def when_i_add_all_remaining_filters
@@ -259,8 +259,8 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def then_i_see_an_error
-    expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Town, city or postcode must be in the United Kingdom')
+    expect(page).to have_text('There is a problem')
+    expect(page).to have_text('Town, city or postcode must be in the United Kingdom')
     expect(page.title).to include('Error:', 'Find candidates')
   end
 
@@ -274,8 +274,8 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def then_i_see_the_candidate
-    expect(page).to have_content '1 candidate found'
-    expect(page).to have_content "#{@declined_candidate_form.redacted_full_name} (#{@declined_candidate_form.candidate_id})"
+    expect(page).to have_text '1 candidate found'
+    expect(page).to have_text "#{@declined_candidate_form.redacted_full_name} (#{@declined_candidate_form.candidate_id})"
   end
 
   def when_i_clear_candidate_number_search

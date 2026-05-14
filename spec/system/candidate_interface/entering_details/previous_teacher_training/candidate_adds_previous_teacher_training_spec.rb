@@ -64,7 +64,7 @@ RSpec.describe 'Previous teacher training' do
   end
 
   def then_i_see_an_error(error)
-    expect(page).to have_content(error).twice
+    expect(page).to have_text(error).twice
   end
 
   def then_i_am_on_the_start_page
@@ -120,7 +120,7 @@ RSpec.describe 'Previous teacher training' do
       ignore_query: true,
     )
 
-    expect(page).to have_content('Check your previous teacher training')
+    expect(page).to have_text('Check your previous teacher training')
 
     summary_list = [
       {
@@ -153,8 +153,8 @@ RSpec.describe 'Previous teacher training' do
     within("#previous-teacher-training-#{@previous_teacher_training.id}") do
       summary_list.each_with_index do |item, index|
         within ".govuk-summary-list__row:nth-of-type(#{index + 1})" do
-          expect(page).to have_content(item[:label])
-          expect(page).to have_content(item[:value])
+          expect(page).to have_text(item[:label])
+          expect(page).to have_text(item[:value])
         end
       end
     end

@@ -9,12 +9,12 @@ RSpec.describe RecruitmentPerformanceReport::ProportionWithInactiveApplicationsT
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
     expect(page).to have_table('7. Proportion of candidates who have waited more than 30 working days for a response')
-    expect(page).to have_content(description(provider.name))
-    expect(page).to have_content('Subject')
+    expect(page).to have_text(description(provider.name))
+    expect(page).to have_text('Subject')
 
-    expect(page).to have_content provider.name
-    expect(page).to have_content 'All providers'
-    expect(page).to have_content 'Subject'
+    expect(page).to have_text provider.name
+    expect(page).to have_text 'All providers'
+    expect(page).to have_text 'Subject'
     ['This cycle', 'Last cycle'].each do |heading|
       expect(page).to have_element('th', scope: 'col', class: 'govuk-table__header', text: heading).twice
     end
@@ -23,11 +23,11 @@ RSpec.describe RecruitmentPerformanceReport::ProportionWithInactiveApplicationsT
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: heading)
     end
 
-    expect(page).to have_no_content 'Percentage change'
+    expect(page).to have_no_text 'Percentage change'
 
     primary_row = page.find('tr.govuk-table__row', text: 'Primary')
-    expect(primary_row).to have_content '7%'
-    expect(primary_row).to have_content '24%'
+    expect(primary_row).to have_text '7%'
+    expect(primary_row).to have_text '24%'
 
     secondary_subject_headings.each do |heading|
       expect(page).to have_element(
@@ -53,12 +53,12 @@ RSpec.describe RecruitmentPerformanceReport::ProportionWithInactiveApplicationsT
     )
 
     expect(page).to have_table('7. Proportion of candidates who have waited more than 30 working days for a response')
-    expect(page).to have_content(description(provider.name))
-    expect(page).to have_content('Subject')
+    expect(page).to have_text(description(provider.name))
+    expect(page).to have_text('Subject')
 
-    expect(page).to have_content provider.name
-    expect(page).to have_content 'All providers'
-    expect(page).to have_content 'Subject'
+    expect(page).to have_text provider.name
+    expect(page).to have_text 'All providers'
+    expect(page).to have_text 'Subject'
 
     [
       "#{previous_cycle_year} cycle",
@@ -71,11 +71,11 @@ RSpec.describe RecruitmentPerformanceReport::ProportionWithInactiveApplicationsT
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: heading)
     end
 
-    expect(page).to have_no_content 'Percentage change'
+    expect(page).to have_no_text 'Percentage change'
 
     primary_row = page.find('tr.govuk-table__row', text: 'Primary')
-    expect(primary_row).to have_content '7%'
-    expect(primary_row).to have_content '24%'
+    expect(primary_row).to have_text '7%'
+    expect(primary_row).to have_text '24%'
 
     secondary_subject_headings.each do |heading|
       expect(page).to have_element(

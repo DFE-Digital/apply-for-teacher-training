@@ -66,7 +66,7 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
 
   def then_i_see_an_error_message
     within '.govuk-error-summary__list' do
-      expect(page).to have_content('Enter a note')
+      expect(page).to have_text('Enter a note')
     end
   end
 
@@ -91,19 +91,19 @@ RSpec.describe 'A Provider viewing an individual application', :with_audited do
       "#{@provider_user.full_name}, #{Time.zone.now.to_fs(:govuk_date_and_time)}",
       href: provider_interface_application_choice_note_path(@application_choice, @note),
     )
-    expect(page).to have_content(@note_text)
+    expect(page).to have_text(@note_text)
   end
 
   def and_i_can_navigate_to_the_new_note
     click_link_or_button "#{@provider_user.full_name}, #{Time.zone.now.to_fs(:govuk_date_and_time)}"
 
-    expect(page).to have_content(@note_text)
+    expect(page).to have_text(@note_text)
 
     click_link_or_button 'Back'
   end
 
   def and_the_new_note_also_appears_on_the_timeline
     click_link_or_button 'Timeline'
-    expect(page).to have_content('Note added')
+    expect(page).to have_text('Note added')
   end
 end

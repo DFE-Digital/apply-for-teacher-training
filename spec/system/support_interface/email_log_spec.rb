@@ -86,11 +86,11 @@ RSpec.describe 'Email log' do
   end
 
   def then_i_see_the_custom_reference_email_in_the_log
-    expect(page).to have_content 'harry@example.com'
+    expect(page).to have_text 'harry@example.com'
   end
 
   def then_i_see_the_application_reference_in_the_log
-    expect(page).to have_content 'Harry Potter'
+    expect(page).to have_text 'Harry Potter'
   end
 
   def then_i_see_the_all_emails_have_a_reference_in_the_log
@@ -100,8 +100,8 @@ RSpec.describe 'Email log' do
   end
 
   def then_i_see_the_all_emails_have_a_type_in_the_log
-    expect(page).to have_content 'Application choice submitted (Candidate mailer) '
-    expect(page).to have_content 'Sign up email (Authentication mailer)'
+    expect(page).to have_text 'Application choice submitted (Candidate mailer) '
+    expect(page).to have_text 'Sign up email (Authentication mailer)'
   end
 
   def when_notify_tells_us_the_emails_have_not_been_delivered
@@ -121,13 +121,13 @@ RSpec.describe 'Email log' do
     visit support_interface_email_log_path(to: 'harry@example.com', delivery_status: 'permanent_failure')
 
     within '.moj-filter-layout__content' do
-      expect(page).to have_content 'Permanent failure'
+      expect(page).to have_text 'Permanent failure'
     end
 
     visit support_interface_email_log_path(to: 'harry@example.com', delivery_status: 'delivered')
 
     within '.moj-filter-layout__content' do
-      expect(page).to have_no_content 'Permanent failure'
+      expect(page).to have_no_text 'Permanent failure'
     end
   end
 
@@ -147,7 +147,7 @@ RSpec.describe 'Email log' do
 
   def then_i_see_only_emails_that_match_the_supplied_address
     expect(page).to have_css('tbody tr', count: 3)
-    expect(page).to have_content 'harry@example.com'
-    expect(page).to have_no_content 'severus.snape@example.com'
+    expect(page).to have_text 'harry@example.com'
+    expect(page).to have_no_text 'severus.snape@example.com'
   end
 end

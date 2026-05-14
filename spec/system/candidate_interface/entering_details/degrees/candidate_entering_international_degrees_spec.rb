@@ -80,7 +80,7 @@ RSpec.describe 'Entering an international degree' do
   end
 
   def then_i_can_see_the_country_page
-    expect(page).to have_content('Which country was the degree from?')
+    expect(page).to have_text('Which country was the degree from?')
   end
 
   def when_i_select_another_country
@@ -101,7 +101,7 @@ RSpec.describe 'Entering an international degree' do
   end
 
   def then_i_can_see_the_subject_page
-    expect(page).to have_content 'What subject is your degree?'
+    expect(page).to have_text 'What subject is your degree?'
   end
 
   def when_i_fill_in_the_subject
@@ -109,7 +109,7 @@ RSpec.describe 'Entering an international degree' do
   end
 
   def then_i_can_see_the_type_page
-    expect(page).to have_content 'What type of degree is it?'
+    expect(page).to have_text 'What type of degree is it?'
   end
 
   def when_i_fill_in_the_type_of_degree
@@ -117,7 +117,7 @@ RSpec.describe 'Entering an international degree' do
   end
 
   def then_i_can_see_the_university_page
-    expect(page).to have_content 'Which university awarded your degree?'
+    expect(page).to have_text 'Which university awarded your degree?'
   end
 
   def when_i_fill_in_the_university
@@ -125,7 +125,7 @@ RSpec.describe 'Entering an international degree' do
   end
 
   def then_i_can_see_the_completion_page
-    expect(page).to have_content 'Have you completed your degree?'
+    expect(page).to have_text 'Have you completed your degree?'
   end
 
   def when_i_choose_whether_degree_is_completed
@@ -133,7 +133,7 @@ RSpec.describe 'Entering an international degree' do
   end
 
   def then_i_can_see_the_grade_page
-    expect(page).to have_content('Did your degree give a grade?')
+    expect(page).to have_text('Did your degree give a grade?')
   end
 
   def when_i_choose_whether_grade_was_given
@@ -145,7 +145,7 @@ RSpec.describe 'Entering an international degree' do
   end
 
   def then_i_can_see_the_start_year_page
-    expect(page).to have_content('What year did you start your degree?')
+    expect(page).to have_text('What year did you start your degree?')
   end
 
   def when_i_fill_in_the_start_year
@@ -153,7 +153,7 @@ RSpec.describe 'Entering an international degree' do
   end
 
   def then_i_can_see_the_award_year_page
-    expect(page).to have_content('What year did you graduate?')
+    expect(page).to have_text('What year did you graduate?')
   end
 
   def when_i_fill_in_the_award_year
@@ -161,7 +161,7 @@ RSpec.describe 'Entering an international degree' do
   end
 
   def then_i_can_see_the_enic_page
-    expect(page).to have_content 'Do you have a statement of comparability from UK ENIC'
+    expect(page).to have_text 'Do you have a statement of comparability from UK ENIC'
   end
 
   def when_i_check_yes_for_enic_statement
@@ -178,7 +178,7 @@ RSpec.describe 'Entering an international degree' do
 
   def then_i_can_check_my_undergraduate_degree
     expect(page).to have_current_path candidate_interface_degree_review_path
-    expect(page).to have_content 'History'
+    expect(page).to have_text 'History'
   end
 
   def and_i_click_on_continue
@@ -190,7 +190,7 @@ RSpec.describe 'Entering an international degree' do
   end
 
   def then_i_see_the_form
-    expect(page).to have_content(t('page_titles.application_form'))
+    expect(page).to have_text(t('page_titles.application_form'))
   end
 
   def and_that_the_section_is_completed
@@ -198,13 +198,13 @@ RSpec.describe 'Entering an international degree' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'France'
-    expect(page).to have_content 'Diplôme'
-    expect(page).to have_content 'University of Paris'
-    expect(page).to have_content 'Doctor of Philosophy degree'
-    expect(page).to have_content '0123456789'
-    expect(page).to have_content '94%'
-    expect(page).to have_content '2006'
-    expect(page).to have_content '2009'
+    expect(page).to have_text 'France'
+    expect(page).to have_text 'Diplôme'
+    expect(page).to have_text 'University of Paris'
+    expect(page).to have_text 'Doctor of Philosophy degree'
+    expect(page).to have_text '0123456789'
+    expect(page).to have_text '94%'
+    expect(page).to have_text '2006'
+    expect(page).to have_text '2009'
   end
 end

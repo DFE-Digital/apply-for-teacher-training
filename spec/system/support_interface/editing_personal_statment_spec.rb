@@ -41,7 +41,7 @@ RSpec.describe 'Editing reference' do
   end
 
   def then_i_see_a_prepopulated_personal_statement_form
-    expect(page).to have_content('Edit personal statement')
+    expect(page).to have_text('Edit personal statement')
     expect(page).to have_css('#support-interface-application-forms-edit-becoming-a-teacher-form-becoming-a-teacher-field', text: 'i can spel real gud')
   end
 
@@ -50,7 +50,7 @@ RSpec.describe 'Editing reference' do
   end
 
   def then_i_see_blank_audit_comment_error_message
-    expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_becoming_a_teacher_form.attributes.audit_comment.blank')
+    expect(page).to have_text t('activemodel.errors.models.support_interface/application_forms/edit_becoming_a_teacher_form.attributes.audit_comment.blank')
   end
 
   def when_i_complete_the_form
@@ -63,15 +63,15 @@ RSpec.describe 'Editing reference' do
   end
 
   def then_i_am_told_i_updated_the_section
-    expect(page).to have_content 'Personal statement updated'
+    expect(page).to have_text 'Personal statement updated'
   end
 
   def and_i_see_the_new_personal_statement
-    expect(page).to have_content 'My spelling is phenomenal.'
+    expect(page).to have_text 'My spelling is phenomenal.'
   end
 
   def and_i_see_my_comment_in_the_audit_log
     click_link_or_button 'History'
-    expect(page).to have_content 'Updated as part of Zen Desk ticket #12345'
+    expect(page).to have_text 'Updated as part of Zen Desk ticket #12345'
   end
 end

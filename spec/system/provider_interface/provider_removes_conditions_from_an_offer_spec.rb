@@ -96,16 +96,16 @@ RSpec.describe 'Remove offer conditions' do
   end
 
   def then_i_expect_to_see_the_updated_conditions
-    expect(page).to have_no_content @conditions.first.text
-    expect(page).to have_no_content @conditions.second.text
-    expect(page).to have_no_content @conditions.third.text
+    expect(page).to have_no_text @conditions.first.text
+    expect(page).to have_no_text @conditions.second.text
+    expect(page).to have_no_text @conditions.third.text
   end
 
   def then_i_do_not_see_the_removed_condition
-    expect(page).to have_content 'Conditions of offer'
-    expect(page).to have_no_content @conditions.first.text
-    expect(page).to have_no_content @conditions.second.text
-    expect(page).to have_no_content @conditions.third.text
+    expect(page).to have_text 'Conditions of offer'
+    expect(page).to have_no_text @conditions.first.text
+    expect(page).to have_no_text @conditions.second.text
+    expect(page).to have_no_text @conditions.third.text
     click_link_or_button 'Continue'
   end
 

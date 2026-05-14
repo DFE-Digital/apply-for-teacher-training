@@ -40,8 +40,8 @@ private
   alias_method :and_i_click_continue, :when_i_click_continue
 
   def then_i_see_bulk_unsubscribe_form_validation_error
-    expect(page).to have_content('You must provide email addresses')
-    expect(page).to have_content('You must provide an audit comment')
+    expect(page).to have_text('You must provide email addresses')
+    expect(page).to have_text('You must provide an audit comment')
   end
 
   def when_i_fill_the_form
@@ -54,7 +54,7 @@ private
   end
 
   def then_i_can_see_candidates_are_unsubscribed
-    expect(page).to have_content('Candidates unsubscribed')
+    expect(page).to have_text('Candidates unsubscribed')
     expect(@candidate_1.reload).to be_unsubscribed_from_emails
     expect(@candidate_2.reload).not_to be_unsubscribed_from_emails
     expect(@candidate_3.reload).to be_unsubscribed_from_emails

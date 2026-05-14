@@ -39,10 +39,10 @@ RSpec.describe 'A support user authenticates via DfE Sign-in but is not authoriz
   end
 
   def then_i_am_see_the_not_authorized_page
-    expect(page).to have_content 'Your account is not authorized'
+    expect(page).to have_text 'Your account is not authorized'
   end
 
   def and_i_see_my_dfe_sign_in_uid
-    expect(page).to have_content('abc')
+    expect(page).to have_text('abc')
   end
 end

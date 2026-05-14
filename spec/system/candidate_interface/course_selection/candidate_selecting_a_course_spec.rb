@@ -199,7 +199,7 @@ RSpec.describe 'Selecting a course' do
   end
 
   def then_i_see_an_error_message_about_to_select_if_i_know_which_course
-    expect(page).to have_content('Select if you know which course you want to apply to')
+    expect(page).to have_text('Select if you know which course you want to apply to')
   end
 
   def and_i_choose_that_i_know_where_i_want_to_apply
@@ -213,8 +213,8 @@ RSpec.describe 'Selecting a course' do
 
   def then_i_see_an_error_message_about_to_select_provider
     within('.govuk-error-summary') do
-      expect(page).to have_content('There is a problem')
-      expect(page).to have_content('Select a training provider')
+      expect(page).to have_text('There is a problem')
+      expect(page).to have_text('Select a training provider')
     end
   end
 
@@ -224,8 +224,8 @@ RSpec.describe 'Selecting a course' do
   end
 
   def then_i_see_a_course_and_its_description
-    expect(page).to have_content(@course.name_and_code)
-    expect(page).to have_content(@course.description_to_s)
+    expect(page).to have_text(@course.name_and_code)
+    expect(page).to have_text(@course.description_to_s)
   end
 
   def when_submit_without_choosing_a_course
@@ -233,7 +233,7 @@ RSpec.describe 'Selecting a course' do
   end
 
   def then_i_see_an_error
-    expect(page).to have_content 'Select a course'
+    expect(page).to have_text 'Select a course'
   end
 
   def and_i_choose_a_course
@@ -266,8 +266,8 @@ RSpec.describe 'Selecting a course' do
   end
 
   def and_i_see_my_course_choices
-    expect(page).to have_content(application_choice.course.provider.name)
-    expect(page).to have_content('Primary (2XT2)')
+    expect(page).to have_text(application_choice.course.provider.name)
+    expect(page).to have_text('Primary (2XT2)')
   end
 
   def then_i_am_on_the_application_choices_page
@@ -285,7 +285,7 @@ RSpec.describe 'Selecting a course' do
 
   def and_i_can_change_the_course
     click_link_or_button 'Change course'
-    expect(page).to have_content('Which course are you applying to?')
+    expect(page).to have_text('Which course are you applying to?')
   end
 
   def and_i_click_the_back_link

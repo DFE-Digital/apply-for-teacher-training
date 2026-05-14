@@ -29,6 +29,6 @@ RSpec.describe 'Sign in as candidate' do
   end
 
   def then_i_am_logged_in_as_the_candidate
-    expect(page).to have_content 'You are now signed in as candidate'
+    expect(page).to have_text 'You are now signed in as candidate'
   end
 end

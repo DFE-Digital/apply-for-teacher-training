@@ -23,7 +23,7 @@ RSpec.describe 'Blazer SQL tool' do
   end
 
   def then_i_see_the_blazer_admin_interface
-    expect(page).to have_content 'New Query'
+    expect(page).to have_text 'New Query'
     expect(page).to have_current_path "#{support_interface_blazer_path}/" # engine paths end with /
   end
 end

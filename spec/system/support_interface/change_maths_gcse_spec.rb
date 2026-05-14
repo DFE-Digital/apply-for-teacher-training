@@ -127,7 +127,7 @@ RSpec.describe 'Change maths GCSE' do
   end
 
   def then_i_see_a_validation_error_about_no_qualification
-    expect(page).to have_content('Choose an option if candidate is currently studying for a GCSE')
+    expect(page).to have_text('Choose an option if candidate is currently studying for a GCSE')
   end
 
   def and_i_added_that_candidate_is_currently_studying_for_the_gcse
@@ -135,14 +135,14 @@ RSpec.describe 'Change maths GCSE' do
   end
 
   def then_i_see_a_validation_error_about_uk_o_level
-    expect(page).to have_content('You must provide an audit comment')
-    expect(page).to have_content('Enter your grade')
+    expect(page).to have_text('You must provide an audit comment')
+    expect(page).to have_text('Enter your grade')
   end
 
   def then_i_see_a_validation_error_about_scottish_national_gcse
-    expect(page).to have_content('You must provide an audit comment')
-    expect(page).to have_content('Enter your grade')
-    expect(page).to have_content('Enter the year you gained your qualification')
+    expect(page).to have_text('You must provide an audit comment')
+    expect(page).to have_text('Enter your grade')
+    expect(page).to have_text('Enter the year you gained your qualification')
   end
 
   def when_i_add_an_award_year_greater_than_1988
@@ -150,11 +150,11 @@ RSpec.describe 'Change maths GCSE' do
   end
 
   def then_i_see_a_validation_error_about_uk_o_level_award_year
-    expect(page).to have_content('Enter a year before 1989 - GCSEs replaced O levels in 1988')
+    expect(page).to have_text('Enter a year before 1989 - GCSEs replaced O levels in 1988')
   end
 
   def then_i_see_a_validation_error_to_enter_details
-    expect(page).to have_content('Enter details of the qualification you are studying for')
+    expect(page).to have_text('Enter details of the qualification you are studying for')
   end
 
   def and_i_choose_scottish_national_gcse
@@ -201,8 +201,8 @@ RSpec.describe 'Change maths GCSE' do
   end
 
   def then_i_see_a_validation_error_about_non_uk_gcse
-    expect(page).to have_content('You must provide an audit comment')
-    expect(page).to have_content('Enter qualification name')
+    expect(page).to have_text('You must provide an audit comment')
+    expect(page).to have_text('Enter qualification name')
   end
   alias_method :then_i_see_a_validation_error_about_another_uk_qualification, :then_i_see_a_validation_error_about_non_uk_gcse
 
@@ -219,12 +219,12 @@ RSpec.describe 'Change maths GCSE' do
   end
 
   def then_i_see_a_validation_error_about_gcse_grades
-    expect(page).to have_content('Enter your English (Single award) grade')
-    expect(page).to have_content('Enter your English (Double award) grade')
+    expect(page).to have_text('Enter your English (Single award) grade')
+    expect(page).to have_text('Enter your English (Double award) grade')
   end
 
   def then_i_see_a_validation_error_about_gcse
-    expect(page).to have_content('You must provide an audit comment')
+    expect(page).to have_text('You must provide an audit comment')
   end
 
   def and_i_add_all_details_for_non_uk_gcse
@@ -243,7 +243,7 @@ RSpec.describe 'Change maths GCSE' do
   end
 
   def then_it_has_saved_missing_qualification_into_the_application_form
-    expect(page).to have_content('GCSE updated')
+    expect(page).to have_text('GCSE updated')
 
     expect(page).to have_current_path(support_interface_application_form_path(@application_form))
 
@@ -266,7 +266,7 @@ RSpec.describe 'Change maths GCSE' do
   end
 
   def then_it_has_saved_missing_qualification_with_missing_explanation_into_the_application_form
-    expect(page).to have_content('GCSE updated')
+    expect(page).to have_text('GCSE updated')
 
     @maths_gcse.reload
 
@@ -288,7 +288,7 @@ RSpec.describe 'Change maths GCSE' do
   end
 
   def then_it_has_saved_uk_o_level_into_the_application_form
-    expect(page).to have_content('GCSE updated')
+    expect(page).to have_text('GCSE updated')
 
     @maths_gcse.reload
     expect(@maths_gcse.attributes.symbolize_keys).to include(
@@ -302,7 +302,7 @@ RSpec.describe 'Change maths GCSE' do
   end
 
   def then_it_has_saved_scottish_national_gcse_into_the_application_form
-    expect(page).to have_content('GCSE updated')
+    expect(page).to have_text('GCSE updated')
 
     @maths_gcse.reload
     expect(@maths_gcse.attributes.symbolize_keys).to include(
@@ -316,7 +316,7 @@ RSpec.describe 'Change maths GCSE' do
   end
 
   def then_it_has_saved_non_uk_gcse_into_the_application_form
-    expect(page).to have_content('GCSE updated')
+    expect(page).to have_text('GCSE updated')
 
     @maths_gcse.reload
     expect(@maths_gcse.attributes.symbolize_keys).to include(
@@ -329,7 +329,7 @@ RSpec.describe 'Change maths GCSE' do
   end
 
   def then_it_has_saved_another_uk_qualification_into_the_application_form
-    expect(page).to have_content('GCSE updated')
+    expect(page).to have_text('GCSE updated')
 
     @maths_gcse.reload
     expect(@maths_gcse.attributes.symbolize_keys).to include(
@@ -344,7 +344,7 @@ RSpec.describe 'Change maths GCSE' do
   end
 
   def then_it_has_saved_gcses_into_the_application_form
-    expect(page).to have_content('GCSE updated')
+    expect(page).to have_text('GCSE updated')
 
     @maths_gcse.reload
     expect(@maths_gcse.attributes.symbolize_keys).to include(

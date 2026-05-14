@@ -40,10 +40,10 @@ private
   end
 
   def then_i_see_the_report_without_data
-    expect(page).to have_content 'You will be able to see this report when it contains data from at least 10 candidates.'
+    expect(page).to have_text 'You will be able to see this report when it contains data from at least 10 candidates.'
   end
 
   def then_i_see_the_report_with_data
-    expect(page).to have_content 'This report shows the reasons for withdrawal selected by candidates from a set list. The question is mandatory and candidates can select more than one reason.'
+    expect(page).to have_text 'This report shows the reasons for withdrawal selected by candidates from a set list. The question is mandatory and candidates can select more than one reason.'
   end
 end

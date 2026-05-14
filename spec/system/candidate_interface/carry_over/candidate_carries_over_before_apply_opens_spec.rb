@@ -71,15 +71,15 @@ private
   end
 
   def and_i_cannot_submit_my_applications
-    expect(page).to have_content 'Draft'
-    expect(page).to have_content 'This course is not yet open to applications.'
+    expect(page).to have_text 'Draft'
+    expect(page).to have_text 'This course is not yet open to applications.'
     click_on 'Your applications'
-    expect(page).to have_content 'Draft'
+    expect(page).to have_text 'Draft'
   end
 
   def then_i_see_the_recruitment_deadline_page
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_content 'The recruitment deadline has now passed'
+    expect(page).to have_text 'The recruitment deadline has now passed'
   end
 
   def when_i_navigate_to_my_details

@@ -47,7 +47,7 @@ RSpec.describe 'Candidate signs in and starts blank application in Sandbox', :sa
 
   def then_i_am_taken_to_the_blank_application_page
     expect(page).to have_current_path(candidate_interface_details_path)
-    expect(page).to have_no_content 'This application has been prefilled with example data'
-    expect(page).to have_content 'Personal information Incomplete'
+    expect(page).to have_no_text 'This application has been prefilled with example data'
+    expect(page).to have_text 'Personal information Incomplete'
   end
 end

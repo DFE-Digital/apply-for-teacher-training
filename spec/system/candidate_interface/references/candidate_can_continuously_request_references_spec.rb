@@ -33,7 +33,7 @@ RSpec.describe 'References' do
 
   def then_i_still_have_a_reference_request_outstanding
     visit candidate_interface_references_review_path
-    expect(page).to have_content('has already given a reference', count: 2)
+    expect(page).to have_text('has already given a reference', count: 2)
   end
 
   def and_i_can_add_more_reference_requests
@@ -43,7 +43,7 @@ RSpec.describe 'References' do
     click_link_or_button t('continue')
     candidate_fills_in_referee(name: 'Anne Other')
 
-    expect(page).to have_content('Change reference type for Anne Other')
+    expect(page).to have_text('Change reference type for Anne Other')
   end
 
   def and_i_can_receive_more_references

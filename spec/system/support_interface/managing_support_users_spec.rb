@@ -87,7 +87,7 @@ RSpec.describe 'Managing support users' do
   end
 
   def and_i_see_the_user_i_created
-    expect(page).to have_content('harrison@example.com')
+    expect(page).to have_text('harrison@example.com')
   end
 
   def when_i_go_back_to_the_manage_support_users_page
@@ -105,12 +105,12 @@ RSpec.describe 'Managing support users' do
   end
 
   def then_i_can_see_the_audit_history
-    expect(page).to have_content('Create Support User')
-    expect(page).to have_content('email_address')
-    expect(page).to have_content('harrison@example.com')
+    expect(page).to have_text('Create Support User')
+    expect(page).to have_text('email_address')
+    expect(page).to have_text('harrison@example.com')
   end
 
   def then_i_see_an_error
-    expect(page).to have_content 'A support user with this email address already exists'
+    expect(page).to have_text 'A support user with this email address already exists'
   end
 end

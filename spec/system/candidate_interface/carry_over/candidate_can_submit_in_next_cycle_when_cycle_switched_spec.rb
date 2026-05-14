@@ -145,7 +145,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
   end
 
   def then_i_can_see_that_i_need_to_select_courses
-    expect(page).to have_content('You can have up to 4 applications in progress at any time.')
+    expect(page).to have_text('You can have up to 4 applications in progress at any time.')
   end
 
   def and_i_select_a_course
@@ -165,7 +165,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
     click_on 'Review application'
     click_on 'Confirm and submit application'
 
-    expect(page).to have_content(
+    expect(page).to have_text(
       'Do you want to be invited to similar courses?',
     )
     choose 'No'
@@ -173,7 +173,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
 
     click_on 'Your applications'
 
-    expect(page).to have_content('You can submit 3 more applications')
+    expect(page).to have_text('You can submit 3 more applications')
   end
 
   def and_i_select_a_course_and_dismiss_candidate_preferences
@@ -197,7 +197,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
     click_on 'Continue'
     click_on 'Your applications'
 
-    expect(page).to have_content('You can submit 3 more applications')
+    expect(page).to have_text('You can submit 3 more applications')
   end
 
   def and_those_courses_are_for_this_year

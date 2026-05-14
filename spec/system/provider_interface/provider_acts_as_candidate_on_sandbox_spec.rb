@@ -54,11 +54,11 @@ RSpec.describe 'A Provider can sign in as a candidate' do
   end
 
   def and_i_see_a_flash_message
-    expect(page).to have_content('You are now signed in as')
+    expect(page).to have_text('You are now signed in as')
   end
 
   def and_i_am_logged_in_as_that_candidate
-    expect(page).to have_content(@candidate.email_address)
+    expect(page).to have_text(@candidate.email_address)
   end
 
   def when_my_organisation_ratifies_a_course_for_an_application
@@ -72,6 +72,6 @@ RSpec.describe 'A Provider can sign in as a candidate' do
   end
 
   def and_i_am_logged_in_as_the_ratified_application_candidate
-    expect(page).to have_content(@ratified_application_choice.application_form.candidate.email_address)
+    expect(page).to have_text(@ratified_application_choice.application_form.candidate.email_address)
   end
 end

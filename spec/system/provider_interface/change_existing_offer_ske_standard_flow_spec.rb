@@ -181,8 +181,8 @@ RSpec.describe 'Provider changes an existing offer' do
   end
 
   def then_i_see_the_offer_details
-    expect(page).to have_content('Course details')
-    expect(page).to have_content('Conditions of offer')
+    expect(page).to have_text('Course details')
+    expect(page).to have_text('Conditions of offer')
   end
 
   def when_i_choose_to_change_the_provider
@@ -204,7 +204,7 @@ RSpec.describe 'Provider changes an existing offer' do
   end
 
   def then_i_am_taken_to_the_change_provider_page
-    expect(page).to have_content('Training provider')
+    expect(page).to have_text('Training provider')
   end
 
   def when_i_select_a_different_provider
@@ -275,25 +275,25 @@ RSpec.describe 'Provider changes an existing offer' do
   end
 
   def and_the_ske_conditions_be_displayed
-    expect(page).to have_content('Subject knowledge enhancement course')
-    expect(page).to have_content("Subject #{@ske_subject.name}")
-    expect(page).to have_content('Length 8 weeks')
-    expect(page).to have_content("Reason Their degree subject was not #{@ske_subject.name}")
+    expect(page).to have_text('Subject knowledge enhancement course')
+    expect(page).to have_text("Subject #{@ske_subject.name}")
+    expect(page).to have_text('Length 8 weeks')
+    expect(page).to have_text("Reason Their degree subject was not #{@ske_subject.name}")
   end
 
   def and_the_modified_ske_conditions_be_displayed
-    expect(page).to have_content('Subject knowledge enhancement course')
-    expect(page).to have_content("Subject #{@ske_subject.name}")
-    expect(page).to have_content('Length 12 weeks')
-    expect(page).to have_content("Reason Their degree subject was not #{@ske_subject.name}")
+    expect(page).to have_text('Subject knowledge enhancement course')
+    expect(page).to have_text("Subject #{@ske_subject.name}")
+    expect(page).to have_text('Length 12 weeks')
+    expect(page).to have_text("Reason Their degree subject was not #{@ske_subject.name}")
   end
 
   def and_the_ske_conditions_not_be_displayed
-    expect(page).to have_no_content('Subject knowledge enhancement course')
+    expect(page).to have_no_text('Subject knowledge enhancement course')
   end
 
   def then_the_conditions_page_is_loaded
-    expect(page).to have_content('Conditions of offer')
+    expect(page).to have_text('Conditions of offer')
   end
 
   def and_the_conditions_of_the_original_offer_are_filled_in
@@ -318,28 +318,28 @@ RSpec.describe 'Provider changes an existing offer' do
   end
 
   def then_the_review_page_is_loaded
-    expect(page).to have_content('Check and send new offer')
+    expect(page).to have_text('Check and send new offer')
   end
 
   def and_i_can_confirm_the_changed_offer_details
     within('.app-offer-panel') do
-      expect(page).to have_content(@selected_provider.name_and_code)
-      expect(page).to have_content(@selected_course.name_and_code)
-      expect(page).to have_content(@selected_course_option.study_mode.humanize)
-      expect(page).to have_content(@selected_course_option.site.name_and_address(' '))
-      expect(page).to have_content('Be cool')
-      expect(page).to have_content('A* on Maths A Level')
+      expect(page).to have_text(@selected_provider.name_and_code)
+      expect(page).to have_text(@selected_course.name_and_code)
+      expect(page).to have_text(@selected_course_option.study_mode.humanize)
+      expect(page).to have_text(@selected_course_option.site.name_and_address(' '))
+      expect(page).to have_text('Be cool')
+      expect(page).to have_text('A* on Maths A Level')
     end
   end
 
   def and_i_can_confirm_the_changed_offer_details_for_the_non_ske_course
     within('.app-offer-panel') do
-      expect(page).to have_content(@selected_provider.name_and_code)
-      expect(page).to have_content(@selected_non_ske_course.name_and_code)
-      expect(page).to have_content(@selected_non_ske_course_option.study_mode.humanize)
-      expect(page).to have_content(@selected_non_ske_course_option.site.name_and_address(' '))
-      expect(page).to have_content('Be cool')
-      expect(page).to have_content('A* on Maths A Level')
+      expect(page).to have_text(@selected_provider.name_and_code)
+      expect(page).to have_text(@selected_non_ske_course.name_and_code)
+      expect(page).to have_text(@selected_non_ske_course_option.study_mode.humanize)
+      expect(page).to have_text(@selected_non_ske_course_option.site.name_and_address(' '))
+      expect(page).to have_text('Be cool')
+      expect(page).to have_text('A* on Maths A Level')
     end
   end
 
@@ -348,13 +348,13 @@ RSpec.describe 'Provider changes an existing offer' do
   end
 
   def and_i_can_see_the_new_offer_condition
-    expect(page).to have_no_content('Fitness to train to teach check')
-    expect(page).to have_content('Disclosure and Barring Service (DBS) check')
+    expect(page).to have_no_text('Fitness to train to teach check')
+    expect(page).to have_text('Disclosure and Barring Service (DBS) check')
   end
 
   def then_i_see_that_the_offer_was_successfully_updated
     within('.govuk-notification-banner--success') do
-      expect(page).to have_content('New offer sent')
+      expect(page).to have_text('New offer sent')
     end
   end
 

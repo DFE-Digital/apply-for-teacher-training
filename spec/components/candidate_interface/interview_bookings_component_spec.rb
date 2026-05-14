@@ -60,7 +60,7 @@ RSpec.describe CandidateInterface::InterviewBookingsComponent, type: :component 
       interview.update!(location: "javascript:alert('hi')")
       render_inline(described_class.new(interview.application_choice))
 
-      expect(page).to have_content "javascript:alert('hi')"
+      expect(page).to have_text "javascript:alert('hi')"
       expect(page.has_link?('javascript')).to be false
     end
   end
@@ -80,7 +80,7 @@ RSpec.describe CandidateInterface::InterviewBookingsComponent, type: :component 
       interview.update!(additional_details: "javascript:alert('hi')")
       render_inline(described_class.new(interview.application_choice))
 
-      expect(page).to have_content "javascript:alert('hi')"
+      expect(page).to have_text "javascript:alert('hi')"
       expect(page.has_link?('javascript')).to be false
     end
   end

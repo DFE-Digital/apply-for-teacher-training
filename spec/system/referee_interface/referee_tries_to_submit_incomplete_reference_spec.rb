@@ -45,7 +45,7 @@ RSpec.describe 'Stop submission of incomplete references', :with_audited do
   end
 
   def and_i_confirm_my_relationship_with_the_candidate
-    expect(page).to have_content("Confirm how #{@application.full_name} knows you")
+    expect(page).to have_text("Confirm how #{@application.full_name} knows you")
     choose 'Yes'
     click_link_or_button t('save_and_continue')
   end
@@ -56,7 +56,7 @@ RSpec.describe 'Stop submission of incomplete references', :with_audited do
 
   def then_i_cannot_submit_the_reference
     click_link_or_button 'Submit reference'
-    expect(page).to have_content 'Cannot submit a reference without answers to all questions'
+    expect(page).to have_text 'Cannot submit a reference without answers to all questions'
     expect(ApplicationReference.feedback_provided).to be_empty
   end
 end

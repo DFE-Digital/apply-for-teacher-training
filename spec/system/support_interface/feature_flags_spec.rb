@@ -33,10 +33,10 @@ RSpec.describe 'Feature flags', :with_audited do
 
   def then_i_see_the_existing_feature_flags
     within('.app-summary-card', text: 'DfE sign in fallback') do
-      expect(page).to have_content('DfE sign in fallback')
-      expect(page).to have_content(dfe_sign_in_fallback_feature.owner)
-      expect(page).to have_content(dfe_sign_in_fallback_feature.description)
-      expect(page).to have_content('Invariant')
+      expect(page).to have_text('DfE sign in fallback')
+      expect(page).to have_text(dfe_sign_in_fallback_feature.owner)
+      expect(page).to have_text(dfe_sign_in_fallback_feature.description)
+      expect(page).to have_text('Invariant')
     end
   end
 
@@ -50,12 +50,12 @@ RSpec.describe 'Feature flags', :with_audited do
   end
 
   def then_the_feature_is_activated
-    expect(page).to have_content('Active')
+    expect(page).to have_text('Active')
     expect(FeatureFlag.active?('dfe_sign_in_fallback')).to be true
   end
 
   def and_i_can_see_the_activation_in_the_audit_trail
-    expect(page).to have_content('Changed to active by user@apply-support.com')
+    expect(page).to have_text('Changed to active by user@apply-support.com')
   end
 
   def when_i_deactivate_the_feature
@@ -63,12 +63,12 @@ RSpec.describe 'Feature flags', :with_audited do
   end
 
   def then_the_feature_is_deactivated
-    expect(page).to have_content('Inactive')
+    expect(page).to have_text('Inactive')
     expect(FeatureFlag.active?('dfe_sign_in_fallback')).to be false
   end
 
   def and_i_can_see_the_deactivation_in_the_audit_trail
-    expect(page).to have_content('Changed to inactive by user@apply-support.com')
+    expect(page).to have_text('Changed to inactive by user@apply-support.com')
   end
 
   def dfe_sign_in_fallback_summary_card

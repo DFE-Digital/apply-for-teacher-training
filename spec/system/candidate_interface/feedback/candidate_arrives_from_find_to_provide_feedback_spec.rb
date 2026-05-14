@@ -49,7 +49,7 @@ RSpec.describe 'Candidate providing feedback on Find' do
   end
 
   def then_i_am_thanked_for_my_feedback
-    expect(page).to have_content 'Thank you for your feedback'
+    expect(page).to have_text 'Thank you for your feedback'
   end
 
   def and_my_feedback_on_the_course_page_has_been_persisted
@@ -93,8 +93,8 @@ RSpec.describe 'Candidate providing feedback on Find' do
   end
 
   def then_i_am_told_i_need_path_and_controller_params_to_give_feedback
-    expect(page).to have_content 'Path cannot be blank'
-    expect(page).to have_content 'Find controller cannot be blank'
+    expect(page).to have_text 'Path cannot be blank'
+    expect(page).to have_text 'Find controller cannot be blank'
   end
 
   def and_i_fill_in_the_hidden_field_designed_to_catch_bots

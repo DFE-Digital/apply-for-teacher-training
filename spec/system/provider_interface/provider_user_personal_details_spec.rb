@@ -25,9 +25,9 @@ RSpec.describe 'Personal details page' do
   end
 
   def then_i_can_see_links_to_my_settings_and_details
-    expect(page).to have_content(t('page_titles.provider.your_personal_details'))
-    expect(page).to have_content(t('page_titles.provider.your_user_permissions'))
-    expect(page).to have_content(t('page_titles.provider.email_notifications'))
+    expect(page).to have_text(t('page_titles.provider.your_personal_details'))
+    expect(page).to have_text(t('page_titles.provider.your_user_permissions'))
+    expect(page).to have_text(t('page_titles.provider.email_notifications'))
   end
 
   def when_i_click_on_personal_details
@@ -36,9 +36,9 @@ RSpec.describe 'Personal details page' do
 
   def then_i_can_see_all_my_details
     provider_user = ProviderUser.last
-    expect(page).to have_content(provider_user.first_name)
-    expect(page).to have_content(provider_user.last_name)
-    expect(page).to have_content(provider_user.email_address)
+    expect(page).to have_text(provider_user.first_name)
+    expect(page).to have_text(provider_user.last_name)
+    expect(page).to have_text(provider_user.email_address)
   end
 
   def and_i_see_a_link_to_change_dsi_details

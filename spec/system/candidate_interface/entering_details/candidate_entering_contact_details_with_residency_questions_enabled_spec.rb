@@ -92,7 +92,7 @@ RSpec.describe 'Entering their contact information with residency questions enab
   end
 
   def then_i_see_the_address_type_question
-    expect(page).to have_content('Where do you live?')
+    expect(page).to have_text('Where do you live?')
   end
 
   def when_i_select_outside_the_uk
@@ -100,7 +100,7 @@ RSpec.describe 'Entering their contact information with residency questions enab
   end
 
   def and_i_enter_jersey
-    expect(page).to have_content('Where do you live?')
+    expect(page).to have_text('Where do you live?')
 
     fill_in 'Which country or territory?', with: 'Jersey'
     find('.autocomplete__option', text: 'Jersey').click
@@ -108,7 +108,7 @@ RSpec.describe 'Entering their contact information with residency questions enab
   end
 
   def then_i_see_the_address_form
-    expect(page).to have_content('What is your address?')
+    expect(page).to have_text('What is your address?')
   end
 
   def when_i_fill_in_my_address
@@ -118,7 +118,7 @@ RSpec.describe 'Entering their contact information with residency questions enab
   end
 
   def then_i_see_the_residency_since_birth_question
-    expect(page).to have_content('Have you lived in Jersey since birth?')
+    expect(page).to have_text('Have you lived in Jersey since birth?')
   end
 
   def when_i_click_back
@@ -131,14 +131,14 @@ RSpec.describe 'Entering their contact information with residency questions enab
   end
 
   def then_i_see_the_review_page_with_the_expected_values
-    expect(page).to have_content('Check your contact information')
+    expect(page).to have_text('Check your contact information')
 
     within("[data-qa='contact-details-residency']") do
-      expect(page).to have_content('Have you lived in Jersey since birth?')
-      expect(page).to have_content('Yes')
+      expect(page).to have_text('Have you lived in Jersey since birth?')
+      expect(page).to have_text('Yes')
     end
 
-    expect(page).to have_no_content('From what date have you lived in Jersey?')
+    expect(page).to have_no_text('From what date have you lived in Jersey?')
   end
 
   def when_i_click_to_change_my_residency_response
@@ -148,7 +148,7 @@ RSpec.describe 'Entering their contact information with residency questions enab
   end
 
   def then_i_see_the_residency_dates_question
-    expect(page).to have_content('From what date have you lived in Jersey?')
+    expect(page).to have_text('From what date have you lived in Jersey?')
   end
 
   def when_i_fill_in_the_dates
@@ -157,16 +157,16 @@ RSpec.describe 'Entering their contact information with residency questions enab
   end
 
   def then_i_see_the_review_page_with_expected_values_including_dates
-    expect(page).to have_content('Check your contact information')
+    expect(page).to have_text('Check your contact information')
 
     within("[data-qa='contact-details-residency']") do
-      expect(page).to have_content('Have you lived in Jersey since birth?')
-      expect(page).to have_content('No')
+      expect(page).to have_text('Have you lived in Jersey since birth?')
+      expect(page).to have_text('No')
     end
 
     within("[data-qa='contact-details-residency-date']") do
-      expect(page).to have_content('Lived in Jersey since')
-      expect(page).to have_content('October 2003')
+      expect(page).to have_text('Lived in Jersey since')
+      expect(page).to have_text('October 2003')
     end
   end
 

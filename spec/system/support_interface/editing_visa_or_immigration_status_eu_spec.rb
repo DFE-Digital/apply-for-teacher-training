@@ -79,11 +79,11 @@ def when_i_visit_the_application_page
 end
 
 def i_do_not_see_the_visa_or_immigration_status_column
-  expect(page).to have_no_content 'Visa or immigration status'
+  expect(page).to have_no_text 'Visa or immigration status'
 end
 
 def i_see_the_visa_or_immigration_status_column
-  expect(page).to have_content 'Visa or immigration status'
+  expect(page).to have_text 'Visa or immigration status'
 end
 
 def when_i_click_change_visa_or_immigration_status
@@ -110,7 +110,7 @@ def and_i_choose_other_and_fill_in_the_details
 end
 
 def then_i_see_the_text_i_submitted
-  expect(page).to have_content 'I live here forever'
+  expect(page).to have_text 'I live here forever'
 end
 
 def then_i_am_presented_with_the_correct_eu_options

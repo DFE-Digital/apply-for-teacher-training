@@ -60,7 +60,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in from two separate devic
 
   def then_i_receive_a_confirmation_email_with_correct_details
     open_email('provider@example.com')
-    expect(current_email).to have_content('Your account details were used to sign in to manage teacher training applications')
+    expect(current_email).to have_text('Your account details were used to sign in to manage teacher training applications')
   end
 
   def and_i_sign_in_again_from_the_same_device
@@ -71,6 +71,6 @@ RSpec.describe 'A provider authenticates via DfE Sign-in from two separate devic
 
   def then_i_do_not_receive_a_new_notification_email
     open_email('provider@example.com')
-    expect(current_email).to have_content('')
+    expect(current_email).to have_text('')
   end
 end

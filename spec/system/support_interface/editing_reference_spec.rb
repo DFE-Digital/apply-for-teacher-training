@@ -57,7 +57,7 @@ RSpec.describe 'Editing reference' do
   end
 
   def then_i_see_a_prepopulated_details_form
-    expect(page).to have_content('Edit reference details')
+    expect(page).to have_text('Edit reference details')
     expect(page).to have_css("input[value='Dumbledore']")
     expect(page).to have_css("input[value='a.dumbledore@hogwarts.ac.uk']")
     expect(page).to have_css(
@@ -72,7 +72,7 @@ RSpec.describe 'Editing reference' do
   alias_method :and_i_submit_the_update_form, :when_i_submit_the_update_form
 
   def then_i_see_blank_audit_comment_error_message
-    expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_reference_details_form.attributes.audit_comment.blank')
+    expect(page).to have_text t('activemodel.errors.models.support_interface/application_forms/edit_reference_details_form.attributes.audit_comment.blank')
   end
 
   def when_i_complete_the_details_form
@@ -83,18 +83,18 @@ RSpec.describe 'Editing reference' do
   end
 
   def then_i_see_a_flash_message
-    expect(page).to have_content 'Reference updated'
+    expect(page).to have_text 'Reference updated'
   end
 
   def and_i_see_the_new_details
-    expect(page).to have_content 'McGonagall'
-    expect(page).to have_content 'm.mcgonagall@hogwarts.ac.uk'
-    expect(page).to have_content 'Head of House'
+    expect(page).to have_text 'McGonagall'
+    expect(page).to have_text 'm.mcgonagall@hogwarts.ac.uk'
+    expect(page).to have_text 'Head of House'
   end
 
   def and_i_see_my_details_comment_in_the_audit_log
     click_link_or_button 'History'
-    expect(page).to have_content 'Updated as part of Zen Desk ticket #12345'
+    expect(page).to have_text 'Updated as part of Zen Desk ticket #12345'
   end
 
   def and_i_click_the_change_link_next_to_feedback
@@ -104,14 +104,14 @@ RSpec.describe 'Editing reference' do
   end
 
   def then_i_see_the_feedback_form
-    expect(page).to have_content('Edit reference feedback')
+    expect(page).to have_text('Edit reference feedback')
   end
 
   def then_i_see_relevant_blank_error_messages
-    expect(page).to have_content 'Select whether or not the feedback can be shared with the candidate'
-    expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.feedback.blank')
-    expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.audit_comment.blank')
-    expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.send_emails.blank')
+    expect(page).to have_text 'Select whether or not the feedback can be shared with the candidate'
+    expect(page).to have_text t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.feedback.blank')
+    expect(page).to have_text t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.audit_comment.blank')
+    expect(page).to have_text t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.send_emails.blank')
   end
 
   def when_i_complete_the_feedback_form
@@ -122,12 +122,12 @@ RSpec.describe 'Editing reference' do
   end
 
   def and_i_see_the_new_feedback
-    expect(page).to have_content 'Harry is a good egg'
-    expect(page).to have_content 'Yes, if they request it.'
+    expect(page).to have_text 'Harry is a good egg'
+    expect(page).to have_text 'Yes, if they request it.'
   end
 
   def and_i_see_my_feedback_comment_in_the_audit_log
     click_link_or_button 'History'
-    expect(page).to have_content 'Updated as part of Zen Desk ticket #12346'
+    expect(page).to have_text 'Updated as part of Zen Desk ticket #12346'
   end
 end

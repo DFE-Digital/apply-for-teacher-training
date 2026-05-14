@@ -98,15 +98,15 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def then_i_see_the_course_selection_page
-    expect(page).to have_content('You selected a course')
-    expect(page).to have_content(@course.provider.name)
-    expect(page).to have_content(@course.name_and_code)
+    expect(page).to have_text('You selected a course')
+    expect(page).to have_text(@course.provider.name)
+    expect(page).to have_text(@course.name_and_code)
   end
 
   def then_i_see_the_multi_site_course_selection_page
-    expect(page).to have_content('You selected a course')
-    expect(page).to have_content(@course_with_multiple_sites.provider.name)
-    expect(page).to have_content(@course_with_multiple_sites.name_and_code)
+    expect(page).to have_text('You selected a course')
+    expect(page).to have_text(@course_with_multiple_sites.provider.name)
+    expect(page).to have_text(@course_with_multiple_sites.name_and_code)
   end
 
   def when_i_say_yes
@@ -123,22 +123,22 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def and_i_see_the_course_name_and_code
-    expect(page).to have_content "#{@course.name} (#{@course.code})"
+    expect(page).to have_text "#{@course.name} (#{@course.code})"
   end
 
   def and_i_see_the_form_to_pick_a_location
-    expect(page).to have_content @site2.name
-    expect(page).to have_content @site2.address_line1
-    expect(page).to have_content @site2.address_line2
-    expect(page).to have_content @site2.address_line3
-    expect(page).to have_content @site2.address_line4
-    expect(page).to have_content @site2.postcode
-    expect(page).to have_content @site3.name
-    expect(page).to have_content @site3.address_line1
-    expect(page).to have_content @site3.address_line2
-    expect(page).to have_content @site3.address_line3
-    expect(page).to have_content @site3.address_line4
-    expect(page).to have_content @site3.postcode
+    expect(page).to have_text @site2.name
+    expect(page).to have_text @site2.address_line1
+    expect(page).to have_text @site2.address_line2
+    expect(page).to have_text @site2.address_line3
+    expect(page).to have_text @site2.address_line4
+    expect(page).to have_text @site2.postcode
+    expect(page).to have_text @site3.name
+    expect(page).to have_text @site3.address_line1
+    expect(page).to have_text @site3.address_line2
+    expect(page).to have_text @site3.address_line3
+    expect(page).to have_text @site3.address_line4
+    expect(page).to have_text @site3.postcode
   end
 
   def and_my_course_from_find_id_is_set_to_nil
@@ -178,7 +178,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def and_i_am_informed_i_already_have_4_courses
-    expect(page).to have_content I18n.t('errors.messages.too_many_course_choices', max_applications: ApplicationForm::IN_PROGRESS_LIMIT, course_name: @course_with_multiple_sites.name)
+    expect(page).to have_text I18n.t('errors.messages.too_many_course_choices', max_applications: ApplicationForm::IN_PROGRESS_LIMIT, course_name: @course_with_multiple_sites.name)
   end
 
   def when_i_sign_out
@@ -186,7 +186,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def and_i_see_the_review_page
-    expect(page).to have_content "Your application to #{@course.provider.name}"
+    expect(page).to have_text "Your application to #{@course.provider.name}"
   end
 
   def and_i_see_a_link_to_the_course_on_find

@@ -24,8 +24,8 @@ module OfferStepsHelper
   end
 
   def then_i_see_the_decision_page
-    expect(page).to have_content('Make a decision')
-    expect(page).to have_content('Course applied for')
+    expect(page).to have_text('Make a decision')
+    expect(page).to have_text('Course applied for')
   end
 
   def when_i_choose_to_make_an_offer
@@ -34,7 +34,7 @@ module OfferStepsHelper
   end
 
   def then_the_conditions_page_is_loaded
-    expect(page).to have_content('Conditions of offer')
+    expect(page).to have_text('Conditions of offer')
   end
 
   def and_the_default_conditions_are_checked
@@ -59,12 +59,12 @@ module OfferStepsHelper
   end
 
   def then_the_review_page_is_loaded
-    expect(page).to have_content('Check and send offer')
+    expect(page).to have_text('Check and send offer')
   end
 
   def and_i_can_confirm_my_answers
     within('.app-offer-panel') do
-      expect(page).to have_content('A* on Maths A Level')
+      expect(page).to have_text('A* on Maths A Level')
     end
   end
 
@@ -74,7 +74,7 @@ module OfferStepsHelper
 
   def and_i_can_confirm_the_new_location_selection
     within(all('.govuk-summary-list__row')[3]) do
-      expect(page).to have_content(@selected_course_option.site.name_and_address(' '))
+      expect(page).to have_text(@selected_course_option.site.name_and_address(' '))
     end
   end
 
@@ -84,7 +84,7 @@ module OfferStepsHelper
 
   def and_i_can_confirm_the_new_study_mode_selection
     within(all('.govuk-summary-list__row')[2]) do
-      expect(page).to have_content(@selected_course_option.study_mode.humanize)
+      expect(page).to have_text(@selected_course_option.study_mode.humanize)
     end
   end
 
@@ -114,12 +114,12 @@ module OfferStepsHelper
   end
 
   def then_i_am_taken_to_the_change_course_page
-    expect(page).to have_content('Course')
+    expect(page).to have_text('Course')
   end
 
   def and_i_can_confirm_the_new_course_selection
     within(all('.govuk-summary-list__row')[1]) do
-      expect(page).to have_content(@selected_course.name_and_code)
+      expect(page).to have_text(@selected_course.name_and_code)
     end
   end
 
@@ -163,7 +163,7 @@ module OfferStepsHelper
   end
 
   def then_i_am_taken_to_the_change_provider_page
-    expect(page).to have_content('Training provider')
+    expect(page).to have_text('Training provider')
   end
 
   def when_i_select_a_different_provider
@@ -172,7 +172,7 @@ module OfferStepsHelper
 
   def and_i_can_confirm_the_new_provider_selection
     within(first('.govuk-summary-list__row')) do
-      expect(page).to have_content(@selected_provider.name_and_code)
+      expect(page).to have_text(@selected_provider.name_and_code)
     end
   end
 
@@ -182,7 +182,7 @@ module OfferStepsHelper
 
   def then_i_see_that_the_offer_was_successfuly_made
     within('.govuk-notification-banner--success') do
-      expect(page).to have_content('Offer sent')
+      expect(page).to have_text('Offer sent')
     end
   end
 end

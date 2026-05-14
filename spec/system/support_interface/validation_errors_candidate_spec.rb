@@ -44,8 +44,8 @@ RSpec.describe 'Validation errors Candidate' do
 
   def then_i_see_a_list_of_error_groups
     @validation_error = ValidationError.last
-    expect(page).to have_content('Contact details form: Phone number')
-    expect(page).to have_content('1')
+    expect(page).to have_text('Contact details form: Phone number')
+    expect(page).to have_text('1')
   end
 
   def when_i_click_on_a_group
@@ -53,10 +53,10 @@ RSpec.describe 'Validation errors Candidate' do
   end
 
   def then_i_see_a_list_of_individual_errors
-    expect(page).to have_content(Time.zone.now.to_fs(:govuk_date_and_time))
-    expect(page).to have_content('Showing errors on the Phone number field in Contact details form by all users')
-    expect(page).to have_content('Contact details form: Phone number')
-    expect(page).to have_content('ABCDEF')
+    expect(page).to have_text(Time.zone.now.to_fs(:govuk_date_and_time))
+    expect(page).to have_text('Showing errors on the Phone number field in Contact details form by all users')
+    expect(page).to have_text('Contact details form: Phone number')
+    expect(page).to have_text('ABCDEF')
   end
 
   def when_i_click_on_link_in_breadcrumb_trail

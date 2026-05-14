@@ -53,27 +53,27 @@ def and_i_visit_the_personal_details_page
 end
 
 def then_i_can_edit_the_nationality
-  expect(page).to have_content('Change nationality')
+  expect(page).to have_text('Change nationality')
 end
 
 def and_i_can_edit_the_right_to_work
-  expect(page).to have_content('Change if you have the right to work or study in the UK')
+  expect(page).to have_text('Change if you have the right to work or study in the UK')
 end
 
 def and_i_can_edit_the_immigration_status
-  expect(page).to have_content('Change visa or immigration status')
+  expect(page).to have_text('Change visa or immigration status')
 end
 
 def then_i_cant_edit_the_nationality
-  expect(page).to have_no_content('Change nationality')
+  expect(page).to have_no_text('Change nationality')
 end
 
 def and_i_cant_edit_the_right_to_work
-  expect(page).to have_no_content('Change if you have the right to work or study in the UK')
+  expect(page).to have_no_text('Change if you have the right to work or study in the UK')
 end
 
 def and_i_cant_edit_the_immigration_status
-  expect(page).to have_no_content('Change immigration status')
+  expect(page).to have_no_text('Change immigration status')
 end
 
 def when_i_try_to_visit_the_nationality_page

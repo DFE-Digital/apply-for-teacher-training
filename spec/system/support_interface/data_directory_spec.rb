@@ -59,9 +59,9 @@ RSpec.describe 'Data export', sidekiq: false do
   end
 
   def then_i_see_the_export_documentation
-    expect(page).to have_content 'Documentation'
-    expect(page).to have_content 'name'
-    expect(page).to have_content 'string'
+    expect(page).to have_text 'Documentation'
+    expect(page).to have_text 'name'
+    expect(page).to have_text 'string'
   end
 
   def when_i_click_the_generate_new_export_button
@@ -70,7 +70,7 @@ RSpec.describe 'Data export', sidekiq: false do
   end
 
   def and_i_see_that_the_export_has_started
-    expect(page).to have_content 'This export is being generated'
+    expect(page).to have_text 'This export is being generated'
   end
 
   def when_the_sidekiq_worker_has_finished
@@ -87,7 +87,7 @@ RSpec.describe 'Data export', sidekiq: false do
   end
 
   def then_the_export_is_downloaded
-    expect(page).to have_content 'name,email_address,provider'
+    expect(page).to have_text 'name,email_address,provider'
   end
 
   def when_i_go_back_to_the_export_page
@@ -100,9 +100,9 @@ RSpec.describe 'Data export', sidekiq: false do
   end
 
   def then_i_see_a_record_of_my_completed_export
-    expect(page).to have_content 'Status'
-    expect(page).to have_content 'Initiated by'
-    expect(page).to have_content 'Completed'
+    expect(page).to have_text 'Status'
+    expect(page).to have_text 'Initiated by'
+    expect(page).to have_text 'Completed'
   end
 
   def and_i_click_on_the_full_export_history
@@ -110,9 +110,9 @@ RSpec.describe 'Data export', sidekiq: false do
   end
 
   def then_i_see_a_list_of_all_exports
-    expect(page).to have_content 'Completed'
-    expect(page).to have_content Time.zone.now.to_fs(:govuk_date_and_time)
+    expect(page).to have_text 'Completed'
+    expect(page).to have_text Time.zone.now.to_fs(:govuk_date_and_time)
     expect(page).to have_link 'Active provider user permissions'
-    expect(page).to have_content 'user@apply-support.com'
+    expect(page).to have_text 'user@apply-support.com'
   end
 end

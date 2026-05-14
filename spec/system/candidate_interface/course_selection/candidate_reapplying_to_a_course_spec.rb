@@ -55,8 +55,8 @@ RSpec.describe 'Selecting a course' do
   end
 
   def then_i_see_the_course_and_its_description
-    expect(page).to have_content(@course.name_and_code)
-    expect(page).to have_content(@course.description_to_s)
+    expect(page).to have_text(@course.name_and_code)
+    expect(page).to have_text(@course.description_to_s)
   end
 
   def and_i_choose_the_same_course

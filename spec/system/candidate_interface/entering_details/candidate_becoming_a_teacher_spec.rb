@@ -52,8 +52,8 @@ RSpec.describe 'Entering "Why do you want to be a teacher?"' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'Check your personal statement'
-    expect(page).to have_content 'Hello world'
+    expect(page).to have_text 'Check your personal statement'
+    expect(page).to have_text 'Hello world'
   end
 
   def and_i_submit_the_form
@@ -65,7 +65,7 @@ RSpec.describe 'Entering "Why do you want to be a teacher?"' do
   end
 
   def then_i_should_return_to_the_application
-    expect(page).to have_content('Your application')
+    expect(page).to have_text('Your application')
   end
 
   def when_i_click_to_change_my_answer
@@ -77,8 +77,8 @@ RSpec.describe 'Entering "Why do you want to be a teacher?"' do
   end
 
   def then_i_can_check_my_revised_answers
-    expect(page).to have_content 'Check your personal statement'
-    expect(page).to have_content 'Hello world again'
+    expect(page).to have_text 'Check your personal statement'
+    expect(page).to have_text 'Hello world again'
   end
 
   def when_i_mark_the_section_as_completed
@@ -86,7 +86,7 @@ RSpec.describe 'Entering "Why do you want to be a teacher?"' do
   end
 
   def then_i_see_the_form
-    expect(page).to have_content(t('page_titles.personal_statement'))
+    expect(page).to have_text(t('page_titles.personal_statement'))
   end
 
   def and_that_the_section_is_completed

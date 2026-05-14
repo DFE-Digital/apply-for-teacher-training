@@ -88,7 +88,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
   end
 
   def then_i_do_not_see_any_applications
-    expect(page).to have_content('There are no results for the selected filter')
+    expect(page).to have_text('There are no results for the selected filter')
   end
 
   def when_i_filter_by_course_subjects_related_to_courses
@@ -100,7 +100,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
 
   def then_i_see_applications_related_to_those_subjects
     (@math_applications + @other_math_applications).each do |application|
-      expect(page).to have_content(application.application_form.full_name)
+      expect(page).to have_text(application.application_form.full_name)
     end
   end
 
@@ -113,7 +113,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
   end
 
   def and_i_see_all_the_applications
-    expect(page).to have_content("Applications (#{(@math_applications + @primary_applications + @other_math_applications).count})")
+    expect(page).to have_text("Applications (#{(@math_applications + @primary_applications + @other_math_applications).count})")
   end
 
   def when_i_type_in_a_subject
@@ -149,10 +149,10 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
   end
 
   def then_i_only_see_provider_applications_related_to_the_subjects
-    expect(page).to have_content("Applications (#{@other_math_applications.count})")
+    expect(page).to have_text("Applications (#{@other_math_applications.count})")
 
     @other_math_applications.each do |application|
-      expect(page).to have_content(application.application_form.full_name)
+      expect(page).to have_text(application.application_form.full_name)
     end
   end
 end

@@ -64,12 +64,12 @@ private
   end
 
   def then_i_see_the_relevant_candidate_page
-    expect(page).to have_content(@rejected_candidate.redacted_full_name_current_cycle)
-    expect(page).to have_content('Share this candidate’s profile')
+    expect(page).to have_text(@rejected_candidate.redacted_full_name_current_cycle)
+    expect(page).to have_text('Share this candidate’s profile')
   end
 
   def then_i_see_the_not_in_pool_page
-    expect(page).to have_content(@awaiting_decision_candidate.redacted_full_name_current_cycle)
-    expect(page).to have_content('You cannot see this candidate’s profile information.')
+    expect(page).to have_text(@awaiting_decision_candidate.redacted_full_name_current_cycle)
+    expect(page).to have_text('You cannot see this candidate’s profile information.')
   end
 end

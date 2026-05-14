@@ -99,7 +99,7 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def then_i_can_submit_my_application
-    expect(page).to have_content 'Send application'
+    expect(page).to have_text 'Send application'
   end
 
   def and_i_choose_to_complete_equality_and_diversity
@@ -107,11 +107,11 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def then_i_am_asked_to_choose_my_sex
-    expect(page).to have_content('What is your sex?')
+    expect(page).to have_text('What is your sex?')
   end
 
   def then_i_am_asked_free_school_meal
-    expect(page).to have_content('Free school meals')
+    expect(page).to have_text('Free school meals')
   end
 
   def when_i_choose_that_i_didnt_receive_free_school_meal
@@ -123,7 +123,7 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def then_i_see_an_error_to_choose_my_sex
-    expect(page).to have_content('Select your sex or ‘Prefer not to say’')
+    expect(page).to have_text('Select your sex or ‘Prefer not to say’')
   end
 
   def when_i_choose_my_sex
@@ -135,10 +135,10 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def then_i_can_review_my_answers
-    expect(page).to have_content('Check your answers')
-    expect(page).to have_content('Male')
-    expect(page).to have_content('I do not have any of these disabilities or health conditions')
-    expect(page).to have_content('Prefer not to say')
+    expect(page).to have_text('Check your answers')
+    expect(page).to have_text('Male')
+    expect(page).to have_text('I do not have any of these disabilities or health conditions')
+    expect(page).to have_text('Prefer not to say')
   end
 
   def when_i_click_change_sex
@@ -150,12 +150,12 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def then_i_can_review_my_updated_sex
-    expect(page).to have_content('Check your answers')
-    expect(page).to have_content('Female')
+    expect(page).to have_text('Check your answers')
+    expect(page).to have_text('Female')
   end
 
   def then_i_am_asked_if_i_have_a_disability
-    expect(page).to have_content('Do you have any of these disabilities or health conditions?')
+    expect(page).to have_text('Do you have any of these disabilities or health conditions?')
   end
 
   def when_i_try_and_submit_without_choosing_if_i_have_a_disability
@@ -163,7 +163,7 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def then_i_see_an_error_to_choose_if_i_have_a_disability
-    expect(page).to have_content('Select if you have any of these disabilities or health conditions')
+    expect(page).to have_text('Select if you have any of these disabilities or health conditions')
   end
 
   def when_i_choose_no_for_having_a_disability
@@ -171,7 +171,7 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def then_i_am_asked_for_my_ethnic_group
-    expect(page).to have_content('What is your ethnic group?')
+    expect(page).to have_text('What is your ethnic group?')
   end
 
   def when_i_try_and_submit_without_choosing_my_ethnic_group
@@ -179,7 +179,7 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def then_i_see_an_error_to_choose_my_ethnic_group
-    expect(page).to have_content('Select an ethnic group or ‘Prefer not to say’')
+    expect(page).to have_text('Select an ethnic group or ‘Prefer not to say’')
   end
 
   def when_i_choose_that_i_prefer_not_to_say_my_ethnic_group
@@ -195,7 +195,7 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def then_i_see_the_disabilities_page
-    expect(page).to have_content('Disabilities and health conditions')
+    expect(page).to have_text('Disabilities and health conditions')
   end
 
   def when_i_try_and_submit_without_ticking_disabilities
@@ -214,9 +214,9 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def then_i_can_review_my_disabilities
-    expect(page).to have_content('Check your answers')
-    expect(page).to have_content('Male')
-    expect(page).to have_content('Blindness or a visual impairment not corrected by glassesDeafness or a serious hearing impairmentAcquired brain injury')
+    expect(page).to have_text('Check your answers')
+    expect(page).to have_text('Male')
+    expect(page).to have_text('Blindness or a visual impairment not corrected by glassesDeafness or a serious hearing impairmentAcquired brain injury')
   end
 
   def and_i_choose_yes_for_having_a_disability
@@ -230,8 +230,8 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def then_i_can_review_my_updated_disabilities
-    expect(page).to have_content('Check your answers')
-    expect(page).to have_content('Deafness or a serious hearing impairment')
+    expect(page).to have_text('Check your answers')
+    expect(page).to have_text('Deafness or a serious hearing impairment')
   end
 
   def when_i_click_change_ethnic_group
@@ -243,7 +243,7 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def then_i_am_asked_for_my_ethnic_background
-    expect(page).to have_content('Which of the following best describes your White background?')
+    expect(page).to have_text('Which of the following best describes your White background?')
   end
 
   def when_i_try_and_submit_without_choosing_my_ethnic_background
@@ -251,7 +251,7 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def then_i_see_an_error_to_choose_my_ethnic_background
-    expect(page).to have_content('Select your background or ‘Prefer not to say’')
+    expect(page).to have_text('Select your background or ‘Prefer not to say’')
   end
 
   def when_i_choose_my_ethnic_background
@@ -263,8 +263,8 @@ RSpec.describe 'Entering their equality and diversity information' do
   end
 
   def then_i_can_review_my_updated_ethnicity
-    expect(page).to have_content('Check your answers')
-    expect(page).to have_content('I am Hungarian')
+    expect(page).to have_text('Check your answers')
+    expect(page).to have_text('I am Hungarian')
   end
 
   def then_the_ethnicity_hesa_code_has_been_set

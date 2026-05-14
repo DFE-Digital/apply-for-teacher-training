@@ -40,8 +40,8 @@ private
 
   def then_i_see_my_applications_page
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_content 'Your applications'
-    expect(page).to have_content 'Awaiting decision'
+    expect(page).to have_text 'Your applications'
+    expect(page).to have_text 'Awaiting decision'
   end
 
   def and_i_can_view_the_application
@@ -53,7 +53,7 @@ private
         ),
       )
     expect(page).to have_title("Your application to #{@application_choice.provider.name}")
-    expect(page).to have_content('Awaiting decision')
+    expect(page).to have_text('Awaiting decision')
   end
 
   def when_i_withdraw_my_application

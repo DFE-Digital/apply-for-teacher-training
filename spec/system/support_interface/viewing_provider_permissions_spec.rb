@@ -64,7 +64,7 @@ RSpec.describe 'Viewing provider-provider permissions via support' do
   end
 
   def then_i_see_the_training_provider_permissions_diagram
-    expect(page).to have_content 'can ✔️ view safeguarding ❌ view diversity ❌ make decisions for courses ratified by'
+    expect(page).to have_text 'can ✔️ view safeguarding ❌ view diversity ❌ make decisions for courses ratified by'
   end
 
   def when_i_visit_the_ratifying_provider
@@ -74,7 +74,7 @@ RSpec.describe 'Viewing provider-provider permissions via support' do
   end
 
   def then_i_see_the_ratifying_provider_permissions_diagram
-    expect(page).to have_content 'can ❌ view safeguarding ✔️ view diversity ✔️ make decisions for courses run by'
+    expect(page).to have_text 'can ❌ view safeguarding ✔️ view diversity ✔️ make decisions for courses run by'
   end
 
   def when_i_visit_the_ratifying_provider_with_no_permissions
@@ -84,6 +84,6 @@ RSpec.describe 'Viewing provider-provider permissions via support' do
   end
 
   def then_i_clearly_see_that_no_permissions_have_been_setup
-    expect(page).to have_content 'Permissions not setup'
+    expect(page).to have_text 'Permissions not setup'
   end
 end

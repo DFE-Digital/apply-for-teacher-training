@@ -245,7 +245,7 @@ RSpec.describe 'Selecting a course with multiple sites when the provider is not 
   end
 
   def and_the_application_is_school_placement_auto_selected
-    expect(page).to have_no_content('Location')
+    expect(page).to have_no_text('Location')
   end
 
   def and_the_site_is_the_main_site

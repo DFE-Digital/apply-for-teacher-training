@@ -33,8 +33,8 @@ RSpec.describe 'Candidate with submitted applications' do
   end
 
   def then_i_can_see_the_change_in_content
-    expect(page).to have_content('The provider will review your application and let you know when they have made a decision. In the meantime, you can:')
-    expect(page).to have_content('submit another application while you wait for a decision on this one')
+    expect(page).to have_text('The provider will review your application and let you know when they have made a decision. In the meantime, you can:')
+    expect(page).to have_text('submit another application while you wait for a decision on this one')
   end
 
   def given_i_can_not_add_more_choices
@@ -42,20 +42,20 @@ RSpec.describe 'Candidate with submitted applications' do
   end
 
   def and_i_can_see_the_inactive_warning_content
-    expect(page).to have_content(
+    expect(page).to have_text(
       "Application submitted #{time_ago_in_words(application_choice.sent_to_provider_at)} ago",
     )
-    expect(page).to have_content(
+    expect(page).to have_text(
       'You can add an application for a different training provider while you wait for a decision on this application.',
     )
   end
 
   def then_i_can_add_another_application
-    expect(page).to have_content('You can submit 1 more application.')
+    expect(page).to have_text('You can submit 1 more application.')
   end
 
   def then_i_can_not_see_the_inactive_warning_text
-    expect(page).to have_no_content(
+    expect(page).to have_no_text(
       'You can add an application for a different training provider while you wait for a decision on this application',
     )
   end

@@ -86,7 +86,7 @@ RSpec.describe 'Reject an application with interviews' do
   end
 
   def and_the_cancellation_of_interviews_message_is_shown
-    expect(page).to have_content('The upcoming interview will be cancelled.')
+    expect(page).to have_text('The upcoming interview will be cancelled.')
   end
 
   def and_i_submit_the_reasons_for_rejection

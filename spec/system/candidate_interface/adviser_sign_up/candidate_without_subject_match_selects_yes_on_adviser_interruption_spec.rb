@@ -134,7 +134,7 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
   end
 
   def and_the_adviser_call_to_action_is_no_longer_visible
-    expect(page).to have_no_content('Get an adviser')
+    expect(page).to have_no_text('Get an adviser')
   end
 
   def when_i_return_to_my_details_page

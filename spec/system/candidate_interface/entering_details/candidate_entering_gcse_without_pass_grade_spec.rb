@@ -52,20 +52,20 @@ RSpec.describe 'Candidate entering GCSE details but without a pass grade' do
   end
 
   def then_i_see_the_add_gcse_maths_page
-    expect(page).to have_content 'What type of qualification in maths do you have?'
+    expect(page).to have_text 'What type of qualification in maths do you have?'
   end
 
   def then_i_see_the_review_page_with_correct_details
-    expect(page).to have_content 'Maths GCSE or equivalent'
+    expect(page).to have_text 'Maths GCSE or equivalent'
 
-    expect(page).to have_content 'GCSE'
-    expect(page).to have_content 'Grade D'
-    expect(page).to have_content 'Hard work and dedication'
-    expect(page).to have_content '1990'
+    expect(page).to have_text 'GCSE'
+    expect(page).to have_text 'Grade D'
+    expect(page).to have_text 'Hard work and dedication'
+    expect(page).to have_text '1990'
   end
 
   def then_i_see_add_grade_page
-    expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'maths', qualification_type: 'GCSE')
+    expect(page).to have_text t('gcse_edit_grade.page_title', subject: 'maths', qualification_type: 'GCSE')
   end
 
   def when_i_fill_in_the_fail_grade
@@ -77,7 +77,7 @@ RSpec.describe 'Candidate entering GCSE details but without a pass grade' do
   end
 
   def then_i_am_prompted_to_explain_how_i_can_improve_this_grade
-    expect(page).to have_content 'You need a GCSE in maths at grade 4 (C) or above, or equivalent'
+    expect(page).to have_text 'You need a GCSE in maths at grade 4 (C) or above, or equivalent'
   end
 
   def and_i_select_no
@@ -107,11 +107,11 @@ RSpec.describe 'Candidate entering GCSE details but without a pass grade' do
   end
 
   def then_i_see_the_review_page_with_new_details
-    expect(page).to have_content 'Grade B'
+    expect(page).to have_text 'Grade B'
   end
 
   def and_the_not_completed_explanation_has_been_reset
-    expect(page).to have_no_content 'Hard work and dedication'
+    expect(page).to have_no_text 'Hard work and dedication'
     expect(ApplicationQualification.last.not_completed_explanation).to be_nil
   end
 end

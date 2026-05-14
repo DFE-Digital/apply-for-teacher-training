@@ -80,12 +80,12 @@ RSpec.describe 'Setting up organisation permissions' do
   alias_method :when_i_sign_in_to_the_provider_interface, :and_i_sign_in_to_the_provider_interface
 
   def then_i_can_see_the_organisations_needing_permissions_setup
-    expect(page).to have_content('Set up organisation permissions')
-    expect(page).to have_content('Candidates can now apply for courses you work on with partner organisations')
-    expect(page).to have_content("For #{@training_provider.name}, you need to set up permissions for courses you work on with:")
-    expect(page).to have_content(@another_ratifying_provider.name)
-    expect(page).to have_content("For #{@ratifying_provider.name}, you need to set up permissions for courses you work on with:")
-    expect(page).to have_content(@another_training_provider.name)
+    expect(page).to have_text('Set up organisation permissions')
+    expect(page).to have_text('Candidates can now apply for courses you work on with partner organisations')
+    expect(page).to have_text("For #{@training_provider.name}, you need to set up permissions for courses you work on with:")
+    expect(page).to have_text(@another_ratifying_provider.name)
+    expect(page).to have_text("For #{@ratifying_provider.name}, you need to set up permissions for courses you work on with:")
+    expect(page).to have_text(@another_training_provider.name)
   end
 
   def when_i_click_set_up_organisation_permissions
@@ -93,7 +93,7 @@ RSpec.describe 'Setting up organisation permissions' do
   end
 
   def then_i_see_the_first_relationship
-    expect(page).to have_content("#{@ratifying_provider.name} and #{@another_training_provider.name}")
+    expect(page).to have_text("#{@ratifying_provider.name} and #{@another_training_provider.name}")
   end
 
   def when_i_select_a_provider_for_each_permission
@@ -108,7 +108,7 @@ RSpec.describe 'Setting up organisation permissions' do
   end
 
   def then_i_see_the_next_relationship
-    expect(page).to have_content("#{@training_provider.name} and #{@another_ratifying_provider.name}")
+    expect(page).to have_text("#{@training_provider.name} and #{@another_ratifying_provider.name}")
   end
 
   def when_i_do_not_complete_the_permissions_details
@@ -117,7 +117,7 @@ RSpec.describe 'Setting up organisation permissions' do
   end
 
   def then_i_see_the_error_message
-    expect(page).to have_content('Select who can send offers, invitations and rejections')
+    expect(page).to have_text('Select who can send offers, invitations and rejections')
   end
 
   def when_i_complete_the_permissions_details
@@ -125,7 +125,7 @@ RSpec.describe 'Setting up organisation permissions' do
   end
 
   def then_i_see_the_check_relationship_permissions_page
-    expect(page).to have_content('Check and save organisation permissions')
+    expect(page).to have_text('Check and save organisation permissions')
   end
 
   def when_i_click_on_change
@@ -152,18 +152,18 @@ RSpec.describe 'Setting up organisation permissions' do
   end
 
   def then_i_see_the_success_page
-    expect(page).to have_content('Organisation permissions set up')
+    expect(page).to have_text('Organisation permissions set up')
   end
 
   def and_an_email_is_sent_to_managing_users_in_the_partner_organisations
     @another_training_provider_users.each do |user|
       open_email(user.email_address)
-      expect(current_email.subject).to have_content t('provider_mailer.organisation_permissions_set_up.subject', provider: @ratifying_provider.name)
+      expect(current_email.subject).to have_text t('provider_mailer.organisation_permissions_set_up.subject', provider: @ratifying_provider.name)
     end
 
     @another_ratifying_provider_users.each do |user|
       open_email(user.email_address)
-      expect(current_email.subject).to have_content t('provider_mailer.organisation_permissions_updated.subject', provider: @training_provider.name)
+      expect(current_email.subject).to have_text t('provider_mailer.organisation_permissions_updated.subject', provider: @training_provider.name)
     end
   end
 

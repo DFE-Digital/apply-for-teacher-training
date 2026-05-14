@@ -49,10 +49,10 @@ RSpec.describe 'Changing a course' do
   end
 
   def then_i_see_the_courses_and_their_descriptions
-    expect(page).to have_content(@course.name_and_code)
-    expect(page).to have_content(@course.description_to_s)
-    expect(page).to have_content(@another_course.name_and_code)
-    expect(page).to have_content(@another_course.description_to_s)
+    expect(page).to have_text(@course.name_and_code)
+    expect(page).to have_text(@course.description_to_s)
+    expect(page).to have_text(@another_course.name_and_code)
+    expect(page).to have_text(@another_course.description_to_s)
   end
 
   def when_i_choose_a_different_course

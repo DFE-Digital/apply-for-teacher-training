@@ -99,7 +99,7 @@ RSpec.describe 'Degrees' do
   end
 
   def then_i_am_taken_back_to_the_degree_review_page
-    expect(page).to have_content('Degree')
+    expect(page).to have_text('Degree')
   end
 
   def and_i_click_on_save_and_continue
@@ -107,7 +107,7 @@ RSpec.describe 'Degrees' do
   end
 
   def then_i_am_taken_to_the_specific_degree_type_page
-    expect(page).to have_content 'What type of bachelor’s degree is it?'
+    expect(page).to have_text 'What type of bachelor’s degree is it?'
   end
 
   def when_i_click_to_change_my_undergraduate_degree_type
@@ -115,7 +115,7 @@ RSpec.describe 'Degrees' do
   end
 
   def then_i_am_taken_back_to_the_degree_type_page
-    expect(page).to have_content 'What type of degree is it?'
+    expect(page).to have_text 'What type of degree is it?'
   end
 
   def when_i_click_to_change_my_completion_status
@@ -123,7 +123,7 @@ RSpec.describe 'Degrees' do
   end
 
   def then_i_am_taken_back_to_the_degree_complete_page
-    expect(page).to have_content 'Have you completed your degree?'
+    expect(page).to have_text 'Have you completed your degree?'
   end
 
   def when_i_click_to_change_my_university
@@ -148,15 +148,15 @@ RSpec.describe 'Degrees' do
   end
 
   def then_i_am_taken_back_to_the_subject_page
-    expect(page).to have_content('What subject is your degree?')
+    expect(page).to have_text('What subject is your degree?')
   end
 
   def then_i_am_taken_back_to_the_type_page
-    expect(page).to have_content('What type of degree is it?')
+    expect(page).to have_text('What type of degree is it?')
   end
 
   def then_i_am_taken_back_to_the_country_page
-    expect(page).to have_content('Which country was the degree from?')
+    expect(page).to have_text('Which country was the degree from?')
   end
 
   def given_that_i_have_a_completed_international_degree
@@ -187,7 +187,7 @@ RSpec.describe 'Degrees' do
   end
 
   def then_i_am_taken_to_the_award_year_page
-    expect(page).to have_content 'What year did you graduate?'
+    expect(page).to have_text 'What year did you graduate?'
   end
 
   def and_i_fill_out_the_year
@@ -195,11 +195,11 @@ RSpec.describe 'Degrees' do
   end
 
   def then_i_am_taken_to_the_enic_page
-    expect(page).to have_content 'Show how your degree compares to a UK degree'
+    expect(page).to have_text 'Show how your degree compares to a UK degree'
   end
 
   def then_i_am_taken_to_the_degree_complete_page
-    expect(page).to have_content 'Have you completed your degree?'
+    expect(page).to have_text 'Have you completed your degree?'
   end
 
   def then_i_am_taken_back_to_the_university_degree_page

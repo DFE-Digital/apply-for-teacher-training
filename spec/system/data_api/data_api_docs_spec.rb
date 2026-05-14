@@ -11,6 +11,6 @@ RSpec.describe 'Data API docs' do
   end
 
   def then_i_can_see_the_docs
-    expect(page).to have_content 'Apply for teacher training data API'
+    expect(page).to have_text 'Apply for teacher training data API'
   end
 end

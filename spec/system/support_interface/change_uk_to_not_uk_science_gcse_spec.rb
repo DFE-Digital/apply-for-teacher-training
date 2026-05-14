@@ -131,7 +131,7 @@ private
   end
 
   def and_it_should_update_the_attributes(attributes)
-    expect(page).to have_content('GCSE updated')
+    expect(page).to have_text('GCSE updated')
 
     expect(page).to have_current_path(support_interface_application_form_path(@application_form))
 

@@ -88,7 +88,7 @@ RSpec.describe 'bulk upload provider users' do
   end
 
   def then_i_see_the_add_multiple_user_form
-    expect(page).to have_content("Add users to #{@provider.name}")
+    expect(page).to have_text("Add users to #{@provider.name}")
   end
 
   def when_i_enter_the_users_details
@@ -105,12 +105,12 @@ RSpec.describe 'bulk upload provider users' do
   end
 
   def then_i_see_a_form_validation_error
-    expect(page).to have_content("Enter the users' details")
+    expect(page).to have_text("Enter the users' details")
   end
 
   def then_i_see_the_permissions_form_for_the_first_user
-    expect(page).to have_content('Add user (1 of 2)')
-    expect(page).to have_content(@provider.name)
+    expect(page).to have_text('Add user (1 of 2)')
+    expect(page).to have_text(@provider.name)
     expect(page).to have_field('support_interface_create_single_provider_user_form[first_name]', with: 'first_name_one')
   end
 
@@ -124,14 +124,14 @@ RSpec.describe 'bulk upload provider users' do
   end
 
   def then_i_see_the_permissions_form_for_the_second_user
-    expect(page).to have_content('Add user (2 of 2)')
-    expect(page).to have_content(@provider.name)
+    expect(page).to have_text('Add user (2 of 2)')
+    expect(page).to have_text(@provider.name)
     expect(page).to have_field('support_interface_create_single_provider_user_form[last_name]', with: 'last_name_two')
   end
 
   def then_i_see_the_edit_permissions_form_for_the_second_user
-    expect(page).to have_content('Add user (2 of 2)')
-    expect(page).to have_content(@provider.name)
+    expect(page).to have_text('Add user (2 of 2)')
+    expect(page).to have_text(@provider.name)
     expect(page).to have_field('support_interface_create_single_provider_user_form[last_name]', with: 'last_name_two')
   end
 
@@ -157,9 +157,9 @@ RSpec.describe 'bulk upload provider users' do
   end
 
   def then_i_see_the_provider_user_review_page
-    expect(page).to have_content("#{@provder_name} Check details and add users")
-    expect(page).to have_content('first_name_one')
-    expect(page).to have_content('first_name_two')
+    expect(page).to have_text("#{@provder_name} Check details and add users")
+    expect(page).to have_text('first_name_one')
+    expect(page).to have_text('first_name_two')
   end
 
   def and_i_click_add_users
@@ -180,11 +180,11 @@ RSpec.describe 'bulk upload provider users' do
   end
 
   def then_i_see_the_provider_users_page
-    expect(page).to have_content(@provider.name_and_code.to_s)
+    expect(page).to have_text(@provider.name_and_code.to_s)
   end
 
   def then_i_can_see_the_check_users_page
-    expect(page).to have_content('Check details and add users')
+    expect(page).to have_text('Check details and add users')
   end
 
   def when_i_click_change_within_the_second_user_summary
@@ -192,6 +192,6 @@ RSpec.describe 'bulk upload provider users' do
   end
 
   def and_i_see_two_users_have_been_successfully_created
-    expect(page).to have_content('2 users added')
+    expect(page).to have_text('2 users added')
   end
 end

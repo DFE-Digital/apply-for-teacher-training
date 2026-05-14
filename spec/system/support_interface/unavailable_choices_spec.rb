@@ -45,11 +45,11 @@ RSpec.describe 'Unavailable choices' do
   end
 
   def then_i_can_see_a_summary_of_unavailable_choices
-    expect(page).to have_content('Applications with unavailable choices')
-    expect(page).to have_content('Course closed by provider (1)')
-    expect(page).to have_content('Course removed from Find (1)')
-    expect(page).to have_content('Course has no vacancies (1)')
-    expect(page).to have_content('Site no longer exists (1)')
+    expect(page).to have_text('Applications with unavailable choices')
+    expect(page).to have_text('Course closed by provider (1)')
+    expect(page).to have_text('Course removed from Find (1)')
+    expect(page).to have_text('Course has no vacancies (1)')
+    expect(page).to have_text('Site no longer exists (1)')
   end
 
   def when_i_click_on_applications_with_no_vacancies
@@ -57,7 +57,7 @@ RSpec.describe 'Unavailable choices' do
   end
 
   def then_i_can_see_the_list_of_applications_without_vacancies
-    expect(page).to have_content('Applications to courses that no longer have vacancies')
-    expect(page).to have_content(@application_with_no_vacancies.application_form.full_name)
+    expect(page).to have_text('Applications to courses that no longer have vacancies')
+    expect(page).to have_text(@application_with_no_vacancies.application_form.full_name)
   end
 end

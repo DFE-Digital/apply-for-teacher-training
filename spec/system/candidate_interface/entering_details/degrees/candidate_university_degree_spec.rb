@@ -99,7 +99,7 @@ RSpec.describe 'Entering a degree' do
 
   def then_i_can_see_the_university_degree_page
     expect(page).to have_current_path(candidate_interface_degree_university_degree_path)
-    expect(page).to have_content('Do you have a university degree?')
+    expect(page).to have_text('Do you have a university degree?')
   end
 
   def when_i_answer_no
@@ -112,11 +112,11 @@ RSpec.describe 'Entering a degree' do
 
   def then_i_can_see_degrees_section_is_completed
     expect(page).to have_current_path(candidate_interface_details_path)
-    expect(page).to have_content('Degree Completed')
+    expect(page).to have_text('Degree Completed')
   end
 
   def then_i_can_see_the_country_page
-    expect(page).to have_content('Which country was the degree from?')
+    expect(page).to have_text('Which country was the degree from?')
   end
 
   def and_the_back_link_points_to_the_university_degree_page
@@ -137,7 +137,7 @@ RSpec.describe 'Entering a degree' do
   end
 
   def then_i_do_not_see_the_button_to_add_a_degree
-    expect(page).to have_no_content('Add a degree')
+    expect(page).to have_no_text('Add a degree')
   end
 
   def and_i_am_on_the_degree_review_page
@@ -153,7 +153,7 @@ RSpec.describe 'Entering a degree' do
   end
 
   def and_i_see_that_i_do_not_have_a_degree
-    expect(page).to have_content('Do you have a university degree? No, I do not have a degree Change')
+    expect(page).to have_text('Do you have a university degree? No, I do not have a degree Change')
   end
 
   def and_i_see_the_no_degree_option_chosen
@@ -161,7 +161,7 @@ RSpec.describe 'Entering a degree' do
   end
 
   def then_i_see_the_error_message_to_answer_the_degree_question
-    expect(page).to have_content('Select whether you have a university degree')
+    expect(page).to have_text('Select whether you have a university degree')
   end
 
   def back_link
@@ -247,17 +247,17 @@ RSpec.describe 'Entering a degree' do
   end
 
   def and_i_still_have_one_degree
-    expect(page).to have_content('BSc (Hons) Astronomy').once
+    expect(page).to have_text('BSc (Hons) Astronomy').once
   end
 
   def and_i_cannot_see_the_degrees_section_hint_text
-    expect(page).to have_no_content(
+    expect(page).to have_no_text(
       'Check the entry requirements for your chosen course. Postgraduate courses usually require a bachelor’s degree at 2:2 or above. Contact the training provider if you do not have the right degree level. Teacher degree apprenticeships do not require a degree.',
     )
   end
 
   def and_i_can_see_the_degrees_section_hint_text
-    expect(page).to have_content(
+    expect(page).to have_text(
       'Check the entry requirements for your chosen course. Postgraduate courses usually require a bachelor’s degree at 2:2 or above. Contact the training provider if you do not have the right degree level. Teacher degree apprenticeships do not require a degree.',
     )
   end

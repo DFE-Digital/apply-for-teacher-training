@@ -68,8 +68,8 @@ RSpec.describe 'Provider makes an offer on an application with interviews in the
   end
 
   def then_i_see_the_decision_page
-    expect(page).to have_content('Make a decision')
-    expect(page).to have_content('Course applied for')
+    expect(page).to have_text('Make a decision')
+    expect(page).to have_text('Course applied for')
   end
 
   def when_i_choose_to_make_an_offer
@@ -78,7 +78,7 @@ RSpec.describe 'Provider makes an offer on an application with interviews in the
   end
 
   def then_the_conditions_page_is_loaded
-    expect(page).to have_content('Conditions of offer')
+    expect(page).to have_text('Conditions of offer')
   end
 
   def and_i_click_continue
@@ -86,8 +86,8 @@ RSpec.describe 'Provider makes an offer on an application with interviews in the
   end
 
   def then_i_see_the_review_page_with_cancelling_interviews_warning_text
-    expect(page).to have_content('Check and send offer')
-    expect(page).to have_content('The upcoming interview will be cancelled.')
+    expect(page).to have_text('Check and send offer')
+    expect(page).to have_text('The upcoming interview will be cancelled.')
   end
 
   def when_i_send_the_offer
@@ -96,7 +96,7 @@ RSpec.describe 'Provider makes an offer on an application with interviews in the
 
   def then_i_see_that_the_offer_was_successfully_made
     within('.govuk-notification-banner--success') do
-      expect(page).to have_content('Offer sent')
+      expect(page).to have_text('Offer sent')
     end
   end
 

@@ -123,7 +123,7 @@ RSpec.describe 'Confirm conditions met' do
   def then_i_see_a_summary_of_the_conditions
     within '.app-box' do
       @conditions.each do |condition|
-        expect(page).to have_content(condition.text)
+        expect(page).to have_text(condition.text)
       end
     end
   end
@@ -151,7 +151,7 @@ RSpec.describe 'Confirm conditions met' do
   end
 
   def then_i_get_feedback_that_my_action_succeeded
-    expect(page).to have_content 'Status of conditions updated'
+    expect(page).to have_text 'Status of conditions updated'
   end
 
   def and_i_am_back_on_the_application_page
@@ -160,11 +160,11 @@ RSpec.describe 'Confirm conditions met' do
 
   def and_the_candidate_is_still_pending_conditions
     expect(@application_choice.reload.pending_conditions?).to be_truthy
-    expect(page).to have_content('Conditions pending')
+    expect(page).to have_text('Conditions pending')
   end
 
   def then_i_see_the_recruit_with_pending_conditions_confirmation_page
-    expect(page).to have_content('Do you want to recruit the candidate with pending conditions?')
+    expect(page).to have_text('Do you want to recruit the candidate with pending conditions?')
   end
 
   def when_i_click_continue
@@ -177,7 +177,7 @@ RSpec.describe 'Confirm conditions met' do
         application_choice_id: @application_choice.id,
       ),
     )
-    expect(page).to have_content(
+    expect(page).to have_text(
       'Select whether you want to recruit the candidate with pending conditions',
     )
   end
@@ -194,12 +194,12 @@ RSpec.describe 'Confirm conditions met' do
 
   def then_i_see_the_offer_page_without_a_flash_message
     expect(page).to have_current_path(provider_interface_application_choice_offer_path(application_choice_id: @application_choice.id))
-    expect(page).to have_no_content('Applicant recruited with conditions pending')
+    expect(page).to have_no_text('Applicant recruited with conditions pending')
   end
 
   def then_i_see_the_offer_page_with_a_flash_message
     expect(page).to have_current_path(provider_interface_application_choice_offer_path(application_choice_id: @application_choice.id))
-    expect(page).to have_content('Applicant recruited with conditions pending')
+    expect(page).to have_text('Applicant recruited with conditions pending')
   end
 
   def and_the_application_is_now_recruited
@@ -213,7 +213,7 @@ RSpec.describe 'Confirm conditions met' do
 
   def then_i_see_the_offer_page_with_a_message_about_pending_ske_conditions
     visit candidate_interface_application_offer_dashboard_path
-    expect(page).to have_content('Remember to complete your subject knowledge enhancement course to meet the conditions of this offer.')
+    expect(page).to have_text('Remember to complete your subject knowledge enhancement course to meet the conditions of this offer.')
   end
 
   def when_i_go_back_as_the_provider_and_open_application_choice
@@ -225,7 +225,7 @@ RSpec.describe 'Confirm conditions met' do
   end
 
   def then_i_see_application_is_recruited_with_all_conditions_met
-    expect(page).to have_content('Recruited')
-    expect(page).to have_no_content('SKE conditions pending')
+    expect(page).to have_text('Recruited')
+    expect(page).to have_no_text('SKE conditions pending')
   end
 end

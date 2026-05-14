@@ -41,7 +41,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
   def then_i_see_carry_over_page
     timetable = previous_timetable
-    expect(page).to have_content "You started an application for courses starting in the #{timetable.academic_year_range_name} academic year, which have now closed"
+    expect(page).to have_text "You started an application for courses starting in the #{timetable.academic_year_range_name} academic year, which have now closed"
   end
 
   def when_i_click_continue
@@ -49,9 +49,9 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def then_i_can_see_application_details
-    expect(page).to have_content('Personal information Completed')
+    expect(page).to have_text('Personal information Completed')
     click_link_or_button 'Personal information'
-    expect(page).to have_content(@application_form.full_name)
+    expect(page).to have_text(@application_form.full_name)
     click_link_or_button t('continue')
   end
 

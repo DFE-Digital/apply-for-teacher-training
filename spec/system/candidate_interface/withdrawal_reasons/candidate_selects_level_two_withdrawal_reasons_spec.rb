@@ -75,7 +75,7 @@ RSpec.describe 'Candidate selects level-two withdrawal reasons' do
   end
 
   def then_i_am_on_the_edit_page
-    expect(page).to have_content 'Why are you withdrawing this application?'
+    expect(page).to have_text 'Why are you withdrawing this application?'
   end
 
   def and_other_is_selected
@@ -107,10 +107,10 @@ RSpec.describe 'Candidate selects level-two withdrawal reasons' do
         'The course is not available anymore',
         'Other',
       ].each do |supporting_reason|
-        expect(page).to have_content(supporting_reason)
+        expect(page).to have_text(supporting_reason)
       end
       expect(page).to have_title 'Why are you applying to another training provider?'
-      expect(page).to have_content 'Why are you applying to another training provider?'
+      expect(page).to have_text 'Why are you applying to another training provider?'
     when 'change-or-update-application-with-this-provider'
       [
         'I want to update my application, for example correct an error or add information',
@@ -118,10 +118,10 @@ RSpec.describe 'Candidate selects level-two withdrawal reasons' do
         'I want to apply for a different subject with the same provider',
         'Other',
       ].each do |supporting_reason|
-        expect(page).to have_content(supporting_reason)
+        expect(page).to have_text(supporting_reason)
       end
       expect(page).to have_title 'Why are you changing or updating your application with this training provider?'
-      expect(page).to have_content 'Why are you changing or updating your application with this training provider?'
+      expect(page).to have_text 'Why are you changing or updating your application with this training provider?'
     when 'apply-in-the-future'
       [
         'My personal circumstances have changed',
@@ -129,10 +129,10 @@ RSpec.describe 'Candidate selects level-two withdrawal reasons' do
         'I want to improve my qualifications before I apply again',
         'Other',
       ].each do |supporting_reason|
-        expect(page).to have_content(supporting_reason)
+        expect(page).to have_text(supporting_reason)
       end
       expect(page).to have_title 'Why are you planning to apply for teacher training in the future?'
-      expect(page).to have_content 'Why are you planning to apply for teacher training in the future?'
+      expect(page).to have_text 'Why are you planning to apply for teacher training in the future?'
     when 'do-not-want-to-train-anymore'
 
       [
@@ -140,10 +140,10 @@ RSpec.describe 'Candidate selects level-two withdrawal reasons' do
         'I have decided on another career path or I have accepted a job offer',
         'Other',
       ].each do |supporting_reason|
-        expect(page).to have_content(supporting_reason)
+        expect(page).to have_text(supporting_reason)
       end
       expect(page).to have_title 'Why do you not want to train to teach anymore?'
-      expect(page).to have_content 'Why do you not want to train to teach anymore?'
+      expect(page).to have_text 'Why do you not want to train to teach anymore?'
     end
   end
 end

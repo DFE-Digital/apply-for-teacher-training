@@ -31,11 +31,11 @@ module WithdrawalReasonsTestHelpers
   end
 
   def then_i_see_the_success_message
-    expect(page).to have_content "You have withdrawn your application to #{@application_choice.current_course_option.provider.name}"
+    expect(page).to have_text "You have withdrawn your application to #{@application_choice.current_course_option.provider.name}"
   end
 
   def then_i_am_on_the_review_page
-    expect(page).to have_content 'Are you sure you want to withdraw this application?'
+    expect(page).to have_text 'Are you sure you want to withdraw this application?'
   end
 
   def when_i_select_the_level_one_reason(level_one_reason)
@@ -45,8 +45,8 @@ module WithdrawalReasonsTestHelpers
   alias and_i_select_the_level_one_reason when_i_select_the_level_one_reason
 
   def then_i_see_the_error_message(error_message)
-    expect(page).to have_content('There is a problem')
-    expect(page).to have_content(error_message).twice
+    expect(page).to have_text('There is a problem')
+    expect(page).to have_text(error_message).twice
   end
 
   def when_i_enter_details_for_main_other_option(error: false)
@@ -90,7 +90,7 @@ module WithdrawalReasonsTestHelpers
   end
 
   def then_i_have_withdrawn_from_the_course(course = @application_choice)
-    expect(page).to have_content "You have withdrawn your application to #{course.current_course.provider.name}"
+    expect(page).to have_text "You have withdrawn your application to #{course.current_course.provider.name}"
     expect(course.reload.status).to eq 'withdrawn'
   end
 

@@ -41,8 +41,8 @@ RSpec.describe 'API tokens' do
   alias_method :and_i_click_on_create_a_token_without_entering_a_provider, :and_i_click_on_continue
 
   def then_a_warning_message_is_showing
-    expect(page).to have_content 'There is a problem'
-    expect(page).to have_content 'Select a provider'
+    expect(page).to have_text 'There is a problem'
+    expect(page).to have_text 'Select a provider'
   end
 
   def when_i_select_a_provider
@@ -50,7 +50,7 @@ RSpec.describe 'API tokens' do
   end
 
   def then_i_see_a_new_token
-    expect(page).to have_content 'Your token is'
+    expect(page).to have_text 'Your token is'
   end
 
   def and_i_am_able_to_connect_to_the_api_using_the_token
@@ -59,7 +59,7 @@ RSpec.describe 'API tokens' do
 
     visit '/api/v1/ping'
 
-    expect(page).to have_content('pong')
+    expect(page).to have_text('pong')
   end
 
   def and_the_token_is_visible_on_the_support_page
@@ -67,7 +67,7 @@ RSpec.describe 'API tokens' do
     visit support_interface_api_tokens_path
 
     within '.govuk-table' do
-      expect(page).to have_content 'Super Provider'
+      expect(page).to have_text 'Super Provider'
     end
   end
 end

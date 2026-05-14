@@ -63,7 +63,7 @@ RSpec.describe 'Candidate attempts to submit their application without a valid a
   end
 
   def then_i_see_address_details_form
-    expect(page).to have_content('What is your address?')
+    expect(page).to have_text('What is your address?')
     expect(page).to have_field(
       'Postcode',
       with: current_candidate.current_application.postcode,

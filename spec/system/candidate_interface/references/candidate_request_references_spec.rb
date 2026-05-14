@@ -75,11 +75,11 @@ RSpec.describe 'New References', :with_audited do
   end
 
   def then_i_see_the_post_offer_dashboard
-    expect(page).to have_content("Your offer for #{@application_choice.current_course.name_and_code}")
-    expect(page).to have_content("You have accepted an offer from #{@application_choice.course_option.course.provider.name} to study #{@application_choice.course.name_and_code}.")
-    expect(page).to have_content('References')
-    expect(page).to have_content('Offer conditions')
-    expect(page).to have_content("#{@application_choice.offer.conditions.first.text} Pending", normalize_ws: true)
+    expect(page).to have_text("Your offer for #{@application_choice.current_course.name_and_code}")
+    expect(page).to have_text("You have accepted an offer from #{@application_choice.course_option.course.provider.name} to study #{@application_choice.course.name_and_code}.")
+    expect(page).to have_text('References')
+    expect(page).to have_text('Offer conditions')
+    expect(page).to have_text("#{@application_choice.offer.conditions.first.text} Pending", normalize_ws: true)
   end
 
   def when_i_click_request_another_reference
@@ -154,7 +154,7 @@ RSpec.describe 'New References', :with_audited do
   end
 
   def then_i_see_the_email_error_validation_message
-    expect(page).to have_content('There is a problem Enter their email address')
+    expect(page).to have_text('There is a problem Enter their email address')
   end
 
   def and_i_am_on_add_relationship_page

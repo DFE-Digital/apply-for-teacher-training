@@ -57,25 +57,25 @@ RSpec.describe 'Vendor API monitoring page', mid_cycle: false do
 
   def then_i_see_the_provider_who_has_not_connected
     within('[data-qa="not-connected"]') do
-      expect(page).to have_content 'Did not connect'
+      expect(page).to have_text 'Did not connect'
     end
   end
 
   def and_i_see_the_provider_who_has_not_synced
     within('[data-qa="not-synced"]') do
-      expect(page).to have_content 'Did not sync'
+      expect(page).to have_text 'Did not sync'
     end
   end
 
   def and_i_see_the_provider_who_has_not_posted_a_decision
     within('[data-qa="not-posted-decision"]') do
-      expect(page).to have_content 'Did not post a decision'
+      expect(page).to have_text 'Did not post a decision'
     end
   end
 
   def and_i_see_the_provider_who_has_received_error_responses_from_the_api
     within('[data-qa="received-error-response"]') do
-      expect(page).to have_content 'Received an error response'
+      expect(page).to have_text 'Received an error response'
     end
   end
 end

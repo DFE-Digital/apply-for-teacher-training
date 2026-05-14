@@ -141,11 +141,11 @@ RSpec.describe 'Candidate edits published preference' do
   alias_method :and_i_click, :when_i_click
 
   def then_i_am_redirected_to_preference_review_page
-    expect(page).to have_content('Check your application sharing preferences')
+    expect(page).to have_text('Check your application sharing preferences')
   end
 
   def then_i_am_redirected_to_the_training_locations_page
-    expect(page).to have_content('Where can you train?')
+    expect(page).to have_text('Where can you train?')
   end
 
   def when_i_click_change_share_preference
@@ -192,7 +192,7 @@ RSpec.describe 'Candidate edits published preference' do
   end
 
   def then_i_am_redirected_to_fee_funding_page
-    expect(page).to have_content('What funding types are you interested in?')
+    expect(page).to have_text('What funding types are you interested in?')
   end
 
   def and_the_funding_type_is_checked

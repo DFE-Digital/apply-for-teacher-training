@@ -85,7 +85,7 @@ RSpec.describe 'A Provider user' do
   end
 
   def then_i_see_no_upcoming_interviews
-    expect(page).to have_content('No upcoming interviews')
+    expect(page).to have_text('No upcoming interviews')
   end
 
   def and_i_click_past_interviews
@@ -99,18 +99,18 @@ RSpec.describe 'A Provider user' do
   end
 
   def then_i_see_no_past_interviews
-    expect(page).to have_content('No past interviews')
+    expect(page).to have_text('No past interviews')
   end
 
   def and_i_can_verify_that_the_correct_information_is_presented
     click_link_or_button 'Upcoming interviews'
-    expect(page).to have_content("Today (#{@interviews.last.date_and_time.to_fs(:govuk_date)})")
+    expect(page).to have_text("Today (#{@interviews.last.date_and_time.to_fs(:govuk_date)})")
     within(:xpath, "////div[@class='app-interview-card'][1]") do
-      expect(page).to have_content(@application_choice.course.name)
-      expect(page).to have_content(@application_choice.course_option.site.name)
+      expect(page).to have_text(@application_choice.course.name)
+      expect(page).to have_text(@application_choice.course_option.site.name)
     end
 
     page.first(:css, '.app-interview-card__time:first a', text: @interviews.last.date_and_time.to_fs(:govuk_time)).click
-    expect(page).to have_content(@interviews.last.date_and_time.to_fs(:govuk_date_and_time))
+    expect(page).to have_text(@interviews.last.date_and_time.to_fs(:govuk_date_and_time))
   end
 end

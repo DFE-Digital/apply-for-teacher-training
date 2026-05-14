@@ -8,16 +8,16 @@ RSpec.describe 'User visits the sign-in page and views guidance' do
 
   def when_i_visit_the_guidance_page
     visit candidate_interface_guidance_path
-    expect(page).to have_content('The application process for courses starting in September 2025')
+    expect(page).to have_text('The application process for courses starting in September 2025')
   end
 
   def then_i_can_see_the_correct_dates
-    expect(page).to have_content('The application process for courses starting in September 2025')
-    expect(page).to have_content('1 October 2024 at 9am UK time')
-    expect(page).to have_content('Start finding teacher training courses')
-    expect(page).to have_content('8 October 2024 at 9am UK time')
-    expect(page).to have_content('16 September 2025 at 6pm UK time')
-    expect(page).to have_content('24 September 2025 at 11:59pm UK time')
-    expect(page).to have_content('The last day for training providers to make a decision on all applications for courses starting in September 2025')
+    expect(page).to have_text('The application process for courses starting in September 2025')
+    expect(page).to have_text('1 October 2024 at 9am UK time')
+    expect(page).to have_text('Start finding teacher training courses')
+    expect(page).to have_text('8 October 2024 at 9am UK time')
+    expect(page).to have_text('16 September 2025 at 6pm UK time')
+    expect(page).to have_text('24 September 2025 at 11:59pm UK time')
+    expect(page).to have_text('The last day for training providers to make a decision on all applications for courses starting in September 2025')
   end
 end

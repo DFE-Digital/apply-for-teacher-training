@@ -50,7 +50,7 @@ RSpec.describe 'Change job' do
   alias_method :and_i_click_update, :when_i_click_update
 
   def then_i_see_an_audit_comment_validation_error
-    expect(page).to have_content('Enter a Zendesk ticket URL')
+    expect(page).to have_text('Enter a Zendesk ticket URL')
   end
 
   def when_i_add_the_invalid_details
@@ -59,8 +59,8 @@ RSpec.describe 'Change job' do
   end
 
   def then_i_see_validation_errors
-    expect(page).to have_content('Enter name of employer')
-    expect(page).to have_content('Enter job title or role')
+    expect(page).to have_text('Enter name of employer')
+    expect(page).to have_text('Enter job title or role')
   end
 
   def when_i_add_the_valid_details
@@ -70,11 +70,11 @@ RSpec.describe 'Change job' do
   end
 
   def then_i_see_the_success_message
-    expect(page).to have_content('Job updated')
+    expect(page).to have_text('Job updated')
   end
 
   def and_i_can_see_the_updated_job
-    expect(page).to have_content('New employer')
-    expect(page).to have_content('Senior role')
+    expect(page).to have_text('New employer')
+    expect(page).to have_text('Senior role')
   end
 end
