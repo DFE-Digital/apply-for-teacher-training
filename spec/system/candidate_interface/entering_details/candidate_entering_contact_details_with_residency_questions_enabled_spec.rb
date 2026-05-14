@@ -71,11 +71,11 @@ RSpec.describe 'Entering their contact information with residency questions enab
   end
 
   def and_i_am_british
-    @current_candidate.application_forms.last.update(first_nationality: 'British')
+    @current_candidate.current_application.update!(first_nationality: 'British')
   end
 
   def and_i_am_french
-    @current_candidate.application_forms.last.update(first_nationality: 'French')
+    @current_candidate.current_application.update!(first_nationality: 'French')
   end
 
   def and_i_visit_the_site

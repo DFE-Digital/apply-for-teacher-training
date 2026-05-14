@@ -1,5 +1,5 @@
 # To use or update to a ruby version, change {BASE_RUBY_IMAGE}
-ARG BASE_RUBY_IMAGE=ruby:3.4.4-alpine3.20
+ARG BASE_RUBY_IMAGE=ruby:4.0.4-alpine
 
 # Stage 1: gems-node-modules, build gems and node modules.
 FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
@@ -32,7 +32,8 @@ COPY Gemfile Gemfile.lock ./
 RUN bundler -v && \
     bundle config set no-cache 'true' && \
     bundle config set no-binstubs 'true' && \
-    bundle --retry=5 --jobs=4 --without=development && \
+    bundle config set without 'development' && \
+    bundle install --retry=5 --jobs=4 && \
     rm -rf /usr/local/bundle/cache
 
 COPY package.json yarn.lock ./
@@ -76,6 +77,8 @@ ENV ENV="/root/.ashrc"
 
 COPY --from=gems-node-modules /app /app
 COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
+
+RUN chown -R appuser:appgroup /app
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}

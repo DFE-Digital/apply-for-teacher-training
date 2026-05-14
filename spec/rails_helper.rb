@@ -166,6 +166,7 @@ RSpec.configure do |config|
   config.before { Rails.cache.clear }
   config.before { Faker::UniqueGenerator.clear }
   config.before { ActionMailer::Base.deliveries.clear }
+  config.before { @current_candidate = nil }
 
   config.before(bullet: true) do
     SetupBullet.call
