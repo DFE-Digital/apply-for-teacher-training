@@ -58,7 +58,7 @@ RSpec.describe 'Invited candidate list' do
     invite_with_candidate_in_pool
     second_invite_with_candidate_in_pool
 
-    FindACandidate::PopulatePoolWorker.new.perform
+    FindACandidate::PopulatePoolWorker.new.perform_now
   end
 
   scenario 'I can navigate to a candidate that is currently in the pool' do

@@ -61,7 +61,7 @@ RSpec.describe ProviderInterface::CandidateInvitesFilter do
     second_invite_with_candidate_in_pool
     declined_invite
 
-    FindACandidate::PopulatePoolWorker.new.perform
+    FindACandidate::PopulatePoolWorker.new.perform_now
   end
 
   context 'user does not have saved filters and no filter_params provided' do

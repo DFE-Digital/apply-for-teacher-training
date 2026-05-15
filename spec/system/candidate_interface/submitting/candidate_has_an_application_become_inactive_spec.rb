@@ -28,7 +28,7 @@ RSpec.describe 'Candidate with submitted applications' do
 
   def when_one_of_my_applications_becomes_inactive
     travel_temporarily_to(10.minutes.from_now) do
-      ProcessStaleApplicationsWorker.perform_async
+      ProcessStaleApplicationsWorker.perform_later
     end
   end
 
