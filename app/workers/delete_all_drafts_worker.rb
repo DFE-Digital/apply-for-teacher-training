@@ -1,6 +1,8 @@
 class DeleteAllDraftsWorker < ApplicationJob
   self.queue_adapter = :solid_queue
 
+  queue_as :low_priority
+
   def perform
     Candidate::DeleteDraftWithdrawalReasonRecordsWorker.perform_later
     Provider::DeleteDraftPoolInvitesWorker.perform_later
