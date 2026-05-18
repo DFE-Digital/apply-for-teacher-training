@@ -19,6 +19,10 @@ module EndOfCycle
       current_time.between?(decline_by_default_at, find_closes_at)
     end
 
+    def run_cancel_reference_requests?
+      run_decline_by_default?
+    end
+
   private
 
     def current_time
