@@ -79,21 +79,21 @@ RSpec.describe EndOfCycle::WinterJobTimetabler do
     it 'does not run before winter decline by default' do
       allow(instance).to receive(:timetable).and_return(
         Struct.new(:winter_decline_by_default_at).new(2.months.from_now),
-        )
+      )
       expect(instance.run_winter_cancel_reference_requests?).to be(false)
     end
 
     it 'does not run after winter decline by default' do
       allow(instance).to receive(:timetable).and_return(
         Struct.new(:winter_decline_by_default_at).new(2.months.ago),
-        )
+      )
       expect(instance.run_winter_cancel_reference_requests?).to be(false)
     end
 
     it 'runs between winter decline by default and a month later' do
       allow(instance).to receive(:timetable).and_return(
         Struct.new(:winter_decline_by_default_at).new(1.month.ago),
-        )
+      )
       expect(instance.run_winter_cancel_reference_requests?).to be(true)
     end
   end
