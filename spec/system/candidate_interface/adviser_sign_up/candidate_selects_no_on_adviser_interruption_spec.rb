@@ -54,10 +54,6 @@ RSpec.describe 'Candidate selects no on adviser interruption' do
     allow(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to receive(:new) { @api_double }
   end
 
-  def and_analytics_is_enabled
-    allow(DfE::Analytics).to receive(:enabled?).and_return(true)
-  end
-
   def and_i_have_an_eligible_application
     @eligible_application_form = create(:application_form_eligible_for_adviser, candidate: @current_candidate)
   end
@@ -67,7 +63,7 @@ RSpec.describe 'Candidate selects no on adviser interruption' do
   end
 
   def and_i_navigate_to_any_section
-    click_link_or_button 'Degree'
+    click_link_or_button 'Personal information'
   end
 
   def and_i_mark_this_section_as_completed

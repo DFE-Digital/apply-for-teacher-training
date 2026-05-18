@@ -249,26 +249,6 @@ jobs:
           message: |
             ${{ matrix.tests }} (feature-flags ${{ matrix.feature-flags }}) test failure on branch ${{ needs.build.outputs.GIT_BRANCH }}
 
-  report-flakey-specs:
-    name: Report on flakey specs in pull request
-    needs: [test]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v6
-
-      - name: Comment on flakey specs in pull request
-        uses: actions/github-script@v9
-        if: github.event_name == 'pull_request' && needs.test.outputs.flakey_tests
-        env:
-          FLAKEY_TEST_DATA: |
-            ${{ needs.test.outputs.flakey_tests }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const script = require('/home/runner/work/apply-for-teacher-training/apply-for-teacher-training/.github/scripts/comment_on_flakey_specs.js')
-            script({github, context})
-
   deploy-v2-review-app:
     name: Deployment To Review v2
     concurrency: deploy_v2_review_${{ github.event.pull_request.number }}
@@ -310,7 +290,7 @@ jobs:
   merge-dependabot:
     name: Merge dependabot
     if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'dependencies') }}
-    needs: [lint, test, deploy-v2-review-app, report-flakey-specs]
+    needs: [lint, test, deploy-v2-review-app]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

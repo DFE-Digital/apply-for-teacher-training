@@ -30,7 +30,7 @@ module VersioningHelpers
   end
 
   def production_version
-    ordered_versions.keys.reverse.find { |version| !prerelease?(full_version_number_from(version)) }
+    ordered_versions.keys.rfind { |version| !prerelease?(full_version_number_from(version)) }
   end
 
   def released_version

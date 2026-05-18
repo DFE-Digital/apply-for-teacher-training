@@ -47,7 +47,7 @@ require 'rspec/retry'
 require 'rspec/core/formatters/base_text_formatter'
 
 require_relative 'support/capybara'
-require 'support/test_helpers/one_login_helper'
+require 'support/test_helpers/candidate_helper'
 
 ENV['SERVICE_TYPE'] = 'test' # this is used for logging
 
@@ -64,7 +64,7 @@ RSpec.configure do |config|
     end
   end
 
-  config.include OneLoginHelper
+  config.include CandidateHelper
 
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
