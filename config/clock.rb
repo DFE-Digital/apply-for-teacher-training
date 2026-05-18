@@ -61,13 +61,13 @@ class Clock
   every(1.day, 'Candidate::PoolEligibleApplicationFormWorker', at: '09:02') { Candidate::PoolEligibleApplicationFormWorker.new.perform }
   every(1.day, 'EndOfCycle:SendWinterRejectByDefaultExplainerToCandidatesWorker', at: '09:03') { EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWorker.new.perform }
   every(1.day, 'EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker', at: '09:04') { EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker.new.perform }
-  every(1.day, 'EndOfCycle::CancelReferenceRequestsWorker', at: '09:05') { EndOfCycle::CancelReferenceRequestsWorker.new.perform }
 
   # End of cycle january start dates/winter end dates jobs
   # every(1.day, 'EndOfCycle:SendWinterRejectByDefaultExplainerToCandidatesWorker', at: '09:03') { EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWorker.new.perform }
   # every(1.day, 'EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker', at: '09:04') { EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker.new.perform }
   # every(1.day, 'EndOfCycle:WinterDeclineByDefaultWorker', at: '09:05') { EndOfCycle::WinterDeclineByDefaultWorker.new.perform }
-  # every(1.day, 'EndOfCycle::WinterRejectByDefaultWorker', at: '09:06') { EndOfCycle::WinterRejectByDefaultWorker.new.perform }
+  # every(1.day, 'EndOfCycle::WinterRejectByDefaultWorker', at: '09:06') { EndOfCycle::WinterRejectByDefaultWorker.new.perform }\
+  # every(1.day, 'EndOfCycle::CancelReferenceRequestsWorker', at: '09:07') { EndOfCycle::CancelReferenceRequestsWorker.new.perform }
 
   every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_async }
   every(1.day, 'SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker.perform_async }
