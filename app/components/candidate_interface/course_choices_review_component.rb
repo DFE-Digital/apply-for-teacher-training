@@ -259,7 +259,8 @@ module CandidateInterface
     def application_choices_with_accepted_states
       application_choices_with_includes.order(id: :asc)
         .order(id: :asc)
-        .select { |ac| ac.status.to_sym.in?(ApplicationStateChange::ACCEPTED_STATES) }
+        .select { |ac| ApplicationStateChange::ApplicationState.find(ac.status.to_sym).offer_accepted? }
+      # .select { |ac| ac.status.to_sym.in?(ApplicationStateChange::ACCEPTED_STATES) }
     end
 
     def all_application_choices
@@ -267,7 +268,9 @@ module CandidateInterface
     end
 
     def application_choice_with_accepted_state_present?
-      @application_form.application_choices.any? { |ac| ApplicationStateChange::ACCEPTED_STATES.include?(ac.status.to_sym) }
+      @application_form.application_choices
+        .any? { |ac| ApplicationStateChange::ApplicationState.find(ac.status.to_sym).offer_accepted? }
+      # .any? { |ac| ApplicationStateChange::ACCEPTED_STATES.include?(ac.status.to_sym) }
     end
 
     def candidate_has_pending_or_missing_gcses?(application_choice)

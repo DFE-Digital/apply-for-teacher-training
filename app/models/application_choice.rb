@@ -83,7 +83,8 @@ class ApplicationChoice < ApplicationRecord
   scope :visible_to_provider, -> { where(status: ApplicationStateChange.states_visible_to_provider) }
   scope :reappliable, -> { where(status: ApplicationStateChange.reapply_states) }
   scope :not_reappliable, -> { where(status: ApplicationStateChange.non_reapply_states) }
-  scope :decision_pending, -> { where(status: ApplicationStateChange::DECISION_PENDING_STATUSES) }
+  # scope :decision_pending, -> { where(status: ApplicationStateChange::DECISION_PENDING_STATUSES) }
+  scope :decision_pending, -> { where(status: ApplicationStateChange::ApplicationState.ids(:pending_provider_decision)) }
   scope :decision_pending_and_inactive, -> { where(status: ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES) }
   scope :accepted, -> { where(status: ApplicationStateChange::ACCEPTED_STATES) }
   scope :inactive_past_day, -> { inactive.where(inactive_at: 1.day.ago..Time.zone.now) }

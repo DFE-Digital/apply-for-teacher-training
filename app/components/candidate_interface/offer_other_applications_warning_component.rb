@@ -49,7 +49,8 @@ module CandidateInterface
     end
 
     def inflight_choices
-      @inflight_choices ||= sibling_choices.where(status: ApplicationStateChange::INTERVIEWABLE_STATES)
+      @inflight_choices ||= sibling_choices.where(status: ApplicationStateChange::ApplicationState.ids(:interviewable))
+      # @inflight_choices ||= sibling_choices.where(status: ApplicationStateChange::INTERVIEWABLE_STATES)
     end
 
     def sibling_choices

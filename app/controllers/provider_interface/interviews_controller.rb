@@ -12,9 +12,12 @@ module ProviderInterface
     before_action :move_to_interview_if_outside_service, only: %i[new]
 
     def index
-      application_at_interviewable_stage = ApplicationStateChange::INTERVIEWABLE_STATES.include?(
-        @application_choice.status.to_sym,
-      )
+      application_at_interviewable_stage = ApplicationStateChange::ApplicationState
+        .find(@application_choice.status.to_sym)
+        .interviewable?
+      # application_at_interviewable_stage = ApplicationStateChange::INTERVIEWABLE_STATES.include?(
+      #   @application_choice.status.to_sym,
+      # )
       @interviews_can_be_created_and_edited = application_at_interviewable_stage && @provider_user_can_set_up_interviews
 
       redirect_to provider_interface_application_choice_path if @application_choice.interviews.none?

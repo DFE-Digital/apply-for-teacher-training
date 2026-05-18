@@ -108,6 +108,16 @@ module DefineApplicationState
       all.find { |state| state.id == state_id }
     end
 
+    def self.ids(attribute_or_method = nil)
+      if attribute_or_method.nil?
+        all
+      else
+        try(attribute_or_method)
+      end.map(&:id)
+    rescue StandardError
+      raise 'Application state does not exist'
+    end
+
     def self.not_visible_to_provider
       where(visible_to_provider: false)
     end
