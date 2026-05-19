@@ -13,6 +13,8 @@ class GetUnsuccessfulAndUnsubmittedCandidates
             .select(1)
             .where(status: ApplicationStateChange::ApplicationState.state_ids(:successful))
             .where('application_choices.application_form_id = application_forms.id'),
+        # .where(status: ApplicationStateChange::SUCCESSFUL_STATES)
+        # .where('application_choices.application_form_id = application_forms.id'),
       )
       .or(
         # Candidates who have started working on applications this year, but not submitted.
