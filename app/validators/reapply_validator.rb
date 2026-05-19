@@ -30,7 +30,6 @@ class ReapplyValidator < ActiveModel::Validator
 
   def record_has_reapply_status?(record)
     ApplicationStateChange::ApplicationState.find(record.status.to_s.to_sym)&.reapply? || false
-    # ApplicationStateChange::REAPPLY_STATUSES.include?(record.status.to_s.to_sym)
   end
 
   def blank_attributes?(record)

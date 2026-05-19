@@ -200,7 +200,6 @@ module CandidateInterface
     def show_what_happens_next?
       ApplicationStateChange::ApplicationState.state_ids(:pending_provider_decision_or_inactive)
         .include?(@application_choice.status.to_sym)
-      # ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES.include?(@application_choice.status.to_sym)
     end
 
     def holiday_response_time_warning_text

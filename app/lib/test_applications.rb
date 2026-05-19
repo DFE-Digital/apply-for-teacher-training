@@ -235,8 +235,9 @@ private
 
   def references_without_an_accepted_offer?
     @application_form.reload
-    @application_form.application_choices.flat_map(&:status).none? { |status| ApplicationStateChange::ApplicationState.find(status.to_sym).offer_accepted? }
-    # @application_form.application_choices.flat_map(&:status).none? { |status| ApplicationStateChange::ACCEPTED_STATES.include?(status.to_sym) }
+    @application_form.application_choices.flat_map(&:status).none? do |status|
+      ApplicationStateChange::ApplicationState.find(status.to_sym).offer_accepted?
+    end
   end
 
   def set_reference_state

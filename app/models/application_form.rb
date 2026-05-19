@@ -386,7 +386,6 @@ class ApplicationForm < ApplicationRecord
       application_choices.blank? ||
       application_choices.map(&:status).map(&:to_sym).all? do |status|
         ApplicationStateChange::ApplicationState.find(status.to_sym).carry_over?
-        # ApplicationStateChange::CARRY_OVER_ELIGIBLE_STATES.include?(status)
       end
   end
 
@@ -407,7 +406,6 @@ class ApplicationForm < ApplicationRecord
       application_choices
         .map(&:status)
         .any? { |status| ApplicationStateChange::ApplicationState.find(status.to_sym).successful? }
-    # application_choices.map(&:status).map(&:to_sym).any? { |status| ApplicationStateChange::SUCCESSFUL_STATES.include?(status) }
   end
 
   def any_offer_accepted?
@@ -417,7 +415,6 @@ class ApplicationForm < ApplicationRecord
 
         ApplicationStateChange::ApplicationState.find(status.to_sym).offer_accepted?
       end
-    # application_choices.map(&:status).map(&:to_sym).any? { |status| (ApplicationStateChange::ACCEPTED_STATES - [:conditions_not_met]).include?(status) }
   end
 
   def ended_without_success?
@@ -425,7 +422,6 @@ class ApplicationForm < ApplicationRecord
       application_choices
       .map(&:status)
       .all? { |status| ApplicationStateChange::ApplicationState.find(status.to_sym).unsuccessful? }
-    # application_choices.map(&:status).map(&:to_sym).all? { |status| ApplicationStateChange::UNSUCCESSFUL_STATES.include?(status) }
   end
 
   def withdrawn_no_longer_training?
@@ -438,8 +434,10 @@ class ApplicationForm < ApplicationRecord
     application_choices.present? &&
       application_choices
       .map(&:status)
-      .all? { |status| ApplicationStateChange::ApplicationState.find(status.to_sym).successful? || ApplicationStateChange::ApplicationState.find(status.to_sym).unsuccessful? }
-    # application_choices.map(&:status).map(&:to_sym).all? { |status| (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange::UNSUCCESSFUL_STATES).include?(status) }
+      .all? do |status|
+        ApplicationStateChange::ApplicationState.find(status.to_sym).successful? ||
+          ApplicationStateChange::ApplicationState.find(status.to_sym).unsuccessful?
+      end
   end
 
   def incomplete_degree_information?

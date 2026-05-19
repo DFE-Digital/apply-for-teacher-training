@@ -201,7 +201,6 @@ module ProviderInterface
       @offer_present = ApplicationStateChange::ApplicationState
         .find(@application_choice.status.to_sym)
         .offered?
-      # @offer_present = ApplicationStateChange::OFFERED_STATES.include?(@application_choice.status.to_sym)
     end
 
     def provider_authorisation

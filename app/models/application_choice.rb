@@ -83,11 +83,8 @@ class ApplicationChoice < ApplicationRecord
   scope :visible_to_provider, -> { where(status: ApplicationStateChange.states_visible_to_provider) }
   scope :reappliable, -> { where(status: ApplicationStateChange.reapply_states) }
   scope :not_reappliable, -> { where(status: ApplicationStateChange.non_reapply_states) }
-  # scope :decision_pending, -> { where(status: ApplicationStateChange::DECISION_PENDING_STATUSES) }
   scope :decision_pending, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:pending_provider_decision)) }
-  # scope :decision_pending_and_inactive, -> { where(status: ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES) }
   scope :decision_pending_and_inactive, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:pending_provider_decision_or_inactive)) }
-  # scope :accepted, -> { where(status: ApplicationStateChange::ACCEPTED_STATES) }
   scope :accepted, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:offer_accepted)) }
   scope :inactive_past_day, -> { inactive.where(inactive_at: 1.day.ago..Time.zone.now) }
   scope :course_starts_after_september, lambda { |recruitment_cycle_year|
@@ -151,39 +148,32 @@ class ApplicationChoice < ApplicationRecord
 
   def decision_pending?
     ApplicationStateChange::ApplicationState.state_ids(:pending_provider_decision_or_inactive).include?(status.to_sym)
-    # ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES.include? status.to_sym
   end
 
   def pre_offer?
     !ApplicationStateChange::ApplicationState.find(status.to_sym).offered?
-    # ApplicationStateChange::OFFERED_STATES.exclude? status.to_sym
   end
 
   def application_in_progress?
     ApplicationStateChange::ApplicationState.find(status.to_sym).in_progress?
-    # ApplicationStateChange::IN_PROGRESS_STATES.include? status.to_sym
   end
 
   def self.in_progress
     where(status: ApplicationStateChange::ApplicationState.state_ids(:in_progress))
-    # where(status: ApplicationStateChange::IN_PROGRESS_STATES)
   end
 
   def application_unsuccessful?
     ApplicationStateChange::ApplicationState.find(status.to_sym).unsuccessful?
-    # ApplicationStateChange::UNSUCCESSFUL_STATES.include? status.to_sym
   end
 
   def application_unsuccessful_without_inactive?
     return false if status.to_sym == :inactive
 
     application_unsuccessful?
-    # (ApplicationStateChange::UNSUCCESSFUL_STATES - %i[inactive]).include? status.to_sym
   end
 
   def accepted_choice?
     ApplicationStateChange::ApplicationState.find(status.to_sym).offer_accepted?
-    # ApplicationStateChange::ACCEPTED_STATES.include? status.to_sym
   end
 
   def different_offer?

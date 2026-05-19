@@ -5,8 +5,6 @@ module HesaIttDataAPIData
   def hesa_itt_data
     return nil unless ApplicationStateChange::ApplicationState.find(application_choice.status.to_sym).offer_accepted?
 
-    # return nil unless ApplicationStateChange::ACCEPTED_STATES.include?(application_choice.status.to_sym)
-
     unless (data = application_form&.equality_and_diversity).nil?
       hesa_codes(data).merge(additional_hesa_itt_data(data))
     end
