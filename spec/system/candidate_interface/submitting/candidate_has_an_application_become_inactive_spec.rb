@@ -20,16 +20,19 @@ RSpec.describe 'Candidate with submitted applications' do
   end
 
   def and_i_have_submitted_applications
-    current_candidate.application_forms << build(:application_form, :completed)
-    current_candidate.current_application.application_choices << build_list(:application_choice, 4, :awaiting_provider_decision, sent_to_provider_at: 1.day.ago)
+    current_candidate.application_forms << create(:application_form, :completed)
+
+    current_candidate.current_application.application_choices <<
+      create_list(:application_choice, 4,
+                  :awaiting_provider_decision,
+                  sent_to_provider_at: 1.day.ago)
+
     @application_choice = current_candidate.current_application.application_choices.last
-    @application_choice.update(reject_by_default_at: Time.zone.now)
+    @application_choice.update!(reject_by_default_at: 1.minute.ago)
   end
 
   def when_one_of_my_applications_becomes_inactive
-    travel_temporarily_to(10.minutes.from_now) do
-      ProcessStaleApplicationsWorker.perform_later
-    end
+    ProcessStaleApplicationsWorker.perform_now
   end
 
   def then_i_can_see_the_change_in_content
