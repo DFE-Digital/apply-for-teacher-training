@@ -385,7 +385,8 @@ class ApplicationForm < ApplicationRecord
     !submitted? ||
       application_choices.blank? ||
       application_choices.map(&:status).map(&:to_sym).all? do |status|
-        ApplicationStateChange::CARRY_OVER_ELIGIBLE_STATES.include?(status)
+        ApplicationStateChange::ApplicationState.find(status.to_sym).carry_over?
+        # ApplicationStateChange::CARRY_OVER_ELIGIBLE_STATES.include?(status)
       end
   end
 
@@ -403,17 +404,28 @@ class ApplicationForm < ApplicationRecord
 
   def successful?
     application_choices.present? &&
-      application_choices.map(&:status).map(&:to_sym).any? { |status| ApplicationStateChange::SUCCESSFUL_STATES.include?(status) }
+      application_choices
+        .map(&:status)
+        .any? { |status| ApplicationStateChange::ApplicationState.find(status.to_sym).successful? }
+    # application_choices.map(&:status).map(&:to_sym).any? { |status| ApplicationStateChange::SUCCESSFUL_STATES.include?(status) }
   end
 
   def any_offer_accepted?
     application_choices.present? &&
-      application_choices.map(&:status).map(&:to_sym).any? { |status| (ApplicationStateChange::ACCEPTED_STATES - [:conditions_not_met]).include?(status) }
+      application_choices.map(&:status).any? do |status|
+        next if status == 'conditions_not_met'
+
+        ApplicationStateChange::ApplicationState.find(status.to_sym).offer_accepted?
+      end
+    # application_choices.map(&:status).map(&:to_sym).any? { |status| (ApplicationStateChange::ACCEPTED_STATES - [:conditions_not_met]).include?(status) }
   end
 
   def ended_without_success?
     application_choices.present? &&
-      application_choices.map(&:status).map(&:to_sym).all? { |status| ApplicationStateChange::UNSUCCESSFUL_STATES.include?(status) }
+      application_choices
+      .map(&:status)
+      .all? { |status| ApplicationStateChange::ApplicationState.find(status.to_sym).unsuccessful? }
+    # application_choices.map(&:status).map(&:to_sym).all? { |status| ApplicationStateChange::UNSUCCESSFUL_STATES.include?(status) }
   end
 
   def withdrawn_no_longer_training?
@@ -424,7 +436,10 @@ class ApplicationForm < ApplicationRecord
 
   def provider_decision_made?
     application_choices.present? &&
-      application_choices.map(&:status).map(&:to_sym).all? { |status| (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange::UNSUCCESSFUL_STATES).include?(status) }
+      application_choices
+      .map(&:status)
+      .all? { |status| ApplicationStateChange::ApplicationState.find(status.to_sym).successful? || ApplicationStateChange::ApplicationState.find(status.to_sym).unsuccessful? }
+    # application_choices.map(&:status).map(&:to_sym).all? { |status| (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange::UNSUCCESSFUL_STATES).include?(status) }
   end
 
   def incomplete_degree_information?

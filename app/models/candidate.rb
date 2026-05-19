@@ -99,8 +99,9 @@ class Candidate < ApplicationRecord
     ordered_application_forms
       .joins(:application_choices)
       .where.not(id: current_application)
-      .where(application_choices: { status: ApplicationStateChange::ACTIVE_PREVIOUS_STATUSES })
+      .where(application_choices: { status: ApplicationStateChange::ApplicationState.state_ids(:active_previous) })
       .last
+    # .where(application_choices: { status: ApplicationStateChange::ACTIVE_PREVIOUS_STATUSES }).last
   end
 
   def current_application_choices

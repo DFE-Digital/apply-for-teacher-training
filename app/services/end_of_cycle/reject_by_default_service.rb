@@ -1,6 +1,6 @@
 module EndOfCycle
   class RejectByDefaultService
-    REJECTABLE_STATUSES = ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES.freeze
+    REJECTABLE_STATUSES = ApplicationStateChange::ApplicationState.state_ids(:pending_provider_decision_or_inactive).freeze
 
     def initialize(application_form)
       @application_form = application_form

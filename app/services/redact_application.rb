@@ -27,6 +27,6 @@ private
       .application_choices
       .joins(:current_course)
       .where('current_course.recruitment_cycle_year' => RecruitmentCycleTimetable.current_year)
-      .exists?(status: ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES + ApplicationStateChange::ACCEPTED_STATES)
+      .exists?(status: ApplicationStateChange::ApplicationState.state_ids(:pending_provider_decision_or_inactive) + ApplicationStateChange::ApplicationState.state_ids(:offer_accepted))
   end
 end

@@ -70,9 +70,12 @@ class Pool::Invite < ApplicationRecord
   end
 
   def self.matching_application_choices_exists_sql
-    visible_states = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER
+    visible_states = ApplicationStateChange::ApplicationState.state_ids(:visible_to_provider)
                        .map { |app_state| ActiveRecord::Base.connection.quote(app_state.to_s) }
                        .join(', ')
+    # visible_states = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER
+    #                    .map { |app_state| ActiveRecord::Base.connection.quote(app_state.to_s) }
+    #                    .join(', ')
 
     <<~SQL.squish
       EXISTS (

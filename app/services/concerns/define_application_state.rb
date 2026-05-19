@@ -108,7 +108,7 @@ module DefineApplicationState
       all.find { |state| state.id == state_id }
     end
 
-    def self.ids(attribute_or_method = nil)
+    def self.state_ids(attribute_or_method = nil)
       if attribute_or_method.nil?
         all
       else

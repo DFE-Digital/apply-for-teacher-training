@@ -70,11 +70,17 @@ class Pool::Candidates
     forms_with_available_slots = current_cycle_forms
                          .joins(:application_choices)
                          .where(application_choices: {
-                           status: ApplicationStateChange::UNSUCCESSFUL_STATES,
+                           status: ApplicationStateChange::ApplicationState.state_ids(:unsuccessful),
                          })
                          .group(:id)
                          .having("count(CASE WHEN application_choices.status != 'inactive' THEN 1 END) < ?", ApplicationForm::UNSUCCESSFUL_RETRY_LIMIT)
-                         .select(:id)
+    #  .select(:id)
+    #  .where(application_choices: {
+    #    status: ApplicationStateChange::UNSUCCESSFUL_STATES,
+    #  })
+    #  .group(:id)
+    #  .having("count(CASE WHEN application_choices.status != 'inactive' THEN 1 END) < ?", ApplicationForm::UNSUCCESSFUL_RETRY_LIMIT)
+    #  .select(:id)
 
     # Final query
     current_cycle_forms

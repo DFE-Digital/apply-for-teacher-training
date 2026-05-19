@@ -127,9 +127,12 @@ module ProviderInterface
     end
 
     def matching_choice_sql
-      visible_states = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER
+      visible_states = ApplicationStateChange::ApplicationState.state_ids(:visible_to_provider)
                            .map { |s| ActiveRecord::Base.connection.quote(s.to_s) }
                            .join(', ')
+      # visible_states = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER
+      #                      .map { |s| ActiveRecord::Base.connection.quote(s.to_s) }
+      #                      .join(', ')
 
       <<~SQL.squish
         pool_invites.*,

@@ -22,7 +22,7 @@ RSpec.describe DefineApplicationState do
           :withdrawn, :unsubmitted, :awaiting_provider_decision, :inactive,
           :interviewing, :rejected, :application_not_sent, :offer,
           :offer_withdrawn, :declined, :pending_conditions,
-          :conditions_not_met, :recruited, :cancelled, :offer_deferred,
+          :conditions_not_met, :recruited, :cancelled, :offer_deferred
         )
 
         expect(states).to all(be_a(described_class))
@@ -97,25 +97,25 @@ RSpec.describe DefineApplicationState do
 
         it 'returns only states that are visible to provider' do
           expect(scope_method.map(&:id)).to contain_exactly(
-                                              :awaiting_provider_decision,
-                                              :withdrawn,
-                                              :rejected,
-                                              :inactive,
-                                              :interviewing,
-                                              :offer,
-                                              :offer_withdrawn,
-                                              :declined,
-                                              :pending_conditions,
-                                              :conditions_not_met,
-                                              :recruited,
-                                              :offer_deferred,
-                                              )
+            :awaiting_provider_decision,
+            :withdrawn,
+            :rejected,
+            :inactive,
+            :interviewing,
+            :offer,
+            :offer_withdrawn,
+            :declined,
+            :pending_conditions,
+            :conditions_not_met,
+            :recruited,
+            :offer_deferred,
+          )
         end
 
         it 'matches STATES_VISIBLE_TO_PROVIDER' do
           expect(scope_method.map(&:id)).to match_array(
-                                              ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER,
-                                              )
+            ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER,
+          )
         end
       end
 
@@ -124,16 +124,16 @@ RSpec.describe DefineApplicationState do
 
         it 'returns only states that are interviewable' do
           expect(scope_method.map(&:id)).to contain_exactly(
-                                              :awaiting_provider_decision,
-                                              :inactive,
-                                              :interviewing,
-                                              )
+            :awaiting_provider_decision,
+            :inactive,
+            :interviewing,
+          )
         end
 
         it 'matches INTERVIEWABLE_STATES' do
           expect(scope_method.map(&:id)).to match_array(
-                                              ApplicationStateChange::INTERVIEWABLE_STATES,
-                                              )
+            ApplicationStateChange::INTERVIEWABLE_STATES,
+          )
         end
       end
 
@@ -142,17 +142,17 @@ RSpec.describe DefineApplicationState do
 
         it 'returns only states that have accepted offers' do
           expect(scope_method.map(&:id)).to contain_exactly(
-                                              :pending_conditions,
-                                              :conditions_not_met,
-                                              :recruited,
-                                              :offer_deferred,
-                                              )
+            :pending_conditions,
+            :conditions_not_met,
+            :recruited,
+            :offer_deferred,
+          )
         end
 
         it 'matches ACCEPTED_STATES' do
           expect(scope_method.map(&:id)).to match_array(
-                                              ApplicationStateChange::ACCEPTED_STATES,
-                                              )
+            ApplicationStateChange::ACCEPTED_STATES,
+          )
         end
       end
 
@@ -161,20 +161,20 @@ RSpec.describe DefineApplicationState do
 
         it 'returns only states that have offers' do
           expect(scope_method.map(&:id)).to contain_exactly(
-                                              :offer,
-                                              :offer_withdrawn,
-                                              :declined,
-                                              :pending_conditions,
-                                              :conditions_not_met,
-                                              :recruited,
-                                              :offer_deferred,
-                                              )
+            :offer,
+            :offer_withdrawn,
+            :declined,
+            :pending_conditions,
+            :conditions_not_met,
+            :recruited,
+            :offer_deferred,
+          )
         end
 
         it 'matches OFFERED_STATES' do
           expect(scope_method.map(&:id)).to match_array(
-                                              ApplicationStateChange::OFFERED_STATES,
-                                              )
+            ApplicationStateChange::OFFERED_STATES,
+          )
         end
       end
 
@@ -183,19 +183,19 @@ RSpec.describe DefineApplicationState do
 
         it 'returns only states that are post-offered' do
           expect(scope_method.map(&:id)).to contain_exactly(
-                                              :offer_withdrawn,
-                                              :declined,
-                                              :pending_conditions,
-                                              :conditions_not_met,
-                                              :recruited,
-                                              :offer_deferred,
-                                              )
+            :offer_withdrawn,
+            :declined,
+            :pending_conditions,
+            :conditions_not_met,
+            :recruited,
+            :offer_deferred,
+          )
         end
 
         it 'matches POST_OFFERED_STATES' do
           expect(scope_method.map(&:id)).to match_array(
-                                              ApplicationStateChange::POST_OFFERED_STATES,
-                                              )
+            ApplicationStateChange::POST_OFFERED_STATES,
+          )
         end
       end
 
@@ -204,21 +204,21 @@ RSpec.describe DefineApplicationState do
 
         it 'returns only states that are unsuccessful' do
           expect(scope_method.map(&:id)).to contain_exactly(
-                                              :application_not_sent,
-                                              :cancelled,
-                                              :withdrawn,
-                                              :rejected,
-                                              :inactive,
-                                              :offer_withdrawn,
-                                              :declined,
-                                              :conditions_not_met,
-                                              )
+            :application_not_sent,
+            :cancelled,
+            :withdrawn,
+            :rejected,
+            :inactive,
+            :offer_withdrawn,
+            :declined,
+            :conditions_not_met,
+          )
         end
 
         it 'matches UNSUCCESSFUL_STATES' do
           expect(scope_method.map(&:id)).to match_array(
-                                              ApplicationStateChange::UNSUCCESSFUL_STATES,
-                                              )
+            ApplicationStateChange::UNSUCCESSFUL_STATES,
+          )
         end
       end
 
@@ -227,20 +227,20 @@ RSpec.describe DefineApplicationState do
 
         it 'returns only states that are eligible for carry over' do
           expect(scope_method.map(&:id)).to contain_exactly(
-                                              :application_not_sent,
-                                              :cancelled,
-                                              :withdrawn,
-                                              :rejected,
-                                              :offer_withdrawn,
-                                              :declined,
-                                              :conditions_not_met,
-                                              )
+            :application_not_sent,
+            :cancelled,
+            :withdrawn,
+            :rejected,
+            :offer_withdrawn,
+            :declined,
+            :conditions_not_met,
+          )
         end
 
         it 'matches CARRY_OVER_ELIGIBLE_STATES' do
           expect(scope_method.map(&:id)).to match_array(
-                                              ApplicationStateChange::CARRY_OVER_ELIGIBLE_STATES,
-                                              )
+            ApplicationStateChange::CARRY_OVER_ELIGIBLE_STATES,
+          )
         end
       end
 
@@ -249,17 +249,17 @@ RSpec.describe DefineApplicationState do
 
         it 'returns only states that are successful' do
           expect(scope_method.map(&:id)).to contain_exactly(
-                                              :offer,
-                                              :pending_conditions,
-                                              :recruited,
-                                              :offer_deferred,
-                                              )
+            :offer,
+            :pending_conditions,
+            :recruited,
+            :offer_deferred,
+          )
         end
 
         it 'matches SUCCESSFUL_STATES' do
           expect(scope_method.map(&:id)).to match_array(
-                                              ApplicationStateChange::SUCCESSFUL_STATES,
-                                              )
+            ApplicationStateChange::SUCCESSFUL_STATES,
+          )
         end
       end
 
@@ -268,15 +268,15 @@ RSpec.describe DefineApplicationState do
 
         it 'returns only states that are pending provider decisions' do
           expect(scope_method.map(&:id)).to contain_exactly(
-                                              :awaiting_provider_decision,
-                                              :interviewing,
-                                              )
+            :awaiting_provider_decision,
+            :interviewing,
+          )
         end
 
         it 'matches DECISION_PENDING_STATUSES' do
           expect(scope_method.map(&:id)).to match_array(
-                                              ApplicationStateChange::DECISION_PENDING_STATUSES,
-                                              )
+            ApplicationStateChange::DECISION_PENDING_STATUSES,
+          )
         end
       end
 
@@ -285,16 +285,16 @@ RSpec.describe DefineApplicationState do
 
         it 'returns only states that are pending provider decisions or are inactive' do
           expect(scope_method.map(&:id)).to contain_exactly(
-                                              :awaiting_provider_decision,
-                                              :interviewing,
-                                              :inactive,
-                                              )
+            :awaiting_provider_decision,
+            :interviewing,
+            :inactive,
+          )
         end
 
         it 'matches DECISION_PENDING_AND_INACTIVE_STATUSES' do
           expect(scope_method.map(&:id)).to match_array(
-                                              ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES,
-                                              )
+            ApplicationStateChange::DECISION_PENDING_AND_INACTIVE_STATUSES,
+          )
         end
       end
 
@@ -303,18 +303,18 @@ RSpec.describe DefineApplicationState do
 
         it 'returns only states that allow reapplying' do
           expect(scope_method.map(&:id)).to contain_exactly(
-                                              :cancelled,
-                                              :withdrawn,
-                                              :rejected,
-                                              :offer_withdrawn,
-                                              :declined,
-                                              )
+            :cancelled,
+            :withdrawn,
+            :rejected,
+            :offer_withdrawn,
+            :declined,
+          )
         end
 
         it 'matches REAPPLY_STATUSES' do
           expect(scope_method.map(&:id)).to match_array(
-                                              ApplicationStateChange::REAPPLY_STATUSES,
-                                              )
+            ApplicationStateChange::REAPPLY_STATUSES,
+          )
         end
       end
 
@@ -323,22 +323,22 @@ RSpec.describe DefineApplicationState do
 
         it 'returns only states that are terminal' do
           expect(scope_method.map(&:id)).to contain_exactly(
-                                              :application_not_sent,
-                                              :cancelled,
-                                              :withdrawn,
-                                              :rejected,
-                                              :inactive,
-                                              :offer_withdrawn,
-                                              :declined,
-                                              :conditions_not_met,
-                                              :recruited,
-                                              )
+            :application_not_sent,
+            :cancelled,
+            :withdrawn,
+            :rejected,
+            :inactive,
+            :offer_withdrawn,
+            :declined,
+            :conditions_not_met,
+            :recruited,
+          )
         end
 
         it 'matches TERMINAL_STATES' do
           expect(scope_method.map(&:id)).to match_array(
-                                              ApplicationStateChange::TERMINAL_STATES,
-                                              )
+            ApplicationStateChange::TERMINAL_STATES,
+          )
         end
       end
 
@@ -347,19 +347,19 @@ RSpec.describe DefineApplicationState do
 
         it 'returns only states that are in progress' do
           expect(scope_method.map(&:id)).to contain_exactly(
-                                              :awaiting_provider_decision,
-                                              :interviewing,
-                                              :offer,
-                                              :pending_conditions,
-                                              :recruited,
-                                              :offer_deferred,
-                                              )
+            :awaiting_provider_decision,
+            :interviewing,
+            :offer,
+            :pending_conditions,
+            :recruited,
+            :offer_deferred,
+          )
         end
 
         it 'matches IN_PROGRESS_STATES' do
           expect(scope_method.map(&:id)).to match_array(
-                                              ApplicationStateChange::IN_PROGRESS_STATES,
-                                              )
+            ApplicationStateChange::IN_PROGRESS_STATES,
+          )
         end
       end
 
@@ -368,14 +368,14 @@ RSpec.describe DefineApplicationState do
 
         it 'returns only states that are in progress' do
           expect(scope_method.map(&:id)).to contain_exactly(
-                                              :awaiting_provider_decision, :interviewing, :pending_conditions, :recruited, :offer, :inactive
-                                              )
+            :awaiting_provider_decision, :interviewing, :pending_conditions, :recruited, :offer, :inactive
+          )
         end
 
         it 'matches ACTIVE_PREVIOUS_STATUSES' do
           expect(scope_method.map(&:id)).to match_array(
-                                              ApplicationStateChange::ACTIVE_PREVIOUS_STATUSES,
-                                              )
+            ApplicationStateChange::ACTIVE_PREVIOUS_STATUSES,
+          )
         end
       end
     end

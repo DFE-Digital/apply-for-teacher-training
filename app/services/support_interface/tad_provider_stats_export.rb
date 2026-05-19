@@ -39,11 +39,13 @@ module SupportInterface
     end
 
     def count_offers(choice_statuses)
-      choice_statuses.count { |status| ApplicationStateChange::OFFERED_STATES.include?(status.to_sym) }
+      choice_statuses.count { |status| ApplicationStateChange::ApplicationState.find(status.to_sym).offered? }
+      # choice_statuses.count { |status| ApplicationStateChange::OFFERED_STATES.include?(status.to_sym) }
     end
 
     def count_acceptances(choice_statuses)
-      choice_statuses.count { |status| ApplicationStateChange::ACCEPTED_STATES.include?(status.to_sym) }
+      choice_statuses.count { |status| ApplicationStateChange::ApplicationState.find(status.to_sym).offer_accepted? }
+      # choice_statuses.count { |status| ApplicationStateChange::ACCEPTED_STATES.include?(status.to_sym) }
     end
   end
 end

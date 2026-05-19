@@ -1,5 +1,5 @@
 class InterviewWorkflowConstraints
-  STATES_ALLOWING_INTERVIEW_CHANGES = ApplicationStateChange::INTERVIEWABLE_STATES.map(&:to_s).freeze
+  STATES_ALLOWING_INTERVIEW_CHANGES = ApplicationStateChange::ApplicationState.state_ids(:interviewable).freeze
 
   attr_reader :interview, :today
   delegate :application_choice, to: :interview
@@ -40,7 +40,7 @@ class InterviewWorkflowConstraints
   end
 
   def application_not_in_interviewing_states?
-    unless STATES_ALLOWING_INTERVIEW_CHANGES.include?(application_choice.status)
+    unless STATES_ALLOWING_INTERVIEW_CHANGES.include?(application_choice.status.to_sym)
       raise WorkflowError, error_message(:changing_interviews_for_application_not_in_interviewing_states)
     end
   end
