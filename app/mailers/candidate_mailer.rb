@@ -341,7 +341,6 @@ class CandidateMailer < ApplicationMailer
   def decline_last_application_choice(application_choice, course_recommendation_url = nil)
     @declined_course = application_choice
     @declined_course_name = "#{application_choice.current_course_option.course.name_and_code} at #{application_choice.current_course_option.course.provider.name}"
-    @rejected_course_choices_count = application_choice.self_and_siblings.select(&:rejected?).count
     @course_recommendation_url = course_recommendation_url
 
     email_for_candidate(
