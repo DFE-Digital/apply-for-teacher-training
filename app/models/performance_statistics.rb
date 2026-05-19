@@ -225,8 +225,6 @@ private
       .joins(application_form: :candidate)
       .where(status: ApplicationStateChange::ApplicationState.state_ids(:active_previous))
       .where('candidates.hide_in_reporting' => false)
-    # .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
-    # .where('candidates.hide_in_reporting' => false)
 
     if year
       choices.where(application_forms: { recruitment_cycle_year: year })
