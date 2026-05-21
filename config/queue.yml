@@ -20,42 +20,11 @@ default: &default
       processes: <%= ENV.fetch("LOW_PRIORITY_QUEUE_PROCESSES", 1) %>
       polling_interval: 2
 
-non_production: &non_production
-  workers:
-    - queues: [default]
-      threads: <%= ENV.fetch("DEFAULT_QUEUE_THREADS", 1) %>
-      processes: <%= ENV.fetch("DEFAULT_QUEUE_PROCESSES", 1) %>
-      polling_interval: 0.5
-
-    - queues: [big_query]
-      threads: <%= ENV.fetch("LOW_PRIORITY_QUEUE_THREADS", 1) %>
-      processes: <%= ENV.fetch("LOW_PRIORITY_QUEUE_PROCESSES", 1) %>
-      polling_interval: 1
-
-    - queues: [mailers]
-      threads: <%= ENV.fetch("LOW_PRIORITY_QUEUE_THREADS", 1) %>
-      processes: <%= ENV.fetch("LOW_PRIORITY_QUEUE_PROCESSES", 1) %>
-      polling_interval: 1
-
-    - queues: [low_priority]
-      threads: <%= ENV.fetch("LOW_PRIORITY_QUEUE_THREADS", 1) %>
-      processes: <%= ENV.fetch("LOW_PRIORITY_QUEUE_PROCESSES", 1) %>
-      polling_interval: 2
-
-review:
-  <<: *non_production
-
-staging:
-  <<: *non_production
-
-sandbox:
-  <<: *non_production
-
 development:
-  <<: *non_production
+  <<: *default
 
 test:
-  <<: *non_production
+  <<: *default
 
 production:
   <<: *default
