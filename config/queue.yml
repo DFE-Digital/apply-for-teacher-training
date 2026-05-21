@@ -3,17 +3,7 @@ default: &default
     - queues: [default]
       threads: <%= ENV.fetch("DEFAULT_QUEUE_THREADS", 1) %>
       processes: <%= ENV.fetch("DEFAULT_QUEUE_PROCESSES", 1) %>
-      polling_interval: 0.5
-
-    - queues: [big_query]
-      threads: <%= ENV.fetch("LOW_PRIORITY_QUEUE_THREADS", 1) %>
-      processes: <%= ENV.fetch("LOW_PRIORITY_QUEUE_PROCESSES", 1) %>
-      polling_interval: 1
-
-    - queues: [mailers]
-      threads: <%= ENV.fetch("LOW_PRIORITY_QUEUE_THREADS", 1) %>
-      processes: <%= ENV.fetch("LOW_PRIORITY_QUEUE_PROCESSES", 1) %>
-      polling_interval: 1
+      polling_interval: 2
 
     - queues: [low_priority]
       threads: <%= ENV.fetch("LOW_PRIORITY_QUEUE_THREADS", 1) %>
