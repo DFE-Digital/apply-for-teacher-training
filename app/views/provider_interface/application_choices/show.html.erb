@@ -69,7 +69,7 @@
   </div>
 <% end %>
 
-<% if @provider_user_can_make_decisions && ApplicationStateChange::ApplicationState.find(@application_choice.status)&.pending_provider_decision %>
+<% if @provider_user_can_make_decisions && @application_choice.state_pending_provider_decision? %>
   <%= render ProviderInterface::ChangeCourseDetailsComponent.new(
     application_choice: @application_choice,
     course_option: @application_choice.course_option,

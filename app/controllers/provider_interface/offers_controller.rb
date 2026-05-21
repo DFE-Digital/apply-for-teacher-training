@@ -112,7 +112,7 @@ module ProviderInterface
     end
 
     def confirm_application_is_in_offered_state
-      return if ApplicationStateChange::ApplicationState.find(@application_choice.status).offered?
+      return if @application_choice.state_offered?
 
       redirect_to(provider_interface_application_choice_path(@application_choice))
     end

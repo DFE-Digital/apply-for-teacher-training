@@ -139,11 +139,11 @@ module VendorAPI
     end
 
     def application_accepted?
-      ApplicationStateChange::ApplicationState.find(application_choice.status).offer_accepted?
+      application_choice.state_offer_accepted?
     end
 
     def application_unsuccessful?
-      ApplicationStateChange::ApplicationState.find(application_choice.status).unsuccessful?
+      application_choice.state_unsuccessful?
     end
   end
 end

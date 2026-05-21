@@ -207,9 +207,7 @@ module SupportInterface
     end
 
     def visible_over_vendor_api?
-      ApplicationStateChange::ApplicationState
-        .find(application_choice.status)
-        .visible_to_provider?
+      application_choice.state_visible_to_provider?
     end
 
     def visible_over_register_api?
@@ -280,8 +278,8 @@ module SupportInterface
     end
 
     def any_successful_application_choices?(application_choice)
-      choice_statuses = application_choice.application_form.application_choices.map(&:status)
-      choice_statuses.any? { |choice_status| ApplicationStateChange::ApplicationState.find(choice_status).offer_accepted? }
+      choices = application_choice.application_form.application_choices
+      choices.any?(&:state_offer_accepted?)
     end
   end
 end

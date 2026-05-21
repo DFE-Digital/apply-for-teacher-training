@@ -223,7 +223,7 @@ private
   def application_choices
     choices = ApplicationChoice
       .joins(application_form: :candidate)
-      .where(status: ApplicationStateChange::ApplicationState.state_ids(:active_previous))
+      .active_previous
       .where('candidates.hide_in_reporting' => false)
 
     if year

@@ -118,7 +118,7 @@ module ProviderInterface
     end
 
     def offer_present?
-      ApplicationStateChange::ApplicationState.find(application_choice.status).offered?
+      application_choice.state_offered?
     end
   end
 end

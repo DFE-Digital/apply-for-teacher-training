@@ -7,7 +7,7 @@ RSpec.describe DefineApplicationState do
         attributes = { id: :blah, visible_to_provider: false, interviewable: false, offered: false,
                        post_offered: false, offer_accepted: false, unsuccessful: false, carry_over: false,
                        successful: false, pending_provider_decision: false, reapply: false, terminal: false,
-                       in_progress: false, active_previous: false }
+                       in_progress: false, active_previous: false, chase_referee: false }
         expect(described_class.new(**attributes)).to have_attributes(**attributes)
       end
     end
@@ -378,6 +378,37 @@ RSpec.describe DefineApplicationState do
           )
         end
       end
+
+      describe '.chase_referee' do
+        subject(:scope_method) { described_class.chase_referee }
+
+        it 'returns only states that are in progress' do
+          expect(scope_method.map(&:id)).to contain_exactly(
+            :pending_conditions, :recruited, :offer_deferred
+          )
+        end
+      end
+
+      describe '.in_flight' do
+        subject(:scope_method) { described_class.in_flight }
+
+        it 'returns only states that are in progress' do
+          expect(scope_method.map(&:id)).to contain_exactly(
+            :awaiting_provider_decision, :interviewing, :inactive, :pending_conditions, :recruited,
+            :conditions_not_met, :offer_deferred
+          )
+        end
+      end
+
+      describe '.withdrawable' do
+        subject(:scope_method) { described_class.withdrawable }
+
+        it 'returns only states that are in progress' do
+          expect(scope_method.map(&:id)).to contain_exactly(
+            :awaiting_provider_decision, :interviewing, :offer, :pending_conditions, :recruited, :offer_deferred
+          )
+        end
+      end
     end
 
     describe 'states make sense' do
@@ -412,6 +443,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.to be_in_progress }
       it { is_expected.not_to be_terminal }
       it { is_expected.to be_active_previous }
+      it { is_expected.not_to be_chase_referee }
     end
 
     describe 'unsubmitted state' do
@@ -430,6 +462,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.not_to be_in_progress }
       it { is_expected.not_to be_terminal }
       it { is_expected.not_to be_active_previous }
+      it { is_expected.not_to be_chase_referee }
     end
 
     describe 'application_not_sent state' do
@@ -448,6 +481,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.not_to be_in_progress }
       it { is_expected.to be_terminal }
       it { is_expected.not_to be_active_previous }
+      it { is_expected.not_to be_chase_referee }
     end
 
     describe 'cancelled state' do
@@ -466,6 +500,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.not_to be_in_progress }
       it { is_expected.to be_terminal }
       it { is_expected.not_to be_active_previous }
+      it { is_expected.not_to be_chase_referee }
     end
 
     describe 'withdrawn state' do
@@ -484,6 +519,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.not_to be_in_progress }
       it { is_expected.to be_terminal }
       it { is_expected.not_to be_active_previous }
+      it { is_expected.not_to be_chase_referee }
     end
 
     describe 'rejected state' do
@@ -502,6 +538,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.not_to be_in_progress }
       it { is_expected.to be_terminal }
       it { is_expected.not_to be_active_previous }
+      it { is_expected.not_to be_chase_referee }
     end
 
     describe 'inactive state' do
@@ -520,6 +557,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.not_to be_in_progress }
       it { is_expected.to be_terminal }
       it { is_expected.to be_active_previous }
+      it { is_expected.not_to be_chase_referee }
     end
 
     describe 'interviewing state' do
@@ -538,6 +576,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.to be_in_progress }
       it { is_expected.not_to be_terminal }
       it { is_expected.to be_active_previous }
+      it { is_expected.not_to be_chase_referee }
     end
 
     describe 'offer state' do
@@ -556,6 +595,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.to be_in_progress }
       it { is_expected.not_to be_terminal }
       it { is_expected.to be_active_previous }
+      it { is_expected.not_to be_chase_referee }
     end
 
     describe 'offer_withdrawn state' do
@@ -574,6 +614,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.not_to be_in_progress }
       it { is_expected.to be_terminal }
       it { is_expected.not_to be_active_previous }
+      it { is_expected.not_to be_chase_referee }
     end
 
     describe 'declined state' do
@@ -592,6 +633,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.not_to be_in_progress }
       it { is_expected.to be_terminal }
       it { is_expected.not_to be_active_previous }
+      it { is_expected.not_to be_chase_referee }
     end
 
     describe 'pending_conditions state' do
@@ -610,6 +652,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.to be_in_progress }
       it { is_expected.not_to be_terminal }
       it { is_expected.to be_active_previous }
+      it { is_expected.to be_chase_referee }
     end
 
     describe 'conditions_not_met state' do
@@ -628,6 +671,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.not_to be_in_progress }
       it { is_expected.to be_terminal }
       it { is_expected.not_to be_active_previous }
+      it { is_expected.not_to be_chase_referee }
     end
 
     describe 'recruited state' do
@@ -646,6 +690,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.to be_in_progress }
       it { is_expected.to be_terminal }
       it { is_expected.to be_active_previous }
+      it { is_expected.to be_chase_referee }
     end
 
     describe 'offer_deferred state' do
@@ -664,6 +709,7 @@ RSpec.describe DefineApplicationState do
       it { is_expected.to be_in_progress }
       it { is_expected.not_to be_terminal }
       it { is_expected.not_to be_active_previous }
+      it { is_expected.to be_chase_referee }
     end
 
     describe '.state_ids' do

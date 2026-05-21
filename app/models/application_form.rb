@@ -384,9 +384,7 @@ class ApplicationForm < ApplicationRecord
 
     !submitted? ||
       application_choices.blank? ||
-      application_choices.map(&:status).all? do |status|
-        ApplicationStateChange::ApplicationState.find(status).carry_over?
-      end
+      application_choices.all?(&:state_carry_over?)
   end
 
   def unsuccessful_and_apply_deadline_has_passed?
@@ -404,24 +402,22 @@ class ApplicationForm < ApplicationRecord
   def successful?
     application_choices.present? &&
       application_choices
-        .map(&:status)
-        .any? { |status| ApplicationStateChange::ApplicationState.find(status).successful? }
+        .any?(&:state_successful?)
   end
 
   def any_offer_accepted?
     application_choices.present? &&
-      application_choices.map(&:status).any? do |status|
-        next if status == 'conditions_not_met'
+      application_choices.any? do |choice|
+        next if choice.status == 'conditions_not_met'
 
-        ApplicationStateChange::ApplicationState.find(status).offer_accepted?
+        choice.state_offer_accepted?
       end
   end
 
   def ended_without_success?
     application_choices.present? &&
       application_choices
-      .map(&:status)
-      .all? { |status| ApplicationStateChange::ApplicationState.find(status).unsuccessful? }
+      .all?(&:state_unsuccessful?)
   end
 
   def withdrawn_no_longer_training?
@@ -433,10 +429,9 @@ class ApplicationForm < ApplicationRecord
   def provider_decision_made?
     application_choices.present? &&
       application_choices
-      .map(&:status)
-      .all? do |status|
-        ApplicationStateChange::ApplicationState.find(status).successful? ||
-          ApplicationStateChange::ApplicationState.find(status).unsuccessful?
+      .all? do |choice|
+        choice.state_successful? ||
+          choice.state_unsuccessful?
       end
   end
 
