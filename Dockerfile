@@ -1,5 +1,5 @@
 # To use or update to a ruby version, change {BASE_RUBY_IMAGE}
-ARG BASE_RUBY_IMAGE=ruby:4.0.4-alpine
+ARG BASE_RUBY_IMAGE=ruby4.0.4-alpine3.23
 
 # Stage 1: gems-node-modules, build gems and node modules.
 FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
@@ -77,8 +77,6 @@ ENV ENV="/root/.ashrc"
 
 COPY --from=gems-node-modules /app /app
 COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
-
-RUN chown -R appuser:appgroup /app
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
