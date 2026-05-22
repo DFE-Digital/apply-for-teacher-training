@@ -14,11 +14,7 @@ module ProviderInterface
 
     def set_references
       @references = @application_choice.application_form.application_references.for_provider
-      @references = @references.selected unless new_references_flow?
-    end
-
-    def new_references_flow?
-      @application_choice.application_form.recruitment_cycle_year > ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR
+      @references = @references.selected
     end
   end
 end

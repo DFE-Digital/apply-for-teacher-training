@@ -101,7 +101,6 @@ class ApplicationForm < ApplicationRecord
 
   REQUIRED_REFERENCE_SELECTIONS = 2
   REQUIRED_REFERENCES = 2
-  OLD_REFERENCE_FLOW_CYCLE_YEAR = 2022
 
   MAXIMUM_REFERENCES = 10
   EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
