@@ -4,6 +4,11 @@ RSpec.describe 'Your IELTS result' do
   include CandidateHelper
   include EFLHelper
 
+  before do
+    # This whole spec can be deleted after this feature flag is removed, it is testing an old flow
+    FeatureFlag.deactivate('2027_application_form_has_many_english_proficiencies')
+  end
+
   scenario 'Candidate completes EFL section with details of their IELTS' do
     given_i_am_signed_in_with_one_login
     and_i_declare_a_non_english_speaking_nationality

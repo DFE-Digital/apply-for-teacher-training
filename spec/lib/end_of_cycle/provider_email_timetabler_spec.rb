@@ -14,6 +14,7 @@ RSpec.describe EndOfCycle::ProviderEmailTimetabler do
 
     context 'when the current date does not match the winter reject by default explainer date' do
       before do
+        TestSuiteTimeMachine.travel_permanently_to(Time.zone.now.next_weekday.to_date)
         allow(instance).to receive(:timetable).and_return(Struct.new(:winter_reject_by_default_at).new(winter_reject_by_default_at))
       end
 
@@ -26,6 +27,7 @@ RSpec.describe EndOfCycle::ProviderEmailTimetabler do
 
     context 'when the current date matches the winter reject by default explainer date' do
       before do
+        TestSuiteTimeMachine.travel_permanently_to(Time.zone.now.next_weekday.to_date)
         allow(instance).to receive(:timetable).and_return(Struct.new(:winter_reject_by_default_at).new(winter_reject_by_default_at))
       end
 
