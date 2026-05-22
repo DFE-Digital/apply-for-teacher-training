@@ -78,6 +78,8 @@ ENV ENV="/root/.ashrc"
 COPY --from=gems-node-modules /app /app
 COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
 
+RUN chown -R appuser:appgroup /app
+
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 RUN echo ${SHA} > public/check
