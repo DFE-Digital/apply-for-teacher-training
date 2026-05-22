@@ -33,6 +33,8 @@ RUN bundler -v && \
     bundle config set no-cache 'true' && \
     bundle config set no-binstubs 'true' && \
     bundle config set without 'development' && \
+    bundle config set deployment 'true' && \
+    bundle config set frozen 'true' && \
     bundle install --retry=5 --jobs=4 && \
     rm -rf /usr/local/bundle/cache
 
