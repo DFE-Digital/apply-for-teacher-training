@@ -4,6 +4,8 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
+  let(:provider) { create(:provider) }
+
   before do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_has_open_course
@@ -108,7 +110,7 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
       :pool_invite,
       status: 'published',
       candidate:,
-      provider: @provider_user.providers.last,
+      provider:,
       invited_by: @provider_user,
       application_form: @invited_application_form,
       course: create(:course),
@@ -117,7 +119,7 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
-    @provider_user ||= provider_user_exists_in_apply_database
+    @provider_user ||= provider_user_exists_in_apply_database(provider_code: provider.code)
     user_exists_in_dfe_sign_in(
       email_address: @provider_user.email_address,
       dfe_sign_in_uid: @provider_user.dfe_sign_in_uid,
@@ -126,7 +128,7 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   end
 
   def and_provider_has_open_course
-    @course = create(:course, :open, provider: @provider_user.providers.first)
+    @course = create(:course, :open, provider:)
   end
 
   def when_i_visit_the_find_candidates_page

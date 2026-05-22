@@ -40,7 +40,10 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
     end
 
     it 'provides the correct SQL' do
-      first_names = %w[john johnny].sort
+      first_names = candidate.application_forms.map do |application_form|
+        application_form.first_name&.downcase
+      end
+
       first_names_sql = "('#{first_names.join("','")}')"
 
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
