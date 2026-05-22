@@ -44,13 +44,13 @@ RSpec.describe GeneratePossiblePreviousTeacherTraining do
             { name: 'trainee_start_date', type: 'DATE', value: '01/09/2024' },
             { name: 'name', type: 'STRING', value: 'The London Provider' },
             { name: 'code', type: 'STRING', value: '1AB' },
-            { name: 'date', type: 'DATE', value: '01/01/2025' },
+            { name: 'registered_date', type: 'DATE', value: '01/01/2025' },
           ],
           [
             { name: 'trainee_start_date', type: 'DATE', value: '01/09/2023' },
             { name: 'name', type: 'STRING', value: 'The Brixton Provider' },
             { name: 'code', type: 'STRING', value: '2ZZ' },
-            { name: 'date', type: 'DATE', value: '01/02/2024' },
+            { name: 'registered_date', type: 'DATE', value: '01/02/2024' },
           ],
         ]
       end
