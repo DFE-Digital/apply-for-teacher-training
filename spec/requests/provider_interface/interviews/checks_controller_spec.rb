@@ -46,9 +46,9 @@ RSpec.describe ProviderInterface::Interviews::ChecksController do
       create(:application_choice, :awaiting_provider_decision, application_form:, course_option:)
     end
 
-    let(:store) { instance_double(WizardStateStores::RedisStore, read: nil) }
+    let(:store) { instance_double(WizardStateStores::RailsCacheStore, read: nil) }
 
-    before { allow(WizardStateStores::RedisStore).to receive(:new).and_return(store) }
+    before { allow(WizardStateStores::RailsCacheStore).to receive(:new).and_return(store) }
 
     context 'POST create' do
       it 'redirects to the interviews index' do
@@ -65,9 +65,9 @@ RSpec.describe ProviderInterface::Interviews::ChecksController do
       create(:application_choice, :awaiting_provider_decision, application_form:, course_option:)
     end
 
-    let(:store) { instance_double(WizardStateStores::RedisStore, read: %({ "provider_user" : "#{provider_user.id}" }), write: true) }
+    let(:store) { instance_double(WizardStateStores::RailsCacheStore, read: %({ "provider_user" : "#{provider_user.id}" }), write: true) }
 
-    before { allow(WizardStateStores::RedisStore).to receive(:new).and_return(store) }
+    before { allow(WizardStateStores::RailsCacheStore).to receive(:new).and_return(store) }
 
     it 'tracks validation errors on preview' do
       expect {

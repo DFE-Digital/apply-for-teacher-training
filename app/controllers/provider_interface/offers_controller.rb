@@ -97,12 +97,12 @@ module ProviderInterface
 
     def offer_store
       key = "offer_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
-      WizardStateStores::RedisStore.new(key:)
+      WizardStateStores::RailsCacheStore.new(key:)
     end
 
     def change_course_store
       key = "change_course_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
-      WizardStateStores::RedisStore.new(key:)
+      WizardStateStores::RailsCacheStore.new(key:)
     end
 
     def confirm_application_is_in_decision_pending_state

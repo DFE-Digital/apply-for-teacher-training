@@ -1,6 +1,6 @@
 require 'rails_helper'
 RSpec.describe ProviderInterface::InterviewWizard do
-  let(:store) { instance_double(WizardStateStores::RedisStore) }
+  let(:store) { instance_double(WizardStateStores::RailsCacheStore) }
 
   let(:day) { '1' }
   let(:month) { '2' }
@@ -247,7 +247,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
   end
 
   describe '.from_model' do
-    let(:store) { instance_double(WizardStateStores::RedisStore, read: {}) }
+    let(:store) { instance_double(WizardStateStores::RailsCacheStore, read: {}) }
     let(:interview) { build_stubbed(:interview) }
 
     it 'initializes a wizard from the interview model' do

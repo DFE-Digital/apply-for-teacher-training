@@ -11,7 +11,7 @@ module CandidateInterface
 
       def degree_store
         key = "degree_wizard_store_#{current_user.id}_#{current_application.id}"
-        WizardStateStores::RedisStore.new(key:)
+        WizardStateStores::RailsCacheStore.new(key:)
       end
 
       def current_degree

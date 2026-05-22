@@ -47,7 +47,7 @@ module ProviderInterface
 
     def condition_statuses_store
       key = "condition_statuses_store_#{current_provider_user.id}_#{@application_choice.id}"
-      WizardStateStores::RedisStore.new(key:)
+      WizardStateStores::RailsCacheStore.new(key:)
     end
 
     def handle_individual_status_transitions

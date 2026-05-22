@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::CancelInterviewWizard do
-  let(:store) { instance_double(WizardStateStores::RedisStore, read: nil) }
+  let(:store) { instance_double(WizardStateStores::RailsCacheStore, read: nil) }
 
   subject { described_class.new(store) }
 

@@ -54,7 +54,7 @@ module ProviderInterface
 
     def offer_store
       key = "offer_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
-      WizardStateStores::RedisStore.new(key:)
+      WizardStateStores::RailsCacheStore.new(key:)
     end
 
     def action

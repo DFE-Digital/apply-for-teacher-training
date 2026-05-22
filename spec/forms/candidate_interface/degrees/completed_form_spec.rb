@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::Degrees::CompletedForm do
   subject(:completed_form) { described_class.new(store, degree_params) }
 
-  let(:store) { instance_double(WizardStateStores::RedisStore) }
+  let(:store) { instance_double(WizardStateStores::RailsCacheStore) }
   let(:application_form) { create(:application_form) }
 
   before { allow(store).to receive(:read) }

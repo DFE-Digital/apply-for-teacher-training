@@ -8,7 +8,7 @@ RSpec.describe Wizard::PathHistory do
     end
   end
   let(:attrs) { {} }
-  let(:store) { instance_double(WizardStateStores::RedisStore, read: nil) }
+  let(:store) { instance_double(WizardStateStores::RailsCacheStore, read: nil) }
 
   subject(:model) { WizardClass.new(store, attrs) }
 

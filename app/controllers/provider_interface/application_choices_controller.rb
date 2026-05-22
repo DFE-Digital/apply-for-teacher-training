@@ -14,7 +14,7 @@ module ProviderInterface
       @filter = ProviderApplicationsFilter.new(
         params:,
         provider_user: current_provider_user,
-        state_store: StateStores::RedisStore.new(key: state_store_key),
+        state_store: StateStores::RailsCacheStore.new(key: state_store_key),
       )
 
       application_choices = GetApplicationChoicesForProviders.call(
@@ -116,7 +116,7 @@ module ProviderInterface
 
     def change_course_store
       key = "change_course_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
-      WizardStateStores::RedisStore.new(key:)
+      WizardStateStores::RailsCacheStore.new(key:)
     end
 
     def wizard_entrypoint_paths

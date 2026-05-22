@@ -14,7 +14,7 @@ module CandidateInterface
 
     def intermediate_data_service
       @intermediate_data_service ||= IntermediateDataService.new(
-        WizardStateStores::RedisStore.new(
+        WizardStateStores::RailsCacheStore.new(
           key: "candidate_user_other_qualification_flow-#{current_candidate.id}-#{params[:id] || 'new'}",
         ),
       )

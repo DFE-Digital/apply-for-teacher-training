@@ -12,7 +12,7 @@ RSpec.describe LocationSuggestions do
     described_class.new(query, cache_expiration: cache_expiration)
   end
 
-  let(:memory_store) { ActiveSupport::Cache.lookup_store(:memory_store) }
+  let(:memory_store) { ActiveSupport::Cache.lookup_store(:solid_cache_store) }
 
   before do
     allow(Rails).to receive(:cache).and_return(memory_store)

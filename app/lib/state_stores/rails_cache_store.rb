@@ -1,5 +1,5 @@
 module StateStores
-  class RedisStore
+  class RailsCacheStore
     def initialize(key:)
       @key = key
     end

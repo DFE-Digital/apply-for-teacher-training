@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::IntermediateDataService do
   end
 
   before do
-    @state_store = WizardStateStores::RedisStore.new(key: 'test_flow-123456')
+    @state_store = WizardStateStores::RailsCacheStore.new(key: 'test_flow-123456')
     @state_store.delete
   end
 

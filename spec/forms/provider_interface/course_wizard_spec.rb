@@ -9,7 +9,7 @@ RSpec.describe ProviderInterface::CourseWizard do
                         current_step:)
   end
 
-  let(:store) { instance_double(WizardStateStores::RedisStore) }
+  let(:store) { instance_double(WizardStateStores::RailsCacheStore) }
   let(:provider_id) { nil }
   let(:course_id) { nil }
   let(:study_mode) { nil }

@@ -24,7 +24,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
   let(:provider_user) { create(:provider_user, providers: [provider1, provider2, accredited_provider]) }
   let(:another_provider_user) { create(:provider_user, providers: [provider1]) }
   let(:state_store) do
-    StateStores::RedisStore.new(key: "#{described_class::STATE_STORE_KEY}_#{provider_user.id}")
+    StateStores::RailsCacheStore.new(key: "#{described_class::STATE_STORE_KEY}_#{provider_user.id}")
   end
 
   describe '#filters' do

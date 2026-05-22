@@ -4,7 +4,7 @@ RSpec.describe CandidateInterface::DegreeTypeComponent, type: :component do
   describe 'uk degree' do
     let(:degree_params) { { uk_or_non_uk: 'uk', degree_level: 'bachelor' } }
     let(:wizard) { CandidateInterface::Degrees::TypeForm.new(store, degree_params) }
-    let(:store) { instance_double(WizardStateStores::RedisStore) }
+    let(:store) { instance_double(WizardStateStores::RailsCacheStore) }
 
     before { allow(store).to receive(:read) }
 
@@ -99,7 +99,7 @@ RSpec.describe CandidateInterface::DegreeTypeComponent, type: :component do
   describe 'non_uk degree' do
     let(:degree_params) { { uk_or_non_uk: 'non_uk' } }
     let(:wizard) { CandidateInterface::Degrees::BaseForm.new(store, degree_params) }
-    let(:store) { instance_double(WizardStateStores::RedisStore) }
+    let(:store) { instance_double(WizardStateStores::RailsCacheStore) }
 
     before { allow(store).to receive(:read) }
 

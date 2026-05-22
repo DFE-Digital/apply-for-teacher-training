@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::DegreeGradeComponent, type: :component do
-  let(:store) { instance_double(WizardStateStores::RedisStore) }
+  let(:store) { instance_double(WizardStateStores::RailsCacheStore) }
 
   before { allow(store).to receive(:read) }
 
