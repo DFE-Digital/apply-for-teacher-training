@@ -47,8 +47,8 @@ private
 
     ((provider_record.present? && previous_teacher_training_in_timeframe.find_by(provider: provider_record)) ||
       previous_teacher_training_in_timeframe.find_by(
-        'provider_name ILIKE ?',
-        possible_previous_teacher_training_data.name,
+        'LOWER(provider_name) = ?',
+        possible_previous_teacher_training_data.name.downcase,
       )).present?
   end
 end
