@@ -5,7 +5,7 @@ module ApplicationStateable
            :post_offered?, :post_offered, :offer_accepted?, :offer_accepted, :unsuccessful?, :unsuccessful,
            :carry_over?, :carry_over, :successful?, :successful, :pending_provider_decision?, :pending_provider_decision,
            :reapply?, :reapply, :terminal?, :terminal, :in_progress?, :in_progress, :active_previous?, :active_previous,
-           to: :state, prefix: 'state'
+           :chase_referee?, :chase_referee, to: :state, prefix: 'state'
 
   def state
     return nil unless try(:status)
