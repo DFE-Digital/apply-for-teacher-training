@@ -35,8 +35,6 @@ private
   end
 
   def previous_teacher_training_declared?(possible_previous_teacher_training_data)
-    return true if candidate.previous_teacher_trainings.exists?(['provider_name ILIKE ?', possible_previous_teacher_training_data.name])
-
     provider_record = accredited_provider(possible_previous_teacher_training_data.code)
     started_at = possible_previous_teacher_training_data.trainee_start_date.to_time.beginning_of_month
     ended_at = possible_previous_teacher_training_data.registered_date.to_time.end_of_month
@@ -47,6 +45,10 @@ private
 
     return false if previous_teacher_training_in_timeframe.blank?
 
-    (provider_record.present? && previous_teacher_training_in_timeframe.find_by(provider: provider_record)).present?
+    ((provider_record.present? && previous_teacher_training_in_timeframe.find_by(provider: provider_record)) ||
+      previous_teacher_training_in_timeframe.find_by(
+        'provider_name ILIKE ?',
+        possible_previous_teacher_training_data.name,
+      )).present?
   end
 end
