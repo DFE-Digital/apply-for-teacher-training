@@ -8,6 +8,7 @@ module ProviderInterface
       render ProviderUserPermissionsFormComponent.new(
         form_model: form_model_for(provider),
         form_path: '',
+        form_method: :post,
         provider:,
         user_name:,
       )
@@ -18,6 +19,7 @@ module ProviderInterface
       render ProviderUserPermissionsFormComponent.new(
         form_model: form_model_for(provider),
         form_path: '',
+        form_method: :post,
         provider:,
         user_name:,
       )
