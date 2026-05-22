@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider changes a course' do
+RSpec.describe 'Provider changes a course', :with_cache do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 

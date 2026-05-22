@@ -8,7 +8,7 @@ RSpec.describe 'Candidate email click tracking' do
     stub_bigquery_non_disclosure_trainee_withdrawals_request
   end
 
-  it 'Candidate clicks a sign in link in a nudge email' do
+  it 'Candidate clicks a sign in link in a nudge email', :with_cache do
     given_i_complete_my_application
     and_i_logout
     and_i_have_been_inactive_for_10_days

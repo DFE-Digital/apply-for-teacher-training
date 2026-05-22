@@ -8,7 +8,7 @@ RSpec.describe 'Candidate viewing Science GCSE' do
     stub_bigquery_non_disclosure_trainee_withdrawals_request
   end
 
-  it 'Candidate views a Science GCSE only when a primary course is chosen', time: mid_cycle do
+  it 'Candidate views a Science GCSE only when a primary course is chosen', :with_cache, time: mid_cycle do
     given_i_am_signed_in_with_one_login
     and_i_am_on_your_application_page
     then_i_dont_see_science_gcse

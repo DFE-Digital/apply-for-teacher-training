@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Reject an application' do
+RSpec.describe 'Reject an application', :with_cache do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
   include CourseOptionHelpers

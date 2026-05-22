@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider makes an offer with SKE enabled on language flow' do
+RSpec.describe 'Provider makes an offer with SKE enabled on language flow', :with_cache do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
   include OfferStepsHelper

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider changes a course on pending conditions' do
+RSpec.describe 'Provider changes a course on pending conditions', :with_cache do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 

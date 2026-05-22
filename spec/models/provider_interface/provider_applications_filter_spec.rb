@@ -222,7 +222,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       end
     end
 
-    it 'can load and persist its own state' do
+    it 'can load and persist its own state', :with_cache do
       state_one = described_class.new(
         params: ActionController::Parameters.new({ 'candidate_name' => 'Tom Thumb' }),
         provider_user:,

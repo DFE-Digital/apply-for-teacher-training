@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider makes an offer with JS enabled', :js do
+RSpec.describe 'Provider makes an offer with JS enabled', :js, :with_cache do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 

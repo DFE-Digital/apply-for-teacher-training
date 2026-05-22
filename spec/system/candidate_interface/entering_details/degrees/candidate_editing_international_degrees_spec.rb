@@ -9,7 +9,7 @@ RSpec.describe 'Editing a degree' do
     and_i_create_an_international_degree
   end
 
-  scenario 'editing international degree' do
+  scenario 'editing international degree', :with_cache do
     visit candidate_interface_degree_review_path
     and_i_click_the_degree_type_change_link
     and_i_update_the_international_degrees_degree_type
@@ -17,7 +17,7 @@ RSpec.describe 'Editing a degree' do
     then_i_can_check_an_additional_degree_is_not_created
   end
 
-  scenario 'changing an international degree to a UK degree' do
+  scenario 'changing an international degree to a UK degree', :with_cache do
     and_i_click_change_country
     and_i_choose_uk
     and_i_click_on_save_and_continue

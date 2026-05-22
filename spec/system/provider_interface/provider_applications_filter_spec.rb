@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Providers should be able to filter applications' do
+RSpec.describe 'Providers should be able to filter applications', :with_cache do
   include CourseOptionHelpers
   include DfESignInHelpers
 
