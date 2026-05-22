@@ -105,6 +105,7 @@ module DefineApplicationState
     end
 
     def self.find(state_id)
+      state_id = state_id.to_sym
       all.find { |state| state.id == state_id }
     end
 
@@ -160,6 +161,10 @@ module DefineApplicationState
 
     def self.pending_provider_decision_or_inactive
       pending_provider_decision | where(id: :inactive)
+    end
+
+    def self.redactable
+      pending_provider_decision_or_inactive
     end
 
     def self.reapply

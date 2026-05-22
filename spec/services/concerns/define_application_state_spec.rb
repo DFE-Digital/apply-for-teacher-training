@@ -366,7 +366,7 @@ RSpec.describe DefineApplicationState do
       describe '.active_previous' do
         subject(:scope_method) { described_class.active_previous }
 
-        it 'returns only states that are in progress' do
+        it 'returns only states that are active_previous' do
           expect(scope_method.map(&:id)).to contain_exactly(
             :awaiting_provider_decision, :interviewing, :pending_conditions, :recruited, :offer, :inactive
           )
@@ -664,6 +664,201 @@ RSpec.describe DefineApplicationState do
       it { is_expected.to be_in_progress }
       it { is_expected.not_to be_terminal }
       it { is_expected.not_to be_active_previous }
+    end
+
+    describe '.state_ids' do
+      subject(:state_ids) { described_class.state_ids(args) }
+
+      context 'when given method not_visible_to_provider' do
+        let(:args) { :not_visible_to_provider }
+
+        it 'returns the ids of Application States where visible_to_provider is false' do
+          expect(state_ids).to contain_exactly(:unsubmitted, :application_not_sent, :cancelled)
+        end
+      end
+
+      context 'when given method visible_to_provider' do
+        let(:args) { :visible_to_provider }
+
+        it 'returns the ids of Application States where visible_to_provider is true' do
+          expect(state_ids).to contain_exactly(
+            :awaiting_provider_decision,
+            :withdrawn,
+            :rejected,
+            :inactive,
+            :interviewing,
+            :offer,
+            :offer_withdrawn,
+            :declined,
+            :pending_conditions,
+            :conditions_not_met,
+            :recruited,
+            :offer_deferred,
+          )
+        end
+      end
+
+      context 'when given method interviewable' do
+        let(:args) { :interviewable }
+
+        it 'returns the ids of Application States where interviewable is true' do
+          expect(state_ids).to contain_exactly(:awaiting_provider_decision, :inactive, :interviewing)
+        end
+      end
+
+      context 'when given method offered' do
+        let(:args) { :offered }
+
+        it 'returns the ids of Application States where offered is true' do
+          expect(state_ids).to contain_exactly(
+            :offer,
+            :offer_withdrawn,
+            :declined,
+            :pending_conditions,
+            :conditions_not_met,
+            :recruited,
+            :offer_deferred,
+          )
+        end
+      end
+
+      context 'when given method post_offered' do
+        let(:args) { :post_offered }
+
+        it 'returns the ids of Application States where post_offered is true' do
+          expect(state_ids).to contain_exactly(
+            :offer_withdrawn,
+            :declined,
+            :pending_conditions,
+            :conditions_not_met,
+            :recruited,
+            :offer_deferred,
+          )
+        end
+      end
+
+      context 'when given method unsuccessful' do
+        let(:args) { :unsuccessful }
+
+        it 'returns the ids of Application States where unsuccessful is true' do
+          expect(state_ids).to contain_exactly(
+            :application_not_sent,
+            :cancelled,
+            :withdrawn,
+            :rejected,
+            :inactive,
+            :offer_withdrawn,
+            :declined,
+            :conditions_not_met,
+          )
+        end
+      end
+
+      context 'when given method carry_over' do
+        let(:args) { :carry_over }
+
+        it 'returns the ids of Application States where carry_over is true' do
+          expect(state_ids).to contain_exactly(
+            :application_not_sent,
+            :cancelled,
+            :withdrawn,
+            :rejected,
+            :offer_withdrawn,
+            :declined,
+            :conditions_not_met,
+          )
+        end
+      end
+
+      context 'when given method successful' do
+        let(:args) { :successful }
+
+        it 'returns the ids of Application States where successful is true' do
+          expect(state_ids).to contain_exactly(
+            :offer,
+            :pending_conditions,
+            :recruited,
+            :offer_deferred,
+          )
+        end
+      end
+
+      context 'when given method pending_provider_decision' do
+        let(:args) { :pending_provider_decision }
+
+        it 'returns the ids of Application States where pending_provider_decision is true' do
+          expect(state_ids).to contain_exactly(:awaiting_provider_decision, :interviewing)
+        end
+      end
+
+      context 'when given method pending_provider_decision_or_inactive' do
+        let(:args) { :pending_provider_decision_or_inactive }
+
+        it 'returns the ids of Application States where pending_provider_decision_or_inactive is true' do
+          expect(state_ids).to contain_exactly(
+            :awaiting_provider_decision,
+            :interviewing,
+            :inactive,
+          )
+        end
+      end
+
+      context 'when given method reapply' do
+        let(:args) { :reapply }
+
+        it 'returns the ids of Application States where reapply is true' do
+          expect(state_ids).to contain_exactly(
+            :cancelled,
+            :withdrawn,
+            :rejected,
+            :offer_withdrawn,
+            :declined,
+          )
+        end
+      end
+
+      context 'when given method terminal' do
+        let(:args) { :terminal }
+
+        it 'returns the ids of Application States where terminal is true' do
+          expect(state_ids).to contain_exactly(
+            :application_not_sent,
+            :cancelled,
+            :withdrawn,
+            :rejected,
+            :inactive,
+            :offer_withdrawn,
+            :declined,
+            :conditions_not_met,
+            :recruited,
+          )
+        end
+      end
+
+      context 'when given method in_progress' do
+        let(:args) { :in_progress }
+
+        it 'returns the ids of Application States where in_progress is true' do
+          expect(state_ids).to contain_exactly(
+            :awaiting_provider_decision,
+            :interviewing,
+            :offer,
+            :pending_conditions,
+            :recruited,
+            :offer_deferred,
+          )
+        end
+      end
+
+      context 'when given method active_previous' do
+        let(:args) { :active_previous }
+
+        it 'returns the ids of Application States where active_previous is true' do
+          expect(state_ids).to contain_exactly(
+            :awaiting_provider_decision, :interviewing, :pending_conditions, :recruited, :offer, :inactive
+          )
+        end
+      end
     end
   end
 end
