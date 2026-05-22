@@ -815,7 +815,7 @@ GEM
     stringio (3.2.0)
     strip_attributes (2.0.1)
       activemodel (>= 3.0, < 9.0)
-    strong_migrations (2.7.0)
+    strong_migrations (2.8.0)
       activerecord (>= 7.2)
     super_diff (0.19.0)
       attr_extras (>= 6.2.4, < 8)
@@ -1318,7 +1318,7 @@ CHECKSUMS
   stoplight (3.0.2) sha256=9bc2697a9c380aa6d8380d820c2663bda50cee3a9680a256ea035f8cf0e918ee
   stringio (3.2.0) sha256=c37cb2e58b4ffbd33fe5cd948c05934af997b36e0b6ca6fdf43afa234cf222e1
   strip_attributes (2.0.1) sha256=604cb833fc69aedefffc60a79bd91a7faf3753caf34db3889beaf2d88afa7e8b
-  strong_migrations (2.7.0) sha256=ab9a942e3907c4f9b83526ab0ec476df9a5252b29c2fc5b8167755ee1be29e10
+  strong_migrations (2.8.0) sha256=cb9c0f8160e60f3e9c0e76098d57a6f61825b9618e8eb41cebbd1c1079874439
   super_diff (0.19.0) sha256=c35fc1c0daa223d67b203fe3fb49a6cfd67850a53920319565c3c654e03ec902
   swd (2.0.3) sha256=4cdbe2a4246c19f093fce22e967ec3ebdd4657d37673672e621bf0c7eb770655
   test_suite_time_machine (2.0.0) sha256=e7135ef34140f50e3cd89cea3f26ed4bce295e57fbad06a4df8153644bad5930
