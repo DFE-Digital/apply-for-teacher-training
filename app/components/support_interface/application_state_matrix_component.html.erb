@@ -11,11 +11,11 @@
       <% body.with_row do |row| %>
         <%= row.with_cell(text: application_state.id, html_attributes: { id: "#{application_state.id}_state_cell" }) %>
         <% scopes.each do |scope| %>
-          <% row.with_cell(html_attributes: { id: "#{application_state.id}_#{scope.to_s}_cell" }) do %>
+          <% row.with_cell(html_attributes: { id: "#{application_state.id}_#{scope}_cell" }) do %>
             <% if application_state.try(scope) %>
-              <%= govuk_tag(text: "Yes", colour: 'green') %>
+              <%= govuk_tag(text: 'Yes', colour: 'green') %>
             <% else %>
-              <%= govuk_tag(text: "No", colour: 'red') %>
+              <%= govuk_tag(text: 'No', colour: 'red') %>
             <% end %>
           <% end %>
         <% end %>
