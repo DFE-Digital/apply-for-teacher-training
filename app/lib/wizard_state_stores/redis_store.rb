@@ -1,5 +1,3 @@
-require 'redis'
-
 module WizardStateStores
   class RedisStore < StateStores::RedisStore
     def write(value)

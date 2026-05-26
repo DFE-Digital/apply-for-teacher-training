@@ -1,22 +1,19 @@
-require 'redis'
-
 module StateStores
   class RedisStore
     def initialize(key:)
-      @redis = Redis.new
       @key = key
     end
 
     def write(value, expires = 24.hours.to_i)
-      @redis.set(@key, value, ex: expires)
+      Rails.cache.write(@key, value, expires_in: expires)
     end
 
     def read
-      @redis.get(@key)
+      Rails.cache.read(@key)
     end
 
     def delete
-      @redis.del(@key)
+      Rails.cache.delete(@key)
     end
   end
 end
