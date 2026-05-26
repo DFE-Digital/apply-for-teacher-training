@@ -51,7 +51,7 @@ module ProviderInterface
 
     def application_in_correct_state?
       @application_in_correct_state ||= ApplicationStateChange::ApplicationState
-        .find(application_choice.status.to_sym)
+        .find(application_choice.status)
         .post_offered?
     end
 
