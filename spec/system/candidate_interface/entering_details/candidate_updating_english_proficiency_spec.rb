@@ -3,6 +3,11 @@ require 'rails_helper'
 RSpec.describe 'Candidate updating english proficiency' do
   include CandidateHelper
 
+  before do
+    # This whole spec can be deleted after this feature flag is removed, it is testing an old flow
+    FeatureFlag.deactivate('2027_application_form_has_many_english_proficiencies')
+  end
+
   scenario 'When application form does not have an english proficiency associations' do
     given_i_am_signed_in_with_one_login
     and_i_do_not_have_an_english_proficiency_attached_to_my_application_form

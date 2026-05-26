@@ -1,8 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe 'Your TOEFL result' do
+RSpec.describe 'Your TOEFL result, pre 2027' do
   include CandidateHelper
   include EFLHelper
+
+  before do
+    # This whole spec can be deleted after this feature flag is removed, it is testing an old flow
+    FeatureFlag.deactivate('2027_application_form_has_many_english_proficiencies')
+  end
 
   scenario 'Candidate completes EFL section with details of their TOEFL' do
     given_i_am_signed_in_with_one_login

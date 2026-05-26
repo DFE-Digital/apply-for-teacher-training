@@ -3,6 +3,11 @@ require 'rails_helper'
 RSpec.describe 'Candidate updates their contact information from an international address to a UK' do
   include CandidateHelper
 
+  before do
+    # This whole spec can be deleted after this feature flag is removed, it is testing an old flow
+    FeatureFlag.deactivate('2027_application_form_contact_details_residency_questions')
+  end
+
   scenario 'Candidate submits their contact information' do
     given_i_am_signed_in_with_one_login
     and_i_have_already_filled_in_an_international_address

@@ -3,13 +3,19 @@ require 'rails_helper'
 RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle do
   include CandidateHelper
 
-  it 'I can specify that I need to apply for right to work or study in the UK' do
-    and_i_am_signed_in
-    and_i_can_complete_personal_information_stating_that_i_need_a_visa_sponsorship
-    and_i_can_change_state_that_i_have_permanent_residence
-    and_i_can_change_nationality_to_an_eu_country_with_settled_status
-    and_i_can_change_immigration_status
-    and_i_can_mark_the_section_complete
+  context 'visa expiry flag is off' do
+    before do
+      FeatureFlag.deactivate('2027_visa_expiry')
+    end
+
+    it 'I can specify that I need to apply for right to work or study in the UK' do
+      and_i_am_signed_in
+      and_i_can_complete_personal_information_stating_that_i_need_a_visa_sponsorship
+      and_i_can_change_state_that_i_have_permanent_residence
+      and_i_can_change_nationality_to_an_eu_country_with_settled_status
+      and_i_can_change_immigration_status
+      and_i_can_mark_the_section_complete
+    end
   end
 
   context 'visa expiry flag is on' do

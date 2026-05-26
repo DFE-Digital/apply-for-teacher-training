@@ -144,12 +144,13 @@ jobs:
             integration_shared,
             integration_provider,
             integration_candidate,
+            integration_candidate_entering_details,
           ]
         feature-flags: [on, off]
         # Use these offsets as the end of cycle approaches
         offset-date: [real_world]
         # Use these offsets through mid-cycle
-        # offset-date: [real_world]
+        # offset-date: [real_world, after_apply_deadline, before_apply_reopens, after_apply_reopens]
 
         include:
           - tests: unit_shared
