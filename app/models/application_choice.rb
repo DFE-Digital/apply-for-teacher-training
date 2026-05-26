@@ -151,11 +151,11 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def pre_offer?
-    !ApplicationStateChange::ApplicationState.find(status.to_sym).offered?
+    !ApplicationStateChange::ApplicationState.find(status).offered?
   end
 
   def application_in_progress?
-    ApplicationStateChange::ApplicationState.find(status.to_sym).in_progress?
+    ApplicationStateChange::ApplicationState.find(status).in_progress?
   end
 
   def self.in_progress
@@ -163,7 +163,7 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def application_unsuccessful?
-    ApplicationStateChange::ApplicationState.find(status.to_sym).unsuccessful?
+    ApplicationStateChange::ApplicationState.find(status).unsuccessful?
   end
 
   def application_unsuccessful_without_inactive?
@@ -173,7 +173,7 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def accepted_choice?
-    ApplicationStateChange::ApplicationState.find(status.to_sym).offer_accepted?
+    ApplicationStateChange::ApplicationState.find(status).offer_accepted?
   end
 
   def different_offer?

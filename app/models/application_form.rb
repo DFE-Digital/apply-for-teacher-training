@@ -385,7 +385,7 @@ class ApplicationForm < ApplicationRecord
     !submitted? ||
       application_choices.blank? ||
       application_choices.map(&:status).map(&:to_sym).all? do |status|
-        ApplicationStateChange::ApplicationState.find(status.to_sym).carry_over?
+        ApplicationStateChange::ApplicationState.find(status).carry_over?
       end
   end
 
@@ -405,7 +405,7 @@ class ApplicationForm < ApplicationRecord
     application_choices.present? &&
       application_choices
         .map(&:status)
-        .any? { |status| ApplicationStateChange::ApplicationState.find(status.to_sym).successful? }
+        .any? { |status| ApplicationStateChange::ApplicationState.find(status).successful? }
   end
 
   def any_offer_accepted?
@@ -413,7 +413,7 @@ class ApplicationForm < ApplicationRecord
       application_choices.map(&:status).any? do |status|
         next if status == 'conditions_not_met'
 
-        ApplicationStateChange::ApplicationState.find(status.to_sym).offer_accepted?
+        ApplicationStateChange::ApplicationState.find(status).offer_accepted?
       end
   end
 
@@ -421,7 +421,7 @@ class ApplicationForm < ApplicationRecord
     application_choices.present? &&
       application_choices
       .map(&:status)
-      .all? { |status| ApplicationStateChange::ApplicationState.find(status.to_sym).unsuccessful? }
+      .all? { |status| ApplicationStateChange::ApplicationState.find(status).unsuccessful? }
   end
 
   def withdrawn_no_longer_training?
@@ -435,8 +435,8 @@ class ApplicationForm < ApplicationRecord
       application_choices
       .map(&:status)
       .all? do |status|
-        ApplicationStateChange::ApplicationState.find(status.to_sym).successful? ||
-          ApplicationStateChange::ApplicationState.find(status.to_sym).unsuccessful?
+        ApplicationStateChange::ApplicationState.find(status).successful? ||
+          ApplicationStateChange::ApplicationState.find(status).unsuccessful?
       end
   end
 
