@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :provider do
-    sequence(:code, 'BAA')
+    code { SecureRandom.alphanumeric(3).upcase }
     sequence(:name) { |n| "#{Faker::University.name}-#{n}" }
     phone_number { Faker::PhoneNumber.phone_number }
     email_address { Faker::Internet.email }

@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Entering their contact information' do
   include CandidateHelper
 
+  before do
+    FeatureFlag.deactivate('2027_application_form_contact_details_residency_questions')
+  end
+
   scenario 'Candidate submits their contact information' do
     given_i_am_signed_in_with_one_login
     and_i_visit_the_site

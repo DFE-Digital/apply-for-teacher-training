@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Provider shares candidate profile' do
   include CourseOptionHelpers
   include DfESignInHelpers
+  include ProviderUserPermissionsHelper
 
   let(:current_provider) { create(:provider) }
 
@@ -28,6 +29,7 @@ RSpec.describe 'Provider shares candidate profile' do
 
   def and_provider_user_exists
     provider_user_exists_in_apply_database(provider_code: current_provider.code)
+    permit_make_decisions!
   end
 
   def and_there_are_candidates_for_candidate_pool

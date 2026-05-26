@@ -6,7 +6,7 @@ module DfE
       SELECT_COLUMNS = %w[trainee_start_date
                           accredited_provider.name
                           accredited_provider.code
-                          withdraw.date].freeze
+                          withdraw.registered_date].freeze
 
       attr_reader :candidate
 

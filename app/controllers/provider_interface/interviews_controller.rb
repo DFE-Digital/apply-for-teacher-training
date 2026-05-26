@@ -13,7 +13,7 @@ module ProviderInterface
 
     def index
       application_at_interviewable_stage = ApplicationStateChange::ApplicationState
-        .find(@application_choice.status.to_sym)
+        .find(@application_choice.status)
         .interviewable?
       @interviews_can_be_created_and_edited = application_at_interviewable_stage && @provider_user_can_set_up_interviews
 

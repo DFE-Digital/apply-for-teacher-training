@@ -8,9 +8,11 @@ Address or online meeting details:
 
 ^ <%= @interview.location %>
 
+<% if @interview.additional_details.present? %>
 Additional details:
 
 ^ <%= @interview.additional_details %>
+<% end %>
 
 Contact <%= @provider_name %> if you have any questions. Let them know if you cannot attend the interview.
 

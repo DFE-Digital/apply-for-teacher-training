@@ -97,12 +97,16 @@ private
   end
 
   def can_not_receive_other_offers?
-    (application_choice.self_and_siblings - [application_choice])
+    active_application_choices.where.not(id: application_choice.id)
       .map(&:status).map(&:to_sym)
       .intersect?(ApplicationStateChange::ApplicationState.state_ids(:offer_accepted) - [:conditions_not_met])
   end
 
   def candidate_in_apply_2?
     application_choice.candidate.in_apply_2?
+  end
+
+  def active_application_choices
+    application_choice.candidate.active_application_choices
   end
 end

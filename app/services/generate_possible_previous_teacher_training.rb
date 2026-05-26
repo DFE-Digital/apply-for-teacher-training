@@ -18,7 +18,7 @@ class GeneratePossiblePreviousTeacherTraining
           provider_name: possible_previous_teacher_training_data.name,
           provider: accredited_provider(possible_previous_teacher_training_data.code),
           started_on: possible_previous_teacher_training_data.trainee_start_date,
-          ended_on: possible_previous_teacher_training_data.date,
+          ended_on: possible_previous_teacher_training_data.registered_date,
         )
       end
     end
@@ -37,7 +37,7 @@ private
   def previous_teacher_training_declared?(possible_previous_teacher_training_data)
     provider_record = accredited_provider(possible_previous_teacher_training_data.code)
     started_at = possible_previous_teacher_training_data.trainee_start_date.to_time.beginning_of_month
-    ended_at = possible_previous_teacher_training_data.date.to_time.end_of_month
+    ended_at = possible_previous_teacher_training_data.registered_date.to_time.end_of_month
     previous_teacher_training_in_timeframe = candidate.previous_teacher_trainings.where(
       started_at: started_at..,
       ended_at: ..ended_at,

@@ -384,7 +384,7 @@ class ApplicationForm < ApplicationRecord
 
     !submitted? ||
       application_choices.blank? ||
-      application_choices.map(&:status).map(&:to_sym).all? do |status|
+      application_choices.map(&:status).all? do |status|
         ApplicationStateChange::ApplicationState.find(status).carry_over?
       end
   end

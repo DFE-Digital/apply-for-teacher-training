@@ -252,7 +252,7 @@ module DfE
           { name: 'trainee_start_date', type: 'DATE', value: '01/09/2024' },
           { name: 'name', type: 'STRING', value: 'The London Provider' },
           { name: 'code', type: 'STRING', value: '1AB' },
-          { name: 'date', type: 'DATE', value: '01/01/2025' },
+          { name: 'registered_date', type: 'DATE', value: '01/01/2025' },
         ]], job_complete:, page_token:, result:)
       end
     end

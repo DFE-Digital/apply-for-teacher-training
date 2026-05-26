@@ -56,7 +56,7 @@ module CandidateInterface
     end
 
     def sibling_choices
-      @sibling_choices ||= @choice_with_offer.siblings
+      @sibling_choices ||= @choice_with_offer.candidate.active_application_choices.where.not(id: @choice_with_offer.id)
     end
   end
 end

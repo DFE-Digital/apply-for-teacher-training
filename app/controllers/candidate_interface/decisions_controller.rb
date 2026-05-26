@@ -21,7 +21,7 @@ module CandidateInterface
       @respond_to_offer = CandidateInterface::RespondToOfferForm.new(response:)
 
       if @respond_to_offer.invalid?
-        @offer_count = @application_choice.self_and_siblings.offer.count
+        @offer_count = active_application_choices.offer.count
         @decline_by_default_date = current_timetable.decline_by_default_at
         render :offer
       elsif @respond_to_offer.decline?

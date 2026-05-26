@@ -208,7 +208,7 @@ module SupportInterface
 
     def visible_over_vendor_api?
       ApplicationStateChange::ApplicationState
-        .find(application_choice.status.to_sym)
+        .find(application_choice.status)
         .visible_to_provider?
     end
 

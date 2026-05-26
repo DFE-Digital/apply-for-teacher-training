@@ -13,7 +13,7 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
       { name: 'trainee_start_date', type: 'DATE', value: '01/09/2024' },
       { name: 'name', type: 'STRING', value: 'The London Provider' },
       { name: 'code', type: 'STRING', value: '1AB' },
-      { name: 'date', type: 'DATE', value: '01/01/2025' },
+      { name: 'registered_date', type: 'DATE', value: '01/01/2025' },
     ]]
   end
 
@@ -26,7 +26,7 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
           trainee_start_date: '2024-09-01',
           name: 'The London Provider',
           code: '1AB',
-          date: '2025-01-01',
+          registered_date: '2025-01-01',
         },
       ]
     end
@@ -40,13 +40,16 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
     end
 
     it 'provides the correct SQL' do
-      first_names = %w[john johnny].sort
+      first_names = candidate.application_forms.map do |application_form|
+        application_form.first_name&.downcase
+      end
+
       first_names_sql = "('#{first_names.join("','")}')"
 
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
       trainee_data
       expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
-        SELECT trainee_start_date, accredited_provider.name, accredited_provider.code, withdraw.date
+        SELECT trainee_start_date, accredited_provider.name, accredited_provider.code, withdraw.registered_date
         FROM `1_key_tables.non_disclosure_trainee_withdrawals`
         WHERE email = 'john_doe%40example.com' OR (first_name IN #{first_names_sql} AND last_name IN ('doe') AND date_of_birth = '1990-01-01')
       SQL
@@ -58,7 +61,7 @@ RSpec.describe DfE::Bigquery::NonDisclosureTraineeWithdrawals do
       expect(response.trainee_start_date).to eq(Date.parse('2024-09-01'))
       expect(response.name).to eq('The London Provider')
       expect(response.code).to eq('1AB')
-      expect(response.date).to eq(Date.parse('2025-01-01'))
+      expect(response.registered_date).to eq(Date.parse('2025-01-01'))
     end
 
     context 'when the api returns no data for the candidate' do

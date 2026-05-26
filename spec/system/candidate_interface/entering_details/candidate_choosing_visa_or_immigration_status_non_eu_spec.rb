@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Choosing visa or immigration status' do
+  before do
+    # This whole spec can be deleted after this feature flag is removed, it is testing an old flow
+    FeatureFlag.deactivate('2027_visa_expiry')
+  end
+
   scenario 'non eu candidate who has the right to work' do
     given_i_am_logged_in_as_a_non_eu_candidate_who_has_the_right_to_work_or_study
     and_i_visit_the_immigration_status_edit_page
