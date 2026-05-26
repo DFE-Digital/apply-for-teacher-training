@@ -50,7 +50,7 @@ RSpec.describe 'Provider shares candidate profile' do
 
   def when_i_visit_the_find_candidates_page
     visit provider_interface_candidate_pool_root_path
-    
+
     expect(page).to have_current_path(provider_interface_candidate_pool_root_path)
   end
 
