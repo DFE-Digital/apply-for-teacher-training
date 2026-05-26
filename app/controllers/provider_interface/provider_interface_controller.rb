@@ -198,7 +198,9 @@ module ProviderInterface
         course_option: @application_choice.current_course_option,
       )
       @course_associated_with_user_providers = provider_authorisation.course_associated_with_user_providers?(course: @application_choice.current_course)
-      @offer_present = ApplicationStateChange::OFFERED_STATES.include?(@application_choice.status.to_sym)
+      @offer_present = ApplicationStateChange::ApplicationState
+        .find(@application_choice.status)
+        .offered?
     end
 
     def provider_authorisation

@@ -8,7 +8,8 @@ module VendorAPI::ApplicationPresenter::EqualityAndDiversity
   end
 
   def equality_and_diversity
-    return nil unless ApplicationStateChange::ACCEPTED_STATES.include?(application_choice.status.to_sym) && application_choice.application_form.recruitment_cycle_year == RecruitmentCycleTimetable.current_year
+    return nil unless ApplicationStateChange::ApplicationState.find(application_choice.status).offer_accepted? &&
+                      application_choice.application_form.recruitment_cycle_year == RecruitmentCycleTimetable.current_year
 
     equality_and_diversity_data = application_form&.equality_and_diversity
 

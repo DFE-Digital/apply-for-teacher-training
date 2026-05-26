@@ -140,16 +140,17 @@ private
 
   def funding_type
     # Does the Candidate have any submitted Applications?
+    status = ApplicationStateChange::ApplicationState.state_ids(:visible_to_provider)
     return unless candidate.application_choices
                            .joins(:application_form)
                            .where(application_form: { recruitment_cycle_year: current_year })
-                           .exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+                           .exists?(status:)
 
     # What Course funding types has the Candidate applied for?
     candidate.application_choices
                       .joins(:application_form)
                       .where(application_form: { recruitment_cycle_year: current_year })
-                             .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+                             .where(status:)
                              .joins(course_option: :course)
                              .pluck('courses.funding_type')
                              .compact_blank
@@ -159,16 +160,17 @@ private
 
   def study_type
     # Does the Candidate have any submitted Applications?
+    status = ApplicationStateChange::ApplicationState.state_ids(:visible_to_provider)
     return unless candidate.application_choices
                            .joins(:application_form)
                            .where(application_form: { recruitment_cycle_year: current_year })
-                           .exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+                           .exists?(status:)
 
     # What Course study types has the Candidate applied for?
     candidate.application_choices
                            .joins(:application_form)
                            .where(application_form: { recruitment_cycle_year: current_year })
-                           .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+                           .where(status:)
                            .joins(course_option: :course)
                            .pluck('course_options.study_mode')
                            .compact_blank
@@ -177,18 +179,19 @@ private
   end
 
   def subjects
+    status = ApplicationStateChange::ApplicationState.state_ids(:visible_to_provider)
     # Does the Candidate have any submitted Applications?
     return unless candidate.application_choices
                            .joins(:application_form)
                            .where(application_form: { recruitment_cycle_year: current_year })
-                           .exists?(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+                           .exists?(status:)
 
     # What Course subjects has the Candidate applied for?
     # subject codes
     candidate.application_choices
       .joins(:application_form)
       .where(application_form: { recruitment_cycle_year: current_year })
-      .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+      .where(status:)
       .joins(course_option: { course: :subjects })
       .pluck('subjects.code')
       .compact_blank

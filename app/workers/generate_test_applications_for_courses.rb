@@ -40,7 +40,7 @@ private
   end
 
   def states_for_this_cycle
-    ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER - [:inactive]
+    ApplicationStateChange::ApplicationState.state_ids(:visible_to_provider) - [:inactivate]
   end
 
   def states_for_next_cycle
