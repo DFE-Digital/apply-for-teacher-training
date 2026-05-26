@@ -281,7 +281,7 @@ module SupportInterface
 
     def any_successful_application_choices?(application_choice)
       choice_statuses = application_choice.application_form.application_choices.map(&:status)
-      choice_statuses.any? { |choice_status| ApplicationStateChange::ApplicationState.find(choice_status.to_sym).offer_accepted? }
+      choice_statuses.any? { |choice_status| ApplicationStateChange::ApplicationState.find(choice_status).offer_accepted? }
     end
   end
 end
