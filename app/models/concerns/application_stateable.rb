@@ -10,7 +10,7 @@ module ApplicationStateable
   def state
     return nil unless try(:status)
 
-    ApplicationStateChange::ApplicationState.find(status.to_sym)
+    ApplicationStateChange::ApplicationState.find(status)
   end
 
   def state_pending_provider_decision_or_inactive?
