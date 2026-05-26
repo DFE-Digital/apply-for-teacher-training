@@ -39,7 +39,6 @@ private
     FactoryBot.build_stubbed(:application_form,
                              first_name: 'Rachael',
                              last_name: 'Harvey',
-                             recruitment_cycle_year: ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR + 1,
                              application_choices: [application_choice])
   end
 

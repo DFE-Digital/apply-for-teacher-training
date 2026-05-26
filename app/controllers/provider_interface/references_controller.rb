@@ -14,7 +14,6 @@ module ProviderInterface
 
     def set_references
       @references = @application_choice.application_form.application_references.for_provider
-      @references = @references.selected
     end
   end
 end
