@@ -1,12 +1,19 @@
 default: &default
-  dispatchers:
-    - polling_interval: 1
-      batch_size: 500
   workers:
-    - queues: "*"
-      threads: <%= ENV.fetch("SOLIDQUEUE_THREADS", 3) %>
-      processes: <%= ENV.fetch("JOB_CONCURRENCY", 2) %>
-      polling_interval: 0.1
+    - queues: [default, low_priority]
+      threads: <%= ENV.fetch("DEFAULT_QUEUE_THREADS", 1) %>
+      processes: <%= ENV.fetch("DEFAULT_QUEUE_PROCESSES", 1) %>
+      polling_interval: 1
+
+    - queues: [mailers]
+      threads: <%= ENV.fetch("MAILER_QUEUE_THREADS", 1) %>
+      processes: <%= ENV.fetch("MAILER_QUEUE_PROCESSES", 1) %>
+      polling_interval: 1
+
+    - queues: [big_query_sq]
+      threads: <%= ENV.fetch("BIG_QUERY_QUEUE_THREADS", 1) %>
+      processes: <%= ENV.fetch("BIG_QUERY_QUEUE_PROCESSES", 1) %>
+      polling_interval: 1
 
 development:
   <<: *default
