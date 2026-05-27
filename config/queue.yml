@@ -1,6 +1,6 @@
 default: &default
   workers:
-    - queues: [default]
+    - queues: [default, low_priority]
       threads: <%= ENV.fetch("DEFAULT_QUEUE_THREADS", 1) %>
       processes: <%= ENV.fetch("DEFAULT_QUEUE_PROCESSES", 1) %>
       polling_interval: 1
@@ -14,11 +14,6 @@ default: &default
       threads: <%= ENV.fetch("BIG_QUERY_QUEUE_THREADS", 1) %>
       processes: <%= ENV.fetch("BIG_QUERY_QUEUE_PROCESSES", 1) %>
       polling_interval: 1
-
-    - queues: [low_priority]
-      threads: <%= ENV.fetch("LOW_PRIORITY_QUEUE_THREADS", 1) %>
-      processes: <%= ENV.fetch("LOW_PRIORITY_QUEUE_PROCESSES", 1) %>
-      polling_interval: 2
 
 development:
   <<: *default
