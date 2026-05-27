@@ -1,4 +1,5 @@
 <%= govuk_table do |table| %>
+  <% table.with_caption(text: 'Application states', html_attributes: { class: 'govuk-visually-hidden' }) %>
   <% table.with_head do |head| %>
     <% head.with_row do |row| %>
       <% headers.each do |header| %>
