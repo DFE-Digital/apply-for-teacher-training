@@ -7,38 +7,18 @@ module.exports = ({github, context}) => {
   }
 
   const { FLAKEY_TEST_DATA, GITHUB_HEAD_REF } = process.env;
-  if (FLAKEY_TEST_DATA && FLAKEY_TEST_DATA.length) {
-    const matches = FLAKEY_TEST_DATA.match(/\[.*?\]/gs);
-    if (!matches) {
-      return;
-    }
-
-    const flakeyErrors = [];
-
-    matches.forEach((chunk) => {
-      const parsed = JSON.parse(chunk);
-      if (Array.isArray(parsed)) {
-        flakeyErrors.push(...parsed);
-      }
-    });
-
-    if (!flakeyErrors.length) {
-      return;
-    }
-
+  if (FLAKEY_TEST_DATA.length) {
     const { issue: { number: issue_number }, repo: { owner, repo } } = context;
     const heading = 'You have one or more flakey tests on this branch!';
     let commentBody = `<h2>${heading} :snowflake: :snowflake: :snowflake:</h2>`;
     let branchName = GITHUB_HEAD_REF.split('/').pop();
     let createComment = false;
-
-    flakeyErrors.forEach(function(error) {
+    JSON.parse(FLAKEY_TEST_DATA).forEach(function(error) {
       let errorPath = `/${owner}/${repo}/blob/${branchName}/${error['location'].replace(':', '#L')}`;
       let errorLink = `<a href="${errorPath}">${error['location']}</a>`;
       commentBody += `Failed ${error['attempts']} out of ${error['retry_count']} times at ${errorLink}: :warning: ${error['messages'].toString()}<br>`;
       createComment = true;
     })
-
     if (createComment) {
       github.rest.issues.createComment({ issue_number, owner, repo, body: commentBody });
       throw new FlakeySpecError(heading);
