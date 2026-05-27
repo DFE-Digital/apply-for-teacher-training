@@ -80,7 +80,7 @@ RSpec.describe GeneratePossiblePreviousTeacherTraining do
       end
     end
 
-    context 'when a PreviousTeacherTraining record for that data already exists within the timeframe' do
+    context 'when a PreviousTeacherTraining record for that data already exists' do
       let(:application_form) { create(:completed_application_form, candidate:) }
 
       context 'when the PreviousTeacherTraining record has no provider id' do
@@ -119,6 +119,63 @@ RSpec.describe GeneratePossiblePreviousTeacherTraining do
         it 'does not create a PossiblePreviousTeacherTraining' do
           expect { call }.not_to(change { PossiblePreviousTeacherTraining.count })
         end
+      end
+    end
+
+    context 'when a PreviousTeacherTraining record for that data already exists within 3 months of the timeframe' do
+      let(:application_form) { create(:completed_application_form, candidate:) }
+      let(:previous_teacher_training) do
+        create(
+          :previous_teacher_training,
+          application_form:,
+          provider_name: 'The London Provider',
+          started_at: '01/07/2024',
+          ended_at: '31/03/2025',
+        )
+      end
+
+      before { previous_teacher_training }
+
+      it 'does not create a PossiblePreviousTeacherTraining' do
+        expect { call }.not_to(change { PossiblePreviousTeacherTraining.count })
+      end
+    end
+
+    context 'when a PreviousTeacherTraining record for that data already exists outside of 3 months of the timeframe' do
+      let(:application_form) { create(:completed_application_form, candidate:) }
+      let(:previous_teacher_training) do
+        create(
+          :previous_teacher_training,
+          application_form:,
+          provider_name: 'The London Provider',
+          started_at: '01/05/2024',
+          ended_at: '31/05/2025',
+        )
+      end
+
+      before { previous_teacher_training }
+
+      it 'creates a PossiblePreviousTeacherTraining' do
+        expect { call }.to(change { PossiblePreviousTeacherTraining.count })
+      end
+    end
+
+    context 'when a PreviousTeacherTraining record for that data already exists but the provider name does not match case-sensitively' do
+      let(:application_form) { create(:completed_application_form, candidate:) }
+      let(:previous_teacher_training) do
+        create(
+          :previous_teacher_training,
+          application_form:,
+          provider_name: 'THe LOnDon ProvIdeR',
+          started_at: '01/09/2024',
+          ended_at: '01/01/2025',
+        )
+      end
+
+      before { previous_teacher_training }
+
+      it 'does not create a PossiblePreviousTeacherTraining' do
+        expect { call }.not_to(change { PossiblePreviousTeacherTraining.count })
       end
     end
   end

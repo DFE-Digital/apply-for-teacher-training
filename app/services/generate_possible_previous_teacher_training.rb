@@ -39,15 +39,16 @@ private
     started_at = possible_previous_teacher_training_data.trainee_start_date.to_time.beginning_of_month
     ended_at = possible_previous_teacher_training_data.registered_date.to_time.end_of_month
     previous_teacher_training_in_timeframe = candidate.previous_teacher_trainings.where(
-      started_at: started_at..,
-      ended_at: ..ended_at,
+      started_at: (started_at - 3.months)..,
+      ended_at: ..(ended_at + 3.months),
     )
 
     return false if previous_teacher_training_in_timeframe.blank?
 
     ((provider_record.present? && previous_teacher_training_in_timeframe.find_by(provider: provider_record)) ||
       previous_teacher_training_in_timeframe.find_by(
-        provider_name: possible_previous_teacher_training_data.name,
+        'LOWER(provider_name) = ?',
+        possible_previous_teacher_training_data.name.downcase,
       )).present?
   end
 end
