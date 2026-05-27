@@ -11,6 +11,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceListComponent do
   let(:current_tab_name) do
     result.css('nav.tabs-component li a').find { |tab| tab['aria-current'] == 'page' }&.text
   end
+  let(:provider) { create(:provider) }
 
   subject(:result) do
     render_inline(application_choice_list_component)
@@ -18,18 +19,18 @@ RSpec.describe CandidateInterface::ApplicationChoiceListComponent do
 
   context 'when candidate has application choices in all categories' do
     before do
-      create(:application_choice, :offer_withdrawn, application_form:)
-      create(:application_choice, :withdrawn, application_form:)
-      create(:application_choice, :declined, application_form:)
-      create(:application_choice, :awaiting_provider_decision, application_form:)
-      create(:application_choice, :inactive, application_form:)
-      create(:application_choice, :interviewing, application_form:)
-      create(:application_choice, :rejected, application_form:)
-      create(:application_choice, :conditions_not_met, application_form:)
-      create(:application_choice, :unsubmitted, application_form:)
-      create(:application_choice, :application_not_sent, application_form:)
-      create(:application_choice, :cancelled, application_form:)
-      create(:application_choice, :offer, application_form:)
+      create(:application_choice, :offer_withdrawn, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :withdrawn, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :declined, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :awaiting_provider_decision, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :inactive, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :interviewing, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :rejected, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :conditions_not_met, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :unsubmitted, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :application_not_sent, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :cancelled, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :offer, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
     end
 
     it 'sort group headers in the expected order' do
@@ -57,15 +58,15 @@ RSpec.describe CandidateInterface::ApplicationChoiceListComponent do
 
   context 'when only some application choice groups' do
     before do
-      create(:application_choice, :awaiting_provider_decision, application_form:)
-      create(:application_choice, :inactive, application_form:)
-      create(:application_choice, :interviewing, application_form:)
-      create(:application_choice, :rejected, application_form:)
-      create(:application_choice, :conditions_not_met, application_form:)
-      create(:application_choice, :unsubmitted, application_form:)
-      create(:application_choice, :application_not_sent, application_form:)
-      create(:application_choice, :cancelled, application_form:)
-      create(:application_choice, :offer, application_form:)
+      create(:application_choice, :awaiting_provider_decision, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :inactive, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :interviewing, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :rejected, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :conditions_not_met, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :unsubmitted, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :application_not_sent, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :cancelled, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+      create(:application_choice, :offer, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
     end
 
     it 'sort group headers in the expected order' do
@@ -96,12 +97,12 @@ RSpec.describe CandidateInterface::ApplicationChoiceListComponent do
       end
 
       before do
-        create(:application_choice, :offer, application_form:)
-        create(:application_choice, :unsubmitted, application_form:)
-        create(:application_choice, :rejected, application_form:)
-        create(:application_choice, :awaiting_provider_decision, application_form:)
-        create(:application_choice, :offer_withdrawn, application_form:)
-        create(:application_choice, :declined, application_form:)
+        create(:application_choice, :offer, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+        create(:application_choice, :unsubmitted, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+        create(:application_choice, :rejected, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+        create(:application_choice, :awaiting_provider_decision, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+        create(:application_choice, :offer_withdrawn, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+        create(:application_choice, :declined, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
       end
 
       it "sets #{tab} as current tab" do
@@ -123,12 +124,12 @@ RSpec.describe CandidateInterface::ApplicationChoiceListComponent do
       end
 
       before do
-        create(:application_choice, :offer, application_form:)
-        create(:application_choice, :unsubmitted, application_form:)
-        create(:application_choice, :rejected, application_form:)
-        create(:application_choice, :awaiting_provider_decision, application_form:)
-        create(:application_choice, :offer_withdrawn, application_form:)
-        create(:application_choice, :declined, application_form:)
+        create(:application_choice, :offer, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+        create(:application_choice, :unsubmitted, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+        create(:application_choice, :rejected, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+        create(:application_choice, :awaiting_provider_decision, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+        create(:application_choice, :offer_withdrawn, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
+        create(:application_choice, :declined, application_form:, course_option: create(:course_option, course: create(:course, provider: provider)))
       end
 
       it 'sets all applications as current tab' do
