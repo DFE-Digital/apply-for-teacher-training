@@ -283,6 +283,7 @@ namespace :support_interface, path: '/support' do
     get '/qualifications', to: 'docs#qualifications', as: :docs_qualifications
     get '/mailers' => 'docs#mailer_previews', as: :docs_mailer_previews
     get '/components' => 'docs#component_previews', as: :docs_component_previews
+    get '/application-states', to: 'docs#application_states', as: :docs_application_states
   end
 
   scope '/users' do

@@ -1,0 +1,26 @@
+<%= govuk_table do |table| %>
+  <% table.with_caption(text: 'Application states', html_attributes: { class: 'govuk-visually-hidden' }) %>
+  <% table.with_head do |head| %>
+    <% head.with_row do |row| %>
+      <% headers.each do |header| %>
+        <%= row.with_cell(text: header) %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% table.with_body do |body| %>
+    <% ApplicationStateChange::ApplicationState.all.each do |application_state| %>
+      <% body.with_row do |row| %>
+        <%= row.with_cell(text: application_state.id, html_attributes: { id: "#{application_state.id}_state_cell" }) %>
+        <% scopes.each do |scope| %>
+          <% row.with_cell(html_attributes: { id: "#{application_state.id}_#{scope}_cell" }) do %>
+            <% if application_state.try(scope) %>
+              <%= govuk_tag(text: 'Yes', colour: 'green') %>
+            <% else %>
+              <%= govuk_tag(text: 'No', colour: 'red') %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

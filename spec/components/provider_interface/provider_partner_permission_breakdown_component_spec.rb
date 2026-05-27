@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
-  let(:provider) { create(:provider) }
+  let(:provider) { create(:provider, code: 'ZZZ') }
   let(:permission) { :make_decisions }
   let(:render) { render_inline(described_class.new(provider:, permission:)) }
 

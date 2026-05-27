@@ -1,0 +1,9 @@
+<%= render 'docs_navigation', title: 'Candidate application flow' %>
+
+<p class="govuk-body-l govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-padding-bottom-4">
+  A matrix of each state an application can be in, and the permissions and restrictions of each state.
+</p>
+
+<div class="moj-scrollable-pane">
+  <%= render SupportInterface::ApplicationStateMatrixComponent.new %>
+</div>
