@@ -1,6 +1,7 @@
 class ApplicationChoice < ApplicationRecord
   include Chased
   include TouchApplicationFormState
+  include ApplicationStateable
 
   self.ignored_columns += %w[decline_by_default_at decline_by_default_days]
 
@@ -86,6 +87,11 @@ class ApplicationChoice < ApplicationRecord
   scope :decision_pending, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:pending_provider_decision)) }
   scope :decision_pending_and_inactive, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:pending_provider_decision_or_inactive)) }
   scope :accepted, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:offer_accepted)) }
+  scope :interviewable, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:interviewable)) }
+  scope :unsuccessful, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:unsuccessful)) }
+  scope :successful, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:successful)) }
+  scope :in_progress, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:in_progress)) }
+  scope :active_previous, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:active_previous)) }
   scope :inactive_past_day, -> { inactive.where(inactive_at: 1.day.ago..Time.zone.now) }
   scope :course_starts_after_september, lambda { |recruitment_cycle_year|
     start_date = Date.parse("30/09/#{recruitment_cycle_year}").at_end_of_day
@@ -147,23 +153,19 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def decision_pending?
-    ApplicationStateChange::ApplicationState.state_ids(:pending_provider_decision_or_inactive).include?(status.to_sym)
+    state_pending_provider_decision_or_inactive?
   end
 
   def pre_offer?
-    !ApplicationStateChange::ApplicationState.find(status).offered?
+    !state_offered?
   end
 
   def application_in_progress?
-    ApplicationStateChange::ApplicationState.find(status).in_progress?
-  end
-
-  def self.in_progress
-    where(status: ApplicationStateChange::ApplicationState.state_ids(:in_progress))
+    state_in_progress?
   end
 
   def application_unsuccessful?
-    ApplicationStateChange::ApplicationState.find(status).unsuccessful?
+    state_unsuccessful
   end
 
   def application_unsuccessful_without_inactive?
@@ -173,7 +175,7 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def accepted_choice?
-    ApplicationStateChange::ApplicationState.find(status).offer_accepted?
+    state_offer_accepted?
   end
 
   def different_offer?

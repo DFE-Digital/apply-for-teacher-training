@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe GetApplicationProgressDataByCourse do
   describe '#call' do
-    let(:report_provider) { create(:provider) }
-    let(:accredited_provider) { create(:provider) }
+    let(:report_provider) { create(:provider, code: 'YYY') }
+    let(:accredited_provider) { create(:provider, code: 'ZZZ') }
     let(:course) { create(:course, name: 'Alpha Physics', code: '2AIC', provider: report_provider, accredited_provider: nil) }
     let(:course_option) { create(:course_option, course:) }
     let(:previous_course) { create(:course, name: 'Yoga', provider: report_provider) }

@@ -64,9 +64,7 @@ class ApplicationReference < ApplicationRecord
       raise 'Tried to mark an application choice from a previous cycle as changed'
     end
 
-    application_choices.where(
-      status: ApplicationStateChange::ApplicationState.state_ids(:offer_accepted),
-    ).touch_all
+    application_choices.accepted.touch_all
   end
 
   def self.requested_or_provided

@@ -28,7 +28,7 @@ class ApplicationFormStateInferrer
       :pending_conditions
     elsif any_state_is?('offer_deferred')
       :offer_deferred
-    elsif (states.uniq.map(&:to_sym) - ApplicationStateChange::ApplicationState.state_ids(:unsuccessful)).empty?
+    elsif states.uniq.all? { |state| ApplicationStateChange::ApplicationState.find(state).unsuccessful? }
       :ended_without_success
     elsif any_state_is?('unsubmitted')
       :unsubmitted_in_progress

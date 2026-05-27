@@ -50,9 +50,7 @@ module ProviderInterface
     end
 
     def application_in_correct_state?
-      @application_in_correct_state ||= ApplicationStateChange::ApplicationState
-        .find(application_choice.status)
-        .post_offered?
+      @application_in_correct_state ||= application_choice.state_post_offered?
     end
 
     def current_user_has_permission_to_view_diversity_information?

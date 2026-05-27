@@ -12,7 +12,8 @@ module DefineApplicationState
                                  :reapply,
                                  :terminal,
                                  :in_progress,
-                                 :active_previous) do
+                                 :active_previous,
+                                 :chase_referee) do
     alias_method :visible_to_provider?, :visible_to_provider
     alias_method :interviewable?, :interviewable
     alias_method :offered?, :offered
@@ -26,6 +27,7 @@ module DefineApplicationState
     alias_method :terminal?, :terminal
     alias_method :in_progress?, :in_progress
     alias_method :active_previous?, :active_previous
+    alias_method :chase_referee?, :chase_referee
 
     delegate :to_s, to: :id
 
@@ -34,63 +36,63 @@ module DefineApplicationState
         ApplicationState.new(id: :unsubmitted, visible_to_provider: false, interviewable: false, offered: false,
                              post_offered: false, offer_accepted: false, unsuccessful: false, carry_over: false,
                              successful: false, pending_provider_decision: false, reapply: false, terminal: false,
-                             in_progress: false, active_previous: false),
+                             in_progress: false, active_previous: false, chase_referee: false),
         ApplicationState.new(id: :cancelled, visible_to_provider: false, interviewable: false, offered: false,
                              post_offered: false, offer_accepted: false, unsuccessful: true, carry_over: true,
                              successful: false, pending_provider_decision: false, reapply: true, terminal: true,
-                             in_progress: false, active_previous: false),
+                             in_progress: false, active_previous: false, chase_referee: false),
         ApplicationState.new(id: :awaiting_provider_decision, visible_to_provider: true, interviewable: true,
                              offered: false, post_offered: false, offer_accepted: false, unsuccessful: false,
                              carry_over: false, successful: false, pending_provider_decision: true, reapply: false,
-                             terminal: false, in_progress: true, active_previous: true),
+                             terminal: false, in_progress: true, active_previous: true, chase_referee: false),
         ApplicationState.new(id: :inactive, visible_to_provider: true, interviewable: true, offered: false,
                              post_offered: false, offer_accepted: false, unsuccessful: true, carry_over: false,
                              successful: false, pending_provider_decision: false, reapply: false, terminal: true,
-                             in_progress: false, active_previous: true),
+                             in_progress: false, active_previous: true, chase_referee: false),
         ApplicationState.new(id: :interviewing, visible_to_provider: true, interviewable: true, offered: false,
                              post_offered: false, offer_accepted: false, unsuccessful: false, carry_over: false,
                              successful: false, pending_provider_decision: true, reapply: false, terminal: false,
-                             in_progress: true, active_previous: true),
+                             in_progress: true, active_previous: true, chase_referee: false),
         ApplicationState.new(id: :offer, visible_to_provider: true, interviewable: false, offered: true,
                              post_offered: false, offer_accepted: false, unsuccessful: false, carry_over: false,
                              successful: true, pending_provider_decision: false, reapply: false, terminal: false,
-                             in_progress: true, active_previous: true),
+                             in_progress: true, active_previous: true, chase_referee: false),
         ApplicationState.new(id: :pending_conditions, visible_to_provider: true, interviewable: false, offered: true,
                              post_offered: true, offer_accepted: true, unsuccessful: false, carry_over: false,
                              successful: true, pending_provider_decision: false, reapply: false, terminal: false,
-                             in_progress: true, active_previous: true),
+                             in_progress: true, active_previous: true, chase_referee: true),
         ApplicationState.new(id: :recruited, visible_to_provider: true, interviewable: false, offered: true,
                              post_offered: true, offer_accepted: true, unsuccessful: false, carry_over: false,
                              successful: true, pending_provider_decision: false, reapply: false, terminal: true,
-                             in_progress: true, active_previous: true),
+                             in_progress: true, active_previous: true, chase_referee: true),
         ApplicationState.new(id: :rejected, visible_to_provider: true, interviewable: false, offered: false,
                              post_offered: false, offer_accepted: false, unsuccessful: true, carry_over: true,
                              successful: false, pending_provider_decision: false, reapply: true, terminal: true,
-                             in_progress: false, active_previous: false),
+                             in_progress: false, active_previous: false, chase_referee: false),
         ApplicationState.new(id: :application_not_sent, visible_to_provider: false, interviewable: false, offered: false,
                              post_offered: false, offer_accepted: false, unsuccessful: true, carry_over: true,
                              successful: false, pending_provider_decision: false, reapply: false, terminal: true,
-                             in_progress: false, active_previous: false),
+                             in_progress: false, active_previous: false, chase_referee: false),
         ApplicationState.new(id: :offer_withdrawn, visible_to_provider: true, interviewable: false, offered: true,
                              post_offered: true, offer_accepted: false, unsuccessful: true, carry_over: true,
                              successful: false, pending_provider_decision: false, reapply: true, terminal: true,
-                             in_progress: false, active_previous: false),
+                             in_progress: false, active_previous: false, chase_referee: false),
         ApplicationState.new(id: :declined, visible_to_provider: true, interviewable: false, offered: true,
                              post_offered: true, offer_accepted: false, unsuccessful: true, carry_over: true,
                              successful: false, pending_provider_decision: false, reapply: true, terminal: true,
-                             in_progress: false, active_previous: false),
+                             in_progress: false, active_previous: false, chase_referee: false),
         ApplicationState.new(id: :withdrawn, visible_to_provider: true, interviewable: false, offered: false,
                              post_offered: false, offer_accepted: false, unsuccessful: true, carry_over: true,
                              successful: false, pending_provider_decision: false, reapply: true, terminal: true,
-                             in_progress: false, active_previous: false),
+                             in_progress: false, active_previous: false, chase_referee: false),
         ApplicationState.new(id: :conditions_not_met, visible_to_provider: true, interviewable: false, offered: true,
                              post_offered: true, offer_accepted: true, unsuccessful: true, carry_over: true,
                              successful: false, pending_provider_decision: false, reapply: false, terminal: true,
-                             in_progress: false, active_previous: false),
+                             in_progress: false, active_previous: false, chase_referee: false),
         ApplicationState.new(id: :offer_deferred, visible_to_provider: true, interviewable: false, offered: true,
                              post_offered: true, offer_accepted: true, unsuccessful: false, carry_over: false,
                              successful: true, pending_provider_decision: false, reapply: false, terminal: false,
-                             in_progress: true, active_previous: false),
+                             in_progress: true, active_previous: false, chase_referee: true),
       ]
     end
 
@@ -181,6 +183,18 @@ module DefineApplicationState
 
     def self.active_previous
       where(active_previous: true)
+    end
+
+    def self.chase_referee
+      where(chase_referee: true)
+    end
+
+    def self.in_flight
+      pending_provider_decision_or_inactive | offer_accepted
+    end
+
+    def self.withdrawable
+      pending_provider_decision | successful
     end
   end
 end
