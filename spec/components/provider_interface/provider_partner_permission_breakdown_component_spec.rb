@@ -8,7 +8,7 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
   def create_partner_provider_where(partner_provider_type:, permission_applies:, course_open: true, relationship_set_up: true)
     my_provider_type = partner_provider_type == :training ? :ratifying : :training
 
-    partner_provider = create(:provider, code: 'YYY')
+    partner_provider = create(:provider)
 
     relationship_traits = relationship_set_up ? [] : %i[not_set_up_yet]
 
