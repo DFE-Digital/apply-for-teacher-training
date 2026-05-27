@@ -5,6 +5,8 @@ class RecruitmentCycleTimetableDateSequenceValidator < ActiveModel::Validator
            :reject_by_default_at,
            :decline_by_default_at,
            :find_closes_at,
+           :winter_reject_by_default_at,
+           :winter_decline_by_default_at,
            :errors,
            to: :record
   attr_reader :record
@@ -27,6 +29,12 @@ class RecruitmentCycleTimetableDateSequenceValidator < ActiveModel::Validator
       errors.add(:decline_by_default_at, :decline_by_default_after_reject_by_default)
     elsif decline_by_default_at.after? find_closes_at
       errors.add(:find_closes_at, :find_closes_after_decline_by_default)
+    elsif reject_by_default_at.after? winter_reject_by_default_at
+      errors.add(:winter_reject_by_default_at, :winter_reject_by_default_after_reject_by_default)
+    elsif decline_by_default_at.after? winter_decline_by_default_at
+      errors.add(:winter_decline_by_default_at, :winter_decline_by_default_after_decline_by_default)
+    elsif winter_reject_by_default_at.after? winter_decline_by_default_at
+      errors.add(:winter_decline_by_default_at, :winter_decline_by_default_after_winter_reject_by_default)
     end
   end
 
@@ -37,6 +45,8 @@ class RecruitmentCycleTimetableDateSequenceValidator < ActiveModel::Validator
       apply_deadline_at,
       reject_by_default_at,
       decline_by_default_at,
+      winter_reject_by_default_at,
+      winter_decline_by_default_at,
       find_closes_at,
     ].any?(&:blank?)
   end
@@ -48,6 +58,8 @@ class RecruitmentCycleTimetableDateSequenceValidator < ActiveModel::Validator
       apply_deadline_at
       reject_by_default_at
       decline_by_default_at
+      winter_reject_by_default_at
+      winter_decline_by_default_at
       find_closes_at
     ].each do |attr|
       value = record.send(attr)

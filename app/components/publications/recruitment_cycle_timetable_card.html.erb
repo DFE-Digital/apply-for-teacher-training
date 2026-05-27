@@ -28,5 +28,18 @@
       <%= row.with_key { t('.find_closes_at') } %>
       <%= row.with_value { timetable.find_closes_at.to_fs(:govuk_date_and_time) } %>
     <% end %>
+    <!-- TODO: Remove if conditions once winter dates are introduced -->
+    <% if timetable.winter_reject_by_default_at.present? %>
+      <%= summary_list.with_row do |row| %>
+        <%= row.with_key { t('.winter_reject_by_default_at') } %>
+        <%= row.with_value { timetable.winter_reject_by_default_at.to_fs(:govuk_date_and_time) } %>
+      <% end %>
+    <% end %>
+    <% if timetable.winter_decline_by_default_at.present? %>
+      <%= summary_list.with_row do |row| %>
+        <%= row.with_key { t('.winter_decline_by_default_at') } %>
+        <%= row.with_value { timetable.winter_decline_by_default_at.to_fs(:govuk_date_and_time) } %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>

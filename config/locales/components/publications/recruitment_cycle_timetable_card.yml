@@ -12,3 +12,5 @@ en:
       proposed_timetable: Proposed timetable for
       next_year: Next year —
       previous_year: Previous year —
+      winter_reject_by_default_at: Winter reject by default
+      winter_decline_by_default_at: Winter decline by default
