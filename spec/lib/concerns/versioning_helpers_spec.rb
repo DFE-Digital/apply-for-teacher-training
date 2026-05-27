@@ -8,7 +8,7 @@ RSpec.describe VersioningHelpers do
       before { allow(HostingEnvironment).to receive(:production?).and_return true }
 
       it 'returns the production version' do
-        expect(released_version).to eq '1.7'
+        expect(released_version).to eq '1.8'
       end
     end
 
