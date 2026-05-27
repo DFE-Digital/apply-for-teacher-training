@@ -23,7 +23,17 @@ module ProviderInterface
     end
 
     def filters
-      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter << subject_filter << study_modes_filter << course_type_filter << invited_candidates_filter).concat(provider_locations_filters).compact
+      ([] << search_filter <<
+        recruitment_cycle_filter <<
+        status_filter <<
+        provider_filter <<
+        accredited_provider_filter <<
+        subject_filter <<
+        study_modes_filter <<
+        course_type_filter <<
+        invited_candidates_filter <<
+        start_date_filter
+      ).concat(provider_locations_filters).compact
     end
 
     def filtered?
@@ -142,6 +152,31 @@ module ProviderInterface
             checked: applied_filters[:invited_only]&.include?('invited_only'),
           },
         ],
+      }
+    end
+
+    def start_date_filter
+      provider_ids = applied_filters[:provider].presence || ProviderOptionsService.new(provider_user).providers.pluck(:id)
+      distinct_course_months = Course.where(
+        provider_id: provider_ids,
+        recruitment_cycle_year: applied_filters[:recruitment_cycle_year] || years_visible_to_provider,
+      ).select('EXTRACT(month FROM start_date) AS month').distinct.to_sql
+
+      september_ordered_months = Course.select('month')
+        .from("(#{distinct_course_months})")
+        .order(Arel.sql('(month + 3) % 12'))
+
+      {
+        type: :checkboxes,
+        heading: I18n.t('provider_interface.filters.start_date.heading'),
+        name: 'start_date',
+        options: september_ordered_months.map do |course|
+          {
+            value: course.month,
+            label: Date::MONTHNAMES[course.month],
+            checked: applied_filters[:start_date]&.include?(course.month),
+          }
+        end,
       }
     end
 

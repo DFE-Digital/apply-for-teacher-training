@@ -9,3 +9,5 @@ en:
       invited_candidates:
         heading: Invited candidates
         invited_only: Only show candidates who have been invited to apply
+      start_date:
+        heading: Start date
