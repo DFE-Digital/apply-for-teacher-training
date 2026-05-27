@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Setting up organisation permissions' do
+RSpec.describe 'Setting up organisation permissions', :with_cache do
   include DfESignInHelpers
 
   scenario 'Provider user sets up organisation permissions' do

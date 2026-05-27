@@ -2,7 +2,7 @@ require 'rails_helper'
 
 NUMBER_OF_TEXT_CONDITIONS = 3
 
-RSpec.describe 'Confirm conditions met' do
+RSpec.describe 'Confirm conditions met', :with_cache do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper

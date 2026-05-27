@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Wizard do
   let(:wizard) { Class.new { include Wizard } }
   let(:attrs) { {} }
-  let(:store) { instance_double(WizardStateStores::RedisStore, read: nil) }
+  let(:store) { instance_double(WizardStateStores::RailsCacheStore, read: nil) }
 
   subject(:model) { WizardClass.new(store, attrs) }
 

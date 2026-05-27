@@ -13,8 +13,8 @@ RSpec.describe ProviderInterface::UserInvitation::ReviewController do
     user_exists_in_dfe_sign_in(email_address: managing_user.email_address)
     get auth_dfe_callback_path
 
-    store = instance_double(WizardStateStores::RedisStore, read: store_data)
-    allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
+    store = instance_double(WizardStateStores::RailsCacheStore, read: store_data)
+    allow(WizardStateStores::RailsCacheStore).to receive(:new).and_return(store)
   end
 
   context 'when the wizard is invalid' do

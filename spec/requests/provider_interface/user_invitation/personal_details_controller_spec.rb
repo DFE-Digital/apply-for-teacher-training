@@ -11,8 +11,8 @@ RSpec.describe ProviderInterface::UserInvitation::PersonalDetailsController do
     user_exists_in_dfe_sign_in(email_address: managing_user.email_address)
     get auth_dfe_callback_path
 
-    store = instance_double(WizardStateStores::RedisStore, read: store_data, write: nil, delete: nil)
-    allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
+    store = instance_double(WizardStateStores::RailsCacheStore, read: store_data, write: nil, delete: nil)
+    allow(WizardStateStores::RailsCacheStore).to receive(:new).and_return(store)
   end
 
   it 'returns a success response for GET new' do

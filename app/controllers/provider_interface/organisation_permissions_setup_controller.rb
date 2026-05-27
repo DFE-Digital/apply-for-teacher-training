@@ -108,7 +108,7 @@ module ProviderInterface
 
     def organisation_permissions_wizard_store
       key = "organisation_permissions_wizard_store_#{current_provider_user.id}"
-      WizardStateStores::RedisStore.new(key:)
+      WizardStateStores::RailsCacheStore.new(key:)
     end
 
     def current_relationship_description

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::RejectionsWizard do
   let(:attrs) { { current_step: 'edit' } }
-  let(:store) { instance_double(WizardStateStores::RedisStore) }
+  let(:store) { instance_double(WizardStateStores::RailsCacheStore) }
 
   before { allow(store).to receive(:read) }
 

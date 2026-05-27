@@ -37,7 +37,7 @@ RSpec.describe FilterComponent do
 
   let(:current_provider_user) { create(:provider_user) }
   let(:state_store) do
-    StateStores::RedisStore.new(key: "#{ProviderInterface::ProviderApplicationsFilter::STATE_STORE_KEY}_#{current_provider_user.id}")
+    StateStores::RailsCacheStore.new(key: "#{ProviderInterface::ProviderApplicationsFilter::STATE_STORE_KEY}_#{current_provider_user.id}")
   end
 
   it 'marks checkboxes as checked if they have already been pre-selected' do

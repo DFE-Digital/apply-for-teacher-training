@@ -129,17 +129,17 @@ module ProviderInterface
 
     def interview_store
       key = "interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
-      WizardStateStores::RedisStore.new(key:)
+      WizardStateStores::RailsCacheStore.new(key:)
     end
 
     def edit_interview_store(interview_id)
       key = "interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}_#{interview_id}"
-      WizardStateStores::RedisStore.new(key:)
+      WizardStateStores::RailsCacheStore.new(key:)
     end
 
     def cancel_interview_store(interview_id)
       key = "cancel_interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}_#{interview_id}"
-      WizardStateStores::RedisStore.new(key:)
+      WizardStateStores::RailsCacheStore.new(key:)
     end
 
     def confirm_application_is_in_decision_pending_state

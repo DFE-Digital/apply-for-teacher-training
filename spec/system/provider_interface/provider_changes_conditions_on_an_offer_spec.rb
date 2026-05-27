@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Change offer conditions' do
+RSpec.describe 'Change offer conditions', :with_cache do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper

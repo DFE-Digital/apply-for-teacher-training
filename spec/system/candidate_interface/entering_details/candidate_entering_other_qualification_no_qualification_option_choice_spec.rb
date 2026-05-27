@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Entering their other qualifications' do
+RSpec.describe 'Entering their other qualifications', :with_cache do
   include CandidateHelper
 
   scenario 'Candidate submits their other qualifications after choosing not to provide any' do

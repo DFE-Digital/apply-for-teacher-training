@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor makes unconditional offer', time: CycleTimetableHelper.mid_cycle(2024) do
+RSpec.describe 'Vendor makes unconditional offer', :with_cache, time: CycleTimetableHelper.mid_cycle(2024) do
   include CandidateHelper
   include DfE::Bigquery::TestHelper
 

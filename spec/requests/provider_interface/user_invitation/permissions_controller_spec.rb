@@ -15,8 +15,8 @@ RSpec.describe ProviderInterface::UserInvitation::PermissionsController do
     let(:store_data) { nil }
 
     before do
-      store = instance_double(WizardStateStores::RedisStore, read: store_data, write: nil)
-      allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
+      store = instance_double(WizardStateStores::RailsCacheStore, read: store_data, write: nil)
+      allow(WizardStateStores::RailsCacheStore).to receive(:new).and_return(store)
     end
 
     it 'redirects to the users index page on GET new' do

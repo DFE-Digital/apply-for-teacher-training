@@ -2,7 +2,7 @@ require 'rails_helper'
 
 # This is an end-to-end test for the API response. To test complex logic in
 # the presenter, see spec/presenters/vendor_api/single_application_presenter_spec.rb.
-RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid_cycle(2025) do
+RSpec.describe 'Vendor receives the application', :with_cache, time: CycleTimetableHelper.mid_cycle(2025) do
   include CandidateHelper
   include DfE::Bigquery::TestHelper
 
@@ -62,6 +62,7 @@ RSpec.describe 'Vendor receives the application', time: CycleTimetableHelper.mid
   end
 
   def when_i_retrieve_the_application_over_the_api
+    Rails.cache.clear
     api_token = VendorAPIToken.create_with_random_token!(provider: @provider)
     page.driver.header 'Authorization', "Bearer #{api_token}"
 

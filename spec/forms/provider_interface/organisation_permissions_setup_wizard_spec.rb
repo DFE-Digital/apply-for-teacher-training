@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::OrganisationPermissionsSetupWizard do
-  let(:store) { instance_double(WizardStateStores::RedisStore) }
+  let(:store) { instance_double(WizardStateStores::RailsCacheStore) }
   let(:relationships) { create_list(:provider_relationship_permissions, 3).shuffle }
   let(:relationship_ids) { relationships.pluck(:id) }
   let(:wizard_attrs) { { relationship_ids: } }

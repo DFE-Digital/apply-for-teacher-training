@@ -14,7 +14,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
   context 'when there are permissions requiring setup' do
     let(:ratifying_provider) { create(:provider) }
     let!(:course) { create(:course, :open, accredited_provider: ratifying_provider, provider:) }
-    let(:store) { instance_double(WizardStateStores::RedisStore) }
+    let(:store) { instance_double(WizardStateStores::RailsCacheStore) }
     let(:wizard_store_value) { { 'relationship_ids' => [permissions.id] }.to_json }
     let!(:permissions) do
       create(
@@ -29,7 +29,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
       allow(store).to receive(:read).and_return(wizard_store_value)
       allow(store).to receive(:write)
       allow(store).to receive(:delete)
-      allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
+      allow(WizardStateStores::RailsCacheStore).to receive(:new).and_return(store)
     end
 
     it 'returns a 200 on the setup index page' do

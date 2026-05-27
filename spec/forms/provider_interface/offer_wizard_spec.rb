@@ -19,7 +19,7 @@ RSpec.describe ProviderInterface::OfferWizard do
     )
   end
 
-  let(:store) { instance_double(WizardStateStores::RedisStore) }
+  let(:store) { instance_double(WizardStateStores::RailsCacheStore) }
   let(:provider_id) { nil }
   let(:course_id) { nil }
   let(:require_references) { nil }

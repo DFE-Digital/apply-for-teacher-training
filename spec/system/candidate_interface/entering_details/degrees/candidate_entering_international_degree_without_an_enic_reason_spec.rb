@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Entering an international doctorate degree' do
+RSpec.describe 'Entering an international doctorate degree', :with_cache do
   include CandidateHelper
 
   scenario 'Candidate enters their degree without an enic reason' do

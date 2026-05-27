@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::IntermediateDataService do
+RSpec.describe CandidateInterface::IntermediateDataService, :with_cache do
   def create_service
     described_class.new(@state_store)
   end
 
   before do
-    @state_store = WizardStateStores::RedisStore.new(key: 'test_flow-123456')
+    @state_store = WizardStateStores::RailsCacheStore.new(key: 'test_flow-123456')
     @state_store.delete
   end
 
@@ -16,7 +16,7 @@ RSpec.describe CandidateInterface::IntermediateDataService do
       expect(service.read).to eq({})
     end
 
-    it 'returns a deserialised Hash from Redis' do
+    it 'returns a deserialised Hash from Cache' do
       service = create_service
       data = { 'key1' => 'one', 'key2' => 'two', 'key3' => 'three' }
       @state_store.write(data.to_json)

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Remove offer conditions' do
+RSpec.describe 'Remove offer conditions', :with_cache do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper

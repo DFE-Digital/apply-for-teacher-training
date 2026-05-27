@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider makes an offer on undergraduate applications' do
+RSpec.describe 'Provider makes an offer on undergraduate applications', :with_cache do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
   include OfferStepsHelper

@@ -5,7 +5,7 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
     described_class.new(state_store: store)
   end
 
-  let(:store) { instance_double(WizardStateStores::RedisStore) }
+  let(:store) { instance_double(WizardStateStores::RailsCacheStore) }
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:provider_users) }

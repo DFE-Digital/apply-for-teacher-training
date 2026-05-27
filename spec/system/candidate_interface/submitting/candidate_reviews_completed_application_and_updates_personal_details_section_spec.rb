@@ -9,7 +9,7 @@ RSpec.describe 'Candidate is redirected correctly' do
     FeatureFlag.deactivate('2027_application_form_contact_details_residency_questions')
   end
 
-  it 'Candidate reviews completed application and updates personal details section' do
+  it 'Candidate reviews completed application and updates personal details section', :with_cache do
     given_i_am_signed_in_with_one_login
     when_i_have_completed_my_application
     and_i_review_my_application

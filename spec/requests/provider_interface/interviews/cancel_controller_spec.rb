@@ -67,9 +67,9 @@ RSpec.describe ProviderInterface::Interviews::CancelController do
       create(:application_choice, :awaiting_provider_decision, application_form:, course_option:)
     end
 
-    let(:store) { instance_double(WizardStateStores::RedisStore, read: %({ }), write: true) }
+    let(:store) { instance_double(WizardStateStores::RailsCacheStore, read: %({ }), write: true) }
 
-    before { allow(WizardStateStores::RedisStore).to receive(:new).and_return(store) }
+    before { allow(WizardStateStores::RailsCacheStore).to receive(:new).and_return(store) }
 
     it 'tracks validation errors on create' do
       expect {

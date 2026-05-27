@@ -1,6 +1,6 @@
 require 'rails_helper'
 RSpec.describe ProviderInterface::InviteUserWizard do
-  let(:store) { instance_double(WizardStateStores::RedisStore) }
+  let(:store) { instance_double(WizardStateStores::RailsCacheStore) }
   let(:email) { 'name@example.com' }
   let(:provider) { create(:provider) }
 

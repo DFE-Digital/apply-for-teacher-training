@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::Degrees::SubjectForm do
 
   let(:degree_params) { {} }
 
-  let(:store) { instance_double(WizardStateStores::RedisStore) }
+  let(:store) { instance_double(WizardStateStores::RailsCacheStore) }
 
   before do
     allow(store).to receive(:read)

@@ -63,7 +63,7 @@ module ProviderInterface
 
     def change_course_store
       key = "change_course_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
-      WizardStateStores::RedisStore.new(key:)
+      WizardStateStores::RailsCacheStore.new(key:)
     end
 
     def action
