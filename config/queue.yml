@@ -15,11 +15,24 @@ default: &default
       processes: <%= ENV.fetch("BIG_QUERY_QUEUE_PROCESSES", 1) %>
       polling_interval: 1
 
+non_production: &non_production
+  workers:
+    - queues: [default, mailers, low_priority, big_query_sq]
+      threads: 1
+      processes: 1
+      polling_interval: 3
+
+qa:
+  <<: *non_production
+
+sandbox:
+  <<: *non_production
+
 development:
-  <<: *default
+  <<: *non_production
 
 test:
-  <<: *default
+  <<: *non_production
 
 production:
   <<: *default
