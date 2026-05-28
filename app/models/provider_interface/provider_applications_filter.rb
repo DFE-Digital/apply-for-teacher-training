@@ -180,7 +180,7 @@ module ProviderInterface
       ).distinct.to_sql
 
       september_ordered_months = Course.select('month')
-        .from("(#{distinct_course_months})")
+        .from("(#{distinct_course_months}) as course_months")
         .order(Arel.sql('(month + 3) % 12'))
 
       {
