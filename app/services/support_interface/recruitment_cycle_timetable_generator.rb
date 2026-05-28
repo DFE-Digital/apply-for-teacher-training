@@ -3,6 +3,7 @@ module SupportInterface
 
   class RecruitmentCycleTimetableGenerator
     FIRST_RECRUITMENT_CYCLE_YEAR = 2019
+    WINTER_DEFAULT_DIFFERENCE = 17
 
     def self.call(recruitment_cycle_year)
       new(recruitment_cycle_year).call
@@ -53,8 +54,8 @@ module SupportInterface
       decline_by_default_at = generate_decline_by_default_at(find_closes_at)
       reject_by_default_at = generate_reject_by_default_at(decline_by_default_at)
       apply_deadline_at = generate_apply_deadline_at(reject_by_default_at)
-      winter_reject_by_default_at = reject_by_default_at + 18.weeks
-      winter_decline_by_default_at = decline_by_default_at + 18.weeks
+      winter_reject_by_default_at = reject_by_default_at + WINTER_DEFAULT_DIFFERENCE.weeks
+      winter_decline_by_default_at = decline_by_default_at + WINTER_DEFAULT_DIFFERENCE.weeks
 
       RecruitmentCycleTimetable.create!(
         recruitment_cycle_year: next_year,
