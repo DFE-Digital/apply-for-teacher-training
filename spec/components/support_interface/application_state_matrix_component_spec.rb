@@ -7,6 +7,7 @@ RSpec.describe SupportInterface::ApplicationStateMatrixComponent do
         'States',
         'Active previous',
         'Carry over',
+        'Chase referee',
         'In progress',
         'Interviewable',
         'Offer accepted',
@@ -27,6 +28,7 @@ RSpec.describe SupportInterface::ApplicationStateMatrixComponent do
       expect(described_class.new.scopes).to eq(%i[
         active_previous
         carry_over
+        chase_referee
         in_progress
         interviewable
         offer_accepted
