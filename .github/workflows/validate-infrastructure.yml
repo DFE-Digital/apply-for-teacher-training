@@ -1,0 +1,41 @@
+name: Validate Infra
+
+on:
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: ${{ matrix.display }}
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      id-token: write
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - display: AKS infrastructure
+            validation_plan: aks-infra
+            terraform_base: terraform/application
+          - display: Domains infrastructure
+            validation_plan: domains-infra
+            terraform_base: terraform/domains/infrastructure
+          - display: Domains environment
+            validation_plan: domains-env
+            terraform_base: terraform/domains/environment_domains
+
+    steps:
+      - name: Validate ${{ matrix.display }}
+        uses: DFE-Digital/github-actions/validate-infra@master
+        with:
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          environment: production
+          terraform-base: ${{ matrix.terraform_base }}
+          validation-plan: ${{ matrix.validation_plan }}
+          service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
+          teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL_INFRA }}
