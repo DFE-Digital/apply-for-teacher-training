@@ -52,7 +52,11 @@ class FilterApplicationChoicesForProviders
     def start_months(application_choices, months)
       return application_choices if months.blank?
 
-      application_choices.joins(:course).where("EXTRACT(month from start_date) IN (#{months.join(',')})")
+      application_choices.joins(:course).where(
+        "EXTRACT(month from (start_date AT TIME ZONE 'UTC' AT TIME ZONE ?)) IN (?)",
+        Time.zone.tzinfo.name,
+        months,
+      )
     end
 
     def status(application_choices, statuses)

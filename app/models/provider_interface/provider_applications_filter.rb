@@ -174,8 +174,10 @@ module ProviderInterface
       provider_ids = applied_filters[:provider].presence || ProviderOptionsService.new(provider_user).providers.pluck(:id)
       distinct_course_months = Course.where(
         provider_id: provider_ids,
-        recruitment_cycle_year: applied_filters[:recruitment_cycle_year] || years_visible_to_provider,
-      ).select('EXTRACT(month FROM start_date) AS month').distinct.to_sql
+        recruitment_cycle_year: applied_filters[:recruitment_cycle_year].presence || years_visible_to_provider,
+      ).select(
+        "EXTRACT(month FROM start_date AT TIME ZONE 'UTC' AT TIME ZONE '#{Time.zone.tzinfo.name}') AS month",
+      ).distinct.to_sql
 
       september_ordered_months = Course.select('month')
         .from("(#{distinct_course_months})")
@@ -189,7 +191,7 @@ module ProviderInterface
           {
             value: course.month,
             label: Date::MONTHNAMES[course.month],
-            checked: applied_filters[:start_months]&.include?(course.month),
+            checked: applied_filters[:start_months]&.include?(course.month.to_s),
           }
         end,
       }
