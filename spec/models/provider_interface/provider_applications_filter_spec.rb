@@ -6,8 +6,8 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
   let(:provider_3_subjects) { create_list(:subject, 1) }
   let(:accredited_provider_subjects) { create_list(:subject, 1) }
 
-  let(:course1) { create(:course, subjects: provider_1_subjects, study_mode: 'part_time') }
-  let(:course2) { create(:course, subjects: provider_2_subjects) }
+  let(:course1) { create(:course, subjects: provider_1_subjects, study_mode: 'part_time', start_date: '2026-05-10') }
+  let(:course2) { create(:course, subjects: provider_2_subjects, start_date: '2026-04-10') }
   let(:course3) { create(:course, subjects: provider_3_subjects) }
   let(:accredited_course) { create(:course, subjects: accredited_provider_subjects, accredited_provider:) }
 
@@ -46,7 +46,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
         end
 
         it 'does not include the Locations filter' do
-          expected_number_of_filters = 8
+          expected_number_of_filters = 9
           recruitment_cycle_index = 1
           providers_array_index = 3
           number_of_courses = 2
@@ -67,7 +67,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
         end
 
         it 'does not include the Providers filter' do
-          expected_number_of_filters = 8
+          expected_number_of_filters = 9
 
           expect(filter.filters.size).to eq(expected_number_of_filters)
           expect(headings).not_to include('Provider')
@@ -75,7 +75,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       end
 
       it 'does include the course type filter' do
-        expect(filter.filters.size).to be(8)
+        expect(filter.filters.size).to be(9)
         expect(headings).to include('Course type')
       end
     end
@@ -93,11 +93,11 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
           relevant_provider_labels = [provider1.sites.first.name_and_code, provider1.sites.last.name_and_code]
 
           expect(headings).to include("Locations for #{provider1.name}")
-          expect(relevant_provider_name_and_code).to include(filter.filters[7][:options][0][:value])
-          expect(relevant_provider_name_and_code).to include(filter.filters[7][:options][1][:value])
+          expect(relevant_provider_name_and_code).to include(filter.filters[8][:options][0][:value])
+          expect(relevant_provider_name_and_code).to include(filter.filters[8][:options][1][:value])
 
-          expect(relevant_provider_labels).to include(filter.filters[7][:options][0][:label])
-          expect(relevant_provider_labels).to include(filter.filters[7][:options][1][:label])
+          expect(relevant_provider_labels).to include(filter.filters[8][:options][0][:label])
+          expect(relevant_provider_labels).to include(filter.filters[8][:options][1][:label])
         end
       end
 
@@ -115,8 +115,8 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
           old_site_label = old_site.name_and_code
 
           expect(headings).to include("Locations for #{provider1.name}")
-          expect(old_site_name_and_code).not_to include(filter.filters[7][:options][0][:value])
-          expect(old_site_label).not_to include(filter.filters[7][:options][0][:label])
+          expect(old_site_name_and_code).not_to include(filter.filters[8][:options][0][:value])
+          expect(old_site_label).not_to include(filter.filters[8][:options][0][:label])
         end
       end
     end
@@ -135,11 +135,11 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
 
         expect(headings).to include("Locations for #{provider1.name}")
 
-        expect(relevant_provider_name_and_code).to include(filter.filters[8][:options][0][:value])
-        expect(relevant_provider_name_and_code).to include(filter.filters[8][:options][1][:value])
+        expect(relevant_provider_name_and_code).to include(filter.filters[9][:options][0][:value])
+        expect(relevant_provider_name_and_code).to include(filter.filters[9][:options][1][:value])
 
-        expect(relevant_provider_labels).to include(filter.filters[8][:options][0][:label])
-        expect(relevant_provider_labels).to include(filter.filters[8][:options][1][:label])
+        expect(relevant_provider_labels).to include(filter.filters[9][:options][0][:label])
+        expect(relevant_provider_labels).to include(filter.filters[9][:options][1][:label])
       end
     end
 
@@ -174,6 +174,23 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
 
         expect(headings).to include('Full time or part time')
         expect(filter_study_modes).to match_array(study_modes)
+      end
+    end
+
+    context 'when a start date is selected' do
+      let(:params) { ActionController::Parameters.new }
+      let(:filter) do
+        described_class.new(params:,
+                            provider_user:,
+                            state_store:)
+      end
+
+      it 'can return a filter config for a list start months' do
+        expected_months = %w[April May]
+        months = filter.filters[8][:options].map { |h| h[:label] }
+
+        expect(headings).to include('Start date')
+        expect(months).to match_array(expected_months)
       end
     end
   end
