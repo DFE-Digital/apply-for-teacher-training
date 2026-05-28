@@ -3,11 +3,6 @@ require 'rails_helper'
 RSpec.describe AcceptOffer do
   include CourseOptionHelpers
 
-  before do
-    timetable = get_timetable(ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR)
-    TestSuiteTimeMachine.travel_permanently_to(timetable.apply_opens_at)
-  end
-
   describe '#valid?' do
     context 'when valid references' do
       it 'returns true' do

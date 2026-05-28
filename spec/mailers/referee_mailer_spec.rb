@@ -10,7 +10,7 @@ RSpec.describe RefereeMailer do
                               application_form:)
   end
   let(:application_form) { build_stubbed(:application_form, first_name: 'Elliot', last_name: 'Alderson', application_choices:, recruitment_cycle_year: recruitment_cycle_year) }
-  let(:recruitment_cycle_year) { ApplicationForm::OLD_REFERENCE_FLOW_CYCLE_YEAR }
+  let(:recruitment_cycle_year) { current_year }
 
   before do
     allow(reference).to receive(:refresh_feedback_token!).and_return('raw_token')

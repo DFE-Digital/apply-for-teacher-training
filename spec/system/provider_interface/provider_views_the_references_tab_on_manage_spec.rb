@@ -5,10 +5,6 @@ RSpec.describe 'Provider views an application in new cycle' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  before do
-    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(2023))
-  end
-
   scenario 'Provider views the new references tab' do
     given_i_am_a_provider_user_authenticated_with_dfe_sign_in
     and_my_organisation_has_applications
@@ -46,7 +42,6 @@ RSpec.describe 'Provider views an application in new cycle' do
                                  status: 'awaiting_provider_decision',
                                  course_option:)
 
-    @my_provider_choice.application_form.update(recruitment_cycle_year: 2023)
     @my_provider_choice.application_form.application_references.update(feedback_status: 'feedback_requested')
   end
 
