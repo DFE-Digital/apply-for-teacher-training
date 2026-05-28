@@ -66,6 +66,14 @@ RSpec.describe FilterApplicationChoicesForProviders do
       expect(result).to eq([application_choices.last])
     end
 
+    it 'filters by start_months' do
+      application_choices.last.course.update(start_date: '2026-05-10')
+
+      result = described_class.call(application_choices:, filters: { start_months: ['5.0'] })
+
+      expect(result).to eq([application_choices.last])
+    end
+
     context 'when filtering by status' do
       it 'filters by selected status' do
         application_choices.first.update(status: 'rejected', rejected_at: Time.zone.now)

@@ -49,6 +49,16 @@ class FilterApplicationChoicesForProviders
       application_choices.where(course: { recruitment_cycle_year: years })
     end
 
+    def start_months(application_choices, months)
+      return application_choices if months.blank?
+
+      application_choices.joins(:course).where(
+        "EXTRACT(month from (start_date AT TIME ZONE 'UTC' AT TIME ZONE ?)) IN (?)",
+        Time.zone.tzinfo.name,
+        months,
+      )
+    end
+
     def status(application_choices, statuses)
       return application_choices if statuses.blank?
 
@@ -121,6 +131,7 @@ class FilterApplicationChoicesForProviders
       filtered_application_choices = search(application_choices, filters[:candidate_name])
       filtered_application_choices = invited_candidates(filtered_application_choices, filters[:invited_only], filters[:recruitment_cycle_year])
       filtered_application_choices = recruitment_cycle_year(filtered_application_choices, filters[:recruitment_cycle_year])
+      filtered_application_choices = start_months(filtered_application_choices, filters[:start_months])
       filtered_application_choices = provider(filtered_application_choices, filters[:provider])
       filtered_application_choices = accredited_provider(filtered_application_choices, filters[:accredited_provider])
       filtered_application_choices = status(filtered_application_choices, filters[:status])
