@@ -19,6 +19,7 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
 
         context 'after the reject by default date', time: reject_by_default_run_date(year) do
           it 'enqueues the secondary worker' do
+            allow(instance).to receive_messages(winter_rejection_by_default_set?: false)
             inactive_choice = create(:application_choice, :inactive)
             interviewing_choice = create(:application_choice, :interviewing)
             awaiting_decision_choice = create(:application_choice, :awaiting_provider_decision)
@@ -27,7 +28,7 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
             create(:application_choice, :offer)
 
             allow(EndOfCycle::RejectByDefaultSecondaryWorker).to receive(:perform_at)
-            described_class.new.perform
+            instance.perform
             expect(EndOfCycle::RejectByDefaultSecondaryWorker)
               .to have_received(:perform_at)
                     .with(
@@ -110,8 +111,6 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
           let(:january_course) { create(:course, start_date: Date.parse("01/01/#{year + 1}")) }
 
           it 'does not enqueue the secondary worker' do
-            allow(instance).to receive_messages(winter_rejection_by_default_set?: true)
-
             create(:application_choice, :inactive)
             create(
               :application_choice,

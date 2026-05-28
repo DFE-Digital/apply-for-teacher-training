@@ -13,7 +13,7 @@ module EndOfCycle
     end
 
     def relation
-      ids = ApplicationChoice.course_starts_after_september(RecruitmentCycleTimetable.previous_year)
+      ids = ApplicationChoice.course_starts_after_september(timetable.recruitment_cycle_year)
               .where(rejected_by_default: true)
               .pluck(:application_form_id).uniq
       ApplicationForm
@@ -26,7 +26,11 @@ module EndOfCycle
   private
 
     def send_emails?
-      CandidateEmailTimetabler.new.send_winter_reject_by_default_explainer?
+      CandidateEmailTimetabler.new(timetable:).send_winter_reject_by_default_explainer?
+    end
+
+    def timetable
+      @timetable ||= RecruitmentCycleTimetable.previous_timetable
     end
   end
 
