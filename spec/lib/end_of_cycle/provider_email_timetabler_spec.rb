@@ -15,7 +15,7 @@ RSpec.describe EndOfCycle::ProviderEmailTimetabler do
     context 'when the current date does not match the winter reject by default explainer date' do
       before do
         TestSuiteTimeMachine.travel_permanently_to(Time.zone.now.next_weekday.to_date)
-        allow(instance).to receive(:timetable).and_return(Struct.new(:winter_reject_by_default_at).new(winter_reject_by_default_at))
+        allow(instance).to receive(:timetable).and_return(RecruitmentCycleTimetable.new(winter_reject_by_default_at:))
       end
 
       let(:winter_reject_by_default_at) { 1.month.ago.to_date }
@@ -28,7 +28,7 @@ RSpec.describe EndOfCycle::ProviderEmailTimetabler do
     context 'when the current date matches the winter reject by default explainer date' do
       before do
         TestSuiteTimeMachine.travel_permanently_to(Time.zone.now.next_weekday.to_date)
-        allow(instance).to receive(:timetable).and_return(Struct.new(:winter_reject_by_default_at).new(winter_reject_by_default_at))
+        allow(instance).to receive(:timetable).and_return(RecruitmentCycleTimetable.new(winter_reject_by_default_at:))
       end
 
       let(:winter_reject_by_default_at) { 2.weeks.from_now.to_date }
@@ -43,6 +43,12 @@ RSpec.describe EndOfCycle::ProviderEmailTimetabler do
     subject(:winter_reject_by_default_reminder_provider_date) { instance.winter_reject_by_default_reminder_provider_date }
 
     context 'when the timetable winter_reject_by_default_at attribute is nil' do
+      before do
+        allow(instance).to receive(:timetable).and_return(RecruitmentCycleTimetable.new(winter_reject_by_default_at:))
+      end
+
+      let(:winter_reject_by_default_at) { nil }
+
       it 'returns nil' do
         expect(winter_reject_by_default_reminder_provider_date).to be_nil
       end
@@ -50,7 +56,7 @@ RSpec.describe EndOfCycle::ProviderEmailTimetabler do
 
     context 'when the timetable winter_reject_by_default_at attribute is not nil' do
       it 'returns a date 2 weeks before the timetable winter_reject_by_default_at attribute' do
-        allow(instance).to receive(:timetable).and_return(Struct.new(:winter_reject_by_default_at).new(Date.parse('01/09/2026')))
+        allow(instance).to receive(:timetable).and_return(RecruitmentCycleTimetable.new(winter_reject_by_default_at: '01/09/2026'.to_time))
         expect(winter_reject_by_default_reminder_provider_date).to eq(Date.parse('18/08/2026'))
       end
     end

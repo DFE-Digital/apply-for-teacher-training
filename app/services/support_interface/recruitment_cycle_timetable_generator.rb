@@ -53,6 +53,8 @@ module SupportInterface
       decline_by_default_at = generate_decline_by_default_at(find_closes_at)
       reject_by_default_at = generate_reject_by_default_at(decline_by_default_at)
       apply_deadline_at = generate_apply_deadline_at(reject_by_default_at)
+      winter_reject_by_default_at = reject_by_default_at + 18.weeks
+      winter_decline_by_default_at = decline_by_default_at + 18.weeks
 
       RecruitmentCycleTimetable.create!(
         recruitment_cycle_year: next_year,
@@ -62,6 +64,8 @@ module SupportInterface
         decline_by_default_at:,
         reject_by_default_at:,
         apply_deadline_at:,
+        winter_reject_by_default_at:,
+        winter_decline_by_default_at:,
       )
       generate_timetable
     end

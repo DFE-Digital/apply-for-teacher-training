@@ -6,6 +6,8 @@ class RecruitmentCycleTimetable < ApplicationRecord
             :reject_by_default_at,
             :decline_by_default_at,
             :find_closes_at,
+            :winter_reject_by_default_at,
+            :winter_decline_by_default_at,
             presence: true
   validates :recruitment_cycle_year, uniqueness: { allow_nil: false }
   validates_with RecruitmentCycleTimetableDateSequenceValidator
