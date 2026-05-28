@@ -56,7 +56,7 @@ module ApplyForPostgraduateTeacherTraining
 
     config.before_configuration do
       ENV["SOLID_QUEUE_CONFIG"] =
-        if %w[qa sandbox review].include?(ENV["HOSTING_ENVIRONMENT_NAME"])
+        if %w[qa sandbox staging review].include?(ENV["HOSTING_ENVIRONMENT_NAME"])
           "config/non_production_queue.yml"
         else
           "config/queue.yml"
