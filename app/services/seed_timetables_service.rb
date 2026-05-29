@@ -21,7 +21,7 @@ class SeedTimetablesService
           reject_by_default_at: timetable['reject_by_default_at'],
           decline_by_default_at: timetable['decline_by_default_at'],
           find_closes_at: timetable['find_closes_at'],
-          winter_reject_by_default_at: timetable['winter_reject_by_default_at'],
+          winter_reject_by_default_at: winter_reject_by_default_at(timetable),
           winter_decline_by_default_at: timetable['winter_decline_by_default_at'],
           updated_at: timetable['updated_at'],
         )
@@ -36,5 +36,18 @@ private
 
     holiday_range = JSON.parse(holiday_range)
     holiday_range.first.to_date...holiday_range.last.to_date
+  end
+
+  # TODO: Remove once winter dates have been generated in production
+  def winter_reject_by_default_at(timetable)
+    return timetable['winter_reject_by_default_at'] if timetable['winter_reject_by_default_at'].present?
+
+    Time.parse(timetable['reject_by_default_at']) + SupportInterface::RecruitmentCycleTimetableGenerator::WINTER_DEFAULT_DIFFERENCE.weeks
+  end
+
+  def winter_decline_by_default_at(timetable)
+    return timetable['winter_decline_by_default_at'] if timetable['winter_decline_by_default_at'].present?
+
+    Time.parse(timetable['decline_by_default_at']) + SupportInterface::RecruitmentCycleTimetableGenerator::WINTER_DEFAULT_DIFFERENCE.weeks
   end
 end
