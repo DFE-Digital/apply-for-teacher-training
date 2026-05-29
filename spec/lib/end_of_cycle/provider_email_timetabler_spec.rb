@@ -56,7 +56,7 @@ RSpec.describe EndOfCycle::ProviderEmailTimetabler do
 
     context 'when the timetable winter_reject_by_default_at attribute is not nil' do
       it 'returns a date 2 weeks before the timetable winter_reject_by_default_at attribute' do
-        allow(instance).to receive(:timetable).and_return(RecruitmentCycleTimetable.new(winter_reject_by_default_at: '01/09/2026'.to_time))
+        allow(instance).to receive(:timetable).and_return(RecruitmentCycleTimetable.new(winter_reject_by_default_at: Time.zone.parse('01/09/2026')))
         expect(winter_reject_by_default_reminder_provider_date).to eq(Date.parse('18/08/2026'))
       end
     end

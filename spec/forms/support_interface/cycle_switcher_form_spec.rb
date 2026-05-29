@@ -32,14 +32,14 @@ RSpec.describe SupportInterface::CycleSwitcherForm do
       }
       described_class.new(attributes, timetable:).persist
       timetable.reload
-      expect(timetable.find_opens_at).to eq(Time.parse('09:00', Date.parse("01/01/#{year}")))
-      expect(timetable.apply_opens_at).to eq(Time.parse('09:00', Date.parse("02/01/#{year}")))
-      expect(timetable.apply_deadline_at).to eq(Time.parse('18:00', Date.parse("03/01/#{year}")))
-      expect(timetable.reject_by_default_at).to eq(Time.parse('23:59', Date.parse("04/01/#{year}")))
-      expect(timetable.decline_by_default_at).to eq(Time.parse('23:59', Date.parse("05/01/#{year}")))
-      expect(timetable.find_closes_at).to eq(Time.parse('23:59', Date.parse("06/01/#{year}")))
-      expect(timetable.winter_reject_by_default_at).to eq(Time.parse('23:59', Date.parse("07/01/#{year}")))
-      expect(timetable.winter_decline_by_default_at).to eq(Time.parse('23:59', Date.parse("08/01/#{year}")))
+      expect(timetable.find_opens_at).to eq(Time.zone.parse('09:00', Date.parse("01/01/#{year}")))
+      expect(timetable.apply_opens_at).to eq(Time.zone.parse('09:00', Date.parse("02/01/#{year}")))
+      expect(timetable.apply_deadline_at).to eq(Time.zone.parse('18:00', Date.parse("03/01/#{year}")))
+      expect(timetable.reject_by_default_at).to eq(Time.zone.parse('23:59', Date.parse("04/01/#{year}")))
+      expect(timetable.decline_by_default_at).to eq(Time.zone.parse('23:59', Date.parse("05/01/#{year}")))
+      expect(timetable.find_closes_at).to eq(Time.zone.parse('23:59', Date.parse("06/01/#{year}")))
+      expect(timetable.winter_reject_by_default_at).to eq(Time.zone.parse('23:59', Date.parse("07/01/#{year}")))
+      expect(timetable.winter_decline_by_default_at).to eq(Time.zone.parse('23:59', Date.parse("08/01/#{year}")))
     end
   end
 end

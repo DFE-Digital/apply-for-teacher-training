@@ -136,7 +136,7 @@ private
 
   def then_i_see_the_winter_reject_by_default_date_has_been_updated
     expect(page).to have_text 'The cycle has been updated.'
-    summary_cards = page.all('.govuk-summary-card')[0]
+    summary_cards = page.first('.govuk-summary-card')
     expect(summary_cards).to have_text(@new_date.to_fs(:govuk_date_and_time))
   end
 
@@ -152,7 +152,7 @@ private
 
   def then_i_see_the_winter_decline_by_default_date_has_been_updated
     expect(page).to have_text 'The cycle has been updated.'
-    summary_cards = page.all('.govuk-summary-card')[0]
+    summary_cards = page.first('.govuk-summary-card')
     expect(summary_cards).to have_text(@new_date.to_fs(:govuk_date_and_time))
   end
 end
