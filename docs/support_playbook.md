@@ -22,6 +22,7 @@
 20. [Change application choices to main site](#changing-application-choices-to-main-site)
 21. [Previous teacher training](#previous-teacher-training)
 22. [Create DuplicateMatch](#create-duplicatematch)
+23. [Cache dashboard](#cache-dashboard)
 
 ## Support Trello board
 
@@ -989,3 +990,7 @@ DuplicateMatch.create!(
   candidates:,
 )
 ```
+
+## Cache Dashboard
+
+Go to https://www.apply-for-teacher-training.service.gov.uk/support/solid-cache to view the solid cache dashboard. Where you can see the overall stats and also check what keys are written, deleted or what they contain
