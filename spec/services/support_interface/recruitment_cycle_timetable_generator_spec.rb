@@ -77,5 +77,19 @@ RSpec.describe SupportInterface::RecruitmentCycleTimetableGenerator do
         expect(apply_deadline_at.month).to eq 9
       end
     end
+
+    it 'all winter_reject_by_default_at dates 17 weeks after the reject_by_default' do
+      generate_timetables
+      timetables.each do |timetable|
+        expect(timetable.winter_reject_by_default_at).to eq(timetable.reject_by_default_at + 17.weeks)
+      end
+    end
+
+    it 'all winter_decline_by_default_at dates 17 weeks after the decline_by_default' do
+      generate_timetables
+      timetables.each do |timetable|
+        expect(timetable.winter_decline_by_default_at).to eq(timetable.decline_by_default_at + 17.weeks)
+      end
+    end
   end
 end
