@@ -22,7 +22,7 @@ class SeedTimetablesService
           decline_by_default_at: timetable['decline_by_default_at'],
           find_closes_at: timetable['find_closes_at'],
           winter_reject_by_default_at: winter_reject_by_default_at(timetable),
-          winter_decline_by_default_at: timetable['winter_decline_by_default_at'],
+          winter_decline_by_default_at: winter_decline_by_default_at(timetable),
           updated_at: timetable['updated_at'],
         )
       end
@@ -42,12 +42,12 @@ private
   def winter_reject_by_default_at(timetable)
     return timetable['winter_reject_by_default_at'] if timetable['winter_reject_by_default_at'].present?
 
-    Time.parse(timetable['reject_by_default_at']) + SupportInterface::RecruitmentCycleTimetableGenerator::WINTER_DEFAULT_DIFFERENCE.weeks
+    Time.zone.parse(timetable['reject_by_default_at']) + SupportInterface::RecruitmentCycleTimetableGenerator::WINTER_DEFAULT_DIFFERENCE.weeks
   end
 
   def winter_decline_by_default_at(timetable)
     return timetable['winter_decline_by_default_at'] if timetable['winter_decline_by_default_at'].present?
 
-    Time.parse(timetable['decline_by_default_at']) + SupportInterface::RecruitmentCycleTimetableGenerator::WINTER_DEFAULT_DIFFERENCE.weeks
+    Time.zone.parse(timetable['decline_by_default_at']) + SupportInterface::RecruitmentCycleTimetableGenerator::WINTER_DEFAULT_DIFFERENCE.weeks
   end
 end
