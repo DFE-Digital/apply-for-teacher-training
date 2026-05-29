@@ -10,8 +10,8 @@ RSpec.describe RecruitmentCycleTimetable do
     it { is_expected.to validate_presence_of(:decline_by_default_at) }
     it { is_expected.to validate_presence_of(:find_closes_at) }
     it { is_expected.to validate_uniqueness_of(:recruitment_cycle_year) }
-    it { is_expected.to validate_uniqueness_of(:winter_reject_by_default_at) }
-    it { is_expected.to validate_uniqueness_of(:winter_decline_by_default_at) }
+    it { is_expected.to validate_presence_of(:winter_reject_by_default_at) }
+    it { is_expected.to validate_presence_of(:winter_decline_by_default_at) }
 
     describe 'validates sequential order of dates' do
       it 'validates apply opens after find opens' do
