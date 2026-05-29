@@ -54,6 +54,15 @@ module ApplyForPostgraduateTeacherTraining
     # Handle exceptions not caught by controllers, e.g. db errors
     config.exceptions_app = ->(env) { RackExceptionsApp.call(env) }
 
+    config.before_configuration do
+      ENV["SOLID_QUEUE_CONFIG"] =
+        if HostingEnvironment.test_environment? || HostingEnvironment.staging? || HostingEnvironment.sandbox_mode?
+          "config/non_production_queue.yml"
+        else
+          "config/queue.yml"
+        end
+    end
+
     show_previews = HostingEnvironment.test_environment?
 
     config.action_mailer.preview_paths = [Rails.root.join("spec/mailers/previews")]
