@@ -71,6 +71,10 @@ Regenerate this diagram with `bundle exec rake erd`.
 
 This app provides several APIs for programmatic access to the Apply service. [Read about them here](/docs/development/apply-apis.md).
 
+## Infrastructure validation workflow
+
+The scheduled workflow defined in `.github/workflows/validate-infra.yml` runs Terraform plan validations for the AKS cluster plus domains infrastructure/environment each day at **07:00 UTC** against **production** only. Failures and drift notifications are sent to the SD Infra alerts Teams channel via the `TEAMS_WEBHOOK_URL_INFRA` secret.
+
 ## License
 
 [MIT Licence](LICENCE)
