@@ -1,5 +1,5 @@
-class ProcessStaleApplicationsWorker
-  include Sidekiq::Worker
+class ProcessStaleApplicationsWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   def perform
     ProcessStaleApplications.new.call

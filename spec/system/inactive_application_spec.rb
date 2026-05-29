@@ -38,7 +38,7 @@ RSpec.describe 'Process Stale applications', :sidekiq do
 
   def when_we_process_stale_applications
     travel_temporarily_to(10.minutes.from_now) do
-      ProcessStaleApplicationsWorker.perform_async
+      ProcessStaleApplicationsWorker.perform_now
     end
   end
 

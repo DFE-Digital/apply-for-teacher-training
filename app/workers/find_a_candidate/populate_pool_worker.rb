@@ -1,7 +1,5 @@
-class FindACandidate::PopulatePoolWorker
-  include Sidekiq::Worker
-
-  sidekiq_options queue: :default
+class FindACandidate::PopulatePoolWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   def perform
     if CandidatePoolApplication.closed?
