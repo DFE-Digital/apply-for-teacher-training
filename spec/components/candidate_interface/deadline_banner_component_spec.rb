@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::DeadlineBannerComponent, type: :component do
       travel_temporarily_to(current_timetable.apply_deadline_at - 1.minute) do
         result = render_inline(described_class.new(application_form:, flash_empty: true))
         deadline_time = current_timetable.apply_deadline_at.to_fs(:govuk_time)
-        deadline_date = current_timetable.apply_deadline_at.strftime('%d %B')
+        deadline_date = current_timetable.apply_deadline_at.to_fs(:day_and_month)
         academic_year = current_timetable.recruitment_cycle_year
 
         expect(result.text).to include(
