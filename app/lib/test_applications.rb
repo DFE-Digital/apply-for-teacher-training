@@ -149,15 +149,8 @@ private
       @application_form.application_volunteering_experiences.each { |experience| experience.update!(created_at: time) }
       @application_form.application_work_history_breaks.each { |experience| experience.update!(created_at: time) }
 
-      # One reference that will never be requested
-      @application_form.application_references << FactoryBot.build(:reference, :not_requested_yet)
-
-      # 4 will be requested
-      @application_form.application_references << FactoryBot.build_list(:reference,
-                                                                        4,
-                                                                        :feedback_requested,
-                                                                        created_at: time,
-                                                                        updated_at: time)
+      # references are only requested if offers have been accepted.
+      @application_form.application_references << FactoryBot.build_list(:reference, 4, :not_requested_yet, created_at: time, updated_at: time)
 
       fast_forward
 
@@ -240,6 +233,11 @@ private
 
   def set_reference_state
     return if references_without_an_accepted_offer?
+
+    offered_at = @application_form.application_choices.find(&:state_offer_accepted?).offered_at || Time.zone.now
+
+    # Request feedback
+    @application_form.application_references.update_all(feedback_status: 'feedback_requested', requested_at: offered_at)
 
     # The first reference is declined by the referee
     @application_form.application_references.creation_order.feedback_requested.first.feedback_refused!

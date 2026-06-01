@@ -50,17 +50,17 @@ RSpec.describe GenerateTestApplications do
     previous_cycle = previous_year
     provider = create(:provider)
 
-    create(:course_option, course: create(:course, :open, recruitment_cycle_year: previous_cycle))
+    create(:course_option, course: create(:course, :open, :teacher_degree_apprenticeship, recruitment_cycle_year: previous_cycle))
 
-    create(:course_option, course: create(:course, :open, recruitment_cycle_year: previous_cycle))
-    create(:course_option, course: create(:course, :open, recruitment_cycle_year: previous_cycle))
-    create(:course_option, course: create(:course, :open, recruitment_cycle_year: previous_cycle))
+    create(:course_option, course: create(:course, :open, :teacher_degree_apprenticeship, recruitment_cycle_year: previous_cycle))
+    create(:course_option, course: create(:course, :open, :teacher_degree_apprenticeship, recruitment_cycle_year: previous_cycle))
+    create(:course_option, course: create(:course, :open, :teacher_degree_apprenticeship, recruitment_cycle_year: previous_cycle))
 
-    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
-    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
-    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
-    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
-    create(:course_option, course: create(:course, :open, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open, :teacher_degree_apprenticeship, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open, :teacher_degree_apprenticeship, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open, :teacher_degree_apprenticeship, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open, :teacher_degree_apprenticeship, recruitment_cycle_year: current_cycle, provider:))
+    create(:course_option, course: create(:course, :open, :teacher_degree_apprenticeship, recruitment_cycle_year: current_cycle, provider:))
 
     described_class.new.perform
 
