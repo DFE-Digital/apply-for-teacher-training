@@ -13,13 +13,13 @@ class CandidateInterface::DeadlineBannerComponent < ApplicationComponent
 
   def deadline
     {
-      date: @timetable.apply_deadline_at.to_fs(:govuk_date),
+      date: @timetable.apply_deadline_at.strftime('%d %B'),
       time: @timetable.apply_deadline_at.to_fs(:govuk_time),
     }
   end
 
   def academic_year
-    @timetable.academic_year_range_name
+    @timetable.recruitment_cycle_year
   end
 
   def show_appy_deadline_banner?
