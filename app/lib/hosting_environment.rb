@@ -82,7 +82,7 @@ module HostingEnvironment
   end
 
   def self.generate_test_data?
-    qa? || development?
+    qa? || development? || review?
   end
 
   def self.dfe_signup_only?
