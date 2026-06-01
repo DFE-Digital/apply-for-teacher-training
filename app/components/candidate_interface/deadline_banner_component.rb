@@ -18,9 +18,7 @@ class CandidateInterface::DeadlineBannerComponent < ApplicationComponent
     }
   end
 
-  def recruitment_cycle_year
-    @timetable.recruitment_cycle_year
-  end
+  delegate :recruitment_cycle_year, to: :@timetable
 
   def show_appy_deadline_banner?
     !@application_form.successful? &&
