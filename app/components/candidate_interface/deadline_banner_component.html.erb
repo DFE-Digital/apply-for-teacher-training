@@ -1,4 +1,6 @@
 <%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
-  <% notification_banner.with_heading(text: t('candidate_interface.deadline_banner_component.heading', academic_year:, deadline_time: deadline[:time], deadline_date: deadline[:date])) %>
+  <% notification_banner.with_heading do %>
+    <%= t('candidate_interface.deadline_banner_component.heading', recruitment_cycle_year:, deadline_time: deadline[:time], deadline_date: deadline[:date]) %>
+  <% end %>
   <p class="govuk-body"><%= t('candidate_interface.deadline_banner_component.text') %></p>
 <% end %>
