@@ -34,7 +34,7 @@ RSpec.describe CandidateInterface::DeadlineBannerComponent, type: :component do
           "The deadline for applying to courses starting by the end of September #{academic_year} is #{deadline_time} on #{deadline_date}",
         )
         expect(result.text).to include(
-          "Providers may close applications early if a course becomes full. You can check the number of available places with the provider.",
+          'Providers may close applications early if a course becomes full. You can check the number of available places with the provider.',
         )
       end
     end
