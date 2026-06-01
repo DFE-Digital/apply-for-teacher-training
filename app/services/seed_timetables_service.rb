@@ -31,13 +31,6 @@ class SeedTimetablesService
 
 private
 
-  def parse_holiday_range(holiday_range)
-    return nil if holiday_range.nil?
-
-    holiday_range = JSON.parse(holiday_range)
-    holiday_range.first.to_date...holiday_range.last.to_date
-  end
-
   # TODO: Remove once winter dates have been generated in production
   def winter_reject_by_default_at(timetable)
     return timetable['winter_reject_by_default_at'] if timetable['winter_reject_by_default_at'].present?
