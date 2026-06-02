@@ -43,7 +43,7 @@ RSpec.describe 'Editing account status' do
   end
 
   def and_the_update_duplicate_matches_worker_has_run
-    UpdateDuplicateMatchesWorker.perform_async
+    UpdateDuplicateMatchesWorker.perform_now
     Candidate.update_all(submission_blocked: false) # to test the account status we need a clean slate
   end
 

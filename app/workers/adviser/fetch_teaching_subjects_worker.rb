@@ -1,7 +1,7 @@
-class Adviser::FetchTeachingSubjectsWorker
-  include Sidekiq::Worker
+class Adviser::FetchTeachingSubjectsWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
-  sidekiq_options retry: 0, queue: :low_priority
+  queue_as :low_priority
 
   def perform
     return unless FeatureFlag.active?(:adviser_sign_up)

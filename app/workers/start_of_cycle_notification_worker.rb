@@ -1,5 +1,5 @@
-class StartOfCycleNotificationWorker
-  include Sidekiq::Worker
+class StartOfCycleNotificationWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   def perform(service = 'find')
     return unless service_opens_today?(service, RecruitmentCycleTimetable.current_year)

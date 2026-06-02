@@ -1,8 +1,6 @@
 module FindACandidate
-  class PoolInviteChaserWorker
-    include Sidekiq::Worker
-
-    sidekiq_options queue: :default
+  class PoolInviteChaserWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
     def perform
       invites = Pool::Invite.current_cycle.published.not_responded
@@ -18,7 +16,7 @@ module FindACandidate
       .select(:id, :application_form_id)
 
       invites.group_by(&:application_form_id).each_value do |grouped_invites|
-        SendChaserWorker.perform_async(grouped_invites.map(&:id))
+        SendChaserWorker.perform_later(grouped_invites.map(&:id))
       end
     end
   end

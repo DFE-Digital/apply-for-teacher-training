@@ -79,7 +79,7 @@ RSpec.describe 'See Duplicate candidate matches' do
   end
 
   def and_the_update_duplicate_matches_worker_has_run
-    UpdateDuplicateMatchesWorker.perform_async
+    UpdateDuplicateMatchesWorker.perform_now
   end
 
   def and_the_second_duplicate_match_is_resolved
