@@ -1,13 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe EndOfCycle::DeclineByDefaultWorker do
+  let(:instance) { described_class.new }
+
   describe '#perform' do
     context 'where force is true' do
       it 'enqueues secondary worker for offered application choices', time: mid_cycle do
+        allow(instance).to receive_messages(winter_decline_by_default_set?: false)
         declineable = create(:application_choice, :offer)
 
         allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
-        described_class.new.perform(true)
+        instance.perform(true)
         expect(EndOfCycle::DeclineByDefaultSecondaryWorker)
           .to have_received(:perform_at).with(kind_of(Time), [declineable.application_form.id])
       end
@@ -15,14 +18,13 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
 
     context 'for previous cycle, current cycle' do
       [previous_year, current_year].each do |year|
-        let(:instance) { described_class.new }
-
         context 'after the decline by default date', time: decline_by_default_run_date(year) do
           it 'enqueues secondary worker for offered application choices' do
+            allow(instance).to receive_messages(winter_decline_by_default_set?: false)
             declineable = create(:application_choice, :offer)
 
             allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
-            described_class.new.perform
+            instance.perform
             expect(EndOfCycle::DeclineByDefaultSecondaryWorker)
               .to have_received(:perform_at).with(kind_of(Time), contain_exactly(declineable.application_form.id))
           end
@@ -33,7 +35,7 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
             create(:application_choice, :offer)
 
             allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
-            described_class.new.perform
+            instance.perform
             expect(EndOfCycle::DeclineByDefaultSecondaryWorker).not_to have_received(:perform_at)
           end
         end
@@ -43,7 +45,7 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
             create(:application_choice, :offer)
 
             allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
-            described_class.new.perform
+            instance.perform
             expect(EndOfCycle::DeclineByDefaultSecondaryWorker).not_to have_received(:perform_at)
           end
         end
@@ -53,7 +55,7 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
             create(:application_choice, :offer)
 
             allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
-            described_class.new.perform
+            instance.perform
             expect(EndOfCycle::DeclineByDefaultSecondaryWorker).not_to have_received(:perform_at)
           end
         end

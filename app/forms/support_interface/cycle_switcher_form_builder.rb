@@ -33,6 +33,8 @@ module SupportInterface
           reject_by_default_at: timetable.reject_by_default_at.to_date,
           decline_by_default_at: timetable.decline_by_default_at.to_date,
           find_closes_at: timetable.find_closes_at.to_date,
+          winter_reject_by_default_at: timetable.winter_reject_by_default_at&.to_date,
+          winter_decline_by_default_at: timetable.winter_decline_by_default_at&.to_date,
         }
 
       CycleSwitcherForm.new(attrs, timetable:)

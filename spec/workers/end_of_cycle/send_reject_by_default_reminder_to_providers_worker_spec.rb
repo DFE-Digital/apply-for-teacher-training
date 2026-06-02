@@ -29,7 +29,10 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersWorker do
     end
 
     context 'it is on the reminder date' do
+      let(:instance) { described_class.new }
+
       it 'calls batch worker with application choices' do
+        allow(instance).to receive(:winter_reject_by_default_set?).and_return(false)
         travel_temporarily_to(email_send_date) do
           inactive_application = create(:application_choice, :inactive)
           interview_application = create(:application_choice, :interviewing)
@@ -40,7 +43,7 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersWorker do
           create(:application_choice, :unsubmitted)
 
           allow(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker).to receive(:perform_at)
-          described_class.new.perform
+          instance.perform
 
           expect(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker)
             .to have_received(:perform_at).with(kind_of(Time), [
@@ -53,11 +56,8 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersWorker do
     end
 
     context 'when winter reject by default is set, and it is on the reminder date' do
-      let(:instance) { described_class.new }
-
       it 'calls batch worker with application choices with september start dates' do
         travel_temporarily_to(email_send_date) do
-          allow(instance).to receive(:winter_reject_by_default_set?).and_return(true)
           current_year = RecruitmentCycleTimetable.current_year
 
           september_course = create(:course, start_date: Date.parse("01/09/#{current_year}"))
@@ -75,7 +75,7 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersWorker do
           create(:application_choice, :unsubmitted)
 
           allow(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker).to receive(:perform_at)
-          instance.perform
+          described_class.new.perform
 
           expect(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker)
             .to have_received(:perform_at).with(kind_of(Time), [

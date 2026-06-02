@@ -42,6 +42,21 @@ RSpec.describe 'Cycle switching errors' do
       when_i_enter_a_bad_find_closes_date
       then_i_see_find_closes_date_error
     end
+
+    scenario 'Winter reject by default before reject by default date' do
+      when_i_enter_a_bad_winter_reject_by_default_date
+      then_i_see_winter_reject_by_default_must_be_after_reject_by_default_error
+    end
+
+    scenario 'Winter decline by default before decline by default date' do
+      when_i_enter_a_bad_winter_decline_by_default_date
+      then_i_see_winter_decline_by_default_must_be_after_decline_by_default_error
+    end
+
+    scenario 'Winter decline by default before winter reject by default date' do
+      when_i_enter_a_winter_decline_by_default_after_winter_reject_by_default
+      then_i_see_winter_decline_by_default_must_be_after_winter_reject_by_default_error
+    end
   end
 
 private
@@ -71,6 +86,12 @@ private
     within_fieldset 'Find closes' do
       fill_in 'Year', with: 2051
     end
+    within_fieldset 'Winter reject by default' do
+      fill_in 'Month', with: 13
+    end
+    within_fieldset 'Winter decline by default' do
+      fill_in 'Day', with: 99
+    end
 
     click_on 'Update'
   end
@@ -82,6 +103,8 @@ private
     expect(page).to have_text('Enter a valid reject by default date').twice
     expect(page).to have_text('Enter a valid decline by default date').twice
     expect(page).to have_text('Enter a valid Find closes date').twice
+    expect(page).to have_text('Enter a valid winter reject by default date').twice
+    expect(page).to have_text('Enter a valid winter decline by default date').twice
   end
 
   def when_i_enter_a_bad_apply_opens_date
@@ -152,5 +175,47 @@ private
 
   def then_i_see_find_closes_date_error
     expect(page).to have_text('Enter a Find close date that is after the decline by default date').twice
+  end
+
+  def when_i_enter_a_bad_winter_reject_by_default_date
+    within_fieldset 'Winter reject by default' do
+      invalid_date = timetable.reject_by_default_at - 1.day
+      fill_in 'Day', with: invalid_date.day
+      fill_in 'Month', with: invalid_date.month
+      fill_in 'Year', with: invalid_date.year
+    end
+    click_on 'Update'
+  end
+
+  def then_i_see_winter_reject_by_default_must_be_after_reject_by_default_error
+    expect(page).to have_text('Enter a winter reject by default date that is after the reject by default date').twice
+  end
+
+  def when_i_enter_a_bad_winter_decline_by_default_date
+    within_fieldset 'Winter decline by default' do
+      invalid_date = timetable.decline_by_default_at - 1.day
+      fill_in 'Day', with: invalid_date.day
+      fill_in 'Month', with: invalid_date.month
+      fill_in 'Year', with: invalid_date.year
+    end
+    click_on 'Update'
+  end
+
+  def then_i_see_winter_decline_by_default_must_be_after_decline_by_default_error
+    expect(page).to have_text('Enter a winter decline by default date that is after the decline by default date').twice
+  end
+
+  def when_i_enter_a_winter_decline_by_default_after_winter_reject_by_default
+    within_fieldset 'Winter decline by default' do
+      invalid_date = timetable.winter_reject_by_default_at - 1.day
+      fill_in 'Day', with: invalid_date.day
+      fill_in 'Month', with: invalid_date.month
+      fill_in 'Year', with: invalid_date.year
+    end
+    click_on 'Update'
+  end
+
+  def then_i_see_winter_decline_by_default_must_be_after_winter_reject_by_default_error
+    expect(page).to have_text('Enter a winter decline by default date that is after the winter reject by default date').twice
   end
 end

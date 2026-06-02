@@ -14,13 +14,19 @@ en:
           hint: The deadline for candidates to submit applications
         reject_by_default_at:
           label: Reject by default
-          hint: The deadline for providers to make offers
+          hint: The deadline for providers to make offers for courses starting in September.
         decline_by_default_at:
           label: Decline by default
-          hint: The deadline for candidates to accept offers
+          hint: The deadline for candidates to accept offers for courses starting in September.
         find_closes_at:
           label: Find closes
           hint: The end of the cycle.
+        winter_reject_by_default_at:
+          label: Winter reject by default
+          hint: The deadline for providers to make offers for courses starting after September.
+        winter_decline_by_default_at:
+          label: Winter decline by default
+          hint: The deadline for candidates to accept offers for course starting after September.
       index:
         page_title: Recruitment cycles
         form_title: Move forward in the recruitment cycle
