@@ -29,7 +29,7 @@ task truncate_qa_database_retaining_support_users: :environment do
 end
 
 task sync_timetables: :environment do
-  ProductionRecruitmentCycleTimetablesAPI::SyncTimetablesWithProduction.seed_from_csv
+  SeedTimetablesService.seed_from_csv
   puts 'Timetables synced with production'
 end
 
