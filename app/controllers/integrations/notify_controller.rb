@@ -20,8 +20,7 @@ module Integrations
 
     def authorized?
       authenticate_with_http_token do |token|
-        token == ENV.fetch('GOVUK_NOTIFY_CALLBACK_API_KEY') ||
-          token == ENV.fetch('NEW_GOVUK_NOTIFY_CALLBACK_API_KEY')
+        token == ENV.fetch('GOVUK_NOTIFY_CALLBACK_API_KEY')
       end
     end
 
