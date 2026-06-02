@@ -2063,4 +2063,112 @@ RSpec.describe ApplicationForm do
       expect(described_class.previous_cycle).to contain_exactly(previous_application_form)
     end
   end
+
+  describe '#personal_information_section_valid?' do
+    context 'when all personal information sections are valid' do
+      it 'returns true' do
+        application_form = build(:application_form,
+                                 first_name: 'John',
+                                 last_name: 'Doe',
+                                 date_of_birth: Date.new(1990, 1, 1),
+                                 first_nationality: 'British',
+                                 immigration_status: 'eu_settled',
+                                 right_to_work_or_study: 'yes')
+        expect(application_form.personal_information_section_valid?).to be(true)
+      end
+    end
+
+    context 'when personal details are invalid' do
+      it 'returns false' do
+        application_form = build(:application_form, first_name: nil, date_of_birth: nil)
+        expect(application_form.personal_information_section_valid?).to be(false)
+      end
+    end
+
+    context 'when nationalities are missing' do
+      it 'returns false' do
+        application_form = build(:application_form,
+                                 first_name: 'John',
+                                 last_name: 'Doe',
+                                 date_of_birth: Date.new(1990, 1, 1),
+                                 first_nationality: nil,
+                                 immigration_status: 'eu_settled',
+                                 right_to_work_or_study: 'yes')
+        expect(application_form.personal_information_section_valid?).to be(false)
+      end
+    end
+  end
+
+  describe '#right_to_work_valid?' do
+    context 'when candidate is British or Irish' do
+      it 'returns true' do
+        application_form = build(:application_form, first_nationality: 'British')
+        expect(application_form.right_to_work_valid?).to be(true)
+      end
+    end
+
+    context 'when candidate is not British or Irish' do
+      context 'and right_to_work_or_study is set' do
+        it 'returns true' do
+          application_form = build(:application_form, first_nationality: 'French', right_to_work_or_study: 'yes')
+          expect(application_form.right_to_work_valid?).to be(true)
+        end
+      end
+
+      context 'and right_to_work_or_study is not set' do
+        it 'returns false' do
+          application_form = build(:application_form, first_nationality: 'French', right_to_work_or_study: nil)
+          expect(application_form.right_to_work_valid?).to be(false)
+        end
+      end
+    end
+  end
+
+  describe '#visa_expiry_valid?' do
+    context 'when candidate is British or Irish' do
+      it 'returns true' do
+        application_form = build(:application_form, first_nationality: 'British')
+        expect(application_form.visa_expiry_valid?).to be(true)
+      end
+    end
+
+    context 'when immigration_status is not temporary' do
+      it 'returns true' do
+        application_form = build(:application_form,
+                                 first_nationality: 'French',
+                                 immigration_status: 'eu_settled')
+        expect(application_form.visa_expiry_valid?).to be(true)
+      end
+    end
+
+    context 'when immigration_status is temporary' do
+      before do
+        FeatureFlag.activate('2027_visa_expiry')
+      end
+
+      after do
+        FeatureFlag.deactivate('2027_visa_expiry')
+      end
+
+      context 'and visa_expired_at is a future date' do
+        it 'returns true' do
+          application_form = build(:application_form,
+                                   first_nationality: 'French',
+                                   immigration_status: 'student_visa',
+                                   visa_expired_at: 1.year.from_now)
+          expect(application_form.visa_expiry_valid?).to be(true)
+        end
+      end
+
+      context 'and visa_expired_at is nil' do
+        it 'returns false' do
+          application_form = build(:application_form,
+                                   first_nationality: 'French',
+                                   immigration_status: 'student_visa',
+                                   visa_expired_at: nil)
+          expect(application_form.visa_expiry_valid?).to be(false)
+        end
+      end
+    end
+  end
 end
