@@ -13,6 +13,7 @@ SANITIZED_REQUEST_PARAMS = %i[
   date_of_birth
   email
   email_address
+  dfe_sign_in_uid
   support_user_email
   first_name
   full_name
