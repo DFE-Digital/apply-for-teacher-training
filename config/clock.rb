@@ -15,7 +15,7 @@ class Clock
   end
 
   every(10.minutes, 'FindACandidate::PopulatePoolWorker', skip_first_run: true) do
-    FindACandidate::PopulatePoolWorker.perform_async
+    FindACandidate::PopulatePoolWorker.perform_later
   end
 
   # Hourly jobs
@@ -23,7 +23,7 @@ class Clock
   every(1.hour, 'FindACandidate::PoolInviteChaserWorker', at: '**:35', skip_first_run: true) { FindACandidate::PoolInviteChaserWorker.perform_async }
   every(1.hour, 'SendFindStartOfCycleProviderEmails', at: '**:05') { StartOfCycleNotificationWorker.perform_async }
   every(1.hour, 'ProcessStaleApplications', at: '**:10') do
-    ProcessStaleApplicationsWorker.perform_async
+    ProcessStaleApplicationsWorker.perform_later
   end
   every(1.hour, 'ChaseReferences', at: '**:20') { ChaseReferences.perform_async }
   every(1.hour, 'UpdateOutOfDateProviderIdsOnApplicationChoices', at: '**:20') { UpdateOutOfDateProviderIdsOnApplicationChoices.perform_async }

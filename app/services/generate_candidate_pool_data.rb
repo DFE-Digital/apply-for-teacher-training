@@ -43,6 +43,6 @@ class GenerateCandidatePoolData
     end
     CandidateLocationPreference.insert_all(location_preference_attrs)
 
-    FindACandidate::PopulatePoolWorker.perform_sync
+    FindACandidate::PopulatePoolWorker.perform_now
   end
 end
