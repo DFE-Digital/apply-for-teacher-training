@@ -67,5 +67,20 @@ RSpec.describe CandidateInterface::ImmigrationRightToWorkForm, type: :model do
       expect(application_form.right_to_work_or_study_details).not_to be_nil
       expect(application_form.visa_expired_at).not_to be_nil
     end
+
+    it 'resets the section completed if section is invalid' do
+      application_data = {
+        right_to_work_or_study: 'no',
+        immigration_status: 'other',
+        right_to_work_or_study_details: 'I have permanent residence',
+        visa_expired_at: Time.zone.today,
+        personal_details_completed: true,
+      }
+      application_form = build(:application_form, application_data)
+      form = described_class.new(right_to_work_or_study: 'yes')
+
+      expect(form.save(application_form)).to be(true)
+      expect(application_form.personal_details_completed).to be(false)
+    end
   end
 end
