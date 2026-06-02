@@ -2,6 +2,7 @@ module ProviderInterface
   module Interviews
     class CancelController < InterviewsController
       skip_before_action :redirect_to_index_if_store_cleared
+      skip_before_action :move_to_interview_if_outside_service
       before_action :confirm_interview_is_not_in_the_past, only: %i[new create]
 
       def show
