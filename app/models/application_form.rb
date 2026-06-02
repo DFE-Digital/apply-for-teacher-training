@@ -99,6 +99,8 @@ class ApplicationForm < ApplicationRecord
       .or(ApplicationForm.where(right_to_work_or_study: 'yes', immigration_status: VISAS_REQUIRING_SPONSORSHIP))
   }
 
+  normalizes :first_name, :last_name, with: ->(value) { value.strip }
+
   REQUIRED_REFERENCE_SELECTIONS = 2
   REQUIRED_REFERENCES = 2
 

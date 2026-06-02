@@ -46,6 +46,14 @@ RSpec.describe ApplicationForm do
     it { is_expected.to delegate_method(:opt_in?).to(:published_preference).with_prefix.allow_nil }
   end
 
+  describe 'normalizes name' do
+    it 'removes white space from names' do
+      application_form = create(:application_form, first_name: '  Thomas', last_name: 'Moore ')
+      expect(application_form.first_name).to eq 'Thomas'
+      expect(application_form.last_name).to eq 'Moore'
+    end
+  end
+
   describe 'callbacks' do
     before do
       allow(FeatureFlag).to receive(:active?)
