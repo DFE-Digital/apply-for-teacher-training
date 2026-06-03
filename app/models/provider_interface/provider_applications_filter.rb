@@ -176,7 +176,7 @@ module ProviderInterface
         provider_id: provider_ids,
         recruitment_cycle_year: applied_filters[:recruitment_cycle_year].presence || years_visible_to_provider,
       ).select(
-        Arel.sql("EXTRACT(month FROM start_date AT TIME ZONE 'UTC' AT TIME ZONE '#{Time.zone.tzinfo.name}') AS month"),
+        Arel.sql("EXTRACT(month FROM courses.start_date AT TIME ZONE 'UTC' AT TIME ZONE '#{Time.zone.tzinfo.name}') AS month"),
       ).distinct.to_sql
 
       september_ordered_months = Course.select('month')
