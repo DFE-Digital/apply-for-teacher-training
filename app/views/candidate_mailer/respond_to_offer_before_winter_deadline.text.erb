@@ -1,0 +1,25 @@
+<% if @application_form.first_name.present? %>
+  Dear <%= @application_form.first_name %>
+<% end %>
+
+You have been offered a place on a teacher training course.
+
+If you want to accept this place, you must do so by <%=  @winter_decline_by_default_deadline %>.
+
+[Sign in to your account to update your details](<%= application_choices_link %>)
+
+# Your other applications
+
+Your other applications for teacher training starting in January <%= "#{@next_recruitment_cycle_year}" %> have been automatically rejected.
+
+This is because the provider did not respond before their deadline. If you have any questions about this, please contact the provider.
+
+# What happens next
+
+If you want to accept your offer of a place on a teacher training course, you must do so by <%= @winter_decline_by_default_deadline %>.
+
+If you do not want to accept this offer, you can still apply to courses starting in September <%= @next_recruitment_cycle_year %>.
+
+[Sign in to your account to apply for courses](<%= application_choices_link %>).
+
+<%= render 'candidate_mailer/end_of_cycle/contact_us' %>
