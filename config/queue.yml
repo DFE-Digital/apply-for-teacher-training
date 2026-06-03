@@ -5,7 +5,7 @@ default: &default
       processes: <%= ENV.fetch("DEFAULT_QUEUE_PROCESSES", 1) %>
       polling_interval: 1
 
-    - queues: [mailers]
+    - queues: [mailers_sq]
       threads: <%= ENV.fetch("MAILER_QUEUE_THREADS", 1) %>
       processes: <%= ENV.fetch("MAILER_QUEUE_PROCESSES", 1) %>
       polling_interval: 1
