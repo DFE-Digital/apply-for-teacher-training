@@ -46,14 +46,14 @@ class FilterApplicationChoicesForProviders
     def recruitment_cycle_year(application_choices, years)
       return application_choices if years.blank?
 
-      application_choices.where(course: { recruitment_cycle_year: years })
+      application_choices.where(courses: { recruitment_cycle_year: years })
     end
 
     def start_months(application_choices, months)
       return application_choices if months.blank?
 
       application_choices.joins(:course).where(
-        "EXTRACT(month from (start_date AT TIME ZONE 'UTC' AT TIME ZONE ?)) IN (?)",
+        "EXTRACT(month from (courses.start_date AT TIME ZONE 'UTC' AT TIME ZONE ?)) IN (?)",
         Time.zone.tzinfo.name,
         months,
       )
