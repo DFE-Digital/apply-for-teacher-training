@@ -19,13 +19,16 @@ jobs:
         include:
           - display: AKS infrastructure
             validation_plan: aks-infra
-            terraform_base: terraform/application
+            terraform_base: terraform/aks
+            terraform_version_file: provider.tf
           - display: Domains infrastructure
             validation_plan: domains-infra
-            terraform_base: terraform/domains/infrastructure
+            terraform_base: terraform/custom_domains/infrastructure
+            terraform_version_file: terraform.tf
           - display: Domains environment
             validation_plan: domains-env
-            terraform_base: terraform/domains/environment_domains
+            terraform_base: terraform/custom_domains/environment_domains
+            terraform_version_file: terraform.tf
 
     steps:
       - name: Validate ${{ matrix.display }}
@@ -36,6 +39,7 @@ jobs:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           environment: production
           terraform-base: ${{ matrix.terraform_base }}
+          terraform-version-file: ${{ matrix.terraform_version_file }}
           validation-plan: ${{ matrix.validation_plan }}
           service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
           teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL_INFRA }}
