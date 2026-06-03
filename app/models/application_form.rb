@@ -143,9 +143,15 @@ class ApplicationForm < ApplicationRecord
   def personal_information_section_valid?
     CandidateInterface::PersonalDetailsForm.build_from_application(self).valid? &&
       CandidateInterface::NationalitiesForm.build_from_application(self).valid? &&
-      CandidateInterface::ImmigrationStatusForm.build_from_application(self).valid? &&
+      immigration_status_valid? &&
       right_to_work_valid? &&
       visa_expiry_valid?
+  end
+
+  def immigration_status_valid?
+    return true if british_or_irish?
+
+    CandidateInterface::ImmigrationStatusForm.build_from_application(self).valid?
   end
 
   def right_to_work_valid?

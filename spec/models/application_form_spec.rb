@@ -2099,6 +2099,31 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#immigration_status_valid?' do
+    context 'when candidate is British or Irish' do
+      it 'returns true' do
+        application_form = build(:application_form, first_nationality: 'British')
+        expect(application_form.right_to_work_valid?).to be(true)
+      end
+    end
+
+    context 'when candidate is not British or Irish' do
+      context 'and immigration_status is set' do
+        it 'returns true' do
+          application_form = build(:application_form, first_nationality: 'French', immigration_status: 'student_visa')
+          expect(application_form.immigration_status_valid?).to be(true)
+        end
+      end
+
+      context 'and immigration_status is not set' do
+        it 'returns false' do
+          application_form = build(:application_form, first_nationality: 'French', immigration_status: nil)
+          expect(application_form.immigration_status_valid?).to be(false)
+        end
+      end
+    end
+  end
+
   describe '#right_to_work_valid?' do
     context 'when candidate is British or Irish' do
       it 'returns true' do
