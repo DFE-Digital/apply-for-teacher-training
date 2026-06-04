@@ -83,6 +83,8 @@ RSpec.describe 'Docs' do
       candidate_mailer-respond_to_offer_before_winter_deadline
       candidate_mailer-winter_reject_by_default_explainer
       provider_mailer-respond_to_applications_before_winter_reject_by_default_date
+      candidate_mailer-decline_by_default_explainer
+      candidate_mailer-winter_decline_by_default_explainer
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"
