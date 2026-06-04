@@ -8,19 +8,25 @@ end
 
 task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers] do
   puts 'Creating a support & provider user with DfE Sign-in UID `dev-support` and email `support@example.com`...'
-  SupportUser.create!(
-    dfe_sign_in_uid: 'dev-support',
-    email_address: 'support@example.com',
-    first_name: 'Susan',
-    last_name: 'Upport',
-  )
-  candidate = Candidate.create!(
-    email_address: 'dev-candidate@example.com',
-  )
-  candidate.create_one_login_auth!(
-    token: 'dev-candidate',
-    email_address: candidate.email_address,
-  )
+
+  if SupportUser.find_by(dfe_sign_in_uid: 'dev-support').blank?
+    SupportUser.find_or_create_by!(
+      dfe_sign_in_uid: 'dev-support',
+      email_address: 'support@example.com',
+      first_name: 'Susan',
+      last_name: 'Upport',
+    )
+  end
+
+  if Candidate.find_by(token: 'dev-candidate').blank?
+    candidate = Candidate.find_or_create_by!(
+      email_address: 'dev-candidate@example.com',
+    )
+    candidate.create_one_login_auth!(
+      token: 'dev-candidate',
+      email_address: candidate.email_address,
+    )
+  end
 
   puts 'Creating all RecruitmentCycleTimetables'
   ProductionRecruitmentCycleTimetablesAPI::SyncTimetablesWithProduction.new.call
