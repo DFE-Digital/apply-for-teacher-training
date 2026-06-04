@@ -2107,6 +2107,13 @@ RSpec.describe ApplicationForm do
       end
     end
 
+    context 'when candidate is has no right to work' do
+      it 'returns true, they do not need immigration_status' do
+        application_form = build(:application_form, right_to_work_or_study: 'no')
+        expect(application_form.right_to_work_valid?).to be(true)
+      end
+    end
+
     context 'when candidate is not British or Irish' do
       context 'and immigration_status is set' do
         it 'returns true' do
