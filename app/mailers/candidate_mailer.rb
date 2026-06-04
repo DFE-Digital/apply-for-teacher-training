@@ -497,7 +497,7 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.decline_by_default_explainer.subject'),
-      )
+    )
   end
 
   def winter_reject_by_default_explainer(application_form)
@@ -520,7 +520,7 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.decline_by_default_explainer.subject'),
-      )
+    )
   end
 
   def find_has_opened(application_form)

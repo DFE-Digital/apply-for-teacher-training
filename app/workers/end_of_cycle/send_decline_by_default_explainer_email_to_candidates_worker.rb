@@ -8,7 +8,7 @@ module EndOfCycle
       return unless CandidateEmailTimetabler.new.send_decline_by_default_explainer?
 
       BatchDelivery.new(relation:, batch_size: BATCH_SIZE).each do |batch_time, application_forms|
-        SendRejectByDefaultExplainerEmailToCandidatesBatchWorker.perform_at(batch_time, application_forms.pluck(:id))
+        SendDeclineByDefaultExplainerEmailToCandidatesBatchWorker.perform_at(batch_time, application_forms.pluck(:id))
       end
     end
 
@@ -21,7 +21,7 @@ module EndOfCycle
     end
   end
 
-  class SendRejectByDefaultExplainerEmailToCandidatesBatchWorker
+  class SendDeclineByDefaultExplainerEmailToCandidatesBatchWorker
     include Sidekiq::Worker
 
     def perform(application_form_ids)

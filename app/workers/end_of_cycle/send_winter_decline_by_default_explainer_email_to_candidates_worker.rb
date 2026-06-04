@@ -23,7 +23,7 @@ module EndOfCycle
         .distinct
     end
 
-    private
+  private
 
     def send_emails?
       CandidateEmailTimetabler.new(timetable:).send_winter_decline_by_default_explainer?

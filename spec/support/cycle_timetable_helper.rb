@@ -131,6 +131,11 @@ module_function
     timetable.reject_by_default_at + 1.day
   end
 
+  def decline_by_default_explainer_date(year = nil)
+    timetable = get_timetable(year)
+    timetable.decline_by_default_at + 1.day
+  end
+
   def get_timetable(year = nil)
     seed_timetables if RecruitmentCycleTimetable.all.empty?
 
