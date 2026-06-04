@@ -6,8 +6,9 @@ RSpec.describe CandidateMailer do
   describe '.winter_decline_by_default_explainer' do
     let(:email) { described_class.winter_decline_by_default_explainer(application_form) }
     let(:timetable) { application_form.recruitment_cycle_timetable }
-    let(:next_academic_year) { timetable.next_available_academic_year_range }
-    let(:apply_reopens_date) { timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first) }
+    let(:next_timetable) { timetable.relative_next_timetable }
+    let(:next_academic_year) { next_timetable.academic_year_range_name
+    let(:apply_reopens_date) { next_timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first) }
 
     it_behaves_like(
       'a mail with subject and content',

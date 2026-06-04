@@ -6,7 +6,8 @@ RSpec.describe CandidateMailer do
   describe '.decline_by_default_explainer' do
     let(:email) { described_class.decline_by_default_explainer(application_form) }
     let(:timetable) { application_form.recruitment_cycle_timetable }
-    let(:next_academic_year) { timetable.next_available_academic_year_range }
+    let(:next_academic_year_range) { timetable.next_available_academic_year_range }
+    let(:next_recruitment_cycle_year) { timetable.relative_next_year }
     let(:apply_reopens_date) { timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first) }
 
     it_behaves_like(
@@ -23,13 +24,19 @@ RSpec.describe CandidateMailer do
 
     it 'renders content for updating the recipients details' do
       expect(email.body).to include(
-        "You can update your details to get ready to apply for courses starting in the #{next_academic_year} academic year.",
+        "You can update your details to get ready to apply for courses starting in the #{next_academic_year_range} academic year.",
       )
     end
 
     it 'renders content for applying for courses' do
       expect(email.body).to include(
         "You will be able to apply to these courses from #{apply_reopens_date}.",
+      )
+    end
+
+    it 'renders content for applying for January courses' do
+      expect(email.body).to include(
+        "There may be a small number of courses starting in January still available. If you apply, providers have until January #{next_recruitment_cycle_year} to respond.",
       )
     end
   end

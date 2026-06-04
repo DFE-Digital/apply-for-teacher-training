@@ -24,7 +24,7 @@ RSpec.describe CandidateMailer do
       expect(email.body).to include(
         'This is because the provider did not respond before their deadline. If you have any questions about this, please contact the provider.',
       )
-      expect(email.body).to include('What happens next')
+      expect(email.body).to include('What happens next?')
       expect(email.body).to include(
         "If you want to accept your offer of a place on a teacher training course, you must do so by #{winter_deadline}.",
       )

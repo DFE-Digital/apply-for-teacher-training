@@ -6,7 +6,7 @@ RSpec.describe CandidateMailer do
   describe '.winter_reject_by_default_explainer' do
     let(:email) { described_class.winter_reject_by_default_explainer(application_form) }
     let(:timetable) { application_form.recruitment_cycle_timetable }
-    let(:this_academic_year) { timetable.previously_closed_academic_year_range }
+    let(:this_academic_year) { timetable.academic_year_range_name }
     let(:next_academic_year) { timetable.next_available_academic_year_range }
 
     it_behaves_like(
