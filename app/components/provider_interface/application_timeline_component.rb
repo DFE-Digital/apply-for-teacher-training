@@ -54,8 +54,10 @@ module ProviderInterface
       map_activity_log_events_for('status') do |event|
         new_status = event.application_status_at_event
 
-        next if new_status == 'interviewing' && interview_exists_for_event?(event)
+        # filter out status changes to interviewing audits that are represented by interview_events
+        next if new_status == 'interviewing' && interview_exists_for_new_status?(event)
 
+        # identify status changes to interviewing audits without interview_events
         moved_to_interview = new_status == 'interviewing'
 
         link_name, link_path =
@@ -151,10 +153,11 @@ module ProviderInterface
       end
     end
 
-    def interview_exists_for_event?(status_event)
+    def interview_exists_for_new_status?(new_status_event)
+      # check if the status change was accompanied by an interview event
       @activity_log_events.any? do |event|
         event.audit.auditable.is_a?(Interview) &&
-          event.created_at.to_i == status_event.created_at.to_i
+          event.created_at.to_i == new_status_event.created_at.to_i
       end
     end
 

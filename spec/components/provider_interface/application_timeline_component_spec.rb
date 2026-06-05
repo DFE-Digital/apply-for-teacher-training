@@ -239,7 +239,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     end
   end
 
-  context 'for a status change from awaiting provider decision to interviewing without an interview event' do
+  context 'for a status change to interviewing without an interview event' do
     it 'renders the "moved to interview" event' do
       audit = build_stubbed(
         :application_choice_audit,
