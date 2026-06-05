@@ -43,6 +43,12 @@ module CandidateInterface
           fifth_nationality: nationalities[4],
         )
       end
+
+      if application_form.personal_details_completed && !application_form.personal_information_section_valid?
+        application_form.update!(personal_details_completed: false)
+      end
+
+      true
     end
 
     def candidates_nationalities

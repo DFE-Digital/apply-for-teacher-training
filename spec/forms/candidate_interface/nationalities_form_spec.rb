@@ -136,6 +136,19 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
         expect(application_form.right_to_work_or_study).to eq 'yes'
         expect(application_form.right_to_work_or_study_details).to eq 'I have a visa.'
       end
+
+      it 'resets the section completed if section is invalid' do
+        application_form = build(
+          :application_form,
+          right_to_work_or_study: 'yes',
+          right_to_work_or_study_details: 'I have a visa.',
+          personal_details_completed: true,
+        )
+        nationalities = described_class.new(form_data)
+
+        expect(nationalities.save(application_form)).to be(true)
+        expect(application_form.personal_details_completed).to be(false)
+      end
     end
   end
 

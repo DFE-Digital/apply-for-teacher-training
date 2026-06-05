@@ -140,6 +140,34 @@ class ApplicationForm < ApplicationRecord
 
   VISAS_REQUIRING_SPONSORSHIP = %w[student_visa skilled_worker_visa].freeze
 
+  def personal_information_section_valid?
+    CandidateInterface::PersonalDetailsForm.build_from_application(self).valid? &&
+      CandidateInterface::NationalitiesForm.build_from_application(self).valid? &&
+      right_to_work_valid? &&
+      immigration_status_valid? &&
+      visa_expiry_valid?
+  end
+
+  def right_to_work_valid?
+    return true if british_or_irish?
+
+    CandidateInterface::ImmigrationRightToWorkForm.build_from_application(self).valid?
+  end
+
+  def immigration_status_valid?
+    return true if british_or_irish? || right_to_work_or_study_no?
+
+    CandidateInterface::ImmigrationStatusForm.build_from_application(self).valid?
+  end
+
+  def visa_expiry_valid?
+    if temporary_immigration_status?
+      CandidateInterface::VisaExpiryForm.new(self).valid?
+    else
+      true
+    end
+  end
+
   def international_qualification?
     application_qualifications.any?(&:international)
   end

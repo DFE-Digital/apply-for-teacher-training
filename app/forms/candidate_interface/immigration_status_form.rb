@@ -21,13 +21,19 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      application_form.update(
+      application_form.update!(
         immigration_status:,
         right_to_work_or_study_details: other_immigration_status? ? right_to_work_or_study_details : nil,
         visa_expired_at: if application_form.temporary_immigration_status?(immigration_status)
                            application_form.visa_expired_at
                          end,
       )
+
+      if application_form.personal_details_completed && !application_form.personal_information_section_valid?
+        application_form.update!(personal_details_completed: false)
+      end
+
+      true
     end
 
     def eu_nationality?
