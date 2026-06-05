@@ -109,6 +109,8 @@ gem 'clockwork'
 # Rate limiting
 gem 'rack-attack'
 
+gem 'rack', '~> 2.2'
+
 # For outgoing http requests
 gem 'http'
 
