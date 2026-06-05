@@ -16,9 +16,9 @@ This is because the provider did not respond before their deadline. If you have 
 
 # What happens next?
 
-If you want to accept your offer of a place on a teacher training course, you must do so by <%= @winter_decline_by_default_deadline %>.
+If you want to accept your offer of a place on a teacher training course, you must do so by <%= "#{@winter_decline_by_default_deadline}" %>.
 
-If you do not want to accept this offer, you can still apply to courses starting in September <%= @next_recruitment_cycle_year %>.
+If you do not want to accept this offer, you can still apply to courses starting later in <%= "#{@next_recruitment_cycle_year}" %> and in <%= "#{@next_recruitment_cycle_year + 1}" %>.
 
 [Sign in to your account to apply for courses](<%= application_choices_link %>)
 

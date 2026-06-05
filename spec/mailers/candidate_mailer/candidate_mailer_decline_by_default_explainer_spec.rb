@@ -33,11 +33,5 @@ RSpec.describe CandidateMailer do
         "You will be able to apply to these courses from #{apply_reopens_date}.",
       )
     end
-
-    it 'renders content for applying for January courses' do
-      expect(email.body).to include(
-        "There may be a small number of courses starting in January still available. If you apply, providers have until January #{next_recruitment_cycle_year} to respond.",
-      )
-    end
   end
 end

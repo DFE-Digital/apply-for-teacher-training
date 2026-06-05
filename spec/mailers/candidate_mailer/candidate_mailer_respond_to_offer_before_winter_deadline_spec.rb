@@ -29,7 +29,7 @@ RSpec.describe CandidateMailer do
         "If you want to accept your offer of a place on a teacher training course, you must do so by #{winter_deadline}.",
       )
       expect(email.body).to include(
-        "If you do not want to accept this offer, you can still apply to courses starting in September #{next_recruitment_cycle_year}.",
+        "If you do not want to accept this offer, you can still apply to courses starting later in #{next_recruitment_cycle_year} and in #{next_recruitment_cycle_year + 1}.",
       )
       expect(email.body).to include('Sign in to your account to apply for courses')
       expect(email.body).to include(
