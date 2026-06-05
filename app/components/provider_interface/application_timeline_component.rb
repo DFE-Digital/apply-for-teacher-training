@@ -56,7 +56,7 @@ module ProviderInterface
 
         next if new_status == 'interviewing' && interview_exists_for_event?(event)
 
-        moved_to_interview = new_status == 'interviewing' && !interview_exists_for_event?(event)
+        moved_to_interview = new_status == 'interviewing'
 
         link_name, link_path =
           if moved_to_interview
