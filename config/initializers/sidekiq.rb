@@ -9,6 +9,7 @@ Sidekiq.configure_server do |config|
   config.redis = {
     url: ENV.fetch('REDIS_URL') { 'redis://localhost:6379/0' },
     timeout: 10,
+    ssl_params: { options: OpenSSL::SSL::OP_IGNORE_UNEXPECTED_EOF },
   }
 
   config.server_middleware do |chain|
