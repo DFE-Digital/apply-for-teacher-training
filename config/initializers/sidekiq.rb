@@ -32,7 +32,7 @@ class Redis
       rescue Errno::EAGAIN
         raise TimeoutError
       rescue OpenSSL::SSL::SSLError => e
-        if e.message.match?(/SSL_read: unexpected eof while reading/i) || e.message.match?(/tls_retry_write_records/i)
+        if e.message.match?(/SSL_read: unexpected eof while reading/i) || e.message.match?(/tls_retry_write_records failure/i)
           raise EOFError, e.message
         else
           raise
