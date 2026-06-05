@@ -103,7 +103,7 @@ gem 'request_store-sidekiq'
 gem 'rails_semantic_logger', group: %w[development production]
 
 # Background processing
-gem 'sidekiq', '< 7'
+gem 'sidekiq', '7.3.10'
 gem 'clockwork'
 
 # Rate limiting
