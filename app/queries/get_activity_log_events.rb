@@ -30,8 +30,6 @@ class GetActivityLogEvents
     offer_changed_at
   ].freeze
 
-  IGNORE_STATUS = %i[interviewing].freeze
-
   def self.call(application_choices:, since: nil)
     since ||= application_choices.includes(:application_form).minimum('application_forms.created_at')
 
@@ -88,15 +86,16 @@ class GetActivityLogEvents
       "jsonb_exists(audited_changes, '#{change}')"
     end.join(' OR ')
 
-    filtered_statuses = ApplicationStateChange::ApplicationState.state_ids(:visible_to_provider) - IGNORE_STATUS
-
-    status_transitions_to_include = filtered_statuses.map { |status| "'#{status}'" }.join(', ')
+    status_transitions_to_include = ApplicationStateChange::ApplicationState.state_ids(:visible_to_provider).map { |status| "'#{status}'" }.join(', ')
 
     application_choice_audits_filter += " OR audited_changes::json#>>'{status, 1}' IN (#{status_transitions_to_include})"
     application_choice_audits_filter + ignore_interview_cancelled_application_choice_status_change_sql
   end
 
   def self.ignore_interview_cancelled_application_choice_status_change_sql
-    %( AND NOT audited_changes @> '{"status" : ["interviewing", "awaiting_provider_decision"]}')
+    %( AND NOT (
+      audited_changes::json#>>'{status,0}' = 'interviewing'
+      AND audited_changes::json#>>'{status,1}' = 'awaiting_provider_decision'
+    ))
   end
 end

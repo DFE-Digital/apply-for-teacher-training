@@ -31,9 +31,9 @@ module ProviderInterface
 
     def map_activity_log_events_for(attr)
       @activity_log_events
-        .reject { |event| event.application_status_at_event == 'interviewing' }
         .select { |event| event.changes.key?(attr) && event.changes['status']&.at(1) != 'inactive' }
         .map { |event| yield(event) }
+        .compact
     end
 
     def timeline_events
@@ -52,11 +52,25 @@ module ProviderInterface
 
     def status_change_events
       map_activity_log_events_for('status') do |event|
+        new_status = event.application_status_at_event
+
+        next if new_status == 'interviewing' && interview_exists_for_event?(event)
+
+        moved_to_interview = new_status == 'interviewing' && !interview_exists_for_event?(event)
+
+        link_name, link_path =
+          if moved_to_interview
+            [nil, nil]
+          else
+            link_params_for_status(new_status)
+          end
+
         Event.new(
-          title_for(event.application_status_at_event),
+          moved_to_interview ? 'Moved to interview' : title_for(new_status),
           actor_for(event),
           event.created_at,
-          *link_params_for_status(event.application_status_at_event),
+          link_name,
+          link_path,
         )
       end
     end
@@ -134,6 +148,13 @@ module ProviderInterface
           'View Application',
           provider_interface_application_choice_path(application_choice, anchor: 'interview-preferences-section'),
         )
+      end
+    end
+
+    def interview_exists_for_event?(status_event)
+      @activity_log_events.any? do |event|
+        event.audit.auditable.is_a?(Interview) &&
+          event.created_at.to_i == status_event.created_at.to_i
       end
     end
 

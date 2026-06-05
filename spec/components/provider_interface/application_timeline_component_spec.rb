@@ -239,6 +239,30 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     end
   end
 
+  context 'for a status change from awaiting provider decision to interviewing without an interview event' do
+    it 'renders the "moved to interview" event' do
+      audit = build_stubbed(
+        :application_choice_audit,
+        audited_changes: { 'status' => %w[awaiting_provider_decision interviewing] },
+        user: provider_user,
+        created_at: 2.days.ago,
+      )
+
+      activity_log_event = ActivityLogEvent.new(audit:)
+      allow(ActivityLogEvent).to receive(:new).with(audit:).and_return(activity_log_event)
+      allow(activity_log_event).to receive(:application_status_at_event).and_return('interviewing')
+
+      application_choice = application_choice_with_audits([audit])
+
+      rendered = render_inline(described_class.new(application_choice:))
+
+      expect(rendered.text).to include 'Moved to interview'
+      expect(rendered.text).to include 'Bob Roberts'
+
+      expect(rendered.css('a').text).not_to include 'View interview'
+    end
+  end
+
   describe 'user who made the changes' do
     let(:user) { build_stubbed(:support_user) }
     let(:username) { nil }
