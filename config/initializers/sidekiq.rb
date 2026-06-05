@@ -9,7 +9,6 @@ Sidekiq.configure_server do |config|
   config.redis = {
     url: ENV.fetch('REDIS_URL') { 'redis://localhost:6379/0' },
     timeout: 10,
-    ssl_params: { options: OpenSSL::SSL::OP_IGNORE_UNEXPECTED_EOF },
   }
 
   config.server_middleware do |chain|
@@ -20,3 +19,25 @@ Sidekiq.configure_server do |config|
 end
 
 require 'sidekiq/web'
+
+require 'redis/connection/ruby'
+
+class Redis
+  module Connection
+    class Ruby
+      def read
+        line = @sock.gets
+        reply_type = line.slice!(0, 1)
+        format_reply(reply_type, line)
+      rescue Errno::EAGAIN
+        raise TimeoutError
+      rescue OpenSSL::SSL::SSLError => e
+        if e.message.match?(/SSL_read: unexpected eof while reading/i) || e.message.match?(/tls_retry_write_records/i)
+          raise EOFError, e.message
+        else
+          raise
+        end
+      end
+    end
+  end
+end
