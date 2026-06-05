@@ -93,11 +93,20 @@ class ApplicationChoice < ApplicationRecord
   scope :in_progress, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:in_progress)) }
   scope :active_previous, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:active_previous)) }
   scope :inactive_past_day, -> { inactive.where(inactive_at: 1.day.ago..Time.zone.now) }
-  scope :course_starts_after_september, lambda { |recruitment_cycle_year|
-    start_date = Date.parse("30/09/#{recruitment_cycle_year}").at_end_of_day
-    joins(course_option: :course)
-      .where(current_recruitment_cycle_year: recruitment_cycle_year)
-      .where('courses.start_date > ?', start_date)
+  scope :course_starts_after_september, lambda { |course_start_date_year|
+    end_of_september = Date.parse("30/09/#{course_start_date_year}").at_end_of_day
+    end_of_next_august = Date.parse("31/08/#{course_start_date_year + 1}").at_end_of_day
+
+    course_joined_choices = joins(course_option: :course)
+    # Providers duplicate courses with January start dates into the next recruitment cycle.
+    # Therefore, application choices with January start dates are considered to be application choice:
+    # - with a course starting after September in the same year as the recruitment cycle
+    # - with a course starting before September in the next recruitment cycle
+    course_joined_choices.where(current_recruitment_cycle_year: course_start_date_year)
+                         .where('courses.start_date > ?', end_of_september).or(
+      course_joined_choices.where(current_recruitment_cycle_year: course_start_date_year + 1)
+                           .where('courses.start_date < ?', end_of_next_august)
+    )
   }
   scope :course_start_in_september, lambda { |recruitment_cycle_year|
     start_date = Date.parse("30/09/#{recruitment_cycle_year}").at_end_of_day
@@ -107,7 +116,11 @@ class ApplicationChoice < ApplicationRecord
   }
 
   def starts_after_september?
-    course.start_date > Date.parse("30/09/#{current_recruitment_cycle_year}").at_end_of_day
+    course.start_date > Date.parse("30/09/#{current_recruitment_cycle_year}").at_end_of_day ||
+      (
+        course.start_date < Date.parse("31/08/#{current_recruitment_cycle_year}").at_end_of_day &&
+          course.start_date > Date.parse("30/09/#{current_recruitment_cycle_year - 1}").at_end_of_day
+      )
   end
 
   def visa_expires_soon?

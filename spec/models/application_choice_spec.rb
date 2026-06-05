@@ -135,6 +135,7 @@ RSpec.describe ApplicationChoice do
     let(:next_recruitment_cycle_course) { create(:course, start_date: Date.parse('01/09/2027')) }
     let(:october_course) { create(:course, start_date: Date.parse('01/10/2026')) }
     let(:january_course) { create(:course, start_date: Date.parse('01/01/2027')) }
+    let(:duplicated_january_course) { create(:course, recruitment_cycle_year: 2027, start_date: Date.parse('01/01/2027')) }
     let(:may_course) { create(:course, start_date: Date.parse('01/05/2027')) }
     let(:august_application_choice) do
       create(
@@ -185,11 +186,25 @@ RSpec.describe ApplicationChoice do
         course_option: create(:course_option, course: january_course),
       )
     end
+    let(:duplicated_january_choice) do
+      create(
+        :application_choice,
+        current_recruitment_cycle_year: current_recruitment_cycle_year + 1,
+        course_option: create(:course_option, course: duplicated_january_course),
+      )
+    end
     let(:may_choice) do
       create(
         :application_choice,
         current_recruitment_cycle_year:,
         course_option: create(:course_option, course: may_course),
+      )
+    end
+    let(:previous_recruitment_cycle_jan_choice) do
+      create(
+        :application_choice,
+        current_recruitment_cycle_year: current_recruitment_cycle_year + 1,
+        course_option: create(:course_option, course: january_course),
       )
     end
 
@@ -201,6 +216,7 @@ RSpec.describe ApplicationChoice do
       next_recruitment_cycle_choice
       october_choice
       january_choice
+      duplicated_january_choice
       may_choice
     end
 
@@ -211,6 +227,7 @@ RSpec.describe ApplicationChoice do
         october_choice,
         january_choice,
         may_choice,
+        duplicated_january_choice,
       )
     end
   end
@@ -1142,10 +1159,11 @@ RSpec.describe ApplicationChoice do
   end
 
   describe '#starts_after_september?' do
+    let(:current_recruitment_cycle_year) { 2026 }
     let(:application_choice) do
       create(
         :application_choice,
-        current_recruitment_cycle_year: 2026,
+        current_recruitment_cycle_year:,
         course_option: create(:course_option, course:),
       )
     end
@@ -1155,6 +1173,15 @@ RSpec.describe ApplicationChoice do
 
       it 'returns true' do
         expect(application_choice.starts_after_september?).to be(true)
+      end
+
+      context 'when the application choice and course occur in the next recruitment cycle' do
+        let(:current_recruitment_cycle_year) { 2027 }
+        let(:course) { create(:course, start_date: Date.parse('01/10/2026'), recruitment_cycle_year: current_recruitment_cycle_year) }
+
+        it 'returns true' do
+          expect(application_choice.starts_after_september?).to be(true)
+        end
       end
     end
 
