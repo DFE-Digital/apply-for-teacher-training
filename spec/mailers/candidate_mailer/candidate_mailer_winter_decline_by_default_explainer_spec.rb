@@ -17,7 +17,7 @@ RSpec.describe CandidateMailer do
       'details' => 'Your offer of a place on a teacher training course has been declined automatically.',
       'cause' => 'This is because you did not respond before the deadline.',
       'what happens next' => 'What happens next?',
-      'providers make offers' => 'Training provider make offers throughout the year. Providers may close applications early if a course fills up.',
+      'providers make offers' => 'Training providers make offers throughout the year. Providers may close applications early if a course fills up.',
       'courses can close' => 'Courses can fill up quickly, so apply as soon as you are ready. If a course closes, you will need to wait until the next year to apply.',
       'sign in' => 'Sign in to your account to apply for courses',
       'contact us' => 'Contact us',
