@@ -26,7 +26,7 @@ RSpec.describe CandidateMailer do
 
     it 'renders content for updating the recipients details' do
       expect(email.body).to include(
-        "You can update your details to get ready to apply for courses starting in the #{next_academic_year} academic year.",
+        "You can now apply to courses starting in the #{next_academic_year} academic year.",
       )
     end
   end
