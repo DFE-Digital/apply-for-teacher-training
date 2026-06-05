@@ -269,11 +269,12 @@ namespace :support_interface, path: '/support' do
     get '/service-banners/configuration/:id/preview' => 'configure_service_banner#preview', as: :preview_configure_service_banner
     patch '/service-banners/configuration/:id/preview' => 'configure_service_banner#publish', as: :publish_configure_service_banner
 
-    get '/tasks' => 'tasks#index', as: :tasks
-    post '/tasks/create-fake-provider' => 'tasks#create_fake_provider'
-    post '/tasks/:task' => 'tasks#run', as: :run_task
-    get '/tasks/confirm-delete-test-applications' => 'tasks#confirm_delete_test_applications', as: :confirm_delete_test_applications
-    get '/tasks/confirm-cancel-applications-at-end-of-cycle' => 'tasks#confirm_cancel_applications_at_end_of_cycle', as: :confirm_cancel_applications_at_end_of_cycle
+    unless HostingEnvironment.production?
+      get '/tasks' => 'tasks#index', as: :tasks
+      post '/tasks/create-fake-provider' => 'tasks#create_fake_provider'
+      post '/tasks/:task' => 'tasks#run', as: :run_task
+      get '/tasks/confirm-delete-test-applications' => 'tasks#confirm_delete_test_applications', as: :confirm_delete_test_applications
+    end
   end
 
   scope '/docs' do

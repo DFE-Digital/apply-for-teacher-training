@@ -20,11 +20,12 @@ RSpec.describe 'Tasks', sidekiq: false do
   end
 
   def when_i_visit_the_support_tasks_page
-    visit support_interface_tasks_path
+    click_on 'Settings'
+    click_on 'Tasks'
   end
 
   def and_i_click_on_generate_test_applications
-    click_link_or_button 'Generate test application'
+    click_link_or_button "Generate #{current_year} applications"
   end
 
   def then_i_see_that_the_job_has_been_scheduled

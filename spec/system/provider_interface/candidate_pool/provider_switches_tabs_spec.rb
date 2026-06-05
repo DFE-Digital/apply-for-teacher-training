@@ -119,6 +119,10 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
+    if !ProviderUser.exists?(@provider_user&.id)
+      @provider_user = nil
+    end
+
     @provider_user ||= provider_user_exists_in_apply_database(provider_code: provider.code)
     user_exists_in_dfe_sign_in(
       email_address: @provider_user.email_address,

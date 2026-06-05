@@ -88,6 +88,8 @@ class GenerateTestApplications
           states:,
         )
 
+        next unless current_cycle_undergraduate_courses.size >= states.size
+
         create(
           recruitment_cycle_year: current_year,
           courses_to_apply_to: current_cycle_undergraduate_courses,
@@ -168,24 +170,7 @@ private
       .teacher_degree_apprenticeship
       .with_course_options
       .in_cycle(recruitment_cycle_year)
-
-    if courses.none?
-      common_used_provider_code = '1TZ'
-      provider = Provider.find_by(code: common_used_provider_code) ||
-                 Provider.all.sample(10).sample ||
-                 FactoryBot.create(:provider)
-
-      FactoryBot.create_list(
-        :course,
-        10,
-        :teacher_degree_apprenticeship,
-        :with_course_options,
-        :open,
-        recruitment_cycle_year:,
-        provider:,
-      )
-    end
-
+      .distinct
     courses.distinct
   end
 

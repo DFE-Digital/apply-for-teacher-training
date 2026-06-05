@@ -1,27 +1,15 @@
 <%= render 'support_interface/settings/settings_navigation', title: 'Tasks' %>
+<h1 class="govuk-heading-l">Tasks</h1>
 
 <section class="app-section app-section--with-top-border">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m">Start-of-cycle: Send reminder of deferred offers</h2>
-      <p class="govuk-body">This task finds any deferred offers from the previous recruitment cycle and emails the candidates to remind them of the offer.</p>
-      <p class="govuk-body">It should be run shortly after the cycle begins.</p>
+      <h2 class="govuk-heading-m">Run end-of-cycle related jobs</h2>
+      <p class="govuk-body">This task will run any jobs that should have been run by this point in the cycle. It will make the application data more realistic if you have recently updated the cycle dates.</p>
+      <p class="govuk-body">Changes to the application states cannot be undone. You may need to ask a developer to reseed test data after you have run this task</p>
     </div>
     <div class="govuk-grid-column-one-third">
-      <%= govuk_button_to 'Send reminder emails', support_interface_run_task_path('send_deferred_offer_reminder_emails'), secondary: true %>
-    </div>
-  </div>
-</section>
-
-<section class="app-section app-section--with-top-border">
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m">End-of-cycle: Cancel unsubmitted applications</h2>
-      <p class="govuk-body">This task finds any unsubmitted applications from the most recently closed recruitment cycle and moves them to the <code>application_not_sent</code> status.</p>
-      <p class="govuk-body">It should be run shortly after the Apply deadline closes at midnight on <%= @current_timetable.apply_deadline_at.to_fs(:govuk_date) %>.</p>
-    </div>
-    <div class="govuk-grid-column-one-third">
-      <%= govuk_button_link_to 'Cancel applications', support_interface_confirm_cancel_applications_at_end_of_cycle_path, warning: true %>
+      <%= govuk_button_to 'Run end of cycle jobs', support_interface_run_task_path('run_end_of_cycle_jobs'), warning: true %>
     </div>
   </div>
 </section>
@@ -45,10 +33,10 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-m">Generate test applications for the <%= @current_timetable.recruitment_cycle_year %> recruitment cycle</h2>
-        <p class="govuk-body">This task generates ~10 mostly-random test applications in all of the states.</p>
+        <p class="govuk-body">This task generates about 10 mostly-random test applications in all states.</p>
       </div>
       <div class="govuk-grid-column-one-third">
-        <%= govuk_button_to 'Generate test applications', support_interface_run_task_path('generate_test_applications'), secondary: true %>
+        <%= govuk_button_to "Generate #{@current_timetable.recruitment_cycle_year} applications", support_interface_run_task_path('generate_test_applications'), secondary: true %>
       </div>
     </div>
   </section>
@@ -57,10 +45,10 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-m">Generate test applications for the <%= @current_timetable.relative_next_year %> recruitment cycle</h2>
-        <p class="govuk-body">This task generates mostly-random test applications for the <%= @current_timetable.relative_next_year %> recruitment cycle.</p>
+        <p class="govuk-body">This task generates mostly random test applications for the <%= @current_timetable.relative_next_year %> recruitment cycle.</p>
       </div>
       <div class="govuk-grid-column-one-third">
-        <%= govuk_button_to "Generate #{@current_timetable.relative_next_year} recruitment cycle test applications", support_interface_run_task_path('generate_next_cycle_test_applications'), secondary: true %>
+        <%= govuk_button_to "Generate #{@current_timetable.relative_next_year} applications", support_interface_run_task_path('generate_next_cycle_test_applications'), secondary: true %>
       </div>
     </div>
   </section>
