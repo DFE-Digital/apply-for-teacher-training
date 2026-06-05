@@ -19,7 +19,7 @@ RSpec.describe CandidateMailer do
       'what happens next' => 'What happens next?',
       'providers make offers' => 'Training provider make offers throughout the year. Providers may close applications early if a course fills up.',
       'courses can close' => 'Courses can fill up quickly, so apply as soon as you are ready. If a course closes, you will need to wait until the next year to apply.',
-      'sign in' => 'Sign in to your account to update your details',
+      'sign in' => 'Sign in to your account to apply for courses',
       'contact us' => 'Contact us',
       'contact details' => 'Call 0800 389 2500 or [chat online](https://getintoteaching.education.gov.uk/help-and-support) (Monday to Friday, 8:30am to 5:30pm UK time except on [bank holidays](https://www.gov.uk/bank-holidays))',
     )
