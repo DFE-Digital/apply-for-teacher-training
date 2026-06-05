@@ -104,9 +104,9 @@ class ApplicationChoice < ApplicationRecord
     # - with a course starting before September in the next recruitment cycle
     course_joined_choices.where(current_recruitment_cycle_year: course_start_date_year)
                          .where('courses.start_date > ?', end_of_september).or(
-      course_joined_choices.where(current_recruitment_cycle_year: course_start_date_year + 1)
-                           .where('courses.start_date < ?', end_of_next_august)
-    )
+                           course_joined_choices.where(current_recruitment_cycle_year: course_start_date_year + 1)
+                                                .where('courses.start_date < ?', end_of_next_august),
+                         )
   }
   scope :course_start_in_september, lambda { |recruitment_cycle_year|
     start_date = Date.parse("30/09/#{recruitment_cycle_year}").at_end_of_day
