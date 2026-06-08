@@ -10,6 +10,7 @@ RSpec.describe 'International candidate submits the application', :with_cache do
   end
 
   it 'International candidate completes and submits an application' do
+    FeatureFlag.deactivate('2027_application_form_has_many_english_proficiencies')
     given_i_am_signed_in_with_one_login
 
     when_i_have_completed_everything_except_the_efl_and_other_qualifications_section
