@@ -406,6 +406,7 @@ class CandidateMailer < ApplicationMailer
   def eoc_second_deadline_reminder(application_form)
     apply_deadline = I18n.l(application_form.apply_deadline_at.to_date, format: :no_year)
     @timetable = application_form.recruitment_cycle_timetable
+    @next_timetable = @timetable.relative_next_timetable
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.approaching_eoc_second_deadline_reminder.subject', apply_deadline:),
@@ -435,12 +436,12 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_deadline_has_passed(application_form)
-    timetable = application_form.recruitment_cycle_timetable
+    @timetable = application_form.recruitment_cycle_timetable
 
-    @this_academic_year = timetable.previously_closed_academic_year_range
-    @next_academic_year = timetable.next_available_academic_year_range
-    @apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
-    @course_start_month_year = timetable.course_start_date.to_fs(:month_and_year)
+    @this_academic_year = @timetable.previously_closed_academic_year_range
+    @next_academic_year = @timetable.next_available_academic_year_range
+    @apply_reopens_date = @timetable.apply_reopens_at
+    @course_start_month_year = @timetable.course_start_date.to_fs(:month_and_year)
 
     email_for_candidate(
       application_form,
@@ -449,12 +450,12 @@ class CandidateMailer < ApplicationMailer
   end
 
   def respond_to_offer_before_deadline(application_form)
-    timetable = application_form.recruitment_cycle_timetable
-    @decline_by_default_deadline = timetable.decline_by_default_at.to_fs(:govuk_date_time_time_first)
+    @timetable = application_form.recruitment_cycle_timetable
+    @decline_by_default_deadline = @timetable.decline_by_default_at.to_fs(:govuk_date_time_time_first)
 
-    @this_academic_year = timetable.previously_closed_academic_year_range
-    @next_academic_year = timetable.next_available_academic_year_range
-    @apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
+    @this_academic_year = @timetable.previously_closed_academic_year_range
+    @next_academic_year = @timetable.next_available_academic_year_range
+    @apply_reopens_date = @timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
     email_for_candidate(
       application_form,
       subject: I18n.t!(
