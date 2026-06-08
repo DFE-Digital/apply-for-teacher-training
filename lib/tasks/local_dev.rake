@@ -18,15 +18,13 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
     )
   end
 
-  if Candidate.find_by(token: 'dev-candidate').blank?
-    candidate = Candidate.find_or_create_by!(
-      email_address: 'dev-candidate@example.com',
-    )
-    candidate.create_one_login_auth!(
-      token: 'dev-candidate',
-      email_address: candidate.email_address,
-    )
-  end
+  candidate = Candidate.find_or_create_by!(
+    email_address: 'dev-candidate@example.com',
+  )
+  candidate.create_one_login_auth!(
+    token: 'dev-candidate',
+    email_address: candidate.email_address,
+  )
 
   puts 'Creating all RecruitmentCycleTimetables'
   ProductionRecruitmentCycleTimetablesAPI::SyncTimetablesWithProduction.new.call

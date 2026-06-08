@@ -19,3 +19,25 @@ Sidekiq.configure_server do |config|
 end
 
 require 'sidekiq/web'
+
+require 'redis/connection/ruby'
+
+class Redis
+  module Connection
+    class Ruby
+      def read
+        line = @sock.gets
+        reply_type = line.slice!(0, 1)
+        format_reply(reply_type, line)
+      rescue Errno::EAGAIN
+        raise TimeoutError
+      rescue OpenSSL::SSL::SSLError => e
+        if e.message.match?(/SSL_read: unexpected eof while reading/i) || e.message.match?(/tls_retry_write_records failure/i)
+          raise EOFError, e.message
+        else
+          raise
+        end
+      end
+    end
+  end
+end
