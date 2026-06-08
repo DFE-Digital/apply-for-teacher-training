@@ -18,16 +18,24 @@ module EndOfCycle
         apply_deadline_second_reminder_date: get_weekday(apply_deadline_at - 1.month).to_date,
         application_deadline_has_passed_email_date: (apply_deadline_at + 1.day).to_date,
         reject_by_default_explainer_date: (reject_by_default_at + 1.day).to_date,
+        decline_by_default_explainer_date: (decline_by_default_at + 1.day).to_date,
         find_has_opened_announcement_date: find_opens_at.to_date,
         # We have delayed the "apply has opened" email in the past to deal with rate limiting from Notify on the first day of applications.
         apply_has_opened_announcement_date: (apply_opens_at + 2.days).to_date,
         winter_reject_by_default_explainer_date:,
+        winter_decline_by_default_explainer_date:,
       }
     end
 
     def winter_reject_by_default_explainer_date
       if timetable.try(:winter_reject_by_default_at).present?
         (timetable.try(:winter_reject_by_default_at) + 1.day).to_date
+      end
+    end
+
+    def winter_decline_by_default_explainer_date
+      if timetable.try(:winter_decline_by_default_at).present?
+        (timetable.try(:winter_decline_by_default_at) + 1.day).to_date
       end
     end
 
@@ -55,8 +63,16 @@ module EndOfCycle
       current_date == email_schedule.fetch(:reject_by_default_explainer_date)
     end
 
+    def send_decline_by_default_explainer?
+      current_date == email_schedule.fetch(:decline_by_default_explainer_date)
+    end
+
     def send_winter_reject_by_default_explainer?
       current_date == email_schedule.fetch(:winter_reject_by_default_explainer_date)
+    end
+
+    def send_winter_decline_by_default_explainer?
+      current_date == email_schedule.fetch(:winter_decline_by_default_explainer_date)
     end
 
   private

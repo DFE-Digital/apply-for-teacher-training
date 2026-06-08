@@ -1,0 +1,19 @@
+<% if @application_form.first_name.present? %>
+  Dear <%= @application_form.first_name %>
+<% end %>
+
+Your offer of a place on a teacher training course has been declined automatically.
+
+This is because you did not respond before the deadline.
+
+# What happens next?
+
+You can now apply to courses starting in the <%= "#{@next_academic_year}" %> academic year.
+
+Training providers make offers throughout the year. Providers may close applications early if a course fills up.
+
+Courses can fill up quickly, so apply as soon as you are ready. If a course closes, you will need to wait until the next year to apply.
+
+[Sign in to your account to apply for courses](<%= sign_in_link %>)
+
+<%= render 'candidate_mailer/end_of_cycle/contact_us' %>

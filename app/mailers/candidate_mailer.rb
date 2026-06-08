@@ -462,8 +462,18 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def respond_to_offer_before_winter_deadline(_application_form)
-    raise 'Mailer still in development'
+  def respond_to_offer_before_winter_deadline(application_form)
+    timetable = application_form.recruitment_cycle_timetable
+    @winter_decline_by_default_deadline = timetable.winter_decline_by_default_at.to_fs(:govuk_date_time_time_first)
+    @next_recruitment_cycle_year = timetable.relative_next_year
+
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!(
+        'candidate_mailer.respond_to_offer_before_deadline.subject',
+        decline_by_default_date: @winter_decline_by_default_deadline,
+      ),
+    )
   end
 
   def reject_by_default_explainer(application_form)
@@ -478,8 +488,39 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def winter_reject_by_default_explainer(_application_form)
-    raise 'Mailer still in development'
+  def decline_by_default_explainer(application_form)
+    timetable = application_form.recruitment_cycle_timetable
+    @next_academic_year_range = timetable.next_available_academic_year_range
+    @next_recruitment_cycle_year = timetable.relative_next_year
+    @apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
+
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.decline_by_default_explainer.subject'),
+    )
+  end
+
+  def winter_reject_by_default_explainer(application_form)
+    timetable = application_form.recruitment_cycle_timetable
+    @this_academic_year = timetable.academic_year_range_name
+    @next_academic_year = timetable.next_available_academic_year_range
+
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.reject_by_default_explainer.subject'),
+    )
+  end
+
+  def winter_decline_by_default_explainer(application_form)
+    timetable = application_form.recruitment_cycle_timetable
+    next_recruitment_cycle = timetable.relative_next_timetable
+    @next_academic_year = next_recruitment_cycle.academic_year_range_name
+    @apply_reopens_date = next_recruitment_cycle.apply_reopens_at.to_fs(:govuk_date_time_time_first)
+
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.decline_by_default_explainer.subject'),
+    )
   end
 
   def find_has_opened(application_form)

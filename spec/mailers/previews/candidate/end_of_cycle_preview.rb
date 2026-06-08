@@ -109,4 +109,28 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
 
     CandidateMailer.visa_sponsorship_deadline_change(application_form, course)
   end
+
+  def winter_reject_by_default_explainer
+    application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
+
+    CandidateMailer.winter_reject_by_default_explainer(application_form)
+  end
+
+  def respond_to_offer_before_winter_deadline
+    application_form = FactoryBot.build(:application_form, first_name: 'Bart')
+
+    CandidateMailer.respond_to_offer_before_winter_deadline(application_form)
+  end
+
+  def decline_by_default_explainer
+    application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
+
+    CandidateMailer.decline_by_default_explainer(application_form)
+  end
+
+  def winter_decline_by_default_explainer
+    application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
+
+    CandidateMailer.winter_decline_by_default_explainer(application_form)
+  end
 end
