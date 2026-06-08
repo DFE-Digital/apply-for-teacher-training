@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_27_083106) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_05_132248) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1469,7 +1469,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_083106) do
   add_foreign_key "pool_invites", "courses", on_delete: :cascade
   add_foreign_key "pool_invites", "provider_users", column: "invited_by_id"
   add_foreign_key "pool_invites", "providers", on_delete: :cascade
-  add_foreign_key "possible_previous_teacher_trainings", "candidates"
+  add_foreign_key "possible_previous_teacher_trainings", "candidates", on_delete: :cascade, validate: false
   add_foreign_key "possible_previous_teacher_trainings", "providers"
   add_foreign_key "previous_teacher_trainings", "application_forms", on_delete: :cascade
   add_foreign_key "previous_teacher_trainings", "providers"

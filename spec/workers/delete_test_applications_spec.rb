@@ -16,6 +16,8 @@ RSpec.describe DeleteTestApplications do
       application_choice: application_form.application_choices.first,
     )
 
+    create(:possible_previous_teacher_training, candidate: application_form.candidate)
+
     expect { described_class.new.perform }.to change { ApplicationForm.count }.by(-1)
       .and change { ApplicationChoice.count }.by(-1)
       .and change { ApplicationWorkExperience.count }.by(-2)
@@ -24,6 +26,7 @@ RSpec.describe DeleteTestApplications do
       .and change { ApplicationWorkHistoryBreak.count }.by(-1)
       .and change { ApplicationReference.count }.by(-2)
       .and change { Note.count }.by(-1)
+      .and change { PossiblePreviousTeacherTraining.count }.by(-1)
       .and change { Candidate.count }.by(-1)
   end
 
