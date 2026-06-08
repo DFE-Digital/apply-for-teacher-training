@@ -25,18 +25,27 @@ RSpec.describe EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWo
       end
 
       it 'enqueues batch worker' do
+        september_course = create(:course, recruitment_cycle_year: previous_year, start_date: Date.parse("01/09/#{previous_year}"))
+        january_course = create(:course, recruitment_cycle_year: previous_year, start_date: Date.parse("01/01/#{previous_year + 1}"))
+        another_january_course = create(:course, recruitment_cycle_year: previous_year, start_date: Date.parse("01/01/#{previous_year + 1}"))
+        duplication_january_course = create(
+          :course,
+          start_date: Date.parse("01/01/#{previous_year + 1}"),
+        )
         rejected_with_offer = create(:application_form, recruitment_cycle_year: previous_year)
         create(
           :application_choice,
           :rejected_by_default,
           application_form: rejected_with_offer,
           current_recruitment_cycle_year: previous_year,
+          course_option: create(:course_option, course: january_course),
         )
         create(
           :application_choice,
           :offered,
           application_form: rejected_with_offer,
           current_recruitment_cycle_year: previous_year,
+          course_option: create(:course_option, course: another_january_course),
         )
 
         rejected_without_offer = create(:application_form, recruitment_cycle_year: previous_year)
@@ -45,6 +54,23 @@ RSpec.describe EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWo
           :rejected_by_default,
           application_form: rejected_without_offer,
           current_recruitment_cycle_year: previous_year,
+          course_option: create(:course_option, course: january_course),
+        )
+
+        last_september_form = create(:application_form, recruitment_cycle_year: previous_year)
+        create(
+          :application_choice,
+          :rejected_by_default,
+          application_form: last_september_form,
+          current_recruitment_cycle_year: previous_year,
+          course_option: create(:course_option, course: september_course),
+        )
+        duplication_january_course_form = create(:application_form)
+        create(
+          :application_choice,
+          :rejected_by_default,
+          application_form: duplication_january_course_form,
+          course_option: create(:course_option, course: duplication_january_course),
         )
 
         # These applications should not be included
@@ -57,7 +83,7 @@ RSpec.describe EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWo
         instance.perform
 
         expect(EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesBatchWorker)
-          .to have_received(:perform_at).with(kind_of(Time), [rejected_with_offer.id, rejected_without_offer.id])
+          .to have_received(:perform_at).with(kind_of(Time), [rejected_with_offer.id, rejected_without_offer.id, duplication_january_course_form.id])
       end
     end
   end

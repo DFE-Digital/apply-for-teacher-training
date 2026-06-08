@@ -3,14 +3,32 @@ require 'rails_helper'
 RSpec.describe EndOfCycle::WinterRejectByDefaultWorker do
   let(:year) { RecruitmentCycleTimetable.current_year }
   let(:instance) { described_class.new }
+  let(:last_september_course) { create(:course, recruitment_cycle_year: year - 1, start_date: Date.parse("01/09/#{year - 1}")) }
   let(:september_course) { create(:course, start_date: Date.parse("01/09/#{year}")) }
-  let(:january_course) { create(:course, start_date: Date.parse("01/01/#{year}")) }
+  let(:january_course) { create(:course, recruitment_cycle_year: year - 1, start_date: Date.parse("01/01/#{year}")) }
+  let(:duplicate_january_course) { create(:course, start_date: Date.parse("01/01/#{year}")) }
+  let!(:last_september_choice) do
+    create(
+      :application_choice,
+      :inactive,
+      current_recruitment_cycle_year: year - 1,
+      course_option: create(:course_option, course: last_september_course),
+    )
+  end
   let!(:inactive_choice) do
     create(
       :application_choice,
       :inactive,
       current_recruitment_cycle_year: year - 1,
       course_option: create(:course_option, course: january_course),
+    )
+  end
+  let!(:inactive_choice_this_cycle) do
+    create(
+      :application_choice,
+      :inactive,
+      current_recruitment_cycle_year: year,
+      course_option: create(:course_option, course: duplicate_january_course),
     )
   end
   let!(:interviewing_choice) do
@@ -55,6 +73,7 @@ RSpec.describe EndOfCycle::WinterRejectByDefaultWorker do
                     inactive_choice.application_form.id,
                     interviewing_choice.application_form.id,
                     awaiting_decision_choice.application_form.id,
+                    inactive_choice_this_cycle.application_form.id,
                   ),
                 )
       end
@@ -73,6 +92,7 @@ RSpec.describe EndOfCycle::WinterRejectByDefaultWorker do
                     inactive_choice.application_form.id,
                     interviewing_choice.application_form.id,
                     awaiting_decision_choice.application_form.id,
+                    inactive_choice_this_cycle.application_form.id,
                   ),
                 )
       end

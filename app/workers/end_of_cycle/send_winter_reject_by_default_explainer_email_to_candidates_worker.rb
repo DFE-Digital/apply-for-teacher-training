@@ -17,7 +17,6 @@ module EndOfCycle
               .where(rejected_by_default: true)
               .pluck(:application_form_id).uniq
       ApplicationForm
-        .previous_cycle
         .joins(:candidate).merge(Candidate.for_transaction_emails)
         .where(id: ids)
         .distinct
