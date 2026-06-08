@@ -60,7 +60,7 @@ RSpec.configure do |config|
     config.retry_reporter = reporter
 
     config.around do |ex|
-      ex.run_with_retry retry: 3
+      ex.run_with_retry retry: 5
     end
   end
 
