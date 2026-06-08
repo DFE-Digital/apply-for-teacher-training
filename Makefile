@@ -193,6 +193,8 @@ deploy-init: vendor-modules set-azure-account
 deploy-plan: deploy-init
 	terraform -chdir=terraform/$(PLATFORM) plan ${DETAILED_EXITCODE} -var-file=./workspace_variables/$(APP_ENV).tfvars.json ${TF_VARS}
 
+terraform-plan: deploy-plan
+
 deploy: deploy-init
 	terraform -chdir=terraform/$(PLATFORM) apply -var-file=./workspace_variables/$(APP_ENV).tfvars.json ${TF_VARS} $(AUTO_APPROVE)
 
