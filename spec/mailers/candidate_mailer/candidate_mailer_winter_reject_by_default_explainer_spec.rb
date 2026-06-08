@@ -28,7 +28,7 @@ RSpec.describe CandidateMailer do
 
     it 'renders content for open courses' do
       expect(email.body).to include(
-        "You can now apply  courses starting in the #{next_academic_year} academic year.",
+        "You can now apply courses starting in the #{next_academic_year} academic year.",
       )
     end
   end
