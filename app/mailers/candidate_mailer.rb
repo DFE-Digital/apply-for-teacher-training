@@ -395,6 +395,8 @@ class CandidateMailer < ApplicationMailer
   end
 
   def eoc_first_deadline_reminder(application_form)
+    @timetable = application_form.recruitment_cycle_timetable
+    @next_timetable = @timetable.relative_next_timetable
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.approaching_eoc_deadline.subject'),
