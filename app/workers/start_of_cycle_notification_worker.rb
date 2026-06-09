@@ -1,9 +1,6 @@
 class StartOfCycleNotificationWorker < ApplicationJob
   self.queue_adapter = :solid_queue
 
-  # TODO: Remove this line when config.action_mailer.deliver_later_queue_name is updated for Solid Queue
-  queue_as :mailers_sq
-
   def perform(service = 'find')
     return unless service_opens_today?(service, RecruitmentCycleTimetable.current_year)
     return unless hours_remaining.positive?
