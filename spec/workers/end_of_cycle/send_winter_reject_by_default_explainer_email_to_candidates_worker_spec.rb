@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWorker do
   let(:instance) { described_class.new }
+  let(:previous_year) { RecruitmentCycleTimetable.previous_year }
 
   describe '#perform' do
     context 'before or after the date for sending the winter explainer email' do
@@ -29,7 +30,6 @@ RSpec.describe EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWo
         another_january_course = create(:course, recruitment_cycle_year: previous_year, start_date: Date.parse("01/01/#{previous_year + 1}"))
         duplication_january_course = create(
           :course,
-          recruitment_cycle_year: current_year,
           start_date: Date.parse("01/01/#{previous_year + 1}"),
         )
         rejected_with_offer = create(:application_form, recruitment_cycle_year: previous_year)
@@ -74,11 +74,10 @@ RSpec.describe EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWo
         )
 
         # These applications should not be included
-        not_jan_courses = create_list(:course, 4, start_date: DateTime.new(current_year, 9, 2))
-        create(:application_choice, :inactive, course: not_jan_courses.sample, application_form: build(:application_form, recruitment_cycle_year: previous_year))
-        create(:application_choice, :interviewing, course: not_jan_courses.sample, application_form: build(:application_form, recruitment_cycle_year: previous_year))
-        create(:application_choice, :awaiting_provider_decision, course: not_jan_courses.sample, application_form: build(:application_form, recruitment_cycle_year: previous_year))
-        create(:application_choice, :rejected_by_default, course: not_jan_courses.sample)
+        create(:application_choice, :inactive, application_form: build(:application_form, recruitment_cycle_year: previous_year))
+        create(:application_choice, :interviewing, application_form: build(:application_form, recruitment_cycle_year: previous_year))
+        create(:application_choice, :awaiting_provider_decision, application_form: build(:application_form, recruitment_cycle_year: previous_year))
+        create(:application_choice, :rejected_by_default)
 
         allow(EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesBatchWorker).to receive(:perform_at)
         instance.perform

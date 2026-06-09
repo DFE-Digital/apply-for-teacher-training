@@ -9,7 +9,7 @@ FactoryBot.define do
     description { 'PGCE with QTS full time' }
     qualifications { %w[qts pgce] }
     course_length { 'OneYear' }
-    start_date { Faker::Date.between(from: 1.month.from_now, to: 1.year.from_now) }
+    start_date { DateTime.new(CycleTimetableHelper.current_year, 9, 1) }
     applications_open_from { CycleTimetableHelper.current_timetable.find_opens_at }
     age_range { '4 to 8' }
     withdrawn { false }
