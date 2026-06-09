@@ -10,7 +10,7 @@ RSpec.describe UpdateDuplicateMatchesWorker do
     end
 
     it 'calls UpdateDuplicateMatches' do
-      worker.perform
+      worker.perform_now
       expect(@duplicate_service).to have_received(:save!)
     end
   end

@@ -20,16 +20,16 @@ class Clock
 
   # Hourly jobs
 
-  every(1.hour, 'FindACandidate::PoolInviteChaserWorker', at: '**:35', skip_first_run: true) { FindACandidate::PoolInviteChaserWorker.perform_async }
-  every(1.hour, 'SendFindStartOfCycleProviderEmails', at: '**:05') { StartOfCycleNotificationWorker.perform_async }
+  every(1.hour, 'FindACandidate::PoolInviteChaserWorker', at: '**:35', skip_first_run: true) { FindACandidate::PoolInviteChaserWorker.perform_later }
+  every(1.hour, 'SendFindStartOfCycleProviderEmails', at: '**:05') { StartOfCycleNotificationWorker.perform_later }
   every(1.hour, 'ProcessStaleApplications', at: '**:10') do
     ProcessStaleApplicationsWorker.perform_later
   end
   every(1.hour, 'ChaseReferences', at: '**:20') { ChaseReferences.perform_async }
   every(1.hour, 'UpdateOutOfDateProviderIdsOnApplicationChoices', at: '**:20') { UpdateOutOfDateProviderIdsOnApplicationChoices.perform_async }
-  every(1.hour, 'UpdateDuplicateMatchesWorker', at: '**:25') { UpdateDuplicateMatchesWorker.perform_async }
-  every(1.hour, 'DetectInvariantsHourlyCheck', at: '**:30') { DetectInvariantsHourlyCheck.perform_async }
-  every(1.hour, 'Adviser::FetchTeachingSubjectsWorker', at: '**:15') { Adviser::FetchTeachingSubjectsWorker.perform_async }
+  every(1.hour, 'UpdateDuplicateMatchesWorker', at: '**:25') { UpdateDuplicateMatchesWorker.perform_later }
+  every(1.hour, 'DetectInvariantsHourlyCheck', at: '**:30') { DetectInvariantsHourlyCheck.perform_later }
+  every(1.hour, 'Adviser::FetchTeachingSubjectsWorker', at: '**:15') { Adviser::FetchTeachingSubjectsWorker.perform_later }
   every(1.hour, 'EndOfCycle::NextYearIncrementalSync', at: '**:14', skip_first_run: true) do
     EndOfCycle::NextYearIncrementalSync.perform_async
   end

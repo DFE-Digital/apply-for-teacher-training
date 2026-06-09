@@ -1,7 +1,7 @@
-class UpdateDuplicateMatchesWorker
-  include Sidekiq::Worker
+class UpdateDuplicateMatchesWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
-  sidekiq_options retry: 0, queue: :low_priority
+  queue_as :low_priority
 
   def perform
     UpdateDuplicateMatches.new.save!

@@ -1,8 +1,6 @@
 module FindACandidate
-  class SendChaserWorker
-    include Sidekiq::Worker
-
-    sidekiq_options queue: :default
+  class SendChaserWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
     def perform(invite_ids)
       ActiveRecord::Base.transaction do
