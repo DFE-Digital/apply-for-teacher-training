@@ -16,8 +16,8 @@ RSpec.describe Candidate::EnglishProficiencyDataConversionWorker do
     it 'toggles the boolean attribute associated with the qualification_status of each EnglishProficiency record' do
       expect { described_class.new.perform_now }.to change { EnglishProficiency.where(has_qualification: true).count }.from(1).to(3).and(
         change { EnglishProficiency.where(qualification_not_needed: true).count }.to(3).and(
-          change { EnglishProficiency.where(no_qualification: true).count }.to(4)
-        )
+          change { EnglishProficiency.where(no_qualification: true).count }.to(4),
+        ),
       )
 
       expect(has_qualification_1.reload.has_qualification).to be(true)
