@@ -1,5 +1,5 @@
-class ChaseReferences
-  include Sidekiq::Worker
+class ChaseReferences < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   REFEREE_CHASERS = [
     {

@@ -4,7 +4,7 @@ RSpec.describe EndOfCycle::NextYearIncrementalSync do
   describe '#perform' do
     before do
       allow(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-        .to receive(:perform_async).with(true, next_year)
+        .to receive(:perform_later).with(true, next_year)
     end
 
     context 'before full sync start start time' do
@@ -16,7 +16,7 @@ RSpec.describe EndOfCycle::NextYearIncrementalSync do
           described_class.new.perform
 
           expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-            .not_to have_received(:perform_async)
+            .not_to have_received(:perform_later)
         end
       end
     end
@@ -27,7 +27,7 @@ RSpec.describe EndOfCycle::NextYearIncrementalSync do
           described_class.new.perform
 
           expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-            .not_to have_received(:perform_async)
+            .not_to have_received(:perform_later)
         end
       end
     end
@@ -41,7 +41,7 @@ RSpec.describe EndOfCycle::NextYearIncrementalSync do
           described_class.new.perform
 
           expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-            .to have_received(:perform_async).with(true, next_year)
+            .to have_received(:perform_later).with(true, next_year)
         end
       end
     end

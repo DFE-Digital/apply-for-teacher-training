@@ -11,7 +11,7 @@ class Clock
   # More-than-hourly jobs
 
   every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI', skip_first_run: true) do
-    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true)
+    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_later(true)
   end
 
   every(10.minutes, 'FindACandidate::PopulatePoolWorker', skip_first_run: true) do
@@ -25,24 +25,24 @@ class Clock
   every(1.hour, 'ProcessStaleApplications', at: '**:10') do
     ProcessStaleApplicationsWorker.perform_later
   end
-  every(1.hour, 'ChaseReferences', at: '**:20') { ChaseReferences.perform_async }
-  every(1.hour, 'UpdateOutOfDateProviderIdsOnApplicationChoices', at: '**:20') { UpdateOutOfDateProviderIdsOnApplicationChoices.perform_async }
+  every(1.hour, 'ChaseReferences', at: '**:20') { ChaseReferences.perform_later }
+  every(1.hour, 'UpdateOutOfDateProviderIdsOnApplicationChoices', at: '**:20') { UpdateOutOfDateProviderIdsOnApplicationChoices.perform_later }
   every(1.hour, 'UpdateDuplicateMatchesWorker', at: '**:25') { UpdateDuplicateMatchesWorker.perform_later }
   every(1.hour, 'DetectInvariantsHourlyCheck', at: '**:30') { DetectInvariantsHourlyCheck.perform_later }
   every(1.hour, 'Adviser::FetchTeachingSubjectsWorker', at: '**:15') { Adviser::FetchTeachingSubjectsWorker.perform_later }
   every(1.hour, 'EndOfCycle::NextYearIncrementalSync', at: '**:14', skip_first_run: true) do
-    EndOfCycle::NextYearIncrementalSync.perform_async
+    EndOfCycle::NextYearIncrementalSync.perform_later
   end
 
   # Daily jobs
-  every(1.day, 'DeleteExpiredSessionsWorker', at: '5:01') { DeleteExpiredSessionsWorker.perform_async }
-  every(1.day, 'RemoveInactiveSupportUsersWorker', at: '5:02') { RemoveInactiveSupportUsersWorker.perform_async }
-  every(1.day, 'RemoveInactiveProviderUsersWorker', at: '5:05') { RemoveInactiveProviderUsersWorker.perform_async }
+  every(1.day, 'DeleteExpiredSessionsWorker', at: '5:01') { DeleteExpiredSessionsWorker.perform_later }
+  every(1.day, 'RemoveInactiveSupportUsersWorker', at: '5:02') { RemoveInactiveSupportUsersWorker.perform_later }
+  every(1.day, 'RemoveInactiveProviderUsersWorker', at: '5:05') { RemoveInactiveProviderUsersWorker.perform_later }
   every(1.day, 'DeleteAllDrafts', at: '4:01') { DeleteAllDraftsWorker.perform_later }
   every(1.day, 'DeleteFinishedJobs', at: '19:00') { DeleteFinishedJobsWorker.perform_later }
-  every(1.day, 'Chasers::Candidate::OfferWorker', at: '10:30') { Chasers::Candidate::OfferWorker.perform_async }
+  every(1.day, 'Chasers::Candidate::OfferWorker', at: '10:30') { Chasers::Candidate::OfferWorker.perform_later }
 
-  every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_async }
+  every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_later }
 
   every(1.day, 'Generate export for TAD', at: '23:59') { DataAPI::TADExport.run_daily }
 
@@ -85,7 +85,7 @@ class Clock
 
   # Weekly jobs
   every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: 'Saturday 00:59') do
-    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false)
+    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_later(false)
   end
 
   every(7.days, 'EndOfCycle::NextYearFullSync', at: 'Friday 00:05') { EndOfCycle::NextYearFullSync.perform_async }

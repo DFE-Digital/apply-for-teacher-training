@@ -1,7 +1,7 @@
 module Chasers
   module Candidate
-    class OfferWorker
-      include Sidekiq::Worker
+    class OfferWorker < ApplicationJob
+      self.queue_adapter = :solid_queue
 
       def perform
         Chasers::Candidate.chaser_to_date_range.each do |chaser_type, date_range|

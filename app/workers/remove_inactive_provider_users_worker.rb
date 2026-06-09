@@ -1,7 +1,7 @@
-class RemoveInactiveProviderUsersWorker
-  include Sidekiq::Worker
+class RemoveInactiveProviderUsersWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
-  sidekiq_options queue: :low_priority
+  queue_as :low_priority
 
   INACTIVE_MONTHS_AGO = 12
 

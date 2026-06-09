@@ -118,9 +118,9 @@ RSpec.describe 'Referee does not respond in time' do
   def advance_and_chase(duration)
     advance_time_to(@application.created_at + duration)
     TestSuiteTimeMachine.advance
-    ChaseReferences.perform_async
+    ChaseReferences.perform_now
     TestSuiteTimeMachine.advance
-    ChaseReferences.perform_async
+    ChaseReferences.perform_now
     TestSuiteTimeMachine.advance
   end
 end
