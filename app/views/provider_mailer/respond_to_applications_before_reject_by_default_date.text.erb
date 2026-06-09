@@ -13,5 +13,7 @@ Applications for January <%= "#{@timetable.recruitment_cycle_year + 1}" %> cours
 [Sign in to your account to review your applications](<%= @applications_url %>)
 
 <% content_for :additional_footer_content do %>
-  <%= render 'unsubscribe_from_emails_like_this' %>
+  ---
+
+  If you want to unsubscribe from these emails, [sign in to update your notification preferences](<%= @notifications_url %>).
 <% end %>

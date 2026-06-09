@@ -35,9 +35,8 @@ RSpec.describe ProviderMailer do
       expect(email.body).to include(
         'Get help, report a problem or give feedback at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).',
       )
-      expect(email.body).to include('Unsubscribe from reminder emails like this one')
-      expect(email.body).to include('You will still receive essential updates about applications.')
-      expect(email.body).to include('You cannot undo this.')
+      expect(email.body).to include('If you want to unsubscribe from these emails')
+      expect(email.body).to include('sign in to update your notification preferences')
     end
   end
 end
