@@ -24,10 +24,10 @@ RSpec.describe Clockwork, :clockwork do
       end
 
       it 'queues a worker task' do
-        allow(worker[:worker]).to receive(:perform_async)
+        allow(worker[:worker]).to receive(:perform_later)
         Clockwork::Test.run(max_ticks: 60, tick_speed: 1.minute, file: './config/clock.rb')
         Clockwork::Test.block_for(worker[:task]).call
-        expect(worker[:worker]).to have_received(:perform_async)
+        expect(worker[:worker]).to have_received(:perform_later)
       end
     end
   end

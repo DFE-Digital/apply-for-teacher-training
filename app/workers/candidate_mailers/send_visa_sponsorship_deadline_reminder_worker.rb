@@ -1,6 +1,8 @@
 module CandidateMailers
-  class SendVisaSponsorshipDeadlineReminderWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
+  class SendVisaSponsorshipDeadlineReminderWorker
+    include Sidekiq::Worker
+
+    sidekiq_options queue: :mailers
 
     def perform(application_choice_ids)
       ApplicationChoice.where(id: application_choice_ids).each do |choice|
