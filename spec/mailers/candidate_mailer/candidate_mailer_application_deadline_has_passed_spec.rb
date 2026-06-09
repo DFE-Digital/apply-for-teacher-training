@@ -16,9 +16,8 @@ RSpec.describe CandidateMailer do
       expect(email.body).to include("Dear #{application_form.first_name}")
       expect(email.body).to include("The deadline for courses starting by the end of September #{timetable.recruitment_cycle_year} has passed.")
       expect(email.body).to include('What happens next?')
-      expect(email.body).to include("You’ll be able to apply for more courses from #{apply_reopens_date.to_fs(:govuk_date)}.")
       expect(email.body).to include(
-        "You can update your details to get ready to apply for courses starting in the #{next_academic_year} academic year.",
+        "Update your details to get ready to apply for courses starting in the #{next_academic_year} academic year.",
       )
       expect(email.body).to include(
         "You will be able to apply for these courses from #{apply_reopens_date.to_fs(:govuk_date_time_time_first)}.",
