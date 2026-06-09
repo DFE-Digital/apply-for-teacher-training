@@ -145,6 +145,8 @@ jobs:
             integration_provider,
             integration_candidate,
             integration_candidate_entering_details,
+            integration_candidate_course_selection,
+            integration_candidate_adviser_sign_up,
           ]
         feature-flags: [on, off]
         # Use these offsets as the end of cycle approaches
@@ -169,9 +171,13 @@ jobs:
             include-pattern: spec/system/provider_interface/.*_spec.rb
           - tests: integration_candidate
             include-pattern: spec/system/candidate_interface/.*_spec.rb
-            exclude-pattern: spec/system/candidate_interface/entering_details.*_spec.rb
+            exclude-pattern: spec/system/candidate_interface/(entering_details|course_selection|adviser_sign_up).*_spec.rb
           - tests: integration_candidate_entering_details
             include-pattern: spec/system/candidate_interface/entering_details.*_spec.rb
+          - tests: integration_candidate_course_selection
+            include-pattern: spec/system/candidate_interface/course_selection.*_spec.rb
+          - tests: integration_candidate_adviser_sign_up
+            include-pattern: spec/system/candidate_interface/adviser_sign_up.*_spec.rb
     services:
       redis:
         image: redis:alpine
