@@ -21,7 +21,7 @@ RSpec.describe ProviderMailer do
       )
       expect(email.body).to include('This includes candidates you are interviewing.')
       expect(email.body).to include(
-        "If you do not make an offer by #{reject_by_default_date}, any applications courses starting by the end of September marked as ‘received’ or ‘interviewing’ will be automatically rejected.",
+        "If you do not make an offer by #{reject_by_default_date}, any applications for courses starting by the end of September marked as ‘received’ or ‘interviewing’ will be automatically rejected.",
       )
       expect(email.body).to include('This means you may miss out on high quality candidates.')
       expect(email.body).to include(
