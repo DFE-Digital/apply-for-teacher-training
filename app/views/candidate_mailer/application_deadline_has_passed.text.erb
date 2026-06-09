@@ -6,11 +6,11 @@ The deadline for courses starting by the end of September <%= "#{@timetable.recr
 
 # What happens next?
 
-You'll be able to apply for more courses from <%= "#{@apply_reopens_date.to_fs(:govuk_date)}" %>.
+You’ll be able to apply for more courses from <%= "#{@apply_reopens_date.to_fs(:govuk_date)}" %>.
 
 You can update your details to get ready to apply for courses starting in the <%= @next_academic_year %> academic year. You will be able to apply for these courses from <%= @apply_reopens_date.to_fs(:govuk_date_time_time_first) %>.
 
-[Sign in to your account to update your details](<%= sign_in_link %>).
+[Sign in to your account to update your details](<%= sign_in_link %>)
 
 <%= render 'candidate_mailer/end_of_cycle/contact_us' %>
 

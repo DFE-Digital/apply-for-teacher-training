@@ -439,9 +439,9 @@ class CandidateMailer < ApplicationMailer
     @timetable = application_form.recruitment_cycle_timetable
 
     @this_academic_year = @timetable.previously_closed_academic_year_range
-    @next_academic_year = @timetable.next_available_academic_year_range
-    @apply_reopens_date = @timetable.apply_reopens_at
-    @course_start_month_year = @timetable.course_start_date.to_fs(:month_and_year)
+    next_recruitment_cycle = @timetable.relative_next_timetable
+    @next_academic_year = next_recruitment_cycle.academic_year_range_name
+    @apply_reopens_date = next_recruitment_cycle.apply_reopens_at
 
     email_for_candidate(
       application_form,
@@ -480,10 +480,10 @@ class CandidateMailer < ApplicationMailer
   end
 
   def reject_by_default_explainer(application_form)
-    timetable = application_form.recruitment_cycle_timetable
-    @this_academic_year = timetable.previously_closed_academic_year_range
-    @next_academic_year = timetable.next_available_academic_year_range
-    @apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
+    @timetable = application_form.recruitment_cycle_timetable
+    @this_academic_year = @timetable.previously_closed_academic_year_range
+    @next_academic_year = @timetable.next_available_academic_year_range
+    @apply_reopens_date = @timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
 
     email_for_candidate(
       application_form,
@@ -492,10 +492,10 @@ class CandidateMailer < ApplicationMailer
   end
 
   def decline_by_default_explainer(application_form)
-    timetable = application_form.recruitment_cycle_timetable
-    @next_academic_year_range = timetable.next_available_academic_year_range
-    @next_recruitment_cycle_year = timetable.relative_next_year
-    @apply_reopens_date = timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
+    @timetable = application_form.recruitment_cycle_timetable
+    @next_academic_year_range = @timetable.next_available_academic_year_range
+    @next_recruitment_cycle_year = @timetable.relative_next_year
+    @apply_reopens_date = @timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
 
     email_for_candidate(
       application_form,
