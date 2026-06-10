@@ -15,7 +15,7 @@ module ProviderInterface
 
     TITLES = {
       'awaiting_provider_decision' => 'Application received',
-      'interviewing' => 'Interviewing',
+      'interviewing' => 'Moved to interview',
       'withdrawn' => 'Application withdrawn',
       'rejected' => 'Application rejected',
       'offer_withdrawn' => 'Offer withdrawn',
@@ -31,9 +31,9 @@ module ProviderInterface
 
     def map_activity_log_events_for(attr)
       @activity_log_events
-        .reject { |event| event.application_status_at_event == 'interviewing' }
         .select { |event| event.changes.key?(attr) && event.changes['status']&.at(1) != 'inactive' }
         .map { |event| yield(event) }
+        .compact
     end
 
     def timeline_events
@@ -52,8 +52,13 @@ module ProviderInterface
 
     def status_change_events
       map_activity_log_events_for('status') do |event|
+        new_status = event.application_status_at_event
+
+        # filter out status changes to interviewing audits that are represented by interview_events
+        next if new_status == 'interviewing' && interview_exists_for_new_status?(event)
+
         Event.new(
-          title_for(event.application_status_at_event),
+          title_for(new_status),
           actor_for(event),
           event.created_at,
           *link_params_for_status(event.application_status_at_event),
@@ -134,6 +139,14 @@ module ProviderInterface
           'View Application',
           provider_interface_application_choice_path(application_choice, anchor: 'interview-preferences-section'),
         )
+      end
+    end
+
+    def interview_exists_for_new_status?(new_status_event)
+      # check if the status change was accompanied by an interview event
+      @activity_log_events.any? do |event|
+        event.audit.auditable.is_a?(Interview) &&
+          event.created_at.to_i == new_status_event.created_at.to_i
       end
     end
 
@@ -224,6 +237,8 @@ module ProviderInterface
     end
 
     def link_params_for_status(status)
+      return if status == 'interviewing'
+
       title_for(status).match(/^Application/) ? application_link_params : offer_link_params
     end
 
