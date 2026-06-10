@@ -77,11 +77,21 @@ class DuplicateApplication
                                 **original_application_form.english_proficiency.efl_qualification.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
                               )
                             end
-        EnglishProficiency.create!(
+        dup_english_proficiency = EnglishProficiency.create!(
           **original_application_form.english_proficiency.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
           efl_qualification:,
           application_form: new_application_form,
         )
+        # Todo: Remove after 1 Nov
+        if dup_english_proficiency.qualification_statuses.blank?
+          if dup_english_proficiency.qualification_status == 'has_qualification'
+            dup_english_proficiency.update!(has_qualification: true)
+          elsif dup_english_proficiency.qualification_status == 'no_qualification'
+            dup_english_proficiency.update!(no_qualification: true)
+          elsif dup_english_proficiency.qualification_status == 'qualification_not_needed'
+            dup_english_proficiency.update!(qualification_not_needed: true)
+          end
+        end
       end
 
       original_application_form.application_work_history_breaks.each do |w|
