@@ -82,7 +82,7 @@ class DuplicateApplication
           efl_qualification:,
           application_form: new_application_form,
         )
-        # Todo: Remove after 1 Nov
+        # TODO: Remove after 1 Nov
         if dup_english_proficiency.qualification_statuses.blank?
           if dup_english_proficiency.qualification_status == 'has_qualification'
             dup_english_proficiency.update!(has_qualification: true)
