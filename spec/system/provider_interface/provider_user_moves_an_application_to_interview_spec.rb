@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider user sets up an interview', feature_flag: :interview_handling do
+RSpec.describe 'Provider user sets up an interview' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 

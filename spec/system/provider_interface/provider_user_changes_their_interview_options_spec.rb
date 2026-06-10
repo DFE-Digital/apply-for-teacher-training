@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Provider user changes their interview options', feature_flag: :interview_handling do
+RSpec.describe 'Provider user changes their interview options' do
   include DfESignInHelpers
 
   let(:current_provider) { create(:provider) }

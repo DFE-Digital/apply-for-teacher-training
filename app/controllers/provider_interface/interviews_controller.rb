@@ -49,14 +49,10 @@ module ProviderInterface
 
         @wizard.clear_state!
 
-        flash[:success] = if FeatureFlag.active?(:interview_handling)
-                            [
-                              t('.success'),
-                              t('.move_candidate_without_interview_details_html'),
-                            ]
-                          else
-                            t('.success')
-                          end
+        flash[:success] = [
+          t('.success'),
+          t('.move_candidate_without_interview_details_html'),
+        ]
 
         redirect_to provider_interface_application_choice_interviews_path(@application_choice)
       else
@@ -186,8 +182,7 @@ module ProviderInterface
     end
 
     def move_to_interview_if_outside_service
-      return if FeatureFlag.inactive?(:interview_handling) ||
-                @application_choice.provider.handle_interviews_in_manage?
+      return if @application_choice.provider.handle_interviews_in_manage?
 
       ApplicationStateChange.new(@application_choice).interview!
       flash[:success] = t('provider_interface.interviews.move_to_interview_if_outside_service.success')
