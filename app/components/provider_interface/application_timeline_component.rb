@@ -15,7 +15,7 @@ module ProviderInterface
 
     TITLES = {
       'awaiting_provider_decision' => 'Application received',
-      'interviewing' => 'Interviewing',
+      'interviewing' => 'Moved to interview',
       'withdrawn' => 'Application withdrawn',
       'rejected' => 'Application rejected',
       'offer_withdrawn' => 'Offer withdrawn',
@@ -57,22 +57,11 @@ module ProviderInterface
         # filter out status changes to interviewing audits that are represented by interview_events
         next if new_status == 'interviewing' && interview_exists_for_new_status?(event)
 
-        # identify status changes to interviewing audits without interview_events
-        moved_to_interview = new_status == 'interviewing'
-
-        link_name, link_path =
-          if moved_to_interview
-            [nil, nil]
-          else
-            link_params_for_status(new_status)
-          end
-
         Event.new(
-          moved_to_interview ? 'Moved to interview' : title_for(new_status),
+          title_for(new_status),
           actor_for(event),
           event.created_at,
-          link_name,
-          link_path,
+          *link_params_for_status(event.application_status_at_event),
         )
       end
     end
@@ -248,6 +237,8 @@ module ProviderInterface
     end
 
     def link_params_for_status(status)
+      return if status == 'interviewing'
+
       title_for(status).match(/^Application/) ? application_link_params : offer_link_params
     end
 
