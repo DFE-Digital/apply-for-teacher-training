@@ -18,6 +18,7 @@ RSpec.describe GenerateTestApplicationsForProvider, :sidekiq do
   let(:for_ratified_courses) { false }
   let(:for_test_provider_courses) { false }
   let(:previous_cycle) { false }
+  let(:received_state_only) { false }
   let(:service_params) do
     {
       provider:,
@@ -27,6 +28,7 @@ RSpec.describe GenerateTestApplicationsForProvider, :sidekiq do
       for_ratified_courses:,
       for_test_provider_courses:,
       previous_cycle:,
+      received_state_only:,
     }
   end
 
@@ -130,6 +132,17 @@ RSpec.describe GenerateTestApplicationsForProvider, :sidekiq do
         # despite it not being in the states list of `GenerateTestApplicationsForCourses`.
         expect(choices.map(&:status).uniq).to include('pending_conditions', 'withdrawn')
         expect(choices.pluck(:current_recruitment_cycle_year).uniq).to eq([previous_year])
+      end
+    end
+
+    context 'when received_state_only is true' do
+      let(:received_state_only) { true }
+
+      it 'generates "awaiting_provider_decision" applications only' do
+        described_class.new(**service_params).call
+        choices = provider.application_choices.last.application_form.application_choices
+
+        expect(choices.pluck(:status).uniq).to eq(['awaiting_provider_decision'])
       end
     end
 
