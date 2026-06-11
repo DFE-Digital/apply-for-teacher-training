@@ -244,9 +244,12 @@ class ProviderMailer < ApplicationMailer
   end
 
   def respond_to_applications_before_reject_by_default_date(provider_user)
+    @get_help_title = 'Contact us'
     @provider_user = provider_user
-    @reject_by_default_date = I18n.l(current_timetable.reject_by_default_at.to_date, format: :no_year)
-    @decline_by_default_date = I18n.l(current_timetable.decline_by_default_at.to_date, format: :no_year)
+    @timetable = current_timetable
+    @reject_by_default_date = I18n.l(@timetable.reject_by_default_at.to_date, format: :no_year)
+    @decline_by_default_date = I18n.l(@timetable.decline_by_default_at.to_date, format: :no_year)
+    @winter_reject_by_default_date = I18n.l(@timetable.winter_reject_by_default_at.to_date, format: :no_year)
     @notifications_url = provider_interface_notifications_url
     @applications_url = provider_interface_applications_url
 

@@ -1,14 +1,16 @@
 Dear <%= @provider_user.full_name %>
 
-The deadline for offering teacher training places to candidates is <%= @reject_by_default_date %>.
+The deadline for offering teacher training places for courses starting in September <%= "#{@timetable.recruitment_cycle_year}" %> is <%= @reject_by_default_date %>.
 
 This includes candidates you are interviewing.
 
-If you do not make an offer by <%= @reject_by_default_date %>, any applications marked as ‘received’ or ‘interviewing’ will be automatically rejected. This means you may miss out on high quality candidates.
+If you do not make an offer by <%= @reject_by_default_date %>, any applications for courses starting by the end of September marked as ‘received’ or ‘interviewing’ will be automatically rejected. This means you may miss out on high quality candidates.
+
+If you offer a candidate a place on a course starting by the end of September, they will have until <%= "#{@decline_by_default_date}" %> to accept it.
+
+Applications for January <%= "#{@timetable.recruitment_cycle_year + 1}" %> courses will be automatically rejected after <%= "#{@winter_reject_by_default_date}" %> if you have not made an offer.
 
 [Sign in to your account to review your applications](<%= @applications_url %>)
-
-If you offer a candidate a place, they will have until <%= @decline_by_default_date %> to accept it.
 
 <% content_for :additional_footer_content do %>
   ---
