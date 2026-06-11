@@ -8,6 +8,7 @@ RSpec.describe 'Provider shares candidate profile', :with_cache do
   let(:current_provider) { create(:provider) }
 
   scenario 'View a candidate', :js do
+    raise 'Fake error'
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_user_exists
     and_there_are_candidates_for_candidate_pool
