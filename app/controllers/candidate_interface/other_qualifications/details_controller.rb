@@ -40,6 +40,7 @@ module CandidateInterface
         ),
       )
 
+      debugger
       if @form.save
         if @form.choice == 'same_type'
           intermediate_data_service.clear_state!
