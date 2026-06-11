@@ -41,5 +41,14 @@ RSpec.describe InternationalQualifications::StructuredGcseOptionFinder do
         end
       end
     end
+
+    context 'when the country does not have an equivalent qualification' do
+      let(:country_code) { 'DE' }
+
+      it 'returns empty array' do
+        equivalent_qualifications = described_class.new(country_code).equivalent_qualifications
+        expect(equivalent_qualifications).to eq([])
+      end
+    end
   end
 end
