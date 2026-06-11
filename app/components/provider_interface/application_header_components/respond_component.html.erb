@@ -13,7 +13,7 @@
 
 <div class="govuk-button-group">
   <% if set_up_interview? %>
-    <% if FeatureFlag.active?(:interview_handling) && application_choice.provider&.handle_interviews_outside_service? %>
+    <% if application_choice.provider&.handle_interviews_outside_service? %>
       <% interview_text = 'Move to interview' %>
     <% else %>
       <% interview_text = 'Set up interview' %>
