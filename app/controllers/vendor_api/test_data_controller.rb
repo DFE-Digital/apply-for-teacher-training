@@ -24,6 +24,7 @@ module VendorAPI
         for_test_provider_courses: for_test_provider_courses_param,
         incomplete_references: with_incomplete_references_param,
         next_cycle: next_cycle_param,
+        received_state_only: received_state_only_param,
       ).call
 
       render json: { data: { message: 'Request submitted. Applications will appear once they have been generated' } }
@@ -83,6 +84,10 @@ module VendorAPI
 
     def next_cycle_param
       params[:next_cycle] == 'true'
+    end
+
+    def received_state_only_param
+      params[:received_state_only] == 'true'
     end
   end
 end
