@@ -31,9 +31,9 @@ private
 
   def application_state(previous_cycle, courses_per_application, next_cycle, received_state_only)
     if next_cycle
-      [states_for_next_cycle.sample] * courses_per_application
+      [states_for_next_cycle(received_state_only).sample] * courses_per_application
     elsif previous_cycle
-      states_for_previous_cycle(courses_per_application)
+      states_for_previous_cycle(courses_per_application, received_state_only)
     else
       [states_for_this_cycle(received_state_only).sample] * courses_per_application
     end
@@ -47,13 +47,21 @@ private
     end
   end
 
-  def states_for_next_cycle
-    %i[pending_conditions awaiting_provider_decision]
+  def states_for_next_cycle(received_state_only)
+    if received_state_only
+      [:awaiting_provider_decision]
+    else
+      %i[pending_conditions awaiting_provider_decision]
+    end
   end
 
-  def states_for_previous_cycle(courses_per_application)
-    states = ([:awaiting_provider_decision] * (courses_per_application - 1)) << :pending_conditions
-    states.shuffle
+  def states_for_previous_cycle(courses_per_application, received_state_only)
+    if received_state_only
+      [:awaiting_provider_decision] * courses_per_application
+    else
+      states = ([:awaiting_provider_decision] * (courses_per_application - 1)) << :pending_conditions
+      states.shuffle
+    end
   end
 
   def next_year

@@ -18,7 +18,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
   end
 
   context 'when received_state_only is true' do
-    it 'generates current state applications with only awaiting_provider_decision status' do
+    it 'generates current state applications with only awaiting_provider_decision status, current cycle' do
       create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
 
       post_api_request '/api/v1.0/test-data/generate?count=2&received_state_only=true'
@@ -57,6 +57,16 @@ RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
       expect(Candidate.count).to eq(1)
       expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: next_year }).count).to eq(1)
       expect(ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: previous_year }).count).to eq(0)
+    end
+
+    it 'generates current state applications with only awaiting_provider_decision status when received_state_only is true' do
+      create(:course_option, course: create(:course, :open, provider: currently_authenticated_provider))
+
+      post_api_request '/api/v1.0/test-data/generate?count=1&next_cycle=true&received_state_only=true'
+
+      choices = ApplicationChoice.joins(:application_form).where(application_form: { recruitment_cycle_year: next_year })
+
+      expect(choices.pluck(:status).uniq).to eq(['awaiting_provider_decision'])
     end
   end
 
