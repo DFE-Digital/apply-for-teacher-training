@@ -225,12 +225,6 @@ jobs:
           DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
           TEST_DATE_AND_TIME: ${{ matrix.offset-date }}
 
-      - name: Javascript tests with feature flags ${{ matrix.feature-flags }}
-        run: bundle exec --verbose parallel_rspec -o "--tag js" --pattern "spec/.*_spec.rb"
-        env:
-          DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
-          TEST_DATE_AND_TIME: ${{ matrix.offset-date }}
-
       - name: Read flakey test results
         id: set_flakey_test_results_var
         run: |
@@ -247,6 +241,12 @@ jobs:
           else
             echo "No flakey tests logged"
           fi
+
+      - name: Javascript tests with feature flags ${{ matrix.feature-flags }}
+        run: bundle exec --verbose parallel_rspec -o "--tag js" --pattern "spec/.*_spec.rb"
+        env:
+          DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
+          TEST_DATE_AND_TIME: ${{ matrix.offset-date }}
 
       - name: Install bash and curl
         if: failure() && github.event_name == 'push'
