@@ -1,6 +1,6 @@
 # Detect state that *should* be impossible in the system and report them to Sentry
-class DetectInvariantsDailyCheck
-  include Sidekiq::Worker
+class DetectInvariantsDailyCheck < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   def perform
     detect_if_the_monthly_statistics_has_not_run

@@ -1,7 +1,7 @@
-class DeleteExpiredSessionsWorker
-  include Sidekiq::Worker
+class DeleteExpiredSessionsWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
-  sidekiq_options queue: :low_priority
+  queue_as :low_priority
 
   def perform
     Session.where('updated_at < ?', 7.days.ago).delete_all

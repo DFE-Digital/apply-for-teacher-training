@@ -4,7 +4,7 @@ RSpec.describe EndOfCycle::NextYearFullSync do
   describe '#perform' do
     before do
       allow(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-        .to receive(:perform_async).with(false, next_year)
+        .to receive(:perform_later).with(false, next_year)
     end
 
     context 'after find has closed' do
@@ -13,7 +13,7 @@ RSpec.describe EndOfCycle::NextYearFullSync do
           described_class.new.perform
 
           expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-            .not_to have_received(:perform_async)
+            .not_to have_received(:perform_later)
         end
       end
     end
@@ -27,7 +27,7 @@ RSpec.describe EndOfCycle::NextYearFullSync do
           described_class.new.perform
 
           expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-            .not_to have_received(:perform_async)
+            .not_to have_received(:perform_later)
         end
       end
     end
@@ -41,7 +41,7 @@ RSpec.describe EndOfCycle::NextYearFullSync do
           described_class.new.perform
 
           expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-            .to have_received(:perform_async).with(false, next_year)
+            .to have_received(:perform_later).with(false, next_year)
         end
       end
     end

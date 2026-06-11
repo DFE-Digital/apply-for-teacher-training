@@ -50,7 +50,7 @@ RSpec.describe 'Syncing providers', :sidekiq, :with_cache do
     sync_subjects_service = instance_double(TeacherTrainingPublicAPI::SyncSubjects, perform: nil)
     allow(TeacherTrainingPublicAPI::SyncSubjects).to receive(:new).and_return(sync_subjects_service)
 
-    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
+    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_now
   end
 
   def then_it_updates_the_course_subjects

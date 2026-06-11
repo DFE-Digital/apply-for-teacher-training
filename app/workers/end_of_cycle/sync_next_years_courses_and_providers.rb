@@ -1,6 +1,6 @@
 module EndOfCycle
-  class SyncNextYearsCoursesAndProviders
-    include Sidekiq::Worker
+  class SyncNextYearsCoursesAndProviders < ApplicationJob
+    self.queue_adapter = :solid_queue
 
     def first_full_sync_after
       start_syncing_after = 2.weeks.before(current_timetable.apply_deadline_at).change(hour: 0o0, min: 4)

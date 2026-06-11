@@ -1,7 +1,7 @@
-class RemoveInactiveSupportUsersWorker
-  include Sidekiq::Worker
+class RemoveInactiveSupportUsersWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
-  sidekiq_options queue: :low_priority
+  queue_as :low_priority
 
   def perform
     SupportUser.where('last_signed_in_at < ?', 9.months.ago)

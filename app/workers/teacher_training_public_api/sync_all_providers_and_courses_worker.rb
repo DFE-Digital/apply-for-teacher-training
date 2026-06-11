@@ -1,8 +1,10 @@
 module TeacherTrainingPublicAPI
-  class SyncAllProvidersAndCoursesWorker
-    include Sidekiq::Worker
+  class SyncAllProvidersAndCoursesWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
-    sidekiq_options retry: 3, queue: :low_priority
+    queue_as :low_priority
+
+    retry_on StandardError, attempts: 3
 
     def perform(incremental = true, year = nil)
       return if HostingEnvironment.review?
