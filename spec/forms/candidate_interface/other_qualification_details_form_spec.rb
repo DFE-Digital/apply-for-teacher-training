@@ -90,16 +90,19 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
       context 'when it is a non-uk qualification' do
         it 'validates for presence and inclusion in the COUNTY_NAMES constant' do
           valid_qualification = described_class.new(nil, nil, qualification_type: 'non_uk', institution_country: 'GB')
+          kosovo_qualificaiton = described_class.new(nil, nil, qualification_type: 'non_uk', institution_country: 'QO')
           blank_country_qualification = described_class.new(nil, nil, qualification_type: 'non_uk')
-          inavlid_country_qualification = described_class.new(nil, nil, qualification_type: 'non_uk', institution_country: 'QQ')
+          invalid_country_qualification = described_class.new(nil, nil, qualification_type: 'non_uk', institution_country: 'QQ')
 
           valid_qualification.valid?(:details)
           blank_country_qualification.valid?(:details)
-          inavlid_country_qualification.valid?(:details)
+          invalid_country_qualification.valid?(:details)
+          kosovo_qualificaiton.valid?(:details)
 
           expect(valid_qualification.errors.full_messages_for(:institution_country)).to be_empty
           expect(blank_country_qualification.errors.full_messages_for(:institution_country)).not_to be_empty
-          expect(inavlid_country_qualification.errors.full_messages_for(:institution_country)).not_to be_empty
+          expect(invalid_country_qualification.errors.full_messages_for(:institution_country)).not_to be_empty
+          expect(kosovo_qualificaiton.errors.full_messages_for(:institution_country)).to be_empty
         end
       end
     end
