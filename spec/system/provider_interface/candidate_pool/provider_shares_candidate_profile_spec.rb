@@ -21,7 +21,6 @@ RSpec.describe 'Provider shares candidate profile', :with_cache do
     then_i_am_redirected_to_the_share_page
     when_i_click('Copy link to clipboard')
     then_i_can_see_success_message
-    raise 'Fake error'
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
