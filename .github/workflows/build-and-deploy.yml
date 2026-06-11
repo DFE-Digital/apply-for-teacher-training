@@ -243,7 +243,7 @@ jobs:
         id: set_flakey_test_results_var
         run: |
           file_text=$(cat /app/tmp/rspec-retry-flakey-specs.log)
-          if [ ! -z "$file_text" ]
+          if [ ! -z "$file_text" ] && "${{ matrix.tests }}" != "javascript_tests"
           then
             echo "Flakey specs found"
             echo "file_text: $file_text"
