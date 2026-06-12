@@ -102,7 +102,7 @@ variable "enable_prometheus_monitoring" {
 
 variable "solid_queue_worker_memory_max" {
   type = string
-  default = "1Gi"
+  default = "2Gi"
 }
 
 variable "solid_queue_worker_replicas" {
