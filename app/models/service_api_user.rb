@@ -15,10 +15,6 @@ class ServiceAPIUser < ActiveHash::Base
     { id: 4, name: 'DfE Candidate', authorized_api: 'CandidateAPI' },
   ]
 
-  def self.test_data_user
-    find(1)
-  end
-
   def self.tad_user
     find(2)
   end
