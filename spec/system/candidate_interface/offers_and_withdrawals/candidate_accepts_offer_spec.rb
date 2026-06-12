@@ -138,7 +138,6 @@ RSpec.describe 'Candidate accepts an offer' do
       candidate: @current_candidate,
       submitted_at: Time.zone.now,
       support_reference: '123A',
-      recruitment_cycle_year: 2024,
     )
 
     @application_form.application_references.update_all(feedback_status: 'not_requested_yet')
@@ -153,6 +152,7 @@ RSpec.describe 'Candidate accepts an offer' do
       :offered,
       course_option: @course_option,
       application_form: @application_form,
+      current_recruitment_cycle_year: @application_form.recruitment_cycle_year,
     )
 
     @other_application_choice = create(
@@ -160,6 +160,7 @@ RSpec.describe 'Candidate accepts an offer' do
       :offered,
       course_option: other_course_option,
       application_form: @application_form,
+      current_recruitment_cycle_year: @application_form.recruitment_cycle_year,
     )
   end
 
@@ -168,6 +169,7 @@ RSpec.describe 'Candidate accepts an offer' do
       :application_choice,
       status: 'awaiting_provider_decision',
       application_form: @application_form,
+      current_recruitment_cycle_year: @application_form.recruitment_cycle_year,
     )
   end
 

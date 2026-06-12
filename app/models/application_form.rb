@@ -408,12 +408,16 @@ class ApplicationForm < ApplicationRecord
     previous_application_form&.submitted?
   end
 
+  def september_application_choices
+    @september_application_choices ||= application_choices.course_start_in_september(recruitment_cycle_year)
+  end
+
   def carry_over?
     return false unless after_apply_deadline?
 
     !submitted? ||
-      application_choices.blank? ||
-      application_choices.all?(&:state_carry_over?)
+      september_application_choices.blank? ||
+      september_application_choices.all?(&:state_carry_over?)
   end
 
   def unsuccessful_and_apply_deadline_has_passed?

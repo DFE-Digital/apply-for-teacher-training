@@ -15,41 +15,49 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
     given_i_have_an_empty_submitted_application_from_last_cycle
     and_i_am_signed_in_as_a_candidate
     then_i_see_your_applications_page
+    and_the_candidates_has_no_active_application_choices
   end
 
   scenario 'Candidate carries over empty application to new cycle through the carry over interstitial' do
     given_i_have_an_empty_application_from_last_cycle
     then_i_can_carry_over_my_application_to_the_new_cycle
+    and_the_candidates_has_no_active_application_choices
   end
 
   scenario 'Candidate carries over unsubmitted application to new cycle through the carry over interstitial' do
     given_i_have_an_unsubmitted_application_from_last_cycle
     then_i_can_carry_over_my_application_to_the_new_cycle
+    and_the_candidates_has_no_active_application_choices
   end
 
   scenario 'Candidate carries over application_not_sent application to new cycle' do
     given_i_have_an_application_not_sent_from_last_cycle
     then_i_can_carry_over_my_application_to_the_new_cycle
+    and_the_candidates_has_no_active_application_choices
   end
 
   scenario 'Candidate carries over conditions_not_met application to new cycle' do
     given_i_have_an_application_conditions_not_met_from_last_cycle
     then_i_can_carry_over_my_application_to_the_new_cycle
+    and_the_candidates_has_no_active_application_choices
   end
 
   scenario 'Candidate carries over offer_withdrawn application to new cycle' do
     given_i_have_an_application_offer_withdrawn_from_last_cycle
     then_i_can_carry_over_my_application_to_the_new_cycle
+    and_the_candidates_has_no_active_application_choices
   end
 
   scenario 'Candidate carries over declined application to new cycle' do
     given_i_have_an_application_declined_from_last_cycle
     then_i_can_carry_over_my_application_to_the_new_cycle
+    and_the_candidates_has_no_active_application_choices
   end
 
   scenario 'Candidate carries over withdrawn application to new cycle' do
     given_i_have_an_application_withdrawn_from_last_cycle
     then_i_can_carry_over_my_application_to_the_new_cycle
+    and_the_candidates_has_no_active_application_choices
   end
 
   scenario 'Candidate does not need to carry over recruited application' do
@@ -64,6 +72,12 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
     and_i_am_signed_in_as_a_candidate
     when_i_visit_any_page
     then_i_am_on_the_post_offer_dashboard
+  end
+
+  scenario 'Candidate is carried over, despite having active applications in January start dates' do
+    given_i_have_an_in_flight_application_for_a_course_starting_in_january_from_last_cycle
+    then_i_can_carry_over_my_application_to_the_new_cycle
+    and_the_candidates_an_active_application_choice_from_the_previous_cycle
   end
 
   def given_i_have_an_empty_submitted_application_from_last_cycle
@@ -82,31 +96,42 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
   end
 
   def given_i_have_an_application_conditions_not_met_from_last_cycle
-    create(:application_choice, :conditions_not_met, application_form: @application_form)
+    create(:application_choice, :conditions_not_met, current_recruitment_cycle_year: @previous_year, application_form: @application_form)
   end
 
   def given_i_have_an_application_offer_withdrawn_from_last_cycle
-    create(:application_choice, :offer_withdrawn, application_form: @application_form)
+    create(:application_choice, :offer_withdrawn, current_recruitment_cycle_year: @previous_year, application_form: @application_form)
   end
 
   def given_i_have_an_application_declined_from_last_cycle
-    create(:application_choice, :declined, application_form: @application_form)
+    create(:application_choice, :declined, current_recruitment_cycle_year: @previous_year, application_form: @application_form)
   end
 
   def given_i_have_an_application_withdrawn_from_last_cycle
-    create(:application_choice, :withdrawn, application_form: @application_form)
+    create(:application_choice, :withdrawn, current_recruitment_cycle_year: @previous_year, application_form: @application_form)
   end
 
   def given_i_have_an_application_not_sent_from_last_cycle
-    create(:application_choice, :application_not_sent, application_form: @application_form)
+    create(:application_choice, :application_not_sent, current_recruitment_cycle_year: @previous_year, application_form: @application_form)
   end
 
   def given_i_have_an_application_recruited_from_last_cycle
-    create(:application_choice, :recruited, application_form: @application_form)
+    create(:application_choice, :recruited, current_recruitment_cycle_year: @previous_year, application_form: @application_form)
   end
 
   def given_i_have_an_application_pending_conditions_from_last_cycle
-    create(:application_choice, :accepted, application_form: @application_form)
+    create(:application_choice, :accepted, current_recruitment_cycle_year: @previous_year, application_form: @application_form)
+  end
+
+  def given_i_have_an_in_flight_application_for_a_course_starting_in_january_from_last_cycle
+    course = build(:course, start_date: "1/1/#{@current_year}")
+    @application_choice = create(
+      :application_choice,
+      :awaiting_provider_decision,
+      current_recruitment_cycle_year: @previous_year,
+      application_form: @application_form,
+      course_option: build(:course_option, course: course),
+    )
   end
 
   def then_i_can_carry_over_my_application_to_the_new_cycle
@@ -204,5 +229,13 @@ RSpec.describe 'Carry over application to a new cycle in different states', time
     expect(page).to have_current_path candidate_interface_application_choices_path
     expect(page).to have_element(:h1, text: 'Your applications')
     expect(page).to have_link('Add application', class: 'govuk-button')
+  end
+
+  def and_the_candidates_has_no_active_application_choices
+    expect(@candidate.active_application_choices).to eq([])
+  end
+
+  def and_the_candidates_an_active_application_choice_from_the_previous_cycle
+    expect(@candidate.active_application_choices).to contain_exactly(@application_choice)
   end
 end
