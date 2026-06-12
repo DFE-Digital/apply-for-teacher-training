@@ -27,10 +27,6 @@ class ServiceAPIUser < ActiveHash::Base
     find(4)
   end
 
-  def self.teacher_success_user
-    find(5)
-  end
-
   # Fix a bug in ActiveHash that causes the user_type in a AuthenticationToken to
   # be set to `ActiveHash::Base` instead of `ServiceAPIUser`.
   def self.polymorphic_name
