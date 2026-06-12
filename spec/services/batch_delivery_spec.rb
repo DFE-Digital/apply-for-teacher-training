@@ -11,7 +11,7 @@ RSpec.describe BatchDelivery do
 
       let(:batch_deliver_subject) do
         described_class.new(relation: create_list(:candidate, 2)).each do |batch_time, candidates|
-          SendFindHasOpenedEmailToCandidatesBatchWorker.perform_at(batch_time, candidates.pluck(:id))
+          SendFindHasOpenedEmailToCandidatesBatchWorker.set(wait_until: batch_time).perform_later(candidates.pluck(:id))
         end
       end
 
@@ -22,7 +22,7 @@ RSpec.describe BatchDelivery do
 
     context 'where relation is not grouped' do
       before do
-        allow(SendFindHasOpenedEmailToCandidatesBatchWorker).to receive(:perform_at)
+        allow(SendFindHasOpenedEmailToCandidatesBatchWorker).to receive(:perform_later)
       end
 
       it 'executes block' do
@@ -31,10 +31,7 @@ RSpec.describe BatchDelivery do
         relation = ApplicationForm.where(id: application_forms.pluck(:id))
 
         described_class.new(relation:, batch_size: 2).each do |batch_time, candidates|
-          SendFindHasOpenedEmailToCandidatesBatchWorker.perform_at(
-            batch_time,
-            candidates.pluck(:id),
-          )
+          SendFindHasOpenedEmailToCandidatesBatchWorker.set(batch_time).perform_later(candidates.pluck(:id))
         end
 
         expect(SendFindHasOpenedEmailToCandidatesBatchWorker).to(

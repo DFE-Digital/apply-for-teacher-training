@@ -1,6 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe SendEocDeadlineReminderEmailToCandidatesBatchWorker, :sidekiq do
+RSpec.describe SendEocDeadlineReminderEmailToCandidatesBatchWorker do
+  include ActiveJob::TestHelper
+
   describe '#perform' do
     let(:candidate) { create(:candidate) }
 
@@ -15,10 +17,12 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesBatchWorker, :sidekiq do
 
     context 'for each eoc reminder type' do
       %i[eoc_first_deadline_reminder eoc_second_deadline_reminder].each do |chaser_type|
-        it 'sends emails to the given candidates' do
-          described_class.new.perform(application_form.id, chaser_type)
+        it 'enqueues mail delivery jobs for the given candidates' do
+          clear_enqueued_jobs
 
-          expect(email_for_candidate(candidate)).to be_present
+          expect {
+            described_class.new.perform(application_form.id, chaser_type)
+          }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
         end
 
         it 'creates ChaserSent for the given candidates' do
@@ -28,17 +32,13 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesBatchWorker, :sidekiq do
         end
 
         it 'does nothing if the email was already sent', time: after_apply_deadline do
+          clear_enqueued_jobs
+
           candidate.current_application.chasers_sent.create(chaser_type:)
 
-          described_class.new.perform(candidate.id, chaser_type)
-
-          expect(email_for_candidate(candidate)).not_to be_present
+          expect { described_class.new.perform(application_form.id, chaser_type) }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
         end
       end
     end
-  end
-
-  def email_for_candidate(candidate)
-    ActionMailer::Base.deliveries.find { |e| e.header['to'].value == candidate.email_address }
   end
 end

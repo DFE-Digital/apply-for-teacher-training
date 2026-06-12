@@ -1,7 +1,7 @@
-class GenerateMonthlyStatistics
-  include Sidekiq::Worker
+class GenerateMonthlyStatistics < ApplicationJob
+  self.queue_adapter = :solid_queue
 
-  sidekiq_options retry: 3, queue: :default
+  retry_on StandardError, attempts: 3
 
   def perform(force = false, generation_date = nil, publication_date = nil)
     return false unless HostingEnvironment.production?

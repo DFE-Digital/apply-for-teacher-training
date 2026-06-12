@@ -45,7 +45,7 @@ class Clock
 
   every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_later }
 
-  every(1.day, 'Generate monthly statistics report and exports', at: '05:00') { GenerateMonthlyStatistics.perform_async }
+  every(1.day, 'Generate monthly statistics report and exports', at: '05:00') { GenerateMonthlyStatistics.perform_later }
 
   every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.new.perform }
   every(1.day, 'SendVisaSponsorshipDeadlineReminder', at: '12:00') { CandidateMailers::EnqueueVisaSponsorshipDeadlineReminderWorker.new.perform }
