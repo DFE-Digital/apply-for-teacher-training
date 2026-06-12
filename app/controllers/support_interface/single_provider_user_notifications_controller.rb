@@ -15,7 +15,7 @@ module SupportInterface
   private
 
     def provider_user_being_edited
-      @_provider_user_being_edited ||= ProviderUser.find(params[:provider_user_id])
+      @_provider_user_being_edited ||= ProviderUser.find(params.expect(:provider_user_id))
     end
 
     def notification_preferences_params

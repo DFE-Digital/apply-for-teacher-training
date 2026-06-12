@@ -3,7 +3,7 @@ module ProviderInterface
     before_action :disable_on_production, only: :impersonate
 
     def impersonate
-      candidate = Candidate.find(params[:candidate_id])
+      candidate = Candidate.find(params.expect(:candidate_id))
 
       if verify_provider_association(candidate:, providers: current_provider_user.providers)
         bypass_sign_in(candidate, scope: :candidate)

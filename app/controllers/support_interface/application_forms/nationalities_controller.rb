@@ -24,7 +24,7 @@ module SupportInterface
     private
 
       def set_application_form
-        @application_form = ApplicationForm.find(params[:application_form_id])
+        @application_form = ApplicationForm.find(params.expect(:application_form_id))
       end
 
       def prepare_nationalities_params

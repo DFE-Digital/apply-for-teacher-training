@@ -33,7 +33,7 @@ module Integrations
     end
 
     def render_not_found
-      reference_id = params['reference'].split('-').last
+      reference_id = params.expect('reference').split('-').last
 
       render_error(
         name: 'NotFound',

@@ -9,7 +9,7 @@ module CandidateInterface
   private
 
     def application_choice_params
-      ApplicationChoice.find(params[:application_choice])
+      ApplicationChoice.find(params.expect(:application_choice))
     end
 
     def helpful_params

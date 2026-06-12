@@ -19,7 +19,7 @@ module CandidateInterface
       end
 
       def set_course
-        @course = Course.find(params[:course_id])
+        @course = Course.find(params.expect(:course_id))
       end
     end
   end

@@ -8,8 +8,8 @@ module CandidateInterface
       def step_params
         return provider_params if params[current_step].blank?
 
-        params[current_step][:provider_id] = params[:provider_id]
-        params[current_step][:course_id] = params[:course_id]
+        params.expect(current_step)[:provider_id] = params[:provider_id]
+        params.expect(current_step)[:course_id] = params[:course_id]
         params
       end
 

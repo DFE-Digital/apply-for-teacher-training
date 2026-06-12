@@ -16,11 +16,11 @@ module SupportInterface
     end
 
     def show
-      @match = DuplicateMatch.find(params[:id])
+      @match = DuplicateMatch.find(params.expect(:id))
     end
 
     def update
-      @match = DuplicateMatch.find(params[:id])
+      @match = DuplicateMatch.find(params.expect(:id))
       @match.update(resolved: resolved_params)
       redirect_to support_interface_duplicate_match_path(@match)
     end

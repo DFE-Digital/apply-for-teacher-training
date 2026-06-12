@@ -3,7 +3,7 @@ module SupportInterface
     PAGY_PER_PAGE = 30
 
     def show
-      @data_export = DataExport.find(params[:id])
+      @data_export = DataExport.find(params.expect(:id))
     end
 
     def directory
@@ -20,7 +20,7 @@ module SupportInterface
     end
 
     def view_export_information
-      @data_export_type = DataExport::EXPORT_TYPES[params[:data_export_type].to_sym]
+      @data_export_type = DataExport::EXPORT_TYPES[params.expect(:data_export_type).to_sym]
     end
 
     def view_history
@@ -51,7 +51,7 @@ module SupportInterface
     end
 
     def download
-      data_export = DataExport.where.associated(:file_attachment).find(params[:id])
+      data_export = DataExport.where.associated(:file_attachment).find(params.expect(:id))
       if data_export.export_type_deprecated?
         flash[:warning] = 'This export type has been deprecated and is no longer available to download'
         redirect_to support_interface_data_directory_path
