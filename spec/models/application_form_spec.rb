@@ -2237,4 +2237,36 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#september_application_choices' do
+    let(:recruitment_cycle_year) { 2026 }
+    let(:application_form) { create(:application_form, recruitment_cycle_year: recruitment_cycle_year) }
+    let(:january_course) { build(:course, start_date: "1/1/#{recruitment_cycle_year + 1}") }
+    let(:september_course) { build(:course, start_date: "1/9/#{recruitment_cycle_year}") }
+    let(:january_choice) do
+      create(
+        :application_choice,
+        application_form:,
+        current_recruitment_cycle_year: recruitment_cycle_year,
+        course_option: create(:course_option, course: january_course),
+      )
+    end
+    let(:september_choice) do
+      create(
+        :application_choice,
+        application_form:,
+        current_recruitment_cycle_year: recruitment_cycle_year,
+        course_option: create(:course_option, course: september_course),
+        )
+    end
+
+    before do
+      september_choice
+      january_choice
+    end
+
+    it 'returns only the application choices with september start dates' do
+      expect(application_form.september_application_choices).to contain_exactly(september_choice)
+    end
+  end
 end
