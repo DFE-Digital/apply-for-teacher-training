@@ -89,7 +89,7 @@ class Clock
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_later(false)
   end
 
-  every(7.days, 'EndOfCycle::NextYearFullSync', at: 'Friday 00:05') { EndOfCycle::NextYearFullSync.perform_async }
+  every(7.days, 'EndOfCycle::NextYearFullSync', at: 'Friday 00:05') { EndOfCycle::NextYearFullSync.perform_later }
 
   every(7.days, 'TADSubjectDomicileNationalityExport', at: 'Sunday 23:59') do
     DataAPI::TADSubjectDomicileNationalityExport.run_weekly
