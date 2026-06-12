@@ -10,11 +10,9 @@ class ServiceAPIUser < ActiveHash::Base
   include AuthenticatedUsingMagicLinks
 
   self.data = [
-    { id: 1, name: 'User for testing, not used in production', authorized_api: 'TestAPI' },
     { id: 2, name: 'DfE TAD', authorized_api: 'DataAPI' },
     { id: 3, name: 'DfE Register', authorized_api: 'RegisterAPI' },
     { id: 4, name: 'DfE Candidate', authorized_api: 'CandidateAPI' },
-    { id: 5, name: 'DfE Teacher Success', authorized_api: 'CandidateAPI' },
   ]
 
   def self.test_data_user
