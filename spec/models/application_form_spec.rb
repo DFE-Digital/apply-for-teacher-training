@@ -1090,7 +1090,7 @@ RSpec.describe ApplicationForm do
               :application_form,
               :submitted,
               application_choices: [application_choice],
-              )
+            )
             travel_temporarily_to(application_form.apply_deadline_at + 1.second) do
               expect(application_form.carry_over?).to be(true)
             end
@@ -2257,7 +2257,7 @@ RSpec.describe ApplicationForm do
         application_form:,
         current_recruitment_cycle_year: recruitment_cycle_year,
         course_option: create(:course_option, course: september_course),
-        )
+      )
     end
 
     before do
