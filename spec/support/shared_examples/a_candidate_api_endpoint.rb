@@ -2,7 +2,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_vers
   include CycleTimetableHelper
 
   it 'does not allow access to the API from other data users' do
-    api_token = ServiceAPIUser.test_data_user.create_magic_link_token!
+    api_token = ServiceAPIUser.register_user.create_magic_link_token!
     get_api_request "#{path}?updated_since=#{CGI.escape(1.month.ago.iso8601)}", token: api_token
     expect(response).to have_http_status(:unauthorized)
     expect(parsed_response).to be_valid_against_openapi_schema('UnauthorizedResponse', api_version)

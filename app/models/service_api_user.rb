@@ -10,16 +10,10 @@ class ServiceAPIUser < ActiveHash::Base
   include AuthenticatedUsingMagicLinks
 
   self.data = [
-    { id: 1, name: 'User for testing, not used in production', authorized_api: 'TestAPI' },
     { id: 2, name: 'DfE TAD', authorized_api: 'DataAPI' },
     { id: 3, name: 'DfE Register', authorized_api: 'RegisterAPI' },
     { id: 4, name: 'DfE Candidate', authorized_api: 'CandidateAPI' },
-    { id: 5, name: 'DfE Teacher Success', authorized_api: 'CandidateAPI' },
   ]
-
-  def self.test_data_user
-    find(1)
-  end
 
   def self.tad_user
     find(2)
@@ -31,10 +25,6 @@ class ServiceAPIUser < ActiveHash::Base
 
   def self.candidate_user
     find(4)
-  end
-
-  def self.teacher_success_user
-    find(5)
   end
 
   # Fix a bug in ActiveHash that causes the user_type in a AuthenticationToken to

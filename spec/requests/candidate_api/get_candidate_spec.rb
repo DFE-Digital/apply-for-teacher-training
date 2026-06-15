@@ -8,7 +8,7 @@ RSpec.describe 'GET /candidate-api/:versions/candidates/:candidate_id' do
   versions.each do |version|
     context "for version #{version}" do
       it 'does not allow access to the API from other data users' do
-        service_api_token = ServiceAPIUser.test_data_user.create_magic_link_token!
+        service_api_token = ServiceAPIUser.register_user.create_magic_link_token!
         candidate = create(:candidate)
         candidate_id_param = "C#{candidate.id}"
 
@@ -22,15 +22,6 @@ RSpec.describe 'GET /candidate-api/:versions/candidates/:candidate_id' do
         candidate_id_param = "C#{candidate.id}"
 
         get_api_request "/candidate-api/#{version}/candidates/#{candidate_id_param}", token: candidate_api_token
-
-        expect(response).to have_http_status(:success)
-      end
-
-      it 'allows access to the API for Teacher Success users' do
-        candidate = create(:candidate)
-        candidate_id_param = "C#{candidate.id}"
-
-        get_api_request "/candidate-api/#{version}/candidates/#{candidate_id_param}", token: teacher_success_api_token
 
         expect(response).to have_http_status(:success)
       end
