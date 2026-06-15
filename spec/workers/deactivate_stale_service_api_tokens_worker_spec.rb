@@ -28,11 +28,24 @@ RSpec.describe DeactivateStaleServiceAPITokensWorker do
         used_at: nil,
         created_at: 2.months.ago,
       )
+      not_service_user_used_over_three_months_ago = create(
+        :authentication_token,
+        user: build(:vendor_api_user),
+        used_at: 3.months.ago - 1.day,
+      )
+      not_service_user_created_over_three_months_ago = create(
+        :authentication_token,
+        user: build(:vendor_api_user),
+        used_at: nil,
+        created_at: 3.months.ago - 1.day,
+      )
 
       expect { described_class.new.perform }.to change { AuthenticationToken.count }.by(-2)
 
       expect(created_not_used_within_three_months_ago.reload.present?).to be true
       expect(used_within_three_months_ago.reload.present?).to be true
+      expect(not_service_user_created_over_three_months_ago.reload.present?).to be true
+      expect(not_service_user_used_over_three_months_ago.reload.present?).to be true
 
       expect { created_not_used_more_than_three_months_ago.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { used_more_than_three_months_ago.reload }.to raise_error(ActiveRecord::RecordNotFound)

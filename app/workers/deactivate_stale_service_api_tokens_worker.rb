@@ -13,8 +13,7 @@ private
 
   def tokens
     scope.where('used_at < ?', INACTIVE_MONTHS_AGO.months.ago)
-      .or(AuthenticationToken
-            .where('used_at IS NULL AND created_at < ?', INACTIVE_MONTHS_AGO.months.ago))
+      .or(scope.where('used_at IS NULL AND created_at < ?', INACTIVE_MONTHS_AGO.months.ago))
   end
 
   def scope
