@@ -7,26 +7,26 @@ RSpec.describe DeactivateStaleServiceAPITokensWorker do
       used_more_than_three_months_ago = create(
         :authentication_token,
         user: ServiceAPIUser.last,
-        used_at: 3.months.ago + 1.day,
+        used_at: 3.months.ago - 1.day,
       )
       created_not_used_more_than_three_months_ago = create(
         :authentication_token,
         user: ServiceAPIUser.last,
         used_at: nil,
-        created_at: 3.months.ago + 1.day,
+        created_at: 3.months.ago - 1.day,
       )
 
       # keep these
       used_within_three_months_ago = create(
         :authentication_token,
         user: ServiceAPIUser.last,
-        used_at: 3.months.ago - 1.day,
+        used_at: 2.months.ago,
       )
       created_not_used_within_three_months_ago = create(
         :authentication_token,
         user: ServiceAPIUser.last,
         used_at: nil,
-        created_at: 3.months.ago - 1.day,
+        created_at:2.months.ago,
       )
 
       expect { described_class.new.perform }.to change { AuthenticationToken.count }.by(-2)
