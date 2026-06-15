@@ -2,14 +2,6 @@ module SupportInterface
   class ApplicationsByDemographicDomicileAndDegreeClassExport
     STRUCTURED_DEGREE_CLASSES = ['First class honours', 'Upper second-class honours (2:1)', 'Lower second-class honours (2:2)', 'Third-class honours', 'Pass'].freeze
 
-    def self.run_weekly
-      data_export = DataExport.create!(
-        name: 'Weekly export of the tad applications by demographic domicile and degree class',
-        export_type: :applications_by_demographic_domicile_and_degree_class,
-      )
-      DataExporter.perform_async(SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.to_s, data_export.id)
-    end
-
     def call(*)
       results = ActiveRecord::Base
         .connection

@@ -12,7 +12,7 @@ RSpec.describe 'GET /data-api/applications-by-subject-domicile-and-nationality/l
   it 'returns the latest data export' do
     create(:application_choice, :awaiting_provider_decision, :with_completed_application_form, status: 'rejected')
 
-    DataAPI::TADSubjectDomicileNationalityExport.run_weekly
+    DataAPI::TADSubjectDomicileNationalityExport.new.call
 
     get_api_request '/data-api/applications-by-subject-domicile-and-nationality/latest', token: tad_api_token
 

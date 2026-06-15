@@ -49,9 +49,6 @@ class Clock
 
   every(1.day, 'Generate monthly statistics report and exports', at: '05:00') { GenerateMonthlyStatistics.perform_async }
 
-  every(1.day, 'MinisterialReportCandidatesExport', at: '23:50') { SupportInterface::MinisterialReportCandidatesExport.run_daily }
-  every(1.day, 'MinisterialReportApplicationsExport', at: '23:53') { SupportInterface::MinisterialReportApplicationsExport.run_daily }
-
   every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.new.perform }
   every(1.day, 'SendVisaSponsorshipDeadlineReminder', at: '12:00') { CandidateMailers::EnqueueVisaSponsorshipDeadlineReminderWorker.new.perform }
   every(1.day, 'SendFindHasOpenedEmailToCandidatesWorker', at: '12:00') { SendFindHasOpenedEmailToCandidatesWorker.new.perform }
@@ -91,13 +88,6 @@ class Clock
   end
 
   every(7.days, 'EndOfCycle::NextYearFullSync', at: 'Friday 00:05') { EndOfCycle::NextYearFullSync.perform_later }
-
-  every(7.days, 'TADSubjectDomicileNationalityExport', at: 'Sunday 23:59') do
-    DataAPI::TADSubjectDomicileNationalityExport.run_weekly
-  end
-
-  every(7.days, 'ApplicationsBySubjectRouteAndDegreeGradeExport', at: 'Sunday 23:55') { SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport.run_weekly }
-  every(7.days, 'ApplicationsByDemographicDomicileAndDegreeClassExport', at: 'Sunday 23:57') { SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.run_weekly }
 
   every(7.days, 'Schedule Recruitment Performance reports', at: 'Monday 05:30', if: ->(_period) { RecruitmentPerformanceReportTimetable.report_season? }) { Publications::RecruitmentPerformanceReportScheduler.new.call }
   every(7.days, 'ProviderRecruitmentPerformanceReportReminder', at: 'Monday 12:00') { Publications::ProviderRecruitmentPerformanceReminderWorker.perform_async }
