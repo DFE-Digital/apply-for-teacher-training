@@ -26,7 +26,7 @@ RSpec.describe DeactivateStaleServiceAPITokensWorker do
         :authentication_token,
         user: ServiceAPIUser.last,
         used_at: nil,
-        created_at:2.months.ago,
+        created_at: 2.months.ago,
       )
 
       expect { described_class.new.perform }.to change { AuthenticationToken.count }.by(-2)
