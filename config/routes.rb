@@ -14,7 +14,6 @@ Rails.application.routes.draw do
 
   # APIs (with docs)
   draw 'api/candidate'
-  draw 'api/data'
   draw 'api/docs'
   draw 'api/register'
   draw 'api/vendor'
