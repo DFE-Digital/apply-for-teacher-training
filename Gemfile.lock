@@ -354,7 +354,7 @@ GEM
       multi_json (~> 1.11)
       os (>= 0.9, < 2.0)
       signet (>= 0.16, < 2.a)
-    govuk-components (6.3.0)
+    govuk-components (6.3.1)
       html-attributes-utils (~> 1.0.0, >= 1.0.0)
       pagy (>= 6, < 10)
       view_component (>= 4.9, < 4.13)
@@ -950,7 +950,7 @@ DEPENDENCIES
   geocoder
   get_into_teaching_api_client_faraday (= 4.3.7.3)!
   google-cloud-bigquery
-  govuk-components (~> 6.0)
+  govuk-components (~> 6.3)
   govuk_design_system_formbuilder (~> 6.1.0)
   govuk_markdown
   grover
@@ -1148,7 +1148,7 @@ CHECKSUMS
   google-cloud-errors (1.6.0) sha256=1da8476dd706ad04b9d32e3c4b90d07d3463b37d6407cb56d41342ea7647d0a1
   google-logging-utils (0.2.0) sha256=675462b4ea5affa825a3442694ca2d75d0069455a1d0956127207498fca3df7b
   googleauth (1.16.2) sha256=15009502e2e38af71948cda918f230e27d327f6882a1e47967a5a4664930a638
-  govuk-components (6.3.0) sha256=9e10aba5f88f9bead1ac792814e3551aadf17813080a74a17d69c6e0446bd88d
+  govuk-components (6.3.1) sha256=141715c9e65e65b1dad0a0476c7d81dac14dad220f5435496713c63e80df87f0
   govuk_design_system_formbuilder (6.1.0) sha256=b0fdb3714e59665f1a522291840bcc89801cb4325f243e8717e0f9be87d1192c
   govuk_markdown (2.0.4) sha256=c744f0a041607d60942c24dcf3d8fd24eaf73c4eb8299ea025455691a211242e
   groupdate (6.8.0) sha256=16f90ea18ca981c38e41e592416480b28353aa5e5cc3e7cb13a68b8fb5d40510
