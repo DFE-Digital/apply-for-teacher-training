@@ -18,238 +18,204 @@ class DataExport < ApplicationRecord
       name: 'Applications by subject, route and degree grade',
       export_type: 'applications_by_subject_route_and_degree_grade',
       description: 'Export of applications grouped by subject, route and degree grade',
-      class: nil,
       deprecated: true,
     },
     application_references: {
       name: 'Application references',
       export_type: 'application_references',
       description: 'A list of all application references which have been selected by candidates to date. All duplicate references caused by duplication of a candidates application form caused by Applying Again or carrying over their application between cycles have been removed.',
-      class: nil,
       deprecated: true,
     },
     application_timings: {
       name: 'Application timings',
       export_type: 'application_timings',
       description: 'The application timings provides data for when an application form attribute was last updated by the candidate.',
-      class: nil,
       deprecated: true,
     },
     application_timings_for_current_cycle: {
       name: 'Application timings for current cycle',
       export_type: 'application_timings_for_current_cycle',
       description: 'The application timings provides data from the current cycle for when an application form attribute was last updated by the candidate.',
-      class: nil,
       deprecated: true,
     },
     candidate_application_feedback: {
       name: 'Candidate application feedback',
       export_type: 'candidate_application_feedback',
       description: 'This provides the compiled results of all feedback received from prompts throughout the application form.',
-      class: nil,
       deprecated: true,
     },
     candidate_autosuggest_usage: {
       name: 'Candidate autosuggest usage',
       export_type: 'candidate_autosuggest_usage',
       description: 'A summary of values stored in the database via autosuggest components within the candidate application form (Apply 1 only)',
-      class: nil,
       deprecated: true,
     },
     candidate_email_send_counts: {
       name: 'Candidate email send counts',
       export_type: 'candidate_email_send_counts',
       description: "A list of all emails sent by the service, and how many we've sent to date.",
-      class: nil,
       deprecated: true,
     },
     candidate_feedback: {
       name: 'Candidate feedback',
       export_type: 'candidate_feedback',
       description: 'This provides the compiled results of all the single-page candidate feedback forms.',
-      class: nil,
       deprecated: true,
     },
     candidate_journey_tracking: {
       name: 'Candidate journey tracking',
       export_type: 'candidate_journey_tracking',
       description: 'Candidate journey tracking provides data on when each application choice progressed through the various steps in the candidate application journey.',
-      class: nil,
       deprecated: true,
     },
     candidate_course_choice_withdrawal_survey: {
       name: 'Candidate course choice withdrawal survey',
       export_type: 'candidate_course_choice_withdrawal_survey',
       description: 'A list of candidates explanations for withdrawing a course choice. Also includes contact details for candidates who have agreed to be contacted.',
-      class: nil,
       deprecated: true,
     },
     equality_and_diversity: {
       name: 'Equality and diversity data',
       export_type: 'equality_and_diversity',
       description: 'Anonymised candidate equality and diversity data.',
-      class: nil,
       deprecated: true,
     },
     find_feedback: {
       name: 'Find feedback',
       export_type: 'find_feedback',
       description: 'Feedback provided from the Find service results and course pages',
-      class: nil,
       deprecated: true,
     },
     interviews_export: {
       name: 'Interview changes',
       export_type: 'interview_export',
       description: 'A list of changes made to interviews for analysis of the Interviews feature',
-      class: nil,
       deprecated: true,
     },
     ministerial_report_applications_export: {
       name: 'Ministerial report - applications',
       export_type: 'ministerial_report_applications_export',
       description: 'A report of applications counted against specific states and subjects.',
-      class: nil,
       deprecated: true,
     },
     ministerial_report_candidates_export: {
       name: 'Ministerial report - candidates',
       export_type: 'ministerial_report_candidates_export',
       description: 'A report of candidates counted against specific states and subjects.',
-      class: nil,
       deprecated: true,
     },
     notes_export: {
       name: 'Notes',
       export_type: 'notes_export',
       description: 'Data related to notes made on applications by providers.',
-      class: nil,
       deprecated: true,
     },
     notification_preferences_export: {
       name: 'Notification preferences changes',
       export_type: 'notification_preferences_export',
       description: 'Changes to notification preferences for provider users.',
-      class: nil,
       deprecated: true,
     },
     notifications_export: {
       name: 'Notification preferences',
       export_type: 'notifications_export',
       description: 'Notification preferences for each provider user within each provider organisation.',
-      class: nil,
       deprecated: true,
     },
     offer_conditions: {
       name: 'Offer conditions',
       export_type: 'offer_conditions',
       description: 'A list of all offers showing offer conditions alongside the qualifications declared by the candidate. One line per offer.',
-      class: nil,
       deprecated: true,
     },
     organisation_permissions: {
       name: 'Organisation permissions changes',
       export_type: 'organisation_permissions',
       description: 'A list of changes to organisation permissions and audit information about the changes.',
-      class: nil,
       deprecated: true,
     },
     provider_access_controls: {
       name: 'Provider permissions stats',
       export_type: 'provider_access_controls',
       description: "A list of providers and aggregated information about the number of users they have, their permissions, the changes that they've made and their relationships to other organisations.",
-      class: nil,
       deprecated: true,
     },
     providers_export: {
       name: 'Providers',
       export_type: 'providers_export',
       description: 'The list of providers that are being synced from the Find service, along with when they signed the data sharing agreement.',
-      class: nil,
       deprecated: true,
     },
     persona_export: {
       name: 'Persona data',
       export_type: 'persona_export',
       description: 'A list of application choices with the associated postcodes for the candidate, provider and site. Also includes reasons for rejection, nationality and application status.',
-      class: nil,
       deprecated: true,
     },
     qualifications: {
       name: 'Qualifications',
       export_type: 'qualifications',
       description: 'A list of qualifications for each application choice.',
-      class: nil,
       deprecated: true,
     },
     referee_survey: {
       name: 'Referee survey',
       export_type: 'referee_survey',
       description: 'This provides the compiled results of all the referee surveys.',
-      class: nil,
       deprecated: true,
     },
     sites_export: {
       name: 'Sites',
       export_type: 'sites_export',
       description: 'A list of sites that are being synced from Find, along with distances to their respective providers.',
-      class: nil,
       deprecated: true,
     },
     structured_reasons_for_rejection: {
       name: 'Structured reasons for rejection',
       export_type: 'structured_reasons_for_rejection',
       description: 'Structured reasons for rejection.',
-      class: nil,
       deprecated: true,
     },
     submitted_application_choices: {
       name: 'Submitted application choices',
       export_type: 'submitted_application_choices',
       description: 'The submitted application choices export provides data about which courses candidates applied to, as well as info about offers and candidate decisions.',
-      class: nil,
       deprecated: true,
     },
     submitted_application_choices_for_current_cycle: {
       name: 'Submitted application choices_for_current_cycle',
       export_type: 'submitted_application_choices',
       description: 'The submitted application choices export provides data about which courses candidates applied to, as well as info about offers and candidate decisions.',
-      class: nil,
       deprecated: true,
     },
     tad_applications: {
       name: 'TAD applications',
       export_type: 'tad_applications',
       description: 'A list of all applications for TAD.',
-      class: nil,
       deprecated: true,
     },
     tad_provider_performance: {
       name: 'TAD provider performance',
       export_type: 'tad_provider_performance',
       description: 'A list of all application/offered/accepted counts for all courses in Apply belonging to the current recruitment cycle.',
-      class: nil,
       deprecated: true,
     },
     tad_subject_domicile_nationality: {
       name: 'TAD applications by subject, domicile and nationality',
       export_type: 'tad_subject_domicile_nationality',
       description: 'Report of subjects, candidate nationality, domicile and application status for TAD.',
-      class: nil,
       deprecated: true,
     },
     applications_by_demographic_domicile_and_degree_class: {
       name: 'TAD applications by demographic, domicile and degree class',
       export_type: 'applications_by_demographic_domicile_and_degree_class',
       description: 'A list of all application/offered/accepted counts broken down by age group, sex, ethnicity and degree in Apply belonging to the current recruitment cycle.',
-      class: nil,
       deprecated: true,
     },
     user_permissions: {
       name: 'User permissions changes',
       export_type: 'user_permissions',
       description: 'A list of changes to user permissions and audit information about the changes.',
-      class: nil,
       deprecated: true,
     },
     who_ran_which_export: {
@@ -263,7 +229,6 @@ class DataExport < ApplicationRecord
       name: 'Work history break',
       export_type: 'work_history_break',
       description: 'A list of candidates with breaks in their work history.',
-      class: nil,
       deprecated: true,
     },
   }.freeze
@@ -277,11 +242,24 @@ class DataExport < ApplicationRecord
   scope :active_exports, lambda {
     where(export_type: active_export_types.keys)
   }
+  validates :export_type, presence: true
+  validate :report_is_active, on: :create
+
+  def report_is_active
+    return if export_type.blank?
+    return if export_type.to_sym.in?(self.class.active_export_types.keys)
+
+    errors.add(:export_type, :deprecated)
+  end
 
   def self.active_export_types
     EXPORT_TYPES.filter do |_export_type, values|
       !values[:deprecated]
     end
+  end
+
+  def self.export_type_active?(export_type)
+    export_type&.to_sym.in? active_export_types.keys
   end
 
   def self.deprecated_export_types

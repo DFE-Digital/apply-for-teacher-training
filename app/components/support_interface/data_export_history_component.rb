@@ -6,7 +6,7 @@ module SupportInterface
     alias show_name? show_name
 
     def initialize(data_exports:, show_name:)
-      @data_exports = data_exports
+      @data_exports = data_exports.active_exports
       @show_name = show_name
     end
   end

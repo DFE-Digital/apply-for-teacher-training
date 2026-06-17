@@ -14,10 +14,10 @@ RSpec.describe SupportInterface::DataExportHistoryComponent do
 
     create(
       :data_export,
-      name: 'Sites export',
+      name: 'Active provider user permissions',
       created_at: 3.days.ago,
       initiator: build(:support_user, first_name: 'Not Bob', last_name: 'Roberts'),
-      export_type: 'sites_export',
+      export_type: 'active_provider_user_permissions',
     )
     data_exports = DataExport.all
     @render_result ||= render_inline(described_class.new(data_exports:, show_name:))
@@ -31,14 +31,13 @@ RSpec.describe SupportInterface::DataExportHistoryComponent do
 
     expect(result.text).to include('Not Bob Roberts')
     expect(result).to have_text(3.days.ago.to_fs(:govuk_date_and_time))
-    expect(result).to have_no_link(3.days.ago.to_fs(:govuk_date_and_time))
+    expect(result).to have_link(3.days.ago.to_fs(:govuk_date_and_time))
   end
 
   it 'renders links for active reports only' do
     result = render_result(show_name: true)
     expect(result).to have_link('Who ran which export')
-    expect(result).to have_text('Sites export')
-    expect(result).to have_no_link('Sites export')
+    expect(result).to have_link('Active provider user permissions')
   end
 
   it 'renders the date, name and initiator of each export if `show_name` is true' do

@@ -3,13 +3,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-third">
     <p class="govuk-body"><%= @data_export_type.fetch(:description) %></p>
-    <% if @data_export_type.fetch(:deprecated) %>
-      <p class="govuk-body">
-        This report is no longer in use.
-      </p>
-    <% else %>
-      <%= govuk_button_to 'Generate new export', support_interface_data_exports_path(export_type_id: params[:data_export_type]) %>
-    <% end %>
+    <%= govuk_button_to 'Generate new export', support_interface_data_exports_path(export_type_id: params[:data_export_type]) %>
   </div>
 
   <% if DataSetDocumentation.for(@data_export_type.fetch(:class)) %>

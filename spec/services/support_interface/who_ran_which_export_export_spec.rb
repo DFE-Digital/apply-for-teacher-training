@@ -11,13 +11,13 @@ RSpec.describe SupportInterface::WhoRanWhichExportExport do
   end
 
   describe '#data_for_export' do
-    it 'returns an array of hashes constaining generated data exports and who initiated them ordered by type and created_at' do
+    it 'returns an array of hashes containing generated data exports and who initiated them ordered by type and created_at' do
       support_user1 = create(:support_user)
       support_user2 = create(:support_user)
       latest_provider_user_export = create(:data_export, initiator: support_user2)
       earliest_provider_user_export = create(:data_export, initiator: support_user1, created_at: 3.days.ago)
-      work_history_export = create(:data_export, initiator: support_user1, created_at: 1.day.ago, export_type: 'work_history_break', name: 'Work history break')
-      tad_report = create(:data_export, initiator: nil, export_type: 'tad_applications')
+      user_permissions_export = create(:data_export, initiator: support_user1, created_at: 1.day.ago, export_type: 'active_provider_user_permissions', name: 'Active provider user permissions')
+      active_provider_users_export = create(:data_export, initiator: nil, export_type: 'active_provider_users', name: 'Active users affiliated with a Provider')
 
       expect(described_class.new.data_for_export).to contain_exactly(
         {
@@ -31,13 +31,13 @@ RSpec.describe SupportInterface::WhoRanWhichExportExport do
           initiated_by: support_user2.email_address,
         },
         {
-          export_type: work_history_export.export_type,
-          created_at: work_history_export.created_at,
+          export_type: user_permissions_export.export_type,
+          created_at: user_permissions_export.created_at,
           initiated_by: support_user1.email_address,
         },
         {
-          export_type: tad_report.export_type,
-          created_at: tad_report.created_at,
+          export_type: active_provider_users_export.export_type,
+          created_at: active_provider_users_export.created_at,
           initiated_by: nil,
         },
       )

@@ -37,12 +37,8 @@
             </td>
           <% else %>
             <td class="govuk-table__cell">
-              <% if data_export.export_type_deprecated? %>
+              <%= govuk_link_to support_interface_data_export_path(data_export) do %>
                 <%= data_export.created_at.to_fs(:govuk_date_and_time) %>
-              <% else %>
-                <%= govuk_link_to support_interface_data_export_path(data_export) do %>
-                  <%= data_export.created_at.to_fs(:govuk_date_and_time) %>
-                <% end %>
               <% end %>
             </td>
           <% end %>
