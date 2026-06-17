@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe 'English GCSE qualification form hint text' do
   include CandidateHelper
 
+  before do
+    FeatureFlag.deactivate('2027_international_qualifications_flow')
+  end
+
   scenario 'Candidate sees correct hint text for English non-UK qualification' do
     given_i_am_signed_in_with_one_login
 

@@ -1,0 +1,10 @@
+<% content_for :title, title_with_error_prefix(t('gcse_edit_institution_country.page_title', subject: @subject.capitalize), @institution_country_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @institution_country_form, url: candidate_interface_gcse_new_international_flow_edit_institution_country_path(@return_to[:params]), method: :patch do |f| %>
+      <%= render 'form', f: f %>
+    <% end %>
+  </div>
+</div>

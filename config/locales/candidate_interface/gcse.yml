@@ -18,6 +18,12 @@ en:
         label: Qualification name
         hint_text: For example, High School Diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller
         hint_text_english: For example, High School Diploma, Baccalauréat Général or WASSCE. Do not enter an English as a foreign language assessment here.
+      non_uk_other_qualification:
+        label: Enter the name of your qualification
+        hint_text: Do not enter an English as a foreign language test here
+      non_uk_other_grade:
+        label: Enter your grade
+        hint_text: For example, A, 4.5, 94%, or 42/60
       not_completed_explanation:
         label: If you are working towards this qualification, give us details (optional)
       grade:
