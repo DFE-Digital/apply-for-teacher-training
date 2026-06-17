@@ -232,7 +232,7 @@ GEM
     commonmarker (2.6.1-arm64-darwin)
     commonmarker (2.6.1-x86_64-linux)
     commonmarker (2.6.1-x86_64-linux-musl)
-    concurrent-ruby (1.3.6)
+    concurrent-ruby (1.3.7)
     connection_pool (2.5.5)
     crack (1.0.1)
       bigdecimal
@@ -756,10 +756,10 @@ GEM
       websocket (~> 1.0)
     semantic_logger (4.18.0)
       concurrent-ruby (~> 1.0)
-    sentry-rails (6.6.0)
+    sentry-rails (6.6.2)
       railties (>= 5.2.0)
-      sentry-ruby (~> 6.6.0)
-    sentry-ruby (6.6.1)
+      sentry-ruby (~> 6.6.2)
+    sentry-ruby (6.6.2)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
       logger
@@ -1007,7 +1007,7 @@ DEPENDENCIES
   rubypants
   satisfactory (~> 0.3)
   selenium-webdriver
-  sentry-rails (= 6.6.0)
+  sentry-rails (= 6.6.2)
   sentry-sidekiq
   shoulda-matchers (~> 7.0)
   sidekiq (< 7)
@@ -1090,7 +1090,7 @@ CHECKSUMS
   commonmarker (2.6.1-arm64-darwin) sha256=3f99053bdebd15b1dc060da51f7799655882fd3f4118340bf1485c0a5863365f
   commonmarker (2.6.1-x86_64-linux) sha256=7f43729af032cfb88c0e897f53bf37ad78c6ec28220a0911f5e34b4f041e7ec7
   commonmarker (2.6.1-x86_64-linux-musl) sha256=30531198f2cd09287ef2b5da26b11e0bb837ef9f8acdc60d9997e7ee7d22e408
-  concurrent-ruby (1.3.6) sha256=6b56837e1e7e5292f9864f34b69c5a2cbc75c0cf5338f1ce9903d10fa762d5ab
+  concurrent-ruby (1.3.7) sha256=4412caec3a5ea2e5fdc52076724c071a81f2c0593d83b2ac8cbb8ca63b3151b0
   connection_pool (2.5.5) sha256=e54ff92855753df1fd7c59fa04a398833355f27dd14c074f8c83a05f72a716ad
   crack (1.0.1) sha256=ff4a10390cd31d66440b7524eb1841874db86201d5b70032028553130b6d4c7e
   crass (1.0.6) sha256=dc516022a56e7b3b156099abc81b6d2b08ea1ed12676ac7a5657617f012bd45d
@@ -1299,8 +1299,8 @@ CHECKSUMS
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   selenium-webdriver (4.44.0) sha256=6f1df072529af369589c46f0e01132952aabb250cfd683c274d74dc1eb5d8477
   semantic_logger (4.18.0) sha256=b00e4480b63d844628ce383e80d564626fe2fdb525ecf378dbc4df7828dead8b
-  sentry-rails (6.6.0) sha256=d9c0b353ccf12c82dc17eafe788acafc587472c2d442905f71f9e5c5fb24bb10
-  sentry-ruby (6.6.1) sha256=e731251ae4bdfd7d1df70ae715c3dda2921ee6e93a83a8b0a69a73c20c274421
+  sentry-rails (6.6.2) sha256=cb49aa43e6eb235d162d365c671b3fd24b7f9037df59b4a49af5af60868ab1ed
+  sentry-ruby (6.6.2) sha256=a64aaf757d10058598fe5871de925b2a5a3d78273feb9bca23fff843accc6cd6
   sentry-sidekiq (6.6.1) sha256=f90b33cd9691871619c879333cb84c3a6ec77799a824bceae77c2ca1fb1c8164
   shellany (0.0.1) sha256=0e127a9132698766d7e752e82cdac8250b6adbd09e6c0a7fbbb6f61964fedee7
   shoulda-matchers (7.0.1) sha256=b4bfd8744c10e0a36c8ac1a687f921ee7e25ed529e50488d61b79a8688749c77
