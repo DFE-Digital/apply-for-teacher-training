@@ -386,7 +386,7 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     hashdiff (1.2.1)
     hashie (5.0.0)
-    holidays (10.0.0)
+    holidays (11.0.0)
     html-attributes-utils (1.0.2)
       activesupport (>= 6.1.4.4)
     http (6.0.3)
@@ -1158,7 +1158,7 @@ CHECKSUMS
   guard-rspec (4.7.3) sha256=a47ba03cbd1e3c71e6ae8645cea97e203098a248aede507461a43e906e2f75ca
   hashdiff (1.2.1) sha256=9c079dbc513dfc8833ab59c0c2d8f230fa28499cc5efb4b8dd276cf931457cd1
   hashie (5.0.0) sha256=9d6c4e51f2a36d4616cbc8a322d619a162d8f42815a792596039fc95595603da
-  holidays (10.0.0) sha256=b9bad7cd4c4ddfbf7cc4f0711569af85bf606564a66cf1917fc8a0ba2e26aa44
+  holidays (11.0.0) sha256=3077c4eb917bd62afed57a96de4036ca0060ea7443e83c445033396c61663b8c
   html-attributes-utils (1.0.2) sha256=594e0b37b3dd4e554abe893bee9719896f876675fd08fe534fc2e6e1b4e2538c
   http (6.0.3) sha256=0206e79131089ca9aae557c6791afd6bf9339af319d78a616af1477ae79614fa
   http-cookie (1.1.6) sha256=ba4b82be64de61dc281243dac70e3c382c45142f20268ed9276a3670c93feaa9
