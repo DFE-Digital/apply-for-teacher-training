@@ -5,7 +5,7 @@ module SupportInterface
     end
 
     def show
-      @report = Publications::MonthlyStatistics::MonthlyStatisticsReport.find(params[:id])
+      @report = Publications::MonthlyStatistics::MonthlyStatisticsReport.find(params.expect(:id))
 
       @presenter = if @report.v2?
                      @presenter = Publications::V2::MonthlyStatisticsPresenter.new(@report)

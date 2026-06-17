@@ -25,7 +25,7 @@ module DataAPI
     end
 
     def show
-      data_export = DataAPI::TADExport.all.find(params[:id])
+      data_export = DataAPI::TADExport.all.find(params.expect(:id))
       serve_export(data_export)
     end
 

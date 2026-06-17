@@ -47,7 +47,7 @@ module SupportInterface
   private
 
     def application_choice
-      @application_choice = ApplicationChoice.find(params[:application_choice_id])
+      @application_choice = ApplicationChoice.find(params.expect(:application_choice_id))
     end
 
     def condition_params

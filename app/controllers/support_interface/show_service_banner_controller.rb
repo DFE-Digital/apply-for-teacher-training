@@ -1,7 +1,7 @@
 module SupportInterface
   class ShowServiceBannerController < SupportInterfaceController
     def show
-      @banner = ServiceBanner.find(params[:id])
+      @banner = ServiceBanner.find(params.expect(:id))
     end
 
     def edit
