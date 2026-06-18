@@ -1,15 +1,8 @@
 <%= render 'banners' %>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <%= render CandidateInterface::ApplicationChoices::IndexContentComponent.new(application_form: current_application) %>
-    <div>
-      <%= render CandidateInterface::ApplicationChoiceListComponent.new(
-        application_form: current_application,
-        application_choices: @application_choices,
-        current_tab_name: params[:current_tab_name],
-      ) %>
-    </div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render CandidateInterface::ApplicationChoices::IndexContentComponent.new(application_form: current_application) %>
   </div>
 
   <div class="govuk-grid-column-one-third govuk-!-margin-top-9">

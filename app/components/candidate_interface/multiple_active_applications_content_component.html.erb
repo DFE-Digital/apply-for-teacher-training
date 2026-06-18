@@ -1,0 +1,17 @@
+<%= content_for :title, t('page_titles.your_applications') %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('mid_cycle_content_component.title') %>
+</h1>
+
+<div>
+  <%= render CandidateInterface::ApplicationChoices::JanuaryStartContentComponent.new(
+    application_form: active_previous_application,
+  ) %>
+</div>
+
+<div class='govuk-!-margin-top-4'>
+  <%= render CandidateInterface::ApplicationChoices::CurrentRecruitmentCycleComponent.new(
+    application_form: active_previous_application
+  ) %>
+</div>
