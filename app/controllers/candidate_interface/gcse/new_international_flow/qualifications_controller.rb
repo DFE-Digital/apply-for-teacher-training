@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::NewInternationalFlow::StructuredQualificationsController < Gcse::NewInternationalFlow::BaseController
+  class Gcse::NewInternationalFlow::QualificationsController < Gcse::NewInternationalFlow::BaseController
     def new
       @equivalent_qualification_form = GcseEquivalentQualificationForm.build_from_qualification(current_qualification)
       @list_of_qualifications = @equivalent_qualifications.any?
@@ -14,7 +14,7 @@ module CandidateInterface
       @equivalent_qualification_form = GcseEquivalentQualificationForm.new(equivalent_qualification_params)
 
       if @equivalent_qualification_form.save(current_qualification)
-        redirect_to candidate_interface_gcse_new_international_flow_new_structured_grades_path
+        redirect_to candidate_interface_gcse_new_international_flow_new_grades_path
       else
         track_validation_error(@equivalent_qualification_form)
         render :new

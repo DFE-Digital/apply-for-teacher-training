@@ -294,15 +294,15 @@ namespace :candidate_interface, path: '/candidate' do
       get '/new-international-flow/country/edit' => 'gcse/new_international_flow/institution_country#edit', as: :gcse_new_international_flow_edit_institution_country
       patch '/new-international-flow/country/edit' => 'gcse/new_international_flow/institution_country#update'
 
-      get '/new-international-flow/structured-qualifications' => 'gcse/new_international_flow/structured_qualifications#new', as: :gcse_new_international_flow_new_structured_qualifications
-      patch 'new-international-flow/structured-qualifications' => 'gcse/new_international_flow/structured_qualifications#create'
-      get '/new-international-flow/structured-qualifications/edit' => 'gcse/new_international_flow/structured_qualifications#edit', as: :gcse_new_international_flow_edit_structured_qualifications
-      patch '/new-international-flow/structured-qualifications/edit' => 'gcse/new_international_flow/structured_qualifications#update'
+      get '/new-international-flow/qualification' => 'gcse/new_international_flow/qualifications#new', as: :gcse_new_international_flow_new_qualifications
+      patch 'new-international-flow/qualification' => 'gcse/new_international_flow/qualifications#create'
+      get '/new-international-flow/qualification/edit' => 'gcse/new_international_flow/qualifications#edit', as: :gcse_new_international_flow_edit_qualifications
+      patch '/new-international-flow/qualification/edit' => 'gcse/new_international_flow/qualifications#update'
 
-      get '/new-international-flow/structured-grades' => 'gcse/new_international_flow/structured_grades#new', as: :gcse_new_international_flow_new_structured_grades
-      patch 'new-international-flow/structured-grades' => 'gcse/new_international_flow/structured_grades#create'
-      get '/new-international-flow/structured-grades/edit' => 'gcse/new_international_flow/structured_grades#edit', as: :gcse_new_international_flow_edit_structured_grades
-      patch '/new-international-flow/structured-grades/edit' => 'gcse/new_international_flow/structured_grades#update'
+      get '/new-international-flow/grade' => 'gcse/new_international_flow/grades#new', as: :gcse_new_international_flow_new_grades
+      patch 'new-international-flow/grade' => 'gcse/new_international_flow/grades#create'
+      get '/new-international-flow/grade/edit' => 'gcse/new_international_flow/grades#edit', as: :gcse_new_international_flow_edit_grades
+      patch '/new-international-flow/grade/edit' => 'gcse/new_international_flow/grades#update'
 
       get '/new-international-flow/interruption' => 'gcse/new_international_flow/failing_grade_interruption#show', as: :gcse_new_international_flow_interruption
 

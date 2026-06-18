@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::NewInternationalFlow::StructuredGradesController < Gcse::NewInternationalFlow::BaseController
+  class Gcse::NewInternationalFlow::GradesController < Gcse::NewInternationalFlow::BaseController
     before_action :set_structured_grades
 
     def new
