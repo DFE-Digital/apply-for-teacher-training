@@ -9,14 +9,6 @@ module SupportInterface
       number_of_withdrawn_applications
     ].freeze
 
-    def self.run_weekly
-      data_export = DataExport.create!(
-        name: 'Weekly export of the applications export grouped by subject, route and degree grade',
-        export_type: :applications_by_subject_route_and_degree_grade,
-      )
-      DataExporter.perform_async(SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport.to_s, data_export.id)
-    end
-
     def call(*)
       report = choices_with_courses_and_subjects.find_each(batch_size: 100).map do |choice|
         next if choice.phase == 'apply_2' && !choice.is_latest_a2_app

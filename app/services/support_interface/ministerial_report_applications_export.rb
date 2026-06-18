@@ -1,13 +1,5 @@
 module SupportInterface
   class MinisterialReportApplicationsExport
-    def self.run_daily
-      data_export = DataExport.create!(
-        name: 'Daily export of the applications ministerial report',
-        export_type: :ministerial_report_applications_export,
-      )
-      DataExporter.perform_async(SupportInterface::MinisterialReportApplicationsExport.to_s, data_export.id)
-    end
-
     def call(*)
       report = initialize_empty_report
       subject_ids_report = {}

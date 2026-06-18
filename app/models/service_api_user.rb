@@ -4,20 +4,15 @@
 #
 # To obtain an API token for a user, run this in the console:
 #
-#   ServiceAPIUser.tad_user.create_magic_link_token!
+#   ServiceAPIUser.register_user.create_magic_link_token!
 class ServiceAPIUser < ActiveHash::Base
   include ActiveHash::Associations
   include AuthenticatedUsingMagicLinks
 
   self.data = [
-    { id: 2, name: 'DfE TAD', authorized_api: 'DataAPI' },
     { id: 3, name: 'DfE Register', authorized_api: 'RegisterAPI' },
     { id: 4, name: 'DfE Candidate', authorized_api: 'CandidateAPI' },
   ]
-
-  def self.tad_user
-    find(2)
-  end
 
   def self.register_user
     find(3)

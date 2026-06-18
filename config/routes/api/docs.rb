@@ -25,11 +25,6 @@ namespace :api_docs, path: nil do
     get '/spec-1.8.yml' => 'openapi#spec_1_8', as: :spec_1_8
   end
 
-  namespace :data_api_docs, path: '/data-api' do
-    get '/' => 'reference#reference', as: :home
-    get '/spec.yml' => 'open_api#spec', as: :spec
-  end
-
   namespace :register_api_docs, path: '/register-api' do
     get '/' => 'reference#reference', as: :home
     get '/spec.yml' => 'open_api#spec', as: :spec
