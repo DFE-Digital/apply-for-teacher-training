@@ -127,12 +127,9 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker do
       travel_temporarily_to(first_reminder_date) do
         SolidQueue::Job.delete_all
 
-        candidate = create(:candidate)
-
         create(
           :application_form,
-          candidate:,
-          application_choices: [create(:application_choice, :application_not_sent)],
+          application_choices: [build(:application_choice, :application_not_sent)],
           recruitment_cycle_year: previous_year,
         )
 
