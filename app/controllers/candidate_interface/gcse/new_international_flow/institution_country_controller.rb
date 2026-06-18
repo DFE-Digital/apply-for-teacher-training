@@ -13,11 +13,7 @@ module CandidateInterface
       @institution_country_form = GcseInstitutionCountryForm.new(institution_country_params)
 
       if @institution_country_form.save(current_qualification)
-        if @institution_country_form.institution_country.in?(structured_data_countries)
-          redirect_to candidate_interface_gcse_new_international_flow_new_structured_qualifications_path
-        else
-          redirect_to candidate_interface_gcse_details_new_enic_path
-        end
+        redirect_to candidate_interface_gcse_new_international_flow_new_structured_qualifications_path
       else
         track_validation_error(@institution_country_form)
         render :new
