@@ -4,6 +4,7 @@ module CandidateInterface
 
     def new
       @structured_grades_form = GcseInternationalStructuredGradesForm.build_from_qualification(current_qualification)
+      @list_of_grades = @structured_grades.any?
     end
 
     def edit
@@ -44,11 +45,16 @@ module CandidateInterface
     def set_structured_grades
       # post-MVP we will map through the available schemas if there is more than one and present them for selection in an intermediary step
       # We can then use that value to present the relevant structured grades
-      @structured_grades ||= @grade_schemas.first.passing_grades + @grade_schemas.first.failing_grades
+      @structured_grades ||=
+        if @selected_equivalent_qualification.blank?
+          []
+        else
+          @grade_schemas.first.passing_grades + @grade_schemas.first.failing_grades
+        end
     end
 
     def passing_grade?
-      return false if @structured_grades_form.non_structured_grade.present?
+      return true if @structured_grades_form.non_structured_grade.present?
 
       @structured_grades_form.grade.in?(@grade_schemas.first.passing_grades)
     end

@@ -51,9 +51,12 @@ module CandidateInterface
     end
 
     def set_grade_schemas
-      return if @selected_equivalent_qualification.blank?
-
-      @grade_schemas ||= finder.grade_schemas(@selected_equivalent_qualification)
+      @grade_schemas ||=
+        if @selected_equivalent_qualification.blank?
+          []
+        else
+          @grade_schemas ||= finder.grade_schemas(@selected_equivalent_qualification)
+        end
     end
 
     def finder

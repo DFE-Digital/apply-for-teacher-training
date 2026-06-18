@@ -29,7 +29,11 @@ module CandidateInterface
 
       if @enic_form.save(current_qualification)
         if enic_params[:enic_reason] == 'obtained'
-          redirect_to x_gcse_edit_statement_comparability_path(subject_param)
+          if FeatureFlag.active?('2027_international_qualifications_flow')
+            redirect_to candidate_interface_gcse_details_new_year_path(subject_param)
+          else
+            redirect_to x_gcse_edit_statement_comparability_path(subject_param)
+          end
         else
           redirect_to @return_to[:back_path]
         end
@@ -44,6 +48,8 @@ module CandidateInterface
     def handle_redirection
       if enic_params[:enic_reason] == 'obtained'
         redirect_to x_gcse_new_statement_comparability_path(subject_param)
+      elsif FeatureFlag.active?('2027_international_qualifications_flow')
+        redirect_to candidate_interface_gcse_details_new_year_path(subject_param)
       else
         redirect_to resolve_gcse_edit_path(subject_param)
       end

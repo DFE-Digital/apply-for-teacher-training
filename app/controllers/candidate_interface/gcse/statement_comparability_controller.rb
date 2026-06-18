@@ -17,7 +17,11 @@ module CandidateInterface
       @enic_form = GcseEnicForm.new(enic_params)
 
       if @enic_form.save(current_qualification)
-        redirect_to resolve_gcse_edit_path(subject_param)
+        if FeatureFlag.active?('2027_international_qualifications_flow')
+          redirect_to candidate_interface_gcse_details_new_year_path(subject_param)
+        else
+          redirect_to resolve_gcse_edit_path(subject_param)
+        end
       else
         track_validation_error(@enic_form)
         render :new

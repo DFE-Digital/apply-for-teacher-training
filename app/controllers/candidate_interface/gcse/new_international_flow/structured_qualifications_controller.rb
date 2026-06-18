@@ -2,6 +2,7 @@ module CandidateInterface
   class Gcse::NewInternationalFlow::StructuredQualificationsController < Gcse::NewInternationalFlow::BaseController
     def new
       @equivalent_qualification_form = GcseEquivalentQualificationForm.build_from_qualification(current_qualification)
+      @list_of_qualifications = @equivalent_qualifications.any?
     end
 
     def edit
