@@ -1,12 +1,12 @@
 module CandidateInterface
   class Gcse::NewInternationalFlow::QualificationsController < Gcse::NewInternationalFlow::BaseController
     def new
-      @equivalent_qualification_form = GcseEquivalentQualificationForm.build_from_qualification(current_qualification)
+      @equivalent_qualification_form = GcseEquivalentQualificationForm.build_from_qualification(current_qualification, equivalent_qualifications: @equivalent_qualifications.map(&:name))
       @list_of_qualifications = @equivalent_qualifications.any?
     end
 
     def edit
-      @equivalent_qualification_form = GcseEquivalentQualificationForm.build_from_qualification(current_qualification)
+      @equivalent_qualification_form = GcseEquivalentQualificationForm.build_from_qualification(current_qualification, equivalent_qualifications: @equivalent_qualifications.map(&:name))
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
       @list_of_qualifications = @equivalent_qualifications.any?
     end

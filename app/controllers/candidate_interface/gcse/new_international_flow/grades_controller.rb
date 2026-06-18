@@ -3,12 +3,12 @@ module CandidateInterface
     before_action :set_structured_grades
 
     def new
-      @structured_grades_form = GcseInternationalStructuredGradesForm.build_from_qualification(current_qualification)
+      @structured_grades_form = GcseInternationalStructuredGradesForm.build_from_qualification(current_qualification, structured_grades: @structured_grades)
       @list_of_grades = @structured_grades.any?
     end
 
     def edit
-      @structured_grades_form = GcseInternationalStructuredGradesForm.build_from_qualification(current_qualification)
+      @structured_grades_form = GcseInternationalStructuredGradesForm.build_from_qualification(current_qualification, structured_grades: @structured_grades)
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
       @list_of_grades = @structured_grades.any?
     end
@@ -18,13 +18,12 @@ module CandidateInterface
 
       if @structured_grades_form.save(current_qualification)
         if passing_grade?
-          # TODO: fix back paths for enic flow
           redirect_to candidate_interface_gcse_new_international_flow_new_enic_path
         else
           redirect_to candidate_interface_gcse_new_international_flow_interruption_path
         end
       else
-        track_validation_error(@equivalent_qualification_form)
+        track_validation_error(@structured_grades_form)
         render :new
       end
     end
@@ -36,7 +35,7 @@ module CandidateInterface
       if @structured_grades_form.save(current_qualification)
         redirect_to @return_to[:back_path]
       else
-        track_validation_error(@equivalent_qualification_form)
+        track_validation_error(@structured_grades_form)
         render :edit
       end
     end
@@ -45,7 +44,7 @@ module CandidateInterface
 
     def set_structured_grades
       # post-MVP we will map through the available schemas if there is more than one and present them for selection in an intermediary step
-      # We can then use that value to present the relevant structured grades
+      # We can then use that value to present the relevant structured grades for the chosen schema rather than simply 'first'
       @structured_grades ||=
         if @selected_equivalent_qualification.blank?
           []
