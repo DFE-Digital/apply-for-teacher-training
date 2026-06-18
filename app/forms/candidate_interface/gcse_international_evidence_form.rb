@@ -9,7 +9,7 @@ module CandidateInterface
 
     def self.build_from_qualification(application_qualification)
       new(
-        evidence: application_qualification.missing_explanation,
+        evidence: application_qualification.not_completed_explanation,
         # TODO: Check this is the correct field to store this data
       )
     end
@@ -18,7 +18,7 @@ module CandidateInterface
       return false unless valid?
 
       application_qualification.update!(
-        missing_explanation: evidence,
+        not_completed_explanation: evidence,
       )
     end
   end

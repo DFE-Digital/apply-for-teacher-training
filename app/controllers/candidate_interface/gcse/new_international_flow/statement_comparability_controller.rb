@@ -1,8 +1,6 @@
 module CandidateInterface
-  class Gcse::StatementComparabilityController < Gcse::BaseController
+  class Gcse::NewInternationalFlow::StatementComparabilityController < Gcse::NewInternationalFlow::BaseController
     include Gcse::ResolveGcseEditPathConcern
-
-    before_action :set_previous_path, only: %i[new create]
 
     def new
       @enic_form = GcseEnicForm.build_from_qualification(current_qualification)
@@ -17,11 +15,7 @@ module CandidateInterface
       @enic_form = GcseEnicForm.new(enic_params)
 
       if @enic_form.save(current_qualification)
-        if FeatureFlag.active?('2027_international_qualifications_flow')
-          redirect_to candidate_interface_gcse_details_new_year_path(subject_param)
-        else
-          redirect_to resolve_gcse_edit_path(subject_param)
-        end
+        redirect_to candidate_interface_gcse_new_international_flow_new_year_path
       else
         track_validation_error(@enic_form)
         render :new
@@ -41,14 +35,6 @@ module CandidateInterface
     end
 
   private
-
-    def set_previous_path
-      @previous_path = if current_qualification.non_uk_qualification_type.present?
-                         candidate_interface_gcse_details_new_enic_path(@subject)
-                       else
-                         candidate_interface_gcse_details_new_type_path(@subject)
-                       end
-    end
 
     def enic_params
       strip_whitespace params

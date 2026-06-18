@@ -1,5 +1,5 @@
 <%= f.govuk_error_summary %>
-<%= f.govuk_radio_buttons_fieldset :grade, legend: { text: t('gcse_edit_specific_qualification.page_title', subject: @subject.capitalize), size: 'l', tag: 'h1' } do %>
+<%= f.govuk_radio_buttons_fieldset :qualification, legend: { text: t('gcse_edit_specific_qualification.page_title', subject: @subject.capitalize), size: 'l', tag: 'h1' } do %>
 <% if @list_of_qualifications %>
   <% @equivalent_qualifications.each do |qual| %>
       <%= f.govuk_radio_button :qualification, qual.name, label: { text: qual.name } %>

@@ -1,0 +1,29 @@
+<%= f.govuk_error_summary %>
+
+<h1 class="govuk-heading-l">
+  <%= t('gcse_edit_enic.page_title', subject: @subject.capitalize) %>
+</h1>
+
+<p class="govuk-body"><%= t('gcse_edit_enic.apply_enic') %></p>
+<p class="govuk-body">
+  <%= govuk_link_to(
+        t('gcse_edit_enic.enic_link'),
+        t('service_name.enic.statement_of_comparability_url'),
+        new_tab: true,
+      ) %>
+</p>
+<p class="govuk-body"> <%= t('gcse_edit_enic.percentage_text_html') %></p>
+<p class="govuk-body"> <%= t('gcse_edit_enic.enic_cost') %></p>
+
+<%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.label'), size: 'm' } do %>
+  <% ApplicationQualification.enic_reasons.keys.each_with_index do |enic_reason, index| %>
+    <%= f.govuk_radio_button(
+      :enic_reason,
+      enic_reason,
+      label: { text: t("application_form.degree.enic_statement.#{enic_reason}") },
+      link_errors: index.zero?,
+    ) %>
+  <% end %>
+<% end %>
+
+<%= f.govuk_submit t('save_and_continue') %>

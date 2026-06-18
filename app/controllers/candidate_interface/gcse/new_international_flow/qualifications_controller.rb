@@ -8,6 +8,7 @@ module CandidateInterface
     def edit
       @equivalent_qualification_form = GcseEquivalentQualificationForm.build_from_qualification(current_qualification)
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @list_of_qualifications = @equivalent_qualifications.any?
     end
 
     def create

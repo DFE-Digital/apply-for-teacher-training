@@ -265,7 +265,7 @@ module CandidateInterface
 
       {
         key: t('application_form.gcse.enic_statement.review_label'),
-        value: enic_statment_value,
+        value: enic_statement_value,
       }.tap do |row|
         if application_qualification.enic_reason?
           row[:action] =
@@ -277,7 +277,7 @@ module CandidateInterface
       end
     end
 
-    def enic_statment_value
+    def enic_statement_value
       if application_qualification.enic_reason.nil?
         govuk_link_to('Enter your ENIC status', candidate_interface_gcse_details_edit_enic_path(change_path_params))
       else
