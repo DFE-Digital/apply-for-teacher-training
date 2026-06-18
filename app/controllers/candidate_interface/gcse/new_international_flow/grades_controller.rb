@@ -10,6 +10,7 @@ module CandidateInterface
     def edit
       @structured_grades_form = GcseInternationalStructuredGradesForm.build_from_qualification(current_qualification)
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @list_of_grades = @structured_grades.any?
     end
 
     def create
@@ -18,7 +19,7 @@ module CandidateInterface
       if @structured_grades_form.save(current_qualification)
         if passing_grade?
           # TODO: fix back paths for enic flow
-          redirect_to candidate_interface_gcse_details_new_enic_path
+          redirect_to candidate_interface_gcse_new_international_flow_new_enic_path
         else
           redirect_to candidate_interface_gcse_new_international_flow_interruption_path
         end

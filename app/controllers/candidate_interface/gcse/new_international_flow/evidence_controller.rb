@@ -13,7 +13,7 @@ module CandidateInterface
       @evidence_form = GcseInternationalEvidenceForm.new(evidence_params)
 
       if @evidence_form.save(current_qualification)
-        redirect_to candidate_interface_gcse_details_new_year_path
+        redirect_to candidate_interface_gcse_new_international_flow_new_year_path
       else
         track_validation_error(@evidence_form)
         render :new
