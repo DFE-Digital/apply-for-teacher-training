@@ -19,7 +19,7 @@ module CandidateInterface
           # TODO: fix back paths for enic flow
           redirect_to candidate_interface_gcse_details_new_enic_path
         else
-          redirect_to root_path
+          redirect_to candidate_interface_gcse_new_international_flow_interruption_path
         end
       else
         track_validation_error(@equivalent_qualification_form)

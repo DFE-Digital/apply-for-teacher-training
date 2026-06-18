@@ -304,6 +304,13 @@ namespace :candidate_interface, path: '/candidate' do
       get '/new-international-flow/structured-grades/edit' => 'gcse/new_international_flow/structured_grades#edit', as: :gcse_new_international_flow_edit_structured_grades
       patch '/new-international-flow/structured-grades/edit' => 'gcse/new_international_flow/structured_grades#update'
 
+      get '/new-international-flow/interruption' => 'gcse/new_international_flow/failing_grade_interruption#show', as: :gcse_new_international_flow_interruption
+
+      get '/new-international-flow/evidence' => 'gcse/new_international_flow/evidence#new', as: :gcse_new_international_flow_new_evidence
+      patch 'new-international-flow/evidence' => 'gcse/new_international_flow/evidence#create'
+      get '/new-international-flow/evidence/edit' => 'gcse/new_international_flow/evidence#edit', as: :gcse_new_international_flow_edit_evidence
+      patch '/new-international-flow/evidence/edit' => 'gcse/new_international_flow/evidence#update'
+
       get '/enic' => 'gcse/enic#new', as: :gcse_details_new_enic
       patch '/enic' => 'gcse/enic#create'
       get '/enic/edit' => 'gcse/enic#edit', as: :gcse_details_edit_enic
