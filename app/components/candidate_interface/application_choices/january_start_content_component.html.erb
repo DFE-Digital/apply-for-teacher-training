@@ -1,0 +1,10 @@
+<h2 class="govuk-heading-l"><%= title %></h2>
+
+<p class="govuk-body"><%= provider_deadline_content %></p>
+
+<%= render CandidateInterface::ApplicationChoiceListComponent.new(
+  application_form:,
+  application_choices: application_choices,
+  current_tab_name: nil,
+  with_tabs: false,
+) %>

@@ -116,6 +116,10 @@ class ApplicationChoice < ApplicationRecord
       .where(current_recruitment_cycle_year: recruitment_cycle_year)
       .where('courses.start_date <= ?', start_date)
   }
+  scope :for_sorting, lambda {
+    includes(:course, :site, :provider, :current_course, :current_course_option, :interviews)
+      .includes(offer: :conditions)
+  }
 
   def starts_after_september?
     course.start_date > Date.parse("30/09/#{current_recruitment_cycle_year}").at_end_of_day ||
