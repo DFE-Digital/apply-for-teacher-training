@@ -3,6 +3,8 @@ module CandidateInterface
     include Gcse::ResolveGcseEditPathConcern
     include GcseStatementComparabilityPathHelper
 
+    before_action :set_back_path
+
     def new
       @enic_form = GcseEnicSelectionForm.build_from_qualification(current_qualification)
     end
@@ -47,6 +49,15 @@ module CandidateInterface
       else
         redirect_to candidate_interface_gcse_new_international_flow_new_year_path
       end
+    end
+
+    def set_back_path
+      @back_path ||=
+        if current_qualification.grade.in?(@grade_schemas.first.passing_grades)
+          candidate_interface_gcse_new_international_flow_new_grades_path
+        else
+          candidate_interface_gcse_new_international_flow_interruption_path
+        end
     end
 
     def enic_params
