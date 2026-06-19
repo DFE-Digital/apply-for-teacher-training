@@ -678,6 +678,10 @@ en:
           other: Successful completion of a %{length}-week %{subject} subject knowledge enhancement course
     errors:
       models:
+        data_export:
+          attributes:
+            export_type:
+              deprecated: This export is no longer available
         recruitment_cycle_timetable:
           attributes:
             apply_opens_at:

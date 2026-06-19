@@ -15,7 +15,7 @@ RSpec.describe DataExporter, :with_audited do
 
   describe '#perform' do
     it 'adds a comment to the audit log if the export fails' do
-      data_export = DataExport.create!
+      data_export = create(:data_export)
 
       expect {
         described_class.new.perform('ExporterThatFails', data_export.id)
