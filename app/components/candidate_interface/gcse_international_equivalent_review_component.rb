@@ -61,7 +61,7 @@ module CandidateInterface
     def qualification_row
       {
         key: t('application_form.gcse.qualification.label'),
-        value: application_qualification.non_uk_qualification_type,
+        value: application_qualification.non_uk_qualification_type || govuk_link_to('Enter your qualification', candidate_interface_gcse_gcse_new_international_flow_edit_qualifications_path(change_path_params)),
         action: {
           href: candidate_interface_gcse_new_international_flow_edit_qualifications_path(change_path_params),
           visually_hidden_text: "qualification for #{application_qualification.non_uk_qualification_type}, #{subject}",

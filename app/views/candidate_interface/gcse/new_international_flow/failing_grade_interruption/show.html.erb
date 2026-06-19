@@ -6,27 +6,14 @@
     <div class="app-grid-column--grey">
       <h1 class="govuk-heading-l">This grade may not be equivalent to a GCSE in <%= @subject.capitalize %> at Grade 4 (C) or above</h1>
 
-      <p class="govuk-body">You need the equivalent of a GCSE at grade 4 (C) or above to apply for teacher training.</p>
-
-      <% if @subject == 'english' %>
-        <p class="govuk-body">You can either:</p>
-        <ul class="govuk-body">
-          <li>provide a statement of compatibility from UK ENIC</li>
-          <li>provide evidence that your English skills are at GCSE grade 4 (C) or above</li>
-          <li>go back and enter a different English qualification equivalent to a GCSE</li>
-        </ul>
-        <p class="govuk-body">Some providers may let you do an equivalency test to show you have the required skills.<p>
-      <% else %>
+      <p class="govuk-body">You need the equivalent of a GCSE at grade 4 (C) or above to apply for teacher training. You can provide evidence that your <%= @subject.capitalize %> skills are equivalent to this on the next page.</p>
         <p class="govuk-body">
-        You can give evidence to show you have <%= @subject.capitalize %> skills that are equal to a GCSE <%= @subject.capitalize %> at grade 4 (C) or above.
         Some providers may let you do an equivalency test to show you have the required skills.
         </p>
-      <% end %>
     </div>
 
   <div class="govuk-button-group app-course-choice__confirm-submission">
-    <%= govuk_button_link_to('Provide a statement of comparability', candidate_interface_gcse_new_international_flow_new_enic_path) %>
-    <%= govuk_link_to("Provide evidence of #{@subject.capitalize} skills", candidate_interface_gcse_new_international_flow_new_evidence_path) %>
+    <%= govuk_link_to('Continue', candidate_interface_gcse_new_international_flow_new_evidence_path) %>
   <div>
 
   </div>
