@@ -1,8 +1,5 @@
 module CandidateInterface
   class Gcse::NewInternationalFlow::EnicController < Gcse::NewInternationalFlow::BaseController
-    include Gcse::ResolveGcseEditPathConcern
-    include GcseStatementComparabilityPathHelper
-
     before_action :set_back_path
 
     def new
@@ -31,7 +28,7 @@ module CandidateInterface
 
       if @enic_form.save(current_qualification)
         if enic_params[:enic_reason] == 'obtained'
-          redirect_to candidate_interface_gcse_details_new_year_path(subject_param)
+          redirect_to candidate_interface_gcse_new_international_flow_new_year_path(subject_param)
         else
           redirect_to @return_to[:back_path]
         end
@@ -45,7 +42,7 @@ module CandidateInterface
 
     def handle_redirection
       if enic_params[:enic_reason] == 'obtained'
-        redirect_to candidate_interface_gcse_new_international_flow_new_enic_statement_path
+        redirect_to new_international_flow_statement_comparability_path(subject_param)
       else
         redirect_to candidate_interface_gcse_new_international_flow_new_year_path
       end
@@ -53,7 +50,7 @@ module CandidateInterface
 
     def set_back_path
       @back_path ||=
-        if current_qualification.grade.in?(@grade_schemas.first.passing_grades)
+        if @grade_schemas.present? && current_qualification.grade.in?(@grade_schemas.first.passing_grades)
           candidate_interface_gcse_new_international_flow_new_grades_path
         else
           candidate_interface_gcse_new_international_flow_interruption_path
