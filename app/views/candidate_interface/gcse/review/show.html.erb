@@ -8,12 +8,21 @@
 
   <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
 
-  <%= render CandidateInterface::GcseQualificationReviewComponent.new(
-    application_form: @application_form,
-    application_qualification: @application_qualification,
-    subject: @subject,
-    editable: @section_policy.can_edit?,
-  ) %>
+  <% if FeatureFlag.active?('2027_international_qualifications_flow') && @application_qualification.non_uk_qualification_type? %>
+    <%= render CandidateInterface::GcseInternationalEquivalentReviewComponent.new(
+      application_form: @application_form,
+      application_qualification: @application_qualification,
+      subject: @subject,
+      editable: @section_policy.can_edit?,
+    ) %>
+  <% else %>
+    <%= render CandidateInterface::GcseQualificationReviewComponent.new(
+      application_form: @application_form,
+      application_qualification: @application_qualification,
+      subject: @subject,
+      editable: @section_policy.can_edit?,
+    ) %>
+  <% end %>
 
   <% unless @application_qualification.incomplete_gcse_information? %>
     <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
