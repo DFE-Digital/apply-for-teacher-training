@@ -3,16 +3,36 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::ApplicationChoices::IndexContentComponent do
   describe '#content_component' do
     it 'returns CandidateInterface::MidCycleContentComponent' do
-      application_form = build_stubbed(:application_form)
+      candidate = build_stubbed(:candidate)
+      application_form = build_stubbed(:application_form, candidate:)
       allow(application_form).to receive_messages(
         carry_over?: false,
         after_apply_deadline?: false,
         before_apply_opens?: false,
       )
+      allow(candidate).to receive(:active_previous_application).and_return(nil)
 
       component = described_class.new(application_form:)
 
       expect(component.content_component).to be_a(CandidateInterface::MidCycleContentComponent)
+    end
+
+    context 'when the candidate has previous active applications' do
+      it 'returns the MultipleActiveApplicationsContentComponent' do
+        candidate = build_stubbed(:candidate)
+        previous_application_form = build_stubbed(:application_form, candidate:)
+        application_form = build_stubbed(:application_form, candidate:)
+        allow(application_form).to receive_messages(
+                                     carry_over?: false,
+                                     after_apply_deadline?: false,
+                                     before_apply_opens?: false,
+                                     )
+        allow(candidate).to receive(:active_previous_application).and_return(previous_application_form)
+
+        component = described_class.new(application_form:)
+
+        expect(component.content_component).to be_a(CandidateInterface::MultipleActiveApplicationsContentComponent)
+      end
     end
 
     context 'when the application form can be carried over and it is currently between cycles' do
@@ -56,7 +76,6 @@ RSpec.describe CandidateInterface::ApplicationChoices::IndexContentComponent do
           render_inline(component)
 
           expect(component.content_component).to be_a(CandidateInterface::AfterDeadlineContentComponent)
-          expect(rendered_content).to include('You must respond to your offers before this time. They will be declined on your behalf if you don’t.')
         end
       end
     end

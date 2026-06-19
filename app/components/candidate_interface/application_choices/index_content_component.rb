@@ -1,10 +1,10 @@
 class CandidateInterface::ApplicationChoices::IndexContentComponent < ApplicationComponent
-  def initialize(application_form:, with_title: true)
+  def initialize(application_form:)
     @application_form = application_form
-    @with_title = with_title
   end
 
   delegate :candidate, to: :application_form
+  delegate :active_previous_application, to: :candidate
 
   def call
     render content_component
@@ -19,15 +19,11 @@ class CandidateInterface::ApplicationChoices::IndexContentComponent < Applicatio
       CandidateInterface::MultipleActiveApplicationsContentComponent.new(application_form:)
     else
       # This is BAU and the application is for the current cycle
-      CandidateInterface::MidCycleContentComponent.new(application_form:, with_title:)
+      CandidateInterface::MidCycleContentComponent.new(application_form:)
     end
   end
 
 private
 
   attr_reader :application_form, :with_title
-
-  def active_previous_application
-    candidate.active_previous_application
-  end
 end
