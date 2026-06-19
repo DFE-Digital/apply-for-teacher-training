@@ -1,16 +1,26 @@
 class CandidateInterface::ApplicationChoices::JanuaryStartContentComponentPreview < ViewComponent::Preview
   def default
-    application_choice
-    render CandidateInterface::ApplicationChoices::JanuaryStartContentComponent.new(application_form:)
+    render PreviewJanuaryStartContentComponent.new(application_form:)
   end
 
 private
 
   def application_form
-    @application_form ||= FactoryBot.build(:application_form)
+    @application_form ||= FactoryBot.create(:application_form)
   end
 
-  def application_choice
-    FactoryBot.create_list(:application_choice, 2, application_form: application_form)
+  class PreviewJanuaryStartContentComponent < CandidateInterface::ApplicationChoices::JanuaryStartContentComponent
+    def application_choices
+      @application_choices ||= begin
+        provider = FactoryBot.build(:provider)
+        course = FactoryBot.build(:course, provider:)
+        course_option = FactoryBot.build(:course_option, course: course)
+        FactoryBot.create(:application_choice, application_form:, course_option:)
+
+        CandidateInterface::SortApplicationChoices.call(
+          application_choices: @application_form.application_choices.for_sorting,
+        )
+      end
+    end
   end
 end
