@@ -46,6 +46,7 @@ module CandidateInterface
 
     def set_selected_equivalent_qualification
       return if current_qualification.non_uk_qualification_type.blank?
+      return if finder.blank?
 
       @selected_equivalent_qualification =
         finder.equivalent_qualifications.find do |qual|
