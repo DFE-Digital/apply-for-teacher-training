@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe BatchDelivery do
-  let(:some_job) { double(ActiveJob) }
-  let(:configured_job) { double(ActiveJob::ConfiguredJob) }
+  let(:some_job) { instance_double(ApplicationJob) }
+  let(:configured_job) { instance_double(ActiveJob::ConfiguredJob) }
 
   before do
     allow(some_job).to receive(:set).and_return(configured_job)
@@ -29,7 +29,7 @@ RSpec.describe BatchDelivery do
     end
 
     context 'where relation is not grouped' do
-       it 'executes block' do
+      it 'executes block' do
         application_forms = create_list(:application_form, 3)
         relation = ApplicationForm.where(id: application_forms.pluck(:id))
 
