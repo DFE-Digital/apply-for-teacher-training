@@ -8,6 +8,7 @@ module CandidateInterface
     before_action :set_equivalent_qualifications
     before_action :set_selected_equivalent_qualification
     before_action :set_grade_schemas
+    before_action :set_structured_grades
     before_action :render_application_feedback_component
 
   private
@@ -49,6 +50,17 @@ module CandidateInterface
       @selected_equivalent_qualification =
         finder.equivalent_qualifications.find do |qual|
           qual.name == current_qualification.non_uk_qualification_type
+        end
+    end
+
+    def set_structured_grades
+      # post-MVP we will map through the available schemas if there is more than one and present them for selection in an intermediary step
+      # We can then use that value to present the relevant structured grades for the chosen schema rather than simply 'first'
+      @structured_grades ||=
+        if @selected_equivalent_qualification.blank?
+          []
+        else
+          @grade_schemas.first.passing_grades + @grade_schemas.first.failing_grades
         end
     end
 

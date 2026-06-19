@@ -13,6 +13,7 @@ module CandidateInterface
 
     def create
       @equivalent_qualification_form = GcseEquivalentQualificationForm.new(equivalent_qualification_params)
+      @list_of_qualifications = @equivalent_qualifications.any?
 
       if @equivalent_qualification_form.save(current_qualification)
         redirect_to candidate_interface_gcse_new_international_flow_new_grades_path
@@ -25,6 +26,7 @@ module CandidateInterface
     def update
       @equivalent_qualification_form = GcseEquivalentQualificationForm.new(equivalent_qualification_params)
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @list_of_qualifications = @equivalent_qualifications.any?
 
       if @equivalent_qualification_form.save(current_qualification)
         redirect_to @return_to[:back_path]

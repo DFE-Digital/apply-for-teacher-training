@@ -2,15 +2,15 @@ module CandidateInterface
   class GcseInternationalEvidenceForm
     include ActiveModel::Model
 
-    attr_accessor :evidence
+    attr_accessor :evidence, :subject
 
-    validates :evidence, presence: true
-    validates :evidence, length: { minimum: 10, maximum: 400 }
+    validate :evidence_presence
+    validates :evidence, length: { minimum: 10, maximum: 500 }
 
-    def self.build_from_qualification(application_qualification)
+    def self.build_from_qualification(application_qualification, subject:)
       new(
         evidence: application_qualification.not_completed_explanation,
-        # TODO: Check this is the correct field to store this data
+        subject:,
       )
     end
 
@@ -20,6 +20,12 @@ module CandidateInterface
       application_qualification.update!(
         not_completed_explanation: evidence,
       )
+    end
+
+    def evidence_presence
+      return if evidence.present?
+
+      errors.add(:evidence, "Enter evidence that your #{subject.capitalize} skills are at GCSE grade 4 (C) or above")
     end
   end
 end
