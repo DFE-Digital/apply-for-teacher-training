@@ -28,7 +28,7 @@ module CandidateInterface
 
       if @enic_form.save(current_qualification)
         if enic_params[:enic_reason] == 'obtained'
-          redirect_to candidate_interface_gcse_new_international_flow_new_year_path(subject_param)
+          redirect_to edit_international_flow_statement_comparability_path(subject_param)
         else
           redirect_to @return_to[:back_path]
         end
