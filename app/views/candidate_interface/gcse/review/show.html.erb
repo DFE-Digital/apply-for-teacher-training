@@ -8,7 +8,7 @@
 
   <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
 
-  <% if FeatureFlag.active?('2027_international_qualifications_flow') && @application_qualification.non_uk_qualification_type? %>
+  <% if FeatureFlag.active?('2027_international_qualifications_flow') && @application_qualification.qualification_type == 'non_uk' %>
     <%= render CandidateInterface::GcseInternationalEquivalentReviewComponent.new(
       application_form: @application_form,
       application_qualification: @application_qualification,

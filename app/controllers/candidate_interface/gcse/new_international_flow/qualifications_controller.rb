@@ -1,19 +1,19 @@
 module CandidateInterface
   class Gcse::NewInternationalFlow::QualificationsController < Gcse::NewInternationalFlow::BaseController
     def new
-      @equivalent_qualification_form = GcseEquivalentQualificationForm.build_from_qualification(current_qualification, equivalent_qualifications: @equivalent_qualifications.map(&:name))
-      @list_of_qualifications = @equivalent_qualifications.any?
+      @equivalent_qualification_form = GcseEquivalentQualificationForm.build_from_qualification(current_qualification, equivalent_qualifications: @equivalent_qualifications.map(&:name) || [])
+      @list_of_qualifications = @equivalent_qualifications&.any?
     end
 
     def edit
-      @equivalent_qualification_form = GcseEquivalentQualificationForm.build_from_qualification(current_qualification, equivalent_qualifications: @equivalent_qualifications.map(&:name))
+      @equivalent_qualification_form = GcseEquivalentQualificationForm.build_from_qualification(current_qualification, equivalent_qualifications: @equivalent_qualifications&.map(&:name) || [])
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
-      @list_of_qualifications = @equivalent_qualifications.any?
+      @list_of_qualifications = @equivalent_qualifications&.any?
     end
 
     def create
       @equivalent_qualification_form = GcseEquivalentQualificationForm.new(equivalent_qualification_params)
-      @list_of_qualifications = @equivalent_qualifications.any?
+      @list_of_qualifications = @equivalent_qualifications&.any?
 
       if @equivalent_qualification_form.save(current_qualification)
         redirect_to candidate_interface_gcse_new_international_flow_new_grades_path
@@ -26,7 +26,7 @@ module CandidateInterface
     def update
       @equivalent_qualification_form = GcseEquivalentQualificationForm.new(equivalent_qualification_params)
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
-      @list_of_qualifications = @equivalent_qualifications.any?
+      @list_of_qualifications = @equivalent_qualifications&.any?
 
       if @equivalent_qualification_form.save(current_qualification)
         redirect_to @return_to[:back_path]

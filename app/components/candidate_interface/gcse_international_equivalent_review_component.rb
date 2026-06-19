@@ -61,17 +61,20 @@ module CandidateInterface
     def qualification_row
       {
         key: t('application_form.gcse.qualification.label'),
-        value: application_qualification.non_uk_qualification_type || govuk_link_to('Enter your qualification', candidate_interface_gcse_gcse_new_international_flow_edit_qualifications_path(change_path_params)),
-        action: {
-          href: candidate_interface_gcse_new_international_flow_edit_qualifications_path(change_path_params),
-          visually_hidden_text: "qualification for #{application_qualification.non_uk_qualification_type}, #{subject}",
-        },
-        html_attributes: {
-          data: {
-            qa: "gcse-#{subject}-qualification",
-          },
-        },
-      }
+        value: application_qualification.non_uk_qualification_type || govuk_link_to('Enter your qualification', candidate_interface_gcse_new_international_flow_edit_qualifications_path(change_path_params)),
+      }.tap do |row|
+        if application_qualification.non_uk_qualification_type
+          row[:action] = {
+            href: candidate_interface_gcse_new_international_flow_edit_qualifications_path(change_path_params),
+            visually_hidden_text: "qualification for #{application_qualification.non_uk_qualification_type}, #{subject}",
+          }
+          row[:html_attributes] = {
+            data: {
+              qa: "gcse-#{subject}-qualification",
+            },
+          }
+        end
+      end
     end
 
     def award_year_row

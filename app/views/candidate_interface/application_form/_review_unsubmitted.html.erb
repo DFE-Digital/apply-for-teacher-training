@@ -21,7 +21,7 @@
   <%= govuk_warning_text(
     text: t('section_groups.copies_of_qualifications'),
   ) %>
-  <% if FeatureFlag.active?('2027_international_qualifications_flow') && @application_form.english_gcse&.non_uk_qualification_type? %>
+  <% if FeatureFlag.active?('2027_international_qualifications_flow') && @application_form.english_gcse&.qualification_type == 'non_uk' %>
     <%= render CandidateInterface::GcseInternationalEquivalentReviewComponent.new(
       application_form: @application_form,
       application_qualification: @application_form.english_gcse,
@@ -56,7 +56,7 @@
     <% end %>
   <% end %>
 
-  <% if FeatureFlag.active?('2027_international_qualifications_flow') && @application_form.maths_gcse&.non_uk_qualification_type? %>
+  <% if FeatureFlag.active?('2027_international_qualifications_flow') && @application_form.maths_gcse&.qualification_type == 'non_uk' %>
     <%= render CandidateInterface::GcseInternationalEquivalentReviewComponent.new(
       application_form: @application_form,
       application_qualification: @application_form.maths_gcse,
@@ -78,7 +78,7 @@
     ) %>
   <% end %>
   <% if @application_form.science_gcse_needed? %>
-    <% if FeatureFlag.active?('2027_international_qualifications_flow') && @application_form.science_gcse&.non_uk_qualification_type? %>
+    <% if FeatureFlag.active?('2027_international_qualifications_flow') && @application_form.science_gcse&.qualification_type == 'non_uk' %>
       <%= render CandidateInterface::GcseInternationalEquivalentReviewComponent.new(
         application_form: @application_form,
         application_qualification: @application_form.science_gcse,
