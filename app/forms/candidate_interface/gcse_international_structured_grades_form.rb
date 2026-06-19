@@ -6,6 +6,7 @@ module CandidateInterface
 
     validates :grade, presence: true
     validates :non_structured_grade, presence: true, if: :non_structured?
+    validates :non_structured_grade, length: { maximum: 10 }, if: :non_structured?
 
     def self.build_from_qualification(application_qualification, structured_grades: [])
       grade = application_qualification.grade

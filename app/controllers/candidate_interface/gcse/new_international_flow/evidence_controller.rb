@@ -1,16 +1,16 @@
 module CandidateInterface
   class Gcse::NewInternationalFlow::EvidenceController < Gcse::NewInternationalFlow::BaseController
     def new
-      @evidence_form = GcseInternationalEvidenceForm.build_from_qualification(current_qualification)
+      @evidence_form = GcseInternationalEvidenceForm.build_from_qualification(current_qualification, subject: @subject)
     end
 
     def edit
-      @evidence_form = GcseInternationalEvidenceForm.build_from_qualification(current_qualification)
+      @evidence_form = GcseInternationalEvidenceForm.build_from_qualification(current_qualification, subject: @subject)
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
     end
 
     def create
-      @evidence_form = GcseInternationalEvidenceForm.new(evidence_params)
+      @evidence_form = GcseInternationalEvidenceForm.new(evidence_params.merge(subject: @subject))
 
       if @evidence_form.save(current_qualification)
         redirect_to candidate_interface_gcse_new_international_flow_new_year_path
@@ -21,7 +21,7 @@ module CandidateInterface
     end
 
     def update
-      @evidence_form = GcseInternationalEvidenceForm.new(evidence_params)
+      @evidence_form = GcseInternationalEvidenceForm.new(evidence_params.merge(subject: @subject))
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
 
       if @evidence_form.save(current_qualification)

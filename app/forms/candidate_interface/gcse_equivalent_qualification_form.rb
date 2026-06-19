@@ -6,7 +6,7 @@ module CandidateInterface
 
     validates :qualification, presence: true
     validates :non_structured_qualification, presence: true, if: :non_structured?
-    validates :non_structured_qualification, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH }
+    validates :non_structured_qualification, length: { minimum: 2, maximum: ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH }, if: :non_structured?
 
     def self.build_from_qualification(application_qualification, equivalent_qualifications: [])
       qualification = application_qualification.non_uk_qualification_type

@@ -50,10 +50,11 @@ module CandidateInterface
 
     def set_back_path
       @back_path ||=
-        if @grade_schemas.present? && current_qualification.grade.in?(@grade_schemas.first.passing_grades)
-          candidate_interface_gcse_new_international_flow_new_grades_path
-        else
+        if @grade_schemas.present? && current_qualification.grade.in?(@structured_grades)
+          && !current_qualification.grade.in?(@grade_schemas.first.passing_grades)
           candidate_interface_gcse_new_international_flow_interruption_path
+        else
+          candidate_interface_gcse_new_international_flow_new_grades_path
         end
     end
 
