@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe SendEocDeadlineReminderEmailToCandidatesBatchWorker do
-  include ActiveJob::TestHelper
 
   describe '#perform' do
     let(:application_form) do
