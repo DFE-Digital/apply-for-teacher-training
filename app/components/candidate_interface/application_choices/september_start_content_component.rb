@@ -16,7 +16,7 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponent < A
   end
 
   def awaiting_provider_decision_content
-    if application_form.application_choices.any?(&:state_pending_provider_decision?)
+    if application_form.application_choices.any?(&:decision_pending?)
       {
         title: 'Applications awaiting a provider decision',
         content: 'Applications will be rejected automatically at  ' \
@@ -25,8 +25,20 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponent < A
     end
   end
 
+  def reject_by_default_explanation
+    return unless application_form.application_choices.any?(&:rejected_by_default?)
+
+    'Some of your applications have been rejected because the provider did not respond before the deadline.'
+  end
+
+  def decline_by_default_explanation
+    return unless application_choices.any?(&:declined_by_default?)
+
+    'Some of your offers have been declined because you did not respond before the deadline.'
+  end
+
   def offered_content
-    if application_form.application_choices.any?(&:state_offered?)
+    if application_form.application_choices.any?(&:offer?)
       {
         title: 'Offers awaiting your response',
         content: 'Offers will be declined automatically at ' \
