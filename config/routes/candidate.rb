@@ -265,6 +265,10 @@ namespace :candidate_interface, path: '/candidate' do
         patch "/#{subject}/statement-comparability" => 'gcse/statement_comparability#create'
         get "/#{subject}/statement-comparability/edit" => 'gcse/statement_comparability#edit', as: "edit_gcse_#{subject}_statement_comparability"
         patch "/#{subject}/statement-comparability/edit" => 'gcse/statement_comparability#update'
+        get "new-international/#{subject}/statement-comparability" => 'gcse/new_international_flow/statement_comparability#new', as: "new_international_flow_new_gcse_#{subject}_statement_comparability"
+        patch "new-international/#{subject}/statement-comparability" => 'gcse/new_international_flow/statement_comparability#create'
+        get "new-international/#{subject}/statement-comparability/edit" => 'gcse/new_international_flow/statement_comparability#edit', as: "new_international_flow_edit_gcse_#{subject}_statement_comparability"
+        patch "new-international/#{subject}/statement-comparability/edit" => 'gcse/new_international_flow/statement_comparability#update'
       end
     end
 
@@ -333,11 +337,6 @@ namespace :candidate_interface, path: '/candidate' do
       patch 'new-international-flow/enic' => 'gcse/new_international_flow/enic#create'
       get '/new-international-flow/enic/edit' => 'gcse/new_international_flow/enic#edit', as: :gcse_new_international_flow_edit_enic
       patch '/new-international-flow/enic/edit' => 'gcse/new_international_flow/enic#update'
-
-      get '/new-international-flow/enic-statement' => 'gcse/new_international_flow/statement_comparability#new', as: :gcse_new_international_flow_new_enic_statement
-      patch 'new-international-flow/enic-statement' => 'gcse/new_international_flow/statement_comparability#create'
-      get '/new-international-flow/enic-statement/edit' => 'gcse/new_international_flow/statement_comparability#edit', as: :gcse_new_international_flow_edit_enic_statement
-      patch '/new-international-flow/enic-statement/edit' => 'gcse/new_international_flow/statement_comparability#update'
 
       get '/new-international-flow/year' => 'gcse/new_international_flow/year#new', as: :gcse_new_international_flow_new_year
       patch '/new-international-flow/year' => 'gcse/new_international_flow/year#create'

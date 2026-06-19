@@ -14,11 +14,7 @@ module CandidateInterface
       @year_form = CandidateInterface::GcseYearForm.new(year_params)
 
       if @year_form.save(current_qualification)
-        if current_qualification.failed_required_gcse?
-          redirect_to candidate_interface_gcse_details_edit_grade_explanation_path(subject: @subject)
-        else
-          redirect_to candidate_interface_gcse_review_path
-        end
+        redirect_to candidate_interface_gcse_review_path
       else
         set_previous_path
         track_validation_error(@year_form)
@@ -52,7 +48,7 @@ module CandidateInterface
       @previous_path = if current_qualification.not_completed_explanation.present?
                          candidate_interface_gcse_new_international_flow_new_evidence_path
                        elsif current_qualification.enic_reference.present?
-                         candidate_interface_gcse_new_international_flow_new_enic_statement_path
+                         new_international_flow_statement_comparability_path(subject_param)
                        else
                          candidate_interface_gcse_new_international_flow_new_enic_path
                        end

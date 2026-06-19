@@ -1,21 +1,22 @@
 module CandidateInterface
   class Gcse::NewInternationalFlow::StatementComparabilityController < Gcse::NewInternationalFlow::BaseController
-    include Gcse::ResolveGcseEditPathConcern
-
     def new
       @enic_form = GcseEnicForm.build_from_qualification(current_qualification)
+      @form_path = new_international_flow_statement_comparability_path(subject_param)
     end
 
     def edit
       @enic_form = GcseEnicForm.build_from_qualification(current_qualification)
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(subject_param))
+      @form_path = edit_international_flow_statement_comparability_path(subject_param)
     end
 
     def create
       @enic_form = GcseEnicForm.new(enic_params)
+      @form_path = new_international_flow_statement_comparability_path(subject_param)
 
       if @enic_form.save(current_qualification)
-        redirect_to candidate_interface_gcse_new_international_flow_new_year_path
+        redirect_to candidate_interface_gcse_new_international_flow_new_year_path(subject_param)
       else
         track_validation_error(@enic_form)
         render :new
@@ -25,6 +26,7 @@ module CandidateInterface
     def update
       @enic_form = GcseEnicForm.new(enic_params)
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(subject_param))
+      @form_path = edit_international_flow_statement_comparability_path(subject_param)
 
       if @enic_form.save(current_qualification)
         redirect_to @return_to[:back_path]

@@ -1,5 +1,7 @@
 module CandidateInterface
   class Gcse::NewInternationalFlow::BaseController < SectionController
+    include GcseStatementComparabilityPathHelper
+
     before_action :redirect_if_feature_flag_inactive
     before_action :set_subject
     before_action :set_institution_country
