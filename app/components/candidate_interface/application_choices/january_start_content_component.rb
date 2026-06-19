@@ -26,6 +26,6 @@ class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < App
   end
 
   def render?
-    application_choices.exists?
+    application_choices.present?
   end
 end

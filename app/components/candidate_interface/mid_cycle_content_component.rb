@@ -1,6 +1,6 @@
 module CandidateInterface
   class MidCycleContentComponent < ApplicationComponent
-    def initialize(application_form:, with_title:)
+    def initialize(application_form:, with_title: true)
       @application_form = application_form
       @completed_application_form_details = CandidateInterface::CompletedApplicationForm.new(application_form:)
       @with_title = with_title

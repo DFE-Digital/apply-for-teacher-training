@@ -27,7 +27,7 @@ module CandidateInterface
     end
 
     def application_choices
-      CandidateInterface::SortApplicationChoices.call(
+      @application_choices ||= CandidateInterface::SortApplicationChoices.call(
         application_choices: relative_application_form
                                .application_choices
                                .for_sorting,

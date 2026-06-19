@@ -9,8 +9,7 @@ module CandidateInterface
     end
 
     def active_previous_application
-      # candidate.active_previous_application
-      application_form
+      candidate.active_previous_application
     end
   end
 end

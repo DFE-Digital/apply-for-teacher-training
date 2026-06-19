@@ -10,9 +10,6 @@ module CandidateInterface
     # GET /candidate/application/choices(/:current_tab_name)
     def index
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
-      @application_choices = CandidateInterface::SortApplicationChoices.call(
-        application_choices: current_application.application_choices.for_sorting,
-      )
     end
 
     # POST /candidate/application/course-choices/:id/submit
