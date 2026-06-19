@@ -47,10 +47,10 @@ class Clock
 
   every(1.day, 'Generate monthly statistics report and exports', at: '05:00') { GenerateMonthlyStatistics.perform_later }
 
-  every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.new.perform }
-  every(1.day, 'SendVisaSponsorshipDeadlineReminder', at: '12:00') { CandidateMailers::EnqueueVisaSponsorshipDeadlineReminderWorker.new.perform }
-  every(1.day, 'SendFindHasOpenedEmailToCandidatesWorker', at: '12:00') { SendFindHasOpenedEmailToCandidatesWorker.new.perform }
-  every(1.day, 'SendNewCycleStartedEmailToCandidatesWorker', at: '10:00') { SendNewCycleHasStartedEmailToCandidatesWorker.new.perform }
+  every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.perform_later }
+  every(1.day, 'SendVisaSponsorshipDeadlineReminder', at: '12:00') { CandidateMailers::EnqueueVisaSponsorshipDeadlineReminderWorker.perform_later }
+  every(1.day, 'SendFindHasOpenedEmailToCandidatesWorker', at: '12:00') { SendFindHasOpenedEmailToCandidatesWorker.perform_later }
+  every(1.day, 'SendNewCycleStartedEmailToCandidatesWorker', at: '10:00') { SendNewCycleHasStartedEmailToCandidatesWorker.perform_later }
   every(1.day, 'EndOfCycle::SendRejectByDefaultReminderToProvidersWorker') { EndOfCycle::SendRejectByDefaultReminderToProvidersWorker.new.perform }
   every(1.day, 'EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker', at: '09:00') { EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker.new.perform }
   every(1.day, 'EndOfCycle:SendRejectByDefaultExplainerToCandidatesWorker', at: '09:01') { EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesWorker.new.perform }
