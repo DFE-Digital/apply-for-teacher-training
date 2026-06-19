@@ -70,7 +70,7 @@ gem 'sentry-rails', '6.6.2'
 gem 'sentry-sidekiq'
 
 gem 'factory_bot_rails'
-gem 'satisfactory', '~> 0.3'
+gem 'satisfactory', '~> 1.0'
 
 # Leave 2.22.0 otherwise it could fail generating applications in sandbox
 gem 'faker', '2.22.0'
