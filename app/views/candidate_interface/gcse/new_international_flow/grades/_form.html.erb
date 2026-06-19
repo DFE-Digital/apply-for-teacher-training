@@ -4,7 +4,9 @@
     <% @structured_grades.each do |grade| %>
       <%= f.govuk_radio_button :grade, grade, label: { text: grade } %>
     <% end %>
-    <p class="govuk-body">or</p>
+
+    <%= f.govuk_radio_divider %>
+
     <%= f.govuk_radio_button :grade, 'other', label: { text: 'Other' } do %>
       <%= f.govuk_text_field :non_structured_grade, label: { text: t('application_form.gcse.non_uk_other_grade.label'), size: 's' }, hint: { text: t('application_form.gcse.non_uk_other_grade.hint_text') } %>
     <% end %>
