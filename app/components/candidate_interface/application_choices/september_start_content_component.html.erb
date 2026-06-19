@@ -1,15 +1,11 @@
 <h2 class=<%= heading_class %>><%= heading %></h2>
 
-<% if after_reject_by_default? %>
-  <p class="govuk-body">
-    Some of your applications have been rejected because the provider did not respond before the deadline.
-  </p>
+<% if reject_by_default_explanation.present? %>
+  <p class="govuk-body"><%= reject_by_default_explanation %></p>
 <% end %>
 
-<% if after_decline_by_default? %>
-  <p class="govuk-body">
-    Some of your offers have been declined because you did not respond before the deadline.
-  </p>
+<% if decline_by_default_explanation.present? %>
+  <p class="govuk-body"><%= decline_by_default_explanation %></p>
 <% end %>
 
 <% if awaiting_provider_decision_content.present? %>
