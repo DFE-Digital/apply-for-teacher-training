@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, :sidekiq do
+RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker do
   def setup_candidates
     unsubmitted_candidate = create(:candidate)
     rejected_candidate = create(:candidate)
@@ -43,60 +43,54 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, :sidekiq do
     [unsubmitted_candidate, rejected_candidate, carried_over_candidate, recruited_candidate]
   end
 
+  describe '#relation' do
+    it 'returns expected candidates' do
+      unsubmitted_candidate, rejected_candidate, carried_over_candidate, recruited_candidate = setup_candidates
+
+      relation = described_class.new.relation
+
+      expect(relation).to include(unsubmitted_candidate)
+      expect(relation).to include(rejected_candidate)
+
+      expect(relation).not_to include(carried_over_candidate)
+      expect(relation).not_to include(recruited_candidate)
+    end
+  end
+
   describe '#perform' do
+    let(:worker) { instance_double(ActiveJob::ConfiguredJob) }
+
+    before do
+      allow(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to receive(:set).and_return(worker)
+      allow(worker).to receive(:perform_later).with(Array)
+    end
+
     context "it is time to send the 'new cycle has started' email" do
-      it 'sends emails to candidates who have unsuccessful or unsubmitted applications from the previous cycle' do
+      it 'enqueues batch worker' do
         travel_temporarily_to(email_send_date) do
-          unsubmitted_candidate, rejected_candidate, carried_over_candidate, recruited_candidate = setup_candidates
+          unsubmitted_candidate, rejected_candidate, _carried_over, _recruited = setup_candidates
 
-          described_class.new.perform
+          candidate_ids = [unsubmitted_candidate.id, rejected_candidate.id]
+          described_class.perform_now
 
-          email_for_unsubmitted_candidate = email_for_candidate(unsubmitted_candidate)
-          email_for_rejected_candidate = email_for_candidate(rejected_candidate)
-          email_for_carried_over_candidate = email_for_candidate(carried_over_candidate)
-          email_for_recruited_candidate = email_for_candidate(recruited_candidate)
-
-          expect(email_for_unsubmitted_candidate).to be_present
-          expect(email_for_rejected_candidate).to be_present
-          expect(email_for_carried_over_candidate).not_to be_present
-          expect(email_for_recruited_candidate).not_to be_present
+          expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to have_received(:set)
+          expect(worker).to have_received(:perform_later).with(candidate_ids)
         end
       end
     end
 
     context "it is not time to send the 'new cycle has started' email" do
-      it 'does not send the email' do
+      it 'does not enqueue batch worker' do
         travel_temporarily_to(email_send_date - 1.day) do
           setup_candidates
 
-          described_class.new.perform
+          [create(:application_form).candidate.id]
+          described_class.perform_now
 
-          expect(ActionMailer::Base.deliveries).to be_empty
+          expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).not_to have_received(:set)
         end
       end
     end
-
-    context "it is time to send the 'new cycle has started' email but one candidate has already received it" do
-      it 'does not send the email' do
-        travel_temporarily_to(email_send_date) do
-          unsubmitted_candidate, rejected_candidate, carried_over_candidate, recruited_candidate = setup_candidates
-          unsubmitted_candidate.current_application.chasers_sent.create(
-            chaser_type: :new_cycle_has_started,
-          )
-
-          described_class.new.perform
-
-          expect(email_for_candidate(unsubmitted_candidate)).not_to be_present
-          expect(email_for_candidate(carried_over_candidate)).not_to be_present
-          expect(email_for_candidate(recruited_candidate)).not_to be_present
-          expect(email_for_candidate(rejected_candidate)).to be_present
-        end
-      end
-    end
-  end
-
-  def email_for_candidate(candidate)
-    ActionMailer::Base.deliveries.find { |e| e.header['to'].value == candidate.email_address }
   end
 
   def email_send_date
