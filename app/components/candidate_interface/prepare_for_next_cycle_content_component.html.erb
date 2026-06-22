@@ -1,11 +1,10 @@
-<h2 class="govuk-heading-l">Courses from the <%= date_range %> academic year</h2>
+<h2 class="govuk-heading-l">Courses from the <%= academic_year_range_name %> academic year</h2>
 
 <p class="govuk-body">
   <% if after_find_opens? %>
-    You can now <%= govuk_link_to('find teacher training courses', t('find_teacher_training.production_url')) %> starting in the <%= date_range %> academic year.
+    You can now <%= govuk_link_to('find teacher training courses', t('find_teacher_training.production_url')) %> starting in the <%= academic_year_range_name %> academic year.
   <% else %>
-    You will be able to view courses starting in the <%= date_range %>
-    academic year from <%= find_opens %>.
+    You will be able to view courses starting in the <%= academic_year_range_name %> academic year from <%= find_opens %>.
   <% end %>
 </p>
 
