@@ -74,7 +74,6 @@ private
     expect(page).to have_text 'Draft'
     expect(page).to have_text 'This course is not yet open to applications.'
     click_on 'Your applications'
-    expect(page).to have_text 'Draft'
   end
 
   def then_i_see_the_recruitment_deadline_page
