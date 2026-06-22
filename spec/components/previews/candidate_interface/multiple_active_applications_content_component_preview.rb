@@ -25,7 +25,7 @@ private
 
     def application_choices
       @application_choices ||= begin
-        provider = FactoryBot.build(:provider)
+        provider = FactoryBot.build(:provider, code: Provider.pluck(:code).sort.last.next)
 
         previous_application = FactoryBot.build(
           :application_form,
