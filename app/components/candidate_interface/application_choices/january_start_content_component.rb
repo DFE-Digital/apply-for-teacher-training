@@ -17,6 +17,8 @@ class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < App
   end
 
   def application_choices
+    return if application_form.blank?
+
     CandidateInterface::SortApplicationChoices.call(
       application_choices: application_form
                              .application_choices

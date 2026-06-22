@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
         expect(rendered_component).to have_element(
           :div,
           text: application_choice.course.name,
-          class: 'app-application-item'
+          class: 'app-application-item',
         )
       end
 
@@ -68,7 +68,7 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
           expect(rendered_component).to have_element(
             :p,
             text: 'Applications will be rejected automatically at ' \
-              "#{recruitment_cycle_timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first)} if providers do not respond.",
+                  "#{recruitment_cycle_timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first)} if providers do not respond.",
             class: 'govuk-body',
           )
         end
@@ -86,7 +86,7 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
           expect(rendered_component).to have_element(
             :p,
             text: 'Offers will be declined automatically at ' \
-              "#{recruitment_cycle_timetable.decline_by_default_at.to_fs(:govuk_date_time_time_first)} if you do not respond.",
+                  "#{recruitment_cycle_timetable.decline_by_default_at.to_fs(:govuk_date_time_time_first)} if you do not respond.",
             class: 'govuk-body',
           )
         end
@@ -105,7 +105,7 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
   describe '#heading' do
     context 'when not given a custom heading' do
       it 'renders the component heading containing the academic year' do
-        expect(component.heading).to eq("Courses starting by September 2026")
+        expect(component.heading).to eq('Courses starting by September 2026')
       end
     end
 
@@ -113,7 +113,7 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
       let(:component) { described_class.new(application_form:, heading: 'What happens next?') }
 
       it 'renders the custom heading' do
-        expect(component.heading).to eq("What happens next?")
+        expect(component.heading).to eq('What happens next?')
       end
     end
   end
@@ -131,9 +131,8 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
         expect(content[:title]).to eq('Applications awaiting a provider decision')
         expect(content[:content]).to eq(
           'Applications will be rejected automatically at ' \
-            "#{recruitment_cycle_timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first)} if providers do not respond."
+          "#{recruitment_cycle_timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first)} if providers do not respond.",
         )
-
       end
     end
 
@@ -207,9 +206,8 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
         expect(content[:title]).to eq('Offers awaiting your response')
         expect(content[:content]).to eq(
           'Offers will be declined automatically at ' \
-            "#{recruitment_cycle_timetable.decline_by_default_at.to_fs(:govuk_date_time_time_first)} if you do not respond."
+          "#{recruitment_cycle_timetable.decline_by_default_at.to_fs(:govuk_date_time_time_first)} if you do not respond.",
         )
-
       end
     end
 

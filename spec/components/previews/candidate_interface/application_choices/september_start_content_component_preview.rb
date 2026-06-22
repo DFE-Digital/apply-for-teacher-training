@@ -24,7 +24,7 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponentPrev
     render PreviewSeptemberStartContentComponent.new(application_form:, choice_state: :offered)
   end
 
-  private
+private
 
   def application_form
     @application_form ||= FactoryBot.create(:application_form)
@@ -49,15 +49,15 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponentPrev
 
     def application_choices
       @application_choices ||= begin
-                                 provider = FactoryBot.build(:provider)
-                                 course = FactoryBot.build(:course, provider:)
-                                 course_option = FactoryBot.build(:course_option, course: course)
-                                 FactoryBot.create(:application_choice, @choice_state, application_form:, course_option:)
+        provider = FactoryBot.build(:provider)
+        course = FactoryBot.build(:course, provider:)
+        course_option = FactoryBot.build(:course_option, course: course)
+        FactoryBot.create(:application_choice, @choice_state, application_form:, course_option:)
 
-                                 CandidateInterface::SortApplicationChoices.call(
-                                   application_choices: @application_form.application_choices.for_sorting,
-                                 )
-                               end
+        CandidateInterface::SortApplicationChoices.call(
+          application_choices: @application_form.application_choices.for_sorting,
+        )
+      end
     end
   end
 end
