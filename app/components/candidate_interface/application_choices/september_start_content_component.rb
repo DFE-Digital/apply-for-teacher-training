@@ -19,7 +19,7 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponent < A
     if application_form.application_choices.any?(&:decision_pending?)
       {
         title: 'Applications awaiting a provider decision',
-        content: 'Applications will be rejected automatically at  ' \
+        content: 'Applications will be rejected automatically at ' \
                  "#{recruitment_cycle_timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first)} if providers do not respond.",
       }
     end
