@@ -13,7 +13,7 @@ module CandidateInterface
       if application_form.after_apply_deadline?
         recruitment_cycle_timetable.relative_next_timetable
       else
-        application_form
+        recruitment_cycle_timetable
       end
     end
 
@@ -30,7 +30,7 @@ module CandidateInterface
     end
 
     def show_button?
-      after_find_opens? && next_recruitment_cycle.after_apply_deadline? &&
+      after_find_opens? && !next_recruitment_cycle.after_apply_deadline? &&
         application_form.can_submit_more_choices?
     end
   end
