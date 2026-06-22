@@ -36,7 +36,7 @@ private
 
     def application_choices
       @application_choices ||= begin
-        provider = FactoryBot.build(:provider, code: Provider.pluck(:code).sort.last.next)
+        provider = FactoryBot.build(:provider, code: Provider.pluck(:code).max.next)
         if @september_courses
           sept_course = FactoryBot.build(:course, provider:)
           sept_course_option = FactoryBot.build(:course_option, course: sept_course)

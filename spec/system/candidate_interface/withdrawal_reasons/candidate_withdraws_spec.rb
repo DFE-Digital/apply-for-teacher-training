@@ -112,7 +112,11 @@ RSpec.describe 'A candidate withdraws their application', :bullet do
   def then_i_see_the_carry_over_content
     expect(page).to have_current_path candidate_interface_application_choices_path
 
-    expect(page).to have_element(:h1, text: 'The recruitment deadline has now passed')
+    expect(page).to have_element(:h1, text: 'Your applications')
+    expect(page).to have_element(
+      :p,
+      text: "The deadline for applying to courses in the #{@application_choice.application_form.academic_year_range_name} academic year has passed.",
+    )
   end
 
   def then_the_candidate_has_received_an_email

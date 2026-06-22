@@ -146,11 +146,15 @@ RSpec.describe 'Candidate views their invites' do
 
   def then_i_see_the_carry_over_content
     expect(page).to have_current_path candidate_interface_application_choices_path
-
-    expect(page).to have_element(:h1, text: 'The recruitment deadline has now passed')
+    previous_timetable = @current_candidate
+                           .current_application
+                           .recruitment_cycle_timetable
+                           .relative_previous_timetable
+                           .academic_year_range_name
+    expect(page).to have_element(:h1, text: 'Your applications')
     expect(page).to have_element(
-      :h2,
-      text: "Apply to courses in the #{@current_candidate.current_application.academic_year_range_name} academic year",
+      :p,
+      text: "The deadline for applying to courses in the #{previous_timetable} academic year has passed.",
     )
   end
 end
