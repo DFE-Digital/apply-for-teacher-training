@@ -27,13 +27,13 @@ RSpec.describe CandidateInterface::ApplicationChoices::JanuaryStartContentCompon
         expect(rendered_component).to have_element(
           :p,
           text: "Providers have until #{recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first)} " \
-            'to make decisions on these applications.',
+                'to make decisions on these applications.',
           class: 'govuk-body',
         )
         expect(rendered_component).to have_element(
           :div,
           text: application_choice.course.name,
-          class: 'app-application-item'
+          class: 'app-application-item',
         )
       end
     end
@@ -57,7 +57,7 @@ RSpec.describe CandidateInterface::ApplicationChoices::JanuaryStartContentCompon
     it 'returns content for providers regarding the winter reject by default date' do
       expect(component.provider_deadline_content).to eq(
         "Providers have until #{recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first)} " \
-          'to make decisions on these applications.'
+        'to make decisions on these applications.',
       )
     end
   end

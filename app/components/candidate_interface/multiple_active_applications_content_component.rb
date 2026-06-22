@@ -3,13 +3,14 @@ module CandidateInterface
     attr_reader :application_form
 
     delegate :candidate, to: :application_form
+    delegate :active_previous_application, to: :candidate
 
     def initialize(application_form:)
       @application_form = application_form
     end
 
-    def active_previous_application
-      candidate.active_previous_application
+    def render?
+      active_previous_application.present?
     end
   end
 end

@@ -8,11 +8,11 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
         travel_temporarily_to(application_form.find_opens_at - 1.day) do
           component = render_inline(described_class.new(application_form:))
 
-          expect(component).to have_element(:h1, text: "Your applications", class: "govuk-heading-xl")
-          expect(component).to have_element(:p, text: "The deadline for applying to courses in the 2026 to 2027 academic year had passed.", class: "govuk-body")
+          expect(component).to have_element(:h1, text: 'Your applications', class: 'govuk-heading-xl')
+          expect(component).to have_element(:p, text: 'The deadline for applying to courses in the 2026 to 2027 academic year had passed.', class: 'govuk-body')
           expect(component).to have_no_link('Choose a course', class: 'govuk-button')
 
-          expect(component).to have_element(:h2, text: "Courses from the 2027 to 2028 academic year", class: "govuk-heading-l")
+          expect(component).to have_element(:h2, text: 'Courses from the 2027 to 2028 academic year', class: 'govuk-heading-l')
           expect(component).to have_text "You will be able to view courses starting in the 2027 to 2028 academic year from #{application_form.find_opens_at.to_fs(:govuk_date_time_time_first)}."
           expect(component).to have_text "You will be able to apply from #{application_form.apply_opens_at.to_fs(:govuk_date_time_time_first)}."
         end
@@ -25,13 +25,13 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
         travel_temporarily_to(application_form.find_opens_at + 1.day) do
           component = render_inline(described_class.new(application_form:))
 
-          expect(component).to have_element(:h1, text: "Your applications", class: "govuk-heading-xl")
-          expect(component).to have_element(:p, text: "The deadline for applying to courses in the 2026 to 2027 academic year had passed.", class: "govuk-body")
+          expect(component).to have_element(:h1, text: 'Your applications', class: 'govuk-heading-xl')
+          expect(component).to have_element(:p, text: 'The deadline for applying to courses in the 2026 to 2027 academic year had passed.', class: 'govuk-body')
           expect(component).to have_link('Choose a course', class: 'govuk-button')
 
-          expect(component).to have_element(:h2, text: "Courses from the 2027 to 2028 academic year", class: "govuk-heading-l")
-          expect(component).to have_text "You can now find teacher training courses starting in the 2027 to 2028 academic year."
-          expect(component).to have_text "You will be able to apply from 9am UK time on 6 October 2026, but you can start preparing your application now."
+          expect(component).to have_element(:h2, text: 'Courses from the 2027 to 2028 academic year', class: 'govuk-heading-l')
+          expect(component).to have_text 'You can now find teacher training courses starting in the 2027 to 2028 academic year.'
+          expect(component).to have_text 'You will be able to apply from 9am UK time on 6 October 2026, but you can start preparing your application now.'
         end
       end
     end
@@ -84,7 +84,7 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
         component = render_inline(described_class.new(application_form:))
         expect(component).to have_no_link('Choose a course', class: 'govuk-button')
         expect(component).to have_text(
-          "Some of your applications have been rejected because the provider did not respond before the deadline.",
+          'Some of your applications have been rejected because the provider did not respond before the deadline.',
         )
       end
     end
@@ -119,7 +119,7 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
         component = render_inline(described_class.new(application_form:))
         expect(component).to have_no_link('Choose a course', class: 'govuk-button')
         expect(component).to have_text(
-          "Some of your offers have been declined because you did not respond before the deadline.",
+          'Some of your offers have been declined because you did not respond before the deadline.',
         )
       end
     end

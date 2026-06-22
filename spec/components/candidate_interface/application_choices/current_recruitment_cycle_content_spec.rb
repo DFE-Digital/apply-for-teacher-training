@@ -7,7 +7,7 @@ RSpec.describe CandidateInterface::ApplicationChoices::CurrentRecruitmentCycleCo
     subject(:academic_year_title) { described_class.new(application_form:).academic_year_title }
 
     it 'returns the title for the component within the academic year' do
-      expect(academic_year_title).to eq("Courses for the 2026 to 2027 academic year")
+      expect(academic_year_title).to eq('Courses for the 2026 to 2027 academic year')
     end
   end
 end

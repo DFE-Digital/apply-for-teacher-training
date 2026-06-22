@@ -23,10 +23,10 @@ RSpec.describe CandidateInterface::ApplicationChoices::IndexContentComponent do
         previous_application_form = build_stubbed(:application_form, candidate:)
         application_form = build_stubbed(:application_form, candidate:)
         allow(application_form).to receive_messages(
-                                     carry_over?: false,
-                                     after_apply_deadline?: false,
-                                     before_apply_opens?: false,
-                                     )
+          carry_over?: false,
+          after_apply_deadline?: false,
+          before_apply_opens?: false,
+        )
         allow(candidate).to receive(:active_previous_application).and_return(previous_application_form)
 
         component = described_class.new(application_form:)

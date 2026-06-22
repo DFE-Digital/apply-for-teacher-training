@@ -36,23 +36,23 @@ private
 
     def application_choices
       @application_choices ||= begin
-                                 provider = FactoryBot.build(:provider)
-                                 if @september_courses
-                                   sept_course = FactoryBot.build(:course, provider:)
-                                   sept_course_option = FactoryBot.build(:course_option, course: sept_course)
-                                   FactoryBot.create(:application_choice, application_form:, course_option: sept_course_option)
-                                 end
+        provider = FactoryBot.build(:provider)
+        if @september_courses
+          sept_course = FactoryBot.build(:course, provider:)
+          sept_course_option = FactoryBot.build(:course_option, course: sept_course)
+          FactoryBot.create(:application_choice, application_form:, course_option: sept_course_option)
+        end
 
-                                 if @january_courses
-                                   jan_course = FactoryBot.build(:course, provider:, start_date: "01/01/#{application_form.recruitment_cycle_year + 1}")
-                                   jan_course_option = FactoryBot.build(:course_option, course: jan_course)
-                                   FactoryBot.create(:application_choice, application_form:, course_option: jan_course_option)
-                                 end
+        if @january_courses
+          jan_course = FactoryBot.build(:course, provider:, start_date: "01/01/#{application_form.recruitment_cycle_year + 1}")
+          jan_course_option = FactoryBot.build(:course_option, course: jan_course)
+          FactoryBot.create(:application_choice, application_form:, course_option: jan_course_option)
+        end
 
-                                 CandidateInterface::SortApplicationChoices.call(
-                                   application_choices: @application_form.application_choices.for_sorting,
-                                 )
-                               end
+        CandidateInterface::SortApplicationChoices.call(
+          application_choices: @application_form.application_choices.for_sorting,
+        )
+      end
     end
   end
 end
