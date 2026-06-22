@@ -21,7 +21,7 @@ private
 
   def given_i_have_an_unsubmitted_application
     @candidate = create(:candidate)
-    create(:application_form, :unsubmitted, :with_completed_references, :eligible_for_free_school_meals, candidate: @candidate)
+    @application_form = create(:application_form, :unsubmitted, :with_completed_references, :eligible_for_free_school_meals, candidate: @candidate)
   end
 
   def and_find_has_opened_but_apply_has_not
@@ -79,7 +79,11 @@ private
 
   def then_i_see_the_recruitment_deadline_page
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_text 'The recruitment deadline has now passed'
+    expect(page).to have_element(:h1, text: 'Your applications')
+    expect(page).to have_element(
+      :p,
+      text: "The deadline for applying to courses in the #{@application_form.academic_year_range_name} academic year has passed.",
+    )
   end
 
   def when_i_navigate_to_my_details

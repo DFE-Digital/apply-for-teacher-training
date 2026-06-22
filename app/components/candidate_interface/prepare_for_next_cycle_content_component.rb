@@ -9,12 +9,20 @@ module CandidateInterface
       @application_form = application_form
     end
 
+    def application_choices
+      return [] unless next_recruitment_cycle == RecruitmentCycleTimetable.current_timetable
+
+      CandidateInterface::SortApplicationChoices.call(
+        application_choices: application_form.application_choices.for_sorting,
+      )
+    end
+
     def next_recruitment_cycle
-      if application_form.after_apply_deadline?
-        recruitment_cycle_timetable.relative_next_timetable
-      else
-        recruitment_cycle_timetable
-      end
+      @next_recruitment_cycle ||= if application_form.after_apply_deadline?
+                                    recruitment_cycle_timetable.relative_next_timetable
+                                  else
+                                    recruitment_cycle_timetable
+                                  end
     end
 
     def find_opens

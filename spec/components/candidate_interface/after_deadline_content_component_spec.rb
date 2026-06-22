@@ -9,7 +9,7 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
           component = render_inline(described_class.new(application_form:))
 
           expect(component).to have_element(:h1, text: 'Your applications', class: 'govuk-heading-xl')
-          expect(component).to have_element(:p, text: 'The deadline for applying to courses in the 2026 to 2027 academic year had passed.', class: 'govuk-body')
+          expect(component).to have_element(:p, text: 'The deadline for applying to courses in the 2026 to 2027 academic year has passed.', class: 'govuk-body')
           expect(component).to have_no_link('Choose a course', class: 'govuk-button')
 
           expect(component).to have_element(:h2, text: 'Courses from the 2027 to 2028 academic year', class: 'govuk-heading-l')
@@ -26,7 +26,7 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
           component = render_inline(described_class.new(application_form:))
 
           expect(component).to have_element(:h1, text: 'Your applications', class: 'govuk-heading-xl')
-          expect(component).to have_element(:p, text: 'The deadline for applying to courses in the 2026 to 2027 academic year had passed.', class: 'govuk-body')
+          expect(component).to have_element(:p, text: 'The deadline for applying to courses in the 2026 to 2027 academic year has passed.', class: 'govuk-body')
           expect(component).to have_link('Choose a course', class: 'govuk-button')
 
           expect(component).to have_element(:h2, text: 'Courses from the 2027 to 2028 academic year', class: 'govuk-heading-l')

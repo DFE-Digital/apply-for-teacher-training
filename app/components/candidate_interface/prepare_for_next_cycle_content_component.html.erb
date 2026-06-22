@@ -34,3 +34,10 @@
     You will be able to apply from <%= apply_opens %>.
   </p>
 <% end %>
+
+<%= render CandidateInterface::ApplicationChoiceListComponent.new(
+  application_form:,
+  application_choices: application_choices,
+  current_tab_name: params[:current_tab_name],
+  with_tabs: true,
+) %>
