@@ -1,7 +1,7 @@
 module CandidateInterface
   class PrepareForNextCycleContentComponent < ApplicationComponent
-    delegate :recruitment_cycle_year, :recruitment_cycle_timetable, to: :application_form
-    delegate :after_find_opens?, to: :next_recruitment_cycle
+    delegate :recruitment_cycle_timetable, to: :application_form
+    delegate :after_find_opens?, :academic_year_range_name, to: :next_recruitment_cycle
 
     attr_reader :application_form
 
@@ -15,10 +15,6 @@ module CandidateInterface
       else
         recruitment_cycle_timetable
       end
-    end
-
-    def date_range
-      next_recruitment_cycle.academic_year_range_name
     end
 
     def find_opens
