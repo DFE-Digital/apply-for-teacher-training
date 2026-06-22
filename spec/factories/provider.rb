@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :provider do
-    code { Provider.pluck(:code).max&.next || 'AAA' }
+    sequence(:code, 'AAA')
     sequence(:name) { |n| "#{Faker::University.name}-#{n}" }
     phone_number { Faker::PhoneNumber.phone_number }
     email_address { Faker::Internet.email }
