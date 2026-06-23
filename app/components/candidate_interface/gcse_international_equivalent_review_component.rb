@@ -3,51 +3,28 @@ module CandidateInterface
     include GcseStatementComparabilityPathHelper
     include EnicReasonTranslationHelper
 
-    def initialize(application_form:, application_qualification:, subject:, editable: true, heading_level: 2, missing_error: false, submitting_application: false, return_to_application_review: false)
+    def initialize(application_form:, application_qualification:, subject:, editable: true, heading_level: 2, submitting_application: false, return_to_application_review: false)
       @application_form = application_form
       @application_qualification = application_qualification
       @subject = subject
       @editable = editable
       @heading_level = heading_level
-      @missing_error = missing_error
       @submitting_application = submitting_application
       @return_to_application_review = return_to_application_review
     end
 
     def gcse_qualification_rows
-      if application_qualification.missing_qualification?
-        [
-          missing_qualification_type_row,
-          not_completed_explanation_row,
-          missing_explanation_for_no_gcse_row,
-        ].compact
-      else
-        [
-          type_row,
-          country_row,
-          qualification_row,
-          grade_row,
-          enic_statement_row,
-          enic_reference_row,
-          comparable_uk_qualification_row,
-          failing_grade_explanation_row,
-          award_year_row,
-          missing_explanation_for_gcse_row,
-        ].compact
-      end
-    end
-
-    def show_missing_banner?
-      if @submitting_application
-        gcse_completed = "#{@subject}_gcse_completed"
-        !@application_form.send(gcse_completed) && @editable
-      end
-    end
-
-    def show_values_missing_banner?
-      if @submitting_application
-        section_or_gcse_incomplete? && @editable
-      end
+      [
+        type_row,
+        country_row,
+        qualification_row,
+        grade_row,
+        enic_statement_row,
+        enic_reference_row,
+        comparable_uk_qualification_row,
+        failing_grade_explanation_row,
+        award_year_row,
+      ].compact
     end
 
   private
@@ -140,22 +117,6 @@ module CandidateInterface
       }
     end
 
-    def missing_qualification_type_row
-      {
-        key: "What type of #{capitalize_english(@subject)} qualification do you have?",
-        value: "I don’t have a #{capitalize_english(@subject)} qualification yet",
-        action: {
-          href: candidate_interface_gcse_details_edit_type_path(change_path_params),
-          visually_hidden_text: 'whether you have this qualification',
-        },
-        html_attributes: {
-          data: {
-            qa: 'gcse-missing-qualification-type',
-          },
-        },
-      }
-    end
-
     def not_completed_explanation_row
       {
         key: 'Are you currently studying for this qualification?',
@@ -175,29 +136,6 @@ module CandidateInterface
         govuk_link_to('Select if you are currently studying for this qualification', candidate_interface_gcse_edit_not_yet_completed_path(change_path_params))
       else
         not_completed_explanation_value_row(application_qualification)
-      end
-    end
-
-    def missing_explanation_for_no_gcse_row
-      missing_explanation_row if !application_qualification.currently_completing_qualification
-    end
-
-    def missing_explanation_for_gcse_row
-      missing_explanation_row if application_qualification.failed_required_gcse? && !application_qualification.currently_completing_qualification
-    end
-
-    def missing_explanation_row
-      {
-        key: 'Other evidence I have the skills required (optional)',
-        value: application_qualification.missing_explanation.presence || govuk_link_to('Enter other evidence', candidate_interface_gcse_edit_missing_path(change_path_params)),
-      }.tap do |row|
-        if application_qualification.missing_explanation
-          row[:action] =
-            {
-              href: candidate_interface_gcse_edit_missing_path(change_path_params),
-              visually_hidden_text: 'evidence of meeting the required standard',
-            }
-        end
       end
     end
 

@@ -6,7 +6,7 @@ module CandidateInterface
 
     attr_accessor :subject, :level, :qualification_type,
                   :other_uk_qualification_type, :non_uk_qualification_type,
-                  :enic_reference, :comparable_uk_qualification
+                  :enic_reference, :comparable_uk_qualification, :not_completed_explanation
 
     validates :subject, :level, :qualification_type, presence: true
 
@@ -24,6 +24,7 @@ module CandidateInterface
         non_uk_qualification_type: qualification.non_uk_qualification_type,
         enic_reference: qualification.enic_reference,
         comparable_uk_qualification: qualification.comparable_uk_qualification,
+        not_completed_explanation: qualification.not_completed_explanation,
       )
     end
 
@@ -57,7 +58,6 @@ module CandidateInterface
         enic_reference:,
         comparable_uk_qualification:,
         currently_completing_qualification: nil,
-        not_completed_explanation: nil,
         missing_explanation: nil,
       }
 
@@ -76,6 +76,7 @@ module CandidateInterface
           other_uk_qualification_type: nil,
           non_uk_qualification_type: nil,
           enic_reference: nil,
+          not_completed_explanation: nil,
           comparable_uk_qualification: nil,
         )
       end
@@ -87,14 +88,14 @@ module CandidateInterface
       qualification_type == 'missing'
     end
 
+    def non_uk_qualification?
+      qualification_type == NON_UK_QUALIFICATION_TYPE
+    end
+
   private
 
     def qualification_type_changed?(qualification)
       qualification_type != qualification.qualification_type
-    end
-
-    def non_uk_qualification?
-      qualification_type == NON_UK_QUALIFICATION_TYPE
     end
 
     def other_uk_qualification?

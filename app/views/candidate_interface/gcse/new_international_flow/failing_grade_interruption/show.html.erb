@@ -4,21 +4,21 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <div class="app-grid-column--grey">
-      <h1 class="govuk-heading-l">This grade may not be equivalent to a GCSE in <%= (@subject == 'english' ? @subject.capitalize : @subject) %> at Grade 4 (C) or above</h1>
+      <h1 class="govuk-heading-l"><%= t('gcse_new_international_flow_interruption.page_title', subject: (@subject == 'english' ? @subject.capitalize : @subject)) %></h1>
 
-      <p class="govuk-body">You need the equivalent of a GCSE at grade 4 (C) or above to apply for teacher training.</p>
-        <p class="govuk-body">You can either:</p>
+      <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.you_need') %></p>
+        <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.you_can') %></p>
         <ul class="govuk-body">
-          <li>provide a statement of compatibility from UK ENIC</li>
-          <li>provide evidence that your <%= (@subject == 'english' ? @subject.capitalize : @subject) %> skills are at GCSE grade 4 (C) or above</li>
-          <li>go back and enter a different <%= (@subject == 'english' ? @subject.capitalize : @subject) %> qualification equivalent to a GCSE</li>
+          <li><%= t('gcse_new_international_flow_interruption.option1') %></li>
+          <li><%= t('gcse_new_international_flow_interruption.option2', subject: (@subject == 'english' ? @subject.capitalize : @subject)) %></li>
+          <li><%= t('gcse_new_international_flow_interruption.option3', subject: (@subject == 'english' ? @subject.capitalize : @subject)) %></li>
         </ul>
-        <p class="govuk-body">Some providers may let you do an equivalency test to show you have the required skills.<p>
+        <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.some_providers') %><p>
       </div>
 
       <div class="govuk-button-group app-course-choice__confirm-submission">
-        <%= govuk_button_link_to('Provide a statement of comparability', candidate_interface_gcse_new_international_flow_new_enic_path) %>
-        <%= govuk_link_to("Provide evidence of #{@subject == 'english' ? @subject.capitalize : @subject} skills", candidate_interface_gcse_new_international_flow_new_evidence_path) %>
+        <%= govuk_button_link_to(t('gcse_new_international_flow_interruption.provide_statement'), candidate_interface_gcse_new_international_flow_new_enic_path) %>
+        <%= govuk_link_to(t('gcse_new_international_flow_interruption.provide_evidence', subject: (@subject == 'english' ? @subject.capitalize : @subject)), candidate_interface_gcse_new_international_flow_new_evidence_path) %>
       <div>
     </div>
   </div>

@@ -4,7 +4,7 @@
   <% @equivalent_qualifications.each do |qual| %>
       <%= f.govuk_radio_button :qualification, qual.name, label: { text: qual.name } %>
     <% end %>
-    <%= f.govuk_radio_button :qualification, 'other', label: { text: "Other #{@subject.capitalize} qualification equivalent to a GCSE" } do %>
+    <%= f.govuk_radio_button :qualification, 'other', label: { text: "Other #{@subject == 'english' ? @subject.capitalize : @subject} qualification equivalent to a GCSE" } do %>
       <%= f.govuk_text_field :non_structured_qualification, label: { text: t('application_form.gcse.non_uk_other_qualification.label'), size: 's' }, hint: (@subject == 'english' ? { text: t('application_form.gcse.non_uk_other_qualification.hint_text') } : nil) %>
     <% end %>
   <% else %>
