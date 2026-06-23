@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::MultipleActiveApplicationsContentComponent do
+  include ActiveSupport::Testing::TimeHelpers
+
   let(:application_form) { create(:application_form) }
 
   subject(:component) { described_class.new(application_form:) }
@@ -39,36 +41,46 @@ RSpec.describe CandidateInterface::MultipleActiveApplicationsContentComponent do
       before { jan_application_choice }
 
       it 'renders the january start component for the previous active applications' do
-        expect(rendered).to be(true)
+        travel_to(previous_application.winter_reject_by_default_at - 1.day) do
+          expect(rendered).to be(true)
 
-        expect(rendered_component).to have_element(
-          :h1,
-          text: 'Your applications',
-          class: 'govuk-heading-xl',
-        )
+          expect(rendered_component).to have_element(
+            :h1,
+            text: 'Your applications',
+            class: 'govuk-heading-xl',
+          )
 
-        expect(rendered_component).to have_element(
-          :h2,
-          text: "Courses starting by January #{application_form.recruitment_cycle_year}",
-          class: 'govuk-heading-l',
-        )
-        expect(rendered_component).to have_element(
-          :p,
-          text: "Providers have until #{previous_application.recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first)} " \
-                'to make decisions on these applications.',
-          class: 'govuk-body',
-        )
-        expect(rendered_component).to have_element(
-          :div,
-          text: jan_application_choice.course.name,
-          class: 'app-application-item',
-        )
+          expect(rendered_component).to have_element(
+            :h2,
+            text: "Courses starting by January #{application_form.recruitment_cycle_year}",
+            class: 'govuk-heading-l',
+          )
+          expect(rendered_component).to have_element(
+            :p,
+            text: "Providers have until #{previous_application.recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first)} " \
+                  'to make decisions on these applications.',
+            class: 'govuk-body',
+          )
+          expect(rendered_component).to have_element(
+            :div,
+            text: jan_application_choice.course.name,
+            class: 'app-application-item',
+          )
 
-        expect(rendered_component).to have_element(
-          :h2,
-          text: "Courses for the #{application_form.academic_year_range_name} academic year",
-          class: 'govuk-heading-l',
-        )
+          expect(rendered_component).to have_element(
+            :h2,
+            text: "Courses for the #{application_form.academic_year_range_name} academic year",
+            class: 'govuk-heading-l',
+          )
+        end
+      end
+
+      context 'when the date is after the winter decline by default date' do
+        it 'does not render' do
+          travel_to(previous_application.winter_decline_by_default_at + 1.day) do
+            expect(rendered).to be(false)
+          end
+        end
       end
     end
 
