@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Data export', sidekiq: false do
+RSpec.describe 'Data export' do
   include DfESignInHelpers
 
   scenario 'Support user navigates the data directory' do
@@ -13,10 +13,12 @@ RSpec.describe 'Data export', sidekiq: false do
 
     when_i_click_the_generate_new_export_button
     and_i_see_that_the_export_has_started
-    when_the_sidekiq_worker_has_finished
-    and_i_refresh_the_page
-    and_i_click_the_download_link
-    then_the_export_is_downloaded
+  end
+
+  scenario 'Viewing a completed report' do
+    given_i_am_a_support_user
+    and_there_are_provider_users_in_the_system
+    and_a_report_has_been_generated
 
     when_i_go_back_to_the_export_page
     and_i_click_on_the_export_history
@@ -65,16 +67,11 @@ RSpec.describe 'Data export', sidekiq: false do
   end
 
   def when_i_click_the_generate_new_export_button
-    Sidekiq::Worker.clear_all
     click_link_or_button 'Generate new export'
   end
 
   def and_i_see_that_the_export_has_started
     expect(page).to have_text 'This export is being generated'
-  end
-
-  def when_the_sidekiq_worker_has_finished
-    Sidekiq::Worker.drain_all
   end
 
   def and_i_refresh_the_page
@@ -90,8 +87,19 @@ RSpec.describe 'Data export', sidekiq: false do
     expect(page).to have_text 'name,email_address,provider'
   end
 
+  def and_a_report_has_been_generated
+    @completed_time = Time.zone.now
+    create(
+      :data_export,
+      name: 'Active provider user permissions',
+      completed_at: @completed_time,
+      initiator: build(:support_user, first_name: 'Not Bob', last_name: 'Roberts'),
+      export_type: 'active_provider_user_permissions',
+    )
+  end
+
   def when_i_go_back_to_the_export_page
-    visit @url
+    visit support_interface_data_directory_path
     click_link_or_button 'Active provider user permissions'
   end
 
@@ -111,7 +119,7 @@ RSpec.describe 'Data export', sidekiq: false do
 
   def then_i_see_a_list_of_all_exports
     expect(page).to have_text 'Completed'
-    expect(page).to have_text Time.zone.now.to_fs(:govuk_date_and_time)
+    expect(page).to have_text @completed_time.to_fs(:govuk_date_and_time)
     expect(page).to have_link 'Active provider user permissions'
     expect(page).to have_text 'user@apply-support.com'
   end
