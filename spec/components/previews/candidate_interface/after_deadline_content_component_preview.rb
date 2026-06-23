@@ -9,6 +9,18 @@ class CandidateInterface::AfterDeadlineContentComponentPreview < ViewComponent::
     render component
   end
 
+  def after_reject_by_default
+    component = PreviewAfterDeadlineContentComponent.new(application_form:, application_states: [:offer, :rejected_by_default])
+    component.application_choices
+    render component
+  end
+
+  def after_decline_by_default
+    component = PreviewAfterDeadlineContentComponent.new(application_form:, application_states: [:declined_by_default, :rejected_by_default])
+    component.application_choices
+    render component
+  end
+
   def only_january_applications
     component = PreviewAfterDeadlineContentComponent.new(application_form:, september_courses: false, january_courses: true)
     component.application_choices
@@ -28,10 +40,11 @@ private
   end
 
   class PreviewAfterDeadlineContentComponent < CandidateInterface::AfterDeadlineContentComponent
-    def initialize(application_form:, september_courses: true, january_courses: false)
+    def initialize(application_form:, september_courses: true, january_courses: false, application_states: [:offer, :interviewing])
       super(application_form:)
       @september_courses = september_courses
       @january_courses = january_courses
+      @application_states = application_states
     end
 
     def relative_application_form
@@ -44,11 +57,11 @@ private
         if @september_courses
           sept_course_1 = FactoryBot.build(:course, provider:)
           sept_course_option_1 = FactoryBot.build(:course_option, course: sept_course_1)
-          FactoryBot.create(:application_choice, :offer, application_form:, course_option: sept_course_option_1)
+          FactoryBot.create(:application_choice, @application_states[0], application_form:, course_option: sept_course_option_1)
 
           sept_course_2 = FactoryBot.build(:course, provider:)
           sept_course_option_2 = FactoryBot.build(:course_option, course: sept_course_2)
-          FactoryBot.create(:application_choice, :interviewing, application_form:, course_option: sept_course_option_2)
+          FactoryBot.create(:application_choice, @application_states[1], application_form:, course_option: sept_course_option_2)
         end
 
         if @january_courses
