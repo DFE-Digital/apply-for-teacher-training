@@ -176,3 +176,23 @@ en:
             missing_explanation:
               too_many_words: Evidence must be %{maximum} words or less
               blank: Enter evidence of any %{subject} skills you have at the required standard
+        candidate_interface/gcse_equivalent_qualification_form:
+          attributes:
+            qualification:
+              blank: Select a qualification
+            non_structured_qualification:
+              blank: Enter a qualification
+              too_long: Qualification must be %{count} characters or fewer
+              too_short: Qualification must be %{count} characters or more
+        candidate_interface/gcse_international_structured_grades_form:
+          attributes:
+            grade:
+              blank: Select a grade
+            non_structured_grade:
+              blank: Enter a grade
+              too_long: Grade must be %{count} characters or fewer
+        candidate_interface/gcse_international_evidence_form:
+          attributes:
+            evidence:
+              too_long: Evidence must be %{count} characters or fewer
+              too_short: Evidence must be %{count} characters or more
