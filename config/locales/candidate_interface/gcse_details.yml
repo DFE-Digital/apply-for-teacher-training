@@ -64,7 +64,8 @@ en:
     page_title: This grade may not be a equivalent to a GCSE in %{subject} at Grade 4 (C) or above
   gcse_new_international_flow_evidence:
     page_title: Provide evidence that your %{subject} skills are at GCSE grade 4 (C) or above
-    caption: An English as a foreign language assessment is not equivalent.
+    caption: Check with your provider about what evidence they accept.
+    caption_english: Check with your provider about what evidence they accept. An English as a foreign language test is equivalent to a GCSE.
     continue: Save and continue
   gcse_edit_enic:
     page_title: Show how your %{subject} qualification compares to a UK one

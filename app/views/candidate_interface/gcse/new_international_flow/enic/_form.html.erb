@@ -1,7 +1,7 @@
 <%= f.govuk_error_summary %>
 
 <h1 class="govuk-heading-l">
-  <%= t('gcse_edit_enic.page_title', subject: @subject.capitalize) %>
+  <%= t('gcse_edit_enic.page_title', subject: (@subject == 'english' ? @subject.capitalize : @subject)) %>
 </h1>
 
 <p class="govuk-body"><%= t('gcse_edit_enic.apply_enic') %></p>

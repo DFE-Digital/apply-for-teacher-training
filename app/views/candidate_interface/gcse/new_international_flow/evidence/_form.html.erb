@@ -1,5 +1,5 @@
 <%= f.govuk_error_summary %>
 
-<%= f.govuk_text_area :evidence, label: { text: t('gcse_new_international_flow_evidence.page_title', subject: @subject.capitalize), size: 'l' }, hint: (@subject == 'english' ? { text: t('gcse_new_international_flow_evidence.caption') } : nil), max_words: 400, threshold: 90 %>
+<%= f.govuk_text_area :evidence, label: { text: t('gcse_new_international_flow_evidence.page_title', subject: (@subject == 'english' ? @subject.capitalize : @subject)), size: 'l' }, hint: { text: t("gcse_new_international_flow_evidence.caption#{'_english' if @subject == 'english'}", subject: @subject.capitalize) }, max_words: 400, threshold: 90 %>
 
 <%= f.govuk_submit t('gcse_new_international_flow_evidence.continue') %>
