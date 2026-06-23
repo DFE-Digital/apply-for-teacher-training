@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Candidate do
+  include ActiveSupport::Testing::TimeHelpers
+
   before do
     TestSuiteTimeMachine.unfreeze!
   end
@@ -681,6 +683,29 @@ RSpec.describe Candidate do
           create(:application_choice, application_form: previous_application_form, status:)
           expect(candidate.active_previous_application).to be_nil
         end
+      end
+    end
+
+    context 'when after the winter decline by default at date' do
+      it 'returns nil' do
+        create(:application_choice, application_form: previous_application_form, status: :awaiting_provider_decision)
+        travel_to(previous_application_form.winter_decline_by_default_at + 1.day) do
+          expect(candidate.active_previous_application).to be_nil
+        end
+      end
+    end
+
+    context 'when the previous application has application choices rejected by default' do
+      it 'returns the previous application form' do
+        create(:application_choice, :rejected_by_default, application_form: previous_application_form)
+        expect(candidate.active_previous_application).to eq(previous_application_form)
+      end
+    end
+
+    context 'when the previous application has application choices declined by default' do
+      it 'returns the previous application form' do
+        create(:application_choice, :declined_by_default, application_form: previous_application_form)
+        expect(candidate.active_previous_application).to eq(previous_application_form)
       end
     end
   end
