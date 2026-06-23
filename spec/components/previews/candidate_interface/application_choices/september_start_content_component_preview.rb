@@ -49,7 +49,6 @@ private
 
     def application_choices
       @application_choices ||= begin
-
         provider = FactoryBot.build(:provider, code:)
         course = FactoryBot.build(:course, provider:)
         course_option = FactoryBot.build(:course_option, course: course)
@@ -62,9 +61,10 @@ private
     end
 
     def code
-      begin
-        random_code = SecureRandom. alphanumeric(3)
-      end while Provider.exists?(code: random_code)
+      loop do
+        random_code = SecureRandom.alphanumeric(3)
+        break unless Provider.exists?(code: random_code)
+      end
       random_code
     end
   end
