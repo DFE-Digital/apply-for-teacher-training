@@ -1,6 +1,26 @@
 <h2 class="govuk-heading-l"><%= title %></h2>
 
-<p class="govuk-body"><%= provider_deadline_content %></p>
+<% if provider_deadline_content.present? %>
+  <p class="govuk-body"><%= provider_deadline_content %></p>
+<% end %>
+
+<% if reject_by_default_explanation.present? %>
+  <p class="govuk-body"><%= reject_by_default_explanation %></p>
+<% end %>
+
+<% if decline_by_default_explanation.present? %>
+  <p class="govuk-body"><%= decline_by_default_explanation %></p>
+<% end %>
+
+<% if awaiting_provider_decision_content.present? %>
+  <h3 class="govuk-heading-s"><%= awaiting_provider_decision_content[:title] %></h3>
+  <p class="govuk-body"><%= awaiting_provider_decision_content[:content] %></p>
+<% end %>
+
+<% if offered_content.present? %>
+  <h3 class="govuk-heading-s"><%= offered_content[:title] %></h3>
+  <p class="govuk-body"><%= offered_content[:content] %></p>
+<% end %>
 
 <%= render CandidateInterface::ApplicationChoiceListComponent.new(
   application_form:,

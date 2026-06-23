@@ -96,11 +96,17 @@ class Candidate < ApplicationRecord
   end
 
   def active_previous_application
-    ordered_application_forms
-      .joins(:application_choices)
-      .where.not(id: current_application)
-      .where(application_choices: { status: ApplicationStateChange::ApplicationState.state_ids(:active_previous) })
-      .last
+    other_forms = ordered_application_forms.joins(:application_choices).where.not(id: current_application)
+    previous_application = other_forms.where(
+      application_choices: { status: ApplicationStateChange::ApplicationState.state_ids(:active_previous) },
+    ).or(
+      other_forms.where(application_choices: { declined_by_default: true }),
+    ).or(
+      other_forms.where(application_choices: { rejected_by_default: true }),
+    ).last
+    return if previous_application&.after_winter_decline_by_default?
+
+    previous_application
   end
 
   def current_application_choices
