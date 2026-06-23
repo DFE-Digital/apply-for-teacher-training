@@ -13,11 +13,11 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponentPrev
   end
 
   def after_reject_by_default
-    render PreviewSeptemberStartContentComponent.new(application_form:, after_reject_by_default: true)
+    render PreviewSeptemberStartContentComponent.new(application_form:, after_reject_by_default: true, choice_state: :rejected_by_default)
   end
 
   def after_decline_by_default
-    render PreviewSeptemberStartContentComponent.new(application_form:, after_reject_by_default: true, after_decline_by_default: true)
+    render PreviewSeptemberStartContentComponent.new(application_form:, after_reject_by_default: true, after_decline_by_default: true, choice_state: :declined_by_default)
   end
 
   def applications_offered
@@ -49,7 +49,8 @@ private
 
     def application_choices
       @application_choices ||= begin
-        provider = FactoryBot.build(:provider, code: Provider.pluck(:code).max.next)
+
+        provider = FactoryBot.build(:provider, code:)
         course = FactoryBot.build(:course, provider:)
         course_option = FactoryBot.build(:course_option, course: course)
         FactoryBot.create(:application_choice, @choice_state, application_form:, course_option:)
@@ -58,6 +59,13 @@ private
           application_choices: @application_form.application_choices.for_sorting,
         )
       end
+    end
+
+    def code
+      begin
+        random_code = SecureRandom. alphanumeric(3)
+      end while Provider.exists?(code: random_code)
+      random_code
     end
   end
 end

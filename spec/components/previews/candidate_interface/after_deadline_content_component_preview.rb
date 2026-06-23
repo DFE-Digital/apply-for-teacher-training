@@ -40,7 +40,7 @@ private
 
     def application_choices
       @application_choices ||= begin
-        provider = FactoryBot.build(:provider, code: Provider.pluck(:code).max.next)
+        provider = FactoryBot.build(:provider, code:)
         if @september_courses
           sept_course_1 = FactoryBot.build(:course, provider:)
           sept_course_option_1 = FactoryBot.build(:course_option, course: sept_course_1)
@@ -61,6 +61,13 @@ private
           application_choices: @application_form.application_choices.for_sorting,
         )
       end
+    end
+
+    def code
+      begin
+        random_code = SecureRandom. alphanumeric(3)
+      end while Provider.exists?(code: random_code)
+      random_code
     end
   end
 end

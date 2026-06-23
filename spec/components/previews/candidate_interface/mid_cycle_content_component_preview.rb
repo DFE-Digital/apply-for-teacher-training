@@ -24,7 +24,7 @@ private
   class PreviewMidCycleContentComponent < CandidateInterface::MidCycleContentComponent
     def application_choices
       @application_choices ||= begin
-        provider = FactoryBot.build(:provider, code: Provider.pluck(:code).max.next)
+        provider = FactoryBot.build(:provider, code:)
 
         sept_course = FactoryBot.build(:course, provider:)
         sept_course_option = FactoryBot.build(:course_option, course: sept_course)
@@ -38,6 +38,13 @@ private
           application_choices: @application_form.application_choices.for_sorting,
         )
       end
+    end
+
+    def code
+      begin
+        random_code = SecureRandom. alphanumeric(3)
+      end while Provider.exists?(code: random_code)
+      random_code
     end
   end
 end
