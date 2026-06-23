@@ -34,6 +34,10 @@ private
       @january_courses = january_courses
     end
 
+    def relative_application_form
+      @relative_application_form ||= application_form
+    end
+
     def application_choices
       @application_choices ||= begin
         provider = FactoryBot.build(:provider, code: Provider.pluck(:code).max.next)
