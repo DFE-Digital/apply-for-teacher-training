@@ -11,6 +11,26 @@ class CandidateInterface::MultipleActiveApplicationsContentComponentPreview < Vi
     render component
   end
 
+  def after_winter_reject_by_default
+    component = PreviewMultipleActiveApplicationsContentComponent.new(
+      application_form:,
+      with_current_year_applications: true,
+      january_choice_state: :rejected_by_default,
+    )
+    component.application_choices
+    render component
+  end
+
+  def after_winter_declined_by_default
+    component = PreviewMultipleActiveApplicationsContentComponent.new(
+      application_form:,
+      with_current_year_applications: true,
+      january_choice_state: :declined_by_default,
+    )
+    component.application_choices
+    render component
+  end
+
 private
 
   def application_form
@@ -18,29 +38,37 @@ private
   end
 
   class PreviewMultipleActiveApplicationsContentComponent < CandidateInterface::MultipleActiveApplicationsContentComponent
-    def initialize(application_form:, with_current_year_applications: true)
+    def initialize(application_form:, with_current_year_applications: true, january_choice_state: :awaiting_provider_decision)
       super(application_form:)
       @with_current_year_applications = with_current_year_applications
+      @january_choice_state = january_choice_state
+    end
+
+    def render?
+      true
+    end
+
+    def active_previous_application
+      @active_previous_application ||= FactoryBot.build(
+        :application_form,
+        candidate: application_form.candidate,
+        recruitment_cycle_year: application_form.recruitment_cycle_year - 1,
+        created_at: application_form.created_at - 1.year,
+      )
     end
 
     def application_choices
       @application_choices ||= begin
         provider = FactoryBot.build(:provider, code:)
 
-        previous_application = FactoryBot.build(
-          :application_form,
-          candidate: application_form.candidate,
-          recruitment_cycle_year: application_form.recruitment_cycle_year - 1,
-          created_at: application_form.created_at - 1.year,
-        )
         prev_jan_course = FactoryBot.build(:course, provider:, start_date: "01/01/#{application_form.recruitment_cycle_year}")
         prev_jan_course_option = FactoryBot.build(:course_option, course: prev_jan_course)
         FactoryBot.create(
           :application_choice,
-          :awaiting_provider_decision,
-          application_form: previous_application,
+          @january_choice_state,
+          application_form: active_previous_application,
           course_option: prev_jan_course_option,
-          current_recruitment_cycle_year: previous_application.recruitment_cycle_year,
+          current_recruitment_cycle_year: active_previous_application.recruitment_cycle_year,
         )
 
         if @with_current_year_applications

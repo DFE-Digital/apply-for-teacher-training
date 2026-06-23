@@ -28,6 +28,8 @@ class ApplicationForm < ApplicationRecord
            :current_year?,
            :winter_reject_by_default_at,
            :winter_decline_by_default_at,
+           :after_winter_decline_by_default?,
+           :after_winter_reject_by_default?,
            to: :recruitment_cycle_timetable
 
   belongs_to :candidate, touch: true
