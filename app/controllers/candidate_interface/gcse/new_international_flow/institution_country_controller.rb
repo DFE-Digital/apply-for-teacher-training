@@ -24,8 +24,14 @@ module CandidateInterface
       @institution_country_form = GcseInstitutionCountryForm.new(institution_country_params)
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
 
+      country_changed = @institution_country_form.institution_country != current_qualification.institution_country
+
       if @institution_country_form.save(current_qualification)
-        redirect_to @return_to[:back_path]
+        if country_changed
+          redirect_to candidate_interface_gcse_new_international_flow_edit_qualifications_path
+        else
+          redirect_to @return_to[:back_path]
+        end
       else
         track_validation_error(@institution_country_form)
         render :edit

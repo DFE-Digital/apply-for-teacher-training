@@ -35,7 +35,11 @@ module CandidateInterface
       @list_of_grades = @structured_grades.any?
 
       if @structured_grades_form.save(current_qualification)
-        redirect_to @return_to[:back_path]
+        if passing_grade?
+          redirect_to @return_to[:back_path]
+        else
+          redirect_to candidate_interface_gcse_new_international_flow_interruption_path
+        end
       else
         track_validation_error(@structured_grades_form)
         render :edit
