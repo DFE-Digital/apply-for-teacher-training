@@ -42,9 +42,13 @@ private
       @application_choices ||= begin
         provider = FactoryBot.build(:provider, code: Provider.pluck(:code).max.next)
         if @september_courses
-          sept_course = FactoryBot.build(:course, provider:)
-          sept_course_option = FactoryBot.build(:course_option, course: sept_course)
-          FactoryBot.create(:application_choice, application_form:, course_option: sept_course_option)
+          sept_course_1 = FactoryBot.build(:course, provider:)
+          sept_course_option_1 = FactoryBot.build(:course_option, course: sept_course_1)
+          FactoryBot.create(:application_choice, :offer, application_form:, course_option: sept_course_option_1)
+
+          sept_course_2 = FactoryBot.build(:course, provider:)
+          sept_course_option_2 = FactoryBot.build(:course_option, course: sept_course_2)
+          FactoryBot.create(:application_choice, :interviewing, application_form:, course_option: sept_course_option_2)
         end
 
         if @january_courses
