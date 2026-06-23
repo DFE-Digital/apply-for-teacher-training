@@ -28,8 +28,14 @@ module CandidateInterface
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
       @list_of_qualifications = @equivalent_qualifications&.any?
 
+      qualification_changed = @equivalent_qualification_form.resolved_qualification != current_qualification.non_uk_qualification_type
+
       if @equivalent_qualification_form.save(current_qualification)
-        redirect_to @return_to[:back_path]
+        if qualification_changed
+          redirect_to candidate_interface_gcse_new_international_flow_edit_grades_path
+        else
+          redirect_to @return_to[:back_path]
+        end
       else
         track_validation_error(@equivalent_qualification_form)
         render :edit

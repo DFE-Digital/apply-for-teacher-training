@@ -33,5 +33,10 @@ module CandidateInterface
     def non_structured?
       qualification == 'other'
     end
+
+
+    def resolved_qualification
+      non_structured? ? non_structured_qualification : qualification
+    end
   end
 end
