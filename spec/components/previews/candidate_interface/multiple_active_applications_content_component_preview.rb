@@ -60,9 +60,10 @@ private
     end
 
     def code
-      begin
-        random_code = SecureRandom. alphanumeric(3)
-      end while Provider.exists?(code: random_code)
+      loop do
+        random_code = SecureRandom.alphanumeric(3)
+        break unless Provider.exists?(code: random_code)
+      end
       random_code
     end
   end

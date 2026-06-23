@@ -10,13 +10,13 @@ class CandidateInterface::AfterDeadlineContentComponentPreview < ViewComponent::
   end
 
   def after_reject_by_default
-    component = PreviewAfterDeadlineContentComponent.new(application_form:, application_states: [:offer, :rejected_by_default])
+    component = PreviewAfterDeadlineContentComponent.new(application_form:, application_states: %i[offer rejected_by_default])
     component.application_choices
     render component
   end
 
   def after_decline_by_default
-    component = PreviewAfterDeadlineContentComponent.new(application_form:, application_states: [:declined_by_default, :rejected_by_default])
+    component = PreviewAfterDeadlineContentComponent.new(application_form:, application_states: %i[declined_by_default rejected_by_default])
     component.application_choices
     render component
   end
@@ -40,7 +40,7 @@ private
   end
 
   class PreviewAfterDeadlineContentComponent < CandidateInterface::AfterDeadlineContentComponent
-    def initialize(application_form:, september_courses: true, january_courses: false, application_states: [:offer, :interviewing])
+    def initialize(application_form:, september_courses: true, january_courses: false, application_states: %i[offer interviewing])
       super(application_form:)
       @september_courses = september_courses
       @january_courses = january_courses
@@ -77,9 +77,10 @@ private
     end
 
     def code
-      begin
-        random_code = SecureRandom. alphanumeric(3)
-      end while Provider.exists?(code: random_code)
+      loop do
+        random_code = SecureRandom.alphanumeric(3)
+        break unless Provider.exists?(code: random_code)
+      end
       random_code
     end
   end
