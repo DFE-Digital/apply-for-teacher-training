@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix(t('gcse_edit_specific_qualification.page_title', subject: @subject.capitalize), @equivalent_qualification_form.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('gcse_edit_specific_qualification.page_title', subject: (@subject == 'english' ? @subject.capitalize : @subject)), @equivalent_qualification_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
 
 <div class="govuk-grid-row">

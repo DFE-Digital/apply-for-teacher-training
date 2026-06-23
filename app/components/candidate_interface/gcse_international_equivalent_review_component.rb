@@ -23,14 +23,15 @@ module CandidateInterface
         ].compact
       else
         [
-          qualification_row,
+          type_row,
           country_row,
+          qualification_row,
+          grade_row,
           enic_statement_row,
           enic_reference_row,
           comparable_uk_qualification_row,
-          grade_row,
-          award_year_row,
           failing_grade_explanation_row,
+          award_year_row,
           missing_explanation_for_gcse_row,
         ].compact
       end
@@ -56,6 +57,22 @@ module CandidateInterface
     def section_or_gcse_incomplete?
       gcse_completed = "#{@subject}_gcse_completed"
       (!@application_form.send(gcse_completed) || @application_form.send("#{@subject}_gcse")&.incomplete_gcse_information?) && !@application_qualification&.missing_qualification?
+    end
+
+    def type_row
+      {
+        key: t('application_form.gcse.qualification_type.label'),
+        value: 'Qualification from outside the UK',
+        action: {
+          href: candidate_interface_gcse_details_edit_type_path(change_path_params),
+          visually_hidden_text: 'qualification from outside the UK',
+        },
+        html_attributes: {
+          data: {
+            qa: "gcse-#{subject}-qualification",
+          },
+        },
+      }
     end
 
     def qualification_row
