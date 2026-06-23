@@ -28,7 +28,6 @@ private
         random_code = SecureRandom.alphanumeric(3)
         break unless Provider.exists?(code: random_code)
       end
-      random_code
     end
   end
 end
