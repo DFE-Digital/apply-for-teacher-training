@@ -32,7 +32,7 @@ module CandidateInterface
 
       if @equivalent_qualification_form.save(current_qualification)
         if qualification_changed
-          redirect_to candidate_interface_gcse_new_international_flow_edit_grades_path
+          redirect_to candidate_interface_gcse_new_international_flow_edit_grades_path(subject_param)
         else
           redirect_to @return_to[:back_path]
         end

@@ -88,11 +88,11 @@ module CandidateInterface
     def grade_row
       {
         key: 'Grade',
-        value: application_qualification.grade || govuk_link_to('Enter your grade', candidate_interface_gcse_new_international_flow_edit_grades_path),
+        value: application_qualification.grade || govuk_link_to('Enter your grade', candidate_interface_gcse_new_international_flow_edit_grades_path(change_path_params)),
       }.tap do |row|
         if application_qualification.grade
           row[:action] = {
-            href: candidate_interface_gcse_new_international_flow_edit_grades_path,
+            href: candidate_interface_gcse_new_international_flow_edit_grades_path(change_path_params),
             visually_hidden_text: "grade for #{application_qualification.non_uk_qualification_type}, #{subject}",
           }
         end
@@ -191,6 +191,7 @@ module CandidateInterface
 
     def enic_reference_row
       return nil unless application_qualification.enic_reason_obtained?
+      return nil if application_qualification.not_completed_explanation.present?
 
       {
         key: t('application_form.gcse.enic_reference.review_label'),
@@ -217,6 +218,7 @@ module CandidateInterface
 
     def comparable_uk_qualification_row
       return nil unless application_qualification.enic_reference
+      return nil if application_qualification.not_completed_explanation.present?
 
       {
         key: t('application_form.gcse.comparable_uk_qualification.review_label'),

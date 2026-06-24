@@ -106,7 +106,7 @@ en:
     option3: go back and enter a different %{subject} qualification equivalent to a GCSE
     some_providers: Some providers may let you do an equivalency test to show you have the required skills.
     provide_statement: Provide a statement of comparability
-    provide_evidence: Provide evidence of maths skills
+    provide_evidence: Provide evidence of %{subject} skills
   gcse_new_international_flow_evidence:
     page_title: Provide evidence that your %{subject} skills are at GCSE grade 4 (C) or above
     caption: Check with your provider about what evidence they accept.
