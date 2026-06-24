@@ -30,8 +30,8 @@ RSpec.describe CandidateMailer do
       end
 
       it 'renders not ready content' do
-        expect(email.body).to include("If you’re not ready to submit your application")
-        expect(email.body).to include("If you’re not ready to apply now, you can continue preparing your application.")
+        expect(email.body).to include('If you’re not ready to submit your application')
+        expect(email.body).to include('If you’re not ready to apply now, you can continue preparing your application.')
         expect(email.body).to include("From #{next_timetable.apply_opens_at.to_fs(:govuk_date)} you’ll be able to apply for courses starting in the #{next_timetable.academic_year_range_name} academic year.")
       end
 
