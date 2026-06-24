@@ -33,5 +33,9 @@ module CandidateInterface
     def non_structured?
       grade == 'other'
     end
+
+    def resolved_grade
+      non_structured? ? non_structured_grade : grade
+    end
   end
 end

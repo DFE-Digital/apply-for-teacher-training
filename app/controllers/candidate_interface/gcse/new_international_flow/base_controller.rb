@@ -26,6 +26,7 @@ module CandidateInterface
     end
 
     def structured_data_countries
+      # List of structured data countries to be loaded dynamically
       @structured_data_countries ||= %w[GH NG KE SL GM LR]
     end
 
@@ -55,7 +56,7 @@ module CandidateInterface
     end
 
     def set_structured_grades
-      # post-MVP we will map through the available schemas if there is more than one and present them for selection in an intermediary step
+      # post-MVP we will iterate through the available schemas if there is more than one and present them for selection in an intermediary step
       # We can then use that value to present the relevant structured grades for the chosen schema rather than simply 'first'
       @structured_grades ||=
         if @selected_equivalent_qualification.blank?

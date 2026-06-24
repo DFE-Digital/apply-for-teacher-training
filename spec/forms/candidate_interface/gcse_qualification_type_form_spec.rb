@@ -2,6 +2,14 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
   describe 'validations' do
+    subject do
+      described_class.new(
+        subject: 'maths',
+        level: 'gcse',
+        qualification_type: 'gcse',
+      )
+    end
+
     let(:form) { subject }
 
     it { is_expected.to validate_presence_of(:level) }
@@ -9,9 +17,20 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
     it { is_expected.to validate_presence_of(:qualification_type) }
 
     it { is_expected.to validate_length_of(:other_uk_qualification_type).is_at_most(100) }
-    it { is_expected.to validate_length_of(:qualification_type).is_at_most(ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH) }
-    it { is_expected.to validate_length_of(:non_uk_qualification_type).is_at_most(ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH) }
-    it { is_expected.to validate_length_of(:subject).is_at_most(ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH) }
+
+    context 'when 2027 international flow is OFF' do
+      before { FeatureFlag.deactivate('2027_international_qualifications_flow') }
+
+      it { is_expected.to validate_length_of(:qualification_type).is_at_most(ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH) }
+      it { is_expected.to validate_length_of(:non_uk_qualification_type).is_at_most(ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH) }
+      it { is_expected.to validate_length_of(:subject).is_at_most(ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH) }
+
+      context 'when qualification_type is non_uk' do
+        before { allow(form).to receive(:non_uk_qualification?).and_return(true) }
+
+        it { is_expected.to validate_presence_of(:non_uk_qualification_type) }
+      end
+    end
 
     context 'when qualification_type is other_uk' do
       before { allow(form).to receive(:other_uk_qualification?).and_return(true) }
@@ -19,10 +38,19 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
       it { is_expected.to validate_presence_of(:other_uk_qualification_type) }
     end
 
-    context 'when qualification_type is non_uk' do
-      before { allow(form).to receive(:non_uk_qualification?).and_return(true) }
+    context 'when 2027 international flow is ON' do
+      before { FeatureFlag.activate('2027_international_qualifications_flow') }
 
-      it { is_expected.to validate_presence_of(:non_uk_qualification_type) }
+      it 'does not validate non_uk_qualification_type presence' do
+        form = described_class.new(
+          subject: 'maths',
+          level: 'gcse',
+          qualification_type: 'non_uk',
+          non_uk_qualification_type: nil,
+        )
+
+        expect(form).to be_valid
+      end
     end
   end
 
