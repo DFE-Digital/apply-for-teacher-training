@@ -11,9 +11,12 @@ module CandidateInterface
     validates :subject, :level, :qualification_type, presence: true
 
     validates :other_uk_qualification_type, presence: true, if: :other_uk_qualification?
-    validates :non_uk_qualification_type, presence: true, if: :non_uk_qualification? unless FeatureFlag.active?('2027_international_qualifications_flow')
-    validates :non_uk_qualification_type, :subject, :qualification_type, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH } unless FeatureFlag.active?('2027_international_qualifications_flow')
     validates :other_uk_qualification_type, length: { maximum: 100 }
+
+    with_options unless: :international_qualifications_flow_2027? do
+      validates :non_uk_qualification_type, presence: true, if: :non_uk_qualification?
+      validates :non_uk_qualification_type, :subject, :qualification_type, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH }
+    end
 
     def self.build_from_qualification(qualification)
       new(
@@ -114,6 +117,10 @@ module CandidateInterface
         @enic_reference = nil
         @comparable_uk_qualification = nil
       end
+    end
+
+    def international_qualifications_flow_2027?
+      FeatureFlag.active?('2027_international_qualifications_flow')
     end
   end
 end
