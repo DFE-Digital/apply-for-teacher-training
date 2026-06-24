@@ -110,12 +110,16 @@ class CandidateMailer < ApplicationMailer
     @reference_condition = @application_choice.offer.reference_condition
     @course_name_and_code = @application_choice.current_course_option.course.name_and_code
     @application_form = @application_choice.application_form
-    @show_deadline_reminder = (@application_form.decline_by_default_at - 4.weeks).before? Time.zone.now
     @conditions = @application_choice.offer.conditions.select do |c|
       c.pending? &&
         c.type != 'ReferenceCondition' &&
         !c.standard_condition?
     end
+    @deadline_date = if @application_choice.course.present? && @application_choice.starts_after_september?
+                       @application_form.winter_decline_by_default_at
+                     else
+                       @application_form.decline_by_default_at
+                     end.to_fs(:govuk_time_first_no_year_date_time)
     email_for_candidate(@application_form, subject: I18n.t('candidate_mailer.new_offer_made.subject', provider_name: @course.provider.name))
   end
 

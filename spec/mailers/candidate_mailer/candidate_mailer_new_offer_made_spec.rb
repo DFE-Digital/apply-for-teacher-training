@@ -5,7 +5,7 @@ RSpec.describe CandidateMailer do
 
   describe '.new_offer_made well in advance of the decline by default date' do
     let(:application_choices) do
-      [build_stubbed(
+      [create(
         :application_choice,
         :offered,
         status: 'offer',
@@ -34,8 +34,8 @@ RSpec.describe CandidateMailer do
       )
     end
 
-    it 'does not render offer deadline text' do
-      expect(email.body).not_to include "If you want to accept this offer, you must do so by #{current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}. If you have not responded by then, the offer will be automatically declined on your behalf."
+    it 'renders offer deadline text' do
+      expect(email.body).to include "If you want to accept this offer, you must do so by #{current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}. If you have not responded by then, the offer will be automatically declined on your behalf."
     end
 
     context 'when the offer has a reference condition' do
@@ -56,7 +56,7 @@ RSpec.describe CandidateMailer do
   describe '.new_offer_made within 4 weeks of decline by default date' do
     let(:email) { described_class.new_offer_made(application_form.application_choices.first) }
     let(:application_choices) do
-      [build_stubbed(
+      [create(
         :application_choice,
         :offered,
         status: 'offer',
@@ -78,7 +78,7 @@ RSpec.describe CandidateMailer do
   describe '.new_offer_made with ske conditions' do
     let(:email) { described_class.new_offer_made(application_form.application_choices.first) }
     let(:application_choices) do
-      [build_stubbed(
+      [create(
         :application_choice,
         :offered,
         status: 'offer',

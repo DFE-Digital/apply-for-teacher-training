@@ -26,6 +26,8 @@ class ApplicationForm < ApplicationRecord
            :apply_reopens_at,
            :academic_year_range_name,
            :current_year?,
+           :winter_reject_by_default_at,
+           :winter_decline_by_default_at,
            to: :recruitment_cycle_timetable
 
   belongs_to :candidate, touch: true

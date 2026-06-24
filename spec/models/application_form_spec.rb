@@ -43,6 +43,8 @@ RSpec.describe ApplicationForm do
     it { is_expected.to delegate_method(:apply_reopens_at).to(:recruitment_cycle_timetable) }
     it { is_expected.to delegate_method(:academic_year_range_name).to(:recruitment_cycle_timetable) }
     it { is_expected.to delegate_method(:current_year?).to(:recruitment_cycle_timetable) }
+    it { is_expected.to delegate_method(:winter_reject_by_default_at).to(:recruitment_cycle_timetable) }
+    it { is_expected.to delegate_method(:winter_decline_by_default_at).to(:recruitment_cycle_timetable) }
     it { is_expected.to delegate_method(:opt_in?).to(:published_preference).with_prefix.allow_nil }
   end
 
