@@ -3,6 +3,7 @@
 <% if provider_deadline_content.present? %>
   <p class="govuk-body"><%= provider_deadline_content %></p>
 <% end %>
+
 <% if approaching_winter_reject_by_default_at? %>
   <% if reject_by_default_explanation.present? %>
     <p class="govuk-body"><%= reject_by_default_explanation %></p>

@@ -13,11 +13,11 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponentPrev
   end
 
   def after_reject_by_default
-    render PreviewSeptemberStartContentComponent.new(application_form:, after_reject_by_default: true, choice_state: :rejected_by_default)
+    render PreviewSeptemberStartContentComponent.new(application_form:, choice_state: :rejected_by_default)
   end
 
   def after_decline_by_default
-    render PreviewSeptemberStartContentComponent.new(application_form:, after_reject_by_default: true, after_decline_by_default: true, choice_state: :declined_by_default)
+    render PreviewSeptemberStartContentComponent.new(application_form:, choice_state: :declined_by_default)
   end
 
   def applications_offered
@@ -31,20 +31,9 @@ private
   end
 
   class PreviewSeptemberStartContentComponent < CandidateInterface::ApplicationChoices::SeptemberStartContentComponent
-    def initialize(application_form:, heading: nil, heading_class: 'govuk-heading-l', after_reject_by_default: false,
-                   after_decline_by_default: false, choice_state: :awaiting_provider_decision, with_tabs: false)
+    def initialize(application_form:, heading: nil, heading_class: 'govuk-heading-l', choice_state: :awaiting_provider_decision, with_tabs: false)
       super(application_form:, heading:, heading_class:, with_tabs:)
-      @after_reject_by_default = after_reject_by_default
-      @after_decline_by_default = after_decline_by_default
       @choice_state = choice_state
-    end
-
-    def after_reject_by_default?
-      @after_reject_by_default
-    end
-
-    def after_decline_by_default?
-      @after_decline_by_default
     end
 
     def application_choices
