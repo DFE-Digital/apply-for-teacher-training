@@ -1,6 +1,5 @@
 class CandidateInterface::ApplicationChoices::SeptemberStartContentComponent < ApplicationComponent
   delegate :recruitment_cycle_year, :recruitment_cycle_timetable, to: :application_form
-  delegate :after_reject_by_default?, :after_decline_by_default?, to: :recruitment_cycle_timetable
 
   attr_reader :application_form, :with_tabs, :heading_class
 
