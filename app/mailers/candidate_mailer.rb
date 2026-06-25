@@ -119,7 +119,7 @@ class CandidateMailer < ApplicationMailer
                        @application_form.winter_decline_by_default_at
                      else
                        @application_form.decline_by_default_at
-                     end.to_fs(:govuk_time_first_no_year_date_time)
+                     end.to_fs(:govuk_date_time_time_first)
     email_for_candidate(@application_form, subject: I18n.t('candidate_mailer.new_offer_made.subject', provider_name: @course.provider.name))
   end
 
