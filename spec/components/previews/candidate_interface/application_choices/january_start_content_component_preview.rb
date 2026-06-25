@@ -4,19 +4,19 @@ class CandidateInterface::ApplicationChoices::JanuaryStartContentComponentPrevie
   end
 
   def winter_reject_by_default_approaching_awaiting_provider_decision
-    render PreviewJanuaryStartContentComponent.new(application_form:, winter_reject_by_default_approaching: true )
+    render PreviewJanuaryStartContentComponent.new(application_form:, winter_reject_by_default_approaching: true)
   end
 
   def winter_reject_by_default_approaching_offered_placement
-    render PreviewJanuaryStartContentComponent.new(application_form:, winter_reject_by_default_approaching: true, choice_state: :offered )
+    render PreviewJanuaryStartContentComponent.new(application_form:, winter_reject_by_default_approaching: true, choice_state: :offered)
   end
 
   def after_reject_by_default
-    render PreviewJanuaryStartContentComponent.new(application_form:, winter_reject_by_default_approaching: true, choice_state: :rejected_by_default )
+    render PreviewJanuaryStartContentComponent.new(application_form:, winter_reject_by_default_approaching: true, choice_state: :rejected_by_default)
   end
 
   def after_declined_by_default
-    render PreviewJanuaryStartContentComponent.new(application_form:, winter_reject_by_default_approaching: true, choice_state: :declined_by_default )
+    render PreviewJanuaryStartContentComponent.new(application_form:, winter_reject_by_default_approaching: true, choice_state: :declined_by_default)
   end
 
 private
@@ -26,7 +26,7 @@ private
   end
 
   class PreviewJanuaryStartContentComponent < CandidateInterface::ApplicationChoices::JanuaryStartContentComponent
-    def initialize(application_form:, choice_state: :awaiting_provider_decision, with_tabs: false, winter_reject_by_default_approaching: false)
+    def initialize(application_form:, choice_state: :awaiting_provider_decision, winter_reject_by_default_approaching: false)
       super(application_form:)
       @choice_state = choice_state
       @winter_reject_by_default_approaching = winter_reject_by_default_approaching
