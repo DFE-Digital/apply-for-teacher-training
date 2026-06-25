@@ -9,9 +9,7 @@ Congratulations! You have an offer from <%= @provider_name %> to study <%= @cour
   <% end %>
 <% end %>
 
-<% if @show_deadline_reminder %>
-  If you want to accept this offer, you must do so by <%=@application_form.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time) %>. If you have not responded by then, the offer will be automatically declined on your behalf.
-<% end %>
+If you want to accept this offer, you must do so by <%= @deadline_date %>. If you have not responded by then, the offer will be automatically declined on your behalf.
 
 You will have to pass essential checks before you can start your training.
 
@@ -40,4 +38,4 @@ You can wait to hear back from any other courses you have submitted applications
 
 [Sign in to your account to respond to your offer](<%= application_choices_link %>).
 
-<%= render 'get_help_teacher_training_adviser' %>
+<%= render 'candidate_mailer/end_of_cycle/contact_us' %>

@@ -2,13 +2,7 @@
 Dear <%= @application_form.first_name %>
 <% end %>
 
-[Submit your application for teacher training](<%= application_choices_link %>) as soon as you can to get on a course starting in the <%= @application_form.academic_year_range_name %> academic year.
-
 <%= render 'candidate_mailer/end_of_cycle/deadline_to_apply' %>
-
-Courses that offer visa sponsorship may already be closed for this cycle.
-
-Courses fill up quickly, so apply as soon as you are ready. If a course closes, you will need to wait until next year to apply.
 
 <%= render 'gain_insights_into_life_as_a_teacher' %>
 

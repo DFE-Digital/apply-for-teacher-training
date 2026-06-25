@@ -13,8 +13,9 @@ RSpec.describe CandidateMailer do
         'a mail with subject and content',
         'Submit your teacher training application before courses fill up',
         'heading' => 'Dear Fred',
-        'offer visa sponsorship' => 'Courses that offer visa sponsorship may already be closed for this cycle.',
-        'courses fill up' => 'Courses fill up quickly, so apply as soon as you are ready. If a course closes, you will need to wait until next year to apply.',
+        'submit' => 'Submit your application for teacher training',
+        'when ready' => 'when you’re ready.',
+        'courses fill up' => 'Courses fill up quickly and may close early. Courses that offer visa sponsorship may have already closed.',
         'realistic job preview heading' => 'Gain insights into life as a teacher',
         'realistic job preview' => 'Try the realistic job preview tool',
         'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
@@ -24,10 +25,14 @@ RSpec.describe CandidateMailer do
 
       it_behaves_like 'an email with unsubscribe option'
 
-      it 'renders the correct dates' do
-        expect(email.body).to include("as soon as you can to get on a course starting in the #{current_timetable.academic_year_range_name} academic year.")
+      it 'renders the correct deadline' do
         expect(email.body).to include("The deadline to apply to courses starting by the end of September #{timetable.recruitment_cycle_year} is #{application_form.apply_deadline_at.to_fs(:govuk_date_time_time_first)}.")
-        expect(email.body).to include("You’ll be able to apply for more courses from #{next_timetable.apply_opens_at.to_fs(:govuk_date)}.")
+      end
+
+      it 'renders not ready content' do
+        expect(email.body).to include('If you’re not ready to submit your application')
+        expect(email.body).to include('If you’re not ready to apply now, you can continue preparing your application.')
+        expect(email.body).to include("From #{next_timetable.apply_opens_at.to_fs(:govuk_date)} you’ll be able to apply for courses starting in the #{next_timetable.academic_year_range_name} academic year.")
       end
 
       it 'renders get help with your application' do
