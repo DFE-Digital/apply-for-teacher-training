@@ -11,12 +11,12 @@
 <% end %>
 
 <% if awaiting_provider_decision_content.present? %>
-  <h3 class="govuk-heading-s"><%= awaiting_provider_decision_content[:title] %></h3>
+  <h3 class="govuk-heading-s govuk-!-margin-bottom-1"><%= awaiting_provider_decision_content[:title] %></h3>
   <p class="govuk-body"><%= awaiting_provider_decision_content[:content] %></p>
 <% end %>
 
 <% if offered_content.present? %>
-  <h3 class="govuk-heading-s"><%= offered_content[:title] %></h3>
+  <h3 class="govuk-heading-s govuk-!-margin-bottom-1"><%= offered_content[:title] %></h3>
   <p class="govuk-body"><%= offered_content[:content] %></p>
 <% end %>
 
