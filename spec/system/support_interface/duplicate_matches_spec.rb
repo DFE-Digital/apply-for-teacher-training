@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'See Duplicate candidate matches' do
   include DfESignInHelpers
 
-  scenario 'Support agent visits Duplicate candidate matches page', :sidekiq do
+  scenario 'Support agent visits Duplicate candidate matches page' do
     given_i_am_a_support_user
     and_i_go_to_duplicate_matches_page
 

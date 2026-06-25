@@ -1,5 +1,5 @@
-class SendNewCycleHasStartedEmailToCandidatesWorker
-  include Sidekiq::Worker
+class SendNewCycleHasStartedEmailToCandidatesWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   BATCH_SIZE = 120
 
@@ -11,10 +11,9 @@ class SendNewCycleHasStartedEmailToCandidatesWorker
       stagger_over: 12.hours,
       batch_size: BATCH_SIZE,
     ).each do |batch_time, records|
-      SendNewCycleHasStartedEmailToCandidatesBatchWorker.perform_at(
-        batch_time,
-        records.pluck(:id),
-      )
+      SendNewCycleHasStartedEmailToCandidatesBatchWorker
+        .set(wait_until: batch_time)
+        .perform_later(records.pluck(:id))
     end
   end
 

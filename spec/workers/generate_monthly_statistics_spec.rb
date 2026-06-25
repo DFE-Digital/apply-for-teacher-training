@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GenerateMonthlyStatistics, :sidekiq do
+RSpec.describe GenerateMonthlyStatistics do
   include DfE::Bigquery::TestHelper
 
   context 'not production' do

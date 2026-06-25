@@ -40,10 +40,10 @@ private
   end
 
   def and_i_can_enqueue_an_export
-    allow(DataExporter).to receive(:perform_async)
+    allow(DataExporter).to receive(:perform_later)
     click_on 'Generate new export'
 
-    expect(DataExporter).to have_received(:perform_async)
+    expect(DataExporter).to have_received(:perform_later)
     expect(page).to have_text 'This export is being generated. Refresh the page to see if it completed.'
   end
 

@@ -1,42 +1,22 @@
 require 'rails_helper'
 
-RSpec.describe SendFindHasOpenedEmailToCandidatesWorker, :sidekiq do
-  def setup_candidates
-    candidate_1 = create(:candidate)
-    candidate_2 = create(:candidate)
-    unsubmitted_application_choice = create(:application_choice, :application_not_sent)
-    rejected_application_choice = create(:application_choice, :rejected)
-
-    create(
-      :application_form,
-      candidate: candidate_1,
-      application_choices: [unsubmitted_application_choice],
-      recruitment_cycle_year: previous_year,
-    )
-
-    create(
-      :application_form,
-      candidate: candidate_2,
-      application_choices: [rejected_application_choice],
-      recruitment_cycle_year: previous_year,
-    )
-
-    [candidate_1, candidate_2]
-  end
-
+RSpec.describe SendFindHasOpenedEmailToCandidatesWorker do
   describe '#perform' do
+    let(:worker) { instance_double(ActiveJob::ConfiguredJob) }
+
+    before do
+      allow(SendFindHasOpenedEmailToCandidatesBatchWorker).to receive(:set).and_return(worker)
+      allow(worker).to receive(:perform_later).with(Array)
+    end
+
     context "it is time to send the 'find has opened' email" do
-      it 'sends emails to candidates who have unsuccessful or unsubmitted applications from the previous cycle' do
+      it 'enqueues emails to send to candidates' do
         travel_temporarily_to(email_send_date) do
-          candidate_1, candidate_2 = setup_candidates
+          candidate_ids = [create(:application_form).candidate.id]
+          described_class.perform_now
 
-          described_class.new.perform
-
-          email_for_candidate_1 = email_for_candidate(candidate_1)
-          email_for_candidate_2 = email_for_candidate(candidate_2)
-
-          expect(email_for_candidate_1).to be_present
-          expect(email_for_candidate_2).to be_present
+          expect(SendFindHasOpenedEmailToCandidatesBatchWorker).to have_received(:set)
+          expect(worker).to have_received(:perform_later).with(candidate_ids)
         end
       end
     end
@@ -44,34 +24,14 @@ RSpec.describe SendFindHasOpenedEmailToCandidatesWorker, :sidekiq do
     context "it is not time to send the 'find has opened' email" do
       it 'does not send the email' do
         travel_temporarily_to(email_send_date - 1.day) do
-          setup_candidates
+          create(:application_form)
 
-          described_class.new.perform
+          described_class.perform_now
 
-          expect(ActionMailer::Base.deliveries).to be_empty
+          expect(SendFindHasOpenedEmailToCandidatesBatchWorker).not_to have_received(:set)
         end
       end
     end
-
-    context "it is time to send the 'find has opened' email but one candidate has already received it" do
-      it 'does not send the email' do
-        travel_temporarily_to(email_send_date) do
-          candidate_1, candidate_2 = setup_candidates
-          candidate_1.current_application.chasers_sent.create(
-            chaser_type: :find_has_opened,
-          )
-
-          described_class.new.perform
-
-          expect(email_for_candidate(candidate_1)).not_to be_present
-          expect(email_for_candidate(candidate_2)).to be_present
-        end
-      end
-    end
-  end
-
-  def email_for_candidate(candidate)
-    ActionMailer::Base.deliveries.find { |e| e.header['to'].value == candidate.email_address }
   end
 
   def email_send_date

@@ -58,7 +58,7 @@ module SupportInterface
       export_type = DataExport.active_export_types.fetch(params.fetch(:export_type_id).to_sym)
       if export_type.present?
         data_export = DataExport.create!(name: export_type.fetch(:name), initiator: current_support_user, export_type: export_type.fetch(:export_type))
-        DataExporter.perform_async(export_type.fetch(:class).to_s, data_export.id, export_options)
+        DataExporter.perform_later(export_type.fetch(:class).to_s, data_export.id, export_options)
         redirect_to support_interface_data_export_path(data_export)
       else
         render render_404

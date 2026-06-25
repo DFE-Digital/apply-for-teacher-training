@@ -1,5 +1,5 @@
-class SendNewCycleHasStartedEmailToCandidatesBatchWorker
-  include Sidekiq::Worker
+class SendNewCycleHasStartedEmailToCandidatesBatchWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   def perform(candidate_ids)
     Candidate.includes(:application_forms).where(id: candidate_ids).each do |candidate|

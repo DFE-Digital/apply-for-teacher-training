@@ -1,6 +1,6 @@
 module CandidateMailers
-  class EnqueueVisaSponsorshipDeadlineReminderWorker
-    include Sidekiq::Worker
+  class EnqueueVisaSponsorshipDeadlineReminderWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
     def perform
       relation = ApplicationChoicesVisaSponsorshipDeadlineReminder.call
@@ -16,10 +16,9 @@ module CandidateMailers
         batch_size: 120,
         stagger_over:,
       ).each do |batch_time, records|
-        SendVisaSponsorshipDeadlineReminderWorker.perform_at(
-          batch_time,
-          records.pluck(:id),
-        )
+        SendVisaSponsorshipDeadlineReminderWorker
+          .set(wait_until: batch_time)
+          .perform_later(records.pluck(:id))
       end
     end
   end
