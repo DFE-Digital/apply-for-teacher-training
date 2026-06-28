@@ -1,7 +1,5 @@
 module EndOfCycle
-  class SendApplicationDeadlineHasPassedEmailToCandidatesWorker
-    include Sidekiq::Worker
-
+  class SendApplicationDeadlineHasPassedEmailToCandidatesWorker < ApplicationJob
     BATCH_SIZE = 120
 
     def perform
@@ -21,9 +19,7 @@ module EndOfCycle
     end
   end
 
-  class SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker
-    include Sidekiq::Worker
-
+  class SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker < ApplicationJob
     def perform(application_form_ids)
       ApplicationForm.where(id: application_form_ids).find_each do |application_form|
         CandidateMailer.application_deadline_has_passed(application_form).deliver_later

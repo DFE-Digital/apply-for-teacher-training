@@ -65,19 +65,19 @@ class Clock
   every(1.day, 'EndOfCycle::CancelReferenceRequestsWorker', at: '09:07') { EndOfCycle::CancelReferenceRequestsWorker.new.perform }
   every(1.day, 'EndOfCycle:SendWinterDeclineByDefaultExplainerToCandidatesWorker', at: '09:08') { EndOfCycle::SendWinterDeclineByDefaultExplainerEmailToCandidatesWorker.new.perform }
 
-  every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_async }
-  every(1.day, 'SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker.perform_async }
-  every(1.day, 'SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker.perform_async }
+  every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_later }
+  every(1.day, 'SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker.perform_later }
+  every(1.day, 'SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker.perform_later }
   every(1.day, 'DfE::Analytics::EntityTableCheckJob', at: '00:30') { DfE::Analytics::EntityTableCheckJob.perform_later }
 
   # End of cycle application choice status jobs
   # Changes unsubmitted application choices to 'application_not_sent'
-  every(1.day, 'EndOfCycle::CancelUnsubmittedApplicationsWorker', at: '18:01') { EndOfCycle::CancelUnsubmittedApplicationsWorker.perform_async }
-  every(1.day, 'EndOfCycle::CloseCoursesOnInvites', at: '18:01') { EndOfCycle::CloseCoursesOnInvites.perform_async }
+  every(1.day, 'EndOfCycle::CancelUnsubmittedApplicationsWorker', at: '18:01') { EndOfCycle::CancelUnsubmittedApplicationsWorker.perform_later }
+  every(1.day, 'EndOfCycle::CloseCoursesOnInvites', at: '18:01') { EndOfCycle::CloseCoursesOnInvites.perform_later }
   # Reject any application choices that are still awaiting provider decision (interviewing, inactive, and awaiting decision)
-  every(1.day, 'EndOfCycle::RejectByDefaultWorker', at: '00:01') { EndOfCycle::RejectByDefaultWorker.perform_async }
+  every(1.day, 'EndOfCycle::RejectByDefaultWorker', at: '00:01') { EndOfCycle::RejectByDefaultWorker.perform_later }
   # Decline any offers that are awaiting candidate decision
-  every(1.day, 'EndOfCycle::DeclineByDefaultWorker', at: '00:01') { EndOfCycle::DeclineByDefaultWorker.perform_async }
+  every(1.day, 'EndOfCycle::DeclineByDefaultWorker', at: '00:01') { EndOfCycle::DeclineByDefaultWorker.perform_later }
   every(1.day, 'Candidate::EnglishProficiencyDataConversionWorker', at: '23:00') { Candidate::EnglishProficiencyDataConversionWorker.perform_later }
 
   # Weekly jobs
@@ -88,5 +88,5 @@ class Clock
   every(7.days, 'EndOfCycle::NextYearFullSync', at: 'Friday 00:05') { EndOfCycle::NextYearFullSync.perform_later }
 
   every(7.days, 'Schedule Recruitment Performance reports', at: 'Monday 05:30', if: ->(_period) { RecruitmentPerformanceReportTimetable.report_season? }) { Publications::RecruitmentPerformanceReportScheduler.new.call }
-  every(7.days, 'ProviderRecruitmentPerformanceReportReminder', at: 'Monday 12:00') { Publications::ProviderRecruitmentPerformanceReminderWorker.perform_async }
+  every(7.days, 'ProviderRecruitmentPerformanceReportReminder', at: 'Monday 12:00') { Publications::ProviderRecruitmentPerformanceReminderWorker.perform_later }
 end

@@ -1,6 +1,4 @@
-class SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker
-  include Sidekiq::Worker
-
+class SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker < ApplicationJob
   STAGGER_OVER = 20.minutes
   BATCH_SIZE = 150
 

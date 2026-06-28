@@ -28,7 +28,7 @@ class VendorAPIRequestMiddleware
 
     begin
       if trace_request?
-        VendorAPIRequestWorker.perform_async(request_data, response_data, status, Time.zone.now.to_s)
+        VendorAPIRequestWorker.perform_later(request_data, response_data, status, Time.zone.now.to_s)
       end
     rescue Redis::BaseError => e
       Rails.logger.warn e.message

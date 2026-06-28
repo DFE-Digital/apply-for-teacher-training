@@ -1,7 +1,5 @@
 module EndOfCycle
-  class SendDeclineByDefaultExplainerEmailToCandidatesWorker
-    include Sidekiq::Worker
-
+  class SendDeclineByDefaultExplainerEmailToCandidatesWorker < ApplicationJob
     BATCH_SIZE = 120
 
     def perform
@@ -21,9 +19,7 @@ module EndOfCycle
     end
   end
 
-  class SendDeclineByDefaultExplainerEmailToCandidatesBatchWorker
-    include Sidekiq::Worker
-
+  class SendDeclineByDefaultExplainerEmailToCandidatesBatchWorker < ApplicationJob
     def perform(application_form_ids)
       ApplicationForm.where(id: application_form_ids).includes(:application_choices).find_each do |application_form|
         CandidateMailer.decline_by_default_explainer(application_form).deliver_later

@@ -21,7 +21,7 @@ module Publications
       return if Publications::NationalRecruitmentPerformanceReport.exists?(cycle_week:, recruitment_cycle_year:)
 
       Publications::NationalRecruitmentPerformanceReportWorker
-        .perform_async(cycle_week, recruitment_cycle_year)
+        .perform_later(cycle_week, recruitment_cycle_year)
     end
 
     def schedule_regional_report
@@ -33,7 +33,7 @@ module Publications
         )
 
         Publications::RegionalRecruitmentPerformanceReportWorker
-          .perform_async(cycle_week, region, recruitment_cycle_year)
+          .perform_later(cycle_week, region, recruitment_cycle_year)
       end
     end
 
@@ -47,7 +47,7 @@ module Publications
         ).count == Publications::ProviderEdiReport.categories.count
 
         Publications::RegionalEdiReportWorker
-          .perform_async(cycle_week, region, recruitment_cycle_year)
+          .perform_later(cycle_week, region, recruitment_cycle_year)
       end
     end
 
@@ -56,7 +56,7 @@ module Publications
         .call(cycle_week:, recruitment_cycle_year:)
         .find_each do |provider|
         Publications::ProviderEdiReportWorker
-          .perform_async(
+          .perform_later(
             provider.id,
             cycle_week,
             recruitment_cycle_year,
@@ -69,7 +69,7 @@ module Publications
         .call(cycle_week:, recruitment_cycle_year:)
         .find_each do |provider|
         Publications::ProviderRecruitmentPerformanceReportWorker
-          .perform_async(
+          .perform_later(
             provider.id,
             cycle_week,
             recruitment_cycle_year,

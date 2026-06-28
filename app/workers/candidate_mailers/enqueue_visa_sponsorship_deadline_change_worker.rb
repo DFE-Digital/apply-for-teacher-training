@@ -1,7 +1,5 @@
 module CandidateMailers
-  class EnqueueVisaSponsorshipDeadlineChangeWorker
-    include Sidekiq::Worker
-
+  class EnqueueVisaSponsorshipDeadlineChangeWorker < ApplicationJob
     def perform(course_id)
       course = Course.open.find_by(id: course_id)
       return if course.nil?

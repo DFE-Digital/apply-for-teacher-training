@@ -1,7 +1,5 @@
 module EndOfCycle
-  class SendWinterRejectByDefaultExplainerEmailToCandidatesWorker
-    include Sidekiq::Worker
-
+  class SendWinterRejectByDefaultExplainerEmailToCandidatesWorker < ApplicationJob
     BATCH_SIZE = 120
 
     def perform
@@ -33,9 +31,7 @@ module EndOfCycle
     end
   end
 
-  class SendWinterRejectByDefaultExplainerEmailToCandidatesBatchWorker
-    include Sidekiq::Worker
-
+  class SendWinterRejectByDefaultExplainerEmailToCandidatesBatchWorker < ApplicationJob
     def perform(application_form_ids)
       ApplicationForm.where(id: application_form_ids).includes(:application_choices).find_each do |application_form|
         if application_form.application_choices.pluck(:status).include?('offer')

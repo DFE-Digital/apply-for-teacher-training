@@ -1,6 +1,4 @@
-class SendEocDeadlineReminderEmailToCandidatesWorker
-  include Sidekiq::Worker
-
+class SendEocDeadlineReminderEmailToCandidatesWorker < ApplicationJob
   BATCH_SIZE = 120
 
   def perform

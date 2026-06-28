@@ -1,7 +1,5 @@
 module EndOfCycle
-  class CancelReferenceRequestsWorker
-    include Sidekiq::Worker
-
+  class CancelReferenceRequestsWorker < ApplicationJob
     BATCH_SIZE = 200
 
     def perform
@@ -49,9 +47,7 @@ module EndOfCycle
     end
   end
 
-  class CancelReferenceRequestsSecondaryWorker
-    include Sidekiq::Worker
-
+  class CancelReferenceRequestsSecondaryWorker < ApplicationJob
     def perform(reference_ids)
       ApplicationReference.feedback_requested.where(id: reference_ids).find_each do |reference|
         CancelReferee.new.call(reference:)

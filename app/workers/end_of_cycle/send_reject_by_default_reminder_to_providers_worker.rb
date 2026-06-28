@@ -1,7 +1,5 @@
 module EndOfCycle
-  class SendRejectByDefaultReminderToProvidersWorker
-    include Sidekiq::Worker
-
+  class SendRejectByDefaultReminderToProvidersWorker < ApplicationJob
     BATCH_SIZE = 120
 
     def perform
@@ -26,9 +24,7 @@ module EndOfCycle
     end
   end
 
-  class SendRejectByDefaultReminderToProvidersBatchWorker
-    include Sidekiq::Worker
-
+  class SendRejectByDefaultReminderToProvidersBatchWorker < ApplicationJob
     def perform(provider_ids)
       Provider.where(id: provider_ids).includes(:provider_users).find_each do |provider|
         SendRejectByDefaultReminderToProvidersService.new(provider).call

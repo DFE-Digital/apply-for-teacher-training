@@ -37,12 +37,12 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
           expect(EndOfCycle::WinterRejectByDefaultWorker).to have_received(:perform_async)
           expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_received(:perform_async)
           # These jobs run on the apply deadline
-          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_async).with(true)
-          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_async).with(true)
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_later).with(true)
+          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_later).with(true)
           # Not these
-          expect(EndOfCycle::RejectByDefaultWorker).not_to have_received(:perform_async)
-          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_async)
-          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_async)
+          expect(EndOfCycle::RejectByDefaultWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_later)
         end
       end
     end
@@ -56,13 +56,13 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
           expect(EndOfCycle::WinterRejectByDefaultWorker).to have_received(:perform_async)
           expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_received(:perform_async)
           # These jobs run on the apply deadline
-          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_async).with(true)
-          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_async).with(true)
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_later).with(true)
+          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_later).with(true)
           # And the reject by default worker
-          expect(EndOfCycle::RejectByDefaultWorker).to have_received(:perform_async).with(true)
+          expect(EndOfCycle::RejectByDefaultWorker).to have_received(:perform_later).with(true)
           # Not these
-          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_async)
-          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_async)
+          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_later)
         end
       end
     end
@@ -76,13 +76,13 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
           expect(EndOfCycle::WinterRejectByDefaultWorker).to have_received(:perform_async)
           expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_received(:perform_async)
           # Apply deadline jobs
-          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_async).with(true)
-          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_async).with(true)
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_later).with(true)
+          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_later).with(true)
           # And the reject by default worker
-          expect(EndOfCycle::RejectByDefaultWorker).to have_received(:perform_async).with(true)
+          expect(EndOfCycle::RejectByDefaultWorker).to have_received(:perform_later).with(true)
           # And the decline by default worker related jobs
-          expect(EndOfCycle::DeclineByDefaultWorker).to have_received(:perform_async).with(true)
-          expect(EndOfCycle::CancelReferenceRequestsWorker).to have_received(:perform_async)
+          expect(EndOfCycle::DeclineByDefaultWorker).to have_received(:perform_later).with(true)
+          expect(EndOfCycle::CancelReferenceRequestsWorker).to have_received(:perform_later)
         end
       end
     end

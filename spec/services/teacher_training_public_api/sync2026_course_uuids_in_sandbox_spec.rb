@@ -6,7 +6,7 @@ RSpec.describe TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandbox, :sidekiq 
   context 'not production' do
     before do
       allow(HostingEnvironment).to receive(:production?).and_return false
-      allow(TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandboxSecondaryWorker).to receive(:perform_async)
+      allow(TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandboxSecondaryWorker).to receive(:perform_later)
     end
 
     context 'provider has 2026 courses' do
@@ -17,7 +17,7 @@ RSpec.describe TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandbox, :sidekiq 
         described_class.new.perform
 
         expect(TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandboxSecondaryWorker)
-          .to have_received(:perform_async)
+          .to have_received(:perform_later)
                 .with(provider.code)
       end
     end
@@ -30,7 +30,7 @@ RSpec.describe TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandbox, :sidekiq 
         described_class.new.perform
 
         expect(TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandboxSecondaryWorker)
-          .not_to have_received(:perform_async)
+          .not_to have_received(:perform_later)
                 .with(provider.code)
       end
     end
@@ -39,7 +39,7 @@ RSpec.describe TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandbox, :sidekiq 
   context 'production' do
     before do
       allow(HostingEnvironment).to receive(:production?).and_return true
-      allow(TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandboxSecondaryWorker).to receive(:perform_async)
+      allow(TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandboxSecondaryWorker).to receive(:perform_later)
     end
 
     context 'provider has 2026 courses' do
@@ -50,7 +50,7 @@ RSpec.describe TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandbox, :sidekiq 
         described_class.new.perform
 
         expect(TeacherTrainingPublicAPI::Sync2026CourseUuidsInSandboxSecondaryWorker)
-          .not_to have_received(:perform_async)
+          .not_to have_received(:perform_later)
                     .with(provider.code)
       end
     end
