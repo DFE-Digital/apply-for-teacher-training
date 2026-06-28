@@ -1,5 +1,5 @@
-class SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker
-  include Sidekiq::Worker
+class SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   STAGGER_OVER = 20.minutes
   BATCH_SIZE = 150

@@ -1,6 +1,6 @@
 # This worker will be scheduled to run daily
-class NudgeCandidatesWorker
-  include Sidekiq::Worker
+class NudgeCandidatesWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   Nudge = Struct.new(:query_class, :mailer_action)
   NUDGES = [

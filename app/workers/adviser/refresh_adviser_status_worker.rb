@@ -1,5 +1,5 @@
-class Adviser::RefreshAdviserStatusWorker
-  include Sidekiq::Worker
+class Adviser::RefreshAdviserStatusWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   def perform(application_form_id)
     return unless FeatureFlag.active?(:adviser_sign_up)

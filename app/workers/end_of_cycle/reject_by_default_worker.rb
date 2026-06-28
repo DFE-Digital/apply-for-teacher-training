@@ -1,6 +1,6 @@
 module EndOfCycle
-  class RejectByDefaultWorker
-    include Sidekiq::Worker
+  class RejectByDefaultWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
     BATCH_SIZE = 120
     STAGGER_OVER = 1.hour
@@ -38,8 +38,8 @@ module EndOfCycle
     end
   end
 
-  class RejectByDefaultSecondaryWorker
-    include Sidekiq::Worker
+  class RejectByDefaultSecondaryWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
     def perform(application_form_ids)
       application_forms = ApplicationForm.where(id: application_form_ids).includes(:application_choices)

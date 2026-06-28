@@ -1,8 +1,10 @@
 module Publications
-  class ProviderRecruitmentPerformanceReminderWorker
-    include Sidekiq::Worker
+  class ProviderRecruitmentPerformanceReminderWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
-    sidekiq_options retry: 3, queue: :default
+    queue_as :default
+
+    retry_on StandardError, attempts: 3
 
     def perform
       cycle_week = RecruitmentCycleTimetable.current_cycle_week.pred

@@ -1,5 +1,5 @@
-class SendDeferredOfferReminderEmailToCandidatesWorker
-  include Sidekiq::Worker
+class SendDeferredOfferReminderEmailToCandidatesWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   def perform
     GetDeferredApplicationChoicesForCurrentCycle.call.each do |application_choice|

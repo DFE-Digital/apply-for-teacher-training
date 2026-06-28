@@ -1,5 +1,5 @@
-class CancelPreviousCycleUnsubmittedApplicationsWorker
-  include Sidekiq::Worker
+class CancelPreviousCycleUnsubmittedApplicationsWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   def perform
     unsubmitted_applications_from_earlier_cycle.each do |application_form|

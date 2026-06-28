@@ -1,7 +1,9 @@
-class GeocodeApplicationAddressWorker
-  include Sidekiq::Worker
+class GeocodeApplicationAddressWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
-  sidekiq_options queue: :low_priority, retry: 5
+  queue_as :low_priority
+
+  retry_on StandardError, attempts: 5
 
   def perform(application_form_id)
     return unless Geocoder.config.api_key

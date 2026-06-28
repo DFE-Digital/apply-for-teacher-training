@@ -17,7 +17,7 @@ module TeacherTrainingPublicAPI
                          .pluck(:code)
 
       provider_codes.each do |provider_code|
-        Sync2026CourseUuidsInSandboxSecondaryWorker.perform_async(provider_code)
+        Sync2026CourseUuidsInSandboxSecondaryWorker.perform_later(provider_code)
       end
     end
   end

@@ -1,6 +1,7 @@
 module EndOfCycle
-  class CloseCoursesOnInvites
-    include Sidekiq::Worker
+  class CloseCoursesOnInvites < ApplicationJob
+    # Updated by Junie
+    self.queue_adapter = :solid_queue
 
     def perform(force = false)
       return unless EndOfCycle::JobTimetabler.new.run_cancel_unsubmitted_applications? || force

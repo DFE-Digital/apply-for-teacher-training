@@ -1,8 +1,10 @@
 module Publications
-  class ProviderEdiReportWorker
-    include Sidekiq::Worker
+  class ProviderEdiReportWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
-    sidekiq_options retry: 3, queue: :default
+    queue_as :default
+
+    retry_on StandardError, attempts: 3
 
     def perform(provider_id, cycle_week, recruitment_cycle_year)
       ProviderEdiReportGenerator.new(

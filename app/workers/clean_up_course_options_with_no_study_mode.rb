@@ -1,5 +1,5 @@
-class CleanUpCourseOptionsWithNoStudyMode
-  include Sidekiq::Worker
+class CleanUpCourseOptionsWithNoStudyMode < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   def perform
     CourseOption.where('study_mode IN (\'0\',\'1\')').find_each do |nil_co|

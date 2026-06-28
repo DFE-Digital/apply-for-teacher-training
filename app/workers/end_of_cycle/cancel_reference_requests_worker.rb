@@ -1,6 +1,6 @@
 module EndOfCycle
-  class CancelReferenceRequestsWorker
-    include Sidekiq::Worker
+  class CancelReferenceRequestsWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
     BATCH_SIZE = 200
 
@@ -49,8 +49,8 @@ module EndOfCycle
     end
   end
 
-  class CancelReferenceRequestsSecondaryWorker
-    include Sidekiq::Worker
+  class CancelReferenceRequestsSecondaryWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
     def perform(reference_ids)
       ApplicationReference.feedback_requested.where(id: reference_ids).find_each do |reference|

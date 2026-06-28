@@ -1,5 +1,5 @@
-class CandidateMailers::SendWithdrawnOfferEmailWorker
-  include Sidekiq::Worker
+class CandidateMailers::SendWithdrawnOfferEmailWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   def perform(application_choice_id)
     application_choice = ApplicationChoice.find(application_choice_id)

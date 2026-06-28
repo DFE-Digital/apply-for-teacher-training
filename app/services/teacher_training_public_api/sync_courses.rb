@@ -47,7 +47,7 @@ module TeacherTrainingPublicAPI
 
         course.save!
         if notify_candidates == true
-          CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker.perform_async(course.id)
+          CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker.perform_later(course.id)
         end
 
         course
@@ -76,7 +76,7 @@ module TeacherTrainingPublicAPI
       ]
 
       if run_in_background
-        TeacherTrainingPublicAPI::SyncSites.perform_async(*job_args)
+        TeacherTrainingPublicAPI::SyncSites.perform_later(*job_args)
       else
         TeacherTrainingPublicAPI::SyncSites.new.perform(*job_args)
       end

@@ -1,7 +1,7 @@
-class MigrateApplicationChoicesWorker
-  include Sidekiq::Worker
+class MigrateApplicationChoicesWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
-  sidekiq_options queue: :low_priority
+  queue_as :low_priority
 
   def perform(choice_ids)
     return if HostingEnvironment.production?

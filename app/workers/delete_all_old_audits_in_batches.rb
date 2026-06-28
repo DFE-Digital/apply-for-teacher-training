@@ -1,7 +1,7 @@
-class DeleteAllOldAuditsInBatches
-  include Sidekiq::Worker
+class DeleteAllOldAuditsInBatches < ApplicationJob
+  self.queue_adapter = :solid_queue
 
-  sidekiq_options queue: :low_priority
+  queue_as :low_priority
 
   def perform
     before = Time.zone.local(2022, 10, 4)

@@ -16,14 +16,14 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
   context 'provider report is generated for appropriate providers' do
     before do
       allow(HostingEnvironment).to receive(:production?).and_return true
-      allow(provider_worker).to receive(:perform_async)
+      allow(provider_worker).to receive(:perform_later)
       application_choice
     end
 
     it 'creates a report for a provider who has applications' do
       described_class.new.call
 
-      expect(provider_worker).to have_received(:perform_async).with(
+      expect(provider_worker).to have_received(:perform_later).with(
         provider.id,
         cycle_week,
         recruitment_cycle_year,
@@ -35,7 +35,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
 
       described_class.new.call
 
-      expect(provider_worker).not_to have_received(:perform_async).with(
+      expect(provider_worker).not_to have_received(:perform_later).with(
         provider.id,
         cycle_week,
         recruitment_cycle_year,
@@ -47,7 +47,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
 
       described_class.new.call
 
-      expect(provider_worker).to have_received(:perform_async).with(
+      expect(provider_worker).to have_received(:perform_later).with(
         provider.id,
         cycle_week,
         recruitment_cycle_year,
@@ -67,7 +67,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
       it 'creates a report for a provider who received an application before cycle_week' do
         described_class.new(cycle_week:).call
 
-        expect(provider_worker).to have_received(:perform_async).with(
+        expect(provider_worker).to have_received(:perform_later).with(
           provider.id,
           cycle_week,
           recruitment_cycle_year,
@@ -79,13 +79,13 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
   context 'national report is generated' do
     before do
       allow(HostingEnvironment).to receive(:production?).and_return true
-      allow(national_worker).to receive(:perform_async)
+      allow(national_worker).to receive(:perform_later)
     end
 
     it 'creates a National report' do
       described_class.new.call
 
-      expect(national_worker).to have_received(:perform_async).with(
+      expect(national_worker).to have_received(:perform_later).with(
         cycle_week,
         recruitment_cycle_year,
       )
@@ -101,7 +101,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
 
       described_class.new.call
 
-      expect(national_worker).to have_received(:perform_async).with(
+      expect(national_worker).to have_received(:perform_later).with(
         cycle_week,
         recruitment_cycle_year,
       )
@@ -117,7 +117,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
 
       described_class.new.call
 
-      expect(national_worker).not_to have_received(:perform_async).with(
+      expect(national_worker).not_to have_received(:perform_later).with(
         cycle_week,
         recruitment_cycle_year,
       )
@@ -129,7 +129,7 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
       it 'creates a national report for the cycle_week value' do
         described_class.new(cycle_week:).call
 
-        expect(national_worker).to have_received(:perform_async).with(
+        expect(national_worker).to have_received(:perform_later).with(
           cycle_week,
           recruitment_cycle_year,
         )
@@ -140,14 +140,14 @@ RSpec.describe Publications::RecruitmentPerformanceReportScheduler do
   context 'regional report is generated' do
     before do
       allow(HostingEnvironment).to receive(:production?).and_return true
-      allow(regional_worker).to receive(:perform_async)
+      allow(regional_worker).to receive(:perform_later)
     end
 
     it 'creates a Regional report' do
       described_class.new.call
 
       Publications::RegionalRecruitmentPerformanceReport.regions.each_value do |region|
-        expect(regional_worker).to have_received(:perform_async).with(
+        expect(regional_worker).to have_received(:perform_later).with(
           cycle_week,
           region,
           recruitment_cycle_year,

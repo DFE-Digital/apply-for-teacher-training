@@ -1,6 +1,6 @@
 module CandidateMailers
-  class EnqueueVisaSponsorshipDeadlineChangeWorker
-    include Sidekiq::Worker
+  class EnqueueVisaSponsorshipDeadlineChangeWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
     def perform(course_id)
       course = Course.open.find_by(id: course_id)

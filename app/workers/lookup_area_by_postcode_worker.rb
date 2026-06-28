@@ -1,7 +1,9 @@
-class LookupAreaByPostcodeWorker
-  include Sidekiq::Worker
+class LookupAreaByPostcodeWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
-  sidekiq_options queue: :low_priority, retry: 5
+  queue_as :low_priority
+
+  retry_on StandardError, attempts: 5
 
   attr_reader :application_form
 

@@ -1,5 +1,5 @@
-class Support::SendNotifyTemplateWithAttachmentBatchWorker
-  include Sidekiq::Worker
+class Support::SendNotifyTemplateWithAttachmentBatchWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
   def perform(email_addresses, notify_request_id)
     request = SupportInterface::NotifySendRequest.find(notify_request_id)

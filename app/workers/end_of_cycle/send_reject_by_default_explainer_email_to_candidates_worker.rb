@@ -1,6 +1,6 @@
 module EndOfCycle
-  class SendRejectByDefaultExplainerEmailToCandidatesWorker
-    include Sidekiq::Worker
+  class SendRejectByDefaultExplainerEmailToCandidatesWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
     BATCH_SIZE = 120
 
@@ -21,8 +21,8 @@ module EndOfCycle
     end
   end
 
-  class SendRejectByDefaultExplainerEmailToCandidatesBatchWorker
-    include Sidekiq::Worker
+  class SendRejectByDefaultExplainerEmailToCandidatesBatchWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
     def perform(application_form_ids)
       ApplicationForm.where(id: application_form_ids).includes(:application_choices).find_each do |application_form|

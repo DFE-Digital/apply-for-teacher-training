@@ -1,7 +1,7 @@
-class DeleteAuditsWorker
-  include Sidekiq::Worker
+class DeleteAuditsWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
 
-  sidekiq_options queue: :low_priority
+  queue_as :low_priority
 
   def perform(audit_ids)
     Audited::Audit.where(id: audit_ids).delete_all

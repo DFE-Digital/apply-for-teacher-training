@@ -1,6 +1,6 @@
 module EndOfCycle
-  class SendApplicationDeadlineHasPassedEmailToCandidatesWorker
-    include Sidekiq::Worker
+  class SendApplicationDeadlineHasPassedEmailToCandidatesWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
     BATCH_SIZE = 120
 
@@ -21,8 +21,8 @@ module EndOfCycle
     end
   end
 
-  class SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker
-    include Sidekiq::Worker
+  class SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
 
     def perform(application_form_ids)
       ApplicationForm.where(id: application_form_ids).find_each do |application_form|
