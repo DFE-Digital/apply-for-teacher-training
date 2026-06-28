@@ -36,6 +36,6 @@ end
 task :run_end_of_cycle_jobs, :environment do
   raise 'Not permitted on this environment' unless HostingEnvironment.generate_test_data?
 
-  EndOfCycle::RunEndOfCycleJobsWorker.perform_async
+  EndOfCycle::RunEndOfCycleJobsWorker.perform_later
   puts 'Running all relevant end of cycle jobs based on the current point in the cycle'
 end
