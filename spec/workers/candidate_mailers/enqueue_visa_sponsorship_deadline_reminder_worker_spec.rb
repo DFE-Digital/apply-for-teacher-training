@@ -8,7 +8,7 @@ module CandidateMailers
         allow(ApplicationChoicesVisaSponsorshipDeadlineReminder).to(
           receive(:call).and_return(ApplicationChoice.all),
         )
-        expect {described_class.perform_now }.to enqueue_job(SendVisaSponsorshipDeadlineReminderWorker).with(ApplicationChoice.all.pluck(:id))
+        expect { described_class.perform_now }.to enqueue_job(SendVisaSponsorshipDeadlineReminderWorker).with(ApplicationChoice.all.pluck(:id))
       end
     end
   end

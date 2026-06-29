@@ -62,7 +62,7 @@ RSpec.describe EndOfCycle::CancelUnsubmittedApplicationsWorker do
         create_test_applications
         expect { described_class.new.perform(true) }
           .to enqueue_job(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker)
-                .with(match_array([unsubmitted_application_from_this_year.id, hidden_application_from_this_year.id]))
+                .with(contain_exactly(unsubmitted_application_from_this_year.id, hidden_application_from_this_year.id))
       end
     end
 
@@ -74,7 +74,7 @@ RSpec.describe EndOfCycle::CancelUnsubmittedApplicationsWorker do
 
             expect { described_class.new.perform }
               .to enqueue_job(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker)
-                    .with(match_array([unsubmitted_application_from_this_year.id, hidden_application_from_this_year.id]))
+                    .with(contain_exactly(unsubmitted_application_from_this_year.id, hidden_application_from_this_year.id))
           end
         end
 
