@@ -1,3 +1,5 @@
+require './app/jobs/application_job'
+
 class VendorAPIRequestWorker < ApplicationJob
   AuthorizationStruct = Struct.new(:authorization)
 
