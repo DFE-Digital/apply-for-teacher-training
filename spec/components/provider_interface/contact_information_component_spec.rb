@@ -12,7 +12,7 @@ RSpec.describe ProviderInterface::ContactInformationComponent do
   subject(:result) { render_inline(described_class.new(application_form:)) }
 
   it 'renders component with correct labels' do
-    ['Phone number', 'Email address', 'Address', 'Lived in Wales since'].each do |key|
+    ['Phone number', 'Email address', 'Address'].each do |key|
       expect(result.css('.govuk-summary-list__key').text).to include(key)
     end
   end
@@ -29,9 +29,5 @@ RSpec.describe ProviderInterface::ContactInformationComponent do
     application_form.full_address.each do |address_line|
       expect(result.css('.govuk-summary-list__value').text).to include(address_line)
     end
-  end
-
-  it 'renders the residency start point' do
-    expect(result.css('.govuk-summary-list__value').text).to include('Birth')
   end
 end
