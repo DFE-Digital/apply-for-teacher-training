@@ -9,10 +9,9 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
         allow(instance).to receive_messages(winter_decline_by_default_set?: false)
         declineable = create(:application_choice, :offer)
 
-        allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
-        instance.perform(true)
-        expect(EndOfCycle::DeclineByDefaultSecondaryWorker)
-          .to have_received(:perform_at).with(kind_of(Time), [declineable.application_form.id])
+        expect { instance.perform(true) }
+          .to enqueue_job(EndOfCycle::DeclineByDefaultSecondaryWorker)
+                .with([declineable.application_form.id])
       end
     end
 
@@ -23,10 +22,9 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
             allow(instance).to receive_messages(winter_decline_by_default_set?: false)
             declineable = create(:application_choice, :offer)
 
-            allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
-            instance.perform
-            expect(EndOfCycle::DeclineByDefaultSecondaryWorker)
-              .to have_received(:perform_at).with(kind_of(Time), contain_exactly(declineable.application_form.id))
+            expect { instance.perform }
+              .to enqueue_job(EndOfCycle::DeclineByDefaultSecondaryWorker)
+                    .with([declineable.application_form.id])
           end
         end
 
@@ -34,9 +32,7 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
           it 'does not enqueues secondary worker' do
             create(:application_choice, :offer)
 
-            allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
-            instance.perform
-            expect(EndOfCycle::DeclineByDefaultSecondaryWorker).not_to have_received(:perform_at)
+            expect { instance.perform }.not_to enqueue_job(EndOfCycle::DeclineByDefaultSecondaryWorker)
           end
         end
 
@@ -44,9 +40,7 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
           it 'does not enqueues secondary worker' do
             create(:application_choice, :offer)
 
-            allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
-            instance.perform
-            expect(EndOfCycle::DeclineByDefaultSecondaryWorker).not_to have_received(:perform_at)
+            expect { instance.perform }.not_to enqueue_job(EndOfCycle::DeclineByDefaultSecondaryWorker)
           end
         end
 
@@ -54,9 +48,7 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
           it 'does not enqueues secondary worker' do
             create(:application_choice, :offer)
 
-            allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
-            instance.perform
-            expect(EndOfCycle::DeclineByDefaultSecondaryWorker).not_to have_received(:perform_at)
+            expect { instance.perform }.not_to enqueue_job(EndOfCycle::DeclineByDefaultSecondaryWorker)
           end
         end
 
@@ -75,10 +67,7 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
               course_option: create(:course_option, course: january_course),
             )
 
-            allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
-            instance.perform
-            expect(EndOfCycle::DeclineByDefaultSecondaryWorker)
-              .to have_received(:perform_at).with(kind_of(Time), contain_exactly(declineable.application_form.id))
+            expect { instance.perform }.to enqueue_job(EndOfCycle::DeclineByDefaultSecondaryWorker).with([declineable.application_form.id])
           end
         end
 
@@ -97,9 +86,7 @@ RSpec.describe EndOfCycle::DeclineByDefaultWorker do
               course_option: create(:course_option, course: january_course),
             )
 
-            allow(EndOfCycle::DeclineByDefaultSecondaryWorker).to receive(:perform_at)
-            instance.perform
-            expect(EndOfCycle::DeclineByDefaultSecondaryWorker).not_to have_received(:perform_at)
+            expect { instance.perform }.not_to enqueue_job(EndOfCycle::DeclineByDefaultSecondaryWorker)
           end
         end
       end
