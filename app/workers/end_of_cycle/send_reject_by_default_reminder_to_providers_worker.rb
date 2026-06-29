@@ -6,7 +6,7 @@ module EndOfCycle
       return unless send_email?
 
       BatchDelivery.new(relation:, batch_size: BATCH_SIZE).each do |batch_time, providers|
-        SendRejectByDefaultReminderToProvidersBatchWorker.perform_at(batch_time, providers.pluck(:id))
+        SendRejectByDefaultReminderToProvidersBatchWorker.set(wait_until: batch_time).perform_later(providers.pluck(:id))
       end
     end
 

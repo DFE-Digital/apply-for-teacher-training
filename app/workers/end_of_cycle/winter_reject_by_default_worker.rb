@@ -7,7 +7,7 @@ module EndOfCycle
       return unless run_winter_reject_by_default? || force
 
       BatchDelivery.new(relation:, stagger_over: STAGGER_OVER, batch_size: BATCH_SIZE).each do |batch_time, applications|
-        WinterRejectByDefaultSecondaryWorker.perform_at(batch_time, applications.pluck(:id))
+        WinterRejectByDefaultSecondaryWorker.set(wait_until: batch_time).perform_later(applications.pluck(:id))
       end
     end
 

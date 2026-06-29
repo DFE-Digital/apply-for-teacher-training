@@ -6,7 +6,7 @@ module EndOfCycle
       return unless EndOfCycle::CandidateEmailTimetabler.new.send_application_deadline_has_passed_email?
 
       BatchDelivery.new(relation:, batch_size: BATCH_SIZE).each do |batch_time, application_forms|
-        SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker.perform_at(batch_time, application_forms.pluck(:id))
+        SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker.set(wait_until: batch_time).perform_later(application_forms.pluck(:id))
       end
     end
 
