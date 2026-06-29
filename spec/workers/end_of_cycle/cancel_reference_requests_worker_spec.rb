@@ -37,39 +37,30 @@ RSpec.describe EndOfCycle::CancelReferenceRequestsWorker do
   end
 
   describe '#perform' do
-    context 'after the decline by default date, and the course starts in september' do
-      it 'enqueues secondary worker for references with requested feedback, with a september course', time: decline_by_default_run_date(current_year) do
-        allow(EndOfCycle::CancelReferenceRequestsSecondaryWorker).to receive(:perform_at)
-        described_class.new.perform
-        expect(EndOfCycle::CancelReferenceRequestsSecondaryWorker)
-          .to have_received(:perform_at).with(kind_of(Time), contain_exactly(september_reference.id))
+    context 'after the decline by default date, and the course starts in September' do
+      it 'enqueues secondary worker for references with requested feedback, with a September course', time: decline_by_default_run_date(current_year) do
+        expect { described_class.new.perform }.to enqueue_job(EndOfCycle::CancelReferenceRequestsSecondaryWorker).with([september_reference.id])
       end
     end
 
-    context 'after the decline by default date, and the application has courses ending in september and january' do
-      it 'does not enqueue a secondary worker for references with requested feedback, with a september course' do
+    context 'after the decline by default date, and the application has courses ending in September and January' do
+      it 'does not enqueue a secondary worker for references with requested feedback, with a September course' do
         create(
           :application_choice,
           application_form: september_application_choice.application_form,
           current_recruitment_cycle_year: year,
           course_option: build(:course_option, course: january_course),
         )
-        allow(EndOfCycle::CancelReferenceRequestsSecondaryWorker).to receive(:perform_at)
-        described_class.new.perform
-        expect(EndOfCycle::CancelReferenceRequestsSecondaryWorker)
-          .not_to have_received(:perform_at).with(kind_of(Time), contain_exactly(september_reference.id))
+        expect { described_class.perform_now }.not_to enqueue_job(EndOfCycle::CancelReferenceRequestsSecondaryWorker)
       end
     end
 
-    context 'after the winter decline by default date, and the course starting after september' do
+    context 'after the winter decline by default date, and the course starting after September' do
       let(:instance) { described_class.new }
 
-      it 'enqueues secondary worker for references with requested feedback, with a january course' do
+      it 'enqueues secondary worker for references with requested feedback, with a January course' do
         allow(instance).to receive(:run_winter_cancel_reference_requests?).and_return(true)
-        allow(EndOfCycle::CancelReferenceRequestsSecondaryWorker).to receive(:perform_at)
-        instance.perform
-        expect(EndOfCycle::CancelReferenceRequestsSecondaryWorker)
-          .to have_received(:perform_at).with(kind_of(Time), contain_exactly(january_reference.id))
+        expect { instance.perform }.to enqueue_job(EndOfCycle::CancelReferenceRequestsSecondaryWorker).with([january_reference.id])
       end
     end
   end
