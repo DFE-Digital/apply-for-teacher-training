@@ -1,7 +1,5 @@
 module EndOfCycle
   class SendWinterDeclineByDefaultExplainerEmailToCandidatesWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     BATCH_SIZE = 120
 
     def perform
@@ -34,8 +32,6 @@ module EndOfCycle
   end
 
   class SendWinterDeclineByDefaultExplainerEmailToCandidatesBatchWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     def perform(application_form_ids)
       ApplicationForm.where(id: application_form_ids).includes(:application_choices).find_each do |application_form|
         CandidateMailer.winter_decline_by_default_explainer(application_form).deliver_later

@@ -1,7 +1,5 @@
 module EndOfCycle
   class RunEndOfCycleJobsWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     def perform
       if current_timetable.after_apply_deadline?
         EndOfCycle::CancelUnsubmittedApplicationsWorker.perform_later(true)

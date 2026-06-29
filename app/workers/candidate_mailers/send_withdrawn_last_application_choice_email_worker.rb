@@ -1,6 +1,4 @@
 class CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker < ApplicationJob
-  self.queue_adapter = :solid_queue
-
   def perform(application_form_id)
     application_form = ApplicationForm.find(application_form_id)
 

@@ -1,6 +1,4 @@
 class GeocodeApplicationAddressWorker < ApplicationJob
-  self.queue_adapter = :solid_queue
-
   queue_as :low_priority
 
   retry_on StandardError, attempts: 5

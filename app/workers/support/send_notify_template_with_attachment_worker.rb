@@ -1,6 +1,4 @@
 class Support::SendNotifyTemplateWithAttachmentWorker < ApplicationJob
-  self.queue_adapter = :solid_queue
-
   def perform(notify_request_id)
     request = SupportInterface::NotifySendRequest.find(notify_request_id)
     relation = request.email_addresses

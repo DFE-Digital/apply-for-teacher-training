@@ -1,7 +1,5 @@
 module EndOfCycle
   class CancelReferenceRequestsWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     BATCH_SIZE = 200
 
     def perform
@@ -50,8 +48,6 @@ module EndOfCycle
   end
 
   class CancelReferenceRequestsSecondaryWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     def perform(reference_ids)
       ApplicationReference.feedback_requested.where(id: reference_ids).find_each do |reference|
         CancelReferee.new.call(reference:)

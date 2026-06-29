@@ -1,6 +1,4 @@
 class DataExporter < ApplicationJob
-  self.queue_adapter = :solid_queue
-
   def perform(importer_class, data_export_type, export_options = {})
     RequestLocals.store[:debugging_info] = { data_export_type:, importer_class: }
 

@@ -1,7 +1,5 @@
 module EndOfCycle
   class SendApplicationDeadlineHasPassedEmailToCandidatesWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     BATCH_SIZE = 120
 
     def perform
@@ -22,8 +20,6 @@ module EndOfCycle
   end
 
   class SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     def perform(application_form_ids)
       ApplicationForm.where(id: application_form_ids).find_each do |application_form|
         CandidateMailer.application_deadline_has_passed(application_form).deliver_later

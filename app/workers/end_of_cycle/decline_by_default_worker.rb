@@ -1,7 +1,5 @@
 module EndOfCycle
   class DeclineByDefaultWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     BATCH_SIZE = 120
     STAGGER_OVER = 1.minute
 
@@ -38,8 +36,6 @@ module EndOfCycle
   end
 
   class DeclineByDefaultSecondaryWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     def perform(application_form_ids)
       application_forms = ApplicationForm.where(id: application_form_ids).includes(:application_choices)
       application_forms.find_each do |application_form|

@@ -1,6 +1,4 @@
 class CleanUpCourseOptionsWithNoStudyMode < ApplicationJob
-  self.queue_adapter = :solid_queue
-
   def perform
     CourseOption.where('study_mode IN (\'0\',\'1\')').find_each do |nil_co|
       intended_study_mode = case nil_co.study_mode_before_type_cast

@@ -1,6 +1,4 @@
 class GenerateTestApplications < ApplicationJob
-  self.queue_adapter = :solid_queue
-
   def perform(next_cycle_applications = false)
     raise 'You cannot generate test data in production' if HostingEnvironment.production?
 

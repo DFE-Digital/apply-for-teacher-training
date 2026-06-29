@@ -1,6 +1,4 @@
 class AdviserSignUpWorker < ApplicationJob
-  self.queue_adapter = :solid_queue
-
   attr_reader :application_form, :candidate_matchback, :preferred_teaching_subject_id
 
   MATCHBACK_ATTRIBUTES = %i[

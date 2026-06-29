@@ -1,5 +1,4 @@
 class VendorAPIRequestWorker < ApplicationJob
-  self.queue_adapter = :solid_queue
   AuthorizationStruct = Struct.new(:authorization)
 
   include ActionController::HttpAuthentication::Token

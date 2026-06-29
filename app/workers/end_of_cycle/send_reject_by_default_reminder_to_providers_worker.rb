@@ -1,7 +1,5 @@
 module EndOfCycle
   class SendRejectByDefaultReminderToProvidersWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     BATCH_SIZE = 120
 
     def perform
@@ -38,8 +36,6 @@ module EndOfCycle
   end
 
   class SendRejectByDefaultReminderToProvidersBatchWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     def perform(provider_ids)
       Provider.where(id: provider_ids).includes(:provider_users).find_each do |provider|
         SendRejectByDefaultReminderToProvidersService.new(provider).call

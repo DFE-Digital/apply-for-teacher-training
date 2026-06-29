@@ -1,7 +1,5 @@
 module EndOfCycle
   class SendRejectByDefaultExplainerEmailToCandidatesWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     BATCH_SIZE = 120
 
     def perform
@@ -22,8 +20,6 @@ module EndOfCycle
   end
 
   class SendRejectByDefaultExplainerEmailToCandidatesBatchWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     def perform(application_form_ids)
       ApplicationForm.where(id: application_form_ids).includes(:application_choices).find_each do |application_form|
         if application_form.application_choices.pluck(:status).include?('offer')

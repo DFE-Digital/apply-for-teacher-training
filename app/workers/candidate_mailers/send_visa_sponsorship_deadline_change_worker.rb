@@ -1,7 +1,5 @@
 module CandidateMailers
   class SendVisaSponsorshipDeadlineChangeWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     queue_as :mailers
 
     def perform(application_choice_ids)

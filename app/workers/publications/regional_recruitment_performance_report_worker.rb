@@ -1,7 +1,5 @@
 module Publications
   class RegionalRecruitmentPerformanceReportWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     queue_as :default
 
     retry_on StandardError, attempts: 3

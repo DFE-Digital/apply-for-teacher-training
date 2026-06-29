@@ -1,6 +1,4 @@
 class DeleteTestApplications < ApplicationJob
-  self.queue_adapter = :solid_queue
-
   def perform(*)
     raise 'You can only delete test applications in a test environment' unless DeleteTestApplications.can_run_in_this_environment?
 
