@@ -6,7 +6,7 @@ module EndOfCycle
       return unless send_emails?
 
       BatchDelivery.new(relation:, batch_size: BATCH_SIZE).each do |batch_time, application_forms|
-        SendWinterDeclineByDefaultExplainerEmailToCandidatesBatchWorker.perform_at(batch_time, application_forms.pluck(:id))
+        SendWinterDeclineByDefaultExplainerEmailToCandidatesBatchWorker.set(wait_until: batch_time).perform_later(application_forms.pluck(:id))
       end
     end
 

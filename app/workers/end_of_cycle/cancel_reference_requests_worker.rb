@@ -6,7 +6,7 @@ module EndOfCycle
       return unless run?
 
       BatchDelivery.new(relation:, stagger_over: 2.hours, batch_size: BATCH_SIZE).each do |batch_time, references|
-        CancelReferenceRequestsSecondaryWorker.perform_at(batch_time, references.pluck(:id))
+        CancelReferenceRequestsSecondaryWorker.set(wait_until: batch_time).perform_later(references.pluck(:id))
       end
     end
 

@@ -6,7 +6,7 @@ module EndOfCycle
       return unless CandidateEmailTimetabler.new.send_reject_by_default_explainer?
 
       BatchDelivery.new(relation:, batch_size: BATCH_SIZE).each do |batch_time, application_forms|
-        SendRejectByDefaultExplainerEmailToCandidatesBatchWorker.perform_at(batch_time, application_forms.pluck(:id))
+        SendRejectByDefaultExplainerEmailToCandidatesBatchWorker.set(wait_until: batch_time).perform_later(application_forms.pluck(:id))
       end
     end
 
