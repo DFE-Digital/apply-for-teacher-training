@@ -173,7 +173,7 @@ private
   def and_i_see_information_to_apply_for(timetable)
     expect(page).to have_element(
       :h2,
-      text: "Courses from the #{timetable.academic_year_range_name} academic year",
+      text: "Courses for the #{timetable.academic_year_range_name} academic year",
     )
     expect(page).to have_element(
       :p,

@@ -297,7 +297,7 @@ private
     timetable = RecruitmentCycleTimetable.next_timetable
     expect(page).to have_element(
       :h2,
-      text: "Courses from the #{timetable.academic_year_range_name} academic year",
+      text: "Courses for the #{timetable.academic_year_range_name} academic year",
     )
     expect(page).to have_element(
       :p,

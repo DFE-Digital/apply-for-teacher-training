@@ -12,7 +12,7 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
           expect(component).to have_element(:p, text: 'The deadline for applying to courses in the 2026 to 2027 academic year has passed.', class: 'govuk-body')
           expect(component).to have_no_link('Choose a course', class: 'govuk-button')
 
-          expect(component).to have_element(:h2, text: 'Courses from the 2027 to 2028 academic year', class: 'govuk-heading-l')
+          expect(component).to have_element(:h2, text: 'Courses for the 2027 to 2028 academic year', class: 'govuk-heading-l')
           expect(component).to have_text "You will be able to view courses starting in the 2027 to 2028 academic year from #{application_form.find_opens_at.to_fs(:govuk_date_time_time_first)}."
           expect(component).to have_text "You will be able to apply from #{application_form.apply_opens_at.to_fs(:govuk_date_time_time_first)}."
         end
@@ -29,9 +29,9 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
           expect(component).to have_element(:p, text: 'The deadline for applying to courses in the 2026 to 2027 academic year has passed.', class: 'govuk-body')
           expect(component).to have_link('Choose a course', class: 'govuk-button')
 
-          expect(component).to have_element(:h2, text: 'Courses from the 2027 to 2028 academic year', class: 'govuk-heading-l')
+          expect(component).to have_element(:h2, text: 'Courses for the 2027 to 2028 academic year', class: 'govuk-heading-l')
           expect(component).to have_text 'You can now find teacher training courses starting in the 2027 to 2028 academic year.'
-          expect(component).to have_text 'You will be able to apply from 9am UK time on 6 October 2026, but you can start preparing your application now.'
+          expect(component).to have_text 'You will be able to apply from 9am UK time on 6 October 2026, but you can start preparing your applications now.'
         end
       end
     end
@@ -49,7 +49,7 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
         expect(component).to have_no_link('Choose a course', class: 'govuk-button')
 
         next_year_range = next_timetable.academic_year_range_name
-        expect(component).to have_text "Courses from the #{next_year_range} academic year"
+        expect(component).to have_text "Courses for the #{next_year_range} academic year"
       end
     end
   end
