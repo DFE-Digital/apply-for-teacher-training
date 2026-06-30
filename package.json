@@ -13,7 +13,7 @@
     "jquery": "^4.0.0",
     "lodash.debounce": "^4.0.8",
     "postcss": "^8.5.15",
-    "puppeteer": "^25.1.0",
+    "puppeteer": "^25.2.0",
     "sass": "^1.100.0",
     "stimulus": "^3.2.2"
   },
