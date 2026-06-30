@@ -35,7 +35,7 @@ private
     def application_choices
       @application_choices ||= begin
         provider = FactoryBot.build(:provider, code:)
-        course = FactoryBot.build(:course, provider:)
+        course = FactoryBot.build(:course, provider:, start_date: "01/01/#{application_form.recruitment_cycle_year}")
         course_option = FactoryBot.build(:course_option, course: course)
         FactoryBot.create(:application_choice, @choice_state, application_form:, course_option:)
 

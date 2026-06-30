@@ -5,7 +5,7 @@ class CandidateInterface::ApplicationChoiceItemComponent < ApplicationComponent
   end
   attr_reader :application_choice
   delegate :status, :school_placement_auto_selected, to: :application_choice
-  delegate :decline_by_default_at, to: :timetable
+  delegate :decline_by_default_at, :winter_decline_by_default_at, to: :timetable
 
   def provider_name
     application_choice.current_course.provider.name
@@ -47,6 +47,14 @@ class CandidateInterface::ApplicationChoiceItemComponent < ApplicationComponent
 
   def show_decline_by_default_text?
     application_choice.offer? && timetable.between_apply_deadline_and_decline_by_default?
+  end
+
+  def decline_date
+    if application_choice.starts_after_september?
+      winter_decline_by_default_at
+    else
+      decline_by_default_at
+    end.to_fs(:govuk_time_first_no_year_date_time)
   end
 
 private
