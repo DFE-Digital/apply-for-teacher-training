@@ -109,7 +109,7 @@ module ProviderInterface
     end
 
     def course_option
-      CourseOption.find_by(id: course_option_id)
+      CourseOption.find_by(id: course_option_id) || application_choice.current_course_option
     end
 
     def ske_conditions_attributes=(attributes)
