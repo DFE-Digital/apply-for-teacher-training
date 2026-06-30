@@ -334,6 +334,7 @@ RSpec.describe ApplicationForm do
 
     describe 'updating region code' do
       it 'sets value to `rest_of_the_world` for international addresses outside EEA' do
+        clear_enqueued_jobs
         application_form = create(:application_form, region_code: :london)
 
         application_form.update!(
@@ -348,6 +349,7 @@ RSpec.describe ApplicationForm do
 
       it 'sets value to `european_economic_area` for international addresses inside EEA' do
         application_form = create(:application_form, region_code: :london)
+        clear_enqueued_jobs
 
         application_form.update!(
           country: 'FR',
@@ -1554,7 +1556,7 @@ RSpec.describe ApplicationForm do
     before do
       allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache.lookup_store(:memory_store))
       Rails.cache.clear
-      clear_enqueued_job
+      clear_enqueued_jobs
     end
 
     subject(:application_form) { build_stubbed(:application_form) }
@@ -1648,7 +1650,7 @@ RSpec.describe ApplicationForm do
     before do
       allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache.lookup_store(:memory_store))
       Rails.cache.clear
-      clear_enqueued_job
+      clear_enqueued_jobs
     end
 
     context 'when the application form is assigned to an adviser' do
