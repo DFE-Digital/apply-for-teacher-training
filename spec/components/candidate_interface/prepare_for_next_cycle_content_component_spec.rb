@@ -107,7 +107,7 @@ RSpec.describe CandidateInterface::PrepareForNextCycleContentComponent do
     it 'renders the component with instructions about how to prepare for next cycle' do
       expect(rendered_component).to have_element(
         :h2,
-        text: "Courses from the #{academic_year_range_name} academic year",
+        text: "Courses for the #{academic_year_range_name} academic year",
         class: 'govuk-heading-l',
       )
     end
@@ -144,7 +144,7 @@ RSpec.describe CandidateInterface::PrepareForNextCycleContentComponent do
         )
         expect(rendered_component).to have_element(
           :p,
-          text: "You will be able to apply from #{apply_opens}, but you can start preparing your application now.",
+          text: "You will be able to apply from #{apply_opens}, but you can start preparing your applications now.",
           class: 'govuk-body',
         )
         expect(rendered_component).to have_element(

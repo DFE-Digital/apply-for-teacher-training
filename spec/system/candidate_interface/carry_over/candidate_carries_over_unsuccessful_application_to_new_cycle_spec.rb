@@ -190,7 +190,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     next_cycle = RecruitmentCycleTimetable.next_timetable
     expect(page).to have_element(
       :h2,
-      text: "Courses from the #{next_cycle.academic_year_range_name} academic year",
+      text: "Courses for the #{next_cycle.academic_year_range_name} academic year",
     )
     expect(page).to have_element(
       :p,
