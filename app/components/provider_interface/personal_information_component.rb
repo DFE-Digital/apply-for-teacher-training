@@ -26,10 +26,11 @@ module ProviderInterface
         date_of_birth_row,
         nationality_row,
         right_to_work_or_study_row,
-        residency_details_row,
-        candidate_id_number,
+        visa_status_row,
         visa_expiry_row,
         visa_explanation_row,
+        residency_row,
+        candidate_id_number,
       ].compact
     end
 
@@ -65,11 +66,11 @@ module ProviderInterface
       }
     end
 
-    def residency_details_row
+    def visa_status_row
       return unless application_form.right_to_work_or_study == 'yes'
 
       {
-        key: 'Residency details',
+        key: 'Visa type or immigration status',
         value: FormatResidencyDetailsService.new(application_form:).residency_details_value,
       }
     end
@@ -98,10 +99,19 @@ module ProviderInterface
          @application_choice&.visa_expires_soon?
 
         {
-          key: t('visa_expiry_form.visa_explanation_label'),
+          key: 'Visa status',
           value: render(VisaExplanationComponent.new(@application_choice)),
         }
       end
+    end
+
+    def residency_row
+      return if @application_form.country_residency_date_from.blank?
+
+      {
+        key: "Lived in #{CountryFinder.find_name_from_hesa_code(@application_form.country)} since",
+        value: @application_form.country_residency_since_birth ? 'Birth' : @application_form.country_residency_date_from.to_fs(:month_and_year),
+      }
     end
 
     def date_of_birth_row

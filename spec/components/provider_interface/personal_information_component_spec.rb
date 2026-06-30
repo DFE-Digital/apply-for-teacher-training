@@ -122,8 +122,8 @@ RSpec.describe ProviderInterface::PersonalInformationComponent do
         application_form.right_to_work_or_study_details = nil
       end
 
-      it 'renders the residency_details_row' do
-        expect(result.css('.govuk-summary-list__key').text).to include('Residency details')
+      it 'renders the visa information row' do
+        expect(result.css('.govuk-summary-list__key').text).to include('Visa type or immigration status')
         expect(result.css('.govuk-summary-list__value').text).to include('EU settled status')
       end
     end
@@ -135,8 +135,8 @@ RSpec.describe ProviderInterface::PersonalInformationComponent do
         application_form.right_to_work_or_study_details = 'Indefinite leave to remain'
       end
 
-      it 'renders the residency_details_row' do
-        expect(result.css('.govuk-summary-list__key').text).to include('Residency details')
+      it 'renders the visa information row' do
+        expect(result.css('.govuk-summary-list__key').text).to include('Visa type or immigration status')
         expect(result.css('.govuk-summary-list__value').text).to include('Indefinite leave to remain')
       end
     end
@@ -144,16 +144,41 @@ RSpec.describe ProviderInterface::PersonalInformationComponent do
     context 'the right to work or study status is "no"' do
       before { application_form.right_to_work_or_study = 'no' }
 
-      it 'does not render the residency_details_row' do
-        expect(result.css('.govuk-summary-list__key').text).not_to include('Residency details')
+      it 'does not render the visa information row' do
+        expect(result.css('.govuk-summary-list__key').text).not_to include('Visa type or immigration status')
       end
     end
 
     context 'the right to work or study status is "decide_later"' do
       before { application_form.right_to_work_or_study = 'decide_later' }
 
-      it 'does not render the residency_details_row' do
+      it 'does not render the visa information row' do
         expect(result.css('.govuk-summary-list__key').text).not_to include('Residency details')
+      end
+    end
+
+    context 'lived in UK since birth' do
+      before do
+        application_form.country_residency_since_birth = true
+      end
+
+      it 'renders residency details for living in the UK since birth' do
+        expect(result.css('.govuk-summary-list__key').text).to include('Lived in United Kingdom since')
+        expect(result.css('.govuk-summary-list__value').text).to include('Birth')
+      end
+    end
+
+    context 'lived in UK since 5 years ago' do
+      let(:residency_date) { 5.years.ago }
+
+      before do
+        application_form.country_residency_since_birth = false
+        application_form.country_residency_date_from = residency_date
+      end
+
+      it 'renders residency details for living in the UK since 5 years ago' do
+        expect(result.css('.govuk-summary-list__key').text).to include('Lived in United Kingdom since')
+        expect(result.css('.govuk-summary-list__value').text).to include(residency_date.to_fs(:month_and_year))
       end
     end
   end
