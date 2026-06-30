@@ -18,7 +18,7 @@
 
         <% if show_decline_by_default_text? %>
           <p class="app-application-item__status_warning govuk-body-s govuk-!-margin-bottom-0">
-            <%= t('candidate_interface.application_choice_item_component.respond_before', date: decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)) %>
+            <%= t('candidate_interface.application_choice_item_component.respond_before', date: decline_date) %>
           </p>
         <% end %>
       </div>
