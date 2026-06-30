@@ -328,22 +328,6 @@ jobs:
 
             The review app has been successfully deployed and is ready for testing.
 
-  merge-dependabot:
-    name: Merge dependabot
-    if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'dependencies') }}
-    needs: [lint, test, deploy-v2-review-app, report-flakey-specs]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Merge minor dependency updates
-        uses: fastify/github-action-merge-dependabot@30c3f8f14a4f7b315ba38dbc1b793d27128fef82 #Pinned at v3.12.0
-        with:
-          github-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
-          target: minor
-          exclude: "govuk-components,govuk_design_system_formbuilder,govuk-frontend"
-          merge-method: merge
 
   deploy-aks-before-production:
     name: Parallel deployment before production v2
