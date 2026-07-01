@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_01_120752) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_01_082943) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -268,7 +268,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_01_120752) do
     t.text "work_history_explanation"
     t.string "work_history_status"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
-    t.index ["recruitment_cycle_year", "candidate_id"], name: "idx_on_recruitment_cycle_year_candidate_id_0a3728aa34", unique: true
     t.index ["recruitment_cycle_year"], name: "index_application_forms_on_recruitment_cycle_year"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
     t.index ["updated_at"], name: "index_application_forms_on_updated_at", order: :desc
