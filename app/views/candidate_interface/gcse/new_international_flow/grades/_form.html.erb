@@ -1,8 +1,8 @@
 <%= f.govuk_error_summary %>
 <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: t('gcse_edit_new_international_flow_grade.page_title'), size: 'l', tag: 'h1' } do %>
   <% if @list_of_grades %>
-    <% @structured_grades.each do |grade| %>
-      <%= f.govuk_radio_button :grade, grade, label: { text: grade } %>
+    <% @structured_grades.each_with_index do |grade, i| %>
+      <%= f.govuk_radio_button :grade, grade, label: { text: grade }, link_errors: i.zero? %>
     <% end %>
 
     <%= f.govuk_radio_divider %>

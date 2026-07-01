@@ -27,6 +27,10 @@ module CandidateInterface
       ].compact
     end
 
+    def render?
+      application_qualification.present?
+    end
+
   private
 
     attr_reader :application_qualification, :subject
@@ -115,28 +119,6 @@ module CandidateInterface
           },
         },
       }
-    end
-
-    def not_completed_explanation_row
-      {
-        key: 'Are you currently studying for this qualification?',
-        value: not_completed_explanation_value,
-      }.tap do |row|
-        unless application_qualification.currently_completing_qualification.nil?
-          row[:action] = {
-            href: candidate_interface_gcse_edit_not_yet_completed_path(change_path_params),
-            visually_hidden_text: 'how you expect to gain this qualification',
-          }
-        end
-      end
-    end
-
-    def not_completed_explanation_value
-      if application_qualification.currently_completing_qualification.nil?
-        govuk_link_to('Select if you are currently studying for this qualification', candidate_interface_gcse_edit_not_yet_completed_path(change_path_params))
-      else
-        not_completed_explanation_value_row(application_qualification)
-      end
     end
 
     def country_row
