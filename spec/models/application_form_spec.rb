@@ -30,6 +30,27 @@ RSpec.describe ApplicationForm do
   it { is_expected.to have_many(:notifications) }
   it { is_expected.to have_many(:english_proficiencies) }
 
+  describe 'validations' do
+    subject(:application_form) { build(:application_form) }
+
+    it { is_expected.to validate_uniqueness_of(:candidate_id).scoped_to(:recruitment_cycle_year) }
+
+    describe 'one application form per candidate and recruitment cycle' do
+      let(:candidate) { build(:candidate) }
+      let(:recruitment_cycle_year) { 2026 }
+      let(:application_form) { create(:application_form, candidate:, recruitment_cycle_year:) }
+      let(:duplicate) { create(:application_form, candidate:, recruitment_cycle_year:) }
+
+      before do
+        application_form
+      end
+
+      it 'raises an error if another application form is created for the same candidate and recruitment cycle' do
+        expect{ duplicate }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
+  end
+
   describe 'delegations' do
     it { is_expected.to delegate_method(:apply_deadline_at).to(:recruitment_cycle_timetable) }
     it { is_expected.to delegate_method(:apply_opens_at).to(:recruitment_cycle_timetable) }

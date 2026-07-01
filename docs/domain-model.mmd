@@ -1,0 +1,1052 @@
+erDiagram
+	direction TB
+	AccountRecoveryRequest {
+		string previous_account_email_address
+	}
+	AccountRecoveryRequestCode {
+		string code_digest
+	}
+	"ActiveStorage::Attachment" {
+		string name
+		string record_type
+	}
+	"ActiveStorage::Blob" {
+		integer byte_size
+		string checksum
+		string content_type
+		string filename
+		string key
+		text metadata
+		string service_name
+	}
+	"ActiveStorage::VariantRecord" {
+		string variation_digest
+	}
+	"Adviser::SignUpRequest" {
+		datetime sent_to_adviser_at
+	}
+	"Adviser::TeachingSubject" {
+		datetime discarded_at
+		string external_identifier
+		string level
+		string title
+	}
+	ApplicationChoice {
+		datetime accepted_at
+		datetime conditions_not_met_at
+		datetime course_changed_at
+		integer current_recruitment_cycle_year
+		datetime declined_at
+		boolean declined_by_default
+		datetime inactive_at
+		datetime offer_changed_at
+		datetime offer_deferred_at
+		string offer_withdrawal_reason
+		datetime offer_withdrawn_at
+		datetime offered_at
+		text personal_statement
+		integer provider_ids
+		datetime recruited_at
+		datetime reject_by_default_at
+		integer reject_by_default_days
+		datetime reject_by_default_feedback_sent_at
+		datetime rejected_at
+		boolean rejected_by_default
+		string rejection_reason
+		string rejection_reasons_type
+		boolean school_placement_auto_selected
+		datetime sent_to_provider_at
+		string status
+		string status_before_deferral
+		jsonb structured_rejection_reasons
+		text structured_withdrawal_reasons
+		string visa_explanation
+		string visa_explanation_details
+		jsonb withdrawal_feedback
+		datetime withdrawn_at
+		boolean withdrawn_or_declined_for_candidate_by_provider
+	}
+	ApplicationExperience {
+		string commitment
+		boolean currently_working
+		text details
+		datetime end_date
+		boolean end_date_unknown
+		string experienceable_type
+		string organisation
+		boolean relevant_skills
+		string role
+		datetime start_date
+		boolean start_date_unknown
+		string working_pattern
+		boolean working_with_children
+	}
+	ApplicationFeedback {
+		boolean consent_to_be_contacted
+		string feedback
+		string page_title
+		string path
+	}
+	ApplicationForm {
+		string address_line1
+		string address_line2
+		string address_line3
+		string address_line4
+		string address_type
+		boolean adviser_interruption_response
+		string adviser_status
+		text becoming_a_teacher
+		boolean becoming_a_teacher_completed
+		datetime becoming_a_teacher_completed_at
+		boolean contact_details_completed
+		datetime contact_details_completed_at
+		string country
+		datetime country_residency_date_from
+		boolean country_residency_since_birth
+		boolean course_choices_completed
+		datetime course_choices_completed_at
+		date date_of_birth
+		boolean degrees_completed
+		datetime degrees_completed_at
+		string disability_disclosure
+		boolean disclose_disability
+		datetime edit_by
+		jsonb editable_sections
+		datetime editable_until
+		boolean efl_completed
+		datetime efl_completed_at
+		boolean english_gcse_completed
+		datetime english_gcse_completed_at
+		text english_language_details
+		boolean english_main_language
+		jsonb equality_and_diversity
+		boolean equality_and_diversity_completed
+		datetime equality_and_diversity_completed_at
+		boolean feedback_form_complete
+		string feedback_satisfaction_level
+		text feedback_suggestions
+		string fifth_nationality
+		string first_name
+		string first_nationality
+		string fourth_nationality
+		text further_information
+		string immigration_status
+		string international_address
+		text interview_preferences
+		boolean interview_preferences_completed
+		datetime interview_preferences_completed_at
+		string last_name
+		float latitude
+		float longitude
+		boolean maths_gcse_completed
+		datetime maths_gcse_completed_at
+		boolean no_other_qualifications
+		text other_language_details
+		boolean other_qualifications_completed
+		datetime other_qualifications_completed_at
+		boolean personal_details_completed
+		datetime personal_details_completed_at
+		string phase
+		string phone_number
+		string postcode
+		boolean previous_teacher_training_completed
+		datetime previous_teacher_training_completed_at
+		boolean references_completed
+		datetime references_completed_at
+		string region_code
+		string right_to_work_or_study
+		string right_to_work_or_study_details
+		text safeguarding_issues
+		boolean safeguarding_issues_completed
+		datetime safeguarding_issues_completed_at
+		string safeguarding_issues_status
+		boolean science_gcse_completed
+		datetime science_gcse_completed_at
+		string second_nationality
+		text subject_knowledge
+		boolean subject_knowledge_completed
+		datetime subject_knowledge_completed_at
+		datetime submitted_at
+		string support_reference
+		string third_nationality
+		boolean training_with_a_disability_completed
+		datetime training_with_a_disability_completed_at
+		boolean university_degree
+		datetime visa_expired_at
+		boolean volunteering_completed
+		datetime volunteering_completed_at
+		boolean volunteering_experience
+		text work_history_breaks
+		boolean work_history_completed
+		datetime work_history_completed_at
+		text work_history_explanation
+		string work_history_status
+	}
+	ApplicationQualification {
+		string award_year
+		string comparable_uk_degree
+		string comparable_uk_qualification
+		jsonb constituent_grades
+		boolean currently_completing_qualification
+		uuid degree_grade_uuid
+		uuid degree_institution_uuid
+		uuid degree_subject_uuid
+		uuid degree_type_uuid
+		string enic_reason
+		string enic_reference
+		string grade
+		string grade_hesa_code
+		string institution_country
+		string institution_hesa_code
+		string institution_name
+		boolean international
+		string level
+		text missing_explanation
+		string non_uk_qualification_type
+		text not_completed_explanation
+		string other_uk_qualification_type
+		boolean predicted_grade
+		integer public_id
+		string qualification_level
+		uuid qualification_level_uuid
+		string qualification_type
+		string qualification_type_hesa_code
+		string start_year
+		string subject
+		string subject_hesa_code
+	}
+	ApplicationReference {
+		datetime cancelled_at
+		datetime cancelled_at_end_of_cycle_at
+		boolean confidential
+		boolean consent_to_be_contacted
+		boolean duplicate
+		string email_address
+		datetime email_bounced_at
+		string feedback
+		datetime feedback_provided_at
+		datetime feedback_refused_at
+		string feedback_status
+		string hashed_sign_in_token
+		string name
+		jsonb questionnaire
+		string referee_type
+		boolean refused
+		string relationship
+		string relationship_correction
+		datetime reminder_sent_at
+		boolean replacement
+		datetime requested_at
+		string safeguarding_concerns
+		string safeguarding_concerns_status
+		boolean selected
+	}
+	ApplicationVolunteeringExperience {
+	}
+	ApplicationWorkExperience {
+	}
+	ApplicationWorkHistoryBreak {
+		string breakable_type
+		datetime end_date
+		text reason
+		datetime start_date
+	}
+	AuthenticationToken {
+		string hashed_token
+		string path
+		datetime used_at
+		string user_type
+	}
+	"Blazer::Audit" {
+		string data_source
+		text statement
+		integer user_id
+	}
+	"Blazer::Check" {
+		string check_type
+		integer creator_id
+		text emails
+		datetime last_run_at
+		text message
+		string schedule
+		text slack_channels
+		string state
+	}
+	"Blazer::Dashboard" {
+		integer creator_id
+		string name
+	}
+	"Blazer::DashboardQuery" {
+		integer position
+	}
+	"Blazer::Query" {
+		integer creator_id
+		string data_source
+		text description
+		string name
+		text statement
+		string status
+	}
+	Candidate {
+		boolean account_locked
+		string account_recovery_status
+		datetime candidate_api_updated_at
+		string email_address
+		boolean hide_in_reporting
+		datetime last_signed_in_at
+		string magic_link_token
+		datetime magic_link_token_sent_at
+		boolean sign_up_email_bounced
+		boolean submission_blocked
+		boolean unsubscribed_from_emails
+	}
+	CandidateLocationPreference {
+		decimal latitude
+		decimal longitude
+		string name
+		float within
+	}
+	CandidatePoolApplication {
+		boolean course_funding_type_fee
+		boolean course_type_postgraduate
+		boolean course_type_undergraduate
+		boolean needs_visa
+		integer rejected_provider_ids
+		boolean study_mode_full_time
+		boolean study_mode_part_time
+		integer subject_ids
+	}
+	CandidatePreference {
+		boolean dynamic_location_preferences
+		string funding_type
+		text opt_out_reason
+		string pool_status
+		string status
+		string training_locations
+	}
+	ChaserSent {
+		string chased_type
+		string chaser_type
+		integer course_id
+	}
+	Course {
+		boolean accept_english_gcse_equivalency
+		boolean accept_gcse_equivalency
+		boolean accept_maths_gcse_equivalency
+		boolean accept_pending_gcse
+		boolean accept_science_gcse_equivalency
+		string additional_gcse_equivalencies
+		string age_range
+		integer application_status
+		datetime applications_open_from
+		boolean can_sponsor_skilled_worker_visa
+		boolean can_sponsor_student_visa
+		string code
+		string course_length
+		string degree_grade
+		string degree_subject_requirements
+		string description
+		boolean exposed_in_find
+		string fee_details
+		integer fee_domestic
+		integer fee_international
+		string financial_support
+		string funding_type
+		string level
+		string name
+		string program_type
+		jsonb qualifications
+		string salary_details
+		datetime start_date
+		string study_mode
+		uuid uuid
+		datetime visa_sponsorship_application_deadline_at
+		boolean withdrawn
+	}
+	CourseOption {
+		boolean site_still_valid
+		string study_mode
+		string vacancy_status
+	}
+	CourseSubject {
+	}
+	DataExport {
+		datetime completed_at
+		string export_type
+		integer initiator_id
+		string initiator_type
+		string name
+	}
+	DataMigration {
+		string service_name
+		string timestamp
+	}
+	DeferredOfferConfirmation {
+		string conditions_status
+		string study_mode
+	}
+	"DeferredOfferConfirmation::ConditionsForm" {
+		string conditions_status
+		integer course_id
+		integer offer_id
+		integer offered_course_option_id
+		integer provider_user_id
+		integer site_id
+		string study_mode
+	}
+	"DeferredOfferConfirmation::CourseForm" {
+		string conditions_status
+		integer course_id
+		integer offer_id
+		integer offered_course_option_id
+		integer provider_user_id
+		integer site_id
+		string study_mode
+	}
+	"DeferredOfferConfirmation::LocationForm" {
+		string conditions_status
+		integer course_id
+		integer offer_id
+		integer offered_course_option_id
+		integer provider_user_id
+		integer site_id
+		string study_mode
+	}
+	"DeferredOfferConfirmation::StudyModeForm" {
+		string conditions_status
+		integer course_id
+		integer offer_id
+		integer offered_course_option_id
+		integer provider_user_id
+		integer site_id
+		string study_mode
+	}
+	DsiSession {
+		string dfe_sign_in_uid
+		string email_address
+		string first_name
+		string id_token
+		string ip_address
+		datetime last_active_at
+		string last_name
+		string user_agent
+		string user_type
+	}
+	DuplicateMatch {
+		boolean blocked
+		datetime candidate_last_contacted_at
+		date date_of_birth
+		string last_name
+		string postcode
+		integer recruitment_cycle_year
+		boolean resolved
+	}
+	Email {
+		text body
+		string delivery_status
+		string mail_template
+		string mailer
+		string notify_reference
+		string subject
+		string to
+	}
+	EmailClick {
+		string path
+	}
+	EnglishProficiency {
+		boolean degree_taught_in_english
+		boolean draft
+		string efl_qualification_type
+		boolean has_qualification
+		text no_assessment_plan_details
+		boolean no_qualification
+		text no_qualification_details
+		boolean qualification_not_needed
+		string qualification_status
+	}
+	Feature {
+		boolean active
+		string name
+	}
+	"FieldTest::Event" {
+		string name
+	}
+	"FieldTest::Membership" {
+		boolean converted
+		string experiment
+		string participant_id
+		string participant_type
+		string variant
+	}
+	FindFeedback {
+		string email_address
+		string feedback
+		string find_controller
+		string path
+	}
+	IeltsQualification {
+		integer award_year
+		string band_score
+		string trf_number
+	}
+	Interview {
+		text additional_details
+		text cancellation_reason
+		datetime cancelled_at
+		datetime date_and_time
+		text location
+	}
+	Note {
+		text message
+		string user_type
+	}
+	Notification {
+		string notification_type
+		string notified_type
+	}
+	Offer {
+	}
+	OfferCondition {
+		jsonb details
+		string status
+	}
+	OneLoginAuth {
+		string email_address
+		string token
+	}
+	OtherEflQualification {
+		integer award_year
+		string grade
+		string name
+	}
+	"Pool::Invite" {
+		string candidate_decision
+		boolean course_open
+		text message_content
+		boolean provider_message
+		datetime sent_to_candidate_at
+		string status
+	}
+	"Pool::InviteDeclineReason" {
+		text comment
+		string reason
+	}
+	PoolEligibleApplicationForm {
+		integer application_form_id
+	}
+	PossiblePreviousTeacherTraining {
+		date ended_on
+		string provider_name
+		date started_on
+	}
+	PreviousTeacherTraining {
+		text details
+		datetime ended_at
+		string provider_name
+		string started
+		datetime started_at
+		string status
+	}
+	Provider {
+		string code
+		string email_address
+		enum handle_interviews
+		float latitude
+		float longitude
+		string name
+		string phone_number
+		string postcode
+		string provider_type
+		string region_code
+		boolean selectable_school
+	}
+	ProviderAgreement {
+		datetime accepted_at
+		string agreement_type
+	}
+	ProviderPermissions {
+		boolean make_decisions
+		boolean manage_api_tokens
+		boolean manage_organisations
+		boolean manage_users
+		boolean set_up_interviews
+		boolean view_diversity_information
+		boolean view_safeguarding_information
+	}
+	ProviderPoolAction {
+		integer recruitment_cycle_year
+		string status
+	}
+	ProviderRelationshipPermissions {
+		boolean ratifying_provider_can_make_decisions
+		boolean ratifying_provider_can_view_diversity_information
+		boolean ratifying_provider_can_view_safeguarding_information
+		datetime setup_at
+		boolean training_provider_can_make_decisions
+		boolean training_provider_can_view_diversity_information
+		boolean training_provider_can_view_safeguarding_information
+	}
+	ProviderUser {
+		string dfe_sign_in_uid
+		string email_address
+		jsonb find_a_candidate_filters
+		string first_name
+		string last_name
+		datetime last_signed_in_at
+	}
+	ProviderUserFilter {
+		jsonb filters
+		string kind
+		integer pagination_page
+	}
+	ProviderUserNotificationPreferences {
+		boolean application_received
+		boolean application_rejected_by_default
+		boolean application_withdrawn
+		boolean chase_provider_decision
+		boolean marketing_emails
+		boolean offer_accepted
+		boolean offer_declined
+		boolean reference_received
+	}
+	"Publications::MonthlyStatistics::MonthlyStatisticsReport" {
+		date generation_date
+		string month
+		date publication_date
+		json statistics
+	}
+	"Publications::NationalRecruitmentPerformanceReport" {
+		integer cycle_week
+		date generation_date
+		date publication_date
+		json statistics
+	}
+	"Publications::ProviderEdiReport" {
+		string category
+		integer cycle_week
+		date generation_date
+		date publication_date
+		json statistics
+	}
+	"Publications::ProviderRecruitmentPerformanceReport" {
+		integer cycle_week
+		date generation_date
+		date publication_date
+		json statistics
+	}
+	"Publications::RegionalEdiReport" {
+		string category
+		integer cycle_week
+		date generation_date
+		date publication_date
+		string region
+		json statistics
+	}
+	"Publications::RegionalRecruitmentPerformanceReport" {
+		integer cycle_week
+		date generation_date
+		date publication_date
+		string region
+		json statistics
+	}
+	RecruitmentCycleTimetable {
+		datetime apply_deadline_at
+		datetime apply_opens_at
+		datetime decline_by_default_at
+		datetime find_closes_at
+		datetime find_opens_at
+		datetime reject_by_default_at
+		datetime winter_decline_by_default_at
+		datetime winter_reject_by_default_at
+	}
+	ReferenceCondition {
+	}
+	ReferenceToken {
+		string hashed_token
+	}
+	RegionalReportFilter {
+		integer recruitment_cycle_year
+		string region
+	}
+	RejectionFeedback {
+		boolean helpful
+	}
+	ServiceBanner {
+		string body
+		string header
+		string interface
+		string status
+	}
+	Session {
+		string id_token_hint
+		string ip_address
+		string user_agent
+	}
+	SessionError {
+		string body
+		string error_type
+		string id_token_hint
+		json omniauth_hash
+	}
+	Site {
+		string address_line1
+		string address_line2
+		string address_line3
+		string address_line4
+		string code
+		float latitude
+		float longitude
+		string name
+		string postcode
+		string region
+		string uuid
+		boolean uuid_generated_by_apply
+	}
+	SiteSetting {
+		string name
+		text value
+	}
+	SkeCondition {
+	}
+	"SolidCache::Entry" {
+		integer byte_size
+		binary key
+		integer key_hash
+		binary value
+	}
+	"SolidCacheDashboard::CacheEvent" {
+		integer byte_size
+		float duration
+		string event_type
+		integer key_hash
+		string key_string
+	}
+	"SolidQueue::BlockedExecution" {
+		string concurrency_key
+		datetime expires_at
+		integer priority
+		string queue_name
+	}
+	"SolidQueue::ClaimedExecution" {
+	}
+	"SolidQueue::FailedExecution" {
+		text error
+	}
+	"SolidQueue::Job" {
+		string active_job_id
+		text arguments
+		string class_name
+		string concurrency_key
+		datetime finished_at
+		integer priority
+		string queue_name
+		datetime scheduled_at
+	}
+	"SolidQueue::Pause" {
+		string queue_name
+	}
+	"SolidQueue::Process" {
+		string hostname
+		string kind
+		datetime last_heartbeat_at
+		text metadata
+		string name
+		integer pid
+	}
+	"SolidQueue::ReadyExecution" {
+		integer priority
+		string queue_name
+	}
+	"SolidQueue::RecurringExecution" {
+		datetime run_at
+	}
+	"SolidQueue::RecurringTask" {
+		text arguments
+		string class_name
+		string command
+		text description
+		string key
+		integer priority
+		string queue_name
+		string schedule
+		boolean static
+	}
+	"SolidQueue::ScheduledExecution" {
+		integer priority
+		string queue_name
+		datetime scheduled_at
+	}
+	"SolidQueue::Semaphore" {
+		datetime expires_at
+		integer value
+	}
+	Subject {
+		string code
+		string name
+	}
+	"SupportInterface::NotifySendRequest" {
+		string email_addresses
+		string template_id
+	}
+	SupportUser {
+		string dfe_sign_in_uid
+		datetime discarded_at
+		string email_address
+		string first_name
+		string last_name
+		datetime last_signed_in_at
+	}
+	TextCondition {
+	}
+	ToeflQualification {
+		integer award_year
+		string registration_number
+		integer total_score
+	}
+	ValidationError {
+		jsonb details
+		string form_object
+		string request_path
+		string service
+		string user_type
+	}
+	Vendor {
+		string name
+	}
+	VendorAPIRequest {
+		jsonb request_body
+		jsonb request_headers
+		string request_method
+		string request_path
+		jsonb response_body
+		jsonb response_headers
+		integer status_code
+	}
+	VendorAPIToken {
+		string description
+		string hashed_token
+		datetime last_used_at
+	}
+	VendorApiUser {
+		string email_address
+		string full_name
+		string vendor_user_id
+	}
+	WithdrawalReason {
+		text comment
+		string reason
+		string status
+	}
+	ApplicationExperience ||--o{ ApplicationVolunteeringExperience : "specializes"
+	ApplicationExperience ||--o{ ApplicationWorkExperience : "specializes"
+	OfferCondition ||--o{ ReferenceCondition : "specializes"
+	OfferCondition ||--o{ SkeCondition : "specializes"
+	OfferCondition ||--o{ TextCondition : "specializes"
+	"FieldTest::Membership" ||--}o "FieldTest::Event" : ""
+	Auditable o|--}o "Audited::Audit" : ""
+	ApplicationChoice o|--}o "Audited::Audit" : ""
+	ApplicationExperience o|--}o "Audited::Audit" : ""
+	ApplicationForm o|--}o "Audited::Audit" : ""
+	ApplicationQualification o|--}o "Audited::Audit" : ""
+	ApplicationReference o|--}o "Audited::Audit" : ""
+	ApplicationWorkHistoryBreak o|--}o "Audited::Audit" : ""
+	Candidate o|--}o "Audited::Audit" : ""
+	CourseOption o|--}o "Audited::Audit" : ""
+	DataExport o|--}o "Audited::Audit" : ""
+	DataMigration o|--}o "Audited::Audit" : ""
+	DuplicateMatch o|--}o "Audited::Audit" : ""
+	EnglishProficiency o|--}o "Audited::Audit" : ""
+	Feature o|--}o "Audited::Audit" : ""
+	Interview o|--}o "Audited::Audit" : ""
+	OfferCondition o|--}o "Audited::Audit" : ""
+	PreviousTeacherTraining o|--}o "Audited::Audit" : ""
+	Provider o|--}o "Audited::Audit" : ""
+	ProviderAgreement o|--}o "Audited::Audit" : ""
+	ProviderPermissions o|--}o "Audited::Audit" : ""
+	ProviderRelationshipPermissions o|--}o "Audited::Audit" : ""
+	ProviderUser o|--}o "Audited::Audit" : ""
+	ProviderUserNotificationPreferences o|--}o "Audited::Audit" : ""
+	ServiceBanner o|--}o "Audited::Audit" : ""
+	SiteSetting o|--}o "Audited::Audit" : ""
+	SupportUser o|--}o "Audited::Audit" : ""
+	VendorAPIToken o|--}o "Audited::Audit" : ""
+	User o|--}o "Audited::Audit" : ""
+	Associated o|--}o "Audited::Audit" : ""
+	"Blazer::Query" ||--}o "Blazer::Check" : ""
+	"Blazer::Query" ||--}o "Blazer::DashboardQuery" : ""
+	"Blazer::Query" o|..}o "Blazer::Dashboard" : ""
+	"Blazer::Query" o|--}o "Blazer::Audit" : ""
+	"Blazer::Dashboard" ||--}o "Blazer::DashboardQuery" : ""
+	"SolidQueue::RecurringTask" o|--}o "SolidQueue::RecurringExecution" : ""
+	"SolidQueue::Process" ||--}o "SolidQueue::ClaimedExecution" : ""
+	"SolidQueue::Process" o|--}o "SolidQueue::Process" : ""
+	"SolidQueue::Job" o|--|o "SolidQueue::RecurringExecution" : ""
+	"SolidQueue::Job" o|--|o "SolidQueue::FailedExecution" : ""
+	"SolidQueue::Job" o|--|o "SolidQueue::ScheduledExecution" : ""
+	"SolidQueue::Job" o|--|o "SolidQueue::BlockedExecution" : ""
+	"SolidQueue::Job" o|--|o "SolidQueue::ReadyExecution" : ""
+	"SolidQueue::Job" o|--|o "SolidQueue::ClaimedExecution" : ""
+	"SolidQueue::BlockedExecution" o|--|o "SolidQueue::Semaphore" : ""
+	"ActiveStorage::VariantRecord" ||--}o "ActiveStorage::Blob" : ""
+	Record ||--|o "ActiveStorage::Attachment" : ""
+	"ActiveStorage::Blob" ||--|o "ActiveStorage::Attachment" : ""
+	"ActiveStorage::VariantRecord" ||--|o "ActiveStorage::Attachment" : ""
+	DataExport ||--|o "ActiveStorage::Attachment" : ""
+	"SupportInterface::NotifySendRequest" ||--|o "ActiveStorage::Attachment" : ""
+	"ActiveStorage::Blob" ||--}o "ActiveStorage::Attachment" : ""
+	"ActiveStorage::Blob" o|..|o "ActiveStorage::Blob" : ""
+	SupportUser ||--}o "SupportInterface::NotifySendRequest" : ""
+	"SupportInterface::NotifySendRequest" o|..|o "ActiveStorage::Blob" : ""
+	"Publications::RegionalRecruitmentPerformanceReport" o|--|o RecruitmentCycleTimetable : ""
+	"Publications::RegionalEdiReport" o|--|o RecruitmentCycleTimetable : ""
+	Provider ||--}o "Publications::ProviderRecruitmentPerformanceReport" : ""
+	"Publications::ProviderRecruitmentPerformanceReport" o|--|o RecruitmentCycleTimetable : ""
+	"Publications::ProviderEdiReport" o|--|o RecruitmentCycleTimetable : ""
+	Provider ||--}o "Publications::ProviderEdiReport" : ""
+	"Publications::NationalRecruitmentPerformanceReport" o|--|o RecruitmentCycleTimetable : ""
+	"Pool::Invite" ||--}o "Pool::InviteDeclineReason" : ""
+	Chased ||--}o ChaserSent : ""
+	ApplicationChoice ||--}o ChaserSent : ""
+	ApplicationForm ||--}o ChaserSent : ""
+	ApplicationReference ||--}o ChaserSent : ""
+	Candidate ||--}o ChaserSent : ""
+	"Pool::Invite" ||--}o ChaserSent : ""
+	Candidate ||--}o "Pool::Invite" : ""
+	ApplicationForm ||--}o "Pool::Invite" : ""
+	"Pool::Invite" o|--}o ApplicationChoice : ""
+	Provider ||--}o "Pool::Invite" : ""
+	ProviderUser ||--}o "Pool::Invite" : ""
+	Course ||--}o "Pool::Invite" : ""
+	"Pool::Invite" o|--|o RecruitmentCycleTimetable : ""
+	ApplicationForm ||--}o "Adviser::SignUpRequest" : ""
+	"Adviser::TeachingSubject" ||--}o "Adviser::SignUpRequest" : ""
+	VendorAPIToken ||--}o VendorApiUser : ""
+	Provider ||--}o VendorAPIToken : ""
+	Provider o|--}o VendorAPIRequest : ""
+	Vendor o|--}o Provider : ""
+	User o|--}o ValidationError : ""
+	Candidate o|--}o ValidationError : ""
+	ProviderUser o|--}o ValidationError : ""
+	SupportUser o|--}o ValidationError : ""
+	EflQualification o|--|o EnglishProficiency : ""
+	IeltsQualification o|--|o EnglishProficiency : ""
+	OtherEflQualification o|--|o EnglishProficiency : ""
+	ToeflQualification o|--|o EnglishProficiency : ""
+	User ||--}o AuthenticationToken : ""
+	Candidate ||--}o AuthenticationToken : ""
+	ProviderUser ||--}o AuthenticationToken : ""
+	SupportUser ||--}o AuthenticationToken : ""
+	User ||--}o DsiSession : ""
+	Candidate ||--}o DsiSession : ""
+	ProviderUser ||--}o DsiSession : ""
+	SupportUser ||--}o DsiSession : ""
+	Subject ||--}o CourseSubject : ""
+	Subject o|..}o Course : ""
+	Provider ||--}o Site : ""
+	Site ||--}o CourseOption : ""
+	Site o|..}o Course : ""
+	Candidate o|--}o SessionError : ""
+	Candidate ||--}o Session : ""
+	ApplicationChoice ||--}o RejectionFeedback : ""
+	ProviderUser ||--}o RegionalReportFilter : ""
+	Provider ||--}o RegionalReportFilter : ""
+	ApplicationReference ||--}o ReferenceToken : ""
+	ProviderUser ||--|o ProviderUserNotificationPreferences : ""
+	ProviderUser ||--}o ProviderUserFilter : ""
+	ProviderUser ||--}o ProviderPermissions : ""
+	ProviderUser o|..}o Provider : ""
+	ProviderUser o|--}o Note : ""
+	ProviderUser ||--}o ProviderPoolAction : ""
+	ApplicationForm ||--}o ProviderPoolAction : ""
+	Provider ||--}o ProviderPermissions : ""
+	Provider ||--}o ProviderAgreement : ""
+	ProviderUser ||--}o ProviderAgreement : ""
+	Provider ||--}o Course : ""
+	Provider o|..}o CourseOption : ""
+	Provider o|..}o ApplicationChoice : ""
+	Provider o|..}o ApplicationForm : ""
+	Provider o|..}o ApplicationReference : ""
+	Provider ||--}o ProviderRelationshipPermissions : ""
+	Candidate ||--}o PossiblePreviousTeacherTraining : ""
+	Provider o|--}o PossiblePreviousTeacherTraining : ""
+	Candidate ||--|o OneLoginAuth : ""
+	ApplicationChoice ||--|o Offer : ""
+	Offer ||--}o OfferCondition : ""
+	Offer ||--}o ReferenceCondition : ""
+	Offer ||--}o SkeCondition : ""
+	Offer ||--}o TextCondition : ""
+	Offer o|--}o TextCondition : ""
+	Offer o|--}o SkeCondition : ""
+	Offer o|--|o ReferenceCondition : ""
+	Offer o|..|o CourseOption : ""
+	Notified ||--}o Notification : ""
+	ApplicationForm ||--}o Notification : ""
+	ApplicationChoice ||--}o Note : ""
+	User ||--}o Note : ""
+	Candidate ||--}o Note : ""
+	ProviderUser ||--}o Note : ""
+	SupportUser ||--}o Note : ""
+	ApplicationChoice ||--}o Interview : ""
+	Provider ||--}o Interview : ""
+	Email ||--}o EmailClick : ""
+	ApplicationForm o|--}o Email : ""
+	DuplicateMatch o|--}o Candidate : ""
+	ProviderUser o|--}o DsiSession : ""
+	ProviderUser ||--}o DeferredOfferConfirmation : ""
+	Offer ||--}o DeferredOfferConfirmation : ""
+	Course ||--}o DeferredOfferConfirmation : ""
+	Site ||--}o DeferredOfferConfirmation : ""
+	CourseOption ||--}o DeferredOfferConfirmation : ""
+	DataExport o|..|o "ActiveStorage::Blob" : ""
+	Course ||--}o CourseSubject : ""
+	Course ||--}o CourseOption : ""
+	CourseOption ||--}o ApplicationChoice : ""
+	Course o|..}o ApplicationChoice : ""
+	Course o|--|o RecruitmentCycleTimetable : ""
+	ApplicationForm ||--}o CandidatePreference : ""
+	CandidatePreference ||--}o CandidateLocationPreference : ""
+	ApplicationForm ||--|o CandidatePoolApplication : ""
+	Candidate ||--}o CandidatePoolApplication : ""
+	Provider o|--}o CandidateLocationPreference : ""
+	Breakable ||--}o ApplicationWorkHistoryBreak : ""
+	ApplicationChoice ||--}o ApplicationWorkHistoryBreak : ""
+	ApplicationForm ||--}o ApplicationWorkHistoryBreak : ""
+	ApplicationForm ||--}o ApplicationReference : ""
+	ApplicationReference o|..}o Candidate : ""
+	ApplicationForm o|--|o RecruitmentCycleTimetable : ""
+	Candidate ||--}o ApplicationForm : ""
+	ApplicationForm ||--}o ApplicationChoice : ""
+	ApplicationForm o|..}o CourseOption : ""
+	ApplicationForm o|..}o Course : ""
+	Experienceable o|--}o ApplicationWorkExperience : ""
+	ApplicationChoice o|--}o ApplicationWorkExperience : ""
+	ApplicationForm o|--}o ApplicationWorkExperience : ""
+	Experienceable o|--}o ApplicationVolunteeringExperience : ""
+	ApplicationChoice o|--}o ApplicationVolunteeringExperience : ""
+	ApplicationForm o|--}o ApplicationVolunteeringExperience : ""
+	ApplicationForm ||--}o ApplicationQualification : ""
+	ApplicationForm o|..}o CandidateLocationPreference : ""
+	ApplicationForm ||--}o PreviousTeacherTraining : ""
+	ApplicationForm o|--|o ApplicationForm : ""
+	ApplicationForm ||--}o EnglishProficiency : ""
+	ApplicationForm ||--}o ApplicationFeedback : ""
+	ApplicationFeedback o|..|o Candidate : ""
+	Experienceable ||--}o ApplicationExperience : ""
+	ApplicationChoice ||--}o ApplicationExperience : ""
+	ApplicationForm ||--}o ApplicationExperience : ""
+	Experienceable ||--}o ApplicationVolunteeringExperience : ""
+	Experienceable ||--}o ApplicationWorkExperience : ""
+	ApplicationChoice o|..}o Candidate : ""
+	ApplicationChoice o|..|o Site : ""
+	ApplicationChoice ||--}o WithdrawalReason : ""
+	AccountRecoveryRequest ||--}o AccountRecoveryRequestCode : ""
+	Candidate ||--|o AccountRecoveryRequest : ""
+	OfferCondition o|..|o ApplicationChoice : ""
+	ReferenceCondition o|..|o ApplicationChoice : ""
+	SkeCondition o|..|o ApplicationChoice : ""
+	TextCondition o|..|o ApplicationChoice : ""
+	ApplicationQualification o|..}o Candidate : ""
+	Provider o|--}o PreviousTeacherTraining : ""
+	PreviousTeacherTraining o|--|o PreviousTeacherTraining : ""
+	Course o|--}o Candidate : ""
+	Candidate o|..}o PreviousTeacherTraining : ""

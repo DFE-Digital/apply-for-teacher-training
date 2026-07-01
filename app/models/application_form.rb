@@ -6,6 +6,8 @@ class ApplicationForm < ApplicationRecord
   before_validation :set_residency_date_from,
                     if: -> { FeatureFlag.active?('2027_application_form_contact_details_residency_questions') }
 
+  validates :candidate_id, uniqueness: { scope: :recruitment_cycle_year }
+
   include Chased
   include AdviserEligibility
   include HasApplicableDegreeForAdviser
