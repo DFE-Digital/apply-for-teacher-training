@@ -345,9 +345,9 @@ RSpec.describe 'ApplicationForm factory' do
     field :created_at, value: CycleTimetableHelper.before_apply_deadline
     field :updated_at, value: CycleTimetableHelper.before_apply_deadline
 
-    it 'associates a previous application form in the current year' do
+    it 'associates a previous application form in the previous year' do
       expect(record.previous_application_form).to be_present
-      expect(record.previous_application_form.recruitment_cycle_year).to eq(current_year)
+      expect(record.previous_application_form.recruitment_cycle_year).to eq(previous_year)
     end
   end
 

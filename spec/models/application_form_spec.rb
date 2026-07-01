@@ -46,7 +46,7 @@ RSpec.describe ApplicationForm do
       end
 
       it 'raises an error if another application form is created for the same candidate and recruitment cycle' do
-        expect{ duplicate }.to raise_error(ActiveRecord::RecordInvalid)
+        expect { duplicate }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
   end

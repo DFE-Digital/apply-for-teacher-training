@@ -3,16 +3,18 @@ require 'rails_helper'
 RSpec.describe 'Primary Navigation' do
   include CandidateHelper
 
-  scenario 'highlights the primary navigation for pre continuous applications' do
+  before do
     given_i_am_signed_in_with_one_login
+    @current_candidate.application_forms.destroy_all
+  end
 
+  scenario 'highlights the primary navigation for pre continuous applications' do
     and_i_have_pre_continuous_applications_submitted
     when_i_visit_the_application_dashboard
     then_i_see_your_application_as_active
   end
 
   scenario 'highlights the primary navigation correct item for continuous applications' do
-    given_i_am_signed_in_with_one_login
     and_i_have_submitted_applications
     when_i_visit_the_application_dashboard
     then_i_see_your_details_as_active

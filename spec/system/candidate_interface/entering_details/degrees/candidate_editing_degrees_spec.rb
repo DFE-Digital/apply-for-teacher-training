@@ -71,6 +71,7 @@ RSpec.describe 'Editing a degree' do
   end
 
   def and_i_have_completed_the_degree_section
+    @current_candidate.application_forms.destroy_all
     @application_form = create(:application_form, candidate: @current_candidate)
     create(:application_qualification,
            level: 'degree',

@@ -243,6 +243,7 @@ RSpec.describe 'Candidate adds preferences' do
 
   def given_i_am_signed_in(funding_type: 'salary')
     given_i_am_signed_in_with_one_login
+    @current_candidate.application_forms.destroy_all
     @application = create(
       :application_form,
       :completed,
@@ -272,6 +273,7 @@ RSpec.describe 'Candidate adds preferences' do
 
   def given_i_am_a_candidate_who_has_opted_in_with_a_dynamic_location
     given_i_am_signed_in
+
     given_courses_exist
     given_i_am_on_the_share_details_page
     and_i_click('Back')

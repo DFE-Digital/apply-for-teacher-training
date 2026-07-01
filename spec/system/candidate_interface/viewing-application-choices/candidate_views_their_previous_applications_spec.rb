@@ -35,6 +35,7 @@ RSpec.describe 'Candidate views their previous applications' do
 private
 
   def and_i_have_some_previous_application_forms
+    @current_candidate.application_forms.destroy_all
     @application_form = create(:application_form, :submitted, recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
     @application_form_previous_two_years = create(:application_form, recruitment_cycle_year: @application_form.recruitment_cycle_year - 2, submitted_at: 2.years.ago, candidate: @current_candidate)
     @application_form_previous_year = create(:application_form, recruitment_cycle_year: @application_form.recruitment_cycle_year - 1, submitted_at: 1.year.ago, candidate: @current_candidate, previous_application_form_id: @application_form_previous_two_years.id)

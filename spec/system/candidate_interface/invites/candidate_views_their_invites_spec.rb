@@ -31,6 +31,7 @@ RSpec.describe 'Candidate views their invites' do
 
   def given_i_am_signed_in
     given_i_am_signed_in_with_one_login
+    @current_candidate.application_forms.destroy_all
 
     application_form = create(
       :application_form,
@@ -135,6 +136,7 @@ RSpec.describe 'Candidate views their invites' do
 
   def given_i_am_signed_in_without_in_flight_applications
     given_i_am_signed_in_with_one_login
+    @current_candidate.application_forms.destroy_all
 
     create(:application_form, :completed, candidate: @current_candidate)
     visit root_path

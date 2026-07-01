@@ -3,9 +3,12 @@ require 'rails_helper'
 RSpec.describe 'Candidate submits the application with interruption pages' do
   include CandidateHelper
 
-  scenario 'Candidate submits an application with all applications having an enic_reason of not_needed and personal statement less than 500 words', :js, time: mid_cycle do
+  before do
     given_i_am_signed_in_with_one_login
+    @current_candidate.application_forms.destroy_all
+  end
 
+  scenario 'Candidate submits an application with all applications having an enic_reason of not_needed and personal statement less than 500 words', :js, time: mid_cycle do
     when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice_with_not_needed_qualification
     and_i_continue_with_my_application
 
@@ -22,8 +25,6 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
   end
 
   scenario 'Candidate submits an application with an application having an enic_reason of maybe and personal statement less than 500 words', :js, time: mid_cycle do
-    given_i_am_signed_in_with_one_login
-
     when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice_with_waiting_or_maybe_qualification
     and_i_continue_with_my_application
 
@@ -40,7 +41,6 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
   end
 
   scenario 'Candidate submits an application for a course whose required grade is higher than their highest recorded undergrad degree grade', time: mid_cycle do
-    given_i_am_signed_in_with_one_login
     and_i_have_one_application_in_draft
 
     when_i_visit_my_applications
@@ -54,8 +54,6 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
   end
 
   scenario 'Candidate submits an application with an application having an enic_reason of maybe and personal statement of 500 words', :js, time: mid_cycle do
-    given_i_am_signed_in_with_one_login
-
     when_i_have_completed_my_application_and_have_added_primary_as_a_course_choice_with_waiting_or_maybe_qualification_and_personal_statement_500_words
     and_i_continue_with_my_application
 
@@ -70,8 +68,6 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
   end
 
   scenario 'Candidate submits a teacher degree apprenticeship course having a personal statement less than 500 words and a degree', :js, time: mid_cycle do
-    given_i_am_signed_in_with_one_login
-
     when_i_have_completed_application_to_primary_course_choice_with_short_personal_statement
     and_course_choice_is_undergraduate
     and_i_have_a_degree
@@ -91,8 +87,6 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
   end
 
   scenario 'Candidate submits a teacher degree apprenticeship course having a degree with long personal statement and with ENIC', :js, time: mid_cycle do
-    given_i_am_signed_in_with_one_login
-
     when_i_have_completed_application_to_primary_course_choice_with_long_personal_statement
     and_i_have_a_degree
     and_course_choice_is_undergraduate
