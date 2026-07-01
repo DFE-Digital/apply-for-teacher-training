@@ -19,6 +19,7 @@ module CandidateInterface
           application_form:,
           qualification_statuses: persisting_qualification_statuses,
           no_qualification_details:,
+          no_assessment_plan_details:,
           publish: true,
         ).call
       end
@@ -30,6 +31,7 @@ module CandidateInterface
 
         self.declare_no_qualification_details = english_proficiency.no_qualification_details.present? ? 1 : 0
         self.no_qualification_details = english_proficiency.no_qualification_details
+        self.no_assessment_plan_details = english_proficiency.no_assessment_plan_details
         self
       end
 

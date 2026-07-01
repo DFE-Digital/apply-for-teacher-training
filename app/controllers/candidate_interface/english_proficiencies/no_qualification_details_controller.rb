@@ -32,7 +32,7 @@ module CandidateInterface
       def no_qualification_details_params
         strip_whitespace params
           .fetch(:candidate_interface_english_proficiencies_no_qualification_details_form, {})
-          .permit(:declare_no_qualification_details, :no_qualification_details)
+          .permit(:declare_no_qualification_details, :no_qualification_details, :no_assessment_plan_details)
           .merge(application_form: current_application, english_proficiency:)
           .merge(return_to: params[:'return-to'])
       end
