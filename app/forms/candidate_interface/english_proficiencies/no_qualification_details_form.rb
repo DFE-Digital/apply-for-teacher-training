@@ -18,7 +18,7 @@ module CandidateInterface
         UpdateEnglishProficiencies.new(
           application_form:,
           qualification_statuses: persisting_qualification_statuses,
-          no_qualification_details: qualification_details_declared? ? no_qualification_details : nil,
+          no_qualification_details:,
           publish: true,
         ).call
       end

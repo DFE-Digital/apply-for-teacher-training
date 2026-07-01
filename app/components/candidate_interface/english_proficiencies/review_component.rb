@@ -35,52 +35,36 @@ module CandidateInterface
       def no_qualification_details_rows
         return [] if english_proficiency.has_qualification || english_proficiency.qualification_not_needed
 
-        if english_proficiency.no_qualification_details.present?
-          [
+        row = [
+          {
+            key: { text: 'Do you plan on taking an English as a foreign language assessment?' },
+            value: { text: english_proficiency.no_qualification_details.present? ? 'Yes' : 'No' },
+            actions: [
+              {
+                href: candidate_interface_english_proficiencies_no_qualification_details_path(
+                  english_proficiency,
+                  return_to: 'review',
+                ),
+                visually_hidden_text: 'plan to take an English as a foreign language assessment',
+              },
+            ],
+          },
+        ]
+        return row unless english_proficiency.no_qualification_details.present?
+
+        row << {
+          key: { text: 'Details' },
+          value: { text: english_proficiency.no_qualification_details },
+          actions: [
             {
-              key: { text: 'Do you plan on taking an English as a foreign language assessment?' },
-              value: { text: 'Yes' },
-              actions: [
-                {
-                  href: candidate_interface_english_proficiencies_no_qualification_details_path(
-                    english_proficiency,
-                    return_to: 'review',
-                  ),
-                  visually_hidden_text: 'plan to take an English as a foreign language assessment',
-                },
-              ],
+              href: candidate_interface_english_proficiencies_no_qualification_details_path(
+                english_proficiency,
+                return_to: 'review',
+                ),
+              visually_hidden_text: 'plan to take an English as a foreign language assessment details',
             },
-            {
-              key: { text: 'Details' },
-              value: { text: english_proficiency.no_qualification_details },
-              actions: [
-                {
-                  href: candidate_interface_english_proficiencies_no_qualification_details_path(
-                    english_proficiency,
-                    return_to: 'review',
-                  ),
-                  visually_hidden_text: 'plan to take an English as a foreign language assessment details',
-                },
-              ],
-            },
-          ]
-        else
-          [
-            {
-              key: { text: 'Do you plan on taking an English as a foreign language assessment?' },
-              value: { text: 'No' },
-              actions: [
-                {
-                  href: candidate_interface_english_proficiencies_no_qualification_details_path(
-                    english_proficiency,
-                    return_to: 'review',
-                  ),
-                  visually_hidden_text: 'plan to take an English as a foreign language assessment',
-                },
-              ],
-            },
-          ]
-        end
+          ],
+        }
       end
 
       def qualification_rows

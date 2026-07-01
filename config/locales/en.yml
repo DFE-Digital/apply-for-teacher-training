@@ -141,6 +141,7 @@ en:
       other: Your English language assessment result
       review: Check your English as a foreign language assessment
       start: English as a foreign language assessment
+      english_language_skills: English language skills
       toefl: Your TOEFL result
       type: What English language assessment did you do?
     error_prefix: "Error: "

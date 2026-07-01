@@ -11,7 +11,7 @@
     <% if application_form_presenter.display_efl_link? %>
       <li class="app-task-list__item">
         <%= render(TaskListItemComponent.new(
-          text: t('page_titles.efl.start'),
+          text: FeatureFlag.active?('2027_application_form_has_many_english_proficiencies') ? t('page_titles.efl.english_language_skills') : t('page_titles.efl.start'),
           completed: application_form_presenter.english_as_a_foreign_language_completed?,
           path: application_form_presenter.english_as_a_foreign_language_path,
         )) %>
