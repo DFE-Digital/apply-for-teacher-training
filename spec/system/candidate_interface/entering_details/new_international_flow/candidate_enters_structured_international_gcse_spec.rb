@@ -228,7 +228,7 @@ private
 
   def then_i_see_the_evidence_page
     expect(page).to have_text 'Provide evidence that your English skills are at GCSE grade 4 (C) or above'
-    expect(page).to have_text 'Check with your provider about what evidence they accept. An English as a foreign language test is equivalent to a GCSE.'
+    expect(page).to have_text 'Check with your provider about what evidence they accept. An English as a foreign language test is not equivalent to a GCSE.'
   end
 
   def when_i_do_not_provide_evidence; end

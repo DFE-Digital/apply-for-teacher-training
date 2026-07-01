@@ -110,5 +110,5 @@ en:
   gcse_new_international_flow_evidence:
     page_title: Provide evidence that your %{subject} skills are at GCSE grade 4 (C) or above
     caption: Check with your provider about what evidence they accept.
-    caption_english: Check with your provider about what evidence they accept. An English as a foreign language test is equivalent to a GCSE.
+    caption_english: Check with your provider about what evidence they accept. An English as a foreign language test is not equivalent to a GCSE.
     continue: Save and continue

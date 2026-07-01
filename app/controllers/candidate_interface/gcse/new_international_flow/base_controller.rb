@@ -11,14 +11,12 @@ module CandidateInterface
     before_action :set_structured_grades
     before_action :render_application_feedback_component
 
+    STRUCTURED_DATA_COUNTRIES = %w[GH NG KE SL GM LR].freeze
+
   private
 
     def set_subject
       @subject = subject_param
-    end
-
-    def subject_param
-      params.require(:subject)
     end
 
     def current_qualification
@@ -27,7 +25,7 @@ module CandidateInterface
 
     def structured_data_countries
       # List of structured data countries to be loaded dynamically
-      @structured_data_countries ||= %w[GH NG KE SL GM LR]
+      @structured_data_countries ||= STRUCTURED_DATA_COUNTRIES
     end
 
     def multiple_grade_schemas_available?
@@ -46,8 +44,7 @@ module CandidateInterface
     end
 
     def set_selected_equivalent_qualification
-      return if current_qualification.non_uk_qualification_type.blank?
-      return if finder.blank?
+      return if current_qualification.non_uk_qualification_type.blank? || finder.blank?
 
       @selected_equivalent_qualification =
         finder.equivalent_qualifications.find do |qual|
@@ -71,7 +68,7 @@ module CandidateInterface
         if @selected_equivalent_qualification.blank?
           []
         else
-          @grade_schemas ||= finder.grade_schemas(@selected_equivalent_qualification)
+          finder.grade_schemas(@selected_equivalent_qualification)
         end
     end
 
@@ -85,6 +82,10 @@ module CandidateInterface
       return if FeatureFlag.active?('2027_international_qualifications_flow')
 
       redirect_to root_path
+    end
+
+    def subject_param
+      params.require(:subject)
     end
   end
 end
