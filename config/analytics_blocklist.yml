@@ -374,6 +374,7 @@
   - updated_at
   :english_proficiencies:
   - no_qualification_details
+  - no_assessment_plan_details
   :fraud_matches:
   - id
   - candidate_last_contacted_at
