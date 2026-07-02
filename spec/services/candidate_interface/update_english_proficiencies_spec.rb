@@ -10,6 +10,7 @@ RSpec.describe CandidateInterface::UpdateEnglishProficiencies,
         english_proficiency:,
         efl_qualification:,
         no_qualification_details:,
+        no_assessment_plan_details:,
         persist:,
         publish:,
       ).call
@@ -22,6 +23,7 @@ RSpec.describe CandidateInterface::UpdateEnglishProficiencies,
     let(:no_qualification_details) { nil }
     let(:persist) { false }
     let(:publish) { false }
+    let(:no_assessment_plan_details) { nil }
 
     context 'when a english proficiency is not given' do
       context 'when the qualification statuses is "qualification_not_needed"' do
@@ -306,6 +308,67 @@ RSpec.describe CandidateInterface::UpdateEnglishProficiencies,
 
           new_english_proficiency = application_form.english_proficiencies.last
           expect(new_english_proficiency.no_qualification_details).to be_nil
+        end
+      end
+    end
+
+    context 'when "no_assessment_plan_details" are given' do
+      let(:no_assessment_plan_details) { 'Work in progress' }
+
+      context 'when the qualification status is "no_qualification"' do
+        let(:qualification_statuses) { ['no_qualification'] }
+
+        it 'assigns the "no_assessment_plan_details"' do
+          expect { call }.to change(application_form.english_proficiencies, :count).by(1)
+
+          expect(application_form.english_proficiency).to be_nil
+
+          new_english_proficiency = application_form.english_proficiencies.last
+          expect(new_english_proficiency.no_qualification_details).to be_nil
+          expect(new_english_proficiency.no_assessment_plan_details).to eq('Work in progress')
+        end
+      end
+
+      context 'when the qualification status is "degree_taught_in_english"' do
+        let(:qualification_statuses) { ['degree_taught_in_english'] }
+
+        it 'assigns the "no_assessment_plan_details"' do
+          expect { call }.to change(application_form.english_proficiencies, :count).by(1)
+
+          expect(application_form.english_proficiency).to be_nil
+
+          new_english_proficiency = application_form.english_proficiencies.last
+          expect(new_english_proficiency.no_qualification_details).to be_nil
+          expect(new_english_proficiency.no_assessment_plan_details).to eq('Work in progress')
+        end
+      end
+
+      context 'when the qualification status is no "degree_taught_in_english" or "no_qualification"' do
+        let(:qualification_statuses) { ['has_qualification'] }
+
+        it 'does not assign the "no_assessment_plan_details"' do
+          expect { call }.to change(application_form.english_proficiencies, :count).by(1)
+
+          expect(application_form.english_proficiency).to be_nil
+
+          new_english_proficiency = application_form.english_proficiencies.last
+          expect(new_english_proficiency.no_qualification_details).to be_nil
+          expect(new_english_proficiency.no_assessment_plan_details).to be_nil
+        end
+      end
+
+      context 'when persist is true' do
+        let(:qualification_statuses) { ['degree_taught_in_english'] }
+        let(:persist) { true }
+
+        it 'does not assign the "no_assessment_plan_details"' do
+          expect { call }.to change(application_form.english_proficiencies, :count).by(1)
+
+          expect(application_form.english_proficiency).to be_nil
+
+          new_english_proficiency = application_form.english_proficiencies.last
+          expect(new_english_proficiency.no_qualification_details).to be_nil
+          expect(new_english_proficiency.no_assessment_plan_details).to be_nil
         end
       end
     end
