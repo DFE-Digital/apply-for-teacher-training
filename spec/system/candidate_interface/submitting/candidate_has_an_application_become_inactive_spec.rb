@@ -20,6 +20,7 @@ RSpec.describe 'Candidate with submitted applications' do
   end
 
   def and_i_have_submitted_applications
+    current_candidate.application_forms.destroy_all
     current_candidate.application_forms << build(:application_form, :completed)
     current_candidate.current_application.application_choices << build_list(:application_choice, 4, :awaiting_provider_decision, sent_to_provider_at: 1.day.ago)
     @application_choice = current_candidate.current_application.application_choices.last

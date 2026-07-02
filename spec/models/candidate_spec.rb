@@ -397,7 +397,7 @@ RSpec.describe Candidate do
       let(:application_choice_1) { create(:application_choice, candidate:) }
       let(:application_choice_2) { create(:application_choice, candidate:) }
       let(:application_choice_3) { create(:application_choice, candidate:) }
-      let!(:application_form_apply_1) { create(:application_form, candidate:, application_choices: [application_choice_1], created_at: 1.week.ago) }
+      let!(:application_form_apply_1) { create(:application_form, candidate:, application_choices: [application_choice_1], created_at: 1.week.ago, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year) }
       let!(:application_form_apply_2) { create(:application_form, phase: 'apply_2', candidate:, application_choices: [application_choice_2, application_choice_3]) }
 
       it 'returns the most recent application choices' do

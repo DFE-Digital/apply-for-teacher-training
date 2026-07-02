@@ -112,6 +112,8 @@ RSpec.describe 'Candidate with no right to work or study' do
   end
 
   def when_i_have_completed_my_foreign_application
+    current_candidate.application_forms.destroy_all
+
     @application_form = create(
       :application_form,
       :completed,
@@ -125,6 +127,8 @@ RSpec.describe 'Candidate with no right to work or study' do
   end
 
   def when_i_complete_an_application_with_skilled_worker_visa
+    current_candidate.application_forms.destroy_all
+
     @application_form = create(
       :application_form,
       :completed,
@@ -139,6 +143,8 @@ RSpec.describe 'Candidate with no right to work or study' do
   end
 
   def when_i_complete_an_application_with_student_visa
+    current_candidate.application_forms.destroy_all
+
     @application_form = create(
       :application_form,
       :completed,

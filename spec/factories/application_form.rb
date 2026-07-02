@@ -4,6 +4,13 @@ FactoryBot.define do
   factory :application_form do
     candidate
     address_type { :uk }
+    recruitment_cycle_year {
+      if candidate.application_forms.exists?
+        candidate.application_forms.maximum(:recruitment_cycle_year).next
+      else
+        CycleTimetableHelper.current_year
+      end
+    }
 
     trait :minimum_info do
       first_name { Faker::Name.first_name }
@@ -293,7 +300,6 @@ FactoryBot.define do
       work_history_explanation { Faker::Lorem.paragraph_by_chars(number: 400) }
       volunteering_experience { [true, false, nil].sample }
       phase { :apply_1 }
-      recruitment_cycle_year { CycleTimetableHelper.current_year }
 
       right_to_work_or_study {
         if first_nationality != 'British'
@@ -436,13 +442,12 @@ FactoryBot.define do
       completed
       created_at { CycleTimetableHelper.before_apply_deadline }
       updated_at { CycleTimetableHelper.before_apply_deadline }
-      recruitment_cycle_year { CycleTimetableHelper.current_year }
       phase { 'apply_2' }
 
       previous_application_form do
         association(
           :completed_application_form,
-          recruitment_cycle_year:,
+          recruitment_cycle_year: recruitment_cycle_year - 1,
           submitted_at: submitted_at - 10.days,
           first_name:,
           last_name:,

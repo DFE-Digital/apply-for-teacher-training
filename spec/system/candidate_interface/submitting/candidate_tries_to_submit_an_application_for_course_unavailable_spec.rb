@@ -5,6 +5,7 @@ RSpec.describe 'Candidate tries to submit an application choice when the course 
 
   before do
     given_i_am_signed_in_with_one_login
+    @current_candidate.application_forms.destroy_all
     and_i_have_one_application_in_draft
   end
 

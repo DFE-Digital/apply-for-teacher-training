@@ -38,6 +38,7 @@ RSpec.describe 'Carry over application and submit new application choices' do
 private
 
   def when_i_have_an_unsubmitted_application
+    @current_candidate.application_forms.destroy_all
     @application_form = create(
       :completed_application_form,
       :eligible_for_free_school_meals,

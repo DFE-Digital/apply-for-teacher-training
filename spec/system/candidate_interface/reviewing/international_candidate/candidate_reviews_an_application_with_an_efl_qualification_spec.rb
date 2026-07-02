@@ -71,6 +71,7 @@ RSpec.describe 'Candidate reviews an application with an IELTS qualification',
 private
 
   def and_english_is_not_my_first_nationality
+    @current_candidate.application_forms.destroy_all
     @application_form = create(
       :application_form,
       :completed,

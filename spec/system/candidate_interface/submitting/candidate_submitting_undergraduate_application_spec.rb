@@ -67,6 +67,7 @@ RSpec.describe 'Candidate submits the application' do
     )
     @course = create(:course, :teacher_degree_apprenticeship, :open, name: 'Primary', code: '2XT2', provider: @provider)
     @course_option = create(:course_option, site:, course: @course)
+    @current_candidate.application_forms.destroy_all
     @current_candidate.application_forms << build(:application_form, completed_section_trait, university_degree: false)
     @application_choice = create(:application_choice, :unsubmitted, course_option: @course_option, application_form: current_candidate.current_application)
   end

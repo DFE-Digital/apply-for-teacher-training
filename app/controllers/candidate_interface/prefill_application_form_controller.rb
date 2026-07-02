@@ -33,9 +33,8 @@ module CandidateInterface
     end
 
     def prefill_candidate_application_form
-      example_application_choices = factory.create_application(**test_application_options)
-
       destroy_blank_application
+      example_application_choices = factory.create_application(**test_application_options)
 
       example_application_form = example_application_choices.first.application_form
       current_candidate.application_forms << example_application_form

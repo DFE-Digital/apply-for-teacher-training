@@ -5,6 +5,7 @@ RSpec.describe 'Candidate submits the application' do
 
   before do
     given_i_am_signed_in_with_one_login
+    @current_candidate.application_forms.destroy_all
   end
 
   scenario 'Candidate with incomplete application seeing the error message' do

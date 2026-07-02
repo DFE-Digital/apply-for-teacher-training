@@ -113,3 +113,7 @@ Rails/DangerousColumnNames:
 
 Naming/PredicateMethod:
   Enabled: false
+
+Rails/UniqueValidationWithoutIndex:
+  Exclude:
+    - app/models/application_form.rb
