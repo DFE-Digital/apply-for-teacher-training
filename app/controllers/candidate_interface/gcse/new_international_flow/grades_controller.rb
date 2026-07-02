@@ -29,14 +29,18 @@ module CandidateInterface
 
     def update
       @structured_grades_form = GcseInternationalStructuredGradesForm.new(structured_grade_params)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
       @list_of_grades = @structured_grades.any?
 
+      grade_changed = @structured_grades_form.resolved_grade != current_qualification.grade
+
       if @structured_grades_form.save(current_qualification)
-        if passing_grade?
-          redirect_to candidate_interface_gcse_new_international_flow_edit_enic_path(@subject, 'return-to': 'grade-edit')
+        if !grade_changed
+          redirect_to @return_to[:back_path]
+        elsif grade_changed && !passing_grade?
+          redirect_to candidate_interface_gcse_new_international_flow_interruption_path
         else
-          redirect_to candidate_interface_gcse_new_international_flow_interruption_path(@subject, 'return-to': 'grade-edit')
+          redirect_to candidate_interface_gcse_new_international_flow_edit_enic_path
         end
       else
         track_validation_error(@structured_grades_form)

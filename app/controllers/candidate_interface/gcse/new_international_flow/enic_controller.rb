@@ -1,6 +1,6 @@
 module CandidateInterface
   class Gcse::NewInternationalFlow::EnicController < Gcse::NewInternationalFlow::BaseController
-    before_action :set_back_path
+    before_action :set_back_path, :set_edit_back_path
 
     def new
       @enic_form = GcseEnicSelectionForm.build_from_qualification(current_qualification)
@@ -50,13 +50,21 @@ module CandidateInterface
 
     def set_back_path
       @back_path ||=
+        if @grade_schemas.present? && current_qualification.grade.in?(@structured_grades)
+          && !current_qualification.grade.in?(@grade_schemas.first.passing_grades)
+          candidate_interface_gcse_new_international_flow_interruption_path(@subject)
+        else
+          candidate_interface_gcse_new_international_flow_new_grades_path(@subject)
+        end
+    end
+
+    def set_edit_back_path
+      @edit_back_path ||=
         if params['return-to'] == 'application-review'
           candidate_interface_gcse_review_path(@subject)
         elsif @grade_schemas.present? && current_qualification.grade.in?(@structured_grades)
           && !current_qualification.grade.in?(@grade_schemas.first.passing_grades)
-          candidate_interface_gcse_new_international_flow_interruption_path
-        elsif params['return-to'] == 'grade-edit'
-          candidate_interface_gcse_new_international_flow_edit_grades_path
+          candidate_interface_gcse_new_international_flow_interruption_path(@subject, 'return-to': 'application-review')
         else
           candidate_interface_gcse_new_international_flow_new_grades_path
         end

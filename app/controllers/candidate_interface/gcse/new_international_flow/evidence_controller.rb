@@ -1,5 +1,7 @@
 module CandidateInterface
   class Gcse::NewInternationalFlow::EvidenceController < Gcse::NewInternationalFlow::BaseController
+    before_action :set_back_path
+
     def new
       @evidence_form = GcseInternationalEvidenceForm.build_from_qualification(current_qualification, subject: @subject)
     end
@@ -33,6 +35,15 @@ module CandidateInterface
     end
 
   private
+
+    def set_back_path
+      @back_path =
+        if params['return-to'] == 'application-review'
+          candidate_interface_gcse_review_path(@subject)
+        else
+          candidate_interface_gcse_new_international_flow_interruption_path(@subject, 'return-to': 'application-review')
+        end
+    end
 
     def evidence_params
       params
