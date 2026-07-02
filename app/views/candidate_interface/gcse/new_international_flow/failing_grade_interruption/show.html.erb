@@ -1,5 +1,5 @@
 <% content_for :title, t('gcse_new_international_flow_interruption.page_title', subject: (@subject == 'english' ? @subject.capitalize : @subject)) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_gcse_new_international_flow_new_grades_path) %>
+<% content_for :before_content, govuk_back_link_to(@return_to) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
@@ -17,8 +17,8 @@
       </div>
 
       <div class="govuk-button-group app-course-choice__confirm-submission">
-        <%= govuk_button_link_to(t('gcse_new_international_flow_interruption.provide_statement'), candidate_interface_gcse_new_international_flow_new_enic_path) %>
-        <%= govuk_link_to(t('gcse_new_international_flow_interruption.provide_evidence', subject: (@subject == 'english' ? @subject.capitalize : @subject)), candidate_interface_gcse_new_international_flow_new_evidence_path) %>
+        <%= govuk_button_link_to(t('gcse_new_international_flow_interruption.provide_statement'), @enic_path) %>
+        <%= govuk_link_to(t('gcse_new_international_flow_interruption.provide_evidence', subject: (@subject == 'english' ? @subject.capitalize : @subject)), @evidence_path) %>
       <div>
     </div>
   </div>

@@ -7,14 +7,14 @@ module CandidateInterface
 
     def edit
       @year_form = CandidateInterface::GcseYearForm.build_from_qualification(current_qualification)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
     end
 
     def create
       @year_form = CandidateInterface::GcseYearForm.new(year_params)
 
       if @year_form.save(current_qualification)
-        redirect_to candidate_interface_gcse_review_path
+        redirect_to candidate_interface_gcse_review_path(@subject)
       else
         set_previous_path
         track_validation_error(@year_form)
@@ -25,7 +25,7 @@ module CandidateInterface
 
     def update
       @year_form = CandidateInterface::GcseYearForm.new(year_params)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
 
       if @year_form.save(current_qualification)
         redirect_to @return_to[:back_path]

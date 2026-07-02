@@ -6,7 +6,7 @@ module CandidateInterface
 
     def edit
       @institution_country_form = GcseInstitutionCountryForm.build_from_qualification(current_qualification)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
     end
 
     def create
@@ -22,7 +22,7 @@ module CandidateInterface
 
     def update
       @institution_country_form = GcseInstitutionCountryForm.new(institution_country_params)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
 
       country_changed = @institution_country_form.institution_country != current_qualification.institution_country
 

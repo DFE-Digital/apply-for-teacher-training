@@ -100,7 +100,7 @@ class ApplicationQualification < ApplicationRecord
 
   audited associated_with: :application_form
 
-  before_save :set_public_id
+  before_save :set_public_id, :set_mutual_exclusivity_not_completed_or_enic
 
   def missing_qualification?
     qualification_type == 'missing'
@@ -217,6 +217,15 @@ class ApplicationQualification < ApplicationRecord
   def international_bachelors_degree_compatible_with_uk?
     qualification_type == 'bachelors' &&
       institution_country.in?(COUNTRIES_WITH_COMPATIBLE_DEGREES.keys)
+  end
+
+  def set_mutual_exclusivity_not_completed_or_enic
+    if will_save_change_to_enic_reason? && enic_reason.present?
+      self.not_completed_explanation = nil
+    elsif will_save_change_to_not_completed_explanation? && not_completed_explanation.present?
+      self.enic_reason = nil
+      self.enic_reference = nil
+    end
   end
 
 private

@@ -1,7 +1,5 @@
 module CandidateInterface
   class Gcse::NewInternationalFlow::GradesController < Gcse::NewInternationalFlow::BaseController
-    # before_action :set_structured_grades
-
     def new
       @structured_grades_form = GcseInternationalStructuredGradesForm.build_from_qualification(current_qualification, structured_grades: @structured_grades)
       @list_of_grades = @structured_grades.any?
@@ -9,7 +7,7 @@ module CandidateInterface
 
     def edit
       @structured_grades_form = GcseInternationalStructuredGradesForm.build_from_qualification(current_qualification, structured_grades: @structured_grades)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
       @list_of_grades = @structured_grades.any?
     end
 
@@ -31,18 +29,14 @@ module CandidateInterface
 
     def update
       @structured_grades_form = GcseInternationalStructuredGradesForm.new(structured_grade_params)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
       @list_of_grades = @structured_grades.any?
 
-      grade_changed = @structured_grades_form.resolved_grade != current_qualification.grade
-
       if @structured_grades_form.save(current_qualification)
-        if !grade_changed
-          redirect_to @return_to[:back_path]
-        elsif grade_changed && !passing_grade?
-          redirect_to candidate_interface_gcse_new_international_flow_interruption_path
+        if passing_grade?
+          redirect_to candidate_interface_gcse_new_international_flow_edit_enic_path(@subject, 'return-to': 'grade-edit')
         else
-          redirect_to candidate_interface_gcse_new_international_flow_edit_enic_path
+          redirect_to candidate_interface_gcse_new_international_flow_interruption_path(@subject, 'return-to': 'grade-edit')
         end
       else
         track_validation_error(@structured_grades_form)

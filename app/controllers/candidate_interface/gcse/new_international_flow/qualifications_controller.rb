@@ -7,7 +7,7 @@ module CandidateInterface
 
     def edit
       @equivalent_qualification_form = GcseEquivalentQualificationForm.build_from_qualification(current_qualification, equivalent_qualifications: @equivalent_qualifications&.map(&:name) || [])
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
       @list_of_qualifications = @equivalent_qualifications&.any?
     end
 
@@ -25,7 +25,7 @@ module CandidateInterface
 
     def update
       @equivalent_qualification_form = GcseEquivalentQualificationForm.new(equivalent_qualification_params)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
       @list_of_qualifications = @equivalent_qualifications&.any?
 
       qualification_changed = @equivalent_qualification_form.resolved_qualification != current_qualification.non_uk_qualification_type

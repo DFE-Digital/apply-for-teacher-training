@@ -6,7 +6,7 @@ module CandidateInterface
 
     def edit
       @evidence_form = GcseInternationalEvidenceForm.build_from_qualification(current_qualification, subject: @subject)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
     end
 
     def create
@@ -22,7 +22,7 @@ module CandidateInterface
 
     def update
       @evidence_form = GcseInternationalEvidenceForm.new(evidence_params.merge(subject: @subject))
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
 
       if @evidence_form.save(current_qualification)
         redirect_to @return_to[:back_path]

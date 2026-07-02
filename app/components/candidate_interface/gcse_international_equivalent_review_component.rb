@@ -3,7 +3,7 @@ module CandidateInterface
     include GcseStatementComparabilityPathHelper
     include EnicReasonTranslationHelper
 
-    def initialize(application_form:, application_qualification:, subject:, editable: true, heading_level: 2, submitting_application: false, return_to_application_review: false)
+    def initialize(application_form:, application_qualification:, subject:, editable: true, heading_level: 2, submitting_application: false, return_to_application_review: true)
       @application_form = application_form
       @application_qualification = application_qualification
       @subject = subject
@@ -76,6 +76,8 @@ module CandidateInterface
     end
 
     def award_year_row
+      return nil if application_qualification.grade.nil?
+
       {
         key: 'Year awarded',
         value: application_qualification.award_year || govuk_link_to('Enter the year the qualification was awarded', candidate_interface_gcse_new_international_flow_edit_year_path(change_path_params)),
@@ -90,6 +92,8 @@ module CandidateInterface
     end
 
     def grade_row
+      return nil if application_qualification.non_uk_qualification_type.blank?
+
       {
         key: 'Grade',
         value: application_qualification.grade || govuk_link_to('Enter your grade', candidate_interface_gcse_new_international_flow_edit_grades_path(change_path_params)),
@@ -104,21 +108,19 @@ module CandidateInterface
     end
 
     def failing_grade_explanation_row
-      return nil if application_qualification.not_completed_explanation.blank?
+      return nil if application_qualification.enic_reason.present? || application_qualification.grade.nil?
 
       {
         key: "Evidence that your #{capitalize_english(subject)} skills are at GCSE grade 4 (C) or above",
-        value: application_qualification.not_completed_explanation,
-        action: {
-          href: candidate_interface_gcse_new_international_flow_edit_evidence_path(change_path_params),
-          visually_hidden_text: "Evidence that your #{subject} skills are at GCSE grade 4 (C) or above",
-        },
-        html_attributes: {
-          data: {
-            qa: 'gcse-failing-grade-explanation',
-          },
-        },
-      }
+        value: application_qualification.not_completed_explanation || govuk_link_to("Enter evidence that your #{capitalize_english(subject)} skills are at GCSE grade 4 (C) or above", candidate_interface_gcse_new_international_flow_edit_evidence_path(change_path_params)),
+      }.tap do |row|
+        if application_qualification.not_completed_explanation
+          row[:action] = {
+            href: candidate_interface_gcse_new_international_flow_interruption_path(change_path_params),
+            visually_hidden_text: "Evidence that your #{subject} skills are at GCSE grade 4 (C) or above",
+          }
+        end
+      end
     end
 
     def country_row
@@ -147,7 +149,7 @@ module CandidateInterface
     end
 
     def enic_statement_row
-      return nil if application_qualification.not_completed_explanation.present?
+      return nil if application_qualification.not_completed_explanation.present? || application_qualification.grade.nil?
 
       {
         key: t('application_form.gcse.enic_statement.review_label'),

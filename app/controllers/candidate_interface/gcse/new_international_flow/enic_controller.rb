@@ -8,7 +8,7 @@ module CandidateInterface
 
     def edit
       @enic_form = GcseEnicSelectionForm.build_from_qualification(current_qualification)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
     end
 
     def create
@@ -24,7 +24,7 @@ module CandidateInterface
 
     def update
       @enic_form = GcseEnicSelectionForm.new(enic_params)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
 
       if @enic_form.save(current_qualification)
         if enic_params[:enic_reason] == 'obtained'
@@ -50,9 +50,13 @@ module CandidateInterface
 
     def set_back_path
       @back_path ||=
-        if @grade_schemas.present? && current_qualification.grade.in?(@structured_grades)
+        if params['return-to'] == 'application-review'
+          candidate_interface_gcse_review_path(@subject)
+        elsif @grade_schemas.present? && current_qualification.grade.in?(@structured_grades)
           && !current_qualification.grade.in?(@grade_schemas.first.passing_grades)
           candidate_interface_gcse_new_international_flow_interruption_path
+        elsif params['return-to'] == 'grade-edit'
+          candidate_interface_gcse_new_international_flow_edit_grades_path
         else
           candidate_interface_gcse_new_international_flow_new_grades_path
         end
