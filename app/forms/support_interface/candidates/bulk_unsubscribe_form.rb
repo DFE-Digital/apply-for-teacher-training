@@ -17,7 +17,7 @@ class SupportInterface::Candidates::BulkUnsubscribeForm
                                     .split("\n")
                                     .map(&:strip)
                                     .compact_blank
-    Support::Candidates::BulkUnsubscribeWorker.perform_async(
+    Support::Candidates::BulkUnsubscribeWorker.perform_later(
       audit_user.id,
       audit_comment,
       unsubscribe_email_addresses,

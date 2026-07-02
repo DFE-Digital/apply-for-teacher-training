@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
   before do
-    allow(EndOfCycle::CancelUnsubmittedApplicationsWorker).to receive(:perform_async).with(true)
-    allow(EndOfCycle::CloseCoursesOnInvites).to receive(:perform_async).with(true)
-    allow(EndOfCycle::RejectByDefaultWorker).to receive(:perform_async).with(true)
-    allow(EndOfCycle::CancelReferenceRequestsWorker).to receive(:perform_async)
-    allow(EndOfCycle::DeclineByDefaultWorker).to receive(:perform_async).with(true)
+    allow(EndOfCycle::CancelUnsubmittedApplicationsWorker).to receive(:perform_later).with(true)
+    allow(EndOfCycle::CloseCoursesOnInvites).to receive(:perform_later).with(true)
+    allow(EndOfCycle::RejectByDefaultWorker).to receive(:perform_later).with(true)
+    allow(EndOfCycle::CancelReferenceRequestsWorker).to receive(:perform_later)
+    allow(EndOfCycle::DeclineByDefaultWorker).to receive(:perform_later).with(true)
   end
 
   describe '#perform' do
@@ -15,11 +15,11 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
         date = current_timetable.apply_opens_at + 30.weeks
         travel_temporarily_to(date) do
           described_class.new.perform
-          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).not_to have_received(:perform_async)
-          expect(EndOfCycle::CloseCoursesOnInvites).not_to have_received(:perform_async)
-          expect(EndOfCycle::RejectByDefaultWorker).not_to have_received(:perform_async)
-          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_async)
-          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_async)
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::CloseCoursesOnInvites).not_to have_received(:perform_later)
+          expect(EndOfCycle::RejectByDefaultWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_later)
         end
       end
     end
@@ -30,12 +30,12 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
         travel_temporarily_to(date) do
           described_class.new.perform
           # These jobs run on the apply deadline
-          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_async).with(true)
-          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_async).with(true)
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_later).with(true)
+          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_later).with(true)
           # Not these
-          expect(EndOfCycle::RejectByDefaultWorker).not_to have_received(:perform_async)
-          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_async)
-          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_async)
+          expect(EndOfCycle::RejectByDefaultWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_later)
         end
       end
     end
@@ -46,13 +46,13 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
         travel_temporarily_to(date) do
           described_class.new.perform
           # These jobs run on the apply deadline
-          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_async).with(true)
-          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_async).with(true)
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_later).with(true)
+          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_later).with(true)
           # And the reject by default worker
-          expect(EndOfCycle::RejectByDefaultWorker).to have_received(:perform_async).with(true)
+          expect(EndOfCycle::RejectByDefaultWorker).to have_received(:perform_later).with(true)
           # Not these
-          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_async)
-          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_async)
+          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_later)
         end
       end
     end
@@ -63,13 +63,13 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
         travel_temporarily_to(date) do
           described_class.new.perform
           # Apply deadline jobs
-          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_async).with(true)
-          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_async).with(true)
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_later).with(true)
+          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_later).with(true)
           # And the reject by default worker
-          expect(EndOfCycle::RejectByDefaultWorker).to have_received(:perform_async).with(true)
+          expect(EndOfCycle::RejectByDefaultWorker).to have_received(:perform_later).with(true)
           # And the decline by default worker related jobs
-          expect(EndOfCycle::DeclineByDefaultWorker).to have_received(:perform_async).with(true)
-          expect(EndOfCycle::CancelReferenceRequestsWorker).to have_received(:perform_async)
+          expect(EndOfCycle::DeclineByDefaultWorker).to have_received(:perform_later).with(true)
+          expect(EndOfCycle::CancelReferenceRequestsWorker).to have_received(:perform_later)
         end
       end
     end

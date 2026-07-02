@@ -8,9 +8,7 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersWorker do
           application_choices = create(:application_choice, :awaiting_provider_decision)
           create(:provider_permissions, provider: application_choices.provider)
 
-          allow(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker).to receive(:perform_at)
-          described_class.new.perform
-          expect(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker).not_to have_received(:perform_at)
+          expect { described_class.new.perform }.not_to enqueue_job(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker)
         end
       end
     end
@@ -21,9 +19,7 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersWorker do
           application_choices = create(:application_choice, :awaiting_provider_decision)
           create(:provider_permissions, provider: application_choices.provider)
 
-          allow(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker).to receive(:perform_at)
-          described_class.new.perform
-          expect(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker).not_to have_received(:perform_at)
+          expect { described_class.new.perform }.not_to enqueue_job(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker)
         end
       end
     end
@@ -42,15 +38,13 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersWorker do
           create(:application_choice, :rejected)
           create(:application_choice, :unsubmitted)
 
-          allow(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker).to receive(:perform_at)
-          instance.perform
-
-          expect(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker)
-            .to have_received(:perform_at).with(kind_of(Time), [
+          expect { instance.perform }.to enqueue_job(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker).with(
+            contain_exactly(
               inactive_application.provider.id,
               interview_application.provider.id,
               awaiting_application.provider.id,
-            ])
+            ),
+          )
         end
       end
     end
@@ -74,13 +68,11 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersWorker do
           create(:application_choice, :rejected)
           create(:application_choice, :unsubmitted)
 
-          allow(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker).to receive(:perform_at)
-          described_class.new.perform
-
-          expect(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker)
-            .to have_received(:perform_at).with(kind_of(Time), [
+          expect { described_class.new.perform }.to enqueue_job(EndOfCycle::SendRejectByDefaultReminderToProvidersBatchWorker).with(
+            contain_exactly(
               september_course.provider.id,
-            ])
+            ),
+          )
         end
       end
     end

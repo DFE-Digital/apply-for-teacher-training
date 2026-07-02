@@ -1,14 +1,12 @@
 module EndOfCycle
-  class SendRejectByDefaultReminderToProvidersWorker
-    include Sidekiq::Worker
-
+  class SendRejectByDefaultReminderToProvidersWorker < ApplicationJob
     BATCH_SIZE = 120
 
     def perform
       return unless send_email?
 
       BatchDelivery.new(relation:, batch_size: BATCH_SIZE).each do |batch_time, providers|
-        SendRejectByDefaultReminderToProvidersBatchWorker.perform_at(batch_time, providers.pluck(:id))
+        SendRejectByDefaultReminderToProvidersBatchWorker.set(wait_until: batch_time).perform_later(providers.pluck(:id))
       end
     end
 
@@ -37,9 +35,7 @@ module EndOfCycle
     end
   end
 
-  class SendRejectByDefaultReminderToProvidersBatchWorker
-    include Sidekiq::Worker
-
+  class SendRejectByDefaultReminderToProvidersBatchWorker < ApplicationJob
     def perform(provider_ids)
       Provider.where(id: provider_ids).includes(:provider_users).find_each do |provider|
         SendRejectByDefaultReminderToProvidersService.new(provider).call

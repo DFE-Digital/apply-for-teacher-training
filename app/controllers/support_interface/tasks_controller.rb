@@ -7,19 +7,19 @@ module SupportInterface
     def run
       case params.fetch(:task)
       when 'generate_test_applications'
-        GenerateTestApplications.perform_async
+        GenerateTestApplications.perform_later
         flash[:success] = 'Scheduled job to generate test applications - this might take a while!'
         redirect_to support_interface_tasks_path
       when 'generate_next_cycle_test_applications'
-        GenerateTestApplications.perform_async(true)
+        GenerateTestApplications.perform_later(true)
         flash[:success] = 'Scheduled job to generate next cycle test applications - this might take a while!'
         redirect_to support_interface_tasks_path
       when 'run_end_of_cycle_jobs'
-        EndOfCycle::RunEndOfCycleJobsWorker.perform_async
+        EndOfCycle::RunEndOfCycleJobsWorker.perform_later
         flash[:success] = 'End of cycle jobs are running - this might take awhile!'
         redirect_to support_interface_tasks_path
       when 'delete_test_applications'
-        DeleteTestApplications.perform_async
+        DeleteTestApplications.perform_later
         flash[:success] = 'Scheduled job to delete test applications'
         redirect_to support_interface_tasks_path
       else

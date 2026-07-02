@@ -354,11 +354,8 @@ RSpec.describe ApplicationForm do
     end
 
     describe 'updating region code' do
-      before do
-        allow(LookupAreaByPostcodeWorker).to receive(:perform_in).and_return(nil)
-      end
-
       it 'sets value to `rest_of_the_world` for international addresses outside EEA' do
+        clear_enqueued_jobs
         application_form = create(:application_form, region_code: :london)
 
         application_form.update!(
@@ -367,12 +364,13 @@ RSpec.describe ApplicationForm do
           international_address: '123 MG Road, Mumbai',
         )
 
-        expect(LookupAreaByPostcodeWorker).not_to have_received(:perform_in)
+        expect(LookupAreaByPostcodeWorker).not_to have_been_enqueued
         expect(application_form.reload.rest_of_the_world?).to be(true)
       end
 
       it 'sets value to `european_economic_area` for international addresses inside EEA' do
         application_form = create(:application_form, region_code: :london)
+        clear_enqueued_jobs
 
         application_form.update!(
           country: 'FR',
@@ -380,7 +378,7 @@ RSpec.describe ApplicationForm do
           international_address: '123 Rue de Rivoli, Paris',
         )
 
-        expect(LookupAreaByPostcodeWorker).not_to have_received(:perform_in)
+        expect(LookupAreaByPostcodeWorker).not_to have_been_enqueued
         expect(application_form.reload.european_economic_area?).to be(true)
       end
 
@@ -392,8 +390,7 @@ RSpec.describe ApplicationForm do
             address_type: :uk,
             postcode: 'SW1P 3BT',
           )
-
-          expect(LookupAreaByPostcodeWorker).to have_received(:perform_in).with(anything, application_form.id)
+          expect(LookupAreaByPostcodeWorker).to have_been_enqueued.with(application_form.id)
         end
 
         it 'queues an LookupAreaByPostcodeWorker job for Cardiff postcode' do
@@ -404,23 +401,21 @@ RSpec.describe ApplicationForm do
             postcode: 'CF40 2QD',
           )
 
-          expect(LookupAreaByPostcodeWorker).to have_received(:perform_in).with(anything, application_form.id)
+          expect(LookupAreaByPostcodeWorker).to have_been_enqueued.with(application_form.id)
         end
       end
     end
 
     describe 'geocoding address' do
       it 'invokes geocoding of UK addresses on create' do
-        allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
         application_form = create(:application_form, :minimum_info)
 
         application_form.update!(postcode: 'SE10NE')
 
-        expect(GeocodeApplicationAddressWorker).to have_received(:perform_in).with(anything, application_form.id)
+        expect(GeocodeApplicationAddressWorker).to have_been_enqueued.with(application_form.id)
       end
 
       it 'invokes geocoding of UK addresses on update' do
-        allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
         application_form = create(:application_form, :minimum_info)
 
         address_attributes = %i[address_line1 address_line2 address_line3 address_line4 postcode country]
@@ -430,40 +425,34 @@ RSpec.describe ApplicationForm do
 
         expected_calls_to_worker = address_attributes.size # Each update excluding the initial create
         expect(GeocodeApplicationAddressWorker)
-          .to have_received(:perform_in)
-          .with(anything, application_form.id)
+          .to have_been_enqueued
+          .with(application_form.id)
           .exactly(expected_calls_to_worker).times
       end
 
       it 'does not invoke geocoding for international addresses' do
-        allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
-
         application_form = create(:application_form, :minimum_info)
 
         application_form.update!(address_type: :international)
 
-        expect(GeocodeApplicationAddressWorker).not_to have_received(:perform_in).with(application_form.id)
+        expect(GeocodeApplicationAddressWorker).not_to have_been_enqueued.with(application_form.id)
       end
 
       it 'does not invoke geocoding if address fields have not been changed' do
-        allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
-
         application_form = create(:application_form, :minimum_info)
 
         application_form.update!(phone_number: 111111)
 
-        expect(GeocodeApplicationAddressWorker).not_to have_received(:perform_in).with(application_form.id)
+        expect(GeocodeApplicationAddressWorker).not_to have_been_enqueued.with(application_form.id)
       end
 
       it 'clears existing coordinates if address changed to international' do
-        allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
-
         application_form = create(:application_form, :minimum_info, latitude: 1.5, longitude: 0.2)
 
         application_form.update!(address_type: :international)
 
         expect([application_form.latitude, application_form.longitude]).to eq [nil, nil]
-        expect(GeocodeApplicationAddressWorker).not_to have_received(:perform_in)
+        expect(GeocodeApplicationAddressWorker).not_to have_been_enqueued.with(application_form.id)
       end
     end
   end
@@ -1588,7 +1577,7 @@ RSpec.describe ApplicationForm do
     before do
       allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache.lookup_store(:memory_store))
       Rails.cache.clear
-      Sidekiq::Worker.clear_all
+      clear_enqueued_jobs
     end
 
     subject(:application_form) { build_stubbed(:application_form) }
@@ -1615,7 +1604,7 @@ RSpec.describe ApplicationForm do
       it 'queues the refresh worker' do
         expect {
           application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
-        }.to change(Adviser::RefreshAdviserStatusWorker.jobs, :size).from(0).to(1)
+        }.to enqueue_job(Adviser::RefreshAdviserStatusWorker)
       end
 
       it 'does not queue the refresh worker if it has been refreshed recently' do
@@ -1623,7 +1612,7 @@ RSpec.describe ApplicationForm do
 
         expect {
           application_form.eligible_to_sign_up_for_a_teaching_training_adviser?
-        }.not_to change(Adviser::RefreshAdviserStatusWorker.jobs, :size)
+        }.not_to enqueue_job(Adviser::RefreshAdviserStatusWorker)
       end
     end
   end
@@ -1632,7 +1621,7 @@ RSpec.describe ApplicationForm do
     before do
       allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache.lookup_store(:memory_store))
       Rails.cache.clear
-      Sidekiq::Worker.clear_all
+      clear_enqueued_jobs
     end
 
     context 'when the application form is assigned to an adviser' do
@@ -1665,7 +1654,7 @@ RSpec.describe ApplicationForm do
       it 'queues the refresh worker' do
         expect {
           application_form.already_assigned_to_an_adviser?
-        }.to change(Adviser::RefreshAdviserStatusWorker.jobs, :size).from(0).to(1)
+        }.to enqueue_job(Adviser::RefreshAdviserStatusWorker)
       end
 
       it 'does not queue the refresh worker if it has been refreshed recently' do
@@ -1673,7 +1662,7 @@ RSpec.describe ApplicationForm do
 
         expect {
           application_form.already_assigned_to_an_adviser?
-        }.not_to change(Adviser::RefreshAdviserStatusWorker.jobs, :size)
+        }.not_to enqueue_job(Adviser::RefreshAdviserStatusWorker)
       end
     end
   end
@@ -1682,7 +1671,7 @@ RSpec.describe ApplicationForm do
     before do
       allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache.lookup_store(:memory_store))
       Rails.cache.clear
-      Sidekiq::Worker.clear_all
+      clear_enqueued_jobs
     end
 
     context 'when the application form is assigned to an adviser' do
@@ -1715,7 +1704,7 @@ RSpec.describe ApplicationForm do
       it 'queues the refresh worker' do
         expect {
           application_form.waiting_to_be_assigned_to_an_adviser?
-        }.to change(Adviser::RefreshAdviserStatusWorker.jobs, :size).from(0).to(1)
+        }.to enqueue_job(Adviser::RefreshAdviserStatusWorker)
       end
 
       it 'does not queue the refresh worker if it has been refreshed recently' do
@@ -1723,7 +1712,7 @@ RSpec.describe ApplicationForm do
 
         expect {
           application_form.waiting_to_be_assigned_to_an_adviser?
-        }.not_to change(Adviser::RefreshAdviserStatusWorker.jobs, :size)
+        }.not_to enqueue_job(Adviser::RefreshAdviserStatusWorker)
       end
     end
   end

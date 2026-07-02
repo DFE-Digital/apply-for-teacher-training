@@ -1,6 +1,4 @@
 class RemoveInactiveProviderUsersWorker < ApplicationJob
-  self.queue_adapter = :solid_queue
-
   queue_as :low_priority
 
   INACTIVE_MONTHS_AGO = 12

@@ -67,6 +67,7 @@ RSpec.describe 'Data export' do
   end
 
   def when_i_click_the_generate_new_export_button
+    allow(DataExporter).to receive(:perform_later).and_return true
     click_link_or_button 'Generate new export'
   end
 

@@ -812,8 +812,8 @@ private
         region_code: find_international_region_from_country,
       )
     else
-      GeocodeApplicationAddressWorker.perform_in(5.seconds, id)
-      LookupAreaByPostcodeWorker.perform_in(10.seconds, id)
+      GeocodeApplicationAddressWorker.set(wait: 5.seconds).perform_later(id)
+      LookupAreaByPostcodeWorker.set(wait: 10.seconds).perform_later(id)
     end
   end
 
