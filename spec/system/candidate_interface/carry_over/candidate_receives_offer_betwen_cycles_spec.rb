@@ -88,19 +88,22 @@ private
 
   def then_i_see_the_recruitment_deadline_page
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_element(:h1, text: 'The recruitment deadline has now passed')
+    expect(page).to have_element(:h1, text: 'Your applications')
     expect(page).to have_element(
       :p,
-      text: "The deadline for applying to courses in the #{@application_form.academic_year_range_name} " \
-            'academic year has passed. You can no longer apply to courses starting in ' \
-            "#{@application_form.recruitment_cycle_timetable.apply_deadline_at.to_fs(:month_and_year)}.",
+      text: "The deadline for applying to courses in the #{@application_form.academic_year_range_name} academic year has passed.",
     )
   end
 
   def and_i_see_information_to_apply_for_the_next_academic_year
+    timetable = RecruitmentCycleTimetable.next_timetable
     expect(page).to have_element(
       :h2,
-      text: "Apply to courses in the #{RecruitmentCycleTimetable.next_timetable.academic_year_range_name} academic year",
+      text: "Courses for the #{timetable.academic_year_range_name} academic year",
+    )
+    expect(page).to have_element(
+      :p,
+      text: "You will be able to apply from #{timetable.apply_opens_at.to_fs(:govuk_date_time_time_first)}.",
     )
   end
 end

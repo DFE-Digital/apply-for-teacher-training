@@ -3,6 +3,9 @@ class CandidateInterface::ApplicationChoices::IndexContentComponent < Applicatio
     @application_form = application_form
   end
 
+  delegate :candidate, to: :application_form
+  delegate :active_previous_application, to: :candidate
+
   def call
     render content_component
   end
@@ -12,6 +15,8 @@ class CandidateInterface::ApplicationChoices::IndexContentComponent < Applicatio
       # Candidate may have inflight applications.
       # If not, they are given the opportunity to carry over
       CandidateInterface::AfterDeadlineContentComponent.new(application_form:)
+    elsif active_previous_application.present?
+      CandidateInterface::MultipleActiveApplicationsContentComponent.new(application_form:)
     else
       # This is BAU and the application is for the current cycle
       CandidateInterface::MidCycleContentComponent.new(application_form:)
@@ -20,5 +25,5 @@ class CandidateInterface::ApplicationChoices::IndexContentComponent < Applicatio
 
 private
 
-  attr_reader :application_form
+  attr_reader :application_form, :with_title
 end

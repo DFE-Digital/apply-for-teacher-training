@@ -63,4 +63,31 @@ RSpec.describe CandidateInterface::ApplicationChoiceItemComponent do
       end
     end
   end
+
+  describe '#decline_date' do
+    let(:course) { build(:course, start_date:) }
+    let(:course_option) { build(:course_option, course:) }
+    let(:status) { :awaiting_provider_decision }
+    let(:application_form) { application_choice.application_form }
+
+    before do
+      application_choice.update(course_option:)
+    end
+
+    context 'when the course start date is after September' do
+      let(:start_date) { "01/01/#{application_form.recruitment_cycle_year + 1}" }
+
+      it 'returns the winter decline by default date' do
+        expect(component.decline_date).to eq("11:59pm UK time on #{application_form.winter_decline_by_default_at.day} January")
+      end
+    end
+
+    context 'when the course start date is during September' do
+      let(:start_date) { "01/09/#{application_form.recruitment_cycle_year}" }
+
+      it 'returns the winter decline by default date' do
+        expect(component.decline_date).to eq("11:59pm UK time on #{application_form.decline_by_default_at.day} September")
+      end
+    end
+  end
 end

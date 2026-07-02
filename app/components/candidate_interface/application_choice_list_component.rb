@@ -1,15 +1,16 @@
 module CandidateInterface
   class ApplicationChoiceListComponent < ApplicationComponent
-    attr_reader :application_form, :application_choices
+    attr_reader :application_form, :application_choices, :with_tabs
 
     ALL_APPLICATIONS_TAB = 'all'.freeze
     ApplicationTab = Struct.new(:text, :link, :active?)
 
-    def initialize(application_form:, application_choices:, current_tab_name: nil)
+    def initialize(application_form:, application_choices:, current_tab_name: nil, with_tabs: true)
       @application_form = application_form
       @application_choices = application_choices
       @tabs = [ALL_APPLICATIONS_TAB, @application_choices.map(&:application_choices_group_name)].flatten.compact_blank.uniq
       @current_tab_name = current_tab_name
+      @with_tabs = with_tabs
     end
 
     def render?
@@ -17,6 +18,8 @@ module CandidateInterface
     end
 
     def tabs
+      return [] unless @with_tabs
+
       @tabs.map do |tab|
         ApplicationTab.new(
           text: I18n.t("candidate_interface.application_tabs.#{tab}"),
