@@ -18,7 +18,7 @@ module CandidateInterface
     def gcse_qualification_rows
       if application_qualification.missing_qualification?
         [
-          missing_qualifiation_type_row,
+          missing_qualification_type_row,
           not_completed_explanation_row,
           missing_explanation_for_no_gcse_row,
         ].compact
@@ -167,7 +167,7 @@ module CandidateInterface
       end
     end
 
-    def missing_qualifiation_type_row
+    def missing_qualification_type_row
       {
         key: "What type of #{capitalize_english(@subject)} qualification do you have?",
         value: "I don’t have a #{capitalize_english(@subject)} qualification yet",
@@ -265,7 +265,7 @@ module CandidateInterface
 
       {
         key: t('application_form.gcse.enic_statement.review_label'),
-        value: enic_statment_value,
+        value: enic_statement_value,
       }.tap do |row|
         if application_qualification.enic_reason?
           row[:action] =
@@ -277,7 +277,7 @@ module CandidateInterface
       end
     end
 
-    def enic_statment_value
+    def enic_statement_value
       if application_qualification.enic_reason.nil?
         govuk_link_to('Enter your ENIC status', candidate_interface_gcse_details_edit_enic_path(change_path_params))
       else

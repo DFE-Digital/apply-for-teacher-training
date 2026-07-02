@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Candidate entering Non UK GCSE equivalency details' do
   include CandidateHelper
 
+  before do
+    FeatureFlag.deactivate('2027_international_qualifications_flow')
+  end
+
   scenario 'Candidate submits their maths Non UK GCSE equivalency details and then updates them' do
     given_i_am_signed_in_with_one_login
 

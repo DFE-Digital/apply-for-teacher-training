@@ -1,0 +1,15 @@
+<%= f.govuk_error_summary %>
+<%= f.govuk_radio_buttons_fieldset :qualification, legend: { text: t('gcse_edit_specific_qualification.page_title', subject: (@subject == 'english' ? @subject.capitalize : @subject)), size: 'l', tag: 'h1' } do %>
+<% if @list_of_qualifications %>
+  <% @equivalent_qualifications.each_with_index do |qual, i| %>
+      <%= f.govuk_radio_button :qualification, qual.name, label: { text: qual.name }, link_errors: i.zero? %>
+    <% end %>
+    <%= f.govuk_radio_button :qualification, 'other', label: { text: "Other #{@subject == 'english' ? @subject.capitalize : @subject} qualification equivalent to a GCSE" } do %>
+      <%= f.govuk_text_field :non_structured_qualification, label: { text: t('application_form.gcse.non_uk_other_qualification.label'), size: 's' }, hint: (@subject == 'english' ? { text: t('application_form.gcse.non_uk_other_qualification.hint_text') } : nil) %>
+    <% end %>
+  <% else %>
+    <%= f.hidden_field :qualification, value: 'other' %>
+    <%= f.govuk_text_field :non_structured_qualification, label: nil, hint: { text: t("application_form.gcse.non_uk_other_qualification.non_structured_hint_text#{'_english' if @subject == 'english'}") } %>
+  <% end %>
+<% end %>
+<%= f.govuk_submit t('save_and_continue') %>

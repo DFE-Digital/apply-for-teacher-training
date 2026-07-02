@@ -40,9 +40,9 @@ module CandidateInterface
 
     def set_previous_path
       @previous_path = if current_qualification.non_uk_qualification_type.present?
-                         candidate_interface_gcse_details_new_enic_path(subject: @subject)
+                         candidate_interface_gcse_details_new_enic_path(subject_param)
                        else
-                         candidate_interface_gcse_details_new_type_path(subject: @subject)
+                         candidate_interface_gcse_details_new_type_path(subject_param)
                        end
     end
 

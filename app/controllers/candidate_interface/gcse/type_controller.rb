@@ -32,7 +32,8 @@ module CandidateInterface
     end
 
     def update
-      @type_form = GcseQualificationTypeForm.new(qualification_params)
+      @type_form = GcseQualificationTypeForm.build_from_qualification(current_qualification)
+      @type_form.assign_attributes(qualification_params)
 
       if @type_form.update(current_qualification)
         current_application.update!(completed_field_name => nil)
@@ -60,7 +61,9 @@ module CandidateInterface
     end
 
     def next_gcse_path
-      if non_uk_qualification?
+      if non_uk_qualification? && FeatureFlag.active?('2027_international_qualifications_flow')
+        candidate_interface_gcse_new_international_flow_new_institution_country_path
+      elsif non_uk_qualification?
         candidate_interface_gcse_details_new_institution_country_path
       elsif @type_form.missing_qualification?
         candidate_interface_gcse_not_yet_completed_path
