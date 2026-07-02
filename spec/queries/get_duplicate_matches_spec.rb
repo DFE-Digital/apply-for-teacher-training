@@ -187,6 +187,58 @@ RSpec.describe GetDuplicateMatches do
       end
     end
 
+    context 'when the previous application has a different postcode' do
+      before do
+        form_1 = application_form(candidate_1, postcode: 'SA1 1AA')
+        application_form(candidate_1, previous_application_form: form_1)
+
+        application_form(candidate_2)
+      end
+
+      it 'returns all duplicates' do
+        expect(candidate_ids).to contain_exactly(candidate_1.id, candidate_2.id)
+      end
+    end
+
+    context 'when one candidate has a carried-over application matching another candidate' do
+      before do
+        original = application_form(candidate_1, postcode: nil, address_type: 'international')
+        application_form(candidate_1, previous_application_form: original, postcode: 'LS1 1AA')
+
+        application_form(candidate_2, postcode: 'LS1 1AA')
+      end
+
+      it 'returns both candidates' do
+        expect(candidate_ids).to contain_exactly(candidate_1.id, candidate_2.id)
+      end
+    end
+
+    context 'when the same candidate has multiple applications with matching attributes' do
+      before do
+        form_1 = application_form(candidate_1)
+        application_form(candidate_1, previous_application_form: form_1)
+      end
+
+      it 'does not treat them as duplicates' do
+        expect(candidate_ids).not_to include(candidate_1.id)
+      end
+    end
+
+    context 'when candidates have multiple matching applications each' do
+      before do
+        form_1 = application_form(candidate_1)
+        application_form(candidate_1, previous_application_form: form_1)
+
+        form_2 = application_form(candidate_2)
+        application_form(candidate_2, previous_application_form: form_2)
+      end
+
+      it 'returns each candidate only once' do
+        expect(candidate_ids.count(candidate_1.id)).to eq(1)
+        expect(candidate_ids.count(candidate_2.id)).to eq(1)
+      end
+    end
+
     def application_form(candidate, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'w6 9bh', submitted_at: Time.zone.now, **attributes)
       create(:application_form, candidate:, first_name:, last_name:, date_of_birth:, postcode:, submitted_at:, **attributes)
     end
