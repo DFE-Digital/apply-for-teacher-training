@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.efl.start'), @no_qualification_details_form.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.efl.english_language_skills'), @no_qualification_details_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
 
 <div class="govuk-grid-row">
@@ -6,7 +6,7 @@
     <%= form_with(model: @no_qualification_details_form, url: candidate_interface_english_proficiencies_no_qualification_details_path(@english_proficiency), method: :patch) do |f| %>
       <%= f.govuk_error_summary %>
       <h1 class='govuk-heading-xl'>
-        <span class="govuk-caption-xl"><%= t('page_titles.efl.start') %></span>
+        <span class="govuk-caption-xl"><%= t('page_titles.efl.english_language_skills') %></span>
         You may need an English as a foreign language assessment
       </h1>
       <p class='govuk-body'>

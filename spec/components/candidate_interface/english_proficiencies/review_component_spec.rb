@@ -8,10 +8,10 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
       render_inline described_class.new(english_proficiency)
       expect(rendered_content).to have_css(
         'h2.govuk-summary-card__title',
-        text: 'English as a foreign language assessment',
+        text: 'English language skills',
       )
-      expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your level of English')
-      expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: 'English is my first language')
+      expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your English language skills')
+      expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: 'English is my main language')
     end
   end
 
@@ -23,9 +23,9 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
         render_inline described_class.new(english_proficiency)
         expect(rendered_content).to have_css(
           'h2.govuk-summary-card__title',
-          text: 'English as a foreign language assessment',
+          text: 'English language skills',
         )
-        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your level of English')
+        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your English language skills')
         expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: 'My degree was taught in English')
         expect(rendered_content).to have_css(
           'dt.govuk-summary-list__key',
@@ -44,9 +44,9 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
         render_inline described_class.new(english_proficiency)
         expect(rendered_content).to have_css(
           'h2.govuk-summary-card__title',
-          text: 'English as a foreign language assessment',
+          text: 'English language skills',
         )
-        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your level of English')
+        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your English language skills')
         expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: 'My degree was taught in English')
         expect(rendered_content).to have_css(
           'dt.govuk-summary-list__key',
@@ -70,12 +70,12 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
         render_inline described_class.new(english_proficiency)
         expect(rendered_content).to have_css(
           'h2.govuk-summary-card__title',
-          text: 'English as a foreign language assessment',
+          text: 'English language skills',
         )
-        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your level of English')
+        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your English language skills')
         expect(rendered_content).to have_css(
           'dd.govuk-summary-list__value',
-          text: 'English is my first language My degree was taught in English',
+          text: 'English is my main language My degree was taught in English',
         )
       end
     end
@@ -87,9 +87,9 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
         render_inline described_class.new(english_proficiency)
         expect(rendered_content).to have_css(
           'h2.govuk-summary-card__title',
-          text: 'English as a foreign language assessment',
+          text: 'English language skills',
         )
-        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your level of English')
+        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your English language skills')
         expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: 'None of these')
         expect(rendered_content).to have_css(
           'dt.govuk-summary-list__key',
@@ -107,9 +107,9 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
           render_inline described_class.new(english_proficiency)
           expect(rendered_content).to have_css(
             'h2.govuk-summary-card__title',
-            text: 'English as a foreign language assessment',
+            text: 'English language skills',
           )
-          expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your level of English')
+          expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your English language skills')
           expect(rendered_content).to have_css('dd.govuk-summary-list__value', text: 'None of these')
           expect(rendered_content).to have_css(
             'dt.govuk-summary-list__key',
@@ -143,9 +143,9 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
         render_inline described_class.new(english_proficiency)
         expect(rendered_content).to have_css(
           'h2.govuk-summary-card__title',
-          text: 'English as a foreign language assessment',
+          text: 'English language skills',
         )
-        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your level of English')
+        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your English language skills')
         expect(rendered_content).to have_css(
           'dd.govuk-summary-list__value',
           text: 'I have an English as a foreign language (EFL) assessment',
@@ -182,12 +182,12 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
         render_inline described_class.new(english_proficiency)
         expect(rendered_content).to have_css(
           'h2.govuk-summary-card__title',
-          text: 'English as a foreign language assessment',
+          text: 'English language skills',
         )
-        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your level of English')
+        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your English language skills')
         expect(rendered_content).to have_css(
           'dd.govuk-summary-list__value',
-          text: 'English is my first language I have an English as a foreign language (EFL) assessment',
+          text: 'English is my main language I have an English as a foreign language (EFL) assessment',
         )
         expect(rendered_content).to have_css(
           'dt.govuk-summary-list__key',
@@ -221,12 +221,12 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
           render_inline described_class.new(english_proficiency)
           expect(rendered_content).to have_css(
             'h2.govuk-summary-card__title',
-            text: 'English as a foreign language assessment',
+            text: 'English language skills',
           )
-          expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your level of English')
+          expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your English language skills')
           expect(rendered_content).to have_css(
             'dd.govuk-summary-list__value',
-            text: 'English is my first language I have an English as a foreign language (EFL) assessment My degree was taught in English',
+            text: 'English is my main language I have an English as a foreign language (EFL) assessment My degree was taught in English',
           )
           expect(rendered_content).to have_css(
             'dt.govuk-summary-list__key',
@@ -267,9 +267,9 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
         render_inline described_class.new(english_proficiency)
         expect(rendered_content).to have_css(
           'h2.govuk-summary-card__title',
-          text: 'English as a foreign language assessment',
+          text: 'English language skills',
         )
-        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your level of English')
+        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your English language skills')
         expect(rendered_content).to have_css('dd.govuk-summary-list__value',
                                              text: 'I have an English as a foreign language (EFL) assessment')
         expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Type of assessment')
@@ -301,9 +301,9 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
         render_inline described_class.new(english_proficiency)
         expect(rendered_content).to have_css(
           'h2.govuk-summary-card__title',
-          text: 'English as a foreign language assessment',
+          text: 'English language skills',
         )
-        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your level of English')
+        expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your English language skills')
         expect(rendered_content).to have_css(
           'dd.govuk-summary-list__value',
           text: 'I have an English as a foreign language (EFL) assessment',

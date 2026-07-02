@@ -8,7 +8,7 @@ RSpec.describe 'Candidate enters their english proficiency as none of these',
     given_i_am_signed_in_with_one_login
     and_english_is_not_my_first_language
     and_visit_my_details
-    when_i_click_on_english_as_a_foreign_language
+    when_i_click_on_english_language_skills
     then_i_see_the_proving_your_level_of_english_page
 
     when_i_select_none_of_these
@@ -36,7 +36,7 @@ RSpec.describe 'Candidate enters their english proficiency as none of these',
     given_i_am_signed_in_with_one_login
     and_english_is_not_my_first_language
     and_visit_my_details
-    when_i_click_on_english_as_a_foreign_language
+    when_i_click_on_english_language_skills
     then_i_see_the_proving_your_level_of_english_page
 
     when_i_select_none_of_these
@@ -79,8 +79,8 @@ private
     visit candidate_interface_details_path
   end
 
-  def when_i_click_on_english_as_a_foreign_language
-    click_on 'English as a foreign language'
+  def when_i_click_on_english_language_skills
+    click_on 'English language skills'
   end
 
   def then_i_see_the_proving_your_level_of_english_page
@@ -95,10 +95,10 @@ private
   end
 
   def and_i_see_the_proving_your_level_of_english_form
-    expect(page).to have_element(:span, text: 'English as a foreign language assessment', class: 'govuk-caption-xl')
-    expect(page).to have_element(:h1, text: 'Proving your level of English', class: 'govuk-fieldset__heading')
+    expect(page).to have_element(:span, text: 'English language skills', class: 'govuk-caption-xl')
+    expect(page).to have_element(:h1, text: 'Proving your English language skills', class: 'govuk-fieldset__heading')
 
-    expect(page).to have_field('English is my first language', type: 'checkbox')
+    expect(page).to have_field('English is my main language', type: 'checkbox')
     expect(page).to have_field('My degree was taught in English', type: 'checkbox')
     expect(page).to have_field('I have an English as a foreign language (EFL) assessment', type: 'checkbox')
     expect(page).to have_field('None of these', type: 'checkbox')
@@ -124,11 +124,11 @@ private
   def then_i_see_the_may_need_to_an_efl_assessment_page
     english_proficiency = @application_form.english_proficiencies.last
     expect(page).to have_current_path(candidate_interface_english_proficiencies_no_qualification_details_path(english_proficiency.id))
-    expect(page).to have_element(:span, text: 'English as a foreign language assessment', class: 'govuk-caption-xl')
+    expect(page).to have_element(:span, text: 'English language skills', class: 'govuk-caption-xl')
     expect(page).to have_element(:h1, text: 'You may need an English as a foreign language assessment', class: 'govuk-heading-xl')
     expect(page).to have_element(
       :p,
-      text: 'Training providers may need to see evidence of your level of English. Contact them to find out about their requirements.',
+      text: 'Training providers may need to see evidence of your English language skills. Contact them to find out about their requirements.',
       class: 'govuk-body',
     )
     expect(page).to have_element(:h2, text: 'Do you plan on taking an English as a foreign language assessment?', class: 'govuk-fieldset__heading')
@@ -146,18 +146,18 @@ private
   end
 
   def and_i_enter_the_details_of_my_assessment
-    fill_in 'Give details of when and what type of assessment you plan to take', with: 'Work in progress'
+    fill_in 'Give details of the type of assessment you plan to take and when you plan to take it', with: 'Work in progress'
   end
 
   def then_i_see_the_review_page
     expect(page).to have_current_path candidate_interface_english_proficiencies_review_path
-    expect(page).to have_element(:h1, text: 'Check your English as a foreign language assessment', class: 'govuk-heading-xl')
+    expect(page).to have_element(:h1, text: 'Check your English language skills', class: 'govuk-heading-xl')
   end
 
   def and_i_see_that_my_level_of_english_is_none_of_these_with_no_details
     within('.govuk-summary-card') do
-      expect(page).to have_element(:h2, text: 'English as a foreign language assessment', class: 'govuk-summary-card__title')
-      expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+      expect(page).to have_element(:h2, text: 'English language skills', class: 'govuk-summary-card__title')
+      expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
       expect(page).to have_element(:dd, text: 'None of these', class: 'govuk-summary-list__value')
       expect(page).to have_element(
         :dt,
@@ -170,8 +170,8 @@ private
 
   def and_i_see_that_my_level_of_english_is_none_of_these_with_details
     within('.govuk-summary-card') do
-      expect(page).to have_element(:h2, text: 'English as a foreign language assessment', class: 'govuk-summary-card__title')
-      expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+      expect(page).to have_element(:h2, text: 'English language skills', class: 'govuk-summary-card__title')
+      expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
       expect(page).to have_element(:dd, text: 'None of these', class: 'govuk-summary-list__value')
       expect(page).to have_element(
         :dt,
@@ -195,7 +195,7 @@ private
   def then_i_see_the_english_as_a_foreign_language_assessment_section_completed
     expect(page).to have_element(
       :div,
-      text: 'English as a foreign language assessment Completed',
+      text: 'English language skills Completed',
       class: 'app-task-list__content',
     )
   end

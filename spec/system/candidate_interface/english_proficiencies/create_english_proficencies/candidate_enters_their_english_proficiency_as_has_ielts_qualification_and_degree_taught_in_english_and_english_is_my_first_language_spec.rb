@@ -8,7 +8,7 @@ RSpec.describe 'Candidate enters their english proficiency as has IELTS qualific
     given_i_am_signed_in_with_one_login
     and_english_is_not_my_first_language
     and_visit_my_details
-    when_i_click_on_english_as_a_foreign_language
+    when_i_click_on_english_language_skills
     then_i_see_the_proving_your_level_of_english_page
 
     when_i_select_i_have_an_efl_assessment
@@ -56,8 +56,8 @@ private
     visit candidate_interface_details_path
   end
 
-  def when_i_click_on_english_as_a_foreign_language
-    click_on 'English as a foreign language'
+  def when_i_click_on_english_language_skills
+    click_on 'English language skills'
   end
 
   def then_i_see_the_proving_your_level_of_english_page
@@ -72,10 +72,10 @@ private
   end
 
   def and_i_see_the_proving_your_level_of_english_form
-    expect(page).to have_element(:span, text: 'English as a foreign language assessment', class: 'govuk-caption-xl')
-    expect(page).to have_element(:h1, text: 'Proving your level of English', class: 'govuk-fieldset__heading')
+    expect(page).to have_element(:span, text: 'English language skills', class: 'govuk-caption-xl')
+    expect(page).to have_element(:h1, text: 'Proving your English language skills', class: 'govuk-fieldset__heading')
 
-    expect(page).to have_field('English is my first language', type: 'checkbox')
+    expect(page).to have_field('English is my main language', type: 'checkbox')
     expect(page).to have_field('My degree was taught in English', type: 'checkbox')
     expect(page).to have_field('I have an English as a foreign language (EFL) assessment', type: 'checkbox')
     expect(page).to have_field('None of these', type: 'checkbox')
@@ -90,7 +90,7 @@ private
   end
 
   def and_i_select_english_is_my_first_language
-    check 'English is my first language'
+    check 'English is my main language'
   end
 
   def and_i_click_on_continue
@@ -101,7 +101,7 @@ private
   def then_i_see_the_efl_assessment_type_page
     english_proficiency = @application_form.english_proficiencies.last
     expect(page).to have_current_path(candidate_interface_english_proficiencies_type_path(english_proficiency), ignore_query: true)
-    expect(page).to have_element(:span, text: 'English as a foreign language assessment', class: 'govuk-caption-xl')
+    expect(page).to have_element(:span, text: 'English language skills', class: 'govuk-caption-xl')
     expect(page).to have_element(:h1, text: 'What English language assessment did you do?', class: 'govuk-fieldset__heading')
 
     expect(page).to have_field('International English Language Testing System (IELTS)', type: 'radio')
@@ -122,7 +122,7 @@ private
   end
 
   def and_i_see_english_is_my_first_language_selected
-    expect(page).to have_checked_field('English is my first language', type: 'checkbox')
+    expect(page).to have_checked_field('English is my main language', type: 'checkbox')
   end
 
   def when_i_select_ielts
@@ -132,7 +132,7 @@ private
   def then_i_see_the_ielts_results_page
     english_proficiency = @application_form.english_proficiencies.last
     expect(page).to have_current_path candidate_interface_english_proficiencies_ielts_path(english_proficiency)
-    expect(page).to have_element(:span, text: 'English as a foreign language assessment', class: 'govuk-caption-xl')
+    expect(page).to have_element(:span, text: 'English language skills', class: 'govuk-caption-xl')
     expect(page).to have_element(:h1, text: 'Your IELTS result', class: 'govuk-heading-xl')
     expect(page).to have_field('Test report form (TRF) number', type: 'text')
     expect(page).to have_field('Overall band score', type: 'text')
@@ -155,16 +155,16 @@ private
 
   def then_i_see_the_review_page
     expect(page).to have_current_path candidate_interface_english_proficiencies_review_path
-    expect(page).to have_element(:h1, text: 'Check your English as a foreign language assessment', class: 'govuk-heading-xl')
+    expect(page).to have_element(:h1, text: 'Check your English language skills', class: 'govuk-heading-xl')
   end
 
   def and_i_see_that_my_level_of_english_is_i_have_an_efl_assessment_and_degree_taught_in_english_and_english_is_my_first_language
     within('.govuk-summary-card') do
-      expect(page).to have_element(:h2, text: 'English as a foreign language assessment', class: 'govuk-summary-card__title')
-      expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+      expect(page).to have_element(:h2, text: 'English language skills', class: 'govuk-summary-card__title')
+      expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
       expect(page).to have_element(
         :dd,
-        text: 'English is my first language I have an English as a foreign language (EFL) assessment My degree was taught in English',
+        text: 'English is my main language I have an English as a foreign language (EFL) assessment My degree was taught in English',
         class: 'govuk-summary-list__value',
       )
       expect(page).to have_element(:dt, text: 'Type of assessment', class: 'govuk-summary-list__key')
@@ -185,7 +185,7 @@ private
   def then_i_see_the_english_as_a_foreign_language_assessment_section_completed
     expect(page).to have_element(
       :div,
-      text: 'English as a foreign language assessment Completed',
+      text: 'English language skills Completed',
       class: 'app-task-list__content',
     )
   end

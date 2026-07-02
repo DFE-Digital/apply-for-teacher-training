@@ -9,7 +9,7 @@ RSpec.describe 'Candidate updates the other efl qualification results',
     and_english_is_not_my_first_language
     and_i_have_previous_entered_my_english_proficiency
     and_visit_my_details
-    when_i_click_on_english_as_a_foreign_language
+    when_i_click_on_english_language_skills
     then_i_see_the_review_page
     and_i_see_that_my_level_of_english_is_i_have_an_efl_assessment
 
@@ -64,19 +64,19 @@ private
     visit candidate_interface_details_path
   end
 
-  def when_i_click_on_english_as_a_foreign_language
-    click_on 'English as a foreign language'
+  def when_i_click_on_english_language_skills
+    click_on 'English language skills'
   end
 
   def then_i_see_the_review_page
     expect(page).to have_current_path candidate_interface_english_proficiencies_review_path
-    expect(page).to have_element(:h1, text: 'Check your English as a foreign language assessment', class: 'govuk-heading-xl')
+    expect(page).to have_element(:h1, text: 'Check your English language skills', class: 'govuk-heading-xl')
   end
 
   def and_i_see_that_my_level_of_english_is_i_have_an_efl_assessment
     within('.govuk-summary-card') do
-      expect(page).to have_element(:h2, text: 'English as a foreign language assessment', class: 'govuk-summary-card__title')
-      expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+      expect(page).to have_element(:h2, text: 'English language skills', class: 'govuk-summary-card__title')
+      expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
       expect(page).to have_element(
         :dd,
         text: 'I have an English as a foreign language (EFL) assessment',
@@ -100,7 +100,7 @@ private
   def then_i_see_the_other_efl_results_page
     english_proficiency = @application_form.english_proficiencies.last
     expect(page).to have_current_path candidate_interface_english_proficiencies_other_efl_qualification_path(english_proficiency), ignore_query: true
-    expect(page).to have_element(:span, text: 'English as a foreign language assessment', class: 'govuk-caption-xl')
+    expect(page).to have_element(:span, text: 'English language skills', class: 'govuk-caption-xl')
     expect(page).to have_element(:h1, text: 'Your English language assessment result', class: 'govuk-heading-xl')
   end
 
@@ -134,8 +134,8 @@ private
 
   def and_i_see_that_my_ielts_results_have_been_updated
     within('.govuk-summary-card') do
-      expect(page).to have_element(:h2, text: 'English as a foreign language assessment', class: 'govuk-summary-card__title')
-      expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+      expect(page).to have_element(:h2, text: 'English language skills', class: 'govuk-summary-card__title')
+      expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
       expect(page).to have_element(
         :dd,
         text: 'I have an English as a foreign language (EFL) assessment',

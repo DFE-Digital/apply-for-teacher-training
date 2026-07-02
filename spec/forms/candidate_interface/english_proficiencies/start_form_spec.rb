@@ -45,7 +45,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm,
       expect(form).not_to be_valid
       expect(
         form.errors.full_messages,
-      ).to include('Qualification statuses Select a way of proving your level of English, or select ‘None of these’')
+      ).to include('Qualification statuses Select a way of proving your English language skills, or select ‘None of these’')
     end
 
     it 'is invalid if qualification status is not valid' do
@@ -54,7 +54,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm,
       expect(form).not_to be_valid
       expect(
         form.errors.full_messages,
-      ).to eq  ['Qualification statuses Select a way of proving your level of English, or select ‘None of these’']
+      ).to eq  ['Qualification statuses Select a way of proving your English language skills, or select ‘None of these’']
     end
   end
 

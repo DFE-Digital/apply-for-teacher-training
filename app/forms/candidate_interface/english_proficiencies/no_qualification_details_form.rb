@@ -4,7 +4,8 @@ module CandidateInterface
       include ActiveModel::Model
       include Rails.application.routes.url_helpers
 
-      attr_accessor :declare_no_qualification_details, :no_qualification_details, :english_proficiency, :application_form, :return_to
+      attr_accessor :declare_no_qualification_details, :no_qualification_details, :english_proficiency,
+                    :application_form, :return_to, :no_assessment_plan_details
 
       validates :declare_no_qualification_details, presence: true
       validates :no_qualification_details, presence: true, if: -> { qualification_details_declared? }
@@ -18,7 +19,7 @@ module CandidateInterface
         UpdateEnglishProficiencies.new(
           application_form:,
           qualification_statuses: persisting_qualification_statuses,
-          no_qualification_details:,
+          no_qualification_details: qualification_details_declared? ? no_qualification_details : nil,
           no_assessment_plan_details:,
           publish: true,
         ).call

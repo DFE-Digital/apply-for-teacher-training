@@ -22,8 +22,13 @@ module CandidateInterface
 
         unless persist
           if new_english_proficiency.no_qualification || new_english_proficiency.degree_taught_in_english
-            new_english_proficiency.no_qualification_details = no_qualification_details
-            new_english_proficiency.no_assessment_plan_details = no_assessment_plan_details
+            if no_qualification_details.present?
+              new_english_proficiency.no_qualification_details = no_qualification_details
+              new_english_proficiency.no_assessment_plan_details = nil
+            else
+              new_english_proficiency.no_qualification_details = nil
+              new_english_proficiency.no_assessment_plan_details = no_assessment_plan_details
+            end
           end
 
           if new_english_proficiency.has_qualification

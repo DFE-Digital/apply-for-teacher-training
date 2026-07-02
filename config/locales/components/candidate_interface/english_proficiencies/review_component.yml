@@ -3,7 +3,7 @@ en:
     english_proficiencies:
       review_component:
         qualification_status:
-          qualification_not_needed: English is my first language
+          qualification_not_needed: English is my main language
           degree_taught_in_english: My degree was taught in English
           has_qualification: I have an English as a foreign language (EFL) assessment
           no_qualification: None of these

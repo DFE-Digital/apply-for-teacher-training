@@ -138,7 +138,11 @@ RSpec.describe 'International candidate submits the application', :with_cache do
   end
 
   def then_i_see_the_efl_and_other_qualifications_section_is_incomplete
-    expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Incomplete')
+    if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
+      expect(page).to have_css('#english-language-skills-badge-id', text: 'Incomplete')
+    else
+      expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Incomplete')
+    end
     expect(page).to have_css('#other-qualifications-badge-id', text: 'Incomplete')
   end
 
@@ -156,8 +160,8 @@ RSpec.describe 'International candidate submits the application', :with_cache do
   end
 
   def and_i_complete_my_efl_assessment
-    click_link_or_button 'English as a foreign language'
-    check 'English is my first language'
+    click_link_or_button 'English language skills'
+    check 'English is my main language'
     click_link_or_button t('continue')
     choose 'Yes, I have completed this section'
     click_link_or_button t('continue')
@@ -203,12 +207,22 @@ RSpec.describe 'International candidate submits the application', :with_cache do
   end
 
   def and_i_can_see_my_efl_assessment_qualification
-    expect(page).to have_element(
-      :h3,
-      text: 'English as a foreign language assessment',
-      class: 'govuk-summary-card__title',
-    )
-    expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
-    expect(page).to have_element(:dd, text: 'English is my first language', class: 'govuk-summary-list__value')
+    if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
+      expect(page).to have_element(
+        :h3,
+        text: 'English language skills',
+        class: 'govuk-summary-card__title',
+      )
+      expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
+      expect(page).to have_element(:dd, text: 'English is my main language', class: 'govuk-summary-list__value')
+    else
+      expect(page).to have_element(
+        :h3,
+        text: 'English as a foreign language assessment',
+        class: 'govuk-summary-card__title',
+      )
+      expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+      expect(page).to have_element(:dd, text: 'English is my first language', class: 'govuk-summary-list__value')
+    end
   end
 end
