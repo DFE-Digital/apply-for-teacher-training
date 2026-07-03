@@ -79,10 +79,6 @@ RSpec.describe 'Candidate enters a GCSE equivalent qualification from outside of
     and_i_click_save_and_continue
     then_i_see_the_blank_error
 
-    when_i_provide_less_than_10_characters
-    and_i_click_save_and_continue
-    then_i_see_the_too_short_error
-
     when_i_provide_valid_text
     and_i_click_save_and_continue
     then_i_see_the_year_page_english
@@ -235,14 +231,6 @@ private
 
   def then_i_see_the_blank_error
     expect(page).to have_text 'Enter evidence that your English skills are at GCSE grade 4 (C) or above'
-  end
-
-  def when_i_provide_less_than_10_characters
-    fill_in 'candidate-interface-gcse-international-evidence-form-evidence-field-error', with: 'I read'
-  end
-
-  def then_i_see_the_too_short_error
-    expect(page).to have_text 'Evidence must be 10 characters or more'
   end
 
   def when_i_provide_valid_text

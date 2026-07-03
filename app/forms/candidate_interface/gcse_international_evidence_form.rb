@@ -5,7 +5,7 @@ module CandidateInterface
     attr_accessor :evidence, :subject
 
     validate :evidence_presence
-    validates :evidence, length: { minimum: 10, maximum: 500 }
+    validates :evidence, length: { maximum: 500 }
 
     def self.build_from_qualification(application_qualification, subject:)
       new(
@@ -25,7 +25,7 @@ module CandidateInterface
     def evidence_presence
       return if evidence.present?
 
-      errors.add(:evidence, "Enter evidence that your #{subject.capitalize} skills are at GCSE grade 4 (C) or above")
+      errors.add(:evidence, "Enter evidence that your #{subject == 'english' ? subject.capitalize : subject} skills are at GCSE grade 4 (C) or above")
     end
   end
 end

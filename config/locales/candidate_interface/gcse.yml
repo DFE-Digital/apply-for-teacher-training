@@ -195,4 +195,3 @@ en:
           attributes:
             evidence:
               too_long: Evidence must be %{count} characters or fewer
-              too_short: Evidence must be %{count} characters or more

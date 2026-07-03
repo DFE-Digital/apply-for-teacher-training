@@ -16,10 +16,10 @@ module CandidateInterface
       @list_of_grades = @structured_grades.any?
 
       if @structured_grades_form.save(current_qualification)
-        if passing_grade?
-          redirect_to candidate_interface_gcse_new_international_flow_new_enic_path
-        else
+        if failing_grade?
           redirect_to candidate_interface_gcse_new_international_flow_interruption_path
+        else
+          redirect_to candidate_interface_gcse_new_international_flow_new_enic_path
         end
       else
         track_validation_error(@structured_grades_form)
@@ -37,7 +37,7 @@ module CandidateInterface
       if @structured_grades_form.save(current_qualification)
         if !grade_changed
           redirect_to @return_to[:back_path]
-        elsif grade_changed && !passing_grade?
+        elsif grade_changed && failing_grade?
           redirect_to candidate_interface_gcse_new_international_flow_interruption_path
         else
           redirect_to candidate_interface_gcse_new_international_flow_edit_enic_path
@@ -50,12 +50,8 @@ module CandidateInterface
 
   private
 
-    def passing_grade?
-      if @structured_grades_form.grade == 'other'
-        @structured_grades_form.non_structured_grade.present?
-      else
-        @structured_grades_form.grade.in?(@grade_schemas.first.passing_grades)
-      end
+    def failing_grade?
+      InspectInternationalGcseGrade.new(current_qualification).failing?
     end
 
     def structured_grade_params

@@ -92,7 +92,7 @@ module CandidateInterface
     end
 
     def grade_row
-      return nil if application_qualification.non_uk_qualification_type.blank?
+      return nil if application_qualification.non_uk_qualification_type.blank? || application_qualification.institution_country.blank?
 
       {
         key: 'Grade',
@@ -109,7 +109,7 @@ module CandidateInterface
 
     def failing_grade_explanation_row
       return nil if application_qualification.grade.nil? || application_qualification.enic_reason.present?
-        || structured_grade_check.passing? || !structured_grade_check.structured_grade_data_available?
+        || !structured_grade_check.failing?
 
       {
         key: "Evidence that your #{capitalize_english(subject)} skills are at GCSE grade 4 (C) or above",
@@ -150,7 +150,7 @@ module CandidateInterface
     end
 
     def enic_statement_row
-      return nil if (application_qualification.not_completed_explanation.present? && structured_grade_check.structured_grade_data_available?)
+      return nil if (application_qualification.not_completed_explanation.present? && structured_grade_check.failing?)
         || application_qualification.grade.nil?
 
       {
@@ -160,7 +160,7 @@ module CandidateInterface
         if application_qualification.enic_reason?
           row[:action] =
             {
-              href: structured_grade_check.passing? ? candidate_interface_gcse_new_international_flow_edit_enic_path(change_path_params) : candidate_interface_gcse_new_international_flow_interruption_path(change_path_params),
+              href: structured_grade_check.failing? ? candidate_interface_gcse_new_international_flow_interruption_path(change_path_params) : candidate_interface_gcse_new_international_flow_edit_enic_path(change_path_params),
               visually_hidden_text: t('application_form.gcse.enic_statement.change_action'),
             }
         end
@@ -169,7 +169,7 @@ module CandidateInterface
 
     def enic_statement_value
       if application_qualification.enic_reason.nil?
-        govuk_link_to('Enter your ENIC status', structured_grade_check.passing? ? candidate_interface_gcse_new_international_flow_edit_enic_path(change_path_params) : candidate_interface_gcse_new_international_flow_interruption_path(change_path_params))
+        govuk_link_to('Enter your ENIC status', structured_grade_check.failing? ? candidate_interface_gcse_new_international_flow_interruption_path(change_path_params) : candidate_interface_gcse_new_international_flow_edit_enic_path(change_path_params))
       else
         t("gcse_edit_enic.#{application_qualification.enic_reason}")
       end
@@ -239,7 +239,7 @@ module CandidateInterface
     end
 
     def structured_grade_check
-      StructuredInternationalGradeCheck.new(application_qualification)
+      InspectInternationalGcseGrade.new(application_qualification)
     end
   end
 end
