@@ -150,7 +150,8 @@ module CandidateInterface
     end
 
     def enic_statement_row
-      return nil if application_qualification.not_completed_explanation.present? || application_qualification.grade.nil?
+      return nil if (application_qualification.not_completed_explanation.present? && structured_grade_check.structured_grade_data_available?)
+        || application_qualification.grade.nil?
 
       {
         key: t('application_form.gcse.enic_statement.review_label'),

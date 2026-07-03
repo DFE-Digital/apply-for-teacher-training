@@ -46,6 +46,12 @@ RSpec.describe 'Candidate edits a GCSE equivalent qualification from outside of 
     and_i_click_save_and_continue
     then_i_see_the_maths_gcse_review_page
 
+    when_i_click_to_change_my_evidence
+    then_i_see_the_interruption_page
+
+    when_i_click_back
+    then_i_see_the_maths_gcse_review_page
+
     when_i_click_to_change_the_country
     and_i_do_not_change_anything
     and_i_click_save_and_continue
@@ -60,6 +66,14 @@ RSpec.describe 'Candidate edits a GCSE equivalent qualification from outside of 
     and_i_click_save_and_continue
     then_i_see_the_maths_gcse_review_page
     and_i_see_my_edited_qualification_details
+
+    when_i_click_to_change_the_country
+    and_i_change_the_country_to_one_without_structured_data
+    and_i_click_save_and_continue
+    and_i_see_the_qualification_page
+    and_i_do_not_change_anything
+    and_i_click_save_and_continue
+    then_i_see_the_review_page_with_the_option_add_an_enic
   end
 
 private
@@ -101,10 +115,20 @@ private
     end
   end
 
+  def when_i_click_to_change_my_evidence
+    within('div.govuk-summary-list__row', text: 'Evidence that your maths skills are at GCSE grade 4 (C) or above') do
+      click_link 'Change'
+    end
+  end
+
   def when_i_click_to_change_the_grade
     within('div.govuk-summary-list__row', text: 'Grade') do
       click_link 'Change'
     end
+  end
+
+  def when_i_click_back
+    click_link_or_button 'Back'
   end
 
   def then_i_see_the_edit_country_step
@@ -117,6 +141,10 @@ private
   alias_method :when_i_click_save_and_continue, :and_i_click_save_and_continue
 
   def and_i_select_a_different_country
+    select 'Sierra Leone'
+  end
+
+  def and_i_change_the_country_to_one_without_structured_data
     select 'France'
   end
 
@@ -171,6 +199,10 @@ private
 
   def and_i_do_not_change_anything; end
 
+  def and_i_see_the_qualification_page
+    expect(page).to have_text 'What qualification in maths do you have?'
+  end
+
   def and_i_see_my_qualification_details_with_enic_information
     expect(page).to have_text 'Qualification from outside the UK'
     expect(page).to have_text 'Ghana'
@@ -182,10 +214,19 @@ private
 
   def and_i_see_my_edited_qualification_details
     expect(page).to have_text 'Qualification from outside the UK'
-    expect(page).to have_text 'France'
+    expect(page).to have_text 'Sierra Leone'
     expect(page).to have_text 'WASSCE (West African Senior School Certificate Examination)'
     expect(page).to have_text 'E8'
     expect(page).to have_text 'I can count to 1000'
+    expect(page).to have_text '2017'
+  end
+
+  def then_i_see_the_review_page_with_the_option_add_an_enic
+    expect(page).to have_text 'Qualification from outside the UK'
+    expect(page).to have_text 'France'
+    expect(page).to have_text 'WASSCE (West African Senior School Certificate Examination)'
+    expect(page).to have_text 'E8'
+    expect(page).to have_text 'Enter your ENIC status'
     expect(page).to have_text '2017'
   end
 end
