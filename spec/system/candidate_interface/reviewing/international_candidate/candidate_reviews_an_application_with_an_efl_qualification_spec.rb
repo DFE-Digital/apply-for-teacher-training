@@ -131,10 +131,10 @@ private
   def then_i_can_see_my_ielts_qualification
     expect(page).to have_element(
       :h3,
-      text: 'English as a foreign language assessment',
+      text: 'English language skills',
       class: 'govuk-summary-card__title',
     )
-    expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+    expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
     expect(page).to have_element(:dd, text: 'I have an English as a foreign language (EFL) assessment', class: 'govuk-summary-list__value')
     expect(page).to have_element(:dt, text: 'Type of assessment', class: 'govuk-summary-list__key')
     expect(page).to have_element(:dd, text: 'IELTS', class: 'govuk-summary-list__value')
@@ -149,10 +149,10 @@ private
   def then_i_can_see_my_toefl_qualification
     expect(page).to have_element(
       :h3,
-      text: 'English as a foreign language assessment',
+      text: 'English language skills',
       class: 'govuk-summary-card__title',
     )
-    expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+    expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
     expect(page).to have_element(:dd, text: 'I have an English as a foreign language (EFL) assessment', class: 'govuk-summary-list__value')
     expect(page).to have_element(:dt, text: 'Type of assessment', class: 'govuk-summary-list__key')
     expect(page).to have_element(:dd, text: 'TOEFL', class: 'govuk-summary-list__value')
@@ -167,10 +167,10 @@ private
   def then_i_can_see_my_efl_qualification
     expect(page).to have_element(
       :h3,
-      text: 'English as a foreign language assessment',
+      text: 'English language skills',
       class: 'govuk-summary-card__title',
     )
-    expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+    expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
     expect(page).to have_element(:dd, text: 'I have an English as a foreign language (EFL) assessment', class: 'govuk-summary-list__value')
     expect(page).to have_element(:dt, text: 'Type of assessment', class: 'govuk-summary-list__key')
     expect(page).to have_element(:dd, text: @efl_qualification.name, class: 'govuk-summary-list__value')
@@ -185,13 +185,13 @@ private
   def then_i_can_see_my_ielts_qualification_with_english_is_my_first_language
     expect(page).to have_element(
       :h3,
-      text: 'English as a foreign language assessment',
+      text: 'English language skills',
       class: 'govuk-summary-card__title',
     )
-    expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+    expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
     expect(page).to have_element(
       :dd,
-      text: 'English is my first language I have an English as a foreign language (EFL) assessment',
+      text: 'English is my main language I have an English as a foreign language (EFL) assessment',
       class: 'govuk-summary-list__value',
     )
     expect(page).to have_element(:dt, text: 'Type of assessment', class: 'govuk-summary-list__key')
@@ -207,10 +207,10 @@ private
   def then_i_can_see_my_ielts_qualification_with_degree_taught_in_english
     expect(page).to have_element(
       :h3,
-      text: 'English as a foreign language assessment',
+      text: 'English language skills',
       class: 'govuk-summary-card__title',
     )
-    expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+    expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
     expect(page).to have_element(
       :dd,
       text: 'I have an English as a foreign language (EFL) assessment My degree was taught in English',
@@ -229,13 +229,13 @@ private
   def then_i_can_see_my_ielts_qualification_with_degree_taught_in_english_and_english_is_my_first_language
     expect(page).to have_element(
       :h3,
-      text: 'English as a foreign language assessment',
+      text: 'English language skills',
       class: 'govuk-summary-card__title',
     )
-    expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+    expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
     expect(page).to have_element(
       :dd,
-      text: 'English is my first language I have an English as a foreign language (EFL) assessment My degree was taught in English',
+      text: 'English is my main language I have an English as a foreign language (EFL) assessment My degree was taught in English',
       class: 'govuk-summary-list__value',
     )
     expect(page).to have_element(:dt, text: 'Type of assessment', class: 'govuk-summary-list__key')

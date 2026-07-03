@@ -66,10 +66,10 @@ private
   def then_i_can_see_a_degree_taught_in_english_with_no_details
     expect(page).to have_element(
       :h3,
-      text: 'English as a foreign language assessment',
+      text: 'English language skills',
       class: 'govuk-summary-card__title',
     )
-    expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+    expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
     expect(page).to have_element(
       :dd,
       text: 'My degree was taught in English',
@@ -90,10 +90,10 @@ private
   def then_i_can_see_a_degree_taught_in_english_with_details
     expect(page).to have_element(
       :h3,
-      text: 'English as a foreign language assessment',
+      text: 'English language skills',
       class: 'govuk-summary-card__title',
     )
-    expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+    expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
     expect(page).to have_element(
       :dd,
       text: 'My degree was taught in English',

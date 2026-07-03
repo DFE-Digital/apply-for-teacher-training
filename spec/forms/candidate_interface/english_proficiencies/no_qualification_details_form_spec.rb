@@ -83,6 +83,29 @@ RSpec.describe CandidateInterface::EnglishProficiencies::NoQualificationDetailsF
       expect(application_form.english_proficiency.qualification_statuses).to contain_exactly('no_qualification')
       expect(application_form.english_proficiency.draft).to be false
       expect(application_form.english_proficiency.no_qualification_details).to eq('Work in progress')
+      expect(application_form.english_proficiency.no_assessment_plan_details).to be_nil
+    end
+
+    it 'saves the no assessment plan details' do
+      application_form = create(:application_form)
+      english_proficiency = create(:english_proficiency, :draft, application_form:, no_qualification: true)
+
+      form = valid_form.tap do |f|
+        f.declare_no_qualification_details = 0
+        f.no_qualification_details = nil
+        f.no_assessment_plan_details = 'Work in progress'
+      end
+
+      form.application_form = application_form
+      form.english_proficiency = english_proficiency
+
+      form.save
+      application_form.reload
+
+      expect(application_form.english_proficiency.qualification_statuses).to contain_exactly('no_qualification')
+      expect(application_form.english_proficiency.draft).to be false
+      expect(application_form.english_proficiency.no_qualification_details).to be_nil
+      expect(application_form.english_proficiency.no_assessment_plan_details).to eq('Work in progress')
     end
 
     context 'user does not enter any no qualification details' do

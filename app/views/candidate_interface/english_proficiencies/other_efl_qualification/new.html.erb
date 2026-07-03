@@ -6,7 +6,7 @@
     <%= form_with(model: @other_qualification_form, url: candidate_interface_english_proficiencies_other_efl_qualification_path(@return_to[:params])) do |f| %>
       <%= f.govuk_error_summary %>
       <h1 class='govuk-heading-xl'>
-        <span class="govuk-caption-xl"><%= t('page_titles.efl.start') %></span>
+        <span class="govuk-caption-xl"><%= t('page_titles.efl.english_language_skills') %></span>
         <%= t('page_titles.efl.other') %>
       </h1>
       <%= render 'form_fields', { f: f } %>

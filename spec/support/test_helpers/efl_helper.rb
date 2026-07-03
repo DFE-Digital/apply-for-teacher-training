@@ -28,6 +28,10 @@ module EFLHelper
   end
 
   def efl_link_text
-    'English as a foreign language'
+    if FeatureFlag.active? '2027_application_form_has_many_english_proficiencies'
+      'English language skills'
+    else
+      'English as a foreign language'
+    end
   end
 end

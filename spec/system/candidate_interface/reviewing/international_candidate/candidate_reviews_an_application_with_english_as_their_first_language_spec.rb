@@ -10,7 +10,7 @@ RSpec.describe 'Candidate reviews an application with English as their first lan
     and_i_have_previously_entered_my_english_proficiency
     and_i_have_an_unsubmitted_application_choice
     when_i_review_my_application
-    then_i_can_see_english_is_my_first_language
+    then_i_can_see_english_is_my_main_language
   end
 
   scenario 'English is my first language and degree taught in English' do
@@ -20,7 +20,7 @@ RSpec.describe 'Candidate reviews an application with English as their first lan
     and_my_degree_was_taught_in_english
     and_i_have_an_unsubmitted_application_choice
     when_i_review_my_application
-    then_i_can_see_english_is_my_first_language_with_a_degree_taught_in_english
+    then_i_can_see_english_is_my_main_language_with_a_degree_taught_in_english
   end
 
 private
@@ -67,26 +67,26 @@ private
     click_on 'Review application'
   end
 
-  def then_i_can_see_english_is_my_first_language
+  def then_i_can_see_english_is_my_main_language
     expect(page).to have_element(
       :h3,
-      text: 'English as a foreign language assessment',
+      text: 'English language skills',
       class: 'govuk-summary-card__title',
     )
-    expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
-    expect(page).to have_element(:dd, text: 'English is my first language', class: 'govuk-summary-list__value')
+    expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
+    expect(page).to have_element(:dd, text: 'English is my main language', class: 'govuk-summary-list__value')
   end
 
-  def then_i_can_see_english_is_my_first_language_with_a_degree_taught_in_english
+  def then_i_can_see_english_is_my_main_language_with_a_degree_taught_in_english
     expect(page).to have_element(
       :h3,
-      text: 'English as a foreign language assessment',
+      text: 'English language skills',
       class: 'govuk-summary-card__title',
     )
-    expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
+    expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
     expect(page).to have_element(
       :dd,
-      text: 'English is my first language My degree was taught in English',
+      text: 'English is my main language My degree was taught in English',
       class: 'govuk-summary-list__value',
     )
   end
