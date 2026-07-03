@@ -14,6 +14,8 @@ module VendorAPI::ApplicationPresenter::EnglishAsAForeignLanguageCandidateRespon
   end
 
   def obtaining_english_language_qualification_details
-    english_proficiency&.no_qualification_details
+    return nil unless english_proficiency.present?
+
+    english_proficiency.no_qualification_details.presence || english_proficiency.no_assessment_plan_details
   end
 end
