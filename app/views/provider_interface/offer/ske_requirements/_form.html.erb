@@ -47,12 +47,12 @@
   <% elsif @application_choice.current_recruitment_cycle_year == 2026 %>
     <%= f.govuk_radio_buttons_fieldset :ske_required, legend: { text: "Do you require #{@application_choice.application_form.full_name} to take a SKE course in #{@wizard.subject_name}?", size: 'm' } do %>
       <%= f.govuk_radio_button(
-            :ske_required,
-            true,
-            label: { text: 'Yes' },
-            link_errors: true,
-            checked: @wizard.ske_conditions.present?,
-            ) %>
+        :ske_required,
+        true,
+        label: { text: 'Yes' },
+        link_errors: true,
+        checked: @wizard.ske_conditions.present?,
+      ) %>
       <%= f.govuk_radio_button :ske_required, false, label: { text: 'No' } %>
     <% end %>
   <% else %>
