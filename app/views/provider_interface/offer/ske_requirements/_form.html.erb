@@ -4,17 +4,29 @@
   <span class="govuk-caption-l"><%= t('caption.make_offer', name: @application_choice.application_form.full_name) %></span>
   <h1 class="govuk-heading-l"><%= t('.title') %></h1>
 
-  <% if language_ske? || physics_ske? %>
+  <% if @application_choice.current_recruitment_cycle_year == 2026 %>
+    <h2 class="govuk-heading-s">
+      DfE-funded SKE courses are no longer available for the remainder of the 2025/26 recruitment cycle.
+    </h2>
     <p class="govuk-body">
-      The Department for Education (DfE) will pay candidates to take up to 2 language SKE courses if they need one,
-      so long as they have a 2:2 degree or higher, or are expected to get this when they graduate.
+      Therefore, any applicant requiring a SKE course will be required to either self-fund their SKE or may need to defer their SKE start date to October 2026 onwards (please note SKE courses for AY2026/27 remain subject to confirmation of funding).
+    </p>
+    <p class="govuk-body">
+      We therefore encourage you to consider this when making SKE a condition of ITT.
     </p>
   <% else %>
-    <p class="govuk-body">The Department for Education (DfE) will pay candidates to take a SKE course if they need one, so long as they:</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>have a 2:2 degree or higher, or are expected to get this when they graduate</li>
-      <li>are eligible for student finance (home fee status)</li>
-    </ul>
+    <% if language_ske? || physics_ske? %>
+      <p class="govuk-body">
+        The Department for Education (DfE) will pay candidates to take up to 2 language SKE courses if they need one,
+        so long as they have a 2:2 degree or higher, or are expected to get this when they graduate.
+      </p>
+    <% else %>
+      <p class="govuk-body">The Department for Education (DfE) will pay candidates to take a SKE course if they need one, so long as they:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>have a 2:2 degree or higher, or are expected to get this when they graduate</li>
+        <li>are eligible for student finance (home fee status)</li>
+      </ul>
+    <% end %>
   <% end %>
 
   <% if language_ske? %>
@@ -31,6 +43,17 @@
 
       <%= f.govuk_radio_divider %>
       <%= f.govuk_check_box :ske_languages, 'no', label: { text: 'No, a SKE course is not required' }, exclusive: true %>
+    <% end %>
+  <% elsif @application_choice.current_recruitment_cycle_year == 2026 %>
+    <%= f.govuk_radio_buttons_fieldset :ske_required, legend: { text: "Do you require #{@application_choice.application_form.full_name} to take a SKE course in #{@wizard.subject_name}?", size: 'm' } do %>
+      <%= f.govuk_radio_button(
+        :ske_required,
+        true,
+        label: { text: 'Yes' },
+        link_errors: true,
+        checked: @wizard.ske_conditions.present?,
+      ) %>
+      <%= f.govuk_radio_button :ske_required, false, label: { text: 'No' } %>
     <% end %>
   <% else %>
     <%= f.govuk_radio_buttons_fieldset :ske_required, legend: { text: "Do you require #{@application_choice.application_form.full_name} to take a SKE course in #{@wizard.subject_name} that will be funded by the DfE?", size: 'm' } do %>
