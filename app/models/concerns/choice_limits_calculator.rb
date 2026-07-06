@@ -2,13 +2,14 @@ module ChoiceLimitsCalculator
   extend ActiveSupport::Concern
 
   IN_PROGRESS_LIMIT = 4
-  UNSUCCESSFUL_RETRY_LIMIT = 15
+  TOTAL_CHOICE_LIMIT = 15
+  UNSUCCESSFUL_RETRY_LIMIT = TOTAL_CHOICE_LIMIT
   MID_CYCLE_UNSUCCESSFUL_RETRY_LIMIT = 0
 
   delegate :unsuccessful_retry_limit, :in_progress_limit, :total_application_limit, to: :limits
 
   Limits = Data.define(:in_progress_limit, :unsuccessful_retry_limit) do
-    def total_application_limit = unsuccessful_retry_limit + in_progress_limit
+    def total_application_limit = TOTAL_CHOICE_LIMIT
   end
 
   def limits
@@ -28,6 +29,10 @@ module ChoiceLimitsCalculator
 
   def total_submitted_count
     unsuccessful_count + in_progress_count
+  end
+
+  def total_applications_count
+    application_choices.count
   end
 
   def draft_count
@@ -54,12 +59,16 @@ module ChoiceLimitsCalculator
     total_submitted_count >= total_application_limit
   end
 
+  def total_applications_reached?
+    total_applications_count >= total_application_limit
+  end
+
   def in_progress_limit_reached?
     in_progress_count >= in_progress_limit
   end
 
   def can_add_more_choices?
-    can_submit_more_choices? && number_of_slots_left.positive?
+    !total_applications_reached? && can_submit_more_choices? && number_of_slots_left.positive?
   end
 
   def cannot_add_more_choices?
@@ -67,9 +76,14 @@ module ChoiceLimitsCalculator
   end
 
   def number_of_slots_left
+    return 0 if total_applications_reached?
+
     slots_left = in_progress_limit - in_progress_count # in progress take up a slot
     slots_left -= draft_count # drafts take up a slot
     slots_left -= [(unsuccessful_count - unsuccessful_retry_limit), 0].max # unsuccessful above the retry limit take up a slot
-    [slots_left, 0].max
+    slots_left = [slots_left, 0].max
+    return slots_left if (total_applications_count + slots_left) < total_application_limit
+
+    total_application_limit - total_applications_count
   end
 end
