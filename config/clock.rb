@@ -51,19 +51,19 @@ class Clock
   every(1.day, 'SendVisaSponsorshipDeadlineReminder', at: '12:00') { CandidateMailers::EnqueueVisaSponsorshipDeadlineReminderWorker.perform_later }
   every(1.day, 'SendFindHasOpenedEmailToCandidatesWorker', at: '12:00') { SendFindHasOpenedEmailToCandidatesWorker.perform_later }
   every(1.day, 'SendNewCycleStartedEmailToCandidatesWorker', at: '10:00') { SendNewCycleHasStartedEmailToCandidatesWorker.perform_later }
-  every(1.day, 'EndOfCycle::SendRejectByDefaultReminderToProvidersWorker') { EndOfCycle::SendRejectByDefaultReminderToProvidersWorker.new.perform }
-  every(1.day, 'EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker', at: '09:00') { EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker.new.perform }
-  every(1.day, 'EndOfCycle:SendRejectByDefaultExplainerToCandidatesWorker', at: '09:01') { EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesWorker.new.perform }
-  every(1.day, 'Candidate::PoolEligibleApplicationFormWorker', at: '09:02') { Candidate::PoolEligibleApplicationFormWorker.new.perform }
-  every(1.day, 'EndOfCycle:SendDeclineByDefaultExplainerToCandidatesWorker', at: '09:03') { EndOfCycle::SendDeclineByDefaultExplainerEmailToCandidatesWorker.new.perform }
+  every(1.day, 'EndOfCycle::SendRejectByDefaultReminderToProvidersWorker') { EndOfCycle::SendRejectByDefaultReminderToProvidersWorker.perform_now }
+  every(1.day, 'EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker', at: '09:00') { EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker.perform_now }
+  every(1.day, 'EndOfCycle:SendRejectByDefaultExplainerToCandidatesWorker', at: '09:01') { EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesWorker.perform_now }
+  every(1.day, 'Candidate::PoolEligibleApplicationFormWorker', at: '09:02') { Candidate::PoolEligibleApplicationFormWorker.perform_later }
+  every(1.day, 'EndOfCycle:SendDeclineByDefaultExplainerToCandidatesWorker', at: '09:03') { EndOfCycle::SendDeclineByDefaultExplainerEmailToCandidatesWorker.perform_now }
 
   # End of cycle january start dates/winter end dates jobs
-  every(1.day, 'EndOfCycle:SendWinterRejectByDefaultExplainerToCandidatesWorker', at: '09:03') { EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWorker.new.perform }
-  every(1.day, 'EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker', at: '09:04') { EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker.new.perform }
-  every(1.day, 'EndOfCycle:WinterDeclineByDefaultWorker', at: '09:05') { EndOfCycle::WinterDeclineByDefaultWorker.new.perform }
-  every(1.day, 'EndOfCycle::WinterRejectByDefaultWorker', at: '09:06') { EndOfCycle::WinterRejectByDefaultWorker.new.perform }
-  every(1.day, 'EndOfCycle::CancelReferenceRequestsWorker', at: '09:07') { EndOfCycle::CancelReferenceRequestsWorker.new.perform }
-  every(1.day, 'EndOfCycle:SendWinterDeclineByDefaultExplainerToCandidatesWorker', at: '09:08') { EndOfCycle::SendWinterDeclineByDefaultExplainerEmailToCandidatesWorker.new.perform }
+  # every(1.day, 'EndOfCycle:SendWinterRejectByDefaultExplainerToCandidatesWorker', at: '09:03') { EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWorker.perform_now }
+  every(1.day, 'EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker', at: '09:04') { EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker.perform_now }
+  # every(1.day, 'EndOfCycle:WinterDeclineByDefaultWorker', at: '09:05') { EndOfCycle::WinterDeclineByDefaultWorker.perform_now }
+  # every(1.day, 'EndOfCycle::WinterRejectByDefaultWorker', at: '09:06') { EndOfCycle::WinterRejectByDefaultWorker.perform_now }
+  # every(1.day, 'EndOfCycle::CancelReferenceRequestsWorker', at: '09:07') { EndOfCycle::CancelReferenceRequestsWorker.perform_now }
+  # every(1.day, 'EndOfCycle:SendWinterDeclineByDefaultExplainerToCandidatesWorker', at: '09:08') { EndOfCycle::SendWinterDeclineByDefaultExplainerEmailToCandidatesWorker.perform_now }
 
   every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_later }
   every(1.day, 'SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker.perform_later }
