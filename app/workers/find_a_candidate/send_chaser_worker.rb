@@ -9,7 +9,7 @@ module FindACandidate
           .where(id: invite_ids)
 
         if invites.present?
-          CandidateMailer.invites_chaser(invites).deliver_now
+          CandidateMailer.invites_chaser(invites).deliver_later
 
           invites.each do |invite|
             ChaserSent.create!(chased: invite, chaser_type: 'pool_invite')

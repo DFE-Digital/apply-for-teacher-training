@@ -9,7 +9,7 @@ DfE::Analytics.configure do |config|
 
   # Which ActiveJob queue to put events on
   #
-  config.queue = :big_query
+  config.queue = HostingEnvironment.production? ? :big_query : :big_query_sq
 
   # The name of the BigQuery table we’re writing to.
   #

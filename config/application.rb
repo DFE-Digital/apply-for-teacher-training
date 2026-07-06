@@ -115,7 +115,7 @@ module ApplyForPostgraduateTeacherTraining
       'Cache-Control' => 'no-store, no-cache',
     }
 
-    config.action_mailer.deliver_later_queue_name = :mailers
+    config.action_mailer.deliver_later_queue_name = HostingEnvironment.production? ? :mailers : :mailers_sq
 
     config.x.sections.editable = %i[
       personal_details
