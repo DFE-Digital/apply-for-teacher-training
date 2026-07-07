@@ -3,21 +3,20 @@ module ChoiceLimitsCalculator
 
   IN_PROGRESS_LIMIT = 4
   TOTAL_CHOICE_LIMIT = 15
-  UNSUCCESSFUL_RETRY_LIMIT = TOTAL_CHOICE_LIMIT
   MID_CYCLE_UNSUCCESSFUL_RETRY_LIMIT = 0
 
-  delegate :unsuccessful_retry_limit, :in_progress_limit, :total_application_limit, to: :limits
+  delegate :in_progress_limit, :total_application_limit, to: :limits
 
-  Limits = Data.define(:in_progress_limit, :unsuccessful_retry_limit) do
-    def total_application_limit = TOTAL_CHOICE_LIMIT
-  end
+  Limits = Data.define(:in_progress_limit, :total_application_limit)
 
   def limits
     @limits ||= Limits.new(
-      unsuccessful_retry_limit: UNSUCCESSFUL_RETRY_LIMIT,
+      total_application_limit: TOTAL_CHOICE_LIMIT,
       in_progress_limit: IN_PROGRESS_LIMIT,
     )
   end
+
+  alias unsuccessful_retry_limit total_application_limit
 
   def unsuccessful_count
     application_choices.count(&:application_unsuccessful?)
@@ -40,8 +39,7 @@ module ChoiceLimitsCalculator
   end
 
   def cannot_submit_more_choices?
-    total_submitted_application_limit_reached? ||
-      unsuccessful_limit_reached? || in_progress_limit_reached?
+    total_submitted_application_limit_reached? || in_progress_limit_reached?
   end
 
   def can_submit_more_choices?
