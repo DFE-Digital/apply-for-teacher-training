@@ -112,7 +112,7 @@ RSpec.describe UpdateDuplicateMatches, :sidekiq do
         create(
           :application_form,
           :duplicate_candidates,
-          last_name: " #{ApplicationForm.last.last_name.upcase} ",
+          last_name: " #{ApplicationForm.last.last_name.downcase} ",
           postcode: "#{ApplicationForm.last.postcode.downcase} ",
           candidate: create(:candidate, email_address: 'exemplar3@example.com'),
         )
@@ -156,6 +156,41 @@ RSpec.describe UpdateDuplicateMatches, :sidekiq do
         described_class.new(block_submission: false).save!
         expect(candidate1.reload.submission_blocked).to be(false)
         expect(candidate2.reload.submission_blocked).to be(false)
+      end
+    end
+
+    context 'when a postcode change creates a new duplicate relationship for a candidate already assigned to a duplicate match' do
+      let!(:existing_match) do
+        create(
+          :duplicate_match,
+          candidates: [],
+          recruitment_cycle_year: current_year,
+          last_name: 'Thompson',
+          postcode: 'W6 9BH',
+          date_of_birth: Date.parse('1998-08-08'),
+        )
+      end
+
+      let!(:existing_duplicate_candidate) do
+        create(:candidate, email_address: 'existing_duplicate@example.com')
+      end
+
+      before do
+        existing_duplicate_candidate.update!(duplicate_match: existing_match)
+        candidate1.update!(duplicate_match: existing_match)
+      end
+
+      it 'reuses the existing duplicate match instead of creating a new one' do
+        expect { described_class.new.save! }.not_to change(DuplicateMatch, :count)
+
+        expect(candidate1.reload.duplicate_match).to eq(existing_match)
+        expect(candidate2.reload.duplicate_match).to eq(existing_match)
+
+        expect(existing_match.reload.candidates).to contain_exactly(
+          existing_duplicate_candidate,
+          candidate1,
+          candidate2,
+        )
       end
     end
   end
