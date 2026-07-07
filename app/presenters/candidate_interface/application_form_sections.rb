@@ -7,6 +7,7 @@ module CandidateInterface
 
     def science_gcse_incomplete_and_others?
       primary_course? &&
+        any_completed? &&
         incomplete_sections.size > 1 &&
         incomplete_sections.any?(science_gcse?)
     end
@@ -41,6 +42,10 @@ module CandidateInterface
 
     def presenter
       @presenter ||= ApplicationFormPresenter.new(application_form)
+    end
+
+    def any_completed?
+      all_sections.map(&:second).any?
     end
 
     def sections_with_completion
