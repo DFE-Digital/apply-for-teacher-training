@@ -24,12 +24,38 @@ RSpec.describe 'Candidate submits the application' do
     then_i_see_an_error_message
   end
 
+  scenario 'Candidate with primary application has completed one section of their application' do
+    and_i_have_completed_a_section_which_is_not_science_gcse
+    and_i_have_a_primary_and_secondary_application_choice
+    when_i_go_to_primary_review_page
+    then_i_see_an_error_message_about_completing_my_science_gcse_details
+    when_i_go_to_secondary_review_page
+    then_i_see_an_error_message
+  end
+
+  scenario 'Candidate with primary application has not started their application' do
+    and_i_have_no_complete_sections
+    and_i_have_a_primary_and_secondary_application_choice
+    when_i_go_to_primary_review_page
+    then_i_see_an_error_message
+    when_i_go_to_secondary_review_page
+    then_i_see_an_error_message
+  end
+
   def and_i_have_incomplete_sections_on_my_personal_statement
     @current_candidate.application_forms << build(:application_form, :minimum_info, submitted_at: nil, becoming_a_teacher: 'I want to teach')
   end
 
   def and_i_have_incomplete_sections_which_is_not_science_gcse
     @current_candidate.application_forms << build(:application_form, :completed, science_gcse_completed: true, degrees_completed: false, submitted_at: nil)
+  end
+
+  def and_i_have_completed_a_section_which_is_not_science_gcse
+    @current_candidate.application_forms << build(:application_form, :minimum_info, becoming_a_teacher_completed: true)
+  end
+
+  def and_i_have_no_complete_sections
+    @current_candidate.application_forms << build(:application_form)
   end
 
   def and_i_have_a_primary_and_secondary_application_choice
@@ -53,5 +79,16 @@ RSpec.describe 'Candidate submits the application' do
 
   def then_i_see_an_error_message
     expect(page).to have_text('You cannot submit this application until you complete your details.')
+    expect(page).to have_text('Your application will be saved as a draft while you finish adding your details.')
+  end
+
+  def then_i_see_an_error_message_about_completing_my_science_gcse_details
+    expect(page).to have_text(
+      'To apply for a Primary course, you need a GCSE in science at grade 4 (C) or above, or equivalent.',
+    )
+    expect(page).to have_text(
+      'Add your science GCSE grade (or equivalent) and complete the rest of your details. You can then submit your application.',
+    )
+    expect(page).to have_text('Your application will be saved as a draft while you finish adding your details.')
   end
 end
