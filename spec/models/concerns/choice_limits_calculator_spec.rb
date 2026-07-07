@@ -20,7 +20,7 @@ RSpec.describe ChoiceLimitsCalculator do
 
       it 'returns the total_application_limit' do
         expect(application_form.unsuccessful_retry_limit).to eq(
-          application_form.total_application_limit
+          application_form.total_application_limit,
         )
       end
     end
