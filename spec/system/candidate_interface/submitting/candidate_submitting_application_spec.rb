@@ -220,7 +220,6 @@ RSpec.describe 'Candidate submits the application' do
 
   def then_i_can_no_longer_add_more_course_choices
     visit current_path
-    expect(page).to have_text 'You have 4 applications in progress'
     expect(page).to have_text 'You cannot create any more applications at the moment.'
   end
   alias_method :then_i_still_cannot_add_course_choices, :then_i_can_no_longer_add_more_course_choices

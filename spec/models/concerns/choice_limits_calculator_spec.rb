@@ -16,7 +16,7 @@ RSpec.describe ChoiceLimitsCalculator do
     end
   end
 
-  describe '#maximum_number_of_choices_reached?' do
+  describe '#cannot_submit_more_choices?' do
     it 'only allows 15 unsuccessful applications' do
       application_form = create(:application_form)
       create_list(:application_choice, 14, :withdrawn, application_form:)

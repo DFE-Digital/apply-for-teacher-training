@@ -453,7 +453,7 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
         it 'is valid' do
           application_form.application_choices << build_list(
             :application_choice,
-            ApplicationForm::UNSUCCESSFUL_RETRY_LIMIT - 1,
+            10,
             :rejected,
           )
           expect(application_choice_submission).to be_valid

@@ -40,7 +40,8 @@ module ChoiceLimitsCalculator
   end
 
   def cannot_submit_more_choices?
-    unsuccessful_limit_reached? || in_progress_limit_reached?
+    total_submitted_application_limit_reached? ||
+      unsuccessful_limit_reached? || in_progress_limit_reached?
   end
 
   def can_submit_more_choices?
