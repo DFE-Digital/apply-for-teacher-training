@@ -467,13 +467,13 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
         it 'adds error to application choice' do
           application_form.application_choices << build_list(
             :application_choice,
-            ApplicationForm::UNSUCCESSFUL_RETRY_LIMIT,
+            ApplicationForm::TOTAL_CHOICE_LIMIT,
             :rejected,
           )
           expect(application_choice_submission).not_to be_valid
 
           expect(application_choice_submission.errors[:application_choice]).to include(
-            "You cannot submit this application because you have #{ApplicationForm::UNSUCCESSFUL_RETRY_LIMIT} unsuccessful applications",
+            "You cannot submit this application because you have #{ApplicationForm::TOTAL_CHOICE_LIMIT} unsuccessful applications",
           )
         end
       end
