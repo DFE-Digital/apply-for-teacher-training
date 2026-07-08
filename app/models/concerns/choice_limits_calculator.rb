@@ -81,11 +81,11 @@ module ChoiceLimitsCalculator
   def number_of_slots_left
     slots_left = in_progress_limit - in_progress_count # in progress take up a slot
     slots_left -= draft_count # drafts take up a slot
-    slots_left -= if recruitment_cycle_year > 2026
-                    [(total_application_limit - total_applications_count), slots_left].min # Cannot have enough slots to take you over the limit
-                  else
-                    [(unsuccessful_count - unsuccessful_retry_limit), 0].max # unsuccessful above the retry limit take up a slot
-                  end
+    if recruitment_cycle_year > 2026
+      slots_left = [(total_application_limit - total_applications_count), slots_left].min # Cannot have enough slots to take you over the limit
+    else
+      slots_left -= [(unsuccessful_count - unsuccessful_retry_limit), 0].max # unsuccessful above the retry limit take up a slot
+    end
     [slots_left, 0].max
   end
 end
