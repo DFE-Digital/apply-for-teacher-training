@@ -71,11 +71,7 @@ module ChoiceLimitsCalculator
   end
 
   def can_add_more_choices?
-    if recruitment_cycle_year > 2026
-      !total_applications_reached? && can_submit_more_choices? && number_of_slots_left.positive?
-    else
-      can_submit_more_choices? && number_of_slots_left.positive?
-    end
+    can_submit_more_choices? && number_of_slots_left.positive?
   end
 
   def cannot_add_more_choices?
