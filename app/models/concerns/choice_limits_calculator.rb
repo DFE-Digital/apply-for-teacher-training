@@ -39,7 +39,11 @@ module ChoiceLimitsCalculator
   end
 
   def cannot_submit_more_choices?
-    total_submitted_application_limit_reached? || in_progress_limit_reached?
+    if recruitment_cycle_year > 2026
+      total_submitted_application_limit_reached? || in_progress_limit_reached?
+    else
+      unsuccessful_limit_reached? || in_progress_limit_reached?
+    end
   end
 
   def can_submit_more_choices?
@@ -67,7 +71,11 @@ module ChoiceLimitsCalculator
   end
 
   def can_add_more_choices?
-    !total_applications_reached? && can_submit_more_choices? && number_of_slots_left.positive?
+    if recruitment_cycle_year > 2026
+      !total_applications_reached? && can_submit_more_choices? && number_of_slots_left.positive?
+    else
+      can_submit_more_choices? && number_of_slots_left.positive?
+    end
   end
 
   def cannot_add_more_choices?
@@ -75,13 +83,13 @@ module ChoiceLimitsCalculator
   end
 
   def number_of_slots_left
-    return 0 if total_applications_reached?
+    return 0 if total_applications_reached? && recruitment_cycle_year > 2026
 
     slots_left = in_progress_limit - in_progress_count # in progress take up a slot
     slots_left -= draft_count # drafts take up a slot
     slots_left -= [(unsuccessful_count - unsuccessful_retry_limit), 0].max # unsuccessful above the retry limit take up a slot
     slots_left = [slots_left, 0].max
-    return slots_left if (total_applications_count + slots_left) < total_application_limit
+    return slots_left if recruitment_cycle_year <= 2026 || (total_applications_count + slots_left) < total_application_limit
 
     total_application_limit - total_applications_count
   end
