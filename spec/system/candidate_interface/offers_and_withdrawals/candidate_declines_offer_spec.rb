@@ -25,6 +25,7 @@ RSpec.describe 'Candidate declines an offer' do
   end
 
   def and_i_have_multiple_offers
+    @current_candidate.application_forms.destroy_all
     @application_form = create(
       :application_form,
       :completed,

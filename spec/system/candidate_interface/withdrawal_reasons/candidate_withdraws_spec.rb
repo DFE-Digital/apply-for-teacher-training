@@ -61,8 +61,10 @@ RSpec.describe 'A candidate withdraws their application', :bullet do
   end
 
   def and_i_have_one_application_choice_awaiting_provider_decision
-    form = create(:completed_application_form, :with_completed_references, candidate: current_candidate)
-    @application_choice = create(:application_choice, :awaiting_provider_decision, application_form: form)
+    previous_year = current_candidate.current_application.recruitment_cycle_year - 1
+    current_candidate.application_forms.destroy_all
+    form = create(:completed_application_form, :with_completed_references, candidate: current_candidate, recruitment_cycle_year: previous_year)
+    @application_choice = create(:application_choice, :awaiting_provider_decision, application_form: form, current_recruitment_cycle_year: previous_year)
   end
 
   def and_i_have_an_application_choice_with_the_status_interviewing
