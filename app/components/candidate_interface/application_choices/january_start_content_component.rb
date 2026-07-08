@@ -1,6 +1,7 @@
 class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < ApplicationComponent
   delegate :recruitment_cycle_year, :recruitment_cycle_timetable, to: :application_form
-  delegate :after_winter_reject_by_default?, :after_winter_decline_by_default?, :winter_reject_by_default_at, to: :recruitment_cycle_timetable
+  delegate :after_winter_reject_by_default?, :after_winter_decline_by_default?, :winter_reject_by_default_at,
+           :approaching_winter_reject_by_default?, to: :recruitment_cycle_timetable
 
   attr_reader :application_form
 
@@ -17,10 +18,6 @@ class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < App
 
     "Providers have until #{recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first)} " \
       'to make decisions on these applications.'
-  end
-
-  def approaching_winter_reject_by_default_at?
-    Date.current >= winter_reject_by_default_at - 1.week
   end
 
   def awaiting_provider_decision_content

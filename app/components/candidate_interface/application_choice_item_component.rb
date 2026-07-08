@@ -46,7 +46,12 @@ class CandidateInterface::ApplicationChoiceItemComponent < ApplicationComponent
   end
 
   def show_decline_by_default_text?
-    application_choice.offer? && timetable.between_apply_deadline_and_decline_by_default?
+    return unless application_choice.offer?
+
+    if application_choice.starts_after_september?
+    else
+      timetable.between_apply_deadline_and_decline_by_default?
+    end
   end
 
   def decline_date
