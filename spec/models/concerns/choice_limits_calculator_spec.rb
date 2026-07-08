@@ -45,14 +45,26 @@ RSpec.describe ChoiceLimitsCalculator do
       expect(application_form.reload.cannot_submit_more_choices?).to be true
     end
 
-    it 'only allows 15 total submitted applications, regardless of state' do
+    it 'only allows 19 total submitted applications, regardless of state' do
       application_form = create(:application_form)
       create_list(:application_choice, 3, :awaiting_provider_decision, application_form:)
-      create_list(:application_choice, 10, :rejected, application_form:)
+      create_list(:application_choice, 14, :rejected, application_form:)
       expect(application_form.reload.cannot_submit_more_choices?).to be false
 
       create_list(:application_choice, 2, :rejected, application_form:)
       expect(application_form.reload.cannot_submit_more_choices?).to be true
+    end
+
+    context 'when the application if after the 2026 recruitment cycle' do
+      it 'only allows 15 total submitted applications, regardless of state' do
+        application_form = create(:application_form, recruitment_cycle_year: 2027)
+        create_list(:application_choice, 3, :awaiting_provider_decision, application_form:, current_recruitment_cycle_year: 2027)
+        create_list(:application_choice, 10, :rejected, application_form:, current_recruitment_cycle_year: 2027)
+        expect(application_form.reload.cannot_submit_more_choices?).to be false
+
+        create_list(:application_choice, 2, :rejected, application_form:)
+        expect(application_form.reload.cannot_submit_more_choices?).to be true
+      end
     end
   end
 
@@ -75,22 +87,33 @@ RSpec.describe ChoiceLimitsCalculator do
       expect(application_form.reload.number_of_slots_left).to eq 0
     end
 
-    it 'reduces the number of slots dependant on the number of maximum applications' do
+    it 'allows 15 unsuccessful before reducing slots' do
       application_form = create(:application_form)
-      create_list(:application_choice, 11, :withdrawn, application_form:)
+      create_list(:application_choice, 15, :withdrawn, application_form:)
       expect(application_form.reload.number_of_slots_left).to eq 4
 
       create(:application_choice, :rejected, application_form:)
       expect(application_form.reload.number_of_slots_left).to eq 3
+    end
 
-      create(:application_choice, :rejected, application_form:)
-      expect(application_form.reload.number_of_slots_left).to eq 2
+    context 'when the application if after the 2026 recruitment cycle' do
+      it 'reduces the number of slots dependant on the number of maximum applications' do
+        application_form = create(:application_form, recruitment_cycle_year: 2027)
+        create_list(:application_choice, 11, :withdrawn, application_form:, current_recruitment_cycle_year: 2027)
+        expect(application_form.reload.number_of_slots_left).to eq 4
 
-      create(:application_choice, :rejected, application_form:)
-      expect(application_form.reload.number_of_slots_left).to eq 1
+        create(:application_choice, :rejected, application_form:, current_recruitment_cycle_year: 2027)
+        expect(application_form.reload.number_of_slots_left).to eq 3
 
-      create(:application_choice, :rejected, application_form:)
-      expect(application_form.reload.number_of_slots_left).to eq 0
+        create(:application_choice, :rejected, application_form:, current_recruitment_cycle_year: 2027)
+        expect(application_form.reload.number_of_slots_left).to eq 2
+
+        create(:application_choice, :rejected, application_form:, current_recruitment_cycle_year: 2027)
+        expect(application_form.reload.number_of_slots_left).to eq 1
+
+        create(:application_choice, :rejected, application_form:, current_recruitment_cycle_year: 2027)
+        expect(application_form.reload.number_of_slots_left).to eq 0
+      end
     end
 
     it 'only allows more choices if the total of 4 slots in progress and draft' do
