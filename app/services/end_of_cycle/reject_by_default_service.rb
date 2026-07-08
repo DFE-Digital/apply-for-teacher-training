@@ -18,7 +18,23 @@ module EndOfCycle
   private
 
     def application_choices_to_reject
-      @application_choices_to_reject ||= @application_form.application_choices.where(status: REJECTABLE_STATUSES)
+      @application_choices_to_reject ||= if run_winter_reject_by_default?
+                                           @application_form
+                                             .application_choices
+                                             .course_starts_after_september(
+                                               @application_form.recruitment_cycle_year,
+                                             )
+                                         else
+                                           @application_form
+                                             .application_choices
+                                             .course_start_in_september(
+                                               @application_form.recruitment_cycle_year,
+                                             )
+                                         end.where(status: REJECTABLE_STATUSES)
+    end
+
+    def run_winter_reject_by_default?
+      @application_form.recruitment_cycle_timetable.after_winter_reject_by_default?
     end
 
     def reject_application_choice!(application_choice)
