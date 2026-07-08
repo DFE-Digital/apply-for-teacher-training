@@ -45,7 +45,7 @@ private
       end
     end
 
-    def approaching_winter_reject_by_default_at?
+    def approaching_winter_reject_by_default?
       @winter_reject_by_default_approaching
     end
 
