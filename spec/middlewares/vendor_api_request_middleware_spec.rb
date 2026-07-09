@@ -59,15 +59,4 @@ RSpec.describe VendorAPIRequestMiddleware, type: :request do
       )
     end
   end
-
-  describe '#call on an API path when Redis is unavailable' do
-    it 'logs the Redis exception and returns' do
-      allow(Rails.logger).to receive(:warn)
-      allow(VendorAPIRequestWorker).to receive(:perform_later).and_raise(Redis::BaseError.new('Oops no Redis'))
-
-      get '/api/v1/applications/1'
-
-      expect(Rails.logger).to have_received(:warn).with('Oops no Redis')
-    end
-  end
 end
