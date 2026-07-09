@@ -18,6 +18,15 @@ en:
         label: Qualification name
         hint_text: For example, High School Diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller
         hint_text_english: For example, High School Diploma, Baccalauréat Général or WASSCE. Do not enter an English as a foreign language assessment here.
+      non_uk_other_qualification:
+        label: Enter the name of your qualification
+        hint_text: Do not enter an English as a foreign language test here
+        non_structured_hint_text: For example, high school diploma or Baccalauréat Général. This must be equivalent to a GCSE.
+        non_structured_hint_text_english: For example, high school diploma or Baccalauréat Général. This must be equivalent to a GCSE. Do not enter an English as a foreign language test here.
+      non_uk_other_grade:
+        label: Enter your grade
+        non_structured_label: What grade did you get?
+        hint_text: For example, A, 4.5, 94%, or 42/60
       not_completed_explanation:
         label: If you are working towards this qualification, give us details (optional)
       grade:
@@ -167,3 +176,22 @@ en:
             missing_explanation:
               too_many_words: Evidence must be %{maximum} words or less
               blank: Enter evidence of any %{subject} skills you have at the required standard
+        candidate_interface/gcse_equivalent_qualification_form:
+          attributes:
+            qualification:
+              blank: Select a qualification
+            non_structured_qualification:
+              blank: Enter a qualification
+              too_long: Qualification must be %{count} characters or fewer
+              too_short: Qualification must be %{count} characters or more
+        candidate_interface/gcse_international_structured_grades_form:
+          attributes:
+            grade:
+              blank: Select a grade
+            non_structured_grade:
+              blank: Enter a grade
+              too_long: Grade must be %{count} characters or fewer
+        candidate_interface/gcse_international_evidence_form:
+          attributes:
+            evidence:
+              too_long: Evidence must be %{count} characters or fewer

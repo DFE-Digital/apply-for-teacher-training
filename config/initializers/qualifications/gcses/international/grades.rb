@@ -17,8 +17,8 @@ module DfE
               failing_grades: %w[D7 E8 F9],
             },
             '8806ef77-33ca-4003-812c-f059d0a56c9f' => {
-              passing_grades: %w[A A- B+ B B- C+ C C-],
-              failing_grades: %w[D+ D D- E],
+              passing_grades: %w[A A− B+ B B− C+ C C−],
+              failing_grades: %w[D+ D D− E],
             },
             '28c6a18a-2040-43af-8cf2-83b7e14ba14c' => {
               passing_grades: %w[A1 A2 B1 B2 C1 C2],

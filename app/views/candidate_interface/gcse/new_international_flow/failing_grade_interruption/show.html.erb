@@ -1,0 +1,25 @@
+<% content_for :title, t('gcse_new_international_flow_interruption.page_title', subject: (@subject == 'english' ? @subject.capitalize : @subject)) %>
+<% content_for :before_content, govuk_back_link_to(@return_to) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <div class="app-grid-column--grey">
+      <h1 class="govuk-heading-l"><%= t('gcse_new_international_flow_interruption.page_title', subject: (@subject == 'english' ? @subject.capitalize : @subject)) %></h1>
+
+      <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.you_need') %></p>
+        <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.you_can') %></p>
+        <ul class="govuk-body">
+          <li><%= t('gcse_new_international_flow_interruption.option1') %></li>
+          <li><%= t('gcse_new_international_flow_interruption.option2', subject: (@subject == 'english' ? @subject.capitalize : @subject)) %></li>
+          <li><%= t('gcse_new_international_flow_interruption.option3', subject: (@subject == 'english' ? @subject.capitalize : @subject)) %></li>
+        </ul>
+        <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.some_providers') %><p>
+      </div>
+
+      <div class="govuk-button-group app-course-choice__confirm-submission">
+        <%= govuk_button_link_to(t('gcse_new_international_flow_interruption.provide_statement'), @enic_path) %>
+        <%= govuk_link_to(t('gcse_new_international_flow_interruption.provide_evidence', subject: (@subject == 'english' ? @subject.capitalize : @subject)), @evidence_path) %>
+      <div>
+    </div>
+  </div>
+</div>

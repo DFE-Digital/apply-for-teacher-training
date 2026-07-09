@@ -128,6 +128,34 @@ RSpec.describe ApplicationQualification do
         expect(qualification.incomplete_gcse_information?).to be false
       end
     end
+
+    context 'an international gcse equivalent does not have either an enic_reason or a not_completed_explanation' do
+      it 'returns true' do
+        qualification = build(:gcse_qualification, qualification_type: 'non_uk', enic_reason: nil, not_completed_explanation: nil)
+        expect(qualification.incomplete_gcse_information?).to be true
+      end
+    end
+
+    context 'an international gcse equivalent has indicated there is an enic but has not given the reference or comparable qualification' do
+      it 'returns true' do
+        qualification = build(:gcse_qualification, qualification_type: 'non_uk', enic_reason: 'obtained', enic_reference: nil, comparable_uk_qualification: nil)
+        expect(qualification.incomplete_gcse_information?).to be true
+      end
+    end
+
+    context 'an international gcse equivalent has indicated there is an enic and has given the reference but no comparable qualification' do
+      it 'returns true' do
+        qualification = build(:gcse_qualification, qualification_type: 'non_uk', enic_reason: 'obtained', enic_reference: '44091933', comparable_uk_qualification: nil)
+        expect(qualification.incomplete_gcse_information?).to be true
+      end
+    end
+
+    context 'an international gcse equivalent has indicated there is an enic and has given the reference number and comparable qualification' do
+      it 'returns false' do
+        qualification = build(:gcse_qualification, qualification_type: 'non_uk', enic_reason: 'obtained', enic_reference: '44091933', comparable_uk_qualification: 'GCSE (grades A*-C / 9-4)')
+        expect(qualification.incomplete_gcse_information?).to be false
+      end
+    end
   end
 
   describe '#incomplete_other_qualification?' do
@@ -196,6 +224,41 @@ RSpec.describe ApplicationQualification do
     it 'returns nil when field not submitted' do
       qualification = build_stubbed(:application_qualification, enic_reference: nil, grade: nil)
       expect(qualification.enic_reference?).to be_nil
+    end
+  end
+
+  describe '#set_mutual_exclusivity_not_completed_or_enic' do
+    it 'nils the existing enic_reason and reference if not_completed_explanation is saved' do
+      qualification = create(:gcse_qualification, qualification_type: 'non_uk', enic_reason: 'obtained', enic_reference: '87102819')
+
+      qualification.update(not_completed_explanation: 'I will provide printed transcripts')
+
+      expect(qualification.enic_reason).to be_nil
+      expect(qualification.enic_reference).to be_nil
+
+      expect(qualification.not_completed_explanation).to eq('I will provide printed transcripts')
+    end
+
+    it 'nils the existing not_completed_explanation if enic_reason is saved' do
+      qualification = create(:gcse_qualification, qualification_type: 'non_uk', not_completed_explanation: 'I will provide printed transcripts')
+
+      qualification.update(enic_reason: 'obtained', enic_reference: '87102819')
+
+      expect(qualification.not_completed_explanation).to be_nil
+
+      expect(qualification.enic_reason).to eq('obtained')
+      expect(qualification.enic_reference).to eq('87102819')
+    end
+  end
+
+  describe '#prevent_not_completed_explanation_if_passing_grade' do
+    it 'prevents not_completed_explanation from persisting if the grade is updated to a passing grade on a structured international qualification' do
+      qualification = create(:gcse_qualification, qualification_type: 'non_uk', institution_country: 'GH', non_uk_qualification_type: 'WASSCE (West African Senior School Certificate Examination)',
+                                                  grade: 'D7', not_completed_explanation: 'I will provide printed transcripts')
+
+      qualification.update(grade: 'A1')
+
+      expect(qualification.not_completed_explanation).to be_nil
     end
   end
 
