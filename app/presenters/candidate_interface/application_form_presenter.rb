@@ -21,6 +21,7 @@ module CandidateInterface
              :no_degree_and_degree_not_completed?,
              :previous_teacher_training_completed,
              :cannot_submit_more_choices?,
+             :total_submitted_application_limit_reached?,
              :support_reference, to: :application_form
 
     def initialize(application_form)
