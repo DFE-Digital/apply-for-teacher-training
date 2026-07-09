@@ -20,6 +20,7 @@ module CandidateInterface
              :personal_details_completed,
              :no_degree_and_degree_not_completed?,
              :previous_teacher_training_completed,
+             :cannot_submit_more_choices?,
              :support_reference, to: :application_form
 
     def initialize(application_form)

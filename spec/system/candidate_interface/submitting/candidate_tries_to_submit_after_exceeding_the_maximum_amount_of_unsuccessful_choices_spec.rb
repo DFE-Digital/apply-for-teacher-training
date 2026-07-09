@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Candidate submits the application' do
   include CandidateHelper
   include DfE::Bigquery::TestHelper
+  include ActiveSupport::Testing::TimeHelpers
 
   before do
     stub_bigquery_non_disclosure_trainee_withdrawals_request
@@ -20,6 +21,29 @@ RSpec.describe 'Candidate submits the application' do
 
     when_my_application_is_rejected
     then_i_am_unable_to_add_any_further_choices
+  end
+
+  context 'after the 2026 recruitment cycle' do
+    scenario 'Candidate with more than the max number of applications' do
+      travel_to(Time.zone.parse('2027-01-01 12:00:00')) do
+        given_i_am_signed_in_with_one_login
+        and_i_have_14_unsuccessful_applications
+
+        when_i_have_completed_my_application_and_added_primary_as_course_choice
+        and_i_go_to_submit_my_application
+        then_i_can_see_my_application_has_been_successfully_submitted
+        when_i_click('Back to your applications')
+        and_i_can_see_i_cannot_create_any_more_applications
+
+        when_my_application_is_rejected
+        then_i_am_unable_to_add_any_further_choices
+      end
+    end
+  end
+
+  def and_i_have_14_unsuccessful_applications
+    @current_candidate.application_forms << create(:application_form, :completed, :with_degree)
+    @current_candidate.current_application.application_choices << build_list(:application_choice, 14, :withdrawn)
   end
 
   def and_i_have_19_unsuccessful_applications
@@ -63,6 +87,10 @@ RSpec.describe 'Candidate submits the application' do
   def and_i_am_redirected_to_the_application_dashboard
     expect(page).to have_text t('page_titles.application_dashboard')
     expect(page).to have_text 'Gorse SCITT'
+  end
+
+  def and_i_can_see_i_cannot_create_any_more_applications
+    expect(page).to have_text 'You cannot create any more applications at the moment.'
   end
 
   def and_i_can_see_i_have_three_choices_left
