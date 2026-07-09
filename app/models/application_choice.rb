@@ -93,6 +93,8 @@ class ApplicationChoice < ApplicationRecord
   scope :in_progress, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:in_progress)) }
   scope :active_previous, -> { where(status: ApplicationStateChange::ApplicationState.state_ids(:active_previous)) }
   scope :inactive_past_day, -> { inactive.where(inactive_at: 1.day.ago..Time.zone.now) }
+  scope :rejected_by_default, -> { where(rejected_by_default: true) }
+  scope :declined_by_default, -> { where(declined_by_default: true) }
   scope :course_starts_after_september, lambda { |course_start_date_year|
     end_of_september = Date.parse("30/09/#{course_start_date_year}").at_end_of_day
     end_of_next_august = Date.parse("31/08/#{course_start_date_year + 1}").at_end_of_day

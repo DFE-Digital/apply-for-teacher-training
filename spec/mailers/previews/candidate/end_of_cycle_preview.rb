@@ -62,14 +62,30 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
     CandidateMailer.application_deadline_has_passed(application_form)
   end
 
-  def respond_to_offer_before_deadline
+  def respond_to_offer_before_deadline_one_application_choice
     application_form = FactoryBot.build(:application_form, first_name: 'Bart')
+    FactoryBot.create(:application_choice, :offer, application_form:)
 
     CandidateMailer.respond_to_offer_before_deadline(application_form)
   end
 
-  def reject_by_default_explainer
+  def respond_to_offer_before_deadline_many_application_choice
+    application_form = FactoryBot.build(:application_form, first_name: 'Bart')
+    FactoryBot.create_list(:application_choice, 2, :offer, application_form:)
+
+    CandidateMailer.respond_to_offer_before_deadline(application_form)
+  end
+
+  def reject_by_default_explainer_one_application_choice
     application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
+    FactoryBot.create(:application_choice, :rejected_by_default, application_form:)
+
+    CandidateMailer.reject_by_default_explainer(application_form)
+  end
+
+  def reject_by_default_explainer_many_application_choices
+    application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
+    FactoryBot.create_list(:application_choice, 2, :rejected_by_default, application_form:)
 
     CandidateMailer.reject_by_default_explainer(application_form)
   end
@@ -122,8 +138,9 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
     CandidateMailer.respond_to_offer_before_winter_deadline(application_form)
   end
 
-  def decline_by_default_explainer
+  def decline_by_default_explainer_one_application_choice
     application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
+    FactoryBot.create(:application_choice, :rejected_by_default, application_form:)
 
     CandidateMailer.decline_by_default_explainer(application_form)
   end

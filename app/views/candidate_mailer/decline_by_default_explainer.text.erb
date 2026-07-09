@@ -2,7 +2,11 @@
   Dear <%= @application_form.first_name %>
 <% end %>
 
-Your offer of a place on a teacher training course starting by the end of September <%= @timetable.recruitment_cycle_year %> has been declined automatically.
+<%= I18n.t('candidate_mailer.decline_by_default_explainer.declined_automatically', count: @application_choices.size) %>
+
+<% @application_choices.each do |choice| %>
+  <%= choice.course.name_and_code %> at <%= choice.provider.name %>
+<% end %>
 
 This is because you did not respond before the deadline.
 

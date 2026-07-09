@@ -460,6 +460,10 @@ class CandidateMailer < ApplicationMailer
     @this_academic_year = @timetable.previously_closed_academic_year_range
     @next_academic_year = @timetable.next_available_academic_year_range
     @apply_reopens_date = @timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
+    @application_choices = application_form
+                             .application_choices
+                             .offer
+                             .course_start_in_september(application_form.recruitment_cycle_year)
     email_for_candidate(
       application_form,
       subject: I18n.t!(
@@ -488,6 +492,10 @@ class CandidateMailer < ApplicationMailer
     @this_academic_year = @timetable.previously_closed_academic_year_range
     @next_academic_year = @timetable.next_available_academic_year_range
     @apply_reopens_date = @timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
+    @application_choices = application_form
+                             .application_choices
+                             .rejected_by_default
+                             .course_start_in_september(application_form.recruitment_cycle_year)
 
     email_for_candidate(
       application_form,
@@ -500,6 +508,10 @@ class CandidateMailer < ApplicationMailer
     @next_academic_year_range = @timetable.next_available_academic_year_range
     @next_recruitment_cycle_year = @timetable.relative_next_year
     @apply_reopens_date = @timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first)
+    @application_choices = application_form
+                             .application_choices
+                             .declined_by_default
+                             .course_start_in_september(application_form.recruitment_cycle_year)
 
     email_for_candidate(
       application_form,
