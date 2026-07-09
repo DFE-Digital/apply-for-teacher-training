@@ -6,8 +6,8 @@ class UpdateDuplicateMatches
   end
 
   def save!
-    duplicate_groups.each_value do |group|
-      process_duplicate_group(group)
+    @matches.each do |match|
+      save_match(match)
     end
   end
 
@@ -17,67 +17,38 @@ private
     @current_year ||= RecruitmentCycleTimetable.current_year
   end
 
-  # Process duplicate candidates as a group so an existing DuplicateMatch
-  # can be reused before creating a new one. Previously matches were
-  # processed individually and only reused a DuplicateMatch found via the
-  # current surname, date of birth and postcode.
-  def duplicate_groups
-    @matches.group_by do |match|
-      [
-        match['last_name'].to_s.downcase.strip,
-        match['date_of_birth'],
-        match['postcode'].to_s.upcase.gsub(' ', ''),
-      ]
-    end
-  end
-
-  def process_duplicate_group(group)
+  def save_match(match)
     ActiveRecord::Base.transaction do
-      candidates = Candidate.where(
-        id: group.map { |match| match['candidate_id'] },
-      )
-
-      duplicate_match = duplicate_match_for_group(
-        candidates:,
-        match: group.first,
-      )
-
-      candidates.each do |candidate|
-        next if duplicate_match.candidates.include?(candidate)
-
-        duplicate_match.candidates << candidate
-        process_match(candidate, duplicate_match)
-      end
-
-      unresolve_match(duplicate_match)
+      create_or_update_duplicate_match(match)
     end
   end
 
-  def duplicate_match_for_group(candidates:, match:)
-    # Reuse any DuplicateMatch already associated with this duplicate group.
-    candidate_duplicate_matches = candidates
-      .map(&:duplicate_match)
-      .compact
-      .uniq
-
-    return candidate_duplicate_matches.first if candidate_duplicate_matches.any?
-
-    # Fall back to the original behaviour: look for a DuplicateMatch
-    # matching the current surname, date of birth and postcode.
+  def create_or_update_duplicate_match(match)
     existing_duplicate_match = DuplicateMatch.match_for(
       last_name: match['last_name'],
       postcode: match['postcode'],
       date_of_birth: match['date_of_birth'],
     )
+    candidate = Candidate.find(match['candidate_id'])
 
-    return existing_duplicate_match if existing_duplicate_match.present?
+    if existing_duplicate_match.present?
+      unless existing_duplicate_match.candidates.include?(candidate)
+        existing_duplicate_match.candidates << candidate
+        unresolve_match(existing_duplicate_match)
+        process_match(candidate, existing_duplicate_match)
+      end
+    else
+      new_duplicate_match = DuplicateMatch.create!(
+        recruitment_cycle_year: current_year,
+        last_name: match['last_name'],
+        postcode: match['postcode'],
+        date_of_birth: match['date_of_birth'],
+        candidates: [candidate],
+      )
+      process_match(candidate, new_duplicate_match)
+    end
 
-    DuplicateMatch.create!(
-      recruitment_cycle_year: current_year,
-      last_name: match['last_name'],
-      postcode: match['postcode'],
-      date_of_birth: match['date_of_birth'],
-    )
+    candidate
   end
 
   def notify_candidate(candidate, duplicate_match)
