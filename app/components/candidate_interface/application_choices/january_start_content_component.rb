@@ -21,7 +21,7 @@ class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < App
   end
 
   def awaiting_provider_decision_content
-    if application_form.application_choices.any?(&:decision_pending?)
+    if application_choices.any?(&:decision_pending?)
       {
         title: 'Applications awaiting a provider decision',
         content: 'Applications will be rejected automatically at ' \
@@ -31,7 +31,7 @@ class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < App
   end
 
   def reject_by_default_explanation
-    return unless application_form.application_choices.any?(&:rejected_by_default?)
+    return unless application_choices.any?(&:rejected_by_default?)
 
     'Some of your applications have been rejected because the provider did not respond before the deadline.'
   end
@@ -43,7 +43,7 @@ class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < App
   end
 
   def offered_content
-    if application_form.application_choices.any?(&:offer?)
+    if application_choices.any?(&:offer?)
       {
         title: 'Offers awaiting your response',
         content: 'Offers will be declined automatically at ' \
