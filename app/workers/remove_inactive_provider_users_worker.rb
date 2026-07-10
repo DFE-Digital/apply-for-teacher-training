@@ -3,7 +3,7 @@ class RemoveInactiveProviderUsersWorker < ApplicationJob
 
   queue_as :low_priority
 
-  INACTIVE_MONTHS_AGO = 12
+  INACTIVE_MONTHS_AGO = 12 # Update PromptInactiveProviderUsersWorker if inactive period changes
 
   def perform
     return if HostingEnvironment.qa? || HostingEnvironment.review? || HostingEnvironment.development?
