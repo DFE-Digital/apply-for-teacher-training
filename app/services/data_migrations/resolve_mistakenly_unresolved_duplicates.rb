@@ -10,7 +10,7 @@ module DataMigrations
     def dry_run
       [
         duplicates.count, # Should be about 10334
-        duplicates.pluck(:id).includes(11910), # Should be false
+        duplicates.pluck(:id).include?(11910), # Should be false
         duplicates.pluck(:id).include?(11909), # Should be false
       ]
     end
