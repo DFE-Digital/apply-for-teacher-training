@@ -95,8 +95,8 @@ en:
         one: 'You have been offered a place on the following teacher training course:'
         other: 'You have been offered places on the following teacher training courses:'
       accept_before:
-        one: If you want to accept this offer, you must do so before %{date}.
-        other: If you want to accept an offer, you must do so before %{date}. If you accept an offer, any other offers you have will be automatically declined.
+        one: If you want to accept this offer, you must do so by %{date}.
+        other: If you want to accept an offer, you must do so by %{date}. If you accept an offer, any other offers you have will be automatically declined.
       sign_in:
         one: Sign in to your account to review your offer
         other: Sign in to your account to review your offers
@@ -106,8 +106,8 @@ en:
         one: 'You have been offered a place on the following teacher training course:'
         other: 'You have been offered places on the following teacher training courses:'
       accept_before:
-        one: If you want to accept this offer, you must do so before %{date}.
-        other: If you want to accept an offer, you must do so before %{date}. If you accept an offer, any other offers you have will be automatically declined.
+        one: If you want to accept this offer, you must do so by %{date}.
+        other: If you want to accept an offer, you must do so by %{date}. If you accept an offer, any other offers you have will be automatically declined.
       sign_in:
         one: Sign in to your account to review your offer
         other: Sign in to your account to review your offers

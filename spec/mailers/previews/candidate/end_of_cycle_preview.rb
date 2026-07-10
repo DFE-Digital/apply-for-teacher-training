@@ -144,7 +144,7 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
     CandidateMailer.winter_reject_by_default_explainer(application_form)
   end
 
-  def respond_to_offer_before_winter_deadliner_one_application_choice
+  def respond_to_offer_before_winter_deadline_one_application_choice
     application_form = FactoryBot.build(:application_form, first_name: 'Bart')
     course = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}")
     course_option = FactoryBot.build(:course_option, course:)
@@ -153,7 +153,7 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
     CandidateMailer.respond_to_offer_before_winter_deadline(application_form)
   end
 
-  def respond_to_offer_before_winter_deadliner_many_application_choices
+  def respond_to_offer_before_winter_deadline_many_application_choices
     application_form = FactoryBot.build(:application_form, first_name: 'Bart')
     course_1 = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}")
     course_option_1 = FactoryBot.build(:course_option, course: course_1)
