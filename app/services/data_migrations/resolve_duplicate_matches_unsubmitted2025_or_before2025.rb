@@ -1,10 +1,20 @@
 module DataMigrations
   class ResolveDuplicateMatchesUnsubmitted2025OrBefore2025
     TIMESTAMP = 20260709134923
-    MANUAL_RUN = false
+    MANUAL_RUN = true
 
     def change
-      duplicate_matches = DuplicateMatch
+      duplicates.update_all(resolved: true)
+    end
+
+    def dry_run
+      duplicates.count
+    end
+
+    private
+
+    def duplicates
+      @duplicates ||= DuplicateMatch
         .joins(candidates: :application_forms)
         .where(resolved: false)
         .group('fraud_matches.id')
@@ -24,8 +34,6 @@ module DataMigrations
             )
           )
         SQL
-
-      duplicate_matches.update_all(resolved: true)
     end
   end
 end
