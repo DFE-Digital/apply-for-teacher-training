@@ -100,6 +100,17 @@ en:
       sign_in:
         one: Sign in to your account to review your offer
         other: Sign in to your account to review your offers
+    respond_to_offer_before_winter_deadline:
+      subject: Accept your place on a teacher training course by %{decline_by_default_date}
+      offered_a_place:
+        one: 'You have been offered a place on the following teacher training course:'
+        other: 'You have been offered places on the following teacher training courses:'
+      accept_before:
+        one: If you want to accept this offer, you must do so before %{date}.
+        other: If you want to accept an offer, you must do so before %{date}. If you accept an offer, any other offers you have will be automatically declined.
+      sign_in:
+        one: Sign in to your account to review your offer
+        other: Sign in to your account to review your offers
     reject_by_default_explainer:
       subject: Your application has been rejected automatically
       rejected_automatically:
@@ -108,7 +119,20 @@ en:
       provider_did_not_respond:
         one: This is because the provider did not respond before their deadline. If you have any questions about this, please contact the provider.
         other: This is because the providers did not respond before their deadline. If you have any questions about this, please contact the providers.
+    winter_reject_by_default_explainer:
+      subject: Your application has been rejected automatically
+      rejected_automatically:
+        one: 'Your application for the following teacher training course has been rejected automatically:'
+        other: 'Your applications for the following teacher training courses have been rejected automatically:'
+      provider_did_not_respond:
+        one: This is because the provider did not respond before their deadline. If you have any questions about this, please contact the provider.
+        other: This is because the providers did not respond before their deadline. If you have any questions about this, please contact the providers.
     decline_by_default_explainer:
+      subject: Your application has been declined automatically
+      declined_automatically:
+        one: 'Your offer of a place on the following teacher training course has been declined automatically:'
+        other: 'Your offers of places on the following teacher training courses have been declined automatically:'
+    winter_decline_by_default_explainer:
       subject: Your application has been declined automatically
       declined_automatically:
         one: 'Your offer of a place on the following teacher training course has been declined automatically:'
