@@ -11,7 +11,7 @@ module DataMigrations
       duplicates.count
     end
 
-    private
+  private
 
     def duplicates
       @duplicates ||= DuplicateMatch
