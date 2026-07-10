@@ -20,7 +20,7 @@ module DataMigrations
     def duplicates
       @duplicates ||= DuplicateMatch
         .where(resolved: false)
-        .where('updated_at > ?',Time.zone.local(2026, 7, 9, 15, 21)) # Should be'2026-07-09 14:20:21.0 +0100',
+        .where('updated_at > ?', Time.zone.local(2026, 7, 9, 15, 21)) # Should be'2026-07-09 14:20:21.0 +0100',
         .where('updated_at < ?', Time.zone.local(2026, 7, 9, 16, 21)) # Should be'2026-07-09 15:20:21.0 +0100',
     end
   end
