@@ -34,7 +34,7 @@ RSpec.describe CandidateMailer do
       it 'renders content for one application choice' do
         expect(email.body).to include("Dear #{application_form.first_name}")
         expect(email.body).to include(
-          "Your application for the following teacher training course has been rejected automatically:",
+          'Your application for the following teacher training course has been rejected automatically:',
         )
         expect(email.body).to include(
           "#{application_choice.course.name_and_code} at #{application_choice.provider.name}",
@@ -43,7 +43,7 @@ RSpec.describe CandidateMailer do
           "#{jan_choice.course.name_and_code} at #{jan_choice.provider.name}",
         )
         expect(email.body).to include(
-          "This is because the provider did not respond before their deadline. If you have any questions about this, please contact the provider.",
+          'This is because the provider did not respond before their deadline. If you have any questions about this, please contact the provider.',
         )
       end
     end
@@ -64,7 +64,7 @@ RSpec.describe CandidateMailer do
       it 'renders content for many application choices' do
         expect(email.body).to include("Dear #{application_form.first_name}")
         expect(email.body).to include(
-          "Your applications for the following teacher training courses have been rejected automatically:",
+          'Your applications for the following teacher training courses have been rejected automatically:',
         )
         expect(email.body).to include(
           "#{application_choice_1.course.name_and_code} at #{application_choice_1.provider.name}",
@@ -76,7 +76,7 @@ RSpec.describe CandidateMailer do
           "#{jan_choice.course.name_and_code} at #{jan_choice.provider.name}",
         )
         expect(email.body).to include(
-          "This is because the providers did not respond before their deadline. If you have any questions about this, please contact the providers.",
+          'This is because the providers did not respond before their deadline. If you have any questions about this, please contact the providers.',
         )
       end
     end

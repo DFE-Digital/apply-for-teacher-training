@@ -37,7 +37,7 @@ RSpec.describe CandidateMailer do
       it 'renders content for one application choice' do
         expect(email.body).to include("Dear #{application_form.first_name}")
         expect(email.body).to include(
-          "Your offer of a place on the following teacher training course has been declined automatically:",
+          'Your offer of a place on the following teacher training course has been declined automatically:',
         )
         expect(email.body).to include(
           "#{jan_choice.course.name_and_code} at #{jan_choice.provider.name}",
@@ -64,7 +64,7 @@ RSpec.describe CandidateMailer do
       it 'renders content for many application choices' do
         expect(email.body).to include("Dear #{application_form.first_name}")
         expect(email.body).to include(
-          "Your offers of places on the following teacher training courses have been declined automatically:",
+          'Your offers of places on the following teacher training courses have been declined automatically:',
         )
         expect(email.body).to include(
           "#{jan_choice_1.course.name_and_code} at #{jan_choice_1.provider.name}",
