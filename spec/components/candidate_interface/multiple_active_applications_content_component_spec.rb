@@ -126,7 +126,7 @@ RSpec.describe CandidateInterface::MultipleActiveApplicationsContentComponent do
         end
       end
 
-      context 'when the application choices have been rejected by default' do
+      context 'when the application choices have been declined by default' do
         let(:status) { :declined_by_default }
 
         it 'renders rejected by default content' do
