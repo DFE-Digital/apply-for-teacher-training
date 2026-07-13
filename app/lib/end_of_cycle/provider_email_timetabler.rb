@@ -1,10 +1,11 @@
 module EndOfCycle
   class ProviderEmailTimetabler
-    attr_reader :timetable
+    attr_reader :timetable, :previous_timetable
     delegate_missing_to :timetable
 
     def initialize(timetable: nil)
       @timetable = timetable || RecruitmentCycleTimetable.current_timetable
+      @previous_timetable = @timetable.relative_previous_timetable
     end
 
     def send_reject_by_default_reminder_to_providers?
@@ -20,9 +21,7 @@ module EndOfCycle
     end
 
     def winter_reject_by_default_reminder_provider_date
-      return if timetable.try(:winter_reject_by_default_at).blank?
-
-      get_weekday(timetable.winter_reject_by_default_at - 2.weeks).to_date
+      get_weekday(previous_timetable.winter_reject_by_default_at - 2.weeks).to_date
     end
 
   private

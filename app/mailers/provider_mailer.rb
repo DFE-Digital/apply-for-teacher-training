@@ -262,8 +262,21 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
-  def respond_to_applications_before_winter_reject_by_default_date(_provider_user)
-    raise 'Mailer still in development'
+  def respond_to_applications_before_winter_reject_by_default_date(provider_user)
+    @get_help_title = 'Contact us'
+    @winter_reject_by_default_at = previous_timetable.winter_reject_by_default_at
+    @winter_decline_by_default_at = previous_timetable.winter_decline_by_default_at
+    @provider_user = provider_user
+    @notifications_url = provider_interface_notifications_url
+    @applications_url = provider_interface_applications_url
+
+    provider_notify_email(
+      to: @provider_user.email_address,
+      subject: I18n.t!(
+        'provider_mailer.respond_to_applications_before_winter_reject_by_default_date.subject',
+        winter_reject_by_default_at: @winter_reject_by_default_at.to_fs(:day_and_month),
+      ),
+    )
   end
 
   def recruitment_performance_report_reminder(provider_user)
@@ -281,6 +294,10 @@ private
 
   def current_timetable
     @current_timetable = RecruitmentCycleTimetable.current_timetable
+  end
+
+  def previous_timetable
+    @previous_timetable ||= RecruitmentCycleTimetable.previous_timetable
   end
 
   def email_for_provider(provider_user, application_form, args = {})

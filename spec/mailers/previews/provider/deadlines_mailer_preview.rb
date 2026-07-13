@@ -13,4 +13,9 @@ class Provider::DeadlinesMailerPreview < ActionMailer::Preview
     provider_user = FactoryBot.build(:provider_user)
     ProviderMailer.respond_to_applications_before_reject_by_default_date(provider_user)
   end
+
+  def respond_to_applications_before_winter_reject_by_default_date
+    provider_user = FactoryBot.build(:provider_user)
+    ProviderMailer.respond_to_applications_before_winter_reject_by_default_date(provider_user)
+  end
 end

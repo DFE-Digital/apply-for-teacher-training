@@ -36,7 +36,8 @@ en:
           provider_deadlines_mailer:
             find_service_is_now_open: Candidates can now search for teacher training courses on Find teacher training applications.
             apply_service_is_now_open: Candidates can now apply for teacher training courses on Apply for teacher training courses.
-            respond_to_applications_before_reject_by_default_date: The deadline to respond to applications a provider has received is approaching. Any applications that they do not respond to will be rejected by default on this date.
+            respond_to_applications_before_reject_by_default_date: The deadline to respond to applications with a Summer / Autumn start date a provider has received is approaching. Any application that they do not respond to will be rejected by default on this date.
+            respond_to_applications_before_winter_reject_by_default_date: The deadline to respond to applications with Winter start dates is approaching. Any application that they do not respond to will be rejected by default on this date.
           provider_references_mailer:
             reference_received: A referee has provided a reference for a candidate who has accepted an offer to train to teach with you.
           referee_references_mailer:
