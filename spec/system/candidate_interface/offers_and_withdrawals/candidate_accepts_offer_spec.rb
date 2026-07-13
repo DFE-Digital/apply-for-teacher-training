@@ -130,6 +130,7 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   def and_i_have_2_offers_on_my_choices
+    @current_candidate.application_forms.destroy_all
     @application_form = create(
       :completed_application_form,
       first_name: 'Harry',

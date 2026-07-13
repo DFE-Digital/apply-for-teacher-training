@@ -96,16 +96,18 @@ class Candidate < ApplicationRecord
   end
 
   def active_previous_application
-    other_forms = ordered_application_forms.joins(:application_choices).where.not(id: current_application)
-    previous_application = other_forms.where(
-      application_choices: { status: ApplicationStateChange::ApplicationState.state_ids(:active_previous) },
-    ).or(
-      other_forms.where(application_choices: { declined_by_default: true }),
-    ).or(
-      other_forms.where(application_choices: { rejected_by_default: true }),
-    ).last
     return if previous_application.blank? ||
               (previous_application.non_september_application_choices.blank? && current_application.current_cycle?)
+
+    previous_application_choices = previous_application.application_choices
+
+    return unless previous_application_choices.where(
+      status: ApplicationStateChange::ApplicationState.state_ids(:active_previous)
+    ).or(
+      previous_application_choices.where(declined_by_default: true).or(
+        previous_application_choices.where(rejected_by_default: true)
+      )
+    ).exists?
 
     previous_application
   end
@@ -180,6 +182,11 @@ class Candidate < ApplicationRecord
   end
 
 private
+
+  def previous_application
+    @previous_application ||= current_application.previous_application_form.presence ||
+      ordered_application_forms.joins(:application_choices).where.not(id: current_application).last
+  end
 
   def ordered_application_forms
     @ordered_application_forms ||= application_forms.order(:created_at, :id)

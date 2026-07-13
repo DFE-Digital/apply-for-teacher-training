@@ -20,6 +20,7 @@ RSpec.describe 'A candidate withdraws with upcoming interviews' do
   end
 
   def and_i_have_an_application_choice_with_an_upcoming_interview
+    @current_candidate.application_forms.destroy_all
     form = create(:completed_application_form, :with_completed_references, candidate: @current_candidate)
     @application_choice = create(:application_choice, :interviewing, application_form: form)
     create(:application_choice, :awaiting_provider_decision, application_form: form)

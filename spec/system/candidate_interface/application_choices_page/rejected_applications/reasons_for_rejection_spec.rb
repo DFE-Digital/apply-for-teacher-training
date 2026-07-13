@@ -14,6 +14,7 @@ RSpec.describe 'CandidateInterface ApplicationChoice index' do
   end
 
   def and_i_have_a_rejected_application
+    @current_candidate.application_forms.destroy_all
     @application_choice = create(:application_choice, :reasons_for_rejection, application_form: create(:application_form, candidate: @current_candidate))
   end
 
