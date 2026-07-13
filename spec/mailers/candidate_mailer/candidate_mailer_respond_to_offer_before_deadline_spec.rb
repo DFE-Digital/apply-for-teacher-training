@@ -13,7 +13,7 @@ RSpec.describe CandidateMailer do
     let(:apply_reopens_date) { timetable.apply_reopens_at.to_fs(:govuk_date_time_time_first) }
     let(:jan_course) { create(:course, start_date: "01/01/#{application_form.recruitment_cycle_year + 1}") }
     let(:jan_course_option) { create(:course_option, course: jan_course) }
-    let(:jan_choice) { create(:application_choice, :offer, course_option: jan_course_option) }
+    let(:jan_choice) { create(:application_choice, :offer, course_option: jan_course_option, application_form:) }
 
     before { jan_choice }
 
