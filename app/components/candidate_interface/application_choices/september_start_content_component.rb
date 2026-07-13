@@ -56,6 +56,6 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponent < A
   end
 
   def render?
-    application_choices.present?
+    application_choices.present? && recruitment_cycle_timetable.current_year?
   end
 end

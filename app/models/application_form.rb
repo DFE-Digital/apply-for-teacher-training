@@ -418,6 +418,10 @@ class ApplicationForm < ApplicationRecord
     @september_application_choices ||= application_choices.course_start_in_september(recruitment_cycle_year)
   end
 
+  def non_september_application_choices
+    @non_september_application_choices ||= application_choices.course_starts_after_september(recruitment_cycle_year)
+  end
+
   def carry_over?
     return false unless after_apply_deadline?
 

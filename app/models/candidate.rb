@@ -104,7 +104,8 @@ class Candidate < ApplicationRecord
     ).or(
       other_forms.where(application_choices: { rejected_by_default: true }),
     ).last
-    return if previous_application&.after_winter_decline_by_default?
+    return if previous_application.blank? ||
+              (previous_application.non_september_application_choices.blank? && current_application.current_cycle?)
 
     previous_application
   end
