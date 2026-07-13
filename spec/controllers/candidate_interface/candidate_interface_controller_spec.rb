@@ -66,7 +66,7 @@ RSpec.describe CandidateInterface::CandidateInterfaceController do
         candidate: candidate,
         created_at: current_application_form.created_at - 1.year,
         recruitment_cycle_year: current_application_form.recruitment_cycle_year - 1,
-        )
+      )
     end
     let(:current_application_choice) { create(:application_choice, application_form: current_application_form) }
 
@@ -85,7 +85,7 @@ RSpec.describe CandidateInterface::CandidateInterfaceController do
           current_recruitment_cycle_year: previous_application_form.recruitment_cycle_year,
           course_option: jan_course_option,
           status: :awaiting_provider_decision,
-          )
+        )
       end
 
       it 'returns application choices for both the current application form and previous application form' do
@@ -103,7 +103,7 @@ RSpec.describe CandidateInterface::CandidateInterfaceController do
           current_recruitment_cycle_year: previous_application_form.recruitment_cycle_year,
           course_option: jan_course_option,
           status: :rejected,
-          )
+        )
       end
 
       it 'returns application choices for both the current application form and previous application form' do

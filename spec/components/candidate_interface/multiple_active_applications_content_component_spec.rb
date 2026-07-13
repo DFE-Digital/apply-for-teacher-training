@@ -73,7 +73,7 @@ RSpec.describe CandidateInterface::MultipleActiveApplicationsContentComponent do
             expect(rendered_component).to have_element(
               :p,
               text: "Providers have until #{previous_application.recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first)} " \
-                'to make decisions on these applications.',
+                    'to make decisions on these applications.',
               class: 'govuk-body',
             )
           end
@@ -90,7 +90,7 @@ RSpec.describe CandidateInterface::MultipleActiveApplicationsContentComponent do
           expect(rendered_component).to have_element(
             :p,
             text: 'Applications will be rejected automatically at ' \
-                 "#{previous_application.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first)} if providers do not respond.",
+                  "#{previous_application.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first)} if providers do not respond.",
             class: 'govuk-body',
           )
         end
@@ -108,7 +108,7 @@ RSpec.describe CandidateInterface::MultipleActiveApplicationsContentComponent do
           expect(rendered_component).to have_element(
             :p,
             text: 'Offers will be declined automatically at ' \
-              "#{previous_application.recruitment_cycle_timetable.winter_decline_by_default_at.to_fs(:govuk_date_time_time_first)} if you do not respond.",
+                  "#{previous_application.recruitment_cycle_timetable.winter_decline_by_default_at.to_fs(:govuk_date_time_time_first)} if you do not respond.",
             class: 'govuk-body',
           )
         end

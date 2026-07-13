@@ -102,11 +102,11 @@ class Candidate < ApplicationRecord
     previous_application_choices = previous_application.application_choices
 
     return unless previous_application_choices.where(
-      status: ApplicationStateChange::ApplicationState.state_ids(:active_previous)
+      status: ApplicationStateChange::ApplicationState.state_ids(:active_previous),
     ).or(
       previous_application_choices.where(declined_by_default: true).or(
-        previous_application_choices.where(rejected_by_default: true)
-      )
+        previous_application_choices.where(rejected_by_default: true),
+      ),
     ).exists?
 
     previous_application
@@ -185,7 +185,7 @@ private
 
   def previous_application
     @previous_application ||= current_application.previous_application_form.presence ||
-      ordered_application_forms.joins(:application_choices).where.not(id: current_application).last
+                              ordered_application_forms.joins(:application_choices).where.not(id: current_application).last
   end
 
   def ordered_application_forms

@@ -743,7 +743,7 @@ RSpec.describe Candidate do
         candidate: candidate,
         created_at: current_application_form.created_at - 1.year,
         recruitment_cycle_year: current_application_form.recruitment_cycle_year - 1,
-        )
+      )
     end
     let(:jan_course) { create(:course, start_date: "01/01/#{current_application_form.recruitment_cycle_year}") }
     let(:jan_course_option) { create(:course_option, course: jan_course) }
