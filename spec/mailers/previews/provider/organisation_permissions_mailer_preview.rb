@@ -57,6 +57,14 @@ class Provider::OrganisationPermissionsMailerPreview < ActionMailer::Preview
     ProviderMailer.inactive_user_prompt(provider_user, date)
   end
 
+  def inactive_user_prompt_multiple_providers
+    providers = FactoryBot.create_list(:provider, 3)
+    provider_user = FactoryBot.create(:provider_user, providers:)
+    date = Date.new(2026, 1, 1)
+
+    ProviderMailer.inactive_user_prompt(provider_user, date)
+  end
+
   def permissions_removed
     provider = FactoryBot.create(:provider)
     permissions_revoked_by_user = FactoryBot.create(:provider_user)
