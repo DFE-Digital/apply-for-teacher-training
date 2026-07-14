@@ -263,6 +263,7 @@ shared:
     - safeguarding_issues
     - country_residency_date_from
     - country_residency_since_birth
+    - previous_last_names
   application_qualifications:
     - application_form_id
     - award_year
