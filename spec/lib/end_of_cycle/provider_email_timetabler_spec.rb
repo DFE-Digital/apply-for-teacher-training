@@ -30,13 +30,23 @@ RSpec.describe EndOfCycle::ProviderEmailTimetabler do
   describe '.winter_reject_by_default_reminder_provider_date' do
     subject(:winter_reject_by_default_reminder_provider_date) { instance.winter_reject_by_default_reminder_provider_date }
 
-    context 'when the timetable winter_reject_by_default_at attribute is not nil' do
-      it 'returns a date 2 weeks before the timetable winter_reject_by_default_at attribute' do
-        if previous_timetable.winter_reject_by_default_at.nil?
-          previous_timetable.update(winter_reject_by_default_at: previous_timetable.reject_by_default_at + 17.weeks)
-        end
+    context 'before the previous cycle has completely closed' do
+      it 'returns the winter reject by default at date from the previous cycle - 2 weeks' do
+        travel_temporarily_to(current_timetable.winter_decline_by_default_at - 1.month) do
+          if previous_timetable.winter_reject_by_default_at.nil?
+            previous_timetable.update(winter_reject_by_default_at: previous_timetable.reject_by_default_at + 17.weeks)
+          end
 
-        expect(winter_reject_by_default_reminder_provider_date.to_date).to eq((previous_timetable.winter_reject_by_default_at - 2.weeks).to_date)
+          expect(winter_reject_by_default_reminder_provider_date.to_date).to eq((previous_timetable.winter_reject_by_default_at - 2.weeks).to_date)
+        end
+      end
+    end
+
+    context 'after the previous cycle has completely closed' do
+      it 'returns the winter reject by default at date from the current cycle - 2 weeks' do
+        travel_temporarily_to(current_timetable.winter_decline_by_default_at + 1.day) do
+          expect(winter_reject_by_default_reminder_provider_date.to_date).to eq((current_timetable.winter_reject_by_default_at - 2.weeks).to_date)
+        end
       end
     end
   end
