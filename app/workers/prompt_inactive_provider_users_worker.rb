@@ -9,11 +9,11 @@ class PromptInactiveProviderUsersWorker < ApplicationJob
   def perform
     return if HostingEnvironment.qa? || HostingEnvironment.review? || HostingEnvironment.development?
 
-    ProviderUser.where(last_signed_in_at: almost_inactive_date)
+    ProviderUser.where(last_signed_in_at: almost_inactive_date.all_day)
       .or(
         ProviderUser.where(
           last_signed_in_at: nil,
-          created_at: almost_inactive_date,
+          created_at: almost_inactive_date.all_day,
         ),
       ).find_each do |provider_user|
       ProviderMailer.inactive_user_prompt(provider_user, inactive_date).deliver_later

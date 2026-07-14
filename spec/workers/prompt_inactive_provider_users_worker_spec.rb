@@ -85,5 +85,23 @@ RSpec.describe PromptInactiveProviderUsersWorker do
         expect(ProviderMailer).not_to have_received(:inactive_user_prompt).with(active_user, anything)
       end
     end
+
+    it 'prompts users regardless of the time they signed in 11 months and 2 weeks ago' do
+      travel_to Time.zone.parse('2026-01-01 12:00:00') do
+        should_prompt = create(
+          :provider_user,
+          :with_provider,
+          last_signed_in_at: Time.zone.parse('2024-12-18 15:59:59'),
+        )
+
+        mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+
+        allow(ProviderMailer).to receive(:inactive_user_prompt).and_return(mail)
+
+        described_class.new.perform
+
+        expect(ProviderMailer).to have_received(:inactive_user_prompt).with(should_prompt, 2.weeks.from_now.to_date)
+      end
+    end
   end
 end
