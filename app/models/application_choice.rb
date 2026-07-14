@@ -379,7 +379,7 @@ class ApplicationChoice < ApplicationRecord
     undergraduate? && application_form.degrees?
   end
 
-  def decline_by_default_at
+  def decline_by_default_date
     timetable = application_form.recruitment_cycle_timetable
     if starts_after_september?
       timetable.winter_decline_by_default_at
@@ -388,7 +388,7 @@ class ApplicationChoice < ApplicationRecord
     end
   end
 
-  def reject_by_default_at
+  def reject_by_default_date
     timetable = application_form.recruitment_cycle_timetable
     if starts_after_september?
       timetable.winter_reject_by_default_at
