@@ -59,5 +59,13 @@ RSpec.describe EndOfCycle::ProviderEmailTimetabler do
         end
       end
     end
+
+    context 'a future timetable is provided as a kwarg' do
+      it 'returns date calculated on that timetable regardless of current date' do
+        timetable = RecruitmentCycleTimetable.find_by(recruitment_cycle_year: current_year + 2)
+        date = described_class.new(timetable:).winter_reject_by_default_reminder_provider_date
+        expect(date).to eq((timetable.winter_reject_by_default_at - 2.weeks).to_date)
+      end
+    end
   end
 end
