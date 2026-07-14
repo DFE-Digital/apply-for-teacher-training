@@ -28,7 +28,7 @@ class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < App
         title: I18n.t(
           'candidate_interface.application_choices.january_start_component.awaiting_provider_decision_content.title',
         ),
-        content:  I18n.t(
+        content: I18n.t(
           'candidate_interface.application_choices.january_start_component.awaiting_provider_decision_content.rejected automatically',
           reject_by: recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first),
         ),
@@ -58,7 +58,7 @@ class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < App
         title: I18n.t(
           'candidate_interface.application_choices.january_start_component.offered_content.title',
         ),
-        content:  I18n.t(
+        content: I18n.t(
           'candidate_interface.application_choices.january_start_component.offered_content.declined automatically',
           decline_by: recruitment_cycle_timetable.winter_decline_by_default_at.to_fs(:govuk_date_time_time_first),
         ),
