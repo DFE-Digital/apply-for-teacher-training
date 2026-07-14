@@ -38,7 +38,6 @@ module EndOfCycle
 
     def winter_decline_by_default_explainer_date
       if timetable.current_year?
-
         [].tap do |possible_dates|
           possible_dates << (previous_timetable.winter_decline_by_default_at + 1.day).to_date if previous_timetable.winter_decline_by_default_at.present?
           possible_dates << (timetable.winter_decline_by_default_at + 1.day).to_date

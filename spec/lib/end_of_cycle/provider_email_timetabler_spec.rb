@@ -42,6 +42,16 @@ RSpec.describe EndOfCycle::ProviderEmailTimetabler do
       end
     end
 
+    context 'between winter reject by default and decline by default dates' do
+      it 'returns date calculated based on the previous cycle' do
+        travel_temporarily_to(2027, 1, 24) do
+          expected_date = Date.new(2027, 1, 6)
+          expect(winter_reject_by_default_reminder_provider_date.to_date).to eq(expected_date)
+          expect(expected_date).to eq((previous_timetable.winter_reject_by_default_at - 2.weeks).to_date)
+        end
+      end
+    end
+
     context 'after the previous cycle has completely closed' do
       it 'returns the winter reject by default at date from the current cycle - 2 weeks' do
         travel_temporarily_to(current_timetable.winter_decline_by_default_at + 1.day) do

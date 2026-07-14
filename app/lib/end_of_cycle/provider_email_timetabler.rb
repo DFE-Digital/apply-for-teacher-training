@@ -3,6 +3,10 @@ module EndOfCycle
     attr_reader :timetable, :previous_timetable
     delegate_missing_to :timetable
 
+    def initialize(timetable: nil)
+      @timetable = timetable || RecruitmentCycleTimetable.current_timetable
+    end
+
     def send_reject_by_default_reminder_to_providers?
       current_date == reject_by_default_reminder_provider_date
     end
@@ -16,26 +20,33 @@ module EndOfCycle
     end
 
     def winter_reject_by_default_reminder_provider_date
-      # We only care about current cycle date AFTER the previous cycle has come to a complete end, eg after the winter decline by default event
-      if previous_cycle_closed?
-        get_weekday(timetable.winter_reject_by_default_at - 2.weeks).to_date
-      else
-        get_weekday(previous_timetable.winter_reject_by_default_at - 2.weeks).to_date
-      end
+      [].tap do |possible_dates|
+        if previous_timetable.winter_reject_by_default_at.present?
+          possible_dates << get_weekday(previous_timetable.winter_reject_by_default_at - 2.weeks).to_date
+        end
+        possible_dates << get_weekday(timetable.winter_reject_by_default_at - 2.weeks).to_date
+      end.rfind { |possible_date| possible_date.before?(next_winter_decline_by_default_at) }
     end
 
   private
-
-    def timetable
-      @timetable ||= RecruitmentCycleTimetable.current_timetable
-    end
 
     def previous_timetable
       @previous_timetable ||= timetable.relative_previous_timetable
     end
 
-    def previous_cycle_closed?
-      current_date.after? previous_timetable.winter_decline_by_default_at.to_date
+    def next_winter_decline_by_default_at
+      if timetable.current_year?
+        [].tap do |possible_dates|
+          if previous_timetable.winter_decline_by_default_at.present?
+            possible_dates << previous_timetable.winter_decline_by_default_at.to_date
+          end
+          possible_dates << timetable.winter_decline_by_default_at.to_date
+        end.find do |possible_date|
+          current_date == possible_date || current_date.before?(possible_date)
+        end
+      else
+        timetable.winter_decline_by_default_at
+      end
     end
 
     def current_date
