@@ -1,7 +1,7 @@
 class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < ApplicationComponent
   delegate :recruitment_cycle_year, :recruitment_cycle_timetable, to: :application_form
   delegate :after_winter_reject_by_default?, :after_winter_decline_by_default?, :winter_reject_by_default_at,
-           :approaching_winter_reject_by_default?, to: :recruitment_cycle_timetable
+           :approaching_winter_reject_by_default?, :relative_next_year, to: :recruitment_cycle_timetable
 
   attr_reader :application_form
 
@@ -10,22 +10,28 @@ class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < App
   end
 
   def title
-    "Courses starting by January #{recruitment_cycle_year + 1}"
+    I18n.t('candidate_interface.application_choices.january_start_component.title', year: relative_next_year)
   end
 
   def provider_deadline_content
     return if after_winter_reject_by_default?
 
-    "Providers have until #{recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first)} " \
-      'to make decisions on these applications.'
+    I18n.t(
+      'candidate_interface.application_choices.january_start_component.provider_deadline_content',
+      reject_by: recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first),
+    )
   end
 
   def awaiting_provider_decision_content
     if application_choices.any?(&:decision_pending?)
       {
-        title: 'Applications awaiting a provider decision',
-        content: 'Applications will be rejected automatically at ' \
-                 "#{recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first)} if providers do not respond.",
+        title: I18n.t(
+          'candidate_interface.application_choices.january_start_component.awaiting_provider_decision_content.title',
+        ),
+        content:  I18n.t(
+          'candidate_interface.application_choices.january_start_component.awaiting_provider_decision_content.rejected automatically',
+          reject_by: recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first),
+        ),
       }
     end
   end
@@ -33,21 +39,29 @@ class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < App
   def reject_by_default_explanation
     return unless application_choices.any?(&:rejected_by_default?)
 
-    'Some of your applications have been rejected because the provider did not respond before the deadline.'
+    I18n.t(
+      'candidate_interface.application_choices.january_start_component.reject_by_default_explanation',
+    )
   end
 
   def decline_by_default_explanation
     return unless application_choices.any?(&:declined_by_default?)
 
-    'Some of your offers have been declined because you did not respond before the deadline.'
+    I18n.t(
+      'candidate_interface.application_choices.january_start_component.decline_by_default_explanation',
+    )
   end
 
   def offered_content
     if application_choices.any?(&:offer?)
       {
-        title: 'Offers awaiting your response',
-        content: 'Offers will be declined automatically at ' \
-                 "#{recruitment_cycle_timetable.winter_decline_by_default_at.to_fs(:govuk_date_time_time_first)} if you do not respond.",
+        title: I18n.t(
+          'candidate_interface.application_choices.january_start_component.offered_content.title',
+        ),
+        content:  I18n.t(
+          'candidate_interface.application_choices.january_start_component.offered_content.declined automatically',
+          decline_by: recruitment_cycle_timetable.winter_decline_by_default_at.to_fs(:govuk_date_time_time_first),
+        ),
       }
     end
   end

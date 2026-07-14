@@ -11,15 +11,18 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponent < A
   end
 
   def heading
-    @heading.presence || "Courses starting by September #{recruitment_cycle_year}"
+    @heading.presence ||
+      I18n.t('candidate_interface.application_choices.september_start_component.heading', year: recruitment_cycle_year)
   end
 
   def awaiting_provider_decision_content
     if application_choices.any?(&:decision_pending?)
       {
-        title: 'Applications awaiting a provider decision',
-        content: 'Applications will be rejected automatically at ' \
-                 "#{recruitment_cycle_timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first)} if providers do not respond.",
+        title: I18n.t('candidate_interface.application_choices.september_start_component.awaiting_provider_decision_content.title'),
+        content: I18n.t(
+          'candidate_interface.application_choices.september_start_component.awaiting_provider_decision_content.rejected automatically',
+          reject_by: recruitment_cycle_timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first),
+        ),
       }
     end
   end
@@ -27,21 +30,23 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponent < A
   def reject_by_default_explanation
     return unless application_choices.any?(&:rejected_by_default?)
 
-    'Some of your applications have been rejected because the provider did not respond before the deadline.'
+    I18n.t('candidate_interface.application_choices.september_start_component.reject_by_default_explanation')
   end
 
   def decline_by_default_explanation
     return unless application_choices.any?(&:declined_by_default?)
 
-    'Some of your offers have been declined because you did not respond before the deadline.'
+    I18n.t('candidate_interface.application_choices.september_start_component.decline_by_default_explanation')
   end
 
   def offered_content
     if application_choices.any?(&:offer?)
       {
-        title: 'Offers awaiting your response',
-        content: 'Offers will be declined automatically at ' \
-                 "#{recruitment_cycle_timetable.decline_by_default_at.to_fs(:govuk_date_time_time_first)} if you do not respond.",
+        title: I18n.t('candidate_interface.application_choices.september_start_component.offered_content.title'),
+        content: I18n.t(
+          'candidate_interface.application_choices.september_start_component.offered_content.declined_automatically',
+          declined_by: recruitment_cycle_timetable.decline_by_default_at.to_fs(:govuk_date_time_time_first),
+        ),
       }
     end
   end

@@ -8,6 +8,6 @@ class CandidateInterface::ApplicationChoices::CurrentRecruitmentCycleComponent <
   end
 
   def academic_year_title
-    "Courses for the #{academic_year_range_name} academic year"
+    I18n.t('candidate_interface.application_choices.current_recruitment_cycle_component.academic_year_title', year_range: academic_year_range_name)
   end
 end
