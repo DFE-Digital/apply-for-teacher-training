@@ -11,6 +11,7 @@ module ProviderInterface
 
     delegate :first_name,
              :last_name,
+             :previous_last_names,
              :candidate,
              to: :application_form
 
@@ -23,6 +24,7 @@ module ProviderInterface
       [
         first_name_row,
         last_name_row,
+        previous_last_names_row,
         date_of_birth_row,
         nationality_row,
         right_to_work_or_study_row,
@@ -47,6 +49,15 @@ module ProviderInterface
       {
         key: 'Last name',
         value: last_name,
+      }
+    end
+
+    def previous_last_names_row
+      return if previous_last_names.blank?
+
+      {
+        key: 'Previous last names',
+        value: previous_last_names,
       }
     end
 

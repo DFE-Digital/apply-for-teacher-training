@@ -27,6 +27,7 @@ module CandidateInterface
     def rows
       assembled_rows = [
         name_row,
+        previous_last_names_row,
         date_of_birth_row,
         nationality_row,
       ]
@@ -54,6 +55,26 @@ module CandidateInterface
             {
               href: candidate_interface_edit_name_and_dob_path(return_to_params),
               visually_hidden_text: I18n.t('application_form.personal_details.name.change_action'),
+            }
+        end
+      end
+    end
+
+    def previous_last_names_row
+      {
+        key: I18n.t('application_form.personal_details.previous_last_names.name'),
+        value: @personal_details_form.previous_last_names.presence || 'None',
+        html_attributes: {
+          data: {
+            qa: 'personal-details-previous-last-names',
+          },
+        },
+      }.tap do |row|
+        if @editable
+          row[:action] =
+            {
+              href: candidate_interface_edit_name_and_dob_path(return_to_params),
+              visually_hidden_text: I18n.t('application_form.personal_details.previous_last_names.change_action'),
             }
         end
       end

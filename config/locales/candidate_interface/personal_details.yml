@@ -7,6 +7,13 @@ en:
       last_name:
         label: Last name
         hint_text: Or family name
+      previous_last_names:
+        label: Have you ever had a different last name?
+        name: Previous last names
+        'yes': 'Yes'
+        'no': 'No'
+        input: 'Enter your previous last name. If you have had more than one, enter them separated by commas.'
+        change_action: previous last names
       name:
         label: Name
         change_action: name
@@ -70,6 +77,10 @@ en:
             last_name:
               blank: Enter your last name or family name
               too_long: Last name must be %{count} characters or fewer
+            previous_last_names:
+              blank: Enter your previous last names
+            has_previous_last_names:
+              blank: Select if you have ever had a different last name
         candidate_interface/nationalities_form:
           attributes:
             nationalities:
