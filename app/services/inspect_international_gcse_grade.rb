@@ -17,10 +17,12 @@ class InspectInternationalGcseGrade
 private
 
   def failing_grades
-    selected_schema.failing_grades
+    selected_schema&.failing_grades || []
   end
 
   def grades
+    return [] if selected_schema.blank?
+
     selected_schema.passing_grades + selected_schema.failing_grades
   end
 
@@ -31,7 +33,14 @@ private
   end
 
   def selected_schema
-    finder.grade_schemas(equivalent_qualification).first
+    @selected_schema ||=
+      if qualification.selected_grade_schema_id.present?
+        equivalent_qualification.grade_schemas.find do |schema|
+          schema.id == qualification.selected_grade_schema_id
+        end
+      elsif equivalent_qualification.grade_schemas.one?
+        equivalent_qualification.grade_schemas.first
+      end
   end
 
   def finder

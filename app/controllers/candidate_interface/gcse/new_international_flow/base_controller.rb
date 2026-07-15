@@ -40,12 +40,14 @@ module CandidateInterface
         end
     end
 
-    def set_structured_grades
-      @structured_grades ||=
-        if @selected_equivalent_qualification.blank?
-          []
-        else
-          @grade_schemas.first.passing_grades + @grade_schemas.first.failing_grades
+    def selected_grade_schema
+      @selected_grade_schema ||=
+        if current_qualification.selected_grade_schema_id.present?
+          @grade_schemas.find do |schema|
+            schema.id == current_qualification.selected_grade_schema_id
+          end
+        elsif @grade_schemas.one?
+          @grade_schemas.first
         end
     end
 
@@ -55,6 +57,16 @@ module CandidateInterface
           []
         else
           @selected_equivalent_qualification.grade_schemas
+        end
+    end
+
+    def set_structured_grades
+      @structured_grades ||=
+        if selected_grade_schema.present?
+          selected_grade_schema.passing_grades +
+            selected_grade_schema.failing_grades
+        else
+          []
         end
     end
 

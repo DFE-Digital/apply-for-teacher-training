@@ -94,6 +94,49 @@ RSpec.describe 'Candidate enters a GCSE equivalent qualification from outside of
     then_i_see_the_review_page_english
   end
 
+  scenario 'Candidate submits their maths international qualification details for a qualification with multiple schemas',
+           feature_flag: '2027_international_qualifications_flow' do
+    given_i_am_signed_in_with_one_login
+
+    and_i_click_on_the_maths_gcse_link
+    then_i_see_the_add_gcse_maths_page
+
+    when_i_do_not_select_any_gcse_option
+    and_i_click_save_and_continue
+    then_i_see_the_qualification_type_error
+
+    when_i_select_non_uk_qualification
+    and_i_click_save_and_continue
+    then_i_see_the_add_institution_country_page
+
+    when_i_select_india
+    and_i_click_save_and_continue
+    then_i_see_the_structured_qualifications_page
+
+    when_i_choose_icse
+    and_i_click_save_and_continue
+    then_i_see_the_grade_schemas_page
+
+    when_i_choose_percentage
+    and_i_click_save_and_continue
+    then_i_see_the_percentage_input_page
+
+    when_i_enter_a_percentage_with_percentage_sign
+    and_i_click_save_and_continue
+    then_i_see_the_validation_error_for_non_numerical_chars
+
+    when_i_enter_a_percentage_below_the_pass_threshold
+    and_i_click_save_and_continue
+    then_i_see_the_interruption_page_maths
+
+    when_i_click_back
+    then_i_see_the_percentage_input_page
+
+    when_i_enter_a_percentage_above_the_pass_threshold
+    and_i_click_save_and_continue
+    then_i_see_the_add_enic_page
+  end
+
 private
 
   def and_i_click_on_the_maths_gcse_link
@@ -143,9 +186,12 @@ private
     select 'Kenya'
   end
 
+  def when_i_select_india
+    select 'India'
+  end
+
   def then_i_see_the_structured_qualifications_page
     expect(page).to have_current_path candidate_interface_gcse_new_international_flow_new_qualifications_path('maths')
-    expect(page).to have_text 'KCSE (Kenya Certificate of Secondary Education)'
   end
 
   def then_i_see_the_structured_qualifications_page_english
@@ -157,9 +203,44 @@ private
     choose 'KCSE (Kenya Certificate of Secondary Education)'
   end
 
+  def when_i_choose_icse
+    choose 'ICSE (Indian Certificate of Secondary Education)'
+  end
+
   def then_i_see_the_structured_grades_page
     expect(page).to have_text 'What grade did you get?'
     expect(page).to have_text 'B+'
+  end
+
+  def then_i_see_the_grade_schemas_page
+    expect(page).to have_text 'What type of grade did you get?'
+    expect(page).to have_text 'Percentage'
+    expect(page).to have_text 'Letter and number grade'
+  end
+
+  def when_i_choose_percentage
+    choose 'Percentage'
+  end
+
+  def then_i_see_the_percentage_input_page
+    expect(page).to have_text 'What grade did you get?'
+    expect(page).to have_text '%'
+  end
+
+  def when_i_enter_a_percentage_with_percentage_sign
+    fill_in 'candidate-interface-gcse-international-structured-grades-form-grade-field', with: '21%'
+  end
+
+  def when_i_enter_a_percentage_below_the_pass_threshold
+    fill_in 'candidate-interface-gcse-international-structured-grades-form-grade-field-error', with: '21'
+  end
+
+  def when_i_enter_a_percentage_above_the_pass_threshold
+    fill_in 'candidate-interface-gcse-international-structured-grades-form-grade-field', with: '99'
+  end
+
+  def then_i_see_the_validation_error_for_non_numerical_chars
+    expect(page).to have_text 'Enter a whole number'
   end
 
   def when_i_choose_a_passing_grade
@@ -216,6 +297,10 @@ private
 
   def then_i_see_the_interruption_page
     expect(page).to have_text 'This grade may not be a equivalent to a GCSE in English at Grade 4 (C) or above'
+  end
+
+  def then_i_see_the_interruption_page_maths
+    expect(page).to have_text 'This grade may not be a equivalent to a GCSE in maths at Grade 4 (C) or above'
   end
 
   def when_i_click_provide_evidence_of_your_english_skills

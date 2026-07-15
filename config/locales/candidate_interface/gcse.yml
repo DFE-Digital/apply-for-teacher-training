@@ -188,6 +188,8 @@ en:
           attributes:
             grade:
               blank: Select a grade
+              not_a_number: Enter a whole number
+              too_long: Percentage grades must be 3 numerical characters or fewer
             non_structured_grade:
               blank: Enter a grade
               too_long: Grade must be %{count} characters or fewer
