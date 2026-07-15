@@ -39,7 +39,7 @@ RUN bundler -v && \
 
 COPY package.json yarn.lock ./
 
-RUN yarn install --check-files
+RUN yarn cache clean && yarn install --check-files
 
 COPY . .
 
