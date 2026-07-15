@@ -1,5 +1,5 @@
-class SendEocDeadlineReminderEmailToCandidatesWorker < ApplicationJob
-  self.queue_adapter = :solid_queue
+class SendEocDeadlineReminderEmailToCandidatesWorker
+  include Sidekiq::Worker
 
   BATCH_SIZE = 120
 
@@ -10,9 +10,11 @@ class SendEocDeadlineReminderEmailToCandidatesWorker < ApplicationJob
       relation: GetApplicationsToSendDeadlineRemindersTo.call,
       batch_size: BATCH_SIZE,
     ).each do |batch_time, records|
-      SendEocDeadlineReminderEmailToCandidatesBatchWorker
-        .set(wait_until: batch_time)
-        .perform_later(records.pluck(:id), chaser_type)
+      SendEocDeadlineReminderEmailToCandidatesBatchWorker.perform_at(
+        batch_time,
+        records.pluck(:id),
+        chaser_type,
+      )
     end
   end
 
