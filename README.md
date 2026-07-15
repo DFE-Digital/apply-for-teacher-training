@@ -33,7 +33,7 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 | Dependency            | Version |
 |-----------------------|---------|
-| [Ruby](.ruby-version) | 4.0.4   |
+| [Ruby](.ruby-version) | 4.0.6   |
 | Node.js               | 24.17.0 |
 | Yarn                  | 1.22.19 |
 | PostgreSQL            | 16      |

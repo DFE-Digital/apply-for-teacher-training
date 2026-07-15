@@ -1,11 +1,11 @@
 # To use or update to a ruby version, change {BASE_RUBY_IMAGE}
-ARG BASE_RUBY_IMAGE=ruby:4.0.4-alpine
+ARG BASE_RUBY_IMAGE=ruby:4.0.6-alpine
 
 # Stage 1: gems-node-modules, build gems and node modules.
 FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
 RUN apk -U upgrade && \
-    apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base curl \
+    apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
     libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 libjxl yaml-dev libxslt graphviz chromium gcompat \
     'aom>=3.9.1-r0'
 
