@@ -3,9 +3,9 @@ module TestJob
     self.queue_adapter = :solid_queue
 
     def perform
-      return if HostingEnvironment.production?
+      return unless HostingEnvironment.review? || HostingEnvironment.development? || HostingEnvironment.sandbox?
 
-      relation = ApplicationForm.all
+      relation = ApplicationForm.current_cycle.all
 
       BatchDelivery.new(
         relation:,
