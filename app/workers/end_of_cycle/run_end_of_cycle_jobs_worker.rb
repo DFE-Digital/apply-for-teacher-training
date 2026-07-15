@@ -17,7 +17,7 @@ module EndOfCycle
         EndOfCycle::CancelReferenceRequestsWorker.perform_async
       end
 
-      if previous_timetable.winter_reject_by_default_at.present? && Time.zone.now.after?(previous_timetable.winter_reject_by_default_at)
+      if Time.zone.now.after?(previous_timetable.winter_reject_by_default_at)
         EndOfCycle::WinterRejectByDefaultWorker.perform_async(true)
       end
 
