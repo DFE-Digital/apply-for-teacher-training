@@ -17,13 +17,23 @@ module EndOfCycle
         EndOfCycle::CancelReferenceRequestsWorker.perform_async
       end
 
-      # TODO: Add the Winter reject by / decline by default workers when the dates of been added to database
+      if previous_timetable.winter_reject_by_default_at.present? && Time.zone.now.after?(previous_timetable.winter_reject_by_default_at)
+        EndOfCycle::WinterRejectByDefaultWorker.perform_async(true)
+      end
+
+      if previous_timetable.winter_decline_by_default_at.present? && Time.zone.now.after?(previous_timetable.winter_decline_by_default_at)
+        EndOfCycle::WinterDeclineByDefaultWorker.perform_async(true)
+      end
     end
 
   private
 
     def current_timetable
       @current_timetable ||= RecruitmentCycleTimetable.current_timetable
+    end
+
+    def previous_timetable
+      @previous_timetable ||= current_timetable.relative_previous_timetable
     end
   end
 end
