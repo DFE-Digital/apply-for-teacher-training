@@ -1,4 +1,7 @@
 default:
+  dispatchers:
+    - polling_interval: 1
+      batch_size: 500
   workers:
     - queues: [default, mailers_sq, low_priority, big_query_sq]
       threads: 1
