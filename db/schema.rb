@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_01_082943) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_14_150623) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -233,6 +233,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_01_082943) do
     t.string "phone_number"
     t.string "postcode"
     t.integer "previous_application_form_id"
+    t.string "previous_last_names"
     t.boolean "previous_teacher_training_completed"
     t.datetime "previous_teacher_training_completed_at", precision: nil
     t.integer "recruitment_cycle_year", null: false
