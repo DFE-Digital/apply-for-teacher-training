@@ -19,7 +19,7 @@ module InternationalQualifications
     end
 
     def grade_schemas(qualification)
-      @grade_schemas ||= grades.filter do |grade|
+      grades.filter do |grade|
         grade.id.in?(qualification.grade_options)
       end
     end

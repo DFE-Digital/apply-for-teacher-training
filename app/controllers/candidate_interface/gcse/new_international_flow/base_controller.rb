@@ -11,8 +11,6 @@ module CandidateInterface
     before_action :set_structured_grades
     before_action :render_application_feedback_component
 
-    STRUCTURED_DATA_COUNTRIES = %w[GH NG KE SL GM LR].freeze
-
   private
 
     def set_subject
@@ -21,16 +19,6 @@ module CandidateInterface
 
     def current_qualification
       @current_qualification ||= current_application.qualification_in_subject(:gcse, @subject)
-    end
-
-    def structured_data_countries
-      # List of structured data countries to be loaded dynamically
-      @structured_data_countries ||= STRUCTURED_DATA_COUNTRIES
-    end
-
-    def multiple_grade_schemas_available?
-      # For use in post-MVP schemas step
-      @grade_schemas.present? && @grade_schemas.size > 1
     end
 
     def set_institution_country
@@ -53,8 +41,6 @@ module CandidateInterface
     end
 
     def set_structured_grades
-      # post-MVP we will iterate through the available schemas if there is more than one and present them for selection in an intermediary step
-      # We can then use that value to present the relevant structured grades for the chosen schema rather than simply 'first'
       @structured_grades ||=
         if @selected_equivalent_qualification.blank?
           []
@@ -68,7 +54,7 @@ module CandidateInterface
         if @selected_equivalent_qualification.blank?
           []
         else
-          finder.grade_schemas(@selected_equivalent_qualification)
+          @selected_equivalent_qualification.grade_schemas
         end
     end
 

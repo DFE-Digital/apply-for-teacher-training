@@ -16,7 +16,7 @@ module CandidateInterface
       @list_of_qualifications = @equivalent_qualifications&.any?
 
       if @equivalent_qualification_form.save(current_qualification)
-        redirect_to candidate_interface_gcse_new_international_flow_new_grades_path
+        redirect_to next_path_for_selected_qualification
       else
         track_validation_error(@equivalent_qualification_form)
         render :new
@@ -43,6 +43,26 @@ module CandidateInterface
     end
 
   private
+
+    def next_path_for_selected_qualification
+      if multiple_grade_schemas_for_selected_qualification?
+        candidate_interface_gcse_new_international_flow_new_grade_schemas_path
+      else
+        candidate_interface_gcse_new_international_flow_new_grades_path
+      end
+    end
+
+    def multiple_grade_schemas_for_selected_qualification?
+      selected_equivalent_qualification_for_current_selection
+        &.grade_schemas
+        &.many?
+    end
+
+    def selected_equivalent_qualification_for_current_selection
+      finder.equivalent_qualifications.find do |qualification|
+        qualification.name == current_qualification.non_uk_qualification_type
+      end
+    end
 
     def equivalent_qualification_params
       params
