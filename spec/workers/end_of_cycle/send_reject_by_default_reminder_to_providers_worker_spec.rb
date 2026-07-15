@@ -32,7 +32,6 @@ RSpec.describe EndOfCycle::SendRejectByDefaultReminderToProvidersWorker do
       let(:instance) { described_class.new }
 
       it 'calls batch worker with application choices' do
-        allow(instance).to receive(:winter_reject_by_default_set?).and_return(false)
         travel_temporarily_to(email_send_date) do
           inactive_application = create(:application_choice, :inactive)
           interview_application = create(:application_choice, :interviewing)

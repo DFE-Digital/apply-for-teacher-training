@@ -1,0 +1,18 @@
+Dear <%= @provider_user.full_name %>
+
+The deadline for offering teacher training places for courses starting in <%= @winter_reject_by_default_at.to_fs(:month_and_year) %> is <%= @winter_reject_by_default_at.to_fs(:govuk_date) %>.
+
+This includes candidates you are interviewing.
+
+If you do not make an offer by <%= @winter_reject_by_default_at.to_fs(:govuk_date) %>, any applications for January marked as ‘received’ or ‘interviewing’ will be automatically rejected. This means you may miss out on high-quality candidates.
+
+If you offer a candidate a January place, they will have until <%= @winter_decline_by_default_at.to_fs(:govuk_date) %> to accept it.
+
+[Sign in to your account to review your applications](<%= @applications_url %>)
+
+
+<% content_for :additional_footer_content do %>
+  ---
+
+  If you want to unsubscribe from these emails, [sign in to update your notification preferences](<%= @notifications_url %>).
+<% end %>
