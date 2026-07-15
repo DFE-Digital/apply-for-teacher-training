@@ -62,4 +62,4 @@ en:
     recruitment_performance_report_reminder:
       subject: Your weekly recruitment performance report is now available
     inactive_user_prompt:
-      subject: Your Manage account will be deleted on %{date} if you do not sign in
+      subject: Your access to your Manage account will be removed on %{date} if you do not sign in

@@ -292,7 +292,7 @@ class ProviderMailer < ApplicationMailer
 
   def inactive_user_prompt(provider_user, date)
     @provider_user = provider_user
-    @providers = provider_user.providers.map(&:name).to_sentence(two_words_connector: ' or ', last_word_connector: ' or ')
+    @providers = provider_user.providers.map(&:name).join("\n")
     @date = date.to_fs(:day_and_month)
 
     provider_notify_email(

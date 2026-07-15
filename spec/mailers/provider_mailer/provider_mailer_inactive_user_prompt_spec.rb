@@ -11,8 +11,9 @@ RSpec.describe ProviderMailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'Your Manage account will be deleted on 10 July if you do not sign in - manage teacher training applications',
-        'providers list' => 'If your account is deleted, you will no longer be able to manage teacher training applications for UCL.',
+        'Your access to your Manage account will be removed on 10 July if you do not sign in - manage teacher training applications',
+        'providers list' => 'If your access is removed, you will no longer be able to manage teacher training applications for:',
+        'provider' => 'UCL',
       )
     end
 
@@ -28,26 +29,10 @@ RSpec.describe ProviderMailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'Your Manage account will be deleted on 10 July if you do not sign in - manage teacher training applications',
-        'providers list' => "If your account is deleted, you will no longer be able to manage teacher training applications for UCL or King's College London.",
-      )
-    end
-
-    context 'with three providers' do
-      let(:providers) do
-        [
-          build_stubbed(:provider, code: 'LMN', name: 'UCL'),
-          build_stubbed(:provider, code: 'OPQ', name: "King's College London"),
-          build_stubbed(:provider, code: 'RST', name: 'Birkbeck'),
-        ]
-      end
-
-      let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English', last_signed_in_at: Date.new(2025, 7, 10), providers:) }
-
-      it_behaves_like(
-        'a mail with subject and content',
-        'Your Manage account will be deleted on 10 July if you do not sign in - manage teacher training applications',
-        'providers list' => "If your account is deleted, you will no longer be able to manage teacher training applications for UCL, King's College London or Birkbeck.",
+        'Your access to your Manage account will be removed on 10 July if you do not sign in - manage teacher training applications',
+        'providers list' => 'If your access is removed, you will no longer be able to manage teacher training applications for:',
+        'provider_1' => 'UCL',
+        'provider_2' => "King's College London",
       )
     end
   end
