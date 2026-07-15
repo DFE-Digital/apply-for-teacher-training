@@ -12,7 +12,7 @@
       "version": "latest"
     },
     "ghcr.io/devcontainers/features/ruby:1": {
-      "version": "4.0.4"
+      "version": "4.0.6"
     },
     "ghcr.io/devcontainers/features/node:1": {
       "version": "16.13.0"
