@@ -5,7 +5,7 @@ ARG BASE_RUBY_IMAGE=ruby:4.0.4-alpine
 FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
 RUN apk -U upgrade && \
-    apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
+    apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base curl \
     libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 yaml-dev libxslt graphviz chromium gcompat \
     'aom>=3.9.1-r0'
 
