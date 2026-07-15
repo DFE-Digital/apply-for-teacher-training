@@ -2,11 +2,15 @@
   Dear <%= @application_form.first_name %>
 <% end %>
 
-You have been offered a place on a teacher training course.
+<%= I18n.t('candidate_mailer.respond_to_offer_before_winter_deadline.offered_a_place', count: @application_choices.size) %>
 
-If you want to accept this place, you must do so by <%=  @winter_decline_by_default_deadline %>.
+<% @application_choices.each do |choice| %>
+  <%= choice.course.name_and_code %> at <%= choice.provider.name %>
+<% end %>
 
-[Sign in to your account to update your details](<%= application_choices_link %>)
+<%= I18n.t('candidate_mailer.respond_to_offer_before_winter_deadline.accept_before', count: @application_choices.size, date: @winter_decline_by_default_deadline) %>
+
+[<%= I18n.t('candidate_mailer.respond_to_offer_before_winter_deadline.sign_in', count: @application_choices.size) %>](<%= application_choices_link %>)
 
 # Your other applications
 
@@ -15,8 +19,6 @@ Your other applications for teacher training starting in January <%= "#{@next_re
 This is because the provider did not respond before their deadline. If you have any questions about this, please contact the provider.
 
 # What happens next?
-
-If you want to accept your offer of a place on a teacher training course, you must do so by <%= "#{@winter_decline_by_default_deadline}" %>.
 
 If you do not want to accept this offer, you can still apply to courses starting later in <%= "#{@next_recruitment_cycle_year}" %> and in <%= "#{@next_recruitment_cycle_year + 1}" %>.
 

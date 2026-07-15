@@ -126,12 +126,18 @@ en:
             find_has_opened: Candidates can now search for teacher training courses on Find teacher training courses.
             find_has_opened_no_name: Candidates can now search for teacher training courses on Find teacher training courses but we don't know the name of the candidate to personalise the email.
             new_cycle_has_started: Candidates can now submit applications for teacher training in the latest recruitment cycle.
-            reject_by_default_explainer: Applications that have not received a response by the end of the cycle are rejected by default.
-            respond_to_offer_before_deadline: A candidate has an offer to train to teach that they have not responded to, they are encouraged to respond before the end of the cycle. Sent 2 weeks before the reject by default date before the end of the cycle.
-            respond_to_offer_before_winter_deadline: A candidate has an offer to train to teach that they have not responded to, they are encouraged to respond before winter reject by default date. Sent 2 weeks before the winter reject by default date.
-            decline_by_default_explainer: A candidate is notified that there application has been declined. Sent after the decline by default date.
-            winter_reject_by_default_explainer: A candidate is notified that there application has been rejected by default. Sent after the winter reject by default date.
-            winter_decline_by_default_explainer: A candidate is notified that there application has been declined by default. Sent after the winter decline by default date.
+            reject_by_default_explainer_one_application_choice: Application that has not received a response by the end of the cycle are rejected by default.
+            reject_by_default_explainer_many_application_choices: Applications that have not received a response by the end of the cycle are rejected by default.
+            respond_to_offer_before_deadline_one_application_choice: A candidate has an offer to train to teach that they have not responded to, they are encouraged to respond before the end of the cycle. Sent 2 weeks before the reject by default date before the end of the cycle.
+            respond_to_offer_before_deadline_many_application_choices: A candidate has offers to train to teach that they have not responded to, they are encouraged to respond before the end of the cycle. Sent 2 weeks before the reject by default date before the end of the cycle.
+            respond_to_offer_before_winter_deadline_one_application_choice: A candidate has an offer to train to teach that they have not responded to, they are encouraged to respond before winter reject by default date. Sent 2 weeks before the winter reject by default date.
+            respond_to_offer_before_winter_deadline_many_application_choices: A candidate has offers to train to teach that they have not responded to, they are encouraged to respond before winter reject by default date. Sent 2 weeks before the winter reject by default date.
+            decline_by_default_explainer_one_application_choice: A candidate is notified that there application has been declined. Sent after the decline by default date.
+            decline_by_default_explainer_many_application_choices: A candidate is notified that there applications have been declined. Sent after the decline by default date.
+            winter_reject_by_default_explainer_one_application_choice: A candidate is notified that there application has been rejected by default. Sent after the winter reject by default date.
+            winter_reject_by_default_explainer_many_application_choices: A candidate is notified that there applications have been rejected by default. Sent after the winter reject by default date.
+            winter_decline_by_default_explainer_one_application_choice: A candidate is notified that there application has been declined by default. Sent after the winter decline by default date.
+            winter_decline_by_default_explainer_many_application_choices: A candidate is notified that there applications have been declined by default. Sent after the winter decline by default date.
           candidate_interview:
             interview_cancelled: A scheduled interview has been cancelled.
             interview_updated: Details about a scheduled interview have been changed.
