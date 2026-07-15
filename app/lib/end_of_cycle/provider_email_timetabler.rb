@@ -1,6 +1,6 @@
 module EndOfCycle
   class ProviderEmailTimetabler
-    attr_reader :timetable, :previous_timetable
+    attr_reader :timetable
     delegate_missing_to :timetable
 
     def initialize(timetable: nil)
@@ -20,12 +20,13 @@ module EndOfCycle
     end
 
     def winter_reject_by_default_reminder_provider_date
-      [].tap do |possible_dates|
+      dates = [].tap do |possible_dates|
         if previous_timetable.winter_reject_by_default_at.present?
           possible_dates << get_weekday(previous_timetable.winter_reject_by_default_at - 2.weeks).to_date
         end
         possible_dates << get_weekday(timetable.winter_reject_by_default_at - 2.weeks).to_date
-      end.rfind { |possible_date| possible_date.before?(next_winter_decline_by_default_at) }
+      end
+      dates.rfind { |possible_date| possible_date.before?(next_winter_decline_by_default_at) }
     end
 
   private
@@ -36,12 +37,14 @@ module EndOfCycle
 
     def next_winter_decline_by_default_at
       if timetable.current_year?
-        [].tap do |possible_dates|
+        dates = [].tap do |possible_dates|
           if previous_timetable.winter_decline_by_default_at.present?
             possible_dates << previous_timetable.winter_decline_by_default_at.to_date
           end
           possible_dates << timetable.winter_decline_by_default_at.to_date
-        end.find do |possible_date|
+        end
+
+        dates.find do |possible_date|
           current_date == possible_date || current_date.before?(possible_date)
         end
       else

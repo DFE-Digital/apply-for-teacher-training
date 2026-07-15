@@ -28,20 +28,23 @@ module EndOfCycle
     end
 
     def winter_reject_by_default_explainer_date
-      [].tap do |possible_dates|
+      dates = [].tap do |possible_dates|
         possible_dates << (previous_timetable.winter_reject_by_default_at + 1.day).to_date if previous_timetable.winter_reject_by_default_at.present?
         possible_dates << (timetable.winter_reject_by_default_at + 1.day).to_date
-      end.rfind do |possible_date|
+      end
+
+      dates.rfind do |possible_date|
         possible_date.before?(winter_decline_by_default_explainer_date)
       end
     end
 
     def winter_decline_by_default_explainer_date
       if timetable.current_year?
-        [].tap do |possible_dates|
+        dates = [].tap do |possible_dates|
           possible_dates << (previous_timetable.winter_decline_by_default_at + 1.day).to_date if previous_timetable.winter_decline_by_default_at.present?
           possible_dates << (timetable.winter_decline_by_default_at + 1.day).to_date
-        end.find do |possible_date|
+        end
+        dates.find do |possible_date|
           current_date == possible_date || current_date.before?(possible_date)
         end
       else
