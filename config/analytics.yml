@@ -300,6 +300,7 @@ shared:
     - degree_subject_uuid
     - degree_institution_uuid
     - degree_grade_uuid
+    - selected_grade_schema_id
   application_work_history_breaks:
     - breakable_type
     - breakable_id
