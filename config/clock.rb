@@ -14,6 +14,10 @@ class Clock
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_later(true)
   end
 
+  every(2.minutes, 'TestJob', skip_first_run: false) do
+    TestJob::SetUpJob.perform_later
+  end
+
   every(10.minutes, 'FindACandidate::PopulatePoolWorker', skip_first_run: true) do
     FindACandidate::PopulatePoolWorker.perform_later
   end
