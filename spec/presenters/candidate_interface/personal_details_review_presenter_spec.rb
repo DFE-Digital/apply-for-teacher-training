@@ -136,8 +136,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
             value: 'Jackson, Avery',
             html_attributes: { data: { qa: 'personal-details-previous-last-names' } },
             action: {
-              href: "/candidate/application/personal-information/edit?return-to=application-review",
-              visually_hidden_text: "previous last names",
+              href: '/candidate/application/personal-information/edit?return-to=application-review',
+              visually_hidden_text: 'previous last names',
             },
           ),
         )
@@ -154,16 +154,16 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
           day: nil,
           month: nil,
           year: nil,
-          )
+        )
 
         expect(rows(personal_details_form:)).to include(
-        hash_including(
-          key: 'Previous last names',
-          value: 'None',
-          html_attributes: { data: { qa: 'personal-details-previous-last-names' } },
-          action: {
-              href: "/candidate/application/personal-information/edit?return-to=application-review",
-              visually_hidden_text: "previous last names",
+          hash_including(
+            key: 'Previous last names',
+            value: 'None',
+            html_attributes: { data: { qa: 'personal-details-previous-last-names' } },
+            action: {
+              href: '/candidate/application/personal-information/edit?return-to=application-review',
+              visually_hidden_text: 'previous last names',
             },
           ),
         )

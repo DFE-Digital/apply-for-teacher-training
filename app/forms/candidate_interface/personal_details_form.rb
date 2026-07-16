@@ -55,13 +55,15 @@ module CandidateInterface
       all_errors.blank?
     end
 
-  private
-
-    def self.assign_has_previous_last_names(state, application_form)
+    def assign_has_previous_last_names(state, application_form)
       return unless state == :edit
 
       application_form.previous_last_names.present? ? 1 : 0
     end
+
+    private_class_method :assign_has_previous_last_names
+
+  private
 
     def previous_last_names_declared?
       has_previous_last_names.to_i.positive?
