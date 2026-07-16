@@ -13,6 +13,7 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
     {
       first_name: data[:first_name],
       last_name: data[:last_name],
+      has_previous_last_names: 0,
       day: data[:date_of_birth].day,
       month: data[:date_of_birth].month,
       year: data[:date_of_birth].year,

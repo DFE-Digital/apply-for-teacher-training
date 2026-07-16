@@ -81,8 +81,8 @@ RSpec.describe SupportInterface::PersonalInformationComponent do
       SupportInterface::PersonalInformationComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.each do |key, value|
         application_form.right_to_work_or_study = key
         result = render_inline(described_class.new(application_form:))
-        row_title = result.css('.govuk-summary-list__row')[5].css('dt').text
-        row_value = result.css('.govuk-summary-list__row')[5].css('dd').text
+        row_title = result.css('.govuk-summary-list__row')[6].css('dt').text
+        row_value = result.css('.govuk-summary-list__row')[6].css('dd').text
         expect(row_title).to include 'Has the right to work or study in the UK?'
         expect(row_value).to include value
       end
