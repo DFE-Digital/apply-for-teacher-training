@@ -9,7 +9,7 @@ module CandidateInterface
     validates :grade, length: { maximum: 3 }, if: :percentage?
 
     validates :non_structured_grade, presence: true, if: :non_structured?
-    validates :non_structured_grade, length: { maximum: 10 }, if: :non_structured?
+    validates :non_structured_grade, length: { maximum: 20 }, if: :non_structured?
 
     def self.build_from_qualification(application_qualification, structured_grades: [], percentage: false)
       grade = application_qualification.grade

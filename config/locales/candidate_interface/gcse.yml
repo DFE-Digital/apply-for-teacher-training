@@ -197,3 +197,10 @@ en:
           attributes:
             evidence:
               too_long: Evidence must be %{count} characters or fewer
+        candidate_interface/gcse_international_grade_schemas_form:
+          attributes:
+            schema_id:
+              blank: Select a type
+            grade:
+              blank: Enter a grade
+              too_long: Grade must be %{count} characters or fewer

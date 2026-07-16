@@ -13,7 +13,11 @@ module CandidateInterface
       @grade_schemas_form = GcseInternationalGradeSchemasForm.new(grade_schema_params)
 
       if @grade_schemas_form.save(current_qualification)
-        redirect_to candidate_interface_gcse_new_international_flow_new_grades_path
+        if @grade_schemas_form.other?
+          redirect_to candidate_interface_gcse_new_international_flow_new_enic_path
+        else
+          redirect_to candidate_interface_gcse_new_international_flow_new_grades_path
+        end
       else
         render :new
       end
@@ -24,7 +28,11 @@ module CandidateInterface
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
 
       if @grade_schemas_form.save(current_qualification)
-        redirect_to candidate_interface_gcse_new_international_flow_edit_grades_path
+        if @grade_schemas_form.other?
+          redirect_to candidate_interface_gcse_new_international_flow_edit_enic_path
+        else
+          redirect_to candidate_interface_gcse_new_international_flow_edit_grades_path
+        end
       else
         render :edit
       end
@@ -32,8 +40,12 @@ module CandidateInterface
 
   private
 
+    def other?
+      schema_id == 'other'
+    end
+
     def grade_schema_params
-      params.expect(candidate_interface_gcse_international_grade_schemas_form: [:schema_id])
+      params.expect(candidate_interface_gcse_international_grade_schemas_form: %i[schema_id grade])
     end
   end
 end
