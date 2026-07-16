@@ -104,10 +104,6 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
     end
   end
 
-  def email_for_candidate(candidate)
-    ActionMailer::Base.deliveries.find { |e| e.header['to'].value == candidate.email_address }
-  end
-
   def first_reminder_date
     @first_reminder_date ||= EndOfCycle::CandidateEmailTimetabler.email_schedule(:apply_deadline_first_reminder_date)
   end
