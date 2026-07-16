@@ -14,6 +14,11 @@ class InspectInternationalGcseGrade
     equivalent_qualification.present?
   end
 
+  def multiple_grade_schemas_available?
+    equivalent_qualification.present? &&
+      equivalent_qualification.grade_schemas.many?
+  end
+
 private
 
   def failing_grades
