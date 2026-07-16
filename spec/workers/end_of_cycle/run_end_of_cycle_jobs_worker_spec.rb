@@ -7,12 +7,14 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
     allow(EndOfCycle::RejectByDefaultWorker).to receive(:perform_async).with(true)
     allow(EndOfCycle::CancelReferenceRequestsWorker).to receive(:perform_async)
     allow(EndOfCycle::DeclineByDefaultWorker).to receive(:perform_async).with(true)
+    allow(EndOfCycle::WinterRejectByDefaultWorker).to receive(:perform_async).with(true)
+    allow(EndOfCycle::WinterDeclineByDefaultWorker).to receive(:perform_async).with(true)
   end
 
   describe '#perform' do
     context 'in mid-cycle' do
       it 'does not run any jobs' do
-        date = current_timetable.apply_opens_at + 30.weeks
+        date = current_timetable.apply_opens_at + 2.months
         travel_temporarily_to(date) do
           described_class.new.perform
           expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).not_to have_received(:perform_async)
@@ -20,6 +22,8 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
           expect(EndOfCycle::RejectByDefaultWorker).not_to have_received(:perform_async)
           expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_async)
           expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_async)
+          expect(EndOfCycle::WinterRejectByDefaultWorker).not_to have_received(:perform_async)
+          expect(EndOfCycle::WinterDeclineByDefaultWorker).not_to have_received(:perform_async)
         end
       end
     end
@@ -29,6 +33,9 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
         date = current_timetable.apply_deadline_at + 1.minute
         travel_temporarily_to(date) do
           described_class.new.perform
+          # The winter jobs from the previous year will run
+          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_received(:perform_async)
+          expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_received(:perform_async)
           # These jobs run on the apply deadline
           expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_async).with(true)
           expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_async).with(true)
@@ -45,6 +52,9 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
         date = current_timetable.reject_by_default_at + 1.minute
         travel_temporarily_to(date) do
           described_class.new.perform
+          # The winter jobs from the previous year will run
+          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_received(:perform_async)
+          expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_received(:perform_async)
           # These jobs run on the apply deadline
           expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_async).with(true)
           expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_async).with(true)
@@ -62,6 +72,9 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
         date = current_timetable.decline_by_default_at + 1.minute
         travel_temporarily_to(date) do
           described_class.new.perform
+          # The winter jobs from the previous year will run
+          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_received(:perform_async)
+          expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_received(:perform_async)
           # Apply deadline jobs
           expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_async).with(true)
           expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_async).with(true)
@@ -70,6 +83,43 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
           # And the decline by default worker related jobs
           expect(EndOfCycle::DeclineByDefaultWorker).to have_received(:perform_async).with(true)
           expect(EndOfCycle::CancelReferenceRequestsWorker).to have_received(:perform_async)
+        end
+      end
+    end
+
+    context 'into the next cycle, after the previous cycle winter reject by default at' do
+      it 'runs the winter reject by default only' do
+        date = current_timetable.winter_reject_by_default_at + 1.minute
+        travel_temporarily_to(date) do
+          described_class.new.perform
+          # The winter reject by default worker will run
+          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_received(:perform_async)
+          # But not the winter decline by default worker
+          expect(EndOfCycle::WinterDeclineByDefaultWorker).not_to have_received(:perform_async)
+          # Or anything else
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).not_to have_received(:perform_async).with(true)
+          expect(EndOfCycle::CloseCoursesOnInvites).not_to have_received(:perform_async).with(true)
+          expect(EndOfCycle::RejectByDefaultWorker).not_to have_received(:perform_async).with(true)
+          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_async).with(true)
+          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_async)
+        end
+      end
+    end
+
+    context 'into the next cycle, after the previous cycle winter decline by default at' do
+      it 'runs winter jobs only' do
+        date = current_timetable.winter_decline_by_default_at + 1.minute
+        travel_temporarily_to(date) do
+          described_class.new.perform
+          # Both winter jobs run
+          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_received(:perform_async)
+          expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_received(:perform_async)
+          # But nothing else
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).not_to have_received(:perform_async).with(true)
+          expect(EndOfCycle::CloseCoursesOnInvites).not_to have_received(:perform_async).with(true)
+          expect(EndOfCycle::RejectByDefaultWorker).not_to have_received(:perform_async).with(true)
+          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_async).with(true)
+          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_async)
         end
       end
     end
