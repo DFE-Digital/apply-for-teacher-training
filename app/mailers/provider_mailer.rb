@@ -291,7 +291,7 @@ class ProviderMailer < ApplicationMailer
   end
 
   def inactive_user_prompt(provider_user, date)
-    @get_help_title = 'Contact us'
+    @hide_get_help = true
     @provider_user = provider_user
     @providers = provider_user.providers.map(&:name).join("\n")
     @date = date.to_fs(:day_and_month)
