@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
+RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker do
   describe '#perform' do
     it 'returns an application on the reminder date' do
       travel_temporarily_to(first_reminder_date) do
@@ -77,11 +77,8 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
 
     it 'does not return an application when the deadline has passed' do
       travel_temporarily_to(current_timetable.apply_deadline_at + 1.day) do
-        candidate = create(:candidate)
-
         create(
           :application_form,
-          candidate:,
           application_choices: [create(:application_choice, :application_not_sent)],
           recruitment_cycle_year: current_year,
         )
@@ -92,10 +89,10 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
 
     it 'does not return an application form from the previous cycle' do
       travel_temporarily_to(first_reminder_date) do
+
         create(
           :application_form,
-          candidate:,
-          application_choices: [create(:application_choice, :application_not_sent)],
+          application_choices: [build(:application_choice, :application_not_sent)],
           recruitment_cycle_year: previous_year,
         )
 
