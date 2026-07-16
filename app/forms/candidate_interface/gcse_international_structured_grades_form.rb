@@ -6,7 +6,7 @@ module CandidateInterface
 
     validates :grade, presence: true
     validates :grade, numericality: { only_integer: true }, if: :percentage?
-    validates :grade, length: { maximum: 3 }, if: :percentage?
+    validates :grade, numericality: { less_than_or_equal_to: 100 }, if: :percentage?
 
     validates :non_structured_grade, presence: true, if: :non_structured?
     validates :non_structured_grade, length: { maximum: 20 }, if: :non_structured?

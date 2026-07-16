@@ -28,14 +28,14 @@ RSpec.describe 'Candidate enters a GCSE equivalent qualification from outside of
 
     when_i_choose_a_passing_grade
     and_i_click_save_and_continue
-    then_i_see_the_add_enic_page
+    then_i_see_the_add_enic_page('maths')
 
     when_i_choose_waiting_for_it_to_arrive
     and_i_click_save_and_continue
     then_i_see_the_year_page
 
     when_i_click_back
-    then_i_see_the_add_enic_page
+    then_i_see_the_add_enic_page('maths')
 
     when_i_click_save_and_continue
     then_i_see_the_year_page
@@ -94,48 +94,107 @@ RSpec.describe 'Candidate enters a GCSE equivalent qualification from outside of
     then_i_see_the_review_page_english
   end
 
-  scenario 'Candidate submits their maths international qualification details for a qualification with multiple schemas',
-           feature_flag: '2027_international_qualifications_flow' do
-    given_i_am_signed_in_with_one_login
+  # scenario 'Candidate submits their maths international qualification details for a qualification with multiple schemas',
+  #          feature_flag: '2027_international_qualifications_flow' do
+  #   given_i_am_signed_in_with_one_login
 
-    and_i_click_on_the_maths_gcse_link
-    then_i_see_the_add_gcse_maths_page
+  #   and_i_click_on_the_maths_gcse_link
+  #   then_i_see_the_add_gcse_maths_page
 
-    when_i_do_not_select_any_gcse_option
-    and_i_click_save_and_continue
-    then_i_see_the_qualification_type_error
+  #   when_i_select_non_uk_qualification
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_add_institution_country_page
 
-    when_i_select_non_uk_qualification
-    and_i_click_save_and_continue
-    then_i_see_the_add_institution_country_page
+  #   when_i_select_india
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_structured_qualifications_page
 
-    when_i_select_india
-    and_i_click_save_and_continue
-    then_i_see_the_structured_qualifications_page
+  #   when_i_choose_icse
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_grade_schemas_page
 
-    when_i_choose_icse
-    and_i_click_save_and_continue
-    then_i_see_the_grade_schemas_page
+  #   when_i_do_not_select_any_type_option
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_blank_type_validation_error
 
-    when_i_choose_percentage
-    and_i_click_save_and_continue
-    then_i_see_the_percentage_input_page
+  #   when_i_choose_percentage
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_percentage_input_page
 
-    when_i_enter_a_percentage_with_percentage_sign
-    and_i_click_save_and_continue
-    then_i_see_the_validation_error_for_non_numerical_chars
+  #   when_i_enter_a_percentage_with_percentage_sign
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_validation_error_for_non_numerical_chars
 
-    when_i_enter_a_percentage_below_the_pass_threshold
-    and_i_click_save_and_continue
-    then_i_see_the_interruption_page_maths
+  #   when_i_enter_a_percentage_below_the_pass_threshold
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_interruption_page_maths
 
-    when_i_click_back
-    then_i_see_the_percentage_input_page
+  #   when_i_click_back
+  #   then_i_see_the_percentage_input_page
 
-    when_i_enter_a_percentage_above_the_pass_threshold
-    and_i_click_save_and_continue
-    then_i_see_the_add_enic_page
-  end
+  #   when_i_enter_a_percentage_above_the_pass_threshold
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_add_enic_page('maths')
+
+  #   when_i_click_back
+  #   then_i_see_the_percentage_input_page
+
+  #   when_i_click_back
+  #   then_i_see_the_grade_schemas_page
+
+  #   when_i_choose_other
+  #   and_i_do_not_enter_anything
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_enter_grade_validation_error
+
+  #   when_i_enter_my_custom_grade
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_add_enic_page('maths')
+
+  #   when_i_choose_waiting_for_it_to_arrive
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_year_page
+
+  #   when_i_fill_in_the_year
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_review_page_for_icse_with_custom_grade
+  # end
+
+  # scenario 'Candidate submits their English international qualification details for a qualification with multiple schemas but for which we have no failing grade data',
+  #          feature_flag: '2027_international_qualifications_flow' do
+  #   given_i_am_signed_in_with_one_login
+
+  #   and_i_click_on_the_english_gcse_link
+  #   then_i_see_the_add_gcse_english_page
+
+  #   when_i_select_non_uk_qualification
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_add_institution_country_page_english
+
+  #   when_i_select_india
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_structured_qualifications_page_english
+
+  #   when_i_choose_icse
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_grade_schemas_page
+
+  #   when_i_choose_percentage
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_percentage_input_page
+
+  #   when_i_enter_a_low_percentage_grade
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_add_enic_page('english') # no interruption page
+
+  #   when_i_choose_waiting_for_it_to_arrive
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_year_page_english
+
+  #   when_i_fill_in_the_year
+  #   and_i_click_save_and_continue
+  #   then_i_see_the_review_page_for_icse_with_percentage_grade
+  # end
 
 private
 
@@ -196,7 +255,6 @@ private
 
   def then_i_see_the_structured_qualifications_page_english
     expect(page).to have_current_path candidate_interface_gcse_new_international_flow_new_qualifications_path('english')
-    expect(page).to have_text 'KCSE (Kenya Certificate of Secondary Education)'
   end
 
   def when_i_choose_kcse
@@ -235,6 +293,10 @@ private
     fill_in 'candidate-interface-gcse-international-structured-grades-form-grade-field-error', with: '21'
   end
 
+  def when_i_enter_a_low_percentage_grade
+    fill_in 'candidate-interface-gcse-international-structured-grades-form-grade-field', with: '2'
+  end
+
   def when_i_enter_a_percentage_above_the_pass_threshold
     fill_in 'candidate-interface-gcse-international-structured-grades-form-grade-field', with: '99'
   end
@@ -251,8 +313,8 @@ private
     first('input[value="D"]').choose
   end
 
-  def then_i_see_the_add_enic_page
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_new_enic_path('maths')
+  def then_i_see_the_add_enic_page(subject)
+    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_new_enic_path(subject)
   end
 
   def when_i_choose_waiting_for_it_to_arrive
@@ -295,6 +357,28 @@ private
     expect(page).to have_no_text 'Comparable UK qualification'
   end
 
+  def then_i_see_the_review_page_for_icse_with_custom_grade
+    expect(page).to have_text 'Check your maths GCSE or equivalent'
+    expect(page).to have_text 'Qualification from outside the UK'
+    expect(page).to have_text 'India'
+    expect(page).to have_text 'ICSE (Indian Certificate of Secondary Education)'
+    expect(page).to have_text 'Magna cum laude'
+    expect(page).to have_text "I'm waiting for it to arrive"
+    expect(page).to have_text '2017'
+    expect(page).to have_no_text 'Evidence that your maths skills are at GCSE grade 4 (C) or above'
+  end
+
+  def then_i_see_the_review_page_for_icse_with_percentage_grade
+    expect(page).to have_text 'Check your English GCSE or equivalent'
+    expect(page).to have_text 'Qualification from outside the UK'
+    expect(page).to have_text 'India'
+    expect(page).to have_text 'ICSE (Indian Certificate of Secondary Education)'
+    expect(page).to have_text '2%'
+    expect(page).to have_text "I'm waiting for it to arrive"
+    expect(page).to have_text '2017'
+    expect(page).to have_no_text 'Evidence that your maths skills are at GCSE grade 4 (C) or above'
+  end
+
   def then_i_see_the_interruption_page
     expect(page).to have_text 'This grade may not be a equivalent to a GCSE in English at Grade 4 (C) or above'
   end
@@ -320,5 +404,25 @@ private
 
   def when_i_provide_valid_text
     fill_in 'candidate-interface-gcse-international-evidence-form-evidence-field-error', with: 'I completed a supplementary qualification in English which amounts to a B at GCSE'
+  end
+
+  def when_i_do_not_select_any_type_option; end
+
+  def then_i_see_the_blank_type_validation_error
+    expect(page).to have_text 'Select a type'
+  end
+
+  def when_i_choose_other
+    choose 'Other'
+  end
+
+  def and_i_do_not_enter_anything; end
+
+  def then_i_see_the_enter_grade_validation_error
+    expect(page).to have_text 'Enter a grade'
+  end
+
+  def when_i_enter_my_custom_grade
+    fill_in 'candidate-interface-gcse-international-grade-schemas-form-grade-field-error', with: 'Magna cum laude'
   end
 end

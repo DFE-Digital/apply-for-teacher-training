@@ -5,6 +5,7 @@ module CandidateInterface
                                                                                                structured_grades: @structured_grades,
                                                                                                percentage: @selected_grade_schema&.type == 'Percentage')
       @list_of_grades = @structured_grades.any?
+      @back_path = new_flow_back_path
     end
 
     def edit
@@ -53,6 +54,10 @@ module CandidateInterface
     end
 
   private
+
+    def new_flow_back_path
+      @grade_schemas.present? && @grade_schemas.many? ? candidate_interface_gcse_new_international_flow_new_grade_schemas_path : candidate_interface_gcse_new_international_flow_new_qualifications_path
+    end
 
     def failing_grade?
       InspectInternationalGcseGrade.new(current_qualification).failing?
