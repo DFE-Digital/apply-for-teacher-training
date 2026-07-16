@@ -16,11 +16,11 @@ module EndOfCycle
       end
 
       if Time.zone.now.after?(previous_timetable.winter_reject_by_default_at)
-        EndOfCycle::WinterRejectByDefaultWorker.perform_async(true)
+        EndOfCycle::WinterRejectByDefaultWorker.perform_later(true)
       end
 
       if Time.zone.now.after?(previous_timetable.winter_decline_by_default_at)
-        EndOfCycle::WinterDeclineByDefaultWorker.perform_async(true)
+        EndOfCycle::WinterDeclineByDefaultWorker.perform_later(true)
       end
     end
 

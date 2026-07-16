@@ -89,7 +89,6 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker do
 
     it 'does not return an application form from the previous cycle' do
       travel_temporarily_to(first_reminder_date) do
-
         create(
           :application_form,
           application_choices: [build(:application_choice, :application_not_sent)],
