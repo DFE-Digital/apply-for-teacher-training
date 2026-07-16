@@ -30,6 +30,8 @@ class ApplicationForm < ApplicationRecord
            :current_year?,
            :winter_reject_by_default_at,
            :winter_decline_by_default_at,
+           :after_winter_decline_by_default?,
+           :after_winter_reject_by_default?,
            to: :recruitment_cycle_timetable
 
   belongs_to :candidate, touch: true
@@ -414,6 +416,10 @@ class ApplicationForm < ApplicationRecord
 
   def september_application_choices
     @september_application_choices ||= application_choices.course_start_in_september(recruitment_cycle_year)
+  end
+
+  def non_september_application_choices
+    @non_september_application_choices ||= application_choices.course_starts_after_september(recruitment_cycle_year)
   end
 
   def carry_over?

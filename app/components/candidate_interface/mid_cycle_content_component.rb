@@ -1,11 +1,18 @@
 module CandidateInterface
   class MidCycleContentComponent < ApplicationComponent
-    def initialize(application_form:)
+    def initialize(application_form:, with_title: true)
       @application_form = application_form
       @completed_application_form_details = CandidateInterface::CompletedApplicationForm.new(application_form:)
+      @with_title = with_title
     end
 
-    attr_reader :application_form
+    attr_reader :application_form, :with_title
+
+    def application_choices
+      @application_choices ||= CandidateInterface::SortApplicationChoices.call(
+        application_choices: application_form.application_choices.for_sorting,
+      )
+    end
 
     def application_form_presenter
       @application_form_presenter ||= CandidateInterface::ApplicationFormPresenter.new(application_form)

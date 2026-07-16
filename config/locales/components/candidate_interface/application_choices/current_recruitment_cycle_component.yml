@@ -1,0 +1,5 @@
+en:
+  candidate_interface:
+    application_choices:
+      current_recruitment_cycle_component:
+        academic_year_title: Courses for the %{year_range} academic year

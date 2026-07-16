@@ -1,0 +1,18 @@
+en:
+  candidate_interface:
+    application_choices:
+      january_start_component:
+        title: Courses starting by January %{year}
+        provider_deadline_content:
+            Providers have until %{reject_by} to make decisions on these applications.
+        awaiting_provider_decision_content:
+          title: Applications awaiting a provider decision
+          rejected automatically:
+            Applications will be rejected automatically at %{reject_by} if providers do not respond.
+        reject_by_default_explanation: Some of your applications have been rejected because the provider did not respond before the deadline.
+        decline_by_default_explanation: Some of your offers have been declined because you did not respond before the deadline.
+        offered_content:
+          title: Offers awaiting your response
+          declined automatically:
+            Offers will be declined automatically at %{decline_by} if you do not respond.
+

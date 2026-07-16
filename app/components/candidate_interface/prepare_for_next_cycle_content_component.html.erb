@@ -1,0 +1,36 @@
+<h2 class="govuk-heading-l">Courses for the <%= academic_year_range_name %> academic year</h2>
+
+<p class="govuk-body">
+  <% if after_find_opens? %>
+    You can now <%= govuk_link_to('find teacher training courses', t('find_teacher_training.production_url')) %> starting in the <%= academic_year_range_name %> academic year.
+  <% else %>
+    You will be able to view courses starting in the <%= academic_year_range_name %> academic year from <%= find_opens %>.
+  <% end %>
+</p>
+
+<% if after_find_opens? %>
+  <p class="govuk-body">
+    You will be able to apply from <%= apply_opens %>, but you can start preparing your applications now.
+  </p>
+
+  <p class="govuk-body">
+    Before you can apply again, you'll need to:
+
+    <%= govuk_list(
+      [
+        govuk_link_to('confirm your references are up to date', candidate_interface_details_path),
+        govuk_link_to('enter or confirm your equality and diversity information', candidate_interface_details_path),
+        govuk_link_to('confirm whether you have started teacher training in the past', candidate_interface_details_path),
+      ],
+      type: :bullet,
+    ) %>
+  </p>
+
+  <% if show_button? %>
+    <%= govuk_button_link_to t('carried_over_content_component.add_application_choice'), candidate_interface_course_choices_do_you_know_the_course_path %>
+  <% end %>
+<% else %>
+  <p class="govuk-body">
+    You will be able to apply from <%= apply_opens %>.
+  </p>
+<% end %>

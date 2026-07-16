@@ -1,0 +1,28 @@
+<h2 class="<%= heading_class %>">
+  <%= heading %>
+</h2>
+
+<% if reject_by_default_explanation.present? %>
+  <p class="govuk-body"><%= reject_by_default_explanation %></p>
+<% end %>
+
+<% if decline_by_default_explanation.present? %>
+  <p class="govuk-body"><%= decline_by_default_explanation %></p>
+<% end %>
+
+<% if awaiting_provider_decision_content.present? %>
+  <h3 class="govuk-heading-s govuk-!-margin-bottom-1"><%= awaiting_provider_decision_content[:title] %></h3>
+  <p class="govuk-body"><%= awaiting_provider_decision_content[:content] %></p>
+<% end %>
+
+<% if offered_content.present? %>
+  <h3 class="govuk-heading-s govuk-!-margin-bottom-1"><%= offered_content[:title] %></h3>
+  <p class="govuk-body"><%= offered_content[:content] %></p>
+<% end %>
+
+<%= render CandidateInterface::ApplicationChoiceListComponent.new(
+  application_form:,
+  application_choices: application_choices,
+  current_tab_name: params[:current_tab_name],
+  with_tabs:,
+) %>

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Candidate do
+  include ActiveSupport::Testing::TimeHelpers
+
   before do
     TestSuiteTimeMachine.unfreeze!
   end
@@ -658,7 +660,16 @@ RSpec.describe Candidate do
   describe '#active_previous_application' do
     let(:candidate) { create(:candidate) }
     let(:current_application_form) { create(:application_form, candidate: candidate) }
-    let(:previous_application_form) { create(:application_form, candidate: candidate, created_at: 1.year.ago) }
+    let(:previous_application_form) do
+      create(
+        :application_form,
+        candidate: candidate,
+        created_at: current_application_form.created_at - 1.year,
+        recruitment_cycle_year: current_application_form.recruitment_cycle_year - 1,
+      )
+    end
+    let(:jan_course) { create(:course, start_date: "01/01/#{current_application_form.recruitment_cycle_year}") }
+    let(:jan_course_option) { create(:course_option, course: jan_course) }
 
     before do
       current_application_form
@@ -668,7 +679,13 @@ RSpec.describe Candidate do
     context 'when the previous application has application choices with "in progress" states' do
       %i[awaiting_provider_decision interviewing pending_conditions recruited offer inactive].each do |status|
         it "returns the previous application form (status: #{status})" do
-          create(:application_choice, application_form: previous_application_form, status:)
+          create(
+            :application_choice,
+            application_form: previous_application_form,
+            status:,
+            current_recruitment_cycle_year: previous_application_form.recruitment_cycle_year,
+            course_option: jan_course_option,
+          )
           expect(candidate.active_previous_application).to eq(previous_application_form)
         end
       end
@@ -678,9 +695,41 @@ RSpec.describe Candidate do
       %i[unsubmitted cancelled rejected application_not_sent offer_withdrawn declined offer_deferred
          withdrawn conditions_not_met].each do |status|
         it "returns nil (status: #{status})" do
-          create(:application_choice, application_form: previous_application_form, status:)
+          create(
+            :application_choice,
+            application_form: previous_application_form,
+            status:,
+            current_recruitment_cycle_year: previous_application_form.recruitment_cycle_year,
+            course_option: jan_course_option,
+          )
           expect(candidate.active_previous_application).to be_nil
         end
+      end
+    end
+
+    context 'when the previous application has application choices rejected by default' do
+      it 'returns the previous application form' do
+        create(
+          :application_choice,
+          :rejected_by_default,
+          application_form: previous_application_form,
+          current_recruitment_cycle_year: previous_application_form.recruitment_cycle_year,
+          course_option: jan_course_option,
+        )
+        expect(candidate.active_previous_application).to eq(previous_application_form)
+      end
+    end
+
+    context 'when the previous application has application choices declined by default' do
+      it 'returns the previous application form' do
+        create(
+          :application_choice,
+          :declined_by_default,
+          application_form: previous_application_form,
+          current_recruitment_cycle_year: previous_application_form.recruitment_cycle_year,
+          course_option: jan_course_option,
+        )
+        expect(candidate.active_previous_application).to eq(previous_application_form)
       end
     end
   end
@@ -688,7 +737,16 @@ RSpec.describe Candidate do
   describe '#active_application_choices' do
     let(:candidate) { create(:candidate) }
     let(:current_application_form) { create(:application_form, candidate: candidate) }
-    let(:previous_application_form) { create(:application_form, candidate: candidate, created_at: 1.year.ago) }
+    let(:previous_application_form) do
+      create(
+        :application_form,
+        candidate: candidate,
+        created_at: current_application_form.created_at - 1.year,
+        recruitment_cycle_year: current_application_form.recruitment_cycle_year - 1,
+      )
+    end
+    let(:jan_course) { create(:course, start_date: "01/01/#{current_application_form.recruitment_cycle_year}") }
+    let(:jan_course_option) { create(:course_option, course: jan_course) }
     let(:current_application_choice) { create(:application_choice, application_form: current_application_form) }
 
     before do
@@ -698,7 +756,13 @@ RSpec.describe Candidate do
 
     context 'when the previous application has application choices with an "in progress" states' do
       let(:previous_application_choice) do
-        create(:application_choice, application_form: previous_application_form, status: :awaiting_provider_decision)
+        create(
+          :application_choice,
+          application_form: previous_application_form,
+          status: :awaiting_provider_decision,
+          current_recruitment_cycle_year: previous_application_form.recruitment_cycle_year,
+          course_option: jan_course_option,
+        )
       end
 
       it 'returns application choices for both the current application form and previous application form' do
@@ -708,7 +772,13 @@ RSpec.describe Candidate do
 
     context 'when the previous application has application choices not with an "in progress" states' do
       let(:previous_application_choice) do
-        create(:application_choice, application_form: previous_application_form, status: :rejected)
+        create(
+          :application_choice,
+          application_form: previous_application_form,
+          status: :rejected,
+          current_recruitment_cycle_year: previous_application_form.recruitment_cycle_year,
+          course_option: jan_course_option,
+        )
       end
 
       it 'returns application choices for both the current application form and previous application form' do

@@ -38,6 +38,7 @@ RSpec.describe 'Candidate edits their choice section' do
   end
 
   def and_i_have_applications
+    @current_candidate.application_forms.destroy_all
     @application_form = create(:application_form, candidate: @current_candidate, course_choices_completed: true)
     @first_application_choice = create(:application_choice, :unsubmitted, application_form: @application_form)
     @second_application_choice = create(:application_choice, :awaiting_provider_decision, application_form: @application_form)

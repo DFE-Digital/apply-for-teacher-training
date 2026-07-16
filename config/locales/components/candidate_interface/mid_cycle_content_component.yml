@@ -7,9 +7,9 @@ en:
     email_for_help_html: Email %{email_address} if you need help with your applications.
     becoming_a_teacher_email: becomingateacher@digital.education.gov.uk
     training_providers_offer_places_throughout_the_year: >
-      Training providers offer places on courses as people apply throughout the year. Courses can fill up quickly, so you should apply as soon as you are ready rather than putting it off.
-    courses_fill_up_quickly: Courses can fill up quickly, so you should apply as soon as you are ready rather than putting it off.
-    read_how_the_application_process_works: Read how the application process works
+      Training providers make offers throughout the year. They may close applications early if a course fills up. If a course closes, you will need to wait until next year to apply.
+    courses_fill_up_quickly: Courses can fill up quickly, so apply as soon as you are ready. If a course closes, you will need to wait until next year to apply.
+    read_how_the_application_process_works: How the application process works
     add_application: Add application
     you_cannot_add_any_more_applications: You cannot create any more applications at the moment.
     you_can_add_more_applications_if: "You can create another application if one of your applications is either:"

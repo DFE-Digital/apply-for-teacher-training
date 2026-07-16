@@ -187,6 +187,14 @@ class RecruitmentCycleTimetable < ApplicationRecord
     Time.zone.now.after? reject_by_default_at
   end
 
+  def after_winter_decline_by_default?
+    Time.zone.now.after? winter_decline_by_default_at
+  end
+
+  def after_winter_reject_by_default?
+    Time.zone.now.after? winter_reject_by_default_at
+  end
+
   def after_apply_deadline?
     Time.zone.now.after? apply_deadline_at
   end
@@ -221,6 +229,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
 
   def approaching_apply_deadline?
     Time.zone.now.after? show_banners_at
+  end
+
+  def approaching_winter_reject_by_default?
+    Time.zone.now.after? winter_reject_by_default_at - 1.week
   end
 
   def next_year?

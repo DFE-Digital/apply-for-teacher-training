@@ -22,6 +22,7 @@ module CandidateInterface
              :previous_teacher_training_completed,
              :cannot_submit_more_choices?,
              :total_submitted_application_limit_reached?,
+             :recruitment_cycle_timetable,
              :support_reference, to: :application_form
 
     def initialize(application_form)
@@ -366,6 +367,12 @@ module CandidateInterface
       # This is shown primary when an application is carried over,
       # when these sections may have been previously completed, but need to be revisited in the new year
       incomplete_sections.map(&:name).sort == %i[equality_and_diversity previous_teacher_training references_selected]
+    end
+
+    def show_previous_applications?
+      return false unless candidate_has_previously_applied?
+
+      !previous_application_form.current_cycle?
     end
 
   private

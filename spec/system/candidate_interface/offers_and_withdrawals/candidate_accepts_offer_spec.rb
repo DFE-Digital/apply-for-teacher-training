@@ -9,7 +9,6 @@ RSpec.describe 'Candidate accepts an offer' do
       given_i_am_signed_in_with_one_login
       and_i_have_2_offers_on_my_choices
       and_1_choice_that_is_awaiting_provider_decision
-
       when_i_visit_my_applications
       and_i_click_to_view_my_application
       then_i_see_the_offer
@@ -131,6 +130,7 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   def and_i_have_2_offers_on_my_choices
+    @current_candidate.application_forms.destroy_all
     @application_form = create(
       :completed_application_form,
       first_name: 'Harry',

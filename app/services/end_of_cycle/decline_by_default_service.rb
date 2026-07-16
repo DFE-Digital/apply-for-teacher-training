@@ -20,7 +20,23 @@ module EndOfCycle
   private
 
     def application_choices_to_decline
-      @application_form.application_choices.offer
+      if run_winter_decline_by_default?
+        @application_form
+          .application_choices
+          .course_starts_after_september(
+            @application_form.recruitment_cycle_year,
+          )
+      else
+        @application_form
+          .application_choices
+          .course_start_in_september(
+            @application_form.recruitment_cycle_year,
+          )
+      end.offer
+    end
+
+    def run_winter_decline_by_default?
+      @application_form.recruitment_cycle_timetable.after_winter_decline_by_default?
     end
   end
 end

@@ -14,6 +14,7 @@ RSpec.describe 'Candidate viewing booked interviews' do
   end
 
   def and_i_have_interviews_booked
+    current_candidate.application_forms.destroy_all
     application_form = create(:application_form, :completed, candidate: current_candidate)
     @application_choice = create(:application_choice, :interviewing, application_form:)
     create(:interview, location: 'interview 1', application_choice: @application_choice)

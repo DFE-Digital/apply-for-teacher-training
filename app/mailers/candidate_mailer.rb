@@ -115,11 +115,7 @@ class CandidateMailer < ApplicationMailer
         c.type != 'ReferenceCondition' &&
         !c.standard_condition?
     end
-    @deadline_date = if @application_choice.course.present? && @application_choice.starts_after_september?
-                       @application_form.winter_decline_by_default_at
-                     else
-                       @application_form.decline_by_default_at
-                     end.to_fs(:govuk_date_time_time_first)
+    @deadline_date = @application_choice.decline_by_default_date.to_fs(:govuk_date_time_time_first)
     email_for_candidate(@application_form, subject: I18n.t('candidate_mailer.new_offer_made.subject', provider_name: @course.provider.name))
   end
 

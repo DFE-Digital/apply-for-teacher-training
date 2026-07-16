@@ -116,8 +116,14 @@ class ApplicationChoice < ApplicationRecord
       .where(current_recruitment_cycle_year: recruitment_cycle_year)
       .where('courses.start_date <= ?', start_date)
   }
+  scope :for_sorting, lambda {
+    includes(:course, :site, :provider, :current_course, :current_course_option, :interviews)
+      .includes(offer: :conditions)
+  }
 
   def starts_after_september?
+    return false if course.blank?
+
     course.start_date > Date.parse("30/09/#{current_recruitment_cycle_year}").at_end_of_day ||
       (
         course.start_date < Date.parse("31/08/#{current_recruitment_cycle_year}").at_end_of_day &&
@@ -371,6 +377,24 @@ class ApplicationChoice < ApplicationRecord
 
   def undergraduate_course_and_application_form_with_degree?
     undergraduate? && application_form.degrees?
+  end
+
+  def decline_by_default_date
+    timetable = application_form.recruitment_cycle_timetable
+    if starts_after_september?
+      timetable.winter_decline_by_default_at
+    else
+      timetable.decline_by_default_at
+    end
+  end
+
+  def reject_by_default_date
+    timetable = application_form.recruitment_cycle_timetable
+    if starts_after_september?
+      timetable.winter_reject_by_default_at
+    else
+      timetable.reject_by_default_at
+    end
   end
 
 private
