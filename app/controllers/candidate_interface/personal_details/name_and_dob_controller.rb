@@ -2,7 +2,7 @@ module CandidateInterface
   module PersonalDetails
     class NameAndDobController < CandidateInterfaceController
       def new
-        @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
+        @personal_details_form = PersonalDetailsForm.build_from_application(current_application, state: :new)
       end
 
       def edit

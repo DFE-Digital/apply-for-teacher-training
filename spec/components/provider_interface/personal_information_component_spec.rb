@@ -28,6 +28,7 @@ RSpec.describe ProviderInterface::PersonalInformationComponent do
     ['First name', 'Last name', 'Date of birth', 'Nationality'].each do |key|
       expect(result.css('.govuk-summary-list__key').text).to include(key)
     end
+    expect(result.css('.govuk-summary-list__key').text).not_to include('Previous last names')
   end
 
   it 'renders the candidate first name' do
@@ -48,6 +49,26 @@ RSpec.describe ProviderInterface::PersonalInformationComponent do
 
   it 'renders the candidate id' do
     expect(result.css('.govuk-summary-list__value').text).to include(candidate_id)
+  end
+
+  context 'when the application form has previous last names' do
+    let(:application_form) do
+      build_stubbed(
+        :completed_application_form,
+        :with_previous_last_names,
+        support_reference: 'AB123',
+        date_of_birth: Date.new(2000, 1, 1),
+        first_nationality: 'British',
+        second_nationality: 'Irish',
+        third_nationality: 'Spanish',
+        candidate_id:,
+      )
+    end
+
+    it 'renders the candidate previous last names' do
+      expect(result.css('.govuk-summary-list__key').text).to include('Previous last names')
+      expect(result.css('.govuk-summary-list__value').text).to include(application_form.previous_last_names)
+    end
   end
 
   context 'with visa expiry flag on and candidate is international' do

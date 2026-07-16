@@ -93,6 +93,7 @@ RSpec.describe 'Candidate account' do
     click_link_or_button 'Personal information'
     fill_in 'First name', with: name
     fill_in 'Last name', with: 'Smith'
+    choose 'No' # Have you ever had a different last name?
     fill_in 'Day', with: '1'
     fill_in 'Month', with: '1'
     fill_in 'Year', with: '1990'

@@ -9,11 +9,11 @@ module CandidateInterface
     validates :has_previous_last_names, presence: true
     validates :previous_last_names, presence: true, if: :previous_last_names_declared?
 
-    def self.build_from_application(application_form)
+    def self.build_from_application(application_form, state: :edit)
       new(
         first_name: application_form.first_name,
         last_name: application_form.last_name,
-        has_previous_last_names: application_form.previous_last_names.present? ? 1 : 0,
+        has_previous_last_names: assign_has_previous_last_names(state, application_form),
         previous_last_names: application_form.previous_last_names,
         day: application_form.date_of_birth&.day,
         month: application_form.date_of_birth&.month,
@@ -56,6 +56,12 @@ module CandidateInterface
     end
 
   private
+
+    def self.assign_has_previous_last_names(state, application_form)
+      return unless state == :edit
+
+      application_form.previous_last_names.present? ? 1 : 0
+    end
 
     def previous_last_names_declared?
       has_previous_last_names.to_i.positive?

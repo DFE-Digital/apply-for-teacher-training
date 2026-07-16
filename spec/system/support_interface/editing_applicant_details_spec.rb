@@ -24,6 +24,9 @@ RSpec.describe 'Editing application details' do
 
     when_i_update_the_applicant_nationality
     then_i_see_the_updated_nationality
+
+    when_i_update_the_applicant_previous_last_names
+    then_i_see_the_updated_previous_last_names
   end
 
   def when_i_update_the_applicant_nationality
@@ -48,6 +51,15 @@ RSpec.describe 'Editing application details' do
 
     click_link_or_button 'History'
     expect(page).to have_text 'Changed nationality details - zendesk ticket 1234'
+  end
+
+  def then_i_see_the_updated_previous_last_names
+    within('[data-qa="personal-information"]') do
+      expect(page).to have_text 'Jackson, Avery'
+    end
+
+    click_link_or_button 'History'
+    expect(page).to have_text 'Changed previous last names - zendesk ticket 1234'
   end
 
   def given_i_am_a_support_user
@@ -167,5 +179,13 @@ RSpec.describe 'Editing application details' do
     and_i_see_the_new_phone_number
     and_i_see_the_new_email_address
     and_i_see_my_comment_in_the_audit_log
+  end
+
+  def when_i_update_the_applicant_previous_last_names
+    click_link_or_button 'Details'
+    click_link_or_button 'Change previous last names'
+    fill_in 'Previous last names', with: 'Jackson, Avery'
+    fill_in 'Audit log comment', with: 'Changed previous last names - zendesk ticket 1234'
+    and_i_submit_the_update_form
   end
 end

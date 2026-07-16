@@ -42,4 +42,43 @@ RSpec.describe SupportInterface::ApplicationForms::EditApplicantDetailsForm, typ
       end
     end
   end
+
+  describe '#save!' do
+    let(:attributes) do
+      {
+        first_name: 'Cloud',
+        last_name: 'Strife',
+        email_address: 'cloud.strife@example.com',
+        phone_number: '99999 1111111',
+        audit_comment: 'Audit comment',
+      }
+    end
+
+    it 'updates the attributes of an application form' do
+      model.assign_attributes(attributes)
+      model.save!
+      expect(application_form.reload).to have_attributes(attributes.except(:email_address, :audit_comment))
+      expect(application_form.candidate.reload.email_address).to eq('cloud.strife@example.com')
+    end
+
+    context 'when given previous last names' do
+      let(:attributes) do
+        {
+          first_name: 'Gandalf',
+          last_name: 'The White',
+          previous_last_names: 'The Grey',
+          email_address: 'gandalf.the.white@example.com',
+          phone_number: '99999 1111111',
+          audit_comment: 'Audit comment',
+        }
+      end
+
+      it 'updates the attributes of an application form' do
+        model.assign_attributes(attributes)
+        model.save!
+        expect(application_form.reload).to have_attributes(attributes.except(:email_address, :audit_comment))
+        expect(application_form.candidate.reload.email_address).to eq('gandalf.the.white@example.com')
+      end
+    end
+  end
 end

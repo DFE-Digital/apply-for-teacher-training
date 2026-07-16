@@ -15,7 +15,7 @@ RSpec.describe SupportInterface::PersonalInformationComponent do
   subject(:result) { render_inline(described_class.new(application_form:)) }
 
   it 'renders component with correct labels' do
-    ['First name', 'Last name', 'Date of birth', 'Nationality'].each do |key|
+    ['First name', 'Last name', 'Previous last names', 'Date of birth', 'Nationality'].each do |key|
       expect(result.css('.govuk-summary-list__key').text).to include(key)
     end
   end
@@ -47,6 +47,24 @@ RSpec.describe SupportInterface::PersonalInformationComponent do
 
   it 'shows change links' do
     expect(result.css('a').first.text).to eq('Change first name')
+  end
+
+  context 'when the application form has previous last names' do
+    let(:application_form) do
+      create(
+        :completed_application_form,
+        :with_previous_last_names,
+        support_reference: 'AB123',
+        date_of_birth: Date.new(2000, 1, 1),
+        first_nationality: 'British',
+        second_nationality: 'Irish',
+        third_nationality: 'Spanish',
+      )
+    end
+
+    it 'renders the candidate previous last names' do
+      expect(result.css('.govuk-summary-list__value').text).to include(application_form.previous_last_names)
+    end
   end
 
   context 'when the application form has a subsequent application' do

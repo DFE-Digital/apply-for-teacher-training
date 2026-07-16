@@ -117,6 +117,58 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
         ),
       )
     end
+
+    context 'with previous last names' do
+      it 'returns the correct link when previous first names are present' do
+        personal_details_form = build(
+          :personal_details_form,
+          first_name: nil,
+          last_name: nil,
+          previous_last_names: 'Jackson, Avery',
+          day: nil,
+          month: nil,
+          year: nil,
+        )
+
+        expect(rows(personal_details_form:)).to include(
+          hash_including(
+            key: 'Previous last names',
+            value: 'Jackson, Avery',
+            html_attributes: { data: { qa: 'personal-details-previous-last-names' } },
+            action: {
+              href: "/candidate/application/personal-information/edit?return-to=application-review",
+              visually_hidden_text: "previous last names",
+            },
+          ),
+        )
+      end
+    end
+
+    context 'without previous last names' do
+      it 'returns the correct link when previous first names are present' do
+        personal_details_form = build(
+          :personal_details_form,
+          first_name: nil,
+          last_name: nil,
+          previous_last_names: nil,
+          day: nil,
+          month: nil,
+          year: nil,
+          )
+
+        expect(rows(personal_details_form:)).to include(
+        hash_including(
+          key: 'Previous last names',
+          value: 'None',
+          html_attributes: { data: { qa: 'personal-details-previous-last-names' } },
+          action: {
+              href: "/candidate/application/personal-information/edit?return-to=application-review",
+              visually_hidden_text: "previous last names",
+            },
+          ),
+        )
+      end
+    end
   end
 
   context 'when presenting nationality' do
