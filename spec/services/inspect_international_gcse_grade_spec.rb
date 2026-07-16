@@ -2,19 +2,21 @@ require 'rails_helper'
 
 RSpec.describe InspectInternationalGcseGrade do
   let(:country_code) { 'NG' }
+  let(:qualification_subject) { 'maths' }
 
   let(:qualification) do
     build(
       :application_qualification,
       level: 'gcse',
       grade:,
+      subject: qualification_subject,
       non_uk_qualification_type: 'WASSCE (West African Senior School Certificate Examination)',
       institution_country: country_code,
     )
   end
 
   let(:finder) do
-    InternationalQualifications::StructuredGcseOptionFinder.new(country_code)
+    InternationalQualifications::StructuredGcseOptionFinder.new(country_code, subject)
   end
 
   let(:equivalent_qualification) do

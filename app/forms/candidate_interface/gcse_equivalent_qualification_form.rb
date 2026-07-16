@@ -25,9 +25,18 @@ module CandidateInterface
     def save(application_qualification)
       return false unless valid?
 
-      application_qualification.update!(
-        non_uk_qualification_type: non_structured? ? non_structured_qualification : qualification,
-      )
+      attributes = {
+        non_uk_qualification_type: resolved_qualification,
+      }
+
+      if resolved_qualification != application_qualification.non_uk_qualification_type
+        attributes.merge!(
+          selected_grade_schema_id: nil,
+          grade: nil,
+        )
+      end
+
+      application_qualification.update!(attributes)
     end
 
     def non_structured?

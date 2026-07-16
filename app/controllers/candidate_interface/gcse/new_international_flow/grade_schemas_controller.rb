@@ -1,11 +1,11 @@
 module CandidateInterface
   class Gcse::NewInternationalFlow::GradeSchemasController < Gcse::NewInternationalFlow::BaseController
     def new
-      @grade_schemas_form = GcseInternationalGradeSchemasForm.new
+      @grade_schemas_form = GcseInternationalGradeSchemasForm.build_from_qualification(current_qualification)
     end
 
     def edit
-      @grade_schemas_form = GcseInternationalGradeSchemasForm.new
+      @grade_schemas_form = GcseInternationalGradeSchemasForm.build_from_qualification(current_qualification)
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
     end
 
@@ -33,7 +33,7 @@ module CandidateInterface
   private
 
     def grade_schema_params
-      params.expect(candidate_interface_gcse_international_grade_schemas_form: [:schema])
+      params.expect(candidate_interface_gcse_international_grade_schemas_form: [:schema_id])
     end
   end
 end

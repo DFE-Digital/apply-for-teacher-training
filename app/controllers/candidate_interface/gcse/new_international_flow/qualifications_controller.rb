@@ -16,7 +16,7 @@ module CandidateInterface
       @list_of_qualifications = @equivalent_qualifications&.any?
 
       if @equivalent_qualification_form.save(current_qualification)
-        redirect_to next_path_for_selected_qualification
+        redirect_to next_new_path_for_selected_qualification
       else
         track_validation_error(@equivalent_qualification_form)
         render :new
@@ -32,7 +32,7 @@ module CandidateInterface
 
       if @equivalent_qualification_form.save(current_qualification)
         if qualification_changed
-          redirect_to candidate_interface_gcse_new_international_flow_edit_grades_path(@subject)
+          redirect_to next_edit_path_for_selected_qualification
         else
           redirect_to @return_to[:back_path]
         end
@@ -44,11 +44,19 @@ module CandidateInterface
 
   private
 
-    def next_path_for_selected_qualification
+    def next_new_path_for_selected_qualification
       if multiple_grade_schemas_for_selected_qualification?
-        candidate_interface_gcse_new_international_flow_new_grade_schemas_path
+        candidate_interface_gcse_new_international_flow_new_grade_schemas_path(@subject)
       else
-        candidate_interface_gcse_new_international_flow_new_grades_path
+        candidate_interface_gcse_new_international_flow_new_grades_path(@subject)
+      end
+    end
+
+    def next_edit_path_for_selected_qualification
+      if multiple_grade_schemas_for_selected_qualification?
+        candidate_interface_gcse_new_international_flow_edit_grade_schemas_path(@subject)
+      else
+        candidate_interface_gcse_new_international_flow_edit_grades_path(@subject)
       end
     end
 
