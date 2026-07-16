@@ -38,6 +38,18 @@ module DfE
               type: 'Percentage',
               hint: 'For example, 70%',
             },
+            'bad86f85-e46d-413f-8d6c-525e6ecc0d8b' => {
+              passing_grades: %w[A1 A2 B1 B2 C1 C2 D1 D2 E],
+              failing_grades: %w[],
+              type: 'Letter and number grade',
+              hint: 'For example, B2',
+            },
+            'dce2ff0f-018e-436f-9439-79c65ae2ed26' => {
+              passing_grades: (0..100).to_a.map { |n| "#{n}%" },
+              failing_grades: %w[],
+              type: 'Percentage',
+              hint: 'For example, 70%',
+            },
 
           },
           schema: INTERNATIONAL_GRADES_SCHEMA,

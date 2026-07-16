@@ -5,7 +5,7 @@ RSpec.describe InternationalQualifications::StructuredGcseOptionFinder do
     context 'where country has an equivalent qualification' do
       %w[NG GH SL GM LR].each do |country_code|
         it "returns WASSCE for #{country_code}" do
-          equivalent_qualifications = described_class.new(country_code).equivalent_qualifications
+          equivalent_qualifications = described_class.new(country_code, 'english').equivalent_qualifications
           expect(equivalent_qualifications.count).to eq 1
           equivalent_qualification = equivalent_qualifications.first
           expect(equivalent_qualification.name).to eq 'WASSCE (West African Senior School Certificate Examination)'
@@ -13,7 +13,7 @@ RSpec.describe InternationalQualifications::StructuredGcseOptionFinder do
         end
 
         it "attaches the relevant WASSCE grade schemes for #{country_code}" do
-          equivalent_qualification = described_class.new(country_code).equivalent_qualifications.first
+          equivalent_qualification = described_class.new(country_code, 'english').equivalent_qualifications.first
 
           expect(equivalent_qualification.grade_schemas.count).to eq 1
           grade_schema = equivalent_qualification.grade_schemas.first
@@ -24,7 +24,7 @@ RSpec.describe InternationalQualifications::StructuredGcseOptionFinder do
 
       %w[KE].each do |country_code|
         it "returns KCSE for #{country_code}" do
-          equivalent_qualifications = described_class.new(country_code).equivalent_qualifications
+          equivalent_qualifications = described_class.new(country_code, 'english').equivalent_qualifications
           expect(equivalent_qualifications.count).to eq 1
           equivalent_qualification = equivalent_qualifications.first
           expect(equivalent_qualification.name).to eq 'KCSE (Kenya Certificate of Secondary Education)'
@@ -32,7 +32,7 @@ RSpec.describe InternationalQualifications::StructuredGcseOptionFinder do
         end
 
         it "attaches the relevant KCSE grade schemes for #{country_code}" do
-          equivalent_qualification = described_class.new(country_code).equivalent_qualifications.first
+          equivalent_qualification = described_class.new(country_code, 'english').equivalent_qualifications.first
 
           expect(equivalent_qualification.grade_schemas.count).to eq 1
           grade_schema = equivalent_qualification.grade_schemas.first
@@ -46,7 +46,7 @@ RSpec.describe InternationalQualifications::StructuredGcseOptionFinder do
       let(:country_code) { 'DE' }
 
       it 'returns empty array' do
-        equivalent_qualifications = described_class.new(country_code).equivalent_qualifications
+        equivalent_qualifications = described_class.new(country_code, 'english').equivalent_qualifications
         expect(equivalent_qualifications).to eq([])
       end
     end

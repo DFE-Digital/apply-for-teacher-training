@@ -44,6 +44,6 @@ private
   end
 
   def finder
-    @finder ||= InternationalQualifications::StructuredGcseOptionFinder.new(qualification.institution_country)
+    @finder ||= InternationalQualifications::StructuredGcseOptionFinder.new(qualification.institution_country, qualification.subject)
   end
 end

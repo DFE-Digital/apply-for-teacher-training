@@ -73,7 +73,7 @@ module CandidateInterface
     def finder
       return if @institution_country.blank?
 
-      @finder ||= InternationalQualifications::StructuredGcseOptionFinder.new(@institution_country)
+      @finder ||= InternationalQualifications::StructuredGcseOptionFinder.new(@institution_country, @subject)
     end
 
     def redirect_if_feature_flag_inactive

@@ -2,11 +2,12 @@ module InternationalQualifications
   class StructuredGcseOptionFinder
     GcseOption = Data.define(:name, :countries, :grade_schemas)
 
-    def initialize(country_code)
+    def initialize(country_code, subject)
       @country_code = country_code.upcase
+      @subject = subject
     end
 
-    attr_reader :country_code
+    attr_reader :country_code, :subject
 
     def equivalent_qualifications
       @equivalent_qualifications ||= international_qualifications.map do |qual|
@@ -26,7 +27,7 @@ module InternationalQualifications
 
     def international_qualifications
       @international_qualifications ||= DfE::ReferenceData::International::Qualifications::QUALIFICATIONS.all_as_hash.values.filter do |option|
-        option.countries.include?(country_code)
+        option.countries.include?(country_code) && option.subjects.include?(subject)
       end
     end
 
