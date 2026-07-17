@@ -9,14 +9,23 @@ class PromptInactiveProviderUsersWorker < ApplicationJob
   def perform
     return if HostingEnvironment.qa? || HostingEnvironment.review? || HostingEnvironment.development?
 
-    ProviderUser.where(last_signed_in_at: almost_inactive_date.all_day)
+    relation = ProviderUser.where(last_signed_in_at: almost_inactive_date.all_day)
       .or(
         ProviderUser.where(
           last_signed_in_at: nil,
           created_at: almost_inactive_date.all_day,
         ),
-      ).find_each do |provider_user|
-      ProviderMailer.inactive_user_prompt(provider_user, inactive_date).deliver_later
+      )
+
+    BatchDelivery.new(
+      relation:,
+      batch_size: 100,
+      stagger_over: 10.minutes,
+    ).each do |batch_time, provider_users|
+      PromptInactiveProviderUsersBatchWorker.set(wait_until: batch_time).perform_later(
+        provider_users.map(&:id),
+        inactive_date,
+      )
     end
   end
 

@@ -3,22 +3,25 @@ require 'rails_helper'
 RSpec.describe PromptInactiveProviderUsersWorker do
   include ActiveSupport::Testing::TimeHelpers
 
+  let(:worker) { instance_double(ActiveJob::ConfiguredJob) }
+
+  before do
+    allow(PromptInactiveProviderUsersBatchWorker).to receive(:set).and_return(worker)
+    allow(worker).to receive(:perform_later)
+  end
+
   describe '#perform' do
     it 'prompts soon-to-be inactive provider users' do
       travel_to Time.zone.parse('2026-1-1 12:00:00') do
         should_prompt = create(:provider_user, :with_provider, last_signed_in_at: 12.months.ago - 2.weeks)
         should_not_prompt = create(:provider_user, :with_provider, last_signed_in_at: 12.months.ago - 2.weeks - 1.day)
 
-        mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-
-        allow(ProviderMailer).to receive(:inactive_user_prompt).and_return(mail)
-
         described_class.new.perform
 
-        expect(ProviderMailer).to have_received(:inactive_user_prompt).once.with(should_prompt, 2.weeks.from_now.to_date)
-        expect(mail).to have_received(:deliver_later).once
+        expect(PromptInactiveProviderUsersBatchWorker).to have_received(:set)
+        expect(worker).to have_received(:perform_later).with([should_prompt.id], 2.weeks.from_now.to_date)
 
-        expect(ProviderMailer).not_to have_received(:inactive_user_prompt).with(should_not_prompt, anything)
+        expect(worker).not_to have_received(:perform_later).with([should_not_prompt.id], anything)
       end
     end
 
@@ -27,16 +30,12 @@ RSpec.describe PromptInactiveProviderUsersWorker do
         should_prompt = create(:provider_user, :with_provider, last_signed_in_at: nil, created_at: 12.months.ago - 2.weeks)
         should_not_prompt = create(:provider_user, :with_provider, last_signed_in_at: nil, created_at: 12.months.ago - 2.weeks - 1.day)
 
-        mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-
-        allow(ProviderMailer).to receive(:inactive_user_prompt).and_return(mail)
-
         described_class.new.perform
 
-        expect(ProviderMailer).to have_received(:inactive_user_prompt).once.with(should_prompt, 2.weeks.from_now.to_date)
-        expect(mail).to have_received(:deliver_later).once
+        expect(PromptInactiveProviderUsersBatchWorker).to have_received(:set)
+        expect(worker).to have_received(:perform_later).with([should_prompt.id], 2.weeks.from_now.to_date)
 
-        expect(ProviderMailer).not_to have_received(:inactive_user_prompt).with(should_not_prompt, anything)
+        expect(worker).not_to have_received(:perform_later).with([should_not_prompt.id], anything)
       end
     end
 
@@ -45,44 +44,32 @@ RSpec.describe PromptInactiveProviderUsersWorker do
         should_prompt = create(:provider_user, :with_provider, last_signed_in_at: 12.months.ago - 2.weeks)
         should_not_prompt = create(:provider_user, :with_provider, last_signed_in_at: 12.months.ago - 2.weeks - 3.days)
 
-        mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-
-        allow(ProviderMailer).to receive(:inactive_user_prompt).and_return(mail)
-
         described_class.new.perform
 
-        expect(ProviderMailer).to have_received(:inactive_user_prompt).once.with(should_prompt, 2.weeks.from_now.to_date)
-        expect(mail).to have_received(:deliver_later).once
+        expect(PromptInactiveProviderUsersBatchWorker).to have_received(:set)
+        expect(worker).to have_received(:perform_later).with([should_prompt.id], 2.weeks.from_now.to_date)
 
-        expect(ProviderMailer).not_to have_received(:inactive_user_prompt).with(should_not_prompt, anything)
+        expect(worker).not_to have_received(:perform_later).with([should_not_prompt.id], anything)
       end
     end
 
     it 'does not prompt a recently added but never signed in user' do
       travel_to Time.zone.parse('2026-1-1 12:00:00') do
-        recently_added = create(:provider_user, :with_provider, last_signed_in_at: nil, created_at: 2.months.ago)
-
-        mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-
-        allow(ProviderMailer).to receive(:inactive_user_prompt).and_return(mail)
+        create(:provider_user, :with_provider, last_signed_in_at: nil, created_at: 2.months.ago)
 
         described_class.new.perform
 
-        expect(ProviderMailer).not_to have_received(:inactive_user_prompt).with(recently_added, anything)
+        expect(PromptInactiveProviderUsersBatchWorker).not_to have_received(:set)
       end
     end
 
     it 'does not prompt an active user' do
       travel_to Time.zone.parse('2026-1-1 12:00:00') do
-        active_user = create(:provider_user, :with_provider, last_signed_in_at: 1.week.ago)
-
-        mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-
-        allow(ProviderMailer).to receive(:inactive_user_prompt).and_return(mail)
+        create(:provider_user, :with_provider, last_signed_in_at: 1.week.ago)
 
         described_class.new.perform
 
-        expect(ProviderMailer).not_to have_received(:inactive_user_prompt).with(active_user, anything)
+        expect(PromptInactiveProviderUsersBatchWorker).not_to have_received(:set)
       end
     end
 
@@ -94,13 +81,24 @@ RSpec.describe PromptInactiveProviderUsersWorker do
           last_signed_in_at: Time.zone.parse('2024-12-18 15:59:59'),
         )
 
-        mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+        described_class.new.perform
 
-        allow(ProviderMailer).to receive(:inactive_user_prompt).and_return(mail)
+        expect(worker).to have_received(:perform_later).with([should_prompt.id], 2.weeks.from_now.to_date)
+      end
+    end
+
+    it 'batches users in groups of 100' do
+      travel_to Time.zone.parse('2026-1-1 12:00:00') do
+        create_list(
+          :provider_user,
+          101,
+          :with_provider,
+          last_signed_in_at: 12.months.ago - 2.weeks,
+        )
 
         described_class.new.perform
 
-        expect(ProviderMailer).to have_received(:inactive_user_prompt).with(should_prompt, 2.weeks.from_now.to_date)
+        expect(worker).to have_received(:perform_later).twice
       end
     end
   end
