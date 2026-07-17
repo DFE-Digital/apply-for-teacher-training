@@ -79,12 +79,16 @@ RSpec.describe 'Candidate edits a GCSE equivalent qualification from outside of 
     then_i_see_the_grade_schemas_step
 
     when_i_choose_percentage
+    and_i_click_save_and_continue
     then_i_do_not_see_the_previously_stored_grade_in_the_input_box
 
-    when_i_click_back # TODO: Add custom back logic to return to the type page if came from review
+    when_i_click_back
+    then_i_see_the_grade_schemas_step
+
+    when_i_click_back
     then_i_see_the_maths_gcse_review_page
 
-    when_i_click_to_change_the_grade
+    when_i_click_enter_your_grade
     then_i_see_the_grade_schemas_step
 
     when_i_choose_letter_and_number_grade
@@ -336,5 +340,9 @@ private
     then_i_see_the_year_step
 
     fill_in 'candidate-interface-gcse-year-form-award-year-field', with: '1996'
+  end
+
+  def when_i_click_enter_your_grade
+    click_link_or_button 'Enter your grade'
   end
 end

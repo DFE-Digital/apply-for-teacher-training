@@ -1,5 +1,5 @@
 <%= f.govuk_error_summary %>
-<% if @selected_grade_schema&.type == 'Percentage' %>
+<% if @selected_grade_schema&.description == 'Percentage' %>
   <%= f.govuk_text_field :grade, width: 3, label: { text: t('gcse_edit_new_international_flow_grade.page_title'), size: 'l', tag: 'h1' }, suffix_text: '%', inputmode: 'numeric' %>
 <% else %>
 <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: t('gcse_edit_new_international_flow_grade.page_title'), size: 'l', tag: 'h1' } do %>

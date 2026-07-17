@@ -14,7 +14,7 @@ module CandidateInterface
 
       if @grade_schemas_form.save(current_qualification)
         if @grade_schemas_form.other?
-          redirect_to candidate_interface_gcse_new_international_flow_new_enic_path(@subject)
+          redirect_to candidate_interface_gcse_new_international_flow_new_enic_path(@subject, 'return-to': 'schema-type')
         else
           redirect_to candidate_interface_gcse_new_international_flow_new_grades_path(@subject)
         end
@@ -29,9 +29,9 @@ module CandidateInterface
 
       if @grade_schemas_form.save(current_qualification)
         if @grade_schemas_form.other?
-          redirect_to candidate_interface_gcse_new_international_flow_edit_enic_path(@subject)
+          redirect_to candidate_interface_gcse_new_international_flow_edit_enic_path(@subject, 'return-to': 'schema-type')
         else
-          redirect_to candidate_interface_gcse_new_international_flow_edit_grades_path(@subject)
+          redirect_to candidate_interface_gcse_new_international_flow_edit_grades_path(@subject, 'return-to': 'schema-type')
         end
       else
         render :edit
