@@ -1,4 +1,27 @@
 
+## v1.8 — May 2026
+
+Some further changes were added to this version and all previous versions in May 2026. These changes reflect data candidates will start supplying in the 2026-27 recruitment cycle.
+
+- English language qualifications details
+- Residency details
+- Visa expiration information
+
+For this and future versions, the following changes have been made:
+
+- Interview status is now available on the API
+- Changes to the create interview endpoint allows providers to move candidates to an interviewing state without providing an interview object.
+
+Please refer to the [Version 1.8 changes](/api-docs/v1.8/reference#important) for details.
+
+## v1.7 — March 2026
+
+Some further changes were added to this version and all previous versions in March 2026:
+
+- Link to information about possible undeclared previous teacher training information
+
+Please refer to the [Version 1.7 changes](/api-docs/v1.7/reference#important) for details.
+
 ## v1.6 — October 2025
 
 Some further changes were added to this version and all previous versions in October 2025:
