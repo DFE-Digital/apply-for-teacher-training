@@ -5,9 +5,9 @@ class InspectInternationalGcseGrade
     @qualification = qualification
   end
 
-  def failing?
+  def likely_below?
     structured_grade_data_available? &&
-      qualification.grade.in?(failing_grades)
+      qualification.grade.in?(likely_below_level_four)
   end
 
   def structured_grade_data_available?
@@ -21,14 +21,14 @@ class InspectInternationalGcseGrade
 
 private
 
-  def failing_grades
-    selected_schema&.failing_grades || []
+  def likely_below_level_four
+    selected_schema&.likely_below_level_four || []
   end
 
   def grades
     return [] if selected_schema.blank?
 
-    selected_schema.passing_grades + selected_schema.failing_grades
+    selected_schema.likely_above_level_four + selected_schema.likely_below_level_four
   end
 
   def equivalent_qualification

@@ -60,7 +60,7 @@ module CandidateInterface
     end
 
     def failing_grade?
-      InspectInternationalGcseGrade.new(current_qualification).failing?
+      InspectInternationalGcseGrade.new(current_qualification).likely_below?
     end
 
     def structured_grade_params

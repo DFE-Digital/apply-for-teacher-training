@@ -29,7 +29,7 @@ RSpec.describe InspectInternationalGcseGrade do
     finder.grade_schemas(equivalent_qualification).first
   end
 
-  describe '#failing' do
+  describe '#likely_below?' do
     context 'when structured grade data is unavailable' do
       let(:grade) { 'E' }
 
@@ -38,7 +38,7 @@ RSpec.describe InspectInternationalGcseGrade do
       end
 
       it 'returns false' do
-        expect(described_class.new(qualification).failing?).to be(false)
+        expect(described_class.new(qualification).likely_below?).to be(false)
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe InspectInternationalGcseGrade do
       let(:grade) { 'Z' }
 
       it 'returns false' do
-        expect(described_class.new(qualification).failing?).to be(false)
+        expect(described_class.new(qualification).likely_below?).to be(false)
       end
     end
 
@@ -54,15 +54,15 @@ RSpec.describe InspectInternationalGcseGrade do
       let(:grade) { 'A2' }
 
       it 'returns false' do
-        expect(described_class.new(qualification).failing?).to be(false)
+        expect(described_class.new(qualification).likely_below?).to be(false)
       end
     end
 
-    context 'when the grade is a failing grade' do
+    context 'when the grade is a likely below grade' do
       let(:grade) { 'D7' }
 
       it 'returns true' do
-        expect(described_class.new(qualification).failing?).to be(true)
+        expect(described_class.new(qualification).likely_below?).to be(true)
       end
     end
   end

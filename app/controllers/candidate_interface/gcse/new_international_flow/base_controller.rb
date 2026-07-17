@@ -63,8 +63,8 @@ module CandidateInterface
     def set_structured_grades
       @structured_grades ||=
         if selected_grade_schema.present?
-          selected_grade_schema.passing_grades +
-            selected_grade_schema.failing_grades
+          selected_grade_schema.likely_above_level_four +
+            selected_grade_schema.likely_below_level_four
         else
           []
         end

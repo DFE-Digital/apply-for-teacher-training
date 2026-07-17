@@ -22,7 +22,7 @@ module CandidateInterface
         enic_statement_row,
         enic_reference_row,
         comparable_uk_qualification_row,
-        failing_grade_explanation_row,
+        grade_explanation_row,
         award_year_row,
       ].compact
     end
@@ -111,9 +111,9 @@ module CandidateInterface
       inspect_grade.multiple_grade_schemas_available? ? candidate_interface_gcse_new_international_flow_edit_grade_schemas_path(change_path_params) : candidate_interface_gcse_new_international_flow_edit_grades_path(change_path_params)
     end
 
-    def failing_grade_explanation_row
+    def grade_explanation_row
       return nil if application_qualification.grade.nil? || application_qualification.enic_reason.present?
-        || !inspect_grade.failing?
+        || !inspect_grade.likely_below?
 
       {
         key: "Evidence that your #{capitalize_english(subject)} skills are at GCSE grade 4 (C) or above",
@@ -154,7 +154,7 @@ module CandidateInterface
     end
 
     def enic_statement_row
-      return nil if (application_qualification.not_completed_explanation.present? && inspect_grade.failing?)
+      return nil if (application_qualification.not_completed_explanation.present? && inspect_grade.likely_below?)
         || application_qualification.grade.nil?
 
       {
@@ -164,7 +164,7 @@ module CandidateInterface
         if application_qualification.enic_reason?
           row[:action] =
             {
-              href: inspect_grade.failing? ? candidate_interface_gcse_new_international_flow_interruption_path(change_path_params) : candidate_interface_gcse_new_international_flow_edit_enic_path(change_path_params),
+              href: inspect_grade.likely_below? ? candidate_interface_gcse_new_international_flow_interruption_path(change_path_params) : candidate_interface_gcse_new_international_flow_edit_enic_path(change_path_params),
               visually_hidden_text: t('application_form.gcse.enic_statement.change_action'),
             }
         end
@@ -173,7 +173,7 @@ module CandidateInterface
 
     def enic_statement_value
       if application_qualification.enic_reason.nil?
-        govuk_link_to('Enter your ENIC status', inspect_grade.failing? ? candidate_interface_gcse_new_international_flow_interruption_path(change_path_params) : candidate_interface_gcse_new_international_flow_edit_enic_path(change_path_params))
+        govuk_link_to('Enter your ENIC status', inspect_grade.likely_below? ? candidate_interface_gcse_new_international_flow_interruption_path(change_path_params) : candidate_interface_gcse_new_international_flow_edit_enic_path(change_path_params))
       else
         t("gcse_edit_enic.#{application_qualification.enic_reason}")
       end

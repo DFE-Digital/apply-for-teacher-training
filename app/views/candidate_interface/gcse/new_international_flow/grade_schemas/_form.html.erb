@@ -5,7 +5,7 @@
     <%= f.govuk_radio_button(
       :schema_id,
       schema.id,
-      label: { text: schema.type },
+      label: { text: schema.description },
       hint: { text: schema.hint },
       link_errors: i.zero?,
     ) %>

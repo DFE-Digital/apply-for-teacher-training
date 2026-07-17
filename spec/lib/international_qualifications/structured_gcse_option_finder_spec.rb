@@ -17,8 +17,8 @@ RSpec.describe InternationalQualifications::StructuredGcseOptionFinder do
 
           expect(equivalent_qualification.grade_schemas.count).to eq 1
           grade_schema = equivalent_qualification.grade_schemas.first
-          expect(grade_schema.passing_grades).to eq(%w[A1 B2 B3 C4 C5 C6])
-          expect(grade_schema.failing_grades).to eq(%w[D7 E8 F9])
+          expect(grade_schema.likely_above_level_four).to eq(%w[A1 B2 B3 C4 C5 C6])
+          expect(grade_schema.likely_below_level_four).to eq(%w[D7 E8 F9])
         end
       end
 
@@ -36,8 +36,8 @@ RSpec.describe InternationalQualifications::StructuredGcseOptionFinder do
 
           expect(equivalent_qualification.grade_schemas.count).to eq 1
           grade_schema = equivalent_qualification.grade_schemas.first
-          expect(grade_schema.passing_grades).to eq(%w[A A− B+ B B− C+ C C−])
-          expect(grade_schema.failing_grades).to eq(%w[D+ D D− E])
+          expect(grade_schema.likely_above_level_four).to eq(%w[A A− B+ B B− C+ C C−])
+          expect(grade_schema.likely_below_level_four).to eq(%w[D+ D D− E])
         end
       end
     end
