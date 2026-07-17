@@ -3,7 +3,7 @@ class PromptInactiveProviderUsersWorker < ApplicationJob
 
   queue_as :low_priority
 
-  INACTIVE_MONTHS_AGO = 12
+  INACTIVE_MONTHS_AGO = RemoveInactiveProviderUsersWorker::INACTIVE_MONTHS_AGO
   PROMPT_WEEKS_BEFORE = 2
 
   def perform
