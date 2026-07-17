@@ -2,7 +2,7 @@ module CandidateInterface
   module PersonalDetails
     class NameAndDobController < CandidateInterfaceController
       def new
-        @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
+        @personal_details_form = PersonalDetailsForm.build_from_application(current_application, state: :new)
       end
 
       def edit
@@ -40,7 +40,7 @@ module CandidateInterface
       def personal_details_params
         strip_whitespace(
           params.expect(
-            candidate_interface_personal_details_form: %i[first_name last_name
+            candidate_interface_personal_details_form: %i[first_name last_name has_previous_last_names previous_last_names
                                                           date_of_birth(3i) date_of_birth(2i) date_of_birth(1i)],
           ).transform_keys { |key| dob_field_to_attribute(key) },
         )

@@ -55,6 +55,31 @@ RSpec.describe 'Entering their personal details' do
     then_i_do_not_see_the_complete_section_component
   end
 
+  scenario 'Candidate enters their previous last names' do
+    given_i_am_signed_in_with_one_login
+    and_i_visit_the_site
+    when_i_click_on_personal_information
+    and_i_fill_in_some_details_but_omit_my_previous_last_names
+    and_i_submit_the_form
+    then_i_see_validation_errors_for_not_choosing_to_enter_my_previous_last_names
+
+    when_i_choose_yes_to_having_a_different_last_name
+    and_i_submit_the_form
+    then_i_see_validation_errors_for_not_entering_my_previous_last_names
+
+    when_i_fill_in_my_previous_last_names
+    and_i_submit_the_form
+    then_i_see_the_nationality_page
+
+    when_i_input_my_nationalities
+    and_i_submit_the_form
+    then_i_see_the_review_page
+    and_i_can_check_my_answers
+    and_my_previous_last_names_are_displayed
+  end
+
+private
+
   def then_i_do_not_see_the_complete_section_component
     expect(page).to have_no_text('Have you completed this section?')
   end
@@ -86,6 +111,11 @@ RSpec.describe 'Entering their personal details' do
 
   def then_i_see_validation_errors
     expect(page).to have_text t('errors.messages.invalid_date', article: 'a', attribute: 'date of birth')
+    then_i_see_validation_errors_for_not_choosing_to_enter_my_previous_last_names
+  end
+
+  def then_i_see_validation_errors_for_not_choosing_to_enter_my_previous_last_names
+    expect(page).to have_text('Select if you have ever had a different last name')
   end
 
   def and_i_see_the_completed_fields
@@ -96,12 +126,23 @@ RSpec.describe 'Entering their personal details' do
 
   def when_i_fill_in_the_rest_of_my_details
     fill_in t('first_name.label', scope: @scope), with: "La\u200Bndo"
+    choose 'No'
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'
     fill_in 'Year', with: '1937'
   end
 
   def and_i_fill_in_all_my_details
+    @scope = 'application_form.personal_details'
+    fill_in t('first_name.label', scope: @scope), with: 'Lando'
+    fill_in t('last_name.label', scope: @scope), with: 'Calrissian'
+    choose 'No'
+    fill_in 'Day', with: '10'
+    fill_in 'Month', with: '11'
+    fill_in 'Year', with: '1975'
+  end
+
+  def and_i_fill_in_some_details_but_omit_my_previous_last_names
     @scope = 'application_form.personal_details'
     fill_in t('first_name.label', scope: @scope), with: 'Lando'
     fill_in t('last_name.label', scope: @scope), with: 'Calrissian'
@@ -187,5 +228,22 @@ RSpec.describe 'Entering their personal details' do
 
   def and_i_choose_yes_to_having_the_right_to_work_in_the_uk
     choose('Yes')
+  end
+
+  def when_i_choose_yes_to_having_a_different_last_name
+    choose('Yes')
+  end
+
+  def then_i_see_validation_errors_for_not_entering_my_previous_last_names
+    expect(page).to have_text('Enter your previous last names')
+  end
+
+  def when_i_fill_in_my_previous_last_names
+    fill_in 'Enter your previous last name. If you have had more than one, enter them separated by commas.',
+            with: 'Jackson, Avery'
+  end
+
+  def and_my_previous_last_names_are_displayed
+    expect(page).to have_text 'Jackson, Avery'
   end
 end

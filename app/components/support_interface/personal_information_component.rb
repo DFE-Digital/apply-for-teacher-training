@@ -13,6 +13,7 @@ module SupportInterface
 
     delegate :first_name,
              :last_name,
+             :previous_last_names,
              :candidate,
              to: :application_form
 
@@ -24,6 +25,7 @@ module SupportInterface
       [
         first_name_row,
         last_name_row,
+        previous_last_names_row,
         date_of_birth_row,
         nationality_row,
         domicile_row,
@@ -61,6 +63,21 @@ module SupportInterface
         action: {
           href: support_interface_application_form_edit_applicant_details_path(application_form),
           visually_hidden_text: 'last name',
+        },
+      )
+    end
+
+    def previous_last_names_row
+      row = {
+        key: 'Previous last names',
+        value: previous_last_names,
+      }
+      return row unless editable?
+
+      row.merge(
+        action: {
+          href: support_interface_application_form_edit_applicant_details_path(application_form),
+          visually_hidden_text: 'previous last names',
         },
       )
     end

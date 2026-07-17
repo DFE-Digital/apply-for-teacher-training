@@ -458,6 +458,10 @@ FactoryBot.define do
       end
     end
 
+    trait :with_previous_last_names do
+      previous_last_names { "#{Faker::Name.last_name}, #{Faker::Name.last_name}" }
+    end
+
     trait :not_started_previous_teacher_training do
       completed
       previous_teacher_training_started { false }

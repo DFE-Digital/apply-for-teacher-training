@@ -4,9 +4,20 @@
     <%= t('page_titles.personal_information.heading') %>
   </h1>
 
+  <p class="govuk-hint">
+    <%= t('page_titles.personal_information.hint') %>
+  </p>
+
   <%= f.govuk_text_field :first_name, label: { text: t('application_form.personal_details.first_name.label'), size: 'm' }, hint: { text: t('application_form.personal_details.first_name.hint_text') }, autocomplete: 'given-name' %>
 
   <%= f.govuk_text_field :last_name, label: { text: t('application_form.personal_details.last_name.label'), size: 'm' }, hint: { text: t('application_form.personal_details.last_name.hint_text') }, autocomplete: 'family-name' %>
+
+  <%= f.govuk_radio_buttons_fieldset :has_previous_last_names, legend: { text: t('application_form.personal_details.previous_last_names.label'), size: 'm' } do %>
+    <%= f.govuk_radio_button :has_previous_last_names, 1, label: { text: t('application_form.personal_details.previous_last_names.yes') }, link_errors: true do %>
+      <%= f.govuk_text_field :previous_last_names, label: { text: t('application_form.personal_details.previous_last_names.input') } %>
+    <% end %>
+    <%= f.govuk_radio_button :has_previous_last_names, 0, label: { text: t('application_form.personal_details.previous_last_names.no') } %>
+  <% end %>
 
   <%= f.govuk_date_field :date_of_birth, date_of_birth: true, legend: { text: t('application_form.personal_details.date_of_birth.label'), size: 'm' }, hint: { text: t('application_form.personal_details.date_of_birth.hint_text') } %>
 

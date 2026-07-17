@@ -4,7 +4,7 @@ module SupportInterface
       include ActiveModel::Model
 
       attr_accessor :first_name, :last_name, :email_address, :phone_number, :audit_comment,
-                    :day, :month, :year
+                    :day, :month, :year, :previous_last_names
       attr_reader :application_form
 
       validates :first_name, :last_name, presence: true, length: { maximum: 60 }
@@ -22,6 +22,7 @@ module SupportInterface
         super(
           first_name: @application_form.first_name,
           last_name: @application_form.last_name,
+          previous_last_names: @application_form.previous_last_names,
           email_address: @application_form.candidate.email_address,
           day: @application_form.date_of_birth&.day,
           month: @application_form.date_of_birth&.month,
@@ -34,6 +35,7 @@ module SupportInterface
         @application_form.update!(
           first_name:,
           last_name:,
+          previous_last_names:,
           date_of_birth:,
           phone_number:,
           audit_comment:,

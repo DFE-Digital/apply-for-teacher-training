@@ -21,6 +21,7 @@ RSpec.describe 'Entering personal details' do
     scope = 'application_form.personal_details'
     fill_in t('first_name.label', scope:), with: 'Lando'
     fill_in t('last_name.label', scope:), with: 'Calrissian'
+    choose 'No' # Have you ever had a different last name?
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'
     fill_in 'Year', with: '1937'
