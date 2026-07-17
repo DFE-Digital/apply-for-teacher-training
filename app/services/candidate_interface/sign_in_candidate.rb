@@ -30,6 +30,8 @@ module CandidateInterface
         controller.track_validation_error(candidate)
         render 'candidate_interface/sign_in/new', locals: { candidate: }
       end
+    rescue AuthenticatedUsingMagicLinks::MagicLinkTokenAlreadyRequestedError
+      render 'candidate_interface/sign_in/email_already_requested'
     end
 
   private

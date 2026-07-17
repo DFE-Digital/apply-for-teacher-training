@@ -29,9 +29,13 @@ module CandidateInterface
 
         render :new
       end
+    rescue AuthenticatedUsingMagicLinks::MagicLinkTokenAlreadyRequestedError
+      render :email_already_requested
     end
 
     def external_sign_up_forbidden; end
+
+    def email_already_requested; end
 
   private
 

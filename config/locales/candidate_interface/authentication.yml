@@ -8,6 +8,12 @@ en:
       email:
         subject: Confirm your email address to apply for teacher training
     check_your_email: Check your email
+    email_already_requested:
+      heading: We have already sent you an email to sign in
+      content:
+        We sent an email with a link to sign in less than a minute ago. Follow the link to sign in.
+      wait_one_minute_html: If you have not received the email, wait 1 minute and %{link}.
+      try_again: try again
     sign_in:
       heading: Sign in
       email:

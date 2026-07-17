@@ -5,7 +5,16 @@ module AuthenticatedUsingMagicLinks
     has_many :authentication_tokens, as: :user, dependent: :destroy
   end
 
+  def magic_link_recently_requested?
+    magic_link_request = authentication_tokens.order(:created_at).last
+    return false if magic_link_request.blank?
+
+    magic_link_request.created_at > 1.minute.ago
+  end
+
   def create_magic_link_token!(path: nil)
+    raise MagicLinkTokenAlreadyRequestedError if magic_link_recently_requested?
+
     magic_link_token = MagicLinkToken.new
     AuthenticationToken.create!(user: self, hashed_token: magic_link_token.encrypted, path:)
     magic_link_token.raw
@@ -23,4 +32,6 @@ module AuthenticatedUsingMagicLinks
         authentication_token.user
     end
   end
+
+  class MagicLinkTokenAlreadyRequestedError < StandardError; end
 end
