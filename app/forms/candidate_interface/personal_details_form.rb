@@ -4,10 +4,11 @@ module CandidateInterface
 
     attr_accessor :first_name, :last_name, :has_previous_last_names, :previous_last_names, :day, :month, :year
 
-    validates :first_name, :last_name, presence: true, length: { maximum: 60 }
-    validates :date_of_birth, date: { date_of_birth: true, presence: true }
+    validates :first_name, presence: true, length: { maximum: 60 }
     validates :has_previous_last_names, presence: true
     validates :previous_last_names, presence: true, if: :previous_last_names_declared?
+    validates :last_name, presence: true, length: { maximum: 60 }
+    validates :date_of_birth, date: { date_of_birth: true, presence: true }
 
     def self.build_from_application(application_form, state: :edit)
       new(
