@@ -1,7 +1,7 @@
-class NonDisclosureTraineeWithdrawalWorker < ApplicationJob
-  queue_as :default
+class NonDisclosureTraineeWithdrawalWorker
+  include Sidekiq::Worker
 
-  retry_on StandardError, attempts: 3
+  sidekiq_options retry: 3, queue: :default
 
   def perform(candidate_id)
     return unless HostingEnvironment.production? || HostingEnvironment.qa? || HostingEnvironment.test_environment?

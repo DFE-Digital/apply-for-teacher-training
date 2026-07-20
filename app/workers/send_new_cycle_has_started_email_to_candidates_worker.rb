@@ -1,4 +1,6 @@
 class SendNewCycleHasStartedEmailToCandidatesWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
+
   BATCH_SIZE = 120
 
   def perform

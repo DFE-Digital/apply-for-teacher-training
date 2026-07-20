@@ -16,7 +16,7 @@ class DeclineOrWithdrawApplication
       cancel_upcoming_interviews!
     end
 
-    CandidateMailers::SendWithdrawnOnRequestEmailWorker.perform_later(application_choice.id)
+    CandidateMailers::SendWithdrawnOnRequestEmailWorker.perform_async(application_choice.id)
 
     true
   end

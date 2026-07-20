@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DataMigrations::DeleteWorkHistoryAudits do
   describe '#change' do
-    it 'enqueues jobs to DeleteAuditsWorker' do
+    it 'enques jobs to DeleteAuditsWorker' do
       create(
         :application_work_history_break_audit,
         user_type: nil,
@@ -12,7 +12,9 @@ RSpec.describe DataMigrations::DeleteWorkHistoryAudits do
         username: '(Automated process)',
       )
 
-      expect { described_class.new.change }.to enqueue_job(DeleteAuditsWorker)
+      expect { described_class.new.change }.to change(
+        DeleteAuditsWorker.jobs, :size
+      ).by(1)
     end
   end
 

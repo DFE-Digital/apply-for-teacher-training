@@ -1,3 +1,4 @@
+require 'redis'
 require './app/workers/vendor_api_request_worker'
 
 class VendorAPIRequestMiddleware
@@ -25,8 +26,12 @@ class VendorAPIRequestMiddleware
     @request = Rack::Request.new(env)
     status, @headers, @response = @app.call(env)
 
-    if trace_request?
-      VendorAPIRequestWorker.perform_later(request_data, response_data, status, Time.zone.now.to_s)
+    begin
+      if trace_request?
+        VendorAPIRequestWorker.perform_async(request_data, response_data, status, Time.zone.now.to_s)
+      end
+    rescue Redis::BaseError => e
+      Rails.logger.warn e.message
     end
 
     [status, @headers, @response]

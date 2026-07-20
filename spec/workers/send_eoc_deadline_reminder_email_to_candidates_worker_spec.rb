@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker do
+RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, :sidekiq do
   describe '#perform' do
     it 'returns an application on the reminder date' do
       travel_temporarily_to(first_reminder_date) do
@@ -13,7 +13,11 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker do
           recruitment_cycle_year: current_year,
         )
 
-        expect { described_class.perform_now }.to have_enqueued_job(SendEocDeadlineReminderEmailToCandidatesBatchWorker)
+        described_class.new.perform
+
+        email_for_candidate = email_for_candidate(candidate)
+
+        expect(email_for_candidate).to be_present
       end
     end
 
@@ -22,7 +26,11 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker do
         unsubscribed_candidate = create(:candidate, account_locked: true)
         create(:application_form, candidate: unsubscribed_candidate)
 
-        expect { described_class.new.perform }.not_to have_enqueued_job(SendEocDeadlineReminderEmailToCandidatesBatchWorker)
+        described_class.new.perform
+
+        email_for_candidate = email_for_candidate(unsubscribed_candidate)
+
+        expect(email_for_candidate).not_to be_present
       end
     end
 
@@ -31,7 +39,11 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker do
         unsubscribed_candidate = create(:candidate, unsubscribed_from_emails: true)
         create(:application_form, candidate: unsubscribed_candidate)
 
-        expect { described_class.new.perform }.not_to have_enqueued_job(SendEocDeadlineReminderEmailToCandidatesBatchWorker)
+        described_class.new.perform
+
+        email_for_candidate = email_for_candidate(unsubscribed_candidate)
+
+        expect(email_for_candidate).not_to be_present
       end
     end
 
@@ -40,7 +52,11 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker do
         unsubscribed_candidate = create(:candidate, submission_blocked: true)
         create(:application_form, candidate: unsubscribed_candidate)
 
-        expect { described_class.new.perform }.not_to have_enqueued_job(SendEocDeadlineReminderEmailToCandidatesBatchWorker)
+        described_class.new.perform
+
+        email_for_candidate = email_for_candidate(unsubscribed_candidate)
+
+        expect(email_for_candidate).not_to be_present
       end
     end
 
@@ -56,7 +72,11 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker do
           recruitment_cycle_year: current_year,
         )
 
-        expect { described_class.new.perform }.to have_enqueued_job(SendEocDeadlineReminderEmailToCandidatesBatchWorker)
+        described_class.new.perform
+
+        email_for_candidate = email_for_candidate(candidate)
+
+        expect(email_for_candidate).to be_present
       end
     end
 
@@ -71,33 +91,55 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker do
           recruitment_cycle_year: current_year,
         )
 
-        expect { described_class.new.perform }.not_to have_enqueued_job(SendEocDeadlineReminderEmailToCandidatesBatchWorker)
+        described_class.new.perform
+
+        email_for_candidate = email_for_candidate(candidate)
+
+        expect(email_for_candidate).not_to be_present
       end
     end
 
     it 'does not return an application when the deadline has passed' do
       travel_temporarily_to(current_timetable.apply_deadline_at + 1.day) do
+        candidate = create(:candidate)
+
         create(
           :application_form,
+          candidate:,
           application_choices: [create(:application_choice, :application_not_sent)],
           recruitment_cycle_year: current_year,
         )
 
-        expect { described_class.new.perform }.not_to enqueue_job(SendEocDeadlineReminderEmailToCandidatesBatchWorker)
+        described_class.new.perform
+
+        email_for_candidate = email_for_candidate(candidate)
+
+        expect(email_for_candidate).not_to be_present
       end
     end
 
     it 'does not return an application form from the previous cycle' do
       travel_temporarily_to(first_reminder_date) do
+        candidate = create(:candidate)
+
         create(
           :application_form,
-          application_choices: [build(:application_choice, :application_not_sent)],
+          candidate:,
+          application_choices: [create(:application_choice, :application_not_sent)],
           recruitment_cycle_year: previous_year,
         )
 
-        expect { described_class.new.perform }.not_to have_enqueued_job(SendEocDeadlineReminderEmailToCandidatesBatchWorker)
+        described_class.new.perform
+
+        email_for_candidate = email_for_candidate(candidate)
+
+        expect(email_for_candidate).not_to be_present
       end
     end
+  end
+
+  def email_for_candidate(candidate)
+    ActionMailer::Base.deliveries.find { |e| e.header['to'].value == candidate.email_address }
   end
 
   def first_reminder_date

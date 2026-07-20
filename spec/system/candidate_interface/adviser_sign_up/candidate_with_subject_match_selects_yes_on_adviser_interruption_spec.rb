@@ -66,7 +66,7 @@ RSpec.describe 'Candidate with a degree subject that matches an adviser teaching
   end
 
   def and_adviser_sign_up_jobs_can_be_enqueued
-    allow(AdviserSignUpWorker).to receive(:perform_later)
+    allow(AdviserSignUpWorker).to receive(:perform_async)
   end
 
   def when_i_visit_my_details_page

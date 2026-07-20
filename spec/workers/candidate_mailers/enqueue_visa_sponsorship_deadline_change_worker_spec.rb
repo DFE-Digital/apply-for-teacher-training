@@ -9,8 +9,10 @@ module CandidateMailers
         allow(UnsubmittedApplicationChoicesForCourse).to(
           receive(:call).with(course.id).and_return(ApplicationChoice.all),
         )
+        allow(SendVisaSponsorshipDeadlineChangeWorker).to receive(:perform_at)
 
-        expect { described_class.new.perform(course.id) }.to enqueue_job(SendVisaSponsorshipDeadlineChangeWorker)
+        described_class.new.perform(course.id)
+        expect(SendVisaSponsorshipDeadlineChangeWorker).to have_received(:perform_at)
       end
 
       context 'when course is closed' do
@@ -20,8 +22,10 @@ module CandidateMailers
           allow(UnsubmittedApplicationChoicesForCourse).to(
             receive(:call).with(course.id).and_return(ApplicationChoice.all),
           )
+          allow(SendVisaSponsorshipDeadlineChangeWorker).to receive(:perform_at)
 
-          expect { described_class.new.perform(course.id) }.not_to enqueue_job(SendVisaSponsorshipDeadlineChangeWorker)
+          described_class.new.perform(course.id)
+          expect(SendVisaSponsorshipDeadlineChangeWorker).not_to have_received(:perform_at)
         end
       end
     end

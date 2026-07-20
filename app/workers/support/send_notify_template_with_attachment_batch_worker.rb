@@ -1,4 +1,6 @@
-class Support::SendNotifyTemplateWithAttachmentBatchWorker < ApplicationJob
+class Support::SendNotifyTemplateWithAttachmentBatchWorker
+  include Sidekiq::Worker
+
   def perform(email_addresses, notify_request_id)
     request = SupportInterface::NotifySendRequest.find(notify_request_id)
     request.file.open do |file|

@@ -1,5 +1,7 @@
 module EndOfCycle
-  class RejectByDefaultWorker < ApplicationJob
+  class RejectByDefaultWorker
+    include Sidekiq::Worker
+
     BATCH_SIZE = 120
     STAGGER_OVER = 1.hour
 
@@ -7,7 +9,7 @@ module EndOfCycle
       return unless run_reject_by_default? || force
 
       BatchDelivery.new(relation:, stagger_over: STAGGER_OVER, batch_size: BATCH_SIZE).each do |batch_time, applications|
-        RejectByDefaultSecondaryWorker.set(wait_until: batch_time).perform_later(applications.pluck(:id))
+        RejectByDefaultSecondaryWorker.perform_at(batch_time, applications.pluck(:id))
       end
     end
 
@@ -36,7 +38,9 @@ module EndOfCycle
     end
   end
 
-  class RejectByDefaultSecondaryWorker < ApplicationJob
+  class RejectByDefaultSecondaryWorker
+    include Sidekiq::Worker
+
     def perform(application_form_ids)
       application_forms = ApplicationForm.where(id: application_form_ids).includes(:application_choices)
       application_forms.find_each do |application_form|

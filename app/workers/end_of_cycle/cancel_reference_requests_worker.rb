@@ -1,12 +1,14 @@
 module EndOfCycle
-  class CancelReferenceRequestsWorker < ApplicationJob
+  class CancelReferenceRequestsWorker
+    include Sidekiq::Worker
+
     BATCH_SIZE = 200
 
     def perform
       return unless run?
 
       BatchDelivery.new(relation:, stagger_over: 2.hours, batch_size: BATCH_SIZE).each do |batch_time, references|
-        CancelReferenceRequestsSecondaryWorker.set(wait_until: batch_time).perform_later(references.pluck(:id))
+        CancelReferenceRequestsSecondaryWorker.perform_at(batch_time, references.pluck(:id))
       end
     end
 
@@ -47,7 +49,9 @@ module EndOfCycle
     end
   end
 
-  class CancelReferenceRequestsSecondaryWorker < ApplicationJob
+  class CancelReferenceRequestsSecondaryWorker
+    include Sidekiq::Worker
+
     def perform(reference_ids)
       ApplicationReference.feedback_requested.where(id: reference_ids).find_each do |reference|
         CancelReferee.new.call(reference:)

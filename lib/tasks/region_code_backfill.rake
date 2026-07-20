@@ -11,7 +11,7 @@ task region_code_backfill: :environment do
     .where.not(postcode: nil)
     .find_in_batches(batch_size: RegionCodeBackfill::BATCH_SIZE) do |batch|
       batch.each do |application_form|
-        LookupAreaByPostcodeWorker.set(wait_until: next_batch_time).perform_later(application_form.id)
+        LookupAreaByPostcodeWorker.perform_at(next_batch_time, application_form.id)
       end
       next_batch_time += RegionCodeBackfill::INTERVAL_BETWEEN_BATCHES
     end

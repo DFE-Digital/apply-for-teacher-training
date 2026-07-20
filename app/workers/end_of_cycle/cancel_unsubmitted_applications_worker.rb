@@ -1,12 +1,14 @@
 module EndOfCycle
-  class CancelUnsubmittedApplicationsWorker < ApplicationJob
+  class CancelUnsubmittedApplicationsWorker
+    include Sidekiq::Worker
+
     BATCH_SIZE = 200
 
     def perform(force = false)
       return unless EndOfCycle::JobTimetabler.new.run_cancel_unsubmitted_applications? || force
 
       BatchDelivery.new(relation:, stagger_over: 2.hours, batch_size: BATCH_SIZE).each do |batch_time, applications|
-        CancelUnsubmittedApplicationsSecondaryWorker.set(wait_until: batch_time).perform_later(applications.pluck(:id))
+        CancelUnsubmittedApplicationsSecondaryWorker.perform_at(batch_time, applications.pluck(:id))
       end
     end
 
@@ -18,7 +20,9 @@ module EndOfCycle
     end
   end
 
-  class CancelUnsubmittedApplicationsSecondaryWorker < ApplicationJob
+  class CancelUnsubmittedApplicationsSecondaryWorker
+    include Sidekiq::Worker
+
     def perform(application_form_ids)
       application_forms = ApplicationForm.where(id: application_form_ids).includes(:application_choices)
       application_forms.find_each do |application_form|

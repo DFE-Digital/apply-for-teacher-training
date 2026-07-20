@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWorker do
+  let(:instance) { described_class.new }
   let(:previous_year) { RecruitmentCycleTimetable.previous_year }
 
   describe '#perform' do
@@ -12,15 +13,13 @@ RSpec.describe EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWo
           current_recruitment_cycle_year: previous_year,
           application_form: create(:application_form, recruitment_cycle_year: previous_year),
         )
-        allow(EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesBatchWorker).to receive(:set)
-        described_class.perform_now
-        expect(EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesBatchWorker).not_to have_received(:set)
+        allow(EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesBatchWorker).to receive(:perform_at)
+        instance.perform
+        expect(EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesBatchWorker).not_to have_received(:perform_at)
       end
     end
 
     context 'the date for sending the explainer email' do
-      let(:instance) { described_class.new }
-
       before do
         allow(instance).to receive(:send_emails?).and_return(true)
       end
@@ -80,14 +79,11 @@ RSpec.describe EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWo
         create(:application_choice, :awaiting_provider_decision, application_form: build(:application_form, recruitment_cycle_year: previous_year))
         create(:application_choice, :rejected_by_default)
 
-        worker = instance_double(ActiveJob::ConfiguredJob)
-        allow(EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesBatchWorker).to receive(:set).and_return(worker)
-        allow(worker).to receive(:perform_later)
-
+        allow(EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesBatchWorker).to receive(:perform_at)
         instance.perform
 
-        expect(EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesBatchWorker).to have_received(:set)
-        expect(worker).to have_received(:perform_later).with([rejected_with_offer.id, rejected_without_offer.id, duplication_january_course_form.id])
+        expect(EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesBatchWorker)
+          .to have_received(:perform_at).with(kind_of(Time), [rejected_with_offer.id, rejected_without_offer.id, duplication_january_course_form.id])
       end
     end
   end

@@ -16,7 +16,9 @@ RSpec.describe EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker do
           )
           create(:provider_permissions, provider: application_choice.provider)
 
-          expect { described_class.new.perform }.not_to enqueue_job(EndOfCycle::SendWinterRejectByDefaultReminderToProvidersBatchWorker)
+          allow(EndOfCycle::SendWinterRejectByDefaultReminderToProvidersBatchWorker).to receive(:perform_at)
+          described_class.new.perform
+          expect(EndOfCycle::SendWinterRejectByDefaultReminderToProvidersBatchWorker).not_to have_received(:perform_at)
         end
       end
     end
@@ -77,11 +79,13 @@ RSpec.describe EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker do
           create(:application_choice, :rejected, current_recruitment_cycle_year: previous_year)
           create(:application_choice, :unsubmitted, current_recruitment_cycle_year: previous_year)
 
-          expect { instance.perform }.to enqueue_job(EndOfCycle::SendWinterRejectByDefaultReminderToProvidersBatchWorker).with(
-            contain_exactly(
+          allow(EndOfCycle::SendWinterRejectByDefaultReminderToProvidersBatchWorker).to receive(:perform_at)
+          instance.perform
+
+          expect(EndOfCycle::SendWinterRejectByDefaultReminderToProvidersBatchWorker)
+            .to have_received(:perform_at).with(kind_of(Time), [
               january_course.provider.id, duplication_january_course.provider.id
-            ),
-          )
+            ])
         end
       end
     end

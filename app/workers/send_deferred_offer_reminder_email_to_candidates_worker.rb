@@ -1,4 +1,6 @@
-class SendDeferredOfferReminderEmailToCandidatesWorker < ApplicationJob
+class SendDeferredOfferReminderEmailToCandidatesWorker
+  include Sidekiq::Worker
+
   def perform
     GetDeferredApplicationChoicesForCurrentCycle.call.each do |application_choice|
       SendDeferredOfferReminderEmailToCandidate.call(application_choice:)

@@ -6,7 +6,9 @@ RSpec.describe EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWork
       it 'does not enqueue the batch worker' do
         create(:application_form, :unsubmitted)
 
-        expect { described_class.new.perform }.not_to enqueue_job(EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker)
+        allow(EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker).to receive(:perform_at)
+        described_class.new.perform
+        expect(EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker).not_to have_received(:perform_at)
       end
     end
 
@@ -14,7 +16,9 @@ RSpec.describe EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWork
       it 'does not enqueue the batch worker' do
         create(:application_form, :unsubmitted)
 
-        expect { described_class.new.perform }.not_to enqueue_job(EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker)
+        allow(EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker).to receive(:perform_at)
+        described_class.new.perform
+        expect(EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker).not_to have_received(:perform_at)
       end
     end
 
@@ -33,7 +37,11 @@ RSpec.describe EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWork
         account_locked_candidate = create(:candidate, account_locked: true)
         create(:application_form, :unsubmitted, candidate: account_locked_candidate)
 
-        expect { described_class.new.perform }.to enqueue_job(EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker).with(contain_exactly(unsubmitted_application_form.id))
+        allow(EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker).to receive(:perform_at)
+        described_class.new.perform
+
+        expect(EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesBatchWorker)
+          .to have_received(:perform_at).with(kind_of(Time), [unsubmitted_application_form.id])
       end
     end
   end

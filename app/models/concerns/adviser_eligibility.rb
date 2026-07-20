@@ -52,7 +52,7 @@ private
 
   def refresh_adviser_status
     Rails.cache.fetch("adviser_status_check_#{id}", expires_in: ADVISER_STATUS_CHECK_INTERVAL) do
-      Adviser::RefreshAdviserStatusWorker.perform_later(id)
+      Adviser::RefreshAdviserStatusWorker.perform_async(id)
       true
     end
   end

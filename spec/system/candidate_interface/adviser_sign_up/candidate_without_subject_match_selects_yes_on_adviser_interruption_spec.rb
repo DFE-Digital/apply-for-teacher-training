@@ -79,7 +79,7 @@ RSpec.describe 'Candidate selects yes on adviser interruption' do
   end
 
   def and_adviser_sign_up_jobs_can_be_enqueued
-    allow(AdviserSignUpWorker).to receive(:perform_later)
+    allow(AdviserSignUpWorker).to receive(:perform_async)
   end
 
   def when_i_visit_my_details_page

@@ -1,4 +1,6 @@
 class SendFindHasOpenedEmailToCandidatesBatchWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
+
   def perform(candidate_ids)
     Candidate.includes(:application_forms).where(id: candidate_ids).find_each do |candidate|
       SendFindHasOpenedEmailToCandidate.call(

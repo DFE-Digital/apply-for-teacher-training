@@ -1,16 +1,23 @@
 require 'rails_helper'
 
-RSpec.describe Support::SendNotifyTemplateWithAttachmentWorker do
+RSpec.describe Support::SendNotifyTemplateWithAttachmentWorker, :sidekiq do
   let(:notify_request) do
     create(:notify_send_request, email_addresses:)
+  end
+
+  before do
+    allow(Support::SendNotifyTemplateWithAttachmentBatchWorker).to receive(:perform_at)
+
+    described_class.new.perform(notify_request.id)
   end
 
   describe '#perform' do
     let(:email_addresses) { %w[user_1@exmaple.com user_2@example.com user_3@example.com] }
 
     it 'enqueues a Support::SendNotifyTemplateWithAttachmentBatchWorker' do
-      expect { described_class.new.perform(notify_request.id) }.to enqueue_job(Support::SendNotifyTemplateWithAttachmentBatchWorker)
+      expect(Support::SendNotifyTemplateWithAttachmentBatchWorker).to have_received(:perform_at)
          .with(
+           Time.zone.now,
            %w[user_1@exmaple.com user_2@example.com user_3@example.com],
            notify_request.id,
          ).once
@@ -20,7 +27,7 @@ RSpec.describe Support::SendNotifyTemplateWithAttachmentWorker do
       let(:email_addresses) { 200.times.map { |n| "user_#{n}@example.com" } }
 
       it 'enqueues a batch of Support::SendNotifyTemplateWithAttachmentBatchWorkers' do
-        expect { described_class.new.perform(notify_request.id) }.to enqueue_job(Support::SendNotifyTemplateWithAttachmentBatchWorker).twice
+        expect(Support::SendNotifyTemplateWithAttachmentBatchWorker).to have_received(:perform_at).twice
       end
     end
   end
