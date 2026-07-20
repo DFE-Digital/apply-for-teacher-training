@@ -89,8 +89,6 @@ module CandidateInterface
       end
     end
 
-    def email_already_requested; end
-
   private
 
     def candidate_params

@@ -33,8 +33,6 @@ module CandidateInterface
 
     def external_sign_up_forbidden; end
 
-    def email_already_requested; end
-
   private
 
     def redirect_after_signup(*, **)
