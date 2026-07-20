@@ -1,11 +1,14 @@
+<%# locals: (with_title: true, back_link: nil) %>
 <% content_for :title, t('shared.email_already_requested.heading') %>
 <% content_for :before_content, govuk_back_link_to(back_link) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">
-      <%= t('shared.email_already_requested.heading') %>
-    </h1>
+    <% if with_title %>
+      <h1 class="govuk-heading-l">
+        <%= t('shared.email_already_requested.heading') %>
+      </h1>
+    <% end %>
 
     <p class="govuk-body">
       <%= t('shared.email_already_requested.content') %>
