@@ -1,8 +1,8 @@
 module TeacherTrainingPublicAPI
-  class SyncSubjects < ApplicationJob
-    retry_on StandardError, attempts: 3
+  class SyncSubjects
+    include Sidekiq::Worker
 
-    queue_as :low_priority
+    sidekiq_options retry: 3, queue: :low_priority
 
     def perform
       TeacherTrainingPublicAPI::Subject.paginate(per_page: 500).each do |api_subject|

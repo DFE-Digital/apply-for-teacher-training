@@ -1,4 +1,6 @@
-class CancelPreviousCycleUnsubmittedApplicationsWorker < ApplicationJob
+class CancelPreviousCycleUnsubmittedApplicationsWorker
+  include Sidekiq::Worker
+
   def perform
     unsubmitted_applications_from_earlier_cycle.each do |application_form|
       CandidateInterface::CancelUnsubmittedApplicationAtEndOfCycle.new(application_form).call

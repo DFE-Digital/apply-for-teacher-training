@@ -1,4 +1,6 @@
 class FindACandidate::PopulatePoolWorker < ApplicationJob
+  self.queue_adapter = :solid_queue
+
   def perform
     if CandidatePoolApplication.closed?
       CandidatePoolApplication.delete_all

@@ -1,12 +1,14 @@
 module EndOfCycle
-  class SendWinterDeclineByDefaultExplainerEmailToCandidatesWorker < ApplicationJob
+  class SendWinterDeclineByDefaultExplainerEmailToCandidatesWorker
+    include Sidekiq::Worker
+
     BATCH_SIZE = 120
 
     def perform
       return unless send_emails?
 
       BatchDelivery.new(relation:, batch_size: BATCH_SIZE).each do |batch_time, application_forms|
-        SendWinterDeclineByDefaultExplainerEmailToCandidatesBatchWorker.set(wait_until: batch_time).perform_later(application_forms.pluck(:id))
+        SendWinterDeclineByDefaultExplainerEmailToCandidatesBatchWorker.perform_at(batch_time, application_forms.pluck(:id))
       end
     end
 
@@ -31,7 +33,9 @@ module EndOfCycle
     end
   end
 
-  class SendWinterDeclineByDefaultExplainerEmailToCandidatesBatchWorker < ApplicationJob
+  class SendWinterDeclineByDefaultExplainerEmailToCandidatesBatchWorker
+    include Sidekiq::Worker
+
     def perform(application_form_ids)
       ApplicationForm.where(id: application_form_ids).includes(:application_choices).find_each do |application_form|
         CandidateMailer.winter_decline_by_default_explainer(application_form).deliver_later

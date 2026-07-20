@@ -62,7 +62,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def and_adviser_sign_up_jobs_can_be_enqueued
-    allow(AdviserSignUpWorker).to receive(:perform_later)
+    allow(AdviserSignUpWorker).to receive(:perform_async)
   end
 
   def and_i_have_an_eligible_application
@@ -117,7 +117,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def and_an_adviser_sign_up_job_is_enqueued
-    expect(AdviserSignUpWorker).to have_received(:perform_later).once
+    expect(AdviserSignUpWorker).to have_received(:perform_async).once
     expect(Adviser::SignUpRequest.last).to have_attributes(application_form: @application_form)
   end
 

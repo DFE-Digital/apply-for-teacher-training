@@ -1,9 +1,10 @@
 module TeacherTrainingPublicAPI
-  class SyncCourses < ApplicationJob
-    retry_on StandardError, attempts: 3
-    queue_as :low_priority
-
+  class SyncCourses
     attr_reader :provider, :run_in_background, :incremental_sync, :recruitment_cycle_year
+
+    include Sidekiq::Worker
+
+    sidekiq_options retry: 3, queue: :low_priority
 
     API_COURSE_DRAFT_STATES = %w[rolled_over draft].freeze
 
@@ -46,7 +47,7 @@ module TeacherTrainingPublicAPI
 
         course.save!
         if notify_candidates == true
-          CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker.perform_later(course.id)
+          CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker.perform_async(course.id)
         end
 
         course
@@ -75,7 +76,7 @@ module TeacherTrainingPublicAPI
       ]
 
       if run_in_background
-        TeacherTrainingPublicAPI::SyncSites.perform_later(*job_args)
+        TeacherTrainingPublicAPI::SyncSites.perform_async(*job_args)
       else
         TeacherTrainingPublicAPI::SyncSites.new.perform(*job_args)
       end

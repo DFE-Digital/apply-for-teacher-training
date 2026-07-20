@@ -1,5 +1,7 @@
 module CandidateMailers
   class EnqueueVisaSponsorshipDeadlineReminderWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
+
     def perform
       relation = ApplicationChoicesVisaSponsorshipDeadlineReminder.call
 

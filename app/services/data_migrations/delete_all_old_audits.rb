@@ -4,7 +4,7 @@ module DataMigrations
     MANUAL_RUN = false
 
     def change
-      DeleteAllOldAuditsInBatches.perform_later
+      DeleteAllOldAuditsInBatches.perform_async
     end
   end
 end

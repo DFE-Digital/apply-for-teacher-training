@@ -11,7 +11,7 @@ RSpec.describe DeleteAllOldAuditsInBatches do
       destroyable_audit_5 = create(:audit, created_at: Time.zone.local(2022, 10, 3, 23, 59, 59)) # 1 second before the timestamp
       safe_audit = create(:audit, created_at: Time.zone.local(2022, 10, 4, 0, 0, 1)) # 1 second after the timestamp
 
-      described_class.perform_now
+      described_class.perform_sync
 
       expect(Audited::Audit.all).to include(safe_audit)
       expect(Audited::Audit.all).not_to include(

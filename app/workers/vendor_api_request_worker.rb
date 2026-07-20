@@ -1,13 +1,10 @@
-require './app/jobs/application_job'
-
-class VendorAPIRequestWorker < ApplicationJob
+class VendorAPIRequestWorker
   AuthorizationStruct = Struct.new(:authorization)
 
+  include Sidekiq::Worker
   include ActionController::HttpAuthentication::Token
 
-  queue_as :low_priority
-
-  retry_on StandardError, attempts: 3
+  sidekiq_options retry: 3, queue: :low_priority
 
   def perform(request_data, response_data, status_code, created_at)
     request_headers = request_data.fetch('headers', {})

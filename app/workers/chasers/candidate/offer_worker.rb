@@ -1,6 +1,8 @@
 module Chasers
   module Candidate
     class OfferWorker < ApplicationJob
+      self.queue_adapter = :solid_queue
+
       def perform
         Chasers::Candidate.chaser_to_date_range.each do |chaser_type, date_range|
           mailer = chaser_type

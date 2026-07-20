@@ -63,35 +63,48 @@ RSpec.describe EndOfCycle::WinterRejectByDefaultWorker do
   describe '#perform' do
     context 'where force is true' do
       it 'enqueues the secondary worker', time: mid_cycle do
-        expect { instance.perform(force: true) }.to enqueue_job(EndOfCycle::WinterRejectByDefaultSecondaryWorker).with(
-          contain_exactly(
-            inactive_choice.application_form.id,
-            interviewing_choice.application_form.id,
-            awaiting_decision_choice.application_form.id,
-            inactive_choice_this_cycle.application_form.id,
-          ),
-        )
+        allow(EndOfCycle::WinterRejectByDefaultSecondaryWorker).to receive(:perform_at)
+        instance.perform(force: true)
+        expect(EndOfCycle::WinterRejectByDefaultSecondaryWorker)
+          .to have_received(:perform_at)
+                .with(
+                  kind_of(Time),
+                  contain_exactly(
+                    inactive_choice.application_form.id,
+                    interviewing_choice.application_form.id,
+                    awaiting_decision_choice.application_form.id,
+                    inactive_choice_this_cycle.application_form.id,
+                  ),
+                )
       end
     end
 
     context 'after winter reject by default dates' do
       it 'enqueues the secondary worker' do
         allow(instance).to receive_messages(run_winter_reject_by_default?: true)
-        expect { instance.perform }.to enqueue_job(EndOfCycle::WinterRejectByDefaultSecondaryWorker).with(
-          contain_exactly(
-            inactive_choice.application_form.id,
-            interviewing_choice.application_form.id,
-            awaiting_decision_choice.application_form.id,
-            inactive_choice_this_cycle.application_form.id,
-          ),
-        )
+        allow(EndOfCycle::WinterRejectByDefaultSecondaryWorker).to receive(:perform_at)
+        instance.perform
+        expect(EndOfCycle::WinterRejectByDefaultSecondaryWorker)
+          .to have_received(:perform_at)
+                .with(
+                  kind_of(Time),
+                  contain_exactly(
+                    inactive_choice.application_form.id,
+                    interviewing_choice.application_form.id,
+                    awaiting_decision_choice.application_form.id,
+                    inactive_choice_this_cycle.application_form.id,
+                  ),
+                )
       end
     end
 
     context 'before winter reject by default dates' do
       it 'enqueues the secondary worker' do
         allow(instance).to receive_messages(run_winter_reject_by_default?: false)
-        expect { instance.perform }.not_to enqueue_job(EndOfCycle::WinterRejectByDefaultSecondaryWorker)
+        allow(EndOfCycle::WinterRejectByDefaultSecondaryWorker).to receive(:perform_at)
+        instance.perform
+        expect(EndOfCycle::WinterRejectByDefaultSecondaryWorker)
+          .not_to have_received(:perform_at)
       end
     end
   end

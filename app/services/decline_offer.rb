@@ -12,7 +12,7 @@ class DeclineOffer
     )
 
     if @application_choice.application_form.ended_without_success?
-      CandidateMailers::SendDeclinedLastApplicationChoiceEmailWorker.perform_later(@application_choice.id)
+      CandidateMailers::SendDeclinedLastApplicationChoiceEmailWorker.perform_async(@application_choice.id)
     end
 
     NotificationsList.for(@application_choice, event: :declined, include_ratifying_provider: true).each do |provider_user|

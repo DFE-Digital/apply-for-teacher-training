@@ -15,7 +15,7 @@ module TeacherTrainingPublicAPI
 
     def sync_courses(run_in_background, provider)
       if run_in_background
-        TeacherTrainingPublicAPI::SyncCourses.set(wait: @delay_by).perform_later(provider.id, @recruitment_cycle_year, @incremental_sync)
+        TeacherTrainingPublicAPI::SyncCourses.perform_in(@delay_by, provider.id, @recruitment_cycle_year, @incremental_sync)
       else
         TeacherTrainingPublicAPI::SyncCourses.new.perform(provider.id, @recruitment_cycle_year, @incremental_sync, run_in_background: false)
       end

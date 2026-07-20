@@ -8,7 +8,7 @@ module DataMigrations
 
       choices_without_work_histories.each_slice(5000).with_index do |ids, index|
         next_batch_time = time_now + index.minutes
-        MigrateApplicationChoicesWorker.set(wait_until: next_batch_time).perform_later(ids)
+        MigrateApplicationChoicesWorker.perform_at(next_batch_time, ids)
       end
     end
 

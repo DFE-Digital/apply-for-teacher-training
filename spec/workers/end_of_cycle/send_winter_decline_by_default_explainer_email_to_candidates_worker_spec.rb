@@ -17,7 +17,9 @@ RSpec.describe EndOfCycle::SendWinterDeclineByDefaultExplainerEmailToCandidatesW
           current_recruitment_cycle_year: previous_year,
           application_form: create(:application_form, recruitment_cycle_year: previous_year),
         )
-        expect { instance.perform }.not_to enqueue_job(EndOfCycle::SendWinterDeclineByDefaultExplainerEmailToCandidatesBatchWorker)
+        allow(EndOfCycle::SendWinterDeclineByDefaultExplainerEmailToCandidatesBatchWorker).to receive(:perform_at)
+        instance.perform
+        expect(EndOfCycle::SendWinterDeclineByDefaultExplainerEmailToCandidatesBatchWorker).not_to have_received(:perform_at)
       end
     end
 
@@ -41,7 +43,11 @@ RSpec.describe EndOfCycle::SendWinterDeclineByDefaultExplainerEmailToCandidatesW
         create(:application_choice, :awaiting_provider_decision, application_form: build(:application_form, recruitment_cycle_year: previous_year))
         create(:application_choice, :declined_by_default)
 
-        expect { instance.perform }.to enqueue_job(EndOfCycle::SendWinterDeclineByDefaultExplainerEmailToCandidatesBatchWorker).with(contain_exactly(declined_by_default_application.id))
+        allow(EndOfCycle::SendWinterDeclineByDefaultExplainerEmailToCandidatesBatchWorker).to receive(:perform_at)
+        instance.perform
+
+        expect(EndOfCycle::SendWinterDeclineByDefaultExplainerEmailToCandidatesBatchWorker)
+          .to have_received(:perform_at).with(kind_of(Time), [declined_by_default_application.id])
       end
     end
   end

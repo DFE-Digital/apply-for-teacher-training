@@ -1,5 +1,7 @@
 # This worker will be scheduled to run daily
-class NudgeCandidatesWorker < ApplicationJob
+class NudgeCandidatesWorker
+  include Sidekiq::Worker
+
   Nudge = Struct.new(:query_class, :mailer_action)
   NUDGES = [
     Nudge.new(
