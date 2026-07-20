@@ -83,7 +83,7 @@ module ApplyForPostgraduateTeacherTraining
     config.i18n.raise_on_missing_translations = true
     config.action_view.form_with_generates_remote_forms = false
 
-    config.active_job.queue_adapter = :sidekiq
+    config.active_job.queue_adapter = :solid_queue
 
     config.mission_control.jobs.adapters = [ :solid_queue ]
     config.mission_control.jobs.http_basic_auth_enabled = false
