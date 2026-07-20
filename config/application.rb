@@ -87,7 +87,7 @@ module ApplyForPostgraduateTeacherTraining
 
     config.mission_control.jobs.adapters = [ :solid_queue ]
     config.mission_control.jobs.http_basic_auth_enabled = false
-    config.mission_control.jobs.filter_arguments = %w[email_address email code token]
+    config.mission_control.jobs.filter_arguments = %w[email_address email code token data]
 
     config.action_controller.perform_caching = true
 
