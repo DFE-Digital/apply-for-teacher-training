@@ -1,19 +1,19 @@
-<% content_for :title, t('authentication.email_already_requested.heading') %>
+<% content_for :title, t('shared.email_already_requested.heading') %>
 <% content_for :before_content, govuk_back_link_to(@back_link) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      <%= t('authentication.email_already_requested.heading') %>
+      <%= t('shared.email_already_requested.heading') %>
     </h1>
 
     <p class="govuk-body">
-      <%= t('authentication.email_already_requested.content') %>
+      <%= t('shared.email_already_requested.content') %>
     </p>
 
     <p class="govuk-body">
-      <%= t('authentication.email_already_requested.wait_one_minute_html',
-            link: govuk_link_to(t('authentication.email_already_requested.try_again'), @back_link)) %>
+      <%= t('shared.email_already_requested.wait_one_minute_html',
+            link: govuk_link_to(t('shared.email_already_requested.try_again'), @back_link)) %>
     </p>
   </div>
 </div>
