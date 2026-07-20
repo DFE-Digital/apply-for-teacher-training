@@ -76,16 +76,6 @@ module CandidateInterface
     helper_method :active_application_choices
 
     def handle_email_already_requested
-      @back_link = if is_a?(SignUpController)
-                     candidate_interface_create_account_or_sign_in_path(existing_account: false)
-                   else
-                     email = if is_a?(SignInController)
-                               candidate_params[:email_address].presence
-                             else
-                               create_account_or_sign_in_params[:email]
-                             end
-                     candidate_interface_create_account_or_sign_in_path(existing_account: true, email:)
-                   end
       render :email_already_requested
     end
 

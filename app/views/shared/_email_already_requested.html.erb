@@ -1,5 +1,5 @@
 <% content_for :title, t('shared.email_already_requested.heading') %>
-<% content_for :before_content, govuk_back_link_to(@back_link) %>
+<% content_for :before_content, govuk_back_link_to(back_link) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -13,7 +13,7 @@
 
     <p class="govuk-body">
       <%= t('shared.email_already_requested.wait_one_minute_html',
-            link: govuk_link_to(t('shared.email_already_requested.try_again'), @back_link)) %>
+            link: govuk_link_to(t('shared.email_already_requested.try_again'), back_link)) %>
     </p>
   </div>
 </div>

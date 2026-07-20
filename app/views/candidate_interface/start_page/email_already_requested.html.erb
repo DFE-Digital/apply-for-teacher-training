@@ -1,1 +1,5 @@
-<%= render 'shared/email_already_requested' %>
+<%= render 'shared/email_already_requested',
+           back_link: candidate_interface_create_account_or_sign_in_path(
+             existing_account: true,
+             email: params.dig(:candidate_interface_create_account_or_sign_in_form, :email),
+           ) %>
