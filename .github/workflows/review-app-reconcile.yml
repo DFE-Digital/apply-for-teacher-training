@@ -1,0 +1,103 @@
+name: Reconcile review apps on AKS
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Only display stale review apps; do not delete"
+        required: true
+        default: true
+        type: boolean
+  schedule:
+    - cron: "0 08 * * 0"
+
+permissions:
+  id-token: write
+  pull-requests: write
+  contents: read
+
+env:
+  GLOBAL_CONFIG_PATH: global_config
+  TF_VARS_PATH: terraform/aks/workspace_variables
+  TERRAFORM_BASE: terraform/aks
+  TF_FILE: provider.tf
+  SERVICE_NAME: apply
+  RESOURCE_GROUP_NAME: s189d01-att-rv-rg
+  STORAGE_ACCOUNT_NAME: s189d01atttfstatervsa
+  CONTAINER_NAME: att-tfstate
+
+jobs:
+  display-review-apps-to-remove:
+    name: Reconcile review apps
+    runs-on: ubuntu-latest
+
+    environment: review
+
+    outputs:
+      stale_prs: ${{ steps.reconcile.outputs.stale_prs }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Reconcile review apps
+        id: reconcile
+        uses: DFE-Digital/github-actions/review-app-reconcile@master
+        with:
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          resource-group-name: ${{ env.RESOURCE_GROUP_NAME }}
+          storage-account-name: ${{ env.STORAGE_ACCOUNT_NAME }}
+          terraform-base: ${{ env.TERRAFORM_BASE }}
+          tf-file: ${{ env.TF_FILE }}
+          service-name: ${{ env.SERVICE_NAME }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-repo: ${{ github.repository }}
+          tf-vars-path: ${{ env.TF_VARS_PATH }}
+          global-config-path: ${{ env.GLOBAL_CONFIG_PATH }}
+
+  delete-review-apps-after-reconcile:
+    name: Delete review app ${{ matrix.pr_number }} after reconcile
+    needs: display-review-apps-to-remove
+    runs-on: ubuntu-latest
+    environment: review
+
+    if: >
+      (
+        github.event_name == 'schedule' ||
+        github.event.inputs.dry_run == 'false'
+      ) &&
+      needs.display-review-apps-to-remove.outputs.stale_prs != '[]'
+
+    strategy:
+      max-parallel: 1
+      fail-fast: false
+      matrix:
+        pr_number: ${{ fromJson(needs.display-review-apps-to-remove.outputs.stale_prs) }}
+
+    concurrency: deploy_review_${{ matrix.pr_number }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete stale review app
+        uses: DFE-Digital/github-actions/delete-review-app@master
+        env:
+          PULL_REQUEST_NUMBER: ${{ matrix.pr_number }}
+        with:
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          terraform-base: ${{ env.TERRAFORM_BASE }}
+          tf-file: ${{ env.TF_FILE }}
+          pr-number: ${{ matrix.pr_number }}
+          resource-group-name: ${{ env.RESOURCE_GROUP_NAME }}
+          storage-account-name: ${{ env.STORAGE_ACCOUNT_NAME }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          tf-state-file: review-${{ matrix.pr_number }}_kubernetes.tfstate
