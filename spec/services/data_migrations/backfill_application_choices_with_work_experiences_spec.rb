@@ -6,9 +6,8 @@ RSpec.describe DataMigrations::BackfillApplicationChoicesWithWorkExperiences do
       application_form = create(:application_form)
       create(:application_choice, :awaiting_provider_decision, application_form:)
 
-      expect { described_class.new.change }.to change(
-        MigrateApplicationChoicesWorker.jobs, :size
-      ).by(1)
+      expect { described_class.new.change }
+        .to enqueue_job(MigrateApplicationChoicesWorker)
     end
   end
 

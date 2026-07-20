@@ -34,7 +34,7 @@ class WithdrawApplication
     ).call!
 
     if application_choice.application_form.ended_without_success?
-      CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker.perform_async(application_choice.application_form_id)
+      CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker.perform_later(application_choice.application_form_id)
     end
 
     send_email_notification_to_provider_users

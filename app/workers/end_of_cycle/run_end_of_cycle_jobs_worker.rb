@@ -1,28 +1,26 @@
 module EndOfCycle
-  class RunEndOfCycleJobsWorker
-    include Sidekiq::Worker
-
+  class RunEndOfCycleJobsWorker < ApplicationJob
     def perform
       if current_timetable.after_apply_deadline?
-        EndOfCycle::CancelUnsubmittedApplicationsWorker.perform_async(true)
-        EndOfCycle::CloseCoursesOnInvites.perform_async(true)
+        EndOfCycle::CancelUnsubmittedApplicationsWorker.perform_later(true)
+        EndOfCycle::CloseCoursesOnInvites.perform_later(true)
       end
 
       if current_timetable.after_reject_by_default?
-        EndOfCycle::RejectByDefaultWorker.perform_async(true)
+        EndOfCycle::RejectByDefaultWorker.perform_later(true)
       end
 
       if current_timetable.after_decline_by_default?
-        EndOfCycle::DeclineByDefaultWorker.perform_async(true)
-        EndOfCycle::CancelReferenceRequestsWorker.perform_async
+        EndOfCycle::DeclineByDefaultWorker.perform_later(true)
+        EndOfCycle::CancelReferenceRequestsWorker.perform_later
       end
 
       if Time.zone.now.after?(previous_timetable.winter_reject_by_default_at)
-        EndOfCycle::WinterRejectByDefaultWorker.perform_async(true)
+        EndOfCycle::WinterRejectByDefaultWorker.perform_later(true)
       end
 
       if Time.zone.now.after?(previous_timetable.winter_decline_by_default_at)
-        EndOfCycle::WinterDeclineByDefaultWorker.perform_async(true)
+        EndOfCycle::WinterDeclineByDefaultWorker.perform_later(true)
       end
     end
 

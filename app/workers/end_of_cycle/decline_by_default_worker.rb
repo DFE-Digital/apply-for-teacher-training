@@ -1,7 +1,5 @@
 module EndOfCycle
-  class DeclineByDefaultWorker
-    include Sidekiq::Worker
-
+  class DeclineByDefaultWorker < ApplicationJob
     BATCH_SIZE = 120
     STAGGER_OVER = 1.minute
 
@@ -9,7 +7,7 @@ module EndOfCycle
       return unless run_decline_by_default? || force
 
       BatchDelivery.new(relation:, stagger_over: STAGGER_OVER, batch_size: BATCH_SIZE).each do |batch_time, applications|
-        DeclineByDefaultSecondaryWorker.perform_at(batch_time, applications.pluck(:id))
+        DeclineByDefaultSecondaryWorker.set(wait_until: batch_time).perform_later(applications.pluck(:id))
       end
     end
 
@@ -37,9 +35,7 @@ module EndOfCycle
     end
   end
 
-  class DeclineByDefaultSecondaryWorker
-    include Sidekiq::Worker
-
+  class DeclineByDefaultSecondaryWorker < ApplicationJob
     def perform(application_form_ids)
       application_forms = ApplicationForm.where(id: application_form_ids).includes(:application_choices)
       application_forms.find_each do |application_form|

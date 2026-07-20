@@ -12,7 +12,7 @@ class Adviser::SignUpForm
     return false if invalid?
 
     sign_up_request = Adviser::SignUpRequest.find_or_create_by(application_form: application_form, teaching_subject: preferred_teaching_subject)
-    AdviserSignUpWorker.perform_async(sign_up_request.id)
+    AdviserSignUpWorker.perform_later(sign_up_request.id)
 
     application_form.adviser_status_waiting_to_be_assigned!
 

@@ -1,7 +1,5 @@
 module FindACandidate
   class PoolInviteChaserWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     def perform
       invites = Pool::Invite.current_cycle.published.not_responded
         .where.missing(:chasers_sent)
