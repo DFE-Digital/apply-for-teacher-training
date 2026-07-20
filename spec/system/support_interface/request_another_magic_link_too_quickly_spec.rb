@@ -9,7 +9,7 @@ RSpec.describe 'A support user requests another magic link too quickly' do
     given_i_am_registered_as_a_support_user
     when_i_visit_the_support_interface
     and_i_provide_my_email_address
-    then_i_see_i_should_have_received_an_email
+    then_i_see_i_have_received_an_email
 
     when_i_click_back_and_go_to_sign_up_again
     then_i_see_that_an_email_has_already_been_sent
@@ -31,7 +31,7 @@ private
     click_link_or_button t('continue')
   end
 
-  def then_i_see_i_should_have_received_an_email
+  def then_i_see_i_have_received_an_email
     expect(page).to have_element(:h1, text: 'Check your email', class: 'govuk-heading-l')
     expect(page).to have_element(
       :p,

@@ -6,7 +6,7 @@ module AuthenticatedUsingMagicLinks
   end
 
   def magic_link_recently_requested?
-    return false if self.is_a?(ServiceAPIUser)
+    return false if is_a?(ServiceAPIUser)
 
     last_magic_link_request = AuthenticationToken.where(user: self).order(:created_at).last
     return false if last_magic_link_request.blank?

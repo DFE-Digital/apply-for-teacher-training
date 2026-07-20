@@ -10,7 +10,7 @@ RSpec.describe 'A provider requests another magic link too quickly' do
     and_i_visit_the_sign_in_page
 
     when_i_sign_in
-    then_i_see_i_should_have_received_an_email
+    then_i_see_i_have_received_an_email
 
     when_i_click_back_and_go_to_sign_up_again
     then_i_see_that_an_email_has_already_been_sent
@@ -37,7 +37,7 @@ private
     click_on 'Request link to sign in'
   end
 
-  def then_i_see_i_should_have_received_an_email
+  def then_i_see_i_have_received_an_email
     expect(page).to have_element(:h1, text: 'Check your email', class: 'govuk-heading-xl')
     expect(page).to have_element(
       :p,

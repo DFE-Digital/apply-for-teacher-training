@@ -7,7 +7,7 @@ RSpec.describe 'Candidate requests another magic link too quickly' do
     given_i_am_a_candidate_with_an_account
 
     when_i_go_to_sign_in
-    then_i_see_i_should_have_received_an_email
+    then_i_see_i_have_received_an_email
 
     when_i_click_back_and_go_to_sign_in_again
     then_i_see_that_an_email_has_already_been_sent
@@ -18,14 +18,14 @@ RSpec.describe 'Candidate requests another magic link too quickly' do
 
     when_i_go_to_sign_up
     and_i_submit_my_email_address
-    then_i_see_i_should_have_received_an_email
+    then_i_see_i_have_received_an_email
 
     when_i_click_back_and_go_to_sign_up_again
     and_i_submit_my_email_address
     then_i_see_that_an_email_has_already_been_sent
   end
 
-  private
+private
 
   def given_i_am_a_candidate_with_an_account
     @application = create(:application_form)
@@ -40,7 +40,7 @@ RSpec.describe 'Candidate requests another magic link too quickly' do
     click_link_or_button t('continue')
   end
 
-  def then_i_see_i_should_have_received_an_email
+  def then_i_see_i_have_received_an_email
     expect(page).to have_element(:h1, text: 'Check your email', class: 'govuk-heading-xl')
     expect(page).to have_element(
       :p,
