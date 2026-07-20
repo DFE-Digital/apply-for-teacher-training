@@ -6,10 +6,12 @@ module AuthenticatedUsingMagicLinks
   end
 
   def magic_link_recently_requested?
-    magic_link_request = authentication_tokens.order(:created_at).last
-    return false if magic_link_request.blank?
+    return false if self.is_a?(ServiceAPIUser)
 
-    magic_link_request.created_at > 1.minute.ago
+    last_magic_link_request = AuthenticationToken.where(user: self).order(:created_at).last
+    return false if last_magic_link_request.blank?
+
+    last_magic_link_request.created_at > 1.minute.ago
   end
 
   def create_magic_link_token!(path: nil)

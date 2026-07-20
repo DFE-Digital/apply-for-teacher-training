@@ -95,6 +95,9 @@ module ProviderInterface
       end
 
       redirect_to provider_interface_check_your_email_path
+    rescue AuthenticatedUsingMagicLinks::MagicLinkTokenAlreadyRequestedError
+      @back_link = provider_interface_sign_in_path
+      render :email_already_requested
     end
 
     def impersonation?

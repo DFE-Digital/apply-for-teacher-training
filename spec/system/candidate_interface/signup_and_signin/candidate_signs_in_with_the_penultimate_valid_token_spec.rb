@@ -8,6 +8,7 @@ RSpec.describe 'Candidate tries to sign up using magic link with an invalid toke
 
     when_i_go_to_sign_in
     then_i_receive_an_email_inviting_me_to_sign_in
+    and_i_wait_for_my_authentication_token_to_expire
 
     when_i_click_back_and_go_to_sign_in_again
     then_i_receive_a_second_email_inviting_me_to_sign_in
@@ -54,5 +55,11 @@ RSpec.describe 'Candidate tries to sign up using magic link with an invalid toke
 
   def then_i_see_my_application_form
     expect(page).to have_current_path(candidate_interface_details_path)
+  end
+
+  def and_i_wait_for_my_authentication_token_to_expire
+    candidate = Candidate.find_by(email_address: @email)
+    auth_token = candidate.authentication_tokens.order(:created_at).last
+    auth_token.update!(created_at: 10.minutes.ago)
   end
 end

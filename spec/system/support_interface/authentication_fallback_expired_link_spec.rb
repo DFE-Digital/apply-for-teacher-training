@@ -19,6 +19,7 @@ RSpec.describe 'A support with an expired DSI fallback link' do
     then_i_am_signed_in
 
     when_i_sign_out
+    and_i_wait_for_my_authentication_token_to_expire
     then_i_am_not_signed_in
 
     when_i_click_on_the_link_in_my_email
@@ -91,5 +92,11 @@ RSpec.describe 'A support with an expired DSI fallback link' do
 
   def when_i_request_a_new_token
     click_link_or_button 'Request another link to sign in'
+  end
+
+  def and_i_wait_for_my_authentication_token_to_expire
+    support_user = SupportUser.find_by(email_address: @email)
+    auth_token = support_user.authentication_tokens.order(:created_at).last
+    auth_token.update!(created_at: 10.minutes.ago)
   end
 end

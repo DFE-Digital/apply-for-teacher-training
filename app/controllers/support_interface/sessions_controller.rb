@@ -102,6 +102,9 @@ module SupportInterface
       end
 
       redirect_to support_interface_check_your_email_path
+    rescue AuthenticatedUsingMagicLinks::MagicLinkTokenAlreadyRequestedError
+      @back_link = support_interface_sign_in_path
+      render :email_already_requested
     end
 
     def invalid_email_address!(email_address, error_type)
