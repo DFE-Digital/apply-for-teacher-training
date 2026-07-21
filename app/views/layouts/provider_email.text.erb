@@ -1,7 +1,9 @@
 <%= yield %>
 
-# <%= @get_help_title.presence || 'Get help' %>
+<% unless @hide_get_help %>
+  # <%= @get_help_title.presence || 'Get help' %>
 
-Get help, report a problem or give feedback at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
+  Get help, report a problem or give feedback at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
+<% end %>
 
 <%= yield :additional_footer_content %>

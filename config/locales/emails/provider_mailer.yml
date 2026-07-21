@@ -61,3 +61,5 @@ en:
       subject: Offer places to candidates by %{winter_reject_by_default_at}
     recruitment_performance_report_reminder:
       subject: Your weekly recruitment performance report is now available
+    inactive_user_prompt:
+      subject: Your access to your Manage account will be removed on %{date} if you do not sign in

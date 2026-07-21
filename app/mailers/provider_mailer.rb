@@ -290,6 +290,18 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def inactive_user_prompt(provider_user, date)
+    @hide_get_help = true
+    @provider_user = provider_user
+    @providers = provider_user.providers.map(&:name).join("\n")
+    @date = date.to_fs(:day_and_month)
+
+    provider_notify_email(
+      to: @provider_user.email_address,
+      subject: I18n.t!('provider_mailer.inactive_user_prompt.subject', date: @date),
+    )
+  end
+
 private
 
   def current_timetable

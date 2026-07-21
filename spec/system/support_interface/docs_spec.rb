@@ -63,6 +63,7 @@ RSpec.describe 'Docs' do
       provider_mailer-permissions_removed
       provider_mailer-permissions_updated
       provider_mailer-reference_received
+      provider_mailer-inactive_user_prompt
       candidate_mailer-application_rejected
       candidate_mailer-application_choice_submitted
       candidate_mailer-offer_10_day
