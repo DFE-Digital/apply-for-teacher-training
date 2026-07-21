@@ -14,12 +14,24 @@ class InspectInternationalGcseGrade
     equivalent_qualification.present?
   end
 
+  def requires_grade_schema_selection?
+    multiple_grade_schemas_available? ||
+      percentage_grade_schema_available?
+  end
+
+private
+
   def multiple_grade_schemas_available?
     equivalent_qualification.present? &&
       equivalent_qualification.grade_schemas.many?
   end
 
-private
+  def percentage_grade_schema_available?
+    equivalent_qualification.present? &&
+      equivalent_qualification.grade_schemas.any? do |schema|
+        schema.description == 'Percentage'
+      end
+  end
 
   def likely_below_level_four
     selected_schema&.likely_below_level_four || []

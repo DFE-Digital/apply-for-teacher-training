@@ -108,7 +108,7 @@ module CandidateInterface
     end
 
     def grade_link_value
-      inspect_grade.multiple_grade_schemas_available? ? candidate_interface_gcse_new_international_flow_edit_grade_schemas_path(change_path_params) : candidate_interface_gcse_new_international_flow_edit_grades_path(change_path_params)
+      inspect_grade.requires_grade_schema_selection? ? candidate_interface_gcse_new_international_flow_edit_grade_schemas_path(change_path_params) : candidate_interface_gcse_new_international_flow_edit_grades_path(change_path_params)
     end
 
     def grade_explanation_row

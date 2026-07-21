@@ -45,7 +45,7 @@ module CandidateInterface
   private
 
     def next_new_path_for_selected_qualification
-      if multiple_grade_schemas_for_selected_qualification?
+      if multiple_grade_schemas_for_selected_qualification? || percentage_grade_schema_for_selected_qualification?
         candidate_interface_gcse_new_international_flow_new_grade_schemas_path(@subject)
       else
         candidate_interface_gcse_new_international_flow_new_grades_path(@subject)
@@ -53,7 +53,7 @@ module CandidateInterface
     end
 
     def next_edit_path_for_selected_qualification
-      if multiple_grade_schemas_for_selected_qualification?
+      if multiple_grade_schemas_for_selected_qualification? || percentage_grade_schema_for_selected_qualification?
         candidate_interface_gcse_new_international_flow_edit_grade_schemas_path(@subject)
       else
         candidate_interface_gcse_new_international_flow_edit_grades_path(@subject)
@@ -61,9 +61,17 @@ module CandidateInterface
     end
 
     def multiple_grade_schemas_for_selected_qualification?
-      selected_equivalent_qualification_for_current_selection
-        &.grade_schemas
-        &.many?
+      selected_qualification_grade_schemas.many?
+    end
+
+    def percentage_grade_schema_for_selected_qualification?
+      selected_qualification_grade_schemas.any? do |schema|
+        schema.description == 'Percentage'
+      end
+    end
+
+    def selected_qualification_grade_schemas
+      selected_equivalent_qualification_for_current_selection&.grade_schemas || []
     end
 
     def selected_equivalent_qualification_for_current_selection

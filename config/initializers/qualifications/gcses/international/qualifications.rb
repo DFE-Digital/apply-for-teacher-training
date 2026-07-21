@@ -7,6 +7,7 @@ module DfE
         INTERNATIONAL_QUALIFICATIONS_SCHEMA = {
           id: :string,
           name: :string,
+          subjects: { kind: :array, element_schema: :string },
           countries: { kind: :array, element_schema: :string },
           grade_options: { kind: :array, element_schema: :strings },
         }.freeze
