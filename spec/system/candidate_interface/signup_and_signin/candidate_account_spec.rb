@@ -19,6 +19,7 @@ RSpec.describe 'Candidate account' do
     and_i_cannot_see_the_govuk_account_link
 
     when_i_click_the_sign_out_button
+    and_i_wait_for_my_authentication_token_to_expire
     then_i_am_signed_out
 
     when_i_visit_the_signin_page
@@ -33,6 +34,7 @@ RSpec.describe 'Candidate account' do
     then_i_am_signed_in
 
     when_i_click_the_sign_out_button
+    and_i_wait_for_my_authentication_token_to_expire
 
     when_i_visit_the_signup_page
     and_i_submit_my_email_address
@@ -135,5 +137,11 @@ RSpec.describe 'Candidate account' do
 
   def then_i_see_form_errors_on_the_page
     expect(page).to have_text 'There is a problem'
+  end
+
+  def and_i_wait_for_my_authentication_token_to_expire
+    candidate = Candidate.find_by(email_address: @email)
+    auth_token = candidate.authentication_tokens.order(:created_at).last
+    auth_token.update!(created_at: 10.minutes.ago)
   end
 end

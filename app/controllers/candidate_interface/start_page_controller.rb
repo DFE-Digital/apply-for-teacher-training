@@ -6,7 +6,10 @@ module CandidateInterface
     skip_before_action :require_authentication, only: %i[create_account_or_sign_in create_account_or_sign_in_handler]
 
     def create_account_or_sign_in
-      @create_account_or_sign_in_form = CreateAccountOrSignInForm.new
+      @create_account_or_sign_in_form = CreateAccountOrSignInForm.new(
+        existing_account: params[:existing_account],
+        email: params[:email],
+      )
       @referer_path = params[:path]
     end
 
