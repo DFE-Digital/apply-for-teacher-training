@@ -1697,6 +1697,11 @@
             "fieldPath": [
               "country_residency_since_birth"
             ]
+          },
+          {
+            "fieldPath": [
+              "previous_last_names"
+            ]
           }
         ]
       },
