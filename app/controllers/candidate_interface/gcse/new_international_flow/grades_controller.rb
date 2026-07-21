@@ -3,24 +3,25 @@ module CandidateInterface
     def new
       @structured_grades_form = GcseInternationalStructuredGradesForm.build_from_qualification(current_qualification,
                                                                                                structured_grades: @structured_grades,
-                                                                                               percentage: selected_grade_schema&.description == 'Percentage')
+                                                                                               percentage: selected_grade_schema_percentage?)
       @list_of_grades = @structured_grades.any?
-      @selected_grade_schema = selected_grade_schema
+      @percentage = selected_grade_schema_percentage?
       @back_path = new_flow_back_path
     end
 
     def edit
       @structured_grades_form = GcseInternationalStructuredGradesForm.build_from_qualification(current_qualification,
                                                                                                structured_grades: @structured_grades,
-                                                                                               percentage: selected_grade_schema&.description == 'Percentage')
+                                                                                               percentage: selected_grade_schema_percentage?)
       @list_of_grades = @structured_grades.any?
-      @selected_grade_schema = selected_grade_schema
+      @percentage = selected_grade_schema_percentage?
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
       @edit_back_path = edit_flow_back_path
     end
 
     def create
-      @structured_grades_form = GcseInternationalStructuredGradesForm.new(structured_grade_params.merge(percentage: selected_grade_schema&.description == 'Percentage'))
+      @structured_grades_form = GcseInternationalStructuredGradesForm.new(structured_grade_params.merge(percentage: selected_grade_schema_percentage?))
+      @percentage = selected_grade_schema_percentage?
       @list_of_grades = @structured_grades.any?
 
       if @structured_grades_form.save(current_qualification)
@@ -36,7 +37,8 @@ module CandidateInterface
     end
 
     def update
-      @structured_grades_form = GcseInternationalStructuredGradesForm.new(structured_grade_params.merge(percentage: selected_grade_schema&.description == 'Percentage'))
+      @structured_grades_form = GcseInternationalStructuredGradesForm.new(structured_grade_params.merge(percentage: selected_grade_schema_percentage?))
+      @percentage = selected_grade_schema_percentage?
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
       @list_of_grades = @structured_grades.any?
 

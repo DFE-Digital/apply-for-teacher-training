@@ -188,8 +188,11 @@ en:
           attributes:
             grade:
               blank: Select a grade
+              blank_percentage: Enter a grade
               not_a_number: Enter a whole number
+              not_an_integer: Enter a whole number
               less_than_or_equal_to: Enter a whole number less than or equal to 100
+              greater_than_or_equal_to: Enter a whole number greater than or equal to 0
             non_structured_grade:
               blank: Enter a grade
               too_long: Grade must be %{count} characters or fewer

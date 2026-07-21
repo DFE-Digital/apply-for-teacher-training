@@ -13,6 +13,7 @@ module CandidateInterface
 
     def create
       @grade_schemas_form = GcseInternationalGradeSchemasForm.new(grade_schema_params)
+      @grade_schemas = current_grade_schemas
 
       if @grade_schemas_form.save(current_qualification)
         if @grade_schemas_form.other?
@@ -27,6 +28,7 @@ module CandidateInterface
 
     def update
       @grade_schemas_form = GcseInternationalGradeSchemasForm.new(grade_schema_params)
+      @grade_schemas = current_grade_schemas
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
 
       if @grade_schemas_form.save(current_qualification)

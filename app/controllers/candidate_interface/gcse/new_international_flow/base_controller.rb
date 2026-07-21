@@ -67,6 +67,10 @@ module CandidateInterface
         current_grade_schemas.any? { |schema| schema.description == 'Percentage' }
     end
 
+    def selected_grade_schema_percentage?
+      selected_grade_schema&.description == 'Percentage'
+    end
+
     def finder
       return if @institution_country.blank?
 

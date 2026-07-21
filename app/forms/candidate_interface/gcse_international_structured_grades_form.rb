@@ -4,9 +4,11 @@ module CandidateInterface
 
     attr_accessor :grade, :non_structured_grade, :structured_grades, :percentage
 
-    validates :grade, presence: true
+    validates :grade, presence: true, unless: :percentage?
+    validates :grade, presence: { message: :blank_percentage }, if: :percentage?
     validates :grade, numericality: { only_integer: true }, if: :percentage?
     validates :grade, numericality: { less_than_or_equal_to: 100 }, if: :percentage?
+    validates :grade, numericality: { greater_than_or_equal_to: 0 }, if: :percentage?
 
     validates :non_structured_grade, presence: true, if: :non_structured?
     validates :non_structured_grade, length: { maximum: 20 }, if: :non_structured?
