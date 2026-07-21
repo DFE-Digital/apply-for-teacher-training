@@ -128,6 +128,12 @@ ci:
 	$(eval SKIP_CONFIRM=true)
 	$(eval SKIP_AZURE_LOGIN=true)
 
+airbyte: ## Add airbyte for review apps
+	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
+	$(eval export TF_VAR_pg_airbyte_enabled=true)
+	$(eval export TF_VAR_airbyte_enabled=true)
+	$(eval export TF_VAR_connection_status=active)
+
 set-azure-resource-group-tags: ##Tags that will be added to resource group on its creation in ARM template
 	$(eval RG_TAGS=$(shell echo '{"Portfolio": "Early Years and Schools Group", "Parent Business":"Teacher Training and Qualifications", "Product" : "Apply for postgraduate teacher training", "Service Line": "Teaching Workforce", "Service": "Teacher services", "Service Offering": "Apply for postgraduate teacher training", "Environment" : "$(ENV_TAG)"}' | jq . ))
 

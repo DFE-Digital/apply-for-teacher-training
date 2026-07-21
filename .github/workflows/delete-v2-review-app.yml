@@ -49,6 +49,13 @@ jobs:
           echo "TF_STATE_FILE=pr-${PR_NUMBER}.tfstate" >> $GITHUB_ENV
           echo "IMAGE_TAG=ignored" >> $GITHUB_ENV
 
+      - name: Set Airbyte
+        if: (contains(github.event.pull_request.labels.*.name, 'airbyte'))
+        run: |
+          echo "TF_VAR_pg_airbyte_enabled=true" >> $GITHUB_ENV
+          echo "TF_VAR_airbyte_enabled=true" >> $GITHUB_ENV
+          echo "TF_VAR_connection_status=active" >> $GITHUB_ENV
+
       - name: Delete Review App
         id: delete-review-app
         uses: DFE-Digital/github-actions/delete-review-app@master
@@ -63,6 +70,8 @@ jobs:
           resource-group-name: "${{ env.AZURE_RESOURCE_PREFIX }}-${{ env.SERVICE_SHORT }}-${{ env.CONFIG_SHORT }}-rg"
           storage-account-name: "${{ env.AZURE_RESOURCE_PREFIX }}${{ env.SERVICE_SHORT }}tfstate${{ env.CONFIG_SHORT }}sa"
           tf-state-file: ${{ env.TF_STATE_FILE }}
+          gcp-project-id: rugged-abacus-218110
+          gcp-wip: projects/712009772377/locations/global/workloadIdentityPools/apply-for-teacher-training/providers/apply-for-teacher-training
 
       - name: Post sticky pull request comment
         if: env.TF_STATE_EXISTS == 'true'

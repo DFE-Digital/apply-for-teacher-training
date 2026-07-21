@@ -302,6 +302,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Set Airbyte
+        if: (contains(github.event.pull_request.labels.*.name, 'airbyte'))
+        run: |
+          echo "TF_VAR_pg_airbyte_enabled=true" >> $GITHUB_ENV
+          echo "TF_VAR_airbyte_enabled=true" >> $GITHUB_ENV
+          echo "TF_VAR_connection_status=active" >> $GITHUB_ENV
+
       - name: Deploy App to Review v2
         id: deploy_v2_review
         uses: ./.github/actions/deploy_v2/
