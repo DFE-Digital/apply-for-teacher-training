@@ -6,8 +6,6 @@ module CandidateInterface
     before_action :set_subject
     before_action :set_institution_country
     before_action :set_equivalent_qualifications
-    before_action :set_selected_equivalent_qualification
-    before_action :set_grade_schemas
     before_action :set_structured_grades
     before_action :render_application_feedback_component
 
@@ -31,35 +29,6 @@ module CandidateInterface
       @equivalent_qualifications ||= finder.equivalent_qualifications
     end
 
-    def set_selected_equivalent_qualification
-      return if current_qualification.non_uk_qualification_type.blank? || finder.blank?
-
-      @selected_equivalent_qualification =
-        finder.equivalent_qualifications.find do |qual|
-          qual.name == current_qualification.non_uk_qualification_type
-        end
-    end
-
-    def selected_grade_schema
-      @selected_grade_schema ||=
-        if current_qualification.selected_grade_schema_id.present?
-          @grade_schemas.find do |schema|
-            schema.id == current_qualification.selected_grade_schema_id
-          end
-        elsif @grade_schemas.one?
-          @grade_schemas.first
-        end
-    end
-
-    def set_grade_schemas
-      @grade_schemas ||=
-        if @selected_equivalent_qualification.blank?
-          []
-        else
-          @selected_equivalent_qualification.grade_schemas
-        end
-    end
-
     def set_structured_grades
       @structured_grades ||=
         if selected_grade_schema.present?
@@ -68,6 +37,34 @@ module CandidateInterface
         else
           []
         end
+    end
+
+    def selected_grade_schema
+      @selected_grade_schema ||=
+        if current_qualification.selected_grade_schema_id.present?
+          current_grade_schemas.find do |schema|
+            schema.id == current_qualification.selected_grade_schema_id
+          end
+        elsif current_grade_schemas.one?
+          current_grade_schemas.first
+        end
+    end
+
+    def selected_equivalent_qualification
+      return if current_qualification.non_uk_qualification_type.blank? || finder.blank?
+
+      finder.equivalent_qualifications.find do |qualification|
+        qualification.name == current_qualification.non_uk_qualification_type
+      end
+    end
+
+    def current_grade_schemas
+      selected_equivalent_qualification&.grade_schemas || []
+    end
+
+    def requires_grade_schema_selection?
+      current_grade_schemas.many? ||
+        current_grade_schemas.any? { |schema| schema.description == 'Percentage' }
     end
 
     def finder

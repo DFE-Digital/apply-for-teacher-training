@@ -2,11 +2,13 @@ module CandidateInterface
   class Gcse::NewInternationalFlow::GradeSchemasController < Gcse::NewInternationalFlow::BaseController
     def new
       @grade_schemas_form = GcseInternationalGradeSchemasForm.build_from_qualification(current_qualification)
+      @grade_schemas = current_grade_schemas
     end
 
     def edit
       @grade_schemas_form = GcseInternationalGradeSchemasForm.build_from_qualification(current_qualification)
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
+      @grade_schemas = current_grade_schemas
     end
 
     def create

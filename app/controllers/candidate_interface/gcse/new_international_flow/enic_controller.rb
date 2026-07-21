@@ -52,8 +52,8 @@ module CandidateInterface
 
     def set_back_path
       @back_path ||=
-        if @grade_schemas.present? && current_qualification.grade.in?(@structured_grades)
-          && current_qualification.grade.in?(@selected_grade_schema.likely_below_level_four)
+        if current_grade_schemas.present? && current_qualification.grade.in?(@structured_grades)
+          && current_qualification.grade.in?(selected_grade_schema.likely_below_level_four)
           candidate_interface_gcse_new_international_flow_interruption_path(@subject)
         elsif params['return-to'] == 'schema-type'
           candidate_interface_gcse_new_international_flow_new_grade_schemas_path
@@ -68,8 +68,8 @@ module CandidateInterface
           candidate_interface_gcse_review_path(@subject)
         elsif params['return-to'] == 'schema-type'
           candidate_interface_gcse_new_international_flow_edit_grade_schemas_path
-        elsif @grade_schemas.present? && current_qualification.grade.in?(@structured_grades)
-          && current_qualification.grade.in?(@selected_grade_schema.likely_below_level_four)
+        elsif current_grade_schemas.present? && current_qualification.grade.in?(@structured_grades)
+          && current_qualification.grade.in?(selected_grade_schema.likely_below_level_four)
           candidate_interface_gcse_new_international_flow_interruption_path(@subject, 'return-to': 'application-review')
         else
           candidate_interface_gcse_new_international_flow_edit_grades_path

@@ -22,15 +22,13 @@ class InspectInternationalGcseGrade
 private
 
   def multiple_grade_schemas_available?
-    equivalent_qualification.present? &&
-      equivalent_qualification.grade_schemas.many?
+    grade_schemas.many?
   end
 
   def percentage_grade_schema_available?
-    equivalent_qualification.present? &&
-      equivalent_qualification.grade_schemas.any? do |schema|
-        schema.description == 'Percentage'
-      end
+    grade_schemas.any? do |schema|
+      schema.description == 'Percentage'
+    end
   end
 
   def likely_below_level_four
@@ -49,14 +47,18 @@ private
     end
   end
 
+  def grade_schemas
+    equivalent_qualification&.grade_schemas || []
+  end
+
   def selected_schema
     @selected_schema ||=
       if qualification.selected_grade_schema_id.present?
-        equivalent_qualification.grade_schemas.find do |schema|
+        grade_schemas.find do |schema|
           schema.id == qualification.selected_grade_schema_id
         end
-      elsif equivalent_qualification.grade_schemas.one?
-        equivalent_qualification.grade_schemas.first
+      elsif grade_schemas.one?
+        grade_schemas.first
       end
   end
 
