@@ -74,4 +74,22 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::IeltsReviewComponent,
       },
     )
   end
+
+  context 'when editable is false' do
+    it 'does not render any actions' do
+      ielts_qualification = build(
+        :ielts_qualification,
+        trf_number: '111111',
+        award_year: '2001',
+        band_score: '8',
+      )
+      render_inline(described_class.new(ielts_qualification, editable: false))
+
+      expect(rendered_content).to have_no_link('Change whether or not you have a qualification')
+      expect(rendered_content).to have_no_link('Change type of assessment')
+      expect(rendered_content).to have_no_link('Change TRF number')
+      expect(rendered_content).to have_no_link('Change year completed')
+      expect(rendered_content).to have_no_link('Change overall band score')
+    end
+  end
 end

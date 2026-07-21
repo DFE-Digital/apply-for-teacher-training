@@ -46,4 +46,18 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::NoEflQualificationRev
       Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_edit_start_path('return-to' => 'application-review'),
     )
   end
+
+  context 'when editable is false' do
+    it 'does not render any actions' do
+      english_proficiency = build(
+        :english_proficiency,
+        :no_qualification,
+        no_qualification_details: 'I’m working on it.',
+      )
+
+      render_inline(described_class.new(english_proficiency, editable: false))
+
+      expect(rendered_content).to have_no_link('Change whether or not you have a qualification')
+    end
+  end
 end
