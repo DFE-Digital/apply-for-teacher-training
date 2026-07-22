@@ -84,6 +84,7 @@ module ApplyForPostgraduateTeacherTraining
     config.action_view.form_with_generates_remote_forms = false
 
     config.active_job.queue_adapter = :solid_queue
+    config.solid_queue.clear_finished_jobs_after = 1.hour
 
     config.mission_control.jobs.adapters = [ :solid_queue ]
     config.mission_control.jobs.http_basic_auth_enabled = false
