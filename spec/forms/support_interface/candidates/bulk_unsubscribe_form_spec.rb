@@ -24,7 +24,7 @@ RSpec.describe SupportInterface::Candidates::BulkUnsubscribeForm, type: :model d
     end
 
     it 'calls Support::Candidates::BulkUnsubscribeWorker with an array of email addresses' do
-      allow(Support::Candidates::BulkUnsubscribeWorker).to receive(:perform_async)
+      allow(Support::Candidates::BulkUnsubscribeWorker).to receive(:perform_later)
 
       # White space is intentional to test that it is stripped
       form_email_addresses = "
@@ -41,7 +41,7 @@ RSpec.describe SupportInterface::Candidates::BulkUnsubscribeForm, type: :model d
         email_addresses: form_email_addresses,
       )
       form.save
-      expect(Support::Candidates::BulkUnsubscribeWorker).to have_received(:perform_async)
+      expect(Support::Candidates::BulkUnsubscribeWorker).to have_received(:perform_later)
         .with(
           audit_user.id,
           audit_comment,

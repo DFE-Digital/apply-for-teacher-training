@@ -83,11 +83,11 @@ module ApplyForPostgraduateTeacherTraining
     config.i18n.raise_on_missing_translations = true
     config.action_view.form_with_generates_remote_forms = false
 
-    config.active_job.queue_adapter = :sidekiq
+    config.active_job.queue_adapter = :solid_queue
 
     config.mission_control.jobs.adapters = [ :solid_queue ]
     config.mission_control.jobs.http_basic_auth_enabled = false
-    config.mission_control.jobs.filter_arguments = %w[email_address email code token data body]
+    config.mission_control.jobs.filter_arguments = %w[email_address email code token data body hidden_data]
 
     config.action_controller.perform_caching = true
 

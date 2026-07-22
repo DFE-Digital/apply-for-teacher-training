@@ -9,12 +9,12 @@ default: &default
       processes: <%= ENV.fetch("DEFAULT_QUEUE_PROCESSES", 1) %>
       polling_interval: 1
 
-    - queues: [mailers_sq]
+    - queues: [mailers]
       threads: <%= ENV.fetch("MAILER_QUEUE_THREADS", 1) %>
       processes: <%= ENV.fetch("MAILER_QUEUE_PROCESSES", 1) %>
       polling_interval: 1
 
-    - queues: [big_query_sq]
+    - queues: [big_query]
       threads: <%= ENV.fetch("BIG_QUERY_QUEUE_THREADS", 1) %>
       processes: <%= ENV.fetch("BIG_QUERY_QUEUE_PROCESSES", 1) %>
       polling_interval: 1

@@ -1,6 +1,4 @@
-class AdviserSignUpWorker
-  include Sidekiq::Worker
-
+class AdviserSignUpWorker < ApplicationJob
   attr_reader :application_form, :candidate_matchback, :preferred_teaching_subject_id
 
   MATCHBACK_ATTRIBUTES = %i[

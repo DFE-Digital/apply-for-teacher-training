@@ -30,7 +30,7 @@ module DfE
       end
 
       def retry_worker
-        NonDisclosureTraineeWithdrawalWorker.perform_in(10.minutes, candidate.id)
+        NonDisclosureTraineeWithdrawalWorker.set(wait: 10.minutes).perform_later(candidate.id)
         []
       end
 

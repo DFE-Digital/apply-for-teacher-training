@@ -1,7 +1,5 @@
-class ProcessNotifyCallbackWorker
-  include Sidekiq::Worker
-
-  sidekiq_options queue: :low_priority
+class ProcessNotifyCallbackWorker < ApplicationJob
+  queue_as :low_priority
 
   def perform(params)
     ProcessNotifyCallback.new(
