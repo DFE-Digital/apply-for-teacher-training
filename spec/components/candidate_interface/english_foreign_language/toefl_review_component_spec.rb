@@ -34,4 +34,22 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::ToeflReviewComponent,
       Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_edit_start_path('return-to' => 'application-review'),
     )
   end
+
+  context 'when editable is false' do
+    it 'does not render any actions' do
+      toefl_qualification = build(
+        :toefl_qualification,
+        registration_number: '222222 22222',
+        award_year: '2001',
+        total_score: '80',
+      )
+      render_inline(described_class.new(toefl_qualification, editable: false))
+
+      expect(rendered_content).to have_no_link('Change whether or not you have a qualification')
+      expect(rendered_content).to have_no_link('Change type of assessment')
+      expect(rendered_content).to have_no_link('Change registration number')
+      expect(rendered_content).to have_no_link('Change year completed')
+      expect(rendered_content).to have_no_link('Change total score')
+    end
+  end
 end

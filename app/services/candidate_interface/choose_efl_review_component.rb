@@ -1,14 +1,15 @@
 module CandidateInterface
   class ChooseEflReviewComponent
-    def self.call(english_proficiency, return_to_application_review: false)
-      new(english_proficiency, return_to_application_review:).call
+    def self.call(english_proficiency, return_to_application_review: false, editable: true)
+      new(english_proficiency, return_to_application_review:, editable:).call
     end
 
     attr_reader :english_proficiency
 
-    def initialize(english_proficiency, return_to_application_review: false)
+    def initialize(english_proficiency, return_to_application_review: false, editable: true)
       @english_proficiency = english_proficiency
       @return_to_application_review = return_to_application_review
+      @editable = editable
     end
 
     def call
@@ -30,7 +31,7 @@ module CandidateInterface
   private
 
     def component_params
-      { return_to_application_review: @return_to_application_review }
+      { return_to_application_review: @return_to_application_review, editable: @editable }
     end
   end
 end
