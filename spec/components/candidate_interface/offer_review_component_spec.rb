@@ -22,6 +22,13 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
     expect(result).not_to include('References')
   end
 
+  it 'renders component with the correct values for the course start date' do
+    result = render_inline(described_class.new(course_choice: application_choice))
+
+    expect(result.css('.govuk-summary-list__key').text).to include('Date course starts')
+    expect(result.css('.govuk-summary-list__value').text).to include(course_option.course.start_date.to_fs(:month_and_year))
+  end
+
   context 'when reference condition' do
     let(:conditions) do
       [

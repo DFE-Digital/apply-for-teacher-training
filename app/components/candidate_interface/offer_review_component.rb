@@ -10,6 +10,7 @@ module CandidateInterface
       [
         provider_row,
         course_row,
+        start_date_row,
         (salary_row if @course_choice.current_course.salary_details),
         (fee_row if @course_choice.current_course.fee?),
         (location_row unless @course_choice.school_placement_auto_selected?),
@@ -34,6 +35,13 @@ module CandidateInterface
       {
         key: 'Course',
         value: course_row_value,
+      }
+    end
+
+    def start_date_row
+      {
+        key: 'Date course starts',
+        value: @course_choice.current_course.start_date.to_fs(:month_and_year),
       }
     end
 
