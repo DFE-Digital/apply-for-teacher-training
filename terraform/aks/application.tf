@@ -114,6 +114,29 @@ module "solid_queue_worker" {
   run_as_non_root              = true
 }
 
+module "solid_queue_secondary_worker" {
+  source     = "./vendor/modules/aks//aks/application"
+  depends_on = [module.web_application]
+
+  is_web                       = false
+  namespace                    = var.namespace
+  environment                  = local.app_name_suffix
+  service_name                 = var.service_name
+  name                         = "solid-queue-secondary-worker"
+  docker_image                 = var.docker_image
+  replicas                     = var.solid_queue_secondary_worker_replicas
+  max_memory                   = var.solid_queue_secondary_worker_memory_max
+  cluster_configuration_map    = module.cluster_data.configuration_map
+  kubernetes_config_map_name   = module.application_configuration.kubernetes_config_map_name
+  kubernetes_secret_name       = module.application_configuration.kubernetes_secret_name
+  command                      = ["bundle", "exec", "rake", "solid_queue:start"]
+  probe_command                = ["pgrep", "-f", "solid-queue-worker"]
+  enable_gcp_wif               = true
+  enable_prometheus_monitoring = var.enable_prometheus_monitoring
+  enable_logit                 = var.enable_logit
+  run_as_non_root              = true
+}
+
 module "clock_worker" {
   source     = "./vendor/modules/aks//aks/application"
   depends_on = [module.web_application]
