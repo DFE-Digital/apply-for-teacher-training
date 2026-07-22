@@ -130,7 +130,7 @@ module "solid_queue_secondary_worker" {
   kubernetes_config_map_name   = module.application_configuration.kubernetes_config_map_name
   kubernetes_secret_name       = module.application_configuration.kubernetes_secret_name
   command                      = ["bundle", "exec", "rake", "solid_queue:start"]
-  probe_command                = ["pgrep", "-f", "solid-queue-secondary-worker"]
+  probe_command                = ["pgrep", "-f", "solid-queue-worker"]
   enable_gcp_wif               = true
   enable_prometheus_monitoring = var.enable_prometheus_monitoring
   enable_logit                 = var.enable_logit
