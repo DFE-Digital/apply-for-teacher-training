@@ -1,5 +1,7 @@
 module CandidateMailers
   class SendVisaSponsorshipDeadlineReminderWorker < ApplicationJob
+    self.queue_adapter = :solid_queue
+
     def perform(application_choice_ids)
       ApplicationChoice.where(id: application_choice_ids).each do |choice|
         application_form = choice.application_form

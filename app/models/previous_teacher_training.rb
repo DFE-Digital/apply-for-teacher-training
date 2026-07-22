@@ -59,7 +59,7 @@ class PreviousTeacherTraining < ApplicationRecord
       application_form.touch
 
       if FeatureFlag.active?(:import_non_disclosure_trainee_withdrawals)
-        NonDisclosureTraineeWithdrawalWorker.perform_later(application_form.candidate_id)
+        NonDisclosureTraineeWithdrawalWorker.perform_async(application_form.candidate_id)
       end
     end
   end

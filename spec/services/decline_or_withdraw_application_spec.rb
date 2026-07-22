@@ -51,11 +51,11 @@ RSpec.describe DeclineOrWithdrawApplication do
 
     context 'when an application is withdrawn' do
       it 'an email is send to the candidate' do
-        allow(CandidateMailers::SendWithdrawnOnRequestEmailWorker).to receive(:perform_later).and_return(true)
+        allow(CandidateMailers::SendWithdrawnOnRequestEmailWorker).to receive(:perform_async).and_return(true)
 
         described_class.new(application_choice:, actor: user).save!
 
-        expect(CandidateMailers::SendWithdrawnOnRequestEmailWorker).to have_received(:perform_later).with(application_choice.id)
+        expect(CandidateMailers::SendWithdrawnOnRequestEmailWorker).to have_received(:perform_async).with(application_choice.id)
       end
 
       it 'the CancelUpcomingInterviewsService is called' do

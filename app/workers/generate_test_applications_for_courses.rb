@@ -1,4 +1,6 @@
-class GenerateTestApplicationsForCourses < ApplicationJob
+class GenerateTestApplicationsForCourses
+  include Sidekiq::Worker
+
   def perform(course_ids, courses_per_application, previous_cycle, incomplete_references = false, next_cycle = false, received_state_only = false)
     generate_single(course_ids, courses_per_application, previous_cycle, incomplete_references, next_cycle, received_state_only)
   end

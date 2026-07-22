@@ -1,4 +1,6 @@
-class Adviser::RefreshAdviserStatusWorker < ApplicationJob
+class Adviser::RefreshAdviserStatusWorker
+  include Sidekiq::Worker
+
   def perform(application_form_id)
     return unless FeatureFlag.active?(:adviser_sign_up)
 

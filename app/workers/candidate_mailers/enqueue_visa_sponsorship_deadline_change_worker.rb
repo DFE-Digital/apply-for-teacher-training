@@ -1,5 +1,7 @@
 module CandidateMailers
-  class EnqueueVisaSponsorshipDeadlineChangeWorker < ApplicationJob
+  class EnqueueVisaSponsorshipDeadlineChangeWorker
+    include Sidekiq::Worker
+
     def perform(course_id)
       course = Course.open.find_by(id: course_id)
       return if course.nil?
@@ -17,7 +19,8 @@ module CandidateMailers
         batch_size: 120,
         stagger_over:,
       ).each do |batch_time, records|
-        SendVisaSponsorshipDeadlineChangeWorker.set(wait_until: batch_time).perform_later(
+        SendVisaSponsorshipDeadlineChangeWorker.perform_at(
+          batch_time,
           records.pluck(:id),
         )
       end

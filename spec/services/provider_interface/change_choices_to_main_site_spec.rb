@@ -17,11 +17,11 @@ RSpec.describe ProviderInterface::ChangeChoicesToMainSite do
           school_placement_auto_selected: true,
         )
 
-        allow(Provider::ChangeChoicesToMainSiteWorker).to receive(:perform_later)
+        allow(Provider::ChangeChoicesToMainSiteWorker).to receive(:perform_async)
 
         described_class.call(provider_ids: [provider.id])
 
-        expect(Provider::ChangeChoicesToMainSiteWorker).to have_received(:perform_later).with(
+        expect(Provider::ChangeChoicesToMainSiteWorker).to have_received(:perform_async).with(
           [choice.id],
         )
       end
@@ -40,10 +40,10 @@ RSpec.describe ProviderInterface::ChangeChoicesToMainSite do
           current_course_option: old_course_option,
         )
 
-        allow(Provider::ChangeChoicesToMainSiteWorker).to receive(:perform_later)
+        allow(Provider::ChangeChoicesToMainSiteWorker).to receive(:perform_async)
 
         described_class.call(provider_ids: [provider.id])
-        expect(Provider::ChangeChoicesToMainSiteWorker).not_to have_received(:perform_later)
+        expect(Provider::ChangeChoicesToMainSiteWorker).not_to have_received(:perform_async)
       end
     end
 
@@ -59,10 +59,10 @@ RSpec.describe ProviderInterface::ChangeChoicesToMainSite do
           original_course_option: old_course_option,
         )
 
-        allow(Provider::ChangeChoicesToMainSiteWorker).to receive(:perform_later)
+        allow(Provider::ChangeChoicesToMainSiteWorker).to receive(:perform_async)
 
         described_class.call(provider_ids: [provider.id])
-        expect(Provider::ChangeChoicesToMainSiteWorker).not_to have_received(:perform_later)
+        expect(Provider::ChangeChoicesToMainSiteWorker).not_to have_received(:perform_async)
       end
     end
 
@@ -80,10 +80,10 @@ RSpec.describe ProviderInterface::ChangeChoicesToMainSite do
           original_course_option: old_course_option,
         )
 
-        allow(Provider::ChangeChoicesToMainSiteWorker).to receive(:perform_later)
+        allow(Provider::ChangeChoicesToMainSiteWorker).to receive(:perform_async)
 
         described_class.call(provider_ids: 'wrong')
-        expect(Provider::ChangeChoicesToMainSiteWorker).not_to have_received(:perform_later)
+        expect(Provider::ChangeChoicesToMainSiteWorker).not_to have_received(:perform_async)
       end
     end
   end

@@ -20,7 +20,7 @@ RSpec.describe SupportInterface::ProviderTestDataController do
 
   describe 'POST create' do
     before do
-      allow(GenerateTestApplicationsForCourses).to receive(:perform_later)
+      allow(GenerateTestApplicationsForCourses).to receive(:perform_async)
       post support_interface_provider_test_data_path(provider)
     end
 
@@ -32,7 +32,7 @@ RSpec.describe SupportInterface::ProviderTestDataController do
 
       it 'enqueues a generation test data job' do
         expect(GenerateTestApplicationsForCourses)
-          .to have_received(:perform_later)
+          .to have_received(:perform_async)
           .exactly(100).times
       end
     end
@@ -43,7 +43,7 @@ RSpec.describe SupportInterface::ProviderTestDataController do
       end
 
       it 'does not enqueue a generation test data job' do
-        expect(GenerateTestApplicationsForCourses).not_to have_received(:perform_later)
+        expect(GenerateTestApplicationsForCourses).not_to have_received(:perform_async)
       end
     end
   end

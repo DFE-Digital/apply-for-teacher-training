@@ -1,5 +1,7 @@
-class RevertApplicationChoicesUpdatedAtWorker < ApplicationJob
-  queue_as :low_priority
+class RevertApplicationChoicesUpdatedAtWorker
+  include Sidekiq::Worker
+
+  sidekiq_options queue: :low_priority
 
   def perform(choice_ids)
     choices_to_update = {}

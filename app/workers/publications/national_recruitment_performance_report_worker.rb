@@ -1,8 +1,8 @@
 module Publications
-  class NationalRecruitmentPerformanceReportWorker < ApplicationJob
-    queue_as :default
+  class NationalRecruitmentPerformanceReportWorker
+    include Sidekiq::Worker
 
-    retry_on StandardError, attempts: 3
+    sidekiq_options retry: 3, queue: :default
 
     def perform(cycle_week, recruitment_cycle_year)
       Publications::NationalRecruitmentPerformanceReportGenerator.new(

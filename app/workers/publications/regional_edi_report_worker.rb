@@ -1,8 +1,8 @@
 module Publications
-  class RegionalEdiReportWorker < ApplicationJob
-    queue_as :default
+  class RegionalEdiReportWorker
+    include Sidekiq::Worker
 
-    retry_on StandardError, attempts: 3
+    sidekiq_options retry: 3, queue: :default
 
     def perform(cycle_week, region, recruitment_cycle_year)
       Publications::RegionalEdiReportGenerator.new(

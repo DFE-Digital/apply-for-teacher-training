@@ -8,7 +8,13 @@ module CandidateMailers
         allow(ApplicationChoicesVisaSponsorshipDeadlineReminder).to(
           receive(:call).and_return(ApplicationChoice.all),
         )
-        expect { described_class.perform_now }.to enqueue_job(SendVisaSponsorshipDeadlineReminderWorker).with(ApplicationChoice.all.pluck(:id))
+        worker = instance_double(ActiveJob::ConfiguredJob)
+        allow(SendVisaSponsorshipDeadlineReminderWorker).to receive(:set).and_return(worker)
+        allow(worker).to receive(:perform_later)
+
+        described_class.new.perform
+        expect(SendVisaSponsorshipDeadlineReminderWorker).to have_received(:set)
+        expect(worker).to have_received(:perform_later).with(ApplicationChoice.all.pluck(:id))
       end
     end
   end

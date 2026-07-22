@@ -31,24 +31,24 @@ RSpec.describe WithdrawApplication do
     end
 
     it 'sends a notification email to the candidate if the application is the last one' do
-      allow(CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker).to receive(:perform_later).and_return(true)
+      allow(CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker).to receive(:perform_async).and_return(true)
       application_form = create(:completed_application_form)
       application_choice = create(:application_choice, :awaiting_provider_decision, application_form:)
 
       described_class.new(application_choice:).save!
 
-      expect(CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker).to have_received(:perform_later).with(application_form.id)
+      expect(CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker).to have_received(:perform_async).with(application_form.id)
     end
 
     it 'does not send a notification email to the candidate if the application is not the last one' do
-      allow(CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker).to receive(:perform_later).and_return(true)
+      allow(CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker).to receive(:perform_async).and_return(true)
       application_form = create(:completed_application_form)
       application_choice = create(:application_choice, :awaiting_provider_decision, application_form:)
       _other_application_choice = create(:application_choice, :awaiting_provider_decision, application_form:)
 
       described_class.new(application_choice:).save!
 
-      expect(CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker).not_to have_received(:perform_later)
+      expect(CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker).not_to have_received(:perform_async)
     end
   end
 

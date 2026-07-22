@@ -36,7 +36,7 @@ class GenerateTestApplicationsForProvider
 
       raise ParameterInvalid, 'Parameter is invalid (cannot be greater than number of available courses): courses_per_application' if course_ids.count < courses_per_application
 
-      GenerateTestApplicationsForCourses.perform_later(
+      GenerateTestApplicationsForCourses.perform_async(
         course_ids, courses_per_application, previous_cycle, incomplete_references, next_cycle, received_state_only
       )
     end

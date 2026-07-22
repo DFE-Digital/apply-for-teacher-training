@@ -1,4 +1,6 @@
 class ChaseReferences < ApplicationJob
+  self.queue_adapter = :solid_queue
+
   REFEREE_CHASERS = [
     {
       after: 7.days,
