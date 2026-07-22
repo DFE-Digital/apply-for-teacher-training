@@ -198,6 +198,7 @@ class ProviderMailer < ApplicationMailer
     @provider_user = provider_user
     @provider = provider
     @permissions_removed_by = permissions_removed_by
+    @hide_get_help = true
 
     if @permissions_removed_by
       provider_notify_email(to: @provider_user.email_address,
