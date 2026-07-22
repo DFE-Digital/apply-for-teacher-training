@@ -12,9 +12,9 @@ RSpec.describe PromptInactiveProviderUsersWorker do
 
   describe '#perform' do
     it 'prompts soon-to-be inactive provider users' do
-      travel_to Time.zone.parse('2026-1-1 12:00:00') do
-        should_prompt = create(:provider_user, :with_provider, last_signed_in_at: 12.months.ago - 2.weeks)
-        should_not_prompt = create(:provider_user, :with_provider, last_signed_in_at: 12.months.ago - 2.weeks - 1.day)
+      travel_to Time.zone.parse('2026-07-22 12:00:00') do
+        should_prompt = create(:provider_user, :with_provider, last_signed_in_at: Time.zone.parse('2025-08-05 12:00:00'))
+        should_not_prompt = create(:provider_user, :with_provider, last_signed_in_at: Time.zone.parse('2025-08-04 12:00:00'))
 
         described_class.new.perform
 
@@ -26,9 +26,9 @@ RSpec.describe PromptInactiveProviderUsersWorker do
     end
 
     it 'prompts users who have never signed in but were created almost a year ago' do
-      travel_to Time.zone.parse('2026-1-1 12:00:00') do
-        should_prompt = create(:provider_user, :with_provider, last_signed_in_at: nil, created_at: 12.months.ago - 2.weeks)
-        should_not_prompt = create(:provider_user, :with_provider, last_signed_in_at: nil, created_at: 12.months.ago - 2.weeks - 1.day)
+      travel_to Time.zone.parse('2026-07-22 12:00:00') do
+        should_prompt = create(:provider_user, :with_provider, last_signed_in_at: nil, created_at: Time.zone.parse('2025-08-05 12:00:00'))
+        should_not_prompt = create(:provider_user, :with_provider, last_signed_in_at: nil, created_at: Time.zone.parse('2025-08-04 12:00:00'))
 
         described_class.new.perform
 
@@ -39,10 +39,10 @@ RSpec.describe PromptInactiveProviderUsersWorker do
       end
     end
 
-    it 'only prompts users on the prompt date and not again at a later date' do
-      travel_to Time.zone.parse('2026-1-1 12:00:00') do
-        should_prompt = create(:provider_user, :with_provider, last_signed_in_at: 12.months.ago - 2.weeks)
-        should_not_prompt = create(:provider_user, :with_provider, last_signed_in_at: 12.months.ago - 2.weeks - 3.days)
+    it 'only prompts users on their prompt date and not after it has passed' do
+      travel_to Time.zone.parse('2026-07-22 12:00:00') do
+        should_prompt = create(:provider_user, :with_provider, last_signed_in_at: Time.zone.parse('2025-08-05 12:00:00'))
+        should_not_prompt = create(:provider_user, :with_provider, last_signed_in_at: Time.zone.parse('2025-08-02 12:00:00'))
 
         described_class.new.perform
 
@@ -54,7 +54,7 @@ RSpec.describe PromptInactiveProviderUsersWorker do
     end
 
     it 'does not prompt a recently added but never signed in user' do
-      travel_to Time.zone.parse('2026-1-1 12:00:00') do
+      travel_to Time.zone.parse('2026-07-22 12:00:00') do
         create(:provider_user, :with_provider, last_signed_in_at: nil, created_at: 2.months.ago)
 
         described_class.new.perform
@@ -64,7 +64,7 @@ RSpec.describe PromptInactiveProviderUsersWorker do
     end
 
     it 'does not prompt an active user' do
-      travel_to Time.zone.parse('2026-1-1 12:00:00') do
+      travel_to Time.zone.parse('2026-07-22 12:00:00') do
         create(:provider_user, :with_provider, last_signed_in_at: 1.week.ago)
 
         described_class.new.perform
@@ -74,11 +74,11 @@ RSpec.describe PromptInactiveProviderUsersWorker do
     end
 
     it 'prompts users regardless of the time they signed in 11 months and 2 weeks ago' do
-      travel_to Time.zone.parse('2026-01-01 12:00:00') do
+      travel_to Time.zone.parse('2026-07-22 12:00:00') do
         should_prompt = create(
           :provider_user,
           :with_provider,
-          last_signed_in_at: Time.zone.parse('2024-12-18 15:59:59'),
+          last_signed_in_at: Time.zone.parse('2025-08-05 15:59:59'),
         )
 
         described_class.new.perform
@@ -88,12 +88,12 @@ RSpec.describe PromptInactiveProviderUsersWorker do
     end
 
     it 'batches users in groups of 100' do
-      travel_to Time.zone.parse('2026-1-1 12:00:00') do
+      travel_to Time.zone.parse('2026-07-22 12:00:00') do
         create_list(
           :provider_user,
           101,
           :with_provider,
-          last_signed_in_at: 12.months.ago - 2.weeks,
+          last_signed_in_at: Time.zone.parse('2025-08-05 12:00:00'),
         )
 
         described_class.new.perform
