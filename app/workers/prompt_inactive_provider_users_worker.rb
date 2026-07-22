@@ -33,7 +33,7 @@ private
 
   def almost_inactive_date
     # 11 months and 2 weeks ago
-    @prompt_date ||= INACTIVE_MONTHS_AGO.months.ago - PROMPT_WEEKS_BEFORE.weeks
+    @prompt_date ||= (INACTIVE_MONTHS_AGO.months - PROMPT_WEEKS_BEFORE.weeks).ago
   end
 
   def inactive_date
