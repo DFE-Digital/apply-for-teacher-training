@@ -41,7 +41,7 @@ module CandidateInterface
     def start_date_row
       {
         key: 'Date course starts',
-        value: @course_choice.current_course.start_date.to_fs(:month_and_year)
+        value: @course_choice.current_course.start_date.to_fs(:month_and_year),
       }
     end
 
