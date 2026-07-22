@@ -19,7 +19,7 @@ class Clock
   end
 
   # Hourly jobs
-
+  every(1.hour, 'DeleteFinishedJobs', at: '**:00') { DeleteFinishedJobsWorker.perform_later }
   every(1.hour, 'FindACandidate::PoolInviteChaserWorker', at: '**:35', skip_first_run: true) { FindACandidate::PoolInviteChaserWorker.perform_later }
   every(1.hour, 'SendFindStartOfCycleProviderEmails', at: '**:05') { StartOfCycleNotificationWorker.perform_later }
   every(1.hour, 'ProcessStaleApplications', at: '**:10') do
@@ -41,7 +41,6 @@ class Clock
   every(1.day, 'RemoveInactiveProviderUsersWorker', at: '5:05') { RemoveInactiveProviderUsersWorker.perform_later }
   every(1.day, 'DeactivateStaleServiceAPITokensWorker', at: '5:06') { DeactivateStaleServiceAPITokensWorker.perform_later }
   every(1.day, 'DeleteAllDrafts', at: '4:01') { DeleteAllDraftsWorker.perform_later }
-  every(1.day, 'DeleteFinishedJobs', at: '19:00') { DeleteFinishedJobsWorker.perform_later }
   every(1.day, 'Chasers::Candidate::OfferWorker', at: '10:30') { Chasers::Candidate::OfferWorker.perform_later }
 
   every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_later }
