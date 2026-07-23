@@ -1,6 +1,7 @@
 module CandidateInterface
   module EnglishProficiencies
     class ReviewController < SectionController
+      # For bug party testing
       before_action :check_for_english_proficiency
       def show
         @section_complete_form = SectionCompleteForm.new(
