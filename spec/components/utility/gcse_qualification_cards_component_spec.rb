@@ -80,8 +80,8 @@ RSpec.describe GcseQualificationCardsComponent, type: :component do
               subject: 'maths',
               grade: 'C',
               award_year: 2006,
-              non_uk_qualification_type: 'Diploma',
-              institution_country: 'FR',
+              non_uk_qualification_type: 'KCSE (Kenya Certificate of Secondary Education)',
+              institution_country: 'KE',
             ),
           ],
         )
@@ -91,10 +91,28 @@ RSpec.describe GcseQualificationCardsComponent, type: :component do
         result = render_inline(described_class.new(application_form))
 
         expect(result.text).to include 'GCSEs or equivalent'
-        expect(result.text).to include 'Maths Diploma'
-        expect(result.text).to include '2006, France'
+        expect(result.text).to include 'KCSE (Kenya Certificate of Secondary Education)'
+        expect(result.text).to include '2006, Kenya'
         expect(result.text).to include 'C'
         expect(result.text).to include 'UK ENIC or NARIC statement 4000123456 says this is comparable to a Between GCSE and GCSE AS Level.'
+        expect(result.text).not_to include 'Other evidence I have the skills required'
+      end
+
+      context 'when the candidate has provided evidence for a lower grade' do
+        before do
+          application_form.maths_gcse.update(grade: 'E',
+                                             enic_reason: nil,
+                                             enic_reference: nil,
+                                             not_completed_explanation: 'I will provide further documentation via email')
+        end
+
+        it 'displays the other evidence line' do
+          result = render_inline(described_class.new(application_form))
+
+          expect(result.text).to include 'GCSEs or equivalent'
+          expect(result.text).to include 'Other evidence I have the skills required'
+          expect(result.text).to include 'I will provide further documentation via email'
+        end
       end
 
       context 'when the UK ENIC reference is not provided' do
