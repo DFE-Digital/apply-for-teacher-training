@@ -29,6 +29,16 @@ class DuplicateApplication
         new_application_form.update(
           personal_details_completed: false,
         )
+
+        if visa_carry_over_condition_not_met_for_2027(new_application_form, original_application_form)
+          || subsequent_years_visa_carry_over_condition_not_met(new_application_form, original_application_form)
+          new_application_form.update(
+            immigration_status: nil,
+            visa_expired_at: nil,
+            right_to_work_or_study: nil,
+            right_to_work_or_study_details: nil,
+          )
+        end
       end
 
       original_application_form.application_volunteering_experiences.each do |w|
