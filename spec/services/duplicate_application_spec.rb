@@ -56,6 +56,42 @@ RSpec.describe DuplicateApplication do
     end
   end
 
+  context 'when a candidate has english, maths or science gcse equivalents from a country for which we have structured qualification data and the qualification matches a known structured qualification' do
+    it 'carries them over and keeps the sections set to completed' do
+      create(:gcse_qualification, :non_uk, subject: 'english', institution_country: 'KE', non_uk_qualification_type: 'KCSE (Kenya Certificate of Secondary Education)', application_form: @original_application_form)
+      create(:gcse_qualification, :non_uk, subject: 'maths', institution_country: 'IN', non_uk_qualification_type: 'CBSE Class 10 (AISSE)', application_form: @original_application_form)
+      create(:gcse_qualification, :non_uk, subject: 'science', institution_country: 'GH', non_uk_qualification_type: 'WASSCE (West African Senior School Certificate Examination)', application_form: @original_application_form)
+
+      expect(duplicate_application_form.english_gcse_completed).to be true
+      expect(duplicate_application_form.maths_gcse_completed).to be true
+      expect(duplicate_application_form.science_gcse_completed).to be true
+    end
+  end
+
+  context 'when a candidate has english, maths or science gcse equivalents from a country for which we have structured qualification data and the qualification does not match a known structured qualification' do
+    it 'carries them over and sets the sections to incomplete' do
+      create(:gcse_qualification, :non_uk, subject: 'english', institution_country: 'KE', non_uk_qualification_type: 'Some Other English Qualification', application_form: @original_application_form)
+      create(:gcse_qualification, :non_uk, subject: 'maths', institution_country: 'IN', non_uk_qualification_type: 'Some Other Maths Qualification', application_form: @original_application_form)
+      create(:gcse_qualification, :non_uk, subject: 'science', institution_country: 'GH', non_uk_qualification_type: 'Some Other Science Qualification', application_form: @original_application_form)
+
+      expect(duplicate_application_form.english_gcse_completed).to be false
+      expect(duplicate_application_form.maths_gcse_completed).to be false
+      expect(duplicate_application_form.science_gcse_completed).to be false
+    end
+  end
+
+  context 'when a candidate has domestic english, maths or science gcses or equivalents' do
+    it 'carries them over and keeps the section set to completed' do
+      create(:gcse_qualification, subject: 'english', application_form: @original_application_form)
+      create(:gcse_qualification, subject: 'maths', application_form: @original_application_form)
+      create(:gcse_qualification, subject: 'science', application_form: @original_application_form)
+
+      expect(duplicate_application_form.english_gcse_completed).to be true
+      expect(duplicate_application_form.maths_gcse_completed).to be true
+      expect(duplicate_application_form.science_gcse_completed).to be true
+    end
+  end
+
   context 'when a candidate has a published opt out preference' do
     it 'does not duplicate the preference' do
       create(:candidate_preference, :published, :opt_out, application_form: @original_application_form)
