@@ -68,6 +68,6 @@ RSpec.describe 'Managing provider users v2' do
 
   def and_the_user_receive_an_email_about_being_removed_from_the_provider
     open_email(@provider_user.email_address)
-    expect(current_email.subject).to include("You have been removed from #{@provider_one.name}")
+    expect(current_email.subject).to include('Your access to your Manage account has been removed')
   end
 end

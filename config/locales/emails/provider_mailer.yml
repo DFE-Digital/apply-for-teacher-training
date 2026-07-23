@@ -46,9 +46,9 @@ en:
     permissions_updated_by_support:
       subject: "Your permissions have been updated for %{organisation}"
     permissions_removed:
-      subject: "%{permissions_removed_by_user} has removed you from %{organisation}"
+      subject: "%{permissions_removed_by_user} has removed your access to Manage"
     permissions_removed_by_support:
-      subject: "You have been removed from %{organisation}"
+      subject: "Your access to your Manage account has been removed"
     apply_service_is_now_open:
       subject: "Candidates can now apply"
     find_service_is_now_open:

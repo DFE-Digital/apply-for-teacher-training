@@ -1,7 +1,27 @@
 Dear <%= @provider_user.full_name %>
 
 <% if @permissions_removed_by %>
-  <%= @permissions_removed_by.full_name %> has removed you from <%= @provider.name %>. You can no longer manage their teacher training applications.
+  <%= @permissions_removed_by.full_name %> has removed your access to Manage.
+
+  You are no longer able to manage teacher training applications for <%= @provider.name %>.
+
+  # If you want to use Manage again
+
+  You will need to contact the person who removed your access.
 <% else %>
-  You have been removed from <%= @provider.name %>. You can no longer manage their teacher training applications.
+  Your access to your Manage account has been removed. This is because your account had not been signed in to for 12 months.
+
+  You are no longer able to manage teacher training applications for <%= @provider.name %>.
+
+  # If you want to use Manage again
+
+  You will need to contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) to get your access back.
 <% end %>
+
+# Contact us
+
+If you have any questions, please contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
+
+Regards,
+
+Becoming a Teacher team
