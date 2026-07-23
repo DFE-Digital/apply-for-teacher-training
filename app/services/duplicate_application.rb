@@ -41,6 +41,13 @@ class DuplicateApplication
         new_application_form.application_qualifications.create!(
           w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
         )
+
+        next unless w.non_uk_qualification_type.present? && unstructured_qualification_from_a_structured_qualification_country?(w)
+                      && %w[english maths science].include?(w.subject)
+
+        new_application_form.update(
+          "#{w.subject}_gcse_completed": false,
+        )
       end
 
       if new_application_form.incomplete_degree_information?
@@ -139,6 +146,31 @@ class DuplicateApplication
   end
 
 private
+
+  def multiple_previous_teacher_trainings_2025?
+    original_application_form.recruitment_cycle_year == 2025 && original_application_form.published_previous_teacher_trainings.many?
+  end
+
+  def single_previous_teacher_training_2025?
+    original_application_form.recruitment_cycle_year == 2025 && original_application_form.published_previous_teacher_trainings.one?
+  end
+
+  def visa_carry_over_condition_not_met_for_2027(new_application_form, original_application_form)
+    new_application_form.recruitment_cycle_year == 2027
+        && original_application_form.temporary_immigration_status?
+  end
+
+  def subsequent_years_visa_carry_over_condition_not_met(new_application_form, original_application_form)
+    new_application_form.recruitment_cycle_year > 2027 &&
+      original_application_form.visa_expired_at.present? && original_application_form.visa_expired_at <= Time.zone.today
+  end
+
+  def unstructured_qualification_from_a_structured_qualification_country?(qualification)
+    InternationalQualifications::StructuredGcseOptionFinder
+      .new(qualification.institution_country, qualification.subject)
+      .international_qualifications
+      .none? { |qual| qual.name == qualification.non_uk_qualification_type }
+  end
 
   def infer_currently_working(application_experience)
     return application_experience.currently_working unless application_experience.currently_working.nil?
