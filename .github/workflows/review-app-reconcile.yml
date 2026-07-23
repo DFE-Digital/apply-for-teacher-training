@@ -10,6 +10,9 @@ on:
         type: boolean
   schedule:
     - cron: "0 08 * * 0"
+  push:
+    branches:
+      - 2855-reconcile-review-app-test
 
 permissions:
   id-token: write
