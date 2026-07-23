@@ -1,4 +1,7 @@
 <%= f.govuk_error_summary %>
+<% if @percentage %>
+  <%= f.govuk_text_field :grade, width: 3, label: { text: t('gcse_edit_new_international_flow_grade.page_title'), size: 'l', tag: 'h1' }, suffix_text: '%', inputmode: 'numeric' %>
+<% else %>
 <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: t('gcse_edit_new_international_flow_grade.page_title'), size: 'l', tag: 'h1' } do %>
   <% if @list_of_grades %>
     <% @structured_grades.each_with_index do |grade, i| %>
@@ -12,7 +15,8 @@
     <% end %>
   <% else %>
       <%= f.hidden_field :grade, value: 'other' %>
-      <%= f.govuk_text_field :non_structured_grade, width: 3, label: { text: t('application_form.gcse.non_uk_other_grade.non_structured_label'), hidden: true }, hint: { text: t('application_form.gcse.non_uk_other_grade.hint_text') } %>
-  <% end %>
+        <%= f.govuk_text_field :non_structured_grade, width: 3, label: { text: t('application_form.gcse.non_uk_other_grade.non_structured_label'), hidden: true }, hint: { text: t('application_form.gcse.non_uk_other_grade.hint_text') } %>
+      <% end %>
+<% end %>
 <% end %>
 <%= f.govuk_submit t('save_and_continue') %>
