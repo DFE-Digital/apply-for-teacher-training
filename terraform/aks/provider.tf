@@ -13,6 +13,10 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "2.32.0"
     }
+    airbyte = {
+      source  = "airbytehq/airbyte"
+      version = "0.10.0"
+    }
   }
   backend "azurerm" {
   }
@@ -42,4 +46,11 @@ provider "kubernetes" {
       args        = module.cluster_data.kubelogin_args
     }
   }
+}
+
+provider "airbyte" {
+  # Configuration options
+  server_url = var.airbyte_enabled ? "https://airbyte-${var.namespace}.${module.cluster_data.ingress_domain}/api/public/v1" : ""
+  client_id = var.airbyte_enabled ? module.secrets.map.AIRBYTE-CLIENT-ID : ""
+  client_secret = var.airbyte_enabled ? module.secrets.map.AIRBYTE-CLIENT-SECRET : ""
 }

@@ -122,6 +122,9 @@ variable "solid_queue_secondary_worker_replicas" {
 
 variable "enable_logit" { default = false }
 
+# pg_airbyte_enabled used in the postgres module
+variable "pg_airbyte_enabled" { default = false }
+
 locals {
   app_name_suffix = var.app_name_suffix != null ? var.app_name_suffix : var.app_environment
 
@@ -137,7 +140,13 @@ locals {
   app_env_values = merge(
     local.app_env_values_from_yaml,
     var.app_name_suffix != null ? local.review_url_vars : {},
-    { DB_SSLMODE = var.db_sslmode }
+    { DB_SSLMODE = var.db_sslmode },
+    {
+      BIGQUERY_AIRBYTE_DATASET                    = var.airbyte_enabled ? local.gcp_dataset_name : null
+      AIRBYTE_SERVER_URL                          = var.airbyte_enabled ? "https://airbyte-${var.namespace}.${module.cluster_data.ingress_domain}" : null
+      BIGQUERY_HIDDEN_POLICY_TAG                  = var.airbyte_enabled ? "projects/rugged-abacus-218110/locations/europe-west2/taxonomies/69524444121704657/policyTags/6523652585511281766" : null
+      AIRBYTE_INTERNAL_DATASET                    = var.airbyte_enabled ? "${local.gcp_dataset_name}_internal" : null
+    }
   )
 
   app_resource_group_name = "${var.azure_resource_prefix}-${var.service_short}-${var.config_short}-rg"

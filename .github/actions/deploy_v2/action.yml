@@ -74,6 +74,11 @@ runs:
         tenant-id: ${{ inputs.azure-tenant-id }}
         subscription-id: ${{ inputs.azure-subscription-id }}
 
+    - uses: google-github-actions/auth@v2
+      with:
+        project_id: rugged-abacus-218110
+        workload_identity_provider: projects/712009772377/locations/global/workloadIdentityPools/apply-for-teacher-training/providers/apply-for-teacher-training
+
     - uses: DFE-Digital/github-actions/set-kubelogin-environment@master
       with:
         azure-client-id: ${{ inputs.azure-client-id }}
