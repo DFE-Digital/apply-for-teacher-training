@@ -99,7 +99,7 @@ RSpec.describe DuplicateApplication do
     end
   end
 
-  context 'when a candidate has a a published opt in preference for anywhere in england' do
+  context 'when a candidate has a published opt in preference for anywhere in england' do
     it 'duplicates the preference' do
       create(:candidate_preference, :published, :anywhere_in_england, application_form: @original_application_form)
       expect(duplicate_application_form.preferences.first)
@@ -194,6 +194,103 @@ RSpec.describe DuplicateApplication do
   context 'when candidates does not have degrees' do
     it 'does not set university degree' do
       expect(duplicate_application_form.university_degree).to be_nil
+    end
+  end
+
+  context 'immigration status and right to work or study carry over' do
+    before do
+      FeatureFlag.activate('2027_visa_expiry')
+
+      @original_application_form.update!(
+        first_nationality: 'Nigerian',
+        immigration_status: 'student_visa',
+        visa_expired_at: 1.year.from_now,
+        right_to_work_or_study: 'yes',
+        right_to_work_or_study_details: 'I can extend my visa',
+      )
+    end
+
+    context 'when a candidate holds British or Irish citizenship' do
+      it 'always marks personal details as complete' do
+        @original_application_form.update!(first_nationality: 'Irish')
+        result = described_class.new(@original_application_form).duplicate
+
+        expect(result.personal_details_completed).to be true
+      end
+    end
+
+    context 'when a candidate does not hold British or Irish citizenship' do
+      it 'always marks personal details as incomplete' do
+        result = described_class.new(@original_application_form).duplicate
+
+        expect(result.personal_details_completed).to be false
+      end
+    end
+
+    context 'when carrying over with a non-expiring immigration status in any academic year' do
+      before do
+        @original_application_form.update!(immigration_status: 'eu_settled', visa_expired_at: nil)
+      end
+
+      it 'carries over immigration information' do
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2028).duplicate
+
+        expect(result.immigration_status).to eq 'eu_settled'
+        expect(result.personal_details_completed).to be false
+      end
+    end
+
+    context 'when carrying over to the 2027 cycle' do
+      it 'does not carry over temporary visa information' do
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2027).duplicate
+
+        expect(result.immigration_status).to be_nil
+        expect(result.visa_expired_at).to be_nil
+        expect(result.right_to_work_or_study).to be_nil
+        expect(result.right_to_work_or_study_details).to be_nil
+        expect(result.personal_details_completed).to be false
+      end
+    end
+
+    context 'when carrying over to the 2027 cycle with a permanent immigration status' do
+      before do
+        @original_application_form.update!(immigration_status: 'indefinite_leave_to_remain_in_the_uk', visa_expired_at: nil)
+      end
+
+      it 'carries over immigration information' do
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2027).duplicate
+
+        expect(result.immigration_status).to eq 'indefinite_leave_to_remain_in_the_uk'
+        expect(result.personal_details_completed).to be false
+      end
+    end
+
+    context 'when carrying over beyond 2027 with a temporary immigration status' do
+      it 'carries over visa information' do
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2028).duplicate
+
+        expect(result.immigration_status).to eq 'student_visa'
+        expect(result.visa_expired_at).to eq @original_application_form.visa_expired_at
+        expect(result.right_to_work_or_study).to eq 'yes'
+        expect(result.right_to_work_or_study_details).to eq 'I can extend my visa'
+        expect(result.personal_details_completed).to be false
+      end
+    end
+
+    context 'when carrying over beyond 2027 and the visa has expired' do
+      before do
+        @original_application_form.update!(visa_expired_at: 1.day.ago)
+      end
+
+      it 'does not carry over visa information' do
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2028).duplicate
+
+        expect(result.immigration_status).to be_nil
+        expect(result.visa_expired_at).to be_nil
+        expect(result.right_to_work_or_study).to be_nil
+        expect(result.right_to_work_or_study_details).to be_nil
+        expect(result.personal_details_completed).to be false
+      end
     end
   end
 
