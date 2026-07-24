@@ -110,7 +110,7 @@ RSpec.describe Offer do
         conditions: [
           build(:text_condition, status: 'met', description: 'Satisfactory references'),
           build(:reference_condition, status: 'met'),
-        ]
+        ],
       )
       expect(offer.all_references_conditions_met?).to be true
     end
@@ -121,7 +121,7 @@ RSpec.describe Offer do
         conditions: [
           build(:text_condition, status: 'pending', description: 'Satisfactory references'),
           build(:reference_condition, status: 'met'),
-        ]
+        ],
       )
       expect(offer.all_references_conditions_met?).to be false
     end
@@ -132,10 +132,9 @@ RSpec.describe Offer do
         conditions: [
           build(:text_condition, status: 'met', description: 'Satisfactory references'),
           build(:reference_condition, status: 'pending'),
-        ]
+        ],
       )
       expect(offer.all_references_conditions_met?).to be false
     end
-
   end
 end

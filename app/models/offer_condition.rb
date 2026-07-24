@@ -21,7 +21,7 @@ class OfferCondition < ApplicationRecord
   end
 
   def satisfactory_references?
-    SATISFACTORY_REFERENCES == text
+    text == SATISFACTORY_REFERENCES
   end
 
   def self.detail(key)
