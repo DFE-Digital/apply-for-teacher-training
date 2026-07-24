@@ -303,7 +303,6 @@ RSpec.describe DuplicateApplication do
       create(:english_proficiency, :qualification_not_needed, application_form: @original_application_form)
       result = duplicate_application_form
 
-      expect(result.efl_completed).to be true
       expect(result.english_proficiency.present?).to be(true)
       expect(result.english_proficiency.efl_qualification).to be_nil
       expect(result.english_proficiency.qualification_not_needed).to be(true)
@@ -317,7 +316,6 @@ RSpec.describe DuplicateApplication do
       create(:english_proficiency, :with_toefl_qualification, application_form: @original_application_form)
       result = duplicate_application_form
 
-      expect(result.efl_completed).to be true
       expect(result.english_proficiency.present?).to be(true)
       expect(result.english_proficiency.efl_qualification.present?).to be(true)
       expect(result.english_proficiency.efl_qualification_type).to eq 'ToeflQualification'
@@ -338,7 +336,6 @@ RSpec.describe DuplicateApplication do
       )
       result = duplicate_application_form
 
-      expect(result.efl_completed).to be true
       expect(result.english_proficiency.present?).to be(true)
       expect(result.english_proficiency.has_qualification).to be(false)
       expect(result.english_proficiency.no_qualification).to be(false)
@@ -346,6 +343,24 @@ RSpec.describe DuplicateApplication do
       expect(result.english_proficiency.qualification_not_needed).to be(true)
       expect(result.english_proficiency.draft).to be(false)
       expect(result.english_proficiency.no_qualification_details).to eq('Work in progress')
+    end
+
+    context 'when efl is completed' do
+      let(:efl_completed) { true }
+
+      it 'does not carry over efl section completed' do
+        expect(duplicate_application_form).not_to be_efl_completed
+        expect(duplicate_application_form.efl_completed_at).to be_nil
+      end
+    end
+
+    context 'when efl_completed is nil' do
+      let(:efl_completed) { true }
+
+      it 'carries over the nil status' do
+        expect(duplicate_application_form.efl_completed).to be_nil
+        expect(duplicate_application_form.efl_completed_at).to be_nil
+      end
     end
   end
 
