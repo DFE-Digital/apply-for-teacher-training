@@ -44,13 +44,39 @@ RSpec.describe DuplicateApplication do
     expect(duplicate_application_form.becoming_a_teacher).to eq @original_application_form.becoming_a_teacher
   end
 
-  it 'does not carry over any equality and diversity data' do
-    expect(duplicate_application_form.equality_and_diversity).to be_nil
-    expect(duplicate_application_form.equality_and_diversity_completed).to be_nil
-  end
-
   it 'does not carry over adviser response status' do
     expect(duplicate_application_form.adviser_interruption_response).to be_nil
+  end
+
+  context 'equality and diversity data' do
+    context 'when an application is from 2025 or later' do
+      it 'carries over any equality and diversity data but leaves it marked as incomplete' do
+        equality_and_diversity = {
+          'sex' => 'male',
+          'hesa_sex' => '11',
+          'disabilities' => ['Physical disability or mobility issue', 'Autistic spectrum condition or another condition affecting speech, language, communication or social skills', 'Deafness or a serious hearing impairment'],
+          'ethnic_group' => 'Mixed or multiple ethnic groups', 'hesa_ethnicity' => '140', 'ethnic_background' => 'Asian and White',
+          'hesa_disabilities' => %w[56 53 57]
+        }
+
+        @original_application_form.update(equality_and_diversity:, equality_and_diversity_completed: true)
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2026).duplicate
+
+        expect(result.equality_and_diversity).to eq equality_and_diversity
+        expect(result).not_to be_equality_and_diversity_completed
+        expect(result.equality_and_diversity_completed_at).to be_nil
+      end
+    end
+
+    context 'when an application is from 2024 or earlier' do
+      it 'does not carry over any equality and diversity data' do
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2024).duplicate
+
+        expect(result.equality_and_diversity).to be_nil
+        expect(result).not_to be_equality_and_diversity_completed
+        expect(result.equality_and_diversity_completed_at).to be_nil
+      end
+    end
   end
 
   context 'when candidates has degrees' do
