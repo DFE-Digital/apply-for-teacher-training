@@ -30,8 +30,8 @@ class DuplicateApplication
           personal_details_completed: false,
         )
 
-        if visa_carry_over_condition_not_met_for_2027(new_application_form, original_application_form)
-          || subsequent_years_visa_carry_over_condition_not_met(new_application_form, original_application_form)
+        if temporary_visa_and_recruitment_cycle_2027?(new_application_form, original_application_form)
+          || visa_expired?(original_application_form)
           new_application_form.update(
             immigration_status: nil,
             visa_expired_at: nil,
@@ -174,14 +174,13 @@ private
     original_application_form.recruitment_cycle_year == 2025 && original_application_form.published_previous_teacher_trainings.one?
   end
 
-  def visa_carry_over_condition_not_met_for_2027(new_application_form, original_application_form)
+  def temporary_visa_and_recruitment_cycle_2027?(new_application_form, original_application_form)
     new_application_form.recruitment_cycle_year == 2027
         && original_application_form.temporary_immigration_status?
   end
 
-  def subsequent_years_visa_carry_over_condition_not_met(new_application_form, original_application_form)
-    new_application_form.recruitment_cycle_year > 2027 &&
-      original_application_form.visa_expired_at.present? && original_application_form.visa_expired_at <= Time.zone.today
+  def visa_expired?(original_application_form)
+    original_application_form.visa_expired_at.present? && original_application_form.visa_expired_at <= Time.zone.today
   end
 
   def unstructured_qualification_from_a_structured_qualification_country?(qualification)
