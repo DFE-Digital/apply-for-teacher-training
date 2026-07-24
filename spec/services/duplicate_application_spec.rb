@@ -28,6 +28,10 @@ RSpec.describe DuplicateApplication do
 
   let(:recruitment_cycle_year) { current_year - 1 }
 
+  it 'marks contact details as incomplete' do
+    expect(duplicate_application_form).not_to be_contact_details_completed
+  end
+
   it 'marks reference as incomplete' do
     expect(duplicate_application_form).not_to be_references_completed
   end

@@ -25,6 +25,10 @@ class DuplicateApplication
         )
       end
 
+      new_application_form.update(
+        contact_details_completed: false,
+      )
+
       if !new_application_form.british_or_irish?
         new_application_form.update(
           personal_details_completed: false,
