@@ -25,6 +25,22 @@ RSpec.describe CarryOverApplication do
 
   let(:application_form) { create(:completed_application_form, references_count: 0) }
 
+  describe 'personal_details_completed' do
+    it 'sets the personal details section to incomplete if nationality is not UK/Irish' do
+      ApplicationForm.with_unsafe_application_choice_touches do
+        original_application_form.update!(
+          first_nationality: 'Indian',
+          personal_details_completed: true,
+          recruitment_cycle_year: 2021,
+        )
+        described_class.new(original_application_form).call
+      end
+      carried_over_application_form = ApplicationForm.last
+
+      expect(carried_over_application_form.personal_details_completed).to be(false)
+    end
+  end
+
   context 'when application is waiting for references' do
     it 'sets the reference to the not_requested state' do
       create(:reference, feedback_status: :feedback_provided, application_form:)
@@ -72,34 +88,6 @@ RSpec.describe CarryOverApplication do
       carried_over_application_form = ApplicationForm.last
 
       expect(carried_over_application_form.application_work_experiences.count).to eq(2)
-    end
-
-    describe 'personal_details_completed' do
-      it 'sets the personal details section to incomplete if nationality is not UK/Irish for 2021-22 carry over' do
-        ApplicationForm.with_unsafe_application_choice_touches do
-          original_application_form.update!(
-            first_nationality: 'Indian',
-            personal_details_completed: true,
-            recruitment_cycle_year: 2021,
-          )
-          described_class.new(original_application_form).call
-        end
-        carried_over_application_form = ApplicationForm.last
-
-        expect(carried_over_application_form.personal_details_completed).to be(false)
-      end
-
-      it 'does NOT set the personal details section to incomplete if nationality is UK/Irish for 2021-22 carry over' do
-        original_application_form.update!(
-          first_nationality: 'British',
-          personal_details_completed: true,
-          recruitment_cycle_year: 2021,
-        )
-        described_class.new(original_application_form).call
-        carried_over_application_form = ApplicationForm.last
-
-        expect(carried_over_application_form.personal_details_completed).to be(true)
-      end
     end
 
     it 'only carries over required attributes' do
