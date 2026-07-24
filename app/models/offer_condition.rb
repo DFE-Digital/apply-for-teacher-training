@@ -1,5 +1,6 @@
 class OfferCondition < ApplicationRecord
-  STANDARD_CONDITIONS = ['Fitness to train to teach check', 'Disclosure and Barring Service (DBS) check', 'Satisfactory references'].freeze
+  SATISFACTORY_REFERENCES = 'Satisfactory references'.freeze
+  STANDARD_CONDITIONS = ['Fitness to train to teach check', 'Disclosure and Barring Service (DBS) check', SATISFACTORY_REFERENCES].freeze
 
   belongs_to :offer, touch: true
   has_one :application_choice, through: :offer
@@ -17,6 +18,10 @@ class OfferCondition < ApplicationRecord
 
   def standard_condition?
     STANDARD_CONDITIONS.include?(text)
+  end
+
+  def satisfactory_references?
+    text == SATISFACTORY_REFERENCES
   end
 
   def self.detail(key)

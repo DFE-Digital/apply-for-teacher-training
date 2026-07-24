@@ -5,7 +5,7 @@ RSpec.describe 'New References', :with_audited do
 
   scenario 'Candidate request their references on the post offer dashboard' do
     given_i_am_signed_in_with_one_login
-    and_i_have_an_accepted_offer
+    and_i_have_an_accepted_offer_with_unmet_reference_conditions
 
     when_i_visit_the_application_dashboard
     then_i_see_the_post_offer_dashboard
@@ -58,7 +58,7 @@ RSpec.describe 'New References', :with_audited do
     then_the_back_link_point_to_the_offer_dashboard_page
   end
 
-  def and_i_have_an_accepted_offer
+  def and_i_have_an_accepted_offer_with_unmet_reference_conditions
     @application_form = create(:completed_application_form, candidate: @current_candidate)
     @pending_reference = create(:reference, :feedback_requested, reminder_sent_at: nil, application_form: @application_form)
     @completed_reference = create(:reference, :feedback_provided, application_form: @application_form)
@@ -68,6 +68,7 @@ RSpec.describe 'New References', :with_audited do
       :accepted,
       application_form: @application_form,
     )
+    create(:text_condition, description: 'Satisfactory references', status: 'pending', offer: @application_choice.offer)
   end
 
   def when_i_visit_the_application_dashboard
