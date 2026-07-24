@@ -59,7 +59,7 @@ RSpec.describe DuplicateApplication do
           'hesa_disabilities' => %w[56 53 57]
         }
 
-        @original_application_form.update(equality_and_diversity:, equality_and_diversity_completed: true)
+        @original_application_form.update(recruitment_cycle_year: 2025, equality_and_diversity:, equality_and_diversity_completed: true)
         result = described_class.new(@original_application_form, recruitment_cycle_year: 2026).duplicate
 
         expect(result.equality_and_diversity).to eq equality_and_diversity
@@ -70,7 +70,8 @@ RSpec.describe DuplicateApplication do
 
     context 'when an application is from 2024 or earlier' do
       it 'does not carry over any equality and diversity data' do
-        result = described_class.new(@original_application_form, recruitment_cycle_year: 2024).duplicate
+        @original_application_form.update(recruitment_cycle_year: 2024)
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2025).duplicate
 
         expect(result.equality_and_diversity).to be_nil
         expect(result).not_to be_equality_and_diversity_completed
@@ -164,60 +165,131 @@ RSpec.describe DuplicateApplication do
     end
   end
 
-  context 'when a candidate published started previous_teacher_training' do
-    it 'does duplicate previous_teacher_training' do
-      previous_teacher_training = create(
-        :previous_teacher_training,
-        status: 'published',
-        application_form: @original_application_form,
-      )
+  context 'previous teacher training data' do
+    before do
+      @original_application_form.published_previous_teacher_trainings.delete_all
+    end
 
-      expect(duplicate_application_form.published_previous_teacher_trainings.last)
-        .to have_attributes(
+    context 'when a candidate published a single previous_teacher_training in 2025' do
+      it 'carries over their latest previous_teacher_training only' do
+        single_previous_teacher_training = create(
+          :previous_teacher_training,
+          status: 'published',
+          started_at: 2.years.ago,
+          ended_at: 1.year.ago,
+          application_form: @original_application_form,
+        )
+
+        @original_application_form.update(recruitment_cycle_year: 2025)
+        @original_application_form.reload
+
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2026).duplicate
+
+        expect(result.published_previous_teacher_trainings.count).to eq(1)
+        expect(result.published_previous_teacher_trainings.last).to have_attributes(
           status: 'published',
           started: 'yes',
-          started_at: previous_teacher_training.started_at,
-          ended_at: previous_teacher_training.ended_at,
-          provider_name: previous_teacher_training.provider_name,
-          details: previous_teacher_training.details,
+          started_at: single_previous_teacher_training.started_at,
+          ended_at: single_previous_teacher_training.ended_at,
+          provider_name: single_previous_teacher_training.provider_name,
+          details: single_previous_teacher_training.details,
         )
-      expect(duplicate_application_form.previous_teacher_training_completed).to be(true)
+        expect(result.previous_teacher_training_completed).to be(false)
+      end
     end
-  end
 
-  context 'when a candidate published not started previous_teacher_training' do
-    it 'does duplicate previous_teacher_training' do
-      create(
-        :previous_teacher_training,
-        :not_started,
-        status: 'published',
-        application_form: @original_application_form,
-      )
-
-      expect(duplicate_application_form.published_previous_teacher_trainings.last)
-        .to have_attributes(
+    context 'when a candidate published multiple previous_teacher_trainings in 2025' do
+      it 'carries over their latest previous_teacher_training only' do
+        create(
+          :previous_teacher_training,
           status: 'published',
-          started: 'no',
-          started_at: nil,
-          ended_at: nil,
-          provider_name: nil,
-          details: nil,
+          started_at: 3.years.ago,
+          ended_at: 2.years.ago,
+          application_form: @original_application_form,
         )
-      expect(duplicate_application_form.previous_teacher_training_completed).to be(true)
+
+        create(
+          :previous_teacher_training,
+          status: 'published',
+          started_at: 2.years.ago,
+          ended_at: 1.year.ago,
+          application_form: @original_application_form,
+        )
+
+        @original_application_form.update(recruitment_cycle_year: 2025)
+        @original_application_form.reload
+
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2026).duplicate
+
+        expect(result.published_previous_teacher_trainings.count).to eq(0)
+        expect(result.previous_teacher_training_completed).to be(false)
+      end
     end
-  end
 
-  context 'when a candidate did not publish previous_teacher_training' do
-    it 'does not duplicate previous_teacher_training' do
-      @original_application_form.previous_teacher_trainings.delete_all
-      create(
-        :previous_teacher_training,
-        status: 'draft',
-        application_form: @original_application_form,
-      )
+    context 'when a candidate published multiple previous_teacher_trainings beyond 2025' do
+      it 'carries over all of their previous_teacher_trainings' do
+        previous_teacher_training_one = create(
+          :previous_teacher_training,
+          status: 'published',
+          application_form: @original_application_form,
+        )
+        previous_teacher_training_two = create(
+          :previous_teacher_training,
+          status: 'published',
+          application_form: @original_application_form,
+        )
 
-      expect(duplicate_application_form.published_previous_teacher_trainings).to eq([])
-      expect(duplicate_application_form.previous_teacher_training_completed).to be(false)
+        @original_application_form.update(recruitment_cycle_year: 2026)
+
+        @original_application_form.reload
+
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2027).duplicate
+
+        expect(result.published_previous_teacher_trainings.count).to eq(2)
+        expect(result.published_previous_teacher_trainings.pluck(:details)).to contain_exactly(
+          previous_teacher_training_one.details,
+          previous_teacher_training_two.details,
+        )
+        expect(result.previous_teacher_training_completed).to be(true)
+      end
+    end
+
+    context 'when a candidate published not started previous_teacher_training' do
+      it 'carries over their response' do
+        create(
+          :previous_teacher_training,
+          :not_started,
+          status: 'published',
+          application_form: @original_application_form,
+        )
+
+        @original_application_form.reload
+
+        expect(duplicate_application_form.published_previous_teacher_trainings.last)
+          .to have_attributes(
+            status: 'published',
+            started: 'no',
+            started_at: nil,
+            ended_at: nil,
+            provider_name: nil,
+            details: nil,
+          )
+      end
+    end
+
+    context 'when a candidate did not publish previous_teacher_training' do
+      it 'does not duplicate previous_teacher_training' do
+        create(
+          :previous_teacher_training,
+          status: 'draft',
+          application_form: @original_application_form,
+        )
+
+        @original_application_form.reload
+
+        expect(duplicate_application_form.published_previous_teacher_trainings).to eq([])
+        expect(duplicate_application_form.previous_teacher_training_completed).to be(false)
+      end
     end
   end
 
