@@ -28,6 +28,10 @@ RSpec.describe DuplicateApplication do
 
   let(:recruitment_cycle_year) { current_year - 1 }
 
+  it 'marks contact details as incomplete' do
+    expect(duplicate_application_form).not_to be_contact_details_completed
+  end
+
   it 'marks reference as incomplete' do
     expect(duplicate_application_form).not_to be_references_completed
   end
@@ -40,19 +44,82 @@ RSpec.describe DuplicateApplication do
     expect(duplicate_application_form.becoming_a_teacher).to eq @original_application_form.becoming_a_teacher
   end
 
-  it 'does not carry over any equality and diversity data' do
-    expect(duplicate_application_form.equality_and_diversity).to be_nil
-    expect(duplicate_application_form.equality_and_diversity_completed).to be_nil
-  end
-
   it 'does not carry over adviser response status' do
     expect(duplicate_application_form.adviser_interruption_response).to be_nil
+  end
+
+  context 'equality and diversity data' do
+    context 'when an application is from 2025 or later' do
+      it 'carries over any equality and diversity data but leaves it marked as incomplete' do
+        equality_and_diversity = {
+          'sex' => 'male',
+          'hesa_sex' => '11',
+          'disabilities' => ['Physical disability or mobility issue', 'Autistic spectrum condition or another condition affecting speech, language, communication or social skills', 'Deafness or a serious hearing impairment'],
+          'ethnic_group' => 'Mixed or multiple ethnic groups', 'hesa_ethnicity' => '140', 'ethnic_background' => 'Asian and White',
+          'hesa_disabilities' => %w[56 53 57]
+        }
+
+        @original_application_form.update(recruitment_cycle_year: 2025, equality_and_diversity:, equality_and_diversity_completed: true)
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2026).duplicate
+
+        expect(result.equality_and_diversity).to eq equality_and_diversity
+        expect(result).not_to be_equality_and_diversity_completed
+        expect(result.equality_and_diversity_completed_at).to be_nil
+      end
+    end
+
+    context 'when an application is from 2024 or earlier' do
+      it 'does not carry over any equality and diversity data' do
+        @original_application_form.update(recruitment_cycle_year: 2024)
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2025).duplicate
+
+        expect(result.equality_and_diversity).to be_nil
+        expect(result).not_to be_equality_and_diversity_completed
+        expect(result.equality_and_diversity_completed_at).to be_nil
+      end
+    end
   end
 
   context 'when candidates has degrees' do
     it 'sets university degree to true' do
       create(:degree_qualification, :bachelor, application_form: @original_application_form)
       expect(duplicate_application_form.university_degree).to be true
+    end
+  end
+
+  context 'when a candidate has english, maths or science gcse equivalents from a country for which we have structured qualification data and the qualification matches a known structured qualification' do
+    it 'carries them over and keeps the sections set to completed' do
+      create(:gcse_qualification, :non_uk, subject: 'english', institution_country: 'KE', non_uk_qualification_type: 'KCSE (Kenya Certificate of Secondary Education)', application_form: @original_application_form)
+      create(:gcse_qualification, :non_uk, subject: 'maths', institution_country: 'IN', non_uk_qualification_type: 'CBSE Class 10 (AISSE)', application_form: @original_application_form)
+      create(:gcse_qualification, :non_uk, subject: 'science', institution_country: 'GH', non_uk_qualification_type: 'WASSCE (West African Senior School Certificate Examination)', application_form: @original_application_form)
+
+      expect(duplicate_application_form.english_gcse_completed).to be true
+      expect(duplicate_application_form.maths_gcse_completed).to be true
+      expect(duplicate_application_form.science_gcse_completed).to be true
+    end
+  end
+
+  context 'when a candidate has english, maths or science gcse equivalents from a country for which we have structured qualification data and the qualification does not match a known structured qualification' do
+    it 'carries them over and sets the sections to incomplete' do
+      create(:gcse_qualification, :non_uk, subject: 'english', institution_country: 'KE', non_uk_qualification_type: 'Some Other English Qualification', application_form: @original_application_form)
+      create(:gcse_qualification, :non_uk, subject: 'maths', institution_country: 'IN', non_uk_qualification_type: 'Some Other Maths Qualification', application_form: @original_application_form)
+      create(:gcse_qualification, :non_uk, subject: 'science', institution_country: 'GH', non_uk_qualification_type: 'Some Other Science Qualification', application_form: @original_application_form)
+
+      expect(duplicate_application_form.english_gcse_completed).to be false
+      expect(duplicate_application_form.maths_gcse_completed).to be false
+      expect(duplicate_application_form.science_gcse_completed).to be false
+    end
+  end
+
+  context 'when a candidate has domestic english, maths or science gcses or equivalents' do
+    it 'carries them over and keeps the section set to completed' do
+      create(:gcse_qualification, subject: 'english', application_form: @original_application_form)
+      create(:gcse_qualification, subject: 'maths', application_form: @original_application_form)
+      create(:gcse_qualification, subject: 'science', application_form: @original_application_form)
+
+      expect(duplicate_application_form.english_gcse_completed).to be true
+      expect(duplicate_application_form.maths_gcse_completed).to be true
+      expect(duplicate_application_form.science_gcse_completed).to be true
     end
   end
 
@@ -63,7 +130,7 @@ RSpec.describe DuplicateApplication do
     end
   end
 
-  context 'when a candidate has a a published opt in preference for anywhere in england' do
+  context 'when a candidate has a published opt in preference for anywhere in england' do
     it 'duplicates the preference' do
       create(:candidate_preference, :published, :anywhere_in_england, application_form: @original_application_form)
       expect(duplicate_application_form.preferences.first)
@@ -98,60 +165,131 @@ RSpec.describe DuplicateApplication do
     end
   end
 
-  context 'when a candidate published started previous_teacher_training' do
-    it 'does duplicate previous_teacher_training' do
-      previous_teacher_training = create(
-        :previous_teacher_training,
-        status: 'published',
-        application_form: @original_application_form,
-      )
+  context 'previous teacher training data' do
+    before do
+      @original_application_form.published_previous_teacher_trainings.delete_all
+    end
 
-      expect(duplicate_application_form.published_previous_teacher_trainings.last)
-        .to have_attributes(
+    context 'when a candidate published a single previous_teacher_training in 2025' do
+      it 'carries over their latest previous_teacher_training only' do
+        single_previous_teacher_training = create(
+          :previous_teacher_training,
+          status: 'published',
+          started_at: 2.years.ago,
+          ended_at: 1.year.ago,
+          application_form: @original_application_form,
+        )
+
+        @original_application_form.update(recruitment_cycle_year: 2025)
+        @original_application_form.reload
+
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2026).duplicate
+
+        expect(result.published_previous_teacher_trainings.count).to eq(1)
+        expect(result.published_previous_teacher_trainings.last).to have_attributes(
           status: 'published',
           started: 'yes',
-          started_at: previous_teacher_training.started_at,
-          ended_at: previous_teacher_training.ended_at,
-          provider_name: previous_teacher_training.provider_name,
-          details: previous_teacher_training.details,
+          started_at: single_previous_teacher_training.started_at,
+          ended_at: single_previous_teacher_training.ended_at,
+          provider_name: single_previous_teacher_training.provider_name,
+          details: single_previous_teacher_training.details,
         )
-      expect(duplicate_application_form.previous_teacher_training_completed).to be(true)
+        expect(result.previous_teacher_training_completed).to be(false)
+      end
     end
-  end
 
-  context 'when a candidate published not started previous_teacher_training' do
-    it 'does duplicate previous_teacher_training' do
-      create(
-        :previous_teacher_training,
-        :not_started,
-        status: 'published',
-        application_form: @original_application_form,
-      )
-
-      expect(duplicate_application_form.published_previous_teacher_trainings.last)
-        .to have_attributes(
+    context 'when a candidate published multiple previous_teacher_trainings in 2025' do
+      it 'carries over their latest previous_teacher_training only' do
+        create(
+          :previous_teacher_training,
           status: 'published',
-          started: 'no',
-          started_at: nil,
-          ended_at: nil,
-          provider_name: nil,
-          details: nil,
+          started_at: 3.years.ago,
+          ended_at: 2.years.ago,
+          application_form: @original_application_form,
         )
-      expect(duplicate_application_form.previous_teacher_training_completed).to be(true)
+
+        create(
+          :previous_teacher_training,
+          status: 'published',
+          started_at: 2.years.ago,
+          ended_at: 1.year.ago,
+          application_form: @original_application_form,
+        )
+
+        @original_application_form.update(recruitment_cycle_year: 2025)
+        @original_application_form.reload
+
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2026).duplicate
+
+        expect(result.published_previous_teacher_trainings.count).to eq(0)
+        expect(result.previous_teacher_training_completed).to be(false)
+      end
     end
-  end
 
-  context 'when a candidate did not publish previous_teacher_training' do
-    it 'does not duplicate previous_teacher_training' do
-      @original_application_form.previous_teacher_trainings.delete_all
-      create(
-        :previous_teacher_training,
-        status: 'draft',
-        application_form: @original_application_form,
-      )
+    context 'when a candidate published multiple previous_teacher_trainings beyond 2025' do
+      it 'carries over all of their previous_teacher_trainings' do
+        previous_teacher_training_one = create(
+          :previous_teacher_training,
+          status: 'published',
+          application_form: @original_application_form,
+        )
+        previous_teacher_training_two = create(
+          :previous_teacher_training,
+          status: 'published',
+          application_form: @original_application_form,
+        )
 
-      expect(duplicate_application_form.published_previous_teacher_trainings).to eq([])
-      expect(duplicate_application_form.previous_teacher_training_completed).to be(false)
+        @original_application_form.update(recruitment_cycle_year: 2026)
+
+        @original_application_form.reload
+
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2027).duplicate
+
+        expect(result.published_previous_teacher_trainings.count).to eq(2)
+        expect(result.published_previous_teacher_trainings.pluck(:details)).to contain_exactly(
+          previous_teacher_training_one.details,
+          previous_teacher_training_two.details,
+        )
+        expect(result.previous_teacher_training_completed).to be(true)
+      end
+    end
+
+    context 'when a candidate published not started previous_teacher_training' do
+      it 'carries over their response' do
+        create(
+          :previous_teacher_training,
+          :not_started,
+          status: 'published',
+          application_form: @original_application_form,
+        )
+
+        @original_application_form.reload
+
+        expect(duplicate_application_form.published_previous_teacher_trainings.last)
+          .to have_attributes(
+            status: 'published',
+            started: 'no',
+            started_at: nil,
+            ended_at: nil,
+            provider_name: nil,
+            details: nil,
+          )
+      end
+    end
+
+    context 'when a candidate did not publish previous_teacher_training' do
+      it 'does not duplicate previous_teacher_training' do
+        create(
+          :previous_teacher_training,
+          status: 'draft',
+          application_form: @original_application_form,
+        )
+
+        @original_application_form.reload
+
+        expect(duplicate_application_form.published_previous_teacher_trainings).to eq([])
+        expect(duplicate_application_form.previous_teacher_training_completed).to be(false)
+      end
     end
   end
 
@@ -161,12 +299,108 @@ RSpec.describe DuplicateApplication do
     end
   end
 
+  context 'immigration status and right to work or study carry over' do
+    before do
+      FeatureFlag.activate('2027_visa_expiry')
+
+      @original_application_form.update!(
+        first_nationality: 'Nigerian',
+        immigration_status: 'student_visa',
+        visa_expired_at: 1.year.from_now,
+        right_to_work_or_study: 'yes',
+        right_to_work_or_study_details: 'I can extend my visa',
+      )
+    end
+
+    context 'when a candidate holds British or Irish citizenship' do
+      it 'always marks personal details as complete' do
+        @original_application_form.update!(first_nationality: 'Irish')
+        result = described_class.new(@original_application_form).duplicate
+
+        expect(result.personal_details_completed).to be true
+      end
+    end
+
+    context 'when a candidate does not hold British or Irish citizenship' do
+      it 'always marks personal details as incomplete' do
+        result = described_class.new(@original_application_form).duplicate
+
+        expect(result.personal_details_completed).to be false
+      end
+    end
+
+    context 'when carrying over with a non-expiring immigration status in any academic year' do
+      before do
+        @original_application_form.update!(immigration_status: 'eu_settled', visa_expired_at: nil)
+      end
+
+      it 'carries over immigration information' do
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2028).duplicate
+
+        expect(result.immigration_status).to eq 'eu_settled'
+        expect(result.personal_details_completed).to be false
+      end
+    end
+
+    context 'when carrying over to the 2027 cycle' do
+      it 'does not carry over temporary visa information' do
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2027).duplicate
+
+        expect(result.immigration_status).to be_nil
+        expect(result.visa_expired_at).to be_nil
+        expect(result.right_to_work_or_study).to be_nil
+        expect(result.right_to_work_or_study_details).to be_nil
+        expect(result.personal_details_completed).to be false
+      end
+    end
+
+    context 'when carrying over to the 2027 cycle with a permanent immigration status' do
+      before do
+        @original_application_form.update!(immigration_status: 'indefinite_leave_to_remain_in_the_uk', visa_expired_at: nil)
+      end
+
+      it 'carries over immigration information' do
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2027).duplicate
+
+        expect(result.immigration_status).to eq 'indefinite_leave_to_remain_in_the_uk'
+        expect(result.personal_details_completed).to be false
+      end
+    end
+
+    context 'when carrying over beyond 2027 with a temporary immigration status' do
+      it 'carries over visa information' do
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2028).duplicate
+
+        expect(result.immigration_status).to eq 'student_visa'
+        expect(result.visa_expired_at).to eq @original_application_form.visa_expired_at
+        expect(result.right_to_work_or_study).to eq 'yes'
+        expect(result.right_to_work_or_study_details).to eq 'I can extend my visa'
+        expect(result.personal_details_completed).to be false
+      end
+    end
+
+    context 'when carrying over beyond 2027 and the visa has expired' do
+      before do
+        @original_application_form.update!(visa_expired_at: 1.day.ago)
+      end
+
+      it 'does not carry over visa information' do
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2028).duplicate
+
+        expect(result.immigration_status).to be_nil
+        expect(result.visa_expired_at).to be_nil
+        expect(result.right_to_work_or_study).to be_nil
+        expect(result.right_to_work_or_study_details).to be_nil
+        expect(result.personal_details_completed).to be false
+      end
+    end
+  end
+
   context 'english proficiency' do
     it 'carries over english proficiency data where qualification is not needed' do
       create(:english_proficiency, :qualification_not_needed, application_form: @original_application_form)
       result = duplicate_application_form
 
-      expect(result.efl_completed).to be true
       expect(result.english_proficiency.present?).to be(true)
       expect(result.english_proficiency.efl_qualification).to be_nil
       expect(result.english_proficiency.qualification_not_needed).to be(true)
@@ -180,7 +414,6 @@ RSpec.describe DuplicateApplication do
       create(:english_proficiency, :with_toefl_qualification, application_form: @original_application_form)
       result = duplicate_application_form
 
-      expect(result.efl_completed).to be true
       expect(result.english_proficiency.present?).to be(true)
       expect(result.english_proficiency.efl_qualification.present?).to be(true)
       expect(result.english_proficiency.efl_qualification_type).to eq 'ToeflQualification'
@@ -201,7 +434,6 @@ RSpec.describe DuplicateApplication do
       )
       result = duplicate_application_form
 
-      expect(result.efl_completed).to be true
       expect(result.english_proficiency.present?).to be(true)
       expect(result.english_proficiency.has_qualification).to be(false)
       expect(result.english_proficiency.no_qualification).to be(false)
@@ -209,6 +441,24 @@ RSpec.describe DuplicateApplication do
       expect(result.english_proficiency.qualification_not_needed).to be(true)
       expect(result.english_proficiency.draft).to be(false)
       expect(result.english_proficiency.no_qualification_details).to eq('Work in progress')
+    end
+
+    context 'when efl is completed' do
+      let(:efl_completed) { true }
+
+      it 'does not carry over efl section completed' do
+        expect(duplicate_application_form).not_to be_efl_completed
+        expect(duplicate_application_form.efl_completed_at).to be_nil
+      end
+    end
+
+    context 'when efl_completed is nil' do
+      let(:efl_completed) { true }
+
+      it 'carries over the nil status' do
+        expect(duplicate_application_form.efl_completed).to be_nil
+        expect(duplicate_application_form.efl_completed_at).to be_nil
+      end
     end
   end
 

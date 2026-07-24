@@ -6,7 +6,7 @@ class DuplicateApplication
     @recruitment_cycle_year = recruitment_cycle_year
   end
 
-  IGNORED_ATTRIBUTES = %w[id created_at updated_at submitted_at course_choices_completed phase support_reference english_main_language english_language_details other_language_details feedback_form_complete equality_and_diversity equality_and_diversity_completed adviser_interruption_response].freeze
+  IGNORED_ATTRIBUTES = %w[id created_at updated_at submitted_at contact_details_completed course_choices_completed phase support_reference english_main_language english_language_details other_language_details feedback_form_complete efl_completed efl_completed_at feedback_form_complete equality_and_diversity_completed equality_and_diversity_completed_at adviser_interruption_response].freeze
   IGNORED_CHILD_ATTRIBUTES = %w[id created_at updated_at application_form_id public_id enic_reason].freeze
 
   def duplicate
@@ -29,6 +29,16 @@ class DuplicateApplication
         new_application_form.update(
           personal_details_completed: false,
         )
+
+        if temporary_visa_and_recruitment_cycle_2027?(new_application_form, original_application_form)
+          || visa_expired?(original_application_form)
+          new_application_form.update(
+            immigration_status: nil,
+            visa_expired_at: nil,
+            right_to_work_or_study: nil,
+            right_to_work_or_study_details: nil,
+          )
+        end
       end
 
       original_application_form.application_volunteering_experiences.each do |w|
@@ -40,6 +50,13 @@ class DuplicateApplication
       original_application_form.application_qualifications.each do |w|
         new_application_form.application_qualifications.create!(
           w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
+        )
+
+        next unless w.non_uk_qualification_type.present? && unstructured_qualification_from_a_structured_qualification_country?(w)
+                      && %w[english maths science].include?(w.subject)
+
+        new_application_form.update(
+          "#{w.subject}_gcse_completed": false,
         )
       end
 
@@ -117,7 +134,12 @@ class DuplicateApplication
 
       original_previous_teacher_trainings = original_application_form.published_previous_teacher_trainings
 
-      if original_previous_teacher_trainings.blank?
+      if original_previous_teacher_trainings.blank? || multiple_previous_teacher_trainings_2025?
+        new_application_form.update!(previous_teacher_training_completed: false)
+      elsif single_previous_teacher_training_2025?
+        new_application_form.published_previous_teacher_trainings.create!(
+          original_previous_teacher_trainings.first.attributes.except(*IGNORED_ATTRIBUTES),
+        )
         new_application_form.update!(previous_teacher_training_completed: false)
       else
         new_application_form.published_previous_teacher_trainings.create!(
@@ -126,6 +148,10 @@ class DuplicateApplication
           end,
         )
         new_application_form.update!(previous_teacher_training_completed: true)
+      end
+
+      if original_application_form.recruitment_cycle_year <= 2024
+        new_application_form.update!(equality_and_diversity: nil)
       end
 
       if original_application_form.never_asked?
@@ -139,6 +165,30 @@ class DuplicateApplication
   end
 
 private
+
+  def multiple_previous_teacher_trainings_2025?
+    original_application_form.recruitment_cycle_year == 2025 && original_application_form.published_previous_teacher_trainings.many?
+  end
+
+  def single_previous_teacher_training_2025?
+    original_application_form.recruitment_cycle_year == 2025 && original_application_form.published_previous_teacher_trainings.one?
+  end
+
+  def temporary_visa_and_recruitment_cycle_2027?(new_application_form, original_application_form)
+    new_application_form.recruitment_cycle_year == 2027
+        && original_application_form.temporary_immigration_status?
+  end
+
+  def visa_expired?(original_application_form)
+    original_application_form.visa_expired_at.present? && original_application_form.visa_expired_at <= Time.zone.today
+  end
+
+  def unstructured_qualification_from_a_structured_qualification_country?(qualification)
+    InternationalQualifications::StructuredGcseOptionFinder
+      .new(qualification.institution_country, qualification.subject)
+      .international_qualifications
+      .none? { |qual| qual.name == qualification.non_uk_qualification_type }
+  end
 
   def infer_currently_working(application_experience)
     return application_experience.currently_working unless application_experience.currently_working.nil?
