@@ -16,6 +16,11 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
 
       when_i_sign_in_again
       and_i_navigate_to_my_details
+
+      when_i_view_my_contact_information
+      then_i_see_my_previously_saved_details
+      and_i_mark_them_as_complete
+
       when_i_view_referees
       then_i_can_see_the_referees_i_previously_added
       and_i_can_complete_the_references_section
@@ -37,7 +42,10 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
 
       when_i_sign_in_again
       and_i_navigate_to_my_details
-      then_i_see_my_details
+
+      when_i_view_my_contact_information
+      then_i_see_my_previously_saved_details
+      and_i_mark_them_as_complete
 
       when_i_view_referees
       then_i_can_see_the_referees_i_previously_added
@@ -58,11 +66,13 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
       :completed_application_form,
       :with_gcses,
       :with_degree,
+      :with_equality_and_diversity_data,
       date_of_birth: Date.new(1964, 9, 1),
       submitted_at: nil,
       candidate: @current_candidate,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
       references_count: 0,
+      country_residency_since_birth: true,
     )
     @first_reference = create(
       :reference,
@@ -138,7 +148,8 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
 
   def and_i_can_complete_the_equality_and_diversity_section
     click_on 'Equality and diversity questions'
-    candidate_fills_in_diversity_information
+    choose 'Yes, I have completed this section'
+    click_link_or_button 'Continue'
   end
 
   def when_i_view_courses
@@ -208,5 +219,19 @@ RSpec.describe 'Carry over next cycle with cycle switcher' do
   def and_my_application_is_awaiting_provider_decision
     application_choice = @current_candidate.current_application.application_choices.first
     expect(application_choice.status).to eq('awaiting_provider_decision')
+  end
+
+  def when_i_view_my_contact_information
+    click_link_or_button 'Contact information'
+  end
+
+  def then_i_see_my_previously_saved_details
+    expect(page).to have_text(@application_form.address_line1)
+    expect(page).to have_text(@application_form.phone_number)
+  end
+
+  def and_i_mark_them_as_complete
+    choose 'Yes, I have completed this section'
+    click_link_or_button 'Continue'
   end
 end

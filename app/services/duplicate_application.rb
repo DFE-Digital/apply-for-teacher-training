@@ -30,8 +30,8 @@ class DuplicateApplication
           personal_details_completed: false,
         )
 
-        if visa_carry_over_condition_not_met_for_2027(new_application_form, original_application_form)
-          || subsequent_years_visa_carry_over_condition_not_met(new_application_form, original_application_form)
+        if temporary_visa_and_recruitment_cycle_into_2027?(new_application_form, original_application_form)
+          || visa_expired?(original_application_form)
           new_application_form.update(
             immigration_status: nil,
             visa_expired_at: nil,
@@ -134,9 +134,9 @@ class DuplicateApplication
 
       original_previous_teacher_trainings = original_application_form.published_previous_teacher_trainings
 
-      if original_previous_teacher_trainings.blank? || multiple_previous_teacher_trainings_2025?
+      if multiple_previous_teacher_trainings_from_2025? || original_previous_teacher_trainings.blank?
         new_application_form.update!(previous_teacher_training_completed: false)
-      elsif single_previous_teacher_training_2025?
+      elsif single_previous_teacher_training_from_2025?
         new_application_form.published_previous_teacher_trainings.create!(
           original_previous_teacher_trainings.first.attributes.except(*IGNORED_ATTRIBUTES),
         )
@@ -166,22 +166,21 @@ class DuplicateApplication
 
 private
 
-  def multiple_previous_teacher_trainings_2025?
+  def multiple_previous_teacher_trainings_from_2025?
     original_application_form.recruitment_cycle_year == 2025 && original_application_form.published_previous_teacher_trainings.many?
   end
 
-  def single_previous_teacher_training_2025?
+  def single_previous_teacher_training_from_2025?
     original_application_form.recruitment_cycle_year == 2025 && original_application_form.published_previous_teacher_trainings.one?
   end
 
-  def visa_carry_over_condition_not_met_for_2027(new_application_form, original_application_form)
+  def temporary_visa_and_recruitment_cycle_into_2027?(new_application_form, original_application_form)
     new_application_form.recruitment_cycle_year == 2027
         && original_application_form.temporary_immigration_status?
   end
 
-  def subsequent_years_visa_carry_over_condition_not_met(new_application_form, original_application_form)
-    new_application_form.recruitment_cycle_year > 2027 &&
-      original_application_form.visa_expired_at.present? && original_application_form.visa_expired_at <= Time.zone.today
+  def visa_expired?(original_application_form)
+    original_application_form.visa_expired_at.present? && original_application_form.visa_expired_at <= Time.zone.today
   end
 
   def unstructured_qualification_from_a_structured_qualification_country?(qualification)

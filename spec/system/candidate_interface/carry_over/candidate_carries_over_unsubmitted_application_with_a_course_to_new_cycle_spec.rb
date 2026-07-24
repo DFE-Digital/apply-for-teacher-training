@@ -6,6 +6,7 @@ RSpec.describe 'Carry over application and submit new application choices' do
 
   before do
     stub_bigquery_non_disclosure_trainee_withdrawals_request
+    FeatureFlag.activate('2027_international_qualifications_flow')
   end
 
   it 'Candidate carries over unsubmitted application with a course to new cycle', time: mid_cycle do
@@ -17,7 +18,13 @@ RSpec.describe 'Carry over application and submit new application choices' do
     when_i_sign_in_again
     then_i_see_the_your_applications_page
 
-    when_i_view_referees
+    when_i_view_my_details
+    and_i_view_my_contact_information
+    then_i_see_my_previously_saved_details
+    and_i_mark_them_as_complete
+
+    when_i_view_my_details
+    and_i_view_referees
     then_i_can_see_the_referees_i_previously_added
 
     when_i_view_courses
@@ -42,12 +49,14 @@ private
     @application_form = create(
       :completed_application_form,
       :eligible_for_free_school_meals,
+      :with_equality_and_diversity_data,
       :with_gcses,
       :with_degree,
       submitted_at: nil,
       candidate: @current_candidate,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
       references_count: 0,
+      country_residency_since_birth: true,
     )
     @application_choice = create(
       :application_choice,
@@ -101,11 +110,28 @@ private
     expect(page).to have_title 'Your applications'
   end
 
-  def when_i_view_referees
+  def when_i_view_my_details
     click_on 'Your details'
+  end
+
+  def and_i_view_my_contact_information
+    click_link_or_button 'Contact information'
+  end
+
+  def then_i_see_my_previously_saved_details
+    expect(page).to have_text(@application_form.address_line1)
+    expect(page).to have_text(@application_form.phone_number)
+  end
+
+  def and_i_mark_them_as_complete
+    choose 'Yes, I have completed this section'
+    click_link_or_button 'Continue'
+  end
+
+  def and_i_view_referees
     click_link_or_button 'References to be requested if you accept an offer'
   end
-  alias_method :click_on_references, :when_i_view_referees
+  alias_method :click_on_references, :and_i_view_referees
 
   def then_i_can_see_the_referees_i_previously_added
     expect(page).to have_css('h2', text: @first_reference.name)
@@ -165,7 +191,8 @@ private
     complete_section
     click_on 'Your details'
     click_on 'Equality and diversity questions'
-    candidate_fills_in_diversity_information
+    choose 'Yes, I have completed this section'
+    click_link_or_button 'Continue'
   end
 
   def then_i_can_submit_my_application

@@ -49,7 +49,8 @@ private
 
   def complete_the_equality_and_diversity_section
     click_on 'Equality and diversity questions'
-    candidate_fills_in_diversity_information
+    choose 'Yes, I have completed this section'
+    click_link_or_button 'Continue'
   end
 
   def complete_the_references_section
