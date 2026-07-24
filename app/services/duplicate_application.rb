@@ -6,7 +6,7 @@ class DuplicateApplication
     @recruitment_cycle_year = recruitment_cycle_year
   end
 
-  IGNORED_ATTRIBUTES = %w[id created_at updated_at submitted_at contact_details_completed course_choices_completed phase support_reference english_main_language english_language_details other_language_details efl_completed efl_completed_at feedback_form_complete equality_and_diversity_completed equality_and_diversity_completed_at adviser_interruption_response].freeze
+  IGNORED_ATTRIBUTES = %w[id created_at updated_at submitted_at contact_details_completed course_choices_completed phase support_reference english_main_language english_language_details other_language_details feedback_form_complete efl_completed efl_completed_at feedback_form_complete equality_and_diversity_completed equality_and_diversity_completed_at adviser_interruption_response].freeze
   IGNORED_CHILD_ATTRIBUTES = %w[id created_at updated_at application_form_id public_id enic_reason].freeze
 
   def duplicate
@@ -134,7 +134,12 @@ class DuplicateApplication
 
       original_previous_teacher_trainings = original_application_form.published_previous_teacher_trainings
 
-      if original_previous_teacher_trainings.blank?
+      if original_previous_teacher_trainings.blank? || multiple_previous_teacher_trainings_2025?
+        new_application_form.update!(previous_teacher_training_completed: false)
+      elsif single_previous_teacher_training_2025?
+        new_application_form.published_previous_teacher_trainings.create!(
+          original_previous_teacher_trainings.first.attributes.except(*IGNORED_ATTRIBUTES),
+        )
         new_application_form.update!(previous_teacher_training_completed: false)
       else
         new_application_form.published_previous_teacher_trainings.create!(
@@ -145,7 +150,7 @@ class DuplicateApplication
         new_application_form.update!(previous_teacher_training_completed: true)
       end
 
-      if new_application_form.recruitment_cycle_year <= 2024
+      if original_application_form.recruitment_cycle_year <= 2024
         new_application_form.update!(equality_and_diversity: nil)
       end
 
