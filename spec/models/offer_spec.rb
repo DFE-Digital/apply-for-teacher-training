@@ -102,4 +102,40 @@ RSpec.describe Offer do
       expect(offer.all_conditions_met?).to be false
     end
   end
+
+  describe '#all_references_conditions_met?' do
+    it 'returns true if both reference condition and the satisfactory references condition are met' do
+      offer = create(
+        :offer,
+        conditions: [
+          build(:text_condition, status: 'met', description: 'Satisfactory references'),
+          build(:reference_condition, status: 'met'),
+        ]
+      )
+      expect(offer.all_references_conditions_met?).to be true
+    end
+
+    it 'returns false if the satisfactory references condition is not met' do
+      offer = create(
+        :offer,
+        conditions: [
+          build(:text_condition, status: 'pending', description: 'Satisfactory references'),
+          build(:reference_condition, status: 'met'),
+        ]
+      )
+      expect(offer.all_references_conditions_met?).to be false
+    end
+
+    it 'returns false if the references condition is not met' do
+      offer = create(
+        :offer,
+        conditions: [
+          build(:text_condition, status: 'met', description: 'Satisfactory references'),
+          build(:reference_condition, status: 'pending'),
+        ]
+      )
+      expect(offer.all_references_conditions_met?).to be false
+    end
+
+  end
 end
