@@ -305,7 +305,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
       it 'returns nil' do
         expect(component.details).to be_nil
 
-        expect(rendered_component).not_to have_text('Details')
+        expect(rendered_component).to have_no_text('Details')
       end
     end
 
