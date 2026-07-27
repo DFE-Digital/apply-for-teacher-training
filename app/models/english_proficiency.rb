@@ -7,10 +7,10 @@ class EnglishProficiency < ApplicationRecord
   belongs_to :efl_qualification, polymorphic: true, optional: true, dependent: :destroy
 
   enum :qualification_status, {
-    has_qualification: 'has_qualification',
     no_qualification: 'no_qualification',
     qualification_not_needed: 'qualification_not_needed',
     degree_taught_in_english: 'degree_taught_in_english',
+    has_qualification: 'has_qualification',
   }
 
   scope :draft, -> { where(draft: true) }
