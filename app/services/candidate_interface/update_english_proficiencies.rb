@@ -40,7 +40,8 @@ module CandidateInterface
           new_english_proficiency.efl_qualification = nil
         end
 
-        if new_english_proficiency.qualification_not_needed && new_english_proficiency.no_qualification_details.present?
+        if new_english_proficiency.qualification_not_needed &&
+           (new_english_proficiency.no_qualification_details.present? || new_english_proficiency.no_assessment_plan_details.present?)
           new_english_proficiency.no_qualification_details = nil
           new_english_proficiency.no_assessment_plan_details = nil
         end
