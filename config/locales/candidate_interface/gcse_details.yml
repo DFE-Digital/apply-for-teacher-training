@@ -95,6 +95,8 @@ en:
       single_award: For example, ‘C’ or ‘4’
       double_award: For example, ‘CD’, ‘4-3’
       other: For example, ‘A’, ‘4.5’, ‘94%’
+  gcse_edit_new_international_flow_grade_schema:
+    page_title: What type of grade did you get?
   gcse_edit_new_international_flow_grade:
     page_title: What grade did you get?
   gcse_new_international_flow_interruption:

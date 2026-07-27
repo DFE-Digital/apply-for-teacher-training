@@ -42,30 +42,21 @@ RSpec.describe EndOfCycle::WinterDeclineByDefaultWorker do
   describe '#perform' do
     context 'where force is true' do
       it 'enqueues secondary worker for offered application choices', time: mid_cycle do
-        allow(EndOfCycle::WinterDeclineByDefaultSecondaryWorker).to receive(:perform_at)
-        instance.perform(true)
-        expect(EndOfCycle::WinterDeclineByDefaultSecondaryWorker)
-          .to have_received(:perform_at).with(kind_of(Time), [declineable_last_cycle.application_form.id, declineable_this_cycle.application_form.id])
+        expect { instance.perform(true) }.to enqueue_job(EndOfCycle::WinterDeclineByDefaultSecondaryWorker).with(contain_exactly(declineable_last_cycle.application_form.id, declineable_this_cycle.application_form.id))
       end
     end
 
     context 'after winter decline by default date' do
       it 'enqueues secondary worker for offered application choices' do
         allow(instance).to receive_messages(run_winter_decline_by_default?: true)
-        allow(EndOfCycle::WinterDeclineByDefaultSecondaryWorker).to receive(:perform_at)
-        instance.perform
-        expect(EndOfCycle::WinterDeclineByDefaultSecondaryWorker)
-          .to have_received(:perform_at).with(kind_of(Time), [declineable_last_cycle.application_form.id, declineable_this_cycle.application_form.id])
+        expect { instance.perform }.to enqueue_job(EndOfCycle::WinterDeclineByDefaultSecondaryWorker).with(contain_exactly(declineable_last_cycle.application_form.id, declineable_this_cycle.application_form.id))
       end
     end
 
     context 'before winter decline by default date' do
       it 'enqueues secondary worker for offered application choices' do
         allow(instance).to receive_messages(run_winter_decline_by_default?: false)
-        allow(EndOfCycle::WinterDeclineByDefaultSecondaryWorker).to receive(:perform_at)
-        instance.perform
-        expect(EndOfCycle::WinterDeclineByDefaultSecondaryWorker)
-          .not_to have_received(:perform_at)
+        expect { instance.perform }.not_to enqueue_job(EndOfCycle::WinterDeclineByDefaultSecondaryWorker)
       end
     end
   end

@@ -74,7 +74,7 @@ private
 
   def and_the_apply_deadline_has_passed
     advance_time_to(cancel_application_deadline + 1.second)
-    EndOfCycle::CancelUnsubmittedApplicationsWorker.perform_sync
+    EndOfCycle::CancelUnsubmittedApplicationsWorker.perform_now
   end
 
   def when_i_sign_in
@@ -120,13 +120,13 @@ private
 
   def when_the_reject_by_default_deadline_has_passed
     advance_time_to(reject_by_default_run_date)
-    EndOfCycle::RejectByDefaultWorker.perform_sync
+    EndOfCycle::RejectByDefaultWorker.perform_now
   end
   alias_method :and_the_reject_by_default_deadline_has_passed, :when_the_reject_by_default_deadline_has_passed
 
   def when_the_decline_by_default_date_has_passed
     advance_time_to(decline_by_default_run_date)
-    EndOfCycle::DeclineByDefaultWorker.perform_sync
+    EndOfCycle::DeclineByDefaultWorker.perform_now
   end
   alias_method :and_the_decline_by_default_date_has_passed, :when_the_decline_by_default_date_has_passed
 

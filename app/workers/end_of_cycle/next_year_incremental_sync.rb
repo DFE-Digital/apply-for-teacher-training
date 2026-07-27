@@ -1,7 +1,5 @@
 module EndOfCycle
   class NextYearIncrementalSync < SyncNextYearsCoursesAndProviders
-    self.queue_adapter = :solid_queue
-
     def perform
       return unless sync_next_year?
 

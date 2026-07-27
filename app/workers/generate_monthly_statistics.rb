@@ -1,6 +1,4 @@
 class GenerateMonthlyStatistics < ApplicationJob
-  self.queue_adapter = :solid_queue
-
   retry_on StandardError, attempts: 3
 
   def perform(force = false, generation_date = nil, publication_date = nil)

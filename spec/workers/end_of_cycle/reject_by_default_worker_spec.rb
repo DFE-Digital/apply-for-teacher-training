@@ -6,10 +6,7 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
       it 'enqueues the secondary worker', time: mid_cycle do
         rejectable = create(:application_choice, :inactive)
 
-        allow(EndOfCycle::RejectByDefaultSecondaryWorker).to receive(:perform_at)
-        described_class.new.perform(true)
-        expect(EndOfCycle::RejectByDefaultSecondaryWorker)
-          .to have_received(:perform_at).with(kind_of(Time), [rejectable.application_form.id])
+        expect { described_class.new.perform(true) }.to enqueue_job(EndOfCycle::RejectByDefaultSecondaryWorker).with(contain_exactly(rejectable.application_form.id))
       end
     end
 
@@ -27,18 +24,14 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
             # It will not include the offered application choice
             create(:application_choice, :offer)
 
-            allow(EndOfCycle::RejectByDefaultSecondaryWorker).to receive(:perform_at)
-            instance.perform
-            expect(EndOfCycle::RejectByDefaultSecondaryWorker)
-              .to have_received(:perform_at)
-                    .with(
-                      kind_of(Time),
-                      contain_exactly(
-                        inactive_choice.application_form.id,
-                        interviewing_choice.application_form.id,
-                        awaiting_decision_choice.application_form.id,
-                      ),
-                    )
+            expect { instance.perform }.to enqueue_job(EndOfCycle::RejectByDefaultSecondaryWorker)
+              .with(
+                contain_exactly(
+                  inactive_choice.application_form.id,
+                  interviewing_choice.application_form.id,
+                  awaiting_decision_choice.application_form.id,
+                ),
+              )
           end
         end
 
@@ -46,9 +39,7 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
           it 'does not enqueue the secondary worker' do
             create(:application_choice, :inactive)
 
-            allow(EndOfCycle::RejectByDefaultSecondaryWorker).to receive(:perform_at)
-            described_class.new.perform
-            expect(EndOfCycle::RejectByDefaultSecondaryWorker).not_to have_received(:perform_at)
+            expect { described_class.new.perform }.not_to enqueue_job(EndOfCycle::RejectByDefaultSecondaryWorker)
           end
         end
 
@@ -56,9 +47,7 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
           it 'does not enqueue the secondary worker' do
             create(:application_choice, :inactive)
 
-            allow(EndOfCycle::RejectByDefaultSecondaryWorker).to receive(:perform_at)
-            described_class.new.perform
-            expect(EndOfCycle::RejectByDefaultSecondaryWorker).not_to have_received(:perform_at)
+            expect { described_class.new.perform }.not_to enqueue_job(EndOfCycle::RejectByDefaultSecondaryWorker)
           end
         end
 
@@ -66,9 +55,7 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
           it 'does not enqueue the secondary worker' do
             create(:application_choice, :inactive)
 
-            allow(EndOfCycle::RejectByDefaultSecondaryWorker).to receive(:perform_at)
-            described_class.new.perform
-            expect(EndOfCycle::RejectByDefaultSecondaryWorker).not_to have_received(:perform_at)
+            expect { described_class.new.perform }.not_to enqueue_job(EndOfCycle::RejectByDefaultSecondaryWorker)
           end
         end
 
@@ -91,18 +78,14 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
             # It will not include the offered application choice
             create(:application_choice, :offer)
 
-            allow(EndOfCycle::RejectByDefaultSecondaryWorker).to receive(:perform_at)
-            instance.perform
-            expect(EndOfCycle::RejectByDefaultSecondaryWorker)
-              .to have_received(:perform_at)
-                    .with(
-                      kind_of(Time),
-                      contain_exactly(
-                        inactive_choice.application_form.id,
-                        interviewing_choice.application_form.id,
-                        awaiting_decision_choice.application_form.id,
-                      ),
-                    )
+            expect { instance.perform }.to enqueue_job(EndOfCycle::RejectByDefaultSecondaryWorker)
+              .with(
+                contain_exactly(
+                  inactive_choice.application_form.id,
+                  interviewing_choice.application_form.id,
+                  awaiting_decision_choice.application_form.id,
+                ),
+              )
           end
         end
 
@@ -118,9 +101,7 @@ RSpec.describe EndOfCycle::RejectByDefaultWorker do
               course_option: create(:course_option, course: january_course),
             )
 
-            allow(EndOfCycle::RejectByDefaultSecondaryWorker).to receive(:perform_at)
-            instance.perform
-            expect(EndOfCycle::RejectByDefaultSecondaryWorker).not_to have_received(:perform_at)
+            expect { instance.perform }.not_to enqueue_job(EndOfCycle::RejectByDefaultSecondaryWorker)
           end
         end
       end

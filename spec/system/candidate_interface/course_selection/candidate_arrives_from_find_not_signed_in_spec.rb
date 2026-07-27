@@ -20,6 +20,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_i_see_the_course_name_and_code
     and_my_course_from_find_id_is_set_to_nil
     when_i_sign_out
+    and_i_wait_for_my_authentication_token_to_expire
     when_i_arrive_at_the_apply_from_find_page_with_the_single_site_course_params
     and_i_go_to_sign_in
     and_i_see_the_review_page
@@ -194,6 +195,11 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
       "#{@course.provider.name} #{@course.name_and_code}",
       href: "https://find-teacher-training-courses.service.gov.uk/course/#{@course.provider.code}/#{@course.code}",
     )
+  end
+
+  def and_i_wait_for_my_authentication_token_to_expire
+    auth_token = @candidate.authentication_tokens.order(:created_at).last
+    auth_token.update!(created_at: 10.minutes.ago)
   end
 
 private

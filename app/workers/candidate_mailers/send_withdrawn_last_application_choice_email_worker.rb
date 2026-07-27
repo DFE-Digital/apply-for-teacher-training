@@ -1,6 +1,4 @@
-class CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker
-  include Sidekiq::Worker
-
+class CandidateMailers::SendWithdrawnLastApplicationChoiceEmailWorker < ApplicationJob
   def perform(application_form_id)
     application_form = ApplicationForm.find(application_form_id)
 

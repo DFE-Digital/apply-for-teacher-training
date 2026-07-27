@@ -5,23 +5,40 @@ class InspectInternationalGcseGrade
     @qualification = qualification
   end
 
-  def failing?
+  def likely_below?
     structured_grade_data_available? &&
-      qualification.grade.in?(failing_grades)
+      qualification.grade.in?(likely_below_level_four)
   end
 
   def structured_grade_data_available?
     equivalent_qualification.present?
   end
 
+  def requires_grade_schema_selection?
+    multiple_grade_schemas_available? ||
+      percentage_grade_schema_available?
+  end
+
 private
 
-  def failing_grades
-    selected_schema.failing_grades
+  def multiple_grade_schemas_available?
+    grade_schemas.many?
+  end
+
+  def percentage_grade_schema_available?
+    grade_schemas.any? do |schema|
+      schema.description == 'Percentage'
+    end
+  end
+
+  def likely_below_level_four
+    selected_schema&.likely_below_level_four || []
   end
 
   def grades
-    selected_schema.passing_grades + selected_schema.failing_grades
+    return [] if selected_schema.blank?
+
+    selected_schema.likely_above_level_four + selected_schema.likely_below_level_four
   end
 
   def equivalent_qualification
@@ -30,11 +47,22 @@ private
     end
   end
 
+  def grade_schemas
+    equivalent_qualification&.grade_schemas || []
+  end
+
   def selected_schema
-    finder.grade_schemas(equivalent_qualification).first
+    @selected_schema ||=
+      if qualification.selected_grade_schema_id.present?
+        grade_schemas.find do |schema|
+          schema.id == qualification.selected_grade_schema_id
+        end
+      elsif grade_schemas.one?
+        grade_schemas.first
+      end
   end
 
   def finder
-    @finder ||= InternationalQualifications::StructuredGcseOptionFinder.new(qualification.institution_country)
+    @finder ||= InternationalQualifications::StructuredGcseOptionFinder.new(qualification.institution_country, qualification.subject)
   end
 end

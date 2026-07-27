@@ -1,12 +1,9 @@
-class Support::SendNotifyTemplateWithAttachmentWorker
-  include Sidekiq::Worker
-
+class Support::SendNotifyTemplateWithAttachmentWorker < ApplicationJob
   def perform(notify_request_id)
     request = SupportInterface::NotifySendRequest.find(notify_request_id)
     relation = request.email_addresses
     ArrayBatchDelivery.new(relation:, stagger_over: stagger_over(relation)).each do |batch_time, batch_email_addresses|
-      Support::SendNotifyTemplateWithAttachmentBatchWorker.perform_at(
-        batch_time,
+      Support::SendNotifyTemplateWithAttachmentBatchWorker.set(wait_until: batch_time).perform_later(
         batch_email_addresses,
         request.id,
       )

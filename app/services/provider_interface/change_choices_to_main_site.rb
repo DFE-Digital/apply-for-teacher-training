@@ -38,7 +38,7 @@ module ProviderInterface
 
           batch_size = 100
           choices.in_batches(of: batch_size) do |batch|
-            Provider::ChangeChoicesToMainSiteWorker.perform_async(batch.ids)
+            Provider::ChangeChoicesToMainSiteWorker.perform_later(batch.ids)
             jobs_counter += 1
           end
         end

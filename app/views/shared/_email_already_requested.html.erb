@@ -1,0 +1,22 @@
+<%# locals: (with_title: true, back_link: nil) %>
+<% content_for :title, t('shared.email_already_requested.heading') %>
+<% content_for :before_content, govuk_back_link_to(back_link) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% if with_title %>
+      <h1 class="govuk-heading-l">
+        <%= t('shared.email_already_requested.heading') %>
+      </h1>
+    <% end %>
+
+    <p class="govuk-body">
+      <%= t('shared.email_already_requested.content') %>
+    </p>
+
+    <p class="govuk-body">
+      <%= t('shared.email_already_requested.wait_one_minute_html',
+            link: govuk_link_to(t('shared.email_already_requested.try_again'), back_link)) %>
+    </p>
+  </div>
+</div>

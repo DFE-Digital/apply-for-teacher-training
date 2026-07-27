@@ -44,6 +44,10 @@
                 <dt class="app-qualification__key">Comparability</dt>
                 <dd class="app-qualification__value"><%= enic_statement(qualification) %></dd>
               <% end %>
+              <% if qualification.not_completed_explanation.present? %>
+                <dt class="app-qualification__key">Other evidence I have the skills required</dt>
+                <dd class="app-qualification__value"><%= qualification.not_completed_explanation %></dd>
+              <% end %>
             </dl>
           <%# UK or UK Other qualification %>
           <% else %>

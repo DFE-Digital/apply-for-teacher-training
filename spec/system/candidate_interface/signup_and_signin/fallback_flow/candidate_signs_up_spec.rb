@@ -19,6 +19,7 @@ RSpec.describe 'Candidate account' do
     then_i_am_signed_in
 
     when_i_click_the_sign_out_button
+    and_i_wait_for_my_authentication_token_to_expire
 
     # Sign up attempt - Candidate with OneLoginAuth, using Candidate email address
     given_i_have_a_connected_my_one_login_account
@@ -30,6 +31,7 @@ RSpec.describe 'Candidate account' do
     then_i_am_signed_in
 
     when_i_click_the_sign_out_button
+    and_i_wait_for_my_authentication_token_to_expire
 
     # Sign up attempt - Candidate with OneLoginAuth, using OneLoginAuth email address
     given_i_have_a_connected_my_one_login_account
@@ -108,5 +110,11 @@ private
 
   def then_i_receive_an_email_at_my_one_login_email_address_with_a_sign_in_link
     then_i_receive_an_email_with_a_sign_in_link(@one_login_email_address)
+  end
+
+  def and_i_wait_for_my_authentication_token_to_expire
+    candidate = Candidate.find_by(email_address: @email)
+    auth_token = candidate.authentication_tokens.order(:created_at).last
+    auth_token.update!(created_at: 10.minutes.ago)
   end
 end

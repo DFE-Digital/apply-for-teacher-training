@@ -8,7 +8,7 @@ module SupportInterface
     has_one_attached :file
 
     def send_emails
-      Support::SendNotifyTemplateWithAttachmentWorker.perform_async(id)
+      Support::SendNotifyTemplateWithAttachmentWorker.perform_later(id)
     end
   end
 end

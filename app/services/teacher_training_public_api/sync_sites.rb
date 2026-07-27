@@ -9,12 +9,11 @@ module TeacherTrainingPublicAPI
   #
   # There is no specification for what to do with orphaned sites that are not associated with a CourseOption
   #
-  class SyncSites
+  class SyncSites < ApplicationJob
+    retry_on StandardError, attempts: 3
+    queue_as :low_priority
+
     attr_reader :provider, :course
-
-    include Sidekiq::Worker
-
-    sidekiq_options retry: 3, queue: :low_priority
 
     def perform(provider_id, recruitment_cycle_year, course_id, course_status_from_api, incremental_sync = true)
       @provider = ::Provider.find(provider_id)

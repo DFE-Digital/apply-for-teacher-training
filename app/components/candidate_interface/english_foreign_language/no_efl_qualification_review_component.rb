@@ -3,16 +3,17 @@ module CandidateInterface
     class NoEflQualificationReviewComponent < ApplicationComponent
       include EflReviewHelper
 
-      attr_reader :english_proficiency, :return_to_application_review
+      attr_reader :english_proficiency, :return_to_application_review, :editable
 
-      def initialize(english_proficiency, return_to_application_review: false)
+      def initialize(english_proficiency, return_to_application_review: false, editable: true)
         @english_proficiency = english_proficiency
         @return_to_application_review = return_to_application_review
+        @editable = editable
       end
 
       def no_qualification_rows
         [
-          do_you_have_a_qualification_row(value: summary, return_to_application_review:),
+          do_you_have_a_qualification_row(value: summary, return_to_application_review:, editable:),
         ]
       end
 

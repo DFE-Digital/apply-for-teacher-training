@@ -1,6 +1,6 @@
 default:
   workers:
-    - queues: [default, mailers_sq, low_priority, big_query_sq]
+    - queues: [default, mailers, low_priority, big_query]
       threads: 1
       processes: 1
       polling_interval: 3

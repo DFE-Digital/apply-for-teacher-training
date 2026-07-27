@@ -1,6 +1,4 @@
-class SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker
-  include Sidekiq::Worker
-
+class SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker < ApplicationJob
   STAGGER_OVER = 20.minutes
   BATCH_SIZE = 150
 
@@ -8,10 +6,9 @@ class SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker
     return if RecruitmentCycleTimetable.current_timetable.after_apply_deadline?
 
     GroupedRelationBatchDelivery.new(relation: GetInactiveApplicationsFromPastDay.call, stagger_over: STAGGER_OVER, batch_size: BATCH_SIZE).each do |batch_time, records|
-      SendApplyToAnotherCourseWhenInactiveEmailToCandidatesBatchWorker.perform_at(
-        batch_time,
-        records.pluck(:id),
-      )
+      SendApplyToAnotherCourseWhenInactiveEmailToCandidatesBatchWorker
+        .set(wait_until: batch_time)
+        .perform_later(records.pluck(:id))
     end
   end
 end

@@ -1,6 +1,4 @@
 class DetectInvariantsHourlyCheck < ApplicationJob
-  self.queue_adapter = :solid_queue
-
   def perform
     detect_course_sync_not_succeeded_for_an_hour unless HostingEnvironment.review?
     detect_unauthorised_application_form_edits

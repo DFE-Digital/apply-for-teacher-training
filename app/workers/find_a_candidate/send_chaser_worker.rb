@@ -1,7 +1,5 @@
 module FindACandidate
   class SendChaserWorker < ApplicationJob
-    self.queue_adapter = :solid_queue
-
     def perform(invite_ids)
       ActiveRecord::Base.transaction do
         invites = Pool::Invite.current_cycle.published.not_responded

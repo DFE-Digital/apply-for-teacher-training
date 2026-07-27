@@ -110,6 +110,16 @@ variable "solid_queue_worker_replicas" {
   default = 1
 }
 
+variable "solid_queue_secondary_worker_memory_max" {
+  type = string
+  default = "2Gi"
+}
+
+variable "solid_queue_secondary_worker_replicas" {
+  type = number
+  default = 1
+}
+
 variable "enable_logit" { default = false }
 
 locals {

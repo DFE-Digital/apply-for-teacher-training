@@ -60,17 +60,9 @@ RSpec.describe EndOfCycle::CancelUnsubmittedApplicationsWorker do
     context 'when force is true', time: mid_cycle do
       it 'allows job to be run' do
         create_test_applications
-        allow(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).to receive(:perform_at)
-        described_class.new.perform(true)
-        expect(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker)
-          .to have_received(:perform_at)
-                .with(
-                  kind_of(Time),
-                  contain_exactly(
-                    unsubmitted_application_from_this_year.id,
-                    hidden_application_from_this_year.id,
-                  ),
-                )
+        expect { described_class.new.perform(true) }
+          .to enqueue_job(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker)
+                .with(contain_exactly(unsubmitted_application_from_this_year.id, hidden_application_from_this_year.id))
       end
     end
 
@@ -80,17 +72,9 @@ RSpec.describe EndOfCycle::CancelUnsubmittedApplicationsWorker do
           it 'cancels applications' do
             create_test_applications
 
-            allow(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).to receive(:perform_at)
-            described_class.new.perform
-            expect(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker)
-              .to have_received(:perform_at)
-                    .with(
-                      kind_of(Time),
-                      contain_exactly(
-                        unsubmitted_application_from_this_year.id,
-                        hidden_application_from_this_year.id,
-                      ),
-                    )
+            expect { described_class.new.perform }
+              .to enqueue_job(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker)
+                    .with(contain_exactly(unsubmitted_application_from_this_year.id, hidden_application_from_this_year.id))
           end
         end
 
@@ -98,9 +82,7 @@ RSpec.describe EndOfCycle::CancelUnsubmittedApplicationsWorker do
           it 'does not cancel any applications' do
             create_test_applications
 
-            allow(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).to receive(:perform_at)
-            described_class.new.perform
-            expect(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).not_to have_received(:perform_at)
+            expect { described_class.new.perform }.not_to enqueue_job(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker)
           end
         end
 
@@ -108,9 +90,7 @@ RSpec.describe EndOfCycle::CancelUnsubmittedApplicationsWorker do
           it 'does not run once in the middle of a cycle' do
             create_test_applications
 
-            allow(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).to receive(:perform_at)
-            described_class.new.perform
-            expect(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).not_to have_received(:perform_at)
+            expect { described_class.new.perform }.not_to enqueue_job(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker)
           end
         end
 
@@ -118,9 +98,7 @@ RSpec.describe EndOfCycle::CancelUnsubmittedApplicationsWorker do
           it 'does not run once the new cycle starts' do
             create_test_applications
 
-            allow(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).to receive(:perform_at)
-            described_class.new.perform
-            expect(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker).not_to have_received(:perform_at)
+            expect { described_class.new.perform }.not_to enqueue_job(EndOfCycle::CancelUnsubmittedApplicationsSecondaryWorker)
           end
         end
       end

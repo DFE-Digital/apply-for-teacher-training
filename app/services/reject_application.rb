@@ -33,7 +33,7 @@ class RejectApplication
 
       CancelUpcomingInterviews.new(actor: @auth.actor, application_choice: @application_choice, cancellation_reason: I18n.t('interview_cancellation.reason.application_rejected')).call!
 
-      CandidateMailers::SendRejectionEmailWorker.perform_async(@application_choice.id)
+      CandidateMailers::SendRejectionEmailWorker.perform_later(@application_choice.id)
     end
 
     true

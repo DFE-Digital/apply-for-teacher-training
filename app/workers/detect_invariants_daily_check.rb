@@ -1,7 +1,5 @@
 # Detect state that *should* be impossible in the system and report them to Sentry
 class DetectInvariantsDailyCheck < ApplicationJob
-  self.queue_adapter = :solid_queue
-
   def perform
     detect_if_the_monthly_statistics_has_not_run
   end

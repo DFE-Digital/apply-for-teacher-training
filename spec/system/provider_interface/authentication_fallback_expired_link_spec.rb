@@ -18,6 +18,7 @@ RSpec.describe 'A provider with an expired DSI fallback link' do
     then_i_am_signed_in
 
     when_i_sign_out
+    and_i_wait_for_my_authentication_token_to_expire
     then_i_am_not_signed_in
 
     when_i_visit_the_link_in_my_email
@@ -101,5 +102,11 @@ RSpec.describe 'A provider with an expired DSI fallback link' do
     within 'header' do
       expect(page).to have_no_text @email
     end
+  end
+
+  def and_i_wait_for_my_authentication_token_to_expire
+    provider_user = ProviderUser.find_by(email_address: @email)
+    auth_token = provider_user.authentication_tokens.order(:created_at).last
+    auth_token.update!(created_at: 10.minutes.ago)
   end
 end

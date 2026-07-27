@@ -20,6 +20,7 @@ class Clock
 
   # Hourly jobs
 
+  every(1.hour, 'DeleteFinishedJobs', at: '**:01') { DeleteFinishedJobsWorker.perform_later }
   every(1.hour, 'FindACandidate::PoolInviteChaserWorker', at: '**:35', skip_first_run: true) { FindACandidate::PoolInviteChaserWorker.perform_later }
   every(1.hour, 'SendFindStartOfCycleProviderEmails', at: '**:05') { StartOfCycleNotificationWorker.perform_later }
   every(1.hour, 'ProcessStaleApplications', at: '**:10') do
@@ -37,47 +38,47 @@ class Clock
   # Daily jobs
   every(1.day, 'DeleteExpiredSessionsWorker', at: '5:01') { DeleteExpiredSessionsWorker.perform_later }
   every(1.day, 'RemoveInactiveSupportUsersWorker', at: '5:02') { RemoveInactiveSupportUsersWorker.perform_later }
+  every(1.day, 'PromptInactiveProviderUsersWorker', at: '5:03') { PromptInactiveProviderUsersWorker.perform_later }
   every(1.day, 'RemoveInactiveProviderUsersWorker', at: '5:05') { RemoveInactiveProviderUsersWorker.perform_later }
   every(1.day, 'DeactivateStaleServiceAPITokensWorker', at: '5:06') { DeactivateStaleServiceAPITokensWorker.perform_later }
   every(1.day, 'DeleteAllDrafts', at: '4:01') { DeleteAllDraftsWorker.perform_later }
-  every(1.day, 'DeleteFinishedJobs', at: '19:00') { DeleteFinishedJobsWorker.perform_later }
   every(1.day, 'Chasers::Candidate::OfferWorker', at: '10:30') { Chasers::Candidate::OfferWorker.perform_later }
 
   every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_later }
 
   every(1.day, 'Generate monthly statistics report and exports', at: '05:00') { GenerateMonthlyStatistics.perform_later }
 
-  every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.perform_async }
+  every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.perform_later }
   every(1.day, 'SendVisaSponsorshipDeadlineReminder', at: '12:00') { CandidateMailers::EnqueueVisaSponsorshipDeadlineReminderWorker.perform_later }
   every(1.day, 'SendFindHasOpenedEmailToCandidatesWorker', at: '12:00') { SendFindHasOpenedEmailToCandidatesWorker.perform_later }
   every(1.day, 'SendNewCycleStartedEmailToCandidatesWorker', at: '10:00') { SendNewCycleHasStartedEmailToCandidatesWorker.perform_later }
-  every(1.day, 'EndOfCycle::SendRejectByDefaultReminderToProvidersWorker') { EndOfCycle::SendRejectByDefaultReminderToProvidersWorker.new.perform }
-  every(1.day, 'EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker', at: '09:00') { EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker.new.perform }
-  every(1.day, 'EndOfCycle:SendRejectByDefaultExplainerToCandidatesWorker', at: '09:01') { EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesWorker.new.perform }
-  every(1.day, 'Candidate::PoolEligibleApplicationFormWorker', at: '09:02') { Candidate::PoolEligibleApplicationFormWorker.new.perform }
-  every(1.day, 'EndOfCycle:SendDeclineByDefaultExplainerToCandidatesWorker', at: '09:03') { EndOfCycle::SendDeclineByDefaultExplainerEmailToCandidatesWorker.new.perform }
+  every(1.day, 'EndOfCycle::SendRejectByDefaultReminderToProvidersWorker') { EndOfCycle::SendRejectByDefaultReminderToProvidersWorker.perform_now }
+  every(1.day, 'EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker', at: '09:00') { EndOfCycle::SendApplicationDeadlineHasPassedEmailToCandidatesWorker.perform_now }
+  every(1.day, 'EndOfCycle:SendRejectByDefaultExplainerToCandidatesWorker', at: '09:01') { EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesWorker.perform_now }
+  every(1.day, 'Candidate::PoolEligibleApplicationFormWorker', at: '09:02') { Candidate::PoolEligibleApplicationFormWorker.perform_later }
+  every(1.day, 'EndOfCycle:SendDeclineByDefaultExplainerToCandidatesWorker', at: '09:03') { EndOfCycle::SendDeclineByDefaultExplainerEmailToCandidatesWorker.perform_now }
 
   # End of cycle january start dates/winter end dates jobs
-  every(1.day, 'EndOfCycle:SendWinterRejectByDefaultExplainerToCandidatesWorker', at: '09:03') { EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWorker.new.perform }
-  every(1.day, 'EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker', at: '09:04') { EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker.new.perform }
-  every(1.day, 'EndOfCycle:WinterDeclineByDefaultWorker', at: '09:05') { EndOfCycle::WinterDeclineByDefaultWorker.new.perform }
-  every(1.day, 'EndOfCycle::WinterRejectByDefaultWorker', at: '09:06') { EndOfCycle::WinterRejectByDefaultWorker.new.perform }
-  every(1.day, 'EndOfCycle::CancelReferenceRequestsWorker', at: '09:07') { EndOfCycle::CancelReferenceRequestsWorker.new.perform }
-  every(1.day, 'EndOfCycle:SendWinterDeclineByDefaultExplainerToCandidatesWorker', at: '09:08') { EndOfCycle::SendWinterDeclineByDefaultExplainerEmailToCandidatesWorker.new.perform }
+  every(1.day, 'EndOfCycle:SendWinterRejectByDefaultExplainerToCandidatesWorker', at: '09:03') { EndOfCycle::SendWinterRejectByDefaultExplainerEmailToCandidatesWorker.perform_now }
+  every(1.day, 'EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker', at: '09:04') { EndOfCycle::SendWinterRejectByDefaultReminderToProvidersWorker.perform_now }
+  every(1.day, 'EndOfCycle:WinterDeclineByDefaultWorker', at: '09:05') { EndOfCycle::WinterDeclineByDefaultWorker.perform_now }
+  every(1.day, 'EndOfCycle::WinterRejectByDefaultWorker', at: '09:06') { EndOfCycle::WinterRejectByDefaultWorker.perform_now }
+  every(1.day, 'EndOfCycle::CancelReferenceRequestsWorker', at: '09:07') { EndOfCycle::CancelReferenceRequestsWorker.perform_now }
+  every(1.day, 'EndOfCycle:SendWinterDeclineByDefaultExplainerToCandidatesWorker', at: '09:08') { EndOfCycle::SendWinterDeclineByDefaultExplainerEmailToCandidatesWorker.perform_now }
 
-  every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_async }
-  every(1.day, 'SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker.perform_async }
-  every(1.day, 'SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker.perform_async }
+  every(1.day, 'NudgeCandidatesWorker', at: '10:00') { NudgeCandidatesWorker.perform_later }
+  every(1.day, 'SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker.perform_later }
+  every(1.day, 'SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker', at: '10:00') { SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesWorker.perform_later }
   every(1.day, 'DfE::Analytics::EntityTableCheckJob', at: '00:30') { DfE::Analytics::EntityTableCheckJob.perform_later }
 
   # End of cycle application choice status jobs
   # Changes unsubmitted application choices to 'application_not_sent'
-  every(1.day, 'EndOfCycle::CancelUnsubmittedApplicationsWorker', at: '18:01') { EndOfCycle::CancelUnsubmittedApplicationsWorker.perform_async }
-  every(1.day, 'EndOfCycle::CloseCoursesOnInvites', at: '18:01') { EndOfCycle::CloseCoursesOnInvites.perform_async }
+  every(1.day, 'EndOfCycle::CancelUnsubmittedApplicationsWorker', at: '18:01') { EndOfCycle::CancelUnsubmittedApplicationsWorker.perform_later }
+  every(1.day, 'EndOfCycle::CloseCoursesOnInvites', at: '18:01') { EndOfCycle::CloseCoursesOnInvites.perform_later }
   # Reject any application choices that are still awaiting provider decision (interviewing, inactive, and awaiting decision)
-  every(1.day, 'EndOfCycle::RejectByDefaultWorker', at: '00:01') { EndOfCycle::RejectByDefaultWorker.perform_async }
+  every(1.day, 'EndOfCycle::RejectByDefaultWorker', at: '00:01') { EndOfCycle::RejectByDefaultWorker.perform_later }
   # Decline any offers that are awaiting candidate decision
-  every(1.day, 'EndOfCycle::DeclineByDefaultWorker', at: '00:01') { EndOfCycle::DeclineByDefaultWorker.perform_async }
+  every(1.day, 'EndOfCycle::DeclineByDefaultWorker', at: '00:01') { EndOfCycle::DeclineByDefaultWorker.perform_later }
   every(1.day, 'Candidate::EnglishProficiencyDataConversionWorker', at: '23:00') { Candidate::EnglishProficiencyDataConversionWorker.perform_later }
 
   # Weekly jobs
@@ -88,5 +89,5 @@ class Clock
   every(7.days, 'EndOfCycle::NextYearFullSync', at: 'Friday 00:05') { EndOfCycle::NextYearFullSync.perform_later }
 
   every(7.days, 'Schedule Recruitment Performance reports', at: 'Monday 05:30', if: ->(_period) { RecruitmentPerformanceReportTimetable.report_season? }) { Publications::RecruitmentPerformanceReportScheduler.new.call }
-  every(7.days, 'ProviderRecruitmentPerformanceReportReminder', at: 'Monday 12:00') { Publications::ProviderRecruitmentPerformanceReminderWorker.perform_async }
+  every(7.days, 'ProviderRecruitmentPerformanceReportReminder', at: 'Monday 12:00') { Publications::ProviderRecruitmentPerformanceReminderWorker.perform_later }
 end

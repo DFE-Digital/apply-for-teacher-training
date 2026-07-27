@@ -4,6 +4,7 @@ module CandidateInterface
     include Authentication
 
     rescue_from Pundit::NotAuthorizedError, with: :handle_unauthorised
+    rescue_from AuthenticatedUsingMagicLinks::MagicLinkTokenAlreadyRequestedError, with: :handle_email_already_requested
 
     before_action :protect_with_basic_auth
     before_action :track_email_click
@@ -73,6 +74,10 @@ module CandidateInterface
       @active_application_choices ||= current_candidate.active_application_choices
     end
     helper_method :active_application_choices
+
+    def handle_email_already_requested
+      render :email_already_requested
+    end
 
   private
 
@@ -152,8 +157,8 @@ module CandidateInterface
     end
 
     def strip_whitespace(params)
-      StripWhitespace.from_hash(params)
-      StripInvisibleWhitespace.from_hash(params)
+      stripped_params = StripWhitespace.from_hash(params)
+      StripInvisibleWhitespace.from_hash(stripped_params)
     end
 
     def append_info_to_payload(payload)

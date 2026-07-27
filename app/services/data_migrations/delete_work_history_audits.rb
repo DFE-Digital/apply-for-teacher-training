@@ -6,7 +6,7 @@ module DataMigrations
 
     def change
       relation.in_batches(of: BATCH_SIZE) do |batch|
-        DeleteAuditsWorker.perform_async(batch.ids)
+        DeleteAuditsWorker.perform_later(batch.ids)
       end
     end
 

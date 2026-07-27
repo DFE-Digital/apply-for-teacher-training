@@ -235,7 +235,7 @@ class ApplicationQualification < ApplicationRecord
 
   def prevent_not_completed_explanation_if_passing_grade
     return unless institution_country.present? && non_uk_qualification_type.present? && grade.present?
-      && !InspectInternationalGcseGrade.new(self).failing?
+      && !InspectInternationalGcseGrade.new(self).likely_below?
 
     self.not_completed_explanation = nil
   end

@@ -5,18 +5,14 @@ RSpec.describe EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesWorker d
     context 'before the date for sending the explainer email', time: reject_by_default_explainer_date - 1.day do
       it 'does not enqueue the batch worker' do
         create(:application_choice, :rejected_by_default)
-        allow(EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesBatchWorker).to receive(:perform_at)
-        described_class.new.perform
-        expect(EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesBatchWorker).not_to have_received(:perform_at)
+        expect { described_class.new.perform }.not_to enqueue_job(EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesBatchWorker)
       end
     end
 
     context 'after the date for sending the explainer email', time: reject_by_default_explainer_date + 1.day do
       it 'does not enqueue the batch worker' do
         create(:application_choice, :rejected_by_default)
-        allow(EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesBatchWorker).to receive(:perform_at)
-        described_class.new.perform
-        expect(EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesBatchWorker).not_to have_received(:perform_at)
+        expect { described_class.new.perform }.not_to enqueue_job(EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesBatchWorker)
       end
     end
 
@@ -33,11 +29,7 @@ RSpec.describe EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesWorker d
         create(:application_choice, :interviewing)
         create(:application_choice, :awaiting_provider_decision)
 
-        allow(EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesBatchWorker).to receive(:perform_at)
-        described_class.new.perform
-
-        expect(EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesBatchWorker)
-          .to have_received(:perform_at).with(kind_of(Time), [rejected_with_offer.id, rejected_without_offer.id])
+        expect { described_class.new.perform }.to enqueue_job(EndOfCycle::SendRejectByDefaultExplainerEmailToCandidatesBatchWorker).with(contain_exactly(rejected_with_offer.id, rejected_without_offer.id))
       end
     end
   end

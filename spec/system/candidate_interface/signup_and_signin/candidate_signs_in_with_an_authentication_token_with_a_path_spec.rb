@@ -13,6 +13,7 @@ RSpec.describe 'Candidates authentication token has the path attribute populated
     then_i_am_redirected_to_the_personal_statement_page
 
     given_i_am_signed_out
+    and_i_wait_for_my_authentication_token_to_expire
     and_i_have_an_expired_token_associated_with_the_personal_statement_path
 
     when_i_sign_in_using_the_token
@@ -108,5 +109,10 @@ RSpec.describe 'Candidates authentication token has the path attribute populated
 
   def then_i_am_redirected_to_the_review_reference_page
     expect(page).to have_current_path(candidate_interface_references_review_path)
+  end
+
+  def and_i_wait_for_my_authentication_token_to_expire
+    auth_token = @candidate.authentication_tokens.order(:created_at).last
+    auth_token.update!(created_at: 10.minutes.ago)
   end
 end

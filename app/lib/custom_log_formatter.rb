@@ -10,6 +10,7 @@ class CustomLogFormatter < SemanticLogger::Formatters::Raw
     sanitize_payload_fields
     remove_post_params
     redact_mailer_arguments
+    remove_application_attributes
 
     hash.to_json
   end
@@ -51,6 +52,13 @@ private
     if hash.dig(:payload, :to).present?
       hash[:payload][:to] = REDACTED
     end
+  end
+
+  def remove_application_attributes
+    return if hash.dig(:payload, :adapter).blank? || hash.dig(:payload, :arguments).blank?
+    return unless hash.dig(:payload, :adapter).include? 'SolidQueue'
+
+    hash[:payload][:arguments] = REDACTED
   end
 
   def remove_post_params

@@ -321,6 +321,11 @@ namespace :candidate_interface, path: '/candidate' do
       get '/new-international-flow/qualification/edit' => 'gcse/new_international_flow/qualifications#edit', as: :gcse_new_international_flow_edit_qualifications
       patch '/new-international-flow/qualification/edit' => 'gcse/new_international_flow/qualifications#update'
 
+      get '/new-international-flow/grade-schema' => 'gcse/new_international_flow/grade_schemas#new', as: :gcse_new_international_flow_new_grade_schemas
+      patch 'new-international-flow/grade-schema' => 'gcse/new_international_flow/grade_schemas#create'
+      get '/new-international-flow/grade-schema/edit' => 'gcse/new_international_flow/grade_schemas#edit', as: :gcse_new_international_flow_edit_grade_schemas
+      patch '/new-international-flow/grade-schema/edit' => 'gcse/new_international_flow/grade_schemas#update'
+
       get '/new-international-flow/grade' => 'gcse/new_international_flow/grades#new', as: :gcse_new_international_flow_new_grades
       patch 'new-international-flow/grade' => 'gcse/new_international_flow/grades#create'
       get '/new-international-flow/grade/edit' => 'gcse/new_international_flow/grades#edit', as: :gcse_new_international_flow_edit_grades

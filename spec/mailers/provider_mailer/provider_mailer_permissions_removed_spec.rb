@@ -12,10 +12,16 @@ RSpec.describe ProviderMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'Jane Doe has removed you from Hogwarts University - manage teacher training applications',
+      'Jane Doe has removed your access to Manage - manage teacher training applications',
       'salutation' => 'Dear Princess Fiona',
-      'heading' => 'Jane Doe has removed you from Hogwarts University. You can no longer manage their teacher training applications.',
-      'footer' => 'Get help, report a problem or give feedback',
+      'removed_access' => 'Jane Doe has removed your access to Manage.',
+      'no_longer_able' => 'You are no longer able to manage teacher training applications for Hogwarts University.',
+      'manage_again' => 'If you want to use Manage again',
+      'contact_person' => 'You will need to contact the person who removed your access.',
+      'contact_us' => 'Contact us',
+      'any_questions' => 'If you have any questions, please contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).',
+      'regard' => 'Regards,',
+      'becoming_a_teacher_team' => 'Becoming a Teacher team',
     )
   end
 
@@ -26,10 +32,17 @@ RSpec.describe ProviderMailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'You have been removed from Hogwarts University - manage teacher training applications',
+      'Your access to your Manage account has been removed - manage teacher training applications',
       'salutation' => 'Dear Princess Fiona',
-      'heading' => 'You have been removed from Hogwarts University. You can no longer manage their teacher training applications.',
-      'footer' => 'Get help, report a problem or give feedback',
+      'access_removed' => 'Your access to your Manage account has been removed.',
+      'not_signed_in' => 'This is because your account had not been signed in to for 12 months.',
+      'no_longer_able' => 'You are no longer able to manage teacher training applications for Hogwarts University.',
+      'manage_again' => 'If you want to use Manage again',
+      'access_back' => 'You will need to contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) to get your access back.',
+      'contact_us' => 'Contact us',
+      'any_questions' => 'If you have any questions, please contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).',
+      'regard' => 'Regards,',
+      'becoming_a_teacher_team' => 'Becoming a Teacher team',
     )
   end
 end

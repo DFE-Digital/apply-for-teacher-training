@@ -1,6 +1,4 @@
 class UpdateOutOfDateProviderIdsOnApplicationChoices < ApplicationJob
-  self.queue_adapter = :solid_queue
-
   def perform
     return unless out_of_date_application_choices.any?
 

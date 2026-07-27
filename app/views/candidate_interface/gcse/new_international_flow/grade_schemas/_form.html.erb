@@ -1,0 +1,21 @@
+<%= f.govuk_error_summary %>
+
+<%= f.govuk_radio_buttons_fieldset :schema_id, legend: { text: t('gcse_edit_new_international_flow_grade_schema.page_title'), size: 'l', tag: 'h1' } do %>
+  <% @grade_schemas.each_with_index do |schema, i| %>
+    <%= f.govuk_radio_button(
+      :schema_id,
+      schema.id,
+      label: { text: schema.description },
+      hint: { text: schema.hint },
+      link_errors: i.zero?,
+    ) %>
+  <% end %>
+
+  <%= f.govuk_radio_button :schema_id, 'other', label: { text: 'Other' } do %>
+    <%= f.govuk_text_field :grade,
+      label: { text: t('application_form.gcse.non_uk_other_grade.label'), size: 's' },
+      hint: { text: t('application_form.gcse.non_uk_other_grade.hint_text') } %>
+  <% end %>
+<% end %>
+
+<%= f.govuk_submit t('save_and_continue') %>

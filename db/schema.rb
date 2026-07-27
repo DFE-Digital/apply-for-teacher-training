@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_14_150623) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_15_105421) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -305,6 +305,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_150623) do
     t.uuid "qualification_level_uuid"
     t.string "qualification_type"
     t.string "qualification_type_hesa_code"
+    t.string "selected_grade_schema_id"
     t.string "start_year"
     t.string "subject"
     t.string "subject_hesa_code"
