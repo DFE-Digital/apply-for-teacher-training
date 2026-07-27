@@ -283,4 +283,52 @@ RSpec.describe EflQualificationCardComponent, type: :component do
       end
     end
   end
+
+  describe '.details' do
+    let(:component) { described_class.new(application_form) }
+    let(:rendered_component) { render_inline(component) }
+    let(:application_form) { create(:application_form, first_nationality: 'French') }
+    let(:english_proficiency) do
+      create(
+        :english_proficiency,
+        :no_qualification,
+        no_qualification_details:,
+        no_assessment_plan_details:,
+      )
+    end
+    let(:no_qualification_details) { nil }
+    let(:no_assessment_plan_details) { nil }
+
+    before { application_form.english_proficiency = english_proficiency }
+
+    context 'when the english proficiency has no details are given' do
+      it 'returns nil' do
+        expect(component.details).to be_nil
+
+        expect(rendered_component).to have_no_text('Details')
+      end
+    end
+
+    context 'when the english proficiency has no_qualification_details' do
+      let(:no_qualification_details) { 'Working on it' }
+
+      it 'returns the no_qualification_details' do
+        expect(component.details).to eq('Working on it')
+
+        expect(rendered_component).to have_text('Details')
+        expect(rendered_component).to have_text('Working on it')
+      end
+    end
+
+    context 'when the english proficiency has no_assessment_plan_details' do
+      let(:no_assessment_plan_details) { 'I have no plans' }
+
+      it 'returns the no_assessment_plan_details' do
+        expect(component.details).to eq('I have no plans')
+
+        expect(rendered_component).to have_text('Details')
+        expect(rendered_component).to have_text('I have no plans')
+      end
+    end
+  end
 end

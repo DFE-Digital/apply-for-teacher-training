@@ -105,9 +105,14 @@ class EflQualificationCardComponent < ApplicationComponent
     end
   end
 
+  def details
+    no_qualification_details.presence || no_assessment_plan_details
+  end
+
   delegate :name, :award_year, :grade, :unique_reference_number, to: :efl_qualification
   delegate(
     :no_qualification_details,
+    :no_assessment_plan_details,
     :has_qualification,
     :qualification_not_needed,
     to: :english_proficiency,
