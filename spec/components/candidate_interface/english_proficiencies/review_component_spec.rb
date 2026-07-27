@@ -252,7 +252,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ReviewComponent, type: 
           expect(rendered_content).to have_css('dt.govuk-summary-list__key', text: 'Proving your English language skills')
           expect(rendered_content).to have_css(
             'dd.govuk-summary-list__value',
-            text: 'English is my main language I have an English as a foreign language (EFL) assessment My degree was taught in English',
+            text: 'English is my main language My degree was taught in English I have an English as a foreign language (EFL) assessment',
           )
           expect(rendered_content).to have_css(
             'dt.govuk-summary-list__key',
