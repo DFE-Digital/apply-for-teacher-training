@@ -58,9 +58,14 @@ module DfE
       end
 
       def last_names
-        @last_names ||= application_forms.map do |application_form|
-          CGI.escape(application_form.last_name&.downcase&.strip || '')
-        end.compact.uniq
+        @last_names ||= application_forms.flat_map do |application_form|
+          [
+            application_form.last_name,
+            *application_form.previous_last_names&.split(','),
+          ]
+        end.filter_map do |name| # rubocop:disable Style/MultilineBlockChain
+          CGI.escape(name.downcase.strip) if name.present?
+        end.uniq
       end
 
       def date_of_birth
