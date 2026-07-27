@@ -157,8 +157,8 @@ module CandidateInterface
     end
 
     def strip_whitespace(params)
-      StripWhitespace.from_hash(params)
-      StripInvisibleWhitespace.from_hash(params)
+      stripped_params = StripWhitespace.from_hash(params)
+      StripInvisibleWhitespace.from_hash(stripped_params)
     end
 
     def append_info_to_payload(payload)
