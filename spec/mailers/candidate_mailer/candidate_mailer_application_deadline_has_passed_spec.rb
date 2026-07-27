@@ -14,7 +14,7 @@ RSpec.describe CandidateMailer do
     it 'renders the content' do
       expect(email.subject).to eq('The application deadline has passed')
       expect(email.body).to include("Dear #{application_form.first_name}")
-      expect(email.body).to include("The deadline for courses starting in the #{timetable.cycle_range_name} academic year has passed.")
+      expect(email.body).to include("The deadline for courses starting in the #{timetable.academic_year_range_name} academic year has passed.")
 
       expect(email.body).to include('What happens next?')
       expect(email.body).to include(
