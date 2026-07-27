@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.efl.check_your_english_language_skills') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.efl.check_your_english_language_skills'), @section_complete_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_english_proficiencies_complete_path(@return_to[:params]), method: :patch do |f| %>
