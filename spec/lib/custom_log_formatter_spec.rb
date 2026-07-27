@@ -108,4 +108,14 @@ RSpec.describe CustomLogFormatter do
 
     expect(log_hash[:payload][:arguments]).to eq('[REDACTED]')
   end
+
+  it 'filters out solid queue arguments' do
+    log.message = 'Performed VendorAPIRequestWorker'
+    log.payload = {
+      job_class: 'VendorAPIRequestWorker',
+      adapter: 'SolidQueue',
+      arguments: 'PII',
+    }
+    expect(log_hash[:payload][:arguments]).to eq('[REDACTED]')
+  end
 end
