@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
 
     it { is_expected.to have_text('The application deadline has passed') }
     it { is_expected.to have_text('The application deadline has passed for courses starting in the 2025 to 2026 academic year.') }
-    it { is_expected.to have_text('From 9am UK time on 7 October 2025 you will be able to apply for courses starting in the 2026 to 2027 academic year.') }
+    it { is_expected.to have_text('You will be able to apply for courses starting in the 2026 to 2027 academic year at 9am UK time on 7 October 2025.') }
   end
 
   context 'before the apply deadline and flash is empty', time: mid_cycle(2025) do
