@@ -26,7 +26,7 @@ module CandidateInterface
         simple_format(
           english_proficiency.qualification_statuses.map do |status|
             I18n.t("candidate_interface.english_proficiencies.review_component.qualification_status.#{status}")
-          end.sort.join("\n"),
+          end.join("\n"),
           class: 'govuk-body',
         )
       end

@@ -213,7 +213,7 @@ private
     expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
     expect(page).to have_element(
       :dd,
-      text: 'I have an English as a foreign language (EFL) assessment My degree was taught in English',
+      text: 'My degree was taught in English I have an English as a foreign language (EFL) assessment',
       class: 'govuk-summary-list__value',
     )
     expect(page).to have_element(:dt, text: 'Type of assessment', class: 'govuk-summary-list__key')
@@ -235,7 +235,7 @@ private
     expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
     expect(page).to have_element(
       :dd,
-      text: 'English is my main language I have an English as a foreign language (EFL) assessment My degree was taught in English',
+      text: 'English is my main language My degree was taught in English I have an English as a foreign language (EFL) assessment',
       class: 'govuk-summary-list__value',
     )
     expect(page).to have_element(:dt, text: 'Type of assessment', class: 'govuk-summary-list__key')
