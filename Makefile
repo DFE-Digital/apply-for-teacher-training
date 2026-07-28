@@ -302,7 +302,8 @@ composed-variables:
 	$(eval RESOURCE_GROUP_NAME=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-rg)
 
 set-pgserver:
-	$(eval SERVERNAME=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-psql)
+	$(eval SERVERNAME=${RESOURCE_NAME_PREFIX}-${SERVICE_SHORT}-${CONFIG}-psql)
+	echo "set-pgserver SERVERNAME: ${SERVERNAME}"
 
 list-pglogs: composed-variables set-pgserver set-azure-account
 	az postgres flexible-server server-logs list --resource-group ${RESOURCE_GROUP_NAME} --server-name ${SERVERNAME}
