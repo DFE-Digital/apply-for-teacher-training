@@ -41,7 +41,7 @@ class EflQualificationCardComponent < ApplicationComponent
     content = []
 
     if qualification_not_needed
-      content << 'Candidate said that English is not a foreign language to them.'
+      content << 'Candidate said that English is their main language.'
     end
 
     if has_qualification
