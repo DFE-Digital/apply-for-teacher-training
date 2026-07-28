@@ -388,7 +388,7 @@ private
   end
 
   def when_i_click_provide_evidence_of_your_english_skills
-    click_link_or_button 'Provide evidence of English skills'
+    click_link_or_button 'Continue without providing a statement of comparability'
   end
 
   def then_i_see_the_evidence_page
