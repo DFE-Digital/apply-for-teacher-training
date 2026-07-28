@@ -54,6 +54,8 @@ variable "redis_queue_sku_name" { default = "Standard" }
 variable "config_short" {}
 variable "service_short" {}
 variable "azure_maintenance_window" { default = null }
+# pg_airbyte_enabled used in the postgres module
+variable "pg_airbyte_enabled" { default = false }
 
 # NEW
 variable "service_name" {}
