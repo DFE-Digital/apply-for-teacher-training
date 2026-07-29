@@ -19,7 +19,7 @@
 
     <div class="govuk-button-group app-course-choice__confirm-submission">
       <%= govuk_button_link_to(t('gcse_new_international_flow_interruption.provide_statement'), @enic_path) %>
-      <%= govuk_link_to(t('gcse_new_international_flow_interruption.provide_evidence', subject: (@subject == 'english' ? @subject.capitalize : @subject)), @evidence_path) %>
+      <%= govuk_link_to(t('gcse_new_international_flow_interruption.provide_evidence'), @evidence_path) %>
     </div>
   </div>
 </div>
