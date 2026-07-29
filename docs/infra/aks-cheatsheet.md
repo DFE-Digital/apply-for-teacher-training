@@ -140,7 +140,7 @@ bin/konduit.sh -n bat-production -x apply-production -- psql
 Example of accessing the database:
 
 ```sh
-bin/konduit.sh apply-qa -- psql
+bin/konduit.sh -n bat-qa -x apply-qa -- psql
 ```
 
 ## Using Makefile
