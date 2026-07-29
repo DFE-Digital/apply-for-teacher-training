@@ -7,7 +7,7 @@ module TeacherTrainingPublicAPI
 
     API_COURSE_DRAFT_STATES = %w[rolled_over draft].freeze
 
-    def perform(provider_id, recruitment_cycle_year, incremental_sync = true, run_in_background: true)
+    def perform(provider_id, recruitment_cycle_year, incremental_sync = true, run_in_background: true, updated_since: nil)
       @provider = ::Provider.find(provider_id)
       @recruitment_cycle_year = recruitment_cycle_year
       @incremental_sync = incremental_sync
@@ -16,7 +16,9 @@ module TeacherTrainingPublicAPI
       provider_courses_from_api = TeacherTrainingPublicAPI::Course.where(
         year: recruitment_cycle_year,
         provider_code: @provider.code,
-      ).paginate(per_page: 500)
+      )
+      provider_courses_from_api = provider_courses_from_api.where(updated_since:) if updated_since && @incremental_sync
+      provider_courses_from_api.paginate(per_page: 500)
 
       provider_courses_from_api.each do |course_from_api|
         course = create_or_update_course(course_from_api)
