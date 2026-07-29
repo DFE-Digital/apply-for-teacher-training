@@ -2,7 +2,7 @@ module TeacherTrainingPublicAPI
   class SyncSubjects < ApplicationJob
     retry_on StandardError, attempts: 3
 
-    queue_as :low_priority
+    queue_as :high_priority
 
     def perform
       TeacherTrainingPublicAPI::Subject.paginate(per_page: 500).each do |api_subject|

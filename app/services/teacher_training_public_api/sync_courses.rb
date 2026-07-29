@@ -1,7 +1,7 @@
 module TeacherTrainingPublicAPI
   class SyncCourses < ApplicationJob
     retry_on StandardError, attempts: 3
-    queue_as :low_priority
+    queue_as :high_priority
 
     attr_reader :provider, :run_in_background, :incremental_sync, :recruitment_cycle_year
 

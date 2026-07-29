@@ -11,7 +11,7 @@ module TeacherTrainingPublicAPI
   #
   class SyncSites < ApplicationJob
     retry_on StandardError, attempts: 3
-    queue_as :low_priority
+    queue_as :high_priority
 
     attr_reader :provider, :course
 
@@ -31,8 +31,16 @@ module TeacherTrainingPublicAPI
       api_sites_and_study_modes = api_sites.product(course.study_modes)
 
       api_sites_and_study_modes.each do |api_site, study_mode|
-        site = create_or_update_site(api_site)
-        create_or_update_course_option(site, study_mode) if site.present?
+        # site = create_or_update_site(api_site)
+        # create_or_update_course_option(site, study_mode) if site.present?
+        TeacherTrainingPublicAPI::SyncSiteAndCourseOptionWorker.perform_later(
+          api_site.as_json,
+          study_mode,
+          course.study_modes,
+          course.id,
+          provider,
+          @course_status_from_api,
+        )
       end
 
       # 2. Disable or delete CourseOptions that exist in Apply but are not

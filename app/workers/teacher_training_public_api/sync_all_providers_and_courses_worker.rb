@@ -1,6 +1,6 @@
 module TeacherTrainingPublicAPI
   class SyncAllProvidersAndCoursesWorker < ApplicationJob
-    queue_as :low_priority
+    queue_as :high_priority
 
     retry_on StandardError, attempts: 3
 
