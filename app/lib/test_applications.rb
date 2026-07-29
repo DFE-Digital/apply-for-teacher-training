@@ -173,7 +173,7 @@ private
       application_choices = @application_form.application_choices
 
       if states == [:cancelled]
-        # The cancelled state doesn't exist anymore in the current system,
+        # The canceled state doesn't exist anymore in the current system,
         # so we have to set this manually.
         application_choices.each do |application_choice|
           application_choice.update!(
@@ -622,9 +622,18 @@ private
     end
 
     if FeatureFlag.active?('2027_visa_expiry')
+
+      visa_explanation = %w[expires_after_course renew leads_to_permanent_visa switch_to_different_visa not_sure other].sample
+
       application_form.application_choices.update_all(
-        visa_explanation: 'expires_after_course',
+        visa_explanation:,
       )
+
+      if visa_explanation == 'other'
+        application_form.application_choices.update_all(
+          visa_explanation_details: Faker::Lorem.sentence(word_count: 20),
+        )
+      end
     end
 
     return if application_form.english_proficiency.present?
