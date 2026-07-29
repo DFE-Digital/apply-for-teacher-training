@@ -21,4 +21,5 @@ module "postgres" {
   azure_maintenance_window       = var.azure_maintenance_window
   azure_extensions               = ["PG_BUFFERCACHE", "PG_STAT_STATEMENTS", "PGCRYPTO", "UNACCENT"]
   alert_window_size              = var.alert_window_size
+  use_airbyte                    = var.pg_airbyte_enabled
 }
