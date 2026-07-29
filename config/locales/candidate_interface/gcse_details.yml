@@ -100,15 +100,16 @@ en:
   gcse_edit_new_international_flow_grade:
     page_title: What grade did you get?
   gcse_new_international_flow_interruption:
-    page_title: This grade may not be a equivalent to a GCSE in %{subject} at Grade 4 (C) or above
-    you_need: You need the equivalent of a GCSE at grade 4 (C) or above to apply for teacher training.
-    you_can: "You can either:"
-    option1: provide a statement of comparibility from UK ENIC
-    option2: provide evidence that your %{subject} skills are at GCSE grade 4 (C) or above
+    page_title: This grade may not be equivalent to a GCSE in %{subject} at Grade 4 (C) or above
+    you_need: You need the equivalent of a GCSE at grade 4 (C) or above to apply for teacher training. Providers are responsible for deciding if you meet this requirement.
+    you_can: "You can:"
+    option1: provide a statement of comparability from UK ENIC
+    option2: continue and provide evidence that your %{subject} skills are at GCSE grade 4 (C) or above
     option3: go back and enter a different %{subject} qualification equivalent to a GCSE
+    none_of_these: If you do none of these, providers may not be able to assess your English skills.
     some_providers: Some providers may let you do an equivalency test to show you have the required skills.
     provide_statement: Provide a statement of comparability
-    provide_evidence: Provide evidence of %{subject} skills
+    provide_evidence: Continue without providing a statement of comparability
   gcse_new_international_flow_evidence:
     page_title: Provide evidence that your %{subject} skills are at GCSE grade 4 (C) or above
     caption: Check with providers about what evidence they accept.
