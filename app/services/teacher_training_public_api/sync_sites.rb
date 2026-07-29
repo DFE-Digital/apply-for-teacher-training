@@ -31,8 +31,6 @@ module TeacherTrainingPublicAPI
       api_sites_and_study_modes = api_sites.product(course.study_modes)
 
       api_sites_and_study_modes.each do |api_site, study_mode|
-        # site = create_or_update_site(api_site)
-        # create_or_update_course_option(site, study_mode) if site.present?
         TeacherTrainingPublicAPI::SyncSiteAndCourseOptionWorker.perform_later(
           api_site.as_json,
           study_mode,
@@ -52,29 +50,6 @@ module TeacherTrainingPublicAPI
 
   private
 
-    def create_or_update_site(api_site)
-      site = AssignSiteAttributes.new(api_site, provider).call
-
-      site&.save!
-      site
-    rescue ArgumentError
-      Sentry.capture_message("SyncSites error, provider_id =  #{provider.id}, api_site_uuid = #{api_site.uuid} api_site_name = #{api_site.name}")
-      site
-    end
-
-    def create_or_update_course_option(site, study_mode)
-      course_option = CourseOption.find_or_initialize_by(
-        course_id: course.id,
-        site:,
-        study_mode:,
-      )
-
-      course_option.update!({
-        site_still_valid: true,
-        vacancy_status: vacancies_for(course, study_mode),
-      })
-    end
-
     def disable_or_delete_obsolete_course_options(course, api_site_uuids)
       course_options_for_deletion = course.reload.course_options.select do |course_option|
         !course_option.study_mode.in?(course.study_modes) || !course_option.site.uuid.in?(api_site_uuids)
@@ -86,16 +61,6 @@ module TeacherTrainingPublicAPI
         else
           course_option.destroy
         end
-      end
-    end
-
-    def vacancies_for(course, study_mode)
-      return :no_vacancies if @course_status_from_api == 'closed'
-
-      if course.study_modes.include?(study_mode)
-        :vacancies
-      else
-        :no_vacancies
       end
     end
   end

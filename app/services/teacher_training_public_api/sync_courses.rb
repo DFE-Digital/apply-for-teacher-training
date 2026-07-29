@@ -16,9 +16,10 @@ module TeacherTrainingPublicAPI
       provider_courses_from_api = TeacherTrainingPublicAPI::Course.where(
         year: recruitment_cycle_year,
         provider_code: @provider.code,
-      )
+      ).paginate(per_page: 500)
+
       provider_courses_from_api = provider_courses_from_api.where(updated_since:) if updated_since && @incremental_sync
-      provider_courses_from_api.paginate(per_page: 500)
+      ## start from this test
 
       provider_courses_from_api.each do |course_from_api|
         course = create_or_update_course(course_from_api)
