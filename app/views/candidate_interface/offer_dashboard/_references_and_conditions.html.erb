@@ -4,7 +4,7 @@
 
 <%= render CandidateInterface::ReferencesComponent.new(references: @references, reference_condition: @application_choice.offer.reference_condition) %>
 
-<% unless @application_choice.offer.reference_condition&.met? %>
+<% unless @application_choice.offer.all_references_conditions_met? %>
   <%= govuk_button_link_to 'Request another reference', candidate_interface_request_reference_references_start_path, secondary: true %>
 <% end %>
 

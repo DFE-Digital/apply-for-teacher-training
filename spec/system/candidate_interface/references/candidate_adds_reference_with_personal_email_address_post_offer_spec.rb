@@ -79,6 +79,7 @@ private
       :accepted,
       application_form: @application_form,
     )
+    create(:text_condition, description: 'Satisfactory references', status: 'pending', offer: @application_choice.offer)
   end
 
   def and_i_navigate_to_add_another_reference
