@@ -2,12 +2,9 @@ module CandidateInterface
   class GcseInstitutionCountryForm
     include ActiveModel::Model
 
-    attr_accessor :institution_country
+    attr_accessor :institution_country, :institution_country_raw
 
-    validates :institution_country, presence: true
-
-    validates :institution_country,
-              inclusion: { in: COUNTRIES_AND_TERRITORIES }
+    validate :institution_country_selected
 
     def self.build_from_qualification(application_qualification)
       new(
@@ -32,6 +29,17 @@ module CandidateInterface
       application_qualification.update!(
         institution_country:,
       )
+    end
+
+  private
+
+    def institution_country_selected
+      if institution_country.blank? && institution_country_raw.blank?
+        errors.add(:institution_country, :blank)
+      elsif institution_country_raw.present? &&
+            CountryFinder.find_name_from_iso_code(institution_country) != institution_country_raw
+        errors.add(:institution_country, :inclusion)
+      end
     end
   end
 end

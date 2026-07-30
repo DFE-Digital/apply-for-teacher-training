@@ -1,22 +1,60 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
-  let(:form_data) { { institution_country: COUNTRIES_AND_TERRITORIES.keys.sample } }
+  let(:form_data) do
+    country_code = COUNTRIES_AND_TERRITORIES.keys.sample
+
+    {
+      institution_country: country_code,
+      institution_country_raw: CountryFinder.find_name_from_iso_code(country_code),
+    }
+  end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:institution_country) }
+    it 'is invalid when no country is entered' do
+      form = described_class.new(
+        institution_country: '',
+        institution_country_raw: '',
+      )
 
-    it 'validates nationalities against the COUNTRIES_AND_TERRITORIES list' do
-      invalid_country = described_class.new(
-        institution_country: 'QQ',
+      form.validate
+
+      expect(form.errors.details[:institution_country]).to include(error: :blank)
+    end
+
+    it 'is invalid when a country not in the list is entered' do
+      form = described_class.new(
+        institution_country: '',
+        institution_country_raw: 'iojsocijasoijcod',
       )
-      valid_country = described_class.new(
-        institution_country: COUNTRIES_AND_TERRITORIES.keys.sample,
+
+      form.validate
+
+      expect(form.errors.details[:institution_country]).to include(error: :inclusion)
+    end
+
+    it 'is valid when a country is selected from the list' do
+      country_code = COUNTRIES_AND_TERRITORIES.keys.sample
+
+      form = described_class.new(
+        institution_country: country_code,
+        institution_country_raw: CountryFinder.find_name_from_iso_code(country_code),
       )
-      valid_country.validate
-      invalid_country.validate
-      expect(valid_country.errors.attribute_names).not_to include :institution_country
-      expect(invalid_country.errors.attribute_names).to include :institution_country
+
+      form.validate
+
+      expect(form.errors.attribute_names).not_to include(:institution_country)
+    end
+
+    it 'is invalid when the selected country and raw value do not match' do
+      form = described_class.new(
+        institution_country: 'LA',
+        institution_country_raw: 'iojsocijasoijcod',
+      )
+
+      form.validate
+
+      expect(form.errors.details[:institution_country]).to include(error: :inclusion)
     end
   end
 
