@@ -30,10 +30,9 @@ module TeacherTrainingPublicAPI
       # 1. Create / Update Sites, Course Options and StudyMode combinations from the API
       api_sites_and_study_modes = api_sites.product(course.study_modes)
 
-      api_sites_and_study_modes.each do |api_site, study_mode|
+      api_sites_and_study_modes.each_slice(100) do |slice|
         TeacherTrainingPublicAPI::SyncSiteAndCourseOptionWorker.perform_later(
-          api_site.as_json,
-          study_mode,
+          slice.map(&:as_json),
           course.study_modes,
           course.id,
           provider,
