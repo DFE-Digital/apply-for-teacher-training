@@ -54,7 +54,7 @@ RSpec.describe AuthenticationMailer do
         'heading' => 'You tried to sign in to apply for teacher training',
         'sign up link' => 'http://localhost:3000/candidate/sign-up',
         'tried to sign in' => 'You tried to sign in to apply for teacher training but there is no account for this email address.',
-        'you have started an application' => 'If you have started an application using a different email address, sign in using that email address instead:'
+        'you have started an application' => 'If you have started an application using a different email address, sign in using that email address instead:',
       )
     end
   end
