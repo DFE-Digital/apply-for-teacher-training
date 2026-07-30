@@ -9,15 +9,15 @@ RSpec.describe SupportInterface::AuditTrailItemComponent::AuditTrailChange do
   end
 
   it 'renders an update application form audit record' do
-    expect(change(values: %w[old new]).formatted_values).to match(/old → new/)
+    expect(change(values: %w[old new]).formatted_values).to include('old → new')
   end
 
   it 'renders an update with an initial nil value' do
-    expect(change(values: [nil, 'first']).formatted_values).to match(/nil → first/)
+    expect(change(values: [nil, 'first']).formatted_values).to include('nil → first')
   end
 
   it 'renders an create with a single value' do
-    expect(change(values: 'only_one').formatted_values).to match(/only_one/)
+    expect(change(values: 'only_one').formatted_values).to include('only_one')
   end
 
   it 'renders an update with hash values' do

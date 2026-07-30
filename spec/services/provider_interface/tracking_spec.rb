@@ -21,7 +21,8 @@ RSpec.describe ProviderInterface::Tracking do
     before { tracker.provider_download_application }
 
     it 'enqueues a provider_download_application event' do
-      expect(:provider_download_application).to have_been_enqueued_as_analytics_events
+      expected_event = :provider_download_application
+      expect(expected_event).to have_been_enqueued_as_analytics_events
     end
   end
 
@@ -29,7 +30,8 @@ RSpec.describe ProviderInterface::Tracking do
     before { tracker.provider_download_references }
 
     it 'enqueues a provider_download_references event' do
-      expect(:provider_download_references).to have_been_enqueued_as_analytics_events
+      expected_event = :provider_download_references
+      expect(expected_event).to have_been_enqueued_as_analytics_events
     end
   end
 end

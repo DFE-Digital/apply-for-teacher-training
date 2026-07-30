@@ -127,7 +127,8 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def and_the_sign_up_is_tracked
-    expect(:candidate_signed_up_for_adviser).to have_been_enqueued_as_analytics_events
+    expected_event = :candidate_signed_up_for_adviser
+    expect(expected_event).to have_been_enqueued_as_analytics_events
   end
 
   def then_i_am_redirected_to_the_review_page

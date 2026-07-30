@@ -89,32 +89,32 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       context 'course is open' do
         let(:course) { create(:course, :open) }
 
-        it { is_expected.to match(/Open/) }
+        it { is_expected.to include('Open') }
       end
 
       context 'course is not exposed in find' do
         let(:course) { create(:course, :open, exposed_in_find: false) }
 
-        it { is_expected.to match(/Hidden in Find/) }
+        it { is_expected.to include('Hidden in Find') }
       end
 
       context 'course is closed by provider' do
         let(:course) { create(:course, :open, application_status: 'closed') }
 
-        it { is_expected.to match(/Closed by provider/) }
+        it { is_expected.to include('Closed by provider') }
       end
 
       context 'course has an applications_open_from date in the future' do
         let(:course) { create(:course, :open, applications_open_from: 1.day.from_now) }
 
         # We ignore applications_open_from now, it wasn't used, almost all providers just used the find_opens_at date.)
-        it { is_expected.to match(/Open/) }
+        it { is_expected.to include('Open') }
       end
 
       context 'course is next recruitment cycle' do
         let(:course) { create(:course, :open, recruitment_cycle_year: next_year) }
 
-        it { is_expected.to match(/Unpublished/) }
+        it { is_expected.to include('Unpublished') }
       end
     end
   end
