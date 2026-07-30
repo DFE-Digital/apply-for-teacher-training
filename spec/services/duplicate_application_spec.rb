@@ -198,34 +198,6 @@ RSpec.describe DuplicateApplication do
       end
     end
 
-    context 'when a candidate published multiple previous_teacher_trainings in 2025' do
-      it 'carries over their latest previous_teacher_training only' do
-        create(
-          :previous_teacher_training,
-          status: 'published',
-          started_at: 3.years.ago,
-          ended_at: 2.years.ago,
-          application_form: @original_application_form,
-        )
-
-        create(
-          :previous_teacher_training,
-          status: 'published',
-          started_at: 2.years.ago,
-          ended_at: 1.year.ago,
-          application_form: @original_application_form,
-        )
-
-        @original_application_form.update(recruitment_cycle_year: 2025)
-        @original_application_form.reload
-
-        result = described_class.new(@original_application_form, recruitment_cycle_year: 2026).duplicate
-
-        expect(result.published_previous_teacher_trainings.count).to eq(0)
-        expect(result.previous_teacher_training_completed).to be(false)
-      end
-    end
-
     context 'when a candidate published multiple previous_teacher_trainings beyond 2025' do
       it 'carries over all of their previous_teacher_trainings' do
         previous_teacher_training_one = create(
@@ -288,7 +260,7 @@ RSpec.describe DuplicateApplication do
         @original_application_form.reload
 
         expect(duplicate_application_form.published_previous_teacher_trainings).to eq([])
-        expect(duplicate_application_form.previous_teacher_training_completed).to be(false)
+        expect(duplicate_application_form.previous_teacher_training_completed).to be(true)
       end
     end
   end
@@ -329,22 +301,29 @@ RSpec.describe DuplicateApplication do
       end
     end
 
-    context 'when carrying over with a non-expiring immigration status in any academic year' do
+    context 'when carrying over with a permanent immigration status' do
       before do
-        @original_application_form.update!(immigration_status: 'eu_settled', visa_expired_at: nil)
+        @original_application_form.update!(
+          immigration_status: 'eu_settled',
+          visa_expired_at: nil,
+        )
       end
 
       it 'carries over immigration information' do
-        result = described_class.new(@original_application_form, recruitment_cycle_year: 2028).duplicate
+        result = described_class.new(@original_application_form).duplicate
 
         expect(result.immigration_status).to eq 'eu_settled'
         expect(result.personal_details_completed).to be false
       end
     end
 
-    context 'when carrying over to the 2027 cycle' do
-      it 'does not carry over temporary visa information' do
-        result = described_class.new(@original_application_form, recruitment_cycle_year: 2027).duplicate
+    context 'when carrying over with a temporary visa and no expiry date' do
+      before do
+        @original_application_form.update!(visa_expired_at: nil)
+      end
+
+      it 'does not carry over visa information' do
+        result = described_class.new(@original_application_form).duplicate
 
         expect(result.immigration_status).to be_nil
         expect(result.visa_expired_at).to be_nil
@@ -354,43 +333,30 @@ RSpec.describe DuplicateApplication do
       end
     end
 
-    context 'when carrying over to the 2027 cycle with a permanent immigration status' do
-      before do
-        @original_application_form.update!(immigration_status: 'indefinite_leave_to_remain_in_the_uk', visa_expired_at: nil)
-      end
-
-      it 'carries over immigration information' do
-        result = described_class.new(@original_application_form, recruitment_cycle_year: 2027).duplicate
-
-        expect(result.immigration_status).to eq 'indefinite_leave_to_remain_in_the_uk'
-        expect(result.personal_details_completed).to be false
-      end
-    end
-
-    context 'when carrying over beyond 2027 with a temporary immigration status' do
-      it 'carries over visa information' do
-        result = described_class.new(@original_application_form, recruitment_cycle_year: 2028).duplicate
-
-        expect(result.immigration_status).to eq 'student_visa'
-        expect(result.visa_expired_at).to eq @original_application_form.visa_expired_at
-        expect(result.right_to_work_or_study).to eq 'yes'
-        expect(result.right_to_work_or_study_details).to eq 'I can extend my visa'
-        expect(result.personal_details_completed).to be false
-      end
-    end
-
-    context 'when carrying over beyond 2027 and the visa has expired' do
+    context 'when carrying over with a temporary visa and an expiry date in the past' do
       before do
         @original_application_form.update!(visa_expired_at: 1.day.ago)
       end
 
       it 'does not carry over visa information' do
-        result = described_class.new(@original_application_form, recruitment_cycle_year: 2028).duplicate
+        result = described_class.new(@original_application_form).duplicate
 
         expect(result.immigration_status).to be_nil
         expect(result.visa_expired_at).to be_nil
         expect(result.right_to_work_or_study).to be_nil
         expect(result.right_to_work_or_study_details).to be_nil
+        expect(result.personal_details_completed).to be false
+      end
+    end
+
+    context 'when carrying over with a temporary visa and an expiry date in the future' do
+      it 'carries over visa information' do
+        result = described_class.new(@original_application_form).duplicate
+
+        expect(result.immigration_status).to eq 'student_visa'
+        expect(result.visa_expired_at).to eq @original_application_form.visa_expired_at
+        expect(result.right_to_work_or_study).to eq 'yes'
+        expect(result.right_to_work_or_study_details).to eq 'I can extend my visa'
         expect(result.personal_details_completed).to be false
       end
     end

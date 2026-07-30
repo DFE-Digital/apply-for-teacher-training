@@ -30,8 +30,7 @@ class DuplicateApplication
           personal_details_completed: false,
         )
 
-        if temporary_visa_and_recruitment_cycle_into_2027?(new_application_form, original_application_form)
-          || visa_expired?(original_application_form)
+        if original_application_form.temporary_immigration_status? && visa_expired?(original_application_form)
           new_application_form.update(
             immigration_status: nil,
             visa_expired_at: nil,
@@ -52,8 +51,8 @@ class DuplicateApplication
           w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
         )
 
-        next unless w.non_uk_qualification_type.present? && unstructured_qualification_from_a_structured_qualification_country?(w)
-                      && %w[english maths science].include?(w.subject)
+        next unless international_gcse_equivalent_present?(w) && %w[english maths science].include?(w.subject)
+              && unstructured_qualification_from_a_structured_qualification_country?(w)
 
         new_application_form.update(
           "#{w.subject}_gcse_completed": false,
@@ -134,9 +133,7 @@ class DuplicateApplication
 
       original_previous_teacher_trainings = original_application_form.published_previous_teacher_trainings
 
-      if multiple_previous_teacher_trainings_from_2025? || original_previous_teacher_trainings.blank?
-        new_application_form.update!(previous_teacher_training_completed: false)
-      elsif single_previous_teacher_training_from_2025?
+      if single_previous_teacher_training_from_2025?
         new_application_form.published_previous_teacher_trainings.create!(
           original_previous_teacher_trainings.first.attributes.except(*IGNORED_ATTRIBUTES),
         )
@@ -174,13 +171,9 @@ private
     original_application_form.recruitment_cycle_year == 2025 && original_application_form.published_previous_teacher_trainings.one?
   end
 
-  def temporary_visa_and_recruitment_cycle_into_2027?(new_application_form, original_application_form)
-    new_application_form.recruitment_cycle_year == 2027
-        && original_application_form.temporary_immigration_status?
-  end
-
   def visa_expired?(original_application_form)
-    original_application_form.visa_expired_at.present? && original_application_form.visa_expired_at <= Time.zone.today
+    original_application_form.visa_expired_at.nil? || (original_application_form.visa_expired_at.present?
+        && original_application_form.visa_expired_at <= Time.zone.today)
   end
 
   def unstructured_qualification_from_a_structured_qualification_country?(qualification)
@@ -188,6 +181,10 @@ private
       .new(qualification.institution_country, qualification.subject)
       .international_qualifications
       .none? { |qual| qual.name == qualification.non_uk_qualification_type }
+  end
+
+  def international_gcse_equivalent_present?(qualification)
+    qualification.level == 'gcse' && qualification.non_uk_qualification_type.present?
   end
 
   def infer_currently_working(application_experience)
