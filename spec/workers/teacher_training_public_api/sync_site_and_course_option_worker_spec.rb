@@ -7,8 +7,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSiteAndCourseOptionWorker do
   let(:site_code) { 'A' }
   let(:api_sites) do
     [
-      [{ 'id' => '11222249', 'type' => 'locations', 'relationships' => { 'location_status' => { 'data' => { 'type' => 'location_statuses', 'id' => '22360124' } } }, 'attributes' => { 'code' => 'Site A', 'latitude' => 51.5371634, 'longitude' => 0.69922, 'postcode' => 'SS0 7JS', 'region_code' => 'south_east', 'uuid' => 'c67f69ab-5c2c-49de-ac8b-1f04d562148f', 'name' => 'St Bernards High School', 'city' => '', 'county' => '', 'street_address_1' => 'Milton Road', 'street_address_2' => 'Westcliff on Sea' } }, 'full_time'],
-      [{ 'id' => '11222249', 'type' => 'locations', 'relationships' => { 'location_status' => { 'data' => { 'type' => 'location_statuses', 'id' => '22360124' } } }, 'attributes' => { 'code' => 'Site A', 'latitude' => 51.5371634, 'longitude' => 0.69922, 'postcode' => 'SS0 7JS', 'region_code' => 'south_east', 'uuid' => 'c67f69ab-5c2c-49de-ac8b-1f04d562148f', 'name' => 'St Bernards High School', 'city' => '', 'county' => '', 'street_address_1' => 'Milton Road', 'street_address_2' => 'Westcliff on Sea' } }, 'part_time'],
+      [{ 'id' => '11222249', 'type' => 'locations', 'relationships' => { 'location_status' => { 'data' => { 'type' => 'location_statuses', 'id' => '22360124' } } }, 'attributes' => { 'code' => 'A', 'latitude' => 51.5371634, 'longitude' => 0.69922, 'postcode' => 'SS0 7JS', 'region_code' => 'south_east', 'uuid' => uuid, 'name' => 'St Bernards High School', 'city' => '', 'county' => '', 'street_address_1' => 'Milton Road', 'street_address_2' => 'Westcliff on Sea' } }, 'full_time'],
     ]
   end
   let(:job) {
