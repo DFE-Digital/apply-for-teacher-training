@@ -1,20 +1,28 @@
 require 'rails_helper'
 
-RSpec.describe TeacherTrainingPublicAPI::SyncCourses, :sidekiq do
+RSpec.describe TeacherTrainingPublicAPI::SyncCourses do
   include TeacherTrainingPublicAPIHelper
 
   describe 'syncing courses' do
     let!(:provider) { create(:provider) }
+    let(:updated_since) { DateTime.new(2026, 7, 30, 10, 10) }
     let(:perform_job) do
-      described_class.new.perform(provider.id,
-                                  current_year)
+      described_class.new.perform(
+        provider.id,
+        current_year,
+        updated_since:,
+      )
     end
     let(:stubbed_attributes) { [{ accredited_body_code: nil, state: stubbed_api_course_state, visa_sponsorship_application_deadline_at: stubbed_sponsorship_application_deadline_at, applications_open_from: stubbed_applications_open_from }] }
     let(:stubbed_sponsorship_application_deadline_at) { nil }
     let(:stubbed_applications_open_from) { nil }
 
     before do
-      stub_teacher_training_api_courses(provider_code: provider.code, specified_attributes: stubbed_attributes)
+      stub_teacher_training_api_courses(
+        provider_code: provider.code,
+        specified_attributes: stubbed_attributes,
+        filter_option: { 'filter[updated_since]' => updated_since },
+      )
       allow(TeacherTrainingPublicAPI::SyncSites).to receive(:perform_later).and_return(true)
     end
 

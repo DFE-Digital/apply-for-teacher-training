@@ -50,9 +50,13 @@ module TeacherTrainingPublicAPIHelper
     stub_teacher_training_single_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}/recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}", response_body)
   end
 
-  def stub_teacher_training_api_courses(provider_code:, recruitment_cycle_year: current_year, specified_attributes: [])
+  def stub_teacher_training_api_courses(provider_code:, recruitment_cycle_year: current_year, specified_attributes: [], filter_option: nil)
     response_body = build_response_body('course_list_response.json', specified_attributes)
-    stub_teacher_training_list_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}/recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses", response_body)
+    stub_teacher_training_list_api_request(
+      "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}/recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses",
+      response_body,
+      filter_option:,
+    )
   end
 
   def stub_teacher_training_api_sites(provider_code:, course_code:, recruitment_cycle_year: current_year, specified_attributes: [], vacancy_status: 'full_time_vacancies')
@@ -112,13 +116,15 @@ private
     )
   end
 
-  def stub_teacher_training_list_api_request(url, response_body)
+  def stub_teacher_training_list_api_request(url, response_body, filter_option: nil)
     scope = stub_request(
       :get,
       url,
     ).with(
       query: { page: { per_page: 500 } },
     )
+
+    scope = scope.with(query: filter_option) if filter_option
 
     scope.to_return(
       status: 200,

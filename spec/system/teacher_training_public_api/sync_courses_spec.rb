@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Sync courses', :sidekiq, :with_cache do
+RSpec.describe 'Sync courses', :with_cache do
   include TeacherTrainingPublicAPIHelper
 
   it 'Creates and updates courses' do
@@ -86,6 +86,7 @@ RSpec.describe 'Sync courses', :sidekiq, :with_cache do
           can_sponsor_student_visa: true,
         },
       ],
+      filter_option: { 'filter[updated_since]' => @updated_since },
     )
     stub_teacher_training_api_sites(
       provider_code: 'ABC',
@@ -157,6 +158,7 @@ RSpec.describe 'Sync courses', :sidekiq, :with_cache do
           can_sponsor_student_visa: true,
         },
       ],
+      filter_option: { 'filter[updated_since]' => @updated_since },
     )
     stub_teacher_training_api_sites(
       provider_code: 'ABC',
