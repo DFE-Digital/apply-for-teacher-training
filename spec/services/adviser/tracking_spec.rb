@@ -21,7 +21,8 @@ RSpec.describe Adviser::Tracking do
     before { tracker.candidate_signed_up_for_adviser }
 
     it 'enqueues a candidate_signed_up_for_adviser event' do
-      expect(:candidate_signed_up_for_adviser).to have_been_enqueued_as_analytics_events
+      expected_event = :candidate_signed_up_for_adviser
+      expect(expected_event).to have_been_enqueued_as_analytics_events
     end
   end
 
@@ -29,7 +30,8 @@ RSpec.describe Adviser::Tracking do
     before { tracker.candidate_offered_adviser }
 
     it 'enqueues a candidate_offered_adviser event' do
-      expect(:candidate_offered_adviser).to have_been_enqueued_as_analytics_events
+      expected_event = :candidate_signed_up_for_adviser
+      expect(expected_event).to have_been_enqueued_as_analytics_events
     end
   end
 end

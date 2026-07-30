@@ -57,7 +57,8 @@ RSpec.describe 'Candidate becomes eligible for an adviser' do
   end
 
   def and_the_adviser_offering_is_tracked
-    expect(:candidate_offered_adviser).to have_been_enqueued_as_analytics_events
+    expected_event = :candidate_offered_adviser
+    expect(expected_event).to have_been_enqueued_as_analytics_events
   end
 
   def when_i_remove_my_degrees

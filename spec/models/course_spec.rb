@@ -193,11 +193,11 @@ RSpec.describe Course do
     let(:course) { create(:course) }
 
     it 'returns the sandbox url when in sandbox', :sandbox do
-      expect(course.find_url).to match(/sandbox/)
+      expect(course.find_url).to include('sandbox')
     end
 
     it 'returns the production url when not in sandbox', sandbox: false do
-      expect(course.find_url).not_to match(/sandbox/)
+      expect(course.find_url).not_to include('sandbox')
     end
   end
 
