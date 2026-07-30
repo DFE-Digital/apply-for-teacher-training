@@ -47,6 +47,18 @@ RSpec.describe 'Candidate tries to sign in without an account' do
 
   def then_i_am_taken_to_the_create_account_or_sign_in_page
     expect(page).to have_css('h1', text: 'Create an account or sign in')
+    expect(page).to have_element(:legend, text: 'Do you already have an account to apply for teacher training?')
+    expect(page).to have_element(
+      :span,
+      text: 'If you’ve already signed in to another teacher training service',
+      class: 'govuk-details__summary-text',
+    )
+    expect(page).to have_element(
+      :div,
+      text: 'Applying for teacher training uses a different sign in to other services. You’ll need to create an account if you have not started an application before.',
+      class: 'govuk-details__text',
+      visible: :all,
+    )
   end
 
   def then_i_am_taken_to_the_create_an_account_page
