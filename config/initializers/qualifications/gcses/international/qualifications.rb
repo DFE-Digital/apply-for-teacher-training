@@ -54,6 +54,8 @@ module DfE
           },
           schema: INTERNATIONAL_QUALIFICATIONS_SCHEMA,
         )
+
+        STRUCTURED_QUALIFICATION_COUNTRIES = %w[NG GH SL GM LR KE IN].freeze
       end
     end
   end
