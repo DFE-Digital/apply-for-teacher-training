@@ -26,6 +26,7 @@ jobs:
     env:
       DOCKER_IMAGE: ghcr.io/dfe-digital/apply-teacher-training
       GEMS_NODE_MODULES_IMAGE: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules
+      DB_BACKUP_IMAGE: ghcr.io/dfe-digital/apply-teacher-training-test-db-backup
     outputs:
       IMAGE_TAG: ${{ steps.build-image.outputs.tag }}
       GIT_BRANCH: ${{ env.GIT_BRANCH }}
@@ -70,6 +71,18 @@ jobs:
           max-cache: false
           docker-repository: ${{ env.DOCKER_IMAGE }}
           extra-cache-repo: ${{ env.GEMS_NODE_MODULES_IMAGE }}
+
+      - name: Build DB Backup Image
+        id: build-db-backup-image
+        uses: DFE-Digital/github-actions/build-docker-image@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          dockerfile-path: Dockerfile.db-backup
+          context: ""
+          reuse-cache: true
+          snyk-token: ${{ secrets.SNYK_TOKEN }}
+          max-cache: false
+          docker-repository: ${{ env.DB_BACKUP_IMAGE }}
 
       - name: Notify teams channel on job failure
         if: failure() && github.event_name == 'push'

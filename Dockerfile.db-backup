@@ -1,0 +1,18 @@
+FROM debian:trixie-slim
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+        curl \
+        postgresql-client && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN curl -sSL https://aka.ms/downloadazcopy-v10-linux \
+    | tar -xz --strip-components=1 -C /tmp && \
+    mv /tmp/azcopy /usr/local/bin/azcopy && \
+    chmod +x /usr/local/bin/azcopy
+
+RUN useradd -r -u 10001 -m pgbackup || true
+USER pgbackup
+
+ENTRYPOINT ["/bin/bash"]
