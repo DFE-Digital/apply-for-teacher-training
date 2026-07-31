@@ -4,7 +4,7 @@
   padding: govuk.govuk-spacing(4);
   margin-bottom: govuk.govuk-spacing(4);
 
-  border: 5px solid govuk.govuk-colour("mid-grey");
+  border: 5px solid govuk.govuk-colour("black", $variant: "tint-80");
 
   p:last-child {
     margin-bottom: 0;

@@ -3,7 +3,7 @@
 .itt-report-tabs.govuk-tabs {
   padding: govuk.govuk-spacing(2);
 
-  background-color: govuk.govuk-colour("light-grey");
+  background-color: govuk.govuk-colour("black", $variant: "tint-95");
 
   .govuk-tabs {
     &__list {

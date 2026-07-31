@@ -1,9 +1,10 @@
 @use "govuk";
 
 .app-banner {
-  @include govuk.govuk-text-colour;
   @include govuk.govuk-responsive-padding(4);
   @include govuk.govuk-responsive-margin(8, "bottom");
+  color: govuk-functional-colour(text);
+
   border: govuk.$govuk-border-width solid govuk.govuk-colour("blue");
 
   &:focus {
@@ -14,7 +15,7 @@
 }
 
 .app-banner--details {
-  border-color: govuk.govuk-colour("mid-grey");
+  border-color: govuk.govuk-colour("black", $variant: "tint-80");
 }
 
 .app-banner__message {

@@ -17,6 +17,6 @@
 }
 
 .app-checkboxes-scroll::-webkit-scrollbar-thumb {
-  background-color: govuk.govuk-colour("mid-grey");
+  background-color: govuk.govuk-colour("black", $variant: "tint-80");
   border: govuk.$govuk-border-width solid govuk.govuk-colour("white");
 }

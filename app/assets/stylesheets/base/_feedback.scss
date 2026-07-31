@@ -14,7 +14,7 @@
 
   outline: 0;
 
-  background-color: govuk.govuk-colour("light-grey");
+  background-color: govuk.govuk-colour("black", $variant: "tint-95");
 }
 
 .app-feedback-helpful {

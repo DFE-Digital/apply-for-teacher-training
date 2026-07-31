@@ -1,7 +1,7 @@
 @use '../base/govuk';
 
 .possible-previous-teacher-training-card {
-  background-color: govuk.govuk-colour("light-grey");
+  background-color: govuk.govuk-colour("black", $variant: "tint-95");
 
   .govuk-summary-card__title {
     font-weight: 400;

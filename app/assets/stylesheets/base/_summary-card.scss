@@ -14,7 +14,7 @@
   .app-summary-card__header {
     padding: govuk.govuk-spacing(3);
 
-    background-color: govuk.govuk-colour("light-grey");
+    background-color: govuk.govuk-colour("black", $variant: "tint-95");
 
     @include govuk.govuk-media-query($from: desktop) {
       display: flex;

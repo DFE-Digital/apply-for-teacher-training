@@ -18,6 +18,6 @@
     margin-top: 5px;
     margin-bottom: 0;
 
-    color: govuk.govuk-colour("dark-grey");
+    color: govuk.govuk-colour("black", $variant: "tint-25");
   }
 }

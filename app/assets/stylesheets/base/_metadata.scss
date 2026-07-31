@@ -16,7 +16,7 @@
 .metadata-wrapper {
   margin: 0 govuk.$govuk-gutter-half;
 
-  border-top: 1px solid govuk.govuk-colour("mid-grey");
+  border-top: 1px solid govuk.govuk-colour("black", $variant: "tint-80");
 }
 
 .metadata-column {
@@ -25,10 +25,11 @@
 }
 
 .gem-c-metadata {
-  @include govuk.govuk-text-colour;
   @include govuk.govuk-font(16);
   @include responsive-bottom-margin;
   @include govuk.govuk-clearfix;
+
+  color: govuk-functional-colour(text);
 
   a {
     @include govuk.govuk-link-common;
