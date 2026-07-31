@@ -1,13 +1,15 @@
 // Shared (govuk-frontend)
 // https://sass-lang.com/documentation/at-rules/forward/
-@forward "node_modules/govuk-frontend/dist/govuk/index" with (
-  $govuk-assets-path: "/",
-  $govuk-global-styles: true,
-  $govuk-breakpoints: (
-    mobile: 320px,
-    tablet: 641px,
-    large: 945px,
-    desktop: 769px,
-    wide: 1300px,
-  )
+@forward "node_modules/govuk-frontend/dist/govuk/index";
+
+@use "node_modules/govuk-frontend/dist/govuk/core/global-styles.mixin" as govuk-global;
+
+$govuk-breakpoints: (
+  mobile: 320px,
+  tablet: 641px,
+  large: 945px,
+  desktop: 769px,
+  wide: 1300px,
 );
+
+@include govuk-global.govuk-global-styles;
