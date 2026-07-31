@@ -1,24 +1,28 @@
-FROM debian:trixie-slim AS downloader
+# ------------------------------
+# Stage 1: Download AzCopy
+# ------------------------------
+FROM alpine:3.24.1  AS azcopy-builder
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl ca-certificates
+RUN apk add --no-cache curl tar
 
-RUN curl -sSL https://aka.ms/downloadazcopy-v10-linux \
-    | tar -xz && \
-    cp ./*/azcopy /azcopy
+RUN curl -sSL https://aka.ms/downloadazcopy-v10-linux | tar -xz && \
+    cp ./azcopy_linux_amd64_*/azcopy /azcopy
 
-FROM debian:trixie-slim
+# ------------------------------
+# Stage 2: Runtime
+# ------------------------------
+FROM alpine:3.24.1
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        ca-certificates \
-        postgresql-client && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache \
+    postgresql17-client \
+    bash \
+    ca-certificates \
+    gcompat
 
-COPY --from=downloader /azcopy /usr/local/bin/azcopy
+COPY --from=azcopy-builder /azcopy /usr/local/bin/azcopy
 
 RUN chmod +x /usr/local/bin/azcopy && \
-    useradd -r -u 10001 -m pgbackup
+    adduser -D -u 10001 pgbackup
 
 USER pgbackup
 
