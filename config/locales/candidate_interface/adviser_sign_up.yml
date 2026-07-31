@@ -16,6 +16,10 @@ en:
         equality_and_diversity_link_text: equality and diversity information
         enter_previous_teacher_training_html: enter %{previous_teacher_training_link}
         previous_teacher_training_link_text: whether you have started teacher training in the past
+        complete_your_details:
+          one: Complete your details to continue your application.
+          other: Complete your details to continue your applications.
+          zero: Complete your details to start applying for courses.
       adviser_call_to_action:
         available:
           heading: Get a teacher training adviser

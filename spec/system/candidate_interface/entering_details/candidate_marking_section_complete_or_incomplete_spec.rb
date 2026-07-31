@@ -79,11 +79,11 @@ RSpec.describe 'Marking section as complete or incomplete' do
   end
 
   def then_i_do_not_see_the_incomplete_text
-    expect(page).to have_no_text 'Complete these sections so that you can start applying to courses. Your details will be shared with the training provider when you apply.'
+    expect(page).to have_no_text 'Complete your details to continue your application.'
   end
 
   def then_i_see_the_incomplete_text
-    expect(page).to have_text('Complete these sections so that you can start applying to courses. Your details will be shared with the training provider when you apply.')
+    expect(page).to have_text('Complete your details to continue your application.')
   end
 
   def given_i_have_a_completed_application_form
@@ -164,13 +164,14 @@ RSpec.describe 'Marking section as complete or incomplete' do
   alias_method :and_i_visit_the_details_page, :when_i_visit_the_details_page
 
   def then_i_see_the_complete_details_text
-    expect(page).to have_text('You can add your applications.')
     expect(page).to have_text('You have completed your details')
-    expect(page).to have_text('You can apply to courses now.')
+    expect(page).to have_link('Review your application')
+    expect(page).to have_link('apply to a different course')
   end
 
   def then_i_see_the_complete_details_text_for_application_without_choices
-    expect(page).to have_text('You can start applying to courses.')
+    expect(page).to have_text('You have completed your details')
+    expect(page).to have_text('Choose a course')
   end
 
   def then_i_dont_see_the_complete_details_text

@@ -16,3 +16,7 @@
 form:has(.govuk-link-button) {
   display: contents;
 }
+
+.inline-link-button {
+  margin-top: govuk.govuk-spacing(-1);
+}
