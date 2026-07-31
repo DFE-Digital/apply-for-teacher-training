@@ -15,11 +15,10 @@ module TeacherTrainingPublicAPI
 
     attr_reader :provider, :course
 
-    def perform(provider_id, recruitment_cycle_year, course_id, course_status_from_api, incremental_sync = true)
+    def perform(provider_id, recruitment_cycle_year, course_id, course_status_from_api)
       @provider = ::Provider.find(provider_id)
       @course = ::Course.includes(course_options: :site).find_by(id: course_id)
       @course_status_from_api = course_status_from_api
-      @incremental_sync = incremental_sync
 
       api_sites = TeacherTrainingPublicAPI::Location.where(
         year: recruitment_cycle_year,

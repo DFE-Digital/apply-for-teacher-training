@@ -3,14 +3,13 @@ module TeacherTrainingPublicAPI
     retry_on StandardError, attempts: 3
     queue_as :high_priority
 
-    attr_reader :provider, :run_in_background, :incremental_sync, :recruitment_cycle_year
+    attr_reader :provider, :run_in_background, :recruitment_cycle_year
 
     API_COURSE_DRAFT_STATES = %w[rolled_over draft].freeze
 
-    def perform(provider_id, recruitment_cycle_year, incremental_sync = true, run_in_background: true, updated_since: nil)
+    def perform(provider_id, recruitment_cycle_year, run_in_background: true, updated_since: nil)
       @provider = ::Provider.find(provider_id)
       @recruitment_cycle_year = recruitment_cycle_year
-      @incremental_sync = incremental_sync
       @run_in_background = run_in_background
 
       provider_courses_from_api = TeacherTrainingPublicAPI::Course.where(
@@ -18,7 +17,7 @@ module TeacherTrainingPublicAPI
         provider_code: @provider.code,
       ).paginate(per_page: 500)
 
-      provider_courses_from_api = provider_courses_from_api.where(updated_since:) if updated_since && @incremental_sync
+      provider_courses_from_api = provider_courses_from_api.where(updated_since:) if updated_since
 
       provider_courses_from_api.each do |course_from_api|
         course = create_or_update_course(course_from_api)
@@ -73,7 +72,6 @@ module TeacherTrainingPublicAPI
         recruitment_cycle_year,
         course_id,
         application_status,
-        incremental_sync,
       ]
 
       if run_in_background
