@@ -1,10 +1,21 @@
 module CandidateInterface
   class GcseInstitutionCountryForm
     include ActiveModel::Model
+    include FreeTextInputHelper
 
     attr_accessor :institution_country, :institution_country_raw
 
+    alias value institution_country
+    alias raw_input institution_country_raw
+
+    def valid_options
+      COUNTRIES_AND_TERRITORIES.map do |iso_code, country_name|
+        [country_name, iso_code]
+      end
+    end
+
     validate :institution_country_selected
+    validate :no_free_text_input
 
     def self.build_from_qualification(application_qualification)
       new(
@@ -32,6 +43,10 @@ module CandidateInterface
     end
 
   private
+
+    def no_free_text_input
+      errors.add(:institution_country, :inclusion) if invalid_raw_data?
+    end
 
     def institution_country_selected
       if institution_country.blank? && institution_country_raw.blank?
