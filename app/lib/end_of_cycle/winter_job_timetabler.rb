@@ -24,7 +24,7 @@ module EndOfCycle
     def run_winter_decline_by_default?
       return false unless winter_decline_by_default_set?
 
-      current_time.between?(timetable.winter_decline_by_default_at, timetable.winter_decline_by_default_at + 1.month)
+      current_time.between?(timetable.winter_decline_by_default_at, timetable.winter_decline_by_default_at + 31.days)
     end
 
     def run_winter_cancel_reference_requests?
