@@ -10,12 +10,22 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       apply_2?
       cache_key_with_version
       candidate_has_previously_applied?
+      can_add_more_choices?
+      can_add_course_choice?
       english_main_language
+      unsuccessful_limit_reached?
       first_name
       first_nationality
       previous_application_form
       phase
       personal_details_completed
+      no_degree_and_degree_not_completed?
+      previous_teacher_training_completed
+      cannot_submit_more_choices?
+      total_submitted_application_limit_reached?
+      recruitment_cycle_timetable
+      application_choices
+      unsubmitted?
       support_reference
     ].each do |method|
       it "delegates '##{method}' to the application form" do
@@ -762,6 +772,37 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         expect(presenter.path_to_previous_teacher_training).to eq(
           start_candidate_interface_previous_teacher_trainings_path,
         )
+      end
+    end
+  end
+
+  describe '#draft_application_choice_count' do
+    let(:application_form) { create(:application_form) }
+    let(:presenter) { described_class.new(application_form) }
+
+    it 'returns the number of draft application choices' do
+      create_list(:application_choice, 2, :unsubmitted, application_form:)
+      create(:application_choice, :awaiting_provider_decision, application_form:)
+      create(:application_choice, :offer, application_form:)
+
+      expect(presenter.draft_application_choice_count).to eq(2)
+    end
+  end
+
+  describe '#completed_application_form?' do
+    context 'when the application details are completed' do
+      it 'returns true' do
+        application_form = create(:completed_application_form)
+        presenter = described_class.new(application_form)
+        expect(presenter.completed_application_form?).to be true
+      end
+    end
+
+    context 'when the application details are not completed' do
+      it 'returns false' do
+        application_form = create(:application_form)
+        presenter = described_class.new(application_form)
+        expect(presenter.completed_application_form?).to be false
       end
     end
   end
