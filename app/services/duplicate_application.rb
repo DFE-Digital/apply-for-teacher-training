@@ -184,7 +184,7 @@ private
   end
 
   def international_gcse_equivalent_present?(qualification)
-    qualification.level == 'gcse' && qualification.non_uk_qualification_type.present?
+    qualification.level == 'gcse' && qualification.institution_country.present? && qualification.non_uk_qualification_type.present?
   end
 
   def infer_currently_working(application_experience)
