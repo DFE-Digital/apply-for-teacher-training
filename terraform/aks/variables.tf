@@ -129,7 +129,7 @@ locals {
 
   exp_storage_account_name = var.exp_storage_account_name != null ? var.exp_storage_account_name : var.data_exports_storage_account_name
 
-  app_env_values_from_yaml = try(yamldecode(file("${path.module}/workspace-variables/${var.app_environment}_app_env.yml")), {})
+  app_env_values_from_yaml = try(yamldecode(file("${path.module}/workspace_variables/${var.app_environment}_app_env.yml")), {})
 
   review_url_vars = var.app_name_suffix != null ? {
     "CUSTOM_HOSTNAME"  = "apply-${local.app_name_suffix}.${module.cluster_data.ingress_domain}"
