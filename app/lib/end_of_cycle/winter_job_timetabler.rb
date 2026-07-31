@@ -22,7 +22,6 @@ module EndOfCycle
     end
 
     def run_winter_decline_by_default?
-      debugger
       return false unless winter_decline_by_default_set?
 
       current_time.between?(timetable.winter_decline_by_default_at, timetable.winter_decline_by_default_at + 31.days)
