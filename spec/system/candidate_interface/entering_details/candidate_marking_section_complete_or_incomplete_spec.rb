@@ -74,6 +74,41 @@ RSpec.describe 'Marking section as complete or incomplete' do
     then_i_dont_see_the_complete_details_text
   end
 
+  scenario 'when sections are incomplete and the candidate creates more applications' do
+    when_i_sign_in
+    then_i_see_i_need_to_complete_my_details_to_start_applying_for_courses
+
+    when_i_create_a_draft_application_choice
+    and_i_visit_the_details_page
+    then_i_see_i_need_to_complete_my_details_to_continue_my_application
+
+    when_i_create_a_draft_application_choice
+    and_i_visit_the_details_page
+    then_i_see_i_need_to_complete_my_details_to_continue_my_applications
+  end
+
+private
+
+  def given_i_have_an_incompleted_application_form
+    @application_form = create(:application_form)
+  end
+
+  def then_i_see_i_need_to_complete_my_details_to_start_applying_for_courses
+    expect(page).to have_text('Complete your details to start applying for courses.')
+  end
+
+  def when_i_create_a_draft_application_choice
+    create(:application_choice, :unsubmitted, application_form: current_candidate.current_application)
+  end
+
+  def then_i_see_i_need_to_complete_my_details_to_continue_my_application
+    expect(page).to have_text('Complete your details to continue your application.')
+  end
+
+  def then_i_see_i_need_to_complete_my_details_to_continue_my_applications
+    expect(page).to have_text('Complete your details to continue your applications.')
+  end
+
   def and_i_click_on_your_details
     click_link_or_button 'Your details'
   end
