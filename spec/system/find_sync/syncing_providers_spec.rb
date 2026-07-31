@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Syncing providers', :sidekiq, :with_cache do
+RSpec.describe 'Syncing providers', :with_cache do
   include TeacherTrainingPublicAPIHelper
 
   it 'Updates course subject codes' do
@@ -38,6 +38,7 @@ RSpec.describe 'Syncing providers', :sidekiq, :with_cache do
     stub_teacher_training_api_courses(
       provider_code: 'ABC',
       specified_attributes: [{ code: 'ABC1', accredited_body_code: nil, subject_codes: %w[08], uuid: @course_uuid }],
+      filter_option: { 'filter[updated_since]' => @updated_since },
     )
     stub_teacher_training_api_sites(
       provider_code: 'ABC',

@@ -56,10 +56,10 @@ module ApplyForPostgraduateTeacherTraining
 
     config.before_configuration do
       ENV["SOLID_QUEUE_CONFIG"] =
-        if HostingEnvironment.test_environment? || HostingEnvironment.staging? || HostingEnvironment.sandbox_mode?
-          "config/non_production_queue.yml"
-        else
+        if HostingEnvironment.production? || HostingEnvironment.development?
           "config/queue.yml"
+        else
+          "config/non_production_queue.yml"
         end
     end
 

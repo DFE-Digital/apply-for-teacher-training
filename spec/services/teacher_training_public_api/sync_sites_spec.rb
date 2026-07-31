@@ -18,13 +18,11 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
         longitude: ' 0.69922',
         uuid: }
     end
-    let(:incremental_sync) { false }
     let(:perform_job) do
       described_class.new.perform(provider.id,
                                   current_year,
                                   course.id,
-                                  'open',
-                                  incremental_sync)
+                                  'open')
     end
 
     before do
@@ -156,7 +154,6 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
           current_year,
           course.id,
           'closed',
-          true,
         )
         expect(
           course.reload.course_options.pluck(:vacancy_status),
@@ -169,7 +166,6 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
   end
 
   context 'ingesting an existing site when incremental_sync is off' do
-    let(:incremental_sync) { false }
     let(:provider) { create(:provider) }
     let(:course) { create(:course, provider:) }
     let(:site_uuid_1) { SecureRandom.uuid }
@@ -229,8 +225,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :sidekiq do
       described_class.new.perform(provider.id,
                                   current_year,
                                   course.id,
-                                  'open',
-                                  incremental_sync)
+                                  'open')
 
       expect(original_site_a_address_line3).not_to eq site_a.reload.address_line3
       expect(original_site_b_address_line3).not_to eq site_b.reload.address_line3

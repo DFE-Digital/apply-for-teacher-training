@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Sync provider', :sidekiq, :with_cache do
+RSpec.describe 'Sync provider', :with_cache do
   include TeacherTrainingPublicAPIHelper
 
   it 'Creates and updates providers' do
@@ -29,14 +29,20 @@ RSpec.describe 'Sync provider', :sidekiq, :with_cache do
       ],
       filter_option: { 'filter[updated_since]' => @updated_since },
     )
-    stub_teacher_training_api_course_with_site(provider_code: 'ABC',
-                                               course_code: 'ABC1',
-                                               course_attributes: [{ accredited_body_code: 'AbC' }], # Mixed case to test case insensitivity
-                                               site_code: 'D')
-    stub_teacher_training_api_course_with_site(provider_code: 'DEF',
-                                               course_code: 'DEF1',
-                                               course_attributes: [{ accredited_body_code: 'def' }], # Lower case to test case insensitivity
-                                               site_code: 'E')
+    stub_teacher_training_api_course_with_site(
+      provider_code: 'ABC',
+      course_code: 'ABC1',
+      course_attributes: [{ accredited_body_code: 'AbC' }], # Mixed case to test case insensitivity
+      site_code: 'D',
+      filter_option: { 'filter[updated_since]' => @updated_since },
+    )
+    stub_teacher_training_api_course_with_site(
+      provider_code: 'DEF',
+      course_code: 'DEF1',
+      course_attributes: [{ accredited_body_code: 'def' }], # Lower case to test case insensitivity
+      site_code: 'E',
+      filter_option: { 'filter[updated_since]' => @updated_since },
+    )
   end
 
   def and_the_last_sync_was_two_hours_ago

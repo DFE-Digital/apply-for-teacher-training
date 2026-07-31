@@ -11,15 +11,14 @@ module TeacherTrainingPublicAPI
   #
   class SyncSites < ApplicationJob
     retry_on StandardError, attempts: 3
-    queue_as :low_priority
+    queue_as :high_priority
 
     attr_reader :provider, :course
 
-    def perform(provider_id, recruitment_cycle_year, course_id, course_status_from_api, incremental_sync = true)
+    def perform(provider_id, recruitment_cycle_year, course_id, course_status_from_api)
       @provider = ::Provider.find(provider_id)
       @course = ::Course.includes(course_options: :site).find_by(id: course_id)
       @course_status_from_api = course_status_from_api
-      @incremental_sync = incremental_sync
 
       api_sites = TeacherTrainingPublicAPI::Location.where(
         year: recruitment_cycle_year,
@@ -30,9 +29,14 @@ module TeacherTrainingPublicAPI
       # 1. Create / Update Sites, Course Options and StudyMode combinations from the API
       api_sites_and_study_modes = api_sites.product(course.study_modes)
 
-      api_sites_and_study_modes.each do |api_site, study_mode|
-        site = create_or_update_site(api_site)
-        create_or_update_course_option(site, study_mode) if site.present?
+      api_sites_and_study_modes.each_slice(100) do |slice|
+        TeacherTrainingPublicAPI::SyncSiteAndCourseOptionWorker.perform_later(
+          slice.map(&:as_json),
+          course.study_modes,
+          course.id,
+          provider,
+          @course_status_from_api,
+        )
       end
 
       # 2. Disable or delete CourseOptions that exist in Apply but are not
@@ -43,29 +47,6 @@ module TeacherTrainingPublicAPI
     end
 
   private
-
-    def create_or_update_site(api_site)
-      site = AssignSiteAttributes.new(api_site, provider).call
-
-      site&.save!
-      site
-    rescue ArgumentError
-      Sentry.capture_message("SyncSites error, provider_id =  #{provider.id}, api_site_uuid = #{api_site.uuid} api_site_name = #{api_site.name}")
-      site
-    end
-
-    def create_or_update_course_option(site, study_mode)
-      course_option = CourseOption.find_or_initialize_by(
-        course_id: course.id,
-        site:,
-        study_mode:,
-      )
-
-      course_option.update!({
-        site_still_valid: true,
-        vacancy_status: vacancies_for(course, study_mode),
-      })
-    end
 
     def disable_or_delete_obsolete_course_options(course, api_site_uuids)
       course_options_for_deletion = course.reload.course_options.select do |course_option|
@@ -78,16 +59,6 @@ module TeacherTrainingPublicAPI
         else
           course_option.destroy
         end
-      end
-    end
-
-    def vacancies_for(course, study_mode)
-      return :no_vacancies if @course_status_from_api == 'closed'
-
-      if course.study_modes.include?(study_mode)
-        :vacancies
-      else
-        :no_vacancies
       end
     end
   end

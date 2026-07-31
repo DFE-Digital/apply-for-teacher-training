@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Sync sites', :sidekiq, :with_cache do
+RSpec.describe 'Sync sites', :with_cache do
   include TeacherTrainingPublicAPIHelper
 
   it 'Creates and updates sites' do
@@ -42,6 +42,7 @@ RSpec.describe 'Sync sites', :sidekiq, :with_cache do
         study_mode: 'both',
         uuid: @course_uuid,
       }],
+      filter_option: { 'filter[updated_since]' => @updated_since },
     )
     stub_teacher_training_api_sites(
       provider_code: 'ABC',
