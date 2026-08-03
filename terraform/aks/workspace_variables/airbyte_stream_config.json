@@ -1906,6 +1906,11 @@
             "fieldPath": [
               "degree_grade_uuid"
             ]
+          },
+          {
+            "fieldPath": [
+              "selected_grade_schema_id"
+            ]
           }
         ]
       },
