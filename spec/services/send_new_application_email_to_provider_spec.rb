@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe SendNewApplicationEmailToProvider do
+RSpec.describe SendNewApplicationEmailToProvider, :run_jobs do
   include CourseOptionHelpers
 
-  it 'sends a notification email to the training provider and ratifying provider' do
+  it 'sends a notification email to the training provider and ratifying provider', :run_jobs do
     training_provider = create(:provider)
     training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
 

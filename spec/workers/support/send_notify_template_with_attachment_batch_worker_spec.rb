@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Support::SendNotifyTemplateWithAttachmentBatchWorker do
+RSpec.describe Support::SendNotifyTemplateWithAttachmentBatchWorker, :run_jobs do
   let(:notify_request) do
     create(:notify_send_request, email_addresses:)
   end

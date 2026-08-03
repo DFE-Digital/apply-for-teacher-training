@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ChaseReferences do
+RSpec.describe ChaseReferences, :run_jobs do
   describe '#perform', time: Time.zone.local(2022, 4, 1) do
     let(:deliverer) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
     let!(:application_form) { create(:application_form, :with_accepted_offer) }

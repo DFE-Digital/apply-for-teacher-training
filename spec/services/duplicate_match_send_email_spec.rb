@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DuplicateMatchSendEmail do
+RSpec.describe DuplicateMatchSendEmail, :run_jobs do
   subject(:send_email) { described_class.new.call }
 
   let(:candidate1) { create(:candidate, email_address: 'exemplar1@example.com') }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendNewCycleHasStartedEmailToCandidatesBatchWorker do
+RSpec.describe SendNewCycleHasStartedEmailToCandidatesBatchWorker, :run_jobs do
   describe '#perform' do
     before do
       allow(SendNewCycleHasStartedEmailToCandidate)

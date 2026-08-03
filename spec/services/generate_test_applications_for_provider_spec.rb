@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GenerateTestApplicationsForProvider do
+RSpec.describe GenerateTestApplicationsForProvider, :run_jobs do
   include DfE::Bigquery::TestHelper
 
   before do

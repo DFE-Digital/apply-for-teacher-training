@@ -82,7 +82,7 @@ RSpec.describe ReinstateConditionsMet do
       )
     end
 
-    it 'sends reinstated offer email with correct content' do
+    it 'sends reinstated offer email with correct content', :run_jobs do
       new_course_option.course.update!(start_date: original_course.start_date + 1.year)
 
       expect {
@@ -108,7 +108,7 @@ RSpec.describe ReinstateConditionsMet do
       )
     end
 
-    it 'sends the deferred_offer_new_details email' do
+    it 'sends the deferred_offer_new_details email', :run_jobs do
       expect {
         service.save!
       }.to change { ActionMailer::Base.deliveries.count }.by(1)

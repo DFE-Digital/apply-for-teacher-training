@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesBatchWorker do
+RSpec.describe SendApplyToMultipleCoursesWhenInactiveEmailToCandidatesBatchWorker, :run_jobs do
   describe '#perform' do
     let(:application_forms) { create_list(:completed_application_form, 2) }
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe InviteProviderUser do
+RSpec.describe InviteProviderUser, :run_jobs do
   include DsiAPIHelper
 
   let(:provider) { create(:provider) }

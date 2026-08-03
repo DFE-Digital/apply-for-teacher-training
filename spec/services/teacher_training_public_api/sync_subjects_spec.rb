@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TeacherTrainingPublicAPI::SyncSubjects do
+RSpec.describe TeacherTrainingPublicAPI::SyncSubjects, :run_jobs do
   include TeacherTrainingPublicAPIHelper
 
   describe '.perform' do

@@ -234,4 +234,8 @@ RSpec.configure do |config|
     end
     Rails.cache.clear
   end
+
+  config.around run_jobs: true do |example|
+    perform_enqueued_jobs { example.run }
+  end
 end
