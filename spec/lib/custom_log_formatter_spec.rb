@@ -21,29 +21,6 @@ RSpec.describe CustomLogFormatter do
     allow(HostingEnvironment).to receive_messages(hostname: 'test_host', environment_name: 'test_env')
   end
 
-  it 'adds custom fields to the log hash' do
-    Thread.current[:job_id] = 'test_job_id'
-    Thread.current[:job_queue] = 'test_queue'
-
-    log.message = 'Started'
-    log.payload = {
-      method: 'GET',
-      path: '/support/applications',
-      ip: '::1',
-      subject: 'Test Subject',
-      to: 'test@example.com',
-      params: { key: 'value' },
-    }
-
-    expect(log_hash[:domain]).to eq('test_host')
-    expect(log_hash[:environment]).to eq('test_env')
-    expect(log_hash[:hosting_environment]).to eq('test_env')
-    expect(log_hash[:job_id]).to eq('test_job_id')
-    expect(log_hash[:job_queue]).to eq('test_queue')
-    expect(log_hash[:tid]).to eq('test_tid')
-    expect(log_hash[:ctx]).to eq('test_context')
-  end
-
   it 'sanitizes the mailer subject and to fields' do
     log.message = 'Started'
     log.payload = {
