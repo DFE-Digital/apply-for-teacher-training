@@ -90,7 +90,7 @@ review: test-cluster
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 	$(eval export TF_VAR_exp_storage_account_name=s189t01attexprv$(PR_NUMBER)sa)
 
-dv_review: test-cluster ## make dv_review deploy PR_NUMBER=2222 CLUSTER=cluster1
+dv_review: dv_review-cluster ## make dv_review deploy PR_NUMBER=2222 CLUSTER=cluster1
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
 	$(if $(CLUSTER), , $(error Missing environment variable "CLUSTER", Please specify a dev cluster name (eg 'cluster1')))
 	$(eval include global_config/dv_review.sh)
@@ -347,3 +347,26 @@ scale-workers: get-cluster-credentials
 	kubectl -n ${NAMESPACE} scale deployment/${SERVICE_NAME}${DSUFFIX}-worker --replicas ${REPLICAS}
 	kubectl -n ${NAMESPACE} scale deployment/${SERVICE_NAME}${DSUFFIX}-secondary-worker --replicas ${REPLICAS}
 	kubectl -n ${NAMESPACE} scale deployment/${SERVICE_NAME}${DSUFFIX}-clock-worker --replicas ${REPLICAS}
+
+deploy-db-backup-job:
+	$(eval NAMESPACE=$(shell jq -r '.namespace' terraform/aks/workspace_variables/$(CONFIG).tfvars.json))
+	kubectl -n ${NAMESPACE}
+	kubectl create job --from=cronjob/postgres-backup-template postgres-backup-$(date +%s) -n ${NAMESPACE}
+
+apply-db-backup-job:
+	$(eval NAMESPACE=$(shell jq -r '.namespace' terraform/aks/workspace_variables/$(CONFIG).tfvars.json))
+	kubectl apply -f cronjob/postgres-backup-template.yaml
+
+backup-image-push: ## Build and push maintenance page image: make production maintenance-image-push GITHUB_TOKEN=x [MAINTENANCE_IMAGE_TAG=y]
+	$(if ${GITHUB_TOKEN},, $(error Provide a valid Github token with write:packages permissions as GITHUB_TOKEN variable))
+	$(if ${DB_BACKUP_IMAGE_TAG},, $(eval export DB_BACKUP_IMAGE_TAG=$(shell date +%s)))
+
+	docker build -t ghcr.io/dfe-digital/apply-teacher-training-test-db-backup:${DB_BACKUP_IMAGE_TAG} test-db-backup
+	docker build -f Dockerfile.db-backup -t ghcr.io/dfe-digital/apply-teacher-training-test-db-backup:${DB_BACKUP_IMAGE_TAG} test-db-backup
+
+	echo ${GITHUB_TOKEN} | docker login ghcr.io -u USERNAME --password-stdin
+	docker push ghcr.io/dfe-digital/apply-teacher-training-test-db-backup:${DB_BACKUP_IMAGE_TAG}
+
+dv_review-cluster:
+	$(eval CLUSTER_RESOURCE_GROUP_NAME=s189t01-tsc-ts-rg)
+	$(eval CLUSTER_NAME=s189t01-tsc-test-aks)
