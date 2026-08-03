@@ -1,5 +1,5 @@
-@forward "node_modules/@ministryofjustice/frontend/moj/all"with (
-  $moj-assets-path: "/"
+@forward "node_modules/@ministryofjustice/frontend/moj/all" with (
+  $moj-assets-path: ""
 );
 
 .app-checkbox-filter__tag {

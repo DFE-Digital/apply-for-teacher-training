@@ -3,6 +3,7 @@
 @forward "node_modules/govuk-frontend/dist/govuk/index";
 
 @use "node_modules/govuk-frontend/dist/govuk/core/global-styles.mixin" as govuk-global;
+@use "node_modules/govuk-frontend/dist/govuk/helpers/font-faces--internal" as govuk-font-faces;
 
 $govuk-breakpoints: (
   mobile: 320px,
@@ -13,3 +14,4 @@ $govuk-breakpoints: (
 );
 
 @include govuk-global.govuk-global-styles;
+@include govuk-font-faces.gds-transport;
