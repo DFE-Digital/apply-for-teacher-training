@@ -84,7 +84,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
 
       it 'renders the expected output' do
         result = render_inline(described_class.new(application_form))
-        expect(result.text).to include 'Candidate’s degree taught in English.'
+        expect(result.text).to include 'Candidate’s degree was taught in English.'
         expect(result.text).to include 'Candidate plans to do an English as a foreign language assessment.'
         expect(result.text).to include 'Further details'
         expect(result.text).to include 'I will do one'
@@ -104,7 +104,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
 
       it 'renders the expected output' do
         result = render_inline(described_class.new(application_form))
-        expect(result.text).to include 'Candidate’s degree taught in English.'
+        expect(result.text).to include 'Candidate’s degree was taught in English.'
         expect(result.text).to include 'Candidate does not plan to do an English as a foreign language assessment.'
         expect(result.text).not_to include 'Further details'
       end

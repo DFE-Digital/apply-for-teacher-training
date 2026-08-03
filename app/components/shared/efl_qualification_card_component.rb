@@ -45,7 +45,7 @@ class EflQualificationCardComponent < ApplicationComponent
     end
 
     if degree_taught_in_english
-      content << 'Candidate’s degree taught in English.'
+      content << 'Candidate’s degree was taught in English.'
     end
 
     if has_qualification
