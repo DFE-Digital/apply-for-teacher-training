@@ -38,7 +38,7 @@ RSpec.describe 'See Duplicate candidate matches' do
     then_the_duplicate_match_is_resolved
   end
 
-  scenario 'Old duplicates are shown in the dashboard', :run_jobs do
+  scenario 'Old duplicates are shown in the dashboard' do
     given_i_am_a_support_user
     when_there_are_candidates_with_duplicate_applications_in_the_system
     and_the_duplicate_match_was_created_last_recruitment_cycle

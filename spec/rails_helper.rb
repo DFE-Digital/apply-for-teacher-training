@@ -235,6 +235,10 @@ RSpec.configure do |config|
     Rails.cache.clear
   end
 
+  config.define_derived_metadata(file_path: Regexp.new('/spec/system/')) do |metadata|
+    metadata[:run_jobs] = true unless metadata[:run_jobs] == false
+  end
+
   config.around run_jobs: true do |example|
     perform_enqueued_jobs { example.run }
   end
