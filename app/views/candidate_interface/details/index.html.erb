@@ -69,7 +69,7 @@
 
     <% if @application_form_presenter.unsubmitted? && @application_form_presenter.completed_application_form? && @application_form_presenter.can_add_course_choice? %>
       <div class="app-grid-column--grey">
-        <h2 class="govuk-heading-m">You have completed your details</h2>
+        <h2 class="govuk-heading-m"><%= t('.you_completed_your_details') %></h2>
         <%= render CandidateInterface::InlineApplicationChoiceButtonsComponent.new(application_form: @application_form_presenter.application_form) %>
       </div>
     <% elsif @application_form_presenter.unsubmitted? %>
