@@ -130,8 +130,6 @@ Rails.application.configure do
   # This query will return a `String` if postgresql_adapter_decode_dates is set to false.
   config.active_record.postgresql_adapter_decode_dates = false
 
-  config.middleware.insert_before ActionDispatch::RemoteIp
-
   # Don't add AWS IP ranges on AKS.
   config.action_dispatch.trusted_proxies = if ENV["KUBERNETES_SERVICE_HOST"].present?
                                              [
