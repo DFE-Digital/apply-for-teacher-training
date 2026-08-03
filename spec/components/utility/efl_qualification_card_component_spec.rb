@@ -29,7 +29,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
       it 'renders the expected output' do
         result = render_inline(described_class.new(application_form))
         expect(result.text).to include 'Candidate said that English is their main language.'
-        expect(result.text).not_to include 'Details'
+        expect(result.text).not_to include 'Further details'
       end
     end
 
@@ -42,7 +42,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
         result = render_inline(described_class.new(application_form))
         expect(result.text).to include 'Candidate said that English is their main language.'
         expect(result.text).to include 'Candidate has done an English as a foreign language assessment.'
-        expect(result.text).not_to include 'Details'
+        expect(result.text).not_to include 'Further details'
       end
     end
 
@@ -54,7 +54,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
       it 'renders the expected output' do
         result = render_inline(described_class.new(application_form))
         expect(result.text).to include 'Candidate does not plan to do an English as a foreign language assessment.'
-        expect(result.text).not_to include 'Details'
+        expect(result.text).not_to include 'Further details'
       end
     end
 
@@ -66,7 +66,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
       it 'renders the expected output' do
         result = render_inline(described_class.new(application_form))
         expect(result.text).to include 'Candidate plans to do an English as a foreign language assessment.'
-        expect(result.text).to include 'Details'
+        expect(result.text).to include 'Further details'
         expect(result.text).to include 'I will do one'
       end
     end
@@ -84,8 +84,9 @@ RSpec.describe EflQualificationCardComponent, type: :component do
 
       it 'renders the expected output' do
         result = render_inline(described_class.new(application_form))
+        expect(result.text).to include 'Candidate’s degree taught in English.'
         expect(result.text).to include 'Candidate plans to do an English as a foreign language assessment.'
-        expect(result.text).to include 'Details'
+        expect(result.text).to include 'Further details'
         expect(result.text).to include 'I will do one'
       end
     end
@@ -103,8 +104,9 @@ RSpec.describe EflQualificationCardComponent, type: :component do
 
       it 'renders the expected output' do
         result = render_inline(described_class.new(application_form))
+        expect(result.text).to include 'Candidate’s degree taught in English.'
         expect(result.text).to include 'Candidate does not plan to do an English as a foreign language assessment.'
-        expect(result.text).not_to include 'Details'
+        expect(result.text).not_to include 'Further details'
       end
     end
 
@@ -119,7 +121,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
 
           expect(result.text).to include 'Candidate has done an English as a foreign language assessment.'
           expect(result.text).not_to include 'Candidate said that English is not a foreign language to them.'
-          expect(result.text).not_to include 'Details'
+          expect(result.text).not_to include 'Further details'
           expect(result.text).not_to include 'Candidate does not plan to do an English as a foreign language assessment.'
 
           details_card = result.css('[data-qa="english-proficiency-qualification"]')
@@ -142,7 +144,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
 
           expect(result.text).to include 'Candidate has done an English as a foreign language assessment.'
           expect(result.text).not_to include 'Candidate said that English is not a foreign language to them.'
-          expect(result.text).not_to include 'Details'
+          expect(result.text).not_to include 'Further details'
           expect(result.text).not_to include 'Candidate does not plan to do an English as a foreign language assessment.'
 
           details_card = result.css('[data-qa="english-proficiency-qualification"]')
@@ -165,7 +167,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
 
           expect(result.text).to include 'Candidate has done an English as a foreign language assessment.'
           expect(result.text).not_to include 'Candidate said that English is not a foreign language to them.'
-          expect(result.text).not_to include 'Details'
+          expect(result.text).not_to include 'Further details'
           expect(result.text).not_to include 'Candidate does not plan to do an English as a foreign language assessment.'
 
           details_card = result.css('[data-qa="english-proficiency-qualification"]')
@@ -305,7 +307,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
       it 'returns nil' do
         expect(component.details).to be_nil
 
-        expect(rendered_component).to have_no_text('Details')
+        expect(rendered_component).to have_no_text('Further details')
       end
     end
 
@@ -315,7 +317,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
       it 'returns the no_qualification_details' do
         expect(component.details).to eq('Working on it')
 
-        expect(rendered_component).to have_text('Details')
+        expect(rendered_component).to have_text('Further details')
         expect(rendered_component).to have_text('Working on it')
       end
     end
@@ -326,7 +328,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
       it 'returns the no_assessment_plan_details' do
         expect(component.details).to eq('I have no plans')
 
-        expect(rendered_component).to have_text('Details')
+        expect(rendered_component).to have_text('Further details')
         expect(rendered_component).to have_text('I have no plans')
       end
     end
