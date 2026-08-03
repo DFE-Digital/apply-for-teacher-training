@@ -49,10 +49,6 @@ variable "pg_airbyte_enabled" { default = false }
 
 # NEW
 variable "service_name" {}
-variable "redis_server_version" {
-  type    = string
-  default = "6"
-}
 
 variable "alert_window_size" {
   type        = string
