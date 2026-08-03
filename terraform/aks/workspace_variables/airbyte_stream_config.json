@@ -1,0 +1,4382 @@
+{
+  "configurations": {
+    "streams": [
+      {
+        "name": "previous_teacher_trainings",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_form_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "started"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "started_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "ended_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "details"
+            ]
+          },
+          {
+            "fieldPath": [
+              "duplicate_previous_teacher_training_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "pool_eligible_application_forms",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_form_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "candidate_preferences",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "pool_status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "opt_out_reason"
+            ]
+          },
+          {
+            "fieldPath": [
+              "dynamic_location_preferences"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "training_locations"
+            ]
+          },
+          {
+            "fieldPath": [
+              "funding_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_form_id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "candidate_location_preferences",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "within"
+            ]
+          },
+          {
+            "fieldPath": [
+              "latitude"
+            ]
+          },
+          {
+            "fieldPath": [
+              "longitude"
+            ]
+          },
+          {
+            "fieldPath": [
+              "candidate_preference_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "candidates",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "account_recovery_status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "candidate_api_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "course_from_find_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "hide_in_reporting"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "last_signed_in_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "magic_link_token_sent_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "sign_up_email_bounced"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "email_address"
+            ]
+          },
+          {
+            "fieldPath": [
+              "unsubscribed_from_emails"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "pool_invites",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "candidate_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "invited_by_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "course_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "sent_to_candidate_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "recruitment_cycle_year"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_message"
+            ]
+          },
+          {
+            "fieldPath": [
+              "message_content"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_form_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_choice_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "candidate_decision"
+            ]
+          },
+          {
+            "fieldPath": [
+              "course_open"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "pool_invite_decline_reasons",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "reason"
+            ]
+          },
+          {
+            "fieldPath": [
+              "comment"
+            ]
+          },
+          {
+            "fieldPath": [
+              "invite_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "one_login_auths",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "candidate_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "email_address"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "account_recovery_request_codes",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "account_recovery_request_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "account_recovery_requests",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "candidate_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "adviser_teaching_subjects",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "title"
+            ]
+          },
+          {
+            "fieldPath": [
+              "external_identifier"
+            ]
+          },
+          {
+            "fieldPath": [
+              "level"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "discarded_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "adviser_sign_up_requests",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_form_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "teaching_subject_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "sent_to_adviser_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "application_choices",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "visa_explanation"
+            ]
+          },
+          {
+            "fieldPath": [
+              "visa_explanation_details"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "accepted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_form_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "conditions_not_met_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "original_course_option_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "course_option_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "current_course_option_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "declined_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "declined_by_default"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "course_changed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "personal_statement"
+            ]
+          },
+          {
+            "fieldPath": [
+              "offer_changed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "offer_deferred_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "offer_withdrawal_reason"
+            ]
+          },
+          {
+            "fieldPath": [
+              "offer_withdrawn_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "offered_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "recruited_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "inactive_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "reject_by_default_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "reject_by_default_days"
+            ]
+          },
+          {
+            "fieldPath": [
+              "reject_by_default_feedback_sent_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "rejected_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "rejected_by_default"
+            ]
+          },
+          {
+            "fieldPath": [
+              "rejection_reason"
+            ]
+          },
+          {
+            "fieldPath": [
+              "rejection_reasons_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "sent_to_provider_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "status_before_deferral"
+            ]
+          },
+          {
+            "fieldPath": [
+              "structured_rejection_reasons"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "withdrawal_feedback"
+            ]
+          },
+          {
+            "fieldPath": [
+              "withdrawn_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "withdrawn_or_declined_for_candidate_by_provider"
+            ]
+          },
+          {
+            "fieldPath": [
+              "structured_withdrawal_reasons"
+            ]
+          },
+          {
+            "fieldPath": [
+              "school_placement_auto_selected"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "application_experiences",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "commitment"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "currently_working"
+            ]
+          },
+          {
+            "fieldPath": [
+              "details"
+            ]
+          },
+          {
+            "fieldPath": [
+              "end_date"
+            ]
+          },
+          {
+            "fieldPath": [
+              "end_date_unknown"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "organisation"
+            ]
+          },
+          {
+            "fieldPath": [
+              "relevant_skills"
+            ]
+          },
+          {
+            "fieldPath": [
+              "role"
+            ]
+          },
+          {
+            "fieldPath": [
+              "start_date"
+            ]
+          },
+          {
+            "fieldPath": [
+              "start_date_unknown"
+            ]
+          },
+          {
+            "fieldPath": [
+              "type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "working_pattern"
+            ]
+          },
+          {
+            "fieldPath": [
+              "working_with_children"
+            ]
+          },
+          {
+            "fieldPath": [
+              "experienceable_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "experienceable_id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "application_feedback",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_form_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "consent_to_be_contacted"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "feedback"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "page_title"
+            ]
+          },
+          {
+            "fieldPath": [
+              "path"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "application_forms",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "visa_expired_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "phone_number"
+            ]
+          },
+          {
+            "fieldPath": [
+              "first_name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "last_name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "adviser_status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "adviser_interruption_response"
+            ]
+          },
+          {
+            "fieldPath": [
+              "becoming_a_teacher"
+            ]
+          },
+          {
+            "fieldPath": [
+              "becoming_a_teacher_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "candidate_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "contact_details_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "country"
+            ]
+          },
+          {
+            "fieldPath": [
+              "course_choices_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "date_of_birth"
+            ]
+          },
+          {
+            "fieldPath": [
+              "degrees_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "disability_disclosure"
+            ]
+          },
+          {
+            "fieldPath": [
+              "disclose_disability"
+            ]
+          },
+          {
+            "fieldPath": [
+              "editable_sections"
+            ]
+          },
+          {
+            "fieldPath": [
+              "editable_until"
+            ]
+          },
+          {
+            "fieldPath": [
+              "edit_by"
+            ]
+          },
+          {
+            "fieldPath": [
+              "efl_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "english_gcse_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "english_language_details"
+            ]
+          },
+          {
+            "fieldPath": [
+              "english_main_language"
+            ]
+          },
+          {
+            "fieldPath": [
+              "equality_and_diversity"
+            ]
+          },
+          {
+            "fieldPath": [
+              "feedback_satisfaction_level"
+            ]
+          },
+          {
+            "fieldPath": [
+              "feedback_suggestions"
+            ]
+          },
+          {
+            "fieldPath": [
+              "fifth_nationality"
+            ]
+          },
+          {
+            "fieldPath": [
+              "first_nationality"
+            ]
+          },
+          {
+            "fieldPath": [
+              "fourth_nationality"
+            ]
+          },
+          {
+            "fieldPath": [
+              "further_information"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "international_address"
+            ]
+          },
+          {
+            "fieldPath": [
+              "interview_preferences"
+            ]
+          },
+          {
+            "fieldPath": [
+              "interview_preferences_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "maths_gcse_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "no_other_qualifications"
+            ]
+          },
+          {
+            "fieldPath": [
+              "other_language_details"
+            ]
+          },
+          {
+            "fieldPath": [
+              "other_qualifications_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "personal_details_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "phase"
+            ]
+          },
+          {
+            "fieldPath": [
+              "postcode"
+            ]
+          },
+          {
+            "fieldPath": [
+              "previous_application_form_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "recruitment_cycle_year"
+            ]
+          },
+          {
+            "fieldPath": [
+              "references_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "right_to_work_or_study"
+            ]
+          },
+          {
+            "fieldPath": [
+              "right_to_work_or_study_details"
+            ]
+          },
+          {
+            "fieldPath": [
+              "safeguarding_issues_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "safeguarding_issues_status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "science_gcse_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "second_nationality"
+            ]
+          },
+          {
+            "fieldPath": [
+              "submitted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "support_reference"
+            ]
+          },
+          {
+            "fieldPath": [
+              "third_nationality"
+            ]
+          },
+          {
+            "fieldPath": [
+              "training_with_a_disability_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "university_degree"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "volunteering_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "volunteering_experience"
+            ]
+          },
+          {
+            "fieldPath": [
+              "work_history_breaks"
+            ]
+          },
+          {
+            "fieldPath": [
+              "work_history_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "work_history_explanation"
+            ]
+          },
+          {
+            "fieldPath": [
+              "work_history_status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "immigration_status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "region_code"
+            ]
+          },
+          {
+            "fieldPath": [
+              "becoming_a_teacher_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "contact_details_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "course_choices_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "degrees_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "efl_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "english_gcse_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "interview_preferences_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "maths_gcse_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "other_qualifications_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "personal_details_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "references_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "safeguarding_issues_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "science_gcse_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "training_with_a_disability_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "volunteering_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "work_history_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "equality_and_diversity_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "equality_and_diversity_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "previous_teacher_training_completed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "previous_teacher_training_completed_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "safeguarding_issues"
+            ]
+          },
+          {
+            "fieldPath": [
+              "country_residency_date_from"
+            ]
+          },
+          {
+            "fieldPath": [
+              "country_residency_since_birth"
+            ]
+          },
+          {
+            "fieldPath": [
+              "previous_last_names"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "application_qualifications",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_form_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "award_year"
+            ]
+          },
+          {
+            "fieldPath": [
+              "comparable_uk_degree"
+            ]
+          },
+          {
+            "fieldPath": [
+              "comparable_uk_qualification"
+            ]
+          },
+          {
+            "fieldPath": [
+              "constituent_grades"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "enic_reason"
+            ]
+          },
+          {
+            "fieldPath": [
+              "enic_reference"
+            ]
+          },
+          {
+            "fieldPath": [
+              "grade"
+            ]
+          },
+          {
+            "fieldPath": [
+              "grade_hesa_code"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "institution_country"
+            ]
+          },
+          {
+            "fieldPath": [
+              "institution_hesa_code"
+            ]
+          },
+          {
+            "fieldPath": [
+              "institution_name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "international"
+            ]
+          },
+          {
+            "fieldPath": [
+              "level"
+            ]
+          },
+          {
+            "fieldPath": [
+              "not_completed_explanation"
+            ]
+          },
+          {
+            "fieldPath": [
+              "non_uk_qualification_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "other_uk_qualification_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "predicted_grade"
+            ]
+          },
+          {
+            "fieldPath": [
+              "public_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "qualification_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "qualification_level"
+            ]
+          },
+          {
+            "fieldPath": [
+              "qualification_level_uuid"
+            ]
+          },
+          {
+            "fieldPath": [
+              "qualification_type_hesa_code"
+            ]
+          },
+          {
+            "fieldPath": [
+              "start_year"
+            ]
+          },
+          {
+            "fieldPath": [
+              "subject"
+            ]
+          },
+          {
+            "fieldPath": [
+              "subject_hesa_code"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "missing_explanation"
+            ]
+          },
+          {
+            "fieldPath": [
+              "currently_completing_qualification"
+            ]
+          },
+          {
+            "fieldPath": [
+              "degree_type_uuid"
+            ]
+          },
+          {
+            "fieldPath": [
+              "degree_subject_uuid"
+            ]
+          },
+          {
+            "fieldPath": [
+              "degree_institution_uuid"
+            ]
+          },
+          {
+            "fieldPath": [
+              "degree_grade_uuid"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "application_work_history_breaks",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "breakable_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "breakable_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "end_date"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "reason"
+            ]
+          },
+          {
+            "fieldPath": [
+              "start_date"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "chasers_sent",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "chased_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "chased_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "chaser_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "course_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "course_options",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "course_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "site_still_valid"
+            ]
+          },
+          {
+            "fieldPath": [
+              "study_mode"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "vacancy_status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "site_id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "course_subjects",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "course_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "subject_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "courses",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "accredited_provider_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "age_range"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "can_sponsor_skilled_worker_visa"
+            ]
+          },
+          {
+            "fieldPath": [
+              "can_sponsor_student_visa"
+            ]
+          },
+          {
+            "fieldPath": [
+              "code"
+            ]
+          },
+          {
+            "fieldPath": [
+              "course_length"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "description"
+            ]
+          },
+          {
+            "fieldPath": [
+              "exposed_in_find"
+            ]
+          },
+          {
+            "fieldPath": [
+              "financial_support"
+            ]
+          },
+          {
+            "fieldPath": [
+              "funding_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "level"
+            ]
+          },
+          {
+            "fieldPath": [
+              "name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "program_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "qualifications"
+            ]
+          },
+          {
+            "fieldPath": [
+              "recruitment_cycle_year"
+            ]
+          },
+          {
+            "fieldPath": [
+              "start_date"
+            ]
+          },
+          {
+            "fieldPath": [
+              "study_mode"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "uuid"
+            ]
+          },
+          {
+            "fieldPath": [
+              "withdrawn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "degree_grade"
+            ]
+          },
+          {
+            "fieldPath": [
+              "degree_subject_requirements"
+            ]
+          },
+          {
+            "fieldPath": [
+              "accept_pending_gcse"
+            ]
+          },
+          {
+            "fieldPath": [
+              "accept_gcse_equivalency"
+            ]
+          },
+          {
+            "fieldPath": [
+              "accept_english_gcse_equivalency"
+            ]
+          },
+          {
+            "fieldPath": [
+              "accept_maths_gcse_equivalency"
+            ]
+          },
+          {
+            "fieldPath": [
+              "accept_science_gcse_equivalency"
+            ]
+          },
+          {
+            "fieldPath": [
+              "additional_gcse_equivalencies"
+            ]
+          },
+          {
+            "fieldPath": [
+              "applications_open_from"
+            ]
+          },
+          {
+            "fieldPath": [
+              "fee_details"
+            ]
+          },
+          {
+            "fieldPath": [
+              "fee_international"
+            ]
+          },
+          {
+            "fieldPath": [
+              "fee_domestic"
+            ]
+          },
+          {
+            "fieldPath": [
+              "salary_details"
+            ]
+          },
+          {
+            "fieldPath": [
+              "visa_sponsorship_application_deadline_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "email_clicks",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "email_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "path"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "english_proficiencies",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_form_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "efl_qualification_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "efl_qualification_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "qualification_status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "has_qualification"
+            ]
+          },
+          {
+            "fieldPath": [
+              "no_qualification"
+            ]
+          },
+          {
+            "fieldPath": [
+              "qualification_not_needed"
+            ]
+          },
+          {
+            "fieldPath": [
+              "degree_taught_in_english"
+            ]
+          },
+          {
+            "fieldPath": [
+              "draft"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "field_test_events",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "field_test_membership_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "field_test_memberships",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "participant_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "participant_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "experiment"
+            ]
+          },
+          {
+            "fieldPath": [
+              "variant"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "converted"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "find_feedback",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "feedback"
+            ]
+          },
+          {
+            "fieldPath": [
+              "find_controller"
+            ]
+          },
+          {
+            "fieldPath": [
+              "path"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ielts_qualifications",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "award_year"
+            ]
+          },
+          {
+            "fieldPath": [
+              "band_score"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "trf_number"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "interviews",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_choice_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "cancelled_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "date_and_time"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "location"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "notes",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_choice_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "message"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "user_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "user_type"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "offer_conditions",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "offer_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "details"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "offers",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_choice_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "other_efl_qualifications",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "award_year"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "grade"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "provider_agreements",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "accepted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "agreement_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_user_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "provider_relationship_permissions",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "ratifying_provider_can_make_decisions"
+            ]
+          },
+          {
+            "fieldPath": [
+              "ratifying_provider_can_view_diversity_information"
+            ]
+          },
+          {
+            "fieldPath": [
+              "ratifying_provider_can_view_safeguarding_information"
+            ]
+          },
+          {
+            "fieldPath": [
+              "ratifying_provider_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "setup_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "training_provider_can_make_decisions"
+            ]
+          },
+          {
+            "fieldPath": [
+              "training_provider_can_view_diversity_information"
+            ]
+          },
+          {
+            "fieldPath": [
+              "training_provider_can_view_safeguarding_information"
+            ]
+          },
+          {
+            "fieldPath": [
+              "training_provider_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "provider_user_notifications",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_received"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_rejected_by_default"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_withdrawn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "offer_accepted"
+            ]
+          },
+          {
+            "fieldPath": [
+              "offer_declined"
+            ]
+          },
+          {
+            "fieldPath": [
+              "reference_received"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_user_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "marketing_emails"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "provider_users",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "dfe_sign_in_uid"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "last_signed_in_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "email_address"
+            ]
+          },
+          {
+            "fieldPath": [
+              "first_name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "last_name"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "provider_users_providers",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "make_decisions"
+            ]
+          },
+          {
+            "fieldPath": [
+              "manage_organisations"
+            ]
+          },
+          {
+            "fieldPath": [
+              "manage_users"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_user_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "set_up_interviews"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "view_diversity_information"
+            ]
+          },
+          {
+            "fieldPath": [
+              "view_safeguarding_information"
+            ]
+          },
+          {
+            "fieldPath": [
+              "manage_api_tokens"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "providers",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "code"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "latitude"
+            ]
+          },
+          {
+            "fieldPath": [
+              "longitude"
+            ]
+          },
+          {
+            "fieldPath": [
+              "name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "postcode"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "region_code"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "vendor_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "selectable_school"
+            ]
+          },
+          {
+            "fieldPath": [
+              "email_address"
+            ]
+          },
+          {
+            "fieldPath": [
+              "handle_interviews"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "reference_tokens",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_reference_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "hashed_token"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "references",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_form_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "cancelled_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "cancelled_at_end_of_cycle_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "consent_to_be_contacted"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "duplicate"
+            ]
+          },
+          {
+            "fieldPath": [
+              "email_bounced_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "feedback_provided_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "feedback_refused_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "feedback_status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "hashed_sign_in_token"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "questionnaire"
+            ]
+          },
+          {
+            "fieldPath": [
+              "referee_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "reminder_sent_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "replacement"
+            ]
+          },
+          {
+            "fieldPath": [
+              "requested_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "safeguarding_concerns_status"
+            ]
+          },
+          {
+            "fieldPath": [
+              "selected"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "refused"
+            ]
+          },
+          {
+            "fieldPath": [
+              "feedback"
+            ]
+          },
+          {
+            "fieldPath": [
+              "confidential"
+            ]
+          },
+          {
+            "fieldPath": [
+              "safeguarding_concerns"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "rejection_feedbacks",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "helpful"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_choice_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "subjects",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "code"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "sites",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "code"
+            ]
+          },
+          {
+            "fieldPath": [
+              "name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "uuid"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "address_line1"
+            ]
+          },
+          {
+            "fieldPath": [
+              "address_line2"
+            ]
+          },
+          {
+            "fieldPath": [
+              "address_line3"
+            ]
+          },
+          {
+            "fieldPath": [
+              "address_line4"
+            ]
+          },
+          {
+            "fieldPath": [
+              "postcode"
+            ]
+          },
+          {
+            "fieldPath": [
+              "region"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "uuid_generated_by_apply"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "toefl_qualifications",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "award_year"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "registration_number"
+            ]
+          },
+          {
+            "fieldPath": [
+              "total_score"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "vendors",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "validation_errors",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "form_object"
+            ]
+          },
+          {
+            "fieldPath": [
+              "user_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "user_type"
+            ]
+          },
+          {
+            "fieldPath": [
+              "request_path"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "service"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "vendor_api_tokens",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "last_used_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "description"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "withdrawal_reasons",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "reason"
+            ]
+          },
+          {
+            "fieldPath": [
+              "comment"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_choice_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "status"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "recruitment_cycle_timetables",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "find_opens_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "apply_opens_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "apply_deadline_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "reject_by_default_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "decline_by_default_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "find_closes_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "recruitment_cycle_year"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "winter_reject_by_default_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "winter_decline_by_default_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "airbyte_heartbeat",
+        "syncMode": "full_refresh_overwrite",
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "last_heartbeat"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
