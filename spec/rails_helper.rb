@@ -25,6 +25,7 @@ require 'rspec/rails'
 require 'dotenv/rails'
 
 SeedTimetablesService.seed_from_csv
+ActiveJob::Base.queue_adapter = :test
 
 STANDARD_TEST_DATES = {
   'after_apply_deadline' => (RecruitmentCycleTimetable.current_timetable.apply_deadline_at + 1.hour).to_fs,
@@ -154,6 +155,7 @@ RSpec.configure do |config|
   config.include AbstractController::Translation
 
   config.include FactoryBot::Syntax::Methods
+  config.include ActiveJob::TestHelper
 
   config.include GeocodeTestHelper
   config.before do
