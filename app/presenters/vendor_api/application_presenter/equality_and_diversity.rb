@@ -9,7 +9,7 @@ module VendorAPI::ApplicationPresenter::EqualityAndDiversity
 
   def equality_and_diversity
     return nil unless application_choice.state_offer_accepted? &&
-                      application_choice.application_form.recruitment_cycle_year == RecruitmentCycleTimetable.current_year
+                      application_choice.application_form.recruitment_cycle_year > 2024
 
     equality_and_diversity_data = application_form&.equality_and_diversity
 
