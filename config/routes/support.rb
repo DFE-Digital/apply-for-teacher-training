@@ -320,9 +320,6 @@ namespace :support_interface, path: '/support' do
   post '/sign-in-by-email' => 'sessions#authenticate_with_token', as: :authenticate_with_token
   post '/request-new-token' => 'sessions#request_new_token', as: :request_new_token
 
-  require 'sidekiq/web'
-
-  mount SupportInterface::RackApp.new(Sidekiq::Web) => '/sidekiq', as: :sidekiq
   mount SupportInterface::RackApp.new(Blazer::Engine) => '/blazer', as: :blazer
   mount SupportInterface::RackApp.new(FieldTest::Engine) => '/field-test', as: :field_test
   mount SupportInterface::RackApp.new(MissionControl::Jobs::Engine) => '/jobs', as: :jobs

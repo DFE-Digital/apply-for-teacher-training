@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ReinstateReference, :sidekiq do
+RSpec.describe ReinstateReference do
   describe '#call' do
     it 'requests a reference' do
       course_option = create(:course_option, course: create(:course, provider: create(:provider)))

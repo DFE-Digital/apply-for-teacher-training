@@ -67,7 +67,7 @@ Rails.application.configure do
   # caching is enabled.
   config.action_mailer.perform_caching = false
 
-  # Forces jobs that are normally queued to Sidekiq to run immediately
+  # Forces jobs that are normally queued to Solid::Queue to run immediately
   config.active_job.queue_adapter = :inline
 
   # Configure the URL for the read-only database used by Blazer

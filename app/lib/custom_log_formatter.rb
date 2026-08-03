@@ -28,13 +28,6 @@ private
     if (job_queue = Thread.current[:job_queue])
       hash[:job_queue] = job_queue
     end
-
-    tid = Thread.current[:sidekiq_tid]
-    if tid.present?
-      ctx = Sidekiq::Context.current
-      hash[:tid] = tid
-      hash[:ctx] = ctx
-    end
   end
 
   def sanitize_payload_fields

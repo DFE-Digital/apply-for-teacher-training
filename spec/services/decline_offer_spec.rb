@@ -13,7 +13,7 @@ RSpec.describe DeclineOffer do
   end
 
   context 'when accepted_offer is true' do
-    it 'notifies the training provider and ratifying provider that the offer was declined automatically', :sidekiq do
+    it 'notifies the training provider and ratifying provider that the offer was declined automatically' do
       training_provider = create(:provider)
       training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
 
@@ -34,7 +34,7 @@ RSpec.describe DeclineOffer do
   end
 
   context 'when accepted_offer is false by default' do
-    it 'notifies the training provider and ratifying provider that the candidate declined the offer', :sidekiq do
+    it 'notifies the training provider and ratifying provider that the candidate declined the offer' do
       training_provider = create(:provider)
       training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
 

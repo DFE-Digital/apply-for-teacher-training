@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, :sidekiq do
+RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses do
   include TeacherTrainingPublicAPIHelper
 
   describe '.call' do

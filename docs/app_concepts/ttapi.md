@@ -57,11 +57,11 @@ These classes are responsible for using the JsonApi classes to make the request 
             💎 assign_site_attributes.rb            # SiteMapper
             💎 full_sync_update_error.rb            # ErrorClass
             💎 sync_all_providers_and_courses.rb    # Sync Entry
-            💎 sync_courses.rb                      # SidekiqWorker
+            💎 sync_courses.rb                      # Solid::Queue
             💎 sync_error.rb                        # ErrorClass
             💎 sync_provider.rb                     # Sync Entry
-            💎 sync_sites.rb                        # SidekiqWorker
-            💎 sync_subjects.rb                     # SidekiqWorker
+            💎 sync_sites.rb                        # Solid::Queue
+            💎 sync_subjects.rb                     # Solid::Queue
             💎 trigger_full_sync_if_find_closed.rb  # Sync Entry
 
     ▼ 📂 workers

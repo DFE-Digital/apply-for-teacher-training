@@ -37,7 +37,6 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 | Node.js               | 24.18.1 |
 | Yarn                  | 1.22.19 |
 | PostgreSQL            | 16      |
-| Redis                 | 6.0.x   |
 
 ### Development dependencies
 

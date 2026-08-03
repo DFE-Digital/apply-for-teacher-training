@@ -54,52 +54,6 @@ module "web_application" {
   run_as_non_root                  = true
 }
 
-module "main_worker" {
-  source     = "./vendor/modules/aks//aks/application"
-  depends_on = [module.web_application]
-
-  namespace                    = var.namespace
-  environment                  = local.app_name_suffix
-  service_name                 = var.service_name
-  name                         = "worker"
-  is_web                       = false
-  docker_image                 = var.docker_image
-  replicas                     = var.worker_replicas
-  max_memory                   = var.worker_memory_max
-  cluster_configuration_map    = module.cluster_data.configuration_map
-  kubernetes_config_map_name   = module.application_configuration.kubernetes_config_map_name
-  kubernetes_secret_name       = module.application_configuration.kubernetes_secret_name
-  command                      = ["bundle", "exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-main.yml"]
-  probe_command                = ["pgrep", "-f", "sidekiq"]
-  enable_gcp_wif               = true
-  enable_prometheus_monitoring = var.enable_prometheus_monitoring
-  enable_logit                 = var.enable_logit
-  run_as_non_root              = true
-}
-
-module "secondary_worker" {
-  source     = "./vendor/modules/aks//aks/application"
-  depends_on = [module.web_application]
-
-  is_web                       = false
-  namespace                    = var.namespace
-  environment                  = local.app_name_suffix
-  service_name                 = var.service_name
-  name                         = "secondary-worker"
-  docker_image                 = var.docker_image
-  replicas                     = var.secondary_worker_replicas
-  max_memory                   = var.secondary_worker_memory_max
-  cluster_configuration_map    = module.cluster_data.configuration_map
-  kubernetes_config_map_name   = module.application_configuration.kubernetes_config_map_name
-  kubernetes_secret_name       = module.application_configuration.kubernetes_secret_name
-  command                      = ["bundle", "exec", "sidekiq", "-c", "5", "-C", "config/sidekiq-secondary.yml"]
-  probe_command                = ["pgrep", "-f", "sidekiq"]
-  enable_gcp_wif               = true
-  enable_prometheus_monitoring = var.enable_prometheus_monitoring
-  enable_logit                 = var.enable_logit
-  run_as_non_root              = true
-}
-
 module "solid_queue_worker" {
   source     = "./vendor/modules/aks//aks/application"
   depends_on = [module.web_application]

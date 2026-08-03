@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe NudgeCandidatesWorker, :sidekiq do
+RSpec.describe NudgeCandidatesWorker do
   describe '#perform' do
     let(:application_form_unstarted) { create(:application_form) }
     let(:application_form) { create(:completed_application_form) }

@@ -37,7 +37,7 @@ RSpec.describe AcceptOffer do
       end
     end
 
-    context 'when the reference is pending', :sidekiq do
+    context 'when the reference is pending' do
       it 'send the reference request' do
         application_form = create(:completed_application_form, :with_completed_references, recruitment_cycle_year: 2023)
         application_choice = create(:application_choice, :offered, application_form:)
@@ -52,7 +52,7 @@ RSpec.describe AcceptOffer do
       end
     end
 
-    context 'when the reference has already been received', :sidekiq do
+    context 'when the reference has already been received' do
       it 'does not send the reference request' do
         application_form = create(:completed_application_form, :with_completed_references, recruitment_cycle_year: 2023)
         application_choice = create(:application_choice, :offered, application_form:)
@@ -147,7 +147,7 @@ RSpec.describe AcceptOffer do
     end
   end
 
-  describe 'emails', :sidekiq do
+  describe 'emails' do
     it 'sends a notification email to the training provider and ratifying provider' do
       training_provider = create(:provider)
       training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])

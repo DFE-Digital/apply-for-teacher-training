@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Notify Callback - POST /integrations/notify/callback', :sidekiq do
+RSpec.describe 'Notify Callback - POST /integrations/notify/callback' do
   let(:application_form) { create(:application_form) }
   let(:reference) do
     create(:reference, feedback_status: 'feedback_requested', application_form:)

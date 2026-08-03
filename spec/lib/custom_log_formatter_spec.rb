@@ -24,8 +24,6 @@ RSpec.describe CustomLogFormatter do
   it 'adds custom fields to the log hash' do
     Thread.current[:job_id] = 'test_job_id'
     Thread.current[:job_queue] = 'test_queue'
-    Thread.current['sidekiq_tid'] = 'test_tid'
-    allow(Sidekiq::Context).to receive(:current).and_return('test_context')
 
     log.message = 'Started'
     log.payload = {

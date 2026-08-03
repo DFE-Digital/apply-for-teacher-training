@@ -15,7 +15,7 @@ module HostingEnvironment
     else
       require 'dotenv/rails'
       # Foreman will override $PORT to 3100, 3200 etc depending on position in
-      # the Procfile. This means that e.g. emails sent via Sidekiq in
+      # the Procfile. This means that e.g. emails sent via worker in
       # development will have the wrong port number on them and the links won't
       # work. Go back to .env and friends for the original port so the URL is
       # consistent across processes.

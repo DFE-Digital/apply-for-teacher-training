@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker, :sidekiq do
+RSpec.describe SendApplyToAnotherCourseWhenInactiveEmailToCandidatesWorker do
   describe '#perform', time: mid_cycle do
     let(:application_forms) { create_list(:completed_application_form, 2) }
 

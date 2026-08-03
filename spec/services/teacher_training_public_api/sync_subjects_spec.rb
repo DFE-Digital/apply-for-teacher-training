@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TeacherTrainingPublicAPI::SyncSubjects, :sidekiq do
+RSpec.describe TeacherTrainingPublicAPI::SyncSubjects do
   include TeacherTrainingPublicAPIHelper
 
   describe '.perform' do
