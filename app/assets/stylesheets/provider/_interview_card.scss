@@ -9,11 +9,11 @@
     padding-top: govuk.govuk-spacing(2);
     padding-bottom: govuk.govuk-spacing(2);
 
-    border-bottom: 1px solid govuk.govuk-colour("mid-grey");
+    border-bottom: 1px solid govuk.govuk-colour("black", $variant: "tint-80");
   }
 
   h2 + .app-interview-card {
-    border-top: 1px solid govuk.govuk-colour("mid-grey");
+    border-top: 1px solid govuk.govuk-colour("black", $variant: "tint-80");
   }
 
   .app-interview-card__time {

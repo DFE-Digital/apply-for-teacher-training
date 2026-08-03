@@ -84,7 +84,7 @@
 
   // https://github.com/alphagov/govuk-frontend/blob/v5.0.0/packages/govuk-frontend/src/govuk/components/task-list/_index.scss#L4
   &:hover {
-    background-color: govuk.govuk-colour("light-grey");
+    background-color: govuk.govuk-colour("black", $variant: "tint-95");
   }
 
   &:hover .govuk-heading-s {

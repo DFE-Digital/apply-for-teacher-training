@@ -1,7 +1,7 @@
 @use "../base/govuk";
 
 .moj-filter, .moj-filter__header {
-  background-color: govuk.govuk-colour("light-grey");
+  background-color: govuk.govuk-colour("black", $variant: "tint-95");
 }
 
 .moj-filter-layout__content {

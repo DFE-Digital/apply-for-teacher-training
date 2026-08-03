@@ -73,6 +73,6 @@
 
     content: "";
 
-    background-color: govuk.govuk-colour("light-blue");
+    background-color: govuk.govuk-colour("blue", $variant: "tint-25");
   }
 }

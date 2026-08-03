@@ -58,7 +58,7 @@ body .suggestions .autocomplete__wrapper ul::before {
   .autocomplete__hint {
     position: absolute;
 
-    color: govuk.govuk-colour("mid-grey");
+    color: govuk.govuk-colour("black", $variant: "tint-80");
   }
 
   .autocomplete__input--focused {
@@ -133,7 +133,7 @@ body .suggestions .autocomplete__wrapper ul::before {
     cursor: pointer;
 
     border-width: 1px 0;
-    border-bottom: solid govuk.govuk-colour("mid-grey");
+    border-bottom: solid govuk.govuk-colour("black", $variant: "tint-80");
   }
 
   .autocomplete__option > * {
@@ -149,7 +149,7 @@ body .suggestions .autocomplete__wrapper ul::before {
   }
 
   .autocomplete__option--odd {
-    background-color: govuk.govuk-colour("light-grey");
+    background-color: govuk.govuk-colour("black", $variant: "tint-95");
   }
 
   .autocomplete__option--hint {
@@ -171,11 +171,11 @@ body .suggestions .autocomplete__wrapper ul::before {
   }
 
   .autocomplete__option--no-results {
-    color: govuk.govuk-colour("dark-grey");
+    color: govuk.govuk-colour("black", $variant: "tint-25");
 
     cursor: not-allowed;
 
-    background-color: govuk.govuk-colour("light-grey");
+    background-color: govuk.govuk-colour("black", $variant: "tint-95");
   }
 
   .autocomplete__hint,

@@ -3,7 +3,7 @@
 .app-status-box {
   padding: govuk.govuk-spacing(4);
 
-  background: govuk.govuk-colour("light-grey");
+  background: govuk.govuk-colour("black", $variant: "tint-95");
 }
 
 .app-status-box--sandbox {

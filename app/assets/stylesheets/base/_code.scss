@@ -5,7 +5,7 @@ code {
 
   font-family: monospace;
 
-  background-color: govuk.govuk-colour("light-grey");
+  background-color: govuk.govuk-colour("black", $variant: "tint-95");
 
   .govuk-panel--confirmation & {
     background-color: transparent;

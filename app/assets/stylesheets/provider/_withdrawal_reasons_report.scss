@@ -12,7 +12,7 @@
   &__cell--main-reason {
     font-weight: govuk.$govuk-font-weight-bold;
 
-    background: govuk.govuk-colour("light-grey");
+    background: govuk.govuk-colour("black", $variant: "tint-95");
     border-top: 2px solid  govuk.$govuk-input-border-colour;
   }
 
