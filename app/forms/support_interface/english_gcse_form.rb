@@ -5,6 +5,7 @@ module SupportInterface
     MISSING_QUALIFICATION_TYPE = 'missing'.freeze
     include ActiveModel::Model
     include EnglishGcseGradeAttributeBuilder
+    include InternationalGradeBuilder
 
     attr_accessor :gcse,
                   :application_form,
@@ -87,7 +88,7 @@ module SupportInterface
     end
 
     def assign_values(params)
-      @qualification_type = qualification.qualification_type = params[:qualification_type]
+      @qualification_type = qualification.qualification_type = params[:qualification_type].presence || qualification.qualification_type
 
       super
 
@@ -172,6 +173,18 @@ module SupportInterface
       qualification_type == MISSING_QUALIFICATION_TYPE
     end
 
+    def non_uk_qualification?
+      qualification_type == NON_UK_QUALIFICATION_TYPE
+    end
+
+    def other_uk_qualification?
+      qualification_type == OTHER_UK_QUALIFICATION_TYPE
+    end
+
+    def gcse_qualification?
+      qualification_type == GCSE
+    end
+
     def currently_completing_qualification?
       currently_completing_qualification.present?
     end
@@ -181,14 +194,6 @@ module SupportInterface
     end
 
   private
-
-    def non_uk_qualification?
-      qualification_type == NON_UK_QUALIFICATION_TYPE
-    end
-
-    def other_uk_qualification?
-      qualification_type == OTHER_UK_QUALIFICATION_TYPE
-    end
 
     def reset_other_uk_qualification_type
       if !other_uk_qualification?

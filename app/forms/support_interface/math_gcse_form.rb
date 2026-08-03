@@ -65,7 +65,7 @@ module SupportInterface
     end
 
     def assign_values(params)
-      @qualification_type = qualification.qualification_type = params[:qualification_type]
+      @qualification_type = qualification.qualification_type = params[:qualification_type].presence || qualification.qualification_type
       @grade = params[:grade]
       @award_year = params[:award_year]
       @other_uk_qualification_type = params[:other_uk_qualification_type]
