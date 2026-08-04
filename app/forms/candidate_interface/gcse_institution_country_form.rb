@@ -11,16 +11,25 @@ module CandidateInterface
     def valid_options
       COUNTRIES_AND_TERRITORIES.map do |iso_code, country_name|
         [country_name, iso_code]
-      end
+      end.unshift([nil, nil])
     end
 
-    validate :institution_country_selected
     validate :no_free_text_input
+    validates :institution_country, presence: true
 
     def self.build_from_qualification(application_qualification)
       new(
         institution_country: application_qualification.institution_country,
       )
+    end
+
+    def initialize(attributes = {})
+      super
+      if institution_country_raw.present?
+        @institution_country = COUNTRIES_AND_TERRITORIES.find do |_iso_code, country_name|
+          country_name == institution_country_raw
+        end&.first || institution_country_raw
+      end
     end
 
     def save(application_qualification)
@@ -49,12 +58,7 @@ module CandidateInterface
     end
 
     def institution_country_selected
-      if institution_country.blank? && institution_country_raw.blank?
-        errors.add(:institution_country, :blank)
-      elsif institution_country_raw.present? &&
-            CountryFinder.find_name_from_iso_code(institution_country) != institution_country_raw
-        errors.add(:institution_country, :inclusion)
-      end
+      errors.add(:institution_country, :blank) if institution_country_raw.blank?
     end
   end
 end

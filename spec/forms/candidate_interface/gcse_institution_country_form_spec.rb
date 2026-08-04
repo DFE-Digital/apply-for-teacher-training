@@ -22,14 +22,13 @@ RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
       expect(form.errors.details[:institution_country]).to include(error: :blank)
     end
 
-    it 'is invalid when a country not in the list is entered' do
+    it 'is invalid when raw input does not match any country' do
       form = described_class.new(
         institution_country: '',
         institution_country_raw: 'iojsocijasoijcod',
       )
 
       form.validate
-
       expect(form.errors.details[:institution_country]).to include(error: :inclusion)
     end
 
@@ -44,6 +43,15 @@ RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
       form.validate
 
       expect(form.errors.attribute_names).not_to include(:institution_country)
+    end
+
+    it 'is valid if country can be matched from raw data' do
+      form = described_class.new(
+        institution_country: '',
+        institution_country_raw: 'Ghana',
+      )
+      expect(form.institution_country).to eq 'GH'
+      expect(form.valid?).to be true
     end
 
     it 'is invalid when the selected country and raw value do not match' do

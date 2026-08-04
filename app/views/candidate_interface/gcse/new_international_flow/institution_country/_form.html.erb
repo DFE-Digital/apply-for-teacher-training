@@ -2,11 +2,11 @@
 <%= render DfE::Autocomplete::View.new(
   f,
   attribute_name: :institution_country,
-  form_field: f.govuk_collection_select(
+  form_field: f.govuk_select(
     :institution_country,
-    select_degree_country_options,
-    :id,
-    :name,
+    options_for_select(@institution_country_form.valid_options, @institution_country_form.institution_country),
+    data: { controller: 'autocomplete' },
+    aria: { label: 'candidate-interface-gcse-institution-country-form-institution-country-field-select' },
     label: {
       text: t(
         'gcse_edit_institution_country.page_title',
@@ -14,9 +14,6 @@
       ),
       size: 'l',
       tag: 'h1',
-    },
-    aria: {
-      label: 'candidate-interface-gcse-institution-country-form-institution-country-field-select',
     },
   ),
 ) %>
