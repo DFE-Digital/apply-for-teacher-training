@@ -23,6 +23,8 @@ module CandidateInterface
              :cannot_submit_more_choices?,
              :total_submitted_application_limit_reached?,
              :recruitment_cycle_timetable,
+             :application_choices,
+             :unsubmitted?,
              :support_reference, to: :application_form
 
     def initialize(application_form)
@@ -375,16 +377,20 @@ module CandidateInterface
       !previous_application_form.current_cycle?
     end
 
+    def draft_application_choice_count
+      @draft_application_choice_count ||= application_choices.unsubmitted.count
+    end
+
+    def completed_application_form?
+      @completed_application_form ||= CandidateInterface::CompletedApplicationForm.new(application_form:).valid?
+    end
+
   private
 
     def show_review_volunteering?
       no_volunteering_confirmed = application_form.volunteering_experience == false && application_form.application_volunteering_experiences.empty?
 
       volunteering_completed? || volunteering_added? || no_volunteering_confirmed
-    end
-
-    def completed_application_form?
-      @completed_application_form ||= CandidateInterface::CompletedApplicationForm.new(application_form:).valid?
     end
   end
 end

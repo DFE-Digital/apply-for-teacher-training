@@ -1,0 +1,22 @@
+<% if application_choices.blank? %>
+  <%= govuk_button_link_to(t('inline_application_choice_buttons_component.choose_a_course'), candidate_interface_course_choices_do_you_know_the_course_path) %>
+<% else %>
+  <div class="govuk-button-group">
+    <%= govuk_button_link_to(
+      t('inline_application_choice_buttons_component.review_your_application', count: application_choices_count),
+      application_choice_link,
+    ) %>
+
+    <% if can_add_more_choices? %>
+      <p class="govuk-body">
+          <span class="govuk-!-padding-3">
+            or
+          </span>
+
+        <span>
+          <%= govuk_link_to(t('inline_application_choice_buttons_component.apply_to_a_different_course'), candidate_interface_course_choices_do_you_know_the_course_path) %>
+        </span>
+      </p>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,7 @@
+en:
+  inline_application_choice_buttons_component:
+    review_your_application:
+      one: Review your application
+      other: Review your applications
+    choose_a_course: Choose a course
+    apply_to_a_different_course: apply to a different course
