@@ -40,7 +40,7 @@ variable "clock_worker_replicas" { default = 1 }
 variable "postgres_flexible_server_sku" { default = "B_Standard_B1ms" }
 variable "postgres_flexible_server_storage_mb" { default = 32768 }
 variable "postgres_enable_high_availability" { default = false }
-variable "postgres_server_version" { default = "16" }
+variable "postgres_server_version" { default = "17" }
 variable "config_short" {}
 variable "service_short" {}
 variable "azure_maintenance_window" { default = null }
