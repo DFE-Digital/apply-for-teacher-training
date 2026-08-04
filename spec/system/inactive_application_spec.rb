@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Process Stale applications', :sidekiq do
+RSpec.describe 'Process Stale applications' do
   include CourseOptionHelpers
 
   scenario 'An application is marked as inactive', :with_audited do

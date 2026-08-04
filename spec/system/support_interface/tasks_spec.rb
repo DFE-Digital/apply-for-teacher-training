@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Tasks', sidekiq: false do
+RSpec.describe 'Tasks', run_jobs: false do
   include DfESignInHelpers
 
   scenario 'Support user performs a task' do

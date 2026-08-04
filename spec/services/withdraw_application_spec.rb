@@ -53,7 +53,7 @@ RSpec.describe WithdrawApplication do
   end
 
   context 'when accepted_offer is false by default' do
-    it 'sends the manual withdrawal notification email to the training provider and ratifying provider', :sidekiq do
+    it 'sends the manual withdrawal notification email to the training provider and ratifying provider', :run_jobs do
       training_provider = create(:provider)
       training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
 
@@ -95,7 +95,7 @@ RSpec.describe WithdrawApplication do
       create(:application_choice, :awaiting_provider_decision, course_option:)
     end
 
-    it 'sends the automatic withdrawal email to the training provider and ratifying provider', :sidekiq do
+    it 'sends the automatic withdrawal email to the training provider and ratifying provider', :run_jobs do
       described_class.new(application_choice:, accepted_offer: true).save!
 
       training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }

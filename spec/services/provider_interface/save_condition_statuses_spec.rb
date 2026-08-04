@@ -48,7 +48,7 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
                                   .and change(application_choice, :recruited_at).to(Time.zone.now)
         end
 
-        it 'sends an email to the candidate', :sidekiq do
+        it 'sends an email to the candidate', :run_jobs do
           service.save!
           expect(ActionMailer::Base.deliveries.first.rails_mail_template).to eq('conditions_met')
         end
@@ -115,7 +115,7 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
                                 .and change(application_choice, :conditions_not_met_at).to(Time.zone.now)
       end
 
-      it 'sends an email to the candidate', :sidekiq do
+      it 'sends an email to the candidate', :run_jobs do
         service.save!
         expect(ActionMailer::Base.deliveries.first.rails_mail_template).to eq('conditions_not_met')
       end

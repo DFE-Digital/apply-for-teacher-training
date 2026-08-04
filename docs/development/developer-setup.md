@@ -42,16 +42,15 @@ As for running service dependencies, you have 2 options:
 
 ### Metal
 
-Running the service dependencies requires you to have Redis and Postgres installed and running on your machine.
+Running the service dependencies requires you to have Postgres installed and running on your machine.
 
 - `postgresql` v14
-- `redis` v6
 
 To install these dependencies, you can use a package manager like `brew` on MacOS or `apt` on Linux distros.
 
 ### Docker
 
-As an alternative, you can use containerized dependencies. This is useful to ensure that Redis and Postgres do not conflict with other projects on your machine.
+As an alternative, you can use containerized dependencies. This is useful to ensure that Postgres do not conflict with other projects on your machine.
 
 You will need to have `docker` locally installed. You can follow the instructions [here](https://docs.docker.com/get-docker/).
 

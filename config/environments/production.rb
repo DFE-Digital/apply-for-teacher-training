@@ -130,24 +130,6 @@ Rails.application.configure do
   # This query will return a `String` if postgresql_adapter_decode_dates is set to false.
   config.active_record.postgresql_adapter_decode_dates = false
 
-  class FixAzureXForwardedForMiddleware
-    def initialize(app)
-      @app = app
-    end
-
-    def call(env)
-      # preserves access to sidekiq web
-      # see https://github.com/sinatra/sinatra/blob/master/rack-protection/lib/rack/protection/ip_spoofing.rb#L17
-      if env["HTTP_X_CLIENT_IP"].present?
-        env["HTTP_CLIENT_IP"] = env["HTTP_X_CLIENT_IP"]
-      end
-
-      @app.call(env)
-    end
-  end
-
-  config.middleware.insert_before ActionDispatch::RemoteIp, FixAzureXForwardedForMiddleware
-
   # Don't add AWS IP ranges on AKS.
   config.action_dispatch.trusted_proxies = if ENV["KUBERNETES_SERVICE_HOST"].present?
                                              [

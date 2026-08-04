@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Support::Candidates::BulkUnsubscribeWorker, :sidekiq do
+RSpec.describe Support::Candidates::BulkUnsubscribeWorker, :run_jobs do
   describe '#perform' do
     it 'chase references and notify candidates' do
       allow(SupportInterface::Candidates::BulkUnsubscribe).to receive(:bulk_unsubscribe)

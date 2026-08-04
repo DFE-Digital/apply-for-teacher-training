@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UpdateDuplicateMatches, :sidekiq do
+RSpec.describe UpdateDuplicateMatches, :run_jobs do
   let(:candidate1) { create(:candidate, email_address: 'exemplar1@example.com') }
   let(:candidate2) { create(:candidate, email_address: 'exemplar2@example.com') }
 

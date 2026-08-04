@@ -40,7 +40,7 @@ RSpec.describe CancelInterview do
       end
     end
 
-    it 'creates an audit entry and sends an email', :sidekiq, :with_audited do
+    it 'creates an audit entry and sends an email', :run_jobs, :with_audited do
       described_class.new(**service_params).save!
 
       associated_audit = application_choice.associated_audits.last
@@ -70,7 +70,7 @@ RSpec.describe CancelInterview do
       }
     end
 
-    it 'accepts a vendor_api_user', :sidekiq, :with_audited do
+    it 'accepts a vendor_api_user', :run_jobs, :with_audited do
       described_class.new(**service_params).save!
 
       associated_audit = application_choice.associated_audits.last
@@ -79,7 +79,7 @@ RSpec.describe CancelInterview do
     end
   end
 
-  context 'if interview validations fail', :sidekiq do
+  context 'if interview validations fail', :run_jobs do
     let(:service_params) do
       {
         actor: provider_user,
@@ -97,7 +97,7 @@ RSpec.describe CancelInterview do
     end
   end
 
-  context 'if interview workflow constraints fail', :sidekiq do
+  context 'if interview workflow constraints fail', :run_jobs do
     let(:interview) { create(:interview, :cancelled, application_choice:) }
     let(:service_params) do
       {

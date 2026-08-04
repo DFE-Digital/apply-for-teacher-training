@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :sidekiq do
+RSpec.describe 'Vendor API - POST /api/v1.0/test-data/generate', :run_jobs do
   include VendorAPISpecHelpers
   include DfE::Bigquery::TestHelper
 

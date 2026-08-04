@@ -6,11 +6,10 @@ This document describes the alerting configuration for AKS
 
 ## Backend Service Alerting
 
-Postgres and Redis monitoring is configured within the aks terraform
+Postgres monitoring is configured within the aks terraform
 
 If enabled it will monitor and alert via email on the following
 - postgres memory, cpu and storage used
-- redis memory used
 
 ### To enable backing service alerting
 
@@ -35,7 +34,6 @@ Defaults:
 - pg_memory_threshold        default = 75
 - pg_cpu_threshold           default = 60
 - pg_storage_threshold       default = 75
-- redis_memory_threshold     default = 60
 
 ## CDN/Frontdoor Alerting
 

@@ -40,7 +40,6 @@ if ENV['CI'] || ENV.fetch('COVERAGE', 'true') == 'true'
   end
 end
 
-require 'sidekiq/testing'
 require 'clockwork/test'
 require 'audited-rspec'
 require 'rspec/retry'

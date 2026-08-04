@@ -8,7 +8,7 @@ RSpec.describe GenerateTestApplications do
     stub_bigquery_non_disclosure_trainee_withdrawals_request
   end
 
-  it 'generates test candidates with applications in various states', :sidekiq, time: mid_cycle do
+  it 'generates test candidates with applications in various states', :run_jobs, time: mid_cycle do
     previous_cycle = previous_year
     current_cycle = current_year
 
@@ -45,7 +45,7 @@ RSpec.describe GenerateTestApplications do
     expect(ApplicationForm.joins(:application_choices).where('application_choices.status': 'offer', phase: 'apply_1').where.not(previous_application_form_id: nil)).not_to be_empty
   end
 
-  it 'generates undergraduate test applications', :sidekiq, time: mid_cycle do
+  it 'generates undergraduate test applications', :run_jobs, time: mid_cycle do
     current_cycle = current_year
     previous_cycle = previous_year
     provider = create(:provider)
@@ -71,7 +71,7 @@ RSpec.describe GenerateTestApplications do
     ).not_to be_empty
   end
 
-  it 'generates test applications for the next cycle', :sidekiq, time: mid_cycle do
+  it 'generates test applications for the next cycle', :run_jobs, time: mid_cycle do
     current_cycle = current_year
     provider = create(:provider)
 

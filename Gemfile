@@ -67,7 +67,6 @@ gem 'active_hash', '~> 4.1.0'
 gem 'activerecord-cte'
 
 gem 'sentry-rails', '6.6.2'
-gem 'sentry-sidekiq'
 
 gem 'factory_bot_rails'
 gem 'satisfactory', '~> 1.0'
@@ -93,17 +92,15 @@ gem 'prometheus-client'
 gem 'yabeda-rails'
 gem 'yabeda-puma-plugin'
 gem 'yabeda-gc'
-gem 'yabeda-sidekiq'
 gem 'yabeda-http_requests'
 gem 'yabeda-prometheus'
 
 # Logging
 gem 'request_store_rails'
-gem 'request_store-sidekiq'
+gem 'request_store'
 gem 'rails_semantic_logger', group: %w[development production]
 
 # Background processing
-gem 'sidekiq', '< 7'
 gem 'clockwork'
 
 # Rate limiting

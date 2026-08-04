@@ -1,6 +1,5 @@
 require 'rails_helper'
 require 'clockwork/test'
-require 'sidekiq'
 
 RSpec.describe Clockwork, :clockwork do
   before do
