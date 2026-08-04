@@ -32,7 +32,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Set docker image tag (push)
         if: github.event_name == 'push'
@@ -276,7 +276,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Comment on flakey specs in pull request
         uses: actions/github-script@v9
@@ -300,7 +300,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       # - name: Set Airbyte
       #   if: (contains(github.event.pull_request.labels.*.name, 'airbyte'))
@@ -350,7 +350,7 @@ jobs:
         environment: [qa, staging]
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Deploy App to ${{ matrix.environment }} v2
         id: deploy_app_before_production_v2
@@ -373,7 +373,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Deploy App to production v2
         id: deploy_app_v2
@@ -397,7 +397,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Deploy App to sandbox v2
         id: deploy_app_after_production_v2
