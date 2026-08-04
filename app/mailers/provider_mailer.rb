@@ -234,6 +234,7 @@ class ProviderMailer < ApplicationMailer
   end
 
   def find_service_is_now_open(provider_user)
+    @get_help_title = 'Contact us'
     @provider_user = provider_user
     @recruitment_cycle = current_timetable.cycle_range_name
     @apply_opens = current_timetable.apply_opens_at.to_fs(:govuk_date_and_time)
