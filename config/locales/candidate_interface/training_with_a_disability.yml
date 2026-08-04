@@ -2,14 +2,15 @@ en:
   application_form:
     training_with_a_disability:
       disclose_disability:
-        label: Do you want to ask for help to become a teacher?
-        "yes": "Yes, I want to share information about myself so my provider can take steps to support me"
+        label: Do you want to tell providers about a support need?
+        "yes": "Yes"
         "no": "No"
         change_action: whether you want to ask for help
         not_specified: Not entered
+        hint: This will help providers make adjustments for you
       disability_disclosure:
-        label: Give any relevant information
-        review_label: Relevant information
+        label: details about the support or adjustments you need
+        review_label: Details of your support needs
         change_action: what information you want to give
 
   activemodel:

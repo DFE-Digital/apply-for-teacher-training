@@ -1,3 +1,4 @@
+# This component is used in support and provider interface
 module ProviderInterface
   class TrainingWithDisabilityComponent < ApplicationComponent
     include ViewHelper
@@ -13,7 +14,7 @@ module ProviderInterface
       rows = [{ key: I18n.t('application_form.training_with_a_disability.disclose_disability.label'), value: disability_disclosure_support }]
 
       if disclose_information?
-        rows << { key: I18n.t('application_form.training_with_a_disability.disability_disclosure.label'), value: disability_disclosure }
+        rows << { key: I18n.t('application_form.training_with_a_disability.disability_disclosure.review_label'), value: disability_disclosure }
       end
 
       rows
