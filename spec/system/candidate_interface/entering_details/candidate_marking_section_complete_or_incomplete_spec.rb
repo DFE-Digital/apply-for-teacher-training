@@ -18,7 +18,7 @@ RSpec.describe 'Marking section as complete or incomplete' do
     'Degree',
     'Work history',
     'Unpaid experience',
-    'Ask for support if you are disabled',
+    'Additional support during training',
     'Interview availability',
     'References to be requested if you accept an offer',
     'Declare any safeguarding issues',
