@@ -136,7 +136,7 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
   def and_i_can_edit_the_section_ask_for_support_if_you_are_disabled
     click_link_or_button 'Change whether you want to ask for help'
     choose 'Yes'
-    fill_in 'Details about the support or adjustments you need', with: 'Rerum qui maxime.'
+    fill_in 'Enter details about the support or adjustments you need', with: 'Rerum qui maxime.'
     click_link_or_button 'Continue'
 
     expect(current_candidate.current_application.reload.disability_disclosure).to eq('Rerum qui maxime.')
