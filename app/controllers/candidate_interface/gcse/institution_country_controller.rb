@@ -36,7 +36,7 @@ module CandidateInterface
 
     def institution_country_params
       strip_whitespace params
-        .expect(candidate_interface_gcse_institution_country_form: [:institution_country])
+        .expect(candidate_interface_gcse_institution_country_form: %i[institution_country institution_country_raw])
     end
   end
 end
