@@ -102,7 +102,7 @@
   <%= render ProviderInterface::ChoicePersonalStatementComponent.new(application_choice: @application_choice) %>
 <% end %>
 
-<%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
+<%= render TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
 
 <%= render InterviewPreferencesComponent.new(application_form: @application_choice.application_form) %>
 

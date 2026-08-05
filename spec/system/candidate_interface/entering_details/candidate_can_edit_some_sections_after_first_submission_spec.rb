@@ -15,7 +15,7 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
   [
     TestSection.new(:personal_information, 'Personal information'),
     TestSection.new(:contact_information, 'Contact information'),
-    TestSection.new(:ask_for_support_if_you_are_disabled, 'Ask for support if you are disabled'),
+    TestSection.new(:ask_for_support_if_you_are_disabled, 'Tell providers about a support need'),
     TestSection.new(:interview_availability, 'Interview availability'),
     TestSection.new(:equality_and_diversity_information, 'Equality and diversity questions'),
     TestSection.new(:personal_statement, 'Your personal statement'),
@@ -135,8 +135,8 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
 
   def and_i_can_edit_the_section_ask_for_support_if_you_are_disabled
     click_link_or_button 'Change whether you want to ask for help'
-    choose 'Yes, I want to share information about myself so my provider can take steps to support me'
-    fill_in 'Give any relevant information', with: 'Rerum qui maxime.'
+    choose 'Yes'
+    fill_in 'Enter details about the support or adjustments you need', with: 'Rerum qui maxime.'
     click_link_or_button 'Continue'
 
     expect(current_candidate.current_application.reload.disability_disclosure).to eq('Rerum qui maxime.')

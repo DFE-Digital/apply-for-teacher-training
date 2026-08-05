@@ -261,8 +261,8 @@ en:
       heading: Interview availability
       edit: Edit your interview availability
       review: Check your answers to interview availability
-    training_with_a_disability: Ask for support if you are disabled
-    training_with_a_disability_review: Check your answers to asking for support if you are disabled
+    training_with_a_disability: Tell providers about a support need
+    training_with_a_disability_review: Check your answers to tell providers about a support need
     suitability_to_work_with_children: Declare any safeguarding issues
     suitability_to_work_with_children_review: Check your safeguarding declaration
     thank_you: Thank you for your feedback
@@ -425,7 +425,7 @@ en:
       You will need to show original copies of your qualifications. You may need to have them translated if they are not in English.
     work_experience: Work experience
     personal_statement: Personal statement
-    adjustments: Adjustments
+    adjustments: Support and interview
     safeguarding: Safeguarding
     review: Review
     check_and_submit: Check and submit
