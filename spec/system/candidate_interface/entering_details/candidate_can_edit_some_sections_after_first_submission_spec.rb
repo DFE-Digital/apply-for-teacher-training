@@ -15,7 +15,7 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
   [
     TestSection.new(:personal_information, 'Personal information'),
     TestSection.new(:contact_information, 'Contact information'),
-    TestSection.new(:ask_for_support_if_you_are_disabled, 'Additional support during training'),
+    TestSection.new(:ask_for_support_if_you_are_disabled, 'Tell providers about a support need'),
     TestSection.new(:interview_availability, 'Interview availability'),
     TestSection.new(:equality_and_diversity_information, 'Equality and diversity questions'),
     TestSection.new(:personal_statement, 'Your personal statement'),
