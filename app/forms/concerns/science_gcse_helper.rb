@@ -95,6 +95,7 @@ module ScienceGcseHelper
 
   def set_grade
     return if triple_award?
+    return resolve_grade if qualification.qualification_type == 'non_uk'
 
     case grade
     when 'other'

@@ -1,12 +1,23 @@
 <%= f.govuk_error_summary %>
 
-<h1 class="govuk-heading-l">Edit GCSE</h1>
+<h1 class="govuk-heading-l">Edit English GCSE or equivalent</h1>
 
 <% unless @gcse_form.missing_qualification? %>
   <%= govuk_summary_list do |summary_list| %>
     <%= summary_list.with_row do |row| %>
-      <%= row.with_key(text: 'Qualification type') %>
+      <%= row.with_key(text: 'Type of qualification') %>
       <%= row.with_value(text: t("application_form.gcse.qualification_types.#{@gcse_form.qualification_type}")) %>
+    <% end %>
+
+    <% if @gcse_form.non_uk_qualification? %>
+      <%= summary_list.with_row do |row| %>
+        <%= row.with_key(text: 'Country or territory') %>
+        <%= row.with_value(text: CountryFinder.find_name_from_iso_code(@gcse_form.institution_country)) %>
+      <% end %>
+      <%= summary_list.with_row do |row| %>
+        <%= row.with_key(text: 'Qualification') %>
+        <%= row.with_value(text: @gcse_form.non_uk_qualification_type) %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

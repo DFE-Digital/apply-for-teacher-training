@@ -69,7 +69,7 @@ module SupportInterface
     validate :validates_currently_completing_qualification, if: :missing_qualification?
 
     def self.build_from_qualification(qualification)
-      new(
+      form = new(
         build_params_from(qualification).merge(
           application_form: qualification.application_form,
           qualification_type: qualification.qualification_type,
@@ -85,6 +85,10 @@ module SupportInterface
           institution_country: qualification.institution_country,
         ),
       )
+      return form unless form.non_uk_qualification?
+
+      form.format_international_grade
+      form
     end
 
     def assign_values(params)
@@ -94,14 +98,14 @@ module SupportInterface
 
       @award_year = params[:award_year]
       @other_uk_qualification_type = params[:other_uk_qualification_type]
-      @non_uk_qualification_type = params[:non_uk_qualification_type]
+      @non_uk_qualification_type = params[:non_uk_qualification_type].presence || qualification.non_uk_qualification_type
       @enic_reference = params[:enic_reference]
       @enic_reason = params[:enic_reason]
       @comparable_uk_qualification = params[:comparable_uk_qualification]
       @currently_completing_qualification = params[:currently_completing_qualification]
       @not_completed_explanation = params[:not_completed_explanation]
       @missing_explanation = params[:missing_explanation]
-      @institution_country = params[:institution_country]
+      @institution_country = params[:institution_country].presence || qualification.institution_country
       @audit_comment = params[:audit_comment]
 
       reset_other_uk_qualification_type
@@ -152,7 +156,7 @@ module SupportInterface
         )
       else
         qualification.update(
-          grade:,
+          grade: resolve_grade,
           award_year:,
           qualification_type:,
           other_uk_qualification_type:,
@@ -194,6 +198,18 @@ module SupportInterface
     end
 
   private
+
+    def resolve_grade
+      return grade unless non_uk_qualification?
+
+      if grade_is_other?
+        other_grade
+      elsif selected_grade_schema_percentage?
+        "#{grade}%"
+      else
+        grade
+      end
+    end
 
     def reset_other_uk_qualification_type
       if !other_uk_qualification?

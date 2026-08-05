@@ -25,8 +25,6 @@ module InternationalGradeBuilder
         end
       elsif grade_schemas&.one?
         grade_schemas.first
-      else
-        nil
       end
   end
 
@@ -42,5 +40,20 @@ module InternationalGradeBuilder
       else
         []
       end
+  end
+
+  def other_international_grade?
+    return false if !non_uk_qualification? || structured_grades.blank?
+
+    !grade.in?(structured_grades)
+  end
+
+  def format_international_grade
+    if other_international_grade?
+      self.other_grade = grade
+      self.grade = 'other'
+    elsif selected_grade_schema_percentage?
+      self.grade = grade&.delete_suffix('%')
+    end
   end
 end
