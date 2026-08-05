@@ -26,11 +26,4 @@ class Offer < ApplicationRecord
   def all_conditions_met?
     conditions.all?(&:met?)
   end
-
-  def all_references_conditions_met?
-    [
-      reference_condition,
-      conditions.filter(&:satisfactory_references?),
-    ].flatten.compact_blank.all?(&:met?)
-  end
 end
