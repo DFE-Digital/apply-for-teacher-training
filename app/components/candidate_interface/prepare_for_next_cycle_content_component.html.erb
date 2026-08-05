@@ -16,14 +16,7 @@
   <p class="govuk-body">
     Before you can apply again, you'll need to:
 
-    <%= govuk_list(
-      [
-        govuk_link_to('confirm your references are up to date', candidate_interface_details_path),
-        govuk_link_to('enter or confirm your equality and diversity information', candidate_interface_details_path),
-        govuk_link_to('confirm whether you have started teacher training in the past', candidate_interface_details_path),
-      ],
-      type: :bullet,
-    ) %>
+    <%= govuk_list(list_of_links, type: :bullet) %>
   </p>
 
   <% if show_button? %>
