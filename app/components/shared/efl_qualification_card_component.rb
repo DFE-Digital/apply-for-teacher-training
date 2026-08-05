@@ -44,6 +44,10 @@ class EflQualificationCardComponent < ApplicationComponent
       content << 'Candidate said that English is their main language.'
     end
 
+    if degree_taught_in_english
+      content << 'Candidate’s degree was taught in English.'
+    end
+
     if has_qualification
       content << 'Candidate has done an English as a foreign language assessment.'
     end
@@ -113,6 +117,8 @@ class EflQualificationCardComponent < ApplicationComponent
   delegate(
     :no_qualification_details,
     :no_assessment_plan_details,
+    :degree_taught_in_english,
+    :no_qualification,
     :has_qualification,
     :qualification_not_needed,
     to: :english_proficiency,
