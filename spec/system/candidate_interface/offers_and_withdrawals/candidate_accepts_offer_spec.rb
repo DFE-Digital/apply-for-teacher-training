@@ -209,6 +209,20 @@ RSpec.describe 'Candidate accepts an offer' do
   end
 
   def then_i_see_my_references
+    expect(page).to have_element(:h1, text: 'Confirm your reference details and accept your offer')
+    expect(page).to have_element(
+      :p,
+      text: 'When you accept your offer, we’ll email the people you’ve given as references.',
+    )
+    expect(page).to have_element(
+      :p,
+      text: 'You can change their details until we’ve emailed them. After that, you will not be able to make changes.',
+    )
+    expect(page).to have_element(
+      :p,
+      text: 'We will not email anyone we’ve already received a reference from.',
+    )
+
     @application_form.reload.application_references.creation_order.each do |reference|
       expect(page).to have_text(reference.name)
       expect(page).to have_text(reference.email_address)
