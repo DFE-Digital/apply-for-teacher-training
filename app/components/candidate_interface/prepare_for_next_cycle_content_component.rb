@@ -47,7 +47,7 @@ module CandidateInterface
           'confirm your references are up to date',
           candidate_interface_references_review_path,
         ),
-      ].compact!
+      ].compact
     end
 
   private
@@ -79,7 +79,7 @@ module CandidateInterface
     end
 
     def previous_itt_link
-      if previous_application_form&.previous_teacher_trainings&.one?
+      if previous_application_form&.published_previous_teacher_trainings&.one?
         govuk_link_to(
           'confirm whether you have started teacher training in the past',
           application_form_presenter.path_to_previous_teacher_training,

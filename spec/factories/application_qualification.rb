@@ -36,6 +36,15 @@ FactoryBot.define do
       institution_country { nil }
       award_year { Faker::Date.between(from: 10.years.ago, to: 8.years.ago).year }
 
+      trait :indian do
+        qualification_type { 'non_uk' }
+        non_uk_qualification_type { 'CBSE Class 10 (AISSE)' }
+        grade { 'A1' }
+        institution_country { 'IN' }
+        enic_reference { '4000123456' }
+        enic_reason { 'obtained' }
+      end
+
       trait :non_uk do
         qualification_type { 'non_uk' }
         non_uk_qualification_type { 'High School Diploma' }
