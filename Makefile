@@ -335,8 +335,8 @@ show-service: get-cluster-credentials
 	$(eval NAMESPACE=$(shell jq -r '.namespace' terraform/aks/workspace_variables/$(CONFIG).tfvars.json))
 	echo "Show service deployments"
 	kubectl -n ${NAMESPACE} get deployment/${SERVICE_NAME}${DSUFFIX}
-	kubectl -n ${NAMESPACE} get deployment/${SERVICE_NAME}${DSUFFIX}-worker
-	kubectl -n ${NAMESPACE} get deployment/${SERVICE_NAME}${DSUFFIX}-secondary-worker
+	kubectl -n ${NAMESPACE} get deployment/${SERVICE_NAME}${DSUFFIX}-solid-queue-worker
+	kubectl -n ${NAMESPACE} get deployment/${SERVICE_NAME}${DSUFFIX}-solid-queue-secondary-worker
 	kubectl -n ${NAMESPACE} get deployment/${SERVICE_NAME}${DSUFFIX}-clock-worker
 
 scale-app: get-cluster-credentials
@@ -351,6 +351,6 @@ scale-workers: get-cluster-credentials
 	$(if $(REPLICAS),,$(error Missing REPLICAS))
 	$(eval NAMESPACE=$(shell jq -r '.namespace' terraform/aks/workspace_variables/$(CONFIG).tfvars.json))
 	echo "Scaling workers to ${REPLICAS}"
-	kubectl -n ${NAMESPACE} scale deployment/${SERVICE_NAME}${DSUFFIX}-worker --replicas ${REPLICAS}
-	kubectl -n ${NAMESPACE} scale deployment/${SERVICE_NAME}${DSUFFIX}-secondary-worker --replicas ${REPLICAS}
+	kubectl -n ${NAMESPACE} scale deployment/${SERVICE_NAME}${DSUFFIX}-solid-queue-worker --replicas ${REPLICAS}
+	kubectl -n ${NAMESPACE} scale deployment/${SERVICE_NAME}${DSUFFIX}-solid-queue-secondary-worker --replicas ${REPLICAS}
 	kubectl -n ${NAMESPACE} scale deployment/${SERVICE_NAME}${DSUFFIX}-clock-worker --replicas ${REPLICAS}
