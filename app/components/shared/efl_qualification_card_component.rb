@@ -29,14 +29,6 @@ class EflQualificationCardComponent < ApplicationComponent
     @efl_qualification ||= english_proficiency.efl_qualification
   end
 
-  def qualification_statuses
-    if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
-      statuses
-    else
-      [qualification_status]
-    end
-  end
-
   def statuses
     content = []
 
@@ -66,7 +58,7 @@ class EflQualificationCardComponent < ApplicationComponent
   def qualification_status
     if english_proficiency.has_qualification?
       'Candidate has done an English as a foreign language assessment.'
-    elsif english_proficiency.no_qualification?
+    elsif english_proficiency.no_qualification_details.present?
       'Candidate has not done an English as a foreign language assessment yet.'
     else
       'Candidate said that English is not a foreign language to them.'
@@ -74,19 +66,7 @@ class EflQualificationCardComponent < ApplicationComponent
   end
 
   def qualification?
-    if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
-      english_proficiency.has_qualification
-    else
-      english_proficiency.has_qualification?
-    end
-  end
-
-  def no_qualification?
-    if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
-      no_qualification_details.present?
-    else
-      english_proficiency.no_qualification?
-    end
+    english_proficiency.has_qualification
   end
 
   def grade_title

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate enters their english proficiency as has TOEFL qualification',
-               feature_flag: '2027_application_form_has_many_english_proficiencies' do
+RSpec.describe 'Candidate enters their english proficiency as has TOEFL qualification' do
   include CandidateHelper
 
   scenario do

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate reviews an application with English as their first language',
-               feature_flag: '2027_application_form_has_many_english_proficiencies' do
+RSpec.describe 'Candidate reviews an application with English as their first language' do
   include CandidateHelper
 
   scenario 'English is my first language' do
