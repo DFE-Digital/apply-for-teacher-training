@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe EflQualificationCardComponent, type: :component do
+  let(:application_form) { create(:application_form, first_nationality: 'French') }
+
   context 'when the application_form has an English speaking nationality' do
     let(:application_form) { build_stubbed(:application_form, first_nationality: 'British') }
     let(:result) { render_inline(described_class.new(application_form)) }
@@ -9,8 +11,6 @@ RSpec.describe EflQualificationCardComponent, type: :component do
       expect(result.text).to be_blank
     end
   end
-
-  let(:application_form) { create(:application_form, first_nationality: 'French') }
 
   context 'English is my first language' do
     let(:english_proficiency) { create(:english_proficiency, :qualification_not_needed) }

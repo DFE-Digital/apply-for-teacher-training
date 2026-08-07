@@ -9,7 +9,6 @@ RSpec.describe 'International candidate submits the application', :with_cache do
     stub_bigquery_non_disclosure_trainee_withdrawals_request
   end
 
-
   it 'International candidate completes and submits an application' do
     given_i_am_signed_in_with_one_login
 
@@ -118,7 +117,6 @@ RSpec.describe 'International candidate submits the application', :with_cache do
     expect(page).to have_text 'You cannot submit this application until you complete your details.'
   end
 
-
   def when_i_click_on_complete_your_details
     click_on 'complete your details'
   end
@@ -152,7 +150,6 @@ RSpec.describe 'International candidate submits the application', :with_cache do
     expect(page).to have_text '6 April 1990'
     expect(page).to have_text 'Indian'
   end
-
 
   def when_i_try_to_add_secondary_course
     candidate_fills_in_secondary_course_choice_with_incomplete_details
