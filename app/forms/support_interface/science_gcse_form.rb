@@ -33,14 +33,9 @@ module SupportInterface
 
     attr_writer :currently_completing_qualification
 
-    validates :audit_comment, presence: true
-    validates_with ZendeskUrlValidator
-    validates_with SafeChoiceUpdateValidator
-
     validates :grade, presence: true, unless: ->(record) { record.missing_qualification? || record.gcse? }
     validates :grade, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_GRADE_LENGTH }
-    validates :award_year, presence: true, year: { past: true }, unless: :missing_qualification?
-    validates :award_year, o_level_award_year: true, unless: ->(c) { c.errors.attribute_names.include?(:award_year) }
+    validate :valid_percentage_grade
 
     validates :other_uk_qualification_type, presence: true, if: :other_uk_qualification?
     validates :non_uk_qualification_type, presence: true, if: :non_uk_qualification?
@@ -56,6 +51,13 @@ module SupportInterface
     validate :grade_length, if: :gcse?
     validate :triple_award_grade_format, if: :gcse?
     validate :grade_format
+
+    validates :award_year, presence: true, year: { past: true }, unless: :missing_qualification?
+    validates :award_year, o_level_award_year: true, unless: ->(c) { c.errors.attribute_names.include?(:award_year) }
+
+    validates :audit_comment, presence: true
+    validates_with ZendeskUrlValidator
+    validates_with SafeChoiceUpdateValidator
 
     def self.build_from_qualification(qualification)
       form = new({
@@ -256,6 +258,18 @@ module SupportInterface
       return true unless qualification.pass_gcse?
 
       qualification.update(missing_explanation: nil, not_completed_explanation: nil)
+    end
+
+    def set_grade
+      return resolve_grade if non_uk_qualification?
+
+      super
+    end
+
+    def valid_percentage_grade
+      return unless non_uk_qualification? && selected_grade_schema_percentage?
+
+      errors.add(:grade, :invalid_percentage) if grade.to_i > 100
     end
 
     def resolve_grade

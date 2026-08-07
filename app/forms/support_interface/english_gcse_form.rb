@@ -44,12 +44,11 @@ module SupportInterface
 
     attr_writer :currently_completing_qualification
 
-    validates :audit_comment, presence: true
-    validates_with ZendeskUrlValidator
     validates_with SafeChoiceUpdateValidator
 
     validates :grade, presence: true, unless: ->(record) { record.multiple_gcse? || record.missing_qualification? }
     validates :grade, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_GRADE_LENGTH }
+    validate :valid_percentage_grade
     validates :other_grade, presence: true, if: :grade_is_other?
     validate :validate_grade_format, unless: :multiple_gcse?
     validate :validate_grades_format, if: :multiple_gcse?
@@ -67,6 +66,10 @@ module SupportInterface
     validates :not_completed_explanation, presence: true, if: ->(record) { record.missing_qualification? && record.currently_completing_qualification? }
     validates :not_completed_explanation, length: { maximum: 256 }
     validate :validates_currently_completing_qualification, if: :missing_qualification?
+
+    validates :audit_comment, presence: true
+    validates_with ZendeskUrlValidator
+    validates_with SafeChoiceUpdateValidator
 
     def self.build_from_qualification(qualification)
       form = new(
@@ -195,6 +198,12 @@ module SupportInterface
 
     def currently_completing_qualification
       ActiveModel::Type::Boolean.new.cast(@currently_completing_qualification)
+    end
+
+    def valid_percentage_grade
+      return unless non_uk_qualification? && selected_grade_schema_percentage?
+
+      errors.add(:grade, :invalid_percentage) if grade.to_i > 100
     end
 
   private

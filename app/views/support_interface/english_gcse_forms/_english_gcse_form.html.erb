@@ -25,7 +25,7 @@
 <% if @gcse_form.non_uk_qualification? %>
   <%= render 'support_interface/application_forms/gcses/international_grade_form', f: f %>
 
-  <%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.label'), size: 's' } do %>
+  <%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('.enic_statement.label'), size: 'm' } do %>
     <% ApplicationQualification.enic_reasons.keys.each_with_index do |enic_reason, index| %>
       <%= f.govuk_radio_button(
             :enic_reason,
@@ -35,8 +35,8 @@
             ) %>
     <% end %>
   <% end %>
-  <%= f.govuk_text_field :enic_reference, label: { text: "#{t('service_name.enic.short_name')} reference number", size: 's' }, hint: { text: 'For example ‘4000228363’' }, width: 20, spellcheck: false %>
-  <%= f.govuk_radio_buttons_fieldset :comparable_uk_qualification, legend: { text: t('application_form.gcse.comparable_uk_qualification.label'), size: 's' }, hint: { text: t('application_form.gcse.comparable_uk_qualification.hint_text') } do %>
+  <%= f.govuk_text_field :enic_reference, label: { text: "#{t('service_name.enic.short_name')} reference number", size: 'm' }, hint: { text: 'For example ‘4000228363’' }, width: 20, spellcheck: false %>
+  <%= f.govuk_radio_buttons_fieldset :comparable_uk_qualification, legend: { text: t('application_form.gcse.comparable_uk_qualification.label'), size: 'm' }, hint: { text: t('application_form.gcse.comparable_uk_qualification.hint_text') } do %>
     <%= f.govuk_radio_button :comparable_uk_qualification, t('application_form.gcse.comparable_uk_qualification.values.gcse'), label: { text: t('application_form.gcse.comparable_uk_qualification.values.gcse') }, link_errors: true %>
     <%= f.govuk_radio_button :comparable_uk_qualification, t('application_form.gcse.comparable_uk_qualification.values.gcse_aslevel'), label: { text: t('application_form.gcse.comparable_uk_qualification.values.gcse_aslevel') } %>
     <%= f.govuk_radio_button :comparable_uk_qualification, t('application_form.gcse.comparable_uk_qualification.values.aslevel_alevel'), label: { text: t('application_form.gcse.comparable_uk_qualification.values.aslevel_alevel') } %>

@@ -1,4 +1,4 @@
-<%= f.govuk_check_boxes_fieldset :english_gcses, legend: { text: t('multiple_gcse_edit_grade.question'), size: 'm' } do %>
+<%= f.govuk_check_boxes_fieldset :english_gcses, legend: { text: t('.multiple_gcse_edit_grade.question'), size: 'm' } do %>
   <%= f.govuk_check_box :english_gcses, 'english_single_award', label: { text: t('multiple_gcse_edit_grade.answers.english_single_award') }, link_errors: true do %>
     <%= f.govuk_text_field :grade_english_single, label: { text: 'Grade' }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
   <% end %>

@@ -1,4 +1,4 @@
-<%= f.govuk_radio_buttons_fieldset :gcse_science, legend: { text: t('multiple_gcse_edit_grade.question') } do %>
+<%= f.govuk_radio_buttons_fieldset :gcse_science, legend: { text: t('.multiple_gcse_edit_grade.question') } do %>
   <%= f.govuk_radio_button(:gcse_science, ApplicationQualification::SCIENCE_SINGLE_AWARD, label: { text: 'Single award' }, hint: { text: t('gcse_edit_grade.hint.science.one_grade') }, link_errors: true) do %>
     <%= f.govuk_text_field :single_award_grade, label: { text: 'Grade' }, hint: { text: t('gcse_edit_grade.hint.other.gcse') }, width: 2 %>
   <% end %>
