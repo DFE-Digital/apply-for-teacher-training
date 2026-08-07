@@ -19,11 +19,11 @@
     <%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.label'), size: 's' } do %>
       <% ApplicationQualification.enic_reasons.keys.each_with_index do |enic_reason, index| %>
         <%= f.govuk_radio_button(
-              :enic_reason,
-              enic_reason,
-              label: { text: t("application_form.degree.enic_statement.#{enic_reason}") },
-              link_errors: index.zero?,
-              ) %>
+          :enic_reason,
+          enic_reason,
+          label: { text: t("application_form.degree.enic_statement.#{enic_reason}") },
+          link_errors: index.zero?,
+        ) %>
       <% end %>
     <% end %>
     <%= f.govuk_text_field :enic_reference, label: { text: "#{t('service_name.enic.short_name')} reference number", size: 's' }, hint: { text: 'For example ‘4000228363’' }, width: 20, spellcheck: false %>
