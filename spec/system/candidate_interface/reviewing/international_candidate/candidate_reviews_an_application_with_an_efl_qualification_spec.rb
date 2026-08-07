@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate reviews an application with an IELTS qualification',
-               feature_flag: '2027_application_form_has_many_english_proficiencies' do
+RSpec.describe 'Candidate reviews an application with an IELTS qualification' do
   include CandidateHelper
 
   scenario 'IELTS qualification' do

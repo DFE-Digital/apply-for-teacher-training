@@ -4,14 +4,10 @@ module CandidateInterface
       extend ActiveSupport::Concern
 
       included do
-        before_action :redirect_to_english_proficiencies, if: :application_form_has_many_english_proficiencies
+        before_action :redirect_to_english_proficiencies
       end
 
     private
-
-      def application_form_has_many_english_proficiencies
-        FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
-      end
 
       def redirect_to_english_proficiencies
         case controller_name

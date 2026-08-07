@@ -1,8 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::EnglishProficiencies::OtherEflQualificationForm,
-               feature_flag: '2027_application_form_has_many_english_proficiencies',
-               type: :model do
+RSpec.describe CandidateInterface::EnglishProficiencies::OtherEflQualificationForm, type: :model do
   let(:valid_form) do
     described_class.new(
       name: 'Some Rando English Test',

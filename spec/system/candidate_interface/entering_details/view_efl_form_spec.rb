@@ -28,10 +28,6 @@ RSpec.describe 'View EFL form' do
   end
 
   def then_i_see_the_efl_form
-    if FeatureFlag.active? '2027_application_form_has_many_english_proficiencies'
-      'Proving your level of English'
-    else
-      expect(page).to have_text 'Have you done an English as a foreign language assessment?'
-    end
+    expect(page).to have_text 'Proving your English language skills'
   end
 end
