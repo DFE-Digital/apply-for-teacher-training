@@ -35,7 +35,7 @@ spec:
 
           containers:
             - name: test-backup
-              image: ghcr.io/dfe-digital/apply-teacher-training-test-db-backup:3f48c9d07b761055b5a2207b2c16b2e1169a0b94
+              image: ghcr.io/dfe-digital/teacher-services-cloud-db-backup:2911-postgres-backup-via-aks
 
               envFrom:
                 - configMapRef:
@@ -43,6 +43,7 @@ spec:
 
                 - secretRef:
                     name: att-review-rdg-300a86bd2bb6d0c7a874679f84b290f57721f469
+                    name: test-secret
 
               command:
                 - /bin/bash
@@ -53,9 +54,18 @@ spec:
                   set -euo pipefail
 
                   export BACKUP_NAME="postgres-$(date +%F-%H%M%S).dump"
+                  echo $BACKUP_NAME
 
-                  pg_dump -Fc "$DATABASE_URL" \
-                      | azcopy cp --from-to PipeBlob "https://${AZURE_STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${AZURE_STORAGE_CONTAINER}/${BACKUP_NAME}?${SAS_TOKEN}"
+                  echo "running pg_dump"
+                  pg_dump -d $DATABASE_URL -E utf8 --clean --compress=1 --if-exists --no-owner --verbose --no-password -f testdump.gz
+
+                  echo "running azcopy"
+                  azcopy cp ./testdump.gz "${AZURE_STORAGE_SAS_URL}"
+
+                  #azcopy cp ./testdump.gz "${AZURE_STORAGE_SAS_URL}/${BACKUP_NAME}"
+                  #azcopy cp ./testdump.gz "https://${AZURE_STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${AZURE_STORAGE_CONTAINER}/${BACKUP_NAME}?${AZURE_STORAGE_ACCESS_KEY}"
+                  #azcopy cp --from-to PipeBlob "https://${AZURE_STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${AZURE_STORAGE_CONTAINER}/${BACKUP_NAME}?${AZURE_STORAGE_ACCESS_KEY}"
+
 
               resources:
                 requests:

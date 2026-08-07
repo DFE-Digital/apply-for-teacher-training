@@ -157,3 +157,32 @@ module "clock_worker" {
   enable_logit               = var.enable_logit
   run_as_non_root            = true
 }
+
+module "backup_worker" {
+  source     = "./vendor/modules/aks//aks/application"
+
+  namespace                    = var.namespace
+  environment                  = local.app_name_suffix
+  service_name                 = var.service_name
+  name                         = "db-backup"
+  is_web                       = false
+  docker_image                 = "ghcr.io/dfe-digital/teacher-services-cloud-db-backup:2911-postgres-backup-via-aks"
+  replicas                     = 0
+  max_memory                   = var.worker_memory_max
+  cluster_configuration_map    = module.cluster_data.configuration_map
+  kubernetes_config_map_name   = module.application_configuration.kubernetes_config_map_name
+  kubernetes_secret_name       = module.application_configuration.kubernetes_secret_name
+  command = [
+    "/bin/bash",
+    "-c",
+    <<-EOT
+      echo "Debug pod started"
+      echo "SAS URL loaded: $${AZURE_STORAGE_SAS_URL:+yes}"
+      trap : TERM INT
+      sleep infinity & wait
+    EOT
+  ]
+  enable_prometheus_monitoring = var.enable_prometheus_monitoring
+  enable_logit                 = var.enable_logit
+  run_as_non_root              = true
+}

@@ -2,7 +2,7 @@
 
 Deploy the template
 ```
-kubectl apply -f backup-db-template.yaml
+kubectl apply -f postgres-backup-template.yaml
 ```
 
 Trigger a manual Backup
@@ -27,6 +27,24 @@ kubectl get jobs -n development
 kubectl logs -f job/postgres-backup-1785485746 -n development
 ```
 
+Pass a temporary secret
+```
+kubectl create secret generic test-secret \
+  --from-literal=DATABASE_URL='postgres://user:pass@host/db' \
+  -n development
+```
+
+
+kubectl run postgres-backup-debug \
+  -n development \
+  --image=ghcr.io/dfe-digital/teacher-services-cloud-db-backup:2911-postgres-backup-via-aks \
+  --restart=Never \
+  --command -- sleep infinity
+
+
+kubectl delete pod postgres-backup-debug -n development
+kubectl apply -f debug-pod.yaml
+kubectl exec -it -n development postgres-backup-debug -- /bin/bash
 
 ## Testing
 

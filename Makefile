@@ -357,16 +357,54 @@ apply-db-backup-job:
 	$(eval NAMESPACE=$(shell jq -r '.namespace' terraform/aks/workspace_variables/$(CONFIG).tfvars.json))
 	kubectl apply -f cronjob/postgres-backup-template.yaml
 
-backup-image-push: ## Build and push maintenance page image: make production maintenance-image-push GITHUB_TOKEN=x [MAINTENANCE_IMAGE_TAG=y]
-	$(if ${GITHUB_TOKEN},, $(error Provide a valid Github token with write:packages permissions as GITHUB_TOKEN variable))
-	$(if ${DB_BACKUP_IMAGE_TAG},, $(eval export DB_BACKUP_IMAGE_TAG=$(shell date +%s)))
-
-	docker build -t ghcr.io/dfe-digital/apply-teacher-training-test-db-backup:${DB_BACKUP_IMAGE_TAG} test-db-backup
-	docker build -f Dockerfile.db-backup -t ghcr.io/dfe-digital/apply-teacher-training-test-db-backup:${DB_BACKUP_IMAGE_TAG} test-db-backup
-
-	echo ${GITHUB_TOKEN} | docker login ghcr.io -u USERNAME --password-stdin
-	docker push ghcr.io/dfe-digital/apply-teacher-training-test-db-backup:${DB_BACKUP_IMAGE_TAG}
-
 dv_review-cluster:
 	$(eval CLUSTER_RESOURCE_GROUP_NAME=s189t01-tsc-ts-rg)
 	$(eval CLUSTER_NAME=s189t01-tsc-test-aks)
+
+aks_db_backup_set_vars: set-azure-account
+	$(eval TODAY=$(shell date +"%F_%H%M%S"))
+	$(eval STORAGE_ACCOUNT_NAME=${RESOURCE_NAME_PREFIX}${SERVICE_SHORT}dbbkp${CONFIG_SHORT}sa)
+	$(eval STORAGE_ACCOUNT_NAME=s189d01attrvrdgexp)
+	$(eval CONTAINER_NAME=database-backup)
+	$(eval SAS_VALID_HOURS="2")
+	$(eval JOB_NAME=postgres-backup-${TODAY})
+	$(eval export DB_BACKUP_IMAGE_TAG=$(shell date +%s))
+	$(eval EXPIRY=$(shell date -u -d "+${SAS_VALID_HOURS} hours" +%Y-%m-%dT%H:%MZ))
+	$(eval STORAGE_ACCOUNT_KEY=$(shell az storage account keys list --account-name "${STORAGE_ACCOUNT_NAME}" --query "[0].value" -o tsv))
+	$(eval SAS_TOKEN=$(shell az storage container generate-sas --account-name "${STORAGE_ACCOUNT_NAME}" --account-key "${STORAGE_ACCOUNT_KEY}" --name "${CONTAINER_NAME}" --permissions acdlrw --expiry "${EXPIRY}" --https-only --output tsv))
+	$(eval SAS_URL=https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}/${JOB_NAME}.sql?${SAS_TOKEN})
+	printf '%s' '$(SAS_URL)' > sas.txt
+	$(eval NAMESPACE=$(shell jq -r '.namespace' terraform/aks/workspace_variables/$(CONFIG).tfvars.json))
+
+
+aks_db_backup: aks_db_backup_set_vars
+	echo ${NAMESPACE}
+	@if kubectl get pod postgres-backup-debug -n $(NAMESPACE) >/dev/null 2>&1; then \
+		kubectl delete pod postgres-backup-debug -n $(NAMESPACE); \
+	fi
+	@if kubectl get secret backup-sas -n $(NAMESPACE) >/dev/null 2>&1; then \
+		kubectl delete secret backup-sas -n $(NAMESPACE); \
+	fi
+	echo "create secret"
+	kubectl create secret -n $(NAMESPACE) generic backup-sas --from-file=AZURE_STORAGE_SAS_URL=sas.txt;
+	echo "create pod"
+	kubectl apply -f cronjob/debug-pod.yaml -n ${NAMESPACE};
+	echo "test URL"
+	kubectl exec -it -n ${NAMESPACE} postgres-backup-debug -- /bin/bash -c 'echo DATABASE_URL="$$DATABASE_URL"';
+	echo "pgdump"
+	kubectl exec -it -n ${NAMESPACE} postgres-backup-debug -- \
+	/bin/bash -c '\
+	cd /tmp && \
+	echo "running pg_dump" && \
+	pg_dump -d "$$DATABASE_URL" \
+	  -E utf8 \
+	  --clean \
+	  --compress=1 \
+	  --if-exists \
+	  --no-owner \
+	  --verbose \
+	  --no-password \
+	  -f pg_backup.gz && \
+	echo "running azcopy" && \
+	azcopy cp ./pg_backup.gz "$$AZURE_STORAGE_SAS_URL" \
+	';
