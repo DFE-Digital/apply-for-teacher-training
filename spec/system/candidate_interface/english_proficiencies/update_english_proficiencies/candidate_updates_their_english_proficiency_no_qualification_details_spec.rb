@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate updates their english proficiency no qualification details',
-               feature_flag: '2027_application_form_has_many_english_proficiencies' do
+RSpec.describe 'Candidate updates their english proficiency no qualification details' do
   include CandidateHelper
 
   scenario do

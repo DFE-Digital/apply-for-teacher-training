@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate updates their efl assessment type',
-               feature_flag: '2027_application_form_has_many_english_proficiencies' do
+RSpec.describe 'Candidate updates their efl assessment type' do
   include CandidateHelper
 
   scenario do

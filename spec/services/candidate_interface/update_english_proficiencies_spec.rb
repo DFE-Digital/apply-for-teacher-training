@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::UpdateEnglishProficiencies,
-               feature_flag: '2027_application_form_has_many_english_proficiencies' do
+RSpec.describe CandidateInterface::UpdateEnglishProficiencies do
   describe '#call' do
     subject(:call) do
       described_class.new(

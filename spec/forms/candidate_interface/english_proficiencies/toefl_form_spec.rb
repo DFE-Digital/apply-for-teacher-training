@@ -1,8 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::EnglishProficiencies::ToeflForm,
-               feature_flag: '2027_application_form_has_many_english_proficiencies',
-               type: :model do
+RSpec.describe CandidateInterface::EnglishProficiencies::ToeflForm, type: :model do
   let(:valid_form) do
     described_class.new(
       registration_number: '12345',

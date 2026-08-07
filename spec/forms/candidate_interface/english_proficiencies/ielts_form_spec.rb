@@ -1,8 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::EnglishProficiencies::IeltsForm,
-               feature_flag: '2027_application_form_has_many_english_proficiencies',
-               type: :model do
+RSpec.describe CandidateInterface::EnglishProficiencies::IeltsForm, type: :model do
   let(:valid_form) do
     described_class.new(
       trf_number: '12345',
