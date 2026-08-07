@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: postgres-backup-debug
+  namespace: development
+
+spec:
+  restartPolicy: Never
+
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+
+  containers:
+    - name: debug
+      image: ghcr.io/dfe-digital/teacher-services-cloud-db-backup:2911-postgres-backup-via-aks
+
+      envFrom:
+        - configMapRef:
+            name: att-review-rdg-cbd61f8e6e40579925e74317515e8b73c4a55430
+
+        - secretRef:
+            name: att-review-rdg-300a86bd2bb6d0c7a874679f84b290f57721f469
+
+      env:
+        - name: AZURE_STORAGE_SAS_URL
+          valueFrom:
+            secretKeyRef:
+              name: backup-sas
+              key: AZURE_STORAGE_SAS_URL
+
+      command:
+        - /bin/bash
+        - -c
+        - |
+          echo "Debug pod started"
+          echo "SAS URL loaded: ${AZURE_STORAGE_SAS_URL:+yes}"
+          trap : TERM INT
+          sleep infinity & wait
+
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "1Gi"
+
+        limits:
+          cpu: "1"
+          memory: "2Gi"
+
+      securityContext:
+        allowPrivilegeEscalation: false
+
+        capabilities:
+          drop:
+            - ALL
+          add:
+            - NET_BIND_SERVICE

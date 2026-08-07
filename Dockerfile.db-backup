@@ -1,0 +1,29 @@
+# ------------------------------
+# Stage 1: Download AzCopy
+# ------------------------------
+FROM alpine:3.24.1  AS azcopy-builder
+
+RUN apk add --no-cache curl tar
+
+RUN curl -sSL https://aka.ms/downloadazcopy-v10-linux | tar -xz && \
+    cp ./azcopy_linux_amd64_*/azcopy /azcopy
+
+# ------------------------------
+# Stage 2: Runtime
+# ------------------------------
+FROM alpine:3.24.1
+
+RUN apk add --no-cache \
+    postgresql17-client \
+    bash \
+    ca-certificates \
+    gcompat
+
+COPY --from=azcopy-builder /azcopy /usr/local/bin/azcopy
+
+RUN chmod +x /usr/local/bin/azcopy && \
+    adduser -D -u 10001 pgbackup
+
+USER pgbackup
+
+ENTRYPOINT ["/bin/bash"]
