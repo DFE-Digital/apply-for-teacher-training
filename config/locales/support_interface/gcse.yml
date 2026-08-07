@@ -13,35 +13,32 @@ en:
         support_interface/science_gcse_form:
           attributes:
             single_award_grade:
-              blank: Enter your single award grade
+              blank: Enter the candidate’s single award grade
               invalid: Enter a real single award grade
+              invalid_percentage: Enter a whole number less than or equal to 100
             double_award_grade:
-              blank: Enter your double award grade
+              blank: Enter the candidate’s double award grade
               invalid: Enter a real double award grade
             grade:
-              blank: Enter your science grade
-              invalid: Enter a real science grade
+              blank: Enter the candidate’s grade
+              invalid: Enter a real grade
               too_long: Grade must be %{count} characters or fewer
+              invalid_percentage: Enter a whole number less than or equal to 100
             biology_grade:
-              blank: Enter your biology grade
+              blank: Enter the candidate’s biology grade
               invalid: Enter a real biology grade
             chemistry_grade:
-              blank: Enter your chemistry grade
+              blank: Enter the candidate’s chemistry grade
               invalid: Enter a real chemistry grade
             physics_grade:
-              blank: Enter your physics grade
+              blank: Enter the candidate’s physics grade
               invalid: Enter a real physics grade
             award_year:
-              blank: Enter the year you gained your qualification
+              blank: Enter the year the candidate gained their qualification
               in_future: Enter a year before %{date}
-            other_grade:
-              blank: Enter your grade
-            grade:
-              blank: Enter your grade
-              invalid: Enter a real grade
-            award_year:
-              blank: Enter the year you gained your qualification
               gce_o_level_in_future: Enter a year before %{date} - GCSEs replaced O levels in 1988
+            other_grade:
+              blank: Enter the candidate’s grade
             qualification_type:
               blank: Select the type of qualification
               too_long: Type of qualification must be %{count} characters or less
@@ -52,80 +49,79 @@ en:
               blank: Enter qualification name
             missing_explanation:
               blank: Give us some details
-              too_many_words: Details must be %{count} words or fewer
+              too_many_words: Evidence must be %{maximum} words or less
             institution_country:
-              blank: Enter the country or territory you studied in
+              blank: Enter the country or territory the candidate studied in
               inclusion: Select the country or territory you studied in from the list
             have_enic_reference:
-              blank: Select if you have a UK ENIC statement of comparability
+              blank: Select if the candidate have a UK ENIC statement of comparability
             enic_reference:
-              blank: Enter your UK ENIC reference number
+              blank: Enter the candidate’s UK ENIC reference number
             comparable_uk_qualification:
               blank: Choose a comparable UK qualification
             currently_completing_qualification:
-              inclusion: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
+              blank: Select yes if the candidate is currently studying for a GCSE in %{subject}, or equivalent
+              inclusion: Select yes if the candidate is currently studying for a GCSE in %{subject}, or equivalent
             not_completed_explanation:
-              blank: Enter details of the qualification you are studying for
+              blank: Enter details of the qualification the candidate is studying for
               too_long: Qualification details must be %{count} characters or fewer
-            currently_completing_qualification:
-              blank: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
-            missing_explanation:
-              too_many_words: Evidence must be %{maximum} words or less
             audit_comment:
               blank: You must provide an audit comment
         support_interface/math_gcse_form:
           attributes:
             grade:
-              blank: Enter your grade
+              blank: Enter the candidate’s grade
               invalid: Enter a real grade
+              invalid_percentage: Enter a whole number less than or equal to 100
             award_year:
-              blank: Enter the year you gained your qualification
+              blank: Enter the year the candidate gained their qualification
               gce_o_level_in_future: Enter a year before %{date} - GCSEs replaced O levels in 1988
             other_uk_qualification_type:
               blank: Enter qualification name
               too_long: Type of degree must be %{count} characters or fewer
             not_completed_explanation:
-              blank: Enter details of the qualification you are studying for
+              blank: Enter details of the qualification the candidate is studying for
               too_long: Qualification details must be %{count} characters or fewer
             audit_comment:
               blank: You must provide an audit comment
             non_uk_qualification_type:
               blank: Enter qualification name
             institution_country:
-              blank: Enter the country or territory you studied in
-              inclusion: Select the country or territory you studied in from the list
+              blank: Enter the country or territory the candidate studied in
+              inclusion: Select the country or territory the candidate studied in from the list
         support_interface/english_gcse_form:
           attributes:
             grade:
-              blank: Enter your grade
+              blank: Enter the candidate’s grade
               invalid: Enter a real grade
+              invalid_percentage: Enter a whole number less than or equal to 100
             english_gcses:
               blank: Select at least one GCSE
             grade_english_single:
-              blank: Enter your English (Single award) grade
+              blank: Enter the candidate’s English (Single award) grade
               invalid: Enter a real English (Single award) grade
             grade_english_double:
-              blank: Enter your English (Double award) grade
+              blank: Enter the candidate’s English (Double award) grade
               invalid: Enter a real English (Double award) grade
             grade_english_language:
-              blank: Enter your English Language grade
+              blank: Enter the candidate’s English Language grade
               invalid: Enter a real English Language grade
             grade_english_literature:
-              blank: Enter your English Literature grade
+              blank: Enter the candidate’s English Literature grade
               invalid: Enter a real English Literature grade
             grade_english_studies_single:
-              blank: Enter your English Studies (Single award) grade
+              blank: Enter the candidate’s English Studies (Single award) grade
               invalid: Enter a real English Studies (Single award) grade
             grade_english_studies_double:
-              blank: Enter your English Studies (Double award) grade
+              blank: Enter the candidate’s English Studies (Double award) grade
               invalid: Enter a real English Studies (Double award) grade
             grade_other_english_gcse:
-              blank: Enter your other English subject grade
+              blank: Enter the candidate’s other English subject grade
               invalid: Enter a real other English subject grade
             other_english_gcse_name:
               blank: Enter an English GCSE
             award_year:
-              blank: Enter the year you gained your qualification
+              blank: Enter the year the candidate gained their qualification
               gce_o_level_in_future: Enter a year before %{date} - GCSEs replaced O levels in 1988
             qualification_type:
               blank: Select the type of qualification
@@ -137,7 +133,7 @@ en:
               blank: Enter qualification name
             missing_explanation:
               blank: Give us some details
-              too_many_words: Details must be %{count} words or fewer
+              too_many_words: Evidence must be %{maximum} words or less
             institution_country:
               blank: Enter the country or territory you studied in
               inclusion: Select the country or territory you studied in from the list
@@ -148,13 +144,34 @@ en:
             comparable_uk_qualification:
               blank: Choose a comparable UK qualification
             currently_completing_qualification:
+              blank: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
               inclusion: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
             not_completed_explanation:
-              blank: Enter details of the qualification you are studying for
+              blank: Enter details of the qualification the candidate is studying for
               too_long: Qualification details must be %{count} characters or fewer
-            currently_completing_qualification:
-              blank: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
-            missing_explanation:
-              too_many_words: Evidence must be %{maximum} words or less
             audit_comment:
               blank: You must provide an audit comment
+  support_interface:
+    application_forms:
+      gcses:
+        international_grade_form:
+          select_grade: Select the candidate’s grade
+          enter_grade: Enter the candidate’s grade
+    english_gcse_forms:
+      english_gcse_form:
+        enic_statement:
+          label: Does the candidate have a statement of comparability from UK ENIC
+      gcse_grades_form:
+        multiple_gcse_edit_grade:
+          question: Select the candidate’s GCSEs and grades
+    math_gcse_forms:
+      math_gcse_form:
+        enic_statement:
+          label: Does the candidate have a statement of comparability from UK ENIC
+    science_gcse_forms:
+      science_gcse_form:
+        enic_statement:
+          label: Does the candidate have a statement of comparability from UK ENIC
+      gcse_grades_form:
+        multiple_gcse_edit_grade:
+          question: Select the candidate’s GCSEs and grades

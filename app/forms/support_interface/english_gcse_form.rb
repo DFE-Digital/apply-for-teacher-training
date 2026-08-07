@@ -5,6 +5,7 @@ module SupportInterface
     MISSING_QUALIFICATION_TYPE = 'missing'.freeze
     include ActiveModel::Model
     include EnglishGcseGradeAttributeBuilder
+    include InternationalGradeBuilder
 
     attr_accessor :gcse,
                   :application_form,
@@ -43,12 +44,11 @@ module SupportInterface
 
     attr_writer :currently_completing_qualification
 
-    validates :audit_comment, presence: true
-    validates_with ZendeskUrlValidator
     validates_with SafeChoiceUpdateValidator
 
     validates :grade, presence: true, unless: ->(record) { record.multiple_gcse? || record.missing_qualification? }
     validates :grade, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_GRADE_LENGTH }
+    validate :valid_percentage_grade
     validates :other_grade, presence: true, if: :grade_is_other?
     validate :validate_grade_format, unless: :multiple_gcse?
     validate :validate_grades_format, if: :multiple_gcse?
@@ -67,8 +67,12 @@ module SupportInterface
     validates :not_completed_explanation, length: { maximum: 256 }
     validate :validates_currently_completing_qualification, if: :missing_qualification?
 
+    validates :audit_comment, presence: true
+    validates_with ZendeskUrlValidator
+    validates_with SafeChoiceUpdateValidator
+
     def self.build_from_qualification(qualification)
-      new(
+      form = new(
         build_params_from(qualification).merge(
           application_form: qualification.application_form,
           qualification_type: qualification.qualification_type,
@@ -84,23 +88,27 @@ module SupportInterface
           institution_country: qualification.institution_country,
         ),
       )
+      return form unless form.non_uk_qualification?
+
+      form.format_international_grade
+      form
     end
 
     def assign_values(params)
-      @qualification_type = qualification.qualification_type = params[:qualification_type]
+      @qualification_type = qualification.qualification_type = params[:qualification_type].presence || qualification.qualification_type
 
       super
 
       @award_year = params[:award_year]
       @other_uk_qualification_type = params[:other_uk_qualification_type]
-      @non_uk_qualification_type = params[:non_uk_qualification_type]
+      @non_uk_qualification_type = params[:non_uk_qualification_type].presence || qualification.non_uk_qualification_type
       @enic_reference = params[:enic_reference]
       @enic_reason = params[:enic_reason]
       @comparable_uk_qualification = params[:comparable_uk_qualification]
       @currently_completing_qualification = params[:currently_completing_qualification]
       @not_completed_explanation = params[:not_completed_explanation]
       @missing_explanation = params[:missing_explanation]
-      @institution_country = params[:institution_country]
+      @institution_country = params[:institution_country].presence || qualification.institution_country
       @audit_comment = params[:audit_comment]
 
       reset_other_uk_qualification_type
@@ -151,7 +159,7 @@ module SupportInterface
         )
       else
         qualification.update(
-          grade:,
+          grade: resolve_grade,
           award_year:,
           qualification_type:,
           other_uk_qualification_type:,
@@ -172,6 +180,18 @@ module SupportInterface
       qualification_type == MISSING_QUALIFICATION_TYPE
     end
 
+    def non_uk_qualification?
+      qualification_type == NON_UK_QUALIFICATION_TYPE
+    end
+
+    def other_uk_qualification?
+      qualification_type == OTHER_UK_QUALIFICATION_TYPE
+    end
+
+    def gcse_qualification?
+      qualification_type == GCSE
+    end
+
     def currently_completing_qualification?
       currently_completing_qualification.present?
     end
@@ -180,14 +200,24 @@ module SupportInterface
       ActiveModel::Type::Boolean.new.cast(@currently_completing_qualification)
     end
 
-  private
+    def valid_percentage_grade
+      return unless non_uk_qualification? && selected_grade_schema_percentage?
 
-    def non_uk_qualification?
-      qualification_type == NON_UK_QUALIFICATION_TYPE
+      errors.add(:grade, :invalid_percentage) if grade.to_i > 100
     end
 
-    def other_uk_qualification?
-      qualification_type == OTHER_UK_QUALIFICATION_TYPE
+  private
+
+    def resolve_grade
+      return grade unless non_uk_qualification?
+
+      if grade_is_other?
+        other_grade
+      elsif selected_grade_schema_percentage?
+        "#{grade}%"
+      else
+        grade
+      end
     end
 
     def reset_other_uk_qualification_type

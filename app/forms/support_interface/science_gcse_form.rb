@@ -6,6 +6,7 @@ module SupportInterface
     MISSING_QUALIFICATION_TYPE = 'missing'.freeze
     include ActiveModel::Model
     include ScienceGcseHelper
+    include InternationalGradeBuilder
 
     attr_accessor :qualification,
                   :gcse_science,
@@ -26,19 +27,15 @@ module SupportInterface
                   :missing_explanation,
                   :institution_country,
                   :grade,
+                  :other_grade,
                   :award_year,
                   :audit_comment
 
     attr_writer :currently_completing_qualification
 
-    validates :audit_comment, presence: true
-    validates_with ZendeskUrlValidator
-    validates_with SafeChoiceUpdateValidator
-
     validates :grade, presence: true, unless: ->(record) { record.missing_qualification? || record.gcse? }
     validates :grade, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_GRADE_LENGTH }
-    validates :award_year, presence: true, year: { past: true }, unless: :missing_qualification?
-    validates :award_year, o_level_award_year: true, unless: ->(c) { c.errors.attribute_names.include?(:award_year) }
+    validate :valid_percentage_grade
 
     validates :other_uk_qualification_type, presence: true, if: :other_uk_qualification?
     validates :non_uk_qualification_type, presence: true, if: :non_uk_qualification?
@@ -55,8 +52,15 @@ module SupportInterface
     validate :triple_award_grade_format, if: :gcse?
     validate :grade_format
 
+    validates :award_year, presence: true, year: { past: true }, unless: :missing_qualification?
+    validates :award_year, o_level_award_year: true, unless: ->(c) { c.errors.attribute_names.include?(:award_year) }
+
+    validates :audit_comment, presence: true
+    validates_with ZendeskUrlValidator
+    validates_with SafeChoiceUpdateValidator
+
     def self.build_from_qualification(qualification)
-      new({
+      form = new({
         qualification:,
         application_form: qualification.application_form,
         qualification_type: qualification.qualification_type,
@@ -73,6 +77,11 @@ module SupportInterface
         missing_explanation: qualification.missing_explanation,
         institution_country: qualification.institution_country,
       }.merge(grade_params(qualification)))
+
+      return form unless form.non_uk_qualification?
+
+      form.format_international_grade
+      form
     end
 
     def self.grade_params(qualification)
@@ -100,17 +109,17 @@ module SupportInterface
     end
 
     def assign_values(params)
-      @qualification_type = qualification.qualification_type = params[:qualification_type]
+      @qualification_type = qualification.qualification_type = params[:qualification_type].presence || qualification.qualification_type
       @award_year = params[:award_year]
       @other_uk_qualification_type = params[:other_uk_qualification_type]
-      @non_uk_qualification_type = params[:non_uk_qualification_type]
+      @non_uk_qualification_type = params[:non_uk_qualification_type].presence || qualification.non_uk_qualification_type
       @enic_reference = params[:enic_reference]
       @enic_reason = params[:enic_reason]
       @comparable_uk_qualification = params[:comparable_uk_qualification]
       @currently_completing_qualification = params[:currently_completing_qualification]
       @not_completed_explanation = params[:not_completed_explanation]
       @missing_explanation = params[:missing_explanation]
-      @institution_country = params[:institution_country]
+      @institution_country = params[:institution_country].presence || qualification.institution_country
       @audit_comment = params[:audit_comment]
       @biology_grade = params[:biology_grade]
       @chemistry_grade = params[:chemistry_grade]
@@ -121,6 +130,7 @@ module SupportInterface
       @single_award_grade = params[:single_award_grade]
       @double_award_grade = params[:double_award_grade]
       @triple_award_grade = params[:triple_award_grade]
+      @other_grade = params[:other_grade]
 
       reset_other_uk_qualification_type
       reset_non_uk_qualification_type
@@ -248,6 +258,30 @@ module SupportInterface
       return true unless qualification.pass_gcse?
 
       qualification.update(missing_explanation: nil, not_completed_explanation: nil)
+    end
+
+    def set_grade
+      return resolve_grade if non_uk_qualification?
+
+      super
+    end
+
+    def valid_percentage_grade
+      return unless non_uk_qualification? && selected_grade_schema_percentage?
+
+      errors.add(:grade, :invalid_percentage) if grade.to_i > 100
+    end
+
+    def resolve_grade
+      return grade unless non_uk_qualification?
+
+      if grade_is_other?
+        other_grade
+      elsif selected_grade_schema_percentage?
+        "#{grade}%"
+      else
+        grade
+      end
     end
   end
 end
