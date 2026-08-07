@@ -93,6 +93,16 @@ module CandidateInterface
       end
     end
 
+    def qualication_sections
+      %i[degrees maths_gcse english_gcse science_gcse other_qualifications]
+    end
+
+    def incomplete_qualifications
+      @incomplete_qualifications ||= incomplete_sections.filter do |section|
+        qualication_sections.include?(section.name)
+      end
+    end
+
     ApplicationChoiceError = Struct.new(:message, :course_choice_id) do
       def anchor
         "#course-choice-#{course_choice_id}"
@@ -201,6 +211,30 @@ module CandidateInterface
         Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_review_path(params)
       else
         Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_path(params)
+      end
+    end
+
+    def path_to_english_gcse
+      if application_form.english_gcse.present?
+        candidate_interface_gcse_review_path(subject: :english)
+      else
+        candidate_interface_gcse_details_new_type_path(subject: :english)
+      end
+    end
+
+    def path_to_math_gcse
+      if application_form.maths_gcse.present?
+        candidate_interface_gcse_review_path(subject: :maths)
+      else
+        candidate_interface_gcse_details_new_type_path(subject: :maths)
+      end
+    end
+
+    def path_to_science_gcse
+      if application_form.science_gcse.present?
+        candidate_interface_gcse_review_path(subject: :science)
+      else
+        candidate_interface_gcse_details_new_type_path(subject: :science)
       end
     end
 

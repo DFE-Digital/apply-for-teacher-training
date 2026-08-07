@@ -13,14 +13,21 @@
     You will be able to apply from <%= apply_opens %>, but you can start preparing your applications now.
   </p>
 
-  <p class="govuk-body">
-    Before you can apply again, you'll need to:
-
-    <%= govuk_list(list_of_links, type: :bullet) %>
-  </p>
+  <%= render CandidateInterface::CarryOverTaskListComponent.new(application_form:) %>
 
   <% if show_button? %>
     <%= govuk_button_link_to t('carried_over_content_component.add_application_choice'), candidate_interface_course_choices_do_you_know_the_course_path %>
+  <% end %>
+
+  <% if application_form.application_choices.any? %>
+    <div>
+      <%= render CandidateInterface::ApplicationChoiceListComponent.new(
+        application_form:,
+        application_choices:,
+        current_tab_name: nil,
+        with_tabs: false,
+      ) %>
+    </div>
   <% end %>
 <% else %>
   <p class="govuk-body">
