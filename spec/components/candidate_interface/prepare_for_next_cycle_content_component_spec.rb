@@ -153,9 +153,61 @@ RSpec.describe CandidateInterface::PrepareForNextCycleContentComponent do
           class: 'govuk-body',
         )
         expect(rendered_component).to have_link('find teacher training courses', href: I18n.t('find_teacher_training.production_url'))
-        expect(rendered_component).to have_link('confirm your references are up to date')
+        expect(rendered_component).to have_link('confirm your contact information')
         expect(rendered_component).to have_link('enter or confirm your equality and diversity information')
-        expect(rendered_component).to have_link('confirm whether you have started teacher training in the past')
+        expect(rendered_component).to have_link('confirm your references are up to date')
+      end
+
+      context 'for candidates that have more sections to check' do
+        before do
+          FeatureFlag.activate('2027_visa_expiry')
+        end
+
+        let!(:previous_teacher_training) do
+          create(
+            :previous_teacher_training,
+            :published,
+            application_form: previous_application_form,
+          )
+        end
+        let(:previous_application_form) { create(:application_form, efl_completed: true) }
+        let(:application_form) do
+          create(
+            :application_form,
+            previous_application_form:,
+            first_nationality: 'Indian',
+          )
+        end
+
+        let!(:gcse_qualification) { create(:gcse_qualification, :indian, application_form:) }
+
+        it 'details that find is open and when you can apply' do
+          expect(rendered_component).to have_element(
+            :p,
+            text: "You can now find teacher training courses starting in the #{academic_year_range_name} academic year.",
+            class: 'govuk-body',
+          )
+          expect(rendered_component).to have_element(
+            :p,
+            text: "You will be able to apply from #{apply_opens}, but you can start preparing your applications now.",
+            class: 'govuk-body',
+          )
+          expect(rendered_component).to have_element(
+            :p,
+            text: "Before you can apply again, you'll need to:",
+            class: 'govuk-body',
+          )
+
+          expect(rendered_component).to have_link('find teacher training courses', href: I18n.t('find_teacher_training.production_url'))
+
+          expect(rendered_component).to have_link('enter or confirm your visa information')
+          expect(rendered_component).to have_link('confirm your contact information')
+          expect(rendered_component).to have_link('confirm your qualifications are up to date')
+          expect(rendered_component).to have_link('enter or confirm your English language skills')
+          expect(rendered_component).to have_link('enter or confirm your equality and diversity information')
+          expect(rendered_component).to have_link('confirm whether you have started teacher training in the past')
+          expect(rendered_component).to have_link('confirm your references are up to date')
+        end
       end
     end
   end
