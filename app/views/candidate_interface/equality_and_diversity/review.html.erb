@@ -11,6 +11,8 @@
         Check your answers to equality and diversity questions
       </h1>
 
+      <%= govuk_inset_text(text: t('application_form.section.applications_will_be_updated')) %>
+
       <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
       <%= render(CandidateInterface::EqualityAndDiversityReviewComponent.new(application_form: @current_application, editable: @section_policy.can_edit?)) %>
       <% if @current_application.equality_and_diversity_answers_provided? %>
