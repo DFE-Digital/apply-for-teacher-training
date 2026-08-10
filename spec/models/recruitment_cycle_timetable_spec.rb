@@ -333,6 +333,22 @@ RSpec.describe RecruitmentCycleTimetable do
     end
   end
 
+  describe '#between_find_open_and_apply_closed?' do
+    context 'mid cycle', time: mid_cycle do
+      it 'returns false' do
+        timetable = described_class.current_timetable
+        expect(timetable.between_find_open_and_apply_closed?).to be false
+      end
+    end
+
+    context 'before apply opens', time: after_find_opens do
+      it 'returns true' do
+        timetable = described_class.current_timetable
+        expect(timetable.between_find_open_and_apply_closed?).to be true
+      end
+    end
+  end
+
   describe '#next_year?' do
     it 'returns true when the timetable is for the next recruitment cycle' do
       current_timetable = described_class.current_timetable

@@ -72,7 +72,6 @@ class ApplicationQualification < ApplicationRecord
   scope :degrees, -> { where(level: 'degree') }
   scope :gcses, -> { where(level: 'gcse') }
   scope :a_levels, -> { where(level: 'other', qualification_type: 'A level') }
-  scope :non_uk_gcses, -> { gcses.where.not(non_uk_qualification_type: nil) }
 
   validates :qualification_type, length: { maximum: MAX_QUALIFICATION_TYPE_LENGTH }, allow_blank: true
   validates :non_uk_qualification_type, length: { maximum: MAX_QUALIFICATION_TYPE_LENGTH }, allow_blank: true

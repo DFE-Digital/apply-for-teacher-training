@@ -1,14 +1,13 @@
 module CandidateInterface
   class CarryOverTaskListComponent < ApplicationComponent
-    delegate :previous_application_form, to: :application_form
     Section = Data.define(:name, :link)
+    delegate :previous_application_form, to: :application_form
 
     attr_reader :application_form, :application_form_presenter
 
     def initialize(application_form:)
       @application_form = application_form
       @application_form_presenter = ApplicationFormPresenter.new(application_form)
-      @completed_application_form_details = CandidateInterface::CompletedApplicationForm.new(application_form:)
     end
 
     def render?
