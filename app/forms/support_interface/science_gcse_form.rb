@@ -270,6 +270,7 @@ module SupportInterface
       return unless non_uk_qualification? && selected_grade_schema_percentage?
 
       errors.add(:grade, :invalid_percentage) if grade.to_i > 100
+      errors.add(:grade, :negative_percentage) if grade.to_i.negative?
     end
 
     def resolve_grade

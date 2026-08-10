@@ -19,6 +19,10 @@ RSpec.describe 'Change english GCSE' do
     and_click_on_update_details
     then_i_see_validation_error_for_entering_invalid_inputs
 
+    when_i_enter_a_negative_grade_input
+    and_click_on_update_details
+    then_i_see_validation_error_for_entering_a_negative_grade_input
+
     when_i_enter_valid_inputs
     and_click_on_update_details
     then_i_see_the_gcse_grades_have_been_updated
@@ -173,5 +177,16 @@ private
     expect(page).to have_element(:dd, text: '1987, India')
     expect(page).to have_element(:dt, text: 'Grade')
     expect(page).to have_element(:dd, text: '99%')
+  end
+
+  def when_i_enter_a_negative_grade_input
+    fill_in 'Enter the candidate’s grade', with: -38
+  end
+
+  def then_i_see_validation_error_for_entering_a_negative_grade_input
+    expect(page).to have_element(:h2, text: 'There is a problem')
+    within('.govuk-error-summary__body') do
+      expect(page).to have_element(:li, text: 'Enter a number greater than or equal to 0')
+    end
   end
 end

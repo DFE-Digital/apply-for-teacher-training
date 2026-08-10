@@ -24,6 +24,7 @@ en:
               invalid: Enter a real grade
               too_long: Grade must be %{count} characters or fewer
               invalid_percentage: Enter a whole number less than or equal to 100
+              negative_percentage: Enter a number greater than or equal to 0
             biology_grade:
               blank: Enter the candidate’s biology grade
               invalid: Enter a real biology grade
@@ -73,6 +74,7 @@ en:
               blank: Enter the candidate’s grade
               invalid: Enter a real grade
               invalid_percentage: Enter a whole number less than or equal to 100
+              negative_percentage: Enter a number greater than or equal to 0
             award_year:
               blank: Enter the year the candidate gained their qualification
               gce_o_level_in_future: Enter a year before %{date} - GCSEs replaced O levels in 1988
@@ -95,6 +97,7 @@ en:
               blank: Enter the candidate’s grade
               invalid: Enter a real grade
               invalid_percentage: Enter a whole number less than or equal to 100
+              negative_percentage: Enter a number greater than or equal to 0
             english_gcses:
               blank: Select at least one GCSE
             grade_english_single:
