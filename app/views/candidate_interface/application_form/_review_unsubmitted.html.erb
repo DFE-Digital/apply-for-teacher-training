@@ -47,7 +47,7 @@
         CandidateInterface::EnglishProficiencies::ReviewComponent.new(@application_form.english_proficiency, heading_level: 3, actions: false),
       ) %>
     <% else %>
-      <%= render(CandidateInterface::IncompleteSectionComponent.new(section: 'efl', section_path: candidate_interface_english_foreign_language_start_path, error: nil)) %>
+      <%= render(CandidateInterface::IncompleteSectionComponent.new(section: 'efl', section_path: candidate_interface_english_proficiencies_start_path, error: nil)) %>
     <% end %>
   <% end %>
 

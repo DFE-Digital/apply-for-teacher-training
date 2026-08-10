@@ -11,7 +11,7 @@ module CandidateInterface
         @toefl_form = EnglishProficiencies::ToeflForm.new(toefl_params)
 
         if @toefl_form.save
-          redirect_to candidate_interface_english_foreign_language_review_path(@return_to[:params])
+          redirect_to candidate_interface_english_proficiencies_review_path(@return_to[:params])
         else
           track_validation_error(@toefl_form)
           render :new
