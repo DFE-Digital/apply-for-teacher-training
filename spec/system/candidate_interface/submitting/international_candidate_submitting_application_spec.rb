@@ -10,35 +10,6 @@ RSpec.describe 'International candidate submits the application', :with_cache do
   end
 
   it 'International candidate completes and submits an application' do
-    FeatureFlag.deactivate('2027_application_form_has_many_english_proficiencies')
-    given_i_am_signed_in_with_one_login
-
-    when_i_have_completed_everything_except_the_efl_and_other_qualifications_section
-    when_i_review_my_details
-    then_i_see_the_efl_and_other_qualifications_section_is_incomplete
-    when_i_try_to_add_secondary_course
-    then_i_see_a_warning_about_incomplete_details
-
-    when_i_complete_the_efl_section
-    and_i_complete_the_other_qualifications_section
-    then_i_see_all_sections_are_complete
-
-    when_i_review_my_choices
-    then_i_can_see_my_course_choices
-
-    when_i_review_my_application
-    and_i_can_see_my_personal_details
-    and_i_can_see_my_efl_qualification
-
-    when_i_click('Continue')
-    then_i_see_the_international_candidate_interruption
-    when_i_submit_my_application
-
-    then_i_can_see_my_application_has_been_successfully_submitted
-  end
-
-  it 'International candidate completes and submits an application',
-     feature_flag: '2027_application_form_has_many_english_proficiencies' do
     given_i_am_signed_in_with_one_login
 
     when_i_have_completed_everything_except_the_efl_and_other_qualifications_section
@@ -138,21 +109,12 @@ RSpec.describe 'International candidate submits the application', :with_cache do
   end
 
   def then_i_see_the_efl_and_other_qualifications_section_is_incomplete
-    if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
-      expect(page).to have_css('#english-language-skills-badge-id', text: 'Incomplete')
-    else
-      expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Incomplete')
-    end
+    expect(page).to have_css('#english-language-skills-badge-id', text: 'Incomplete')
     expect(page).to have_css('#other-qualifications-badge-id', text: 'Incomplete')
   end
 
   def then_i_see_a_warning_about_incomplete_details
     expect(page).to have_text 'You cannot submit this application until you complete your details.'
-  end
-
-  def when_i_complete_the_efl_section
-    click_link_or_button 'complete your details'
-    candidate_fills_in_efl_section
   end
 
   def when_i_click_on_complete_your_details
@@ -189,10 +151,6 @@ RSpec.describe 'International candidate submits the application', :with_cache do
     expect(page).to have_text 'Indian'
   end
 
-  def and_i_can_see_my_efl_qualification
-    expect(page).to have_text 'No, English is not a foreign language to me'
-  end
-
   def when_i_try_to_add_secondary_course
     candidate_fills_in_secondary_course_choice_with_incomplete_details
   end
@@ -207,22 +165,12 @@ RSpec.describe 'International candidate submits the application', :with_cache do
   end
 
   def and_i_can_see_my_efl_assessment_qualification
-    if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
-      expect(page).to have_element(
-        :h3,
-        text: 'English language skills',
-        class: 'govuk-summary-card__title',
-      )
-      expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
-      expect(page).to have_element(:dd, text: 'English is my main language', class: 'govuk-summary-list__value')
-    else
-      expect(page).to have_element(
-        :h3,
-        text: 'English as a foreign language assessment',
-        class: 'govuk-summary-card__title',
-      )
-      expect(page).to have_element(:dt, text: 'Proving your level of English', class: 'govuk-summary-list__key')
-      expect(page).to have_element(:dd, text: 'English is my first language', class: 'govuk-summary-list__value')
-    end
+    expect(page).to have_element(
+      :h3,
+      text: 'English language skills',
+      class: 'govuk-summary-card__title',
+    )
+    expect(page).to have_element(:dt, text: 'Proving your English language skills', class: 'govuk-summary-list__key')
+    expect(page).to have_element(:dd, text: 'English is my main language', class: 'govuk-summary-list__value')
   end
 end

@@ -29,7 +29,6 @@ class FeatureFlag
     [:api_token_management, 'Allow provider users to manage their own api tokens', 'Apply team'],
     [:ms_clarity, 'Record sessions with MS Clarity'],
     [:import_non_disclosure_trainee_withdrawals, 'Import Non-disclosure data from BigQuery to generate Possible Previous Teacher Training records', 'Apply team'],
-    ['2027_application_form_has_many_english_proficiencies', 'Change application form association from has one english proficiency to has many english proficiencies', 'Apply team'],
     ['2027_visa_expiry', 'Collect visa expiry dates for candidates', 'Apply team'],
     ['2027_application_form_contact_details_residency_questions', 'Add residency questions to contact details flow in candidate interface', 'Apply team'],
     ['2027_international_qualifications_flow', 'Add new flow for international qualifications for which we have structured data', 'Apply team'],

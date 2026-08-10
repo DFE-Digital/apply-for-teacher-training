@@ -544,34 +544,6 @@ namespace :candidate_interface, path: '/candidate' do
       delete '/delete/:id' => 'other_qualifications/destroy#destroy'
     end
 
-    scope '/english-as-a-foreign-language' do
-      get '/' => 'english_foreign_language/start#new', as: :english_foreign_language_start
-      post '/' => 'english_foreign_language/start#create'
-      get '/edit' => 'english_foreign_language/start#edit', as: :english_foreign_language_edit_start
-      patch '/edit' => 'english_foreign_language/start#update'
-
-      get '/type' => 'english_foreign_language/type#new', as: :english_foreign_language_type
-      post '/type' => 'english_foreign_language/type#create'
-
-      get '/ielts' => 'english_foreign_language/ielts#new', as: :ielts
-      post '/ielts' => 'english_foreign_language/ielts#create'
-      get '/ielts/edit' => 'english_foreign_language/ielts#edit', as: :edit_ielts
-      patch '/ielts/edit' => 'english_foreign_language/ielts#update'
-
-      get '/toefl' => 'english_foreign_language/toefl#new', as: :toefl
-      post '/toefl' => 'english_foreign_language/toefl#create'
-      get '/toefl/edit' => 'english_foreign_language/toefl#edit', as: :edit_toefl
-      patch '/toefl/edit' => 'english_foreign_language/toefl#update'
-
-      get '/other' => 'english_foreign_language/other_efl_qualification#new', as: :other_efl_qualification
-      post '/other' => 'english_foreign_language/other_efl_qualification#create'
-      get '/other/edit' => 'english_foreign_language/other_efl_qualification#edit', as: :edit_other_efl_qualification
-      patch '/other/edit' => 'english_foreign_language/other_efl_qualification#update'
-
-      get '/review' => 'english_foreign_language/review#show', as: :english_foreign_language_review
-      patch '/review' => 'english_foreign_language/review#complete', as: :english_foreign_language_complete
-    end
-
     scope '/english-proficiencies' do
       get '/' => 'english_proficiencies/start#new', as: :english_proficiencies_start
       post '/' => 'english_proficiencies/start#create'

@@ -84,10 +84,6 @@ class Section
   end
 
   def self.efl_section
-    if FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
-      Section.new(:efl, controller: 'CandidateInterface::EnglishProficiencies')
-    else
-      Section.new(:efl, controller: 'CandidateInterface::EnglishForeignLanguage')
-    end
+    Section.new(:efl, controller: 'CandidateInterface::EnglishProficiencies')
   end
 end

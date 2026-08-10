@@ -15,8 +15,6 @@ module CandidateInterface
     end
 
     def call
-      return unless FeatureFlag.active?('2027_application_form_has_many_english_proficiencies')
-
       ActiveRecord::Base.transaction do
         assign_qualification_status
 
