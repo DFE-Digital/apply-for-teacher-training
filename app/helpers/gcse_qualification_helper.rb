@@ -34,6 +34,12 @@ module GcseQualificationHelper
     subject == 'english' ? 'English' : subject
   end
 
+  def grade_radio_id(grade)
+    grade
+      .gsub('+', '_plus')
+      .gsub(/[−-]/, '_minus')
+  end
+
   def failing_grade_row_value(application_qualification)
     return application_qualification.not_completed_explanation if application_qualification.not_completed_explanation.present?
 
