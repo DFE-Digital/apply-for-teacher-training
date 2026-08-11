@@ -148,7 +148,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
 
     context 'when the qualification_type is updated from non_uk' do
       it 'updates the existing qualification and sets non_uk_qualification_type to nil' do
-        qualification = create(:gcse_qualification, :non_uk)
+        qualification = create(:gcse_qualification, :non_uk, selected_grade_schema_id: 12345)
 
         described_class.new(
           qualification_type: 'gcse',
@@ -160,6 +160,9 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
         expect(qualification.non_uk_qualification_type).to be_nil
         expect(qualification.enic_reference).to be_nil
         expect(qualification.comparable_uk_qualification).to be_nil
+        expect(qualification.institution_country).to be_nil
+        expect(qualification.enic_reason).to be_nil
+        expect(qualification.selected_grade_schema_id).to be_nil
       end
     end
 
