@@ -1,0 +1,9 @@
+en:
+  activemodel:
+    errors:
+      models:
+        support_interface/application_forms/revert_rejection_form:
+          attributes:
+           base:
+            duplicate:
+              This candidate has an active application for this course. You will need to delete the duplicate application before reverting this rejection.

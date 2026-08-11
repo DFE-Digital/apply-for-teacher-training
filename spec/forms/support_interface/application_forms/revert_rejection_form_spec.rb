@@ -35,5 +35,18 @@ RSpec.describe SupportInterface::ApplicationForms::RevertRejectionForm, :with_au
 
       expect(application_choice.audits.last.comment).to include(zendesk_ticket)
     end
+
+    it 'returns false if the Application Choice has been duplicated for the same course' do
+      course_option = create(:course_option)
+      application_form = create(:completed_application_form)
+      application_choice = create(:application_choice, :rejected, course_option:, application_form:)
+      _duplicate_choice = create(:application_choice, :unsubmitted, course_option:, application_form:)
+      form = described_class.new(
+        audit_comment_ticket: zendesk_ticket,
+        accept_guidance: true,
+      )
+
+      expect(form.save(application_choice)).to be(false)
+    end
   end
 end
