@@ -15,6 +15,8 @@ module CandidateInterface
     end
 
     def list_of_links
+      return [] unless carry_over_list?
+
       @list_of_links ||= [
         visa_information_link,
         contact_information_link,
@@ -46,7 +48,7 @@ module CandidateInterface
     end
 
     def additional_sections_incomplete?
-      (@application_form_presenter.incomplete_sections.map(&:name) - list_of_links.map(&:name)).any?
+      (application_form_presenter.incomplete_sections.map(&:name) - list_of_links.map(&:name)).any?
     end
 
     def visa_information_link
