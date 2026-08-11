@@ -6,6 +6,8 @@
 
   <h1 class="govuk-heading-xl"><%= t('page_titles.volunteering.review') %></h1>
 
+  <%= govuk_inset_text(text: t('application_form.section.update_future_applications_only')) %>
+
   <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
 
   <% if @application_form.application_volunteering_experiences.any? && @section_policy.can_edit? %>

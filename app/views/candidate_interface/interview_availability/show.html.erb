@@ -8,6 +8,8 @@
     <%= t('page_titles.interview_preferences.review') %>
   </h1>
 
+  <%= govuk_inset_text(text: t('application_form.section.applications_will_be_updated')) %>
+
   <%= render CandidateInterface::EditableSectionWarning.new(section_policy: @section_policy, current_application:) %>
   <%= render CandidateInterface::InterviewPreferencesReviewComponent.new(application_form: @application_form, editable: @section_policy.can_edit?) %>
   <%= render CandidateInterface::CompleteSectionComponent.new(section_policy: @section_policy, form: f) %>
