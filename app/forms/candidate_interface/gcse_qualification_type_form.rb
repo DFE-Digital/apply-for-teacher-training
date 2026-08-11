@@ -69,6 +69,12 @@ module CandidateInterface
         attributes[:constituent_grades] = nil
       end
 
+      unless non_uk_qualification?
+        attributes[:institution_country] = nil
+        attributes[:enic_reason] = nil
+        attributes[:selected_grade_schema_id] = nil
+      end
+
       if missing_qualification?
         attributes.merge!(
           grade: nil,
