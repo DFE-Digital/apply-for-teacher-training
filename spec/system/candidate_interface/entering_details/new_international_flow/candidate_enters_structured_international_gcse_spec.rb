@@ -306,7 +306,7 @@ private
   end
 
   def when_i_choose_a_passing_grade
-    first('input[value="B+"]').choose
+    first('input[value="B_plus"]').choose
   end
 
   def when_i_choose_a_failing_grade
