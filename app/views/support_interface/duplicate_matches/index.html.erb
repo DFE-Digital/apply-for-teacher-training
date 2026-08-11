@@ -30,5 +30,7 @@
     <% end %>
   <% else %>
     <%= render SupportInterface::DuplicateMatchesTableComponent.new(matches: @matches) %>
+
+    <%= govuk_pagination(pagy: @pagy) %>
   <% end %>
 <% end %>
