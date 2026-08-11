@@ -21,7 +21,7 @@ module CandidateInterface
         grade: if percentage
                  grade&.delete_suffix('%')
                elsif structured
-                 grade
+                 encode_grade_for_radio(grade)
                else
                  (grade.present? ? 'other' : nil)
                end,
@@ -52,8 +52,20 @@ module CandidateInterface
       elsif non_structured?
         non_structured_grade
       else
-        grade
+        decode_grade_from_radio(grade)
       end
+    end
+
+    def decode_grade_from_radio(grade)
+      grade
+        &.gsub('_plus', '+')
+        &.gsub('_minus', '−')
+    end
+
+    def self.encode_grade_for_radio(grade)
+      grade
+        &.gsub('+', '_plus')
+        &.gsub('−', '_minus')
     end
   end
 end
