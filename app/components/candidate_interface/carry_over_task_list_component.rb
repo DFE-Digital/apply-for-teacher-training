@@ -15,8 +15,6 @@ module CandidateInterface
     end
 
     def list_of_links
-      return [] unless carry_over_list?
-
       @list_of_links ||= [
         visa_information_link,
         contact_information_link,
@@ -41,14 +39,18 @@ module CandidateInterface
       t(translation, link:).html_safe
     end
 
-  private
-
     def carry_over_list?
       application_form.candidate_has_previously_applied? && list_of_links.any?
     end
 
+  private
+
     def additional_sections_incomplete?
-      (application_form_presenter.incomplete_sections.map(&:name) - list_of_links.map(&:name)).any?
+      if carry_over_list?
+        (application_form_presenter.incomplete_sections.map(&:name) - list_of_links.map(&:name)).any?
+      else
+        application_form_presenter.incomplete_sections.any?
+      end
     end
 
     def visa_information_link
