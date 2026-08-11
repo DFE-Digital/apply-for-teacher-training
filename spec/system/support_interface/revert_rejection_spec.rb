@@ -119,7 +119,7 @@ private
     within('.govuk-error-summary') do
       expect(page).to have_text('There is a problem')
       expect(page).to have_text(
-        'This candidate has an active application for this course. You will need to delete the duplicate application before reverting this rejection.',
+        'This candidate has an active application for this course. They will need to delete the duplicate application before reverting this rejection.',
       )
     end
   end
