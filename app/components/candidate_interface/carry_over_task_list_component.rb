@@ -40,7 +40,7 @@ module CandidateInterface
     end
 
     def carry_over_list?
-      application_form.candidate_has_previously_applied? && list_of_links.any?
+      application_form.previous_application_form.present? && list_of_links.any?
     end
 
   private
