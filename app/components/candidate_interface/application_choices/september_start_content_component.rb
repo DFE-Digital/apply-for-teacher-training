@@ -52,7 +52,7 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponent < A
   end
 
   def application_choices
-    cycle_year = if RecruitmentCycleTimetable.current_timetable.between_find_open_and_apply_closed?
+    cycle_year = if RecruitmentCycleTimetable.current_timetable.before_apply_opens?
                    RecruitmentCycleTimetable.previous_year
                  else
                    RecruitmentCycleTimetable.current_year

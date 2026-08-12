@@ -50,10 +50,6 @@ class RecruitmentCycleTimetable < ApplicationRecord
     current_timetable.between_cycles?
   end
 
-  def self.between_find_open_and_apply_closed?
-    current_timetable.between_find_open_and_apply_closed?
-  end
-
   def self.apply_open?
     current_timetable.apply_open?
   end
@@ -225,10 +221,6 @@ class RecruitmentCycleTimetable < ApplicationRecord
 
   def between_cycles?
     before_apply_opens? || after_apply_deadline?
-  end
-
-  def between_find_open_and_apply_closed?
-    after_find_opens? && before_apply_opens?
   end
 
   def between_apply_deadline_and_decline_by_default?
