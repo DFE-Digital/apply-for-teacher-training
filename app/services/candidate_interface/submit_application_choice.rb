@@ -6,7 +6,10 @@ module CandidateInterface
     def initialize(application_choice, inactive_date_calculator: InactiveDateCalculator)
       @application_choice = application_choice
       @application_form = application_choice.application_form
-      @inactive_date_calculator = inactive_date_calculator.new(effective_date:)
+      @inactive_date_calculator = inactive_date_calculator.new(
+        effective_date:,
+        reject_by_default_date: application_choice.reject_by_default_date,
+      )
     end
 
     def call

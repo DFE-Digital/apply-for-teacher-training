@@ -1,8 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::InactiveDateCalculator do
-  subject(:calculator) { described_class.new(effective_date: Time.zone.now) }
+  subject(:calculator) {
+    described_class.new(
+      effective_date: Time.zone.now,
+      reject_by_default_date:,
+    )
+  }
 
+  let(:reject_by_default_date) { Time.zone.parse('25 Sep 2024 23:59:59 PM BST') }
   let(:application_choice) { create(:application_choice, :unsubmitted) }
 
   describe 'inactive calculation' do
@@ -21,6 +27,23 @@ RSpec.describe CandidateInterface::InactiveDateCalculator do
         travel_temporarily_to(Time.zone.parse(submitted)) do
           expect(calculator.inactive_date).to be_within(1.second).of(Time.zone.parse(correct_rbd))
           expect(calculator.inactive_days).to eq inactive_days
+        end
+      end
+    end
+
+    context 'winter reject by default' do
+      after_september_dates = [
+        ['12 January 2023 9:00:00 AM GMT', '20 January 2023 23:59:59 PM GMT', 6, 'Winter reject by default'],
+      ].freeze
+
+      let(:reject_by_default_date) { Time.zone.parse('20 January 2023 23:59:59 PM GMT') }
+
+      after_september_dates.each do |submitted, correct_rbd, inactive_days, test_case|
+        it "is correct when the application is delivered #{test_case}" do
+          travel_temporarily_to(Time.zone.parse(submitted)) do
+            expect(calculator.inactive_date).to be_within(1.second).of(Time.zone.parse(correct_rbd))
+            expect(calculator.inactive_days).to eq inactive_days
+          end
         end
       end
     end

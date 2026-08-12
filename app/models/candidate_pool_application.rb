@@ -102,6 +102,7 @@ class CandidatePoolApplication < ApplicationRecord
 
     CandidateInterface::InactiveDateCalculator.new(
       effective_date: timetable.apply_opens_at,
+      reject_by_default_date: timetable.reject_by_default_at,
     ).inactive_date
   end
 end
