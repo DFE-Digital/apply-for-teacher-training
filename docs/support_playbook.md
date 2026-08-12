@@ -991,6 +991,6 @@ DuplicateMatch.create!(
 )
 ```
 
-## Cache Dashboard
+## Querying the cache
 
-Go to https://www.apply-for-teacher-training.service.gov.uk/support/solid-cache to view the solid cache dashboard. Where you can see the overall stats and also check what keys are written, deleted or what they contain
+Use normal SQL to query the cache tables `SolidCache::Entry.where(key: key)`
