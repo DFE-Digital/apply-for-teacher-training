@@ -38,7 +38,7 @@ RSpec.describe CandidateInterface::CarryOverTaskListComponent do
       it 'lists all the sections the candidate needs to check' do
         expect(rendered_component).to have_element(
           :p,
-          text: "Before you can apply again, you'll need to:",
+          text: 'Before you can apply again, you’ll need to:',
           class: 'govuk-body',
         )
 
@@ -64,7 +64,7 @@ RSpec.describe CandidateInterface::CarryOverTaskListComponent do
         it 'lists all the sections and shows a message about the other incomplete sections' do
           expect(rendered_component).to have_element(
             :p,
-            text: "Before you can apply again, you'll need to:",
+            text: 'Before you can apply again, you’ll need to:',
             class: 'govuk-body',
           )
 
@@ -76,7 +76,7 @@ RSpec.describe CandidateInterface::CarryOverTaskListComponent do
           expect(rendered_component).to have_link('confirm whether you have started teacher training in the past')
           expect(rendered_component).to have_link('confirm your references are up to date')
           expect(rendered_component).to have_text(
-            "You also have other incomplete sections in your details. You'll need to complete these before you can apply again",
+            'You also have other incomplete sections in your details. You’ll need to complete these before you can apply again',
           )
         end
       end
@@ -97,7 +97,7 @@ RSpec.describe CandidateInterface::CarryOverTaskListComponent do
         expect(rendered_component).to have_text(
           'You will not be able to submit applications until you have completed your details.',
         )
-        expect(rendered_component).to have_no_text("Before you can apply again, you'll need to:")
+        expect(rendered_component).to have_no_text('Before you can apply again, you’ll need to:')
       end
     end
   end
