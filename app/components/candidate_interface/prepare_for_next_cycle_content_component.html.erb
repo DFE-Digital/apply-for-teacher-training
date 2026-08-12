@@ -19,7 +19,7 @@
     <%= govuk_button_link_to t('carried_over_content_component.add_application_choice'), candidate_interface_course_choices_do_you_know_the_course_path %>
   <% end %>
 
-  <% if application_form.application_choices.any? %>
+  <% if application_choices.any? %>
     <div>
       <%= render CandidateInterface::ApplicationChoiceListComponent.new(
         application_form:,
