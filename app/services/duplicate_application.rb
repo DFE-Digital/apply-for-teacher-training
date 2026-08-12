@@ -7,7 +7,7 @@ class DuplicateApplication
   end
 
   IGNORED_ATTRIBUTES = %w[id created_at updated_at submitted_at contact_details_completed course_choices_completed phase support_reference english_main_language english_language_details other_language_details feedback_form_complete efl_completed efl_completed_at feedback_form_complete equality_and_diversity_completed equality_and_diversity_completed_at adviser_interruption_response].freeze
-  IGNORED_CHILD_ATTRIBUTES = %w[id created_at updated_at application_form_id public_id enic_reason].freeze
+  IGNORED_CHILD_ATTRIBUTES = %w[id created_at updated_at application_form_id public_id].freeze
 
   def duplicate
     attrs = original_application_form.attributes.except(
