@@ -1,0 +1,42 @@
+name: Backup database via AKS to Azure storage
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to backup
+        required: true
+        default: qa
+        type: choice
+        options:
+        - qa
+        - staging
+        - sandbox
+        - production
+
+#  schedule:
+#    - cron: "50 5 * * *" # 05:50 UTC
+
+permissions:
+  id-token: write
+
+jobs:
+  backup:
+    name: Backup database via AKS
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment || 'production' }}
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - uses: azure/login@v3
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    - name: Run backup AKS job
+      run: make ci ${{ inputs.environment }} aks_db_job_backup
+      env:
+        MAINTENANCE_IMAGE_TAG: ${{steps.build-image.outputs.tag}}
