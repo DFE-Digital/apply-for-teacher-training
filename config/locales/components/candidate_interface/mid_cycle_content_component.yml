@@ -24,5 +24,5 @@ en:
     christmas_warning: If training providers do not respond to you within 30 working days, you will be able to apply to another course while you wait for a response. We do not count the days between Christmas day and New Years day as working days.
     easter_warning: If training providers do not respond to you within 30 working days, you will be able to apply to another course while you wait for a response. Around the Easter holidays it can take longer for training providers to respond to applications.
     incomplete_details_message: 'You will not be able to submit applications until you have completed %{link}.'
-    incomplete_details_with_carry_over_message: "You also have other incomplete sections in %{link}. You'll need to complete these before you can apply again".
+    incomplete_details_with_carry_over_message: "You also have other incomplete sections in %{link}. You'll need to complete these before you can apply again."
     once_a_course_is_full: Once a course is full, it will close and you will not be able to submit an application until next year.
