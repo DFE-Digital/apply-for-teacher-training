@@ -70,7 +70,7 @@ RSpec.describe CandidateInterface::EditableSectionWarning do
 
         it 'renders message' do
           expect(result.text).to include(
-            "Changes you make in this section will update your open application for the #{current_application.academic_year_range_name} academic year. " \
+            "Changes you make in this section will update your open applications for the #{current_application.academic_year_range_name} academic year. " \
             "Your open applications for the #{previous_application_form.academic_year_range_name} academic year will not be updated.",
           )
         end

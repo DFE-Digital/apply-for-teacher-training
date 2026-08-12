@@ -3,4 +3,4 @@ en:
     not_included_in_submitted: Changes you make in this section will only be included in future applications. Your open applications will not be updated.
     included_in_submitted: Your open applications will be updated with any changes you make in this section.
     not_included_in_previous_application:
-      Changes you make in this section will update your open application for the %{current_recruitment_cycle_year_range} academic year. Your open applications for the %{previous_recruitment_cycle_year_range} academic year will not be updated.
+      Changes you make in this section will update your open applications for the %{current_recruitment_cycle_year_range} academic year. Your open applications for the %{previous_recruitment_cycle_year_range} academic year will not be updated.
