@@ -1,8 +1,8 @@
 <div class="govuk-inset-text">
-  <% if @section_policy.personal_statement? %>
-    <%= t('editable_section_warning.not_included_in_submitted_personal_statement') %>
-  <% elsif @section_policy.work_history? %>
+  <% if @section_policy.personal_statement? || @section_policy.work_history? %>
     <%= t('editable_section_warning.not_included_in_submitted') %>
+  <% elsif active_previous_application.present? %>
+    <%= t('editable_section_warning.not_included_in_previous_application', current_recruitment_cycle_year_range:, previous_recruitment_cycle_year_range:) %>
   <% else %>
     <%= t('editable_section_warning.included_in_submitted') %>
   <% end %>

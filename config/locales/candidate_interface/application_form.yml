@@ -24,11 +24,6 @@ en:
       yorkshire_and_the_humber: Yorkshire and the Humber
       european_economic_area: European Economic Area
       rest_of_the_world: Rest of the World
-    section:
-      applications_will_be_updated:
-        Your open applications will be updated with any changes you make in this section.
-      update_future_applications_only:
-        Changes you make in this section will only be included in future applications. Your open applications will not be updated.
 
   activemodel:
     errors:

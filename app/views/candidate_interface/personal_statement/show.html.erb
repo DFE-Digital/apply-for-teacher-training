@@ -8,8 +8,6 @@
     <%= t('page_titles.personal_statement_review') %>
   </h1>
 
-  <%= govuk_inset_text(text: t('application_form.section.update_future_applications_only')) %>
-
   <% if @application_form.review_pending?(:becoming_a_teacher) %>
     <%= govuk_inset_text do %>
       <% rejection_reasons = @application_form.rejection_reasons(:becoming_a_teacher) %>
