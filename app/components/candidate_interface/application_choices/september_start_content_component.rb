@@ -52,10 +52,16 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponent < A
   end
 
   def application_choices
+    cycle_year = if RecruitmentCycleTimetable.current_timetable.before_apply_opens?
+                   RecruitmentCycleTimetable.previous_year
+                 else
+                   RecruitmentCycleTimetable.current_year
+                 end
+
     CandidateInterface::SortApplicationChoices.call(
       application_choices: application_form
                              .application_choices
-                             .course_start_in_september(recruitment_cycle_year)
+                             .course_start_in_september(cycle_year)
                              .for_sorting,
     )
   end

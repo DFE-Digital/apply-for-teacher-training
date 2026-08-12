@@ -9,6 +9,12 @@ module CandidateInterface
       @application_form = application_form
     end
 
+    def application_choices
+      @application_choices ||= CandidateInterface::SortApplicationChoices.call(
+        application_choices: application_form.application_choices.for_sorting,
+      )
+    end
+
     def next_recruitment_cycle
       @next_recruitment_cycle ||= if application_form.after_apply_deadline?
                                     recruitment_cycle_timetable.relative_next_timetable

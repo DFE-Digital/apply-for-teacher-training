@@ -221,20 +221,46 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
   end
 
   describe '#application_choices' do
-    let(:sept_course) { build(:course, start_date: "01/09/#{application_form.recruitment_cycle_year}") }
-    let(:sept_course_option) { build(:course_option, course: sept_course) }
-    let(:sept_application_choice) { create(:application_choice, course_option: sept_course_option, application_form:) }
-    let(:jan_course) { build(:course, start_date: "01/01/#{application_form.recruitment_cycle_year + 1}") }
-    let(:jan_course_option) { build(:course_option, course: jan_course) }
-    let(:jan_application_choice) { create(:application_choice, course_option: jan_course_option, application_form:) }
+    context 'when apply is open' do
+      let(:sept_course) { build(:course, start_date: "01/09/#{application_form.recruitment_cycle_year}") }
+      let(:sept_course_option) { build(:course_option, course: sept_course) }
+      let(:sept_application_choice) { create(:application_choice, course_option: sept_course_option, application_form:) }
+      let(:jan_course) { build(:course, start_date: "01/01/#{application_form.recruitment_cycle_year + 1}") }
+      let(:jan_course_option) { build(:course_option, course: jan_course) }
+      let(:jan_application_choice) { create(:application_choice, course_option: jan_course_option, application_form:) }
 
-    before do
-      sept_application_choice
-      jan_application_choice
+      before do
+        sept_application_choice
+        jan_application_choice
+      end
+
+      it 'returns application choices with september start dates' do
+        expect(component.application_choices).to contain_exactly(sept_application_choice)
+      end
     end
 
-    it 'returns on application choices with january start dates' do
-      expect(component.application_choices).to contain_exactly(sept_application_choice)
+    context 'when find is open but apply has not opened' do
+      let(:previous_year) { application_form.recruitment_cycle_year - 1 }
+
+      let(:sept_course) do
+        build(:course, recruitment_cycle_year: previous_year, start_date: "01/09/#{previous_year}")
+      end
+      let(:sept_course_option) { build(:course_option, course: sept_course) }
+      let(:sept_application_choice) { create(:application_choice, course_option: sept_course_option, application_form:) }
+      let(:jan_course) do
+        build(:course, recruitment_cycle_year: previous_year, start_date: "01/01/#{application_form.recruitment_cycle_year}")
+      end
+      let(:jan_course_option) { build(:course_option, course: jan_course) }
+      let(:jan_application_choice) { create(:application_choice, course_option: jan_course_option, application_form:) }
+
+      it 'returns application choices with september start dates from the previous cycle' do
+        travel_temporarily_to(CycleTimetableHelper.after_find_opens(application_form.recruitment_cycle_year)) do
+          sept_application_choice
+          jan_application_choice
+
+          expect(component.application_choices).to contain_exactly(sept_application_choice)
+        end
+      end
     end
   end
 end

@@ -1,0 +1,11 @@
+<% if carry_over_list? %>
+  <p class="govuk-body">
+    Before you can apply again, you’ll need to:
+
+    <%= govuk_list(list_of_links.map(&:link), type: :bullet) %>
+  </p>
+<% end %>
+
+<% if incomplete_details_message.present? %>
+  <p class="govuk-body"><%= incomplete_details_message %></p>
+<% end %>
