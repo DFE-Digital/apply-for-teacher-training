@@ -10,6 +10,9 @@ on:
         type: boolean
   schedule:
     - cron: "0 08 * * 0"
+  push:
+    branches:
+        - 2855-add-rv-app-cu-wf-test
 
 permissions:
   id-token: write
