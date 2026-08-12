@@ -65,12 +65,10 @@ RSpec.describe 'A candidate can edit some sections after first submission' do
   def and_i_can_edit_the_section
     work_experiences = %i[unpaid_experience work_history]
 
-    expected_content = if @section.identifier == :personal_statement
-                         'Any changes you make to your personal statement will not be included in applications you have already submitted.'
-                       elsif work_experiences.include?(@section.identifier)
-                         'Any changes you make will not be included in applications you have already submitted.'
+    expected_content = if @section.identifier == :personal_statement || work_experiences.include?(@section.identifier)
+                         'Changes you make in this section will only be included in future applications. Your open applications will not be updated.'
                        else
-                         'Any changes you make will be included in applications you have already submitted.'
+                         'Your open applications will be updated with any changes you make in this section.'
                        end
 
     expect(page).to have_text(expected_content)

@@ -3,33 +3,38 @@ module CandidateInterface
     def editable_section
       render PreviewEditableSectionWarning.new(
         current_application:,
-        section_policy: OpenStruct.new(can_edit?: true, personal_statement?: false, work_history?: false),
+        section_policy: section_policy(can_edit: true, personal_statement: false, work_history: false),
       )
     end
 
     def personal_statement
       render PreviewEditableSectionWarning.new(
         current_application:,
-        section_policy: OpenStruct.new(can_edit?: true, personal_statement?: true, work_history?: false),
+        section_policy: section_policy(can_edit: true, personal_statement: true, work_history: false),
       )
     end
 
     def work_history
       render PreviewEditableSectionWarning.new(
         current_application:,
-        section_policy: OpenStruct.new(can_edit?: true, personal_statement?: false, work_history?: true),
+        section_policy: section_policy(can_edit: true, personal_statement: false, work_history: true),
       )
     end
 
     def active_previous_application_jan_start_dates
       render PreviewEditableSectionWarning.new(
         current_application:,
-        section_policy: OpenStruct.new(can_edit?: true, personal_statement?: false, work_history?: false),
-        active_previous_application: true
+        section_policy: section_policy(can_edit: true, personal_statement: false, work_history: false),
+        active_previous_application: true,
       )
     end
 
   private
+
+    def section_policy(can_edit: true, personal_statement: false, work_history: false)
+      policy = Struct.new(:can_edit?, :personal_statement?, :work_history?)
+      policy.new(can_edit?: can_edit, personal_statement?: personal_statement, work_history?: work_history)
+    end
 
     def current_application
       FactoryBot.build(:completed_application_form, recruitment_cycle_year: 2026)
