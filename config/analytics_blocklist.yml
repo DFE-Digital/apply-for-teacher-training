@@ -7,14 +7,6 @@
   - created_at
   - key_hash
   - byte_size
-  :solid_cache_dashboard_events:
-  - id
-  - event_type
-  - key_hash
-  - key_string
-  - byte_size
-  - duration
-  - created_at
   :solid_queue_semaphores:
   - id
   - key
