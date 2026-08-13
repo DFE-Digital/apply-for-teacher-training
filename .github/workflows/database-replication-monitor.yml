@@ -1,0 +1,39 @@
+name: Monitor Database logical replication
+
+on:
+  schedule:
+    - cron: "0 0,6,12,18 * * *"
+
+permissions:
+  id-token: write
+
+env:
+  SERVICE_NAME: apply
+  SERVICE_SHORT: att
+  TF_VARS_PATH: terraform/aks/workspace_variables
+
+jobs:
+  monitor-wal-usage:
+    name: Parallel postgres monitor
+    environment:
+      name: ${{ matrix.environment }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: [qa,production]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v7
+
+    - name: Monitor ${{ matrix.environment }}
+      uses: DFE-Digital/github-actions/monitor-postgres-wal@master
+      with:
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        environment: ${{ matrix.environment }}
+        teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+        service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
+        app-name: ${{ env.SERVICE_NAME }}-${{ matrix.environment }}
+        tf-vars-path: ${{ env.TF_VARS_PATH }}
