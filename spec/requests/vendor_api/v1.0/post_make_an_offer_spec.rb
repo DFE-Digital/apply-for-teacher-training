@@ -55,9 +55,9 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
 
       expect {
         post_api_request post_path, params: request_body
-      }.to change(VendorAPIRequest, :count)
+      }.to change(VendorAPIRequestV2, :count)
 
-      expect(VendorAPIRequest.first.request_path).to eq(post_path)
+      expect(VendorAPIRequestV2.first.request_path).to eq(post_path)
     end
   end
 
@@ -178,11 +178,11 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
             'course' => course_option_to_course_payload(other_course_option),
           },
         }
-      }.to change(VendorAPIRequest, :count)
+      }.to change(VendorAPIRequestV2, :count)
 
       expect(response).to have_http_status(:unprocessable_entity)
 
-      logged_error = VendorAPIRequest.first.response_body['errors'].first['error']
+      logged_error = VendorAPIRequestV2.first.response_body['errors'].first['error']
 
       expect(logged_error).to eq('NotAuthorisedError')
     end

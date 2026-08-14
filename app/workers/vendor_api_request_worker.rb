@@ -23,7 +23,7 @@ class VendorAPIRequestWorker < ApplicationJob
       response_body = response_data
     end
 
-    VendorAPIRequest.create!(
+    VendorAPIRequestV2.create!(
       request_path: request_data['path'],
       request_headers:,
       request_body: request_body(request_data),

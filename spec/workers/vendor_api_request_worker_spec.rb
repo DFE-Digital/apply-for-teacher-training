@@ -7,7 +7,7 @@ RSpec.describe VendorAPIRequestWorker do
     it 'creates a VendorAPIRequest record' do
       expect {
         described_class.new.perform({}, {}.to_json, 401, stringified_time)
-      }.to change(VendorAPIRequest, :count).by(1)
+      }.to change(VendorAPIRequestV2, :count).by(1)
     end
 
     it 'detects the provider making the request from the authorization header' do
@@ -18,7 +18,7 @@ RSpec.describe VendorAPIRequestWorker do
       headers = { 'HTTP_AUTHORIZATION' => "Bearer #{unhashed_token}" }
       described_class.new.perform({ 'headers' => headers }, {}.to_json, 500, stringified_time)
 
-      expect(VendorAPIRequest.find_by(provider_id: provider.id)).not_to be_nil
+      expect(VendorAPIRequestV2.find_by(provider_id: provider.id)).not_to be_nil
     end
   end
 
@@ -30,7 +30,7 @@ RSpec.describe VendorAPIRequestWorker do
       stringified_time,
     )
 
-    vendor_api_request = VendorAPIRequest.find_by(request_path: '/api/v1/foo')
+    vendor_api_request = VendorAPIRequestV2.find_by(request_path: '/api/v1/foo')
 
     expect(vendor_api_request.response_headers).to eq({ 'this' => 'that' })
     expect(vendor_api_request.response_body).to eq({ 'that' => 'this' })
@@ -39,12 +39,12 @@ RSpec.describe VendorAPIRequestWorker do
   it 'saves the request method on the vendor api request' do
     described_class.new.perform({ 'headers' => {}, 'path' => '/api/v1/bar', 'method' => 'GET' }, {}.to_json, 500, stringified_time)
 
-    expect(VendorAPIRequest.find_by(request_path: '/api/v1/bar').request_method).to eq('GET')
+    expect(VendorAPIRequestV2.find_by(request_path: '/api/v1/bar').request_method).to eq('GET')
   end
 
   it 'saves the created at timestamp on the vendor api request' do
     described_class.new.perform({ 'headers' => {}, 'path' => '/api/v1/bar', 'method' => 'GET' }, {}.to_json, 500, stringified_time)
-    expect(VendorAPIRequest.find_by(request_path: '/api/v1/bar').created_at.to_s).to eq(stringified_time)
+    expect(VendorAPIRequestV2.find_by(request_path: '/api/v1/bar').created_at.to_s).to eq(stringified_time)
   end
 
   it 'saves params from GET requests' do
@@ -54,7 +54,7 @@ RSpec.describe VendorAPIRequestWorker do
       'method' => 'GET',
     }, {}.to_json, 500, stringified_time)
 
-    expect(VendorAPIRequest.find_by(request_path: '/api/v1/bar').request_body).to eq('foo' => 'meh')
+    expect(VendorAPIRequestV2.find_by(request_path: '/api/v1/bar').request_body).to eq('foo' => 'meh')
   end
 
   it 'saves request data from POST requests' do
@@ -64,7 +64,7 @@ RSpec.describe VendorAPIRequestWorker do
       'method' => 'POST',
     }, {}.to_json, 500, stringified_time)
 
-    expect(VendorAPIRequest.find_by(request_path: '/api/v1/bar').request_body).to eq('foo' => 'meh')
+    expect(VendorAPIRequestV2.find_by(request_path: '/api/v1/bar').request_body).to eq('foo' => 'meh')
   end
 
   it 'records when POST data is not valid JSON' do
@@ -74,7 +74,7 @@ RSpec.describe VendorAPIRequestWorker do
       'method' => 'POST',
     }, {}.to_json, 500, stringified_time)
 
-    expect(VendorAPIRequest.find_by(request_path: '/api/v1/bar').request_body).to eq('error' => 'request data did not contain valid JSON')
+    expect(VendorAPIRequestV2.find_by(request_path: '/api/v1/bar').request_body).to eq('error' => 'request data did not contain valid JSON')
   end
 
   it 'handles empty POST data' do
@@ -84,6 +84,6 @@ RSpec.describe VendorAPIRequestWorker do
       'method' => 'POST',
     }, {}.to_json, 500, stringified_time)
 
-    expect(VendorAPIRequest.find_by(request_path: '/api/v1/bar').request_body).to be_nil
+    expect(VendorAPIRequestV2.find_by(request_path: '/api/v1/bar').request_body).to be_nil
   end
 end

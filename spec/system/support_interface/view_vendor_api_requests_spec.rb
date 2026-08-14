@@ -72,7 +72,7 @@ RSpec.describe 'Vendor API Requests' do
 
   def and_vendor_api_requests_for_applications_have_been_made
     visit vendor_api_path('v1', @first_application_choice)
-    @unvalidated_request = VendorAPIRequest.last
+    @unvalidated_request = VendorAPIRequestV2.last
 
     @validated_provider = @last_application_choice.provider
     unhashed_token, hashed_token = Devise.token_generator.generate(VendorAPIToken, :hashed_token)
@@ -81,7 +81,7 @@ RSpec.describe 'Vendor API Requests' do
     Capybara.current_session.driver.header('Authorization', "Bearer #{unhashed_token}")
 
     visit vendor_api_path('v1', @last_application_choice)
-    @validated_request = VendorAPIRequest.last
+    @validated_request = VendorAPIRequestV2.last
 
     Capybara.current_session.driver.header('Authorization', nil)
 
