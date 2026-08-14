@@ -1365,6 +1365,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_143452) do
     t.index ["form_object"], name: "index_validation_errors_on_form_object"
   end
 
+  create_table "vendor_api_request_v2s", force: :cascade do |t|
+    t.datetime "created_at", precision: nil
+    t.bigint "provider_id"
+    t.jsonb "request_body"
+    t.jsonb "request_headers"
+    t.string "request_method"
+    t.string "request_path"
+    t.jsonb "response_body"
+    t.jsonb "response_headers"
+    t.integer "status_code"
+    t.index ["provider_id"], name: "index_vendor_api_request_v2s_on_provider_id"
+    t.index ["request_path"], name: "index_vendor_api_request_v2s_on_request_path"
+    t.index ["status_code"], name: "index_vendor_api_request_v2s_on_status_code"
+  end
+
   create_table "vendor_api_requests", force: :cascade do |t|
     t.datetime "created_at", precision: nil
     t.bigint "provider_id"

@@ -817,6 +817,15 @@ erDiagram
 		jsonb response_headers
 		integer status_code
 	}
+	VendorAPIRequestV2 {
+		jsonb request_body
+		jsonb request_headers
+		string request_method
+		string request_path
+		jsonb response_body
+		jsonb response_headers
+		integer status_code
+	}
 	VendorAPIToken {
 		string description
 		string hashed_token
@@ -917,6 +926,7 @@ erDiagram
 	"Adviser::TeachingSubject" ||--}o "Adviser::SignUpRequest" : ""
 	VendorAPIToken ||--}o VendorApiUser : ""
 	Provider ||--}o VendorAPIToken : ""
+	Provider o|--}o VendorAPIRequestV2 : ""
 	Provider o|--}o VendorAPIRequest : ""
 	Vendor o|--}o Provider : ""
 	User o|--}o ValidationError : ""

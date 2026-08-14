@@ -175,6 +175,17 @@
   - provider_id
   - response_headers
   - created_at
+  :vendor_api_request_v2s:
+  - id
+  - request_path
+  - request_method
+  - status_code
+  - request_headers
+  - request_body
+  - response_body
+  - provider_id
+  - response_headers
+  - created_at
   :provider_pool_actions:
   - id
   - status
