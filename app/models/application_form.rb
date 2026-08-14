@@ -308,7 +308,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def cannot_touch_choices?
-    earlier_cycle? && prevent_unsave_touches? && !deferred?
+    earlier_cycle? && prevent_unsafe_touches? && !deferred?
   end
 
   def any_qualification_enic_reason_not_needed?
@@ -858,14 +858,15 @@ private
   end
 
   def deferred?
-    application_choices.pluck(:status).include?('offer_deferred')
+    application_choices.pluck(:status).include?('offer_deferred') ||
+      application_choices.any? { |ac| (ac.recruited? || ac.pending_conditions?) && ac.offer_deferred_at.present? }
   end
 
   def earlier_cycle?
     recruitment_cycle_year < RecruitmentCycleTimetable.current_year
   end
 
-  def prevent_unsave_touches?
+  def prevent_unsafe_touches?
     !RequestStore.store[:allow_unsafe_application_choice_touches]
   end
 end
