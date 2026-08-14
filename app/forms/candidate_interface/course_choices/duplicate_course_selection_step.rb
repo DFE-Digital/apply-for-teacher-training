@@ -1,6 +1,7 @@
 module CandidateInterface
   module CourseChoices
-    class DuplicateCourseSelectionStep < DfE::Wizard::Step
+    class DuplicateCourseSelectionStep
+      include DfE::Wizard::Step
       include CandidateInterface::Concerns::CourseSelectionStepHelper
 
       attr_accessor :provider_id, :course_id

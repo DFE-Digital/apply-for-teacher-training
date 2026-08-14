@@ -1,9 +1,7 @@
 module CandidateInterface
-  module CourseChoices
-    class CourseReviewStep
+  module Steps
+    class CourseSelectionWizard::FullCourseSelection
       include DfE::Wizard::Step
-
-      def next_step; end
     end
   end
 end

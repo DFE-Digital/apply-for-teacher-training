@@ -1,5 +1,5 @@
 <%= f.govuk_error_summary %>
-<%= f.hidden_field(:provider_id) %>
+<%= f.hidden_field(:provider_id, value: @wizard.provider_id) %>
 
 <% if @wizard.current_step.provider_exists? %>
   <span class="govuk-caption-xl govuk-!-margin-top-0">

@@ -1,6 +1,7 @@
 module CandidateInterface
   module CourseChoices
-    class FindCourseSelectionStep < DfE::Wizard::Step
+    class FindCourseSelectionStep
+      include DfE::Wizard::Step
       include CandidateInterface::Concerns::CourseSelectionStepHelper
 
       attr_accessor :course_id, :confirm
