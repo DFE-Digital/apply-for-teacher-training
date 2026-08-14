@@ -82,8 +82,8 @@ RSpec.describe ApplicationForm do
   describe 'callbacks' do
     before do
       allow(FeatureFlag).to receive(:active?)
-        .with('2027_application_form_contact_details_residency_questions')
-        .and_return(true)
+                              .with('2027_application_form_contact_details_residency_questions')
+                              .and_return(true)
     end
 
     describe 'set_residency_date_from' do
@@ -137,8 +137,8 @@ RSpec.describe ApplicationForm do
       context 'when the feature flag is off' do
         before do
           allow(FeatureFlag).to receive(:active?)
-            .with('2027_application_form_contact_details_residency_questions')
-            .and_return(false)
+                                  .with('2027_application_form_contact_details_residency_questions')
+                                  .and_return(false)
         end
 
         it 'does not run the callback' do
@@ -428,8 +428,8 @@ RSpec.describe ApplicationForm do
         expected_calls_to_worker = address_attributes.size # Each update excluding the initial create
         expect(GeocodeApplicationAddressWorker)
           .to have_been_enqueued
-          .with(application_form.id)
-          .exactly(expected_calls_to_worker).times
+                .with(application_form.id)
+                .exactly(expected_calls_to_worker).times
       end
 
       it 'does not invoke geocoding for international addresses' do
@@ -965,7 +965,7 @@ RSpec.describe ApplicationForm do
     it 'calls #hesa_code_for_country for international addresses' do
       application_form = build_stubbed(:completed_application_form, :international_address)
       allow(DomicileResolver).to receive(:hesa_code_for_country)
-                                 .with(application_form.country).and_return(':)')
+                                   .with(application_form.country).and_return(':)')
 
       expect(application_form.domicile).to eq(':)')
     end
@@ -973,7 +973,7 @@ RSpec.describe ApplicationForm do
     it 'calls #hesa_code_for_postcode for UK addresses' do
       application_form = create(:completed_application_form)
       allow(DomicileResolver).to receive(:hesa_code_for_postcode_or_region)
-                                 .with(application_form.postcode, application_form.region_code).and_return(':)')
+                                   .with(application_form.postcode, application_form.region_code).and_return(':)')
 
       expect(application_form.domicile).to eq(':)')
     end
@@ -1559,8 +1559,8 @@ RSpec.describe ApplicationForm do
     it 'returns true when the validation is valid' do
       application_form = build(:application_form)
       allow(Adviser::ApplicationFormValidations).to receive(:new)
-                                                .with(application_form)
-                                                .and_return(instance_double(Adviser::ApplicationFormValidations, valid?: true))
+                                                      .with(application_form)
+                                                      .and_return(instance_double(Adviser::ApplicationFormValidations, valid?: true))
 
       expect(application_form.eligible_and_unassigned_a_teaching_training_adviser?).to be true
     end
@@ -2281,6 +2281,42 @@ RSpec.describe ApplicationForm do
 
     it 'returns only the application choices with september start dates' do
       expect(application_form.september_application_choices).to contain_exactly(september_choice)
+    end
+  end
+
+  describe '#cannot_touch_choices?' do
+    before { RequestStore.store[:allow_unsafe_application_choice_touches] = false }
+
+    it 'allows touches on applications that has been deferred from a previous year' do
+      application_choice = create(
+        :application_choice,
+        :offer_deferred,
+        application_form: build(:application_form, recruitment_cycle_year: previous_year),
+      )
+
+      expect(application_choice.application_form.cannot_touch_choices?).to be(false)
+    end
+
+    it 'allows touches on applications that have been deferred and then confirmed to another course' do
+      application_choice = create(
+        :application_choice,
+        :recruited,
+        offer_deferred_at: 1.year.ago,
+        application_form: build(:application_form, recruitment_cycle_year: previous_year),
+      )
+
+      expect(application_choice.application_form.cannot_touch_choices?).to be(false)
+    end
+
+    it 'does not allow touches when application was recruited in a previous year, never deferred' do
+      application_choice = create(
+        :application_choice,
+        :recruited,
+        offer_deferred_at: nil,
+        application_form: build(:application_form, recruitment_cycle_year: previous_year),
+      )
+
+      expect(application_choice.application_form.cannot_touch_choices?).to be(true)
     end
   end
 end
