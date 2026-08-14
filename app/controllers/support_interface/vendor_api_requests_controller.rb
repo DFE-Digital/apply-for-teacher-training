@@ -10,7 +10,7 @@ module SupportInterface
                               VendorAPIRequest.none
                             end
 
-      @pagy, @vendor_api_requests = pagy(vendor_api_requests, limit: PAGY_PER_PAGE)
+      @pagy, @vendor_api_requests = pagy_array(vendor_api_requests, limit: PAGY_PER_PAGE)
     end
   end
 end
