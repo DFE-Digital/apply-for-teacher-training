@@ -7,23 +7,18 @@ module CandidateInterface
       before_action :redirect_to_your_applications_if_maximum_amount_of_unsuccessful_applications_have_been_reached, only: %i[new create]
       before_action :redirect_to_your_applications_if_cycle_is_over
       before_action :redirect_to_your_applications_if_submitted, only: %i[edit update]
+      before_action :assign_wizard
 
-      def new
-        @wizard = CandidateInterface::CourseChoices::CourseSelectionWizard.new(
-          current_step:,
-          step_params:,
-          current_application:,
-        )
-      end
+      def new; end
 
       def edit
-        @wizard = CandidateInterface::CourseChoices::CourseSelectionWizard.new(
-          current_step:,
-          step_params: update_params,
-          current_application:,
-          application_choice:,
-          edit: true,
-        )
+        # @wizard = CandidateInterface::CourseSelectionWizard.new(
+        #   current_step:,
+        #   step_params: update_params,
+        #   current_application:,
+        #   application_choice:,
+        #   edit: true,
+        # )
         @back_link = if params[:return_to] == 'review'
                        candidate_interface_course_choices_course_review_path
                      else
@@ -32,13 +27,13 @@ module CandidateInterface
       end
 
       def create
-        @wizard = CandidateInterface::CourseChoices::CourseSelectionWizard.new(
-          current_step:,
-          step_params:,
-          current_application:,
-        )
-
-        if @wizard.save
+        # @wizard = CandidateInterface::CourseSelectionWizard.new(
+        #   current_step:,
+        #   step_params:,
+        #   current_application:,
+        # )
+        if @wizard.current_step_valid?
+          @wizard.save_current_step
           redirect_to @wizard.next_step_path
         else
           render :new
@@ -46,13 +41,13 @@ module CandidateInterface
       end
 
       def update
-        @wizard = CandidateInterface::CourseChoices::CourseSelectionWizard.new(
-          current_step:,
-          step_params: update_params,
-          current_application:,
-          application_choice:,
-          edit: true,
-        )
+        # @wizard = CandidateInterface::CourseSelectionWizard.new(
+        #   current_step:,
+        #   step_params: update_params,
+        #   current_application:,
+        #   application_choice:,
+        #   edit: true,
+        # )
 
         if @wizard.update
           redirect_to @wizard.next_step_path
@@ -110,6 +105,26 @@ module CandidateInterface
 
       def redirect_to_your_applications_if_maximum_amount_of_unsuccessful_applications_have_been_reached
         redirect_to candidate_interface_application_choices_path if current_application.unsuccessful_limit_reached?
+      end
+
+      def assign_wizard
+        step_params[:which_course_are_you_applying_to]
+        @wizard ||= CandidateInterface::CourseSelectionWizard.new(
+          current_step:,
+          current_step_params: step_params,
+          state_store:
+        ).tap do |wizard|
+          wizard.current_application = current_application
+        end
+      end
+
+      def state_store
+        CandidateInterface::StateStores::CourseSelectionWizardStore.new(
+          repository: DfE::Wizard::Repository::Session.new(
+            session:,
+            key: :candidate_interface_course_selection_wizard
+          ),
+        )
       end
     end
   end

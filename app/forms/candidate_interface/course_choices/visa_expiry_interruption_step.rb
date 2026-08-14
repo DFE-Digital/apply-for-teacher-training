@@ -1,6 +1,7 @@
 module CandidateInterface
   module CourseChoices
-    class VisaExpiryInterruptionStep < DfE::Wizard::Step
+    class VisaExpiryInterruptionStep
+      include DfE::Wizard::Step
       include Rails.application.routes.url_helpers
       include CandidateInterface::Concerns::CourseSelectionStepHelper
 

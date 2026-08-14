@@ -32,12 +32,13 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/dfe-wizard.git
-  revision: 2968ba3310680071948df98eca11d3a6dbe49a6c
-  tag: v0.1.0
+  revision: c7680087ae676c4e4000488cb6cc26eb61113aa8
+  ref: c7680087
   specs:
-    dfe-wizard (0.1.0)
+    dfe-wizard (1.0.0.beta)
       activemodel
       activesupport
+      ruby-graphviz
 
 GIT
   remote: https://github.com/DFE-Digital/get-into-teaching-api-ruby-client.git
@@ -1086,7 +1087,7 @@ CHECKSUMS
   dfe-analytics (1.15.17)
   dfe-autocomplete (0.2.1)
   dfe-reference-data (3.8.6)
-  dfe-wizard (0.1.0)
+  dfe-wizard (1.0.0.beta)
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
   discard (2.0.0) sha256=0fc520786b4d7b9b1ea8b2b3dadbb13c3e41d2ce7d297d04869baf1c9e30d2c0
   docile (1.4.1) sha256=96159be799bfa73cdb721b840e9802126e4e03dfc26863db73647204c727f21e
