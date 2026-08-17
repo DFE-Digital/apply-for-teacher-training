@@ -33,7 +33,7 @@ STANDARD_TEST_DATES = {
   'after_apply_reopens' => (RecruitmentCycleTimetable.current_timetable.apply_reopens_at + 1.day).to_fs,
 }.freeze
 
-test_date_time_var = ENV.fetch('TEST_DATE_AND_TIME', 'real_world')
+test_date_time_var = ENV.fetch('TEST_DATE_AND_TIME', 'before_apply_reopens')
 test_date_time = STANDARD_TEST_DATES.fetch(test_date_time_var, test_date_time_var)
 
 TestSuiteTimeMachine.pretend_it_is(test_date_time)
@@ -182,7 +182,7 @@ RSpec.configure do |config|
 
   config.before do
     RequestStore.store[:allow_unsafe_application_choice_touches] = true
-
+    # ENV['DEFAULT_FEATURE_FLAG_STATE'] = 'off'
     if ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on'
       records = FeatureFlag::TEMPORARY_FEATURE_FLAGS.map do |name, _|
         { name:, active: true, created_at: Time.zone.now, updated_at: Time.zone.now }
