@@ -89,8 +89,12 @@ class RecruitmentCycleTimetable < ApplicationRecord
   end
 
   def self.current_cycle_week
-    weeks = (Time.zone.now - current_timetable.find_opens_at.beginning_of_week).seconds.in_weeks.to_i
-    (weeks % 53)
+    if current_timetable.after_find_closes?
+      52
+    else
+      weeks = (Time.zone.now - current_timetable.find_opens_at.beginning_of_week).seconds.in_weeks.to_i
+      (weeks % 53)
+    end
   end
 
   def self.this_day_last_cycle

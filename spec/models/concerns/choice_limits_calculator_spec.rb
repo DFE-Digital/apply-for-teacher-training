@@ -46,7 +46,7 @@ RSpec.describe ChoiceLimitsCalculator do
     end
 
     it 'only allows 19 total submitted applications, regardless of state' do
-      application_form = create(:application_form)
+      application_form = create(:application_form, recruitment_cycle_year: 2026)
       create_list(:application_choice, 3, :awaiting_provider_decision, application_form:)
       create_list(:application_choice, 14, :rejected, application_form:)
       expect(application_form.reload.cannot_submit_more_choices?).to be false
@@ -88,7 +88,7 @@ RSpec.describe ChoiceLimitsCalculator do
     end
 
     it 'allows 15 unsuccessful before reducing slots' do
-      application_form = create(:application_form)
+      application_form = create(:application_form, recruitment_cycle_year: 2026)
       create_list(:application_choice, 15, :withdrawn, application_form:)
       expect(application_form.reload.number_of_slots_left).to eq 4
 

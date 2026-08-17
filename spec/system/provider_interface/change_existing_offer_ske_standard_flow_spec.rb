@@ -25,6 +25,8 @@ RSpec.describe 'Provider changes an existing offer', :with_cache do
   end
   let(:course_option) { build(:course_option, course:) }
 
+  before { Rails.cache.clear }
+
   scenario 'Changing an offer which has already been made' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider

@@ -1,6 +1,18 @@
 {
   "data": [
     {
+      "find_opens_at": "2028-10-03T09:00:00+01:00",
+      "apply_opens_at": "2028-10-10T09:00:00+01:00",
+      "apply_deadline_at": "2029-09-18T18:00:00+01:00",
+      "reject_by_default_at": "2029-09-26T23:59:59+01:00",
+      "decline_by_default_at": "2029-09-30T23:59:59+01:00",
+      "find_closes_at": "2029-10-01T23:59:59+01:00",
+      "recruitment_cycle_year": 2029,
+      "updated_at": "2026-08-14T16:40:37+01:00",
+      "winter_reject_by_default_at": "2030-01-23T23:59:59+00:00",
+      "winter_decline_by_default_at": "2030-01-27T23:59:59+00:00"
+    },
+    {
       "find_opens_at": "2027-10-05T09:00:00+01:00",
       "apply_opens_at": "2027-10-12T09:00:00+01:00",
       "apply_deadline_at": "2028-09-19T18:00:00+01:00",
@@ -9,8 +21,8 @@
       "find_closes_at": "2028-10-02T23:59:59+01:00",
       "recruitment_cycle_year": 2028,
       "updated_at": "2025-08-15T09:48:55+01:00",
-      "winter_reject_by_default_at": "2029-01-31T23:59:59+01:00",
-      "winter_decline_by_default_at": "2029-02-04T23:59:59+01:00"
+      "winter_reject_by_default_at": "2029-01-24T23:59:59+00:00",
+      "winter_decline_by_default_at": "2029-01-28T23:59:59+00:00"
     },
     {
       "find_opens_at": "2026-09-29T09:00:00+01:00",
@@ -21,8 +33,8 @@
       "find_closes_at": "2027-10-04T23:59:59+01:00",
       "recruitment_cycle_year": 2027,
       "updated_at": "2025-08-15T09:48:53+01:00",
-      "winter_reject_by_default_at": "2028-02-02T23:59:59+01:00",
-      "winter_decline_by_default_at": "2028-02-06T23:59:59+01:00"
+      "winter_reject_by_default_at": "2028-01-26T23:59:59+00:00",
+      "winter_decline_by_default_at": "2028-01-30T23:59:59+00:00"
     },
     {
       "find_opens_at": "2025-09-30T09:00:00+01:00",
@@ -33,8 +45,8 @@
       "find_closes_at": "2026-09-28T23:59:59+01:00",
       "recruitment_cycle_year": 2026,
       "updated_at": "2025-08-15T09:48:24+01:00",
-      "winter_reject_by_default_at": "2027-01-27T23:59:59+01:00",
-      "winter_decline_by_default_at": "2027-01-31T23:59:59+01:00"
+      "winter_reject_by_default_at": "2027-01-20T23:59:59+00:00",
+      "winter_decline_by_default_at": "2027-01-24T23:59:59+00:00"
     },
     {
       "find_opens_at": "2024-10-01T09:00:00+01:00",
@@ -45,8 +57,8 @@
       "find_closes_at": "2025-09-29T23:59:59+01:00",
       "recruitment_cycle_year": 2025,
       "updated_at": "2025-08-15T09:45:49+01:00",
-      "winter_reject_by_default_at": "2026-01-28T23:59:59+01:00",
-      "winter_decline_by_default_at": "2026-02-01T23:59:59+01:00"
+      "winter_reject_by_default_at": "2026-01-21T23:59:59+00:00",
+      "winter_decline_by_default_at": "2026-01-25T23:59:59+00:00"
     },
     {
       "find_opens_at": "2023-10-03T09:00:00+01:00",
@@ -57,8 +69,8 @@
       "find_closes_at": "2024-09-30T23:59:59+01:00",
       "recruitment_cycle_year": 2024,
       "updated_at": "2025-01-31T14:52:26+00:00",
-      "winter_reject_by_default_at": "2025-01-29T23:59:59+01:00",
-      "winter_decline_by_default_at": "2025-02-02T23:59:59+01:00"
+      "winter_reject_by_default_at": "2025-01-22T23:59:59+00:00",
+      "winter_decline_by_default_at": "2025-01-26T23:59:59+00:00"
     },
     {
       "find_opens_at": "2022-10-04T09:00:00+01:00",
@@ -69,8 +81,8 @@
       "find_closes_at": "2023-10-02T23:59:59+01:00",
       "recruitment_cycle_year": 2023,
       "updated_at": "2025-01-31T14:52:26+00:00",
-      "winter_reject_by_default_at": "2024-01-31T23:59:59+01:00",
-      "winter_decline_by_default_at": "2024-02-04T23:59:59+01:00"
+      "winter_reject_by_default_at": "2024-01-24T23:59:59+00:00",
+      "winter_decline_by_default_at": "2024-01-28T23:59:59+00:00"
     },
     {
       "find_opens_at": "2021-10-05T09:00:00+01:00",
@@ -81,8 +93,8 @@
       "find_closes_at": "2022-10-03T23:59:59+01:00",
       "recruitment_cycle_year": 2022,
       "updated_at": "2025-01-31T14:52:26+00:00",
-      "winter_reject_by_default_at": "2023-02-01T23:59:59+01:00",
-      "winter_decline_by_default_at": "2023-02-05T23:59:59+01:00"
+      "winter_reject_by_default_at": "2023-01-25T23:59:59+00:00",
+      "winter_decline_by_default_at": "2023-01-29T23:59:59+00:00"
     },
     {
       "find_opens_at": "2020-10-06T09:00:00+01:00",
@@ -93,8 +105,8 @@
       "find_closes_at": "2021-10-04T23:59:59+01:00",
       "recruitment_cycle_year": 2021,
       "updated_at": "2025-01-31T14:52:26+00:00",
-      "winter_reject_by_default_at": "2022-02-02T23:59:59+01:00",
-      "winter_decline_by_default_at": "2022-02-06T23:59:59+01:00"
+      "winter_reject_by_default_at": "2022-01-26T23:59:59+00:00",
+      "winter_decline_by_default_at": "2022-01-30T23:59:59+00:00"
     },
     {
       "find_opens_at": "2019-10-06T09:00:00+01:00",
@@ -105,8 +117,8 @@
       "find_closes_at": "2020-10-03T23:59:59+01:00",
       "recruitment_cycle_year": 2020,
       "updated_at": "2025-01-31T14:52:26+00:00",
-      "winter_reject_by_default_at": "2021-02-02T23:59:59+01:00",
-      "winter_decline_by_default_at": "2021-02-05T23:59:59+01:00"
+      "winter_reject_by_default_at": "2021-01-26T23:59:59+00:00",
+      "winter_decline_by_default_at": "2021-01-29T23:59:59+00:00"
     },
     {
       "find_opens_at": "2018-10-06T09:00:00+01:00",
@@ -117,8 +129,8 @@
       "find_closes_at": "2019-10-03T23:59:59+01:00",
       "recruitment_cycle_year": 2019,
       "updated_at": "2025-01-31T14:52:26+00:00",
-      "winter_reject_by_default_at": "2020-02-02T23:59:59+01:00",
-      "winter_decline_by_default_at": "2020-02-05T23:59:59+01:00"
+      "winter_reject_by_default_at": "2020-01-26T23:59:59+00:00",
+      "winter_decline_by_default_at": "2020-01-29T23:59:59+00:00"
     }
   ]
 }
