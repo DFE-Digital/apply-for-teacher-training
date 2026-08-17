@@ -9,8 +9,6 @@ Hello <%= @application_form.first_name %>
   <%= render "candidate_mailer/tailored_rejection_advice/#{advice_reason_id}_tailored_advice" %>
 <% end %>
 
-<%= render 'understand_your_professional_strengths' %>
-
 <% if @include_fee_funded_nudge %>
   <%= render 'candidate_mailer/application_rejected/fee_funded_nudge' %>
 <% end %>

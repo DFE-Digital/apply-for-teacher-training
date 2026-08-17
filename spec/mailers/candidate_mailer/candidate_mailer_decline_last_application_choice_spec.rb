@@ -15,8 +15,6 @@ RSpec.describe CandidateMailer do
         'greeting' => 'Hello Fred',
         'still interested' => 'If now’s the right time for you, you can still apply for up to 4 more courses this year.',
         'content' => 'declined your offer to study',
-        'realistic job preview' => 'Try the realistic job preview tool',
-        'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
       )
       context 'with a course recommendation url' do
         let(:email) { described_class.decline_last_application_choice(application_choices.first, 'https://www.find-postgraduate-teacher-training.service.gov.uk/results') }
@@ -27,8 +25,6 @@ RSpec.describe CandidateMailer do
           'greeting' => 'Hello Fred',
           'still interested' => 'If now’s the right time for you, you can still apply for up to 4 more courses this year.',
           'content' => 'declined your offer to study',
-          'realistic job preview' => 'Try the realistic job preview tool',
-          'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
           'course recommendation' => 'Based on the details in your previous application, you could be suitable for other teacher training courses.',
           'course recommendation link' => 'https://www.find-postgraduate-teacher-training.service.gov.uk/results',
         )

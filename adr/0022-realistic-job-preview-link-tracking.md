@@ -4,7 +4,11 @@
 
 ## Status:
 
-Proposed
+Withdrawn
+
+## Update as of 17 August 2026
+
+We are not renewing our subscription to the Realistic Job Preview, so all references to it will be removed
 
 ## Context
 
