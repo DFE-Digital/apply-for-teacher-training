@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_14_130937) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_17_090110) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -539,6 +539,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_14_130937) do
     t.boolean "can_sponsor_student_visa"
     t.string "code"
     t.string "course_length"
+    t.string "course_status", default: "closed", null: false
     t.datetime "created_at", null: false
     t.string "degree_grade"
     t.string "degree_subject_requirements"

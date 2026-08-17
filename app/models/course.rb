@@ -36,6 +36,11 @@ class Course < ApplicationRecord
     open: 1,
   }, prefix: :application_status
 
+  enum :course_status, {
+    closed: 'closed',
+    open: 'open',
+  }, prefix: :course_status
+
   enum :level, {
     primary: 'Primary',
     secondary: 'Secondary',

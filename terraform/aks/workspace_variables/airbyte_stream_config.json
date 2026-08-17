@@ -2214,6 +2214,11 @@
           },
           {
             "fieldPath": [
+              "course_status"
+            ]
+          },
+          {
+            "fieldPath": [
               "can_sponsor_skilled_worker_visa"
             ]
           },
