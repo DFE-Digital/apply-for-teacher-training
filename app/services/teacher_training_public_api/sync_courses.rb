@@ -91,6 +91,7 @@ module TeacherTrainingPublicAPI
       course.age_range = age_range_in_years(course_from_api)
       course.applications_open_from = timetable.find_opens_at
       course.application_status = course_from_api.application_status
+      course.course_status = course_from_api.application_status
       course.can_sponsor_skilled_worker_visa = course_from_api.can_sponsor_skilled_worker_visa
       course.can_sponsor_student_visa = course_from_api.can_sponsor_student_visa
       course.code = course_from_api.code

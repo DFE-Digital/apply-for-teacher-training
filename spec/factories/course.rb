@@ -27,12 +27,14 @@ FactoryBot.define do
 
     trait :open do
       application_status { 'open' }
+      course_status { 'open' }
       exposed_in_find { true }
       recruitment_cycle_year { CycleTimetableHelper.current_year }
     end
 
     trait :closed do
       application_status { 'closed' }
+      course_status { 'closed' }
     end
 
     trait :with_accredited_provider do
