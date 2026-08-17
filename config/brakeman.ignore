@@ -116,29 +116,6 @@
       "note": ""
     },
     {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "7ebec2ba1f928826a941998c744411d55731a6eeb19dc1b1a406b3fb3a19b330",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/support_interface/vendor_api_monitor.rb",
-      "line": 31,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "connected.select(\"last_syncs.last_sync as last_sync, vendor_id\").joins(\"LEFT JOIN (#{VendorAPIRequest.successful.syncs.select(\"provider_id, MAX(vendor_api_requests.created_at) as last_sync\").group(\"provider_id\").to_sql}) last_syncs on last_syncs.provider_id = providers.id\").where(\"last_sync < ('#{pg_now}'::TIMESTAMPTZ - interval '24 hours') OR last_sync IS NULL\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "SupportInterface::VendorAPIMonitor",
-        "method": "no_sync_in_24h"
-      },
-      "user_input": "pg_now",
-      "confidence": "Weak",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
       "warning_type": "Unscoped Find",
       "warning_code": 82,
       "fingerprint": "9e900042a97ec79a46b47b5c58b9adfa1391693e495a89dbf455607b3b2603d8",
@@ -164,52 +141,6 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "a5a84261000bc24d5d1ff692d262b771f7f2bce9cedd058f1db85cb2b94f0870",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/support_interface/vendor_api_monitor.rb",
-      "line": 55,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "VendorAPIRequest.select(\"provider_id, COUNT(vendor_api_requests.id) as count\").where(\"vendor_api_requests.created_at > ('#{pg_now}'::TIMESTAMPTZ - interval '7 days')\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "SupportInterface::VendorAPIMonitor",
-        "method": "providers_with_errors"
-      },
-      "user_input": "pg_now",
-      "confidence": "Medium",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "a69c2ff3682a5ad58bacee0f45b507c323b72f778786686538a546d32c9cbf6b",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/support_interface/vendor_api_monitor.rb",
-      "line": 38,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "connected.select(\"last_syncs.last_sync as last_sync, vendor_id\").joins(\"LEFT JOIN (#{VendorAPIRequest.successful.syncs.select(\"provider_id, MAX(vendor_api_requests.created_at) as last_sync\").group(\"provider_id\").to_sql}) last_syncs on last_syncs.provider_id = providers.id\").where(\"last_sync < ('#{pg_now}'::TIMESTAMPTZ - interval '7 days') OR last_sync IS NULL\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "SupportInterface::VendorAPIMonitor",
-        "method": "no_sync_in_7d"
-      },
-      "user_input": "pg_now",
-      "confidence": "Weak",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
       "fingerprint": "baee8f95666b7ed7fee05665c97f0ba1a818683e958f940ccf8c7ffd980fdb64",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -225,52 +156,6 @@
       },
       "user_input": "permission",
       "confidence": "Weak",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "c72cb22d421486df577321b15e768add7cdaec0bc32aeb44db6d5e996a5f7705",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/support_interface/vendor_api_monitor.rb",
-      "line": 45,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "connected.select(\"last_decisions.last_decision as last_decision, vendor_id\").joins(\"LEFT JOIN (#{VendorAPIRequest.successful.decisions.select(\"provider_id, MAX(vendor_api_requests.created_at) as last_decision\").group(\"provider_id\").to_sql}) last_decisions on last_decisions.provider_id = providers.id\").where(\"last_decision < ('#{pg_now}'::TIMESTAMPTZ - interval '7 days') OR last_decision IS NULL\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "SupportInterface::VendorAPIMonitor",
-        "method": "no_decisions_in_7d"
-      },
-      "user_input": "pg_now",
-      "confidence": "Weak",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "dec17808bfcb16d7a790ec0a75640bf5735beda9cb32f1c5c26d09eedaba85a5",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/support_interface/vendor_api_monitor.rb",
-      "line": 54,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "VendorAPIRequest.errors.select(\"provider_id, COUNT(vendor_api_requests.id) as count\").where(\"vendor_api_requests.created_at > ('#{pg_now}'::TIMESTAMPTZ - interval '7 days')\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "SupportInterface::VendorAPIMonitor",
-        "method": "providers_with_errors"
-      },
-      "user_input": "pg_now",
-      "confidence": "Medium",
       "cwe_id": [
         89
       ],
