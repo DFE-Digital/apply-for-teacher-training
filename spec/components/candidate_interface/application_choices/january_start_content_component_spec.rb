@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplicationChoices::JanuaryStartContentComponent do
-  let(:application_form) { create(:application_form, recruitment_cycle_year: 2026) }
+  let(:application_form) { create(:application_form, recruitment_cycle_year: current_year) }
   let(:component) { described_class.new(application_form:) }
   let(:recruitment_cycle_timetable) { application_form.recruitment_cycle_timetable }
 
   describe '#render?' do
     subject(:rendered) { component.render? }
 
-    let(:course) { build(:course, start_date: "01/01/#{application_form.recruitment_cycle_year + 1}") }
+    let(:course) { build(:course, start_date: "01/01/#{next_year}") }
     let(:course_option) { build(:course_option, course:) }
     let(:application_choice) { create(:application_choice, course_option:, application_form:) }
     let(:rendered_component) { render_inline(described_class.new(application_form:)) }
@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::ApplicationChoices::JanuaryStartContentCompon
 
         expect(rendered_component).to have_element(
           :h2,
-          text: 'Courses starting by January 2027',
+          text: "Courses starting by January #{next_year}",
           class: 'govuk-heading-l',
         )
         expect(rendered_component).to have_element(
@@ -49,7 +49,7 @@ RSpec.describe CandidateInterface::ApplicationChoices::JanuaryStartContentCompon
 
   describe '#title' do
     it 'returns the title of the component with the correct academic year' do
-      expect(component.title).to eq('Courses starting by January 2027')
+      expect(component.title).to eq("Courses starting by January #{next_year}")
     end
   end
 

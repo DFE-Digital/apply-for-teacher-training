@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComponent do
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(2026))
+  end
+
   let(:application_form) { create(:application_form, recruitment_cycle_year: 2026) }
   let(:component) { described_class.new(application_form:) }
   let(:recruitment_cycle_timetable) { application_form.recruitment_cycle_timetable }

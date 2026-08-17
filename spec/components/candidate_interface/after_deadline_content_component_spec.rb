@@ -140,7 +140,7 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
       end
     end
 
-    context 'when the apply deadline has not passed' do
+    context 'when the apply deadline has not passed', time: mid_cycle do
       context 'when the application form has been carried over' do
         let(:application_form) { create(:application_form, :carry_over) }
 

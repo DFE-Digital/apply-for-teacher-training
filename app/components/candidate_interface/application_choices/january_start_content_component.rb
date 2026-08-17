@@ -67,7 +67,7 @@ class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < App
   end
 
   def application_choices
-    CandidateInterface::SortApplicationChoices.call(
+    @application_choices ||= CandidateInterface::SortApplicationChoices.call(
       application_choices: application_form
                              .application_choices
                              .course_starts_after_september(recruitment_cycle_year)

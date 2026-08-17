@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe RecruitmentPerformanceReport::ReportMethodologyComponent do
+  before do
+    TestSuiteTimeMachine.travel_permanently_to(mid_cycle(2026))
+  end
+
   let(:provider_report) {
     Publications::ProviderRecruitmentPerformanceReportPresenter.new(
       create(

@@ -1,5 +1,5 @@
 <% if RecruitmentCycleTimetable.currently_between_cycles? %>
-# You can apply again from <%= I18n.l(RecruitmentCycleTimetable.current_timetable.apply_reopens_at.to_date, format: :long) %>
+# You can apply again from <%= RecruitmentCycleTimetable.current_timetable.apply_reopens_at.to_fs(:govuk_date) %>
 
 Lots of people are successful when they apply again.
 <% else %>
