@@ -12,13 +12,6 @@ module CandidateInterface
       def new; end
 
       def edit
-        # @wizard = CandidateInterface::CourseSelectionWizard.new(
-        #   current_step:,
-        #   step_params: update_params,
-        #   current_application:,
-        #   application_choice:,
-        #   edit: true,
-        # )
         @back_link = if params[:return_to] == 'review'
                        candidate_interface_course_choices_course_review_path
                      else
@@ -27,11 +20,6 @@ module CandidateInterface
       end
 
       def create
-        # @wizard = CandidateInterface::CourseSelectionWizard.new(
-        #   current_step:,
-        #   step_params:,
-        #   current_application:,
-        # )
         if @wizard.current_step_valid?
           @wizard.save_current_step
           redirect_to @wizard.next_step_path
@@ -41,15 +29,8 @@ module CandidateInterface
       end
 
       def update
-        # @wizard = CandidateInterface::CourseSelectionWizard.new(
-        #   current_step:,
-        #   step_params: update_params,
-        #   current_application:,
-        #   application_choice:,
-        #   edit: true,
-        # )
-
-        if @wizard.update
+        if @wizard.current_step_valid?
+          @wizard.save_current_step
           redirect_to @wizard.next_step_path
         else
           render :edit

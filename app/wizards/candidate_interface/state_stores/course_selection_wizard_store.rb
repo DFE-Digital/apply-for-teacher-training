@@ -14,7 +14,11 @@ module CandidateInterface
       end
 
       def provider
-        Provider.find(provider_id)
+        if provider_id.present?
+          Provider.find(provider_id)
+        else
+          application_choice&.provider
+        end
       end
 
       def provider_exists?
@@ -22,7 +26,11 @@ module CandidateInterface
       end
 
       def course
-        provider.courses.find(course_id)
+        if course_id.present?
+          provider.courses.find(course_id)
+        else
+          application_choice&.course
+        end
       end
 
       def current_application
@@ -52,7 +60,7 @@ module CandidateInterface
       end
 
       def not_multiple_sites_or_study_modes?
-        !multiple_study_modes? && not_multiple_sites?
+        !multiple_study_modes? && not_multiple_sites? && !visa_expires_soon?
       end
 
       def multiple_study_modes?
@@ -73,6 +81,14 @@ module CandidateInterface
 
       def confirm_answer?
         ActiveModel::Type::Boolean.new.cast(confirm).present?
+      end
+
+      def application_choice
+        current_application.application_choices.find(self[:application_choice_id])
+      end
+
+      def visa_expires_soon?
+        application_choice.visa_expires_soon?
       end
     end
   end
