@@ -16,7 +16,7 @@ RSpec.describe GetAvailableCoursesForProvider do
         exposed_in_find: true,
         name: 'Math',
         provider:,
-        application_status: 'closed',
+        course_status: 'closed',
       )
       _previous_cycle = create(:course, :previous_year, exposed_in_find: true, provider:)
 
@@ -42,7 +42,7 @@ RSpec.describe GetAvailableCoursesForProvider do
   describe '#open_courses' do
     it 'returns all open courses in the current cycle' do
       open = create(:course, :open, provider:)
-      _closed = create(:course, application_status: 'closed', provider:)
+      _closed = create(:course, course_status: 'closed', provider:)
       _closed_exposed_in_find = create(
         :course,
         :unavailable,

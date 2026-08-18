@@ -196,6 +196,7 @@ RSpec.describe 'Sync courses', :with_cache do
     expect(course.can_sponsor_skilled_worker_visa).to be true
     expect(course.can_sponsor_student_visa).to be true
     expect(course.application_status).to eq 'closed'
+    expect(course.course_status).to eq 'closed'
   end
 
   def then_it_creates_one_undergraduate_course
@@ -221,6 +222,7 @@ RSpec.describe 'Sync courses', :with_cache do
     expect(course.can_sponsor_skilled_worker_visa).to be false
     expect(course.can_sponsor_student_visa).to be false
     expect(course.application_status).to eq 'open'
+    expect(course.course_status).to eq 'open'
   end
 
   def and_it_sets_the_last_synced_timestamp

@@ -16,7 +16,7 @@ class Course < ApplicationRecord
 
   scope :exposed_in_find, -> { where(exposed_in_find: true) }
   scope :open_for_applications, -> { current_cycle }
-  scope :open, -> { application_status_open.exposed_in_find.current_cycle }
+  scope :open, -> { course_status_open.exposed_in_find.current_cycle }
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
   scope :previous_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.previous_year) }
   scope :in_cycle, ->(year) { where(recruitment_cycle_year: year) }
@@ -148,7 +148,7 @@ class Course < ApplicationRecord
   end
 
   def open?
-    open_for_applications? && exposed_in_find && application_status_open?
+    open_for_applications? && exposed_in_find && course_status_open?
   end
 
   def open_for_applications?

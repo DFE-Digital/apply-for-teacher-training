@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationMonitor do
   let(:open_course) { create(:course, :open, :with_course_options) }
-  let(:closed_course) { create(:course, application_status: 'closed') }
+  let(:closed_course) { create(:course, course_status: 'closed') }
 
   let(:visible_course) { create(:course, :open, :with_course_options) }
   let(:hidden_course) { create(:course, :open, exposed_in_find: false) }
