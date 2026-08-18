@@ -337,6 +337,7 @@ shared:
     - accredited_provider_id
     - age_range
     - application_status
+    - course_status
     - can_sponsor_skilled_worker_visa
     - can_sponsor_student_visa
     - code
