@@ -108,8 +108,7 @@ module CandidateInterface
       end
 
       def assign_wizard
-        step_params[:which_course_are_you_applying_to]
-        @wizard ||= CandidateInterface::CourseSelectionWizard.new(
+        @wizard = CandidateInterface::CourseSelectionWizard.new(
           current_step:,
           current_step_params: step_params,
           state_store:
@@ -119,12 +118,18 @@ module CandidateInterface
       end
 
       def state_store
-        CandidateInterface::StateStores::CourseSelectionWizardStore.new(
+        @state_store = CandidateInterface::StateStores::CourseSelectionWizardStore.new(
           repository: DfE::Wizard::Repository::Session.new(
             session:,
             key: :candidate_interface_course_selection_wizard
           ),
         )
+        @state_store.write(current_application_id: current_application.id)
+        @state_store
+      end
+
+      def clear_wizard
+        @wizard.clear_state
       end
     end
   end
