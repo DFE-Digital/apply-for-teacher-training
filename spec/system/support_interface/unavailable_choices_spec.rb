@@ -22,7 +22,7 @@ RSpec.describe 'Unavailable choices' do
   def and_there_are_candidates_and_application_forms_in_the_system
     open_course = create(:course, :open, :with_course_options)
     hidden_course = create(:course, :open, :with_course_options, exposed_in_find: false)
-    closed_course = create(:course, :open, :with_course_options, application_status: 'closed')
+    closed_course = create(:course, :open, :with_course_options, course_status: 'closed')
 
     # application_to_open_course
     create(:application_choice, course: open_course, status: 'awaiting_provider_decision')

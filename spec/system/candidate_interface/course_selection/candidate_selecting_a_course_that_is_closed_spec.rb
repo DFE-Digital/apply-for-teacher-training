@@ -26,7 +26,7 @@ RSpec.describe 'Selecting a course' do
 
   def and_the_course_has_been_closed
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
-    @course = create(:course, :open, application_status: 'closed', name: 'Primary', code: '2XT2', provider: @provider)
+    @course = create(:course, :open, course_status: 'closed', name: 'Primary', code: '2XT2', provider: @provider)
   end
 
   def when_i_visit_the_site

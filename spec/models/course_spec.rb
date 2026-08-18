@@ -39,7 +39,7 @@ RSpec.describe Course do
     end
 
     context 'when application_status is closed' do
-      let(:course) { create(:course, :open, application_status: 'closed') }
+      let(:course) { create(:course, :open, course_status: 'closed') }
 
       it 'returns false' do
         expect(course).not_to be_open
@@ -81,7 +81,7 @@ RSpec.describe Course do
     end
 
     context 'when course is closed by provider' do
-      let(:course) { create(:course, :open, application_status: 'closed') }
+      let(:course) { create(:course, :open, course_status: 'closed') }
 
       it 'does not return the course' do
         expect(described_class.open).not_to include(course)

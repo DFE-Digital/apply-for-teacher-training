@@ -31,7 +31,7 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
   describe 'course closed by provider' do
     it 'displays the course is closed' do
       result = render_inline(
-        described_class.new(course: create(:course, application_status: 'closed')),
+        described_class.new(course: create(:course, course_status: 'closed')),
       )
 
       expect(result.text).to include('Closed by provider?Closed')
@@ -40,7 +40,7 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
 
   describe 'Apply from Find Link row' do
     it 'displays the link from Find' do
-      course = create(:course, application_status: 'closed')
+      course = create(:course, course_status: 'closed')
       render_inline(
         described_class.new(course:),
       )

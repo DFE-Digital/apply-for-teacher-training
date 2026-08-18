@@ -57,7 +57,7 @@ RSpec.describe 'Candidate tries to submit an application choice when the course 
   end
 
   def and_my_course_choice_becomes_closed
-    @application_choice.current_course.update(application_status: 'closed')
+    @application_choice.current_course.update(course_status: 'closed')
   end
 
   def and_my_course_choice_becomes_full
