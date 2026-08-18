@@ -11,7 +11,6 @@ class CourseUnavailableValidator < ActiveModel::EachValidator
               course.exposed_in_find? &&
               course.course_status_open?
 
-
     if course.course_status_closed?
       record.errors.add(
         attribute,
