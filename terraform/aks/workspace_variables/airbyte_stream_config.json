@@ -2209,11 +2209,6 @@
           },
           {
             "fieldPath": [
-              "application_status"
-            ]
-          },
-          {
-            "fieldPath": [
               "course_status"
             ]
           },
