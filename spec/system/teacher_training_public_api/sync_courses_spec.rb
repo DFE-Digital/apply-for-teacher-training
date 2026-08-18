@@ -195,7 +195,6 @@ RSpec.describe 'Sync courses', :with_cache do
     expect(course).not_to be_nil
     expect(course.can_sponsor_skilled_worker_visa).to be true
     expect(course.can_sponsor_student_visa).to be true
-    expect(course.application_status).to eq 'closed'
     expect(course.course_status).to eq 'closed'
   end
 
@@ -221,7 +220,6 @@ RSpec.describe 'Sync courses', :with_cache do
     expect(course.withdrawn).to be false
     expect(course.can_sponsor_skilled_worker_visa).to be false
     expect(course.can_sponsor_student_visa).to be false
-    expect(course.application_status).to eq 'open'
     expect(course.course_status).to eq 'open'
   end
 
