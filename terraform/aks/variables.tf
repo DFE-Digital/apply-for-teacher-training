@@ -148,3 +148,9 @@ variable "azure_backup_storage_private_endpoint_enabled" {
   default     = false
   description = "Use a private endpoint for backup storage account access"
 }
+
+variable "azure_backup_storage_public_network_access_enabled" {
+  type        = bool
+  description = "Whether public network access is allowed for the storage account"
+  default     = true
+}

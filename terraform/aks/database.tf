@@ -13,6 +13,7 @@ module "postgres" {
   azure_enable_monitoring                       = var.enable_alerting
   azure_enable_backup_storage                   = var.deploy_azure_backing_services
   azure_backup_storage_private_endpoint_enabled = var.azure_backup_storage_private_endpoint_enabled
+  azure_backup_storage_public_network_access_enabled = var.azure_backup_storage_public_network_access_enabled
   server_version                                = var.postgres_server_version
   admin_username                                = data.azurerm_key_vault_secret.postgres_admin_username.value
   admin_password                                = data.azurerm_key_vault_secret.postgres_admin_password.value
