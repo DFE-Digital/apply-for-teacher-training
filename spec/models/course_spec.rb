@@ -38,7 +38,7 @@ RSpec.describe Course do
       end
     end
 
-    context 'when application_status is closed' do
+    context 'when course_status is closed' do
       let(:course) { create(:course, :open, course_status: 'closed') }
 
       it 'returns false' do
