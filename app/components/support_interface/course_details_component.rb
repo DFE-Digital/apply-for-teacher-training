@@ -80,7 +80,7 @@ module SupportInterface
         },
         {
           key: 'Closed by provider?',
-          value: course.course_status_open? ? govuk_tag(text: 'Open', colour: 'green') : govuk_tag(text: 'Closed', colour: 'red'),
+          value: course.application_status_open? ? govuk_tag(text: 'Open', colour: 'green') : govuk_tag(text: 'Closed', colour: 'red'),
         },
         {
           key: 'Find status',

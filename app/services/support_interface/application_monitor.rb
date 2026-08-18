@@ -3,7 +3,7 @@ module SupportInterface
     def applications_to_closed_courses
       active_applications
         .joins(application_choices: { course_option: :course })
-        .where('courses.course_status' => 'closed')
+        .where('courses.application_status' => 'closed')
     end
 
     def applications_to_hidden_courses

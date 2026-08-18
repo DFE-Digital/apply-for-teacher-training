@@ -32,7 +32,6 @@ RSpec.describe CourseOption do
     it { is_expected.to delegate_method(:name).to(:site).with_prefix }
     it { is_expected.to delegate_method(:full_address).to(:site).with_prefix }
     it { is_expected.to delegate_method(:postcode).to(:site).with_prefix }
-    it { is_expected.to delegate_method(:course_status_closed?).to(:course) }
   end
 
   describe '.selectable' do

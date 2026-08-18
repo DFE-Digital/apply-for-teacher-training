@@ -95,7 +95,7 @@ private
     )
     @unavailable_course_invite = create(
       :pool_invite,
-      course: create(:course, :unavailable, course_status: 'closed'),
+      course: create(:course, :unavailable, application_status: 'closed'),
       course_open: false,
       application_form:,
       status: 'published',
@@ -264,7 +264,7 @@ private
     )
     @unavailable_course_invite = create(
       :pool_invite,
-      course: create(:course, :unavailable, course_status: 'closed'),
+      course: create(:course, :unavailable, application_status: 'closed'),
       course_open: false,
       application_form:,
       status: 'published',

@@ -40,7 +40,7 @@ module SupportInterface
         govuk_tag(text: t('open.text'), colour: t('open.colour'))
       elsif !course.exposed_in_find?
         govuk_tag(text: t('hidden.text'), colour: t('hidden.colour'))
-      elsif course.course_status_closed?
+      elsif course.application_status_closed?
         govuk_tag(text: t('closed.text'), colour: t('closed.colour'))
       else # rubocop:disable Lint/DuplicateBranch
         govuk_tag(text: t('unpublished.text'), colour: t('unpublished.colour'))

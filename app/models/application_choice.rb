@@ -215,7 +215,7 @@ class ApplicationChoice < ApplicationRecord
     I18n.t('errors.application_choices.course_not_available', descriptor: course.provider_and_name_code)
   end
 
-  delegate :course_status_closed?, to: :course_option
+  delegate :course_application_status_closed?, to: :course_option
 
   def course_application_status_closed
     I18n.t(
@@ -262,7 +262,7 @@ class ApplicationChoice < ApplicationRecord
   def course_option_availability_error?
     [
       course_not_available?,
-      course_status_closed?,
+      course_application_status_closed?,
       course_full?,
       site_full?,
       study_mode_full?,
