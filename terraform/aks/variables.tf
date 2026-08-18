@@ -142,3 +142,9 @@ locals {
   azure_storage_access_key   = var.create_storage_account ? azurerm_storage_account.data_exports_sa[0].primary_access_key : ""
   azure_storage_container    = var.create_storage_account ? azurerm_storage_container.data_exports_container[0].name : ""
 }
+
+variable "azure_backup_storage_private_endpoint_enabled" {
+  type        = bool
+  default     = false
+  description = "Use a private endpoint for backup storage account access"
+}
