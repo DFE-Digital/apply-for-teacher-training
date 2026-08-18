@@ -135,6 +135,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses do
       it 'updates the course to closed including the invite' do
         expect { perform_job }.not_to change(Course, :count)
         expect(course.reload.open?).to be(false)
+        expect(course.reload.course_status_open?).to be(false)
         expect(invite.reload.course_open).to be(false)
       end
     end
@@ -160,6 +161,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses do
 
         expect { perform_job }.not_to change(Course, :count)
         expect(course.reload.open?).to be(true)
+        expect(course.reload.course_status_open?).to be(true)
         expect(invite.reload.course_open).to be(true)
         expect(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
           have_received(:perform_later).with(course.id),
@@ -286,6 +288,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses do
       it 'updates the course to closed including the invite' do
         expect { perform_job }.not_to change(Course, :count)
         expect(course.reload.open?).to be(true)
+        expect(course.reload.course_status_open?).to be(true)
         expect(invite.reload.course_open).to be(false)
       end
     end
