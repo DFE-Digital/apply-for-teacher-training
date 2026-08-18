@@ -492,7 +492,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     context 'a course is closed on Apply' do
       before do
-        allow(application_choice_2).to receive_messages(course_status_closed?: true, course_status_closed: 'course_closed_by_provider')
+        allow(application_choice_2).to receive_messages(course_status_closed?: true, course_application_status_closed: 'course_closed_by_provider')
       end
 
       it 'returns the appropriate error' do
