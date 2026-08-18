@@ -5,12 +5,9 @@ module CandidateInterface
       skip_before_action :redirect_to_your_applications_if_maximum_amount_of_unsuccessful_applications_have_been_reached
 
       def new
-        @wizard = CandidateInterface::CourseChoices::CourseSelectionWizard.new(
-          current_step:,
-          step_params:,
-          current_application:,
-          application_choice:,
-        )
+        @wizard = @wizard.tap do |wizard|
+          wizard.application_choice = application_choice
+        end
         @application_choice = application_choice
         @find_provider_url = application_choice.find_provider_url
         @find_url_with_visa_filter = "#{find_url}/results?can_sponsor_visa=true"

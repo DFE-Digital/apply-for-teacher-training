@@ -18,6 +18,7 @@ class CandidateInterface::CourseSelectionWizard
            :find_course_selected?,
            :not_multiple_sites_or_study_modes?,
            :edit?,
+           :visa_expires_soon?,
            to: :state_store
 
   def steps_processor
@@ -58,6 +59,7 @@ class CandidateInterface::CourseSelectionWizard
           { when: :not_multiple_sites_or_study_modes?, then: :course_review },
           { when: :multiple_study_modes?, then: :course_study_mode },
           { when: :multiple_sites?, then: :find_course_selection },
+          { when: :visa_expires_soon?, then: :visa_expiry_interruption },
         ],
         default: :course_study_mode,
       )
@@ -76,7 +78,10 @@ class CandidateInterface::CourseSelectionWizard
         else: :course_site,
       )
 
+      graph.add_edge from: :visa_expiry_interruption, to: :visa_explanation
+
       graph.add_edge from: :course_site, to: :course_review
+      graph.add_edge from: :visa_explanation, to: :course_review
     end
   end
 
@@ -131,6 +136,16 @@ class CandidateInterface::CourseSelectionWizard
         options[:course_id] = state_store.course_id
         helpers.candidate_interface_course_choices_full_course_selection_path(**options)
       }
+
+      config.map_step :visa_expiry_interruption, to: lambda { |wizard, options, helpers|
+        options[:application_choice_id] = wizard.application_choice.id
+        helpers.candidate_interface_course_choices_visa_expiry_interruption_path(**options)
+      }
+
+      config.map_step :visa_explanation, to: lambda { |wizard, options, helpers|
+        options[:application_choice_id] = wizard.application_choice.id
+        helpers.candidate_interface_course_choices_visa_explanation_path(**options)
+      }
     end
   end
 
@@ -151,13 +166,19 @@ class CandidateInterface::CourseSelectionWizard
       builder.on_step(
         :course_site,
         add: [
-          CandidateInterface::StepOperations::CourseSelectionWizard::UpdateApplicationChoiceSite,
+          CandidateInterface::StepOperations::CourseSelectionWizard::CreateApplicationChoice,
         ],
       )
       builder.on_step(
-        :confirm_apply,
-        add: [CandidateInterface::StepOperations::CourseSelectionWizard::SubmitApplicationChoice],
+        :visa_explanation,
+        add: [
+          CandidateInterface::StepOperations::CourseSelectionWizard::UpdateApplicationChoiceVisa,
+        ],
       )
+      # builder.on_step(
+      #   :confirm_apply,
+      #   add: [CandidateInterface::StepOperations::CourseSelectionWizard::SubmitApplicationChoice],
+      # )
     end
   end
 end
