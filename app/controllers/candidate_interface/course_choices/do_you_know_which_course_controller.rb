@@ -1,6 +1,8 @@
 module CandidateInterface
   module CourseChoices
     class DoYouKnowWhichCourseController < CandidateInterface::CourseChoices::BaseController
+      before_action :clear_wizard
+
     private
 
       def step_params

@@ -4,14 +4,20 @@ class CandidateInterface::CourseSelectionWizard
   attr_accessor :current_application, :application_choice, :provider_id
 
   delegate :know_the_course_to_apply?,
-           :completed?,
            :reapplication_limit_reached?,
            :duplicate_course?,
            :course_closed?,
            :course_unavailable?,
            :multiple_study_modes?,
-           :multiple_schools?,
+           :multiple_sites?,
+           :not_multiple_sites?,
            :provider,
+           :provider_exists?,
+           :course,
+           :course_id,
+           :find_course_selected?,
+           :not_multiple_sites_or_study_modes?,
+           :edit?,
            to: :state_store
 
   def steps_processor
@@ -49,21 +55,28 @@ class CandidateInterface::CourseSelectionWizard
           { when: :duplicate_course?, then: :duplicate_course_selection },
           { when: :course_closed?, then: :closed_course_selection },
           { when: :course_unavailable?, then: :full_course_selection },
-          { when: :completed?, then: :course_review },
+          { when: :not_multiple_sites_or_study_modes?, then: :course_review },
           { when: :multiple_study_modes?, then: :course_study_mode },
-          { when: :multiple_schools?, then: :find_course_selection },
+          { when: :multiple_sites?, then: :find_course_selection },
         ],
         default: :course_study_mode,
       )
 
       graph.add_conditional_edge(
         from: :course_study_mode,
-        when: :completed?,
+        when: :not_multiple_sites?,
         then: :course_review,
         else: :find_course_selection,
       )
 
-      graph.add_edge from: :find_course_selection, to: :course_review
+      graph.add_conditional_edge(
+        from: :find_course_selection,
+        when: :find_course_selected?,
+        then: :course_review,
+        else: :course_site,
+      )
+
+      graph.add_edge from: :course_site, to: :course_review
     end
   end
 
@@ -76,6 +89,75 @@ class CandidateInterface::CourseSelectionWizard
         options[:provider_id] = state_store.provider_id
         helpers.candidate_interface_course_choices_which_course_are_you_applying_to_path(**options)
       }
+
+      config.map_step :course_study_mode, to: lambda { |_wizard, options, helpers|
+        options[:provider_id] = state_store.provider_id
+        options[:course_id] = state_store.course_id
+        helpers.candidate_interface_course_choices_course_study_mode_path(**options)
+      }
+
+      config.map_step :find_course_selection, to: lambda { |_wizard, options, helpers|
+        options[:provider_id] = state_store.provider_id
+        options[:course_id] = state_store.course_id
+        helpers.candidate_interface_course_choices_course_confirm_selection_path(**options)
+      }
+
+      config.map_step :course_site, to: lambda { |_wizard, options, helpers|
+        options[:provider_id] = state_store.provider_id
+        options[:course_id] = state_store.course_id
+        options[:study_mode] = state_store.study_mode
+        helpers.candidate_interface_course_choices_course_site_path(**options)
+      }
+
+      config.map_step :course_review, to: lambda { |wizard, options, helpers|
+        options[:application_choice_id] = wizard.application_choice.id
+        helpers.candidate_interface_course_choices_course_review_path(**options)
+      }
+
+      config.map_step :duplicate_course_selection, to: lambda { |_wizard, options, helpers|
+        options[:provider_id] = state_store.provider_id
+        options[:course_id] = state_store.course_id
+        helpers.candidate_interface_course_choices_duplicate_course_selection_path(**options)
+      }
+
+      config.map_step :closed_course_selection, to: lambda { |_wizard, options, helpers|
+        options[:provider_id] = state_store.provider_id
+        options[:course_id] = state_store.course_id
+        helpers.candidate_interface_course_choices_closed_course_selection_path(**options)
+      }
+
+      config.map_step :full_course_selection, to: lambda { |_wizard, options, helpers|
+        options[:provider_id] = state_store.provider_id
+        options[:course_id] = state_store.course_id
+        helpers.candidate_interface_course_choices_full_course_selection_path(**options)
+      }
+    end
+  end
+
+  def steps_operator
+    DfE::Wizard::StepsOperator::Builder.draw(wizard: self) do |builder|
+      builder.on_step(
+        :which_course_are_you_applying_to,
+        add: [
+          CandidateInterface::StepOperations::CourseSelectionWizard::CreateApplicationChoice,
+        ],
+      )
+      builder.on_step(
+        :course_study_mode,
+        add: [
+          CandidateInterface::StepOperations::CourseSelectionWizard::CreateApplicationChoice,
+        ],
+      )
+      builder.on_step(
+        :course_site,
+        add: [
+          CandidateInterface::StepOperations::CourseSelectionWizard::UpdateApplicationChoiceSite,
+        ],
+      )
+      builder.on_step(
+        :confirm_apply,
+        add: [CandidateInterface::StepOperations::CourseSelectionWizard::SubmitApplicationChoice],
+      )
     end
   end
 end

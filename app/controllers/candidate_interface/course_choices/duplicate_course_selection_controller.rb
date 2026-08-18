@@ -20,7 +20,7 @@ module CandidateInterface
       end
 
       def set_course
-        @course = Course.find(params[:course_id])
+        @course = @wizard.course
       end
 
       def set_backlink
