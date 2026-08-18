@@ -53,7 +53,7 @@ module CandidateInterface
           :reached_reapplication_limit
         elsif duplicate_course?
           :duplicate_course_selection
-        elsif course.application_status_closed?
+        elsif course.course_status_closed?
           :closed_course_selection
         elsif !course.available?
           :full_course_selection
@@ -78,7 +78,7 @@ module CandidateInterface
       def next_step_path_arguments
         if completed?
           default_path_arguments
-        elsif duplicate_course? || reapplication_limit_reached? || !course.available? || course.application_status_closed? || multiple_study_modes?
+        elsif duplicate_course? || reapplication_limit_reached? || !course.available? || course.course_status_closed? || multiple_study_modes?
           { provider_id:, course_id: }
         elsif multiple_sites?
           { provider_id:, course_id:, study_mode: }
@@ -106,7 +106,7 @@ module CandidateInterface
     private
 
       def valid_course_choice
-        @valid_course_choice ||= !duplicate_course? && !reapplication_limit_reached? && course.available? && course.application_status_open?
+        @valid_course_choice ||= !duplicate_course? && !reapplication_limit_reached? && course.available? && course.course_status_open?
       end
 
       def duplicate_course?

@@ -9,9 +9,10 @@ class CourseUnavailableValidator < ActiveModel::EachValidator
     return if !course.full? &&
               application_choice.course_option.site_still_valid? &&
               course.exposed_in_find? &&
-              course.application_status_open?
+              course.course_status_open?
 
-    if course.application_status_closed?
+
+    if course.course_status_closed?
       record.errors.add(
         attribute,
         :course_closed,

@@ -6,7 +6,7 @@ RSpec.describe Course do
   describe 'a valid course' do
     it { is_expected.to validate_presence_of :level }
     it { is_expected.to validate_uniqueness_of(:code).scoped_to(%i[recruitment_cycle_year provider_id]) }
-    it { is_expected.to be_application_status_closed }
+    it { is_expected.to be_course_status_closed }
   end
 
   describe 'associations' do
