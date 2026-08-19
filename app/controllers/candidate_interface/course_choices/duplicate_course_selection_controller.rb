@@ -18,6 +18,10 @@ module CandidateInterface
       def set_backlink
         @backlink = candidate_interface_application_choices_path if request.referer.blank?
       end
+
+      def wizard_controller?
+        true
+      end
     end
   end
 end

@@ -2,6 +2,7 @@ module CandidateInterface
   module CourseChoices
     class CourseSelectionWizard
       include DfE::Wizard
+
       # application_choice is only used in edit and update
       attr_accessor :current_application, :application_choice
 

@@ -8,7 +8,7 @@ module CandidateInterface
       before_action :redirect_to_your_applications_if_cycle_is_over
       before_action :redirect_to_your_applications_if_submitted, only: %i[edit update]
       before_action :assign_wizard
-      before_action :assign_wizard_with_application_choice, only: [:edit, :update]
+      before_action :assign_wizard_with_application_choice, only: %i[edit update]
 
       def new; end
 
@@ -44,20 +44,22 @@ module CandidateInterface
 
       def step_params
         if action_name.in?(%w[edit update])
-          default_update_params
+          update_params
         else
           params
         end
       end
 
-      def default_update_params
+      def update_params
         ActionController::Parameters.new(
           {
             current_step => {
+              application_choice_id: application_choice.id,
               provider_id: application_choice.current_provider.id,
-              course_id: params.dig(current_step,:course_id) || application_choice.current_course.id,
+              course_id: params.dig(current_step, :course_id) || application_choice.current_course.id,
               study_mode: params.dig(current_step, :study_mode) || application_choice.current_course_option.study_mode,
-              course_option_id: application_choice.current_course_option.id,
+              course_option_id: params.dig(current_step, :course_option_id) || application_choice.current_course_option.id,
+              visa_explanation: params.dig(current_step, :visa_explanation) || application_choice.visa_explanation,
             },
           },
         )
@@ -68,6 +70,10 @@ module CandidateInterface
       end
 
     private
+
+      def wizard_controller?
+        false
+      end
 
       def redirect_to_your_applications_if_cycle_is_over
         redirect_to candidate_interface_application_choices_path unless current_application.can_add_course_choice?
@@ -82,16 +88,20 @@ module CandidateInterface
       end
 
       def assign_wizard
+        return unless wizard_controller?
+
         @wizard = CandidateInterface::CourseSelectionWizard.new(
           current_step:,
           current_step_params: step_params,
-          state_store:
+          state_store:,
         ).tap do |wizard|
           wizard.current_application = current_application
         end
       end
 
       def assign_wizard_with_application_choice
+        return unless @wizard.present?
+
         @wizard = @wizard.tap do |wizard|
           wizard.application_choice = application_choice
         end
@@ -102,7 +112,7 @@ module CandidateInterface
         @state_store = CandidateInterface::StateStores::CourseSelectionWizardStore.new(
           repository: DfE::Wizard::Repository::Session.new(
             session:,
-            key: :candidate_interface_course_selection_wizard
+            key: :candidate_interface_course_selection_wizard,
           ),
         )
         @state_store.write(current_application_id: current_application.id)
@@ -110,7 +120,7 @@ module CandidateInterface
       end
 
       def clear_wizard
-        @wizard.clear_state
+        @wizard&.clear_state
       end
     end
   end

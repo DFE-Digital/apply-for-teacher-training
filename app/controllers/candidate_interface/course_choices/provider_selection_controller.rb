@@ -6,6 +6,10 @@ module CandidateInterface
       def current_step
         :provider_selection
       end
+
+      def wizard_controller?
+        true
+      end
     end
   end
 end

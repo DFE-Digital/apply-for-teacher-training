@@ -76,7 +76,7 @@ module CandidateInterface
       end
 
       def find_course_selected?
-        confirm_answer? && completed?
+        confirm_answer? && !multiple_study_modes? && !multiple_sites?
       end
 
       def find_course_not_selected?
@@ -91,9 +91,7 @@ module CandidateInterface
         current_application.application_choices.find(self[:application_choice_id])
       end
 
-      def visa_expires_soon?
-        application_choice.visa_expires_soon?
-      end
+      delegate :visa_expires_soon?, to: :application_choice
     end
   end
 end

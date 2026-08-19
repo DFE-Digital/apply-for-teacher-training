@@ -21,6 +21,10 @@ module CandidateInterface
       def set_course
         @course = @wizard.course
       end
+
+      def wizard_controller?
+        true
+      end
     end
   end
 end

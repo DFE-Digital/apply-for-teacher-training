@@ -1,14 +1,12 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.which_location'), @wizard.current_step.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(@wizard.previous_step_path) %>
+<% content_for :before_content, govuk_back_link_to(@wizard.previous_step_path(fallback: candidate_interface_course_choices_course_review_path(@application_choice))) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @wizard.current_step,
       scope: @wizard.current_step_name,
-      url: @wizard.current_step_path(
-        application_choice_id: params[:application_choice_id],
-      ),
+      url: @wizard.current_step_path,
     ) do |f| %>
       <% render 'form', f: %>
     <% end %>

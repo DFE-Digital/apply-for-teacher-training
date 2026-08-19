@@ -9,6 +9,10 @@ module CandidateInterface
       def current_step
         :go_to_find_explanation
       end
+
+      def wizard_controller?
+        true
+      end
     end
   end
 end

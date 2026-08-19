@@ -14,7 +14,9 @@ module CandidateInterface
       end
 
       def application_choice
-        @application_choice ||= wizard.application_choice || current_application.application_choices.new
+        @application_choice ||= wizard.application_choice ||
+                                ApplicationChoice.find_by(id: wizard.state_store[:application_choice_id]) ||
+                                current_application.application_choices.new
       end
 
       def course_option
@@ -36,6 +38,7 @@ module CandidateInterface
 
       def save_application_choice(choice)
         choice.tap do |c|
+          state_store.read
           c.configure_initial_course_choice!(course_option)
 
           if choice.provider
@@ -44,7 +47,7 @@ module CandidateInterface
         end
       end
 
-      private
+    private
 
       def main_site_or_first_course_option(records)
         records.find do |course_option|

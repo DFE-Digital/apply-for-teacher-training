@@ -59,7 +59,7 @@ class CandidateInterface::CourseSelectionWizard
           { when: :course_unavailable?, then: :full_course_selection },
           { when: :not_multiple_sites_or_study_modes?, then: :course_review },
           { when: :multiple_study_modes?, then: :course_study_mode },
-          { when: :multiple_sites?, then: :find_course_selection },
+          { when: :multiple_sites?, then: :course_site },
           { when: :visa_expires_soon?, then: :visa_expiry_interruption },
         ],
         default: :course_review,
@@ -68,7 +68,7 @@ class CandidateInterface::CourseSelectionWizard
       graph.add_multiple_conditional_edges(
         from: :course_study_mode,
         branches: [
-          { when: :multiple_sites?, then: :find_course_selection },
+          { when: :multiple_sites?, then: :course_site },
           { when: :visa_expires_soon?, then: :visa_expiry_interruption },
           { when: :not_multiple_sites?, then: :course_review },
         ],
@@ -85,9 +85,15 @@ class CandidateInterface::CourseSelectionWizard
         default: :course_review,
       )
 
+      graph.add_conditional_edge(
+        from: :course_site,
+        when: :visa_expires_soon?,
+        then: :visa_expiry_interruption,
+        else: :course_review,
+      )
+
       graph.add_edge from: :visa_expiry_interruption, to: :visa_explanation
 
-      graph.add_edge from: :course_site, to: :course_review
       graph.add_edge from: :visa_explanation, to: :course_review
     end
   end
@@ -95,7 +101,7 @@ class CandidateInterface::CourseSelectionWizard
   def route_strategy
     DfE::Wizard::RouteStrategy::ConfigurableRoutes.new(
       wizard: self,
-      namespace: "candidate-interface-course-choices",
+      namespace: 'candidate-interface-course-choices',
     ) do |config|
       config.map_step :which_course_are_you_applying_to, to: lambda { |_wizard, options, helpers|
         options[:provider_id] = state_store.provider.id
@@ -117,7 +123,7 @@ class CandidateInterface::CourseSelectionWizard
       config.map_step :course_site, to: lambda { |_wizard, options, helpers|
         options[:provider_id] = state_store.provider.id
         options[:course_id] = state_store.course.id
-        options[:study_mode] = state_store.study_mode
+        options[:study_mode] = state_store.study_mode || course.available_study_modes_with_vacancies.first
         helpers.candidate_interface_course_choices_course_site_path(**options)
       }
 
@@ -153,6 +159,12 @@ class CandidateInterface::CourseSelectionWizard
         options[:application_choice_id] = wizard.application_choice.id
         helpers.candidate_interface_course_choices_visa_explanation_path(**options)
       }
+
+      config.map_step :reached_reapplication_limit, to: lambda { |_wizard, options, helpers|
+        options[:provider_id] = state_store.provider.id
+        options[:course_id] = state_store.course.id
+        helpers.candidate_interface_course_choices_reached_reapplication_limit_path(**options)
+      }
     end
   end
 
@@ -182,10 +194,6 @@ class CandidateInterface::CourseSelectionWizard
           CandidateInterface::StepOperations::CourseSelectionWizard::UpdateApplicationChoiceVisa,
         ],
       )
-      # builder.on_step(
-      #   :confirm_apply,
-      #   add: [CandidateInterface::StepOperations::CourseSelectionWizard::SubmitApplicationChoice],
-      # )
     end
   end
 end
