@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_17_090110) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_18_140834) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -533,7 +533,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_17_090110) do
     t.integer "accredited_provider_id"
     t.string "additional_gcse_equivalencies"
     t.string "age_range"
-    t.integer "application_status", default: 0, null: false
     t.datetime "applications_open_from", precision: nil
     t.boolean "can_sponsor_skilled_worker_visa"
     t.boolean "can_sponsor_student_visa"
