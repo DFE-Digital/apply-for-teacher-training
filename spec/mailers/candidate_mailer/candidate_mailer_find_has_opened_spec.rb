@@ -12,6 +12,7 @@ RSpec.describe CandidateMailer do
       'greeting' => 'Dear Fred',
       'academic_year' => current_timetable.academic_year_range_name.to_s,
       'details' => 'Find your courses',
+      'life as a teacher heading' => 'Gain insights into life as a teacher',
     )
 
     it_behaves_like 'an email with unsubscribe option'

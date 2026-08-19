@@ -10,6 +10,7 @@ RSpec.describe CandidateMailer do
       'a mail with subject and content',
       'Get help with your personal statement',
       'greeting' => 'Hello Fred',
+      'professional strengths heading' => 'Understand your professional strengths',
     )
 
     it_behaves_like 'an email with unsubscribe option'

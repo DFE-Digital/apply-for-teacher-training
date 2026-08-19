@@ -18,6 +18,7 @@ RSpec.describe CandidateMailer do
         'Update on your application',
         'intro' => 'Thank you for your application to study Mathematics at Arithmetic College',
         'rejection reasons' => 'Missing your English GCSE',
+        'professional strengths heading' => 'Understand your professional strengths',
       )
     end
 

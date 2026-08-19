@@ -12,6 +12,7 @@ RSpec.describe CandidateMailer do
         'Give details of 2 people who can give references',
         'greeting' => 'Hello Fred',
         'content' => 'You have not completed the references section of your teacher training application yet',
+        'professional strengths heading' => 'Understand your professional strengths',
       )
 
       it_behaves_like 'an email with unsubscribe option'

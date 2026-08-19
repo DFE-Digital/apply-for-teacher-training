@@ -15,6 +15,7 @@ RSpec.describe CandidateMailer do
       'submit' => 'Submit your application for teacher training',
       'when ready' => 'when you’re ready.',
       'courses fill up' => 'Courses fill up quickly and may close early. Courses that offer visa sponsorship may have already closed.',
+      'life as a teacher heading' => 'Gain insights into life as a teacher',
       'contact us' => 'Contact us',
       'contact details' => 'Call 0800 389 2500 or [chat online](https://getintoteaching.education.gov.uk/help-and-support) (Monday to Friday, 8:30am to 5:30pm UK time except on [bank holidays](https://www.gov.uk/bank-holidays))',
     )

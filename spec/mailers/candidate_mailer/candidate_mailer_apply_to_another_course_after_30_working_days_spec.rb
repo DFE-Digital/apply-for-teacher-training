@@ -20,6 +20,7 @@ RSpec.describe CandidateMailer do
       'Increase your chances of receiving an offer for teacher training',
       'greeting' => 'Hello Fred',
       'content' => 'If you have not received a response to your application yet, we recommend you apply for other courses to improve your chances of success.',
+      'professional strengths heading' => 'Understand your professional strengths',
     )
   end
 end

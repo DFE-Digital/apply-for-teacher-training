@@ -10,6 +10,7 @@ RSpec.describe CandidateMailer do
       'a mail with subject and content',
       'Get last-minute advice about your teacher training application',
       'greeting' => 'Dear Fred',
+      'life as a teacher heading' => 'Gain insights into life as a teacher',
     )
 
     it_behaves_like 'an email with unsubscribe option'
