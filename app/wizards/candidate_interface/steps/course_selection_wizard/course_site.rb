@@ -5,8 +5,7 @@ module CandidateInterface
       include CandidateInterface::Concerns::CourseSelectionStepHelper
       include FreeTextInputHelper
 
-      delegate :provider, :provider_exists?, :state_store, to: :wizard
-      delegate :course_id, :study_mode, to: :state_store
+      delegate :provider, :provider_exists?, :state_store, :course, to: :wizard
 
       attribute :course_option_id
       attribute :course_option_id_raw
@@ -20,6 +19,14 @@ module CandidateInterface
 
       def self.permitted_params
         %i[course_option_id course_option_id_raw]
+      end
+
+      def course_id
+        course.id
+      end
+
+      def study_mode
+        state_store.study_mode.presence || course.available_study_modes_with_vacancies.first
       end
 
       def set_course_option_id
@@ -39,11 +46,7 @@ module CandidateInterface
       end
 
       def course_options
-        @course_options ||= CourseOption
-                              .available
-                              .includes(:site)
-                              .where(course_id:)
-                              .where(study_mode:)
+        @course_options ||= CourseOption.available.includes(:site).where(course_id:).where(study_mode:)
       end
 
       def available_sites

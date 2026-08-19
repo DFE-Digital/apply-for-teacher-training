@@ -9,6 +9,10 @@ module CandidateInterface
       def current_step
         :find_course_selection
       end
+
+      def wizard_controller?
+        true
+      end
     end
   end
 end

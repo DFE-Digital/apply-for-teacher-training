@@ -8,6 +8,7 @@ module CandidateInterface
       def initialize(repository:, step:)
         @step = step
         @wizard = step.wizard
+        @repository = repository
       end
     end
   end

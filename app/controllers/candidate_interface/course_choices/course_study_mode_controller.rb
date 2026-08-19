@@ -8,6 +8,10 @@ module CandidateInterface
       def current_step
         :course_study_mode
       end
+
+      def wizard_controller?
+        true
+      end
     end
   end
 end

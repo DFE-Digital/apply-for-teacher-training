@@ -13,6 +13,10 @@ module CandidateInterface
       def set_course
         @course = Course.find(params[:course_id])
       end
+
+      def wizard_controller?
+        true
+      end
     end
   end
 end
