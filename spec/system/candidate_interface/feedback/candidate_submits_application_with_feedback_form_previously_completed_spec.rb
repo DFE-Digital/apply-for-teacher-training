@@ -9,11 +9,13 @@ RSpec.describe 'Candidate submits application with feedback form previously comp
   end
 
   it 'Candidate submits application, skips feedback and goes straight to the application dashboard', :with_cache do
-    given_i_complete_my_application
-    and_the_feedback_form_was_previously_submitted
-    then_i_submit_my_application
-    then_i_do_not_see_the_feedback_form
-    and_i_see_the_preference_opt_in_page_and_success_message
+    travel_temporarily_to(mid_cycle) do
+      given_i_complete_my_application
+      and_the_feedback_form_was_previously_submitted
+      then_i_submit_my_application
+      then_i_do_not_see_the_feedback_form
+      and_i_see_the_preference_opt_in_page_and_success_message
+    end
   end
 
   def given_i_complete_my_application

@@ -10,7 +10,7 @@ RSpec.describe SeedTimetablesService do
 
       described_class.new(csv_input).call
 
-      expect(RecruitmentCycleTimetable.count).to eq 10
+      expect(RecruitmentCycleTimetable.count).to eq 11
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.describe SeedTimetablesService do
       json_input = JSON.parse(file)['data']
       described_class.new(json_input).call
 
-      expect(RecruitmentCycleTimetable.count).to eq 10
+      expect(RecruitmentCycleTimetable.count).to eq 11
     end
   end
 end

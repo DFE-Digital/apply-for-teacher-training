@@ -9,9 +9,9 @@ RSpec.describe 'Candidate submits the application' do
     stub_bigquery_non_disclosure_trainee_withdrawals_request
   end
 
-  scenario 'Candidate with more than the max unsuccessful apps' do
+  scenario 'Candidate with more than the max unsuccessful apps', time: mid_cycle(2026) do
     given_i_am_signed_in_with_one_login
-    and_i_have_19_unsuccessful_applications
+    and_i_have_the_max_number_of_unsuccessful_applications
 
     when_i_have_completed_my_application_and_added_primary_as_course_choice
     and_i_go_to_submit_my_application
@@ -25,7 +25,8 @@ RSpec.describe 'Candidate submits the application' do
 
   context 'after the 2026 recruitment cycle' do
     scenario 'Candidate with more than the max number of applications' do
-      travel_to(Time.zone.parse('2027-01-01 12:00:00')) do
+      year = current_year > 2026 ? current_year : 2027
+      travel_to(mid_cycle(year)) do
         given_i_am_signed_in_with_one_login
         and_i_have_14_unsuccessful_applications
 
@@ -46,7 +47,7 @@ RSpec.describe 'Candidate submits the application' do
     @current_candidate.current_application.application_choices << build_list(:application_choice, 14, :withdrawn)
   end
 
-  def and_i_have_19_unsuccessful_applications
+  def and_i_have_the_max_number_of_unsuccessful_applications
     @current_candidate.application_forms << create(:application_form, :completed, :with_degree)
     @current_candidate.current_application.application_choices << build_list(:application_choice, 14, :withdrawn)
   end

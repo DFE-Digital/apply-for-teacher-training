@@ -2,31 +2,19 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplicationChoices::IndexContentComponent do
   describe '#content_component' do
-    it 'returns CandidateInterface::MidCycleContentComponent' do
-      candidate = build_stubbed(:candidate)
-      application_form = build_stubbed(:application_form, candidate:)
-      allow(application_form).to receive_messages(
-        carry_over?: false,
-        after_apply_deadline?: false,
-        before_apply_opens?: false,
-      )
-      allow(candidate).to receive(:active_previous_application).and_return(nil)
+    it 'returns CandidateInterface::MidCycleContentComponent', time: mid_cycle do
+      application_form = create(:application_form)
 
       component = described_class.new(application_form:)
 
       expect(component.content_component).to be_a(CandidateInterface::MidCycleContentComponent)
     end
 
-    context 'when the candidate has previous active applications' do
+    context 'when the candidate has previous active applications', time: mid_cycle do
       it 'returns the MultipleActiveApplicationsContentComponent' do
         candidate = build_stubbed(:candidate)
         previous_application_form = build_stubbed(:application_form, candidate:)
         application_form = build_stubbed(:application_form, candidate:)
-        allow(application_form).to receive_messages(
-          carry_over?: false,
-          after_apply_deadline?: false,
-          before_apply_opens?: false,
-        )
         allow(candidate).to receive(:active_previous_application).and_return(previous_application_form)
 
         component = described_class.new(application_form:)

@@ -78,15 +78,15 @@ RSpec.describe CandidateInterface::ApplicationChoiceItemComponent do
       let(:start_date) { "01/01/#{application_form.recruitment_cycle_year + 1}" }
 
       it 'returns the winter decline by default date' do
-        expect(component.decline_date).to eq("11:59pm UK time on #{application_form.winter_decline_by_default_at.day} January")
+        expect(component.decline_date).to eq(application_form.winter_decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time))
       end
     end
 
     context 'when the course start date is during September' do
       let(:start_date) { "01/09/#{application_form.recruitment_cycle_year}" }
 
-      it 'returns the winter decline by default date' do
-        expect(component.decline_date).to eq("11:59pm UK time on #{application_form.decline_by_default_at.day} September")
+      it 'returns the standard decline by default date' do
+        expect(component.decline_date).to eq(application_form.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time))
       end
     end
   end

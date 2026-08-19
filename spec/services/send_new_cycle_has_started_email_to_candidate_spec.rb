@@ -11,7 +11,12 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidate do
 
     context 'where email has already been sent' do
       it 'does not send email' do
-        create(:chaser_sent, chased: application_form, chaser_type: :new_cycle_has_started)
+        create(
+          :chaser_sent,
+          chased: application_form,
+          chaser_type: :new_cycle_has_started,
+          created_at: application_form.apply_opens_at + 1.minute, # Has to be created after the cycle has started.
+        )
 
         described_class.call(application_form:)
 

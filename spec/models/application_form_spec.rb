@@ -1018,7 +1018,7 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#carry_over?' do
-    let(:january_course) { build(:course, start_date: "1/1/#{Date.current.year + 1}") }
+    let(:january_course) { build(:course, start_date: "1/1/#{current_year + 1}") }
 
     context 'application is unsubmitted' do
       let(:unsubmitted_application_form) do
@@ -1054,12 +1054,12 @@ RSpec.describe ApplicationForm do
       end
     end
 
-    context 'an application choice is awaiting candidate decision' do
+    context 'an application choice is awaiting candidate decision (ie offered)' do
       let(:submitted_application_form) do
         create(:application_form, :submitted, application_choices: [application_choice])
       end
 
-      context 'when the course of the application choice starts in september' do
+      context 'when the course of the application choice starts in September' do
         let(:application_choice) { build(:application_choice, :offered) }
 
         it 'returns false after the application deadline has passed' do
@@ -1069,7 +1069,7 @@ RSpec.describe ApplicationForm do
         end
       end
 
-      context 'when the course of the application choice starts after september' do
+      context 'when the course of the application choice starts after September' do
         let(:application_choice) { build(:application_choice, :offered, course_option: build(:course_option, course: january_course)) }
 
         it 'returns false after the application deadline has passed' do
@@ -1081,7 +1081,7 @@ RSpec.describe ApplicationForm do
     end
 
     context 'an application choice is awaiting provider decision' do
-      context 'when the course of the application choice starts in september' do
+      context 'when the course of the application choice starts in September' do
         it 'returns false after the application deadline has passed', :aggregate_failures do
           %i[awaiting_provider_decision interviewing inactive].each do |awaiting_decision_status|
             application_form = create(
@@ -1095,19 +1095,19 @@ RSpec.describe ApplicationForm do
           end
         end
       end
+    end
 
-      context 'when the course of the application choice starts after september' do
-        it 'returns true after the application deadline has passed', :aggregate_failures do
-          %i[awaiting_provider_decision interviewing inactive].each do |awaiting_decision_status|
-            application_choice = build(:application_choice, awaiting_decision_status, course_option: build(:course_option, course: january_course))
-            application_form = create(
-              :application_form,
-              :submitted,
-              application_choices: [application_choice],
-            )
-            travel_temporarily_to(application_form.apply_deadline_at + 1.second) do
-              expect(application_form.carry_over?).to be(true)
-            end
+    context 'when the course of the application choice starts after september' do
+      it 'returns true after the application deadline has passed', :aggregate_failures do
+        %i[awaiting_provider_decision interviewing inactive].each do |awaiting_decision_status|
+          application_choice = build(:application_choice, awaiting_decision_status, course_option: build(:course_option, course: january_course))
+          application_form = create(
+            :application_form,
+            :submitted,
+            application_choices: [application_choice],
+          )
+          travel_temporarily_to(application_form.apply_deadline_at + 1.second) do
+            expect(application_form.carry_over?).to be(true)
           end
         end
       end
