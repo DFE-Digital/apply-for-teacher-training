@@ -795,10 +795,6 @@ private
     candidate_interface_application_choices_url(utm_args)
   end
 
-  def candidate_realistic_job_preview_link(candidate)
-    realistic_job_preview_url({ id: candidate.pseudonymised_id }.merge(utm_args))
-  end
-
   def candidate_unsubscribe_link(candidate)
     token = candidate.generate_token_for :unsubscribe_link
     candidate_interface_unsubscribe_from_emails_url(token:)
@@ -819,7 +815,6 @@ private
   helper_method :sign_in_link,
                 :application_choices_link,
                 :application_references_link,
-                :candidate_realistic_job_preview_link,
                 :candidate_unsubscribe_link,
                 :find_link,
                 :git_funding_link,

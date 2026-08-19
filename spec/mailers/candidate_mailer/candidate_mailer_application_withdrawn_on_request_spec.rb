@@ -14,8 +14,6 @@ RSpec.describe CandidateMailer do
         'details' => 'has withdrawn your application for',
         'still interested' => 'If now’s the right time for you, you can still apply for up to 3 more courses this year.',
         'content' => 'If now’s the right time for you, you can still apply for up to 3 more courses this year.',
-        'realistic job preview' => 'Try the realistic job preview tool',
-        'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
       )
 
       context 'with a course recommendation url' do
@@ -28,8 +26,6 @@ RSpec.describe CandidateMailer do
           'details' => 'has withdrawn your application for',
           'still interested' => 'If now’s the right time for you, you can still apply for up to 3 more courses this year.',
           'content' => 'If now’s the right time for you, you can still apply for up to 3 more courses this year.',
-          'realistic job preview' => 'Try the realistic job preview tool',
-          'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
           'course recommendation' => 'Based on the details in your previous application, you could be suitable for other teacher training courses.',
           'course recommendation link' => 'https://www.find-postgraduate-teacher-training.service.gov.uk/results',
         )

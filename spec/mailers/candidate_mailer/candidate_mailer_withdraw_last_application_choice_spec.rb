@@ -24,8 +24,6 @@ RSpec.describe CandidateMailer do
         'heading' => 'Hello Fred',
         'still interested' => 'If now’s the right time for you, you can still apply for up to 4 more courses this year.',
         'application_withdrawn' => 'You have withdrawn your application',
-        'realistic job preview' => 'Try the realistic job preview tool',
-        'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
       )
 
       context 'when a candidate has 2 or 3 offers that were withdrawn' do
@@ -47,8 +45,6 @@ RSpec.describe CandidateMailer do
           'heading' => 'Hello Fred',
           'still interested' => 'If now’s the right time for you, you can still apply for up to 4 more courses this year.',
           'application_withdrawn' => 'You have withdrawn your application',
-          'realistic job preview' => 'Try the realistic job preview tool',
-          'realistic job preview link' => /https:\/\/platform\.teachersuccess\.co\.uk\/p\/.*\?id=\w{64}&utm_source/,
           'course recommendation' => 'Based on the details in your previous application, you could be suitable for other teacher training courses.',
           'course recommendation link' => 'https://www.find-postgraduate-teacher-training.service.gov.uk/results',
         )
