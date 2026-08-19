@@ -79,6 +79,10 @@ module CandidateInterface
         confirm_answer? && completed?
       end
 
+      def find_course_not_selected?
+        !find_course_selected?
+      end
+
       def confirm_answer?
         ActiveModel::Type::Boolean.new.cast(confirm).present?
       end

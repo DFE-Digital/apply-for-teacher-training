@@ -9,10 +9,6 @@ module CandidateInterface
       def current_step
         :go_to_find_explanation
       end
-
-      def step_params
-        {}
-      end
     end
   end
 end

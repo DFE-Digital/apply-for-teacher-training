@@ -16,6 +16,7 @@ class CandidateInterface::CourseSelectionWizard
            :course,
            :course_id,
            :find_course_selected?,
+           :find_course_not_selected?,
            :not_multiple_sites_or_study_modes?,
            :edit?,
            :visa_expires_soon?,
@@ -61,21 +62,27 @@ class CandidateInterface::CourseSelectionWizard
           { when: :multiple_sites?, then: :find_course_selection },
           { when: :visa_expires_soon?, then: :visa_expiry_interruption },
         ],
+        default: :course_review,
+      )
+
+      graph.add_multiple_conditional_edges(
+        from: :course_study_mode,
+        branches: [
+          { when: :multiple_sites?, then: :find_course_selection },
+          { when: :visa_expires_soon?, then: :visa_expiry_interruption },
+          { when: :not_multiple_sites?, then: :course_review },
+        ],
         default: :course_study_mode,
       )
 
-      graph.add_conditional_edge(
-        from: :course_study_mode,
-        when: :not_multiple_sites?,
-        then: :course_review,
-        else: :find_course_selection,
-      )
-
-      graph.add_conditional_edge(
+      graph.add_multiple_conditional_edges(
         from: :find_course_selection,
-        when: :find_course_selected?,
-        then: :course_review,
-        else: :course_site,
+        branches: [
+          { when: :find_course_not_selected?, then: :course_site },
+          { when: :visa_expires_soon?, then: :visa_expiry_interruption },
+          { when: :find_course_selected?, then: :course_review },
+        ],
+        default: :course_review,
       )
 
       graph.add_edge from: :visa_expiry_interruption, to: :visa_explanation
@@ -91,25 +98,25 @@ class CandidateInterface::CourseSelectionWizard
       namespace: "candidate-interface-course-choices",
     ) do |config|
       config.map_step :which_course_are_you_applying_to, to: lambda { |_wizard, options, helpers|
-        options[:provider_id] = state_store.provider_id
+        options[:provider_id] = state_store.provider.id
         helpers.candidate_interface_course_choices_which_course_are_you_applying_to_path(**options)
       }
 
       config.map_step :course_study_mode, to: lambda { |_wizard, options, helpers|
-        options[:provider_id] = state_store.provider_id
-        options[:course_id] = state_store.course_id
+        options[:provider_id] = state_store.provider.id
+        options[:course_id] = state_store.course.id
         helpers.candidate_interface_course_choices_course_study_mode_path(**options)
       }
 
       config.map_step :find_course_selection, to: lambda { |_wizard, options, helpers|
-        options[:provider_id] = state_store.provider_id
-        options[:course_id] = state_store.course_id
+        options[:provider_id] = state_store.provider.id
+        options[:course_id] = state_store.course.id
         helpers.candidate_interface_course_choices_course_confirm_selection_path(**options)
       }
 
       config.map_step :course_site, to: lambda { |_wizard, options, helpers|
-        options[:provider_id] = state_store.provider_id
-        options[:course_id] = state_store.course_id
+        options[:provider_id] = state_store.provider.id
+        options[:course_id] = state_store.course.id
         options[:study_mode] = state_store.study_mode
         helpers.candidate_interface_course_choices_course_site_path(**options)
       }
@@ -120,20 +127,20 @@ class CandidateInterface::CourseSelectionWizard
       }
 
       config.map_step :duplicate_course_selection, to: lambda { |_wizard, options, helpers|
-        options[:provider_id] = state_store.provider_id
-        options[:course_id] = state_store.course_id
+        options[:provider_id] = state_store.provider.id
+        options[:course_id] = state_store.course.id
         helpers.candidate_interface_course_choices_duplicate_course_selection_path(**options)
       }
 
       config.map_step :closed_course_selection, to: lambda { |_wizard, options, helpers|
-        options[:provider_id] = state_store.provider_id
-        options[:course_id] = state_store.course_id
+        options[:provider_id] = state_store.provider.id
+        options[:course_id] = state_store.course.id
         helpers.candidate_interface_course_choices_closed_course_selection_path(**options)
       }
 
       config.map_step :full_course_selection, to: lambda { |_wizard, options, helpers|
-        options[:provider_id] = state_store.provider_id
-        options[:course_id] = state_store.course_id
+        options[:provider_id] = state_store.provider.id
+        options[:course_id] = state_store.course.id
         helpers.candidate_interface_course_choices_full_course_selection_path(**options)
       }
 

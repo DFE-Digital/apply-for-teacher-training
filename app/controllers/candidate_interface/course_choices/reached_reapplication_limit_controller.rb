@@ -6,14 +6,6 @@ module CandidateInterface
 
     private
 
-      def step_params
-        params[current_step] = {
-          provider_id: params.delete(:provider_id),
-          course_id: params.delete(:course_id),
-        }
-        params
-      end
-
       def current_step
         :reached_reapplication_limit
       end
