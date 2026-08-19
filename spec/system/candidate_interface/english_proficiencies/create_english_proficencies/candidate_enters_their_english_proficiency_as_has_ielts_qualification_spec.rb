@@ -199,7 +199,7 @@ private
     )
     expect(page).to have_element(
       :div,
-      text: 'Enter your overall band score',
+      text: 'Enter your overall band score in the correct format',
       class: 'govuk-error-summary__body',
     )
     expect(page).to have_element(

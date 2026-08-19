@@ -232,7 +232,7 @@ private
   def when_i_fill_in_the_other_efl_results_form
     fill_in 'Assessment name', with: 'EFL Assessment ABC'
     fill_in 'Score or grade', with: 'A+'
-    fill_in 'WWhat year did you complete the assessment?', with: '2020'
+    fill_in 'What year did you complete the assessment?', with: '2020'
   end
 
   def and_i_see_that_my_level_of_english_is_i_have_another_efl_assessment
