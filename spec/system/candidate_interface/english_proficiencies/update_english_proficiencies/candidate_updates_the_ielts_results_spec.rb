@@ -106,7 +106,7 @@ private
   def and_i_see_my_ielts_results_prefilled
     expect(page).to have_field('Test report form (TRF) number', type: 'text', with: @efl_qualification.trf_number)
     expect(page).to have_field('Overall band score', type: 'text', with: @efl_qualification.band_score)
-    expect(page).to have_field('When did you complete the assessment?', type: 'text', with: @efl_qualification.award_year)
+    expect(page).to have_field('What year did you complete the assessment?', type: 'text', with: @efl_qualification.award_year)
   end
 
   def when_i_click_on_back
@@ -124,7 +124,7 @@ private
   def when_i_fill_in_the_ielts_results_form
     fill_in 'Test report form (TRF) number', with: 'ABCD1234'
     fill_in 'Overall band score', with: '8'
-    fill_in 'When did you complete the assessment?', with: '2020'
+    fill_in 'What year did you complete the assessment?', with: '2020'
   end
 
   def and_i_click_on_save_and_continue

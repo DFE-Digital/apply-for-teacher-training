@@ -123,7 +123,7 @@ private
     expect(page).to have_element(:h1, text: 'Your TOEFL result', class: 'govuk-heading-xl')
     expect(page).to have_field('TOEFL registration number', type: 'text')
     expect(page).to have_field('Total score', type: 'text')
-    expect(page).to have_field('When did you complete the assessment?', type: 'text')
+    expect(page).to have_field('What year did you complete the assessment?', type: 'text')
   end
 
   def and_i_see_toefl_selected
@@ -133,7 +133,7 @@ private
   def when_i_fill_in_the_toefl_results_form
     fill_in 'TOEFL registration number', with: 'ABCD1234'
     fill_in 'Total score', with: '89'
-    fill_in 'When did you complete the assessment?', with: '2020'
+    fill_in 'What year did you complete the assessment?', with: '2020'
   end
 
   def and_i_click_on_save_and_continue
@@ -186,12 +186,12 @@ private
     )
     expect(page).to have_element(
       :div,
-      text: 'Enter your total score (this should be a number)',
+      text: 'Enter your total score as a number',
       class: 'govuk-error-summary__body',
     )
     expect(page).to have_element(
       :div,
-      text: 'Enter year the assessment was done',
+      text: 'Enter the year you completed the assessment',
       class: 'govuk-error-summary__body',
     )
   end
@@ -199,7 +199,7 @@ private
   def when_i_fill_in_the_toefl_results_form_with_invalid_inputs
     fill_in 'TOEFL registration number', with: 'a' * 256
     fill_in 'Total score', with: 'ABC'
-    fill_in 'When did you complete the assessment?', with: '1963'
+    fill_in 'What year did you complete the assessment?', with: '1963'
   end
 
   def and_i_see_validation_errors_for_entering_invalid_inputs
@@ -210,7 +210,7 @@ private
     )
     expect(page).to have_element(
       :div,
-      text: 'Enter your total score (this should be a number)',
+      text: 'Enter your total score as a number',
       class: 'govuk-error-summary__body',
     )
     expect(page).to have_element(

@@ -106,7 +106,7 @@ private
   def and_i_see_my_other_efl_qualification_results_prefilled
     expect(page).to have_field('Assessment name', type: 'text', with: @efl_qualification.name)
     expect(page).to have_field('Score or grade', type: 'text', with: @efl_qualification.grade)
-    expect(page).to have_field('When did you complete the assessment?', type: 'text', with: @efl_qualification.award_year)
+    expect(page).to have_field('What year did you complete the assessment?', type: 'text', with: @efl_qualification.award_year)
   end
 
   def when_i_click_on_back
@@ -124,7 +124,7 @@ private
   def when_i_fill_in_the_other_efl_results_form
     fill_in 'Assessment name', with: 'EFL Assessment ABC'
     fill_in 'Score or grade', with: 'A+'
-    fill_in 'When did you complete the assessment?', with: '2020'
+    fill_in 'What year did you complete the assessment?', with: '2020'
   end
 
   def and_i_click_on_save_and_continue

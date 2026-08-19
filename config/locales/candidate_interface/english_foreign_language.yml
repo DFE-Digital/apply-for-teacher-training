@@ -30,8 +30,8 @@ en:
             trf_number:
               blank: Enter your TRF number
             band_score:
-              blank: Enter your overall band score
-              invalid: Enter an overall band score in the correct format
+              blank: Enter your overall band score in the correct format
+              invalid: Enter your overall band score in the correct format
             award_year:
               blank: Enter year the assessment was done
               not_an_integer: Assessment year must be a real year
@@ -46,7 +46,7 @@ en:
             grade:
               blank: Enter your grade
             award_year:
-              blank: Enter year the assessment was done
+              blank: Enter the year you completed the assessment
               invalid_year: Assessment year must be a real year
               not_an_integer: Assessment year must be a real year
               not_a_number: Assessment year must be a real year
@@ -56,10 +56,10 @@ en:
             registration_number:
               blank: Enter your registration number
             total_score:
-              blank: Enter your total score
-              not_a_number: Enter your total score (this should be a number)
+              blank: Enter your total score as a number
+              not_a_number: Enter your total score as a number
             award_year:
-              blank: Enter year the assessment was done
+              blank: Enter the year you completed the assessment
               invalid_year: Assessment year must be a real year
               not_an_integer: Assessment year must be a real year
               not_a_number: Assessment year must be a real year
