@@ -124,7 +124,7 @@ private
     expect(page).to have_element(:h1, text: 'Your English language assessment result', class: 'govuk-heading-xl')
     expect(page).to have_field('Assessment name', type: 'text')
     expect(page).to have_field('Score or grade', type: 'text')
-    expect(page).to have_field('When did you complete the assessment?', type: 'text')
+    expect(page).to have_field('What year did you complete the assessment?', type: 'text')
   end
 
   def and_i_see_other_selected
@@ -134,7 +134,7 @@ private
   def when_i_fill_in_the_other_efl_results_form
     fill_in 'Assessment name', with: 'EFL Assessment ABC'
     fill_in 'Score or grade', with: 'A+'
-    fill_in 'When did you complete the assessment?', with: '2020'
+    fill_in 'What year did you complete the assessment?', with: '2020'
   end
 
   def and_i_click_on_save_and_continue
@@ -192,7 +192,7 @@ private
     )
     expect(page).to have_element(
       :div,
-      text: 'Enter year the assessment was done',
+      text: 'Enter the year you completed the assessment',
       class: 'govuk-error-summary__body',
     )
   end
@@ -200,7 +200,7 @@ private
   def when_i_fill_in_the_other_efl_results_form_with_invalid_inputs
     fill_in 'Assessment name', with: 'a' * 256
     fill_in 'Score or grade', with: 'a' * 256
-    fill_in 'When did you complete the assessment?', with: Time.zone.today.year + 1
+    fill_in 'What year did you complete the assessment?', with: Time.zone.today.year + 1
   end
 
   def and_i_see_validation_errors_for_entering_invalid_inputs

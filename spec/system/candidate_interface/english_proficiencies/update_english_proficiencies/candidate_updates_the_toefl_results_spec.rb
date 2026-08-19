@@ -106,7 +106,7 @@ private
   def and_i_see_my_toefl_results_prefilled
     expect(page).to have_field('TOEFL registration number', type: 'text', with: @efl_qualification.registration_number)
     expect(page).to have_field('Total score', type: 'text', with: @efl_qualification.total_score)
-    expect(page).to have_field('When did you complete the assessment?', type: 'text', with: @efl_qualification.award_year)
+    expect(page).to have_field('What year did you complete the assessment?', type: 'text', with: @efl_qualification.award_year)
   end
 
   def when_i_click_on_back
@@ -124,7 +124,7 @@ private
   def when_i_fill_in_the_toefl_results_form
     fill_in 'TOEFL registration number', with: 'ABCD1234'
     fill_in 'Total score', with: '89'
-    fill_in 'When did you complete the assessment?', with: '2020'
+    fill_in 'What year did you complete the assessment?', with: '2020'
   end
 
   def and_i_click_on_save_and_continue

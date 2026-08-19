@@ -135,7 +135,7 @@ private
     expect(page).to have_element(:h1, text: 'Your IELTS result', class: 'govuk-heading-xl')
     expect(page).to have_field('Test report form (TRF) number', type: 'text')
     expect(page).to have_field('Overall band score', type: 'text')
-    expect(page).to have_field('When did you complete the assessment?', type: 'text')
+    expect(page).to have_field('What year did you complete the assessment?', type: 'text')
   end
 
   def and_i_see_ielts_selected
@@ -145,7 +145,7 @@ private
   def when_i_fill_in_the_ielts_results_form
     fill_in 'Test report form (TRF) number', with: 'ABCD1234'
     fill_in 'Overall band score', with: '8'
-    fill_in 'When did you complete the assessment?', with: '2020'
+    fill_in 'What year did you complete the assessment?', with: '2020'
   end
 
   def and_i_click_on_save_and_continue

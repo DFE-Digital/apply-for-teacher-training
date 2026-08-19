@@ -174,7 +174,7 @@ private
     expect(page).to have_element(:h1, text: 'Your TOEFL result', class: 'govuk-heading-xl')
     expect(page).to have_field('TOEFL registration number', type: 'text')
     expect(page).to have_field('Total score', type: 'text')
-    expect(page).to have_field('When did you complete the assessment?', type: 'text')
+    expect(page).to have_field('What year did you complete the assessment?', type: 'text')
   end
 
   def and_i_see_toefl_selected
@@ -184,7 +184,7 @@ private
   def when_i_fill_in_the_toefl_results_form
     fill_in 'TOEFL registration number', with: 'ABCD1234'
     fill_in 'Total score', with: '89'
-    fill_in 'When did you complete the assessment?', with: '2020'
+    fill_in 'What year did you complete the assessment?', with: '2020'
   end
 
   def and_i_click_on_save_and_continue
@@ -222,7 +222,7 @@ private
     expect(page).to have_element(:h1, text: 'Your English language assessment result', class: 'govuk-heading-xl')
     expect(page).to have_field('Assessment name', type: 'text')
     expect(page).to have_field('Score or grade', type: 'text')
-    expect(page).to have_field('When did you complete the assessment?', type: 'text')
+    expect(page).to have_field('What year did you complete the assessment?', type: 'text')
   end
 
   def and_i_see_other_selected
@@ -232,7 +232,7 @@ private
   def when_i_fill_in_the_other_efl_results_form
     fill_in 'Assessment name', with: 'EFL Assessment ABC'
     fill_in 'Score or grade', with: 'A+'
-    fill_in 'When did you complete the assessment?', with: '2020'
+    fill_in 'WWhat year did you complete the assessment?', with: '2020'
   end
 
   def and_i_see_that_my_level_of_english_is_i_have_another_efl_assessment
@@ -266,12 +266,12 @@ private
     expect(page).to have_element(:h1, text: 'Your IELTS result', class: 'govuk-heading-xl')
     expect(page).to have_field('Test report form (TRF) number', type: 'text')
     expect(page).to have_field('Overall band score', type: 'text')
-    expect(page).to have_field('When did you complete the assessment?', type: 'text')
+    expect(page).to have_field('What year did you complete the assessment?', type: 'text')
   end
 
   def when_i_fill_in_the_ielts_results_form
     fill_in 'Test report form (TRF) number', with: @efl_qualification.trf_number
     fill_in 'Overall band score', with: @efl_qualification.band_score
-    fill_in 'When did you complete the assessment?', with: @efl_qualification.award_year
+    fill_in 'What year did you complete the assessment?', with: @efl_qualification.award_year
   end
 end
