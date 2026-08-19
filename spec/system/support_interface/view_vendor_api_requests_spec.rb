@@ -86,7 +86,7 @@ RSpec.describe 'Vendor API Requests' do
     Capybara.current_session.driver.header('Authorization', nil)
 
     @post_api_request = create(
-      :vendor_api_request,
+      :vendor_api_request_v2,
       request_method: 'POST',
       request_body: { data: { 'foo' => 'bar' } },
       request_path: '/api/v1/applications/9999/offer',
@@ -94,12 +94,12 @@ RSpec.describe 'Vendor API Requests' do
     )
 
     @validation_error_request = create(
-      :vendor_api_request,
+      :vendor_api_request_v2,
       :with_validation_error,
       provider: @validated_provider,
     )
 
-    @random_api_request = create(:vendor_api_request)
+    @random_api_request = create(:vendor_api_request_v2)
   end
 
   def when_i_visit_the_vendor_api_requests_page
