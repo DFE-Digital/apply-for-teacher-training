@@ -14,7 +14,7 @@ module CandidateInterface
       end
 
       def application_choice
-        @application_choice ||= current_application.application_choices.new
+        @application_choice ||= wizard.application_choice || current_application.application_choices.new
       end
 
       def course_option

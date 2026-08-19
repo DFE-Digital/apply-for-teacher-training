@@ -8,6 +8,7 @@ module CandidateInterface
       before_action :redirect_to_your_applications_if_cycle_is_over
       before_action :redirect_to_your_applications_if_submitted, only: %i[edit update]
       before_action :assign_wizard
+      before_action :assign_wizard_with_application_choice, only: [:edit, :update]
 
       def new; end
 
@@ -42,19 +43,11 @@ module CandidateInterface
       end
 
       def step_params
-        return default_params if params[current_step].blank?
-
-        params
-      end
-
-      def default_params
-        ActionController::Parameters.new({ current_step => params })
-      end
-
-      def update_params
-        return default_update_params if params[current_step].blank?
-
-        params
+        if action_name.in?(%w[edit update])
+          default_update_params
+        else
+          params
+        end
       end
 
       def default_update_params
@@ -62,8 +55,8 @@ module CandidateInterface
           {
             current_step => {
               provider_id: application_choice.current_provider.id,
-              course_id: params[:course_id] || application_choice.current_course.id,
-              study_mode: params[:study_mode] || application_choice.current_course_option.study_mode,
+              course_id: params.dig(current_step,:course_id) || application_choice.current_course.id,
+              study_mode: params.dig(current_step, :study_mode) || application_choice.current_course_option.study_mode,
               course_option_id: application_choice.current_course_option.id,
             },
           },
@@ -96,6 +89,13 @@ module CandidateInterface
         ).tap do |wizard|
           wizard.current_application = current_application
         end
+      end
+
+      def assign_wizard_with_application_choice
+        @wizard = @wizard.tap do |wizard|
+          wizard.application_choice = application_choice
+        end
+        state_store.write(application_choice_id: application_choice.id)
       end
 
       def state_store

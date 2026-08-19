@@ -23,9 +23,10 @@
       <p class="govuk-body">
         Or consider <%= govuk_link_to 'finding a course that offers visa sponsorship', @find_url_with_visa_filter, new_tab: true %>
       </p>
-  </div>
-  <div class="govuk-button-group app-course-choice__confirm-submission">
-    <%= govuk_button_link_to('Continue to submit this application', @wizard.next_step_path, method: :get) %>
-    <%= govuk_link_to('Go to your account', candidate_interface_details_path) %>
+    </div>
+    <div class="govuk-button-group app-course-choice__confirm-submission">
+      <%= govuk_button_link_to('Continue to submit this application', @wizard.next_step_path, method: :get) %>
+      <%= govuk_link_to('Go to your account', candidate_interface_details_path) %>
+    </div>
   </div>
 </div>
