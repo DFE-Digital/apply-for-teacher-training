@@ -98,8 +98,8 @@ jobs:
           echo "AZURE_RESOURCE_PREFIX=${AZURE_RESOURCE_PREFIX}" >> $GITHUB_ENV
           echo "CONFIG_SHORT=${CONFIG_SHORT}" >> $GITHUB_ENV
           echo "SERVICE_SHORT=${SERVICE_SHORT}" >> $GITHUB_ENV
-          echo "DEPLOY_ENV=review-${matrix.pr_number}" >> $GITHUB_ENV
-          echo "TF_STATE_FILE=pr-${matrix.pr_number}.tfstate" >> $GITHUB_ENV
+          echo "DEPLOY_ENV=review-${PR_NUMBER}" >> $GITHUB_ENV
+          echo "TF_STATE_FILE=pr-${PR_NUMBER}.tfstate" >> $GITHUB_ENV
           echo "IMAGE_TAG=ignored" >> $GITHUB_ENV
 
       - name: Delete stale review app
