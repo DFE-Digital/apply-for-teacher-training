@@ -150,7 +150,7 @@ jobs:
             javascript_tests,
           ]
         feature-flags: [on, off]
-        offset-date: [after_apply_deadline]
+        offset-date: [real_world]
         # Use these offsets as the end of cycle approaches
         # offset-date: [real_world, after_apply_deadline, before_apply_reopens, after_apply_reopens]
 
