@@ -858,7 +858,7 @@ module CandidateHelper
     expect(page).to have_current_path(candidate_interface_application_choices_path)
     expect(page).to have_text('You can have up to 4 applications in progress at any time.')
     expect(page).to have_text(
-      'If an application becomes inactive, is withdrawn or rejected you can add another, up to a maximum of 15 in a single recruitment cycle.',
+      'You can have up to 4 applications in progress at any time. If an application becomes inactive, is withdrawn or rejected, you can submit another one. You can submit up to 15 in total for an academic year.',
     )
     click_link_or_button 'Add application'
     expect(page).to have_current_path(candidate_interface_course_choices_do_you_know_the_course_path)

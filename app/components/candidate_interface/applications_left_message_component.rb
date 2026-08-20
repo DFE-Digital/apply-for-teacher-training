@@ -5,6 +5,7 @@ module CandidateInterface
     delegate :submitted?,
              :cannot_add_more_choices?,
              :number_of_slots_left,
+             :academic_year_range_name,
              to: :application_form
 
     def initialize(application_form)
@@ -32,7 +33,7 @@ module CandidateInterface
           t('candidate_interface.applications_left_message.can_not_add_more_message'),
         ]
       else
-        [t('candidate_interface.applications_left_message.can_add_more', count: number_of_slots_left)]
+        [t('candidate_interface.applications_left_message.can_add_more', count: number_of_slots_left, academic_year: academic_year_range_name)]
       end
     end
 
