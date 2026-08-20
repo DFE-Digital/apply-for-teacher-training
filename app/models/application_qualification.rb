@@ -102,6 +102,15 @@ class ApplicationQualification < ApplicationRecord
 
   before_save :set_public_id, :set_mutual_exclusivity_not_completed_or_enic, :prevent_not_completed_explanation_if_passing_grade
 
+  def science_subject?
+    [
+      SCIENCE,
+      SCIENCE_SINGLE_AWARD,
+      SCIENCE_DOUBLE_AWARD,
+      SCIENCE_TRIPLE_AWARD,
+    ].include?(subject)
+  end
+
   def missing_qualification?
     qualification_type == 'missing'
   end
