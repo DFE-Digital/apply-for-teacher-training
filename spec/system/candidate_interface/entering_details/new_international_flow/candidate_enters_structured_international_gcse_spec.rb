@@ -380,11 +380,11 @@ private
   end
 
   def then_i_see_the_interruption_page
-    expect(page).to have_text 'This grade may not be equivalent to a GCSE in English at Grade 4 (C) or above'
+    expect(page).to have_text 'This grade may not be equivalent to a GCSE in English at grade 4 (C) or above'
   end
 
   def then_i_see_the_interruption_page_maths
-    expect(page).to have_text 'This grade may not be equivalent to a GCSE in maths at Grade 4 (C) or above'
+    expect(page).to have_text 'This grade may not be equivalent to a GCSE in maths at grade 4 (C) or above'
   end
 
   def when_i_click_provide_evidence_of_your_english_skills
