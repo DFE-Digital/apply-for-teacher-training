@@ -1,7 +1,4 @@
 <%= f.govuk_error_summary %>
-<%= f.hidden_field(:provider_id) %>
-<%= f.hidden_field(:course_id) %>
-<%= f.hidden_field(:study_mode) %>
 
 <% if @wizard.current_step.provider_exists? %>
   <p class="govuk-caption-xl govuk-!-margin-top-0">

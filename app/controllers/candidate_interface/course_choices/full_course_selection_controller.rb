@@ -11,7 +11,7 @@ module CandidateInterface
       end
 
       def set_course
-        @course = @wizard.course
+        @course = @wizard.course || Course.find(params[:course_id])
       end
 
       def wizard_controller?

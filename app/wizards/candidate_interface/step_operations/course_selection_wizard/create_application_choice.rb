@@ -38,7 +38,6 @@ module CandidateInterface
 
       def save_application_choice(choice)
         choice.tap do |c|
-          state_store.read
           c.configure_initial_course_choice!(course_option)
 
           if choice.provider

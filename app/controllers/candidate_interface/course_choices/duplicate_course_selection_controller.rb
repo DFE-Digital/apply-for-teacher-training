@@ -12,11 +12,23 @@ module CandidateInterface
       end
 
       def set_course
-        @course = @wizard.course
+        @course = @wizard.course || Course.find(params[:course_id])
       end
 
       def set_backlink
-        @backlink = candidate_interface_application_choices_path if request.referer.blank?
+        @backlink = if request.referer.blank?
+                      candidate_interface_application_choices_path
+                    elsif @wizard.previous_step.present?
+                      @wizard.previous_step_path
+                    elsif @wizard.application_choice
+                      candidate_interface_edit_course_choices_which_course_are_you_applying_to_path(
+                        application_choice_id: @wizard.application_choice.id
+                      )
+                    else
+                      candidate_interface_course_choices_which_course_are_you_applying_to_path(
+                        provider_id: @wizard.provider.id,
+                      )
+                    end
       end
 
       def wizard_controller?
