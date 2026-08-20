@@ -1,3 +1,11 @@
   <aside class="app-related" aria-labelledby="previous-applications-link">
-    <p class="govuk-body" id="previous-applications-link"><%= govuk_link_to('View your previous applications', candidate_interface_previous_applications_path) %></p>
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="previous-applications-title">
+      <%= t('layout.previous_applications.title') %>
+    </h2>
+    <p class="govuk-body govuk-!-font-size-16" id="previous-applications-link">
+      <%= govuk_link_to(
+            t('layout.previous_applications.link_text'),
+            candidate_interface_previous_applications_path,
+          ) %>
+    </p>
   </aside>
