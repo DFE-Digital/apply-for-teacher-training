@@ -3,6 +3,10 @@ module CandidateInterface
     class DoYouKnowWhichCourseController < CandidateInterface::CourseChoices::BaseController
       before_action :clear_wizard, only: [:new]
 
+      def new
+        super
+      end
+
     private
 
       def current_step

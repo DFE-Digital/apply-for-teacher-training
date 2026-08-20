@@ -21,9 +21,7 @@ module CandidateInterface
         %i[course_option_id course_option_id_raw]
       end
 
-      def course_id
-        course.id
-      end
+      delegate :id, to: :course, prefix: true
 
       def study_mode
         state_store.study_mode.presence || course.available_study_modes_with_vacancies.first

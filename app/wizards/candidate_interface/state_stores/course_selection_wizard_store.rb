@@ -94,13 +94,13 @@ module CandidateInterface
       end
 
       def application_choice
-        return unless self[:application_choice_id].present?
+        return if self[:application_choice_id].blank?
 
         current_application.application_choices.find(self[:application_choice_id])
       end
 
       def visa_expires_soon?
-        return false unless application_choice.present?
+        return false if application_choice.blank?
 
         application_choice.visa_expires_soon?
       end

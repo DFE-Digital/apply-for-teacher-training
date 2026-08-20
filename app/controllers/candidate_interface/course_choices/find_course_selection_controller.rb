@@ -6,16 +6,20 @@ module CandidateInterface
 
       before_action :clear_wizard, only: [:new]
 
+      def new
+        super
+      end
+
       def step_params
         if action_name == 'new'
 
-        ActionController::Parameters.new(
-          {
-            current_step => {
-              course_id: params[:course_id]
+          ActionController::Parameters.new(
+            {
+              current_step => {
+                course_id: params[:course_id],
+              },
             },
-          },
-        )
+          )
         else
           super
         end
