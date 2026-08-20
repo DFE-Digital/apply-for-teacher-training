@@ -48,7 +48,7 @@ module VendorAPI
   private
 
     def handle_as_validation_error(e)
-      render status: :unprocessable_entity,
+      render status: :unprocessable_content,
              json: { errors: [{ error: 'UnprocessableEntityResponse', message: e.message }] }
     end
 

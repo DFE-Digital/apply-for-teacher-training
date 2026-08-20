@@ -55,7 +55,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/applications' do
   it 'returns a ParameterMissingResponse if the `since` parameter is missing' do
     get_api_request '/api/v1.0/applications'
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
                                                          'param is missing or the value is empty or invalid: since')
   end
@@ -63,7 +63,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/applications' do
   it 'returns HTTP status 422 given an unparseable `since` date value' do
     get_api_request '/api/v1.0/applications?since=17/07/2020T12:00:42Z'
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
                                                          'Parameter is invalid (should be ISO8601): since')
   end
@@ -71,7 +71,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/applications' do
   it 'returns HTTP status 422 when encountering a KeyError from ActiveSupport::TimeZone' do
     get_api_request '/api/v1.0/applications?since=12936'
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
                                                          'Parameter is invalid (should be ISO8601): since')
   end
@@ -79,7 +79,7 @@ RSpec.describe 'Vendor API - GET /api/v1.0/applications' do
   it 'returns HTTP status 422 given a parseable but nonsensensical `since` date value' do
     get_api_request '/api/v1.0/applications?since=-004713-03-23T11:52:19.448Z' # this happened
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
 
     expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
                                                          'Parameter is invalid (date is nonsense): since')

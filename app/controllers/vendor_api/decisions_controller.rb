@@ -90,7 +90,7 @@ module VendorAPI
     rescue IdenticalOfferError
       render_application
     rescue ProviderAuthorisation::NotAuthorisedError => e
-      render status: :unprocessable_entity, json: {
+      render status: :unprocessable_content, json: {
         errors: [
           {
             error: 'NotAuthorisedError',

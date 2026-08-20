@@ -36,7 +36,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
       it 'fails and renders an UnprocessableEntityResponse' do
         post_cancellation! reason: 'A' * 10241, skip_schema_check: true
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
                                                              'Cancellation reason must be 10240 characters or fewer',
                                                              '1.1')
@@ -49,7 +49,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
 
         post_cancellation! reason: 'A reason'
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
                                                              'The interview cannot be changed as it is in the past',
                                                              '1.1')
@@ -64,7 +64,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
       it 'fails and renders a UnprocessableEntityResponse' do
         post_cancellation! reason: 'A reason'
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
                                                              'The interview cannot be changed as it has already been cancelled',
                                                              '1.1')
@@ -90,7 +90,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         it 'fails and renders a ParameterMissingResponse' do
           post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/#{interview.id}/cancel", params: request_data
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
                                                                'param is missing or the value is empty or invalid: data',
                                                                '1.1')
@@ -105,7 +105,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         it 'fails and renders a ParameterMissingResponse' do
           post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/#{interview.id}/cancel", params: request_data
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
                                                                'param is missing or the value is empty or invalid: reason',
                                                                '1.1')

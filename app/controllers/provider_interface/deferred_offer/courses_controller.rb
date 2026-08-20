@@ -17,7 +17,7 @@ class ProviderInterface::DeferredOffer::CoursesController < ProviderInterface::P
     if @course_form.update(course_form_params)
       redirect_to next_step_path(@course_form)
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

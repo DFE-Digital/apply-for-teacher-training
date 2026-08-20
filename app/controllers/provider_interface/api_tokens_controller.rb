@@ -18,7 +18,7 @@ module ProviderInterface
       if (@unhashed_token = @api_token.save!)
         render :show
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 

@@ -17,7 +17,7 @@ class ProviderInterface::DeferredOffer::LocationController < ProviderInterface::
     if @location_form.update(location_form_params)
       redirect_to next_step_path(@location_form)
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

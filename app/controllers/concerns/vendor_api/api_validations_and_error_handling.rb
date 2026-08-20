@@ -44,7 +44,7 @@ module VendorAPI
     end
 
     def render_workflow_transition_error(_)
-      render status: :unprocessable_entity, json: {
+      render status: :unprocessable_content, json: {
         errors: [
           error: 'StateTransitionError',
           message: I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'),
@@ -79,7 +79,7 @@ module VendorAPI
     def render_validation_errors(errors)
       error_responses = errors.full_messages.map { |message| { error: 'UnprocessableEntity', message: } }
 
-      render status: :unprocessable_entity, json: {
+      render status: :unprocessable_content, json: {
         errors: error_responses,
       }
     end
@@ -87,7 +87,7 @@ module VendorAPI
     def parameter_missing(e)
       error_message = e.message.split("\n").first
 
-      render status: :unprocessable_entity, json: {
+      render status: :unprocessable_content, json: {
         errors: [
           {
             error: 'ParameterMissing',
@@ -98,7 +98,7 @@ module VendorAPI
     end
 
     def parameter_invalid(e)
-      render status: :unprocessable_entity, json: {
+      render status: :unprocessable_content, json: {
         errors: [
           {
             error: 'ParameterInvalid',
@@ -120,7 +120,7 @@ module VendorAPI
     end
 
     def render_validation_error(e)
-      render status: :unprocessable_entity, json: e.as_json
+      render status: :unprocessable_content, json: e.as_json
     end
   end
 end

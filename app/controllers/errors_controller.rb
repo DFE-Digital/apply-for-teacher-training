@@ -21,7 +21,7 @@ class ErrorsController < ApplicationController
   end
 
   def unprocessable_entity
-    render 'unprocessable_entity', status: :unprocessable_entity, formats: %i[html]
+    render 'unprocessable_entity', status: :unprocessable_content, formats: %i[html]
   end
 
   def not_acceptable

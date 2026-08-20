@@ -51,7 +51,7 @@ RSpec.describe 'Vendor API - Modifying reference state (sandbox)' do
 
       it 'returns a 422 Unprocessable Entity response' do
         post_api_request(path)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'does not change the reference' do
@@ -124,7 +124,7 @@ RSpec.describe 'Vendor API - Modifying reference state (sandbox)' do
 
       it 'returns a 422 Unprocessable Entity response' do
         post_api_request(path)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'does not change the reference' do

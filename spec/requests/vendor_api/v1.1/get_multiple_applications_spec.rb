@@ -150,7 +150,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications' do
 
       get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&page=3&per_page=2"
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
                                                            "expected 'page' parameter to be between 1 and 2, got 3",
                                                            '1.1')
@@ -168,7 +168,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications' do
       max_value = VendorAPI::MultipleApplicationsPresenter::Pagination::MAX_PER_PAGE
       get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&page=1&per_page=#{max_value + 1}"
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
                                                            "The 'per_page' parameter cannot exceed #{max_value} results per page",
                                                            '1.1')

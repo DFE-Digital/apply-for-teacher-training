@@ -28,7 +28,7 @@ module CandidateInterface
         redirect_to @fac_invite_response_form.path_to_redirect
       else
         track_validation_error(@fac_invite_response_form)
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

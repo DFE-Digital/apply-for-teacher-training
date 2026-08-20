@@ -135,7 +135,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
         },
       }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse', '1.0')
       expect(parsed_response['errors'].map { |e| e['message'] }).to contain_exactly(
         'Course code cannot be blank',
@@ -158,7 +158,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
         },
       }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(parsed_response)
         .to contain_schema_with_error('UnprocessableEntityResponse',
                                       'The specified course is not associated with any of your organisations.')
@@ -180,7 +180,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
         }
       }.to change(VendorAPIRequestV2, :count)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
 
       logged_error = VendorAPIRequestV2.first.response_body['errors'].first['error']
 
@@ -205,7 +205,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
         },
       }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse', 'Provider ABC does not exist')
     end
 
@@ -230,7 +230,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
         },
       }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(parsed_response)
         .to contain_schema_with_error('UnprocessableEntityResponse',
                                       "Found multiple full_time options for course #{course_payload['course_code']}")
@@ -243,7 +243,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
 
       post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: { data: { conditions: [] } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(parsed_response)
         .to contain_schema_with_error('UnprocessableEntityResponse',
                                       "It's not possible to perform this action while the application is in its current state")
@@ -458,7 +458,7 @@ RSpec.describe 'Vendor API - POST /api/v1.0/applications/:application_id/offer' 
 
       post_api_request "/api/v1.0/applications/#{application_choice.id}/offer", params: request_body
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(parsed_response)
         .to contain_schema_with_error('UnprocessableEntityResponse',
                                       "Course must be in #{current_year} recruitment cycle")
