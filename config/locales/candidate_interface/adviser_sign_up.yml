@@ -9,13 +9,6 @@ en:
   candidate_interface:
     details:
       index:
-        before_you_can_apply: 'Before you can apply again, you need to:'
-        confirm_references_html: '%{references_link} are up to date'
-        references_link_text: confirm your references
-        enter_equality_and_diversity_html: enter or reconfirm your %{equality_and_diversity_information_link}.
-        equality_and_diversity_link_text: equality and diversity information
-        enter_previous_teacher_training_html: enter %{previous_teacher_training_link}
-        previous_teacher_training_link_text: whether you have started teacher training in the past
         you_completed_your_details: You have completed your details
         complete_your_details:
           one: Complete your details to continue your application.
