@@ -66,7 +66,9 @@ module CandidateInterface
       end
 
       def application_choice
-        @application_choice ||= active_application_choices.find_by(id: params[:application_choice_id])
+        return @application_choice if defined?(@application_choice)
+
+        @application_choice = active_application_choices.find_by(id: params[:application_choice_id])
       end
 
     private
@@ -100,7 +102,7 @@ module CandidateInterface
       end
 
       def assign_wizard_with_application_choice
-        return unless @wizard.present?
+        return if @wizard.blank?
 
         @wizard = @wizard.tap do |wizard|
           wizard.application_choice = application_choice
