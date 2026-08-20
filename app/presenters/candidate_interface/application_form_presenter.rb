@@ -393,12 +393,6 @@ module CandidateInterface
         can_add_course_choice? # The apply deadline for this form has not passed
     end
 
-    def show_sections_not_carried_over_inset?
-      # This is shown primary when an application is carried over,
-      # when these sections may have been previously completed, but need to be revisited in the new year
-      incomplete_sections.map(&:name).sort == %i[equality_and_diversity previous_teacher_training references_selected]
-    end
-
     def show_previous_applications?
       return false unless candidate_has_previously_applied?
 
