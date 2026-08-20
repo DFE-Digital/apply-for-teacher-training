@@ -18,7 +18,12 @@
         <li><%= t('gcse_new_international_flow_interruption.option3', subject: (@subject == 'english' ? @subject.capitalize : @subject)) %></li>
       </ul>
 
-      <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.none_of_these', subject: @subject) %><p>
+      <p class="govuk-body">
+        <%= t(
+          'gcse_new_international_flow_interruption.none_of_these',
+          subject: @subject == 'english' ? @subject.capitalize : @subject,
+        ) %>
+      <p>
 
       <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.some_providers') %><p>
 
