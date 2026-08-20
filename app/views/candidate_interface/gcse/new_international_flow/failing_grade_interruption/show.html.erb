@@ -6,15 +6,31 @@
     <div class="app-grid-column--grey">
       <h1 class="govuk-heading-l"><%= t('gcse_new_international_flow_interruption.page_title', subject: (@subject == 'english' ? @subject.capitalize : @subject)) %></h1>
 
-      <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.you_need') %></p>
+      <% if @subject == 'science' %>
+        <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.you_need_science') %></p>
+      <% else %>
+        <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.you_need') %></p>
+      <% end %>
       <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.you_can') %></p>
       <ul class="govuk-body">
         <li><%= t('gcse_new_international_flow_interruption.option1') %></li>
         <li><%= t('gcse_new_international_flow_interruption.option2', subject: (@subject == 'english' ? @subject.capitalize : @subject)) %></li>
         <li><%= t('gcse_new_international_flow_interruption.option3', subject: (@subject == 'english' ? @subject.capitalize : @subject)) %></li>
       </ul>
-      <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.none_of_these') %><p>
+
+      <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.none_of_these', subject: @subject) %><p>
+
       <p class="govuk-body"><%= t('gcse_new_international_flow_interruption.some_providers') %><p>
+
+      <% if @subject == 'science' %>
+        <h2 class="govuk-heading-s">
+          <%= t('gcse_new_international_flow_interruption.apply_for_secondary_header') %>
+        </h2>
+        <%= t(
+          'gcse_new_international_flow_interruption.apply_for_secondary_html',
+          link: link_to('apply for a secondary teacher training course', candidate_interface_application_choices_path),
+        ) %>
+      <% end %>
     </div>
 
     <div class="govuk-button-group app-course-choice__confirm-submission">
