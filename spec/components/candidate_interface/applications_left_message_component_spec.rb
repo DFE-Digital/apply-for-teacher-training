@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::ApplicationsLeftMessageComponent do
         create(:application_choice, :awaiting_provider_decision, application_form:)
         create(:application_choice, :rejected, application_form:)
         create(:application_choice, :inactive, application_form:)
-        expect(message).to include('You can submit 2 more applications.')
+        expect(message).to include("You can submit 2 more applications for courses starting in the #{application_form.academic_year_range_name} academic year.")
       end
     end
 

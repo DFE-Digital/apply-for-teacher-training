@@ -3,8 +3,8 @@ en:
     applications_left_message:
       default_message: 'You can have up to %{maximum_number_of_course_choices} applications in progress at any time.'
       can_add_more:
-        one: 'You can submit %{count} more application.'
-        other: 'You can submit %{count} more applications.'
+        one: You can submit %{count} more application for courses starting in the %{academic_year} academic year.
+        other: You can submit %{count} more applications for courses starting in the %{academic_year} academic year.
       can_not_add_more_heading: 'You cannot add any more applications because you are waiting for decisions on %{maximum_number_of_course_choices} others.'
       can_not_add_more_message: 'If one of your applications is unsuccessful, or you withdraw or remove it, you will be able to add another application.'
-      inactive_application_message: If an application becomes inactive, is withdrawn or rejected you can add another, up to a maximum of %{count} in a single recruitment cycle.
+      inactive_application_message: You can have up to 4 applications in progress at any time. If an application becomes inactive, is withdrawn or rejected, you can submit another one. You can submit up to %{count} in total for an academic year.
