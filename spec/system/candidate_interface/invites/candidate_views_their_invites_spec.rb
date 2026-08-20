@@ -156,7 +156,7 @@ RSpec.describe 'Candidate views their invites' do
     expect(page).to have_element(:h1, text: 'Your applications')
     expect(page).to have_element(
       :p,
-      text: "The deadline for applying to courses in the #{previous_timetable} academic year has passed.",
+      text: "The deadline for submitting new applications for the #{previous_timetable} academic year has passed.",
     )
   end
 end
