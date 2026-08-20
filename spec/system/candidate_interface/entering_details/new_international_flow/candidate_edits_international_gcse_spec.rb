@@ -219,7 +219,7 @@ private
   end
 
   def then_i_see_the_interruption_page
-    expect(page).to have_text 'This grade may not be equivalent to a GCSE in maths at Grade 4 (C) or above'
+    expect(page).to have_text 'This grade may not be equivalent to a GCSE in maths at grade 4 (C) or above'
   end
 
   def when_i_click_to_provide_evidence

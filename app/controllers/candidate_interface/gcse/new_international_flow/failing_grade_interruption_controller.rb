@@ -6,6 +6,16 @@ module CandidateInterface
       @evidence_path = evidence_path
     end
 
+    def science_subject?
+      @science_subject ||= @subject == 'science'
+    end
+    helper_method :science_subject?
+
+    def english_subject?
+      @english_subject ||= @subject == 'english'
+    end
+    helper_method :english_subject?
+
   private
 
     def return_to

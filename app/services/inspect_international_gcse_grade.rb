@@ -62,7 +62,15 @@ private
       end
   end
 
+  def subject
+    if qualification.science_subject?
+      'science'
+    else
+      qualification.subject
+    end
+  end
+
   def finder
-    @finder ||= InternationalQualifications::StructuredGcseOptionFinder.new(qualification.institution_country, qualification.subject)
+    @finder ||= InternationalQualifications::StructuredGcseOptionFinder.new(qualification.institution_country, subject)
   end
 end
