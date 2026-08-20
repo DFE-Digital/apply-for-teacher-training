@@ -24,7 +24,7 @@ class CandidateInterface::CourseSelectionWizard
            to: :state_store
 
   def steps_processor
-    DfE::Wizard::StepsProcessor::Graph.draw(self) do |graph|
+    DfE::Wizard::StepsProcessor::Graph.draw(self, predicate_caller: state_store) do |graph|
       graph.add_node :do_you_know_the_course, CandidateInterface::Steps::CourseSelectionWizard::DoYouKnowTheCourse
       graph.add_node :go_to_find_explanation, CandidateInterface::Steps::CourseSelectionWizard::GoToFindExplanation
       graph.add_node :provider_selection, CandidateInterface::Steps::CourseSelectionWizard::ProviderSelection
