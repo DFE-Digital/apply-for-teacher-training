@@ -15,7 +15,7 @@ module CandidateInterface
       end
 
       def current_step
-        :full_course_selection
+        :closed_course_selection
       end
 
       def set_course

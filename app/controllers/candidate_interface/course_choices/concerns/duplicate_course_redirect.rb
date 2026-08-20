@@ -12,7 +12,6 @@ module CandidateInterface
 
         def redirect_duplicate
           course = Course.find(params[:course_id])
-          debugger if current_application.contains_course?(course)
           return unless current_application.contains_course?(course)
 
           redirect_to candidate_interface_course_choices_duplicate_course_selection_path(course.provider_id, course.id)

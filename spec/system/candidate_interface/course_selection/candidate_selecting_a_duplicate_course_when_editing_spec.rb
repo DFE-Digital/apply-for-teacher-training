@@ -19,6 +19,8 @@ RSpec.describe 'Selecting a course' do
     then_i_am_on_the_course_choice_page
   end
 
+private
+
   def and_i_click_to_change_course
     click_change_link 'course for Primary (2XT2)'
   end

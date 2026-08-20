@@ -16,6 +16,8 @@ module CandidateInterface
       def provider
         if provider_id.present?
           Provider.find(provider_id)
+        elsif course_id.present?
+          Course.find(course_id).provider
         else
           application_choice&.provider
         end
@@ -52,11 +54,11 @@ module CandidateInterface
       end
 
       def course_closed?
-        !course.open?
+        course.course_status_closed?
       end
 
       def course_unavailable?
-        !course.application_status_open?
+        !course.available?
       end
 
       def not_multiple_sites_or_study_modes?
@@ -79,6 +81,10 @@ module CandidateInterface
         confirm_answer? && !multiple_study_modes? && !multiple_sites?
       end
 
+      def not_confirmed?
+        !confirm_answer?
+      end
+
       def find_course_not_selected?
         !find_course_selected?
       end
@@ -88,10 +94,16 @@ module CandidateInterface
       end
 
       def application_choice
+        return unless self[:application_choice_id].present?
+
         current_application.application_choices.find(self[:application_choice_id])
       end
 
-      delegate :visa_expires_soon?, to: :application_choice
+      def visa_expires_soon?
+        return false unless application_choice.present?
+
+        application_choice.visa_expires_soon?
+      end
     end
   end
 end

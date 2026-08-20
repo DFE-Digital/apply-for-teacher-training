@@ -2,33 +2,33 @@ en:
   activemodel:
     errors:
       models:
-        do_you_know_the_course:
+        candidate_interface/steps/course_selection_wizard/do_you_know_the_course:
           attributes:
             answer:
               blank: Select if you know which course you want to apply to
-        provider_selection:
+        candidate_interface/steps/course_selection_wizard/provider_selection:
           attributes:
             provider_id:
               blank: Select a training provider
-        which_course_are_you_applying_to:
+        candidate_interface/steps/course_selection_wizard/which_course_are_you_applying_to:
           attributes:
             course_id:
               blank: Select a course
-        course_study_mode:
+        candidate_interface/steps/course_selection_wizard/course_study_mode:
           attributes:
             study_mode:
               blank: Select if the course is full time or part time
-        course_site:
+        candidate_interface/steps/course_selection_wizard/course_site:
           attributes:
             course_option_id:
               blank: Select which location you are interested in
-        visa_explanation:
+        candidate_interface/steps/course_selection_wizard/visa_explanation:
           attributes:
             visa_explanation:
               blank: Select which option applies to you
             visa_explanation_details:
               blank: Enter details explaining your visa situation
-        find_course_selection:
+        candidate_interface/steps/course_selection_wizard/find_course_selection:
           attributes:
             confirm:
               blank: Select if you want to apply to this course.

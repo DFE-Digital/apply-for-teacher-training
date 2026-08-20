@@ -1,8 +1,8 @@
 <%= f.govuk_error_summary %>
 
-<% if @wizard.current_step.provider_exists? %>
+<% if @wizard.provider_exists? %>
   <span class="govuk-caption-xl govuk-!-margin-top-0">
-    <%= @wizard.current_step.provider.name %>
+    <%= @wizard.provider.name %>
   </span>
 <% end %>
 

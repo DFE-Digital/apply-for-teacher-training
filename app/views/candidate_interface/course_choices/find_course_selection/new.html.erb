@@ -1,13 +1,13 @@
 <% content_for :title, t('application_form.confirm_selection.heading') %>
-<% content_for(:before_content, govuk_back_link_to(@wizard.previous_step_path)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @wizard.current_step,
-                  url: candidate_interface_course_choices_course_confirm_selection_path(@wizard.current_step.course_id),
+                  url: @wizard.current_step_path,
                   scope: @wizard.current_step_name,
                   method: :post do |f| %>
       <%= f.govuk_error_summary %>
+      <%= f.hidden_field :course_id %>
 
       <h1 class="govuk-heading-xl">
         <%= t('application_form.confirm_selection.heading') %>

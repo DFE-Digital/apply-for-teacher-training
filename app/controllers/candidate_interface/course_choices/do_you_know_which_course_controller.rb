@@ -1,7 +1,7 @@
 module CandidateInterface
   module CourseChoices
     class DoYouKnowWhichCourseController < CandidateInterface::CourseChoices::BaseController
-      before_action :clear_wizard
+      before_action :clear_wizard, only: [:new]
 
     private
 

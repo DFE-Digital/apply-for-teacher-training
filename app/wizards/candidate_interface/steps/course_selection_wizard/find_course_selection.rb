@@ -3,19 +3,17 @@ module CandidateInterface
     class CourseSelectionWizard::FindCourseSelection
       include DfE::Wizard::Step
 
+      attribute :course_id
       attribute :confirm
 
+      validates :course_id, presence: true
       validates :confirm, presence: true
 
       delegate :multiple_study_modes?, :multiple_sites?, to: :wizard
       delegate :find_url, :provider, :name_and_code, to: :course, prefix: true
 
       def self.permitted_params
-        %i[confirm]
-      end
-
-      def course_id
-        wizard.state_store.course_id
+        %i[course_id confirm]
       end
 
       def course

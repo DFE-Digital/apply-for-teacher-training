@@ -23,6 +23,8 @@ RSpec.describe 'Selecting a course' do
     then_i_am_redirected_to_the_duplicate_course_selection_step
   end
 
+private
+
   def and_there_is_one_course_option_with_both_study_modes_and_two_sites
     provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
 
