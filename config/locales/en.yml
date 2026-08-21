@@ -438,6 +438,9 @@ en:
     add_references: Add your references
     check_and_submit: Check and submit your application
   layout:
+    previous_applications:
+      title: Previous applications
+      link_text: View your previous applications
     support:
       title: Get help
       telephone: Telephone
