@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate arrives from Find with provider and course that is already added' do
+RSpec.describe 'Candidate arrives from Find with provider and course that is already added', :with_cache do
   include CandidateHelper
 
   scenario 'The application has been submitted' do

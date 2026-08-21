@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Selecting a study mode' do
+RSpec.describe 'Selecting a study mode', :with_cache do
   include CandidateHelper
 
   scenario 'Candidate selects different study modes' do

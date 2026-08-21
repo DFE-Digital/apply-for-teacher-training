@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Carry over application and submit new application choices' do
+RSpec.describe 'Carry over application and submit new application choices', :with_cache do
   include CandidateHelper
   include DfE::Bigquery::TestHelper
 

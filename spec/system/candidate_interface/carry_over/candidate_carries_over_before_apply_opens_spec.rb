@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Carry after find opens but before apply opens' do
+RSpec.describe 'Carry after find opens but before apply opens', :with_cache do
   include CandidateHelper
 
   scenario 'candidate carries over application', time: mid_cycle do
