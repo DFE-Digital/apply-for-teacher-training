@@ -1,6 +1,8 @@
 module CandidateInterface
   module CourseChoices
-    class DoYouKnowTheCourseStep < DfE::Wizard::Step
+    class DoYouKnowTheCourseStep
+      include DfE::Wizard::Step
+
       attr_accessor :answer
       validates :answer, presence: true
 

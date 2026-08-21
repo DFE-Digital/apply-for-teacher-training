@@ -1,6 +1,8 @@
 module CandidateInterface
   module CourseChoices
-    class CourseSelectionStore < DfE::Wizard::Store
+    class CourseSelectionStore
+      include DfE::Wizard::StateStore
+
       delegate :current_step_name, :current_application, to: :wizard
       attr_accessor :application_choice
 

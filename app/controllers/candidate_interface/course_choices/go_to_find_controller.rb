@@ -1,17 +1,17 @@
 module CandidateInterface
   module CourseChoices
-    class GoToFindController < CandidateInterfaceController
+    class GoToFindController < CandidateInterface::CourseChoices::BaseController
       before_action :redirect_to_post_offer_dashboard_if_accepted_deferred_or_recruited
       before_action CarryOverFilter
-
-      def new
-        @wizard = CourseChoices::CourseSelectionWizard.new(current_step:)
-      end
 
     private
 
       def current_step
         :go_to_find_explanation
+      end
+
+      def wizard_controller?
+        true
       end
     end
   end

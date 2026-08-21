@@ -1,0 +1,56 @@
+module CandidateInterface
+  module Steps
+    class CourseSelectionWizard::WhichCourseAreYouApplyingTo
+      include DfE::Wizard::Step
+      include CandidateInterface::Concerns::CourseSelectionStepHelper
+      include FreeTextInputHelper
+
+      attribute :course_id
+      attribute :course_id_raw
+      alias_attribute :value, :course_id
+      alias_attribute :raw_input, :course_id_raw
+      alias_attribute :valid_options, :select_course_options
+
+      validates :course_id, presence: true
+      validate :no_free_text_input
+
+      validates_with CourseSelectionValidator, on: :course_choice
+
+      delegate :provider, :provider_id, to: :wizard
+
+      def self.permitted_params
+        %i[course_id course_id_raw]
+      end
+
+      def no_free_text_input
+        errors.add(:course_id, :blank) if invalid_raw_data?
+      end
+
+      def available_courses
+        @available_courses ||= GetAvailableCoursesForProvider.new(provider).call
+      end
+
+      def radio_available_courses
+        ::CandidateInterface::PickCourseForm.new(provider_id:, available_courses:).radio_available_courses
+      end
+
+      def dropdown_available_courses
+        @dropdown_available_courses ||= ::CandidateInterface::PickCourseForm.new(provider_id:, available_courses:).dropdown_available_courses
+      end
+
+      def select_course_options
+        dropdown_available_courses.pluck(:name, :id).unshift([nil, nil])
+      end
+
+      def completed?
+        !multiple_study_modes? && !multiple_sites? && valid_course_choice
+      end
+
+    private
+
+      def valid_course_choice
+        @valid_course_choice ||= !wizard.duplicate_course? && !wizard.reapplication_limit_reached? && !wizard.course_unavailable? && !wizard.course_closed?
+      end
+    end
+  end
+end

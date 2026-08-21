@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Changing a course' do
   include CandidateHelper
 
-  it 'Candidate changes course to one they have already been rejected from twice' do
+  it 'Candidate changes course to one they have already been rejected from twice', :with_cache do
     given_i_am_signed_in_with_one_login
     and_there_are_course_options
     and_i_have_two_rejected_applications_to_a_course

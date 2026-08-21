@@ -3,6 +3,7 @@ module CandidateInterface
     class ReviewController < CandidateInterface::CourseChoices::BaseController
       skip_before_action CarryOverFilter
       skip_before_action :redirect_to_your_applications_if_cycle_is_over
+      before_action :clear_wizard
 
       def show
         @application_choice = active_application_choices.find(params[:application_choice_id])
@@ -18,6 +19,16 @@ module CandidateInterface
                      else
                        candidate_interface_application_choices_path
                      end
+      end
+
+    private
+
+      def current_step
+        :course_review
+      end
+
+      def wizard_controller?
+        true
       end
     end
   end

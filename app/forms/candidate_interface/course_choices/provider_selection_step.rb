@@ -1,6 +1,7 @@
 module CandidateInterface
   module CourseChoices
-    class ProviderSelectionStep < DfE::Wizard::Step
+    class ProviderSelectionStep
+      include DfE::Wizard::Step
       include FreeTextInputHelper
 
       attr_accessor :provider_id, :provider_id_raw, :course_id

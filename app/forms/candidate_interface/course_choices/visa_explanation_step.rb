@@ -1,6 +1,8 @@
 module CandidateInterface
   module CourseChoices
-    class VisaExplanationStep < DfE::Wizard::Step
+    class VisaExplanationStep
+      include DfE::Wizard::Step
+
       attr_accessor :application_choice_id, :visa_explanation, :visa_explanation_details
       validates :application_choice_id, presence: true
       validates :visa_explanation, presence: true

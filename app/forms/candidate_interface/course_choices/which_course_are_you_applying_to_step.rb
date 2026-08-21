@@ -1,6 +1,7 @@
 module CandidateInterface
   module CourseChoices
-    class WhichCourseAreYouApplyingToStep < DfE::Wizard::Step
+    class WhichCourseAreYouApplyingToStep
+      include DfE::Wizard::Step
       include CandidateInterface::Concerns::CourseSelectionStepHelper
       include FreeTextInputHelper
 

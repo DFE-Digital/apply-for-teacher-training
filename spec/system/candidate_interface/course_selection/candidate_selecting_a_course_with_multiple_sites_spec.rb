@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Selecting a course with multiple sites' do
+RSpec.describe 'Selecting a course with multiple sites', :with_cache do
   include CandidateHelper
 
   it 'Candidate selects a course choice' do
