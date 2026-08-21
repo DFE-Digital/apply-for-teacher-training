@@ -89,22 +89,22 @@ variable "enable_prometheus_monitoring" {
 }
 
 variable "solid_queue_worker_memory_max" {
-  type = string
+  type    = string
   default = "2Gi"
 }
 
 variable "solid_queue_worker_replicas" {
-  type = number
+  type    = number
   default = 1
 }
 
 variable "solid_queue_secondary_worker_memory_max" {
-  type = string
+  type    = string
   default = "2Gi"
 }
 
 variable "solid_queue_secondary_worker_replicas" {
-  type = number
+  type    = number
   default = 1
 }
 
@@ -127,10 +127,10 @@ locals {
     var.app_name_suffix != null ? local.review_url_vars : {},
     { DB_SSLMODE = var.db_sslmode },
     {
-      BIGQUERY_AIRBYTE_DATASET                    = var.airbyte_enabled ? local.gcp_dataset_name : null
-      AIRBYTE_SERVER_URL                          = var.airbyte_enabled ? "https://airbyte-${var.namespace}.${module.cluster_data.ingress_domain}" : null
-      BIGQUERY_HIDDEN_POLICY_TAG                  = var.airbyte_enabled ? "projects/rugged-abacus-218110/locations/europe-west2/taxonomies/69524444121704657/policyTags/6523652585511281766" : null
-      AIRBYTE_INTERNAL_DATASET                    = var.airbyte_enabled ? "${local.gcp_dataset_name}_internal" : null
+      BIGQUERY_AIRBYTE_DATASET   = var.airbyte_enabled ? local.gcp_dataset_name : null
+      AIRBYTE_SERVER_URL         = var.airbyte_enabled ? "https://airbyte-${var.namespace}.${module.cluster_data.ingress_domain}" : null
+      BIGQUERY_HIDDEN_POLICY_TAG = var.airbyte_enabled ? "projects/rugged-abacus-218110/locations/europe-west2/taxonomies/69524444121704657/policyTags/6523652585511281766" : null
+      AIRBYTE_INTERNAL_DATASET   = var.airbyte_enabled ? "${local.gcp_dataset_name}_internal" : null
     }
   )
 
@@ -141,4 +141,16 @@ locals {
   azure_storage_account_name = var.create_storage_account ? azurerm_storage_account.data_exports_sa[0].name : ""
   azure_storage_access_key   = var.create_storage_account ? azurerm_storage_account.data_exports_sa[0].primary_access_key : ""
   azure_storage_container    = var.create_storage_account ? azurerm_storage_container.data_exports_container[0].name : ""
+}
+
+variable "azure_backup_storage_private_endpoint_enabled" {
+  type        = bool
+  default     = false
+  description = "Use a private endpoint for backup storage account access"
+}
+
+variable "azure_backup_storage_public_network_access_enabled" {
+  type        = bool
+  description = "Whether public network access is allowed for the storage account"
+  default     = true
 }
