@@ -153,18 +153,21 @@ class CandidateInterface::CourseSelectionWizard
       config.map_step :duplicate_course_selection, to: lambda { |_wizard, options, helpers|
         options[:provider_id] = state_store.provider.id
         options[:course_id] = state_store.course.id
+        options[:application_choice_id] = application_choice&.id
         helpers.candidate_interface_course_choices_duplicate_course_selection_path(**options)
       }
 
       config.map_step :closed_course_selection, to: lambda { |_wizard, options, helpers|
         options[:provider_id] = state_store.provider.id
         options[:course_id] = state_store.course.id
+        options[:application_choice_id] = application_choice&.id
         helpers.candidate_interface_course_choices_closed_course_selection_path(**options)
       }
 
       config.map_step :full_course_selection, to: lambda { |_wizard, options, helpers|
         options[:provider_id] = state_store.provider.id
         options[:course_id] = state_store.course.id
+        options[:application_choice_id] = application_choice&.id
         helpers.candidate_interface_course_choices_full_course_selection_path(**options)
       }
 
@@ -181,6 +184,7 @@ class CandidateInterface::CourseSelectionWizard
       config.map_step :reached_reapplication_limit, to: lambda { |_wizard, options, helpers|
         options[:provider_id] = state_store.provider.id
         options[:course_id] = state_store.course.id
+        options[:application_choice_id] = application_choice&.id
         helpers.candidate_interface_course_choices_reached_reapplication_limit_path(**options)
       }
 

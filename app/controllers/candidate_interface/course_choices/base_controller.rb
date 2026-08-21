@@ -112,13 +112,22 @@ module CandidateInterface
 
       def state_store
         @state_store = CandidateInterface::StateStores::CourseSelectionWizardStore.new(
-          repository: DfE::Wizard::Repository::Session.new(
-            session:,
-            key: :candidate_interface_course_selection_wizard,
+          repository: DfE::Wizard::Repository::Cache.new(
+            cache: Rails.cache,
+            key:,
+            expires_in: 7.days,
           ),
         )
         @state_store.write(current_application_id: current_application.id)
         @state_store
+      end
+
+      def key
+        @key ||= if application_choice.present?
+          "candidate_interface_course_selection_wizard_#{current_application.id}_#{application_choice.id}"
+        else
+          "candidate_interface_course_selection_wizard_#{current_application.id}_new"
+        end.to_sym
       end
 
       def clear_wizard

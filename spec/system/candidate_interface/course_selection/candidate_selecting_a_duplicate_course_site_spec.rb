@@ -4,7 +4,7 @@ RSpec.describe 'Selecting a course' do
   include CandidateHelper
 
   # Regression test for DuplicateCourseSelection to avoid ActiveRecord::RecordInvalid
-  it 'Candidate selects a course they have already applied to' do
+  it 'Candidate selects a course they have already applied to', :with_cache do
     given_i_am_signed_in_with_one_login
     and_there_are_course_options
     and_i_have_already_applied_to_the_course

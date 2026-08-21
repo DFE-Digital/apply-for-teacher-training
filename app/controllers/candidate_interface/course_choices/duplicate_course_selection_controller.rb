@@ -20,9 +20,9 @@ module CandidateInterface
                       candidate_interface_application_choices_path
                     elsif @wizard.previous_step.present?
                       @wizard.previous_step_path
-                    elsif @wizard.application_choice
+                    elsif application_choice.present?
                       candidate_interface_edit_course_choices_which_course_are_you_applying_to_path(
-                        application_choice_id: @wizard.application_choice.id,
+                        application_choice_id: application_choice.id,
                       )
                     else
                       candidate_interface_course_choices_which_course_are_you_applying_to_path(

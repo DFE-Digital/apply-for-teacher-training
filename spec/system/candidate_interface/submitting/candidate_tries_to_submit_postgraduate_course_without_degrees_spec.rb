@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Submitting a postgraduate course' do
+RSpec.describe 'Submitting a postgraduate course', :with_cache do
   include CandidateHelper
 
   before do

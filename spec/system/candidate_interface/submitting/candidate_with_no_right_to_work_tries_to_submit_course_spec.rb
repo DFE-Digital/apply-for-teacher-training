@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate with no right to work or study' do
+RSpec.describe 'Candidate with no right to work or study', :with_cache do
   include CandidateHelper
   include DfE::Bigquery::TestHelper
 

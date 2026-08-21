@@ -191,7 +191,7 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_confirmation_page
   end
 
-  scenario 'Candidate edits radius on a dynamic location with invalid site data' do
+  scenario 'Candidate edits radius on a dynamic location with invalid site data', :with_cache do
     given_i_am_a_candidate_who_has_opted_in_with_a_dynamic_location
     and_i_have_a_location_preference_with_invalid_site_data_from_a_dynamic_location
     and_i_navigate_to_update_my_preferences

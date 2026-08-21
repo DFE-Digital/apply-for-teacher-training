@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Selecting a course' do
   include CandidateHelper
 
-  it 'Candidate selects a course they have already applied to when editing' do
+  it 'Candidate selects a course they have already applied to when editing', :with_cache do
     given_i_am_signed_in_with_one_login
     and_there_are_course_options
     and_i_have_two_applications
@@ -64,6 +64,6 @@ private
   end
 
   def then_i_am_on_the_course_choice_page
-    expect(page).to have_current_path(candidate_interface_course_choices_which_course_are_you_applying_to_path(@provider))
+    expect(page).to have_current_path(candidate_interface_edit_course_choices_which_course_are_you_applying_to_path(@application_one.id))
   end
 end
