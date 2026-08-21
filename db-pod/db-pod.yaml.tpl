@@ -12,7 +12,7 @@ spec:
 
   containers:
     - name: postgres-db-tools-pod
-      image: ghcr.io/dfe-digital/teacher-services-cloud-db-backup:2911-postgres-backup-via-aks
+      image: ghcr.io/dfe-digital/teacher-services-cloud-db-backup:main
 
       envFrom:
         - secretRef:

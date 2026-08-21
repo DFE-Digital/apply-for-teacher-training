@@ -96,7 +96,7 @@ review: test-cluster
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 	$(eval export TF_VAR_exp_storage_account_name=s189t01attexprv$(PR_NUMBER)sa)
 
-dv_review: dv_review-cluster ## make dv_review deploy PR_NUMBER=2222 CLUSTER=cluster1
+dv_review: devops-dev-cluster ## make dv_review deploy PR_NUMBER=2222 CLUSTER=cluster1
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
 	$(if $(CLUSTER), , $(error Missing environment variable "CLUSTER", Please specify a dev cluster name (eg 'cluster1')))
 	$(eval include global_config/dv_review.sh)
@@ -275,7 +275,7 @@ domains-apply: domains-init # make qa domains-apply
 domains-destroy: domains-init # make qa domains-destroy
 	terraform -chdir=terraform/custom_domains/environment_domains destroy -var-file workspace_variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json
 
-dv_review-cluster:
+devops-dev-cluster:
 	$(eval CLUSTER_RESOURCE_GROUP_NAME=s189d01-tsc-dv-rg)
 	$(eval CLUSTER_NAME=s189d01-tsc-${CLUSTER}-aks)
 
