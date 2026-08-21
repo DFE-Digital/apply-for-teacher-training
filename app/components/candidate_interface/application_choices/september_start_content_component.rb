@@ -11,8 +11,17 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponent < A
   end
 
   def heading
-    @heading.presence ||
-      I18n.t('candidate_interface.application_choices.september_start_component.heading', year: recruitment_cycle_year)
+    return @heading if @heading.present?
+
+    start_dates = application_choices.map do |ac|
+      ac.course.start_date.to_fs(:month_and_year)
+    end.uniq
+
+    if start_dates.many?
+      I18n.t('candidate_interface.application_choices.september_start_component.heading_multiple_start_months', year: recruitment_cycle_year)
+    else
+      I18n.t('candidate_interface.application_choices.september_start_component.heading_single_start_month', month_and_year: start_dates.first)
+    end
   end
 
   def awaiting_provider_decision_content

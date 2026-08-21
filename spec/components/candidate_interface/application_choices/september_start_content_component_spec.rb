@@ -25,7 +25,7 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
 
         expect(rendered_component).to have_element(
           :h2,
-          text: 'Courses starting by September 2026',
+          text: 'Courses starting in September 2026',
           class: 'govuk-heading-l',
         )
 
@@ -107,9 +107,22 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
   end
 
   describe '#heading' do
-    context 'when not given a custom heading' do
-      it 'renders the component heading containing the academic year' do
-        expect(component.heading).to eq('Courses starting by September 2026')
+    context 'all course start dates are in one month' do
+      it 'renders the component heading containing precise month and year' do
+        course = create(:course, start_date: "01/09/#{application_form.recruitment_cycle_year}")
+        create(:application_choice, application_form:, course_option: build(:course_option, course:))
+        expect(component.heading).to eq('Courses starting in September 2026')
+      end
+    end
+
+    context 'course start dates are in multiple months' do
+      let(:aug_course) { build(:course, start_date: "30/08/#{application_form.recruitment_cycle_year}") }
+      let(:sept_course) { build(:course, start_date: "30/09/#{application_form.recruitment_cycle_year}") }
+
+      it 'renders generic heading' do
+        create(:application_choice, course_option: build(:course_option, course: aug_course), application_form:)
+        create(:application_choice, course_option: build(:course_option, course: sept_course), application_form:)
+        expect(component.heading).to eq('Courses starting by the end of September 2026')
       end
     end
 

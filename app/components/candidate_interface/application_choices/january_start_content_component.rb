@@ -10,7 +10,15 @@ class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < App
   end
 
   def title
-    I18n.t('candidate_interface.application_choices.january_start_component.title', year: relative_next_year)
+    start_dates = application_choices.map do |ac|
+      ac.course.start_date.to_fs(:month_and_year)
+    end.uniq
+
+    if start_dates.many?
+      I18n.t('candidate_interface.application_choices.january_start_component.title_multiple_start_months', year: relative_next_year)
+    else
+      I18n.t('candidate_interface.application_choices.january_start_component.title_single_start_month', month_and_year: start_dates.first)
+    end
   end
 
   def provider_deadline_content
