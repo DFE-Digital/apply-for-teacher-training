@@ -33,40 +33,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <% if @application_form_presenter.show_sections_not_carried_over_inset? %>
-      <%= govuk_inset_text do %>
-        <p class="govuk-body">
-          <%= t('.before_you_can_apply') %>
-          <%= govuk_list(
-                [
-                  t(
-                    '.confirm_references_html',
-                    references_link: govuk_link_to(
-                      t('.references_link_text'),
-                      candidate_interface_references_review_path,
-                    ),
-                  ),
-                  t(
-                    '.enter_equality_and_diversity_html',
-                    equality_and_diversity_information_link: govuk_link_to(
-                      t('.equality_and_diversity_link_text'),
-                      candidate_interface_start_equality_and_diversity_path,
-                    ),
-                  ),
-                  t(
-                    '.enter_previous_teacher_training_html',
-                    previous_teacher_training_link: govuk_link_to(
-                      t('.previous_teacher_training_link_text'),
-                      @application_form_presenter.path_to_previous_teacher_training,
-                    ),
-                  ),
-                ],
-                type: :bullet,
-              ) %>
-        </p>
-      <% end %>
-    <% end %>
-
     <% if @application_form_presenter.unsubmitted? && @application_form_presenter.completed_application_form? && @application_form_presenter.can_add_course_choice? %>
       <div class="app-grid-column--grey">
         <h2 class="govuk-heading-m"><%= t('.you_completed_your_details') %></h2>
