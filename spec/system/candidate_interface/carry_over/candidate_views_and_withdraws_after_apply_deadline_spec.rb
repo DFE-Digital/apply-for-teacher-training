@@ -71,7 +71,7 @@ private
     expect(page).to have_element(:h1, text: 'Your applications')
     expect(page).to have_element(
       :p,
-      text: "The deadline for applying to courses in the #{@application_form.academic_year_range_name} academic year has passed.",
+      text: "The deadline for submitting new applications for the #{@application_form.academic_year_range_name} academic year has passed.",
     )
     expect(@candidate.current_application.id).not_to eq @application_form.id
   end

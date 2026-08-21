@@ -52,7 +52,7 @@ RSpec.describe 'Candidate with submitted applications' do
   end
 
   def then_i_can_add_another_application
-    expect(page).to have_text('You can submit 1 more application.')
+    expect(page).to have_text("You can submit 1 more application for courses starting in the #{current_candidate.current_application.academic_year_range_name} academic year.")
   end
 
   def then_i_can_not_see_the_inactive_warning_text

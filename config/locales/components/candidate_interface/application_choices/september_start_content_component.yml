@@ -2,7 +2,8 @@ en:
   candidate_interface:
     application_choices:
       september_start_component:
-        heading: Courses starting by September %{year}
+        heading_multiple_start_months: Courses starting by the end of September %{year}
+        heading_single_start_month: Courses starting in %{month_and_year}
         awaiting_provider_decision_content:
           title: Applications awaiting a provider decision
           rejected automatically:
