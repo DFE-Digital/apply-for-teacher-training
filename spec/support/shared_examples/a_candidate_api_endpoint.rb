@@ -26,7 +26,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_vers
   it 'returns an error if the `updated_since` parameter is missing' do
     get_api_request path, token: candidate_api_token
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(error_response['message']).to eql('param is missing or the value is empty or invalid: updated_since')
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse', api_version)
   end
@@ -128,7 +128,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_vers
   it 'returns HTTP status 422 when given a parseable page value that exceeds the range' do
     get_api_request "#{path}?updated_since=#{CGI.escape(1.day.ago.iso8601)}&page=2", token: candidate_api_token
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(error_response['message']).to eql("expected 'page' parameter to be between 1 and 1, got 2")
     expect(parsed_response).to be_valid_against_openapi_schema('PageParameterInvalidResponse', api_version)
   end
@@ -137,7 +137,7 @@ RSpec.shared_examples 'a candidate API endpoint' do |path, _date_param, api_vers
     max_value = CandidateAPI::CandidatesController::MAX_PER_PAGE
     get_api_request "#{path}?updated_since=#{CGI.escape(1.day.ago.iso8601)}&page=2&per_page=#{max_value + 1}", token: candidate_api_token
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(error_response['message']).to eql("the 'per_page' parameter cannot exceed #{max_value} results per page")
     expect(parsed_response).to be_valid_against_openapi_schema('PerPageParameterInvalidResponse', api_version)
   end

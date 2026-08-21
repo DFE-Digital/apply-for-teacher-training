@@ -23,7 +23,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-conditio
 
     post_api_request "/api/v1.0/applications/#{application_choice.id}/confirm-conditions-met", params: {}
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(parsed_response)
       .to contain_schema_with_error('UnprocessableEntityResponse',
                                     "It's not possible to perform this action while the application is in its current state")

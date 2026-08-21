@@ -56,7 +56,7 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', :run_jobs
 
     post '/integrations/notify/callback', headers: headers, params: request_body
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
   end
 
   it 'returns success if Notify reference is nil' do
@@ -78,7 +78,7 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', :run_jobs
 
     post '/integrations/notify/callback', headers: headers, params: request_body
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
   end
 
   it 'updates the referee status if expected Notify reference and status' do

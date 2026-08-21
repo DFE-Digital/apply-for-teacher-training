@@ -14,7 +14,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/defer-o
       it 'renders an UnprocessableEntityResponse' do
         post_api_request "/api/v1.1/applications/#{application_choice.id}/defer-offer"
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(parsed_response)
           .to contain_schema_with_error('UnprocessableEntityResponse',
                                         "It's not possible to perform this action while the application is in its current state",

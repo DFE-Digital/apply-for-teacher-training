@@ -21,7 +21,7 @@ module CandidateInterface
         redirect_to path
       else
         track_validation_error(@residency_form)
-        render(:new, status: :unprocessable_entity)
+        render(:new, status: :unprocessable_content)
       end
     end
 
@@ -35,7 +35,7 @@ module CandidateInterface
         redirect_to path
       else
         track_validation_error(@residency_form)
-        render(:edit, status: :unprocessable_entity)
+        render(:edit, status: :unprocessable_content)
       end
     end
 

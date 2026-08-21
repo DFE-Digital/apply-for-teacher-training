@@ -22,6 +22,7 @@ class VendorAPIRequestMiddleware
   end
 
   def _call(env)
+    env['rack.input'] ||= StringIO.new('')
     @request = Rack::Request.new(env)
     status, @headers, @response = @app.call(env)
 
@@ -48,7 +49,7 @@ private
     {
       path: @request.path,
       params: @request.params,
-      body: @request.body.read.dup.force_encoding('utf-8'),
+      body: @request.body&.read.to_s.dup.force_encoding('utf-8'),
       headers: request_headers,
       method: @request.request_method,
     }.deep_stringify_keys

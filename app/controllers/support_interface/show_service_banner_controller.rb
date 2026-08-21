@@ -15,7 +15,7 @@ module SupportInterface
       @show_service_banner_form = SupportInterface::ShowServiceBannerForm.new(show_service_banner_params)
       @interface = interface_param
 
-      return render(:edit, status: :unprocessable_entity) unless @show_service_banner_form.valid?
+      return render(:edit, status: :unprocessable_content) unless @show_service_banner_form.valid?
 
       if @show_service_banner_form.show_service_banner?
         redirect_to(live_banner ? support_interface_edit_configure_service_banner_path(live_banner, interface: @interface) : support_interface_new_configure_service_banner_path(interface: @interface))

@@ -24,7 +24,7 @@ module SupportInterface
         @banner = @configure_service_banner_form.save
         redirect_to support_interface_preview_configure_service_banner_path(@banner, interface: @interface)
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -37,7 +37,7 @@ module SupportInterface
         @configure_service_banner_form.save
         redirect_to support_interface_preview_configure_service_banner_path(@banner, interface: @interface)
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

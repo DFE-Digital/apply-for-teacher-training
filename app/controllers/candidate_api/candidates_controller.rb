@@ -38,11 +38,11 @@ module CandidateAPI
 
     def parameter_missing(e)
       error_message = e.message.split("\n").first
-      render json: { errors: [{ error: 'ParameterMissing', message: error_message }] }, status: :unprocessable_entity
+      render json: { errors: [{ error: 'ParameterMissing', message: error_message }] }, status: :unprocessable_content
     end
 
     def parameter_invalid(e)
-      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
+      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_content
     end
 
     def not_found(_e)
@@ -63,7 +63,7 @@ module CandidateAPI
     def page_parameter_invalid(e)
       last_page = e.message.scan(/\d+/)[1]
       error_message = "expected 'page' parameter to be between 1 and #{last_page}, got #{params[:page]}"
-      render json: { errors: [{ error: 'PageParameterInvalid', message: error_message }] }, status: :unprocessable_entity
+      render json: { errors: [{ error: 'PageParameterInvalid', message: error_message }] }, status: :unprocessable_content
     end
 
     def per_page_parameter_invalid
@@ -74,7 +74,7 @@ module CandidateAPI
             message: "the 'per_page' parameter cannot exceed #{MAX_PER_PAGE} results per page",
           },
         ],
-      }, status: :unprocessable_entity
+      }, status: :unprocessable_content
     end
 
   private

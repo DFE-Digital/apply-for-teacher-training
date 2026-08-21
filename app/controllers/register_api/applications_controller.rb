@@ -24,11 +24,11 @@ module RegisterAPI
 
     def parameter_missing(e)
       error_message = e.message.split("\n").first
-      render json: { errors: [{ error: 'ParameterMissing', message: error_message }] }, status: :unprocessable_entity
+      render json: { errors: [{ error: 'ParameterMissing', message: error_message }] }, status: :unprocessable_content
     end
 
     def parameter_invalid(e)
-      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
+      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_content
     end
 
     def statement_timeout
@@ -52,7 +52,7 @@ module RegisterAPI
             message: error_message,
           },
         ],
-      }, status: :unprocessable_entity
+      }, status: :unprocessable_content
     end
 
     def per_page_parameter_invalid
@@ -63,7 +63,7 @@ module RegisterAPI
             message: "the 'per_page' parameter cannot exceed #{MAX_PER_PAGE} results per page",
           },
         ],
-      }, status: :unprocessable_entity
+      }, status: :unprocessable_content
     end
 
   private

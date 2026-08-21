@@ -21,7 +21,7 @@ module CandidateInterface
         redirect_to candidate_interface_invites_path
       else
         track_validation_error(@fac_invite_decline_reason_form)
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 

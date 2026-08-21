@@ -34,7 +34,7 @@ module SupportInterface
         render :show
       else
         @providers_for_select = @vendor_api_token.providers_for_select
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 

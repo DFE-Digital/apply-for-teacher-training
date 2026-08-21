@@ -17,7 +17,7 @@ class ProviderInterface::DeferredOffer::StudyModeController < ProviderInterface:
     if @study_mode_form.update(study_mode_form_params)
       redirect_to next_step_path(@study_mode_form)
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

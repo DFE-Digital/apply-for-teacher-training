@@ -52,7 +52,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
       it 'fails and renders an UnprocessableEntityResponse' do
         post_interview! params: update_interview_params
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
                                                              'Cannot re-schedule interview in the past',
                                                              '1.1')
@@ -73,7 +73,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
       it 'fails and renders an UnprocessableEntityResponse' do
         post_interview! params: update_interview_params
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(parsed_response)
           .to contain_schema_with_error('UnprocessableEntityResponse',
                                         'The interview cannot be changed as it has already been cancelled',
@@ -94,7 +94,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
       it 'fails and renders an UnprocessableEntityResponse' do
         post_interview! params: update_interview_params
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
                                                              'Provider must be training or ratifying provider',
                                                              '1.1')
@@ -127,7 +127,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
       it 'fails and renders an UnprocessableEntityResponse' do
         post_interview! params: update_interview_params, skip_validation: true
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
                                                              'Provider code is not valid',
                                                              '1.1')
@@ -144,7 +144,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
       it 'fails and renders an UnprocessableEntityResponse' do
         post_interview! params: update_interview_params, skip_validation: true
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
                                                              'Date string provided is not a valid date',
                                                              '1.1')
@@ -174,7 +174,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         it 'fails and renders a ParameterMissingResponse' do
           post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/create", params: {}
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
                                                                'param is missing or the value is empty or invalid: data',
                                                                '1.1')

@@ -37,7 +37,7 @@ module VendorAPI
 
         render json: nil, status: :ok
       else
-        render json: nil, status: :unprocessable_entity
+        render json: nil, status: :unprocessable_content
       end
     end
   end

@@ -74,7 +74,7 @@ RSpec.describe 'GET /register-api/applications' do
   it 'returns an error if the `recruitment_cycle_year` parameter is missing' do
     get_api_request '/register-api/applications', token: register_api_token
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(error_response['message']).to eql('param is missing or the value is empty or invalid: recruitment_cycle_year')
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse')
   end
@@ -82,7 +82,7 @@ RSpec.describe 'GET /register-api/applications' do
   it 'returns an error if the `recruitment_cycle_year` parameter is before first available cycle' do
     get_api_request '/register-api/applications?recruitment_cycle_year=2018', token: register_api_token
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(error_response['message']).to eql('Parameter is invalid: recruitment_cycle_year')
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
   end
@@ -96,7 +96,7 @@ RSpec.describe 'GET /register-api/applications' do
   it 'returns HTTP status 422 if the per_page param is too big' do
     get_api_request "/register-api/applications?recruitment_cycle_year=#{current_year}&per_page=#{RegisterAPI::ApplicationsController::MAX_PER_PAGE + 1}", token: register_api_token
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(error_response['message']).to eql("the 'per_page' parameter cannot exceed #{RegisterAPI::ApplicationsController::MAX_PER_PAGE} results per page")
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
   end
@@ -104,7 +104,7 @@ RSpec.describe 'GET /register-api/applications' do
   it 'returns HTTP status 422 if the page param is too big' do
     get_api_request "/register-api/applications?recruitment_cycle_year=#{current_year}&page=2", token: register_api_token
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(error_response['message']).to eql("expected 'page' parameter to be between 1 and 1, got 2")
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
   end
@@ -112,7 +112,7 @@ RSpec.describe 'GET /register-api/applications' do
   it 'returns HTTP status 422 given an unparseable `changed_since` date value' do
     get_api_request "/register-api/applications?changed_since=17/07/2020T12:00:42Z&recruitment_cycle_year=#{current_year}", token: register_api_token
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(error_response['message']).to eql('Parameter is invalid (should be ISO8601): changed_since')
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
   end
@@ -120,7 +120,7 @@ RSpec.describe 'GET /register-api/applications' do
   it 'returns HTTP status 422 when encountering a KeyError from ActiveSupport::TimeZone' do
     get_api_request "/register-api/applications?changed_since=12936&recruitment_cycle_year=#{current_year}", token: register_api_token
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(error_response['message']).to eql('Parameter is invalid (should be ISO8601): changed_since')
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
   end
@@ -128,7 +128,7 @@ RSpec.describe 'GET /register-api/applications' do
   it 'returns HTTP status 422 given a parseable but nonsensensical `changed_since` date value' do
     get_api_request "/register-api/applications?changed_since=-004713-03-23T11:52:19.448Z&recruitment_cycle_year=#{current_year}", token: register_api_token
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(error_response['message']).to eql('Parameter is invalid (date is nonsense): changed_since')
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
   end

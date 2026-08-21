@@ -59,7 +59,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject' do
 
     post_api_request "/api/v1.0/applications/#{application_choice.id}/reject", params: request_body
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(parsed_response)
       .to contain_schema_with_error('UnprocessableEntityResponse',
                                     "It's not possible to perform this action while the application is in its current state")
@@ -76,7 +76,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject' do
       },
     }
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(parsed_response)
       .to contain_schema_with_error('UnprocessableEntityResponse',
                                     'Rejection reason Explain why you are rejecting the application')
@@ -99,7 +99,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject' do
       data: [],
     }
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(parsed_response)
       .to contain_schema_with_error('UnprocessableEntityResponse', 'param is missing or the value is empty or invalid: data')
   end

@@ -29,7 +29,7 @@ module VendorAPI
 
       render json: { data: { message: 'Request submitted. Applications will appear once they have been generated' } }
     rescue ParameterInvalid => e
-      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
+      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_content
     end
 
     def clear!
