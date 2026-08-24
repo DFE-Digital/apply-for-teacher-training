@@ -29,9 +29,9 @@ jobs:
     name: Backup database via AKS
     runs-on: ubuntu-latest
     environment:
-      name: ${{ inputs.environment || 'staging' }}
+      name: ${{ inputs.environment || 'production' }}
     env:
-      DEPLOY_ENV: ${{ inputs.environment || 'staging'  }}
+      DEPLOY_ENV: ${{ inputs.environment || 'production'  }}
 
     steps:
     - uses: actions/checkout@v6
