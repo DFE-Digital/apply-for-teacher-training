@@ -2,27 +2,21 @@ class DeleteOldCandidatesWorker < ApplicationJob
   def perform
     # candidates = Candidate.where('last_signed_in_at < ?', 7.years.ago).find_in_batches(&:destroy_all)
 
-    analytics_tables = YAML.load_file('config/analytics.yml').fetch('shared').keys
-    candidate = Candidate.find(59)
-    sql_keys = candidate.test_sql
-    rails_keys = candidate.test_delete
+    analytics_tables = YAML.load_file('config/analytics.yml').fetch('shared').keys.map(&:to_s)
+    candidates = Candidate.where(id: 58)
+    candidates.find_in_batches(batch_size: 100) do |batch|
+      batch.each do |candidate| # put this into a worker
+        ActiveRecord::Base.transaction do
+          sql_keys = candidate.test_sql
+          rails_keys = candidate.test_delete
 
-    shared_keys = sql_keys.keys & rails_keys.keys
-    merged_tables = sql_keys.merge(rails_keys).except(shared_keys).except(analytics_tables)
-    puts ''
-    puts ''
-    puts ''
-    puts ''
-    puts merged_tables
-    # compact?
+          shared_keys = sql_keys.keys & rails_keys.keys
+          deleted_tables = sql_keys.merge(rails_keys).except(shared_keys).except(analytics_tables).compact_blank
 
-    # create the delete table
-    # go through the records that will be deleted
-    # check with analytics
-    # save the table and id in the jsonb column
-    #
-    # Do these in the same transaction
-    # create deletion table
-    # delete
+          DeletedCandidate.create!(candidate_id: candidate.id, deleted_tables:)
+          candidate.destroy!
+        end
+      end
+    end
   end
 end

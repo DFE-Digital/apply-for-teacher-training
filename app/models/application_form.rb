@@ -101,7 +101,7 @@ class ApplicationForm < ApplicationRecord
 
       ApplicationExperience: form.application_work_experiences&.ids,
       CandidatePreference: form.preferences&.ids,
-      CandidateLocationPreference: form.preferences.last.location_preferences&.ids,
+      CandidateLocationPreference: form.preferences.last&.location_preferences&.ids,
       Notification: form.notifications&.ids, # not in analytics
       ApplicationWorkHistoryBreak: form.application_work_history_breaks&.ids,
       subsequent_form_id: form.subsequent_application_form&.id,
