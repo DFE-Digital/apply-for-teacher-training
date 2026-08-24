@@ -2,7 +2,6 @@ module CandidateInterface
   module Steps
     class CourseSelectionWizard::WhichCourseAreYouApplyingTo
       include DfE::Wizard::Step
-      include CandidateInterface::Concerns::CourseSelectionStepHelper
       include FreeTextInputHelper
 
       attribute :course_id
@@ -43,7 +42,7 @@ module CandidateInterface
       end
 
       def completed?
-        !multiple_study_modes? && !multiple_sites? && valid_course_choice
+        !wizard.multiple_study_modes? && !wizard.multiple_sites? && valid_course_choice
       end
 
     private

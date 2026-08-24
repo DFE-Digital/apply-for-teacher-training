@@ -5,10 +5,6 @@ module CandidateInterface
 
       attr_reader :current_application_id, :application_choice_id
 
-      def edit?
-        true
-      end
-
       def know_the_course_to_apply?
         answer == 'yes'
       end
@@ -39,18 +35,26 @@ module CandidateInterface
         ApplicationForm.find(self[:current_application_id])
       end
 
-      def existing_courses
-        existing_courses = current_application.application_choices.joins(:course_option)
-        existing_courses = existing_courses.where.not(id: self[:application_choice_id]) if self[:application_choice_id].present?
-        existing_courses
+      def existing_application_choices
+        @existing_application_choices ||= begin
+          existing_choices = current_application.application_choices.joins(:course_option)
+          existing_choices = existing_choices.where.not(id: self[:application_choice_id]) if self[:application_choice_id].present?
+          existing_choices
+        end
       end
 
       def reapplication_limit_reached?
-        CourseSelectionValidator.new.reached_reapplication_limit?(existing_courses, existing_courses.build(course:))
+        CourseSelectionValidator.new.reached_reapplication_limit?(
+          existing_application_choices,
+          existing_application_choices.build(course:),
+        )
       end
 
       def duplicate_course?
-        CourseSelectionValidator.new.exists_duplicate_application?(existing_courses, existing_courses.build(course:))
+        CourseSelectionValidator.new.exists_duplicate_application?(
+          existing_application_choices,
+          existing_application_choices.build(course:),
+        )
       end
 
       def course_closed?

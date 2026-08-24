@@ -13,6 +13,8 @@ module CandidateInterface
         { success: true, application_choice_id: application_choice.id }
       end
 
+    private
+
       def application_choice
         @application_choice ||= wizard.application_choice ||
                                 ApplicationChoice.find_by(id: wizard.state_store[:application_choice_id]) ||
@@ -45,8 +47,6 @@ module CandidateInterface
           end
         end
       end
-
-    private
 
       def main_site_or_first_course_option(records)
         records.find do |course_option|

@@ -124,10 +124,10 @@ module CandidateInterface
 
       def key
         @key ||= if application_choice.present?
-          "candidate_interface_course_selection_wizard_#{current_application.id}_#{application_choice.id}"
-        else
-          "candidate_interface_course_selection_wizard_#{current_application.id}_new"
-        end.to_sym
+                   "candidate_interface_course_selection_wizard_#{current_application.id}_#{application_choice.id}"
+                 else
+                   "candidate_interface_course_selection_wizard_#{current_application.id}_new"
+                 end.to_sym
       end
 
       def clear_wizard
