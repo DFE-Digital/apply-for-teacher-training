@@ -98,7 +98,7 @@ shared:
     - candidate_id
     - created_at
     - updated_at
-  :adviser_teaching_subjects:
+  adviser_teaching_subjects:
     - id
     - title
     - external_identifier
@@ -106,7 +106,7 @@ shared:
     - created_at
     - updated_at
     - discarded_at
-  :adviser_sign_up_requests:
+  adviser_sign_up_requests:
     - id
     - application_form_id
     - teaching_subject_id
@@ -617,7 +617,7 @@ shared:
     - provider_id
     - last_used_at
     - description
-  :withdrawal_reasons:
+  withdrawal_reasons:
     - id
     - reason
     - comment
@@ -625,7 +625,7 @@ shared:
     - created_at
     - updated_at
     - status
-  :recruitment_cycle_timetables:
+  recruitment_cycle_timetables:
     - id
     - find_opens_at
     - apply_opens_at

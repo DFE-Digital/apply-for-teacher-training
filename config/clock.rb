@@ -42,6 +42,7 @@ class Clock
   every(1.day, 'RemoveInactiveProviderUsersWorker', at: '5:05') { RemoveInactiveProviderUsersWorker.perform_later }
   every(1.day, 'DeactivateStaleServiceAPITokensWorker', at: '5:06') { DeactivateStaleServiceAPITokensWorker.perform_later }
   every(1.day, 'DeleteOldVendorAPIRequestsWorker', at: '5:07') { Support::DeleteOldVendorAPIRequestsWorker.perform_later }
+  every(1.day, 'DeleteOldCandidatesWorker', at: '5:08') { DeleteOldCandidatesWorker.perform_later }
   every(1.day, 'DeleteAllDrafts', at: '4:01') { DeleteAllDraftsWorker.perform_later }
   every(1.day, 'Chasers::Candidate::OfferWorker', at: '10:30') { Chasers::Candidate::OfferWorker.perform_later }
 

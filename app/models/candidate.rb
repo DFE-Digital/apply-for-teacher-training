@@ -16,16 +16,17 @@ class Candidate < ApplicationRecord
   validates :email_address, presence: true, length: { maximum: 100 }, valid_for_notify: true
 
   has_many :application_forms, dependent: :destroy
-  has_many :degree_qualifications, through: :application_forms
-  has_many :application_choices, through: :application_forms
-  has_many :application_references, through: :application_forms
-  has_many :sessions, dependent: :destroy
+
+  def self.test
+    candidate = Candidate.first
+    form_ids = candidate.application_forms.ids
+
+  end
+
   has_many :session_errors, dependent: :destroy
   has_one :one_login_auth, dependent: :destroy
+  has_many :sessions, dependent: :destroy
   has_one :account_recovery_request, dependent: :destroy
-  belongs_to :course_from_find, class_name: 'Course', optional: true
-  belongs_to :duplicate_match, foreign_key: 'fraud_match_id', optional: true
-
   has_many :pool_invites, dependent: :destroy, class_name: 'Pool::Invite'
   has_many :published_pool_invites, -> { published }, dependent: :destroy, class_name: 'Pool::Invite'
   has_many(
@@ -34,8 +35,16 @@ class Candidate < ApplicationRecord
     dependent: :destroy,
     class_name: 'Pool::Invite',
   )
-  has_many :previous_teacher_trainings, through: :application_forms
   has_many :possible_previous_teacher_trainings, dependent: :destroy
+
+
+  has_many :degree_qualifications, through: :application_forms
+  has_many :application_choices, through: :application_forms
+  has_many :application_references, through: :application_forms
+  belongs_to :course_from_find, class_name: 'Course', optional: true
+  belongs_to :duplicate_match, foreign_key: 'fraud_match_id', optional: true
+
+  has_many :previous_teacher_trainings, through: :application_forms
 
   PUBLISHED_FIELDS = %w[email_address].freeze
 
@@ -56,6 +65,101 @@ class Candidate < ApplicationRecord
   end
 
   delegate :previous_account_email_address, to: :account_recovery_request, allow_nil: true
+
+  def test_sql
+    candidate_id = 59
+    sql = "WITH RECURSIVE cascade_tree AS (
+      -- direct children: FKs pointing at candidates with ON DELETE CASCADE
+      SELECT
+        con.conrelid::regclass::text AS child_table,
+        con.confrelid::regclass::text AS parent_table,
+        (SELECT string_agg(pg_attribute.attname, ', ' ORDER BY u.ord)
+          FROM unnest(con.conkey) WITH ORDINALITY u(attnum, ord)
+          JOIN pg_attribute ON pg_attribute.attrelid = con.conrelid
+                             AND pg_attribute.attnum = u.attnum) AS fk_column,
+        1 AS depth,
+        ARRAY[con.oid] AS seen
+      FROM pg_constraint con
+      WHERE con.contype = 'f'            -- foreign key
+        AND con.confdeltype = 'c'        -- ON DELETE CASCADE
+        AND con.confrelid = 'candidates'::regclass
+
+      UNION ALL
+
+      -- their children, transitively
+      SELECT
+        con.conrelid::regclass::text,
+        tree.child_table,
+        (SELECT string_agg(pg_attribute.attname, ', ' ORDER BY u.ord)
+          FROM unnest(con.conkey) WITH ORDINALITY u(attnum, ord)
+          JOIN pg_attribute ON pg_attribute.attrelid = con.conrelid
+                             AND pg_attribute.attnum = u.attnum) AS fk_column,
+        tree.depth + 1,
+        tree.seen || con.oid
+      FROM pg_constraint con
+      JOIN cascade_tree tree ON con.confrelid = tree.child_table::regclass
+      WHERE con.contype = 'f'
+        AND con.confdeltype = 'c'
+        AND con.oid <> ALL (tree.seen)   -- guard against constraint cycles
+    )
+
+    SELECT depth, child_table, parent_table, fk_column
+    FROM cascade_tree
+    ORDER BY depth, child_table;"
+    results = ActiveRecord::Base.connection.execute(sql)
+    hash = { 'candidates' => [candidate_id] }
+
+    results.each do |result|
+      child_table = result['child_table']
+      parent_table = result['parent_table']
+      fk_column = result['fk_column']
+      fk_column_ids = hash[parent_table].join(',')
+
+      if fk_column_ids.present?
+        sql = "select id from #{child_table} where #{fk_column} IN (#{fk_column_ids})"
+        hash[child_table] = ActiveRecord::Base.connection.execute(sql).values.flatten
+      else
+        hash[child_table] = []
+      end
+    end
+
+    hash # .compact_blank
+  end
+
+  def test_delete
+    hash = {}
+
+    sub = ActiveSupport::Notifications.subscribe('sql.active_record') do |*args|
+      event = ActiveSupport::Notifications::Event.new(*args)
+      sql = event.payload[:sql]
+
+      if sql.start_with?('DELETE FROM')
+        table_name = sql.split('DELETE FROM').last.split('WHERE').first&.strip&.delete('"')
+        id = sql.split("DELETE FROM \"#{table_name}\" WHERE \"#{table_name}\".\"id\" = ").last.split.first.to_i
+
+        if hash[table_name].present?
+          hash[table_name] << id
+        else
+          hash[table_name] = [id]
+        end
+      end
+    end
+
+    ActiveRecord::Base.transaction do
+      application_forms.destroy_all
+      raise ActiveRecord::Rollback
+    end
+
+    ActiveSupport::Notifications.unsubscribe(sub)
+    hash
+
+    # byebug
+    # candidate_location_preferences
+    # candidate_preferences
+    # notifications
+    # english_proficiencies
+    # ielts_qualifications
+  end
 
   def redacted_full_name_current_cycle
     application_forms.current_cycle.last.redacted_full_name
