@@ -423,6 +423,10 @@ erDiagram
 		integer site_id
 		string study_mode
 	}
+	DeletedCandidate {
+		integer candidate_id
+		jsonb deleted_tables
+	}
 	DsiSession {
 		string dfe_sign_in_uid
 		string email_address
