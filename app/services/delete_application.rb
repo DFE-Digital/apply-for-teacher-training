@@ -58,7 +58,7 @@ class DeleteApplication
 
   def call!
     if !@force && !application_form.application_choices.all?(&:unsubmitted?)
-      raise 'Application has been sent to providers' \
+      raise 'Application has been sent to providers'
 
     end
 
