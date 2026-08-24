@@ -1,9 +1,8 @@
-ifndef VERBOSE
-.SILENT:
-endif
+VERBOSE ?= 0
+Q := $(if $(filter 1,$(VERBOSE)),,@)
 
 define debug
-$(if $(VERBOSE),echo "$(1)")
+$(if $(filter 1,$(VERBOSE)),echo "$(1)")
 endef
 
 RSPEC_RESULTS_PATH=/rspec-results
@@ -97,7 +96,7 @@ review: test-cluster
 	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
 	$(eval export TF_VAR_exp_storage_account_name=s189t01attexprv$(PR_NUMBER)sa)
 
-dv_review: dv_review-cluster ## make dv_review deploy PR_NUMBER=2222 CLUSTER=cluster1
+dv_review: devops-dev-cluster ## make dv_review deploy PR_NUMBER=2222 CLUSTER=cluster1
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
 	$(if $(CLUSTER), , $(error Missing environment variable "CLUSTER", Please specify a dev cluster name (eg 'cluster1')))
 	$(eval include global_config/dv_review.sh)
@@ -276,7 +275,7 @@ domains-apply: domains-init # make qa domains-apply
 domains-destroy: domains-init # make qa domains-destroy
 	terraform -chdir=terraform/custom_domains/environment_domains destroy -var-file workspace_variables/${DNS_ZONE}_${DNS_ENV}.tfvars.json
 
-dv_review-cluster:
+devops-dev-cluster:
 	$(eval CLUSTER_RESOURCE_GROUP_NAME=s189d01-tsc-dv-rg)
 	$(eval CLUSTER_NAME=s189d01-tsc-${CLUSTER}-aks)
 
@@ -366,113 +365,155 @@ scale-workers: get-cluster-credentials
 	kubectl -n ${NAMESPACE} scale deployment/${SERVICE_NAME}${DSUFFIX}-solid-queue-secondary-worker --replicas ${REPLICAS}
 	kubectl -n ${NAMESPACE} scale deployment/${SERVICE_NAME}${DSUFFIX}-clock-worker --replicas ${REPLICAS}
 
-aks_db_job_backup: aks_db_job_check_single_pod aks_db_job_backup_action aks_db_job_kill_pods
+##############################################################################
+# DB pod related tasks for backup and restore
+##############################################################################
 
-aks_db_job_restore: aks_db_job_check_single_pod aks_db_job_restore_action aks_db_job_kill_pods
+DB_TOOLS_POD_NAME=apply-$(CONFIG)-postgres-db-tools-pod
+RESTORE_SAS_PERMISSIONS=r
+INTERACTIVE_SAS_PERMISSIONS=r
+BACKUP_SAS_PERMISSIONS=cw
 
-aks_db_job_interactive_new: aks_db_job_check_single_pod aks_db_job_set_common_vars aks_db_job_create_pod aks_db_job_interactive_join
+.PHONY: \
+	aks_db_job_backup \
+	aks_db_job_restore \
+	aks_db_job_interactive_new \
+	aks_db_job_interactive_join \
+	aks_db_job_cleanup
+
+aks_db_job_backup: \
+	aks_db_job_check_single_pod \
+	aks_db_job_prepare_backup \
+	aks_db_job_create_pod
+	@NAMESPACE="$(NAMESPACE)" \
+	DB_TOOLS_POD_NAME="$(DB_TOOLS_POD_NAME)" \
+	CLEANUP_DB_TOOLS_POD=true \
+	./scripts/db-backup.sh
+
+aks_db_job_restore: \
+	aks_db_job_check_single_pod \
+	aks_db_job_prepare_restore \
+	aks_db_job_create_pod \
+	confirm
+	@NAMESPACE="$(NAMESPACE)" \
+	DB_TOOLS_POD_NAME="$(DB_TOOLS_POD_NAME)" \
+	CLEANUP_DB_TOOLS_POD=true \
+	./scripts/db-restore.sh
+
+aks_db_job_interactive_new: \
+	aks_db_job_check_single_pod \
+	aks_db_job_prepare_interactive \
+	aks_db_job_create_pod \
+	aks_db_job_interactive_join
 
 aks_db_job_interactive_join:
-	kubectl exec -it -n ${NAMESPACE} ${DB_TOOLS_POD_NAME} -- /bin/bash;
+	kubectl exec -it \
+		-n $(NAMESPACE) \
+		$(DB_TOOLS_POD_NAME) \
+		-- /bin/bash
+
+aks_db_job_cleanup:
+	@NAMESPACE="$(NAMESPACE)" \
+	DB_TOOLS_POD_NAME="$(DB_TOOLS_POD_NAME)" \
+	./scripts/cleanup-db-tools-pod.sh
+
+##############################################################################
+# Common configuration
+##############################################################################
 
 aks_db_job_set_common_vars: get-cluster-credentials
-	$(if $(PR_NUMBER), $(eval export DSUFFIX="-pr-${PR_NUMBER}"), $(eval export DSUFFIX="-${CONFIG}") )
+	$(eval DSUFFIX=$(if $(PR_NUMBER),-pr-$(PR_NUMBER),-$(CONFIG)))
 	$(eval DEPLOYMENT_NAME=${SERVICE_NAME}${DSUFFIX})
-	#$(eval TODAY=$(shell date +"%F_%H%M%S"))
 	$(eval STORAGE_ACCOUNT_NAME=${RESOURCE_NAME_PREFIX}${SERVICE_SHORT}dbbkp${CONFIG_SHORT}sa)
 	$(eval CONTAINER_NAME=database-backup)
-	$(eval SAS_VALID_HOURS="2")
-	$(eval EXPIRY=$(shell date -u -d "+${SAS_VALID_HOURS} hours" +%Y-%m-%dT%H:%MZ))
-	$(eval STORAGE_ACCOUNT_KEY=$(shell az storage account keys list --account-name "${STORAGE_ACCOUNT_NAME}" --query "[0].value" -o tsv))
-	$(eval SAS_TOKEN=$(shell az storage container generate-sas --account-name "${STORAGE_ACCOUNT_NAME}" --account-key "${STORAGE_ACCOUNT_KEY}" --name "${CONTAINER_NAME}" --permissions acdlrw --expiry "${EXPIRY}" --https-only --output tsv))
-	printf '%s' '$(SAS_TOKEN)' > sas_token.txt
-	$(eval SECRET_REF_NAME := $(shell kubectl get deployment ${DEPLOYMENT_NAME} -n ${NAMESPACE} -o json | jq -r '.spec.template.spec.containers[].envFrom[]?.secretRef?.name // empty'))
-	printf '%s' 'notset' > sas_url.txt
+	$(eval SAS_VALID_HOURS=2)
+	$(eval TODAY=$(shell date +"%F_%H%M%S"))
+	$(eval EXPIRY=$(shell date -u -d "+$(SAS_VALID_HOURS) hours" +%Y-%m-%dT%H:%MZ))
 
-	$(call debug,"DSUFFIX: ${DSUFFIX}")
-	$(call debug,"Namespace: ${NAMESPACE}")
-	$(call debug,"DEPLOYMENT_NAME: ${DEPLOYMENT_NAME}")
-	$(call debug,"STORAGE_ACCOUNT_NAME: ${STORAGE_ACCOUNT_NAME}")
-	$(call debug,"CONTAINER_NAME: ${CONTAINER_NAME}")
-	$(call debug,"TODAY: ${TODAY}")
+	$(eval SECRET_REF_NAME=$(shell \
+		kubectl get deployment $(DEPLOYMENT_NAME) \
+		-n $(NAMESPACE) \
+		-o json | \
+		jq -r '.spec.template.spec.containers[].envFrom[]?.secretRef?.name // empty'))
 
-aks_db_job_set_restore_vars: aks_db_job_set_common_vars
-	$(if $(RESTORE_FILE), , $(error Missing environment variable "RESTORE_FILE", Please specify a file to restore from))
-	$(eval SOURCE=https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}/${RESTORE_FILE})
-	$(eval SAS_URL=${SOURCE}?${SAS_TOKEN})
-	printf '%s' '$(SAS_URL)' > sas_url.txt
-	$(eval SECRET_REF_NAME := $(shell kubectl get deployment ${DEPLOYMENT_NAME} -n ${NAMESPACE} -o json | jq -r '.spec.template.spec.containers[].envFrom[]?.secretRef?.name // empty'))
+	$(call debug,Namespace: $(NAMESPACE))
+	$(call debug,Deployment: $(DEPLOYMENT_NAME))
+	$(call debug,Storage Account: $(STORAGE_ACCOUNT_NAME))
+	$(call debug,Container: $(CONTAINER_NAME))
 
-	$(call debug,"SOURCE: ${SOURCE}")
-	$(call debug,"RESTORE_FILE: ${RESTORE_FILE}")
+##############################################################################
+# Backup
+##############################################################################
 
-aks_db_job_set_backup_vars: aks_db_job_set_common_vars
-	$(eval JOB_NAME=postgres-backup-${TODAY})
-	$(eval BACKUP_URL=https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}/${JOB_NAME}.sql)
-	$(eval SAS_URL=${BACKUP_URL}?${SAS_TOKEN})
-	printf '%s' '$(SAS_URL)' > sas_url.txt
-	$(eval SECRET_REF_NAME := $(shell kubectl get deployment ${DEPLOYMENT_NAME} -n ${NAMESPACE} -o json | jq -r '.spec.template.spec.containers[].envFrom[]?.secretRef?.name // empty'))
-	$(call debug,"JOB_NAME: ${JOB_NAME}")
+aks_db_job_prepare_backup: aks_db_job_set_common_vars
+	$(eval JOB_NAME=postgres-backup-$(TODAY))
+	$(eval BLOB_URL=https://$(STORAGE_ACCOUNT_NAME).blob.core.windows.net/$(CONTAINER_NAME)/$(JOB_NAME).sql)
 
-	$(call debug,"BACKUP_URL: ${BACKUP_URL}")
-	$(call debug,"SECRET_REF_NAME: ${SECRET_REF_NAME}")
+	@STORAGE_ACCOUNT_NAME="$(STORAGE_ACCOUNT_NAME)" \
+	CONTAINER_NAME="$(CONTAINER_NAME)" \
+	NAMESPACE="$(NAMESPACE)" \
+	EXPIRY="$(EXPIRY)" \
+	BLOB_URL="$(BLOB_URL)" \
+	SAS_PERMISSIONS="$(BACKUP_SAS_PERMISSIONS)" \
+	./scripts/create-backup-secret.sh
+
+##############################################################################
+# Restore
+##############################################################################
+
+aks_db_job_prepare_restore: aks_db_job_set_common_vars
+
+	$(if $(RESTORE_FILE),,$(error Missing RESTORE_FILE))
+
+	$(eval BLOB_URL=https://$(STORAGE_ACCOUNT_NAME).blob.core.windows.net/$(CONTAINER_NAME)/$(RESTORE_FILE))
+
+	@STORAGE_ACCOUNT_NAME="$(STORAGE_ACCOUNT_NAME)" \
+	CONTAINER_NAME="$(CONTAINER_NAME)" \
+	NAMESPACE="$(NAMESPACE)" \
+	EXPIRY="$(EXPIRY)" \
+	BLOB_URL="$(BLOB_URL)" \
+	SAS_PERMISSIONS="$(RESTORE_SAS_PERMISSIONS)" \
+	./scripts/create-backup-secret.sh
+
+##############################################################################
+# Interactive
+##############################################################################
+
+aks_db_job_prepare_interactive: aks_db_job_set_common_vars
+	$(eval BLOB_URL=https://$(STORAGE_ACCOUNT_NAME).blob.core.windows.net/$(CONTAINER_NAME))
+
+	@STORAGE_ACCOUNT_NAME="$(STORAGE_ACCOUNT_NAME)" \
+	CONTAINER_NAME="$(CONTAINER_NAME)" \
+	NAMESPACE="$(NAMESPACE)" \
+	EXPIRY="$(EXPIRY)" \
+	BLOB_URL="$(BLOB_URL)" \
+	SAS_PERMISSIONS="$(INTERACTIVE_SAS_PERMISSIONS)" \
+	./scripts/create-backup-secret.sh
+
+##############################################################################
+# Pod creation
+##############################################################################
 
 aks_db_job_create_pod:
-	$(if $(SECRET_REF_NAME), , $(error Missing environment variable "SECRET_REF_NAME"))
-	$(if $(DB_TOOLS_POD_NAME), , $(error Missing environment variable "DB_TOOLS_POD_NAME"))
-	$(eval export SECRET_REF_NAME=$(SECRET_REF_NAME))
-	$(eval export DB_TOOLS_POD_NAME=$(DB_TOOLS_POD_NAME))
-	@if kubectl get secret backup-sas -n $(NAMESPACE) >/dev/null 2>&1; then \
-		kubectl delete secret backup-sas -n $(NAMESPACE); \
-	fi
-	kubectl create secret -n $(NAMESPACE) generic backup-sas --from-file=AZURE_STORAGE_SAS_URL=sas_url.txt --from-file=AZURE_STORAGE_SAS_TOKEN=sas_token.txt;
-	envsubst < db-pod/db-pod.yaml.tpl | kubectl apply -n ${NAMESPACE} -f -
-	# allowing time for pod to startup...
-	sleep 2s
 
-aks_db_job_backup_action: aks_db_job_set_backup_vars aks_db_job_create_pod
-	kubectl exec -it -n ${NAMESPACE} ${DB_TOOLS_POD_NAME} -- \
-		/bin/bash -c '\
-		cd /tmp && \
-		echo "running pg_dump" && \
-		pg_dump -d "$$DATABASE_URL" \
-		-E utf8 \
-		--clean \
-		--compress=1 \
-		--if-exists \
-		--no-owner \
-		--verbose \
-		--no-password \
-		-f pg_backup.gz && \
-		echo "running azcopy" && \
-		azcopy cp ./pg_backup.gz "$$AZURE_STORAGE_SAS_URL" \
-	';
+	$(if $(SECRET_REF_NAME),,$(error Missing SECRET_REF_NAME))
+	$(if $(DB_TOOLS_POD_NAME),,$(error Missing DB_TOOLS_POD_NAME))
 
-confirm:
-	@read -p "This will restore and replace the database, do you want to Continue? [y/N] " answer; \
-	if [ "$$answer" != "y" ]; then \
-		echo "Aborted"; \
-		exit 1; \
-	fi
-	@echo "Continuing..."
+	@SECRET_REF_NAME="$(SECRET_REF_NAME)" \
+	NAMESPACE="$(NAMESPACE)" \
+	DB_TOOLS_POD_NAME="$(DB_TOOLS_POD_NAME)" \
+	./scripts/create-db-tools-pod.sh
 
-
-aks_db_job_restore_action: aks_db_job_set_restore_vars aks_db_job_create_pod confirm
-	echo "aks_db_job_restore"
-	kubectl exec -it -n $(NAMESPACE) ${DB_TOOLS_POD_NAME} -- \
-		/bin/bash -c '\
-		cd /tmp && \
-		azcopy cp "$$AZURE_STORAGE_SAS_URL" ./pg_backup.gz && \
-		gunzip -c pg_backup.gz | psql "$$DATABASE_URL" \
-		'
+##############################################################################
+# Safety checks
+##############################################################################
 
 aks_db_job_check_single_pod:
-	@if kubectl get pod ${DB_TOOLS_POD_NAME} -n $(NAMESPACE) >/dev/null 2>&1; then \
-		echo "Pod Already Exists, check ongoing activity -either kill with care! or join interatively with aks_db_job_interactive_join"; \
+	@if kubectl get pod $(DB_TOOLS_POD_NAME) -n $(NAMESPACE) >/dev/null 2>&1; then \
+		echo "DB tools pod already exists."; \
+		echo "Either:"; \
+		echo "  make aks_db_job_interactive_join"; \
+		echo "or"; \
+		echo "  make aks_db_job_cleanup"; \
 		exit 1; \
-	fi
-
-aks_db_job_kill_pods:
-	@if kubectl get pod ${DB_TOOLS_POD_NAME} -n $(NAMESPACE) >/dev/null 2>&1; then \
-		kubectl delete pod ${DB_TOOLS_POD_NAME} -n $(NAMESPACE); \
 	fi
