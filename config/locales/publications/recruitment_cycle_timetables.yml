@@ -3,6 +3,7 @@ en:
     recruitment_cycle_timetables:
       index:
         heading: Recruitment cycle timetables
+        current_cycle_is: The current recruitment cycle is %{year}
       show:
         heading: Recruitment cycle timetable for %{recruitment_cycle_year}
         timetables: Timetables
