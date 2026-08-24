@@ -19,7 +19,7 @@ on:
 
   push:
     branches:
-      - 2911-test*
+      - "2911-test*"
 
 permissions:
   id-token: write
