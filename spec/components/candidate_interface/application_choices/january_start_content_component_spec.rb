@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::ApplicationChoices::JanuaryStartContentCompon
 
         expect(rendered_component).to have_element(
           :h2,
-          text: "Courses starting by January #{next_year}",
+          text: "Courses starting in January #{next_year}",
           class: 'govuk-heading-l',
         )
         expect(rendered_component).to have_element(
@@ -48,8 +48,23 @@ RSpec.describe CandidateInterface::ApplicationChoices::JanuaryStartContentCompon
   end
 
   describe '#title' do
-    it 'returns the title of the component with the correct academic year' do
-      expect(component.title).to eq("Courses starting by January #{next_year}")
+    context 'all course start dates are in one month' do
+      it 'returns the title of the component with the specific month and year' do
+        course = create(:course, start_date: "01/01/#{application_form.recruitment_cycle_year + 1}")
+        create(:application_choice, application_form:, course_option: build(:course_option, course:))
+        expect(component.title).to eq("Courses starting in January #{next_year}")
+      end
+    end
+
+    context 'course start dates are in multiple months' do
+      let(:dec_course) { build(:course, start_date: "01/10/#{application_form.recruitment_cycle_year}") }
+      let(:jan_course) { build(:course, start_date: "01/01/#{application_form.recruitment_cycle_year + 1}") }
+
+      it 'returns generic title with correct year' do
+        create(:application_choice, course_option: build(:course_option, course: jan_course), application_form:)
+        create(:application_choice, course_option: build(:course_option, course: dec_course), application_form:)
+        expect(component.title).to eq("Courses starting by the end of January #{next_year}")
+      end
     end
   end
 

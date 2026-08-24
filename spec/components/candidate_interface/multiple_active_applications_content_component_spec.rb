@@ -51,7 +51,7 @@ RSpec.describe CandidateInterface::MultipleActiveApplicationsContentComponent do
 
       expect(rendered_component).to have_element(
         :h2,
-        text: "Courses starting by January #{application_form.recruitment_cycle_year}",
+        text: "Courses starting in January #{application_form.recruitment_cycle_year}",
         class: 'govuk-heading-l',
       )
       expect(rendered_component).to have_element(

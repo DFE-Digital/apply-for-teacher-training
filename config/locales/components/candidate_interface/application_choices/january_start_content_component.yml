@@ -2,7 +2,8 @@ en:
   candidate_interface:
     application_choices:
       january_start_component:
-        title: Courses starting by January %{year}
+        title_multiple_start_months: Courses starting by the end of January %{year}
+        title_single_start_month: Courses starting in %{month_and_year}
         provider_deadline_content:
             Providers have until %{reject_by} to make decisions on these applications.
         awaiting_provider_decision_content:
