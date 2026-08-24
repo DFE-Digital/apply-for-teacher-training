@@ -607,7 +607,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_134256) do
   create_table "deleted_candidates", force: :cascade do |t|
     t.bigint "candidate_id", null: false
     t.datetime "created_at", null: false
-    t.jsonb "deleted_tables", null: false
+    t.jsonb "deleted_records", null: false
     t.datetime "updated_at", null: false
   end
 

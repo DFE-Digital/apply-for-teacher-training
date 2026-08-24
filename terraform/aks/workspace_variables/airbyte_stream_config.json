@@ -40,7 +40,7 @@
           },
           {
             "fieldPath": [
-              "deleted_tables"
+              "deleted_records"
             ]
           },
           {
