@@ -197,6 +197,6 @@ gem 'jsbundling-rails', '~> 1.3'
 
 gem 'propshaft', '~> 1.3'
 
-gem 'solid_queue', '~> 1.4'
+gem 'solid_queue', '~> 1.6'
 gem 'mission_control-jobs', git: 'https://github.com/rails/mission_control-jobs.git', ref: '1648c005ecd2230b2f76779b7b95c259c43a6523'
 gem 'solid_cache', '~> 1.0'
