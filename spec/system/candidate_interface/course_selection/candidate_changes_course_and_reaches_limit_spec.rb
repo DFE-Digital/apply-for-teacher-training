@@ -76,7 +76,7 @@ RSpec.describe 'Changing a course' do
         provider_id: @provider.id,
         course_id: @course.id,
         application_choice_id: @application_form.application_choices.last.id,
-      )
+      ),
     )
   end
 
