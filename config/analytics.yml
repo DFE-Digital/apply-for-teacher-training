@@ -1,4 +1,10 @@
 shared:
+  deleted_candidates:
+    - id
+    - candidate_id
+    - deleted_records
+    - created_at
+    - updated_at
   previous_teacher_trainings:
     - id
     - application_form_id
