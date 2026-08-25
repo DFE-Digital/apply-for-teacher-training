@@ -16,13 +16,6 @@ class Candidate < ApplicationRecord
   validates :email_address, presence: true, length: { maximum: 100 }, valid_for_notify: true
 
   has_many :application_forms, dependent: :destroy
-
-  def self.test
-    candidate = Candidate.first
-    form_ids = candidate.application_forms.ids
-
-  end
-
   has_many :session_errors, dependent: :destroy
   has_one :one_login_auth, dependent: :destroy
   has_many :sessions, dependent: :destroy
