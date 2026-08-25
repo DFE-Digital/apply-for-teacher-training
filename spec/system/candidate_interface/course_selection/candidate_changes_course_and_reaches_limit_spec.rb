@@ -26,11 +26,12 @@ RSpec.describe 'Changing a course' do
     create(:course_option, course: @course)
     @another_course = create(:course, :open, name: 'Primary with Science', code: '4MM5', provider: @provider)
     create(:course_option, course: @another_course)
+    @application_form = @current_candidate.current_application
   end
 
   def and_i_have_two_rejected_applications_to_a_course
-    create(:application_choice, :rejected, course_option: @course.course_options.first, application_form: @current_candidate.current_application)
-    create(:application_choice, :rejected, course_option: @course.course_options.first, application_form: @current_candidate.current_application)
+    create(:application_choice, :rejected, course_option: @course.course_options.first, application_form: @application_form)
+    create(:application_choice, :rejected, course_option: @course.course_options.first, application_form: @application_form)
   end
 
   def and_i_choose_the_same_provider
@@ -70,7 +71,13 @@ RSpec.describe 'Changing a course' do
   end
 
   def then_i_am_on_the_reached_reapplication_limit_page
-    expect(page.current_url).to end_with(candidate_interface_course_choices_reached_reapplication_limit_path(provider_id: @provider.id, course_id: @course.id))
+    expect(page.current_url).to end_with(
+      candidate_interface_course_choices_reached_reapplication_limit_path(
+        provider_id: @provider.id,
+        course_id: @course.id,
+        application_choice_id: @application_form.application_choices.last.id,
+      )
+    )
   end
 
   def when_i_visit_my_details_page

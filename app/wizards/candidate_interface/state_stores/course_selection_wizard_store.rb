@@ -36,11 +36,9 @@ module CandidateInterface
       end
 
       def existing_application_choices
-        @existing_application_choices ||= begin
-          existing_choices = current_application.application_choices.joins(:course_option)
-          existing_choices = existing_choices.where.not(id: self[:application_choice_id]) if self[:application_choice_id].present?
-          existing_choices
-        end
+        existing_choices = current_application.application_choices.joins(:course_option)
+        existing_choices = existing_choices.where.not(id: self[:application_choice_id]) if self[:application_choice_id].present?
+        existing_choices
       end
 
       def reapplication_limit_reached?
