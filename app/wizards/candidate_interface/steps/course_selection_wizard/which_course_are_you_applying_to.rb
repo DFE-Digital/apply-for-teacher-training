@@ -13,8 +13,6 @@ module CandidateInterface
       validates :course_id, presence: true
       validate :no_free_text_input
 
-      validates_with CourseSelectionValidator, on: :course_choice
-
       delegate :provider, :provider_id, to: :wizard
 
       def self.permitted_params
@@ -29,12 +27,10 @@ module CandidateInterface
         @available_courses ||= GetAvailableCoursesForProvider.new(provider).call
       end
 
-      def radio_available_courses
-        ::CandidateInterface::PickCourseForm.new(provider_id:, available_courses:).radio_available_courses
-      end
+      delegate :radio_available_courses, to: :pick_course_form
 
       def dropdown_available_courses
-        @dropdown_available_courses ||= ::CandidateInterface::PickCourseForm.new(provider_id:, available_courses:).dropdown_available_courses
+        @dropdown_available_courses ||= pick_course_form.dropdown_available_courses
       end
 
       def select_course_options
@@ -46,6 +42,10 @@ module CandidateInterface
       end
 
     private
+
+      def pick_course_form
+        @pick_course_form ||= ::CandidateInterface::PickCourseForm.new(provider_id:, available_courses:)
+      end
 
       def valid_course_choice
         @valid_course_choice ||= !wizard.duplicate_course? && !wizard.reapplication_limit_reached? && !wizard.course_unavailable? && !wizard.course_closed?

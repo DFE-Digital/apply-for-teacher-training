@@ -6,7 +6,6 @@ module CandidateInterface
 
       attribute :provider_id, :string
       attribute :provider_id_raw
-      attribute :course_id
 
       validates :provider_id, presence: true
       validate :no_free_text_input
@@ -16,7 +15,7 @@ module CandidateInterface
       alias_attribute :valid_options, :select_provider_options
 
       def self.permitted_params
-        %i[provider_id provider_id_raw course_id]
+        %i[provider_id provider_id_raw]
       end
 
       def select_provider_options

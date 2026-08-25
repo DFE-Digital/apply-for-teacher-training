@@ -31,12 +31,12 @@ module CandidateInterface
         # This handles if the user has changed course,
         # the previously selected site will still display,
         # but the course_option_id will be valid for the newly selected course
-        return '' if @course_option_id.blank?
+        return '' if course_option_id.blank?
 
-        site = CourseOption.find_by(id: @course_option_id)&.site
+        site = CourseOption.find_by(id: course_option_id)&.site
         return '' if site.blank?
 
-        @course_option_id = course_options.find_by(site:)&.id || ''
+        self.course_option_id = course_options.find_by(site:)&.id || ''
       end
 
       def no_free_text_input

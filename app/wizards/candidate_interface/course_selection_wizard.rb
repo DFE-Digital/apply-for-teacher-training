@@ -18,7 +18,6 @@ class CandidateInterface::CourseSelectionWizard
            :find_course_selected?,
            :find_course_not_selected?,
            :not_multiple_sites_or_study_modes?,
-           :edit?,
            :visa_expires_soon?,
            :not_confirmed?,
            to: :state_store

@@ -1,6 +1,33 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
+  let(:repository) do
+    DfE::Wizard::Repository::InMemory.new
+  end
+  let(:state_store) { CandidateInterface::StateStores::CourseSelectionWizardStore.new(repository:) }
+
+  describe 'delegations' do
+    subject(:wizard) { described_class.new(state_store:) }
+
+    it { is_expected.to delegate_method(:know_the_course_to_apply?).to(:state_store) }
+    it { is_expected.to delegate_method(:reapplication_limit_reached?).to(:state_store) }
+    it { is_expected.to delegate_method(:duplicate_course?).to(:state_store) }
+    it { is_expected.to delegate_method(:course_closed?).to(:state_store) }
+    it { is_expected.to delegate_method(:course_unavailable?).to(:state_store) }
+    it { is_expected.to delegate_method(:multiple_study_modes?).to(:state_store) }
+    it { is_expected.to delegate_method(:multiple_sites?).to(:state_store) }
+    it { is_expected.to delegate_method(:not_multiple_sites?).to(:state_store) }
+    it { is_expected.to delegate_method(:provider).to(:state_store) }
+    it { is_expected.to delegate_method(:provider_exists?).to(:state_store) }
+    it { is_expected.to delegate_method(:course).to(:state_store) }
+    it { is_expected.to delegate_method(:course_id).to(:state_store) }
+    it { is_expected.to delegate_method(:find_course_selected?).to(:state_store) }
+    it { is_expected.to delegate_method(:find_course_not_selected?).to(:state_store) }
+    it { is_expected.to delegate_method(:not_multiple_sites_or_study_modes?).to(:state_store) }
+    it { is_expected.to delegate_method(:visa_expires_soon?).to(:state_store) }
+    it { is_expected.to delegate_method(:not_confirmed?).to(:state_store) }
+  end
+
   describe 'steps' do
     subject(:wizard) do
       described_class.new(
@@ -11,14 +38,6 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
       end
     end
 
-    let(:state_store) do
-      CandidateInterface::StateStores::CourseSelectionWizardStore.new(
-        repository: DfE::Wizard::Repository::Session.new(
-          session: {},
-          key: :test_candidate_interface_course_selection_wizard,
-        ),
-      )
-    end
     let(:current_step_params) { { current_application_id: application_form.id } }
     let(:application_form) { create(:completed_application_form) }
 
