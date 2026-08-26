@@ -13,8 +13,8 @@ module CandidateInterface
       [
         domestic_fee(course),
         international_fee(course),
-        funding_advice(application_choice)
-      ].select(&:present?).reduce(:+)
+        funding_advice(application_choice),
+      ].compact_blank.reduce(:+)
     end
 
     def domestic_fee(course)
