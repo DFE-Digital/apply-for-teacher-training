@@ -26,3 +26,14 @@ en:
           key: Organisations you have access to
     user_card_component:
       permissions_list_preamble: 'This user has permission to:'
+    user_permissions:
+      manage_api_token_interruption:
+        give_user_access_to_all_data:
+          This will give the user access to all your organisation’s data in the API
+        giving_user_permission_to_manage_api_tokens:
+          You are giving this user permission to manage API tokens.
+        will_not_be_able_to_view_or_manage:
+          They will not be able to view or manage anything you have not selected in this service.
+          However, anyone who can manage API tokens can use the API to access all data in your organisation.
+        back_to_user_permissions: Back to user permissions
+

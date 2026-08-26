@@ -12,7 +12,11 @@ module ProviderInterface
       @wizard = EditUserPermissionsWizard.new(edit_user_permissions_store, provider_permissions_params)
       @wizard.save_state!
 
-      redirect_to check_provider_interface_organisation_settings_organisation_user_permissions_path(@provider, @provider_user)
+      if @wizard.show_manage_api_interruption?
+        redirect_to manage_api_token_interruption_provider_interface_organisation_settings_organisation_user_permissions_path(@provider, @provider_user)
+      else
+        redirect_to check_provider_interface_organisation_settings_organisation_user_permissions_path(@provider, @provider_user)
+      end
     end
 
     def check
@@ -31,6 +35,8 @@ module ProviderInterface
         redirect_to provider_interface_organisation_settings_organisation_user_path(@provider, @provider_user)
       end
     end
+
+    def manage_api_token_interruption; end
 
   private
 

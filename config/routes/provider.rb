@@ -207,6 +207,7 @@ namespace :provider_interface, path: '/provider' do
             member do
               get :check
               put :commit
+              get :manage_api_token_interruption
             end
           end
         end
