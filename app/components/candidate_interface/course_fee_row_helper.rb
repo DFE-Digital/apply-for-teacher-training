@@ -5,13 +5,20 @@ module CandidateInterface
 
       {
         key: I18n.t('course_fee_row_helper.course_fee'),
-        value: domestic_fee(course) + international_fee(course) +
-          funding_advice(application_choice, course),
+        value: course_fee_row_value(application_choice, course),
       }
     end
 
+    def course_fee_row_value(application_choice, course)
+      [
+        domestic_fee(course),
+        international_fee(course),
+        funding_advice(application_choice)
+      ].select(&:present?).reduce(:+)
+    end
+
     def domestic_fee(course)
-      return '' if course.fee_domestic.blank?
+      return nil if course.fee_domestic.blank?
 
       tag.p(
         I18n.t(
@@ -23,7 +30,7 @@ module CandidateInterface
     end
 
     def international_fee(course)
-      return '' if course.fee_international.blank?
+      return nil if course.fee_international.blank?
 
       tag.p(
         I18n.t(
@@ -34,8 +41,8 @@ module CandidateInterface
       )
     end
 
-    def funding_advice(application_choice, _course)
-      return '' if application_choice.application_form.british_or_irish?
+    def funding_advice(application_choice)
+      return nil if application_choice.application_form.british_or_irish?
 
       content_tag :p, class: 'govuk-body secondary-text' do
         concat(
