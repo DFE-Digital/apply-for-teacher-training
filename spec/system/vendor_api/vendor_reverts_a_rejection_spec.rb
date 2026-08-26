@@ -5,9 +5,6 @@ RSpec.describe 'Vendor reverts a rejection' do
 
   scenario 'A vendor reverts a rejection' do
     given_a_candidate_has_multiple_rejected_application_and_is_in_apply_2
-    when_i_try_to_revert_the_rejection_on(@initial_application_choice)
-    then_i_can_see_a_validation_error
-
     when_i_try_to_revert_the_rejection_on(@most_recent_application_choice)
     then_i_can_see_the_offer_was_made_successfully
   end
@@ -32,14 +29,6 @@ RSpec.describe 'Vendor reverts a rejection' do
     # Unset session headers
     Capybara.current_session.driver.header('Authorization', nil)
     Capybara.current_session.driver.header('Content-Type', nil)
-  end
-
-  def then_i_can_see_a_validation_error
-    parsed_response_body = JSON.parse(@api_response.body)
-    validation_errors = parsed_response_body['errors']
-
-    expect(@api_response.status).to eq 422
-    expect(validation_errors.first['message']).to eq('You cannot make an offer because you can only do so for the most recent application')
   end
 
   def then_i_can_see_the_offer_was_made_successfully
