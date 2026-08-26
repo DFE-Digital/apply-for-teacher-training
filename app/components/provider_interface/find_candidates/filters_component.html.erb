@@ -37,9 +37,8 @@
                   <div class="govuk-!-margin-bottom-3">
                     <% if value.is_a?(Array) %>
                       <% value.each do |filter_value| %>
-                        <%= govuk_link_to(
+                        <%= link_to(
                               path_to_remove_filter(name, filter_value),
-                              filter_value,
                               class: 'app-checkbox-filter__tag',
                             ) do %>
                           <span class="govuk-visually-hidden">
@@ -49,9 +48,8 @@
                         <% end %>
                       <% end %>
                     <% else %>
-                      <%= govuk_link_to(
+                      <%= link_to(
                             path_to_remove_location,
-                            value,
                             class: 'app-checkbox-filter__tag',
                           ) do %>
                           <span class="govuk-visually-hidden">

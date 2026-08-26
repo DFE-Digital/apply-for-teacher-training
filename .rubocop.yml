@@ -70,6 +70,7 @@ Govuk/GovukLinkTo:
     - 'app/components/support_interface/tile_component.html.erb'
     # link_to in filter component
     - 'app/components/utility/filter_component.html.erb'
+    - 'app/components/provider_interface/find_candidates/filters_component.html.erb'
     # link_to in manual error summaries
     - 'app/views/candidate_interface/references/review/show.html.erb'
     - 'app/views/candidate_interface/unsubmitted_application_form/review.html.erb'
