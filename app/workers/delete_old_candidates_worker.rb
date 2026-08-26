@@ -20,7 +20,9 @@ class DeleteCandidatesWorker < ApplicationJob
                            .compact_blank
 
         DeletedCandidate.create!(candidate_id: candidate.id, deleted_records:)
-        candidate.destroy!
+        candidate.without_auditing do
+          candidate.destroy!
+        end
       end
     end
   end
