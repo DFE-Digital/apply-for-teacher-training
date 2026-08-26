@@ -35,7 +35,7 @@ class ApplicationForm < ApplicationRecord
            to: :recruitment_cycle_timetable
 
   belongs_to :candidate, touch: true
-  has_many :application_choices, dependent: :destroy
+  has_many :application_choices
   has_many :course_options, through: :application_choices
   has_many :courses, through: :application_choices
   has_many :providers, through: :application_choices

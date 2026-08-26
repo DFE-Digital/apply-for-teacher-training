@@ -16,10 +16,16 @@ class Candidate < ApplicationRecord
   validates :email_address, presence: true, length: { maximum: 100 }, valid_for_notify: true
 
   has_many :application_forms, dependent: :destroy
+  has_many :degree_qualifications, through: :application_forms
+  has_many :application_choices, through: :application_forms
+  has_many :application_references, through: :application_forms
+  has_many :sessions, dependent: :destroy
   has_many :session_errors, dependent: :destroy
   has_one :one_login_auth, dependent: :destroy
-  has_many :sessions, dependent: :destroy
   has_one :account_recovery_request, dependent: :destroy
+  belongs_to :course_from_find, class_name: 'Course', optional: true
+  belongs_to :duplicate_match, foreign_key: 'fraud_match_id', optional: true
+
   has_many :pool_invites, dependent: :destroy, class_name: 'Pool::Invite'
   has_many :published_pool_invites, -> { published }, dependent: :destroy, class_name: 'Pool::Invite'
   has_many(
@@ -28,15 +34,8 @@ class Candidate < ApplicationRecord
     dependent: :destroy,
     class_name: 'Pool::Invite',
   )
-  has_many :possible_previous_teacher_trainings, dependent: :destroy
-
-  has_many :degree_qualifications, through: :application_forms
-  has_many :application_choices, through: :application_forms
-  has_many :application_references, through: :application_forms
-  belongs_to :course_from_find, class_name: 'Course', optional: true
-  belongs_to :duplicate_match, foreign_key: 'fraud_match_id', optional: true
-
   has_many :previous_teacher_trainings, through: :application_forms
+  has_many :possible_previous_teacher_trainings, dependent: :destroy
 
   PUBLISHED_FIELDS = %w[email_address].freeze
 
