@@ -467,6 +467,38 @@ FactoryBot.define do
       previous_teacher_training_started { false }
     end
 
+    trait :with_pool_invite do
+      after(:create) do |application_form, _|
+        create(:pool_invite, application_form:)
+      end
+    end
+
+    trait :in_candidate_pool do
+      after(:create) do |application_form, _|
+        create(:candidate_pool_application, application_form:)
+      end
+    end
+
+    trait :with_emails do
+      after(:create) do |application_form, _|
+        email = create(:email, application_form:)
+        create(:email_click, email:)
+      end
+    end
+
+    trait :with_english_proficiency do
+      after(:create) do |application_form, _|
+        create(:english_proficiency, application_form:)
+      end
+    end
+
+    trait :with_candidate_preference do
+      after(:create) do |application_form, _|
+        candidate_preference = create(:candidate_preference, application_form:)
+        create(:candidate_location_preference, candidate_preference:)
+      end
+    end
+
     factory :completed_application_form do
       completed
     end

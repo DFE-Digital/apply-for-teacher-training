@@ -550,5 +550,17 @@ FactoryBot.define do
         )
       end
     end
+
+    trait :with_withdrawal_reason do
+      after(:create) do |application_choice, _|
+        create(:withdrawal_reason, application_choice:)
+      end
+    end
+
+    trait :with_note do
+      after(:create) do |application_choice, _|
+        create(:note, application_choice:)
+      end
+    end
   end
 end

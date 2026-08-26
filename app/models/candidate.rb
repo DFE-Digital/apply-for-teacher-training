@@ -30,7 +30,6 @@ class Candidate < ApplicationRecord
   )
   has_many :possible_previous_teacher_trainings, dependent: :destroy
 
-
   has_many :degree_qualifications, through: :application_forms
   has_many :application_choices, through: :application_forms
   has_many :application_references, through: :application_forms

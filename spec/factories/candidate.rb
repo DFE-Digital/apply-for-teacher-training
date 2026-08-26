@@ -20,5 +20,18 @@ FactoryBot.define do
         create(:one_login_auth, candidate:)
       end
     end
+
+    trait :account_recovery_request do
+      after(:create) do |candidate, _|
+        create(:account_recovery_request, candidate:)
+      end
+    end
+
+    trait :with_posssible_teacher_training do
+      after(:create) do |candidate, _|
+        create(:possible_previous_teacher_training, candidate:)
+        create(:one_login_auth, candidate:)
+      end
+    end
   end
 end
