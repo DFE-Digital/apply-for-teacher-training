@@ -12,6 +12,11 @@ en:
       description: Manage organisation permissions
     set_up_interviews:
       description: Manage interviews
+    manage_api_tokens:
+      description: Manage API tokens
+      hint:
+        This will give the user access to all your organisation’s data in the API.
+        You should only select this if they need it.
   provider_interface:
     personal_permissions:
       show:

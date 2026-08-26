@@ -6,6 +6,7 @@ class ProviderPermissions < ApplicationRecord
     make_decisions
     view_safeguarding_information
     view_diversity_information
+    manage_api_tokens
   ].freeze
 
   self.table_name = 'provider_users_providers'
