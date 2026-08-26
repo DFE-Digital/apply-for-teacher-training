@@ -46,7 +46,7 @@ private
 
       UNION ALL
 
-      -- their children, transitively
+      -- find the children of the tables we already found, and keep going recursively.
       SELECT
         con.conrelid,
         tree.child_oid,
@@ -118,7 +118,7 @@ private
 
     begin
       ActiveRecord::Base.transaction do
-        candidate.application_forms&.destroy_all
+        candidate.destroy!
         raise ActiveRecord::Rollback
       end
     ensure
