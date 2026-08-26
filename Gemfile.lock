@@ -41,12 +41,12 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/get-into-teaching-api-ruby-client.git
-  revision: 0e6f57f43497eca98ef15498055a6a10d22d487e
+  revision: 139eb43e9b6f148bdcab7c0705217da4d805cd32
   specs:
-    get_into_teaching_api_client (4.3.7.3)
+    get_into_teaching_api_client (4.3.8)
       faraday (>= 1.0.1, < 3.0)
       faraday-multipart
-    get_into_teaching_api_client_faraday (4.3.7.3)
+    get_into_teaching_api_client_faraday (4.3.8)
       activesupport
       faraday
       faraday-encoding
@@ -306,7 +306,7 @@ GEM
     faraday-gzip (3.1.0)
       faraday (>= 2.0, < 3)
       zlib (~> 3.0)
-    faraday-http-cache (2.6.1)
+    faraday-http-cache (2.7.0)
       faraday (>= 0.8)
     faraday-multipart (1.2.0)
       multipart-post (~> 2.0)
@@ -659,7 +659,10 @@ GEM
       rbs (>= 4.0.0)
       tsort
     redcarpet (3.6.1)
-    redis (4.8.1)
+    redis (5.4.1)
+      redis-client (>= 0.22.0)
+    redis-client (0.30.1)
+      connection_pool
     redlock (1.3.2)
       redis (>= 3.0.0, < 6.0)
     regexp_parser (2.12.0)
@@ -928,7 +931,7 @@ DEPENDENCIES
   faker (= 2.22.0)
   field_test (~> 1.0.0)
   geocoder
-  get_into_teaching_api_client_faraday (= 4.3.7.3)!
+  get_into_teaching_api_client_faraday (= 4.3.8)!
   google-cloud-bigquery
   govuk-components (~> 6.3)
   govuk_design_system_formbuilder (~> 6.4.0)
@@ -1099,7 +1102,7 @@ CHECKSUMS
   faraday-encoding (0.0.6) sha256=d7b9216c8ce26d0deb96c865524fd9d6cbe27a9f884b75697c87110196274654
   faraday-follow_redirects (0.5.0) sha256=5cde93c894b30943a5d2b93c2fe9284216a6b756f7af406a1e55f211d97d10ad
   faraday-gzip (3.1.0) sha256=320783690be169f9b7ddde11598b77156951343753f66a9ab98b1f6694433ff8
-  faraday-http-cache (2.6.1) sha256=7772ae61c5fe1c0243452dec1f069b15bcc3304e9436e4f8545ccdb5963c4285
+  faraday-http-cache (2.7.0) sha256=cd7ac4bbe6c08592ea7af6655f98b2f76c4db0bad31bf40340df5aad719f0d89
   faraday-multipart (1.2.0) sha256=7d89a949693714176f612323ca13746a2ded204031a6ba528adee788694ef757
   faraday-net_http (3.4.4) sha256=0e78af151747ed1b00f33e25973b4bc220d7f16c00c39676817c8b12331eb588
   faraday-retry (2.4.0) sha256=7b79c48fb7e56526faf247b12d94a680071ff40c9fda7cf1ec1549439ad11ebe
@@ -1111,8 +1114,8 @@ CHECKSUMS
   formatador (1.1.0) sha256=54e23e2af4d60bb9327c7fac62b29968e4cf28cee0111f726d0bdeadc85e06d0
   fugit (1.13.0) sha256=a4f093fce740da52f216740a5041e2a594ea763cdb89e8b2754ca4399634ab18
   geocoder (1.8.6) sha256=e0ca1554b499f466de9b003f7dff70f89a5888761c2ca68ed9f86b6e5e24e74c
-  get_into_teaching_api_client (4.3.7.3)
-  get_into_teaching_api_client_faraday (4.3.7.3)
+  get_into_teaching_api_client (4.3.8)
+  get_into_teaching_api_client_faraday (4.3.8)
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
   google-apis-bigquery_v2 (0.101.0) sha256=865d697c1d9d6dfcf18be4765d3a650e5fe0c81b2060f1bab054a74f463a8b01
   google-apis-core (1.0.2) sha256=ba4579aaadc902d6cc7bc8db88f566ab00f5e31ea87ab41e9f9a032c470f2629
@@ -1234,7 +1237,8 @@ CHECKSUMS
   rbs (4.2.0) sha256=51f7b886dcc05bc09e10b901daa6a81829f6adc03101d6ca9ea4aac6103e0674
   rdoc (8.0.0) sha256=03bf8c08a9639658855a0cfd77c0abca8325c227693f7f33f82957811348c469
   redcarpet (3.6.1) sha256=d444910e6aa55480c6bcdc0cdb057626e8a32c054c29e793fa642ba2f155f445
-  redis (4.8.1) sha256=387ee086694fffc9632aaeb1efe4a7b1627ca783bf373320346a8a20cd93333a
+  redis (5.4.1) sha256=b5e675b57ad22b15c9bcc765d5ac26f60b675408af916d31527af9bd5a81faae
+  redis-client (0.30.1) sha256=5151bc5c7bbfe48623732cdae3b900d8a22dc691cc7cdfacfb351ac55116522d
   redlock (1.3.2) sha256=6c7cea3d62c6e31e8df6b1924fdf89e35e5576e52dce10c62412e783bfe37277
   regexp_parser (2.12.0) sha256=35a916a1d63190ab5c9009457136ae5f3c0c7512d60291d0d1378ba18ce08ebb
   reline (0.7.0) sha256=5b012d8e55dbf9d450f12bde2cf7d15ff546ae80b3f8f3b30e570d431815583d

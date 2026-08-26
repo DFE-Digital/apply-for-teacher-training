@@ -120,7 +120,7 @@ gem 'pagy'
 gem 'bcrypt'
 
 # Adviser sign up integration
-gem 'get_into_teaching_api_client_faraday', '4.3.7.3', github: 'DFE-Digital/get-into-teaching-api-ruby-client', require: 'api/client'
+gem 'get_into_teaching_api_client_faraday', '4.3.8', github: 'DFE-Digital/get-into-teaching-api-ruby-client', require: 'api/client'
 
 # PDF generation
 gem 'grover'
