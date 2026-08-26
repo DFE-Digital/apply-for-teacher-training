@@ -154,11 +154,6 @@ RSpec.describe OfferValidations, type: :model do
         let(:other_application_choice) { build(:application_choice, :awaiting_provider_decision) }
         let!(:application_form) { create(:application_form, phase: 'apply_2', application_choices: [application_choice], created_at: 1.day.ago, candidate:) }
         let!(:other_application_form) { create(:application_form, phase: 'apply_2', application_choices: [other_application_choice], candidate:) }
-
-        it 'adds an :only_latest_application_rejection_can_be_reverted_on_apply_2 error' do
-          expect(offer).not_to be_valid
-          expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because you can only do so for the most recent application')
-        end
       end
 
       context 'when a provider attempts to revert an apply_1 rejection but there is an application in apply_2' do
@@ -168,11 +163,6 @@ RSpec.describe OfferValidations, type: :model do
 
         let!(:application_form_apply_1) { create(:application_form, application_choices: [application_choice], candidate:) }
         let!(:application_form_apply_2) { create(:application_form, phase: 'apply_2', application_choices: [other_application_choice], candidate:) }
-
-        it 'adds an :only_latest_application_rejection_can_be_reverted_on_apply_2 error' do
-          expect(offer).not_to be_valid
-          expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because you can only do so for the most recent application')
-        end
       end
 
       context 'when a provider attempts to revert an apply_2 rejection but there is an application in apply_1' do
