@@ -22,7 +22,7 @@ class CandidateInterface::ApplicationChoices::JanuaryStartContentComponent < App
   end
 
   def provider_deadline_content
-    return if after_winter_reject_by_default?
+    return if after_winter_reject_by_default? || application_choices.in_progress.blank?
 
     I18n.t(
       'candidate_interface.application_choices.january_start_component.provider_deadline_content',

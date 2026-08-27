@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::ApplicationChoices::JanuaryStartContentCompon
 
     let(:course) { build(:course, start_date: "01/01/#{next_year}") }
     let(:course_option) { build(:course_option, course:) }
-    let(:application_choice) { create(:application_choice, course_option:, application_form:) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option:, application_form:) }
     let(:rendered_component) { render_inline(described_class.new(application_form:)) }
 
     before { application_choice }
@@ -69,11 +69,32 @@ RSpec.describe CandidateInterface::ApplicationChoices::JanuaryStartContentCompon
   end
 
   describe '#provider_deadline_content' do
-    it 'returns content for providers regarding the winter reject by default date' do
-      expect(component.provider_deadline_content).to eq(
-        "Providers have until #{recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first)} " \
-        'to make decisions on these applications.',
-      )
+    let(:course) { build(:course, start_date: "01/01/#{next_year}") }
+    let(:course_option) { build(:course_option, course:) }
+
+    before { application_choice }
+
+    %i[awaiting_provider_decision interviewing offer pending_conditions recruited offer_deferred].each do |state|
+      context "when the application choice has state #{state}" do
+        let(:application_choice) { create(:application_choice, state, course_option:, application_form:) }
+
+        it 'returns content for providers regarding the winter reject by default date' do
+          expect(component.provider_deadline_content).to eq(
+            "Providers have until #{recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first)} " \
+            'to make decisions on these applications.',
+          )
+        end
+      end
+    end
+
+    %i[unsubmitted cancelled inactive rejected application_not_sent offer_withdrawn declined withdrawn conditions_not_met].each do |state|
+      context "when the application choice has state #{state}" do
+        let(:application_choice) { create(:application_choice, state, course_option:, application_form:) }
+
+        it 'returns nil' do
+          expect(component.provider_deadline_content).to be_nil
+        end
+      end
     end
   end
 
