@@ -181,12 +181,12 @@ class Candidate < ApplicationRecord
     end
   end
 
-private
-
   def previous_application
     @previous_application ||= current_application.previous_application_form.presence ||
                               ordered_application_forms.joins(:application_choices).where.not(id: current_application).last
   end
+
+private
 
   def ordered_application_forms
     @ordered_application_forms ||= application_forms.order(:created_at, :id)
