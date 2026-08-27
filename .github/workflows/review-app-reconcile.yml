@@ -22,8 +22,8 @@ env:
   TERRAFORM_BASE: terraform/aks
   TF_FILE: provider.tf
   SERVICE_NAME: apply
-  RESOURCE_GROUP_NAME: s189d01-att-rv-rg
-  STORAGE_ACCOUNT_NAME: s189d01atttfstatervsa
+  RESOURCE_GROUP_NAME: s189t01-att-rv-rg
+  STORAGE_ACCOUNT_NAME: s189t01atttfstatervsa
   CONTAINER_NAME: att-tfstate
 
 jobs:
@@ -117,3 +117,5 @@ jobs:
           storage-account-name: ${{ env.STORAGE_ACCOUNT_NAME }}
           container-name: ${{ env.CONTAINER_NAME }}
           tf-state-file: pr-${{ matrix.pr_number }}.tfstate
+          gcp-project-id: rugged-abacus-218110
+          gcp-wip: projects/712009772377/locations/global/workloadIdentityPools/apply-for-teacher-training/providers/apply-for-teacher-training
