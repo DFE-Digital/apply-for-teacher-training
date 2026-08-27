@@ -148,23 +148,6 @@ RSpec.describe OfferValidations, type: :model do
         end
       end
 
-      context 'when a provider attempts to revert a rejection on an application that is not the last one on apply_2' do
-        let(:candidate) { create(:candidate) }
-        let(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option, created_at: 1.day.ago) }
-        let(:other_application_choice) { build(:application_choice, :awaiting_provider_decision) }
-        let!(:application_form) { create(:application_form, phase: 'apply_2', application_choices: [application_choice], created_at: 1.day.ago, candidate:) }
-        let!(:other_application_form) { create(:application_form, phase: 'apply_2', application_choices: [other_application_choice], candidate:) }
-      end
-
-      context 'when a provider attempts to revert an apply_1 rejection but there is an application in apply_2' do
-        let(:candidate) { create(:candidate) }
-        let(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option) }
-        let!(:other_application_choice) { build(:application_choice, :awaiting_provider_decision) }
-
-        let!(:application_form_apply_1) { create(:application_form, application_choices: [application_choice], candidate:) }
-        let!(:application_form_apply_2) { create(:application_form, phase: 'apply_2', application_choices: [other_application_choice], candidate:) }
-      end
-
       context 'when a provider attempts to revert an apply_2 rejection but there is an application in apply_1' do
         let(:candidate) { create(:candidate) }
         let(:other_application_choice) { build(:application_choice, :rejected) }
