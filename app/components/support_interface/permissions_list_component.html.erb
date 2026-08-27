@@ -51,5 +51,15 @@
       <li><%= render IconComponent.new(type: 'cross') %>
       Access diversity information – No</li>
     <% end %>
+
+    <% if permission_model.manage_api_tokens? %>
+      <li>
+        <%= render IconComponent.new(type: 'check') %>
+        Manage API tokens – Yes
+      </li>
+    <% else %>
+      <li><%= render IconComponent.new(type: 'cross') %>
+        Manage API tokens– No</li>
+    <% end %>
   <% end %>
 </ul>

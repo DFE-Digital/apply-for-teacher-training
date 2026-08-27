@@ -42,6 +42,12 @@
               multiple: false,
               label: { text: 'Access diversity information' },
             ) %>
+        <%= ppf.govuk_check_box(
+              :manage_api_tokens,
+              true,
+              multiple: false,
+              label: { text: 'Manage API tokens' },
+              ) %>
       <% end %>
     <% end %>
   <% end %>
