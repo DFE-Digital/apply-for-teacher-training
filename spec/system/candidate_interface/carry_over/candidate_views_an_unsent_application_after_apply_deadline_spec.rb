@@ -43,8 +43,8 @@ private
   def and_i_can_view_the_application
     click_on @application_choice.provider.name
     expect(page).to have_current_path(
-    candidate_interface_course_choices_course_review_path(
-      application_choice_id: @application_choice.id,
+      candidate_interface_course_choices_course_review_path(
+        application_choice_id: @application_choice.id,
       ),
     )
     expect(page).to have_title("Your application to #{@application_choice.provider.name}")
