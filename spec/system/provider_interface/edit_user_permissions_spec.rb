@@ -104,14 +104,14 @@ private
       manage_api_token_interruption_provider_interface_organisation_settings_organisation_user_permissions_path(
         @manage_users_provider,
         @manageable_user,
-      )
+      ),
     )
     expect(page).to have_element(:h1, text: 'This will give the user access to all your organisation’s data in the API')
     expect(page).to have_element(:p, text: 'You are giving this user permission to manage API tokens.')
     expect(page).to have_element(
       :p,
-      text: 'They will not be able to view or manage anything you have not selected in this service.' \
-        ' However, anyone who can manage API tokens can use the API to access all data in your organisation.'
+      text: 'They will not be able to view or manage anything you have not selected in this service. ' \
+            'However, anyone who can manage API tokens can use the API to access all data in your organisation.',
     )
   end
 
@@ -120,7 +120,7 @@ private
       check_provider_interface_organisation_settings_organisation_user_permissions_path(
         @manage_users_provider,
         @manageable_user,
-      )
+      ),
     )
     expect(page).to have_text('Check and save user permissions')
   end
