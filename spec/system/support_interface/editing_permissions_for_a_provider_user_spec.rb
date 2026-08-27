@@ -79,7 +79,7 @@ RSpec.describe 'Managing provider users v2' do
   end
 
   def and_i_check_permission_to_access_diversity_information_for_the_second_provider
-    within all('.govuk-checkboxes__item').last do
+    within all('.govuk-fieldset').last do
       check 'Access diversity information'
     end
   end

@@ -7,7 +7,7 @@ module ProviderInterface
     def self.from_model(store, provider_permissions)
       wizard = new(store)
 
-      wizard.permissions ||= valid_permissions_as_string.select do |permission|
+      wizard.permissions ||= ProviderPermissions::VALID_PERMISSIONS.map(&:to_s).select do |permission|
         provider_permissions.send(permission)
       end
 

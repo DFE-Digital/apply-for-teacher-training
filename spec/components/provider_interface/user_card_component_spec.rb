@@ -44,6 +44,7 @@ RSpec.describe ProviderInterface::UserCardComponent do
         'send offers, invitations and rejections',
         'view criminal convictions and professional misconduct',
         'view sex, disability and ethnicity information',
+        'manage api tokens',
       ])
     end
   end

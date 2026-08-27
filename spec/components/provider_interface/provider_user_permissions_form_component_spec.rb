@@ -16,7 +16,13 @@ RSpec.describe ProviderInterface::ProviderUserPermissionsFormComponent do
   end
 
   it 'renders checkboxes for each of the user level permissions' do
-    expected_permission_text = ProviderPermissions::VALID_PERMISSIONS.map { |permission| I18n.t("user_permissions.#{permission}.description") }
+    expected_permission_text = ProviderPermissions::VALID_PERMISSIONS.map do |permission|
+      if permission == :manage_api_tokens
+        "#{I18n.t("user_permissions.#{permission}.description")}#{I18n.t("user_permissions.#{permission}.hint")}"
+      else
+        I18n.t("user_permissions.#{permission}.description")
+      end
+    end
     expect(render.css('.govuk-checkboxes__item').map(&:text)).to eq(expected_permission_text)
   end
 
