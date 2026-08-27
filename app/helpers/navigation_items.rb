@@ -8,7 +8,8 @@ class NavigationItems
     def candidate_primary_navigation(current_candidate:, current_controller:)
       return [] unless current_candidate
 
-      if current_candidate.current_application.any_offer_accepted?
+      if current_candidate.current_application.any_offer_accepted? ||
+         current_candidate.active_previous_application&.any_offer_accepted?
         [
           {
             text: t('page_titles.offer_dashboard'),

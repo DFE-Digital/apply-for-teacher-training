@@ -50,6 +50,37 @@ RSpec.describe NavigationItems do
           )
         end
       end
+
+      context 'when application choice from a previous recruitment cycle is accepted' do
+        let(:previous_application_form) do
+          create(
+            :completed_application_form,
+            candidate: current_candidate,
+            recruitment_cycle_year: current_candidate.current_application.recruitment_cycle_year - 1,
+            application_choices: previous_application_choices,
+          )
+        end
+        let(:application_choices) { [] }
+        let(:previous_application_choices) do
+          [
+            build(:application_choice, :pending_conditions, current_recruitment_cycle_year: current_candidate.current_application.recruitment_cycle_year - 1),
+          ]
+        end
+
+        before do
+          previous_application_form
+        end
+
+        it 'contains only the "Your offer" navigation item in the active state' do
+          expect(navigation_items).to contain_exactly(
+            {
+              text: 'Your offer',
+              href: candidate_interface_application_offer_dashboard_path,
+              active: true,
+            },
+          )
+        end
+      end
     end
 
     context 'when application_choice is unsubmitted and the controller is not a choices controller', time: mid_cycle do
