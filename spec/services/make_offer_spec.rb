@@ -82,6 +82,33 @@ RSpec.describe MakeOffer do
         make_offer.save!
         expect(cancel_upcoming_interviews).to have_received(:call!)
       end
+
+      context 'if the offer is for a previous cycle, january start choice', time: mid_cycle do
+        let(:carry_over_form) { create(:application_form, :carry_over) }
+        let(:application_choice) {
+          create(
+            :application_choice,
+            :awaiting_provider_decision,
+            :previous_year_but_still_available,
+            application_form: carry_over_form.previous_application_form,
+          )
+        }
+
+        it 'then calls various services' do
+          send_new_offer_email_to_candidate = instance_double(SendNewOfferEmailToCandidate, call: true)
+
+          allow(SendNewOfferEmailToCandidate)
+            .to receive(:new).with(application_choice:)
+            .and_return(send_new_offer_email_to_candidate)
+          allow(application_choice).to receive(:update_course_option_and_associated_fields!)
+
+          make_offer.save!
+
+          expect(send_new_offer_email_to_candidate).to have_received(:call)
+          expect(update_conditions_service).to have_received(:save)
+          expect(application_choice).to have_received(:update_course_option_and_associated_fields!)
+        end
+      end
     end
 
     describe 'audits', :with_audited do
