@@ -75,20 +75,20 @@ RSpec.describe CandidateInterface::ApplicationChoices::JanuaryStartContentCompon
     before { application_choice }
 
     %i[awaiting_provider_decision interviewing offer pending_conditions recruited offer_deferred].each do |state|
-      context "when the application choice has state #{state.to_s}" do
+      context "when the application choice has state #{state}" do
         let(:application_choice) { create(:application_choice, state, course_option:, application_form:) }
 
         it 'returns content for providers regarding the winter reject by default date' do
           expect(component.provider_deadline_content).to eq(
-             "Providers have until #{recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first)} " \
-               'to make decisions on these applications.',
-           )
+            "Providers have until #{recruitment_cycle_timetable.winter_reject_by_default_at.to_fs(:govuk_date_time_time_first)} " \
+            'to make decisions on these applications.',
+          )
         end
       end
     end
 
     %i[unsubmitted cancelled inactive rejected application_not_sent offer_withdrawn declined withdrawn conditions_not_met].each do |state|
-      context "when the application choice has state #{state.to_s}" do
+      context "when the application choice has state #{state}" do
         let(:application_choice) { create(:application_choice, state, course_option:, application_form:) }
 
         it 'returns nil' do
