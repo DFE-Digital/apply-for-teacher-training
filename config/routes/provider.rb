@@ -207,6 +207,7 @@ namespace :provider_interface, path: '/provider' do
             member do
               get :check
               put :commit
+              get 'manage-api-token-interruption' => 'user_permissions#manage_api_token_interruption', as: :manage_api_token_interruption
             end
           end
         end

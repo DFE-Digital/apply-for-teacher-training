@@ -1,0 +1,17 @@
+<% content_for :browser_title, t('page_titles.provider.user_permissions') %>
+<% content_for :before_content, govuk_back_link_to(edit_provider_interface_organisation_settings_organisation_user_permissions_path(@provider, @provider_user)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <div class="app-grid-column--grey">
+      <h1 class="govuk-heading-l"><%= t('.give_user_access_to_all_data') %></h1>
+      <p class="govuk-body">  <%= t('.giving_user_permission_to_manage_api_tokens') %></p>
+      <p class="govuk-body"><%= t('.will_not_be_able_to_view_or_manage') %></p>
+    </div>
+
+    <div class="govuk-button-group">
+      <%= govuk_button_link_to(t('continue'), check_provider_interface_organisation_settings_organisation_user_permissions_path(@provider, @provider_user)) %>
+      <%= govuk_link_to(t('.back_to_user_permissions'), edit_provider_interface_organisation_settings_organisation_user_permissions_path(@provider, @provider_user)) %>
+    </div>
+  </div>
+</div>

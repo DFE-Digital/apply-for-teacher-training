@@ -65,6 +65,13 @@ RSpec.describe 'Managing provider users v2' do
 
   def then_i_see_the_edit_permissions_form
     expect(page).to have_text("Change #{@provider_user.first_name} #{@provider_user.last_name}’s permissions")
+    expect(page).to have_field('Manage users', checked: false)
+    expect(page).to have_field('Manage organisation permissions', checked: false)
+    expect(page).to have_field('Manage interviews', checked: false)
+    expect(page).to have_field('Make decisions', checked: false)
+    expect(page).to have_field('Access safeguarding information', checked: false)
+    expect(page).to have_field('Access diversity information', checked: false)
+    expect(page).to have_field('Manage API tokens', checked: false)
   end
 
   def and_i_see_that_can_edit_permissions_for_both_providers
@@ -79,7 +86,7 @@ RSpec.describe 'Managing provider users v2' do
   end
 
   def and_i_check_permission_to_access_diversity_information_for_the_second_provider
-    within all('.govuk-checkboxes__item').last do
+    within all('.govuk-fieldset').last do
       check 'Access diversity information'
     end
   end

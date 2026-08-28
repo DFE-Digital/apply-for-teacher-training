@@ -33,6 +33,7 @@
         :permissions,
         permission.to_s,
         label: { text: t("user_permissions.#{permission}.description") },
+        hint: { text: (t("user_permissions.#{permission}.hint") if permission == :manage_api_tokens) },
       ) %>
     <% end %>
   <% end %>
