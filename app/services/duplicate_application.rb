@@ -51,8 +51,8 @@ class DuplicateApplication
           w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
         )
 
-        next unless international_gcse_equivalent_present?(w) && %w[english maths science].include?(w.subject)
-              && unstructured_qualification_from_a_structured_qualification_country?(w)
+        next unless international_gcse_equivalent_present?(w) && %w[english maths science].include?(w.subject) &&
+                    unstructured_qualification_from_a_structured_qualification_country?(w)
 
         new_application_form.update(
           "#{w.subject}_gcse_completed": false,
@@ -93,21 +93,11 @@ class DuplicateApplication
                                 **original_application_form.english_proficiency.efl_qualification.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
                               )
                             end
-        dup_english_proficiency = EnglishProficiency.create!(
+        EnglishProficiency.create!(
           **original_application_form.english_proficiency.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
           efl_qualification:,
           application_form: new_application_form,
         )
-        # TODO: Remove after 1 Nov
-        if dup_english_proficiency.qualification_statuses.blank?
-          if dup_english_proficiency.qualification_status == 'has_qualification'
-            dup_english_proficiency.update!(has_qualification: true)
-          elsif dup_english_proficiency.qualification_status == 'no_qualification'
-            dup_english_proficiency.update!(no_qualification: true)
-          elsif dup_english_proficiency.qualification_status == 'qualification_not_needed'
-            dup_english_proficiency.update!(qualification_not_needed: true)
-          end
-        end
       end
 
       original_application_form.application_work_history_breaks.each do |w|
@@ -172,8 +162,8 @@ private
   end
 
   def visa_expired?(original_application_form)
-    original_application_form.visa_expired_at.nil? || (original_application_form.visa_expired_at.present?
-        && original_application_form.visa_expired_at <= Time.zone.today)
+    original_application_form.visa_expired_at.nil? || (original_application_form.visa_expired_at.present? &&
+      original_application_form.visa_expired_at <= Time.zone.today)
   end
 
   def unstructured_qualification_from_a_structured_qualification_country?(qualification)

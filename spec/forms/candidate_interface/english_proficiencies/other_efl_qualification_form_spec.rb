@@ -74,7 +74,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::OtherEflQualificationFo
 
     it 'saves the qualification' do
       application_form = create(:application_form)
-      english_proficiency = create(:english_proficiency, :draft, application_form:, has_qualification: true)
+      english_proficiency = create(:english_proficiency, :draft, :with_ielts_qualification, application_form:)
 
       valid_form.application_form = application_form
       valid_form.english_proficiency = english_proficiency

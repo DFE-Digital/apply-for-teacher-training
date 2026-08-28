@@ -6,21 +6,6 @@ RSpec.describe EnglishProficiency do
     it { is_expected.to belong_to(:efl_qualification).optional.dependent(:destroy) }
   end
 
-  describe 'enums' do
-    subject(:english_proficiency) { build(:english_proficiency) }
-
-    it {
-      expect(english_proficiency).to(
-        define_enum_for(:qualification_status).with_values(
-          has_qualification: 'has_qualification',
-          no_qualification: 'no_qualification',
-          qualification_not_needed: 'qualification_not_needed',
-          degree_taught_in_english: 'degree_taught_in_english',
-        ).backed_by_column_of_type(:string),
-      )
-    }
-  end
-
   describe 'scopes' do
     describe '.draft' do
       let(:published_english_proficiency) { create(:english_proficiency) }

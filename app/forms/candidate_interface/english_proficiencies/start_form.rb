@@ -9,7 +9,7 @@ module CandidateInterface
 
       before_validation :normalise_qualification_statuses
 
-      validates :qualification_statuses, presence: true, inclusion: { in: EnglishProficiency.qualification_statuses.values }
+      validates :qualification_statuses, presence: true, inclusion: { in: EnglishProficiency::QUALIFICATION_STATUSES }
 
       def save
         return false unless valid?

@@ -59,7 +59,7 @@ RSpec.describe DataMigrations::BackfillEnglishProficiencyRecordsForCarriedOverAp
         )
         expect { data_migration }.to change(EnglishProficiency, :count).by(1)
         expect(application_form.english_proficiency.efl_qualification.present?).to be(false)
-        expect(application_form.english_proficiency.qualification_status).to eq('no_qualification')
+        expect(application_form.english_proficiency.no_qualification).to be(true)
       end
     end
   end

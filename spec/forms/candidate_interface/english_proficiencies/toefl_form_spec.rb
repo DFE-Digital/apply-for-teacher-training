@@ -81,7 +81,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ToeflForm, type: :model
 
     it 'saves the TOEFL qualification' do
       application_form = create(:application_form)
-      english_proficiency = create(:english_proficiency, :draft, application_form:, has_qualification: true)
+      english_proficiency = create(:english_proficiency, :draft, :with_ielts_qualification, application_form:)
 
       valid_form.application_form = application_form
       valid_form.english_proficiency = english_proficiency
@@ -104,7 +104,6 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ToeflForm, type: :model
           :english_proficiency,
           :with_toefl_qualification,
           application_form:,
-          has_qualification: true,
           efl_qualification: create(:toefl_qualification, total_score: 5),
         )
         application_form = proficiency.application_form
@@ -133,7 +132,6 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ToeflForm, type: :model
       create(
         :english_proficiency,
         :with_toefl_qualification,
-        has_qualification: true,
         efl_qualification:,
       )
     end

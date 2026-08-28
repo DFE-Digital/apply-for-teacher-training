@@ -95,7 +95,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::IeltsForm, type: :model
 
     it 'saves the IELTS qualification' do
       application_form = create(:application_form)
-      english_proficiency = create(:english_proficiency, :draft, application_form:, has_qualification: true)
+      english_proficiency = create(:english_proficiency, :draft, :with_ielts_qualification, application_form:)
 
       valid_form.application_form = application_form
       valid_form.english_proficiency = english_proficiency
@@ -123,7 +123,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::IeltsForm, type: :model
 
       it 'saves a sanitized grade' do
         application_form = create(:application_form)
-        english_proficiency = create(:english_proficiency, :draft, application_form:, has_qualification: true)
+        english_proficiency = create(:english_proficiency, :draft, :with_ielts_qualification, application_form:)
 
         valid_form_2.application_form = application_form
         valid_form_2.english_proficiency = english_proficiency
@@ -145,7 +145,6 @@ RSpec.describe CandidateInterface::EnglishProficiencies::IeltsForm, type: :model
           :english_proficiency,
           :with_ielts_qualification,
           application_form:,
-          has_qualification: true,
           efl_qualification: create(:ielts_qualification, band_score: '2'),
         )
 

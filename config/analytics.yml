@@ -390,7 +390,6 @@ shared:
     - efl_qualification_id
     - efl_qualification_type
     - id
-    - qualification_status
     - updated_at
     - has_qualification
     - no_qualification

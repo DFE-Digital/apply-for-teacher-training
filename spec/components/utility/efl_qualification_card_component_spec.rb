@@ -25,7 +25,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
   end
 
   context 'English is my first language and have efl' do
-    let(:english_proficiency) { create(:english_proficiency, :qualification_not_needed, :with_ielts_qualification) }
+    let(:english_proficiency) { create(:english_proficiency, :with_ielts_qualification, qualification_not_needed: true) }
 
     before { application_form.english_proficiency = english_proficiency }
 
