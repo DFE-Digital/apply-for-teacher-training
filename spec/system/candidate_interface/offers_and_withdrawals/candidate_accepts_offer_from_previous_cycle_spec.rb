@@ -14,6 +14,7 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
     and_i_click_on_view_and_respond_to_offer_link
     then_i_see_the_offer
     and_i_am_told_my_other_offer_will_be_automatically_declined
+    and_i_see_the_decline_by_default_warning
 
     when_i_continue_without_selecting_a_response
     then_i_see_and_error_message
@@ -115,6 +116,18 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
     then_i_see_the_new_dashboard_content
   end
 
+  scenario 'Candidate views an offer for a January start course and sees the winter decline by default warning' do
+    travel_temporarily_to(current_timetable.apply_deadline_at + 1.week) do
+      given_i_am_signed_in_with_one_login
+      and_i_have_2_offers_on_my_choices_with_january_start
+
+      when_i_visit_my_applications
+      and_i_click_to_view_my_application
+      then_i_see_the_offer
+      and_i_see_the_winter_decline_by_default_warning
+    end
+  end
+
   def and_i_sign_in
     given_i_am_signed_in_with_one_login
   end
@@ -134,6 +147,41 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
 
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
     other_course_option = course_option_for_provider_code(provider_code: 'DEF')
+
+    @provider_user = create(:provider_user, :with_notifications_enabled, providers: [@course_option.course.provider])
+
+    @application_choice = create(
+      :application_choice,
+      :offered,
+      course_option: @course_option,
+      application_form: @application_form,
+    )
+
+    @other_application_choice = create(
+      :application_choice,
+      :offered,
+      course_option: other_course_option,
+      application_form: @application_form,
+    )
+  end
+
+  def and_i_have_2_offers_on_my_choices_with_january_start
+    @current_candidate.application_forms.destroy_all
+    @application_form = create(
+      :completed_application_form,
+      first_name: 'Harry',
+      last_name: 'Potter',
+      candidate: @current_candidate,
+      submitted_at: Time.zone.now,
+      support_reference: '123A',
+    )
+
+    @application_form.application_references.update_all(feedback_status: 'not_requested_yet')
+
+    january_start_year = @application_form.recruitment_cycle_timetable.relative_next_year
+
+    @course_option = course_option_for_provider_code(provider_code: 'ABC', start_date: DateTime.new(january_start_year, 1, 1))
+    other_course_option = course_option_for_provider_code(provider_code: 'DEF', start_date: DateTime.new(january_start_year, 1, 1))
 
     @provider_user = create(:provider_user, :with_notifications_enabled, providers: [@course_option.course.provider])
 
@@ -184,6 +232,15 @@ RSpec.describe 'Candidate accepts an offer and updates references between cycles
 
   def and_i_am_told_my_other_offer_will_be_automatically_declined
     expect(page).to have_text('If you accept this offer, your other offer will be automatically declined.')
+  end
+
+  def and_i_see_the_decline_by_default_warning
+    expect(page).to have_text("Respond before #{RecruitmentCycleTimetable.current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}")
+  end
+
+  def and_i_see_the_winter_decline_by_default_warning
+    expect(page).to have_text("Respond before #{RecruitmentCycleTimetable.current_timetable.winter_decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}")
+    expect(page).to have_no_text("Respond before #{RecruitmentCycleTimetable.current_timetable.decline_by_default_at.to_fs(:govuk_time_first_no_year_date_time)}")
   end
 
   def when_i_continue_without_selecting_a_response
