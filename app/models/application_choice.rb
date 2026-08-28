@@ -36,7 +36,7 @@ class ApplicationChoice < ApplicationRecord
   has_many :volunteering_experiences, as: :experienceable, class_name: 'ApplicationVolunteeringExperience', dependent: :destroy
   has_many :work_history_breaks, as: :breakable, class_name: 'ApplicationWorkHistoryBreak', dependent: :destroy
 
-  has_many :published_invites, -> { published }, class_name: 'Pool::Invite', dependent: :destroy
+  has_many :published_invites, -> { published }, class_name: 'Pool::Invite', dependent: nil
 
   validates_with ReapplyValidator, reappliable: true
 
