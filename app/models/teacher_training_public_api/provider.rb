@@ -1,7 +1,7 @@
 module TeacherTrainingPublicAPI
   class Provider < TeacherTrainingPublicAPI::Resource
     belongs_to :recruitment_cycle, param: :year
-    has_many :courses
+    has_many :courses, dependent: nil
 
     def self.fetch(provider_code)
       where(year: ::RecruitmentCycleTimetable.current_year)

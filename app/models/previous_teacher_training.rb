@@ -2,7 +2,7 @@ class PreviousTeacherTraining < ApplicationRecord
   belongs_to :application_form
   belongs_to :provider, optional: true
   belongs_to :duplicate_previous_teacher_training, class_name: 'PreviousTeacherTraining', optional: true
-  has_one :source_previous_teacher_training, class_name: 'PreviousTeacherTraining', foreign_key: 'duplicate_previous_teacher_training_id'
+  has_one :source_previous_teacher_training, class_name: 'PreviousTeacherTraining', foreign_key: 'duplicate_previous_teacher_training_id', dependent: nil
 
   audited associated_with: :application_form, if: :audit_enabled?
   has_associated_audits

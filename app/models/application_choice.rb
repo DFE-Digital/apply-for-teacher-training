@@ -24,7 +24,7 @@ class ApplicationChoice < ApplicationRecord
   has_one :current_course, through: :current_course_option, source: :course
   has_one :current_provider, through: :current_course, source: :provider
   has_one :current_accredited_provider, through: :current_course, source: :accredited_provider
-  has_one :offer
+  has_one :offer, dependent: :destroy
 
   has_many :notes, dependent: :destroy
   has_many :interviews, dependent: :destroy
@@ -36,7 +36,7 @@ class ApplicationChoice < ApplicationRecord
   has_many :volunteering_experiences, as: :experienceable, class_name: 'ApplicationVolunteeringExperience', dependent: :destroy
   has_many :work_history_breaks, as: :breakable, class_name: 'ApplicationWorkHistoryBreak', dependent: :destroy
 
-  has_many :published_invites, -> { published }, class_name: 'Pool::Invite'
+  has_many :published_invites, -> { published }, class_name: 'Pool::Invite', dependent: :destroy
 
   validates_with ReapplyValidator, reappliable: true
 

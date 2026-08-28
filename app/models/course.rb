@@ -1,12 +1,12 @@
 class Course < ApplicationRecord
   belongs_to :provider
-  has_many :course_options
+  has_many :course_options, dependent: :destroy
   has_many :application_choices, through: :course_options
-  has_many :published_invites, -> { published }, class_name: 'Pool::Invite'
+  has_many :published_invites, -> { published }, class_name: 'Pool::Invite', dependent: :destroy
   has_many :sites, through: :course_options
-  has_many :course_subjects
+  has_many :course_subjects, dependent: nil
   has_many :subjects, through: :course_subjects
-  has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
+  has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year, dependent: nil
   delegate :next_year?, :find_opens_at, to: :recruitment_cycle_timetable
 
   belongs_to :accredited_provider, class_name: 'Provider', optional: true

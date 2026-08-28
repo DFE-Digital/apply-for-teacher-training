@@ -3,5 +3,5 @@ class Vendor < ApplicationRecord
   validates :name, presence: true
 
   normalizes :name, with: ->(name) { name.strip.gsub('&', 'and').parameterize.underscore }
-  has_many :providers
+  has_many :providers, dependent: nil
 end

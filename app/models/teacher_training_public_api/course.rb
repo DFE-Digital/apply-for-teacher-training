@@ -7,7 +7,7 @@ module TeacherTrainingPublicAPI
 
     belongs_to :recruitment_cycle, through: :provider, param: :year
     belongs_to :provider, param: :provider_code
-    has_many :locations
+    has_many :locations, dependent: nil
 
     def name_and_code
       "#{name} (#{code})"

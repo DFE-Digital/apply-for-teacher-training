@@ -38,7 +38,7 @@ Rails/OutputSafety:
   Enabled: false
 
 Rails/HasManyOrHasOneDependent:
-  Enabled: false
+  Enabled: true
 
 Rails/InverseOf:
   Enabled: false

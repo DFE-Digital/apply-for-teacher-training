@@ -6,17 +6,17 @@ class ProviderUser < ApplicationRecord
   has_many :provider_permissions, dependent: :destroy
   has_many :providers, through: :provider_permissions
   has_many :notes, dependent: :destroy
-  has_many :pool_invites, class_name: 'Pool::Invite', foreign_key: 'invited_by_id'
-  has_many :regional_report_filters
+  has_many :pool_invites, class_name: 'Pool::Invite', foreign_key: 'invited_by_id', dependent: nil
+  has_many :regional_report_filters, dependent: :destroy
 
-  has_one :find_a_candidate_all_filter, -> { find_candidates_all.order(updated_at: :desc) }, class_name: 'ProviderUserFilter'
-  has_one :find_a_candidate_not_seen_filter, -> { find_candidates_not_seen.order(updated_at: :desc) }, class_name: 'ProviderUserFilter'
-  has_one :find_candidates_invited_filter, -> { find_candidates_invited.order(updated_at: :desc) }, class_name: 'ProviderUserFilter'
+  has_one :find_a_candidate_all_filter, -> { find_candidates_all.order(updated_at: :desc) }, class_name: 'ProviderUserFilter', dependent: :destroy
+  has_one :find_a_candidate_not_seen_filter, -> { find_candidates_not_seen.order(updated_at: :desc) }, class_name: 'ProviderUserFilter', dependent: :destroy
+  has_one :find_candidates_invited_filter, -> { find_candidates_invited.order(updated_at: :desc) }, class_name: 'ProviderUserFilter', dependent: :destroy
 
-  has_many :pool_views, -> { status_viewed }, class_name: 'ProviderPoolAction', foreign_key: 'actioned_by_id'
-  has_many :provider_user_filters
+  has_many :pool_views, -> { status_viewed }, class_name: 'ProviderPoolAction', foreign_key: 'actioned_by_id', dependent: :destroy
+  has_many :provider_user_filters, dependent: :destroy
   has_many :dsi_sessions, as: :user, dependent: :destroy
-  has_one :notification_preferences, class_name: 'ProviderUserNotificationPreferences'
+  has_one :notification_preferences, class_name: 'ProviderUserNotificationPreferences', dependent: :destroy
   attr_accessor :impersonator
 
   validates :dfe_sign_in_uid, uniqueness: true, allow_nil: true

@@ -28,6 +28,13 @@ RSpec.describe DeleteCandidatesWorker do
         last_signed_in_at: 8.years.ago,
       )
     }
+    let!(:session_error) { create(:session_error, candidate:) }
+    let!(:account_recovery_request_code) {
+      create(
+        :account_recovery_request_code,
+        account_recovery_request: candidate.account_recovery_request,
+      )
+    }
     let(:expected_records_deleted) {
       [
         Session,
@@ -36,6 +43,8 @@ RSpec.describe DeleteCandidatesWorker do
         ApplicationQualification,
         ApplicationReference,
         ApplicationExperience,
+        ApplicationWorkHistoryBreak,
+        ApplicationVolunteeringExperience,
         AccountRecoveryRequest,
         PossiblePreviousTeacherTraining,
         PreviousTeacherTraining,
@@ -51,6 +60,16 @@ RSpec.describe DeleteCandidatesWorker do
         Note,
         CandidatePreference,
         CandidateLocationPreference,
+        DeferredOfferConfirmation,
+        SessionError,
+        Notification,
+        Adviser::SignUpRequest,
+        PoolEligibleApplicationForm,
+        ChaserSent,
+        ProviderPoolAction,
+        ReferenceToken,
+        Pool::InviteDeclineReason,
+        AccountRecoveryRequestCode,
       ]
     }
     let!(:application_form) {
@@ -73,12 +92,32 @@ RSpec.describe DeleteCandidatesWorker do
         candidate:,
       )
     }
+    let!(:adviser_sign_up_request) { create(:adviser_sign_up_request, application_form:) }
+    let!(:pool_eligible_application_form) { create(:pool_eligible_application_form, application_form:) }
+    let!(:chaser_sent) { create(:chaser_sent, chased: application_form) }
+    let!(:provider_pool_action) { create(:provider_pool_action, application_form:) }
+    let!(:notification) { create(:notification, notified: application_form) }
+    let!(:reference_token) {
+      create(
+        :reference_token,
+        application_reference: application_form.application_references.first,
+      )
+    }
+    let!(:pool_invite_decline_reason) {
+      create(
+        :pool_invite_decline_reason,
+        invite: application_form.published_invites.first,
+      )
+    }
     let!(:offered_choice) {
       create(
         :application_choice,
         :offered,
         application_form:,
       )
+    }
+    let!(:deffered_offer) {
+      create(:deferred_offer_confirmation, offer: offered_choice.offer, provider_user: create(:provider_user, create_notification_preference: false))
     }
     let!(:interview_choice) {
       create(
@@ -120,6 +159,22 @@ RSpec.describe DeleteCandidatesWorker do
       expect(DeletedCandidate.first.deleted_records['application_choices'].sort).to eq(application_choice_ids)
       # return only analytics records
       expect(DeletedCandidate.first.deleted_records['sessions']).to be_nil
+
+      expected_deleted_records = %w[previous_teacher_trainings candidate_preferences
+                                    candidate_location_preferences candidates pool_invites
+                                    one_login_auths account_recovery_requests application_choices
+                                    application_experiences application_work_history_breaks
+                                    application_forms application_qualifications
+                                    email_clicks english_proficiencies
+                                    interviews notes offer_conditions offers references withdrawal_reasons
+                                    adviser_sign_up_requests pool_eligible_application_forms chasers_sent
+                                    reference_tokens pool_invite_decline_reasons account_recovery_request_codes]
+
+      expected_deleted_records.each do |key|
+        raise "Key #{key} not in expected_deleted_records" if DeletedCandidate.first.deleted_records.keys.exclude?(key)
+
+        expect(DeletedCandidate.first.deleted_records.keys.include?(key)).to be(true)
+      end
     end
   end
 end

@@ -9,7 +9,7 @@ class Pool::Invite < ApplicationRecord
   belongs_to :provider
   belongs_to :invited_by, class_name: 'ProviderUser'
   belongs_to :course
-  has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
+  has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year, dependent: nil
   has_many :application_choices, through: :application_form
 
   has_many :invite_decline_reasons, class_name: 'Pool::InviteDeclineReason', dependent: :destroy

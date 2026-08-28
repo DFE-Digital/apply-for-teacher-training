@@ -469,7 +469,7 @@ FactoryBot.define do
 
     trait :with_pool_invite do
       after(:create) do |application_form, _|
-        create(:pool_invite, application_form:)
+        create(:pool_invite, application_form:, status: :published)
       end
     end
 

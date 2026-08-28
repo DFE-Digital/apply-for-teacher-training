@@ -7,6 +7,7 @@ class Offer < ApplicationRecord
   has_many :all_conditions, -> { order(:created_at) }, class_name: 'OfferCondition', dependent: :destroy
 
   has_one :course_option, through: :application_choice, source: :current_course_option
+  has_one :deferred_offer_confirmation, dependent: :destroy
 
   delegate :course, :site, :study_mode, :provider, :accredited_provider, to: :course_option
   delegate :offered_at, to: :application_choice
