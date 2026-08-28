@@ -26,29 +26,6 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "3047387505064b3730af73563c1cf488d127a17f7fedb340b3f5e9c15c22ce5b",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/workers/delete_old_candidates_worker.rb",
-      "line": 87,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "ActiveRecord::Base.connection.execute(\"SELECT id FROM #{ActiveRecord::Base.connection.quote_table_name(result[\"child_table\"])} WHERE #{result[\"fk_column\"].split(\", \").map do\n ActiveRecord::Base.connection.quote_column_name(column)\n end.join(\", \")} IN (#{hash[result[\"parent_table\"]].map do\n ActiveRecord::Base.connection.quote(Integer(id))\n end.join(\", \")})\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "DeleteCandidatesWorker",
-        "method": "sql_cascade_records"
-      },
-      "user_input": "result[\"fk_column\"].split(\", \").map do\n ActiveRecord::Base.connection.quote_column_name(column)\n end.join(\", \")",
-      "confidence": "Medium",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
       "fingerprint": "3299495e319be7f1fe6ef43672dcb25e2c3fa3e7f5f953d24e18344b4be0777f",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -122,7 +99,7 @@
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/one_login_controller.rb",
-      "line": 68,
+      "line": 70,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(logout_one_login((Current.session.id_token_hint or SessionError.find_by(:id => session[:session_error_id]).id_token_hint)), :allow_other_host => true)",
       "render_path": null,
@@ -185,5 +162,5 @@
       "note": ""
     }
   ],
-  "brakeman_version": "8.0.6"
+  "brakeman_version": "8.0.1"
 }
