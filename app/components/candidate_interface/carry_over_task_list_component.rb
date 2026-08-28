@@ -88,7 +88,7 @@ module CandidateInterface
     end
 
     def efl_link
-      if !application_form.efl_completed
+      if !application_form.efl_completed && application_form.international_applicant?
         Section.new(
           name: :efl,
           link: govuk_link_to(
