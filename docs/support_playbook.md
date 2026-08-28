@@ -908,34 +908,6 @@ Create a branch locally
 Run `ProductionRecruitmentCycleTimetablesAPI::RefreshSeedData.new.call` -- This updates the csv which is used to seed timetables in review apps, tests, and development
 Update the file `spec/examples/production_recruitment_cycle_timetables_api.json` (easiest way to do this is just hit the [production api](https://www.apply-for-teacher-training.service.gov.uk/publications/recruitment-cycle-timetables.json) and copy and paste the results)
 
-## Generating Vendor API Tokens
-
-Before generating a new Vendor API token:
-- Check that the request is legitimate and has been approved by the relevant team.
-- Check that the request is coming from a Provider User with "Manage Organisation Permissions" (the most amount of access) as API tokens give full access to the Provider's data.
-- check that the Provider has created a Sandbox integration and that the Vendor has been onboarded to the Sandbox environment.
-
-Ensure that the Provider User is aware of the following:
-- API tokens are sensitive and should be treated like passwords.
-- API tokens should be stored securely, such as in a password manager.
-- API tokens should not be shared with anyone outside the Provider's team.
-- If an API token is compromised, it should be revoked immediately (contact us immediately).
-
-We now have an interface available for Provider Users to manage their own API tokens.
-
-To enable this, it is still a manual process for granting access via the `manage_api_tokens` permission.
-
-```ruby
-provider = Provider.find_by(code: 'PROVIDER_CODE')
-provider_user = ProviderUser.find_by(email_address: 'PROVIDER_USER_EMAIL')
-provider_user_permission = ProviderPermissions.find_by(provider_user:, provider:)
-provider_user_permission.update(
-  manage_api_tokens: true,
-  audit_comment: 'ZENDESK_URL'
-)
-```
-
-The Provider User can now create their own API tokens via the Organisation Settings UI.
 
 ## Changing application choices to main site
 
