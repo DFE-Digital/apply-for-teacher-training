@@ -1,7 +1,6 @@
 module Publications
   class MonthlyStatisticsController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
-    before_action MonthlyStatisticsRedirectFilter, only: %i[index by_month download by_year]
 
     def index
       @current_timetable = RecruitmentCycleTimetable.current_timetable
@@ -30,8 +29,6 @@ module Publications
 
       send_data csv.data, filename: csv.filename, disposition: :attachment
     end
-
-    def temporarily_unavailable; end
 
   private
 
