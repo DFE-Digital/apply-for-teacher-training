@@ -638,10 +638,9 @@ private
 
     return if application_form.english_proficiency.present?
 
-    qualification_status = EnglishProficiency.qualification_statuses.values.sample
+    qualification_status = EnglishProficiency::QUALIFICATION_STATUSES.sample
     EnglishProficiency.create!(
       application_form:,
-      qualification_status:,
       qualification_status.to_s => true,
       draft: false,
       no_qualification_details: if %w[no_qualification degree_taught_in_english].include?(qualification_status.to_s.downcase)

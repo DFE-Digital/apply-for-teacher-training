@@ -1,4 +1,6 @@
 class EnglishProficiency < ApplicationRecord
+  self.ignored_columns += [:qualification_status]
+
   include TouchApplicationChoices
 
   audited associated_with: :application_form
@@ -6,12 +8,7 @@ class EnglishProficiency < ApplicationRecord
   belongs_to :application_form
   belongs_to :efl_qualification, polymorphic: true, optional: true, dependent: :destroy
 
-  enum :qualification_status, {
-    no_qualification: 'no_qualification',
-    qualification_not_needed: 'qualification_not_needed',
-    degree_taught_in_english: 'degree_taught_in_english',
-    has_qualification: 'has_qualification',
-  }
+  QUALIFICATION_STATUSES = %w[no_qualification qualification_not_needed degree_taught_in_english has_qualification].freeze
 
   scope :draft, -> { where(draft: true) }
 
@@ -46,7 +43,7 @@ class EnglishProficiency < ApplicationRecord
 
   def qualification_statuses
     statuses = []
-    EnglishProficiency.qualification_statuses.each_key do |key|
+    EnglishProficiency::QUALIFICATION_STATUSES.each do |key|
       statuses << key if try(key)
     end
 

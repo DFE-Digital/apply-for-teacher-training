@@ -237,8 +237,8 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
       before do
         create(
           :english_proficiency,
+          :with_ielts_qualification,
           application_form:,
-          has_qualification: true,
           degree_taught_in_english: true,
           qualification_not_needed: true,
         )
