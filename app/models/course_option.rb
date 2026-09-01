@@ -1,8 +1,8 @@
 class CourseOption < ApplicationRecord
   belongs_to :course
   belongs_to :site
-  has_many :application_choices
-  has_many :current_application_choices, class_name: 'ApplicationChoice', foreign_key: :current_course_option, inverse_of: :current_course_option
+  has_many :application_choices, dependent: nil
+  has_many :current_application_choices, class_name: 'ApplicationChoice', foreign_key: :current_course_option, inverse_of: :current_course_option, dependent: nil
 
   audited associated_with: :provider
   delegate :provider, to: :course

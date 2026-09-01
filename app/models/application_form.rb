@@ -13,7 +13,8 @@ class ApplicationForm < ApplicationRecord
   include HasApplicableDegreeForAdviser
   include ChoiceLimitsCalculator
 
-  has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
+  has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year, dependent: nil
+
   delegate :apply_deadline_at,
            :reject_by_default_at,
            :decline_by_default_at,
@@ -35,20 +36,20 @@ class ApplicationForm < ApplicationRecord
            to: :recruitment_cycle_timetable
 
   belongs_to :candidate, touch: true
-  has_many :application_choices
+  has_many :application_choices, dependent: :destroy
   has_many :course_options, through: :application_choices
   has_many :courses, through: :application_choices
   has_many :providers, through: :application_choices
-  has_many :application_work_experiences, as: :experienceable
-  has_many :application_volunteering_experiences, as: :experienceable
-  has_many :application_qualifications
-  has_many :degree_qualifications, -> { degrees }, class_name: 'ApplicationQualification'
+  has_many :application_work_experiences, as: :experienceable, dependent: :destroy
+  has_many :application_volunteering_experiences, as: :experienceable, dependent: :destroy
+  has_many :application_qualifications, dependent: :destroy
+  has_many :degree_qualifications, -> { degrees }, class_name: 'ApplicationQualification', dependent: :destroy
   has_many(
     :degree_qualifications_order_award_year_desc,
     -> { degrees.order(award_year: :desc) },
     class_name: 'ApplicationQualification',
+    dependent: :destroy,
   )
-
   has_many :preferences, dependent: :destroy, class_name: 'CandidatePreference'
   has_one :published_preference, -> { published.order(id: :desc) }, dependent: :destroy, class_name: 'CandidatePreference'
   has_many :published_preferences, -> { where(status: 'published') }, dependent: :destroy, class_name: 'CandidatePreference'
@@ -57,14 +58,18 @@ class ApplicationForm < ApplicationRecord
   has_many :published_opt_in_location_preferences, class_name: 'CandidateLocationPreference', through: :published_opt_in_preferences, source: :location_preferences
   has_many :published_location_preferences, class_name: 'CandidateLocationPreference', through: :published_preferences, source: :location_preferences
   has_many :notifications, as: :notified, dependent: :destroy
+  has_many :provider_pool_actions, dependent: :destroy
 
   delegate :opt_in?, to: :published_preference, prefix: true, allow_nil: true
 
-  has_many :application_references
-  has_many :application_work_history_breaks, as: :breakable
-  has_many :emails
+  has_many :application_references, dependent: :destroy
+  has_many :application_work_history_breaks, as: :breakable, dependent: :destroy
+  has_many :emails, dependent: :destroy
 
-  has_one :candidate_pool_application
+  has_one :adviser_sign_up_requests, dependent: :destroy, class_name: 'Adviser::SignUpRequest'
+  has_one :pool_eligible_application_form, dependent: :destroy
+  has_one :candidate_pool_application, dependent: :destroy
+
   has_many(
     :published_previous_teacher_trainings,
     -> { published.order(created_at: :desc) },
@@ -78,10 +83,10 @@ class ApplicationForm < ApplicationRecord
   has_one :english_proficiency, -> { where(draft: false).order(created_at: :desc) }, class_name: 'EnglishProficiency', dependent: :destroy
   has_many :english_proficiencies, dependent: :destroy
 
-  has_many :application_feedback
+  has_many :application_feedback, dependent: :destroy
 
-  has_many :published_invites, -> { published }, class_name: 'Pool::Invite'
-  has_many :not_responded_published_invites, -> { published.not_responded.where(course_open: true) }, class_name: 'Pool::Invite'
+  has_many :published_invites, -> { published }, class_name: 'Pool::Invite', dependent: :destroy
+  has_many :not_responded_published_invites, -> { published.not_responded.where(course_open: true) }, class_name: 'Pool::Invite', dependent: :destroy
 
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year) }
   scope :previous_cycle, -> { where(recruitment_cycle_year: RecruitmentCycleTimetable.previous_year) }

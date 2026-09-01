@@ -1,22 +1,23 @@
 class Provider < ApplicationRecord
   belongs_to :vendor, optional: true
-  has_many :courses
-  has_many :sites
+  has_many :courses, dependent: nil
+  has_many :sites, dependent: nil
+
   has_many :course_options, through: :courses
   has_many :application_choices, through: :course_options
   has_many :application_forms, through: :application_choices
   has_many :application_references, through: :application_forms
-  has_many :accredited_courses, class_name: 'Course', inverse_of: :accredited_provider, foreign_key: :accredited_provider_id
+  has_many :accredited_courses, class_name: 'Course', inverse_of: :accredited_provider, foreign_key: :accredited_provider_id, dependent: nil
 
   has_many :provider_permissions, dependent: :destroy
   has_many :provider_users, through: :provider_permissions
-  has_many :training_provider_permissions, class_name: 'ProviderRelationshipPermissions', foreign_key: :training_provider_id
-  has_many :ratifying_provider_permissions, class_name: 'ProviderRelationshipPermissions', foreign_key: :ratifying_provider_id
-  has_many :provider_agreements
-  has_many :vendor_api_requests
-  has_many :vendor_api_tokens
+  has_many :training_provider_permissions, class_name: 'ProviderRelationshipPermissions', foreign_key: :training_provider_id, dependent: nil
+  has_many :ratifying_provider_permissions, class_name: 'ProviderRelationshipPermissions', foreign_key: :ratifying_provider_id, dependent: nil
+  has_many :provider_agreements, dependent: :destroy
+  has_many :vendor_api_requests, dependent: nil
+  has_many :vendor_api_tokens, dependent: :destroy
 
-  has_many :performance_reports, class_name: 'Publications::ProviderRecruitmentPerformanceReport'
+  has_many :performance_reports, class_name: 'Publications::ProviderRecruitmentPerformanceReport', dependent: nil
 
   enum :region_code, {
     east_midlands: 'east_midlands',

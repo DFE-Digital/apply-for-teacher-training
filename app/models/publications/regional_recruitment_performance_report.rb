@@ -1,7 +1,7 @@
 module Publications
   class RegionalRecruitmentPerformanceReport < ApplicationRecord
     validates :cycle_week, :region, :publication_date, presence: true
-    has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year
+    has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year, dependent: nil
 
     enum :region, ReportSharedEnums.england_regions
   end
