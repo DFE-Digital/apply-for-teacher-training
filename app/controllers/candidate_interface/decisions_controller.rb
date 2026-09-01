@@ -7,7 +7,6 @@ module CandidateInterface
 
     def offer
       @respond_to_offer = CandidateInterface::RespondToOfferForm.new
-      @decline_by_default_date = current_timetable.decline_by_default_at
       @back_link = if params['return_to'] == 'invites'
                      candidate_interface_invites_path
                    else
@@ -22,7 +21,6 @@ module CandidateInterface
 
       if @respond_to_offer.invalid?
         @offer_count = active_application_choices.offer.count
-        @decline_by_default_date = current_timetable.decline_by_default_at
         render :offer
       elsif @respond_to_offer.decline?
         redirect_to candidate_interface_decline_offer_path(@application_choice)
@@ -83,5 +81,23 @@ module CandidateInterface
       end
     end
     helper_method :course_choice_rows
+
+    def decline_by_default_warning
+      if @application_choice.starts_after_september?
+        RecruitmentCycleTimetable.current_timetable.between_apply_deadline_and_winter_decline_by_default?
+      else
+        RecruitmentCycleTimetable.current_timetable.between_apply_deadline_and_decline_by_default?
+      end
+    end
+    helper_method :decline_by_default_warning
+
+    def decline_by_default_date
+      if @application_choice.starts_after_september?
+        current_timetable.winter_decline_by_default_at
+      else
+        current_timetable.decline_by_default_at
+      end
+    end
+    helper_method :decline_by_default_date
   end
 end

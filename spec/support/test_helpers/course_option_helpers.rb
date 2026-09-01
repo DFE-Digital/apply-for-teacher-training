@@ -5,9 +5,10 @@ module CourseOptionHelpers
     create(:course_option, course:, site:, study_mode:)
   end
 
-  def course_option_for_provider_code(provider_code:)
+  def course_option_for_provider_code(provider_code:, start_date: nil)
     provider = Provider.find_by(code: provider_code) || create(:provider, code: provider_code)
     course = build(:course, :open, provider:)
+    course.start_date = start_date if start_date
     site = build(:site, provider:)
     create(:course_option, course:, site:)
   end
