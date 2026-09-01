@@ -185,4 +185,42 @@ RSpec.describe ProviderInterface::FindCandidates::ApplicationChoicesComponent, t
       expect(page).to have_text('"Too many grammar mistakes"')
     end
   end
+
+  context 'when the course is primary' do
+    let(:course) { create(:course, :primary, provider: provider, age_range: '3 to 7') }
+    let(:course_option) { create(:course_option, course:) }
+    let!(:application_choice) do
+      create(:application_choice,
+             :withdrawn,
+             course_option:,
+             application_form:)
+    end
+
+    it 'renders the subject name and course age range' do
+      render_inline(described_class.new(application_form:, provider_user:))
+
+      expect(page).to have_text('Subject')
+      subject_names = course.subjects.pluck(:name).to_sentence
+      expect(page).to have_text("#{subject_names} (3 to 7)")
+    end
+  end
+
+  context 'when the course is not primary' do
+    let(:course) { create(:course, :secondary, provider: provider) }
+    let(:course_option) { create(:course_option, course:) }
+    let!(:application_choice) do
+      create(:application_choice,
+             :withdrawn,
+             course_option:,
+             application_form:)
+    end
+
+    it 'renders the subject name only' do
+      render_inline(described_class.new(application_form:, provider_user:))
+
+      expect(page).to have_text('Subject')
+      subject_names = course.subjects.pluck(:name).to_sentence
+      expect(page).to have_text(subject_names)
+    end
+  end
 end
