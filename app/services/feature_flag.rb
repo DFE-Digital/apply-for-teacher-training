@@ -20,13 +20,11 @@ class FeatureFlag
     [:enable_chat_support, 'Enable Zendesk chat support', 'Apply team'],
     [:draft_vendor_api_specification, 'The specification for upcoming vendor API releases', 'Abeer Salameh'],
     [:adviser_sign_up, 'Allow candidates to sign up for a teacher training adviser', 'Ross Oliver'],
-    [:monthly_statistics_redirected, 'Redirect requests for Publications Monthly Statistics to temporarily unavailable', 'Iain McNulty'],
     [:one_login_candidate_sign_in, 'Use one login to authenticate candidates. When turned off we will default to magic link authentification', 'Apply team'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
     [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],
-    [:api_token_management, 'Allow provider users to manage their own api tokens', 'Apply team'],
     [:ms_clarity, 'Record sessions with MS Clarity'],
     [:import_non_disclosure_trainee_withdrawals, 'Import Non-disclosure data from BigQuery to generate Possible Previous Teacher Training records', 'Apply team'],
     ['2027_visa_expiry', 'Collect visa expiry dates for candidates', 'Apply team'],

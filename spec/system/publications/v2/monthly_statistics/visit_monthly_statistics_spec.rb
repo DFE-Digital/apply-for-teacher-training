@@ -14,19 +14,11 @@ RSpec.describe 'Visit Monthly statistics V2 page', mid_cycle: false do
   end
 
   scenario 'User can visit the monthly statistics page when it is enabled' do
-    given_the_monthly_statistics_redirect_is_disabled
     and_i_visit_the_monthly_statistics_page
     and_i_see_the_monthly_statistics
   end
 
-  scenario 'User is redirected on monthly statistics page when it is disabled' do
-    given_the_monthly_statistics_redirect_is_enabled
-    and_i_visit_the_monthly_statistics_page
-    then_i_am_redirected_to_the_temporarily_unavailable_page
-  end
-
   scenario 'User tries to view a draft report' do
-    given_the_monthly_statistics_redirect_is_disabled
     and_a_draft_report_exists
     when_i_try_to_view_that_draft_report
     then_i_see_the_error_page
@@ -52,14 +44,6 @@ RSpec.describe 'Visit Monthly statistics V2 page', mid_cycle: false do
 
   def then_i_see_the_error_page
     expect(page).to have_text 'Page not found'
-  end
-
-  def given_the_monthly_statistics_redirect_is_enabled
-    FeatureFlag.activate(:monthly_statistics_redirected)
-  end
-
-  def given_the_monthly_statistics_redirect_is_disabled
-    FeatureFlag.deactivate(:monthly_statistics_redirected)
   end
 
   def then_i_am_redirected_to_the_temporarily_unavailable_page

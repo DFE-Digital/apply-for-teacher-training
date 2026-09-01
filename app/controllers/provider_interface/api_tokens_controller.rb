@@ -1,6 +1,5 @@
 module ProviderInterface
   class APITokensController < ProviderInterfaceController
-    before_action :redirect_if_feature_flag_inactive
     before_action :set_provider
     before_action :redirect_unless_can_manage_api_tokens, only: %i[create new]
 
@@ -26,12 +25,6 @@ module ProviderInterface
 
     def api_token_params
       params.expect(provider_interface_api_token_form: [:description])
-    end
-
-    def redirect_if_feature_flag_inactive
-      if FeatureFlag.inactive?(:api_token_management)
-        redirect_to provider_interface_organisation_settings_path
-      end
     end
 
     def redirect_unless_can_manage_api_tokens

@@ -20,13 +20,11 @@
             <% end %>
           </li>
         <% end %>
-        <% if FeatureFlag.active?(:api_token_management) %>
-          <li>
-            <%= govuk_link_to provider_interface_organisation_settings_organisation_api_tokens_path(provider) do %>
-              <%= t('page_titles.provider.api_tokens') %><span class="govuk-visually-hidden"> <%= provider.name %></span>
-            <% end %>
-          </li>
-        <% end %>
+        <li>
+          <%= govuk_link_to provider_interface_organisation_settings_organisation_api_tokens_path(provider) do %>
+            <%= t('page_titles.provider.api_tokens') %><span class="govuk-visually-hidden"> <%= provider.name %></span>
+          <% end %>
+        </li>
         <li>
           <%= govuk_link_to provider_interface_organisation_settings_organisation_interview_options_path(organisation_id: provider.id) do %>
             <%= t('page_titles.provider.interview_options') %><span class="govuk-visually-hidden"> <%= provider.name %></span>
