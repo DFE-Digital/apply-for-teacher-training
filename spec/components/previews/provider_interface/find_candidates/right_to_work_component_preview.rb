@@ -20,4 +20,17 @@ class ProviderInterface::FindCandidates::RightToWorkComponentPreview < ViewCompo
 
     render ProviderInterface::FindCandidates::RightToWorkComponent.new(application_form:)
   end
+
+  def candidate_has_visa_expiry
+    application_form = FactoryBot.build(
+      :application_form,
+      right_to_work_or_study: 'yes',
+      immigration_status: 'indefinite_leave_to_remain_in_the_uk',
+      visa_expired_at: '01/01/2028',
+    )
+
+    render ProviderInterface::FindCandidates::RightToWorkComponent.new(application_form:)
+  end
+
+
 end

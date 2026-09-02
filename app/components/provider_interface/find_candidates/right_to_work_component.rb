@@ -20,4 +20,26 @@ class ProviderInterface::FindCandidates::RightToWorkComponent < ApplicationCompo
       t(".#{application_form.immigration_status.presence || 'unknown'}")
     end
   end
+
+  def visa_expiry_date
+    application_form.visa_expired_at.to_fs(:govuk_date)
+  end
+
+  def how_will_you_complete_your_studies
+    application_choice.pluck(:visa_explanation).map do |visa_explanation|
+      I18n.t(
+        "candidate_interface.visa_explanation_component.#{visa_explanation}",
+      )
+    end.to_sentence
+  end
+
+private
+
+  def application_choices
+    @application_choices ||= application_form
+                               .application_choices
+                               .where.not(sent_to_provider_at: nil)
+                               .order(:sent_to_provider_at)
+                               .reverse
+  end
 end
