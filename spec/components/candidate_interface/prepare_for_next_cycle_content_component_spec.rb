@@ -123,7 +123,7 @@ RSpec.describe CandidateInterface::PrepareForNextCycleContentComponent do
           )
           expect(rendered_component).to have_element(
             :p,
-            text: 'Before you apply, you will need to update your details if any section are incomplete. You can do this now.',
+            text: 'Before you apply, you will need to update your details if any sections are incomplete. You can do this now.',
             class: 'govuk-body',
           )
         end
@@ -151,7 +151,7 @@ RSpec.describe CandidateInterface::PrepareForNextCycleContentComponent do
             )
             expect(rendered_component).not_to have_element(
               :p,
-              text: 'Before you apply, you will need to update your details if any section are incomplete. You can do this now.',
+              text: 'Before you apply, you will need to update your details if any sections are incomplete. You can do this now.',
               class: 'govuk-body',
             )
           end
