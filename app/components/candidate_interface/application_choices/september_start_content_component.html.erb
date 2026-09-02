@@ -1,6 +1,8 @@
-<h2 class="<%= heading_class %>">
-  <%= heading %>
-</h2>
+<% if display_heading? %>
+  <h2 class="<%= heading_class %>">
+    <%= heading %>
+  </h2>
+<% end %>
 
 <% if reject_by_default_explanation.present? %>
   <p class="govuk-body"><%= reject_by_default_explanation %></p>

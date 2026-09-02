@@ -280,4 +280,106 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
       end
     end
   end
+
+  describe '#display_heading?' do
+    let(:component_with_heading) do
+      described_class.new(application_form:, heading: 'What happens next?')
+    end
+    let(:rendered_component_with_heading) { render_inline(component_with_heading) }
+    let(:course) { build(:course, start_date: "01/09/#{application_form.recruitment_cycle_year}") }
+    let(:course_option) { build(:course_option, course:) }
+
+    context 'when the candidate has no applications choices with offers, declined or rejected by default or decisions pending' do
+      before do
+        create(:application_choice, :unsubmitted, course_option:, application_form:)
+      end
+
+      it 'does not render the heading' do
+        expect(component_with_heading.display_heading?).to be(false)
+        expect(rendered_component_with_heading).not_to have_element(
+          :h2,
+          text: 'What happens next?',
+          class: 'govuk-heading-l',
+        )
+      end
+    end
+
+    context 'when the candidate has an applications choice pending a decisions' do
+      before do
+        create(:application_choice, :awaiting_provider_decision, course_option:, application_form:)
+      end
+
+      it 'does not render the heading' do
+        expect(component_with_heading.display_heading?).to be(true)
+        expect(rendered_component_with_heading).to have_element(
+          :h2,
+          text: 'What happens next?',
+          class: 'govuk-heading-l',
+        )
+      end
+    end
+
+    context 'when the candidate has an applications choice rejected by default' do
+      before do
+        create(:application_choice, :rejected_by_default, course_option:, application_form:)
+      end
+
+      it 'render the heading' do
+        expect(component_with_heading.display_heading?).to be(true)
+        expect(rendered_component_with_heading).to have_element(
+          :h2,
+          text: 'What happens next?',
+          class: 'govuk-heading-l',
+        )
+      end
+    end
+
+    context 'when the candidate has an applications choice declined by default' do
+      before do
+        create(:application_choice, :declined_by_default, course_option:, application_form:)
+      end
+
+      it 'renders the heading' do
+        expect(component_with_heading.display_heading?).to be(true)
+        expect(rendered_component_with_heading).to have_element(
+          :h2,
+          text: 'What happens next?',
+          class: 'govuk-heading-l',
+        )
+      end
+    end
+
+    context 'when the candidate has an applications choice with an offer' do
+      before do
+        create(:application_choice, :offered, course_option:, application_form:)
+      end
+
+      it 'renders the heading' do
+        expect(component_with_heading.display_heading?).to be(true)
+        expect(rendered_component_with_heading).to have_element(
+          :h2,
+          text: 'What happens next?',
+          class: 'govuk-heading-l',
+        )
+      end
+    end
+
+    context 'when a heading attribute is not given' do
+      let(:rendered_component) { render_inline(component) }
+
+      before do
+        create(:application_choice, course_option:, application_form:)
+      end
+
+      it 'renders the heading' do
+        expect(component.display_heading?).to be(true)
+
+        expect(rendered_component).to have_element(
+          :h2,
+          text: 'Courses starting in September 2026',
+          class: 'govuk-heading-l',
+        )
+      end
+    end
+  end
 end
