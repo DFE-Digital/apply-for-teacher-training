@@ -95,7 +95,7 @@ private
   end
 
   def any_rejected_by_default?
-    @ny_rejected_by_default ||= application_choices.any?(&:rejected_by_default?)
+    @any_rejected_by_default ||= application_choices.any?(&:rejected_by_default?)
   end
 
   def any_declined_by_default?
