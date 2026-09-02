@@ -52,7 +52,7 @@ RSpec.describe CandidateInterface::EnglishProficiencies::StartForm, type: :model
       expect(form).not_to be_valid
       expect(
         form.errors.full_messages,
-      ).to eq  ['Qualification statuses Select a way of proving your English language skills, or select ‘None of these’']
+      ).to eq ['Qualification statuses Select a way of proving your English language skills, or select ‘None of these’']
     end
   end
 

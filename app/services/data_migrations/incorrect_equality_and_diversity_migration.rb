@@ -35,7 +35,7 @@ module DataMigrations
       end
     end
 
-    # rubocop:disable Rails/Output
+    # rubocop:disable-next Rails/Output
     def dry_run(limit: nil)
       puts "Number of records to change #{records.count}"
 
@@ -53,7 +53,6 @@ module DataMigrations
         puts '=' * 80
       end
     end
-    # rubocop:enable Rails/Output
 
     def records(limit: nil)
       scope = ApplicationForm.where.not(equality_and_diversity: nil)

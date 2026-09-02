@@ -60,7 +60,7 @@ module SelectOptionsHelper
 private
 
   def nationality_options(include_british_and_irish:)
-    # rubocop:disable Style/HashExcept
+    # rubocop:disable-next Style/HashExcept
     if include_british_and_irish
       CODES_AND_NATIONALITIES
     else
@@ -68,6 +68,5 @@ private
         %w[GB GB-WLS GB-CYM GB-SCT GB-NIR GB-ENG IE].include?(iso_code)
       end
     end
-    # rubocop:enable Style/HashExcept
   end
 end

@@ -12,7 +12,7 @@ module DataMigrations
       end
     end
 
-    # rubocop:disable Rails/Output
+    # rubocop:disable-next Rails/Output
     def dry_run
       interviews.each do |interview|
         puts '-' * 80
@@ -34,7 +34,6 @@ module DataMigrations
         puts
       end
     end
-    # rubocop:enable Rails/Output
 
   private
 

@@ -128,7 +128,7 @@ RSpec.describe CandidateAPIData do
         let(:application_form) { build_stubbed(:application_form, :minimum_info, first_nationality: 'Irish', second_nationality: 'British') }
 
         it 'returns A' do
-          expect(presenter.candidate[:uk_residency_status_code]).to  eq('A')
+          expect(presenter.candidate[:uk_residency_status_code]).to eq('A')
         end
       end
 
@@ -136,7 +136,7 @@ RSpec.describe CandidateAPIData do
         let(:application_form) { build_stubbed(:application_form, :minimum_info, first_nationality: 'Canadian', second_nationality: 'Irish') }
 
         it 'returns B' do
-          expect(presenter.candidate[:uk_residency_status_code]).to  eq('B')
+          expect(presenter.candidate[:uk_residency_status_code]).to eq('B')
         end
       end
 
@@ -144,7 +144,7 @@ RSpec.describe CandidateAPIData do
         let(:application_form) { build_stubbed(:application_form, :minimum_info, first_nationality: 'Canadian', right_to_work_or_study: 'no') }
 
         it 'returns C' do
-          expect(presenter.candidate[:uk_residency_status_code]).to  eq('C')
+          expect(presenter.candidate[:uk_residency_status_code]).to eq('C')
         end
       end
 
@@ -152,7 +152,7 @@ RSpec.describe CandidateAPIData do
         let(:application_form) { build_stubbed(:application_form, :minimum_info, first_nationality: 'Canadian', right_to_work_or_study: 'decide_later') }
 
         it 'returns C' do
-          expect(presenter.candidate[:uk_residency_status_code]).to  eq('C')
+          expect(presenter.candidate[:uk_residency_status_code]).to eq('C')
         end
       end
 

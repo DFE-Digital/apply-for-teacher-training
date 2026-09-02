@@ -6,11 +6,10 @@ Sentry.init do |config|
 
   config.before_send = lambda do |event, hint|
     if hint[:exception].is_a?(ActiveRecord::RecordNotUnique)
-      # rubocop:disable Style/HashEachMethods
+      # rubocop:disable-next Style/HashEachMethods
       event.exception.values.each do |single_exception|
         single_exception.value.gsub!(/^DETAIL:.*$/, '[PG DETAIL FILTERED]')
       end
-      # rubocop:enable Style/HashEachMethods
     end
 
     event.extra = filter.filter(event.extra) if event.extra

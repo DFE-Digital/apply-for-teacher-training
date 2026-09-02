@@ -19,11 +19,10 @@ RSpec.describe CandidateInterface::CompleteSectionComponent do
   let(:hint_text) { 'hints' }
 
   before do
-    # rubocop:disable RSpec/AnyInstance
+    # rubocop:disable-next RSpec/AnyInstance
     without_partial_double_verification do
       allow_any_instance_of(ActionView::Base).to receive(:current_application).and_return(application_form)
     end
-    # rubocop:enable RSpec/AnyInstance
   end
 
   it 'renders successfully' do
