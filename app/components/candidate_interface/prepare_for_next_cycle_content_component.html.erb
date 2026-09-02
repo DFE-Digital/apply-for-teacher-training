@@ -33,4 +33,12 @@
   <p class="govuk-body">
     You will be able to apply from <%= apply_opens %>.
   </p>
+
+  <% if can_start_next_cycle_application? %>
+    <p class="govuk-body">
+      Before you apply, you will need to <%= govuk_link_to('update your details', candidate_interface_details_path) %>
+      if any section are incomplete.
+      You can do this now.
+    </p>
+  <% end %>
 <% end %>

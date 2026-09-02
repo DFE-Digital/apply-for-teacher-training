@@ -35,5 +35,9 @@ module CandidateInterface
       after_find_opens? && !next_recruitment_cycle.after_apply_deadline? &&
         application_form.can_submit_more_choices?
     end
+
+    def can_start_next_cycle_application?
+      application_form.recruitment_cycle_timetable == next_recruitment_cycle
+    end
   end
 end

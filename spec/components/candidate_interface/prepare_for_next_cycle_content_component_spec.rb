@@ -121,6 +121,40 @@ RSpec.describe CandidateInterface::PrepareForNextCycleContentComponent do
             text: "You will be able to apply from #{apply_opens}.",
             class: 'govuk-body',
           )
+          expect(rendered_component).to have_element(
+            :p,
+            text: 'Before you apply, you will need to update your details if any section are incomplete. You can do this now.',
+            class: 'govuk-body',
+          )
+        end
+      end
+
+      context 'when the application form has not been carried over' do
+        let(:not_carried_over_application_form) do
+          create(:application_form, recruitment_cycle_year: application_form.recruitment_cycle_year - 1)
+        end
+        let(:rendered_component) do
+          render_inline(described_class.new(application_form: not_carried_over_application_form))
+        end
+
+        it 'does not display the instructions to update details' do
+          travel_temporarily_to(application_form.find_opens_at - 2.minutes) do
+            expect(rendered_component).to have_element(
+              :p,
+              text: "You will be able to view courses starting in the #{academic_year_range_name} academic year from #{find_opens}.",
+              class: 'govuk-body',
+            )
+            expect(rendered_component).to have_element(
+              :p,
+              text: "You will be able to apply from #{apply_opens}.",
+              class: 'govuk-body',
+            )
+            expect(rendered_component).not_to have_element(
+              :p,
+              text: 'Before you apply, you will need to update your details if any section are incomplete. You can do this now.',
+              class: 'govuk-body',
+            )
+          end
         end
       end
     end
