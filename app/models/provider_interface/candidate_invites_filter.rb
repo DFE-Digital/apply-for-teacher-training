@@ -119,7 +119,7 @@ module ProviderInterface
     end
 
     def status_filter
-      @status_filter ||=  @provider_user_filter.filters.fetch('status', [])
+      @status_filter ||= @provider_user_filter.filters.fetch('status', [])
     end
 
     def courses_filter

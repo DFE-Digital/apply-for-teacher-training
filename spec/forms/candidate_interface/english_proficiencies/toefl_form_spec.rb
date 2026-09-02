@@ -25,21 +25,21 @@ RSpec.describe CandidateInterface::EnglishProficiencies::ToeflForm, type: :model
       form = valid_form.tap { |f| f.award_year = 111 }
 
       expect(form).not_to be_valid
-      expect(form.errors.full_messages).to eq  ['Award year Assessment year cannot be before 1964', 'Award year Assessment year must be a real year']
+      expect(form.errors.full_messages).to eq ['Award year Assessment year cannot be before 1964', 'Award year Assessment year must be a real year']
     end
 
     it 'is invalid if given letters' do
       form = valid_form.tap { |f| f.award_year = 'bbbb' }
 
       expect(form).not_to be_valid
-      expect(form.errors.full_messages).to eq  ['Award year Assessment year must be a real year', 'Award year Assessment year must be a real year']
+      expect(form.errors.full_messages).to eq ['Award year Assessment year must be a real year', 'Award year Assessment year must be a real year']
     end
 
     it 'is invalid if given a float' do
       form = valid_form.tap { |f| f.award_year = '199.5' }
 
       expect(form).not_to be_valid
-      expect(form.errors.full_messages).to eq  ['Award year Assessment year must be a real year', 'Award year Assessment year must be a real year', 'Award year Enter a single award year']
+      expect(form.errors.full_messages).to eq ['Award year Assessment year must be a real year', 'Award year Assessment year must be a real year', 'Award year Enter a single award year']
     end
 
     it 'is invalid if award year is before toefl was introduced' do

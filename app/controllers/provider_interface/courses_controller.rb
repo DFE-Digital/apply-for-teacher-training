@@ -41,9 +41,8 @@ module ProviderInterface
     def change_course_hint
       if @application_choice.pending_conditions?
         {
-          # rubocop:disable Rails/I18nLazyLookup
+          # rubocop:disable-next Rails/I18nLazyLookup
           text: t('provider_interface.courses.change_course_hint.text'),
-          # rubocop:enable Rails/I18nLazyLookup
           class: 'radio-buttons-fieldset-hint',
         }
       else

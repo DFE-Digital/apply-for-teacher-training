@@ -17,7 +17,7 @@ module DataMigrations
       end
     end
 
-    # rubocop:disable Rails/Output
+    # rubocop:disable-next Rails/Output
     def dry_run
       found = 0
       not_found = 0
@@ -42,7 +42,6 @@ module DataMigrations
       puts "Qualification records that do not have a level: #{not_found} records"
       puts "Not found data: #{not_found_data.join(', ')}"
     end
-    # rubocop:enable Rails/Output
 
     def records
       ApplicationQualification.degree

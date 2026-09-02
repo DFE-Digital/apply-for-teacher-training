@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::Degrees::LevelForm do
     context 'when degree level is not other' do
       let(:degree_params) do
         { degree_level: 'bachelor',
-          equivalent_level: 'something else'  }
+          equivalent_level: 'something else' }
       end
 
       it 'sets equivalent level to nil' do
@@ -55,7 +55,7 @@ RSpec.describe CandidateInterface::Degrees::LevelForm do
     context 'when degree level is other' do
       let(:degree_params) do
         { degree_level: 'other',
-          equivalent_level: 'something else'  }
+          equivalent_level: 'something else' }
       end
 
       it 'des not change equivalent_level' do
@@ -92,7 +92,7 @@ RSpec.describe CandidateInterface::Degrees::LevelForm do
     context 'reviewing and country not changed' do
       let(:degree_params) do
         { id: create(:degree_qualification, institution_country: 'GB', application_form:),
-          country: 'GB'  }
+          country: 'GB' }
       end
 
       it 'returns to review page' do
@@ -103,7 +103,7 @@ RSpec.describe CandidateInterface::Degrees::LevelForm do
     context 'country changed and reviewing' do
       let(:degree_params) do
         { id: create(:degree_qualification, institution_country: 'GB', application_form:),
-          country: 'NG'  }
+          country: 'NG' }
       end
 
       it 'returns the degree country path' do

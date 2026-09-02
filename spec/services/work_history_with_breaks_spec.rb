@@ -65,7 +65,7 @@ RSpec.describe WorkHistoryWithBreaks do
           expect(timeline[3]).to eq(job1)
         end
 
-        # rubocop:disable RSpec/NestedGroups
+        # rubocop:disable-next RSpec/NestedGroups
         context 'with application_choice' do
           it 'renders both paid and unpaid experieence in descending order by start date' do
             application_form = create(:application_form)
@@ -89,7 +89,6 @@ RSpec.describe WorkHistoryWithBreaks do
             expect(timeline[5]).to eq(job1)
           end
         end
-        # rubocop:enable RSpec/NestedGroups
       end
     end
 

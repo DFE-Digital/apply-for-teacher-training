@@ -204,15 +204,13 @@ RSpec.describe 'Provider user exporting applications to a csv', mid_cycle: false
   end
 
   def and_client_disconnect_during_the_export
-    # rubocop:disable RSpec/AnyInstance
+    # rubocop:disable-next RSpec/AnyInstance
     allow_any_instance_of(ActionDispatch::Response::Buffer).to receive(:write).and_raise(ActionController::Live::ClientDisconnected.new('Client disconnected during streaming'))
-    # rubocop:enable RSpec/AnyInstance
   end
 
   def and_there_is_an_io_error_during_the_export
-    # rubocop:disable RSpec/AnyInstance
+    # rubocop:disable-next RSpec/AnyInstance
     allow_any_instance_of(ActionDispatch::Response::Buffer).to receive(:write).and_raise(IOError.new('Client disconnected during streaming'))
-    # rubocop:enable RSpec/AnyInstance
   end
 
   def then_the_team_have_received_an_error_notification

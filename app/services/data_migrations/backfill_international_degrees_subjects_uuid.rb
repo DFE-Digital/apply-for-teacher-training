@@ -21,9 +21,8 @@ module DataMigrations
         subject_for(record).present?
       end
 
-      # rubocop:disable Rails/Output
+      # rubocop:disable-next Rails/Output
       puts "There are #{total.size} international records with subject in the reference data"
-      # rubocop:enable Rails/Output
     end
 
   private

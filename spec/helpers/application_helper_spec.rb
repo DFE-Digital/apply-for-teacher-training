@@ -23,7 +23,7 @@ RSpec.describe ApplicationHelper do
     end
   end
 
-  # rubocop:disable RSpec/AnyInstance
+  # rubocop:disable-next RSpec/AnyInstance
   describe '#service_key' do
     it 'is apply for candidate_interface namespace' do
       allow_any_instance_of(described_class).to receive(:current_namespace).and_return('candidate_interface')
@@ -50,7 +50,6 @@ RSpec.describe ApplicationHelper do
       expect(service_key).to eq('apply')
     end
   end
-  # rubocop:enable RSpec/AnyInstance
 
   describe '#markdown' do
     it 'converts markdown to HTML' do
