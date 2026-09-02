@@ -9,6 +9,23 @@
 
       <%= form.govuk_text_field :description, label: { text: t('.token_description'), size: 's' }, hint: { text: t('.description_hint') } %>
 
+      <%= form.govuk_radio_buttons_fieldset :vendor, legend: { text: 'Who is this token for?' } do %>
+        <%= form.govuk_radio_button :vendor_type, :in_house, label: { text: 'In-house developers' }, link_errors: true %>
+
+        <%= form.govuk_radio_button :vendor_type, :third_party, label: { text: 'A third-party software vendor' } do %>
+          <%= render DfE::Autocomplete::View.new(
+            form,
+            attribute_name: :vendor_name,
+            form_field: form.govuk_select(
+              :vendor_name,
+              options_for_select(dfe_autocomplete_options(Vendor.confirmed), form.object.vendor_name),
+              aria: { label: 'vendor_name' },
+              label: { text: 'Select or enter a vendor name' },
+            ),
+          ) %>
+        <% end %>
+      <% end %>
+
       <p class="govuk-body">
         <%= govuk_link_to(
               t('.apply_api', environment: HostingEnvironment.environment_name),

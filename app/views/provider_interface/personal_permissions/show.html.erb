@@ -30,10 +30,6 @@
 
       <p class="govuk-body"><%= t('provider_relationship_permissions.view_applications_explanation') %></p>
 
-      <%= render ProviderInterface::UserPermissionSummaryComponent.new(
-        provider_user: current_provider_user,
-        provider: provider,
-      ) %>
     <% end %>
   </div>
 </div>

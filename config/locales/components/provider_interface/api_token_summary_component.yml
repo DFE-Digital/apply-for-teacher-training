@@ -1,0 +1,15 @@
+en:
+  provider_interface:
+    api_token_summary_component:
+      created_by: Created by
+      created_at: Created on
+      token_for: Token for
+      last_used_on: Last used on
+      status: Status
+      not_used: Never
+      default_user: DFE support user
+      revoke: Revoke
+      token: token
+      name: Name
+      revoked_at: Revoked on
+      revoked_by: Revoked by

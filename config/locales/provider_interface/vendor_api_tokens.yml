@@ -5,4 +5,8 @@ en:
         provider_interface/api_token_form:
           attributes:
             description:
-              blank: Add a brief description for the new token
+              blank: Enter a name
+            vendor_type:
+              blank: Select who the token is for
+            vendor_name:
+              blank: Select a vendor

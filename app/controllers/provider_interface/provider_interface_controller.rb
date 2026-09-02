@@ -214,5 +214,10 @@ module ProviderInterface
 
       raise ProviderUserWithoutOrganisationError unless current_provider_user.providers.any?
     end
+
+    def strip_whitespace(params)
+      stripped_params = StripWhitespace.from_hash(params)
+      StripInvisibleWhitespace.from_hash(stripped_params)
+    end
   end
 end
