@@ -1,24 +1,16 @@
 class CandidateInterface::ApplicationChoices::SeptemberStartContentComponent < ApplicationComponent
   delegate :recruitment_cycle_year, :recruitment_cycle_timetable, to: :application_form
 
-  attr_reader :application_form, :with_tabs, :heading_class
+  attr_reader :application_form, :with_tabs, :render_heading
 
-  def initialize(application_form:, with_tabs: false, heading: nil, heading_class: 'govuk-heading-l')
+  def initialize(application_form:, with_tabs: false, render_heading: true)
     @application_form = application_form
     @with_tabs = with_tabs
-    @heading = heading
-    @heading_class = heading_class
-  end
-
-  def display_heading?
-    return true if @heading.blank?
-
-    awaiting_provider_decision_content.present? || reject_by_default_explanation.present? ||
-      decline_by_default_explanation.present? || offered_content.present?
+    @render_heading = render_heading
   end
 
   def heading
-    return @heading if @heading.present?
+    return unless @render_heading
 
     start_dates = application_choices.map do |ac|
       ac.course.start_date.to_fs(:month_and_year)
