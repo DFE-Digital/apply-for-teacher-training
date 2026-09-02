@@ -51,7 +51,14 @@ private
   end
 
   def course_subject(choice)
-    subject_names = choice.course.subjects.pluck(:name).to_sentence
+    course = choice.course
+    subject_names = course.subjects.map do |subject|
+      if course.primary_course?
+        "#{subject.name} (#{course.age_range})"
+      else
+        subject.name
+      end
+    end.to_sentence
 
     {
       key: { text: t('.subject') },
