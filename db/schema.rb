@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_28_104039) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_02_150126) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1405,12 +1405,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_104039) do
   create_table "vendor_api_tokens", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "description"
+    t.datetime "discarded_at"
     t.string "hashed_token", null: false
+    t.boolean "in_house_developers", default: false, null: false
     t.datetime "last_used_at", precision: nil
     t.bigint "provider_id", null: false
     t.datetime "updated_at", null: false
+    t.bigint "vendor_id"
+    t.index ["discarded_at"], name: "index_vendor_api_tokens_on_discarded_at"
     t.index ["hashed_token"], name: "index_vendor_api_tokens_on_hashed_token", unique: true
     t.index ["provider_id"], name: "index_vendor_api_tokens_on_provider_id"
+    t.index ["vendor_id"], name: "index_vendor_api_tokens_on_vendor_id"
   end
 
   create_table "vendor_api_users", force: :cascade do |t|
@@ -1427,6 +1432,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_104039) do
   create_table "vendors", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
+    t.string "status", default: "unconfirmed", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_vendors_on_name", unique: true
   end

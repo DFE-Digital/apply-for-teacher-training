@@ -4131,6 +4131,11 @@
             "fieldPath": [
               "updated_at"
             ]
+          },
+          {
+            "fieldPath": [
+              "status"
+            ]
           }
         ]
       },
@@ -4258,6 +4263,21 @@
           {
             "fieldPath": [
               "description"
+            ]
+          },
+          {
+            "fieldPath": [
+              "vendor_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "in_house_developers"
+            ]
+          },
+          {
+            "fieldPath": [
+              "discarded_at"
             ]
           }
         ]

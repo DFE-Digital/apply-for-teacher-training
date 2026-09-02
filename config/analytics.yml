@@ -600,6 +600,7 @@ shared:
     - name
     - created_at
     - updated_at
+    - status
   validation_errors:
     - id
     - form_object
@@ -616,6 +617,9 @@ shared:
     - provider_id
     - last_used_at
     - description
+    - vendor_id
+    - in_house_developers
+    - discarded_at
   :withdrawal_reasons:
     - id
     - reason

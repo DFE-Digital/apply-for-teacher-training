@@ -811,6 +811,7 @@ erDiagram
 	}
 	Vendor {
 		string name
+		string status
 	}
 	VendorAPIRequest {
 		jsonb request_body
@@ -832,7 +833,9 @@ erDiagram
 	}
 	VendorAPIToken {
 		string description
+		datetime discarded_at
 		string hashed_token
+		boolean in_house_developers
 		datetime last_used_at
 	}
 	VendorApiUser {
@@ -1028,5 +1031,6 @@ erDiagram
 	Candidate o|--}o ValidationError : ""
 	ProviderUser o|--}o ValidationError : ""
 	SupportUser o|--}o ValidationError : ""
+	Vendor o|--}o VendorAPIToken : ""
 	Provider o|--}o VendorAPIRequestV2 : ""
 	VendorAPIToken ||--}o VendorApiUser : ""
