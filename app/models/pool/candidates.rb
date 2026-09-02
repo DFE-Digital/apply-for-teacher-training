@@ -1,6 +1,8 @@
 class Pool::Candidates
   attr_reader :filters, :provider_user, :with_statuses, :current_cycle
 
+  FURTHEST_DISTANCE = 20038 # The furthest distance between 2 points on earth in kilometers.
+
   def initialize(filters: {}, provider_user: nil, with_statuses: false)
     @filters = filters
     @provider_user = provider_user
@@ -129,7 +131,7 @@ private
         status: 'published',
         training_locations: 'anywhere',
       )
-      .select('candidate_preferences.application_form_id as application_form_id', '-1 as distance')
+      .select('candidate_preferences.application_form_id as application_form_id', "#{FURTHEST_DISTANCE} as distance")
 
     candidate_location_preferences_near_origin = CandidateLocationPreference
       .joins(:candidate_preference)

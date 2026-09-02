@@ -48,7 +48,7 @@
             <%= row.with_cell(text: candidate_status(application_form:)) %>
             <%= row.with_cell do %>
               <% if @filter.applied_location_search? %>
-                <% if application_form.site_distance == -1 %>
+                <% if application_form.site_distance == Pool::Candidates::FURTHEST_DISTANCE %>
                   <%= t('.no_preferences') %>
                 <% else %>
                   <%= t('.miles', count: application_form.site_distance.round(1)) %>
