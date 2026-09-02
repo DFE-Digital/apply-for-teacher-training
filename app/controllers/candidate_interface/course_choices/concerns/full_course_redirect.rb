@@ -11,7 +11,7 @@ module CandidateInterface
       private
 
         def redirect_full
-          course = Course.find(params[:course_id])
+          course = Course.find(params.expect(:course_id))
           return if course.available?
 
           redirect_to candidate_interface_course_choices_full_course_selection_path(course.provider_id, course.id)

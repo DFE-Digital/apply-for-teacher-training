@@ -25,7 +25,7 @@ module SupportInterface
     end
 
     def provider
-      @provider ||= Provider.find(params[:provider_id])
+      @provider ||= Provider.find(params.expect(:provider_id))
     end
   end
 end

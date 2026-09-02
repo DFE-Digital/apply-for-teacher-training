@@ -41,7 +41,7 @@ module SupportInterface
     def confirm_revocation; end
 
     def destroy
-      VendorAPIToken.find(params[:id]).destroy!
+      VendorAPIToken.find(params.expect(:id)).destroy!
       redirect_to support_interface_api_tokens_path
     end
 

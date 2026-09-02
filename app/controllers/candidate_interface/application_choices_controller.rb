@@ -55,7 +55,7 @@ module CandidateInterface
     def application_choice
       current_application
         .application_choices
-        .find(params[:id])
+        .find(params.expect(:id))
     end
 
     def carry_over_application

@@ -18,12 +18,12 @@ module SupportInterface
     end
 
     def show
-      @provider = Provider.find(params[:provider_id])
+      @provider = Provider.find(params.expect(:provider_id))
       @provider_agreement = ProviderAgreement.data_sharing_agreements.for_provider(@provider).last
     end
 
     def courses
-      @provider = Provider.includes(courses: [:accredited_provider]).find(params[:provider_id])
+      @provider = Provider.includes(courses: [:accredited_provider]).find(params.expect(:provider_id))
 
       courses = @provider.courses.includes(accredited_provider: [:provider_agreements]).order(:name).group_by(&:recruitment_cycle_year)
       years = RecruitmentCycleTimetable.years_visible_in_support.reverse.to_h { |year| [year, []] } # rubocop:disable Rails/IndexWith
@@ -32,22 +32,22 @@ module SupportInterface
     end
 
     def ratified_courses
-      @provider = Provider.includes(courses: [:accredited_provider]).find(params[:provider_id])
+      @provider = Provider.includes(courses: [:accredited_provider]).find(params.expect(:provider_id))
       @ratified_courses = @provider.accredited_courses.includes(:provider, accredited_provider: [:provider_agreements]).order(:name).group_by(&:recruitment_cycle_year)
     end
 
     def vacancies
-      @provider = Provider.find(params[:provider_id])
+      @provider = Provider.find(params.expect(:provider_id))
       @course_options = @provider.course_options.includes(:course, :site)
     end
 
     def users
-      @provider = Provider.includes(provider_users: [provider_permissions: [:provider]]).find(params[:provider_id])
+      @provider = Provider.includes(provider_users: [provider_permissions: [:provider]]).find(params.expect(:provider_id))
       @relationship_diagram = SupportInterface::ProviderRelationshipsDiagram.new(provider: @provider)
     end
 
     def relationships
-      @provider = Provider.find(params[:provider_id])
+      @provider = Provider.find(params.expect(:provider_id))
       relationships = ProviderRelationshipPermissions.where(
         training_provider: @provider,
       ).or(
@@ -64,7 +64,7 @@ module SupportInterface
     end
 
     def update_relationships
-      @provider = Provider.find(params[:provider_id])
+      @provider = Provider.find(params.expect(:provider_id))
       @relationships_form = SupportInterface::ProviderRelationshipsForm.from_params(
         relationships_params[:relationships],
       )
@@ -84,7 +84,7 @@ module SupportInterface
     end
 
     def applications
-      @provider = Provider.find(params[:provider_id])
+      @provider = Provider.find(params.expect(:provider_id))
       @filter = SupportInterface::ApplicationsFilter.new(
         params: params.merge(provider_id: @provider.id),
       )
@@ -92,15 +92,15 @@ module SupportInterface
     end
 
     def sites
-      @provider = Provider.includes(:courses, :sites).find(params[:provider_id])
+      @provider = Provider.includes(:courses, :sites).find(params.expect(:provider_id))
     end
 
     def history
-      @provider = Provider.find(params[:provider_id])
+      @provider = Provider.find(params.expect(:provider_id))
     end
 
     def courses_as_csv
-      provider = Provider.find(params[:provider_id])
+      provider = Provider.find(params.expect(:provider_id))
 
       stream_csv(
         data: SupportInterface::ProviderCoursesCSVExport.new(provider:).rows,
@@ -111,7 +111,7 @@ module SupportInterface
   private
 
     def update_provider(success_message)
-      @provider = Provider.find(params[:provider_id])
+      @provider = Provider.find(params.expect(:provider_id))
 
       yield @provider
 
