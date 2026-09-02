@@ -3,11 +3,14 @@ en:
     api_tokens:
       index:
         title: API tokens for %{provider_name}
-        add_token: Add token
+        add_token: Create a token
+        active_tokens: Active tokens
+        revoked_tokens: Revoked tokens
         no_tokens: There are no API tokens for this organisation
         api_tokens: API tokens
         apply_api: Apply API (%{environment})
-        what_tokens_are_for_html: These tokens are for vendor or in-house integrations with the %{link}.
+        what_tokens_are_for_html: Software vendors use API tokens to manage applications on other platforms via the %{link}.
+        warning: API tokens give full access to all your organisation’s data. They must be handled securely, like passwords.
       new:
         title: Create an API token for %{provider_name}
         heading: Create an API token
@@ -15,10 +18,22 @@ en:
         generate: Generate
         cancel: Cancel
         apply_api: Apply API documentation (%{environment})
-        token_description: Description
+        token_description: Name
         description_hint: "Example: Integration with 3rd party recruitment software"
       show:
+        title: API Token for %{vendor}
+      confirm_revoke:
+        title: Are you sure you want to revoke API Token for %{vendor}?
+        token_for: API Token for %{vendor}
+        warning: If you revoke this token, any software integrations using it will stop working immediately.
+        revoke_token: Yes, revoke this API token
+      revoke:
+        success: You have revoked API Token for Tribal
+      success:
         title: API token for %{provider_name}
-        new_api_token_generated: New API token generated
+        new_api_token_generated: Token created
         your_token_is_html: Your token is <br role="presentation"><code>%{token}</code>
-        note_this_down_and_keep_safe: Note down this code and keep it safe. You will not be able to retreive it once you leave this page.
+        copy: Copy this token to your clipboard
+        copy_success: Token copied to clipboard
+        content: You cannot view this again. You should copy it and store it securely.
+        warning: Treat this token like a password. It provides full access to your organisation’s data.

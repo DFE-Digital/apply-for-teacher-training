@@ -19,13 +19,13 @@ window.Stimulus.register('read-more-read-less', ReadMoreReadLessController)
 
 govUKFrontendInitAll()
 
-candidateAutocompleteInputs.forEach((autocompleteInput) => {
-  initAutocomplete(autocompleteInput)
-})
+// candidateAutocompleteInputs.forEach((autocompleteInput) => {
+//   initAutocomplete(autocompleteInput)
+// })
 
-candidateAutosuggestInputs.forEach((autoSuggestInput) => {
-  initAutosuggest(autoSuggestInput)
-})
+// candidateAutosuggestInputs.forEach((autoSuggestInput) => {
+//   initAutosuggest(autoSuggestInput)
+// })
 
 initWarnOnUnsavedChanges()
 nationalitiesComponent()

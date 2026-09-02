@@ -1,0 +1,34 @@
+<% content_for :browser_title, t('.title', vendor: @api_token.vendor_name) %>
+<% content_for :before_content do %>
+  <%= govuk_back_link(
+    text: 'Back',
+    href: provider_interface_organisation_settings_organisation_api_token_path(@provider, @api_token),
+  ) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l"><%= t('.token_for', vendor: @api_token.vendor_name) %></span>
+      <%= t('.title', vendor: @api_token.vendor_name) %>
+    </h1>
+    <%= govuk_warning_text(text: t('.warning')) %>
+
+    <%= render ProviderInterface::APITokenSummaryComponent.new(
+      token: @api_token,
+      can_manage_tokens: @can_manage_tokens,
+      view: 'confirm_revoke',
+    ) %>
+
+    <%= govuk_button_to(
+      t('.revoke_token'),
+      revoke_provider_interface_organisation_settings_organisation_api_token_path(
+        @provider,
+        @api_token,
+      ),
+      warning: true,
+      method: :put,
+    ) %>
+  </div>
+</div>
