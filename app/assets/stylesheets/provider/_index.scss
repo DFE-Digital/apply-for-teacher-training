@@ -22,5 +22,7 @@
 
 .app-link--warning {
   @include govuk.govuk-font($size: 19, $weight: "bold");
+  // stylelint-disable declaration-no-important
   color: govuk.$govuk-error-colour !important;
+  // stylelint-enable declaration-no-important
 }
