@@ -1,5 +1,5 @@
 module "postgres" {
-  source = "./vendor/modules/aks//aks/postgres"
+  source = "git::https://github.com/DFE-Digital/terraform-modules.git//aks/postgres?ref=2963-add-postgres-read-replica"
 
   namespace                                     = var.namespace
   environment                                   = local.app_name_suffix
@@ -24,4 +24,9 @@ module "postgres" {
   azure_extensions                              = ["PG_BUFFERCACHE", "PG_STAT_STATEMENTS", "PGCRYPTO", "UNACCENT"]
   alert_window_size                             = var.alert_window_size
   use_airbyte                                   = var.pg_airbyte_enabled
+  read_replica_count             = 1
+  extra_databases                = [
+    "audit",
+    "reporting"
+  ]
 }
