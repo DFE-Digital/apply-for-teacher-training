@@ -468,7 +468,6 @@ erDiagram
 		boolean no_qualification
 		text no_qualification_details
 		boolean qualification_not_needed
-		string qualification_status
 	}
 	Feature {
 		boolean active
@@ -538,7 +537,6 @@ erDiagram
 		string reason
 	}
 	PoolEligibleApplicationForm {
-		integer application_form_id
 	}
 	PossiblePreviousTeacherTraining {
 		date ended_on
@@ -835,7 +833,6 @@ erDiagram
 		string description
 		datetime discarded_at
 		string hashed_token
-		boolean in_house_developers
 		datetime last_used_at
 	}
 	VendorApiUser {
@@ -863,7 +860,7 @@ erDiagram
 	"ActiveStorage::Blob" ||--}o "ActiveStorage::Attachment" : ""
 	"ActiveStorage::Blob" ||--}o "ActiveStorage::VariantRecord" : ""
 	"ActiveStorage::Blob" o|..|o "ActiveStorage::Blob" : ""
-	ApplicationForm ||--}o "Adviser::SignUpRequest" : ""
+	ApplicationForm ||--|o "Adviser::SignUpRequest" : ""
 	"Adviser::TeachingSubject" ||--}o "Adviser::SignUpRequest" : ""
 	Chased ||--}o ChaserSent : ""
 	ApplicationChoice ||--}o ChaserSent : ""
@@ -908,8 +905,10 @@ erDiagram
 	ApplicationForm o|..}o CandidateLocationPreference : ""
 	Notified ||--}o Notification : ""
 	ApplicationForm ||--}o Notification : ""
+	ApplicationForm ||--}o ProviderPoolAction : ""
 	ApplicationForm ||--}o ApplicationReference : ""
 	ApplicationForm o|--}o Email : ""
+	ApplicationForm ||--|o PoolEligibleApplicationForm : ""
 	ApplicationForm ||--|o CandidatePoolApplication : ""
 	ApplicationForm ||--}o PreviousTeacherTraining : ""
 	ApplicationForm o|--|o ApplicationForm : ""
@@ -949,7 +948,7 @@ erDiagram
 	Subject ||--}o CourseSubject : ""
 	DataExport o|..|o "ActiveStorage::Blob" : ""
 	ProviderUser ||--}o DeferredOfferConfirmation : ""
-	Offer ||--}o DeferredOfferConfirmation : ""
+	Offer ||--|o DeferredOfferConfirmation : ""
 	Course ||--}o DeferredOfferConfirmation : ""
 	Site ||--}o DeferredOfferConfirmation : ""
 	CourseOption ||--}o DeferredOfferConfirmation : ""
@@ -1001,7 +1000,6 @@ erDiagram
 	Provider ||--}o "Publications::ProviderRecruitmentPerformanceReport" : ""
 	ProviderUser ||--}o ProviderAgreement : ""
 	ProviderUser ||--}o ProviderPermissions : ""
-	ApplicationForm ||--}o ProviderPoolAction : ""
 	ProviderUser ||--}o ProviderPoolAction : ""
 	ProviderUser o|--}o Note : ""
 	ProviderUser ||--}o RegionalReportFilter : ""

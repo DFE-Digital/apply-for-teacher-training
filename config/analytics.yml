@@ -618,7 +618,6 @@ shared:
     - last_used_at
     - description
     - vendor_id
-    - in_house_developers
     - discarded_at
   :withdrawal_reasons:
     - id
