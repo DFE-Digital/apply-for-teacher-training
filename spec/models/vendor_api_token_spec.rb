@@ -65,7 +65,8 @@ RSpec.describe VendorAPIToken do
     end
 
     it 'returns In-house developers for an in-house token' do
-      token = create(:vendor_api_token, provider: create(:provider), in_house_developers: true)
+      vendor = create(:vendor, name: 'in_house')
+      token = create(:vendor_api_token, provider: create(:provider), vendor:)
 
       expect(token.vendor_name).to eq 'In-house developers'
     end

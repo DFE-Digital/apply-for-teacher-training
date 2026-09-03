@@ -1,6 +1,9 @@
 class VendorAPIToken < ApplicationRecord
   include Discard::Model
 
+  IN_HOUSE = 'in_house'.freeze
+  THIRD_PARTY = 'third_party'.freeze
+
   belongs_to :provider
   belongs_to :vendor, optional: true
 
@@ -9,11 +12,7 @@ class VendorAPIToken < ApplicationRecord
   scope :used_in_last_3_months, -> { where('last_used_at >= ?', 3.months.ago) }
 
   def vendor_name
-    if vendor.present?
-      vendor.name.humanize
-    elsif in_house_developers
-      'In-house developers'
-    end
+    vendor.name == IN_HOUSE ? 'In-house developers' : vendor.name.humanize
   end
 
   def status
