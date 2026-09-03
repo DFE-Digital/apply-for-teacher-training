@@ -4272,11 +4272,6 @@
           },
           {
             "fieldPath": [
-              "in_house_developers"
-            ]
-          },
-          {
-            "fieldPath": [
               "discarded_at"
             ]
           }
