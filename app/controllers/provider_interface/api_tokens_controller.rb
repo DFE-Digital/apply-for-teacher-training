@@ -41,8 +41,7 @@ module ProviderInterface
 
     def api_token_params
       request_params.except(:vendor_name, :vendor_name_raw).merge(
-        vendor_name: request_params[:vendor_name_raw]&.downcase ||
-          request_params[:vendor_name]&.downcase,
+        vendor_name: request_params[:vendor_name_raw] || request_params[:vendor_name],
       )
     end
 

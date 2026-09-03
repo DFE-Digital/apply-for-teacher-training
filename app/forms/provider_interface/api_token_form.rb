@@ -40,12 +40,8 @@ module ProviderInterface
       if vendor_name.present?
         normalized_name = Vendor.normalize_value_for(:name, vendor_name)
         Vendor.find_by(name: normalized_name)&.id ||
-          create_vendor_return_id(normalized_name)
+          Vendor.create!(name: normalized_name, status: :unconfirmed).id
       end
-    end
-
-    def create_vendor_return_id(name)
-      Vendor.create!(name:, status: :unconfirmed).id
     end
   end
 end
