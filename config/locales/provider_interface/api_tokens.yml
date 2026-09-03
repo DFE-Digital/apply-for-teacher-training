@@ -14,12 +14,17 @@ en:
       new:
         title: Create an API token for %{provider_name}
         heading: Create an API token
+        body: API tokens give full access to all your organisation’s data. They must be handled securely, like passwords.
         create_token: Clicking generate will create a token for %{provider_name}. It will be visible until you navigate away from the page.
         generate: Generate
         cancel: Cancel
         apply_api: Apply API documentation (%{environment})
         token_description: Name
-        description_hint: "Example: Integration with 3rd party recruitment software"
+        description_hint: Enter a name for your token, such as who or what it is for
+        token_for: Who is this token for?
+        in_house: In-house developers
+        third_party: A third-party software vendor
+        select_vendor: Select or enter a vendor name
       show:
         title: API Token for %{vendor}
       confirm_revoke:

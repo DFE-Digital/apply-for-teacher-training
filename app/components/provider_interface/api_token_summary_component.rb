@@ -33,11 +33,14 @@ module ProviderInterface
         }
       when 'revoked'
         {
-          t('.name') => token.description,
           t('.created_by') => created_by,
           t('.created_at') => created_at,
           t('.token_for') => token.vendor_name,
           t('.last_used_on') => last_used_at,
+          t('.status') => {
+            field_value: token.status.capitalize,
+            action: revoke_token,
+          },
           t('.revoked_at') => token.discarded_at&.to_fs(:govuk_date_and_time),
           t('.revoked_by') => discarded_by,
         }

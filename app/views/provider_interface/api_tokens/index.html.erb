@@ -37,17 +37,30 @@
     <% if @total_tokens.zero? %>
       <p class="govuk-body"><%= t('.no_tokens') %></p>
     <% else %>
-      <%= render TabNavigationComponent.new(items: [
-        { name: t('.active_tokens'),
-          url: provider_interface_organisation_settings_organisation_api_tokens_path(@provider),
-          current: params[:filter_tab].blank? },
-        { name: t('.revoked_tokens'),
-          url: provider_interface_organisation_settings_organisation_api_tokens_path(
-            @provider,
-            filter_tab: 'revoked',
-          ),
-          current: params[:filter_tab] == 'revoked' },
-      ]) %>
+      <nav class="app-tab-navigation" aria-label="sub menu" data-qa="sub-navigation">
+        <ul class="app-tab-navigation__list govuk-!-display-none-print">
+          <li class="app-tab-navigation__item">
+            <%= govuk_link_to(
+              t('.active_tokens'),
+              provider_interface_organisation_settings_organisation_api_tokens_path(@provider),
+              class: 'app-tab-navigation__link',
+              aria: { current: params[:filter_tab].blank? ? 'page' : '' },
+            ) %>
+          </li>
+
+          <li class="app-tab-navigation__item">
+            <%= govuk_link_to(
+              t('.revoked_tokens'),
+              provider_interface_organisation_settings_organisation_api_tokens_path(
+                @provider,
+                filter_tab: 'revoked',
+              ),
+              class: 'app-tab-navigation__link',
+              aria: { current: params[:filter_tab] == 'revoked' ? 'page' : '' },
+            ) %>
+          </li>
+        </ul>
+      </nav>
 
       <%= render ProviderInterface::APITokensTableComponent.new(api_tokens: @api_tokens) %>
     <% end %>
