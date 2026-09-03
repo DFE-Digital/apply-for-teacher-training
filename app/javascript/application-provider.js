@@ -5,7 +5,7 @@ import filter from './components/paginated_filter'
 import checkboxSearchFilter from './components/checkbox_search_filter'
 import cookieBanners from './cookies/cookie-banners'
 import initClarityCookies from './utils/clarity-initializer'
-import { initAutosuggest } from './autosuggests/init-autosuggest'
+import './autosuggests/init-autosuggest'
 
 // stimulus
 import { Application } from '@hotwired/stimulus'

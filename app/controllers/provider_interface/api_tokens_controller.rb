@@ -5,12 +5,6 @@ module ProviderInterface
     before_action :set_permissions
     before_action :redirect_unless_can_manage_api_tokens, only: %i[create new revoke confirm_revoke]
 
-    ## What do we do with the existing tokens?
-    ## set the current vendors to confirmed
-    ## specs for the form
-    ## Add job invariant job to broadcast to sentry
-    ## Sending emails?
-
     def index
       @api_tokens = if params[:filter_tab] == 'revoked'
                       @provider.vendor_api_tokens.discarded.order(:last_used_at)

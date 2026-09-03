@@ -40,15 +40,13 @@
       <%= render TabNavigationComponent.new(items: [
         { name: t('.active_tokens'),
           url: provider_interface_organisation_settings_organisation_api_tokens_path(@provider),
-          current: params[:filter_tab].blank?
-        },
+          current: params[:filter_tab].blank? },
         { name: t('.revoked_tokens'),
           url: provider_interface_organisation_settings_organisation_api_tokens_path(
             @provider,
             filter_tab: 'revoked',
           ),
-          current: params[:filter_tab] == 'revoked',
-        },
+          current: params[:filter_tab] == 'revoked' },
       ]) %>
 
       <%= render ProviderInterface::APITokensTableComponent.new(api_tokens: @api_tokens) %>
