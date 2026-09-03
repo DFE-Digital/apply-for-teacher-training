@@ -22,7 +22,7 @@ RSpec.describe ProviderInterface::APITokenForm do
     it 'builds a form from an existing third-party token' do
       vendor = create(:vendor, name: 'tribal')
       provider = create(:provider)
-      token = create(:vendor_api_token, provider:, description: 'Tribal integration', in_house_developers: false, vendor:)
+      token = create(:vendor_api_token, provider:, description: 'Tribal integration', vendor:)
 
       form = described_class.build_from_record(token.id)
 
@@ -42,6 +42,7 @@ RSpec.describe ProviderInterface::APITokenForm do
 
     context 'when form is valid' do
       it 'creates a new in-house VendorAPIToken' do
+        in_house_vendor = create(:vendor)
         provider = create(:provider)
         form = described_class.new(provider:, description: 'Test API Token', vendor_type: 'in_house')
 
@@ -50,8 +51,7 @@ RSpec.describe ProviderInterface::APITokenForm do
         expect(VendorAPIToken).to have_received(:create_with_random_token!).with(
           provider: provider,
           description: 'Test API Token',
-          in_house_developers: true,
-          vendor_id: nil,
+          vendor_id: in_house_vendor.id,
         )
       end
 
@@ -65,7 +65,6 @@ RSpec.describe ProviderInterface::APITokenForm do
         expect(VendorAPIToken).to have_received(:create_with_random_token!).with(
           provider: provider,
           description: 'Test API Token',
-          in_house_developers: false,
           vendor_id: vendor.id,
         )
       end
@@ -91,7 +90,6 @@ RSpec.describe ProviderInterface::APITokenForm do
         expect(VendorAPIToken).to have_received(:create_with_random_token!).with(
           provider: provider,
           description: 'Token',
-          in_house_developers: false,
           vendor_id: vendor.id,
         )
       end

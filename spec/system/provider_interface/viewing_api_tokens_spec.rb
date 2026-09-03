@@ -6,6 +6,7 @@ RSpec.describe 'Organisation users', :with_audited do
 
   scenario 'creating an in-house api token' do
     given_i_am_a_provider_user_signed_in_with_permissions_to_manage_tokens
+    given_the_in_house_vendor_exists
 
     when_i_navigate_to_the_api_tokens_page
     then_i_see_the_no_tokens_message
@@ -125,14 +126,19 @@ private
     provider_signs_in_using_dfe_sign_in
   end
 
+  def given_the_in_house_vendor_exists
+    create(:vendor)
+  end
+
   def given_i_have_created_an_in_house_token
     @token_description = 'Token for vendor integration test'
+    in_house_vendor = create(:vendor)
     Audited.audit_class.as_user(@provider_user) do
       @api_token = create(
         :vendor_api_token,
         provider: @provider,
         description: @token_description,
-        in_house_developers: true,
+        vendor: in_house_vendor,
       )
     end
   end
@@ -145,7 +151,6 @@ private
         :vendor_api_token,
         provider: @provider,
         description: @token_description,
-        in_house_developers: false,
         vendor: @vendor,
       )
     end
@@ -154,18 +159,19 @@ private
   def given_i_have_an_active_token_and_a_revoked_token
     @active_token_description = 'Active token'
     @revoked_token_description = 'Revoked token'
+    in_house_vendor = create(:vendor)
     Audited.audit_class.as_user(@provider_user) do
       @active_token = create(
         :vendor_api_token,
         provider: @provider,
         description: @active_token_description,
-        in_house_developers: true,
+        vendor: in_house_vendor,
       )
       @revoked_token = create(
         :vendor_api_token,
         provider: @provider,
         description: @revoked_token_description,
-        in_house_developers: true,
+        vendor: in_house_vendor,
       )
     end
     @revoked_token.discard
@@ -282,7 +288,6 @@ private
   def then_i_see_the_revoked_token_show_page
     expect(page).to have_text 'API Token for In-house developers'
     within('.govuk-summary-list') do
-      expect(page).to have_text @token_description
       expect(page).to have_text @provider_user.full_name
       expect(page).to have_text 'In-house developers'
       expect(page).to have_text 'Never'
