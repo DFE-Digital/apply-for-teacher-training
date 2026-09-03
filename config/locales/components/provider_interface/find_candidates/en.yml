@@ -30,6 +30,9 @@ en:
         refugee_status: Refugee status
         other: Other
         british_or_irish: British or Irish citizen
+        visa_expiry_date: Visa expiry date
+        how_will_you_complete_your_studies:
+          How will you complete your studies?
       application_choices_component:
         subtitle: Application %{counter}
         provider: Provider

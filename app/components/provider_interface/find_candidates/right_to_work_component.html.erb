@@ -1,12 +1,31 @@
 <%= govuk_summary_list do |summary_list| %>
   <% summary_list.with_row do |row| %>
-    <% row.with_key { t('.visa_sponsorship') } %>
+    <% row.with_key { t('provider_interface.find_candidates.right_to_work_component.visa_sponsorship') } %>
     <% row.with_value { visa_sponsorship_value } %>
   <% end %>
+
   <% unless application_form.requires_visa_sponsorship? %>
     <% summary_list.with_row do|row| %>
-      <% row.with_key { t('.visa_or_immigration_status') } %>
+      <% row.with_key { t('provider_interface.find_candidates.right_to_work_component.visa_or_immigration_status') } %>
       <% row.with_value { visa_status_value } %>
+    <% end %>
+  <% end %>
+
+  <% if application_form.visa_expired_at.present? %>
+    <% summary_list.with_row do|row| %>
+      <% row.with_key { t('provider_interface.find_candidates.right_to_work_component.visa_expiry_date') } %>
+      <% row.with_value { visa_expiry_date } %>
+    <% end %>
+  <% end %>
+
+  <% if how_will_you_complete_your_studies.present? %>
+    <% summary_list.with_row do|row| %>
+      <% row.with_key { t('provider_interface.find_candidates.right_to_work_component.how_will_you_complete_your_studies') } %>
+      <% row.with_value do %>
+        <% how_will_you_complete_your_studies.each do |complete_studies| %>
+          <p><%= complete_studies %></p>
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>
