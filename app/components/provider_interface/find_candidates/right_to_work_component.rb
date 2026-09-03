@@ -7,17 +7,17 @@ class ProviderInterface::FindCandidates::RightToWorkComponent < ApplicationCompo
 
   def visa_sponsorship_value
     if application_form.requires_visa_sponsorship?
-      t('.required')
+      t('provider_interface.find_candidates.right_to_work_component.required')
     else
-      t('.not_required')
+      t('provider_interface.find_candidates.right_to_work_component.not_required')
     end
   end
 
   def visa_status_value
     if application_form.british_or_irish?
-      t('.british_or_irish')
+      t('provider_interface.find_candidates.right_to_work_component.british_or_irish')
     else
-      t(".#{application_form.immigration_status.presence || 'unknown'}")
+      t("provider_interface.find_candidates.right_to_work_component.#{application_form.immigration_status.presence || 'unknown'}")
     end
   end
 
@@ -26,11 +26,18 @@ class ProviderInterface::FindCandidates::RightToWorkComponent < ApplicationCompo
   end
 
   def how_will_you_complete_your_studies
-    application_choice.pluck(:visa_explanation).map do |visa_explanation|
-      I18n.t(
-        "candidate_interface.visa_explanation_component.#{visa_explanation}",
+    application_choices.map do |application_choice|
+      explanation = I18n.t(
+        "candidate_interface.visa_explanation_component.#{application_choice.visa_explanation}",
       )
-    end.to_sentence
+
+      if application_choice.visa_explanation_other?
+        tag.p("#{explanation}:", class: 'govuk-body govuk-!-margin-bottom-2') +
+          tag.p(application_choice.visa_explanation_details, class: 'govuk-body govuk-!-padding-left-3')
+      else
+        explanation
+      end
+    end
   end
 
 private
@@ -39,7 +46,7 @@ private
     @application_choices ||= application_form
                                .application_choices
                                .where.not(sent_to_provider_at: nil)
-                               .order(:sent_to_provider_at)
-                               .reverse
+                               .where.not(visa_explanation: nil)
+                               .in_order_of(:visa_explanation, ApplicationChoice.visa_explanations.values)
   end
 end
