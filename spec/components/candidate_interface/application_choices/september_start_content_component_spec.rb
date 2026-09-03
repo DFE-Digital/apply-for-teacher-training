@@ -126,11 +126,14 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
       end
     end
 
-    context 'when given a custom heading' do
-      let(:component) { described_class.new(application_form:, heading: 'What happens next?') }
+    context 'when render heading is false' do
+      let(:component) { described_class.new(application_form:, render_heading: false) }
+      let(:rendered_component) { render_inline(described_class.new(application_form:)) }
 
-      it 'renders the custom heading' do
-        expect(component.heading).to eq('What happens next?')
+      it 'does not render the heading' do
+        expect(component.heading).to be_nil
+        expect(rendered_component).to have_no_text 'Courses starting in September 2026'
+        expect(rendered_component).to have_no_text 'Courses starting by the end of September 2026'
       end
     end
   end

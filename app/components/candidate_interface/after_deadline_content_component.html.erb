@@ -20,8 +20,7 @@
   <div>
     <%= render CandidateInterface::ApplicationChoices::SeptemberStartContentComponent.new(
       application_form: relative_application_form,
-      heading: 'What happens next?',
-      heading_class: 'govuk-heading-m',
+      render_heading: false,
       with_tabs: true,
     ) %>
   </div>
