@@ -40,8 +40,7 @@ module ProviderInterface
         Vendor.find_by(name: VendorAPIToken::IN_HOUSE).id
       elsif vendor_name.present?
         normalized_name = Vendor.normalize_value_for(:name, vendor_name)
-        Vendor.find_by(name: normalized_name)&.id ||
-          Vendor.create!(name: normalized_name, status: :unconfirmed).id
+        Vendor.find_or_create_by!(name: normalized_name).id
       end
     end
   end
