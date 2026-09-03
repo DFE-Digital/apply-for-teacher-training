@@ -6,13 +6,14 @@
     <%= form_with model: @api_token, url: provider_interface_organisation_settings_organisation_api_tokens_path(@provider), method: :post do |form| %>
       <%= form.govuk_error_summary %>
       <h1 class="govuk-heading-l"><%= t('.heading', provider_name: @provider.name) %></h1>
+      <p class="govuk-body"><%= t('.body') %></p>
 
       <%= form.govuk_text_field :description, label: { text: t('.token_description'), size: 's' }, hint: { text: t('.description_hint') } %>
 
-      <%= form.govuk_radio_buttons_fieldset :vendor, legend: { text: 'Who is this token for?' } do %>
-        <%= form.govuk_radio_button :vendor_type, :in_house, label: { text: 'In-house developers' }, link_errors: true %>
+      <%= form.govuk_radio_buttons_fieldset :vendor, legend: { text: t('.token_for') } do %>
+        <%= form.govuk_radio_button :vendor_type, :in_house, label: { text: t('.in_house') }, link_errors: true %>
 
-        <%= form.govuk_radio_button :vendor_type, :third_party, label: { text: 'A third-party software vendor' } do %>
+        <%= form.govuk_radio_button :vendor_type, :third_party, label: { text: t('.third_party') } do %>
           <%= render DfE::Autocomplete::View.new(
             form,
             attribute_name: :vendor_name,
@@ -20,7 +21,7 @@
               :vendor_name,
               options_for_select(dfe_autocomplete_options(Vendor.confirmed), form.object.vendor_name),
               aria: { label: 'vendor_name' },
-              label: { text: 'Select or enter a vendor name' },
+              label: { text: t('.select_vendor') },
             ),
           ) %>
         <% end %>
