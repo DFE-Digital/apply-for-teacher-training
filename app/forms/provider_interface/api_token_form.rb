@@ -45,9 +45,7 @@ module ProviderInterface
     end
 
     def create_vendor_return_id(name)
-      ActiveRecord::Base.transaction do
-        Vendor.create!(name:, status: :unconfirmed).id
-      end
+      Vendor.create!(name:, status: :unconfirmed).id
     end
   end
 end

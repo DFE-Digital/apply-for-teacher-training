@@ -215,7 +215,7 @@ namespace :provider_interface, path: '/provider' do
 
       resources :api_tokens, path: 'api-tokens', only: %i[index new create show] do
         member do
-          get :confirm_revoke
+          get 'confirm-revoke' => 'api_tokens#confirm_revoke', as: :confirm_revoke
           put :revoke
         end
         collection do
