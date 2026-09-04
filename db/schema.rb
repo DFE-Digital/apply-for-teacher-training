@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_03_145931) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_04_153546) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -549,6 +549,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_145931) do
     t.integer "fee_international"
     t.string "financial_support"
     t.string "funding_type"
+    t.boolean "is_send", default: false
     t.string "level"
     t.string "name"
     t.string "program_type"

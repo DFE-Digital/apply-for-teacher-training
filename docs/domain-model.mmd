@@ -354,6 +354,7 @@ erDiagram
 		integer fee_international
 		string financial_support
 		string funding_type
+		boolean is_send
 		string level
 		string name
 		string program_type
@@ -834,6 +835,7 @@ erDiagram
 		datetime discarded_at
 		string hashed_token
 		datetime last_used_at
+		integer vendor_id
 	}
 	VendorApiUser {
 		string email_address
@@ -1029,6 +1031,5 @@ erDiagram
 	Candidate o|--}o ValidationError : ""
 	ProviderUser o|--}o ValidationError : ""
 	SupportUser o|--}o ValidationError : ""
-	Vendor o|--}o VendorAPIToken : ""
 	Provider o|--}o VendorAPIRequestV2 : ""
 	VendorAPIToken ||--}o VendorApiUser : ""
