@@ -102,3 +102,6 @@ maintenance_page/manifests/maintenance/deployment_maintenance.yml
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Generated as part of DB Backups via Makefile
+sas*.txt
