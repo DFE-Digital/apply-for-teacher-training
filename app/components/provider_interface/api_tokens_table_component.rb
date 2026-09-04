@@ -48,12 +48,17 @@ module ProviderInterface
     end
 
     def description_cell(token)
-      description = token.description.presence || t('.no_description') # are there tokens without description?
-      govuk_link_to(description.to_s, provider_interface_organisation_settings_organisation_api_token_path(token.provider_id, token.id))
+      govuk_link_to(token.name, provider_interface_organisation_settings_organisation_api_token_path(token.provider_id, token.id))
     end
 
     def call
-      govuk_table(head:, rows:) do |table|
+      no_content_message = if params[:filter_tab] == 'revoked' && @api_tokens.blank?
+                             content_tag :p, 'No revoked tokens', class: 'govuk-body'
+                           elsif @api_tokens.blank?
+                             content_tag :p, 'No active tokens', class: 'govuk-body'
+                           end
+
+      no_content_message.presence || govuk_table(head:, rows:) do |table|
         table.with_caption(text: t('.caption'), html_attributes: { class: 'govuk-visually-hidden' })
       end
     end

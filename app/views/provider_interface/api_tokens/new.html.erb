@@ -27,17 +27,7 @@
         <% end %>
       <% end %>
 
-      <p class="govuk-body">
-        <%= govuk_link_to(
-              t('.apply_api', environment: HostingEnvironment.environment_name),
-              api_docs_home_path,
-            ) %>
-      </p>
-      <p class="govuk-body">
-        <%= t('.create_token', provider_name: @provider.name) %>
-      </p>
-
-      <%= form.govuk_submit t('.generate') %>
+      <%= form.govuk_submit t('.create') %>
     <% end %>
   </div>
 </div>

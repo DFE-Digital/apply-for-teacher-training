@@ -19,11 +19,11 @@ RSpec.describe 'Organisation users', :with_audited do
     then_i_see_the_no_tokens_message
 
     when_i_click_on('Create a token')
-    and_i_click_on('Generate')
+    and_i_click_on('Create token')
     then_i_see_errors_for_description_and_vendor_type
 
     when_i_add_a_description_and_select_in_house
-    and_i_click_on('Generate')
+    and_i_click_on('Create token')
     then_i_see_the_success_page
 
     when_i_click_on('Back')
@@ -188,7 +188,8 @@ private
   end
 
   def when_i_add_a_description_and_select_in_house
-    fill_in 'Name', with: 'Token for vendor integration test'
+    @token_description = 'Token for vendor integration test'
+    fill_in 'Name', with: @token_description
     choose 'In-house developers'
   end
 
@@ -206,7 +207,7 @@ private
     expect(page).to have_text 'Who is this token for?'
     expect(page).to have_text 'In-house developers'
     expect(page).to have_text 'A third-party software vendor'
-    expect(page).to have_text "Clicking generate will create a token for #{@provider.name}."
+    expect(page).to have_button 'Create token'
   end
 
   def then_i_see_errors_for_description_and_vendor_type
@@ -262,7 +263,7 @@ private
   end
 
   def then_i_see_the_in_house_token_show_page
-    expect(page).to have_text 'API Token for In-house developers'
+    expect(page).to have_text "API Token for #{@token_description}"
     within('.govuk-summary-list') do
       expect(page).to have_text @provider_user.full_name
       expect(page).to have_text 'In-house developers'
@@ -276,7 +277,7 @@ private
   end
 
   def then_i_see_the_third_party_token_show_page
-    expect(page).to have_text 'API Token for Tribal'
+    expect(page).to have_text "API Token for #{@token_description}"
     within('.govuk-summary-list') do
       expect(page).to have_text @provider_user.full_name
       expect(page).to have_text 'Tribal'
@@ -286,7 +287,7 @@ private
   end
 
   def then_i_see_the_revoked_token_show_page
-    expect(page).to have_text 'API Token for In-house developers'
+    expect(page).to have_text "API Token for #{@token_description}"
     within('.govuk-summary-list') do
       expect(page).to have_text @provider_user.full_name
       expect(page).to have_text 'In-house developers'
@@ -298,13 +299,13 @@ private
   end
 
   def then_i_see_the_confirm_revoke_page
-    expect(page).to have_text 'Are you sure you want to revoke API Token for In-house developers?'
+    expect(page).to have_text "Are you sure you want to revoke API Token for #{@token_description}?"
     expect(page).to have_text 'If you revoke this token, any software integrations using it will stop working immediately.'
     expect(page).to have_button 'Yes, revoke this API token'
   end
 
   def then_i_see_the_revoked_flash_message
-    expect(page).to have_text 'You have revoked API Token for Tribal'
+    expect(page).to have_text "You have revoked API Token for #{@token_description}"
   end
 
   def then_i_see_the_active_tab_is_current
