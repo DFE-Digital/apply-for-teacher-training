@@ -1,0 +1,37 @@
+<% content_for :browser_title, t('.title', provider_name: @provider.name) %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_organisation_settings_organisation_api_tokens_path(@provider)) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <% if @unhashed_token.present? %>
+      <%= govuk_panel(title_text: t('.new_api_token_generated')) do %>
+        <%= t('.your_token_is_html', token: @unhashed_token) %>
+      <% end %>
+
+      <div class='govuk-button-group' data-controller='copy-to-clipboard' data-copy-to-clipboard-text-value="<%= @unhashed_token %>">
+        <%= govuk_button_to(
+          t('.copy'),
+          class: 'govuk-visually-hidden',
+          data: {
+            action: 'click->copy-to-clipboard#call',
+            copy_to_clipboard_target: 'button',
+          },
+          secondary: true,
+          method: :get,
+        ) %>
+
+        <p class='govuk-body align-self-center color-green' data-copy-to-clipboard-target='successTag' hidden>
+          <%= t('.copy_success') %>
+        </p>
+      </div>
+
+      <p class="govuk-body">
+        <%= t('.content') %>
+      </p>
+
+      <p class="govuk-body">
+        <%= govuk_warning_text(text: t('.warning')) %>
+      </p>
+    <% end %>
+  </div>
+</div>

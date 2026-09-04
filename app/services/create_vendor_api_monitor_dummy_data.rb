@@ -1,5 +1,6 @@
 class CreateVendorAPIMonitorDummyData
   def self.call
+    FactoryBot.create(:vendor, name: 'in_house') # we need this api_token creation view
     integrated_providers = Provider.where(provider_type: 'university').shuffle
 
     # decision older than 7 days
