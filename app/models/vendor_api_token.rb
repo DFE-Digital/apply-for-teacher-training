@@ -18,7 +18,7 @@ class VendorAPIToken < ApplicationRecord
   end
 
   def name
-    return 'None' unless description
+    return 'API token' unless description
 
     description
   end

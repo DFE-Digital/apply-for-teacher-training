@@ -198,7 +198,7 @@ private
   end
 
   def and_i_see_a_link_to_api_docs
-    expect(page).to have_link('Apply API (test)', href: api_docs_home_path)
+    expect(page).to have_link('View the test API documentation', href: api_docs_home_path)
   end
 
   def then_i_see_the_create_token_page
@@ -254,7 +254,7 @@ private
       expect(page).to have_text token.last_used_at.to_fs(:govuk_date_and_time)
       expect(page).to have_text token.created_at.to_fs(:govuk_date_and_time)
       expect(page).to have_text 'DFE support user'
-      expect(page).to have_text 'None'
+      expect(page).to have_text 'API token'
     end
   end
 
@@ -263,7 +263,7 @@ private
   end
 
   def then_i_see_the_in_house_token_show_page
-    expect(page).to have_text "API Token for #{@token_description}"
+    expect(page).to have_text @token_description
     within('.govuk-summary-list') do
       expect(page).to have_text @provider_user.full_name
       expect(page).to have_text 'In-house developers'
@@ -277,7 +277,7 @@ private
   end
 
   def then_i_see_the_third_party_token_show_page
-    expect(page).to have_text "API Token for #{@token_description}"
+    expect(page).to have_text @token_description
     within('.govuk-summary-list') do
       expect(page).to have_text @provider_user.full_name
       expect(page).to have_text 'Tribal'
@@ -287,7 +287,7 @@ private
   end
 
   def then_i_see_the_revoked_token_show_page
-    expect(page).to have_text "API Token for #{@token_description}"
+    expect(page).to have_text @token_description
     within('.govuk-summary-list') do
       expect(page).to have_text @provider_user.full_name
       expect(page).to have_text 'In-house developers'
@@ -299,13 +299,13 @@ private
   end
 
   def then_i_see_the_confirm_revoke_page
-    expect(page).to have_text "Are you sure you want to revoke API Token for #{@token_description}?"
+    expect(page).to have_text "Are you sure you want to revoke #{@token_description}?"
     expect(page).to have_text 'If you revoke this token, any software integrations using it will stop working immediately.'
     expect(page).to have_button 'Yes, revoke this API token'
   end
 
   def then_i_see_the_revoked_flash_message
-    expect(page).to have_text "You have revoked API Token for #{@token_description}"
+    expect(page).to have_text "You have revoked #{@token_description}"
   end
 
   def then_i_see_the_active_tab_is_current
