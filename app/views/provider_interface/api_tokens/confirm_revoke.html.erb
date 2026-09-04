@@ -1,4 +1,4 @@
-<% content_for :browser_title, t('.title', token_name: @api_token.name) %>
+<% content_for :browser_title, t('.title', token: @api_token.name) %>
 <% content_for :before_content do %>
   <%= govuk_back_link(
     text: 'Back',
@@ -9,10 +9,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-l">
-      <span class="govuk-caption-l"><%= t('.token_for', vendor: @api_token.vendor_name) %></span>
-      <%= t('.title', token_name: @api_token.name) %>
-    </h1>
+    <h1 class="govuk-heading-l"><%= t('.title', token: @api_token.name) %></h1>
     <%= govuk_warning_text(text: t('.warning')) %>
 
     <%= render ProviderInterface::APITokenSummaryComponent.new(

@@ -8,8 +8,8 @@ en:
         revoked_tokens: Revoked tokens
         no_tokens: There are no API tokens for this organisation
         api_tokens: API tokens
-        apply_api: Apply API (%{environment})
-        what_tokens_are_for_html: Software vendors use API tokens to manage applications on other platforms via the %{link}.
+        apply_api: View the %{environment} API documentation
+        what_tokens_are_for_html: Software vendors use API tokens to manage applications on other platforms via the Apply API. %{link}.
         warning: API tokens give full access to all your organisation’s data. They must be handled securely, like passwords.
       new:
         title: Create an API token for %{provider_name}
@@ -25,16 +25,15 @@ en:
         third_party: A third-party software vendor
         select_vendor: Select or enter a vendor name
       show:
-        title: API Token for %{token_name}
+        title: Vendor %{token}
       confirm_revoke:
-        title: Are you sure you want to revoke API Token for %{token_name}?
-        token_for: API Token for %{vendor}
+        title: Are you sure you want to revoke %{token}?
         warning: If you revoke this token, any software integrations using it will stop working immediately.
         revoke_token: Yes, revoke this API token
       revoke:
-        success: You have revoked API Token for %{token_name}
+        success: You have revoked %{token}
       success:
-        title: API token for %{provider_name}
+        title: Token created
         new_api_token_generated: Token created
         your_token_is_html: Your token is <br role="presentation"><code>%{token}</code>
         copy: Copy this token to your clipboard
