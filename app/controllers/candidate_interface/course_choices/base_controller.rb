@@ -60,6 +60,7 @@ module CandidateInterface
               study_mode: params.dig(current_step, :study_mode) || application_choice.current_course_option.study_mode,
               course_option_id: params.dig(current_step, :course_option_id) || application_choice.current_course_option.id,
               visa_explanation: params.dig(current_step, :visa_explanation) || application_choice.visa_explanation,
+              visa_explanation_details: params.dig(current_step, :visa_explanation_details) || application_choice.visa_explanation_details,
             },
           },
         )
