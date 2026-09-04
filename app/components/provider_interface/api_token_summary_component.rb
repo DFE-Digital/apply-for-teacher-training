@@ -22,10 +22,10 @@ module ProviderInterface
             field_value: token.status.capitalize,
             action: revoke_token,
           },
-        }.compact_blank
+        }
       when 'confirm_revoke'
         {
-          t('.name') => token.description,
+          t('.name') => token.name,
           t('.created_by') => created_by,
           t('.created_at') => created_at,
           t('.token_for') => token.vendor_name,
@@ -43,7 +43,7 @@ module ProviderInterface
           },
           t('.revoked_at') => token.discarded_at&.to_fs(:govuk_date_and_time),
           t('.revoked_by') => discarded_by,
-        }.compact_blank
+        }
       end
     end
 

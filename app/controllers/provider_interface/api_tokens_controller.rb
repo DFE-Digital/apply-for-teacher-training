@@ -33,7 +33,7 @@ module ProviderInterface
 
     def revoke
       @api_token.discard
-      flash[:success] = t('.success')
+      flash[:success] = t('.success', token_name: @api_token.name)
       redirect_to provider_interface_organisation_settings_organisation_api_tokens_path(@provider)
     end
 

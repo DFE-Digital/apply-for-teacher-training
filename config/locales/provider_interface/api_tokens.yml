@@ -16,8 +16,7 @@ en:
         heading: Create an API token
         body: API tokens give full access to all your organisation’s data. They must be handled securely, like passwords.
         create_token: Clicking generate will create a token for %{provider_name}. It will be visible until you navigate away from the page.
-        generate: Generate
-        cancel: Cancel
+        create: Create token
         apply_api: Apply API documentation (%{environment})
         token_description: Name
         description_hint: Enter a name for your token, such as who or what it is for
@@ -26,14 +25,14 @@ en:
         third_party: A third-party software vendor
         select_vendor: Select or enter a vendor name
       show:
-        title: API Token for %{vendor}
+        title: API Token for %{token_name}
       confirm_revoke:
-        title: Are you sure you want to revoke API Token for %{vendor}?
+        title: Are you sure you want to revoke API Token for %{token_name}?
         token_for: API Token for %{vendor}
         warning: If you revoke this token, any software integrations using it will stop working immediately.
         revoke_token: Yes, revoke this API token
       revoke:
-        success: You have revoked API Token for Tribal
+        success: You have revoked API Token for %{token_name}
       success:
         title: API token for %{provider_name}
         new_api_token_generated: Token created

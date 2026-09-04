@@ -1,4 +1,4 @@
-<% content_for :browser_title, t('.title', vendor: @api_token.vendor_name) %>
+<% content_for :browser_title, t('.title', token_name: @api_token.name) %>
 <% content_for :before_content do %>
   <%= govuk_back_link(
     text: 'Back',
@@ -11,7 +11,7 @@
 
     <h1 class="govuk-heading-l">
       <span class="govuk-caption-l"><%= t('.token_for', vendor: @api_token.vendor_name) %></span>
-      <%= t('.title', vendor: @api_token.vendor_name) %>
+      <%= t('.title', token_name: @api_token.name) %>
     </h1>
     <%= govuk_warning_text(text: t('.warning')) %>
 
