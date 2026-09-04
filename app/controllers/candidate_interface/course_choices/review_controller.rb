@@ -8,7 +8,7 @@ module CandidateInterface
         @application_choice = current_candidate
                                 .application_choices
                                 .where(application_form: [current_application, current_candidate.previous_application])
-                                .find(params[:application_choice_id])
+                                .find(params.expect(:application_choice_id))
 
         if params['return_to'] == 'invite'
           invite = application_choice.published_invites.last

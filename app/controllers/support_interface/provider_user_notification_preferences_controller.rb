@@ -14,7 +14,7 @@ module SupportInterface
     end
 
     def provider_user
-      @provider_user ||= ProviderUser.find(params[:provider_user_id])
+      @provider_user ||= ProviderUser.find(params.expect(:provider_user_id))
     end
 
     def notification_preferences_params

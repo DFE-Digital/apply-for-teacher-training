@@ -2,7 +2,7 @@ module SupportInterface
   module ApplicationForms
     class GcsesController < SupportInterfaceController
       def edit
-        @application_qualification = ApplicationQualification.find(params[:id])
+        @application_qualification = ApplicationQualification.find(params.expect(:id))
 
         gcse_form_klass = GcseFormResolver.new(@application_qualification).call
 
@@ -10,7 +10,7 @@ module SupportInterface
       end
 
       def update
-        @application_qualification = ApplicationQualification.find(params[:id])
+        @application_qualification = ApplicationQualification.find(params.expect(:id))
         gcse_form_klass = GcseFormResolver.new(@application_qualification).call
         @gcse_form = gcse_form_klass.build_from_qualification(@application_qualification)
         @gcse_form.assign_values(params.require(:support_interface_gcse_form).permit!)

@@ -4,9 +4,9 @@ module CandidateInterface
       before_action :render_application_feedback_component
 
       def edit
-        @form = Degrees::BaseForm.from_application_qualification(degree_store, current_application.application_qualifications.find(params[:id]))
+        @form = Degrees::BaseForm.from_application_qualification(degree_store, current_application.application_qualifications.find(params.expect(:id)))
         @form.save_state!
-        redirect_to [:candidate_interface, :degree, params[:step].to_sym]
+        redirect_to [:candidate_interface, :degree, params.expect(:step).to_sym]
       end
 
       def degree_store
