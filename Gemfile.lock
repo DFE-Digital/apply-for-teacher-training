@@ -23,11 +23,12 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/dfe-reference-data.git
-  revision: f38d2cfa89e7e849cd9a66c2becc4629b1c70b02
-  tag: v3.8.6
+  revision: 27b6174df5c1e4b45bfda32575e10bb6735fc13f
+  tag: v3.10.0
   specs:
-    dfe-reference-data (3.8.6)
+    dfe-reference-data (3.10.0)
       activesupport
+      csv
       tzinfo
 
 GIT
@@ -1077,7 +1078,7 @@ CHECKSUMS
   devise (4.9.4) sha256=920042fe5e704c548aa4eb65ebdd65980b83ffae67feb32c697206bfd975a7f8
   dfe-analytics (1.15.17)
   dfe-autocomplete (0.2.1)
-  dfe-reference-data (3.8.6)
+  dfe-reference-data (3.10.0)
   dfe-wizard (0.1.0)
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
   discard (2.0.0) sha256=0fc520786b4d7b9b1ea8b2b3dadbb13c3e41d2ce7d297d04869baf1c9e30d2c0
