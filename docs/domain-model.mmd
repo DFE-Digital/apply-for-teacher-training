@@ -312,6 +312,7 @@ erDiagram
 		boolean course_funding_type_fee
 		boolean course_type_postgraduate
 		boolean course_type_undergraduate
+		boolean is_send
 		boolean needs_visa
 		integer rejected_provider_ids
 		boolean study_mode_full_time
@@ -834,6 +835,7 @@ erDiagram
 		datetime discarded_at
 		string hashed_token
 		datetime last_used_at
+		integer vendor_id
 	}
 	VendorApiUser {
 		string email_address
@@ -1029,6 +1031,5 @@ erDiagram
 	Candidate o|--}o ValidationError : ""
 	ProviderUser o|--}o ValidationError : ""
 	SupportUser o|--}o ValidationError : ""
-	Vendor o|--}o VendorAPIToken : ""
 	Provider o|--}o VendorAPIRequestV2 : ""
 	VendorAPIToken ||--}o VendorApiUser : ""
