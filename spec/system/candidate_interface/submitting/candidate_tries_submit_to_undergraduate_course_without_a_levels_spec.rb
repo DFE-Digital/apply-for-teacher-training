@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate tries to submit undergraduate courses with no A levels' do
+RSpec.describe 'Candidate tries to submit undergraduate courses with no A levels', :with_cache do
   include CandidateHelper
 
   scenario 'when candidate tries to submit undergraduate course with no A level' do

@@ -14,7 +14,11 @@ module CandidateInterface
           course = Course.find(params[:course_id])
           return unless current_application.contains_course?(course)
 
-          redirect_to candidate_interface_course_choices_duplicate_course_selection_path(course.provider_id, course.id)
+          redirect_to candidate_interface_course_choices_duplicate_course_selection_path(
+            provider_id: course.provider_id,
+            course_id: course.id,
+            application_choice_id: application_choice&.id,
+          )
         end
       end
     end

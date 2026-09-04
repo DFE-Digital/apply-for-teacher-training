@@ -1,9 +1,8 @@
 <%= f.govuk_error_summary %>
-<%= f.hidden_field(:provider_id) %>
 
-<% if @wizard.current_step.provider_exists? %>
+<% if @wizard.provider_exists? %>
   <span class="govuk-caption-xl govuk-!-margin-top-0">
-    <%= @wizard.current_step.provider.name %>
+    <%= @wizard.provider.name %>
   </span>
 <% end %>
 
@@ -23,7 +22,12 @@
 <% else %>
   <%= f.govuk_radio_buttons_fieldset :course_id, legend: { size: 'xl', text: t('page_titles.which_course'), tag: 'h1' } do %>
     <% @wizard.current_step.radio_available_courses.each_with_index do |course, i| %>
-      <%= f.govuk_radio_button :course_id, course.id, label: { text: course.label }, hint: { text: course.hint }, link_errors: i.zero? %>
+      <%= f.govuk_radio_button :course_id,
+                               course.id,
+                               label: { text: course.label },
+                               hint: { text: course.hint },
+                               link_errors: i.zero?,
+                               checked: (@wizard.current_step.course_id || @wizard.state_store[:course_id]).to_i == course.id %>
     <% end %>
   <% end %>
 <% end %>

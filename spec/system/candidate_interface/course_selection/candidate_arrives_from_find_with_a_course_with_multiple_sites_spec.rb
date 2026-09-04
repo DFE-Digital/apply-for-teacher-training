@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate arrives from Find with provider and course with multiple sites' do
+RSpec.describe 'Candidate arrives from Find with provider and course with multiple sites', :with_cache do
   include CandidateHelper
 
   scenario 'The provider is only accepting applications on the Apply service' do

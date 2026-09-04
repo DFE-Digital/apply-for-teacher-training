@@ -6,20 +6,16 @@ module CandidateInterface
 
     private
 
-      def step_params
-        params[current_step] = {
-          provider_id: params.delete(:provider_id),
-          course_id: params.delete(:course_id),
-        }
-        params
-      end
-
       def current_step
         :full_course_selection
       end
 
       def set_course
-        @course = Course.find(params[:course_id])
+        @course = @wizard.course || Course.find(params[:course_id])
+      end
+
+      def wizard_controller?
+        true
       end
     end
   end

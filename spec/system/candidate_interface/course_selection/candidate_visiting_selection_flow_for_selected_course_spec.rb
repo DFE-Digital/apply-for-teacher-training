@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Selecting a course' do
   include CandidateHelper
 
-  it 'Candidate is redirected when visiting later steps on a duplicate course selection' do
+  it 'Candidate is redirected when visiting later steps on a duplicate course selection', :with_cache do
     given_i_am_signed_in_with_one_login
 
     and_there_is_one_course_option_with_both_study_modes_and_two_sites
@@ -22,6 +22,8 @@ RSpec.describe 'Selecting a course' do
     when_i_come_from_find_and_arrive_on_confirm_selection_page
     then_i_am_redirected_to_the_duplicate_course_selection_step
   end
+
+private
 
   def and_there_is_one_course_option_with_both_study_modes_and_two_sites
     provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
