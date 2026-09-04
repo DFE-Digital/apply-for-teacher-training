@@ -9,7 +9,7 @@ RSpec.describe ProviderInterface::APITokenForm do
     it 'requires a vendor name for third-party tokens' do
       form = described_class.new(description: 'Test', provider: build(:provider), vendor_type: 'third_party', vendor_name: nil)
       expect(form).not_to be_valid
-      expect(form.errors[:vendor_name]).to eq(['Select a vendor'])
+      expect(form.errors[:vendor_name]).to eq(['Select or enter a vendor name'])
     end
 
     it 'does not require a vendor name for in-house tokens' do
