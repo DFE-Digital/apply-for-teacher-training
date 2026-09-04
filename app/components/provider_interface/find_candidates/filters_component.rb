@@ -16,6 +16,9 @@ module ProviderInterface
           subject_ids: {
             options: subject_options,
           },
+          send_specialism: {
+            options: send_specialism_options,
+          },
           study_mode: {
             options: study_mode_options,
           },
@@ -77,6 +80,17 @@ module ProviderInterface
             value: 'fee',
             name: 'fee-funded only'.capitalize,
           ),
+        ]
+      end
+
+      def send_specialism_options
+        send_specialism = Struct.new(:value, :name)
+
+        [
+          send_specialism.new(
+            value: true,
+            name: 'Applied to SEND courses',
+          )
         ]
       end
 

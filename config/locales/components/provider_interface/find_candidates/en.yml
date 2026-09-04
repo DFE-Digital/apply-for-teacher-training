@@ -120,6 +120,7 @@ en:
         clear_search: Clear search
         search: Search
         subject: Subject
+        send_specialism: SEND specialism
       candidate_search_component:
         search_by_candidate_number: Search by candidate number
         clear_search: Clear search
