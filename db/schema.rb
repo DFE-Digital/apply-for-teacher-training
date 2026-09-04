@@ -550,6 +550,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_04_155945) do
     t.integer "fee_international"
     t.string "financial_support"
     t.string "funding_type"
+    t.boolean "is_send", default: false
     t.string "level"
     t.string "name"
     t.string "program_type"
