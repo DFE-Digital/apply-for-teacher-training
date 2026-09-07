@@ -154,6 +154,10 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         course: create(:course, program_type: 'higher_education_programme'),
         study_mode: 'full_time',
       )
+      send_option = create(
+        :course_option,
+        course: create(:course, is_send: true),
+      )
       create(
         :application_choice,
         status: :awaiting_provider_decision,
@@ -172,6 +176,12 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         application_form: application_form,
         funding_type: 'fee',
       )
+      create(
+        :application_choice,
+        status: :awaiting_provider_decision,
+        application_form: application_form,
+        course_option: send_option,
+      )
       existing_pool_application = create(
         :candidate_pool_application,
         application_form: application_form,
@@ -183,6 +193,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         course_type_postgraduate: false,
         study_mode_part_time: false,
         study_mode_full_time: false,
+        is_send: false,
       )
       stub_application_forms_in_the_pool(application_form.id)
 
@@ -195,6 +206,7 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         .and change { existing_pool_application.reload.course_type_undergraduate }.from(false).to(true)
         .and change { existing_pool_application.reload.course_type_postgraduate }.from(false).to(true)
         .and change { existing_pool_application.reload.study_mode_part_time }.from(false).to(true)
+        .and change { existing_pool_application.reload.study_mode_full_time }.from(false).to(true)
         .and change { existing_pool_application.reload.study_mode_full_time }.from(false).to(true)
         .and change(existing_pool_application.reload, :updated_at)
         .and not_change(existing_pool_application.reload, :id)
