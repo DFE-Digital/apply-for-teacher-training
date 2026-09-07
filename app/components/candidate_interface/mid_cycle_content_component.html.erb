@@ -30,7 +30,6 @@
   <p class="govuk-body"><%= t('mid_cycle_content_component.training_providers_offer_places_throughout_the_year') %></p>
 
   <%= render CandidateInterface::CarryOverTaskListComponent.new(application_form:) %>
-
   <%= govuk_button_link_to t('mid_cycle_content_component.add_application'), candidate_interface_course_choices_do_you_know_the_course_path %>
 <% else %>
   <% if application_form_presenter.cannot_submit_more_choices? && !application_form_presenter.total_submitted_application_limit_reached? %>
