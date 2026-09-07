@@ -40,9 +40,9 @@ module ChoiceLimitsCalculator
 
   def cannot_submit_more_choices?
     if recruitment_cycle_year > 2026
-      after_apply_deadline? || total_submitted_application_limit_reached? || in_progress_limit_reached?
+      total_submitted_application_limit_reached? || in_progress_limit_reached?
     else
-      after_apply_deadline? || unsuccessful_limit_reached? || in_progress_limit_reached?
+      unsuccessful_limit_reached? || in_progress_limit_reached?
     end
   end
 

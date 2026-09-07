@@ -31,8 +31,7 @@ STANDARD_TEST_DATES = {
   'after_apply_reopens' => (RecruitmentCycleTimetable.current_timetable.apply_reopens_at + 1.day).to_fs,
 }.freeze
 
-# test_date_time_var = ENV.fetch('TEST_DATE_AND_TIME', 'real_world')
-test_date_time_var = 'after_apply_deadline'
+test_date_time_var = ENV.fetch('TEST_DATE_AND_TIME', 'before_apply_reopens')
 test_date_time = STANDARD_TEST_DATES.fetch(test_date_time_var, test_date_time_var)
 
 TestSuiteTimeMachine.pretend_it_is(test_date_time)
