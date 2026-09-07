@@ -35,6 +35,16 @@ RSpec.describe 'API Authentication' do
     expect(parsed_response).to be_valid_against_openapi_schema('UnauthorizedResponse')
   end
 
+  it 'returns an error if the token is discarded' do
+    unhashed_token = VendorAPIToken.create_with_random_token!(provider: create(:provider))
+    VendorAPIToken.find_by_unhashed_token(unhashed_token).discard
+
+    get '/api/v1/ping', headers: { Authorization: "Bearer #{unhashed_token}" }
+
+    expect(response).to have_http_status(:unauthorized)
+    expect(parsed_response).to be_valid_against_openapi_schema('UnauthorizedResponse')
+  end
+
   it 'returns an error if no API token is present' do
     get '/api/v1/ping', headers: { Authorization: nil }
 

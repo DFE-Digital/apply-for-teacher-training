@@ -8,6 +8,7 @@ RSpec.describe Vendor do
 
   describe 'associations' do
     it { is_expected.to have_many(:providers) }
+    it { is_expected.to have_many(:vendor_api_tokens) }
   end
 
   describe 'normalizes name' do
@@ -20,5 +21,9 @@ RSpec.describe Vendor do
       vendor = create(:vendor, name: :important_vendor)
       expect(vendor.name).to eq 'important_vendor'
     end
+  end
+
+  describe 'enum' do
+    it { is_expected.to define_enum_for(:status).with_values(confirmed: 'confirmed', unconfirmed: 'unconfirmed').backed_by_column_of_type(:string) }
   end
 end

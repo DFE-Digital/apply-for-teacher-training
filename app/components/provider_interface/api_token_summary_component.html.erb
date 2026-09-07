@@ -1,0 +1,13 @@
+<%= govuk_summary_list do |summary_list| %>
+  <% items.each do |key, value| %>
+    <%= summary_list.with_row do |row| %>
+      <%= row.with_key { key } %>
+      <% if value.is_a?(Hash) && value.keys.include?(:action) %>
+        <%= row.with_value { value[:field_value] } %>
+        <%= row.with_action(**value[:action]) %>
+      <% else %>
+        <%= row.with_value { value } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

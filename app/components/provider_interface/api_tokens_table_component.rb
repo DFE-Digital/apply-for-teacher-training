@@ -2,7 +2,7 @@ module ProviderInterface
   class APITokensTableComponent < ApplicationComponent
     include Rails.application.routes.url_helpers
 
-    attr_reader :api_tokens, :can_manage_tokens
+    attr_reader :api_tokens
 
     def initialize(api_tokens:)
       @api_tokens = api_tokens
@@ -10,22 +10,20 @@ module ProviderInterface
 
     def head
       [
-        t('.id'),
-        t('.last_used_at'),
-        t('.created_at'),
-        t('.created_by'),
         t('.description'),
+        t('.created_by'),
+        t('.created_at'),
+        t('.last_used_at'),
       ]
     end
 
     def rows
       api_tokens.map do |token|
         [
-          "##{token.id}",
-          last_used_at_cell(token),
-          created_at_cell(token),
-          created_by_cell(token),
           description_cell(token),
+          created_by_cell(token),
+          created_at_cell(token),
+          last_used_at_cell(token),
         ]
       end
     end
@@ -43,18 +41,24 @@ module ProviderInterface
       return t('.default_user') if created_audit.blank?
 
       if created_audit.user.present? && created_audit.user_type == 'ProviderUser'
-        created_audit.user.email_address
+        created_audit.user.full_name
       else
         t('.default_user')
       end
     end
 
     def description_cell(token)
-      token.description.presence || t('.no_description')
+      govuk_link_to(token.name, provider_interface_organisation_settings_organisation_api_token_path(token.provider_id, token.id))
     end
 
     def call
-      govuk_table(head:, rows:) do |table|
+      no_content_message = if params[:filter_tab] == 'revoked' && @api_tokens.blank?
+                             content_tag :p, 'No revoked tokens', class: 'govuk-body'
+                           elsif @api_tokens.blank?
+                             content_tag :p, 'No active tokens', class: 'govuk-body'
+                           end
+
+      no_content_message.presence || govuk_table(head:, rows:) do |table|
         table.with_caption(text: t('.caption'), html_attributes: { class: 'govuk-visually-hidden' })
       end
     end

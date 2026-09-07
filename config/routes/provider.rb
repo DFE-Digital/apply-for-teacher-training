@@ -213,7 +213,15 @@ namespace :provider_interface, path: '/provider' do
         end
       end
 
-      resources :api_tokens, path: 'api-tokens', only: %i[index new create]
+      resources :api_tokens, path: 'api-tokens', only: %i[index new create show] do
+        member do
+          get 'confirm-revoke' => 'api_tokens#confirm_revoke', as: :confirm_revoke
+          put :revoke
+        end
+        collection do
+          get :success
+        end
+      end
 
       namespace :user_invitation, path: 'user' do
         resource :personal_details, path: '', only: %i[new create]
