@@ -2318,6 +2318,11 @@
           },
           {
             "fieldPath": [
+              "is_send"
+            ]
+          },
+          {
+            "fieldPath": [
               "level"
             ]
           },
