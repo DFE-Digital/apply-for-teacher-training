@@ -88,9 +88,9 @@ module ProviderInterface
 
         [
           send_specialism.new(
-            value: true,
+            value: 'true',
             name: 'Applied to SEND courses',
-          )
+          ),
         ]
       end
 
