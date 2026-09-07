@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_04_155945) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_07_081806) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -668,7 +668,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_04_155945) do
     t.boolean "no_qualification", default: false, null: false
     t.text "no_qualification_details"
     t.boolean "qualification_not_needed", default: false, null: false
-    t.string "qualification_status"
     t.datetime "updated_at", null: false
     t.index ["application_form_id"], name: "index_english_proficiencies_on_application_form_id"
     t.index ["degree_taught_in_english"], name: "index_english_proficiencies_on_degree_taught_in_english"
