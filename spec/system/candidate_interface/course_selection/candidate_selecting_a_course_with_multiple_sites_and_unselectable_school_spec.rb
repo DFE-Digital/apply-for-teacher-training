@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe 'Selecting a course with multiple sites when the provider is not selectable_school', time: CycleTimetableHelper.mid_cycle(2025) do
+RSpec.describe 'Selecting a course with multiple sites when the provider is not selectable_school', :with_cache,
+               time: CycleTimetableHelper.mid_cycle(2025) do
   include CandidateHelper
 
   describe 'when there is a main site' do

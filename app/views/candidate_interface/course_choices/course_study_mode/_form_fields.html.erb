@@ -1,10 +1,8 @@
 <%= f.govuk_error_summary %>
-<%= f.hidden_field(:provider_id) %>
-<%= f.hidden_field(:course_id) %>
 
-<% if @wizard.current_step.provider_exists? %>
+<% if @wizard.provider_exists? %>
   <p class="govuk-caption-xl govuk-!-margin-top-0">
-    <%= @wizard.current_step.provider.name %>
+    <%= @wizard.provider.name %>
   </p>
 <% end %>
 

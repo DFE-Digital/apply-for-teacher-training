@@ -7,24 +7,32 @@ module CandidateInterface
 
     private
 
-      def step_params
-        params[current_step] = {
-          provider_id: params.delete(:provider_id),
-          course_id: params.delete(:course_id),
-        }
-        params
-      end
-
       def current_step
         :duplicate_course_selection
       end
 
       def set_course
-        @course = Course.find(params[:course_id])
+        @course = @wizard.course || Course.find(params[:course_id])
       end
 
       def set_backlink
-        @backlink = candidate_interface_application_choices_path if request.referer.blank?
+        @backlink = if request.referer.blank?
+                      candidate_interface_application_choices_path
+                    elsif @wizard.previous_step.present?
+                      @wizard.previous_step_path
+                    elsif application_choice.present?
+                      candidate_interface_edit_course_choices_which_course_are_you_applying_to_path(
+                        application_choice_id: application_choice.id,
+                      )
+                    else
+                      candidate_interface_course_choices_which_course_are_you_applying_to_path(
+                        provider_id: @wizard.provider.id,
+                      )
+                    end
+      end
+
+      def wizard_controller?
+        true
       end
     end
   end

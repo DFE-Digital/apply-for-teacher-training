@@ -5,6 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @wizard.current_step,
+      scope: @wizard.current_step_name,
       url: @wizard.current_step_path(
         application_choice_id: params[:application_choice_id],
       ),

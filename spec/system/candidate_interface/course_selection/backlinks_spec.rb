@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate edits course choices' do
+RSpec.describe 'Candidate edits course choices', :with_cache do
   include CandidateHelper
   include CourseOptionHelpers
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Carry over next cycle with cycle switcher' do
+RSpec.describe 'Carry over next cycle with cycle switcher', :with_cache do
   include CandidateHelper
   include DfE::Bigquery::TestHelper
 

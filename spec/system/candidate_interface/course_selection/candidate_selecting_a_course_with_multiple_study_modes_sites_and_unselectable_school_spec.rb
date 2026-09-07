@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Selecting a course with multiple study modes and sites when the provider is not selectable_school' do
+RSpec.describe 'Selecting a course with multiple study modes and sites when the provider is not selectable_school', :with_cache do
   include CandidateHelper
 
   it 'Candidate skips the school selection', time: CycleTimetableHelper.mid_cycle(2025) do

@@ -1,14 +1,20 @@
 module CandidateInterface
   module CourseChoices
     class DoYouKnowWhichCourseController < CandidateInterface::CourseChoices::BaseController
-    private
+      before_action :clear_wizard, only: [:new]
 
-      def step_params
-        params
+      def new
+        super
       end
+
+    private
 
       def current_step
         :do_you_know_the_course
+      end
+
+      def wizard_controller?
+        true
       end
     end
   end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'A candidate with an accepted offer arriving from Find' do
+RSpec.describe 'A candidate with an accepted offer arriving from Find', :with_cache do
   include CourseOptionHelpers
   include SignInHelper
   include CandidateHelper
