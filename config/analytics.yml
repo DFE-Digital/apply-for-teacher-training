@@ -378,6 +378,7 @@ shared:
     - fee_domestic
     - salary_details
     - visa_sponsorship_application_deadline_at
+    - is_send
   email_clicks:
     - id
     - email_id
