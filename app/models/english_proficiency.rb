@@ -1,6 +1,4 @@
 class EnglishProficiency < ApplicationRecord
-  self.ignored_columns += [:qualification_status]
-
   include TouchApplicationChoices
 
   audited associated_with: :application_form
