@@ -21,7 +21,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses do
           visa_sponsorship_application_deadline_at: stubbed_sponsorship_application_deadline_at,
           applications_open_from: stubbed_applications_open_from,
           is_send: stubbed_is_send,
-        }
+        },
       ]
     end
     let(:stubbed_sponsorship_application_deadline_at) { nil }
