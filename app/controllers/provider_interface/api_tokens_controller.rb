@@ -32,7 +32,11 @@ module ProviderInterface
     def confirm_revoke; end
 
     def revoke
-      @api_token.discard
+      ActiveRecord::Base.transaction do
+        @api_token.update(hashed_token: SecureRandom.hex + Time.zone.now.to_i.to_s)
+        @api_token.discard!
+      end
+
       flash[:success] = t('.success', token: @api_token.name)
       redirect_to provider_interface_organisation_settings_organisation_api_tokens_path(@provider)
     end
