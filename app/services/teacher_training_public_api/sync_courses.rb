@@ -103,6 +103,7 @@ module TeacherTrainingPublicAPI
       course.fee_domestic = course_from_api.fee_domestic
       course.fee_international = course_from_api.fee_international
       course.funding_type = course_from_api.funding_type
+      course.is_send = course_from_api.is_send
       course.level = course_from_api.level
       course.name = course_from_api.name
       course.program_type = course_from_api.program_type
