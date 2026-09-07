@@ -13,9 +13,20 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses do
         updated_since:,
       )
     end
-    let(:stubbed_attributes) { [{ accredited_body_code: nil, state: stubbed_api_course_state, visa_sponsorship_application_deadline_at: stubbed_sponsorship_application_deadline_at, applications_open_from: stubbed_applications_open_from }] }
+    let(:stubbed_attributes) do
+      [
+        {
+          accredited_body_code: nil,
+          state: stubbed_api_course_state,
+          visa_sponsorship_application_deadline_at: stubbed_sponsorship_application_deadline_at,
+          applications_open_from: stubbed_applications_open_from,
+          is_send: stubbed_is_send,
+        },
+      ]
+    end
     let(:stubbed_sponsorship_application_deadline_at) { nil }
     let(:stubbed_applications_open_from) { nil }
+    let(:stubbed_is_send) { false }
 
     before do
       stub_teacher_training_api_courses(
@@ -290,6 +301,33 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses do
         expect(course.reload.open?).to be(true)
         expect(course.reload.course_status_open?).to be(true)
         expect(invite.reload.course_open).to be(false)
+      end
+    end
+
+    context 'when the course has a SEND specialism (is_send)' do
+      let(:stubbed_api_course_state) { 'published' }
+      let(:stubbed_is_send) { true }
+
+      it 'creates a course with a SEND specialism' do
+        perform_job
+
+        expect(provider.courses.where(is_send: true).count).to eq(1)
+      end
+
+      context 'when the course already exists' do
+        let(:uuid) { SecureRandom.uuid }
+        let!(:course) { create(:course, provider: provider, withdrawn: false, uuid: uuid, is_send: false) }
+        let(:stubbed_attributes) {
+          [
+            { accredited_body_code: nil, state: stubbed_api_course_state, uuid: uuid, is_send: true },
+          ]
+        }
+
+        it 'updates the course to have a SEND specialism' do
+          perform_job
+          course.reload
+          expect(course.is_send).to be(true)
+        end
       end
     end
   end
