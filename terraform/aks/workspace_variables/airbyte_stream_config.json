@@ -2556,11 +2556,6 @@
           },
           {
             "fieldPath": [
-              "qualification_status"
-            ]
-          },
-          {
-            "fieldPath": [
               "updated_at"
             ]
           },
