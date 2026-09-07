@@ -379,17 +379,6 @@
   :english_proficiencies:
   - no_qualification_details
   - no_assessment_plan_details
-  :fraud_matches:
-  - id
-  - candidate_last_contacted_at
-  - recruitment_cycle_year
-  - last_name
-  - date_of_birth
-  - postcode
-  - blocked
-  - created_at
-  - updated_at
-  - resolved
   :data_migrations:
   - id
   - service_name
