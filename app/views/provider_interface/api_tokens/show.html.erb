@@ -14,7 +14,12 @@
     <%= render ProviderInterface::APITokenSummaryComponent.new(
       token: @api_token,
       can_manage_tokens: @can_manage_tokens,
+      path_to_revoke: confirm_revoke_provider_interface_organisation_settings_organisation_api_token_path(
+        token.provider,
+        token,
+      ),
       view: @api_token.discarded? ? 'revoked' : 'show',
+
     ) %>
   </div>
 </div>

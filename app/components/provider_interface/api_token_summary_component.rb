@@ -2,12 +2,14 @@ module ProviderInterface
   class APITokenSummaryComponent < ApplicationComponent
     include Rails.application.routes.url_helpers
 
-    attr_reader :token, :can_manage_tokens, :view
+    attr_reader :token, :can_manage_tokens, :view, :path_to_revoke, :interface
 
-    def initialize(token:, can_manage_tokens:, view: 'show')
+    def initialize(token:, can_manage_tokens:, path_to_revoke: nil, view: 'show', interface: 'provider')
       @token = token
       @can_manage_tokens = can_manage_tokens
       @view = view
+      @path_to_revoke = path_to_revoke
+      @interface = interface
     end
 
     def items
@@ -51,10 +53,7 @@ module ProviderInterface
       if can_manage_tokens && token.undiscarded?
         {
           text: t('.revoke'),
-          href: confirm_revoke_provider_interface_organisation_settings_organisation_api_token_path(
-            token.provider,
-            token,
-          ),
+          href: path_to_revoke,
           classes: ['app-link--warning'],
           visually_hidden_text: t('.token'),
         }
@@ -87,8 +86,11 @@ module ProviderInterface
 
       return t('.default_user') if discarded_audit.blank?
 
-      if discarded_audit.user.present? && discarded_audit.user_type == 'ProviderUser'
-        discarded_audit.user.full_name
+      revoked_by_provider_user = discarded_audit.user.present? && discarded_audit.user_type == 'ProviderUser'
+      revoked_by_support_user = discarded_audit.user.present? && discarded_audit.user_type == 'SupportUser' && interface == 'support'
+
+      if revoked_by_provider_user || revoked_by_support_user
+        discarded_audit.user.display_name
       else
         t('.default_user')
       end

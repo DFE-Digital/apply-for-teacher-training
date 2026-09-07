@@ -107,6 +107,8 @@
                       </div>
                     </div>
                   </div>
+                <% elsif filter[:type] == :hidden %>
+                  <%= hidden_field_tag filter[:name], filter[:value] %>
                 <% end %>
 
                 <% if multiple_fields?(filter) %>

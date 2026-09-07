@@ -19,10 +19,3 @@
 @use "../components/recruitment_performance_report";
 @use "../components/possible_previous_teacher_training_card";
 @use "../vendor/dfe_autocomplete";
-
-.app-link--warning {
-  @include govuk.govuk-font($size: 19, $weight: "bold");
-  // stylelint-disable declaration-no-important
-  color: govuk.$govuk-error-colour !important;
-  // stylelint-enable declaration-no-important
-}

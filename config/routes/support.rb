@@ -138,9 +138,10 @@ namespace :support_interface, path: '/support' do
     get 'impersonate-and-decline' => 'references#impersonate_and_decline', as: :impersonate_referee_and_decline_reference
   end
 
-  resources :api_tokens, path: '/tokens', only: %i[index new create destroy] do
+  resources :api_tokens, path: '/tokens', only: %i[index show] do
     member do
       get 'confirm-revocation'
+      put :revoke
     end
   end
 
