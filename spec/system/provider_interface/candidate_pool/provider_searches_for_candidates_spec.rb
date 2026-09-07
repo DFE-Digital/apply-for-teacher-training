@@ -27,6 +27,10 @@ RSpec.describe 'Providers searches for candidates' do
     when_i_click_clear_search
     and_i_search_with(@withdrawn_candidate.id)
     then_i_see_only_the_relevant_candidate_in_the_results
+
+    when_i_click_clear_search
+    and_i_search_for_candidate_who_applied_for_send_courses
+    then_i_see_only_the_relevant_send_candidate_in_the_results
   end
 
 private
@@ -76,6 +80,19 @@ private
     )
     create(:candidate_preference, application_form: @awaiting_decision_candidate_form)
     create(:application_choice, :awaiting_provider_decision, application_form: @awaiting_decision_candidate_form)
+
+    @send_candidate = create(:candidate)
+    @send_course = create(:course, is_send: true)
+    @send_application_form = create(
+      :application_form,
+      :completed,
+      first_name: 'SEND',
+      last_name: 'Candidate',
+      candidate: @send_candidate,
+      submitted_at: 1.day.ago,
+    )
+    create(:candidate_preference, application_form: @send_application_form)
+    create(:candidate_pool_application, application_form: @send_application_form, is_send: true)
   end
 
   def and_i_search_with(search_term)
@@ -105,5 +122,16 @@ private
   def then_i_see_only_the_relevant_candidate_in_the_results
     expect(page).to have_no_text(@rejected_candidate.redacted_full_name_current_cycle)
     expect(page).to have_text(@withdrawn_candidate.redacted_full_name_current_cycle)
+  end
+
+  def and_i_search_for_candidate_who_applied_for_send_courses
+    check('Applied to SEND courses')
+    first(:link_or_button, 'Apply filters').click
+  end
+
+  def then_i_see_only_the_relevant_send_candidate_in_the_results
+    expect(page).to have_no_text(@rejected_candidate.redacted_full_name_current_cycle)
+    expect(page).to have_no_text(@withdrawn_candidate.redacted_full_name_current_cycle)
+    expect(page).to have_text(@send_candidate.redacted_full_name_current_cycle)
   end
 end
