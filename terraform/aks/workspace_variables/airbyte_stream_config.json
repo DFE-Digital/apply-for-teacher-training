@@ -2318,11 +2318,6 @@
           },
           {
             "fieldPath": [
-              "is_send"
-            ]
-          },
-          {
-            "fieldPath": [
               "level"
             ]
           },
@@ -2444,6 +2439,11 @@
           {
             "fieldPath": [
               "visa_sponsorship_application_deadline_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "is_send"
             ]
           }
         ]
@@ -4426,6 +4426,85 @@
           {
             "fieldPath": [
               "winter_decline_by_default_at"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "fraud_matches",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "candidate_last_contacted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "recruitment_cycle_year"
+            ]
+          },
+          {
+            "fieldPath": [
+              "last_name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "date_of_birth"
+            ]
+          },
+          {
+            "fieldPath": [
+              "postcode"
+            ]
+          },
+          {
+            "fieldPath": [
+              "blocked"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "resolved"
             ]
           }
         ]
