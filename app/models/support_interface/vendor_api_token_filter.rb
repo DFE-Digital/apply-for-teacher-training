@@ -59,6 +59,11 @@ module SupportInterface
             { value: 'not_recent', label: 'Not used for 60 days', checked: applied_filters[:activity]&.include?(NOT_RECENT) },
           ],
         },
+      ]
+    end
+
+    def hidden_filters
+      [
         {
           type: :hidden,
           name: 'filter_tab',

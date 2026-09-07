@@ -3,6 +3,7 @@ class FilterComponent < ApplicationComponent
 
   attr_reader :filter
   delegate :filters, to: :filter
+  delegate :hidden_filters, to: :filter, allow_nil: true
 
   def initialize(filter:)
     @filter = filter

@@ -107,8 +107,6 @@
                       </div>
                     </div>
                   </div>
-                <% elsif filter[:type] == :hidden %>
-                  <%= hidden_field_tag filter[:name], filter[:value] %>
                 <% end %>
 
                 <% if multiple_fields?(filter) %>
@@ -116,6 +114,13 @@
                 <% end %>
               </div>
             <% end %>
+
+            <% hidden_filters.each do |filter| %>
+              <% if filter[:type] == :hidden %>
+                <%= hidden_field_tag filter[:name], filter[:value] %>
+              <% end %>
+            <% end %>
+
             <% if show_bottom_button? %>
               <div><%= submit_tag 'Apply filters', class: 'govuk-button govuk-!-margin-bottom-0' %></div>
             <% end %>
