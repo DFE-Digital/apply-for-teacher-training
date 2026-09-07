@@ -2318,6 +2318,11 @@
           },
           {
             "fieldPath": [
+              "is_send"
+            ]
+          },
+          {
+            "fieldPath": [
               "level"
             ]
           },
@@ -2547,11 +2552,6 @@
           {
             "fieldPath": [
               "id"
-            ]
-          },
-          {
-            "fieldPath": [
-              "qualification_status"
             ]
           },
           {
