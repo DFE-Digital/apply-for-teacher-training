@@ -208,6 +208,7 @@
   - subject_ids
   - rejected_provider_ids
   - course_funding_type_fee
+  - is_send
   :sessions:
   - id
   - candidate_id
