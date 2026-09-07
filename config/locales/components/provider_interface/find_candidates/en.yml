@@ -46,6 +46,7 @@ en:
         funding_type: Funding type
         study_mode: Full time or part time
         date_submitted: Date submitted
+        send_course: SEND specialism course?
       personal_statement_component:
         read_more: Read more
         read_less: Read less

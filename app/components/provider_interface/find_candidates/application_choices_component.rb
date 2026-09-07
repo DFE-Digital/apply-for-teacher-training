@@ -19,6 +19,7 @@ class ProviderInterface::FindCandidates::ApplicationChoicesComponent < Applicati
       funding_type(choice),
       study_mode(choice),
       date_submitted(choice),
+      send_course(choice),
     ].compact
   end
 
@@ -126,6 +127,13 @@ private
     {
       key: { text: t('.date_submitted') },
       value: { text: choice.sent_to_provider_at.to_fs(:govuk_date) },
+    }
+  end
+
+  def send_course(choice)
+    {
+      key: { text: t('.send_course') },
+      value: { text: choice.course.is_send ? 'Yes' : 'No' },
     }
   end
 end
