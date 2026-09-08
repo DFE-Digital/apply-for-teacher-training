@@ -3,7 +3,6 @@ module SupportInterface
     before_action :set_token, only: %i[show confirm_revocation revoke]
 
     def index
-      @api_tokens_last_3_months_count = VendorAPIToken.count
       @filter = SupportInterface::VendorAPITokenFilter.new(
         filter_params:,
       )

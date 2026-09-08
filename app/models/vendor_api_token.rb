@@ -9,8 +9,8 @@ class VendorAPIToken < ApplicationRecord
 
   audited associated_with: :provider
 
-  scope :used_in_last_60_days, -> { where('last_used_at <= ?', 60.days.ago) }
-  scope :stale, -> { where('last_used_at > ? OR last_used_at IS NULL', 60.days.ago) }
+  scope :used_in_last_60_days, -> { where('last_used_at >= ?', 60.days.ago) }
+  scope :stale, -> { where('last_used_at < ? OR last_used_at IS NULL', 60.days.ago) }
 
   def vendor_name
     return 'Unknown' unless vendor

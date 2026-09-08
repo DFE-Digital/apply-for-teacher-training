@@ -115,7 +115,7 @@
               </div>
             <% end %>
 
-            <% hidden_filters.each do |filter| %>
+            <% filter.try(:hidden_filters)&.each do |filter| %>
               <% if filter[:type] == :hidden %>
                 <%= hidden_field_tag filter[:name], filter[:value] %>
               <% end %>

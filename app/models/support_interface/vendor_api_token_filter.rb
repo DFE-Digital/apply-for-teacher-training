@@ -67,7 +67,7 @@ module SupportInterface
         {
           type: :hidden,
           name: 'filter_tab',
-          value: REVOKED,
+          value: applied_filters[:filter_tab] == REVOKED ? REVOKED : nil,
         },
       ]
     end
