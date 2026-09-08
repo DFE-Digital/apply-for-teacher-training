@@ -105,7 +105,7 @@ jobs:
               yarn run lint && yarn run lint:css && \
               yarn run test
           - tests: airbyte
-            command: SUPPRESS_DFE_ANALYTICS_INIT=1 bundle exec rake dfe:analytics:regenerate_airbyte_stream_config
+            command: bundle exec rake dfe:analytics:check
     container:
       image: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules:${{ needs.build.outputs.IMAGE_TAG }}
       options: -a STDOUT -a STDERR -t
