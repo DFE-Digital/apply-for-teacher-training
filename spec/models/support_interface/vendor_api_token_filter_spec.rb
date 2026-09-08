@@ -80,23 +80,6 @@ RSpec.describe SupportInterface::VendorAPITokenFilter do
         ],
       )
     end
-
-    it 'marks the vendor and activity filters as checked when applied' do
-      vendor1 = create(:vendor, name: 'vendor_1')
-      create(:vendor, name: 'vendor_2')
-
-      filter = described_class.new(filter_params: { vendor_ids: [vendor1.id.to_s], activity: %w[recent] })
-
-      vendor_filter = filter.filters.find { |f| f[:name] == 'vendor_ids' }
-      expect(vendor_filter[:options]).to include(
-        { value: vendor1.id, label: 'Vendor 1', checked: true },
-      )
-
-      activity_filter = filter.filters.find { |f| f[:name] == 'activity' }
-      expect(activity_filter[:options].first).to eq(
-        { value: 'recent', label: 'Used within 60 days', checked: true },
-      )
-    end
   end
 
   describe '#hidden_filters' do

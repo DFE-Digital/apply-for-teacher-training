@@ -12,7 +12,7 @@
     <h1 class="govuk-heading-l"><%= t('.title', token: @api_token.name) %></h1>
     <%= govuk_warning_text(text: t('.warning')) %>
 
-    <%= render ProviderInterface::APITokenSummaryComponent.new(
+    <%= render APITokenSummaryComponent.new(
       token: @api_token,
       can_manage_tokens: @can_manage_tokens,
       view: 'confirm_revoke',

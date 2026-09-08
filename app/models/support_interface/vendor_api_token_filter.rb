@@ -98,6 +98,7 @@ module SupportInterface
 
       scope.left_joins(:provider)
         .where(providers: { vendor_id: applied_filters[:vendor_ids] })
+        .or(scope.where(vendor_id: applied_filters[:vendor_ids]))
     end
 
     def used_recently(scope)

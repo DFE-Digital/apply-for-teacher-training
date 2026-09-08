@@ -13,7 +13,7 @@
 
     <h1 class="govuk-heading-l"><%= @api_token.name %></h1>
 
-    <%= render ProviderInterface::APITokenSummaryComponent.new(
+    <%= render APITokenSummaryComponent.new(
       token: @api_token,
       can_manage_tokens: @can_manage_tokens,
       path_to_revoke: confirm_revocation_support_interface_api_token_path(@api_token),
