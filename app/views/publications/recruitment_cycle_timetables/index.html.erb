@@ -4,6 +4,12 @@
     <h1 class="govuk-heading-l">
       <%= t('.heading') %>
     </h1>
+    <p class="govuk-body">
+      <%= govuk_link_to(
+            t('.current_cycle_is', year: RecruitmentCycleTimetable.current_cycle_range_name),
+            publications_recruitment_cycle_timetable_path(recruitment_cycle_year: 'current'),
+          ) %>
+    </p>
     <% @timetables.each do |timetable| %>
       <%= render Publications::RecruitmentCycleTimetableCard.new(timetable) %>
     <% end %>
