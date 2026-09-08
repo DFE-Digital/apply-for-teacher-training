@@ -46,8 +46,6 @@ private
   end
 
   def response_hash(response_body, status)
-    return {} unless status > 299
-
     JSON.parse(response_body)
   rescue JSON::ParserError
     { body: "#{status} did not respond with JSON" }

@@ -36,6 +36,20 @@ RSpec.describe VendorAPIRequestWorker do
     expect(vendor_api_request.response_body).to eq({ 'that' => 'this' })
   end
 
+  it 'saves body when status is 200' do
+    described_class.new.perform(
+      { 'path' => '/api/v1/foo' },
+      { 'headers' => { 'this' => 'that' }, 'body' => { 'that' => 'this' }.to_json },
+      200,
+      stringified_time,
+    )
+
+    vendor_api_request = VendorAPIRequestV2.find_by(request_path: '/api/v1/foo')
+
+    expect(vendor_api_request.response_headers).to eq({ 'this' => 'that' })
+    expect(vendor_api_request.response_body).to eq({ 'that' => 'this' })
+  end
+
   it 'saves the request method on the vendor api request' do
     described_class.new.perform({ 'headers' => {}, 'path' => '/api/v1/bar', 'method' => 'GET' }, {}.to_json, 500, stringified_time)
 
