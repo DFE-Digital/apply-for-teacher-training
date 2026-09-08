@@ -126,7 +126,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent, t
         described_class.new(application_form:, editable: false, show_status: true),
       )
 
-      expect(rendered_component).to summarise(key: 'Status', value: 'Awaiting decision Application submitted today. If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.')
+      expect(rendered_component).to summarise(key: 'Status', value: 'Awaiting provider decision Application submitted today. If you do not receive a response from this training provider, you can withdraw this application and apply to another provider.')
     end
 
     it 'renders component with a withdraw link' do

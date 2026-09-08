@@ -71,8 +71,9 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
           )
           expect(rendered_component).to have_element(
             :p,
-            text: 'Applications will be rejected automatically at ' \
-                  "#{recruitment_cycle_timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first)} if providers do not respond.",
+            text: 'Providers must make a decision on these applications by ' \
+                  "#{recruitment_cycle_timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first)}. " \
+                  'If a provider does not respond by then, the application will be rejected automatically.',
             class: 'govuk-body',
           )
         end
@@ -89,8 +90,9 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
           )
           expect(rendered_component).to have_element(
             :p,
-            text: 'Offers will be declined automatically at ' \
-                  "#{recruitment_cycle_timetable.decline_by_default_at.to_fs(:govuk_date_time_time_first)} if you do not respond.",
+            text: 'You must respond to offers by ' \
+                  "#{recruitment_cycle_timetable.decline_by_default_at.to_fs(:govuk_date_time_time_first)}. " \
+                  'If you do not respond by then, they will be declined automatically.',
             class: 'govuk-body',
           )
         end
@@ -150,8 +152,9 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
         content = component.awaiting_provider_decision_content
         expect(content[:title]).to eq('Applications awaiting a provider decision')
         expect(content[:content]).to eq(
-          'Applications will be rejected automatically at ' \
-          "#{recruitment_cycle_timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first)} if providers do not respond.",
+          'Providers must make a decision on these applications by ' \
+          "#{recruitment_cycle_timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first)}. " \
+          'If a provider does not respond by then, the application will be rejected automatically.',
         )
       end
     end
@@ -225,8 +228,9 @@ RSpec.describe CandidateInterface::ApplicationChoices::SeptemberStartContentComp
         content = component.offered_content
         expect(content[:title]).to eq('Offers awaiting your response')
         expect(content[:content]).to eq(
-          'Offers will be declined automatically at ' \
-          "#{recruitment_cycle_timetable.decline_by_default_at.to_fs(:govuk_date_time_time_first)} if you do not respond.",
+          'You must respond to offers by ' \
+          "#{recruitment_cycle_timetable.decline_by_default_at.to_fs(:govuk_date_time_time_first)}. " \
+          'If you do not respond by then, they will be declined automatically.',
         )
       end
     end

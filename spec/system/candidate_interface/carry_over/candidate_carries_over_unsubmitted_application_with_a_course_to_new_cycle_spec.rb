@@ -216,7 +216,7 @@ private
   end
 
   def then_my_application_is_awaiting_provider_decision
-    expect(page).to have_text 'Awaiting decision'
+    expect(page).to have_text 'Awaiting provider decision'
     expect(application_choice.status).to eq('awaiting_provider_decision')
   end
 

@@ -191,7 +191,7 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
     it_behaves_like 'course start date row'
 
     it 'shows the application status' do
-      expect(result.text).to include('StatusAwaiting decision')
+      expect(result.text).to include('StatusAwaiting provider decision')
     end
 
     it 'does not show change links' do

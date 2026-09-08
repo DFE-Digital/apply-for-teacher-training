@@ -92,7 +92,7 @@ private
 
   def then_i_see_my_application_is_awaiting_provider_decision
     expect(page).to have_current_path candidate_interface_application_choices_path
-    expect(page).to have_text 'Awaiting decision'
+    expect(page).to have_text 'Awaiting provider decision'
   end
 
   def then_i_see_my_application_is_inactive
@@ -112,7 +112,9 @@ private
     expect(page).to have_current_path candidate_interface_application_choices_path
     expect(page).to have_text('Applications awaiting a provider decision ')
     expect(page).to have_text(
-      "Applications awaiting a provider decision Applications will be rejected automatically at #{@timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first)} if providers do not respond",
+      'Providers must make a decision on these applications by ' \
+      "#{@timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first)}. " \
+      'If a provider does not respond by then, the application will be rejected automatically.',
     )
   end
   alias_method :and_i_cannot_carry_over_my_application, :then_i_cannot_carry_over_my_application

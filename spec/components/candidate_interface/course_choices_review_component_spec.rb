@@ -149,7 +149,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, :mid_cycle, typ
       result = render_inline(described_class.new(application_form:, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Awaiting decision')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Awaiting provider decision')
     end
 
     it 'renders component with a withdraw link' do

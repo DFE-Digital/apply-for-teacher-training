@@ -3,15 +3,6 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponentPrev
     render PreviewSeptemberStartContentComponent.new(application_form:)
   end
 
-  def what_happens_next?
-    render PreviewSeptemberStartContentComponent.new(
-      application_form:,
-      heading: 'What happens next?',
-      heading_class: 'govuk-heading-m',
-      with_tabs: true,
-    )
-  end
-
   def after_reject_by_default
     render PreviewSeptemberStartContentComponent.new(application_form:, choice_state: :rejected_by_default)
   end
@@ -31,8 +22,8 @@ private
   end
 
   class PreviewSeptemberStartContentComponent < CandidateInterface::ApplicationChoices::SeptemberStartContentComponent
-    def initialize(application_form:, heading: nil, heading_class: 'govuk-heading-l', choice_state: :awaiting_provider_decision, with_tabs: false)
-      super(application_form:, heading:, heading_class:, with_tabs:)
+    def initialize(application_form:, choice_state: :awaiting_provider_decision, with_tabs: false)
+      super(application_form:, with_tabs:)
       @choice_state = choice_state
     end
 
