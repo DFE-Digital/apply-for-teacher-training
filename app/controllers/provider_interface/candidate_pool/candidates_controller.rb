@@ -69,6 +69,7 @@ module ProviderInterface
           course_type: [],
           visa_sponsorship: [],
           funding_type: [],
+          send_specialism: [],
         )
       end
 

@@ -15,6 +15,7 @@ module ProviderInterface
       course_type
       funding_type
       visa_sponsorship
+      send_specialism
     ].freeze
     ATTRIBUTES.each do |attribute|
       attribute attribute.to_sym

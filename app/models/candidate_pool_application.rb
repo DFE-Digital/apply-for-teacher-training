@@ -11,6 +11,7 @@ class CandidatePoolApplication < ApplicationRecord
     scope = filter_by_course_type(scope, filters)
     scope = filter_by_needs_visa(scope, filters)
     scope = filter_by_funding_type(scope, filters)
+    scope = filter_by_send(scope, filters)
 
     ApplicationForm.where(id: scope.select(:application_form_id))
   end
@@ -104,5 +105,11 @@ class CandidatePoolApplication < ApplicationRecord
       effective_date: timetable.apply_opens_at,
       reject_by_default_date: timetable.reject_by_default_at,
     ).inactive_date
+  end
+
+  def self.filter_by_send(scope, filters)
+    return scope if filters[:send_specialism].blank? || filters[:send_specialism].exclude?('true')
+
+    scope.where(is_send: true)
   end
 end

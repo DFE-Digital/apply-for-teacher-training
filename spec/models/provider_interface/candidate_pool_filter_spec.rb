@@ -13,6 +13,24 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
     allow(client).to receive(:autocomplete).and_return(api_response)
   end
 
+  describe 'attributes' do
+    it 'returns the filters as attributes' do
+      expect(
+        described_class.new(filter_params: {}, current_provider_user: create(:provider_user), apply_filters: []),
+      ).to have_attributes(
+        location: nil,
+        candidate_search: nil,
+        candidate_id: nil,
+        subject_ids: nil,
+        study_mode: nil,
+        course_type: nil,
+        funding_type: nil,
+        visa_sponsorship: nil,
+        send_specialism: nil,
+      )
+    end
+  end
+
   describe 'validations' do
     context 'when location is invalid' do
       let(:place_id) { 'wrong_location' }

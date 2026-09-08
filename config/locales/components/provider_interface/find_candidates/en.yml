@@ -46,6 +46,7 @@ en:
         funding_type: Funding type
         study_mode: Full time or part time
         date_submitted: Date submitted
+        send_course: SEND specialism course?
       personal_statement_component:
         read_more: Read more
         read_less: Read less
@@ -106,6 +107,7 @@ en:
         remove_hint_course_type: Remove course type filter
         remove_hint_visa_sponsorship: Remove visa sponsorship filter
         remove_hint_funding_type: Remove funding type filter
+        remove_hint_send_specialism: Remove SEND specialism filter
         location: 'Town, city or postcode:'
         remove_location_hint: Remove candidate location preference filter
         study_mode: Study type
@@ -120,6 +122,7 @@ en:
         clear_search: Clear search
         search: Search
         subject: Subject
+        send_specialism: SEND specialism
       candidate_search_component:
         search_by_candidate_number: Search by candidate number
         clear_search: Clear search
