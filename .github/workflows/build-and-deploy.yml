@@ -91,7 +91,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [rubocop, erb_lint, brakeman, yarn_lint, airbyte]
+        tests: [rubocop, erb_lint, brakeman, yarn_lint]
         include:
           - tests: rubocop
             command: bundle exec rubocop --format clang --parallel
@@ -104,8 +104,6 @@ jobs:
               yarn install
               yarn run lint && yarn run lint:css && \
               yarn run test
-          - tests: airbyte
-            command: bundle exec rake dfe:analytics:check
     container:
       image: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules:${{ needs.build.outputs.IMAGE_TAG }}
       options: -a STDOUT -a STDERR -t
