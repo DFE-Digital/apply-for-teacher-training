@@ -14,37 +14,40 @@ class APITokenSummaryComponent < ApplicationComponent
   def items
     case view
     when 'show'
-      {
-        t('.created_by') => created_by,
-        t('.created_at') => created_at,
-        t('.token_for') => token.vendor_name,
-        t('.last_used_on') => last_used_at,
-        t('.status') => {
+      {}.tap do |hash|
+        hash[t('.created_by')] = created_by
+        hash[t('.created_at')] = created_at
+        hash[t('.provider')] = token.provider.name_and_code if interface == 'support'
+        hash[t('.token_for')] = token.vendor_name
+        hash[t('.last_used_on')] = last_used_at
+        hash[t('.status')] = {
           field_value: token.status.capitalize,
           action: revoke_token,
-        },
-      }
+        }
+      end
     when 'confirm_revoke'
-      {
-        t('.name') => token.name,
-        t('.created_by') => created_by,
-        t('.created_at') => created_at,
-        t('.token_for') => token.vendor_name,
-        t('.last_used_on') => last_used_at,
-      }
+      {}.tap do |hash|
+        hash[t('.name')] = token.description
+        hash[t('.created_by')] = created_by
+        hash[t('.created_at')] = created_at
+        hash[t('.provider')] = token.provider.name_and_code if interface == 'support'
+        hash[t('.token_for')] = token.vendor_name
+        hash[t('.last_used_on')] = last_used_at
+      end
     when 'revoked'
-      {
-        t('.created_by') => created_by,
-        t('.created_at') => created_at,
-        t('.token_for') => token.vendor_name,
-        t('.last_used_on') => last_used_at,
-        t('.status') => {
+      {}.tap do |hash|
+        hash[t('.created_by')] = created_by
+        hash[t('.created_at')] = created_at
+        hash[t('.provider')] = token.provider.name_and_code if interface == 'support'
+        hash[t('.token_for')] = token.vendor_name
+        hash[t('.last_used_on')] = last_used_at
+        hash[t('.status')] = {
           field_value: token.status.capitalize,
           action: revoke_token,
-        },
-        t('.revoked_at') => token.discarded_at&.to_fs(:govuk_date_and_time),
-        t('.revoked_by') => discarded_by,
-      }
+        }
+        hash[t('.revoked_at')] = token.discarded_at&.to_fs(:govuk_date_and_time)
+        hash[t('.revoked_by')] = discarded_by
+      end
     end
   end
 

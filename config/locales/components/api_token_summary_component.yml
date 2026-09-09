@@ -12,3 +12,4 @@ en:
     name: Name
     revoked_at: Revoked on
     revoked_by: Revoked by
+    provider: Provider

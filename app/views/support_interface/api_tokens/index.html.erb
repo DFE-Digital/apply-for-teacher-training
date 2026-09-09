@@ -44,8 +44,8 @@
       <%= table.with_body do |body| %>
         <%= body.with_row do |row| %>
           <%= row.with_cell(text: token.provider.name_and_code) %>
-          <%= row.with_cell(text: govuk_link_to(token.name, support_interface_api_token_path(token.id))) %>
-          <%= row.with_cell(text: token.created_at) %>
+          <%= row.with_cell(text: govuk_link_to(token.description, support_interface_api_token_path(token.id))) %>
+          <%= row.with_cell(text: token.created_at.to_fs(:govuk_date_and_time)) %>
           <%= row.with_cell(text: token.last_used_at&.to_fs(:govuk_date_and_time) || t('.not_used')) %>
         <% end %>
       <% end %>

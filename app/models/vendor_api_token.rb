@@ -18,12 +18,6 @@ class VendorAPIToken < ApplicationRecord
     vendor.name == IN_HOUSE ? 'In-house developers' : vendor.name.humanize
   end
 
-  def name
-    return 'API token' unless description
-
-    description
-  end
-
   def status
     discarded_at ? 'revoked' : 'active'
   end

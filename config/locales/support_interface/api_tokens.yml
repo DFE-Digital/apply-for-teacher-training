@@ -11,6 +11,8 @@ en:
         not_used: Never
         active_tokens: Active tokens
         revoked_tokens: Revoked tokens
+      show:
+        title: "%{token}"
       revoke:
         success: You have revoked %{token}
       confirm_revocation:

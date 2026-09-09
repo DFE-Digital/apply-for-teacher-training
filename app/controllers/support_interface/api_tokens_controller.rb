@@ -38,7 +38,7 @@ module SupportInterface
       )
 
       if @revoke_token_form.save
-        flash[:success] = t('.success', token: @api_token.name)
+        flash[:success] = t('.success', token: @api_token.description)
         redirect_to support_interface_api_tokens_path
       else
         render :confirm_revocation
