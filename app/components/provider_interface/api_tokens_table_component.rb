@@ -48,7 +48,7 @@ module ProviderInterface
     end
 
     def description_cell(token)
-      govuk_link_to(token.name, provider_interface_organisation_settings_organisation_api_token_path(token.provider_id, token.id))
+      govuk_link_to(token.description, provider_interface_organisation_settings_organisation_api_token_path(token.provider_id, token.id))
     end
 
     def call

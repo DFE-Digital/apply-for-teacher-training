@@ -9,18 +9,13 @@ class VendorAPIToken < ApplicationRecord
 
   audited associated_with: :provider
 
-  scope :used_in_last_3_months, -> { where('last_used_at >= ?', 3.months.ago) }
+  scope :used_in_last_60_days, -> { where('last_used_at >= ?', 60.days.ago) }
+  scope :stale, -> { where('last_used_at < ? OR last_used_at IS NULL', 60.days.ago) }
 
   def vendor_name
     return 'Unknown' unless vendor
 
     vendor.name == IN_HOUSE ? 'In-house developers' : vendor.name.humanize
-  end
-
-  def name
-    return 'API token' unless description
-
-    description
   end
 
   def status

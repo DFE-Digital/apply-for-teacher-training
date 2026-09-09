@@ -74,6 +74,26 @@ RSpec.describe DetectInvariantsHourlyCheck, :with_cache do
       expect(Sentry).not_to have_received(:capture_exception)
     end
 
+    it 'detects unconfirmed vendors' do
+      unconfirmed_vendor = create(:vendor, status: :unconfirmed)
+
+      described_class.new.perform
+
+      expect(Sentry).to have_received(:capture_exception).with(
+        described_class::UnconfirmedVendorsError.new(
+          "The vendors with ids #{[unconfirmed_vendor.id]} have been created by providers, we need to confirm if they are real vendors",
+        ),
+      )
+    end
+
+    it 'doesn’t alert when all vendors are confirmed' do
+      create(:vendor, name: 'confirmed_vendor', status: :confirmed)
+
+      described_class.new.perform
+
+      expect(Sentry).not_to have_received(:capture_exception)
+    end
+
     context 'when HostingEnvironment is review' do
       it 'doesn’t check API sync on review apps' do
         allow(HostingEnvironment).to receive(:review?).and_return(true)

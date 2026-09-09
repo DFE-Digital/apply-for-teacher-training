@@ -1,54 +1,56 @@
-<%= render 'support_interface/providers/providers_navigation', title: 'API tokens' %>
+<%= render 'support_interface/providers/providers_navigation', title: t('.title') %>
 
-<%= govuk_button_link_to 'Add a token', new_support_interface_api_token_path %>
-<%= govuk_button_link_to 'Download CSV', support_interface_api_tokens_path(params: @filter.applied_filters, format: :csv) %>
+<%= govuk_button_link_to(
+  t('.download_csv'),
+  support_interface_api_tokens_path(params: @filter.applied_filters, format: :csv),
+  secondary: true,
+) %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-half">
-    <%= render SupportInterface::TileComponent.new(
-      count: @pagy.count,
-      label: 'API tokens issued',
-      colour: :blue,
-    ) %>
-  </div>
-  <div class="govuk-grid-column-one-half">
-    <%= render SupportInterface::TileComponent.new(
-      count: @api_tokens_last_3_months_count,
-      label: 'API tokens used in the last 3 months',
-      colour: :blue,
-    ) %>
-  </div>
-</div>
+<nav class="app-tab-navigation" aria-label="sub menu" data-qa="sub-navigation">
+  <ul class="app-tab-navigation__list govuk-!-display-none-print">
+    <li class="app-tab-navigation__item">
+      <%= govuk_link_to(
+        t('.active_tokens'),
+        support_interface_api_tokens_path,
+        class: 'app-tab-navigation__link',
+        aria: { current: params[:filter_tab].blank? ? 'page' : '' },
+      ) %>
+    </li>
+    <li class="app-tab-navigation__item">
+      <%= govuk_link_to(
+        t('.revoked_tokens'),
+        support_interface_api_tokens_path(
+          filter_tab: 'revoked',
+        ),
+        class: 'app-tab-navigation__link',
+        aria: { current: params[:filter_tab] == 'revoked' ? 'page' : '' },
+      ) %>
+    </li>
+  </ul>
+</nav>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @api_tokens) do %>
-  <table class='govuk-table'>
-    <thead class='govuk-table__head'>
-      <tr class='govuk-table__row'>
-        <th scope='col' class='govuk-table__header'>ID</th>
-        <th scope='col' class='govuk-table__header govuk-!-width-one-third'>Provider</th>
-        <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Vendor</th>
-        <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Last used at</th>
-        <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Created at</th>
-        <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Description</th>
-        <th scope='col' class='govuk-table__header'>Actions</th>
-      </tr>
-    </thead>
-
-    <tbody class='govuk-table__body'>
-      <% @api_tokens.each do |token| %>
-      <tr class='govuk-table__row'>
-        <td class='govuk-table__cell'>#<%= token.id %></td>
-        <td class='govuk-table__cell'><%= token.provider.name %></td>
-        <td class='govuk-table__cell'><%= token.provider.vendor_name %></td>
-        <td class='govuk-table__cell'><%= token.last_used_at ? token.last_used_at.to_fs(:govuk_date_and_time) : 'Never' %></td>
-        <td class='govuk-table__cell'><%= token.created_at.to_fs(:govuk_date_and_time) %></td>
-        <td class='govuk-table__cell'><%= token.description.presence || 'None' %></td>
-        <td class='govuk-table__cell'>
-          <%= govuk_button_link_to 'Revoke', confirm_revocation_support_interface_api_token_path(token), warning: true %>
-        </td>
-      </tr>
+  <%= govuk_table do |table| %>
+    <%= table.with_head do |head| %>
+      <%= head.with_row do |row| %>
+        <%= row.with_cell(text: t('.provider')) %>
+        <%= row.with_cell(text: t('.name')) %>
+        <%= row.with_cell(text: t('.created')) %>
+        <%= row.with_cell(text: t('.last_used')) %>
       <% end %>
-    </tbody>
-  </table>
+    <% end %>
+
+    <% @api_tokens.each do |token| %>
+      <%= table.with_body do |body| %>
+        <%= body.with_row do |row| %>
+          <%= row.with_cell(text: token.provider.name_and_code) %>
+          <%= row.with_cell(text: govuk_link_to(token.description, support_interface_api_token_path(token.id))) %>
+          <%= row.with_cell(text: token.created_at.to_fs(:govuk_date_and_time)) %>
+          <%= row.with_cell(text: token.last_used_at&.to_fs(:govuk_date_and_time) || t('.not_used')) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
   <%= govuk_pagination(pagy: @pagy) %>
 <% end %>

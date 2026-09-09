@@ -37,7 +37,7 @@ module ProviderInterface
         @api_token.discard!
       end
 
-      flash[:success] = t('.success', token: @api_token.name)
+      flash[:success] = t('.success', token: @api_token.description)
       redirect_to provider_interface_organisation_settings_organisation_api_tokens_path(@provider)
     end
 

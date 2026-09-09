@@ -1,12 +1,22 @@
-<% content_for :browser_title, 'New API token generated' %>
-<%= render 'support_interface/providers/providers_navigation', title: 'API tokens' %>
-
-<%= govuk_panel(title_text: 'New API token generated') do %>
-  Your token is
-  <br role="presentation">
-  <code><%= @unhashed_token %></code>
+<% content_for :browser_title, t('.title', token: @api_token.description) %>
+<% content_for :before_content do %>
+  <%= govuk_back_link(
+    text: 'Back',
+    href: support_interface_api_tokens_path,
+  ) %>
 <% end %>
 
-<p class="govuk-body">
-  <%= govuk_link_to 'Return to list of API tokens', support_interface_api_tokens_path %>
-</p>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l"><%= @api_token.description %></h1>
+
+    <%= render APITokenSummaryComponent.new(
+      token: @api_token,
+      can_manage_tokens: @can_manage_tokens,
+      path_to_revoke: confirm_revocation_support_interface_api_token_path(@api_token),
+      view: @api_token.discarded? ? 'revoked' : 'show',
+      interface: 'support',
+    ) %>
+  </div>
+</div>

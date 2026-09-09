@@ -1,0 +1,24 @@
+en:
+  support_interface:
+    api_tokens:
+      index:
+        title: API tokens
+        download_csv: Download CSV
+        provider: Provider
+        name: Name
+        created: Created
+        last_used: Last used
+        not_used: Never
+        active_tokens: Active tokens
+        revoked_tokens: Revoked tokens
+      show:
+        title: "%{token}"
+      revoke:
+        success: You have revoked %{token}
+      confirm_revocation:
+        title: Are you sure you want to revoke %{token}?
+        warning: If you revoke this token, any software integrations using it will stop working immediately.
+        revoke_token: Yes, revoke this API token
+        audit_comment: Audit log comment
+        hint: This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here.
+
