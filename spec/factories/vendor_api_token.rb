@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :vendor_api_token do
     provider
 
+    description { 'API token' }
     hashed_token { SecureRandom.hex(16) }
 
     trait :with_random_token do
