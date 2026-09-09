@@ -4,7 +4,7 @@ RSpec.describe 'API Authentication' do
   include VendorAPISpecHelpers
 
   it 'returns succesfully if the user has a valid token' do
-    unhashed_token = VendorAPIToken.create_with_random_token!(provider: create(:provider))
+    unhashed_token = VendorAPIToken.create_with_random_token!(provider: create(:provider), description: 'API token')
 
     get '/api/v1/ping', headers: { Authorization: "Bearer #{unhashed_token}" }
 
@@ -12,7 +12,7 @@ RSpec.describe 'API Authentication' do
   end
 
   it 'remembers when a token was last used' do
-    unhashed_token = VendorAPIToken.create_with_random_token!(provider: create(:provider))
+    unhashed_token = VendorAPIToken.create_with_random_token!(provider: create(:provider), description: 'API token')
 
     expect {
       get '/api/v1/ping', headers: { Authorization: "Bearer #{unhashed_token}" }
@@ -36,7 +36,7 @@ RSpec.describe 'API Authentication' do
   end
 
   it 'returns an error if the token is discarded' do
-    unhashed_token = VendorAPIToken.create_with_random_token!(provider: create(:provider))
+    unhashed_token = VendorAPIToken.create_with_random_token!(provider: create(:provider), description: 'API token')
     VendorAPIToken.find_by_unhashed_token(unhashed_token).discard
 
     get '/api/v1/ping', headers: { Authorization: "Bearer #{unhashed_token}" }

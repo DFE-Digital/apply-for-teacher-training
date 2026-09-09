@@ -1,5 +1,5 @@
 RSpec.shared_context 'Vendor API Spec Helpers' do
-  let(:api_token) { VendorAPIToken.create_with_random_token!(provider: currently_authenticated_provider) }
+  let(:api_token) { VendorAPIToken.create_with_random_token!(provider: currently_authenticated_provider, description: 'API token') }
   let(:currently_authenticated_provider) { create(:provider) }
   let(:auth_header) { "Bearer #{api_token}" }
 end

@@ -8,7 +8,7 @@ RSpec.describe VendorAPIToken do
 
   describe '.create_with_random_token!' do
     it 'generates a hashed token that can be used' do
-      unhashed_token = described_class.create_with_random_token!(provider: create(:provider))
+      unhashed_token = described_class.create_with_random_token!(provider: create(:provider), description: 'API token')
 
       expect(
         described_class.find_by_unhashed_token(unhashed_token),

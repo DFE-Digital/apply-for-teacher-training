@@ -63,7 +63,7 @@ RSpec.describe 'Vendor receives the application', :with_cache, time: CycleTimeta
 
   def when_i_retrieve_the_application_over_the_api
     Rails.cache.clear
-    api_token = VendorAPIToken.create_with_random_token!(provider: @provider)
+    api_token = VendorAPIToken.create_with_random_token!(provider: @provider, description: 'API token')
     page.driver.header 'Authorization', "Bearer #{api_token}"
 
     visit '/api/v1.0/applications?since=2019-01-01'

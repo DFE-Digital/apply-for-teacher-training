@@ -22,7 +22,7 @@ RSpec.describe 'Vendor makes an offer for a course in the past recruitment cycle
   end
 
   def when_a_vendor_makes_an_offer_for_a_course_in_the_previous_cycle
-    @api_token = VendorAPIToken.create_with_random_token!(provider: @provider)
+    @api_token = VendorAPIToken.create_with_random_token!(provider: @provider, description: 'API token')
 
     @provider_user = create(:provider_user, :with_notifications_enabled, providers: [@provider])
     @uri = "/api/v1/applications/#{@application_choice.id}/offer"

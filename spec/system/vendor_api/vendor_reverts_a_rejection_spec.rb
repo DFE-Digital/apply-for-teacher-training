@@ -17,7 +17,7 @@ RSpec.describe 'Vendor reverts a rejection' do
   end
 
   def when_i_try_to_revert_the_rejection_on(application_choice)
-    api_token = VendorAPIToken.create_with_random_token!(provider: @provider)
+    api_token = VendorAPIToken.create_with_random_token!(provider: @provider, description: 'API token')
     Capybara.current_session.driver.header('Authorization', "Bearer #{api_token}")
     Capybara.current_session.driver.header('Content-Type', 'application/json')
 
