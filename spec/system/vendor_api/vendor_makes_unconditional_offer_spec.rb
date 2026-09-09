@@ -23,7 +23,7 @@ RSpec.describe 'Vendor makes unconditional offer', :with_cache, time: CycleTimet
   end
 
   def when_i_make_an_unconditional_offer_for_the_application_over_the_api
-    api_token = VendorAPIToken.create_with_random_token!(provider: @provider)
+    api_token = VendorAPIToken.create_with_random_token!(provider: @provider, description: 'API token')
     Capybara.current_session.driver.header('Authorization', "Bearer #{api_token}")
     Capybara.current_session.driver.header('Content-Type', 'application/json')
 

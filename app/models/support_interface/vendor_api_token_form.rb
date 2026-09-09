@@ -13,7 +13,7 @@ module SupportInterface
       return false unless valid?
 
       provider = Provider.find(provider_id)
-      VendorAPIToken.create_with_random_token!(provider: provider)
+      VendorAPIToken.create_with_random_token!(provider: provider, description: 'API token')
     end
   end
 end

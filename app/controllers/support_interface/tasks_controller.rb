@@ -34,7 +34,7 @@ module SupportInterface
           code: Faker::Alphanumeric.unique.alphanumeric(number: 3).upcase,
         },
       )
-      @vendor_api_token = VendorAPIToken.create_with_random_token!(provider: @new_provider)
+      @vendor_api_token = VendorAPIToken.create_with_random_token!(provider: @new_provider, description: 'API token')
     end
 
     def redirect_if_production
