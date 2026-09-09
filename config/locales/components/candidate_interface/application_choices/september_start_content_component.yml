@@ -6,8 +6,8 @@ en:
         heading_single_start_month: Courses starting in %{month_and_year}
         awaiting_provider_decision_content:
           title: Applications awaiting a provider decision
-          rejected automatically:
-            Applications will be rejected automatically at %{reject_by} if providers do not respond.
+          rejected_automatically:
+            Providers must make a decision on these applications by %{reject_by}. If a provider does not respond by then, the application will be rejected automatically.
         reject_by_default_explanation:
           Some of your applications have been rejected because the provider did not respond before the deadline.
         decline_by_default_explanation:
@@ -15,4 +15,4 @@ en:
         offered_content:
           title: Offers awaiting your response
           declined_automatically:
-            Offers will be declined automatically at %{decline_by} if you do not respond.
+            You must respond to offers by %{decline_by}. If you do not respond by then, they will be declined automatically.

@@ -148,7 +148,9 @@ private
     expect(page).to have_current_path candidate_interface_application_choices_path
     expect(page).to have_text('Offers awaiting your response')
     expect(page).to have_text(
-      "Offers will be declined automatically at #{@application_form.decline_by_default_at.to_fs(:govuk_date_time_time_first)} if you do not respond.",
+      'You must respond to offers by ' \
+      "#{@application_form.decline_by_default_at.to_fs(:govuk_date_time_time_first)}. " \
+      'If you do not respond by then, they will be declined automatically.',
     )
   end
   alias_method :and_i_cannot_carry_over_my_application, :then_i_cannot_carry_over_my_application

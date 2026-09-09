@@ -29,7 +29,7 @@ class CandidateInterface::ApplicationChoices::SeptemberStartContentComponent < A
     @awaiting_provider_decision_content ||= {
       title: I18n.t('candidate_interface.application_choices.september_start_component.awaiting_provider_decision_content.title'),
       content: I18n.t(
-        'candidate_interface.application_choices.september_start_component.awaiting_provider_decision_content.rejected automatically',
+        'candidate_interface.application_choices.september_start_component.awaiting_provider_decision_content.rejected_automatically',
         reject_by: recruitment_cycle_timetable.reject_by_default_at.to_fs(:govuk_date_time_time_first),
       ),
     }

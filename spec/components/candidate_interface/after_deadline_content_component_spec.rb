@@ -65,9 +65,13 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
       travel_temporarily_to(application_form.reject_by_default_at - 1.day) do
         component = render_inline(described_class.new(application_form:))
         expect(component).to have_no_link('Choose a course', class: 'govuk-button')
-        expect(component).to have_text application_form.reject_by_default_at.to_fs(:govuk_date_time_time_first)
         expect(component).to have_text(
-          'Applications awaiting a provider decision Applications will be rejected automatically',
+          'Applications awaiting a provider decision',
+        )
+        expect(component).to have_text(
+          'Providers must make a decision on these applications by ' \
+          "#{application_form.reject_by_default_at.to_fs(:govuk_date_time_time_first)}. " \
+          'If a provider does not respond by then, the application will be rejected automatically.',
         )
       end
     end
@@ -100,9 +104,10 @@ RSpec.describe CandidateInterface::AfterDeadlineContentComponent do
       travel_temporarily_to(application_form.decline_by_default_at - 1.day) do
         component = render_inline(described_class.new(application_form:))
         expect(component).to have_no_link('Choose a course', class: 'govuk-button')
-        expect(component).to have_text(application_form.decline_by_default_at.to_fs(:govuk_date_time_time_first))
         expect(component).to have_text(
-          "Offers will be declined automatically at #{application_form.decline_by_default_at.to_fs(:govuk_date_time_time_first)} if you do not respond.",
+          'You must respond to offers by ' \
+          "#{application_form.decline_by_default_at.to_fs(:govuk_date_time_time_first)}. " \
+          'If you do not respond by then, they will be declined automatically.',
         )
       end
     end

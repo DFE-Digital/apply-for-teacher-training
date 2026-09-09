@@ -195,13 +195,13 @@ RSpec.describe 'Candidate submits the application' do
     expect(@current_candidate.current_application.application_choices).to contain_exactly(@application_choice)
     expect(page).to have_text 'Gorse SCITT'
     expect(page).to have_text 'Primary (2XT2)'
-    expect(page).to have_text 'Awaiting decision'
+    expect(page).to have_text 'Awaiting provider decision'
   end
 
   def then_i_can_review_my_submitted_application
     expect(@current_candidate.current_application.application_choices).to contain_exactly(@application_choice)
     expect(page).to have_text 'Gorse SCITT'
-    expect(page).to have_text 'Awaiting decision'
+    expect(page).to have_text 'Awaiting provider decision'
     expect(page).to have_text @application_choice.sent_to_provider_at.to_fs(:govuk_date_and_time)
     expect(page).to have_text 'Primary (2XT2)'
     expect(page).to have_text 'Full time'

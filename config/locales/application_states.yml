@@ -43,7 +43,7 @@ en:
       name: Unknown!
       description: This application is in a state that we do not recognise. Please report this to a developer.
   candidate_application_states:
-    awaiting_provider_decision: Awaiting decision
+    awaiting_provider_decision: Awaiting provider decision
     inactive: Inactive
     interviewing: Interviewing
     cancelled: Application cancelled
