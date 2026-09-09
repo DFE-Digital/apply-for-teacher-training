@@ -1703,26 +1703,6 @@
     jest-haste-map "30.5.1"
     slash "^3.0.0"
 
-"@jest/transform@30.5.0":
-  version "30.5.0"
-  resolved "https://registry.yarnpkg.com/@jest/transform/-/transform-30.5.0.tgz#e97c7766ff1df4c3ccaef84a94614049de9692f3"
-  integrity sha512-n1cYhoByyULEIXi64wbT4Lq91qeT1E6bwpM//sprFXhw955qaiHTdAmy1c1rNFGB6fCf1J+nxDUSf3RGwgZP5A==
-  dependencies:
-    "@babel/core" "^7.27.4"
-    "@jest/types" "30.5.0"
-    "@jridgewell/trace-mapping" "^0.3.31"
-    babel-plugin-istanbul "^8.0.0"
-    chalk "^4.1.2"
-    convert-source-map "^2.0.0"
-    fast-json-stable-stringify "^2.1.0"
-    graceful-fs "^4.2.11"
-    jest-haste-map "30.5.0"
-    jest-regex-util "30.5.0"
-    jest-util "30.5.0"
-    pirates "^4.0.7"
-    slash "^3.0.0"
-    write-file-atomic "^5.0.1"
-
 "@jest/transform@30.5.1":
   version "30.5.1"
   resolved "https://registry.yarnpkg.com/@jest/transform/-/transform-30.5.1.tgz#563895f9cb60bc490c3addde758e78f3dd9dc321"
@@ -2569,25 +2549,12 @@ available-typed-arrays@^1.0.6, available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-babel-jest@30.5.1:
+babel-jest@30.5.1, babel-jest@^30.5.1:
   version "30.5.1"
   resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-30.5.1.tgz#b20da241e3d525e17a1cda61eadbc2e13230baeb"
   integrity sha512-ge1xUVZS91ml09YRMgRGgeKJ4YJpcOiuwteAxFBYLugQyp7cRw+hHej6Ho0vPjvLrjq60bb7JPHH9LAMA1/krA==
   dependencies:
     "@jest/transform" "30.5.1"
-    "@types/babel__core" "^7.20.5"
-    babel-plugin-istanbul "^8.0.0"
-    babel-preset-jest "30.5.0"
-    chalk "^4.1.2"
-    graceful-fs "^4.2.11"
-    slash "^3.0.0"
-
-babel-jest@^30.5.0:
-  version "30.5.0"
-  resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-30.5.0.tgz#0110679d8442ab57ec1b7d1f9fd2dd80f3b8845b"
-  integrity sha512-PrhPHlKC+MsLnuNzgIH/y1dkz1f6cSfKWaQeaG8WxLMuG44dYWQ8E9uRrsBbAGCU/3+BEFYPN4d6G3Zc5Y+waA==
-  dependencies:
-    "@jest/transform" "30.5.0"
     "@types/babel__core" "^7.20.5"
     babel-plugin-istanbul "^8.0.0"
     babel-preset-jest "30.5.0"
@@ -4636,23 +4603,6 @@ jest-environment-node@30.5.1:
     jest-util "30.5.1"
     jest-validate "30.5.1"
 
-jest-haste-map@30.5.0:
-  version "30.5.0"
-  resolved "https://registry.yarnpkg.com/jest-haste-map/-/jest-haste-map-30.5.0.tgz#c7f5ddcf9c4dce03d72fd23787b0d0cad2faa694"
-  integrity sha512-0FStogBslBVOEqTOJr4oXMtFitmrWp9WscG6Gbns88i0YAuMXijCT2G5VMfg/HCR4QAnL+OF2C2ednag+HlDuA==
-  dependencies:
-    "@jest/types" "30.5.0"
-    "@parcel/watcher" "^2.6.0"
-    "@types/node" "*"
-    anymatch "^3.1.3"
-    fb-watchman "^2.0.2"
-    fdir "^6.5.0"
-    graceful-fs "^4.2.11"
-    jest-regex-util "30.5.0"
-    jest-util "30.5.0"
-    jest-worker "30.5.0"
-    picomatch "^4.0.3"
-
 jest-haste-map@30.5.1:
   version "30.5.1"
   resolved "https://registry.yarnpkg.com/jest-haste-map/-/jest-haste-map-30.5.1.tgz#a1dbba63564492f53783d754623cdd41bb0328b0"
@@ -4899,17 +4849,6 @@ jest-watcher@30.5.1:
     emittery "^0.13.1"
     jest-util "30.5.1"
     string-length "^4.0.2"
-
-jest-worker@30.5.0:
-  version "30.5.0"
-  resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-30.5.0.tgz#0400e2729dc0349b5ea8ec7bd015675fd773dc3e"
-  integrity sha512-7kFk/607EoynNHLJa20daivkElM+c9PrCLduYy6AlMkYrXbh5TmVtW1BLXE05Y8baAFsJHMoC3xs2QRRTotwLw==
-  dependencies:
-    "@types/node" "*"
-    "@ungap/structured-clone" "^1.3.0"
-    jest-util "30.5.0"
-    merge-stream "^2.0.0"
-    supports-color "^8.1.1"
 
 jest-worker@30.5.1:
   version "30.5.1"
