@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_09_093910) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_09_104412) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -611,6 +611,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_09_093910) do
     t.datetime "created_at", null: false
     t.jsonb "deleted_records", null: false
     t.datetime "updated_at", null: false
+    t.index ["candidate_id"], name: "index_deleted_candidates_on_candidate_id"
   end
 
   create_table "dsi_sessions", force: :cascade do |t|
