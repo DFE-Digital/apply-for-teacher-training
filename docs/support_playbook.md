@@ -970,4 +970,6 @@ Use normal SQL to query the cache tables `SolidCache::Entry.where(key: key)`
 
 ## Unconfirmed vendors
 
-When providers create vendor_api_tokens and they input a vendor that's not in our DB. We create a vendor that is unconfirmed and the vendor ID will be raised in sentry error. The support dev needs to update this vendor after they confirmed this is a real vendor. Either by searching for them online or contacting the provider
+When providers create vendor_api_tokens and they input a vendor that's not in our DB. We create a vendor that is unconfirmed and the vendor ID will be raised in sentry error. The support dev needs to update this vendor after they confirmed this is a real vendor. Either by searching for them online or contacting the provider.
+
+The vendor table has a status column that needs updating.
