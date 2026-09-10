@@ -70,6 +70,7 @@ module ProviderInterface
           visa_sponsorship: [],
           funding_type: [],
           send_specialism: [],
+          age_ranges: [],
         )
       end
 

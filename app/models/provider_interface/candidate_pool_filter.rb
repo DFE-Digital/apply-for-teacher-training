@@ -16,6 +16,7 @@ module ProviderInterface
       funding_type
       visa_sponsorship
       send_specialism
+      age_ranges
     ].freeze
     ATTRIBUTES.each do |attribute|
       attribute attribute.to_sym
