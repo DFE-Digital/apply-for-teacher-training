@@ -31,6 +31,10 @@ RSpec.describe 'Providers searches for candidates' do
     when_i_click_clear_search
     and_i_search_for_candidate_who_applied_for_send_courses
     then_i_see_only_the_relevant_send_candidate_in_the_results
+
+    when_i_click('Clear filters')
+    and_i_search_for_candidate_who_applied_for_primary_courses_with_age_range_5_to_11
+    then_i_see_only_the_relevant_primary_candidate_in_the_results
   end
 
 private
@@ -93,6 +97,19 @@ private
     )
     create(:candidate_preference, application_form: @send_application_form)
     create(:candidate_pool_application, application_form: @send_application_form, is_send: true)
+
+    @primary_candidate = create(:candidate)
+    @primary_course = create(:course, :primary, age_range: '5 to 11')
+    @primary_application_form = create(
+      :application_form,
+      :completed,
+      first_name: 'Primary',
+      last_name: 'Candidate',
+      candidate: @primary_candidate,
+      submitted_at: 1.day.ago,
+    )
+    create(:candidate_preference, application_form: @primary_application_form)
+    create(:candidate_pool_application, application_form: @primary_application_form, course_ids: [@primary_course.id])
   end
 
   def and_i_search_with(search_term)
@@ -133,5 +150,18 @@ private
     expect(page).to have_no_text(@rejected_candidate.redacted_full_name_current_cycle)
     expect(page).to have_no_text(@withdrawn_candidate.redacted_full_name_current_cycle)
     expect(page).to have_text(@send_candidate.redacted_full_name_current_cycle)
+    expect(page).to have_no_text(@primary_candidate.redacted_full_name_current_cycle)
+  end
+
+  def and_i_search_for_candidate_who_applied_for_primary_courses_with_age_range_5_to_11
+    check('5 to 11')
+    first(:link_or_button, 'Apply filters').click
+  end
+
+  def then_i_see_only_the_relevant_primary_candidate_in_the_results
+    expect(page).to have_no_text(@rejected_candidate.redacted_full_name_current_cycle)
+    expect(page).to have_no_text(@withdrawn_candidate.redacted_full_name_current_cycle)
+    expect(page).to have_no_text(@send_candidate.redacted_full_name_current_cycle)
+    expect(page).to have_text(@primary_candidate.redacted_full_name_current_cycle)
   end
 end

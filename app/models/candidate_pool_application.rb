@@ -117,6 +117,8 @@ class CandidatePoolApplication < ApplicationRecord
   def self.filter_by_primary_age_range(scope, filters)
     return scope if filters[:age_ranges].blank?
 
-    scope.where(age_ranges: filters[:age_ranges])
+    course_ids = Course.primary_course.where(age_range: filters[:age_ranges]).ids
+
+    scope.where('course_ids && ARRAY[:course_ids]::bigint[]', course_ids:)
   end
 end

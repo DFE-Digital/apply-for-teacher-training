@@ -124,7 +124,6 @@ en:
         search: Search
         subject: Subject
         send_specialism: SEND specialism
-        primary_age_range: Primary age range
         age_ranges: Primary age range
       candidate_search_component:
         search_by_candidate_number: Search by candidate number

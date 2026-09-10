@@ -23,7 +23,6 @@ class FindACandidate::PopulatePoolWorker < ApplicationJob
                          "MAX(CASE WHEN application_forms.right_to_work_or_study = 'no' OR (application_forms.right_to_work_or_study = 'yes' AND application_forms.immigration_status IN ('student_visa', 'skilled_worker_visa')) THEN 1 ELSE 0 END) = 1 AS needs_visa",
                          'CURRENT_TIMESTAMP as created_at',
                          'CURRENT_TIMESTAMP as updated_at',
-                         'ARRAY_AGG(DISTINCT courses.age_range) AS age_ranges',
                          "MAX(CASE WHEN candidate_preferences.funding_type = 'fee'
                           OR EXISTS (
                                SELECT 1
@@ -35,6 +34,7 @@ class FindACandidate::PopulatePoolWorker < ApplicationJob
                          THEN 1
                          ELSE 0
                        END) = 1 AS course_funding_type_fee",
+                         'ARRAY_AGG(DISTINCT courses.id) AS course_ids',
                        )
                        .group(:id)
                        .having("COUNT(DISTINCT pool_invites.id) < #{Pool::Invite::NUMBER_OF_INVITES_TO_REMOVE_FROM_POOL}")
@@ -54,7 +54,7 @@ class FindACandidate::PopulatePoolWorker < ApplicationJob
           created_at,
           updated_at,
           course_funding_type_fee,
-          age_ranges
+          course_ids
         )
         #{applications.to_sql}
         ON CONFLICT(application_form_id)
@@ -70,7 +70,7 @@ class FindACandidate::PopulatePoolWorker < ApplicationJob
           needs_visa = EXCLUDED.needs_visa,
           updated_at = EXCLUDED.updated_at,
           course_funding_type_fee = EXCLUDED.course_funding_type_fee,
-          age_ranges = EXCLUDED.age_ranges
+          course_ids = EXCLUDED.course_ids
       SQL
 
       CandidatePoolApplication.transaction do

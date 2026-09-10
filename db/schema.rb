@@ -436,7 +436,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_11_120634) do
   end
 
   create_table "candidate_pool_applications", force: :cascade do |t|
-    t.string "age_ranges", default: [], null: false, array: true
     t.bigint "application_form_id", null: false
     t.bigint "candidate_id", null: false
     t.boolean "course_funding_type_fee"
