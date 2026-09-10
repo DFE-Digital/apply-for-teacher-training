@@ -75,7 +75,8 @@ RSpec.describe DetectInvariantsHourlyCheck, :with_cache do
     end
 
     it 'detects unconfirmed vendors' do
-      unconfirmed_vendor = create(:vendor, status: :unconfirmed)
+      unconfirmed_vendor = create(:vendor, name: 'unconfirmed', status: :unconfirmed)
+      create(:vendor, status: :unconfirmed) # in_house vendor
 
       described_class.new.perform
 

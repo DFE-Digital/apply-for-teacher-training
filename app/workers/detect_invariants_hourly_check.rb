@@ -39,7 +39,7 @@ class DetectInvariantsHourlyCheck < ApplicationJob
   end
 
   def detect_unconfirmed_vendors
-    unconfirmed_vendors = Vendor.unconfirmed.ids
+    unconfirmed_vendors = Vendor.unconfirmed.where.not(name: 'in_house').ids
 
     if unconfirmed_vendors.any?
       Sentry.capture_exception(
