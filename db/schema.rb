@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_09_104412) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_09_160436) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -436,6 +436,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_09_104412) do
   end
 
   create_table "candidate_pool_applications", force: :cascade do |t|
+    t.string "age_ranges", default: [], null: false, array: true
     t.bigint "application_form_id", null: false
     t.bigint "candidate_id", null: false
     t.boolean "course_funding_type_fee"

@@ -16,6 +16,9 @@ module ProviderInterface
           subject_ids: {
             options: subject_options,
           },
+          age_ranges: {
+            options: primary_age_range_options,
+          },
           send_specialism: {
             options: send_specialism_options,
           },
@@ -46,6 +49,22 @@ module ProviderInterface
           struct.new(
             value: subject.id.to_s,
             name: subject.name,
+          )
+        end
+      end
+
+      def primary_age_range_options
+        age_range = Struct.new(:value, :name)
+
+        primary_age_ranges = Course.primary_course
+                                   .pluck(:age_range)
+                                   .uniq
+                                   .sort_by { |ar| ar.split.first.to_i }
+
+        primary_age_ranges.map do |range|
+          age_range.new(
+            value: range,
+            name: range,
           )
         end
       end
