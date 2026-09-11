@@ -52,6 +52,16 @@ RSpec.describe CandidatePoolApplication do
         course_funding_type_fee: false,
         is_send: true,
       )
+      primary_course = create(:course, :primary)
+      primary_application_form = create(:application_form, :completed)
+      create(
+        :candidate_pool_application,
+        application_form: primary_application_form,
+        candidate: primary_application_form.candidate,
+        needs_visa: false,
+        course_funding_type_fee: false,
+        course_ids: [primary_course.id],
+      )
 
       filters = {}
       application_forms = described_class.filtered_application_forms(filters)
@@ -62,6 +72,7 @@ RSpec.describe CandidatePoolApplication do
         undergraduate_candidate_form.id,
         visa_sponsorship_candidate_form.id,
         send_candidate_form.id,
+        primary_application_form.id,
       )
 
       filters = { subject_ids: ['1'] }
@@ -120,6 +131,15 @@ RSpec.describe CandidatePoolApplication do
 
       expect(application_forms.ids).to contain_exactly(
         send_candidate_form.id,
+      )
+
+      filters = {
+        age_ranges: [primary_course.age_range],
+      }
+      application_forms = described_class.filtered_application_forms(filters)
+
+      expect(application_forms.ids).to contain_exactly(
+        primary_application_form.id,
       )
 
       provider_user = create(:provider_user, :with_two_providers)

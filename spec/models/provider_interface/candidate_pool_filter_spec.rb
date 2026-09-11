@@ -27,6 +27,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         funding_type: nil,
         visa_sponsorship: nil,
         send_specialism: nil,
+        age_ranges: nil,
       )
     end
   end

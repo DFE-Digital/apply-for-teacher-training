@@ -115,6 +115,18 @@
 
             <div class="govuk-form-group filter-group">
               <%= f.govuk_collection_check_boxes(
+                :age_ranges,
+                primary_age_range_options,
+                :value,
+                :name,
+                legend: { text: t('.age_ranges'), size: 's' },
+                small: true,
+                include_hidden: false,
+              ) %>
+            </div>
+
+            <div class="govuk-form-group filter-group">
+              <%= f.govuk_collection_check_boxes(
                 :send_specialism,
                 send_specialism_options,
                 :value,

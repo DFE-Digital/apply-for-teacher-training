@@ -34,6 +34,7 @@ class FindACandidate::PopulatePoolWorker < ApplicationJob
                          THEN 1
                          ELSE 0
                        END) = 1 AS course_funding_type_fee",
+                         'ARRAY_AGG(DISTINCT courses.id) AS course_ids',
                        )
                        .group(:id)
                        .having("COUNT(DISTINCT pool_invites.id) < #{Pool::Invite::NUMBER_OF_INVITES_TO_REMOVE_FROM_POOL}")
@@ -52,7 +53,8 @@ class FindACandidate::PopulatePoolWorker < ApplicationJob
           needs_visa,
           created_at,
           updated_at,
-          course_funding_type_fee
+          course_funding_type_fee,
+          course_ids
         )
         #{applications.to_sql}
         ON CONFLICT(application_form_id)
@@ -67,7 +69,8 @@ class FindACandidate::PopulatePoolWorker < ApplicationJob
           rejected_provider_ids = EXCLUDED.rejected_provider_ids,
           needs_visa = EXCLUDED.needs_visa,
           updated_at = EXCLUDED.updated_at,
-          course_funding_type_fee = EXCLUDED.course_funding_type_fee
+          course_funding_type_fee = EXCLUDED.course_funding_type_fee,
+          course_ids = EXCLUDED.course_ids
       SQL
 
       CandidatePoolApplication.transaction do

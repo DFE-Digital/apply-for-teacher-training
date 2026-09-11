@@ -108,6 +108,7 @@ en:
         remove_hint_visa_sponsorship: Remove visa sponsorship filter
         remove_hint_funding_type: Remove funding type filter
         remove_hint_send_specialism: Remove SEND specialism filter
+        remove_hint_age_ranges: Remove primary age range filter
         location: 'Town, city or postcode:'
         remove_location_hint: Remove candidate location preference filter
         study_mode: Study type
@@ -123,6 +124,7 @@ en:
         search: Search
         subject: Subject
         send_specialism: SEND specialism
+        age_ranges: Primary age range
       candidate_search_component:
         search_by_candidate_number: Search by candidate number
         clear_search: Clear search

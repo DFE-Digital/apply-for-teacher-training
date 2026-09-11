@@ -12,6 +12,7 @@ class CandidatePoolApplication < ApplicationRecord
     scope = filter_by_needs_visa(scope, filters)
     scope = filter_by_funding_type(scope, filters)
     scope = filter_by_send(scope, filters)
+    scope = filter_by_primary_age_range(scope, filters)
 
     ApplicationForm.where(id: scope.select(:application_form_id))
   end
@@ -111,5 +112,13 @@ class CandidatePoolApplication < ApplicationRecord
     return scope if filters[:send_specialism].blank? || filters[:send_specialism].exclude?('true')
 
     scope.where(is_send: true)
+  end
+
+  def self.filter_by_primary_age_range(scope, filters)
+    return scope if filters[:age_ranges].blank?
+
+    course_ids = Course.primary_course.where(age_range: filters[:age_ranges]).ids
+
+    scope.where('course_ids && ARRAY[:course_ids]::bigint[]', course_ids:)
   end
 end

@@ -158,6 +158,10 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         :course_option,
         course: create(:course, is_send: true),
       )
+      primary_course_option = create(
+        :course_option,
+        course: create(:course, :primary),
+      )
       create(
         :application_choice,
         status: :awaiting_provider_decision,
@@ -182,6 +186,12 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         application_form: application_form,
         course_option: send_option,
       )
+      create(
+        :application_choice,
+        status: :awaiting_provider_decision,
+        application_form: application_form,
+        course_option: primary_course_option,
+      )
       existing_pool_application = create(
         :candidate_pool_application,
         application_form: application_form,
@@ -194,7 +204,9 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         study_mode_part_time: false,
         study_mode_full_time: false,
         is_send: false,
+        course_ids: [1],
       )
+      course_ids = Course.ids
       stub_application_forms_in_the_pool(application_form.id)
 
       expect { described_class.new.perform }
@@ -207,7 +219,8 @@ RSpec.describe FindACandidate::PopulatePoolWorker do
         .and change { existing_pool_application.reload.course_type_postgraduate }.from(false).to(true)
         .and change { existing_pool_application.reload.study_mode_part_time }.from(false).to(true)
         .and change { existing_pool_application.reload.study_mode_full_time }.from(false).to(true)
-        .and change { existing_pool_application.reload.study_mode_full_time }.from(false).to(true)
+        .and change { existing_pool_application.reload.is_send }.from(false).to(true)
+        .and change { existing_pool_application.reload.course_ids }.from([1]).to(course_ids)
         .and change(existing_pool_application.reload, :updated_at)
         .and not_change(existing_pool_application.reload, :id)
         .and not_change(existing_pool_application.reload, :application_form_id)
