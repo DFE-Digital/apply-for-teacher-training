@@ -72,5 +72,33 @@ RSpec.describe DetectInvariantsDailyCheck do
         end
       end
     end
+
+    context 'when checking for unconfirmed vendors' do
+      before do
+        allow(HostingEnvironment).to receive(:production?).and_return true
+        allow(Sentry).to receive(:capture_exception)
+      end
+
+      it 'detects unconfirmed vendors' do
+        unconfirmed_vendor = create(:vendor, name: 'unconfirmed', status: :unconfirmed)
+        create(:vendor, status: :unconfirmed) # in_house vendor
+
+        described_class.new.perform
+
+        expect(Sentry).to have_received(:capture_exception).with(
+          described_class::UnconfirmedVendorsError.new(
+            "The vendors with ids #{[unconfirmed_vendor.id]} have been created by providers, we need to confirm if they are real vendors",
+          ),
+        )
+      end
+
+      it 'doesn’t alert when all vendors are confirmed' do
+        create(:vendor, name: 'confirmed_vendor', status: :confirmed)
+
+        described_class.new.perform
+
+        expect(Sentry).not_to have_received(:capture_exception)
+      end
+    end
   end
 end

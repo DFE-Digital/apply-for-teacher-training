@@ -2,7 +2,6 @@ class DetectInvariantsHourlyCheck < ApplicationJob
   def perform
     detect_course_sync_not_succeeded_for_an_hour unless HostingEnvironment.review?
     detect_unauthorised_application_form_edits
-    detect_unconfirmed_vendors
   end
 
   def detect_unauthorised_application_form_edits
@@ -38,21 +37,8 @@ class DetectInvariantsHourlyCheck < ApplicationJob
     end
   end
 
-  def detect_unconfirmed_vendors
-    unconfirmed_vendors = Vendor.unconfirmed.where.not(name: 'in_house').ids
-
-    if unconfirmed_vendors.any?
-      Sentry.capture_exception(
-        UnconfirmedVendorsError.new(
-          "The vendors with ids #{unconfirmed_vendors} have been created by providers, we need to confirm if they are real vendors",
-        ),
-      )
-    end
-  end
-
   class ApplicationEditedByWrongCandidate < StandardError; end
   class CourseSyncNotSucceededForAnHour < StandardError; end
-  class UnconfirmedVendorsError < StandardError; end
 
 private
 
