@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Course do
+  include ActiveSupport::Testing::TimeHelpers
+
   subject(:course) { build(:course) }
 
   describe 'a valid course' do
@@ -190,14 +192,70 @@ RSpec.describe Course do
   end
 
   describe '#find_url' do
-    let(:course) { create(:course) }
+    let(:course) { create(:course, recruitment_cycle_year:, start_date:) }
+    let(:recruitment_cycle_year) { RecruitmentCycleTimetable.current_year }
+    let(:start_date) { "01/09/#{recruitment_cycle_year}" }
 
     it 'returns the sandbox url when in sandbox', :sandbox do
       expect(course.find_url).to include('sandbox')
+      expect(course.find_url).to eq(
+        "#{I18n.t('find_teacher_training.sandbox_url')}course/#{course.provider.code}/#{course.code}",
+      )
     end
 
     it 'returns the production url when not in sandbox', sandbox: false do
       expect(course.find_url).not_to include('sandbox')
+      expect(course.find_url).to eq(
+        "#{I18n.t('find_teacher_training.production_url')}course/#{course.provider.code}/#{course.code}",
+      )
+    end
+
+    context 'when the course is in the previous cycle', sandbox: false do
+      let(:recruitment_cycle_year) { 2026 }
+
+      context 'when the course starts after september' do
+        let(:start_date) { "01/10/#{recruitment_cycle_year}" }
+
+        it 'return the production url with the cycle argument' do
+          travel_to Time.zone.parse('2027-01-01 12:00:00') do
+            expect(course.find_url).to eq(
+              "#{I18n.t('find_teacher_training.production_url')}course/#{course.provider.code}/#{course.code}/cycle/#{recruitment_cycle_year}",
+            )
+          end
+        end
+      end
+
+      context 'when the course starts during september' do
+        let(:start_date) { "01/09/#{recruitment_cycle_year}" }
+
+        it 'return nil' do
+          travel_to Time.zone.parse('2027-01-01 12:00:00') do
+            expect(course.find_url).to be_nil
+          end
+        end
+      end
+    end
+
+    context 'when the course is in a recruitment cycle before 2026' do
+      let(:recruitment_cycle_year) { 2025 }
+      let(:start_date) { "01/01/#{recruitment_cycle_year.next}" }
+
+      it 'return nil' do
+        travel_to Time.zone.parse('2027-01-01 12:00:00') do
+          expect(course.find_url).to be_nil
+        end
+      end
+    end
+
+    context 'when the course is in the a recruitment cycle before the previous cycle' do
+      let(:recruitment_cycle_year) { 2026 }
+      let(:start_date) { "01/01/#{recruitment_cycle_year.next}" }
+
+      it 'return nil' do
+        travel_to Time.zone.parse('2028-01-01 12:00:00') do
+          expect(course.find_url).to be_nil
+        end
+      end
     end
   end
 

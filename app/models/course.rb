@@ -7,7 +7,7 @@ class Course < ApplicationRecord
   has_many :course_subjects, dependent: nil
   has_many :subjects, through: :course_subjects
   has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year, dependent: nil
-  delegate :next_year?, :find_opens_at, to: :recruitment_cycle_timetable
+  delegate :next_year?, :find_opens_at, :current_year?, :previous_year?, to: :recruitment_cycle_timetable
 
   belongs_to :accredited_provider, class_name: 'Provider', optional: true
 
@@ -157,7 +157,19 @@ class Course < ApplicationRecord
             I18n.t('find_teacher_training.production_url')
           end
 
-    "#{url}course/#{provider.code}/#{code}"
+    if current_year?
+      "#{url}course/#{provider.code}/#{code}"
+    elsif previous_year? && after_september? && after_minimum_prev_find_cycle?
+      "#{url}course/#{provider.code}/#{code}/cycle/#{recruitment_cycle_year}"
+    end
+  end
+
+  def after_september?
+    start_date > Date.new(recruitment_cycle_year.to_i, 9, 30).at_end_of_day
+  end
+
+  def after_minimum_prev_find_cycle?
+    recruitment_cycle_year.to_i >= 2026
   end
 
   def in_previous_cycle
