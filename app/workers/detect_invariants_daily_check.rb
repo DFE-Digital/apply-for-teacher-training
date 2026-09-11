@@ -2,6 +2,8 @@
 class DetectInvariantsDailyCheck < ApplicationJob
   def perform
     detect_if_the_monthly_statistics_has_not_run
+
+    detect_unconfirmed_vendors
   end
 
   def detect_if_the_monthly_statistics_has_not_run
@@ -31,7 +33,22 @@ class DetectInvariantsDailyCheck < ApplicationJob
     end
   end
 
+  def detect_unconfirmed_vendors
+    return unless HostingEnvironment.production? || HostingEnvironment.sandbox_mode?
+
+    unconfirmed_vendors = Vendor.unconfirmed.where.not(name: 'in_house').ids
+
+    if unconfirmed_vendors.any?
+      Sentry.capture_exception(
+        UnconfirmedVendorsError.new(
+          "The vendors with ids #{unconfirmed_vendors} have been created by providers, we need to confirm if they are real vendors",
+        ),
+      )
+    end
+  end
+
   class MonthlyStatisticsReportHasNotRun < StandardError; end
+  class UnconfirmedVendorsError < StandardError; end
 
 private
 
