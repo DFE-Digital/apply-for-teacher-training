@@ -64,6 +64,7 @@ module ProviderInterface
           :location,
           :candidate_id,
           :candidate_search,
+          locations: [],
           subject_ids: [],
           study_mode: [],
           course_type: [],

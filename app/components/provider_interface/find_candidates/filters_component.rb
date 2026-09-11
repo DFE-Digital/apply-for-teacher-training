@@ -35,6 +35,8 @@ module ProviderInterface
       end
 
       def option_name(filter_name, filter_value)
+        return filter_value if filter_name == 'locations'
+
         filters[filter_name][:options].find { |filter| filter.value == filter_value }&.name
       end
 
@@ -112,6 +114,7 @@ module ProviderInterface
     private
 
       def path_to_remove_location
+        # do we need to change something here?
         applied_filters = filter.applied_filters.clone
         applied_filters.delete(:location)
         applied_filters.delete(:origin)
@@ -122,9 +125,14 @@ module ProviderInterface
 
       def path_to_remove_filter(filter_name, filter_value)
         applied_filters = filter.applied_filters.clone.with_indifferent_access
-        applied_filters[filter_name] = applied_filters[filter_name].reject { |val| val == filter_value }
-        applied_filters[:apply_filters] = true
 
+        if filter_name == 'locations'
+          applied_filters.delete(:location)
+          applied_filters.delete(:origin)
+        end
+
+        applied_filters[:apply_filters] = true
+        applied_filters[filter_name] = applied_filters[filter_name].reject { |val| val == filter_value }
         to_query(applied_filters)
       end
 

@@ -108,7 +108,9 @@ en:
         remove_hint_visa_sponsorship: Remove visa sponsorship filter
         remove_hint_funding_type: Remove funding type filter
         remove_hint_send_specialism: Remove SEND specialism filter
+        remove_hint_locations: Remove location filter
         location: 'Town, city or postcode:'
+        locations: Locations
         remove_location_hint: Remove candidate location preference filter
         study_mode: Study type
         course_type: Course type

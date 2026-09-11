@@ -8,6 +8,7 @@ module ProviderInterface
     ## Removing or adding one doesn't require aliases
     ATTRIBUTES = %i[
       location
+      locations
       candidate_search
       candidate_id
       subject_ids
@@ -34,7 +35,9 @@ module ProviderInterface
       @provider_user_filter = build_provider_user_filter
       @apply_filters = apply_filters
       @suggested_location ||= LocationSuggestions.new(
-        filter_params[:location] || @provider_user_filter.filters['location'],
+        filter_params[:location] ||
+        filter_params[:locations]&.last ||
+        @provider_user_filter.filters['location'],
       ).call.first
 
       super(filter_attributes(filter_params))
@@ -53,6 +56,14 @@ module ProviderInterface
       applied_filters[:origin].present?
     end
 
+    def location_tab
+      # seems like the location is deleted when removing a location, which makes sense
+      # need to think about it more
+      filters&.fetch('location', nil) ||
+        @provider_user_filter.filters['location'] ||
+        @provider_user_filter.filters['locations']&.last
+    end
+
     def save
       return false unless valid?
 
@@ -67,6 +78,8 @@ module ProviderInterface
           sister_filter.update(updated_at: 2.seconds.ago)
         end
       end
+
+      self.location = nil # clear the input field so we can add another
     end
 
     def save_pagination(pagination_page)
@@ -93,6 +106,12 @@ module ProviderInterface
       if apply_filters
         if filter_params[:location].present? && suggested_location
           filter_params[:location] = suggested_location&.fetch(:name, nil)
+          filter_params[:locations] = (
+            Array(@provider_user_filter.filters['locations']) +
+              [suggested_location&.fetch(:name, nil)]
+          ).compact_blank.uniq
+        elsif filter_params[:location].blank?
+          filter_params[:location] = filter_params[:locations]&.last
         end
 
         filter_params
@@ -119,7 +138,7 @@ module ProviderInterface
     def filter_params_with_location
       filter_params = {}
 
-      if location && location_coordinates.present?
+      if locations.present? && location_coordinates.present?
         filter_params.merge!(
           {
             origin: [
