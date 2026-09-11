@@ -259,6 +259,54 @@ RSpec.describe Course do
     end
   end
 
+  describe '#after_september?' do
+    context 'when the course starts after september' do
+      let(:recruitment_cycle_year) { 2026 }
+      let(:course) { create(:course, recruitment_cycle_year:, start_date: "01/10/#{recruitment_cycle_year}") }
+
+      it 'returns true' do
+        expect(course.after_september?).to be(true)
+      end
+    end
+
+    context 'when the course starts during september' do
+      let(:recruitment_cycle_year) { 2026 }
+      let(:course) { create(:course, recruitment_cycle_year:, start_date: "01/09/#{recruitment_cycle_year}") }
+
+      it 'returns true' do
+        expect(course.after_september?).to be(false)
+      end
+    end
+  end
+
+  describe '#after_minimum_prev_find_cycle?' do
+    let(:course) { create(:course, recruitment_cycle_year:) }
+
+    context 'when the recruitment cycle year is before 2026' do
+      let(:recruitment_cycle_year) { 2025 }
+
+      it 'returns false' do
+        expect(course.after_minimum_prev_find_cycle?).to be(false)
+      end
+    end
+
+    context 'when the recruitment cycle year is 2026' do
+      let(:recruitment_cycle_year) { 2026 }
+
+      it 'returns true' do
+        expect(course.after_minimum_prev_find_cycle?).to be(true)
+      end
+    end
+
+    context 'when the recruitment cycle year after 2026' do
+      let(:recruitment_cycle_year) { 2027 }
+
+      it 'returns true' do
+        expect(course.after_minimum_prev_find_cycle?).to be(true)
+      end
+    end
+  end
+
   describe '#description_and_accredited_provider' do
     context 'when there is an accredited provider set' do
       let(:course) { build(:course, accredited_provider: build(:provider)) }
