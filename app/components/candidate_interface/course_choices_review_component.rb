@@ -85,6 +85,8 @@ module CandidateInterface
     end
 
     def course_row(application_choice)
+      return if course_row_value(application_choice).blank?
+
       {
         key: 'Course',
         value: course_row_value(application_choice),
@@ -109,15 +111,15 @@ module CandidateInterface
     end
 
     def course_row_value(application_choice)
-      if current_timetable.after_find_closes?
-        "#{application_choice.current_course.name} (#{application_choice.current_course.code})"
-      else
-        govuk_link_to(
-          "#{application_choice.current_course.name} (#{application_choice.current_course.code})",
-          application_choice.current_course.find_url,
-          new_tab: true,
-        )
-      end
+      @course_row_value ||= if current_timetable.after_find_closes?
+                              "#{application_choice.current_course.name} (#{application_choice.current_course.code})"
+                            elsif application_choice.current_course.find_url.present?
+                              govuk_link_to(
+                                "#{application_choice.current_course.name} (#{application_choice.current_course.code})",
+                                application_choice.current_course.find_url,
+                                new_tab: true,
+                              )
+                            end
     end
 
     def location_row(application_choice)
