@@ -10,7 +10,10 @@ RSpec.describe 'Selecting a course' do
     and_i_have_an_unsubmitted_application_to_the_course
 
     when_i_visit_the_site
-    and_i_visit_the_study_mode_selection_for_my_existing_course_selection
+    and_i_click_to_add_another_application
+    and_i_know_the_course_i_want_to_apply_to
+    and_i_choose_a_provider
+    and_i_choose_a_course_with_no_vacancies
     then_i_am_redirected_to_the_duplicate_course_selection_step
 
     when_i_visit_the_sites_selection_for_my_existing_course_selection
@@ -40,6 +43,26 @@ private
 
   def when_i_visit_the_site
     visit candidate_interface_details_path
+  end
+
+  def and_i_click_to_add_another_application
+    click_link_or_button 'Your application'
+    click_link_or_button 'Add application'
+  end
+
+  def and_i_know_the_course_i_want_to_apply_to
+    choose 'Yes'
+    click_on 'Continue'
+  end
+
+  def and_i_choose_a_provider
+    select 'Gorse SCITT (1N1)'
+    click_link_or_button t('continue')
+  end
+
+  def and_i_choose_a_course_with_no_vacancies
+    choose 'Primary (2XT2)'
+    click_link_or_button t('continue')
   end
 
   def and_i_visit_the_study_mode_selection_for_my_existing_course_selection

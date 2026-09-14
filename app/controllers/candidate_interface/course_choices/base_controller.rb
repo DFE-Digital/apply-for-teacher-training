@@ -9,6 +9,7 @@ module CandidateInterface
       before_action :redirect_to_your_applications_if_submitted, only: %i[edit update]
       before_action :assign_wizard
       before_action :assign_wizard_with_application_choice, only: %i[edit update]
+      before_action :redirect_to_wizard_start, only: [:new]
 
       def new; end
 
@@ -133,6 +134,14 @@ module CandidateInterface
 
       def clear_wizard
         @wizard&.clear_state
+      end
+
+      def redirect_to_wizard_start
+        return unless wizard_controller?
+
+        return unless @wizard.step_attribute_missing?
+
+        redirect_to candidate_interface_course_choices_do_you_know_the_course_path
       end
     end
   end
