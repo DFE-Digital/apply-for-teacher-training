@@ -59,6 +59,7 @@ module ProviderInterface
         primary_age_ranges = Course.primary_course
                                    .pluck(:age_range)
                                    .uniq
+                                   .compact_blank
                                    .sort_by { |ar| ar.split.first.to_i }
 
         primary_age_ranges.map do |range|
