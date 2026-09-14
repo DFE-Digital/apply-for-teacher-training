@@ -652,3 +652,10 @@ shared:
     - created_at
     - updated_at
     - resolved
+  degree_subject_groups:
+    - id
+    - application_qualification_id
+    - name
+    - subject_group_uuid
+    - created_at
+    - updated_at

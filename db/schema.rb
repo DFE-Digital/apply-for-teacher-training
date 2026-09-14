@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_11_120634) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_11_151930) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -605,6 +605,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_11_120634) do
     t.index ["offered_course_option_id"], name: "index_deferred_offer_confirmations_on_offered_course_option_id"
     t.index ["provider_user_id"], name: "index_deferred_offer_confirmations_on_provider_user_id"
     t.index ["site_id"], name: "index_deferred_offer_confirmations_on_site_id"
+  end
+
+  create_table "degree_subject_groups", force: :cascade do |t|
+    t.bigint "application_qualification_id", null: false
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.string "subject_group_uuid"
+    t.datetime "updated_at", null: false
+    t.index ["application_qualification_id"], name: "index_degree_subject_groups_on_application_qualification_id"
   end
 
   create_table "deleted_candidates", force: :cascade do |t|
@@ -1476,6 +1485,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_11_120634) do
   add_foreign_key "deferred_offer_confirmations", "offers", on_delete: :cascade
   add_foreign_key "deferred_offer_confirmations", "provider_users"
   add_foreign_key "deferred_offer_confirmations", "sites"
+  add_foreign_key "degree_subject_groups", "application_qualifications", on_delete: :cascade
   add_foreign_key "email_clicks", "emails", on_delete: :cascade
   add_foreign_key "emails", "application_forms", on_delete: :cascade
   add_foreign_key "interviews", "application_choices", on_delete: :cascade

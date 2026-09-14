@@ -68,6 +68,7 @@ class ApplicationQualification < ApplicationRecord
 
   belongs_to :application_form, touch: true
   has_one :candidate, through: :application_form
+  has_many :degree_subject_groups, dependent: :destroy
 
   scope :degrees, -> { where(level: 'degree') }
   scope :gcses, -> { where(level: 'gcse') }

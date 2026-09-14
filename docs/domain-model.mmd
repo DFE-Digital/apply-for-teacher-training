@@ -426,6 +426,10 @@ erDiagram
 		integer site_id
 		string study_mode
 	}
+	DegreeSubjectGroup {
+		string name
+		string subject_group_uuid
+	}
 	DeletedCandidate {
 		integer candidate_id
 		jsonb deleted_records
@@ -909,6 +913,7 @@ erDiagram
 	ApplicationForm ||--}o EnglishProficiency : ""
 	ApplicationForm ||--}o "Pool::Invite" : ""
 	ApplicationQualification o|..}o Candidate : ""
+	ApplicationQualification ||--}o DegreeSubjectGroup : ""
 	ApplicationReference ||--}o ReferenceToken : ""
 	ApplicationReference o|..}o Candidate : ""
 	Candidate ||--}o AuthenticationToken : ""

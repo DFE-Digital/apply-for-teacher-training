@@ -4510,6 +4510,65 @@
         ]
       },
       {
+        "name": "degree_subject_groups",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "application_qualification_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "subject_group_uuid"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
         "name": "airbyte_heartbeat",
         "syncMode": "full_refresh_overwrite",
         "primaryKey": [
