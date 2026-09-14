@@ -15,7 +15,7 @@
 
       <div class="moj-filter__content" tabindex="-1">
         <%= form_with model: filter, url: '', scope: '', method: :get do |f| %>
-          <% if filter.applied_filters.except(:candidate_id, :candidate_search).present? %>
+          <% if filter.applied_filters.except(:candidate_id, :candidate_search, :location).present? %>
             <div class="moj-filter__selected">
               <div class="moj-filter__selected-heading">
                 <div class="moj-filter__heading-title">
@@ -28,7 +28,7 @@
                 </div>
               </div>
 
-              <% filter.applied_filters.except(:origin, :candidate_search, :candidate_id).each do |name, value| %>
+              <% filter.applied_filters.except(:origin, :candidate_search, :candidate_id, :location).each do |name, value| %>
                 <div>
                   <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-margin-bottom-0">
                     <%= t(".#{name}") %>
@@ -48,6 +48,7 @@
                         <% end %>
                       <% end %>
                     <% else %>
+                      <%# NOT REACHED ANYMORE %>
                       <%= link_to(
                             path_to_remove_location,
                             class: 'app-checkbox-filter__tag',
@@ -82,6 +83,11 @@
                       data: { location_autocomplete_target: 'input' },
                       label: { text: t('.location'), class: 'govuk-fieldset__legend govuk-fieldset__legend--s' },
                     ) %>
+                <% if filter.locations.present? %>
+                  <% filter.locations.each do |location| %>
+                    <%= f.hidden_field 'locations[]', id: 'locations', value: location %>
+                  <% end %>
+                <% end %>
               </div>
             </div>
 

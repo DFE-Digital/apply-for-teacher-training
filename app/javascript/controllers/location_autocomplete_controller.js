@@ -5,7 +5,7 @@ import { request } from '../utils/request_helper'
 import { escapeHTML } from '../utils/escape_html'
 
 export default class extends Controller {
-  static targets = ['input']
+  static targets = ['input', 'locations']
   static values = {
     path: String,
     minLength: { type: Number, default: 2 },
@@ -14,8 +14,22 @@ export default class extends Controller {
 
   connect () {
     if (!this.hasInputTarget) return
+    const form = this.element.closest('form')
+    //
+    // form.addEventListener("submit", (event) => {
+    //   event.preventDefault()
+    //
+    //   // check against nill
+    //   const location = document.getElementById('location-field')
+    //   const locationsField = document.getElementById('locations')
+    //   // debugger;
+    //   // locationsField.value = location.value
+    //   form.submit()
+    // })
+
     this.setupAutocomplete()
   }
+
 
   setupAutocomplete () {
     const inputElement = this.inputTarget

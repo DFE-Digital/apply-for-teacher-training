@@ -6,6 +6,22 @@
 
 <%= render ProviderInterface::FindCandidates::FiltersComponent.new(params:, filter: @filter) do %>
   <% if @application_forms.present? %>
+    <nav class="app-tab-navigation" aria-label="sub menu" data-qa="sub-navigation">
+      <ul class="app-tab-navigation__list govuk-!-display-none-print">
+        <% @filter.locations&.each do |location| %>
+          <li class="app-tab-navigation__item">
+            <%= govuk_link_to(
+              location,
+              provider_interface_candidate_pool_root_path(location:, apply_filters: true),
+
+              class: 'app-tab-navigation__link',
+              aria: { current: @filter.location_tab == location ? 'page' : '' },
+            ) %>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+
     <h2 class="govuk-heading-l govuk-!-margin-top-6 govuk-!-margin-bottom-3">
       <%= t('.candidates_found', count: @pagy.count) %>
     </h2>
