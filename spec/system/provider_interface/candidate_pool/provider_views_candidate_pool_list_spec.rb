@@ -219,7 +219,7 @@ RSpec.describe 'Providers views candidate pool list' do
 
   def then_i_expect_all_the_filters_to_be_applied
     within('.moj-filter__selected') do
-      expect(page).to have_link 'Remove candidate location preference filter Manchester'
+      expect(page).to have_link 'Remove location filter Manchester'
       expect(page).to have_link "Remove subject filter #{primary_subject.name}"
       expect(page).to have_link "Remove subject filter #{maths_subject.name}"
       expect(page).to have_link 'Remove study type filter Full time'
@@ -233,7 +233,7 @@ RSpec.describe 'Providers views candidate pool list' do
 
   def when_i_remove_some_filters
     within('.moj-filter__selected') do
-      click_link_or_button('Remove candidate location preference filter Manchester')
+      click_link_or_button('Remove location filter Manchester')
       click_link_or_button("Remove subject filter #{primary_subject.name}")
       click_link_or_button('Part time')
       click_link_or_button('Undergraduate')

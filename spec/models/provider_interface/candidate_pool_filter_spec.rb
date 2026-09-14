@@ -90,6 +90,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
       expect(filter.applied_filters).to eq(
         {
           location: 'Manchester',
+          locations: ['Manchester'],
           visa_sponsorship: ['required'],
           origin: [53.4706519, -2.2954452],
         }.with_indifferent_access,
@@ -103,7 +104,11 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           :provider_user_filter,
           :find_candidates_all,
           provider_user: current_provider_user,
-          filters: { location: 'Manchester', visa_sponsorship: ['required'] },
+          filters: {
+            location: 'Manchester',
+            locations: ['Manchester'],
+            visa_sponsorship: ['required'],
+          },
         )
 
         filter = described_class.new(
@@ -115,6 +120,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         expect(filter.applied_filters).to eq(
           {
             location: 'Manchester',
+            locations: ['Manchester'],
             visa_sponsorship: ['required'],
             origin: [53.4706519, -2.2954452],
           }.with_indifferent_access,
@@ -142,6 +148,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         expect(filter.applied_filters).to eq(
           {
             location: 'M4 Manchester',
+            locations: ['M4 Manchester'],
             origin: [53.4874112, - 2.2274845],
             visa_sponsorship: ['required'],
           }.with_indifferent_access,

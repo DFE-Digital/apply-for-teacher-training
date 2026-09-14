@@ -71,6 +71,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
       expect(filter.applied_filters).to eq(
         {
           location: 'Manchester',
+          locations: ['Manchester'],
           visa_sponsorship: ['required'],
           origin: [53.4706519, -2.2954452],
         }.with_indifferent_access,
