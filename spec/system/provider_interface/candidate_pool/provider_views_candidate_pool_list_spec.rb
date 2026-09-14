@@ -6,8 +6,6 @@ RSpec.describe 'Providers views candidate pool list' do
 
   let(:current_provider) { create(:provider) }
   let(:client) { instance_double(GoogleMapsAPI::Client) }
-  let(:api_response) { [{ name: 'Manchester', place_id: }] }
-  let(:place_id) { 'test_id' }
   let!(:primary_subject) { create(:subject, name: 'Primary') }
   let!(:maths_subject) { create(:subject, name: 'Maths') }
 
@@ -17,7 +15,6 @@ RSpec.describe 'Providers views candidate pool list' do
     set_visa_sponsorship_candidate_form
 
     allow(GoogleMapsAPI::Client).to receive(:new).and_return(client)
-    allow(client).to receive(:autocomplete).and_return(api_response)
   end
 
   scenario 'View candidates' do
@@ -30,8 +27,14 @@ RSpec.describe 'Providers views candidate pool list' do
     then_i_expect_to_see_eligible_candidates_order_by_application_form_submitted_at
     and_i_expect_to_see_the_total_results_count
 
-    when_i_filter_by_location
-    then_i_expect_to_see_filtered_candidates([@declined_candidate_form, @rejected_candidate_form, @visa_sponsorship_form])
+    when_i_filter_by_locations
+
+    and_i_am_on_manchester_tab
+    then_i_expect_to_see_filtered_candidates([@declined_candidate_form, @rejected_candidate_form])
+
+    when_i_click_on_liverpool_tab
+    i_am_on_liverpool_tab
+    then_i_expect_to_see_filtered_candidates([@declined_candidate_form, @visa_sponsorship_form])
 
     when_i_filter_by_fee_funding_type
     then_i_expect_to_see_filtered_candidates([@declined_candidate_form, @visa_sponsorship_form])
@@ -62,8 +65,6 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   context 'with wrong location filter' do
-    let(:place_id) { 'wrong_location' }
-
     scenario 'Provider inputs a wrong location in the filters' do
       given_i_am_a_provider_user_with_dfe_sign_in
       and_provider_user_exists
@@ -132,7 +133,7 @@ RSpec.describe 'Providers views candidate pool list' do
         right_to_work_or_study: :no,
       ),
     )
-    create(:candidate_location_preference, :manchester, candidate_preference:)
+    create(:candidate_location_preference, :liverpool, candidate_preference:)
     @visa_sponsorship_form = candidate_preference.application_form
     create(
       :candidate_pool_application,
@@ -171,7 +172,32 @@ RSpec.describe 'Providers views candidate pool list' do
     end
   end
 
-  def when_i_filter_by_location
+  def when_i_click_on_liverpool_tab
+    find_link('Liverpool', class: 'app-tab-navigation__link').click
+  end
+
+  def i_am_on_liverpool_tab
+    link = page.find_link('Liverpool', class: 'app-tab-navigation__link')
+    expect(link['aria-current']).to eq('page')
+  end
+
+  def and_i_am_on_manchester_tab
+    link = page.find_link('Manchester', class: 'app-tab-navigation__link')
+    expect(link['aria-current']).to eq('page')
+  end
+
+  def when_i_filter_by_locations
+    allow(client).to receive(:autocomplete).with('Liverpool').and_return(
+      [{ name: 'Liverpool', place_id: 'liverpool' }],
+    )
+
+    fill_in('location', with: 'Liverpool')
+    first('.govuk-button', text: 'Apply filters').click
+
+    allow(client).to receive(:autocomplete).with('Manchester').and_return(
+      [{ name: 'Manchester', place_id: 'Manchester' }],
+    )
+
     fill_in('location', with: 'Manchester')
     first('.govuk-button', text: 'Apply filters').click
   end
@@ -220,6 +246,7 @@ RSpec.describe 'Providers views candidate pool list' do
   def then_i_expect_all_the_filters_to_be_applied
     within('.moj-filter__selected') do
       expect(page).to have_link 'Remove location filter Manchester'
+      expect(page).to have_link 'Remove location filter Liverpool'
       expect(page).to have_link "Remove subject filter #{primary_subject.name}"
       expect(page).to have_link "Remove subject filter #{maths_subject.name}"
       expect(page).to have_link 'Remove study type filter Full time'
@@ -234,6 +261,8 @@ RSpec.describe 'Providers views candidate pool list' do
   def when_i_remove_some_filters
     within('.moj-filter__selected') do
       click_link_or_button('Remove location filter Manchester')
+
+      click_link_or_button('Remove location filter Liverpool')
       click_link_or_button("Remove subject filter #{primary_subject.name}")
       click_link_or_button('Part time')
       click_link_or_button('Undergraduate')
@@ -254,7 +283,8 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def when_i_add_a_invalid_location
-    fill_in('location', with: 'wrong location')
+    allow(client).to receive(:autocomplete).with('wrong_location').and_return({})
+    fill_in('location', with: 'wrong_location')
     first('.govuk-button', text: 'Apply filters').click
   end
 

@@ -141,8 +141,6 @@ module ProviderInterface
         end
 
         applied_filters[:apply_filters] = true
-        ## This removes the current location and leaves the remaining ones
-        # Passing the remaining locations to controller
         applied_filters[filter_name] = applied_filters[filter_name].reject { |val| val == filter_value }
         to_query(applied_filters)
       end
