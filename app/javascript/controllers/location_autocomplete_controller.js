@@ -9,7 +9,8 @@ export default class extends Controller {
   static values = {
     path: String,
     minLength: { type: Number, default: 2 },
-    debounce: { type: Number, default: 200 }
+    debounce: { type: Number, default: 200 },
+    submitOnClick: { type: Boolean, default: false }
   }
 
   connect () {
@@ -76,5 +77,9 @@ export default class extends Controller {
     return this.suggestionTemplate(result)
   }
 
-  onConfirm () {}
+  onConfirm () {
+    if (this.submitOnClickValue) {
+      this.element.closest('form')?.requestSubmit()
+    }
+  }
 }
