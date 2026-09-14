@@ -60,8 +60,8 @@ module ProviderInterface
 
       if saved_location.present? && filter_params['locations']&.exclude?(saved_location)
         filter_params[:locations]&.last
-      elsif saved_location.present?
-        saved_location
+      else
+        saved_location.presence
       end
     end
 

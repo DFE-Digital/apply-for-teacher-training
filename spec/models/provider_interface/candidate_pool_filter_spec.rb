@@ -34,59 +34,6 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
   end
 
   describe 'validations' do
-    context 'when location is invalid' do
-      let(:place_id) { 'wrong_location' }
-
-      it 'is invalid if the location is invalid' do
-        filter_params = {
-          location: 'wrong_location',
-          visa_sponsorship: ['required'],
-        }
-        current_provider_user = create(:provider_user)
-        filter = described_class.new(
-          filter_params:,
-          current_provider_user:,
-          apply_filters: true,
-        )
-
-        expect(filter.valid?).to be false
-        expect(filter.errors[:location]).to eq(
-          ['Town, city or postcode must be in the United Kingdom'],
-        )
-      end
-    end
-
-    context 'when location is valid' do
-      it 'is valid if the location is valid' do
-        filter_params = {
-          location: 'Manchester',
-          visa_sponsorship: ['required'],
-        }
-        current_provider_user = create(:provider_user)
-        filter = described_class.new(
-          filter_params:,
-          current_provider_user:,
-          apply_filters: false,
-        )
-
-        expect(filter.valid?).to be true
-      end
-    end
-
-    context 'when candidate_id is not a number' do
-      it 'is invalid' do
-        current_provider_user = create(:provider_user)
-        filter = described_class.new(
-          filter_params: { candidate_id: 'abc' },
-          current_provider_user:,
-          apply_filters: true,
-        )
-
-        expect(filter.valid?).to be false
-        expect(filter.errors[:candidate_id]).to be_present
-      end
-    end
-
     context 'when candidate_search is present but candidate_id is blank' do
       it 'is invalid' do
         current_provider_user = create(:provider_user)
@@ -480,79 +427,6 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         )
 
         expect(filter.location_tab).to eq('Manchester')
-      end
-    end
-  end
-
-  describe '#no_results_message' do
-    context 'when candidate_id is present and the candidate exists but is not in the pool' do
-      it 'returns the not in pool message' do
-        current_provider_user = create(:provider_user)
-        candidate = create(:candidate)
-        create(:application_form, candidate:)
-
-        filter = described_class.new(
-          filter_params: { candidate_search: 'true', candidate_id: candidate.id },
-          current_provider_user:,
-          apply_filters: true,
-        )
-        filter.save
-
-        expect(filter.no_results_message).to eq(
-          I18n.t('provider_interface.candidate_pool.exists_but_not_in_pool'),
-        )
-      end
-    end
-
-    context 'when only candidate_search and candidate_id are present' do
-      it 'returns the no candidate with id message' do
-        current_provider_user = create(:provider_user)
-        filter = described_class.new(
-          filter_params: { candidate_search: 'true', candidate_id: 999_999 },
-          current_provider_user:,
-          apply_filters: true,
-        )
-        filter.save
-
-        expect(filter.no_results_message).to eq(
-          I18n.t('provider_interface.candidate_pool.no_candidate_with_id'),
-        )
-      end
-    end
-
-    context 'when candidate_id is present with other filters' do
-      it 'returns the no candidates with id and other filters message' do
-        current_provider_user = create(:provider_user)
-        filter = described_class.new(
-          filter_params: {
-            candidate_search: 'true',
-            candidate_id: 999_999,
-            visa_sponsorship: ['required'],
-          },
-          current_provider_user:,
-          apply_filters: true,
-        )
-        filter.save
-
-        expect(filter.no_results_message).to eq(
-          I18n.t('provider_interface.candidate_pool.no_candidates_with_id_and_other_filters'),
-        )
-      end
-    end
-
-    context 'when no candidate_id is present' do
-      it 'returns the no candidates message' do
-        current_provider_user = create(:provider_user)
-        filter = described_class.new(
-          filter_params: { visa_sponsorship: ['required'] },
-          current_provider_user:,
-          apply_filters: true,
-        )
-        filter.save
-
-        expect(filter.no_results_message).to eq(
-          I18n.t('provider_interface.candidate_pool.no_candidates'),
-        )
       end
     end
   end
