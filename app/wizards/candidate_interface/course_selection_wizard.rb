@@ -193,6 +193,17 @@ class CandidateInterface::CourseSelectionWizard
     end
   end
 
+  def step_attribute_missing?
+    case current_step.step_id
+    when :which_course_are_you_applying_to
+      provider.blank?
+    when :course_site, :course_study_mode
+      provider.blank? || course.blank?
+    else
+      false
+    end
+  end
+
   def steps_operator
     DfE::Wizard::StepsOperator::Builder.draw(wizard: self) do |builder|
       builder.on_step(
