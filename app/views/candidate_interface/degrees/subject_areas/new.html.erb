@@ -1,0 +1,21 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% content_for :title, title_with_error_prefix(t('page_titles.degree_subject_area'), @form.errors.any?) %>
+    <% content_for :before_content, govuk_back_link_to(@form.back_link) %>
+
+    <%= form_with model: @form, url: candidate_interface_degree_subject_path, scope: :candidate_interface_degree_form do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_check_boxes_fieldset :subject_areas, legend: { text: t('page_titles.degree_subject_area'), size: 'l' } do %>
+        <>
+        <%= f.govuk_check_box :subject_areas,
+                              'true',
+                              multiple: false,
+                              label: { text: 'I have spoken to and received confirmation from the Policy team to action this request.' },
+                              link_errors: true %>
+      <% end %>
+
+      <%= f.govuk_submit t('save_and_continue') %>
+    <% end %>
+  </div>
+</div>

@@ -217,6 +217,7 @@ en:
     degree_level: What type of degree is it?
     degree_university: Which university awarded your degree?
     degree_subject: What subject is your degree?
+    degree_subject_area: Which subject areas best describe your degree?
     degree_type_uk: What type of %{type} is it?
     degree_enic: Show how your degree compares to a UK degree
     degree_enic_reference: Enter the UK ENIC reference number for your degree
