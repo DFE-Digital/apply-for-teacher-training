@@ -36,9 +36,7 @@ module ProviderInterface
       @provider_user_filter = build_provider_user_filter
       @apply_filters = apply_filters
       @suggested_location ||= LocationSuggestions.new(
-        filter_params[:location] ||
-        filter_params[:locations]&.last ||
-        @provider_user_filter.filters['location'],
+        filter_params[:location].presence || location_tab(filter_params),
       ).call.first
 
       super(filter_attributes(filter_params))
@@ -57,12 +55,14 @@ module ProviderInterface
       applied_filters[:origin].present?
     end
 
-    def location_tab
-      # seems like the location is deleted when removing a location, which makes sense
-      # need to think about it more
-      filters&.fetch('location', nil) ||
-        @provider_user_filter.filters['location'] ||
-        @provider_user_filter.filters['locations']&.last
+    def location_tab(filter_params = filters)
+      saved_location = @provider_user_filter.filters['location']
+
+      if saved_location.present? && filter_params['locations']&.exclude?(saved_location)
+        filter_params[:locations]&.last
+      elsif saved_location.present?
+        saved_location
+      end
     end
 
     def save
@@ -112,7 +112,7 @@ module ProviderInterface
               [suggested_location&.fetch(:name, nil)]
           ).compact_blank.uniq
         elsif filter_params[:location].blank?
-          filter_params[:location] = filter_params[:locations]&.last
+          filter_params[:location] = location_tab(filter_params)
         end
 
         filter_params

@@ -35,28 +35,15 @@
                   </legend>
 
                   <div class="govuk-!-margin-bottom-3">
-                    <% if value.is_a?(Array) %>
-                      <% value.each do |filter_value| %>
-                        <%= link_to(
-                              path_to_remove_filter(name, filter_value),
-                              class: 'app-checkbox-filter__tag',
-                            ) do %>
-                          <span class="govuk-visually-hidden">
-                            <%= t(".remove_hint_#{name}") %>
-                          </span>
-                          <%= option_name(name, filter_value) %>
-                        <% end %>
-                      <% end %>
-                    <% else %>
-                      <%# NOT REACHED ANYMORE %>
+                    <% value.each do |filter_value| %>
                       <%= link_to(
-                            path_to_remove_location,
+                            path_to_remove_filter(name, filter_value),
                             class: 'app-checkbox-filter__tag',
                           ) do %>
-                          <span class="govuk-visually-hidden">
-                            <%= t('.remove_location_hint') %>
-                          </span>
-                        <%= value %>
+                        <span class="govuk-visually-hidden">
+                          <%= t(".remove_hint_#{name}") %>
+                        </span>
+                        <%= option_name(name, filter_value) %>
                       <% end %>
                     <% end %>
                   </div>

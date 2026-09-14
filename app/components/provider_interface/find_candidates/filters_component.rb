@@ -132,16 +132,6 @@ module ProviderInterface
 
     private
 
-      def path_to_remove_location
-        # do we need to change something here?
-        applied_filters = filter.applied_filters.clone
-        applied_filters.delete(:location)
-        applied_filters.delete(:origin)
-        applied_filters[:apply_filters] = true
-
-        to_query(applied_filters)
-      end
-
       def path_to_remove_filter(filter_name, filter_value)
         applied_filters = filter.applied_filters.clone.with_indifferent_access
 
@@ -151,6 +141,8 @@ module ProviderInterface
         end
 
         applied_filters[:apply_filters] = true
+        ## This removes the current location and leaves the remaining ones
+        # Passing the remaining locations to controller
         applied_filters[filter_name] = applied_filters[filter_name].reject { |val| val == filter_value }
         to_query(applied_filters)
       end
