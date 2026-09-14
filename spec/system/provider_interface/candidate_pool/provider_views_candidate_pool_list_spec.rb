@@ -188,14 +188,14 @@ RSpec.describe 'Providers views candidate pool list' do
 
   def when_i_filter_by_locations
     allow(client).to receive(:autocomplete).with('Liverpool').and_return(
-      [{ name: 'Liverpool', place_id: 'liverpool' }],
+      [{ main_text: 'Liverpool', place_id: 'liverpool' }],
     )
 
     fill_in('location', with: 'Liverpool')
     first('.govuk-button', text: 'Apply filters').click
 
     allow(client).to receive(:autocomplete).with('Manchester').and_return(
-      [{ name: 'Manchester', place_id: 'Manchester' }],
+      [{ main_text: 'Manchester', place_id: 'Manchester' }],
     )
 
     fill_in('location', with: 'Manchester')

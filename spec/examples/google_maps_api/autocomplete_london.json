@@ -2,6 +2,7 @@
   "predictions": [
     {
       "description": "London, UK",
+      "structured_formatting" : { "main_text": "London" },
       "place_id": "ChIJdd4hrwug2EcRmSrV3Vo6llI",
       "types": ["locality", "political"]
     }

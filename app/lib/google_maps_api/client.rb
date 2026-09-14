@@ -30,6 +30,7 @@ module GoogleMapsAPI
       Array(response['predictions']).map do |prediction|
         {
           name: prediction['description'],
+          main_text: prediction['structured_formatting']&.fetch('main_text', nil),
           place_id: prediction['place_id'],
           types: prediction['types'],
         }

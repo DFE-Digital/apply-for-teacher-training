@@ -106,10 +106,10 @@ module ProviderInterface
 
       if apply_filters
         if filter_params[:location].present? && suggested_location
-          filter_params[:location] = suggested_location&.fetch(:name, nil)
+          filter_params[:location] = suggested_location&.values_at(:main_text, :name)&.first
           filter_params[:locations] = (
             Array(@provider_user_filter.filters['locations']) +
-              [suggested_location&.fetch(:name, nil)]
+              [suggested_location&.values_at(:main_text, :name)&.first]
           ).compact_blank.uniq
         elsif filter_params[:location].blank? && filter_params[:locations].present?
           filter_params[:location] = location_tab(filter_params)
