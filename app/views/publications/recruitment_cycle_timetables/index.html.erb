@@ -11,7 +11,7 @@
           ) %>
     </p>
     <% @timetables.each do |timetable| %>
-      <%= render Publications::RecruitmentCycleTimetableCard.new(timetable) %>
+      <%= render Publications::RecruitmentCycleTimetableCard.new(timetable, show_link: true) %>
     <% end %>
   </div>
 </div>
