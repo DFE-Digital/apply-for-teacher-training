@@ -42,6 +42,9 @@ en:
           candidate_information_agreement: Candidates can choose to share their application details.
           hint: These are the candidates that you have not reviewed yet.
           candidates_found:
+            one: "%{count} new candidate found"
+            other: "%{count} new candidates found"
+          candidates_found_location:
             one: "%{count} new candidate found near %{location}"
             other: "%{count} new candidates found near %{location}"
           results_are_based_on_past_applications: Results are based on candidate’s past applications and the locations they state they can train in.
@@ -62,8 +65,11 @@ en:
             other: Find candidates - %{count} candidates found
           table_caption: Find candidates
           candidates_found:
-            one: "%{count} new candidate found near %{location}"
-            other: "%{count} new candidates found near %{location}"
+            one: "%{count} candidate found"
+            other: "%{count} candidates found"
+          candidates_found_location:
+            one: "%{count} candidate found near %{location}"
+            other: "%{count} candidates found near %{location}"
           results_are_based_on_past_applications: Results are based on candidate’s past applications and the locations they state they can train in.
           candidate: Candidate
           status: Status

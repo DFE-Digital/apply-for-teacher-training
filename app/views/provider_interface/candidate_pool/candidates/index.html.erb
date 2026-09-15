@@ -23,7 +23,11 @@
   </nav>
   <% if @application_forms.present? %>
     <h2 class="govuk-heading-l govuk-!-margin-top-4 govuk-!-margin-bottom-3">
-      <%= t('.candidates_found', count: @pagy.count, location: @filter.location_tab) %>
+      <% if @filter.location_tab.present? %>
+        <%= t('.candidates_found_location', count: @pagy.count, location: @filter.location_tab) %>
+      <% else %>
+        <%= t('.candidates_found', count: @pagy.count) %>
+      <% end %>
     </h2>
     <p class="govuk-body">
       <%= t('.results_are_based_on_past_applications') %>
