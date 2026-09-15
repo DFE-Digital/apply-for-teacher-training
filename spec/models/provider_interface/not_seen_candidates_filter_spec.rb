@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::NotSeenCandidatesFilter do
   include Rails.application.routes.url_helpers
 
   let(:client) { instance_double(GoogleMapsAPI::Client) }
-  let(:api_response) { [{ name: location_name, place_id: }] }
+  let(:api_response) { [{ main_text: location_name, place_id: }] }
   let(:location_name) { 'Manchester' }
   let(:place_id) { 'test_id' }
 

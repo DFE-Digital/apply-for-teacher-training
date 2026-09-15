@@ -11,7 +11,7 @@
           <%= govuk_link_to(
             location,
             provider_interface_candidate_pool_root_path(
-              @filter.filters.merge( {'location' => location, 'apply_filters' => true }),
+              @filter.filters.merge({ 'location' => location, 'apply_filters' => true }),
             ),
             class: 'app-tab-navigation__link',
             aria: { current: @filter.location_tab == location ? 'page' : '' },
