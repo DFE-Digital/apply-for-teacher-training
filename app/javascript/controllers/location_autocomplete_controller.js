@@ -20,6 +20,7 @@ export default class extends Controller {
 
   setupAutocomplete () {
     const inputElement = this.inputTarget
+    this.inputId = this.inputTarget.id
 
     accessibleAutocomplete({
       element: inputElement.parentElement,
@@ -77,9 +78,14 @@ export default class extends Controller {
     return this.suggestionTemplate(result)
   }
 
-  onConfirm () {
-    if (this.submitOnClickValue) {
-      this.element.closest('form')?.requestSubmit()
+  onConfirm (locationSelected) {
+    if (!this.submitOnClickValue) return
+
+    const input = this.element.querySelector(`#${this.inputId}`)
+    if (input && locationSelected) {
+      input.value = this.labelForResult(locationSelected)
     }
+
+    this.element.closest('form')?.requestSubmit()
   }
 }
