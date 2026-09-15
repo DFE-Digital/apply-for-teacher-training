@@ -177,9 +177,7 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   end
 
   def when_i_click_on_new_tab
-    within '.app-tab-navigation' do
-      click_link_or_button 'New'
-    end
+    click_link_or_button 'New'
   end
 
   def then_i_see_not_seen_candidates
@@ -214,9 +212,7 @@ RSpec.describe 'Provider user navigates the FAC tabs' do
   end
 
   def when_i_click_on_all_tab
-    within '.app-tab-navigation' do
-      click_link_or_button 'All available candidates'
-    end
+    click_link_or_button 'All available candidates'
   end
 
   def when_search_for_a_candidate_number

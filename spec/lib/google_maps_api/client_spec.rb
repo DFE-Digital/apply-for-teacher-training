@@ -28,6 +28,7 @@ RSpec.describe GoogleMapsAPI::Client do
           [
             {
               name: 'London, UK',
+              main_text: 'London',
               place_id: 'ChIJdd4hrwug2EcRmSrV3Vo6llI',
               types: %w[locality political],
             },

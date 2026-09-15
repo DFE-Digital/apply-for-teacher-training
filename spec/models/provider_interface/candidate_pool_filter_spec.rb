@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
   include Rails.application.routes.url_helpers
 
   let(:client) { instance_double(GoogleMapsAPI::Client) }
-  let(:api_response) { [{ name: location_name, place_id: }] }
+  let(:api_response) { [{ main_text: location_name, place_id: }] }
   let(:location_name) { 'Manchester' }
   let(:place_id) { 'test_id' }
 
@@ -19,6 +19,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         described_class.new(filter_params: {}, current_provider_user: create(:provider_user), apply_filters: []),
       ).to have_attributes(
         location: nil,
+        locations: nil,
         candidate_search: nil,
         candidate_id: nil,
         subject_ids: nil,
@@ -33,39 +34,27 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
   end
 
   describe 'validations' do
-    context 'when location is invalid' do
-      let(:place_id) { 'wrong_location' }
-
-      it 'is invalid if the location is invalid' do
-        filter_params = {
-          location: 'wrong_location',
-          visa_sponsorship: ['required'],
-        }
+    context 'when candidate_search is present but candidate_id is blank' do
+      it 'is invalid' do
         current_provider_user = create(:provider_user)
         filter = described_class.new(
-          filter_params:,
+          filter_params: { candidate_search: 'true' },
           current_provider_user:,
           apply_filters: true,
         )
 
         expect(filter.valid?).to be false
-        expect(filter.errors[:location]).to eq(
-          ['Town, city or postcode must be in the United Kingdom'],
-        )
+        expect(filter.errors[:candidate_id]).to be_present
       end
     end
 
-    context 'when location is valid' do
-      it 'is valid if the location is valid' do
-        filter_params = {
-          location: 'Manchester',
-          visa_sponsorship: ['required'],
-        }
+    context 'when candidate_search is present and candidate_id is present' do
+      it 'is valid' do
         current_provider_user = create(:provider_user)
         filter = described_class.new(
-          filter_params:,
+          filter_params: { candidate_search: 'true', candidate_id: 123 },
           current_provider_user:,
-          apply_filters: false,
+          apply_filters: true,
         )
 
         expect(filter.valid?).to be true
@@ -90,6 +79,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
       expect(filter.applied_filters).to eq(
         {
           location: 'Manchester',
+          locations: ['Manchester'],
           visa_sponsorship: ['required'],
           origin: [53.4706519, -2.2954452],
         }.with_indifferent_access,
@@ -103,7 +93,11 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
           :provider_user_filter,
           :find_candidates_all,
           provider_user: current_provider_user,
-          filters: { location: 'Manchester', visa_sponsorship: ['required'] },
+          filters: {
+            location: 'Manchester',
+            locations: ['Manchester'],
+            visa_sponsorship: ['required'],
+          },
         )
 
         filter = described_class.new(
@@ -115,6 +109,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         expect(filter.applied_filters).to eq(
           {
             location: 'Manchester',
+            locations: ['Manchester'],
             visa_sponsorship: ['required'],
             origin: [53.4706519, -2.2954452],
           }.with_indifferent_access,
@@ -142,6 +137,7 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
         expect(filter.applied_filters).to eq(
           {
             location: 'M4 Manchester',
+            locations: ['M4 Manchester'],
             origin: [53.4874112, - 2.2274845],
             visa_sponsorship: ['required'],
           }.with_indifferent_access,
@@ -342,6 +338,180 @@ RSpec.describe ProviderInterface::CandidatePoolFilter do
       filter.applied_filters
 
       expect(filter.applied_location_search?).to be_falsey
+    end
+  end
+
+  describe '#location_tab' do
+    context 'when there is a saved location and it is excluded from the filter locations' do
+      it 'returns the last location from the filter params' do
+        current_provider_user = create(:provider_user)
+        create(
+          :provider_user_filter,
+          :find_candidates_all,
+          provider_user: current_provider_user,
+          filters: {
+            'location' => 'Manchester',
+            'locations' => %w[Liverpool Manchester],
+          },
+        )
+
+        filter = described_class.new(
+          filter_params: {},
+          current_provider_user:,
+          apply_filters: false,
+        )
+
+        expect(
+          filter.location_tab(ActionController::Parameters.new({ locations: %w[Liverpool] })),
+        ).to eq('Liverpool')
+      end
+    end
+
+    context 'when there is a saved location and it is included in the filter locations' do
+      it 'returns the saved location' do
+        current_provider_user = create(:provider_user)
+        create(
+          :provider_user_filter,
+          :find_candidates_all,
+          provider_user: current_provider_user,
+          filters: {
+            'location' => 'Manchester',
+            'locations' => %w[Liverpool Manchester],
+          },
+        )
+
+        filter = described_class.new(
+          filter_params: {},
+          current_provider_user:,
+          apply_filters: false,
+        )
+
+        expect(
+          filter.location_tab(ActionController::Parameters.new({ locations: %w[Liverpool Manchester] })),
+        ).to eq('Manchester')
+      end
+    end
+
+    context 'when there is no saved location' do
+      it 'returns nil' do
+        current_provider_user = create(:provider_user)
+        filter = described_class.new(
+          filter_params: {},
+          current_provider_user:,
+          apply_filters: false,
+        )
+
+        expect(
+          filter.location_tab(ActionController::Parameters.new({ locations: %w[Liverpool] })),
+        ).to be_nil
+      end
+    end
+
+    context 'when called without arguments' do
+      it 'defaults to the filters attribute' do
+        current_provider_user = create(:provider_user)
+        create(
+          :provider_user_filter,
+          :find_candidates_all,
+          provider_user: current_provider_user,
+          filters: {
+            'location' => 'Manchester',
+            'locations' => %w[Liverpool Manchester],
+          },
+        )
+
+        filter = described_class.new(
+          filter_params: {},
+          current_provider_user:,
+          apply_filters: false,
+        )
+
+        expect(filter.location_tab).to eq('Manchester')
+      end
+    end
+  end
+
+  describe '#save_pagination' do
+    it 'saves the pagination page to the provider user filter' do
+      current_provider_user = create(:provider_user)
+      create(:provider_user_filter, :find_candidates_all, provider_user: current_provider_user)
+      filter = described_class.new(
+        filter_params: {},
+        current_provider_user:,
+        apply_filters: false,
+      )
+
+      expect { filter.save_pagination(3) }.to change {
+        current_provider_user.find_a_candidate_all_filter&.reload&.pagination_page
+      }.from(nil).to(3)
+    end
+  end
+
+  describe 'multiple locations' do
+    it 'accumulates locations when adding multiple locations' do
+      current_provider_user = create(:provider_user)
+      create(
+        :provider_user_filter,
+        :find_candidates_all,
+        provider_user: current_provider_user,
+        filters: {
+          'location' => 'Liverpool',
+          'locations' => %w[Liverpool],
+        },
+      )
+
+      filter = described_class.new(
+        filter_params: { location: 'Manchester' },
+        current_provider_user:,
+        apply_filters: true,
+      )
+
+      expect(filter.locations).to eq(%w[Liverpool Manchester])
+    end
+
+    it 'deduplicates locations' do
+      current_provider_user = create(:provider_user)
+      create(
+        :provider_user_filter,
+        :find_candidates_all,
+        provider_user: current_provider_user,
+        filters: {
+          'location' => 'Manchester',
+          'locations' => %w[Manchester],
+        },
+      )
+
+      filter = described_class.new(
+        filter_params: { location: 'Manchester' },
+        current_provider_user:,
+        apply_filters: true,
+      )
+
+      expect(filter.locations).to eq(%w[Manchester])
+    end
+
+    it 'saves accumulated locations to the provider user filter' do
+      current_provider_user = create(:provider_user)
+      create(
+        :provider_user_filter,
+        :find_candidates_all,
+        provider_user: current_provider_user,
+        filters: {
+          'location' => 'Liverpool',
+          'locations' => %w[Liverpool],
+        },
+      )
+
+      filter = described_class.new(
+        filter_params: { location: 'Manchester' },
+        current_provider_user:,
+        apply_filters: true,
+      )
+      filter.save
+
+      expect(current_provider_user.find_a_candidate_all_filter.reload.filters['locations']).to eq(
+        %w[Liverpool Manchester],
+      )
     end
   end
 end

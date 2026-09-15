@@ -36,11 +36,14 @@ module ProviderInterface
           :location,
           :candidate_id,
           :candidate_search,
+          locations: [],
           subject_ids: [],
           study_mode: [],
           course_type: [],
           visa_sponsorship: [],
           funding_type: [],
+          send_specialism: [],
+          age_ranges: [],
         )
       end
     end

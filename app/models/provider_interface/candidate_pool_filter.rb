@@ -8,6 +8,7 @@ module ProviderInterface
     ## Removing or adding one doesn't require aliases
     ATTRIBUTES = %i[
       location
+      locations
       candidate_search
       candidate_id
       subject_ids
@@ -35,7 +36,7 @@ module ProviderInterface
       @provider_user_filter = build_provider_user_filter
       @apply_filters = apply_filters
       @suggested_location ||= LocationSuggestions.new(
-        filter_params[:location] || @provider_user_filter.filters['location'],
+        filter_params[:location].presence || location_tab(filter_params),
       ).call.first
 
       super(filter_attributes(filter_params))
@@ -54,6 +55,16 @@ module ProviderInterface
       applied_filters[:origin].present?
     end
 
+    def location_tab(filter_params = filters)
+      saved_location = @provider_user_filter.filters['location']
+
+      if saved_location.present? && filter_params['locations']&.exclude?(saved_location)
+        filter_params[:locations]&.last
+      else
+        saved_location.presence
+      end
+    end
+
     def save
       return false unless valid?
 
@@ -68,6 +79,8 @@ module ProviderInterface
           sister_filter.update(updated_at: 2.seconds.ago)
         end
       end
+
+      self.location = nil # clear the input field so we can add another
     end
 
     def save_pagination(pagination_page)
@@ -93,7 +106,13 @@ module ProviderInterface
 
       if apply_filters
         if filter_params[:location].present? && suggested_location
-          filter_params[:location] = suggested_location&.fetch(:name, nil)
+          filter_params[:location] = suggested_location&.values_at(:main_text, :name)&.first
+          filter_params[:locations] = (
+            Array(@provider_user_filter.filters['locations']) +
+              [suggested_location&.values_at(:main_text, :name)&.first]
+          ).compact_blank.uniq
+        elsif filter_params[:location].blank? && filter_params[:locations].present?
+          filter_params[:location] = location_tab(filter_params)
         end
 
         filter_params
@@ -120,7 +139,7 @@ module ProviderInterface
     def filter_params_with_location
       filter_params = {}
 
-      if location && location_coordinates.present?
+      if locations.present? && location_coordinates.present?
         filter_params.merge!(
           {
             origin: [

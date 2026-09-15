@@ -9,7 +9,8 @@ export default class extends Controller {
   static values = {
     path: String,
     minLength: { type: Number, default: 2 },
-    debounce: { type: Number, default: 200 }
+    debounce: { type: Number, default: 200 },
+    submitOnClick: { type: Boolean, default: false }
   }
 
   connect () {
@@ -19,6 +20,7 @@ export default class extends Controller {
 
   setupAutocomplete () {
     const inputElement = this.inputTarget
+    this.inputId = this.inputTarget.id
 
     accessibleAutocomplete({
       element: inputElement.parentElement,
@@ -76,5 +78,14 @@ export default class extends Controller {
     return this.suggestionTemplate(result)
   }
 
-  onConfirm () {}
+  onConfirm (locationSelected) {
+    if (!this.submitOnClickValue) return
+
+    const input = this.element.querySelector(`#${this.inputId}`)
+    if (input && locationSelected) {
+      input.value = this.labelForResult(locationSelected)
+    }
+
+    this.element.closest('form')?.requestSubmit()
+  }
 }

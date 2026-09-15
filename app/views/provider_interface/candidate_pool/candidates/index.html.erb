@@ -5,9 +5,29 @@
 <%= render 'provider_interface/candidate_pool/shared/find_candidates_heading', selected_tab: :all %>
 
 <%= render ProviderInterface::FindCandidates::FiltersComponent.new(params:, filter: @filter) do %>
+  <nav class="app-tab-navigation govuk-!-margin-bottom-0 govuk-!-margin-top-6" aria-label="sub menu" data-qa="sub-navigation">
+    <ul class="app-tab-navigation__list govuk-!-display-none-print">
+      <% @filter.locations&.each do |location| %>
+        <li class="app-tab-navigation__item">
+          <%= govuk_link_to(
+            location,
+            provider_interface_candidate_pool_root_path(
+              @filter.filters.merge({ 'location' => location, 'apply_filters' => true }),
+            ),
+            class: 'app-tab-navigation__link',
+            aria: { current: @filter.location_tab == location ? 'page' : '' },
+          ) %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
   <% if @application_forms.present? %>
-    <h2 class="govuk-heading-l govuk-!-margin-top-6 govuk-!-margin-bottom-3">
-      <%= t('.candidates_found', count: @pagy.count) %>
+    <h2 class="govuk-heading-l govuk-!-margin-top-4 govuk-!-margin-bottom-3">
+      <% if @filter.location_tab.present? %>
+        <%= t('.candidates_found_location', count: @pagy.count, location: @filter.location_tab) %>
+      <% else %>
+        <%= t('.candidates_found', count: @pagy.count) %>
+      <% end %>
     </h2>
     <p class="govuk-body">
       <%= t('.results_are_based_on_past_applications') %>
@@ -62,7 +82,7 @@
 
     <%= govuk_pagination(pagy: @pagy) %>
   <% else %>
-    <p class="govuk-body">
+    <p class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-3">
       <%= @filter.no_results_message %>
     </p>
   <% end %>
