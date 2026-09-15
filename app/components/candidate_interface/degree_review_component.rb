@@ -138,7 +138,7 @@ module CandidateInterface
 
       {
         key: t('application_form.degree.subject_areas.review_label'),
-        value: degree.degree_subject_groups.pluck(:name).to_sentence,
+        value: degree.degree_subject_groups.pluck(:name),
         action: {
           href: candidate_interface_degree_edit_path(degree.id, :subject_area),
           visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.subject_areas.change_action')),
