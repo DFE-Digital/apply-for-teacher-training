@@ -30,15 +30,15 @@ RSpec.describe CandidateInterface::Degrees::SubjectAreaForm do
 
   describe '#back_link' do
     context 'when reviewing and the subject is unchanged' do
-      before { allow(subject_area_form).to receive(:reviewing_and_unchanged_subject?).and_return(true) }
+      let(:degree_params) { { id: 123 } }
 
       it 'returns the review path' do
         expect(subject_area_form.back_link).to eq(candidate_interface_degree_review_path)
       end
     end
 
-    context 'when reviewing and the subject is unchanged' do
-      before { allow(subject_area_form).to receive(:reviewing_and_unchanged_subject?).and_return(false) }
+    context 'when reviewing and the subject is changed' do
+      let(:degree_params) { { id: 123, subject: 'Sausage making' } }
 
       it 'returns the review path' do
         expect(subject_area_form.back_link).to eq(candidate_interface_degree_subject_path)
@@ -48,15 +48,15 @@ RSpec.describe CandidateInterface::Degrees::SubjectAreaForm do
 
   describe '#next_step' do
     context 'when reviewing and the country is unchanged' do
-      before { allow(subject_area_form).to receive(:reviewing_and_unchanged_country?).and_return(true) }
+      let(:degree_params) { { id: 123 } }
 
       it 'returns the review path' do
         expect(subject_area_form.next_step).to eq(:review)
       end
     end
 
-    context 'when reviewing and the country is unchanged' do
-      before { allow(subject_area_form).to receive(:reviewing_and_unchanged_country?).and_return(false) }
+    context 'when reviewing and the country is changed' do
+      let(:degree_params) { { id: 123, country: 'South Korea' } }
 
       it 'returns the review path' do
         expect(subject_area_form.next_step).to eq(:university)

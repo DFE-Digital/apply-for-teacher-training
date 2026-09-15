@@ -653,7 +653,6 @@ RSpec.describe CandidateInterface::Degrees::BaseForm do
   describe '#reviewing_and_unchanged_subject?' do
     let(:degree) { create(:degree_qualification) }
 
-
     context 'when the subject has not changed' do
       let(:degree_params) do
         {
@@ -683,7 +682,6 @@ RSpec.describe CandidateInterface::Degrees::BaseForm do
 
   describe '#reviewing_and_unchanged_subject_area?' do
     let(:degree) { create(:degree_qualification) }
-
 
     context 'when the subject has not changed' do
       let(:degree_params) do
