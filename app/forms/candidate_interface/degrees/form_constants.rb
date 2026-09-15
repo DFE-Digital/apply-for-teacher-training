@@ -4,6 +4,7 @@ module CandidateInterface::Degrees::FormConstants
     'degree_level', # Only UK and countries with UK-compatible degrees select a level (eg Bachelor's or Master's)
     'type', # Everyone selects a type, if UK or compatible degree level, something like 'Bachelor. of Science'. Free text if other international. In some cases, the type is entered on the level step (ie, Level 6 Diploma is selected at level, but it's actually a type. And if you select 'other' on the level step, the other_level option becomes the type)
     'subject', # Everyone selects a subject
+    'subject_area', # Candidate who entered an unrecognised degree, must declare the subject area of their degree
     'completed', # Everyone says if they have completed their degree
     'grade', # If the degree is a doctorate, they skip this question
     'start_year', # Everyone enters a start year

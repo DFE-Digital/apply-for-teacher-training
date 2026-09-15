@@ -13,7 +13,9 @@ module CandidateInterface
     end
 
     def next_step
-      if reviewing_and_unchanged_country?
+      if !reviewing_and_unchanged_subject? && !subject.in?(subject_names)
+        :subject_area
+      elsif reviewing_and_unchanged_country?
         :review
       else
         :university
@@ -22,6 +24,10 @@ module CandidateInterface
 
     def subjects
       @subjects ||= Hesa::Subject.all
+    end
+
+    def subject_names
+      @subject_names = subjects.map(&:name)
     end
 
     def subject
