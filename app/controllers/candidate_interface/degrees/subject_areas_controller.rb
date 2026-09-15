@@ -17,12 +17,12 @@ module CandidateInterface
         end
       end
 
-      private
+    private
 
       def subject_params
         return {} if params[:candidate_interface_degree_form].blank?
 
-        strip_whitespace(params.expect(candidate_interface_degree_form: %i[subject_areas subject_raw]))
+        strip_whitespace(params.expect(candidate_interface_degree_form: { subject_areas: [] }))
       end
     end
   end

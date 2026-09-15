@@ -418,8 +418,8 @@ namespace :candidate_interface, path: '/candidate' do
         get '/subject' => 'degrees/subjects#new', as: :degree_subject
         post '/subject' => 'degrees/subjects#update'
 
-        get '/subject_area' => 'degrees/subject_areas#new', as: :degree_subject_area
-        post '/subject_area' => 'degrees/subject_areas#update'
+        get '/subject-area' => 'degrees/subject_areas#new', as: :degree_subject_area
+        post '/subject-area' => 'degrees/subject_areas#update'
 
         get '/university' => 'degrees/universities#new', as: :degree_university
         post '/university' => 'degrees/universities#update'

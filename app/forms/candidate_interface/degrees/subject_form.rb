@@ -13,7 +13,7 @@ module CandidateInterface
     end
 
     def next_step
-      if !subject.in?(subject_names)
+      if !reviewing_and_unchanged_subject? && !subject.in?(subject_names)
         :subject_area
       elsif reviewing_and_unchanged_country?
         :review

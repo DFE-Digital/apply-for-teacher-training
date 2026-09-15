@@ -21,6 +21,7 @@ module CandidateInterface
         other_grade: uk_other_grade || international_other_grade,
         completed: application_qualification.predicted_grade ? NO : YES,
         subject: application_qualification.subject,
+        subject_areas: application_qualification.degree_subject_groups.pluck(:subject_group_uuid),
         university: application_qualification.institution_name,
         start_year: application_qualification.start_year,
         award_year: application_qualification.award_year,
