@@ -649,4 +649,66 @@ RSpec.describe CandidateInterface::Degrees::BaseForm do
       end
     end
   end
+
+  describe '#reviewing_and_unchanged_subject?' do
+    let(:degree) { create(:degree_qualification) }
+
+
+    context 'when the subject has not changed' do
+      let(:degree_params) do
+        {
+          id: degree.id,
+          subject: degree.subject,
+        }
+      end
+
+      it 'returns true' do
+        expect(base_form.reviewing_and_unchanged_subject?).to be(true)
+      end
+    end
+
+    context 'when the subject has changed' do
+      let(:degree_params) do
+        {
+          id: degree.id,
+          subject: 'Mathematics',
+        }
+      end
+
+      it 'returns false' do
+        expect(base_form.reviewing_and_unchanged_subject?).to be(false)
+      end
+    end
+  end
+
+  describe '#reviewing_and_unchanged_subject_area?' do
+    let(:degree) { create(:degree_qualification) }
+
+
+    context 'when the subject has not changed' do
+      let(:degree_params) do
+        {
+          id: degree.id,
+          subject_areas: [],
+        }
+      end
+
+      it 'returns true' do
+        expect(base_form.reviewing_and_unchanged_subject_area?).to be(true)
+      end
+    end
+
+    context 'when the subject has changed' do
+      let(:degree_params) do
+        {
+          id: degree.id,
+          subject_areas: [subject_group_1.id, subject_group_2.id],
+        }
+      end
+
+      it 'returns false' do
+        expect(base_form.reviewing_and_unchanged_subject_area?).to be(false)
+      end
+    end
+  end
 end
