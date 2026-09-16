@@ -99,7 +99,7 @@ RSpec.describe 'Vendor receives the application', :with_cache, time: CycleTimeta
           site_code: '-',
           course_code: '2XT2',
           study_mode: 'full_time',
-          start_date: '2020-09',
+          start_date: "#{current_year}-09",
         },
         candidate: {
           id: "C#{@current_candidate.id}",
