@@ -25,6 +25,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', :with_cache do
       then_i_can_see_the_referees_i_previously_added
       and_i_can_complete_the_references_section
       and_i_can_complete_the_equality_and_diversity_section
+      and_i_complete_the_previous_teacher_training_section
 
       when_i_view_courses
       then_i_can_see_that_i_need_to_select_courses
@@ -51,6 +52,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', :with_cache do
       then_i_can_see_the_referees_i_previously_added
       and_i_can_complete_the_references_section
       and_i_can_complete_the_equality_and_diversity_section
+      and_i_complete_the_previous_teacher_training_section
 
       when_i_view_courses
       then_i_can_see_that_i_need_to_select_courses
@@ -156,6 +158,13 @@ RSpec.describe 'Carry over next cycle with cycle switcher', :with_cache do
 
   def and_i_can_complete_the_equality_and_diversity_section
     click_on 'Equality and diversity questions'
+    choose 'Yes, I have completed this section'
+    click_link_or_button 'Continue'
+  end
+
+  def and_i_complete_the_previous_teacher_training_section
+    click_on 'Your details'
+    click_link_or_button 'Previous teacher training'
     choose 'Yes, I have completed this section'
     click_link_or_button 'Continue'
   end
