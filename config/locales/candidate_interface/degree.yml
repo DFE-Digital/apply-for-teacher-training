@@ -1,6 +1,9 @@
 en:
   candidate_interface:
     degrees:
+      subject_areas:
+        new:
+          hint: Select up to 2 subject areas
       levels:
         new_degree_level_uk:
           label:

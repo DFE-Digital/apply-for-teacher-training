@@ -6,7 +6,9 @@
     <%= form_with model: @form, url: candidate_interface_degree_subject_area_path, scope: :candidate_interface_degree_form do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_check_boxes_fieldset :subject_areas, legend: { text: t('page_titles.degree_subject_area'), size: 'l' } do %>
+      <%= f.govuk_check_boxes_fieldset :subject_areas,
+         legend: { text: t('page_titles.degree_subject_area'), size: 'l' },
+         hint: { text: t('.hint') } do %>
         <% @form.subject_groups.each_with_index do |subject_area, i| %>
         <%= f.govuk_check_box :subject_areas,
                               subject_area.id,
