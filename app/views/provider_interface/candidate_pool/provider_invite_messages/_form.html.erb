@@ -13,12 +13,15 @@
         value: current_provider_user.in_use_provider_user_content_template&.body,
         max_words: 200,
       ) %>
-      <%= f.govuk_check_box(
-        :remember,
-        true,
-        multiple: false,
-        label: { text: t('.remember') }
-      ) %>
+
+      <%= f.govuk_check_boxes_fieldset :remember, multiple: false, small: true, legend: nil do %>
+        <%= f.govuk_check_box(
+          :remember,
+          true,
+          multiple: false,
+          label: { text: t('.remember') },
+        ) %>
+      <% end %>
     <% end %>
 
     <%= f.govuk_radio_button :provider_message, false, label: { text: 'No' } %>
