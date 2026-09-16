@@ -5,6 +5,7 @@ class CreateProviderUserContentTemplates < ActiveRecord::Migration[8.1]
       t.string :kind, null: false
       t.text :body, null: false
       t.boolean :in_use, default: false, null: false
+      t.index :kind
 
       t.timestamps
     end

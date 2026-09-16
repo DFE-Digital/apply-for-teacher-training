@@ -2,6 +2,70 @@
   "configurations": {
     "streams": [
       {
+        "name": "provider_user_content_templates",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "provider_user_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "kind"
+            ]
+          },
+          {
+            "fieldPath": [
+              "body"
+            ]
+          },
+          {
+            "fieldPath": [
+              "in_use"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
+            ]
+          }
+        ]
+      },
+      {
         "name": "deleted_candidates",
         "syncMode": "incremental_append",
         "cursorField": [

@@ -1,13 +1,5 @@
 ---
 :shared:
-  :provider_user_content_templates:
-  - id
-  - provider_user_id
-  - kind
-  - body
-  - in_use
-  - created_at
-  - updated_at
   :solid_cache_entries:
   - id
   - key

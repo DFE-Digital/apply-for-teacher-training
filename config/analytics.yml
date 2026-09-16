@@ -1,4 +1,12 @@
 shared:
+  provider_user_content_templates:
+    - id
+    - provider_user_id
+    - kind
+    - body
+    - in_use
+    - created_at
+    - updated_at
   deleted_candidates:
     - id
     - candidate_id

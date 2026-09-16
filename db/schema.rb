@@ -984,6 +984,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_102112) do
     t.string "kind", null: false
     t.bigint "provider_user_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["kind"], name: "index_provider_user_content_templates_on_kind"
     t.index ["provider_user_id"], name: "index_provider_user_content_templates_on_provider_user_id"
   end
 
