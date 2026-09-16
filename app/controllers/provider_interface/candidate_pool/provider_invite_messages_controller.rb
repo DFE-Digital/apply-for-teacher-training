@@ -24,18 +24,6 @@ module ProviderInterface
         @course = invite.course
       end
 
-      def create
-        @pool_invite = PoolInviteMessageForm.new(invite_message_params.merge(invite:))
-
-        if @pool_invite.valid?
-          @pool_invite.save
-          redirect_to provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, invite)
-        else
-          @course = invite.course
-          render :new
-        end
-      end
-
       def update
         @pool_invite = PoolInviteMessageForm.new(invite_message_params.merge(invite:))
 
