@@ -170,7 +170,7 @@ RSpec.describe DuplicateApplication do
       @original_application_form.published_previous_teacher_trainings.delete_all
     end
 
-    context 'when a candidate published a single previous_teacher_training in 2025' do
+    context 'when a candidate published a single previous_teacher_training in 2026' do
       it 'carries over their latest previous_teacher_training only' do
         single_previous_teacher_training = create(
           :previous_teacher_training,
@@ -180,10 +180,10 @@ RSpec.describe DuplicateApplication do
           application_form: @original_application_form,
         )
 
-        @original_application_form.update(recruitment_cycle_year: 2025)
+        @original_application_form.update(recruitment_cycle_year: 2026)
         @original_application_form.reload
 
-        result = described_class.new(@original_application_form, recruitment_cycle_year: 2026).duplicate
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2027).duplicate
 
         expect(result.published_previous_teacher_trainings.count).to eq(1)
         expect(result.published_previous_teacher_trainings.last).to have_attributes(
@@ -198,7 +198,7 @@ RSpec.describe DuplicateApplication do
       end
     end
 
-    context 'when a candidate published multiple previous_teacher_trainings beyond 2025' do
+    context 'when a candidate published multiple previous_teacher_trainings beyond 2026' do
       it 'carries over all of their previous_teacher_trainings' do
         previous_teacher_training_one = create(
           :previous_teacher_training,
@@ -211,11 +211,11 @@ RSpec.describe DuplicateApplication do
           application_form: @original_application_form,
         )
 
-        @original_application_form.update(recruitment_cycle_year: 2026)
+        @original_application_form.update(recruitment_cycle_year: 2027)
 
         @original_application_form.reload
 
-        result = described_class.new(@original_application_form, recruitment_cycle_year: 2027).duplicate
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2028).duplicate
 
         expect(result.published_previous_teacher_trainings.count).to eq(2)
         expect(result.published_previous_teacher_trainings.pluck(:details)).to contain_exactly(
@@ -257,10 +257,10 @@ RSpec.describe DuplicateApplication do
           application_form: @original_application_form,
         )
 
-        @original_application_form.reload
+        @original_application_form.update(previous_teacher_training_completed: false)
 
         expect(duplicate_application_form.published_previous_teacher_trainings).to eq([])
-        expect(duplicate_application_form.previous_teacher_training_completed).to be(true)
+        expect(duplicate_application_form.previous_teacher_training_completed).to be(false)
       end
     end
   end
