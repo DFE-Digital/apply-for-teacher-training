@@ -11,9 +11,9 @@ module CandidateInterface
 
       def provider
         if provider_id.present?
-          Provider.find_by(id: provider_id)
+          Provider.find(provider_id)
         elsif course_id.present?
-          Course.find_by(id: course_id)&.provider
+          Course.find(course_id).provider
         else
           application_choice&.provider
         end
@@ -25,29 +25,23 @@ module CandidateInterface
 
       def course
         if course_id.present?
-          provider&.courses&.find_by(id: course_id)
+          provider.courses.find(course_id)
         else
           application_choice&.course
         end
       end
 
       def current_application
-        return if self[:current_application_id].blank?
-
-        ApplicationForm.find_by(id: self[:current_application_id])
+        ApplicationForm.find(self[:current_application_id])
       end
 
       def existing_application_choices
-        return ApplicationChoice.none if current_application.blank?
-
         existing_choices = current_application.application_choices.joins(:course_option)
         existing_choices = existing_choices.where.not(id: self[:application_choice_id]) if self[:application_choice_id].present?
         existing_choices
       end
 
       def reapplication_limit_reached?
-        return false if course.blank?
-
         CourseSelectionValidator.new.reached_reapplication_limit?(
           existing_application_choices,
           existing_application_choices.build(course:),
@@ -55,8 +49,6 @@ module CandidateInterface
       end
 
       def duplicate_course?
-        return false if course.blank?
-
         CourseSelectionValidator.new.exists_duplicate_application?(
           existing_application_choices,
           existing_application_choices.build(course:),
@@ -64,12 +56,10 @@ module CandidateInterface
       end
 
       def course_closed?
-        course&.course_status_closed? || false
+        course.course_status_closed?
       end
 
       def course_unavailable?
-        return false if course.blank?
-
         !course.available?
       end
 
@@ -78,11 +68,11 @@ module CandidateInterface
       end
 
       def multiple_study_modes?
-        course&.currently_has_both_study_modes_available? || false
+        course.currently_has_both_study_modes_available?
       end
 
       def multiple_sites?
-        (course&.multiple_sites? && provider&.selectable_school?) || false
+        course.multiple_sites? && provider.selectable_school?
       end
 
       def not_multiple_sites?
