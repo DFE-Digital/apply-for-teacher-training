@@ -100,7 +100,7 @@ module ProviderInterface
         [
           funding_type.new(
             value: 'fee',
-            name: 'fee-funded only'.capitalize,
+            name: 'Open to fee-funded courses'.capitalize,
           ),
         ]
       end
