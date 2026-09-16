@@ -9,7 +9,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', :with_cache do
   end
 
   context 'candidate preferences feature flag is activated' do
-    it 'candidate can submit in next cycle after dismissing candidate preferences' do
+    it 'candidate can submit in next cycle after dismissing candidate preferences', time: mid_cycle do
       given_i_am_signed_in_with_one_login
       when_i_have_an_unsubmitted_application_without_a_course
       and_the_cycle_switcher_set_to_apply_opens
@@ -25,6 +25,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', :with_cache do
       then_i_can_see_the_referees_i_previously_added
       and_i_can_complete_the_references_section
       and_i_can_complete_the_equality_and_diversity_section
+      and_i_complete_the_previous_teacher_training_section
 
       when_i_view_courses
       then_i_can_see_that_i_need_to_select_courses
@@ -51,6 +52,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', :with_cache do
       then_i_can_see_the_referees_i_previously_added
       and_i_can_complete_the_references_section
       and_i_can_complete_the_equality_and_diversity_section
+      and_i_complete_the_previous_teacher_training_section
 
       when_i_view_courses
       then_i_can_see_that_i_need_to_select_courses
@@ -66,7 +68,15 @@ RSpec.describe 'Carry over next cycle with cycle switcher', :with_cache do
       :completed_application_form,
       :with_gcses,
       :with_degree,
-      :with_equality_and_diversity_data,
+      equality_and_diversity: {
+        sex: 'female',
+        ethnic_group: 'Prefer not to say',
+        ethnic_background: 'Prefer not to say',
+        disabilities: ['Prefer not to say'],
+        hesa_sex: '2',
+        hesa_disabilities: ['00'],
+        hesa_ethnicity: '80',
+      },
       date_of_birth: Date.new(1964, 9, 1),
       submitted_at: nil,
       candidate: @current_candidate,
@@ -148,6 +158,13 @@ RSpec.describe 'Carry over next cycle with cycle switcher', :with_cache do
 
   def and_i_can_complete_the_equality_and_diversity_section
     click_on 'Equality and diversity questions'
+    choose 'Yes, I have completed this section'
+    click_link_or_button 'Continue'
+  end
+
+  def and_i_complete_the_previous_teacher_training_section
+    click_on 'Your details'
+    click_link_or_button 'Previous teacher training'
     choose 'Yes, I have completed this section'
     click_link_or_button 'Continue'
   end

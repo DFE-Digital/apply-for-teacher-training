@@ -113,15 +113,15 @@ module CandidateInterface
       end
 
       def state_store
-        @state_store = CandidateInterface::StateStores::CourseSelectionWizardStore.new(
+        @state_store ||= CandidateInterface::StateStores::CourseSelectionWizardStore.new(
           repository: DfE::Wizard::Repository::Cache.new(
             cache: Rails.cache,
             key:,
             expires_in: 7.days,
           ),
-        )
-        @state_store.write(current_application_id: current_application.id)
-        @state_store
+        ).tap do |store|
+          store.write(current_application_id: current_application.id)
+        end
       end
 
       def key

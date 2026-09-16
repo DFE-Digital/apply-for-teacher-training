@@ -189,7 +189,7 @@ class Candidate < ApplicationRecord
 private
 
   def ordered_application_forms
-    @ordered_application_forms ||= application_forms.order(:created_at, :id)
+    application_forms.order(:created_at, :id)
   end
 
   def downcase_email

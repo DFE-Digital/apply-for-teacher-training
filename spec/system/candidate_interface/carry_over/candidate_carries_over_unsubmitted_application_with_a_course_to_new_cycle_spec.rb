@@ -49,7 +49,6 @@ private
     @application_form = create(
       :completed_application_form,
       :eligible_for_free_school_meals,
-      :with_equality_and_diversity_data,
       :with_gcses,
       :with_degree,
       submitted_at: nil,
@@ -57,6 +56,15 @@ private
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
       references_count: 0,
       country_residency_since_birth: true,
+      equality_and_diversity: {
+        sex: 'female',
+        ethnic_group: 'Prefer not to say',
+        ethnic_background: 'Prefer not to say',
+        disabilities: ['Prefer not to say'],
+        hesa_sex: '2',
+        hesa_disabilities: ['00'],
+        hesa_ethnicity: '80',
+      },
     )
     @application_choice = create(
       :application_choice,
@@ -81,6 +89,7 @@ private
 
   def and_the_cancel_unsubmitted_applications_worker_runs
     EndOfCycle::CancelUnsubmittedApplicationsWorker.new.perform
+    perform_enqueued_jobs
   end
 
   def when_i_sign_in_again
@@ -193,6 +202,10 @@ private
     click_on 'Equality and diversity questions'
     choose 'Yes, I have completed this section'
     click_link_or_button 'Continue'
+    click_on 'Your details'
+    click_link_or_button 'Previous teacher training'
+    choose 'Yes, I have completed this section'
+    click_link_or_button 'Continue'
   end
 
   def then_i_can_submit_my_application
@@ -221,6 +234,6 @@ private
   end
 
   def application_choice
-    @current_candidate.current_application.application_choices.first
+    @current_candidate.application_forms.order(:created_at).last.application_choices.first
   end
 end
