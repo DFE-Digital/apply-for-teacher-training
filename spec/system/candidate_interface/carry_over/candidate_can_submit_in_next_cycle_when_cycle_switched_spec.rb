@@ -9,7 +9,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', :with_cache do
   end
 
   context 'candidate preferences feature flag is activated' do
-    it 'candidate can submit in next cycle after dismissing candidate preferences' do
+    it 'candidate can submit in next cycle after dismissing candidate preferences', time: mid_cycle do
       given_i_am_signed_in_with_one_login
       when_i_have_an_unsubmitted_application_without_a_course
       and_the_cycle_switcher_set_to_apply_opens
