@@ -5,7 +5,10 @@ module ProviderInterface
       before_action :set_back_path, only: %i[edit update]
 
       def new
-        @pool_invite = PoolInviteMessageForm.new(invite:)
+        @pool_invite = PoolInviteMessageForm.new(
+          invite:,
+          remember: current_provider_user.in_use_provider_user_content_template&.in_use,
+        )
         @course = invite.course
       end
 
@@ -15,6 +18,7 @@ module ProviderInterface
             invite:,
             provider_message: invite.provider_message,
             message_content: invite.message_content,
+            remember: current_provider_user.in_use_provider_user_content_template&.in_use,
           },
         )
         @course = invite.course
@@ -80,7 +84,9 @@ module ProviderInterface
 
       def invite_message_params
         params.expect(
-          provider_interface_pool_invite_message_form: %i[provider_message message_content return_to],
+          provider_interface_pool_invite_message_form: %i[
+            provider_message message_content return_to remember
+          ],
         )
       end
     end

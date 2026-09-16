@@ -10,9 +10,17 @@
         :message_content,
         label: { text: t('.enter_message'), size: 's', class: 'govuk-!-margin-bottom-3' },
         hint: -> { render 'formatting_information' },
+        value: current_provider_user.in_use_provider_user_content_template&.body,
         max_words: 200,
       ) %>
+      <%= f.govuk_check_box(
+        :remember,
+        true,
+        multiple: false,
+        label: { text: t('.remember') }
+      ) %>
     <% end %>
+
     <%= f.govuk_radio_button :provider_message, false, label: { text: 'No' } %>
   <% end %>
 
