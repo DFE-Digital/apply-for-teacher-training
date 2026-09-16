@@ -59,7 +59,7 @@ class DuplicateApplication
         )
       end
 
-      if new_application_form.incomplete_degree_information?
+      if new_application_form.incomplete_degree_information? || new_application_form.unrecognised_degree_subject?
         new_application_form.update!(degrees_completed: false)
       end
 
