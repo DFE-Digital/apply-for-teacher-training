@@ -119,12 +119,21 @@ class ApplicationQualification < ApplicationRecord
   def incomplete_degree_information?
     return false unless degree?
     return true if predicted_grade.nil?
+    return true if unrecognised_degree_subject? && degree_subject_groups.none?
 
     return true if EXPECTED_DEGREE_DATA.any? do |field_name|
       send(field_name).blank?
     end
 
     false
+  end
+
+  def unrecognised_degree_subject?
+    !subject.in?(recognised_degree_subjects)
+  end
+
+  def recognised_degree_subjects
+    Hesa::Subject.all.map(&:name)
   end
 
   def incomplete_gcse_information?

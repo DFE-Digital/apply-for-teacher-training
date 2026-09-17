@@ -36,6 +36,7 @@ module DfE
           '6968c8ea-254c-4c63-b91c-9d90ac28c683' => { name: 'Psychology' },
           'e63aac7d-5e98-49df-a17e-4c599b16ca7d' => { name: 'Religious education' },
           '2f3681f6-3d05-46a8-969c-ed6f11ad0a8f' => { name: 'Social sciences' },
+          'dc5404f4-e6b6-e4eb-2da8-16dfb785bfcc' => { name: 'None of these' },
           schema: SUBJECT_GROUPS_SCHEMA,
         },
       )

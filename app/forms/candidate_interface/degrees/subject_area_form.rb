@@ -3,7 +3,13 @@ module CandidateInterface
     validates :subject_areas, presence: true
     validate :valid_number_of_subject_areas
 
-    NONE_OF_THESE = 'none_of_these'.freeze
+    def subject_groups_list
+      @subject_groups_list ||= subject_groups.reject { |subject_area| subject_area.name == 'None of these' }
+    end
+
+    def none_of_these_option
+      @none_of_these_option ||= subject_groups.find { |subject_area| subject_area.name == 'None of these' }
+    end
 
     def back_link
       if reviewing_and_unchanged_subject?

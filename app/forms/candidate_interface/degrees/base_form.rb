@@ -240,8 +240,6 @@ module CandidateInterface
     end
 
     def degree_subject_groups
-      return [] if normalised_subject_areas.include?(NOT_APPLICABLE)
-
       normalised_subject_areas.map do |subject_area_id|
         subject_group = subject_groups.find { |value| value.id == subject_area_id }
 

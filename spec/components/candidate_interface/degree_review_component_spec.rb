@@ -790,15 +790,17 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
     end
   end
 
-  context 'a degree with subject areas' do
+  context 'a degree with subject hesa code' do
     let(:degree1) do
       create(
         :degree_qualification,
+        subject: 'Sausage making',
         qualification_type: 'Bachelor of Hogwarts Studies',
       )
     end
 
     before do
+      degree1.update!(subject_hesa_code: nil, degree_subject_groups: [])
       DegreeSubjectGroup.create!(
         application_qualification: degree1,
         name: 'Art and design',
@@ -809,6 +811,7 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
         name: 'Design and technology',
         subject_group_uuid: '3cfa92d4-31ad-4714-b603-5ec408b99bb2',
       )
+      degree1.reload
     end
 
     it 'renders the subject areas row' do
@@ -821,6 +824,25 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
           href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :subject_area),
         },
       )
+    end
+
+    context 'with no subject groups' do
+      before do
+        DegreeSubjectGroup.destroy_all
+        degree1.reload
+      end
+
+      it 'renders the subject areas row with no value' do
+        component = render_inline(described_class.new(application_form:))
+        expect(component).to summarise(
+           key: t('application_form.degree.subject_areas.review_label'),
+           value: '',
+           action: {
+             text: "Change subject areas for #{degree1.qualification_type}, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+             href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :subject_area),
+           },
+         )
+      end
     end
   end
 end

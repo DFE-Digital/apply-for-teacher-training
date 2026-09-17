@@ -127,6 +127,7 @@ private
   end
 
   def then_i_see_the_subject_areas_have_been_removed
-    expect(page).to have_no_text('Subject areas')
+    expect(page).to have_text('Subject areas')
+    expect(page).to have_text('None of these')
   end
 end

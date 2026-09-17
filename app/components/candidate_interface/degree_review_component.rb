@@ -134,7 +134,7 @@ module CandidateInterface
     end
 
     def subject_areas_row(degree)
-      return if degree.degree_subject_groups.blank?
+      return unless degree.unrecognised_degree_subject?
 
       {
         key: t('application_form.degree.subject_areas.review_label'),
