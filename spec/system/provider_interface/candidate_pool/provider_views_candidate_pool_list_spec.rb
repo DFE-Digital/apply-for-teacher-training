@@ -278,7 +278,7 @@ RSpec.describe 'Providers views candidate pool list' do
       'Remove study type filter Full time',
       'Remove course type filter Postgraduate',
       'Remove visa sponsorship filter Does not need a visa',
-      'Remove funding type filter Fee-funded only',
+      'Remove funding type filter Open to fee-funded courses',
     )
   end
 
@@ -315,7 +315,7 @@ RSpec.describe 'Providers views candidate pool list' do
   end
 
   def when_i_filter_by_fee_funding_type
-    check('Fee-funded only')
+    check('Open to fee-funded courses')
     first('.govuk-button', text: 'Apply filters').click
   end
 end
