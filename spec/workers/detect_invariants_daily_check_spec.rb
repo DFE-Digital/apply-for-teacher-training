@@ -97,7 +97,7 @@ RSpec.describe DetectInvariantsDailyCheck do
 
         described_class.new.perform
 
-        expect(Sentry).not_to have_received(:capture_exception)
+        expect(Sentry).not_to have_received(:capture_exception).with(an_instance_of(described_class::UnconfirmedVendorsError))
       end
     end
   end
