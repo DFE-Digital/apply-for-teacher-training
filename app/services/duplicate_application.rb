@@ -129,9 +129,14 @@ class DuplicateApplication
         end,
       )
 
-      if single_positive_previous_teacher_training_from_2026?
-        # We want them to revisit this section if they didn't have the opportunity to declare more than one.
-        new_application_form.update!(previous_teacher_training_completed: false)
+      if single_positive_previous_teacher_training_from_2026? || original_previous_teacher_trainings.empty?
+        # At the beginning of 2026, we only captured a record if the answer was 'yes I have trained' and we only allowed one entry
+        # Changing this to false will make them revisit the section and have the 'no' answer recorded with an associated record
+        # Or give them the opportunity to add a second training they didn't add the first time.
+        new_application_form.update!(
+          previous_teacher_training_completed: false,
+          previous_teacher_training_completed_at: nil,
+        )
       end
 
       if original_application_form.recruitment_cycle_year <= 2024
