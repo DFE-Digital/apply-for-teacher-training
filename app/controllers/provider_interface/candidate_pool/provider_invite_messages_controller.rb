@@ -7,7 +7,7 @@ module ProviderInterface
       def new
         @pool_invite = PoolInviteMessageForm.new(
           invite:,
-          remember: current_provider_user.in_use_provider_user_content_template&.in_use,
+          remember: current_provider_user.in_use_provider_user_content_template.present?,
         )
         @course = invite.course
       end
@@ -18,7 +18,7 @@ module ProviderInterface
             invite:,
             provider_message: invite.provider_message,
             message_content: invite.message_content,
-            remember: current_provider_user.in_use_provider_user_content_template&.in_use,
+            remember: current_provider_user.in_use_provider_user_content_template.present?,
           },
         )
         @course = invite.course
