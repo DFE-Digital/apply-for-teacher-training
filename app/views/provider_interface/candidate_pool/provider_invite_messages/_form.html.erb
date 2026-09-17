@@ -6,22 +6,25 @@
     <%= render 'invitation_email' %>
 
     <%= f.govuk_radio_button :provider_message, true, label: { text: 'Yes' }, link_errors: true do %>
-      <%= f.govuk_text_area(
-        :message_content,
-        label: { text: t('.enter_message'), size: 's', class: 'govuk-!-margin-bottom-3' },
-        hint: -> { render 'formatting_information' },
-        value: current_provider_user.in_use_provider_user_content_template&.body,
-        max_words: 200,
-      ) %>
+      <div class="govuk-!-margin-bottom-2">
+        <%= f.govuk_text_area(
+          :message_content,
+          label: { text: t('.enter_message'), size: 's', class: 'govuk-!-margin-bottom-3' },
+          hint: -> { render 'formatting_information' },
+          value: current_provider_user.in_use_provider_user_content_template&.body,
+          max_words: 200,
+        ) %>
+      </div>
 
-      <%= f.govuk_check_boxes_fieldset :remember, multiple: false, small: true, legend: nil do %>
+      <div class="govuk-checkboxes--small">
         <%= f.govuk_check_box(
           :remember,
           true,
           multiple: false,
           label: { text: t('.remember') },
+          small: true,
         ) %>
-      <% end %>
+      </div>
     <% end %>
 
     <%= f.govuk_radio_button :provider_message, false, label: { text: 'No' } %>
