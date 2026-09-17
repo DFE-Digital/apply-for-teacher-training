@@ -835,13 +835,13 @@ RSpec.describe CandidateInterface::DegreeReviewComponent, type: :component do
       it 'renders the subject areas row with no value' do
         component = render_inline(described_class.new(application_form:))
         expect(component).to summarise(
-           key: t('application_form.degree.subject_areas.review_label'),
-           value: '',
-           action: {
-             text: "Change subject areas for #{degree1.qualification_type}, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
-             href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :subject_area),
-           },
-         )
+          key: t('application_form.degree.subject_areas.review_label'),
+          value: '',
+          action: {
+            text: "Change subject areas for #{degree1.qualification_type}, #{degree1.subject}, #{degree1.institution_name}, #{degree1.award_year}",
+            href: Rails.application.routes.url_helpers.candidate_interface_degree_edit_path(degree1, :subject_area),
+          },
+        )
       end
     end
   end
