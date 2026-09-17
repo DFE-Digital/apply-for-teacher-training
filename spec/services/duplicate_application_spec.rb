@@ -170,6 +170,19 @@ RSpec.describe DuplicateApplication do
       @original_application_form.published_previous_teacher_trainings.delete_all
     end
 
+    context 'when a candidate has not published a training record, but marked the section as complete' do
+      it 'marks the section as incomplete' do
+        @original_application_form.update(
+          previous_teacher_training_completed: true,
+          previous_teacher_training_completed_at: 1.year.ago,
+        )
+
+        result = described_class.new(@original_application_form, recruitment_cycle_year: 2027).duplicate
+        expect(result.previous_teacher_training_completed).to be false
+        expect(result.previous_teacher_training_completed_at).to be_nil
+      end
+    end
+
     context 'when a candidate published a single previous_teacher_training in 2026' do
       it 'carries over their latest previous_teacher_training only' do
         single_previous_teacher_training = create(
