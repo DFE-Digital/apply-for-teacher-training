@@ -30,7 +30,7 @@ module ProviderInterface
           invite.invited_by.provider_user_content_templates.invite_message
             .where(in_use: true)
             .where.not(id: template.id).delete_all
-        else
+        elsif provider_message
           invite.invited_by.provider_user_content_templates.delete_all
         end
       end

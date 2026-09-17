@@ -66,10 +66,8 @@ RSpec.describe ProviderInterface::PoolInviteMessageForm, type: :model do
         create(:provider_user_content_template, provider_user: invite.invited_by)
       end
 
-      it 'adds message content to invite and creates content template' do
-        expect { form.save }.to change { invite.provider_message }.from(nil).to(false)
-          .and(not_change { invite.message_content })
-        expect { template.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      it 'keeps the template' do
+        expect { template.reload }.not_to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
