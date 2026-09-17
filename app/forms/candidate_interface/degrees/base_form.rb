@@ -6,7 +6,7 @@ module CandidateInterface
     attr_accessor :uk_or_non_uk, :country,
                   :degree_level, :equivalent_level,
                   :other_type, :other_type_raw, :type,
-                  :subject, :subject_raw,
+                  :subject, :subject_raw, :subject_areas,
                   :university, :university_raw,
                   :other_grade_raw, :other_grade, :grade,
                   :completed,
@@ -24,6 +24,17 @@ module CandidateInterface
 
     def reviewing_and_unchanged_country?
       reviewing? && existing_degree&.institution_country == country
+    end
+
+    def reviewing_and_unchanged_subject?
+      reviewing? && existing_degree&.subject == subject
+    end
+
+    def reviewing_and_unchanged_subject_area?
+      degree_subject_groups = existing_degree&.degree_subject_groups || DegreeSubjectGroup.none
+
+      reviewing? &&
+        degree_subject_groups.pluck(:subject_group_uuid).sort == normalised_subject_areas.sort
     end
 
     def reviewing?
@@ -66,6 +77,7 @@ module CandidateInterface
         institution_hesa_code: hesa_institution_code,
         degree_institution_uuid:,
         subject: subject_raw || subject,
+        degree_subject_groups:,
         subject_hesa_code: structured_degree_data? ? hesa_subject_code : nil,
         degree_subject_uuid:,
         grade: structured_degree_data? ? grade_attributes : (other_grade || map_value_for_no_submitted_international_grade(grade)),
@@ -178,6 +190,12 @@ module CandidateInterface
       degree_level == 'doctor'
     end
 
+    def subject_groups
+      @subject_groups ||= DfE::ReferenceData::DegreeSubjectRelevancyGroups::SUBJECT_GROUPS
+                            .all_as_hash.values
+                            .reject { |subject_area| subject_area.id == :schema }
+    end
+
   private
 
     def hesa_institution
@@ -219,6 +237,23 @@ module CandidateInterface
 
     def paths
       @paths ||= Rails.application.routes.url_helpers
+    end
+
+    def degree_subject_groups
+      normalised_subject_areas.map do |subject_area_id|
+        subject_group = subject_groups.find { |value| value.id == subject_area_id }
+
+        DegreeSubjectGroup.new(
+          subject_group_uuid: subject_group.id,
+          name: subject_group.name,
+        )
+      end
+    end
+
+    def normalised_subject_areas
+      return [] if subject_areas.blank?
+
+      subject_areas.compact_blank
     end
   end
 end

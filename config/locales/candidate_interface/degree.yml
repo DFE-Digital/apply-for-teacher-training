@@ -1,6 +1,9 @@
 en:
   candidate_interface:
     degrees:
+      subject_areas:
+        new:
+          hint: Select up to 2 subject areas
       levels:
         new_degree_level_uk:
           label:
@@ -58,6 +61,9 @@ en:
         hint_text: For example, French history, Maths, Film studies
         change_action: subject
         hint: Type your own or select from the suggestions. For example, ‘French and History’ or ‘Mathematics’.
+      subject_areas:
+        review_label: Subject areas
+        change_action: subject areas
       international_institution_name:
         label: Institution name
       institution_name:
@@ -196,3 +202,6 @@ en:
               blank: Enter the UK ENIC reference number
             comparable_uk_degree:
               blank: Select the comparable UK degree
+            subject_areas:
+              blank: Select up to 2 subject areas
+              too_many: Select up to 2 subject areas

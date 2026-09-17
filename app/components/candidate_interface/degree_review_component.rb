@@ -20,6 +20,7 @@ module CandidateInterface
         degree_type_row(degree),
         type_of_uk_degree(degree),
         subject_row(degree),
+        subject_areas_row(degree),
         institution_row(degree),
         completion_status_row(degree),
         grade_row(degree),
@@ -127,6 +128,24 @@ module CandidateInterface
         html_attributes: {
           data: {
             qa: 'degree-subject',
+          },
+        },
+      }
+    end
+
+    def subject_areas_row(degree)
+      return unless degree.unrecognised_degree_subject?
+
+      {
+        key: t('application_form.degree.subject_areas.review_label'),
+        value: degree.degree_subject_groups.pluck(:name),
+        action: {
+          href: candidate_interface_degree_edit_path(degree.id, :subject_area),
+          visually_hidden_text: generate_action(degree:, attribute: t('application_form.degree.subject_areas.change_action')),
+        },
+        html_attributes: {
+          data: {
+            qa: 'degree-subject-areas',
           },
         },
       }

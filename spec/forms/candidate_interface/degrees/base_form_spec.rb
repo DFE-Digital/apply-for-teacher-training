@@ -5,6 +5,27 @@ RSpec.describe CandidateInterface::Degrees::BaseForm do
 
   let(:store) { instance_double(WizardStateStores::RailsCacheStore) }
   let(:application_form) { create(:application_form) }
+  let(:subject_groups) do
+    DfE::ReferenceData::DegreeSubjectRelevancyGroups::SUBJECT_GROUPS.all_as_hash.values
+  end
+  let(:subject_group_1) do
+    subject_groups.first
+  end
+  let(:subject_group_2) do
+    subject_groups.second
+  end
+  let(:subject_group_1_as_record) do
+    DegreeSubjectGroup.new(
+      subject_group_uuid: subject_group_1.id,
+      name: subject_group_1.name,
+    )
+  end
+  let(:subject_group_2_as_record) do
+    DegreeSubjectGroup.new(
+      subject_group_uuid: subject_group_2.id,
+      name: subject_group_2.name,
+    )
+  end
 
   before { allow(store).to receive(:read) }
 
@@ -42,6 +63,7 @@ RSpec.describe CandidateInterface::Degrees::BaseForm do
             institution_hesa_code: '0114',
             degree_institution_uuid: Hesa::Institution.find_by_name('The University of Cambridge').id,
             subject: 'History',
+            degree_subject_groups: [],
             subject_hesa_code: '100302',
             degree_subject_uuid: Hesa::Subject.find_by_name('History').id,
             grade: 'First-class honours',
@@ -85,6 +107,7 @@ RSpec.describe CandidateInterface::Degrees::BaseForm do
             institution_name: 'Purdue University',
             institution_country: 'USA',
             subject: 'History',
+            degree_subject_groups: [],
             degree_subject_uuid: Hesa::Subject.find_by_name('History').id,
             predicted_grade: false,
             grade: 'N/A',
@@ -127,6 +150,7 @@ RSpec.describe CandidateInterface::Degrees::BaseForm do
             institution_name: 'Aix-Marseille University',
             institution_country: 'FR',
             subject: 'History',
+            degree_subject_groups: [],
             degree_subject_uuid: Hesa::Subject.find_by_name('History').id,
             predicted_grade: false,
             grade: '94%',
@@ -137,6 +161,37 @@ RSpec.describe CandidateInterface::Degrees::BaseForm do
             comparable_uk_degree: 'Bachelor (Honours) degree',
           },
         )
+      end
+
+      context 'with subject areas' do
+        let(:degree_params) do
+          {
+            application_form_id: 1,
+            uk_or_non_uk: 'non_uk',
+            subject: 'History',
+            subject_areas: [subject_group_1.id, subject_group_2.id],
+            type: 'Diplôme',
+            university: 'Aix-Marseille University',
+            country: 'FR',
+            other_grade: '94%',
+            completed: 'Yes',
+            start_year: '2000',
+            award_year: '2004',
+            enic_reference: '4000228364',
+            enic_reason: 'obtained',
+            comparable_uk_degree: 'Bachelor (Honours) degree',
+          }
+        end
+
+        it 'persists the correct degree_subject_groups' do
+          attributes_for_persistence = base_form.attributes_for_persistence.compact
+          degree_subject_groups = attributes_for_persistence[:degree_subject_groups]
+
+          expect(degree_subject_groups.first.id).to eq(subject_group_1.subject_group_uuid)
+          expect(degree_subject_groups.first.name).to eq(subject_group_1.name)
+          expect(degree_subject_groups.last.id).to eq(subject_group_2.subject_group_uuid)
+          expect(degree_subject_groups.last.name).to eq(subject_group_2.name)
+        end
       end
     end
 
@@ -175,6 +230,7 @@ RSpec.describe CandidateInterface::Degrees::BaseForm do
             degree_type_uuid: Hesa::DegreeType.find_by_hesa_code('051').id,
             institution_name: 'Nigerian University',
             subject: 'History',
+            degree_subject_groups: [],
             subject_hesa_code: '100302',
             degree_subject_uuid: Hesa::Subject.find_by_name('History').id,
             predicted_grade: false,
@@ -590,6 +646,66 @@ RSpec.describe CandidateInterface::Degrees::BaseForm do
 
       it 'does not create new degree entry' do
         expect { base_form.persist! }.not_to(change { ApplicationQualification.count })
+      end
+    end
+  end
+
+  describe '#reviewing_and_unchanged_subject?' do
+    let(:degree) { create(:degree_qualification) }
+
+    context 'when the subject has not changed' do
+      let(:degree_params) do
+        {
+          id: degree.id,
+          subject: degree.subject,
+        }
+      end
+
+      it 'returns true' do
+        expect(base_form.reviewing_and_unchanged_subject?).to be(true)
+      end
+    end
+
+    context 'when the subject has changed' do
+      let(:degree_params) do
+        {
+          id: degree.id,
+          subject: 'Mathematics',
+        }
+      end
+
+      it 'returns false' do
+        expect(base_form.reviewing_and_unchanged_subject?).to be(false)
+      end
+    end
+  end
+
+  describe '#reviewing_and_unchanged_subject_area?' do
+    let(:degree) { create(:degree_qualification) }
+
+    context 'when the subject has not changed' do
+      let(:degree_params) do
+        {
+          id: degree.id,
+          subject_areas: [],
+        }
+      end
+
+      it 'returns true' do
+        expect(base_form.reviewing_and_unchanged_subject_area?).to be(true)
+      end
+    end
+
+    context 'when the subject has changed' do
+      let(:degree_params) do
+        {
+          id: degree.id,
+          subject_areas: [subject_group_1.id, subject_group_2.id],
+        }
+      end
+
+      it 'returns false' do
+        expect(base_form.reviewing_and_unchanged_subject_area?).to be(false)
       end
     end
   end

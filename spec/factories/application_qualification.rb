@@ -145,6 +145,12 @@ FactoryBot.define do
           ['Bachelor of Arts', 'Bachelor of Engineering', 'Bachelor of Science', 'Bachelor of Education'].sample
         }
       end
+
+      trait :with_subject_groups do
+        degree_subject_groups do
+          [association(:degree_subject_group, application_qualification: instance)]
+        end
+      end
     end
 
     factory :non_uk_degree_qualification do
@@ -164,6 +170,12 @@ FactoryBot.define do
 
       trait :adviser_sign_up_applicable do
         comparable_uk_degree { Adviser::ApplicationFormValidations::APPLICABLE_INTERNATIONAL_DEGREE_LEVELS.sample }
+      end
+
+      trait :with_subject_groups do
+        degree_subject_groups do
+          [association(:degree_subject_group, application_qualification: instance)]
+        end
       end
     end
 
