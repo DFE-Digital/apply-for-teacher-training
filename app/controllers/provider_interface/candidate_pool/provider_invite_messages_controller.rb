@@ -5,7 +5,10 @@ module ProviderInterface
       before_action :set_back_path, only: %i[edit update]
 
       def new
-        @pool_invite = PoolInviteMessageForm.new(invite:)
+        @pool_invite = PoolInviteMessageForm.new(
+          invite:,
+          remember: current_provider_user.in_use_provider_user_content_template.present?,
+        )
         @course = invite.course
       end
 
@@ -15,21 +18,10 @@ module ProviderInterface
             invite:,
             provider_message: invite.provider_message,
             message_content: invite.message_content,
+            remember: current_provider_user.in_use_provider_user_content_template.present?,
           },
         )
         @course = invite.course
-      end
-
-      def create
-        @pool_invite = PoolInviteMessageForm.new(invite_message_params.merge(invite:))
-
-        if @pool_invite.valid?
-          @pool_invite.save
-          redirect_to provider_interface_candidate_pool_candidate_draft_invite_path(@candidate, invite)
-        else
-          @course = invite.course
-          render :new
-        end
       end
 
       def update
@@ -80,7 +72,9 @@ module ProviderInterface
 
       def invite_message_params
         params.expect(
-          provider_interface_pool_invite_message_form: %i[provider_message message_content return_to],
+          provider_interface_pool_invite_message_form: %i[
+            provider_message message_content return_to remember
+          ],
         )
       end
     end

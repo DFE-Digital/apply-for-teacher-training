@@ -54,6 +54,39 @@ RSpec.describe 'Providers invites candidates' do
     then_i_am_on_the_candidate_pool_page(last_course)
   end
 
+  scenario 'Invite candidate and save invite message as template' do
+    given_i_am_a_provider_user_with_dfe_sign_in
+    and_provider_user_exists
+    and_provider_has_courses(3)
+    and_there_are_candidates_for_candidate_pool
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_visit_the_candidate_pool_show_page
+    when_i_click('Invite to apply')
+
+    then_i_am_redirected_to_the_new_invite_form
+    when_i_click('Continue')
+    then_i_get_an_error('Select a course')
+
+    when_i_select_a_course(first_course)
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_message_page
+    when_i_choose_yes
+    and_i_add_message_content
+    and_i_save_the_message_as_template
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_the_review_page(first_course)
+
+    when_i_click('Send invitation')
+    then_i_am_on_the_candidate_pool_page(first_course)
+
+    when_i_invite_another_candidate
+    when_i_choose_yes
+    then_the_message_is_prepopulated
+  end
+
   scenario 'Redirect to new tab after inviting candidate' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_user_exists
@@ -387,6 +420,32 @@ RSpec.describe 'Providers invites candidates' do
 
   def and_i_add_message_content
     fill_in 'Enter your invitation message', with: :message_content
+  end
+
+  def and_i_save_the_message_as_template
+    check('Save this message for your next invitation')
+  end
+
+  def when_i_invite_another_candidate
+    @second_candidate = create(:candidate)
+    preference = create(
+      :candidate_preference,
+      application_form: create(
+        :application_form,
+        :completed,
+        candidate: @second_candidate,
+        submitted_at: 1.day.ago,
+      ),
+    )
+    create(:candidate_pool_application, application_form: preference.application_form)
+    visit provider_interface_candidate_pool_candidate_path(@second_candidate)
+    click_link_or_button 'Invite to apply'
+    choose first_course.name_code_and_course_provider
+    click_link_or_button 'Continue'
+  end
+
+  def then_the_message_is_prepopulated
+    expect(find_field('Enter your invitation message').value).to eq('message_content')
   end
 
   def when_i_visit_the_find_candidates_not_seen_page

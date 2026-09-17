@@ -8,6 +8,13 @@ class ProviderUser < ApplicationRecord
   has_many :notes, dependent: :destroy
   has_many :pool_invites, class_name: 'Pool::Invite', foreign_key: 'invited_by_id', dependent: nil
   has_many :regional_report_filters, dependent: :destroy
+  has_many :provider_user_content_templates, -> { invite_message }, dependent: :destroy
+  has_one(
+    :in_use_provider_user_content_template,
+    -> { invite_message.where(in_use: true).order(updated_at: :desc) },
+    class_name: 'ProviderUserContentTemplate',
+    dependent: :destroy,
+  )
 
   has_one :find_a_candidate_all_filter, -> { find_candidates_all.order(updated_at: :desc) }, class_name: 'ProviderUserFilter', dependent: :destroy
   has_one :find_a_candidate_not_seen_filter, -> { find_candidates_not_seen.order(updated_at: :desc) }, class_name: 'ProviderUserFilter', dependent: :destroy

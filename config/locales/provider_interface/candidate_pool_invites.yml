@@ -146,6 +146,7 @@ en:
         form:
           title: Do you want to add your own message to the invitation email?
           enter_message: Enter your invitation message
+          remember: Save this message for your next invitation
           invitation_email: View invitation email
         formatting_information:
           help_with_format: Help formatting your text
