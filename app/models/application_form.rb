@@ -487,6 +487,10 @@ class ApplicationForm < ApplicationRecord
     application_qualifications.degree.any?(&:incomplete_degree_information?)
   end
 
+  def unrecognised_degree_subject?
+    application_qualifications.degree.exists?(subject_hesa_code: nil)
+  end
+
   def complete_references_information?
     application_references.count >= REQUIRED_REFERENCES
   end

@@ -47,9 +47,14 @@ class DuplicateApplication
       end
 
       original_application_form.application_qualifications.each do |w|
-        new_application_form.application_qualifications.create!(
+        new_qualification = new_application_form.application_qualifications.create!(
           w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
         )
+        if w.degree?
+          w.degree_subject_groups.each do |subject_group|
+            new_qualification.degree_subject_groups.create!(subject_group.attributes.except(*IGNORED_CHILD_ATTRIBUTES))
+          end
+        end
 
         next unless international_gcse_equivalent_present?(w) && %w[english maths science].include?(w.subject) &&
                     unstructured_qualification_from_a_structured_qualification_country?(w)
@@ -59,7 +64,7 @@ class DuplicateApplication
         )
       end
 
-      if new_application_form.incomplete_degree_information?
+      if new_application_form.incomplete_degree_information? || new_application_form.unrecognised_degree_subject?
         new_application_form.update!(degrees_completed: false)
       end
 

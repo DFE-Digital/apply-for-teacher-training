@@ -136,4 +136,32 @@ RSpec.describe CarryOverApplication do
       end
     end
   end
+
+  context 'when application form has a degree with an unrecognised degree subject' do
+    it 'marks the degree section as incomplete' do
+      ApplicationForm.with_unsafe_application_choice_touches do
+        degree = create(
+          :degree_qualification,
+          subject: 'Sausage making',
+          subject_hesa_code: nil,
+          application_form: original_application_form,
+        )
+        DegreeSubjectGroup.create!(
+          application_qualification: degree,
+          name: 'Art and design',
+          subject_group_uuid: 'a2028760-4423-483d-8e34-86583876848c',
+        )
+        original_application_form
+        described_class.new(original_application_form.reload).call
+
+        carried_over_application_form = ApplicationForm.last
+        expect(carried_over_application_form.degrees_completed).to be(false)
+        carried_over_degree = carried_over_application_form.application_qualifications.degrees.last
+        expect(carried_over_degree.subject).to eq('Sausage making')
+        carried_over_subject_group = carried_over_degree.degree_subject_groups.last
+        expect(carried_over_subject_group.name).to eq('Art and design')
+        expect(carried_over_subject_group.subject_group_uuid).to eq('a2028760-4423-483d-8e34-86583876848c')
+      end
+    end
+  end
 end

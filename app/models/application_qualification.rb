@@ -127,6 +127,12 @@ class ApplicationQualification < ApplicationRecord
     false
   end
 
+  def unrecognised_degree_subject?
+    return false unless degree?
+
+    subject_hesa_code.blank?
+  end
+
   def incomplete_gcse_information?
     return false if qualification_type == 'missing' && [true, false].include?(currently_completing_qualification)
     return true if grade.nil? && constituent_grades.nil?
