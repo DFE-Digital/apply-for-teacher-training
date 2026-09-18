@@ -92,7 +92,7 @@ module CandidateInterface
         Section.new(
           name: :efl,
           link: govuk_link_to(
-            'enter or confirm your English language skills',
+            'confirm your English language skills',
             application_form_presenter.english_as_a_foreign_language_path,
           ),
         )
@@ -104,7 +104,7 @@ module CandidateInterface
         Section.new(
           name: :equality_and_diversity,
           link: govuk_link_to(
-            'enter or confirm your equality and diversity information',
+            'confirm your equality and diversity information',
             candidate_interface_start_equality_and_diversity_path,
           ),
         )
