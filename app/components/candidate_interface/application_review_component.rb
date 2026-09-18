@@ -241,5 +241,9 @@ module CandidateInterface
     def holiday_response_time_indicator
       @holiday_response_time_indicator ||= CandidateInterface::HolidayResponseTimeIndicator.new(application_choice:)
     end
+
+    def secondary_course?
+      application_choice.course.secondary_course?
+    end
   end
 end
