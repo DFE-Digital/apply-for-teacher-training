@@ -100,9 +100,10 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
     create(:application_choice, :awaiting_provider_decision, personal_statement:, sent_to_provider_at: 1.week.ago, course:)
   end
   let(:provider) { create(:provider) }
-  let(:course) { create(:course, :with_course_options, course_length:, provider:, fee_domestic:, fee_international:, funding_type:) }
+  let(:course) { create(:course, :with_course_options, course_length:, provider:, fee_domestic:, fee_international:, funding_type:, level:) }
   let(:fee_domestic) { nil }
   let(:fee_international) { nil }
+  let(:level) { 'primary' }
   let(:funding_type) { 'fee' }
   let(:course_length) { 'OneYear' }
   let(:links) { result.css('a').map(&:text) }
@@ -189,6 +190,22 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
   context 'when application is submitted (awaiting_provider_decision)' do
     it_behaves_like 'course length row'
     it_behaves_like 'course start date row'
+
+    context 'when the course is primary' do
+      let(:level) { 'primary' }
+
+      it 'does not show teacher training adviser link' do
+        expect(result).to have_no_link('teacher training adviser')
+      end
+    end
+
+    context 'when the course is secondary' do
+      let(:level) { 'secondary' }
+
+      it 'shoes the teacher training adviser link' do
+        expect(result).to have_link('teacher training adviser')
+      end
+    end
 
     it 'shows the application status' do
       expect(result.text).to include('StatusAwaiting provider decision')
@@ -329,6 +346,22 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
     context 'when application cannot make more choices' do
       before do
         allow(component).to receive(:can_add_more_choices?).and_return(false)
+      end
+
+      context 'when the course is primary' do
+        let(:level) { 'primary' }
+
+        it 'does not show teacher training adviser link' do
+          expect(result).to have_no_link('teacher training adviser')
+        end
+      end
+
+      context 'when the course is secondary' do
+        let(:level) { 'secondary' }
+
+        it 'shoes the teacher training adviser link' do
+          expect(result).to have_link('teacher training adviser')
+        end
       end
 
       it 'show what happens next information when it is not a holiday' do

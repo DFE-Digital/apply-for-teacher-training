@@ -159,7 +159,8 @@ RSpec.describe CandidateMailer do
         ],
       }
 
-      application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:)
+      secondary_course = create(:course, :secondary, :with_course_options)
+      application_choice = create(:application_choice, :rejected_reasons, course_option: secondary_course.course_options.first, structured_rejection_reasons:)
       email = described_class.application_rejected(application_choice)
 
       expect(email.body).to have_no_text('Improve your personal statement') # heading not rendered when only one selection
@@ -176,7 +177,8 @@ RSpec.describe CandidateMailer do
         ],
       }
 
-      application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:)
+      secondary_course = create(:course, :secondary, :with_course_options)
+      application_choice = create(:application_choice, :rejected_reasons, structured_rejection_reasons:, course_option: secondary_course.course_options.first)
       email = described_class.application_rejected(application_choice)
 
       expect(email.body).to have_no_text('Improve your personal statement') # heading not rendered when only one selection
@@ -407,14 +409,30 @@ RSpec.describe CandidateMailer do
   end
 
   describe 'tailored teacher training adviser text for non-assigned adviser status' do
-    let(:application_choice) { create(:application_choice, :rejected) }
+    context 'when rejected from a secondary course' do
+      let(:secondary_course) { create(:course, :with_course_options, :secondary) }
+      let(:application_choice) { create(:application_choice, :rejected, course_option: secondary_course.course_options.first) }
 
-    subject(:email) { described_class.application_rejected(application_choice) }
+      subject(:email) { described_class.application_rejected(application_choice) }
 
-    it 'refers to the process for getting an adviser' do
-      expect(email.body).to have_text 'A teacher training adviser can provide free support to help you improve your application. They can support you with:'
-      expect(email.body).to have_text 'All our advisers have years of teaching experience and know the application process inside and out.'
-      expect(email.body).to have_text 'Learn more about teacher training advisers'
+      it 'refers to the process for getting an adviser' do
+        expect(email.body).to have_text 'A teacher training adviser can provide free support to help you improve your application. They can support you with:'
+        expect(email.body).to have_text 'All our advisers have years of teaching experience and know the application process inside and out.'
+        expect(email.body).to have_text 'Learn more about teacher training advisers'
+      end
+    end
+
+    context 'when rejected from a primary course' do
+      let(:primary_course) { create(:course, :with_course_options, :primary) }
+      let(:application_choice) { create(:application_choice, :rejected, course_option: primary_course.course_options.first) }
+
+      subject(:email) { described_class.application_rejected(application_choice) }
+
+      it 'refers to the process for getting an adviser' do
+        expect(email.body).to have_no_text 'A teacher training adviser can provide free support to help you improve your application. They can support you with:'
+        expect(email.body).to have_no_text 'All our advisers have years of teaching experience and know the application process inside and out.'
+        expect(email.body).to have_no_text 'Learn more about teacher training advisers'
+      end
     end
   end
 

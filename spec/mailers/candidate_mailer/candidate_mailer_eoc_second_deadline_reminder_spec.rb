@@ -4,6 +4,7 @@ RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
 
   describe '.eoc_second_deadline_reminder', time: mid_cycle do
+    let(:application_form) { create(:application_form, first_name: 'Fred') }
     let(:email) { described_class.eoc_second_deadline_reminder(application_form) }
     let(:timetable) { application_form.recruitment_cycle_timetable }
     let(:next_timetable) { timetable.relative_next_timetable }
@@ -33,6 +34,9 @@ RSpec.describe CandidateMailer do
     end
 
     it 'renders get help with your application' do
+      secondary_course = create(:course, :with_course_options, :secondary)
+      create(:application_choice, course_option: secondary_course.course_options.first, application_form:)
+
       expect(email.body).to include('Get help with your application')
       expect(email.body).to include(
         'Learn more about [what to include in your application](https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/teacher-training-application) on the Get Into Teaching website.',

@@ -26,8 +26,12 @@ module CandidateInterface
       sections_with_completion.find { |section| section[0] == section_name }&.second
     end
 
+    def secondary_course?
+      application_choice.current_course&.secondary_course?
+    end
+
     def primary_course?
-      application_choice.current_course.primary_course?
+      application_choice.current_course&.primary_course?
     end
 
     delegate :incomplete_sections, to: :presenter
