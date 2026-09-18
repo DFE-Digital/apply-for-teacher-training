@@ -51,6 +51,15 @@ RSpec.describe CandidateInterface::CarryOverTaskListComponent do
         expect(rendered_component).to have_link('confirm your references are up to date')
       end
 
+      context 'when candidate has not completed any qualifications' do
+        it 'renders the English link (the first qualification on the Your details page)' do
+          expect(rendered_component).to have_link(
+            'confirm your qualifications are up to date',
+            href: Rails.application.routes.url_helpers.candidate_interface_gcse_details_new_type_path(subject: :english),
+          )
+        end
+      end
+
       context 'when there are other incomplete sections outside carry over' do
         let(:application_form) do
           create(
