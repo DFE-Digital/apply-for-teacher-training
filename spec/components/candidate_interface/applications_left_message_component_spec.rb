@@ -19,8 +19,8 @@ RSpec.describe CandidateInterface::ApplicationsLeftMessageComponent do
     it 'returns default message' do
       expect(message).to include('You can have up to 4 applications in progress at any time.')
       expect(message).not_to include(
-        'You can have up to 4 applications in progress at any time.' \
-        ' If an application becomes inactive, is withdrawn or rejected, you can submit another one. You can submit up to 15 in total for an academic year.',
+        'You can have up to 4 applications in progress at any time. ' \
+        'If an application becomes inactive, is withdrawn or rejected, you can submit another one. You can submit up to 15 in total for an academic year.',
       )
     end
   end
@@ -30,8 +30,8 @@ RSpec.describe CandidateInterface::ApplicationsLeftMessageComponent do
 
     it 'inactive_application_message' do
       expect(message).to include(
-        'You can have up to 4 applications in progress at any time.' \
-        ' If an application becomes inactive, is withdrawn or rejected, you can submit another one. You can submit up to 15 in total for an academic year.',
+        'You can have up to 4 applications in progress at any time. ' \
+        'If an application becomes inactive, is withdrawn or rejected, you can submit another one. You can submit up to 15 in total for an academic year.',
       )
     end
 
