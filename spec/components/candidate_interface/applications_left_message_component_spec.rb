@@ -18,11 +18,22 @@ RSpec.describe CandidateInterface::ApplicationsLeftMessageComponent do
   context 'when unsubmitted' do
     it 'returns default message' do
       expect(message).to include('You can have up to 4 applications in progress at any time.')
+      expect(message).not_to include(
+        'You can have up to 4 applications in progress at any time. ' \
+        'If an application becomes inactive, is withdrawn or rejected, you can submit another one. You can submit up to 15 in total for an academic year.',
+      )
     end
   end
 
   context 'when submitted' do
     let(:application_form) { create(:application_form, :submitted) }
+
+    it 'inactive_application_message' do
+      expect(message).to include(
+        'You can have up to 4 applications in progress at any time. ' \
+        'If an application becomes inactive, is withdrawn or rejected, you can submit another one. You can submit up to 15 in total for an academic year.',
+      )
+    end
 
     context 'when some applications are submitted and some unsuccessful' do
       it 'returns message of how many more can be added' do
