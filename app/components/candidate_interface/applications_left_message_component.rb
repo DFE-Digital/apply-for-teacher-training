@@ -19,9 +19,11 @@ module CandidateInterface
   private
 
     def inactive_application_message
-      return nil if application_form.unsuccessful_retry_limit.zero?
+      return nil if application_form.unsuccessful_retry_limit.zero? || !application_form.submitted?
 
-      t('candidate_interface.applications_left_message.inactive_application_message', count: application_form.unsuccessful_retry_limit)
+      t('candidate_interface.applications_left_message.inactive_application_message',
+        maximum_number_of_course_choices: application_form.in_progress_limit,
+        count: application_form.unsuccessful_retry_limit)
     end
 
     def maximum_number_of_applications_message
