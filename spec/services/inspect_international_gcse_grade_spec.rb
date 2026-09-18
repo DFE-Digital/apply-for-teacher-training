@@ -11,7 +11,7 @@ RSpec.describe InspectInternationalGcseGrade do
       level: 'gcse',
       grade:,
       subject: qualification_subject,
-      non_uk_qualification_type: 'WASSCE (West African Senior School Certificate Examination)',
+      non_uk_qualification_type: 'WAEC, WASSCE (West African Senior School Certificate Examination)',
       institution_country: country_code,
     )
   end

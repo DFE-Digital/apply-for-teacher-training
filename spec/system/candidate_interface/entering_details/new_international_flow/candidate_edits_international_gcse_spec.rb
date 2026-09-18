@@ -111,7 +111,7 @@ private
     @application_form = current_candidate.current_application
 
     @maths_gsce = create(:gcse_qualification, :non_uk, application_form: @application_form, subject: 'maths',
-                                                       non_uk_qualification_type: 'WASSCE (West African Senior School Certificate Examination)', grade: 'B2',
+                                                       non_uk_qualification_type: 'WAEC, WASSCE (West African Senior School Certificate Examination)', grade: 'B2',
                                                        institution_country: 'GH', award_year: 2017, not_completed_explanation: nil,
                                                        enic_reason: nil, enic_reference: nil)
 
@@ -146,7 +146,7 @@ private
   def and_i_see_the_stored_qualification_details
     expect(page).to have_text 'Qualification from outside the UK'
     expect(page).to have_text 'Ghana'
-    expect(page).to have_text 'WASSCE (West African Senior School Certificate Examination)'
+    expect(page).to have_text 'WAEC, WASSCE (West African Senior School Certificate Examination)'
     expect(page).to have_text 'B2'
     expect(page).to have_text 'Enter your ENIC status'
     expect(page).to have_text '2017'
@@ -270,7 +270,7 @@ private
   def and_i_see_my_edited_qualification_details
     expect(page).to have_text 'Qualification from outside the UK'
     expect(page).to have_text 'Sierra Leone'
-    expect(page).to have_text 'WASSCE (West African Senior School Certificate Examination)'
+    expect(page).to have_text 'WAEC, WASSCE (West African Senior School Certificate Examination)'
     expect(page).to have_text 'E8'
     expect(page).to have_text 'I can count to 1000'
     expect(page).to have_text '2017'

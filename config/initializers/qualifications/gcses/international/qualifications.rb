@@ -15,7 +15,7 @@ module DfE
         QUALIFICATIONS = HardcodedReferenceList.new(
           {
             '6eeffc3b-461e-45b9-a4e6-ad040e2710ce' => {
-              name: 'WASSCE (West African Senior School Certificate Examination)',
+              name: 'WAEC, WASSCE (West African Senior School Certificate Examination)',
               subjects: %w[english maths science],
               countries: %w[NG GH SL GM LR],
               grade_options: %w[291628dc-38ee-4ff9-864d-ef9f830d75b8],
@@ -50,7 +50,12 @@ module DfE
               countries: %w[IN],
               grade_options: %w[dce2ff0f-018e-436f-9439-79c65ae2ed26],
             },
-
+            '5f9c581ca631387e6eb121c82f81f17f' => {
+              name: 'NECO, SSCE (Senior School Certificate Examination)',
+              subjects: %w[english maths science],
+              countries: %w[NG],
+              grade_options: %w[291628dc-38ee-4ff9-864d-ef9f830d75b8],
+            },
           },
           schema: INTERNATIONAL_QUALIFICATIONS_SCHEMA,
         )

@@ -91,7 +91,7 @@ RSpec.describe DuplicateApplication do
     it 'carries them over and keeps the sections set to completed' do
       create(:gcse_qualification, :non_uk, subject: 'english', institution_country: 'KE', non_uk_qualification_type: 'KCSE (Kenya Certificate of Secondary Education)', application_form: @original_application_form)
       create(:gcse_qualification, :non_uk, subject: 'maths', institution_country: 'IN', non_uk_qualification_type: 'CBSE Class 10 (AISSE)', application_form: @original_application_form)
-      create(:gcse_qualification, :non_uk, subject: 'science', institution_country: 'GH', non_uk_qualification_type: 'WASSCE (West African Senior School Certificate Examination)', application_form: @original_application_form)
+      create(:gcse_qualification, :non_uk, subject: 'science', institution_country: 'GH', non_uk_qualification_type: 'WAEC, WASSCE (West African Senior School Certificate Examination)', application_form: @original_application_form)
 
       expect(duplicate_application_form.english_gcse_completed).to be true
       expect(duplicate_application_form.maths_gcse_completed).to be true
