@@ -4,6 +4,8 @@ RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
 
   describe '.new_interview' do
+    let(:course) { create(:course, :secondary, :with_course_options, name: 'Mathematics', code: 'M101') }
+    let(:course_option) { course.course_options.first }
     let(:application_choice_with_interview) { build_stubbed(:application_choice, course_option:, application_form:) }
     let(:interview) do
       build_stubbed(:interview,
@@ -19,7 +21,7 @@ RSpec.describe CandidateMailer do
       'a mail with subject and content',
       'Interview arranged for Mathematics (M101)',
       'greeting' => 'Dear Fred',
-      'details' => 'Arithmetic College has arranged an interview with you for Mathematics (M101).',
+      'details' => 'has arranged an interview with you for Mathematics (M101).',
       'interview date' => "15 January #{current_year}",
       'interview time' => '9:30am',
       'interview location' => 'Hogwarts Castle',

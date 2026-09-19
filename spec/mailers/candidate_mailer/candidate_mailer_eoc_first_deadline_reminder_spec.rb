@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
 
+  let(:application_form) { create(:application_form, first_name: 'Fred') }
   let(:email) { described_class.eoc_first_deadline_reminder(application_form) }
   let(:timetable) { application_form.recruitment_cycle_timetable }
   let(:next_timetable) { timetable.relative_next_timetable }
@@ -33,18 +34,25 @@ RSpec.describe CandidateMailer do
         expect(email.body).to include("From #{next_timetable.apply_opens_at.to_fs(:govuk_date)} you’ll be able to apply for courses starting in the #{next_timetable.academic_year_range_name} academic year.")
       end
 
-      it 'renders get help with your application' do
-        expect(email.body).to include('Get help with your application')
-        expect(email.body).to include(
-          'Learn more about [what to include in your application](https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/teacher-training-application) on the Get Into Teaching website.',
-        )
-        expect(email.body).to include(
-          'You can also [get a teacher training adviser](https://getintoteaching.education.gov.uk/teacher-training-advisers) for free, one-to-one support to help you write a strong application.',
-        )
+      context 'candidate has selected a secondary course' do
+        it 'renders get help with your application' do
+          secondary_course = create(:course, :with_course_options, :secondary)
+          create(:application_choice, course_option: secondary_course.course_options.first, application_form:)
+
+          expect(email.body).to include('Get help with your application')
+          expect(email.body).to include(
+            'Learn more about [what to include in your application](https://getintoteaching.education.gov.uk/how-to-apply-for-teacher-training/teacher-training-application) on the Get Into Teaching website.',
+          )
+          expect(email.body).to include(
+            'You can also [get a teacher training adviser](https://getintoteaching.education.gov.uk/teacher-training-advisers) for free, one-to-one support to help you write a strong application.',
+          )
+        end
       end
 
-      it 'renders adviser sign up text if not already assigned' do
-        expect(email.body).to include('You can also [get a teacher training adviser]')
+      context 'candidate has not selected a secondary course' do
+        it 'does not render adviser sign up text if not already assigned' do
+          expect(email.body).not_to include('You can also [get a teacher training adviser]')
+        end
       end
     end
 

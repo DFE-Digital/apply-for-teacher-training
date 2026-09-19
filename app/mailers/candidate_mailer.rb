@@ -49,6 +49,7 @@ class CandidateMailer < ApplicationMailer
     @interview = interview
     @provider_name = interview.provider.name
     @course_name_and_code = application_choice.current_course_option.course.name_and_code
+    @course_level = application_choice.current_course_option.course.level
 
     email_for_candidate(
       @application_form,

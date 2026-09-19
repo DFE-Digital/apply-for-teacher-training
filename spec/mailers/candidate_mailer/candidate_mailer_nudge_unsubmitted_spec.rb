@@ -15,9 +15,9 @@ RSpec.describe CandidateMailer do
 
     it_behaves_like 'an email with unsubscribe option'
 
-    it 'renders adviser sign up text if not already assigned' do
-      expect(email.body).to include('A teacher training adviser could help with your application, if something is holding you back from submitting it. They can talk to you about teacher training and teaching as a career.')
-      expect(email.body).to include('Alternatively, call')
+    it 'renders adviser sign up text if not already assigned and applying to a secondary course' do
+      expect(email.body).to include('If you’re applying to teach a secondary subject, a teacher training adviser can help if something is holding you back from submitting it. They offer free, one-to-one support to help you write a strong application.')
+      expect(email.body).to include('For support with your application, call')
     end
   end
 
