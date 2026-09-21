@@ -17,7 +17,7 @@ class Candidate::WithdrawalsAndRejectionsPreview < ActionMailer::Preview
     CandidateMailer.application_rejected(application_choice)
   end
 
-  def application_rejected_primary(reasons = :rejection_reasons)
+  def application_rejected(reasons = :rejection_reasons)
     course = FactoryBot.create(
       :course,
       :primary,

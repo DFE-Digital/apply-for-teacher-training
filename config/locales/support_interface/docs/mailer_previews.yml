@@ -110,7 +110,7 @@ en:
             reference_received_after_recruitment: A referee has submitted a reference and the training provider has received it after the candidate has been recruited.
           candidate_withdrawals_and_rejections:
             application_rejected_secondary: An secondary application has been rejected by the provider. Contains bespoke rejection advice depending on the reason given.
-            application_rejected_primary: An primary application has been rejected by the provider. Contains bespoke rejection advice depending on the reason given.
+            application_rejected: An primary application has been rejected by the provider. Contains bespoke rejection advice depending on the reason given.
             application_rejected_with_course_recommendation: An application has been rejected by the provider. Contains bespoke rejection advice depending on the reason given and there is a link to other courses that have been recommended to them..
             application_rejected_international_unverified: An application from an international candidate has been rejected because the provider is unable to verify their qualifications.
             application_rejected_via_api: An application has been rejected by a provider who uses the api to manage applications.
