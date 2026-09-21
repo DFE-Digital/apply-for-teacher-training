@@ -28,6 +28,7 @@ RSpec.describe 'Providers invites candidates' do
     when_i_click('Continue')
 
     then_i_am_redirected_to_message_page
+    and_i_see_hint_text_for_a_candidate_with_no_location_preference
     when_i_click('Continue')
     then_i_get_an_error('Select if you want to add your own message to the invitation email')
     when_i_choose_no
@@ -72,6 +73,7 @@ RSpec.describe 'Providers invites candidates' do
     when_i_click('Continue')
 
     then_i_am_redirected_to_message_page
+    and_i_see_hint_text_for_a_candidate_with_no_location_preference
     when_i_choose_yes
     and_i_add_message_content
     and_i_save_the_message_as_template
@@ -103,6 +105,7 @@ RSpec.describe 'Providers invites candidates' do
     when_i_click('Continue')
 
     then_i_am_redirected_to_message_page
+    and_i_see_hint_text_for_a_candidate_with_no_location_preference
     when_i_choose_no
     when_i_click('Continue')
 
@@ -129,6 +132,7 @@ RSpec.describe 'Providers invites candidates' do
     when_i_click('Continue')
 
     then_i_am_redirected_to_message_page
+    and_i_see_hint_text_for_a_candidate_with_no_location_preference
     when_i_choose_no
     when_i_click('Continue')
 
@@ -153,6 +157,7 @@ RSpec.describe 'Providers invites candidates' do
     when_i_click('Continue')
 
     then_i_am_redirected_to_message_page
+    and_i_see_hint_text_for_a_candidate_with_no_location_preference
     when_i_choose_yes
     and_i_add_message_content
     when_i_click('Continue')
@@ -177,6 +182,7 @@ RSpec.describe 'Providers invites candidates' do
     when_i_click('Continue')
 
     then_i_am_redirected_to_message_page
+    and_i_see_hint_text_for_a_candidate_with_no_location_preference
     when_i_choose_yes
     and_i_add_message_content
     when_i_click('Continue')
@@ -213,6 +219,7 @@ RSpec.describe 'Providers invites candidates' do
     when_i_click('Continue')
 
     then_i_am_redirected_to_message_page
+    and_i_see_hint_text_for_a_candidate_with_no_location_preference
     when_i_choose_yes
     and_i_add_message_content
     when_i_click('Continue')
@@ -252,6 +259,31 @@ RSpec.describe 'Providers invites candidates' do
     then_i_am_on_the_candidate_pool_page(last_course)
   end
 
+  scenario 'Invite candidate with location preferences' do
+    given_i_am_a_provider_user_with_dfe_sign_in
+    and_provider_user_exists
+    and_provider_has_courses(3)
+    and_there_are_candidates_for_candidate_pool
+    and_the_candidate_has_a_location_preference
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_visit_the_candidate_pool_show_page
+    when_i_click('Invite to apply')
+
+    then_i_am_redirected_to_the_new_invite_form
+    when_i_select_a_course(first_course)
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_message_page
+    and_i_see_hint_text_for_a_candidate_with_location_preference
+    when_i_choose_no
+    when_i_click('Continue')
+
+    then_i_am_redirected_to_the_review_page(first_course, 'None')
+  end
+
+private
+
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
   end
@@ -267,7 +299,7 @@ RSpec.describe 'Providers invites candidates' do
 
   def and_there_are_candidates_for_candidate_pool
     @candidate = create(:candidate)
-    preference = create(
+    @preference = create(
       :candidate_preference,
       application_form: create(
         :application_form,
@@ -276,7 +308,11 @@ RSpec.describe 'Providers invites candidates' do
         submitted_at: 1.day.ago,
       ),
     )
-    create(:candidate_pool_application, application_form: preference.application_form)
+    create(:candidate_pool_application, application_form: @preference.application_form)
+  end
+
+  def and_the_candidate_has_a_location_preference
+    create(:candidate_location_preference, :manchester, candidate_preference: @preference)
   end
 
   def when_i_visit_the_candidate_pool_show_page
@@ -419,7 +455,7 @@ RSpec.describe 'Providers invites candidates' do
   end
 
   def and_i_add_message_content
-    fill_in 'Enter your invitation message', with: :message_content
+    fill_in 'Enter your message', with: :message_content
   end
 
   def and_i_save_the_message_as_template
@@ -445,7 +481,7 @@ RSpec.describe 'Providers invites candidates' do
   end
 
   def then_the_message_is_prepopulated
-    expect(find_field('Enter your invitation message').value).to eq('message_content')
+    expect(find_field('Enter your message').value).to eq('message_content')
   end
 
   def when_i_visit_the_find_candidates_not_seen_page
@@ -465,6 +501,31 @@ RSpec.describe 'Providers invites candidates' do
       status: 'published',
       application_form: @candidate.current_cycle_application_form,
       invited_by: current_provider.provider_users.last,
+    )
+  end
+
+  def and_i_see_hint_text_for_a_candidate_with_no_location_preference
+    expect(page).to have_element(
+      :p,
+      text: 'Personalised messages can help candidates decide if they want to apply. Consider including details that may be relevant to them.',
+      class: 'govuk-hint',
+    )
+  end
+
+  def and_i_see_hint_text_for_a_candidate_with_location_preference
+    expect(page).to have_element(
+      :p,
+      text: 'Personalised messages can help candidates decide if they want to apply. Consider including details that may be relevant to them, such as partner schools in their preferred locations.',
+      class: 'govuk-hint',
+    )
+    expect(page).to have_element(
+      :p,
+      text: 'The candidate has said they can train:',
+      class: 'govuk-hint',
+    )
+    expect(page).to have_element(
+      :li,
+      text: 'within 10.0 miles of Manchester',
     )
   end
 end
