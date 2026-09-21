@@ -38,15 +38,15 @@ RSpec.describe CandidateInterface::CarryOverTaskListComponent do
       it 'lists all the sections the candidate needs to check' do
         expect(rendered_component).to have_element(
           :p,
-          text: 'Before you can apply again, you’ll need to:',
+          text: 'Before you can apply, you’ll need to:',
           class: 'govuk-body',
         )
 
-        expect(rendered_component).to have_link('enter or confirm your visa information')
+        expect(rendered_component).to have_link('confirm your visa information')
         expect(rendered_component).to have_link('confirm your contact information')
         expect(rendered_component).to have_link('confirm your qualifications are up to date')
-        expect(rendered_component).to have_link('enter or confirm your English language skills')
-        expect(rendered_component).to have_link('enter or confirm your equality and diversity information')
+        expect(rendered_component).to have_link('confirm your English language skills')
+        expect(rendered_component).to have_link('confirm your equality and diversity information')
         expect(rendered_component).to have_link('confirm whether you have started teacher training in the past')
         expect(rendered_component).to have_link('confirm your references are up to date')
       end
@@ -73,15 +73,15 @@ RSpec.describe CandidateInterface::CarryOverTaskListComponent do
         it 'lists all the sections and shows a message about the other incomplete sections' do
           expect(rendered_component).to have_element(
             :p,
-            text: 'Before you can apply again, you’ll need to:',
+            text: 'Before you can apply, you’ll need to:',
             class: 'govuk-body',
           )
 
-          expect(rendered_component).to have_link('enter or confirm your visa information')
+          expect(rendered_component).to have_link('confirm your visa information')
           expect(rendered_component).to have_link('confirm your contact information')
           expect(rendered_component).to have_link('confirm your qualifications are up to date')
-          expect(rendered_component).to have_link('enter or confirm your English language skills')
-          expect(rendered_component).to have_link('enter or confirm your equality and diversity information')
+          expect(rendered_component).to have_link('confirm your English language skills')
+          expect(rendered_component).to have_link('confirm your equality and diversity information')
           expect(rendered_component).to have_link('confirm whether you have started teacher training in the past')
           expect(rendered_component).to have_link('confirm your references are up to date')
           expect(rendered_component).to have_text(
@@ -127,8 +127,8 @@ RSpec.describe CandidateInterface::CarryOverTaskListComponent do
 
       it 'they do not see the efl or visa link' do
         expect(rendered_component).to have_link('confirm your contact information')
-        expect(rendered_component).to have_no_link('enter or confirm your visa information')
-        expect(rendered_component).to have_no_link('enter or confirm your English language skills')
+        expect(rendered_component).to have_no_link('confirm your visa information')
+        expect(rendered_component).to have_no_link('confirm your English language skills')
       end
     end
   end
