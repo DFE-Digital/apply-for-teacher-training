@@ -37,7 +37,7 @@ class ProviderInterface::FindCandidates::RightToWorkComponent < ApplicationCompo
       else
         explanation
       end
-    end
+    end.uniq
   end
 
 private
