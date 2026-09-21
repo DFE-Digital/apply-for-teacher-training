@@ -189,7 +189,7 @@ console: get-cluster-credentials ## Open a Rails console on the app instance on 
 .PHONY: vendor-modules
 vendor-modules:
 	rm -rf terraform/aks/vendor/modules
-	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch ${TERRAFORM_MODULES_TAG} https://github.com/DFE-Digital/terraform-modules.git terraform/aks/vendor/modules/aks
+	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch 3053-validate-infra-fix https://github.com/DFE-Digital/terraform-modules.git terraform/aks/vendor/modules/aks
 
 terraform-init: deploy-init
 
@@ -244,8 +244,9 @@ deploy-domain-resources: check-auto-approve domain-azure-resources # make deploy
 
 .PHONY: vendor-domain-infra-modules
 vendor-domain-infra-modules:
+	@echo "***** USING TEST BRANCH *****"
 	rm -rf terraform/custom_domains/infrastructure/vendor/modules/domains
-	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch ${TERRAFORM_MODULES_TAG} https://github.com/DFE-Digital/terraform-modules.git terraform/custom_domains/infrastructure/vendor/modules/domains
+	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch 3053-validate-infra-fix https://github.com/DFE-Digital/terraform-modules.git terraform/custom_domains/infrastructure/vendor/modules/domains
 
 domains-infra-init: domains vendor-domain-infra-modules set-azure-account
 	terraform -chdir=terraform/custom_domains/infrastructure init -reconfigure -upgrade \
@@ -260,7 +261,7 @@ domains-infra-apply: domains-infra-init # make domains-infra-apply
 .PHONY: vendor-domain-modules
 vendor-domain-modules:
 	rm -rf terraform/custom_domains/environment_domains/vendor/modules/domains
-	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch ${TERRAFORM_MODULES_TAG} https://github.com/DFE-Digital/terraform-modules.git terraform/custom_domains/environment_domains/vendor/modules/domains
+	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch 3053-validate-infra-fix https://github.com/DFE-Digital/terraform-modules.git terraform/custom_domains/environment_domains/vendor/modules/domains
 
 domains-init: domains vendor-domain-modules set-azure-account
 	$(if $(PR_NUMBER), $(eval APP_ENV=${PR_NUMBER}))
