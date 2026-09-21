@@ -56,11 +56,11 @@ module CandidateInterface
         [:previous_teacher_training, previous_teacher_training_completed?],
 
         # "Qualifications" section
-        [:degrees, degrees_completed?],
-        [:maths_gcse, maths_gcse_completed?],
         [:english_gcse, english_gcse_completed?],
+        [:maths_gcse, maths_gcse_completed?],
         ([:science_gcse, science_gcse_completed?] if application_form.science_gcse_needed?),
         [:other_qualifications, other_qualifications_completed?],
+        [:degrees, degrees_completed?],
         ([:efl, english_as_a_foreign_language_completed?] if display_efl_link?),
 
         # "Personal statement and interview" section
