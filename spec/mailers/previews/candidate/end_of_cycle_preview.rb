@@ -8,6 +8,18 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
     CandidateMailer.eoc_first_deadline_reminder(application_form)
   end
 
+  def end_of_cycle_reminder_with_secondary_applications
+    course = FactoryBot.create(
+      :course,
+      :with_course_options,
+      :secondary,
+      provider: FactoryBot.build(:provider, code: "PREVIEW:#{Provider.count}"),
+    )
+    application_choice = FactoryBot.create(:application_choice, course:)
+
+    CandidateMailer.eoc_first_deadline_reminder(application_choice.application_form)
+  end
+
   def new_cycle_has_started
     application_form = FactoryBot.build(:completed_application_form, first_name: 'Tester')
 
