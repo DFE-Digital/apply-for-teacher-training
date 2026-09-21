@@ -114,6 +114,7 @@ RSpec.describe ProviderInterface::FindCandidates::RightToWorkComponent, type: :c
         before do
           create(:application_choice, :awaiting_provider_decision, application_form:, visa_explanation: 'renew')
         end
+
         it 'renders the visa explanation once (not duplicated)' do
           render_inline(described_class.new(application_form:))
 
