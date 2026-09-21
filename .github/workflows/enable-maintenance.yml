@@ -10,6 +10,7 @@ on:
         - qa
         - sandbox
         - production
+        - staging
 
 permissions:
   id-token: write
