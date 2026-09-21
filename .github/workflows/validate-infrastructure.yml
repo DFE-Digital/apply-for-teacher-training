@@ -37,6 +37,8 @@ jobs:
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          gcp-project-id: rugged-abacus-218110
+          gcp-wip: projects/712009772377/locations/global/workloadIdentityPools/apply-for-teacher-training/providers/apply-for-teacher-training
           environment: production
           terraform-base: ${{ matrix.terraform_base }}
           terraform-version-file: ${{ matrix.terraform_version_file }}
