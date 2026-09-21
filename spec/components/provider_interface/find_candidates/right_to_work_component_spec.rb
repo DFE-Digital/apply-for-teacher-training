@@ -83,7 +83,7 @@ RSpec.describe ProviderInterface::FindCandidates::RightToWorkComponent, type: :c
       end
     end
 
-    context 'for mulitple application choices' do
+    context 'for multiple application choices' do
       before do
         create(:application_choice, :awaiting_provider_decision, application_form:, visa_explanation: 'expires_after_course')
         create(:application_choice, :awaiting_provider_decision, application_form:, visa_explanation: 'renew')
@@ -108,6 +108,18 @@ RSpec.describe ProviderInterface::FindCandidates::RightToWorkComponent, type: :c
         expect(page).to have_text 'My visa expires after the course ends'
         expect(page).to have_text 'I will be able to renew or extend my current visa'
         expect(page).to have_text 'Other:I have a right to work'
+      end
+
+      context 'with the same visa explanation' do
+        before do
+          create(:application_choice, :awaiting_provider_decision, application_form:, visa_explanation: 'renew')
+        end
+
+        it 'renders the visa explanation once (not duplicated)' do
+          render_inline(described_class.new(application_form:))
+
+          expect(page).to have_text('I will be able to renew or extend my current visa').once
+        end
       end
     end
   end
