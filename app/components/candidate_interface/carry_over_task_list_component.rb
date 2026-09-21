@@ -59,7 +59,7 @@ module CandidateInterface
          !application_form.personal_details_completed
         Section.new(
           name: :personal_details,
-          link: govuk_link_to('enter or confirm your visa information', path_to_personal_information),
+          link: govuk_link_to('confirm your visa information', path_to_personal_information),
         )
       end
     end
