@@ -103,14 +103,35 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
   end
 
   def visa_sponsorship_deadline_reminder
-    provider = FactoryBot.build_stubbed(:provider)
     course = FactoryBot.build_stubbed(
       :course,
-      provider: provider,
+      :with_course_options,
+      :primary,
+      provider: FactoryBot.build(:provider, code: "PREVIEW:#{Provider.count}"),
       can_sponsor_skilled_worker_visa: true,
       can_sponsor_student_visa: true,
       visa_sponsorship_application_deadline_at: 1.month.from_now,
     )
+
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      :minimum_info,
+      first_name: 'Fred',
+    )
+    CandidateMailer.visa_sponsorship_deadline_reminder(application_form, course)
+  end
+
+  def visa_sponsorship_deadline_reminder_for_secondary_course
+    course = FactoryBot.build_stubbed(
+      :course,
+      :with_course_options,
+      :secondary,
+      provider: FactoryBot.build(:provider, code: "PREVIEW:#{Provider.count}"),
+      can_sponsor_skilled_worker_visa: true,
+      can_sponsor_student_visa: true,
+      visa_sponsorship_application_deadline_at: 1.month.from_now,
+    )
+
     application_form = FactoryBot.build_stubbed(
       :application_form,
       :minimum_info,
@@ -124,6 +145,26 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
     provider = FactoryBot.build_stubbed(:provider)
     course = FactoryBot.build_stubbed(
       :course,
+      :primary,
+      provider: provider,
+      can_sponsor_skilled_worker_visa: true,
+      can_sponsor_student_visa: true,
+      visa_sponsorship_application_deadline_at: 1.month.from_now,
+    )
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      :minimum_info,
+      first_name: 'Fred',
+    )
+
+    CandidateMailer.visa_sponsorship_deadline_change(application_form, course)
+  end
+
+  def visa_sponsorship_deadline_change_for_secondary_course
+    provider = FactoryBot.build_stubbed(:provider)
+    course = FactoryBot.build_stubbed(
+      :course,
+      :secondary,
       provider: provider,
       can_sponsor_skilled_worker_visa: true,
       can_sponsor_student_visa: true,

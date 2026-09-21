@@ -16,6 +16,8 @@ Read about [what to include in your application](<%= t('get_into_teaching.url_te
 
 If you have questions about your application, [you can get in touch with us on the phone or through live chat](<%= t('get_into_teaching.url_online_chat') %>).
 
-You can also [get a teacher training adviser](<%= t('get_into_teaching.url_get_an_adviser_start') %>) for free, one-to-one support to help you write a strong application.
+<% if @course.secondary_course? %>
+  You can also [get a teacher training adviser](<%= t('get_into_teaching.url_get_an_adviser_start') %>) for free, one-to-one support to help you write a strong application.
+<% end %>
 
 <%= render 'unsubscribe_from_emails_like_this' %>
