@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: "0 7 * * *"
   workflow_dispatch:
+  push:
+    branches:
+      - 3053-test-validate-fix
 
 jobs:
   validate:
