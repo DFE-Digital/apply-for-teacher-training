@@ -1,0 +1,83 @@
+name: Restore database AKS backup
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to restore
+        required: true
+        default: qa
+        type: choice
+        options:
+          - qa
+          - staging
+          - sandbox
+          - production
+
+      restore_file:
+        description: Backup file to restore
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+
+jobs:
+  restore:
+    name: Restore database backup
+    runs-on: ubuntu-latest
+
+    environment:
+      name: ${{ inputs.environment }}
+
+    env:
+      DEPLOY_ENV: ${{ inputs.environment }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install kubectl
+        uses: DFE-Digital/github-actions/set-kubectl@master
+
+      - uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set kubelogin environment
+        uses: DFE-Digital/github-actions/set-kubelogin-environment@master
+        with:
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+
+      - name: Grant exec on scripts
+        run: |
+          chmod +x ./scripts/*.sh
+
+      - name: Restore backup
+        run: |
+          make ci ${{ env.DEPLOY_ENV }} aks_db_job_restore \
+            RESTORE_FILE="${{ inputs.restore_file }}"
+
+      - name: Notify teams channel on job failure
+        if: ${{ failure() }}
+        uses: DFE-Digital/github-actions/send-to-teams-channel@master
+        with:
+          teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          title: Postgres Restore Job (AKS)
+          service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
+          message: |
+            Database restore failed in ${{ env.DEPLOY_ENV }}
+
+      - name: Notify teams channel on workflow success
+        uses: DFE-Digital/github-actions/send-to-teams-channel@master
+        with:
+          teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          title: Postgres Restore Job (AKS)
+          service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
+          status: good
+          minimal: true
+          message: |
+            Database restore completed successfully in ${{ env.DEPLOY_ENV }}
