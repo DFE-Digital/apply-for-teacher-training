@@ -12,7 +12,9 @@ class ProviderInterface::FindCandidates::LocationPreferencesComponent < Applicat
   end
 
   def specific_locations?
-    @specific_locations ||= published_preference&.training_locations_specific? && published_location_preferences.present?
+    return false if published_preference.blank?
+
+    @specific_locations ||= published_preference.training_locations_specific? && published_location_preferences.present?
   end
 
 private
