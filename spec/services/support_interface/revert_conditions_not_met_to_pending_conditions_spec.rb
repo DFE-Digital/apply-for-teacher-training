@@ -25,5 +25,52 @@ RSpec.describe SupportInterface::RevertConditionsNotMetToPendingConditions, :wit
 
       expect { described_class.new(application_choice:, zendesk_ticket:).save! }.to change { application_choice.offer.conditions.first.status }.from('met').to('pending')
     end
+
+    context 'when the application form has a subsequent application form' do
+      let(:application_form) { application_choice.application_form }
+
+      it 'destroys the subsequent application form' do
+        subsequent_application_form = create(
+          :application_form,
+          previous_application_form: application_form,
+          recruitment_cycle_year: application_form.recruitment_cycle_year.next,
+          )
+        expect(application_form.reload.subsequent_application_form).to eq(subsequent_application_form)
+
+        described_class.new(
+          application_choice:,
+          zendesk_ticket:,
+        ).save!
+
+        expect(application_choice.audits.last.comment).to include(zendesk_ticket)
+        expect(application_choice.attributes.symbolize_keys).to match(
+          a_hash_including({
+            conditions_not_met_at: nil,
+            status: 'pending_conditions',
+          }),
+        )
+
+        expect(application_form.reload.subsequent_application_form).to be_nil
+      end
+
+      context 'if the subsequent application form has application choices' do
+        it 'does not destroy the subsequent application form' do
+          subsequent_application_form = create(
+            :application_form,
+            previous_application_form: application_form,
+            recruitment_cycle_year: application_form.recruitment_cycle_year.next,
+            )
+          create(:application_choice, application_form: subsequent_application_form)
+          expect(application_form.reload.subsequent_application_form).to eq(subsequent_application_form)
+
+          described_class.new(
+            application_choice:,
+            zendesk_ticket:,
+          ).save!
+
+          expect(application_form.reload.subsequent_application_form).to eq(subsequent_application_form)
+        end
+      end
+    end
   end
 end
