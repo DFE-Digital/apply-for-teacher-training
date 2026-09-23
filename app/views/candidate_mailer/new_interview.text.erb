@@ -16,8 +16,10 @@ Additional details:
 
 Contact <%= @provider_name %> if you have any questions. Let them know if you cannot attend the interview.
 
-<% if @course_level == 'secondary' %>
 # Prepare for your interview
+
+Find out about preparing for your interview on the [Get Into Teaching website](<%= email_link_with_utm_params(t('get_into_teaching.url_teacher_training_interview'), 'new_interview_offered', @application_form.phase) %>).
+<% if @course_level == 'secondary' %>
 
 Do you have a teacher training adviser yet? They can help you prepare for your interview.
 

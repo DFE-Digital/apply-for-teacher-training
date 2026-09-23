@@ -277,7 +277,7 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
 
     it 'show what happens next information' do
       expect(result.text).to include('What happens next',
-                                     'The provider will review your application and let your know when they have a made a decision. In the meantime, you can:')
+                                     'The provider will review your application and let you know when they have made a decision. In the meantime, you can:')
     end
 
     it 'shows withdraw CTA' do
