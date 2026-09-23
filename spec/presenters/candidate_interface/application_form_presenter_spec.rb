@@ -13,7 +13,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       can_add_more_choices?
       can_add_course_choice?
       english_main_language
-      unsuccessful_limit_reached?
       first_name
       first_nationality
       previous_application_form

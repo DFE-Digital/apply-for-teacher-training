@@ -6,52 +6,64 @@
   </h1>
 <% end %>
 
-<% if application_form_presenter.unsuccessful_limit_reached? %>
-  <%= govuk_warning_text(text: t('mid_cycle_content_component.you_cannot_submit_more')) %>
-  <p class="govuk-body">This is because you have a total of 15 applications that have been either:</p>
-  <%= govuk_list(
-    [
-      t('mid_cycle_content_component.rejected_by_provider'),
-      t('mid_cycle_content_component.withdrawn_by_provider'),
-      inactive_bullet,
-      t('mid_cycle_content_component.declined_offer'),
-      t('mid_cycle_content_component.conditions_not_met'),
-    ],
-    type: :bullet,
-  ) %>
-  <p class="govuk-body"><%= t('mid_cycle_content_component.you_will_be_able_to_apply_again', apply_reopens_date:, next_year:) %></p>
-  <p class="govuk-body"><%= t('mid_cycle_content_component.email_for_help_html', email_address: govuk_mail_to(t('mid_cycle_content_component.becoming_a_teacher_email'))) %></p>
-<% elsif application_form_presenter.can_add_more_choices? %>
-  <%= christmas_response_time_warning_text %>
-  <%= render CandidateInterface::ApplicationsLeftMessageComponent.new(application_form) %>
+<% if total_submitted_application_limit_reached? %>
+  <p class="govuk-body">
+    <%= t('mid_cycle_content_component.you_cannot_submit_more', max_number_of_applications:) %>
+  </p>
+
   <p class="govuk-body">
     <%= govuk_link_to t('mid_cycle_content_component.read_how_the_application_process_works'), candidate_interface_guidance_path %>
   </p>
-  <p class="govuk-body"><%= t('mid_cycle_content_component.training_providers_offer_places_throughout_the_year') %></p>
+
+  <p class="govuk-body">
+    <%= t('mid_cycle_content_component.you_will_be_able_to_apply_again', apply_reopens_date:, next_year:) %>
+  </p>
+
+  <p class="govuk-body">
+    <%= t('mid_cycle_content_component.training_providers_offer_places_throughout_the_year') %>
+  </p>
+<% elsif can_add_more_choices? %>
+  <%= holiday_response_time_warning_text %>
+  <p class="govuk-body">
+     <%= t(
+           'mid_cycle_content_component.applications_left_message.can_add_more',
+           count: number_of_slots_left,
+           academic_year: academic_year_range_name,
+           ) %>
+  </p>
+  <p class="govuk-body">
+    <%= t('mid_cycle_content_component.applications_left_message.in_progress', count: in_progress_limit) %>
+  </p>
+  <%= how_to_free_up_a_slot_list %>
+  <p class="govuk-body">
+    <%= t('mid_cycle_content_component.once_you_have_reached_the_limit', max_number_of_applications:) %>
+  </p>
+  <p class="govuk-body">
+    <%= govuk_link_to t('mid_cycle_content_component.read_how_the_application_process_works'), candidate_interface_guidance_path %>
+  </p>
+  <p class="govuk-body">
+    <%= t('mid_cycle_content_component.training_providers_offer_places_throughout_the_year') %>
+  </p>
 
   <%= render CandidateInterface::CarryOverTaskListComponent.new(application_form:) %>
 
   <%= govuk_button_link_to t('mid_cycle_content_component.add_application'), candidate_interface_course_choices_do_you_know_the_course_path %>
 <% else %>
-  <% if application_form_presenter.cannot_submit_more_choices? && !application_form_presenter.total_submitted_application_limit_reached? %>
-    <p class="govuk-body">You have 4 applications in progress. This is the maximum allowed.</p>
-  <% end %>
-  <%= govuk_warning_text(text: t('mid_cycle_content_component.you_cannot_add_any_more_applications')) %>
+  <%= holiday_response_time_warning_text %>
+ <%= no_more_slots_message %>
   <p class="govuk-body"><%= t('mid_cycle_content_component.you_can_add_more_applications_if') %></p>
 
-  <%= govuk_list(
-    [
-      t('mid_cycle_content_component.rejected_by_provider'),
-      t('mid_cycle_content_component.withdrawn_by_provider'),
-      inactive_bullet,
-      t('mid_cycle_content_component.declined_offer'),
-      t('mid_cycle_content_component.conditions_not_met'),
-    ],
-    type: :bullet,
-  ) %>
-  <p class="govuk-body"><%= t('mid_cycle_content_component.once_you_have_reached_the_limit', max_number_of_applications:, next_year:) %></p>
+  <%= how_to_free_up_a_slot_list %>
   <p class="govuk-body">
-    <%= govuk_link_to t('mid_cycle_content_component.read_how_the_application_process_works'), candidate_interface_guidance_path %>.
+    <%= t('mid_cycle_content_component.once_you_have_reached_the_limit', max_number_of_applications:) %>
+  </p>
+
+  <p class="govuk-body">
+    <%= govuk_link_to t('mid_cycle_content_component.read_how_the_application_process_works'), candidate_interface_guidance_path %>
+  </p>
+
+  <p class="govuk-body">
+    <%= t('mid_cycle_content_component.training_providers_offer_places_throughout_the_year') %>
   </p>
 <% end %>
 

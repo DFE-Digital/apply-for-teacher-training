@@ -16,9 +16,10 @@ class CandidateInterface::ApplicationChoices::IndexContentComponent < Applicatio
       # If not, they are given the opportunity to carry over
       CandidateInterface::AfterDeadlineContentComponent.new(application_form:)
     elsif active_previous_application.present?
+      # This is after the cycle opens, but the candidate still has active choices from the previous cycle (jan starts)
       CandidateInterface::MultipleActiveApplicationsContentComponent.new(application_form:)
     else
-      # This is BAU and the application is for the current cycle
+      # This is BAU and the application is for the current cycle, no active choices from the previous cycle.
       CandidateInterface::MidCycleContentComponent.new(application_form:)
     end
   end

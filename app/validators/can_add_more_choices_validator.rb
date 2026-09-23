@@ -4,8 +4,8 @@ class CanAddMoreChoicesValidator < ActiveModel::EachValidator
       record.errors.add(attribute, :max_course_choices, message: 'You cannot submit this application because you have already submitted the maximum number of applications')
     end
 
-    if application_choice.application_form.unsuccessful_limit_reached?
-      max_unsuccessful_attempts = [application_choice.application_form.unsuccessful_retry_limit, application_choice.application_form.in_progress_limit].max
+    if application_choice.application_form.total_submitted_application_limit_reached?
+      max_unsuccessful_attempts = [application_choice.application_form.total_application_limit, application_choice.application_form.in_progress_limit].max
       record.errors.add(
         attribute,
         :max_course_choices,
