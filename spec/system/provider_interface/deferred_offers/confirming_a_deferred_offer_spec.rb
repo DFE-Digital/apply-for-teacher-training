@@ -3,6 +3,22 @@ require 'rails_helper'
 RSpec.describe 'Provider confirms a deferred offer' do
   include DfESignInHelpers
 
+  scenario 'There are no courses available to confirm the candidate onto' do
+    given_i_am_a_provider_user_with_dfe_sign_in
+    and_i_sign_in_to_the_provider_interface
+    and_applications_with_status_offer_deferred_exist
+
+    when_i_visit_a_application_with_status_offer_deferred_from_previous_cycle
+    then_i_see_the_application_details_with_original_course_applied_for
+
+    when_i_click_confirm_deferred_offer
+    then_i_see_i_cannot_continue
+
+    click_on 'Go back'
+
+    then_i_see_the_application_details_with_original_course_applied_for
+  end
+
   scenario 'Provider wants to deferred an offer without any changes - the course, study mode and location are all available in the current cycle' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_sign_in_to_the_provider_interface
@@ -235,6 +251,11 @@ RSpec.describe 'Provider confirms a deferred offer' do
     click_on 'Confirm deferred offer'
   end
   alias_method :when_i_click_confirm_deferred_offer, :and_i_click_confirm_deferred_offer
+
+  def then_i_see_i_cannot_continue
+    expect(page).to have_current_path provider_interface_deferred_offer_course_path(@deferred_application_choice)
+    expect(page).to have_text 'There are no courses available'
+  end
 
   def then_i_can_see_the_details_of_the_deferred_offer
     expect(page).to have_current_path provider_interface_deferred_offer_check_path(@deferred_application_choice)
