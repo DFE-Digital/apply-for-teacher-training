@@ -5,7 +5,9 @@ en:
         will_train_anywhere: The candidate has said they can train anywhere in England.
         specific_locations: "The candidate has said they can train in the following areas:"
         location: Within %{radius} miles of %{location}
-
+      invite_location_preferences_component:
+        specific_locations: "The candidate has said they can train:"
+        location: within %{radius} miles of %{location}
       right_to_work_component:
         visa_sponsorship: Visa sponsorship
         required: Required

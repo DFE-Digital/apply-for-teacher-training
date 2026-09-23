@@ -145,7 +145,13 @@ en:
           title: Do you want to add your own message to the invitation email?
         form:
           title: Do you want to add your own message to the invitation email?
-          enter_message: Enter your invitation message
+          preferred_location_hint:
+            Personalised messages can help candidates decide if they want to apply.
+            Consider including details that may be relevant to them, such as partner schools in their preferred locations.
+          no_preferred_location_hint:
+            Personalised messages can help candidates decide if they want to apply.
+            Consider including details that may be relevant to them.
+          enter_message: Enter your message
           remember: Save this message for your next invitation
           invitation_email: View invitation email
         formatting_information:
