@@ -71,6 +71,10 @@ class Candidate::FindACandidatePreview < ActionMailer::Preview
       :minimum_info,
       first_name: 'Fred',
     )
+    FactoryBot.create(
+      :candidate_preference,
+      application_form:,
+    )
 
     invite = FactoryBot.build_stubbed(
       :pool_invite,

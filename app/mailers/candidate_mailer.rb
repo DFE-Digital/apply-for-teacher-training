@@ -689,6 +689,9 @@ class CandidateMailer < ApplicationMailer
     end
     @invites_url = candidate_interface_invites_url
     @application_form = invites.first.application_form
+    @preferences_url = candidate_interface_draft_preference_publish_preferences_url(
+      @application_form.published_preference,
+    )
 
     email_for_candidate(
       @application_form,

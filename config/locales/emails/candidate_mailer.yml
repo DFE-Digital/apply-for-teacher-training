@@ -160,4 +160,4 @@ en:
           you_are_receiving: "You are receiving this email because you chose to share your application details with training providers."
           if_you_do_not_respond: "If you do not accept or decline this invitation, and you receive another one, providers will no longer be able to find you in searches or invite you to their courses."
     invites_chaser:
-      subject: 'Reminder: respond to your course invitations'
+      subject: 'You will no longer be invited to teacher training courses'
