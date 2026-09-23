@@ -29,7 +29,7 @@
            'mid_cycle_content_component.applications_left_message.can_add_more',
            count: number_of_slots_left,
            academic_year: academic_year_range_name,
-           ) %>
+         ) %>
   </p>
   <p class="govuk-body">
     <%= t('mid_cycle_content_component.applications_left_message.in_progress', count: in_progress_limit) %>
@@ -50,8 +50,10 @@
   <%= govuk_button_link_to t('mid_cycle_content_component.add_application'), candidate_interface_course_choices_do_you_know_the_course_path %>
 <% else %>
   <%= holiday_response_time_warning_text %>
- <%= no_more_slots_message %>
-  <p class="govuk-body"><%= t('mid_cycle_content_component.you_can_add_more_applications_if') %></p>
+  <%= no_more_slots_message %>
+  <p class="govuk-body">
+    <%= t('mid_cycle_content_component.you_can_add_more_applications_if') %>
+  </p>
 
   <%= how_to_free_up_a_slot_list %>
   <p class="govuk-body">

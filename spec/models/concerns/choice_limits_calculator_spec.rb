@@ -86,23 +86,23 @@ RSpec.describe ChoiceLimitsCalculator do
       expect(application_form.reload.number_of_slots_left).to eq 3
     end
 
-      it 'reduces the number of slots dependant on the number of maximum applications' do
-        application_form = create(:application_form)
-        create_list(:application_choice, 11, :withdrawn, application_form:)
-        expect(application_form.reload.number_of_slots_left).to eq 4
+    it 'reduces the number of slots dependant on the number of maximum applications' do
+      application_form = create(:application_form)
+      create_list(:application_choice, 11, :withdrawn, application_form:)
+      expect(application_form.reload.number_of_slots_left).to eq 4
 
-        create(:application_choice, :rejected, application_form:)
-        expect(application_form.reload.number_of_slots_left).to eq 3
+      create(:application_choice, :rejected, application_form:)
+      expect(application_form.reload.number_of_slots_left).to eq 3
 
-        create(:application_choice, :rejected, application_form:)
-        expect(application_form.reload.number_of_slots_left).to eq 2
+      create(:application_choice, :rejected, application_form:)
+      expect(application_form.reload.number_of_slots_left).to eq 2
 
-        create(:application_choice, :rejected, application_form:)
-        expect(application_form.reload.number_of_slots_left).to eq 1
+      create(:application_choice, :rejected, application_form:)
+      expect(application_form.reload.number_of_slots_left).to eq 1
 
-        create(:application_choice, :rejected, application_form:)
-        expect(application_form.reload.number_of_slots_left).to eq 0
-      end
+      create(:application_choice, :rejected, application_form:)
+      expect(application_form.reload.number_of_slots_left).to eq 0
+    end
 
     it 'only allows more choices if the total of 4 slots in progress and draft' do
       application_form = create(:application_form)

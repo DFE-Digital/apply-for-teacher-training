@@ -136,7 +136,7 @@ RSpec.describe 'Candidate submits the application' do
 
   def and_i_can_see_i_have_three_choices_left
     academic_year = @current_candidate.current_application.academic_year_range_name
-    expect(page).to have_text "You can submit 3 more applications for courses starting in the #{academic_year} academic year."
+    expect(page).to have_text "You can create 3 more applications for courses starting in the #{academic_year} academic year."
   end
 
   def when_i_have_three_further_draft_choices
@@ -159,7 +159,7 @@ RSpec.describe 'Candidate submits the application' do
 
   def then_i_am_able_to_add_another_choice
     visit current_path
-    expect(page).to have_text 'You can submit 1 more application.'
+    expect(page).to have_text 'You can create 1 more application.'
   end
 
   def when_i_go_back
