@@ -41,7 +41,7 @@ RSpec.describe SupportInterface::RevertOfferDeferredToPendingConditions, :with_a
         described_class.new(
           application_choice:,
           zendesk_ticket:,
-          ).save!
+        ).save!
 
         expect(application_choice.audits.last.comment).to include(zendesk_ticket)
         expect(application_choice.attributes.symbolize_keys).to match(
@@ -61,7 +61,7 @@ RSpec.describe SupportInterface::RevertOfferDeferredToPendingConditions, :with_a
             :application_form,
             previous_application_form: application_form,
             recruitment_cycle_year: application_form.recruitment_cycle_year.next,
-            )
+          )
           create(:application_choice, application_form: subsequent_application_form)
           expect(application_form.reload.subsequent_application_form).to eq(subsequent_application_form)
 

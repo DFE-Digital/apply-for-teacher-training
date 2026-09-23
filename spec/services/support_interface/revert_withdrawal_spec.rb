@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::RevertWithdrawal, :with_audited do
   let(:zendesk_ticket) { 'becomingateacher.zendesk.com/agent/tickets/example' }
+
   describe '#save' do
     it 'reverts the application choice status back to `awaiting_provider_decision` and sets an audit comment' do
       application_choice = create(:application_choice, :awaiting_provider_decision, structured_withdrawal_reasons: %w[reason1 reason2 reason3])
@@ -82,7 +83,7 @@ RSpec.describe SupportInterface::RevertWithdrawal, :with_audited do
         WithdrawApplication.new(
           application_choice:,
           accepted_offer: true,
-          ).save!
+        ).save!
         expect(application_choice.withdrawal_reasons.exists?).to be(true)
 
         described_class.new(application_choice:, zendesk_ticket:).save

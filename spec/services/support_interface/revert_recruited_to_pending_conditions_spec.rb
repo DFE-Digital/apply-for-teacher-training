@@ -59,7 +59,7 @@ RSpec.describe SupportInterface::RevertRecruitedToPendingConditions, :with_audit
             :application_form,
             previous_application_form: application_form,
             recruitment_cycle_year: application_form.recruitment_cycle_year.next,
-            )
+          )
           create(:application_choice, application_form: subsequent_application_form)
           expect(application_form.reload.subsequent_application_form).to eq(subsequent_application_form)
 
