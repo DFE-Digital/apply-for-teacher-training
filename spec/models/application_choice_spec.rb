@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationChoice do
+  include ActiveSupport::Testing::TimeHelpers
+
   it { is_expected.to have_many(:work_experiences).class_name('ApplicationWorkExperience') }
   it { is_expected.to have_many(:volunteering_experiences).class_name('ApplicationVolunteeringExperience') }
   it { is_expected.to have_many(:work_history_breaks).class_name('ApplicationWorkHistoryBreak') }
@@ -1190,6 +1192,73 @@ RSpec.describe ApplicationChoice do
 
       it 'returns false' do
         expect(application_choice.starts_after_september?).to be(false)
+      end
+    end
+  end
+
+  describe '#editable?' do
+    let(:current_recruitment_cycle_year) { 2026 }
+    let(:application_choice) do
+      create(
+        :application_choice,
+        current_recruitment_cycle_year:,
+        course_option: create(:course_option, course:),
+      )
+    end
+
+    context 'when the application choice has a start date after september' do
+      let(:course) { create(:course, start_date: Date.parse('01/10/2026')) }
+      let(:winter_reject_by_default_at) do
+        application_choice.application_form.recruitment_cycle_timetable.winter_reject_by_default_at
+      end
+
+      context 'when the date is before the winter reject by default date' do
+        it 'returns true' do
+          travel_to(winter_reject_by_default_at - 1.day) do
+            expect(application_choice.editable?).to be(true)
+          end
+        end
+      end
+
+      context 'when the date is after the winter reject by default date' do
+        it 'returns false' do
+          travel_to(winter_reject_by_default_at + 1.day) do
+            expect(application_choice.editable?).to be(false)
+          end
+        end
+      end
+    end
+
+    context 'when the application choice has a start date during september' do
+      let(:course) { create(:course, start_date: Date.parse('09/09/2026')) }
+      let(:application_form) { application_choice.application_form }
+
+      context 'when the application form has no subsequent application forms' do
+        it 'returns true' do
+          expect(application_choice.editable?).to be(true)
+        end
+      end
+
+      context 'when the application form has subsequent application forms' do
+        let(:subsequent_application_form) do
+          create(:application_form, previous_application_form: application_form, recruitment_cycle_year: 2027)
+        end
+
+        context 'when the find has not yet opened' do
+          it 'returns true' do
+            travel_to(subsequent_application_form.recruitment_cycle_timetable.find_opens_at - 1.day) do
+              expect(application_choice.editable?).to be(true)
+            end
+          end
+        end
+
+        context 'when the find is open' do
+          it 'returns false' do
+            travel_to(subsequent_application_form.recruitment_cycle_timetable.find_opens_at + 1.day) do
+              expect(application_choice.editable?).to be(false)
+            end
+          end
+        end
       end
     end
   end

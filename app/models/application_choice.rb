@@ -397,6 +397,14 @@ class ApplicationChoice < ApplicationRecord
     end
   end
 
+  def editable?
+    if starts_after_september?
+      Time.current <= reject_by_default_date
+    else
+      application_form.editable?
+    end
+  end
+
 private
 
   def days_since_calculation(date_field)
