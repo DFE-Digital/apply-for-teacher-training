@@ -202,7 +202,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', :with_cache do
 
     click_on 'Your applications'
 
-    expect(page).to have_text('You can submit 3 more applications')
+    expect(page).to have_text('You can create 3 more applications')
   end
 
   def and_i_select_a_course_and_dismiss_candidate_preferences
@@ -226,7 +226,7 @@ RSpec.describe 'Carry over next cycle with cycle switcher', :with_cache do
     click_on 'Continue'
     click_on 'Your applications'
 
-    expect(page).to have_text('You can submit 3 more applications')
+    expect(page).to have_text('You can create 3 more applications')
   end
 
   def and_those_courses_are_for_this_year

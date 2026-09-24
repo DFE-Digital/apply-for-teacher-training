@@ -14,8 +14,8 @@ module CandidateInterface
       elsif choices_with_course.any?
         flash[:warning] = "You have already added an application for #{course_from_find.name}. #{view_context.link_to('Find a different course to apply to', find_url, class: 'govuk-link')}."
         redirect_to course_choices_page
-      elsif current_application.unsuccessful_limit_reached?
-        flash[:warning] = I18n.t('errors.messages.too_many_unsuccessful_choices', max_unsuccessful_applications: current_application.unsuccessful_retry_limit)
+      elsif current_application.total_submitted_application_limit_reached?
+        flash[:warning] = I18n.t('errors.messages.too_many_unsuccessful_choices', max_unsuccessful_applications: current_application.total_application_limit)
         redirect_to course_choices_page
       elsif current_application.cannot_add_more_choices?
         flash[:warning] = I18n.t('errors.messages.too_many_course_choices', max_applications: current_application.in_progress_limit, course_name: course_from_find.name)

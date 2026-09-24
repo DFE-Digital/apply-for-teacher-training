@@ -1,5 +1,14 @@
 module CandidateInterface
   class MidCycleContentComponent < ApplicationComponent
+    delegate :number_of_slots_left,
+             :academic_year_range_name,
+             :in_progress_limit,
+             :total_submitted_application_limit_reached?,
+             :can_add_more_choices?,
+             :cannot_submit_more_choices?,
+             :unsubmitted?,
+             to: :application_form
+
     def initialize(application_form:, with_title: true)
       @application_form = application_form
       @with_title = with_title
@@ -13,11 +22,7 @@ module CandidateInterface
       )
     end
 
-    def application_form_presenter
-      @application_form_presenter ||= CandidateInterface::ApplicationFormPresenter.new(application_form)
-    end
-
-    def christmas_response_time_warning_text
+    def holiday_response_time_warning_text
       if christmas_applications?
         govuk_warning_text(text: t('mid_cycle_content_component.christmas_warning'))
       elsif easter_applications?
@@ -27,9 +32,42 @@ module CandidateInterface
 
     def inactive_bullet
       if christmas_or_easter_delay_applications?
-        t('mid_cycle_content_component.inactive_with_response_time_warning_html')
+        t('mid_cycle_content_component.inactive_with_response_time_warning')
       else
-        t('mid_cycle_content_component.inactive_html')
+        t('mid_cycle_content_component.inactive')
+      end
+    end
+
+    def how_to_free_up_a_slot_list
+      govuk_list(
+        [
+          t('mid_cycle_content_component.withdrawn'),
+          t('mid_cycle_content_component.rejected_by_provider'),
+          t('mid_cycle_content_component.declined_offer'),
+          t('mid_cycle_content_component.conditions_not_met'),
+          inactive_bullet,
+        ],
+        type: :bullet,
+      )
+    end
+
+    def no_more_slots_message
+      if cannot_submit_more_choices? # eg, max in-progress reached, no drafts
+        tag.p(
+          t(
+            'mid_cycle_content_component.in_progress_limit_reached',
+            max_number_of_in_progress_slots: in_progress_limit,
+          ),
+          class: 'govuk-body',
+        )
+      else
+        tag.p(
+          t(
+            'mid_cycle_content_component.no_more_slots_left',
+            max_number_of_slots: in_progress_limit,
+          ),
+          class: 'govuk-body',
+        )
       end
     end
 
@@ -50,7 +88,7 @@ module CandidateInterface
     end
 
     def max_number_of_applications
-      [application_form.unsuccessful_retry_limit, application_form.in_progress_limit].max
+      [application_form.total_application_limit, application_form.in_progress_limit].max
     end
 
     def apply_reopens_date

@@ -214,7 +214,7 @@ private
     click_on 'Confirm and submit application'
     expect(page).to have_text 'Application submitted'
     click_on 'Back to your applications'
-    expect(page).to have_text 'You can submit 3 more applications'
+    expect(page).to have_text 'You can create 3 more applications'
   end
 
   def and_i_complete_the_section

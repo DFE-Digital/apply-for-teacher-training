@@ -211,7 +211,8 @@ RSpec.describe 'Candidate submits the application' do
 
   def and_i_can_see_i_have_three_choices_left
     academic_year = @application_choice.application_form.academic_year_range_name
-    expect(page).to have_text "You can submit 3 more applications for courses starting in the #{academic_year} academic year."
+    expect(page).to have_text "You can create 3 more applications for courses starting in the #{academic_year} academic year."
+    expect(page).to have_text 'You can have up to 4 applications in progress at any time.'
   end
 
   def when_i_have_three_further_draft_choices
@@ -221,7 +222,7 @@ RSpec.describe 'Candidate submits the application' do
 
   def then_i_can_no_longer_add_more_course_choices
     visit current_path
-    expect(page).to have_text 'You cannot create any more applications at the moment.'
+    expect(page).to have_text 'You have 4 applications in progress. This is the maximum allowed, so you cannot create any more at the moment.'
   end
   alias_method :then_i_still_cannot_add_course_choices, :then_i_can_no_longer_add_more_course_choices
 
@@ -232,7 +233,7 @@ RSpec.describe 'Candidate submits the application' do
   def then_i_am_able_to_add_another_choice
     visit current_path
     academic_year = @current_candidate.current_application.academic_year_range_name
-    expect(page).to have_text "You can submit 1 more application for courses starting in the #{academic_year} academic year. "
+    expect(page).to have_text "You can create 1 more application for courses starting in the #{academic_year} academic year. "
   end
 
   def when_i_go_back

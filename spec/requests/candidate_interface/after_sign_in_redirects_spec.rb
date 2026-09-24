@@ -95,11 +95,11 @@ RSpec.describe 'After sign in redirects' do
 
   context 'when reaching maximum unsuccessful number of choices', time: mid_cycle do
     it 'redirects to your applications and shows a message to the candidate' do
-      create_list(:application_choice, application_form.unsuccessful_retry_limit, :rejected, application_form:)
+      create_list(:application_choice, application_form.total_application_limit, :rejected, application_form:)
       get candidate_interface_interstitial_path
       expect(response).to redirect_to(candidate_interface_application_choices_path)
       follow_redirect!
-      message = I18n.t('errors.messages.too_many_unsuccessful_choices', max_unsuccessful_applications: application_form.unsuccessful_retry_limit)
+      message = I18n.t('errors.messages.too_many_unsuccessful_choices', max_unsuccessful_applications: application_form.total_application_limit)
       expect(response.body).to include(message)
     end
   end

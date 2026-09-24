@@ -46,11 +46,11 @@ RSpec.describe 'Candidate submits an application up to 4 choices' do
   end
 
   def then_i_can_see_i_have_one_choice_left
-    expect(page).to have_text 'You can submit 1 more application'
+    expect(page).to have_text 'You can create 1 more application'
   end
 
   def and_i_am_unable_to_add_any_further_choices
-    expect(page).to have_text 'You cannot create any more applications at the moment.'
+    expect(page).to have_text 'You have 4 applications in progress. This is the maximum allowed'
   end
 
   def when_i_click(button)

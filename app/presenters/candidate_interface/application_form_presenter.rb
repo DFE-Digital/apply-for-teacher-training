@@ -12,7 +12,6 @@ module CandidateInterface
              :can_add_more_choices?,
              :can_add_course_choice?,
              :english_main_language,
-             :unsuccessful_limit_reached?,
              :first_name,
              :first_nationality,
              :previous_application_form,
@@ -25,6 +24,7 @@ module CandidateInterface
              :recruitment_cycle_timetable,
              :application_choices,
              :unsubmitted?,
+             :in_progress_limit,
              :support_reference, to: :application_form
 
     def initialize(application_form)

@@ -1,28 +1,33 @@
 en:
   mid_cycle_content_component:
     title: Your applications
-    you_cannot_submit_more: You cannot submit any more applications this year
+    you_cannot_submit_more: You have created %{max_number_of_applications} applications. This is the maximum allowed, so you cannot create any more in this recruitment cycle.
     you_will_be_able_to_apply_again: >
-      You will be able to apply again in %{apply_reopens_date} when applications open for courses starting in September %{next_year}
-    email_for_help_html: Email %{email_address} if you need help with your applications.
+      You will be able to apply again in %{apply_reopens_date} when applications open for courses starting in September %{next_year}.
     becoming_a_teacher_email: becomingateacher@digital.education.gov.uk
     training_providers_offer_places_throughout_the_year: >
       Training providers make offers throughout the year. They may close applications early if a course fills up. If a course closes, you will need to wait until next year to apply.
     courses_fill_up_quickly: Courses can fill up quickly, so apply as soon as you are ready. If a course closes, you will need to wait until next year to apply.
     read_how_the_application_process_works: How the application process works
     add_application: Add application
-    you_cannot_add_any_more_applications: You cannot create any more applications at the moment.
-    you_can_add_more_applications_if: "You can create another application if one of your applications is either:"
+    no_more_slots_left: You have %{max_number_of_slots} applications in progress. This is the maximum allowed, so you cannot create any more at the moment.
+    in_progress_limit_reached: You have %{max_number_of_in_progress_slots} applications in progress. This is the maximum allowed.
+    you_can_add_more_applications_if: "You can submit another one if:"
     once_you_have_reached_the_limit: >
-      Once you have a total of %{max_number_of_applications} applications that are in one of the states described above, you will not be able to submit any more applications until %{next_year}.
-    rejected_by_provider: rejected by the training provider,
-    withdrawn_by_provider: 'withdrawn by you or the provider'
-    inactive_html: 'submitted over 30 working days ago and still waiting for a response <br role="presentation"> or:'
-    inactive_with_response_time_warning_html: 'submitted over 30 working days ago and still waiting for a response - around the Easter and Christmas breaks it can take longer for training providers to respond to applications.  <br role="presentation"> or:'
-    declined_offer: 'you declined the offer'
-    conditions_not_met: 'you did not meet the conditions of an offer'
+      You can submit up to %{max_number_of_applications} applications in total in a single recruitment cycle.
+    withdrawn: you withdraw an application
+    rejected_by_provider: an application is rejected by a provider
+    declined_offer: you decline the offer
+    conditions_not_met: you do not meet the conditions of an offer
+    inactive: an application was submitted more than 30 working days ago and is still waiting for a response
+    inactive_with_response_time_warning: an application was submitted more than 30 working days ago and is still waiting for a response - around the Easter and Christmas breaks it can take longer for training providers to respond to applications
     christmas_warning: If training providers do not respond to you within 30 working days, you will be able to apply to another course while you wait for a response. We do not count the days between Christmas day and New Years day as working days.
     easter_warning: If training providers do not respond to you within 30 working days, you will be able to apply to another course while you wait for a response. Around the Easter holidays it can take longer for training providers to respond to applications.
     incomplete_details_message: 'You will not be able to submit applications until you have completed %{link}.'
     incomplete_details_with_carry_over_message: "You also have other incomplete sections in %{link}. You’ll need to complete these before you can apply again."
     once_a_course_is_full: Once a course is full, it will close and you will not be able to submit an application until next year.
+    applications_left_message:
+      in_progress: 'You can have up to %{count} applications in progress at any time. You can create another one if:'
+      can_add_more:
+        one: You can create %{count} more application for courses starting in the %{academic_year} academic year.
+        other: You can create %{count} more applications for courses starting in the %{academic_year} academic year.

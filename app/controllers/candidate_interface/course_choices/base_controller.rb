@@ -88,7 +88,7 @@ module CandidateInterface
       end
 
       def redirect_to_your_applications_if_maximum_amount_of_unsuccessful_applications_have_been_reached
-        redirect_to candidate_interface_application_choices_path if current_application.unsuccessful_limit_reached?
+        redirect_to candidate_interface_application_choices_path if current_application.total_submitted_application_limit_reached?
       end
 
       def assign_wizard
