@@ -1232,6 +1232,9 @@ RSpec.describe ApplicationChoice do
     context 'when the application choice has a start date during september' do
       let(:course) { create(:course, start_date: Date.parse('09/09/2026')) }
       let(:application_form) { application_choice.application_form }
+      let(:subsequent_application_form) do
+        create(:application_form, previous_application_form: application_form, recruitment_cycle_year: 2027)
+      end
 
       context 'when the application form has no subsequent application forms' do
         it 'returns true' do
@@ -1239,24 +1242,18 @@ RSpec.describe ApplicationChoice do
         end
       end
 
-      context 'when the application form has subsequent application forms' do
-        let(:subsequent_application_form) do
-          create(:application_form, previous_application_form: application_form, recruitment_cycle_year: 2027)
-        end
-
-        context 'when the find has not yet opened' do
-          it 'returns true' do
-            travel_to(subsequent_application_form.recruitment_cycle_timetable.find_opens_at - 1.day) do
-              expect(application_choice.editable?).to be(true)
-            end
+      context 'when the application form has subsequent application forms, and find is not open' do
+        it 'returns true' do
+          travel_to(subsequent_application_form.recruitment_cycle_timetable.find_opens_at - 1.day) do
+            expect(application_choice.editable?).to be(true)
           end
         end
+      end
 
-        context 'when the find is open' do
-          it 'returns false' do
-            travel_to(subsequent_application_form.recruitment_cycle_timetable.find_opens_at + 1.day) do
-              expect(application_choice.editable?).to be(false)
-            end
+      context 'when the application form has subsequent application forms, and find is open' do
+        it 'returns false' do
+          travel_to(subsequent_application_form.recruitment_cycle_timetable.find_opens_at + 1.day) do
+            expect(application_choice.editable?).to be(false)
           end
         end
       end
