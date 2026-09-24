@@ -68,6 +68,28 @@ module CandidateInterface
           }.to have_enqueued_mail(CandidateMailer, :application_choice_submitted)
         end
 
+        it 'adds wait time for email during peak times' do
+          travel_temporarily_to(application_form.apply_opens_at + 1.minute) do
+            expect {
+              submit_application
+            }.to have_enqueued_mail(CandidateMailer, :application_choice_submitted).with(application_choice).at(anything)
+          end
+        end
+
+        it 'adds wait time to SendNewApplicationEmailToProvider' do
+          travel_temporarily_to(application_form.apply_opens_at + 1.minute) do
+            send_new_application_email_to_provider = instance_double(SendNewApplicationEmailToProvider)
+            allow(SendNewApplicationEmailToProvider)
+              .to receive(:new).with(application_choice:, wait_time: kind_of(ActiveSupport::Duration))
+                               .and_return(send_new_application_email_to_provider)
+            allow(send_new_application_email_to_provider).to receive(:call)
+
+            submit_application
+            expect(SendNewApplicationEmailToProvider)
+              .to have_received(:new).with(application_choice:, wait_time: kind_of(ActiveSupport::Duration))
+          end
+        end
+
         it 'sends the provider an email notifying them of the submission' do
           provider = application_choice.course.provider
           provider.provider_users << create(:provider_user, :with_notifications_enabled)
