@@ -4,6 +4,7 @@ RSpec.describe CandidateMailer do
   include TestHelpers::MailerSetupHelper
 
   describe '.nudge_unsubmitted_with_incomplete_courses' do
+    let(:application_form) { create(:application_form, first_name: 'Fred') }
     let(:email) { described_class.nudge_unsubmitted_with_incomplete_courses(application_form) }
 
     it_behaves_like(
@@ -16,8 +17,8 @@ RSpec.describe CandidateMailer do
     it_behaves_like 'an email with unsubscribe option'
 
     it 'renders adviser sign up text if not already assigned' do
-      expect(email.body).to include('A teacher training adviser could help you choose a course, if you are not sure about what you would like to teach.')
-      expect(email.body).to include('Alternatively, call')
+      expect(email.body).to include('If you’re interested in teaching a secondary subject but are not sure which, a teacher training adviser could help you choose a course.')
+      expect(email.body).to include('For support with your application, call')
     end
   end
 

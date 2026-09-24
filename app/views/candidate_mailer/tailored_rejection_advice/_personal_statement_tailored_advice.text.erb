@@ -1,8 +1,10 @@
+<!-- We don't have any advice for primary candidates because they are not eligible for TTAs  -->
+<% if @application_choice.course&.secondary_course? %>
 <% if @application_choice.render_tailored_advice_section_headings? %>
 <%# Do not be tempted to indent this title. Have a look at the preview if you do. It will no longer be a heading. %>
 ## Improve your personal statement
 <% end %>
+  A teacher training adviser can provide free support to help you improve your personal statement.
 
-A teacher training adviser can provide free support to help you improve your personal statement.
-
-[Learn more about teacher training advisers](<%= t('get_into_teaching.url_get_an_adviser_start') %>).
+  [Learn more about teacher training advisers](<%= t('get_into_teaching.url_get_an_adviser_start') %>).
+<% end %>

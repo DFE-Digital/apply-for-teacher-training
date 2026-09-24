@@ -1,9 +1,33 @@
 class Candidate::WithdrawalsAndRejectionsPreview < ActionMailer::Preview
-  def application_rejected(reasons = :rejection_reasons)
+  def application_rejected_secondary(reasons = :rejection_reasons)
+    course = FactoryBot.create(
+      :course,
+      :secondary,
+      :with_course_options,
+      provider: FactoryBot.build(:provider, code: "PREVIEW#{Provider.count}"),
+    )
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
       application_form:,
-      course_option:,
+      course:,
+      status: :rejected,
+      structured_rejection_reasons: send(reasons),
+      rejection_reasons_type: reasons.to_s,
+    )
+    CandidateMailer.application_rejected(application_choice)
+  end
+
+  def application_rejected(reasons = :rejection_reasons)
+    course = FactoryBot.create(
+      :course,
+      :primary,
+      :with_course_options,
+      provider: FactoryBot.build(:provider, code: "PREVIEW#{Provider.count}"),
+    )
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      application_form:,
+      course:,
       status: :rejected,
       structured_rejection_reasons: send(reasons),
       rejection_reasons_type: reasons.to_s,

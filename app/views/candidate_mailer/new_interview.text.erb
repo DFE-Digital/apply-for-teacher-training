@@ -18,6 +18,9 @@ Contact <%= @provider_name %> if you have any questions. Let them know if you ca
 
 # Prepare for your interview
 
+Find out about preparing for your interview on the [Get Into Teaching website](<%= email_link_with_utm_params(t('get_into_teaching.url_teacher_training_interview'), 'new_interview_offered', @application_form.phase) %>).
+<% if @course_level == 'secondary' %>
+
 Do you have a teacher training adviser yet? They can help you prepare for your interview.
 
 As former teachers, they can also offer insight into teacher training and teaching as a career.
@@ -25,3 +28,4 @@ As former teachers, they can also offer insight into teacher training and teachi
 [Get a teacher training adviser](<%= email_link_with_utm_params t('get_into_teaching.url_get_an_adviser_start'), 'new_interview_offered', @application_form.phase %>)
 
 <%= render 'get_help_teacher_training_adviser' %>
+<% end %>

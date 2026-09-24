@@ -6,7 +6,7 @@ The deadline is <%= @deadline %>
 
 [Submit your application for teacher training](<%= @applications_url %>) as soon as you can
 
-## Why is there a different deadline for this course?
+# Why is there a different deadline for this course?
 
 Applications that need visa sponsorship take longer for training providers to process. They need to do this earlier in the recruitment cycle so that candidates are able to begin courses on time in September.
 
@@ -18,8 +18,10 @@ Applications that need visa sponsorship take longer for training providers to pr
 
 Read about [what to include in your application](<%= t('get_into_teaching.url_teacher_training_application') %>) on the Get Into Teaching website.
 
-If you have questions about your application, [you can get in touch with us on the phone or through live chat](<%= t('get_into_teaching.url_online_chat') %>).
+For support with your application, call <%= t('get_into_teaching.tel') %> or [chat online](<%= email_link_with_utm_params t('get_into_teaching.url_online_chat'), 'visa_sponsorship_deadline_changes', @application_form.phase %>).
 
+<% if @course.secondary_course? %>
 You can also [get a teacher training adviser](<%= t('get_into_teaching.url_get_an_adviser_start') %>) for free, one-to-one support to help you write a strong application.
+<% end %>
 
 <%= render 'unsubscribe_from_emails_like_this' %>

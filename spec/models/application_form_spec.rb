@@ -2319,4 +2319,16 @@ RSpec.describe ApplicationForm do
       expect(application_choice.application_form.cannot_touch_choices?).to be(true)
     end
   end
+
+  describe '#selected_secondary_course?' do
+    it 'returns true if any application choice matches the given level' do
+      secondary_course = create(:course, :with_course_options, :secondary)
+      secondary_choice = create(:application_choice, course_option: secondary_course.course_options.first)
+      expect(secondary_choice.application_form.selected_secondary_course?).to be(true)
+
+      primary_course = create(:course, :with_course_options, :primary)
+      primary_choice = create(:application_choice, course_option: primary_course.course_options.first)
+      expect(primary_choice.application_form.selected_secondary_course?).to be(false)
+    end
+  end
 end

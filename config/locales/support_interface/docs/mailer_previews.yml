@@ -60,7 +60,9 @@ en:
             nudge_unsubmitted: All sections of an application are complete but it has not been submitted after 7 days.
             nudge_unsubmitted_with_incomplete_courses: An application is complete apart from the course choices but it has not been submitted after 7 days.
             nudge_unsubmitted_with_incomplete_personal_statement: An application is complete apart from the personal statement but it has not been submitted after 7 days.
+            nudge_unsubmitted_with_incomplete_personal_statement_with_secondary_courses: An application is complete apart from the personal statement but it has not been submitted after 7 days, and the candidate has selected at least one secondary course.
             nudge_unsubmitted_with_incomplete_references: An application is complete apart from the references but it has not been submitted after 7 days.
+            nudge_unsubmitted_with_incomplete_references_with_secondary_courses: An application is complete apart from the references but it has not been submitted after 7 days, and candidate has selected at least one secondary course.
           candidate_application_submitted:
             application_choice_submitted: A candidate has submitted an application to a course.
             application_choice_submitted_with_christmas_delay_warning: A candidate has submitted an application during the Christmas holiday period.
@@ -107,7 +109,8 @@ en:
             reference_received: A referee has submitted a reference and the training provider has received it.
             reference_received_after_recruitment: A referee has submitted a reference and the training provider has received it after the candidate has been recruited.
           candidate_withdrawals_and_rejections:
-            application_rejected: An application has been rejected by the provider. Contains bespoke rejection advice depending on the reason given.
+            application_rejected_secondary: An secondary application has been rejected by the provider. Contains bespoke rejection advice depending on the reason given.
+            application_rejected: An primary application has been rejected by the provider. Contains bespoke rejection advice depending on the reason given.
             application_rejected_with_course_recommendation: An application has been rejected by the provider. Contains bespoke rejection advice depending on the reason given and there is a link to other courses that have been recommended to them..
             application_rejected_international_unverified: An application from an international candidate has been rejected because the provider is unable to verify their qualifications.
             application_rejected_via_api: An application has been rejected by a provider who uses the api to manage applications.
@@ -120,11 +123,14 @@ en:
           candidate_end_of_cycle:
             application_deadline_has_passed: The cycle has closed and candidates can no longer submit applications.
             eoc_first_deadline_reminder: The end of the recruitment cycle is 2 months away.
+            end_of_cycle_reminder_with_secondary_applications: The end of the recruitment cycle is 2 months away, when the candidate has applications for at least one secondary course.
             eoc_first_deadline_reminder_with_no_first_name: The end of the recruitment cycle is 2 months away and we do not know the name of the candidate to personalise the email.
             eoc_second_deadline_reminder: The end of the recruitment cycle is 1 month away.
             eoc_second_deadline_reminder_with_no_first_name: The end of the recruitment cycle is 1 month away and we do not know the name of the candidate to personalise the email.
             visa_sponsorship_deadline_reminder: 1 month reminder of sponsorship deadline approaching
+            visa_sponsorship_deadline_reminder_for_secondary_course: 1 month reminder of sponsorship deadline approaching for a secondary course.
             visa_sponsorship_deadline_change: The visa sponsorship deadline has changed
+            visa_sponsorship_deadline_change_for_secondary_course: The visa sponsorship deadline has changed for a secondary course.
             find_has_opened: Candidates can now search for teacher training courses on Find teacher training courses.
             find_has_opened_no_name: Candidates can now search for teacher training courses on Find teacher training courses but we don't know the name of the candidate to personalise the email.
             new_cycle_has_started: Candidates can now submit applications for teacher training in the latest recruitment cycle.
@@ -145,6 +151,7 @@ en:
             interview_updated: Details about a scheduled interview have been changed.
             interview_updated_course_changed: The subject the candidate is interviewing for has been changed.
             new_interview: A training provider has scheduled an interview with a candidate.
+            new_interview_secondary_course: A training provider has schedule an interview with a candidate for a secondary course.
           candidate_find_a_candidate:
             candidate_invite: Find a candidate invitation email.
             candidate_invite_limit_reached: Find a candidate invitation email when candidate reaches the maximum invites allowed.

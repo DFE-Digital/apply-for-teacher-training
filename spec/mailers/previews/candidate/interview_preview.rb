@@ -5,6 +5,19 @@ class Candidate::InterviewPreview < ActionMailer::Preview
     CandidateMailer.new_interview(application_choice, interview)
   end
 
+  def new_interview_secondary_course
+    course = FactoryBot.create(
+      :course,
+      :secondary,
+      :with_course_options,
+      provider: FactoryBot.create(:provider, code: "PREVIEW:#{Provider.count}"),
+    )
+    application_choice = FactoryBot.build_stubbed(:application_choice, :interviewing, course:)
+    interview = FactoryBot.build_stubbed(:interview, provider: application_choice.current_course_option.course.provider)
+
+    CandidateMailer.new_interview(application_choice, interview)
+  end
+
   def interview_updated
     application_choice = FactoryBot.build_stubbed(:application_choice, :interviewing, application_form: application_form)
     interview = FactoryBot.build_stubbed(:interview, provider: application_choice.current_course_option.course.provider)
