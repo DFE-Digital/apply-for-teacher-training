@@ -13,6 +13,9 @@ en:
             conditions: Conditions of offer
       courses:
         edit:
+          no_courses_available: There are no courses available
+          have_not_published: You have not published any courses for the next academic year. Publish a course before you can confirm deferred offers.
+          go_back: Go back
           page_title: Change course
           course_id:
             fieldset_hint: You should confirm a place for this candidate on the original course that they accepted an offer for. If you cannot do this you must discuss the change with the candidate before you confirm their deferred offer.

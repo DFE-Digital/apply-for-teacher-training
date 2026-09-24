@@ -11,7 +11,7 @@ class DeferredOfferConfirmation < ApplicationRecord
     def courses_for_select
       @courses_for_select ||= offer.provider.courses
            .where(recruitment_cycle_year: RecruitmentCycleTimetable.current_year)
-           .includes(:provider, :accredited_provider)
+           .includes(:provider, :accredited_provider, :course_options)
            .order(:name)
     end
 
@@ -19,6 +19,16 @@ class DeferredOfferConfirmation < ApplicationRecord
       return course_id_raw if course_id_raw.present?
 
       course_available_for_select? ? (course_id_raw || course_id) : nil
+    end
+
+    def back_link
+      if courses_for_select.empty?
+        Rails.application.routes.url_helpers
+             .provider_interface_application_choice_path(application_choice)
+      else
+        Rails.application.routes.url_helpers
+             .provider_interface_deferred_offer_check_path(application_choice)
+      end
     end
 
   private
