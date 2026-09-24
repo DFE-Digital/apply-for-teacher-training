@@ -2322,7 +2322,6 @@ RSpec.describe ApplicationForm do
     end
   end
 
-<<<<<<< HEAD
   describe '#selected_secondary_course?' do
     it 'returns true if any application choice matches the given level' do
       secondary_course = create(:course, :with_course_options, :secondary)
@@ -2332,7 +2331,9 @@ RSpec.describe ApplicationForm do
       primary_course = create(:course, :with_course_options, :primary)
       primary_choice = create(:application_choice, course_option: primary_course.course_options.first)
       expect(primary_choice.application_form.selected_secondary_course?).to be(false)
-=======
+    end
+  end
+
   describe '#editable?' do
     let(:application_form) { create(:application_form, recruitment_cycle_year: 2026) }
 
@@ -2362,7 +2363,6 @@ RSpec.describe ApplicationForm do
           end
         end
       end
->>>>>>> 3e195b8525 (Allow support users to revert previous application forms)
     end
   end
 end
