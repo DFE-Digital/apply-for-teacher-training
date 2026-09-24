@@ -170,12 +170,9 @@ module CandidateInterface
         it 'enqueues a NonDisclosureTraineeWithdrawalWorker' do
           Feature.find_or_create_by(name: 'import_non_disclosure_trainee_withdrawals', active: true)
 
-          allow(NonDisclosureTraineeWithdrawalWorker).to receive(:perform_later)
-          submit_application
-
-          expect(
-            NonDisclosureTraineeWithdrawalWorker,
-          ).to have_received(:perform_later).with(application_form.candidate.id)
+          expect {
+            submit_application
+          }.to have_enqueued_job(NonDisclosureTraineeWithdrawalWorker).with(application_form.candidate.id)
 
           FeatureFlag.deactivate(:import_non_disclosure_trainee_withdrawals)
         end

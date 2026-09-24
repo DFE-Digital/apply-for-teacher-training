@@ -25,19 +25,11 @@ module CandidateInterface
         application_choice.work_history_breaks = application_form.application_work_history_breaks.map(&:dup)
         ApplicationStateChange.new(application_choice).send_to_provider!
 
-        if peak_times?
-          SendNewApplicationEmailToProvider.new(application_choice:, wait_time:).call
-          CandidateMailer.application_choice_submitted(application_choice).deliver_later(wait: wait_time)
+        SendNewApplicationEmailToProvider.new(application_choice:, wait_time:).call
+        CandidateMailer.application_choice_submitted(application_choice).deliver_later(wait: wait_time)
 
-          if FeatureFlag.active?(:import_non_disclosure_trainee_withdrawals)
-            NonDisclosureTraineeWithdrawalWorker.set(wait: wait_time).perform_later(application_form.candidate_id)
-          end
-        else
-          SendNewApplicationEmailToProvider.new(application_choice:).call
-          CandidateMailer.application_choice_submitted(application_choice).deliver_later
-          if FeatureFlag.active?(:import_non_disclosure_trainee_withdrawals)
-            NonDisclosureTraineeWithdrawalWorker.perform_later(application_form.candidate_id)
-          end
+        if FeatureFlag.active?(:import_non_disclosure_trainee_withdrawals)
+          NonDisclosureTraineeWithdrawalWorker.set(wait: wait_time).perform_later(application_form.candidate_id)
         end
 
         LocationPreferences.add_dynamic_location(
@@ -57,7 +49,7 @@ module CandidateInterface
     end
 
     def wait_time
-      @wait_time ||= rand(0.5..5).minutes
+      @wait_time ||= peak_times? ? rand(0.5..5).minutes : 0
     end
 
     def timetable
