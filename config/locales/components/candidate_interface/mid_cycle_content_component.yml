@@ -3,7 +3,7 @@ en:
     title: Your applications
     you_cannot_submit_more: You have created %{max_number_of_applications} applications. This is the maximum allowed, so you cannot create any more in this recruitment cycle.
     you_will_be_able_to_apply_again: >
-      You will be able to apply again in %{apply_reopens_date} when applications open for courses starting in September %{next_year}
+      You will be able to apply again in %{apply_reopens_date} when applications open for courses starting in September %{next_year}.
     becoming_a_teacher_email: becomingateacher@digital.education.gov.uk
     training_providers_offer_places_throughout_the_year: >
       Training providers make offers throughout the year. They may close applications early if a course fills up. If a course closes, you will need to wait until next year to apply.
