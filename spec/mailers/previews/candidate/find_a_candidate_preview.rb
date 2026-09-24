@@ -37,13 +37,13 @@ class Candidate::FindACandidatePreview < ActionMailer::Preview
       first_name: 'Fred',
     )
 
-    provider = FactoryBot.build_stubbed(:provider)
-    course = FactoryBot.build_stubbed(:course,
-                                      provider: provider,
-                                      fee_domestic: 9535,
-                                      fee_international: 15430)
+    provider = FactoryBot.build(:provider)
+    course = FactoryBot.build(:course,
+                              provider:,
+                              fee_domestic: 9535,
+                              fee_international: 15430)
 
-    invite = FactoryBot.build_stubbed(
+    invite = FactoryBot.create(
       :pool_invite,
       :sent_to_candidate,
       candidate:,
@@ -53,7 +53,7 @@ class Candidate::FindACandidatePreview < ActionMailer::Preview
       provider_message: true,
       message_content: "# Hello\r\n## Please apply to my course\r\n\r\n^ Some content\r\n\r\nByee",
     )
-    _second_invite = FactoryBot.build_stubbed(
+    _second_invite = FactoryBot.create(
       :pool_invite,
       :sent_to_candidate,
       candidate:,
@@ -88,6 +88,35 @@ class Candidate::FindACandidatePreview < ActionMailer::Preview
     )
 
     CandidateMailer.invites_chaser([invite, second_invite])
+  end
+
+  def initial_invite_chaser
+    candidate = FactoryBot.create(:candidate)
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      :minimum_info,
+      candidate: candidate,
+      first_name: 'Fred',
+    )
+
+    provider = FactoryBot.build_stubbed(:provider)
+    course = FactoryBot.build_stubbed(:course,
+                                      provider:,
+                                      fee_domestic: 9535,
+                                      fee_international: 15430)
+
+    invite = FactoryBot.build_stubbed(
+      :pool_invite,
+      :sent_to_candidate,
+      candidate:,
+      application_form:,
+      provider:,
+      course:,
+      provider_message: true,
+      message_content: "# Hello\r\n## Please apply to my course\r\n\r\n^ Some content\r\n\r\nByee",
+    )
+
+    CandidateMailer.initial_invite_chaser(invite)
   end
 
   def pool_opt_in

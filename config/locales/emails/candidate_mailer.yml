@@ -161,3 +161,11 @@ en:
           if_you_do_not_respond: "If you do not accept or decline this invitation, and you receive another one, providers will no longer be able to find you in searches or invite you to their courses."
     invites_chaser:
       subject: 'You will no longer be invited to teacher training courses'
+    initial_invite_chaser:
+      subject: Respond to your invitation from %{provider_name}
+      body:
+        invite_to_submit: "%{provider_name} has reviewed your details and would like to invite you to submit an application to"
+        you_are_receiving: "You are receiving this email because you chose to share your application details with training providers."
+        if_you_do_not_respond: "If you do not accept or decline this invitation, providers will no longer be able to find you in searches or invite you to their courses."
+        this_will_not_affect: "This will not affect any applications you have already submitted or plan to submit."
+

@@ -12,6 +12,9 @@ class Pool::Invite < ApplicationRecord
   has_one :recruitment_cycle_timetable, primary_key: :recruitment_cycle_year, foreign_key: :recruitment_cycle_year, dependent: nil
   has_many :application_choices, through: :application_form
 
+  has_many :pool_invite_chasers_sent, -> { where(chaser_type: 'pool_invite') }, class_name: 'ChaserSent', foreign_key: :chased, dependent: :destroy
+  has_many :initial_pool_invite_chasers_sent, -> { where(chaser_type: 'initial_pool_invite') }, class_name: 'ChaserSent', foreign_key: :chased, dependent: :destroy
+
   has_many :invite_decline_reasons, class_name: 'Pool::InviteDeclineReason', dependent: :destroy
   accepts_nested_attributes_for :invite_decline_reasons, allow_destroy: true, reject_if: :all_blank
 

@@ -3,7 +3,7 @@ module FindACandidate
     def perform(invite_ids)
       ActiveRecord::Base.transaction do
         invites = Pool::Invite.current_cycle.published.not_responded
-          .where.missing(:chasers_sent)
+          .where.missing(:pool_invite_chasers_sent)
           .where(id: invite_ids)
 
         if invites.present?

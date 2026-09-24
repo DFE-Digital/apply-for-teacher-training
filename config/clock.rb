@@ -21,6 +21,7 @@ class Clock
   # Hourly jobs
 
   every(1.hour, 'DeleteFinishedJobs', at: '**:01') { DeleteFinishedJobsWorker.perform_later }
+  every(1.hour, 'FindACandidate::InitialInviteChaserWorker', at: '**:30', skip_first_run: true) { FindACandidate::InitialInviteChaserWorker.perform_later }
   every(1.hour, 'FindACandidate::PoolInviteChaserWorker', at: '**:35', skip_first_run: true) { FindACandidate::PoolInviteChaserWorker.perform_later }
   every(1.hour, 'SendFindStartOfCycleProviderEmails', at: '**:05') { StartOfCycleNotificationWorker.perform_later }
   every(1.hour, 'ProcessStaleApplications', at: '**:10') do
