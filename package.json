@@ -33,7 +33,7 @@
     "esbuild": "^0.28.2",
     "jest": "^30.5.1",
     "jest-environment-jsdom": "^30.5.1",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.8",
     "standard": "^17.1.2",
     "stylelint": "^16.26.1",
     "stylelint-config-gds": "^2.0.0",
