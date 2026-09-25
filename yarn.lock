@@ -2860,7 +2860,7 @@ __metadata:
     babel-jest: "npm:^30.5.1"
     babel-plugin-dynamic-import-node: "npm:^2.3.3"
     babel-plugin-macros: "npm:^3.1.0"
-    dfe-autocomplete: "github:DFE-Digital/dfe-autocomplete#v1.0.0"
+    dfe-autocomplete: "github:DFE-Digital/dfe-autocomplete#0fff185bf6acda09dbb544dd7a6fb8233bef6c80"
     esbuild: "npm:^0.28.2"
     govuk-frontend: "npm:^6.5.1"
     jest: "npm:^30.5.1"
@@ -3715,9 +3715,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dfe-autocomplete@github:DFE-Digital/dfe-autocomplete#v1.0.0":
+"dfe-autocomplete@github:DFE-Digital/dfe-autocomplete#0fff185bf6acda09dbb544dd7a6fb8233bef6c80":
   version: 1.0.0
-  resolution: "dfe-autocomplete@https://github.com/DFE-Digital/dfe-autocomplete.git#commit=b05eb234268ba7b08629ffe6c4e01920260a5666"
+  resolution: "dfe-autocomplete@https://github.com/DFE-Digital/dfe-autocomplete.git#commit=0fff185bf6acda09dbb544dd7a6fb8233bef6c80"
   dependencies:
     accessible-autocomplete: "npm:^3.0.1"
   peerDependencies:
