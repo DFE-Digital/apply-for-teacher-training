@@ -1,0 +1,4 @@
+\echo 'Wal used is high. Dropping replication slot.'
+ ALTER ROLE CURRENT_USER WITH REPLICATION;
+ select * from pg_drop_replication_slot('airbyte_slot');
+ ALTER ROLE CURRENT_USER WITH NOREPLICATION;
