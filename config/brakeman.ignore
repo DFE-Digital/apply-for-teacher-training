@@ -1,6 +1,29 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "1360a90ce4b680ba3be5fffd7848e3e228274fc20d6ee6fe795ea6a5dc1385f5",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `ProviderRelationshipPermissions#find`",
+      "file": "app/controllers/provider_interface/organisation_permissions_controller.rb",
+      "line": 49,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "ProviderRelationshipPermissions.find(params.expect(:id))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ProviderInterface::OrganisationPermissionsController",
+        "method": "set_up_relationship_objects"
+      },
+      "user_input": "params.expect(:id)",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "SQL Injection",
       "warning_code": 0,
       "fingerprint": "3010d2e6a4a12eb1df4f45e945cee8549edd95be09e6977f117f07841e50af42",
@@ -99,7 +122,7 @@
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/one_login_controller.rb",
-      "line": 70,
+      "line": 68,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(logout_one_login((Current.session.id_token_hint or SessionError.find_by(:id => session[:session_error_id]).id_token_hint)), :allow_other_host => true)",
       "render_path": null,
@@ -112,29 +135,6 @@
       "confidence": "Weak",
       "cwe_id": [
         601
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "Unscoped Find",
-      "warning_code": 82,
-      "fingerprint": "9e900042a97ec79a46b47b5c58b9adfa1391693e495a89dbf455607b3b2603d8",
-      "check_name": "UnscopedFind",
-      "message": "Unscoped call to `ProviderRelationshipPermissions#find`",
-      "file": "app/controllers/provider_interface/organisation_permissions_controller.rb",
-      "line": 49,
-      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
-      "code": "ProviderRelationshipPermissions.find(params[:id])",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ProviderInterface::OrganisationPermissionsController",
-        "method": "set_up_relationship_objects"
-      },
-      "user_input": "params[:id]",
-      "confidence": "Weak",
-      "cwe_id": [
-        285
       ],
       "note": ""
     },
@@ -162,5 +162,5 @@
       "note": ""
     }
   ],
-  "brakeman_version": "8.0.1"
+  "brakeman_version": "8.0.6"
 }

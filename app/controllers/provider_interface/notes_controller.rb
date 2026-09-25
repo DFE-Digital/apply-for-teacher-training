@@ -7,7 +7,7 @@ module ProviderInterface
     end
 
     def show
-      @note = @application_choice.notes.find(params[:id])
+      @note = @application_choice.notes.find(params.expect(:id))
     end
 
     def new

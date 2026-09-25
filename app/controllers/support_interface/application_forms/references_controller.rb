@@ -47,7 +47,7 @@ module SupportInterface
       end
 
       def reference
-        @reference = ApplicationReference.find(params[:reference_id])
+        @reference = ApplicationReference.find(params.expect(:reference_id))
       end
     end
   end

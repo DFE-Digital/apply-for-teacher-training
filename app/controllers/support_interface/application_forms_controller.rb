@@ -16,7 +16,7 @@ module SupportInterface
   private
 
     def application_form
-      @_application_form ||= ApplicationForm.find(params[:application_form_id])
+      @_application_form ||= ApplicationForm.find(params.expect(:application_form_id))
     end
 
     def filter_params

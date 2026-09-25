@@ -6,7 +6,7 @@ module SupportInterface
     end
 
     def edit
-      provider_user = ProviderUser.find(params[:provider_user_id])
+      provider_user = ProviderUser.find(params.expect(:provider_user_id))
       @form = EditSingleProviderUserForm.new(provider_user:)
     end
 
@@ -36,7 +36,7 @@ module SupportInterface
     end
 
     def update
-      provider_user = ProviderUser.find(params[:provider_user_id])
+      provider_user = ProviderUser.find(params.expect(:provider_user_id))
 
       @form = EditSingleProviderUserForm.new(
         provider_user:,

@@ -40,7 +40,7 @@ module SupportInterface
   private
 
     def build_reference
-      @reference = ApplicationReference.find(params[:reference_id])
+      @reference = ApplicationReference.find(params.expect(:reference_id))
     end
 
     def redirect_to_application_form_path_unless_feedback_requested_and_test_environment
