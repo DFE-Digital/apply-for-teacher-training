@@ -22,7 +22,7 @@ module SupportInterface
   private
 
     def set_application_form_and_candidate
-      @application_form = ApplicationForm.find(params[:application_form_id])
+      @application_form = ApplicationForm.find(params.expect(:application_form_id))
       @candidate = @application_form.candidate
     end
 

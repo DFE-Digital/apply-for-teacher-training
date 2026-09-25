@@ -3,7 +3,7 @@ module SupportInterface
     PAGY_PER_PAGE = 30
 
     def show
-      @data_export = DataExport.active_exports.find(params[:id])
+      @data_export = DataExport.active_exports.find(params.expect(:id))
     rescue ActiveRecord::RecordNotFound
       render_404
     end
@@ -25,7 +25,7 @@ module SupportInterface
     def view_export_information
       export_type = params.fetch(:data_export_type)
       if DataExport.export_type_active?(export_type)
-        @data_export_type = DataExport.active_export_types[params[:data_export_type].to_sym]
+        @data_export_type = DataExport.active_export_types[params.expect(:data_export_type).to_sym]
       else
         render_404
         nil
@@ -67,7 +67,7 @@ module SupportInterface
     end
 
     def download
-      data_export = DataExport.active_exports.where.associated(:file_attachment).find(params[:id])
+      data_export = DataExport.active_exports.where.associated(:file_attachment).find(params.expect(:id))
       data_export.update!(audit_comment: 'File downloaded')
 
       redirect_to rails_blob_path(data_export.file, disposition: 'attachment')

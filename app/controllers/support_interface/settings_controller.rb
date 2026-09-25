@@ -27,7 +27,7 @@ module SupportInterface
   private
 
     def feature_name
-      params[:feature_name].humanize
+      params.expect(:feature_name).humanize
     end
   end
 end

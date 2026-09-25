@@ -18,6 +18,6 @@ module AcceptOfferConfirmReferences
   end
 
   def application_choice
-    @application_choice ||= active_application_choices.find(params[:application_id])
+    @application_choice ||= active_application_choices.find(params.expect(:application_id))
   end
 end

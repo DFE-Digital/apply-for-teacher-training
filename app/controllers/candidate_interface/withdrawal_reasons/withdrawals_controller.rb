@@ -16,7 +16,7 @@ module CandidateInterface
     private
 
       def set_application_choice
-        @application_choice = active_application_choices.find(params[:id])
+        @application_choice = active_application_choices.find(params.expect(:id))
       end
 
       def check_that_candidate_can_withdraw

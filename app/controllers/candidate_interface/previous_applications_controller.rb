@@ -14,7 +14,7 @@ module CandidateInterface
     def application_choice
       current_candidate
         .application_choices
-        .find(params[:id])
+        .find(params.expect(:id))
     end
   end
 end
