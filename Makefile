@@ -33,7 +33,10 @@ setup: build ## Set up a clean database and node_modules folder for running the 
 	docker-compose down -v
 	docker-compose up -d -V --no-build
 	docker-compose exec web bundle exec rake db:setup
-	docker-compose exec web apk add nodejs yarn
+	docker-compose exec web apk add nodejs-current npm yarn
+	docker-compose exec web yarn global add corepack
+	docker-compose exec web corepack enable
+	docker-compose exec web corepack prepare yarn@4.18.0 --activate
 
 .PHONY: stop
 stop: ## bring down the containers
