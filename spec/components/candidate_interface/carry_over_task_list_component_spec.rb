@@ -33,7 +33,7 @@ RSpec.describe CandidateInterface::CarryOverTaskListComponent do
           application_form: previous_application_form,
         )
       end
-      let!(:gcse_qualification) { create(:gcse_qualification, :indian, application_form:) }
+      let!(:gcse_qualification) { create(:gcse_qualification, :indian, subject: 'science', application_form:) }
 
       it 'lists all the sections the candidate needs to check' do
         expect(rendered_component).to have_element(
