@@ -13,6 +13,9 @@ on:
           - staging
           - sandbox
           - production
+  push:
+    branches:
+      - 3019-testing
 
 permissions:
   id-token: write
@@ -23,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: ${{ inputs.environment }}
+      name: qa
 
     env:
       DEPLOY_ENV: ${{ inputs.environment }}
