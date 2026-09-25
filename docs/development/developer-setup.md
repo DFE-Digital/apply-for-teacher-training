@@ -25,7 +25,9 @@ which version of each language to install or use.
 # The first time
 asdf plugin add ruby
 asdf plugin add nodejs
-asdf plugin add yarn
+
+# Enable Corepack for Yarn 4
+corepack enable
 
 # To install (or update, following a change to .tool-versions)
 asdf install
