@@ -154,7 +154,7 @@ en:
     apply_to_course_after_inactivity:
       subject: Increase your chances of receiving an offer for teacher training
     candidate_invite:
-        subject: You have been invited to apply for teacher training
+        subject: You’ve been invited to apply for teacher training
         body:
           invite_to_submit: "%{provider_name} has reviewed your details and would like to invite you to submit an application to"
           you_are_receiving: "You are receiving this email because you chose to share your application details with training providers."
