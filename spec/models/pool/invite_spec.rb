@@ -8,7 +8,8 @@ RSpec.describe Pool::Invite do
     it { is_expected.to belong_to(:invited_by).class_name('ProviderUser') }
     it { is_expected.to belong_to(:course) }
     it { is_expected.to have_one(:recruitment_cycle_timetable) }
-    it { is_expected.to have_many(:invite_decline_reasons).class_name('Pool::InviteDeclineReason').dependent(:destroy) }
+    it { is_expected.to have_many(:pool_invite_chasers_sent).class_name('ChaserSent').dependent(:destroy) }
+    it { is_expected.to have_many(:initial_pool_invite_chasers_sent).class_name('ChaserSent').dependent(:destroy) }
   end
 
   describe 'scopes' do
