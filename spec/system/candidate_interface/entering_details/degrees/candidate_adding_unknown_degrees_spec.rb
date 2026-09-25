@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   include CandidateHelper
 
+  before do
+    Rails.cache.clear
+  end
+
   scenario 'Candidate enters their degree' do
     given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
