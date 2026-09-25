@@ -38,6 +38,7 @@ class ChaserSent < ApplicationRecord
     ####  Pool Invite   ####
     ######################################
     pool_invite: 'pool_invite',
+    initial_pool_invite: 'initial_pool_invite',
 
     ######################################
     ####          References          ####

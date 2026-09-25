@@ -2,10 +2,10 @@ module FindACandidate
   class PoolInviteChaserWorker < ApplicationJob
     def perform
       invites = Pool::Invite.current_cycle.published.not_responded
-        .where.missing(:chasers_sent)
+        .where.missing(:pool_invite_chasers_sent)
         .where(
           application_form_id: Pool::Invite.current_cycle.published.not_responded
-            .where.missing(:chasers_sent)
+            .where.missing(:pool_invite_chasers_sent)
             .where('sent_to_candidate_at <= ? ', 1.day.ago)
             .group(:application_form_id)
             .having('COUNT(*) >= ?', Pool::Invite::NUMBER_OF_INVITES_TO_REMOVE_FROM_POOL)

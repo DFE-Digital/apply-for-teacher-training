@@ -28,48 +28,15 @@ class Candidate::FindACandidatePreview < ActionMailer::Preview
     CandidateMailer.candidate_invite(invite)
   end
 
-  def candidate_invite_limit_reached
-    candidate = FactoryBot.create(:candidate)
-    application_form = FactoryBot.build_stubbed(
-      :application_form,
-      :minimum_info,
-      candidate: candidate,
-      first_name: 'Fred',
-    )
-
-    provider = FactoryBot.build_stubbed(:provider)
-    course = FactoryBot.build_stubbed(:course,
-                                      provider: provider,
-                                      fee_domestic: 9535,
-                                      fee_international: 15430)
-
-    invite = FactoryBot.build_stubbed(
-      :pool_invite,
-      :sent_to_candidate,
-      candidate:,
-      application_form:,
-      provider:,
-      course:,
-      provider_message: true,
-      message_content: "# Hello\r\n## Please apply to my course\r\n\r\n^ Some content\r\n\r\nByee",
-    )
-    _second_invite = FactoryBot.build_stubbed(
-      :pool_invite,
-      :sent_to_candidate,
-      candidate:,
-      application_form:,
-      provider:,
-      course:,
-    )
-
-    CandidateMailer.candidate_invite(invite)
-  end
-
   def invites_chaser
     application_form = FactoryBot.build_stubbed(
       :application_form,
       :minimum_info,
       first_name: 'Fred',
+    )
+    FactoryBot.create(
+      :candidate_preference,
+      application_form:,
     )
 
     invite = FactoryBot.build_stubbed(
@@ -84,6 +51,35 @@ class Candidate::FindACandidatePreview < ActionMailer::Preview
     )
 
     CandidateMailer.invites_chaser([invite, second_invite])
+  end
+
+  def initial_invite_chaser
+    candidate = FactoryBot.create(:candidate)
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      :minimum_info,
+      candidate: candidate,
+      first_name: 'Fred',
+    )
+
+    provider = FactoryBot.build_stubbed(:provider)
+    course = FactoryBot.build_stubbed(:course,
+                                      provider:,
+                                      fee_domestic: 9535,
+                                      fee_international: 15430)
+
+    invite = FactoryBot.build_stubbed(
+      :pool_invite,
+      :sent_to_candidate,
+      candidate:,
+      application_form:,
+      provider:,
+      course:,
+      provider_message: true,
+      message_content: "# Hello\r\n## Please apply to my course\r\n\r\n^ Some content\r\n\r\nByee",
+    )
+
+    CandidateMailer.initial_invite_chaser(invite)
   end
 
   def pool_opt_in
