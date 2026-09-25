@@ -18,7 +18,7 @@ RSpec.describe CandidateMailer do
       expect(email.subject).to include('You’ve been invited to apply for teacher training')
       expect(email.body).to have_text('Dear Joe,')
       expect(email.body).to have_text(
-        "You have received an invitation from training providers to apply to their course:",
+        'You have received an invitation from training providers to apply to their course:',
       )
 
       expect(email.body).to have_text("[Accept or decline this invitation](#{edit_candidate_interface_invite_url(pool_invite)})")
