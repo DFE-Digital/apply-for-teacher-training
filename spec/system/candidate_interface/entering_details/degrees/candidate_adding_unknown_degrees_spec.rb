@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   include CandidateHelper
 
+  before do
+    Rails.cache.clear
+  end
+
   scenario 'Candidate enters their degree' do
     given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
@@ -73,6 +77,8 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
     then_the_custom_subject_remains_filled_in
   end
 
+  private
+
   def given_i_am_at_the_degree_subject_page
     given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
@@ -96,13 +102,13 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_fill_in_the_subject_with_a_custom_subject_that_has_an_incorrect_auto_suggestion
-    @input = find('input[name="candidate_interface_degree_form[subject_raw]"]')
-    @input.native.send_keys('History of Art and History')
+    fill_in 'What subject is your degree?', with: 'History of Art and History'
     find_by_id('main-content').click
   end
 
   def then_the_custom_subject_remains_filled_in
-    expect(@input.value).to eq('History of Art and History')
+    input = find('input[name="candidate_interface_degree_form[subject_raw]"]')
+    expect(input.value).to eq('History of Art and History')
   end
 
   def when_i_view_the_degree_section
@@ -119,7 +125,7 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_choose_united_kingdom
-    choose 'United Kingdom', visible: false
+    choose 'United Kingdom'
   end
 
   def and_i_click_on_save_and_continue
@@ -135,7 +141,7 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_choose_the_level
-    choose 'Bachelor', visible: false
+    choose 'Bachelor’s degree'
   end
 
   def then_i_can_see_the_subject_page
@@ -153,7 +159,7 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_choose_an_unknown_type_of_degree
-    choose 'Another bachelor’s degree type', visible: false
+    choose 'Another bachelor’s degree type'
     fill_in 'Degree type', with: 'Jedi Knight'
     # Triggering the autocomplete
     find('input[name="candidate_interface_degree_form[other_type_raw]"]').native.send_keys(:return)
@@ -164,7 +170,8 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_fill_in_the_university
-    fill_in 'candidate_interface_degree_form[university_raw]', with: 'University of Cambridge'
+    expect(page).to have_text "Which university awarded your degree?"
+    fill_in 'Which university awarded your degree?', with: 'University of Cambridge'
     # Triggering the autocomplete
     find('input[name="candidate_interface_degree_form[university_raw]"]').native.send_keys(:return)
   end
@@ -174,7 +181,7 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_choose_whether_degree_is_completed
-    choose 'Yes', visible: false
+    choose 'Yes'
   end
 
   def then_i_can_see_the_grade_page
@@ -182,7 +189,7 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_select_the_grade
-    choose 'First-class honours', visible: false
+    choose 'First-class honours'
   end
 
   def then_i_can_see_the_start_year_page
@@ -207,7 +214,7 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_mark_this_section_as_completed
-    choose t('application_form.completed_radio'), visible: false
+    choose t('application_form.completed_radio')
   end
 
   def then_i_see_the_form

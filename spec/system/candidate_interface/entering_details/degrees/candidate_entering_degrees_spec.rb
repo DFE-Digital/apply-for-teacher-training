@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Entering a degree', :js, :with_cache do
   include CandidateHelper
 
+  before do
+    Rails.cache.clear
+  end
+
   scenario 'Candidate enters their degree' do
     given_i_am_signed_in_with_one_login
     when_i_view_the_degree_section
@@ -144,6 +148,8 @@ RSpec.describe 'Entering a degree', :js, :with_cache do
     then_i_see_the_degrees_review_page_and_no_interruption
   end
 
+  private
+
   def and_i_have_application_choices_in_draft
     @application_form = current_candidate.current_application
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
@@ -199,26 +205,21 @@ RSpec.describe 'Entering a degree', :js, :with_cache do
 
   def when_i_choose_united_kingdom
     choose 'United Kingdom'
+    expect(page).to have_checked_field('United Kingdom', visible: false)
   end
 
   def and_i_click_on_save_and_continue
     click_link_or_button t('save_and_continue')
   end
-
-  def when_i_click_on_save_and_continue
-    click_link_or_button t('save_and_continue')
-  end
-
-  def when_i_fill_in_the_type
-    choose 'Bachelor’s degree'
-  end
+  alias_method :when_i_click_on_save_and_continue, :and_i_click_on_save_and_continue
 
   def then_i_can_see_the_level_page
     expect(page).to have_text 'What type of degree is it?'
   end
 
   def when_i_choose_the_level
-    choose 'Bachelor'
+    choose 'Bachelor’s degree'
+    expect(page).to have_checked_field('Bachelor’s degree', visible: false)
   end
 
   def then_i_can_see_the_subject_page
@@ -247,7 +248,7 @@ RSpec.describe 'Entering a degree', :js, :with_cache do
   end
 
   def when_i_fill_in_the_university_with_free_text
-    fill_in 'candidate_interface_degree_form[university_raw]', with: 'Test Uni  '
+    fill_in 'Which university awarded your degree?', with: 'Test Uni  '
     # Triggering the autocomplete
     find('input[name="candidate_interface_degree_form[university_raw]"]').native.send_keys(:return)
   end
@@ -360,7 +361,7 @@ RSpec.describe 'Entering a degree', :js, :with_cache do
   alias_method :and_i_click_the_grade_change_link_and_press_save_and_continue, :when_i_click_the_grade_change_link_and_press_save_and_continue
 
   def when_i_delete_one_of_my_choices
-    @current_candidate.current_application.application_choices.last.destroy!
+    @application_form.application_choices.last.destroy!
   end
 
   def then_i_see_the_grade_interruption_page_referring_to_one_draft_application
