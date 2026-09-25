@@ -1,5 +1,7 @@
 module SupportInterface
   class RevertWithdrawal < SimpleDelegator
+    include SubsequentApplicationDeletable
+
     def initialize(application_choice:, zendesk_ticket:)
       __setobj__(application_choice)
       @application_choice = application_choice
@@ -8,7 +10,7 @@ module SupportInterface
     end
 
     def save
-      super && destroy_withdrawal_reasons
+      super && destroy_withdrawal_reasons && delete_subsequent_application_form(application_choice.application_form)
     end
 
   private
@@ -30,6 +32,11 @@ module SupportInterface
 
     def destroy_withdrawal_reasons
       @application_choice.withdrawal_reasons.destroy_all
+      true
+    end
+
+    def delete_subsequent_application_form(application_form)
+      super
       true
     end
   end

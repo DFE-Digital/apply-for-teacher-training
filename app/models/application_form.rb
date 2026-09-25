@@ -541,7 +541,8 @@ class ApplicationForm < ApplicationRecord
   end
 
   def editable?
-    subsequent_application_form.blank?
+    @editable ||= subsequent_application_form.blank? ||
+                  (subsequent_application_form.application_choices.blank? && !subsequent_application_form.after_find_opens?)
   end
 
   def contains_course?(course)

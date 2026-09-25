@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationForm do
+  include ActiveSupport::Testing::TimeHelpers
+
   it { is_expected.to belong_to(:candidate).touch(true) }
   it { is_expected.to belong_to(:previous_application_form).class_name('ApplicationForm').optional.inverse_of('subsequent_application_form') }
 
@@ -2329,6 +2331,38 @@ RSpec.describe ApplicationForm do
       primary_course = create(:course, :with_course_options, :primary)
       primary_choice = create(:application_choice, course_option: primary_course.course_options.first)
       expect(primary_choice.application_form.selected_secondary_course?).to be(false)
+    end
+  end
+
+  describe '#editable?' do
+    let(:application_form) { create(:application_form, recruitment_cycle_year: 2026) }
+
+    context 'when the application form has no subsequent application forms' do
+      it 'returns true' do
+        expect(application_form.editable?).to be(true)
+      end
+    end
+
+    context 'when the application form has subsequent application forms' do
+      let(:subsequent_application_form) do
+        create(:application_form, previous_application_form: application_form, recruitment_cycle_year: 2027)
+      end
+
+      context 'when the find has not yet opened' do
+        it 'returns true' do
+          travel_to(subsequent_application_form.recruitment_cycle_timetable.find_opens_at - 1.day) do
+            expect(application_form.editable?).to be(true)
+          end
+        end
+      end
+
+      context 'when the find is open' do
+        it 'returns false' do
+          travel_to(subsequent_application_form.recruitment_cycle_timetable.find_opens_at + 1.day) do
+            expect(application_form.editable?).to be(false)
+          end
+        end
+      end
     end
   end
 end
