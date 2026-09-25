@@ -15,15 +15,15 @@ module SupportInterface
     end
 
     def show
-      @provider_user = ProviderUser.find(params[:id])
+      @provider_user = ProviderUser.find(params.expect(:id))
     end
 
     def audits
-      @provider_user = ProviderUser.find(params[:provider_user_id])
+      @provider_user = ProviderUser.find(params.expect(:provider_user_id))
     end
 
     def impersonate
-      @provider_user = ProviderUser.find(params[:provider_user_id])
+      @provider_user = ProviderUser.find(params.expect(:provider_user_id))
       Current.support_session.update!(impersonated_provider_user_id: @provider_user.id)
       cookies.signed.permanent[:impersonated_provider_user_id] = {
         value: @provider_user.id,

@@ -21,7 +21,7 @@ module SupportInterface
     private
 
       def load_edit_other_qualification_form
-        @edit_other_qualification_form = EditOtherQualificationForm.new(ApplicationQualification.find(params[:id]))
+        @edit_other_qualification_form = EditOtherQualificationForm.new(ApplicationQualification.find(params.expect(:id)))
         @application_form = @edit_other_qualification_form.application_form
       end
 

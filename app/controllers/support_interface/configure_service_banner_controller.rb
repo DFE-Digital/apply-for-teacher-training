@@ -7,7 +7,7 @@ module SupportInterface
 
     def edit
       @interface = interface_param
-      @banner = ServiceBanner.find(params[:id])
+      @banner = ServiceBanner.find(params.expect(:id))
       @back_link_path = edit_back_link_path
 
       @configure_service_banner_form = SupportInterface::ConfigureServiceBannerForm.new(
@@ -30,7 +30,7 @@ module SupportInterface
 
     def update
       @interface = interface_param
-      @banner = ServiceBanner.find(params[:id])
+      @banner = ServiceBanner.find(params.expect(:id))
       @configure_service_banner_form = SupportInterface::ConfigureServiceBannerForm.new(configure_service_banner_params.merge(banner: @banner, interface: @interface))
 
       if @configure_service_banner_form.valid?
@@ -43,12 +43,12 @@ module SupportInterface
 
     def preview
       @interface = interface_param
-      @banner = ServiceBanner.find(params[:id])
+      @banner = ServiceBanner.find(params.expect(:id))
     end
 
     def publish
       @interface = interface_param
-      @banner = ServiceBanner.find(params[:id])
+      @banner = ServiceBanner.find(params.expect(:id))
       @banner.published!
 
       redirect_to support_interface_service_banners_path

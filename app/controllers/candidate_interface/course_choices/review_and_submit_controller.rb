@@ -6,7 +6,7 @@ module CandidateInterface
       before_action :redirect_to_course_choice_review_unless_ready_to_submit
 
       def show
-        @application_choice = active_application_choices.find(params[:application_choice_id])
+        @application_choice = active_application_choices.find(params.expect(:application_choice_id))
         @application_form = @application_choice.application_form
       end
 

@@ -28,7 +28,7 @@ module CandidateAPI
     end
 
     def show
-      candidate_id = params[:candidate_id].gsub(/^C/, '')
+      candidate_id = params.expect(:candidate_id).gsub(/^C/, '')
       candidate = serializer.find_query(candidate_id:)
 
       render json: {
