@@ -45,7 +45,7 @@ RSpec.describe EndOfCycle::CancelReferenceRequestsWorker do
 
     context 'after the decline by default date, and the application has courses ending in September and January', time: decline_by_default_run_date(current_year) do
       it 'does not enqueue a secondary worker for references with requested feedback, with a September course' do
-        test_application_chocies = create(
+        create(
           :application_choice,
           application_form: september_application_choice.application_form,
           current_recruitment_cycle_year: year,
