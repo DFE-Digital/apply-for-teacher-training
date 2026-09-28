@@ -371,11 +371,12 @@ scale-workers: get-cluster-credentials
 
 DB_TOOLS_POD_NAME=apply-$(CONFIG)-postgres-db-tools-pod
 RESTORE_SAS_PERMISSIONS=r
-INTERACTIVE_SAS_PERMISSIONS=r
+INTERACTIVE_SAS_PERMISSIONS=rl
 BACKUP_SAS_PERMISSIONS=cw
 
 .PHONY: \
 	aks_db_job_backup \
+	aks_db_job_list_backups \
 	aks_db_job_restore \
 	aks_db_job_interactive_new \
 	aks_db_job_interactive_join \
@@ -390,15 +391,23 @@ aks_db_job_backup: \
 	CLEANUP_DB_TOOLS_POD=true \
 	./scripts/db-backup.sh
 
-aks_db_job_restore: \
+aks_db_job_list_backups: \
 	aks_db_job_check_single_pod \
-	aks_db_job_prepare_restore \
-	aks_db_job_create_pod \
-	confirm
+	aks_db_job_prepare_interactive \
+	aks_db_job_create_pod
 	@NAMESPACE="$(NAMESPACE)" \
 	DB_TOOLS_POD_NAME="$(DB_TOOLS_POD_NAME)" \
 	CLEANUP_DB_TOOLS_POD=true \
-	./scripts/db-restore.sh
+	./scripts/db-list-backups.sh
+
+aks_db_job_restore: \
+	aks_db_job_check_single_pod \
+	aks_db_job_prepare_restore \
+	aks_db_job_create_pod
+		@NAMESPACE="$(NAMESPACE)" \
+		DB_TOOLS_POD_NAME="$(DB_TOOLS_POD_NAME)" \
+		CLEANUP_DB_TOOLS_POD=true \
+		./scripts/db-restore.sh
 
 aks_db_job_interactive_new: \
 	aks_db_job_check_single_pod \

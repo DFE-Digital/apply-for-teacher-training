@@ -14,4 +14,8 @@ export SECRET_REF_NAME
 envsubst < db-pod/db-pod.yaml.tpl \
   | kubectl apply -n "$NAMESPACE" -f -
 
-sleep 2
+kubectl wait \
+  --for=condition=Ready \
+  pod/$DB_TOOLS_POD_NAME \
+  -n "$NAMESPACE" \
+  --timeout=120s
