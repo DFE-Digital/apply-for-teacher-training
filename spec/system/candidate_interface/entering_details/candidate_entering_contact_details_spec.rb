@@ -1,72 +1,80 @@
 require 'rails_helper'
 
-RSpec.describe 'Entering their contact information' do
+RSpec.describe 'Entering their contact information with residency questions enabled' do
   include CandidateHelper
 
-  before do
-    FeatureFlag.deactivate('2027_application_form_contact_details_residency_questions')
-  end
-
-  scenario 'Candidate submits their contact information' do
+  scenario 'Candidate submits their residency information and lives in same country or territory as one of their nationalities', :js do
     given_i_am_signed_in_with_one_login
+    and_i_am_british
     and_i_visit_the_site
 
     when_i_click_on_contact_information
-    and_i_incorrectly_fill_in_my_phone_number
     and_i_submit_my_phone_number
-    then_i_see_validation_errors_for_my_phone_number
-    and_a_validation_error_is_logged_for_phone_number
-
-    when_i_fill_in_my_phone_number
-    and_i_submit_my_phone_number
-    and_i_submit_no_address_type
-    then_i_see_validation_errors_for_my_address_type
-
-    when_i_select_live_in_uk
-    and_i_incorrectly_fill_in_my_address
-    and_i_submit_my_address
-    then_i_see_validation_errors_for_my_address
-
-    when_i_fill_in_my_address
-    and_i_submit_my_address
-    then_i_can_check_my_answers
-
-    when_i_click_to_change_my_phone_number
-    then_i_can_see_my_phone_number
-
-    when_i_fill_in_a_different_phone_number
-    and_i_submit_my_phone_number
-    then_i_can_check_my_revised_phone_number
-
-    when_i_click_to_change_my_address_type
-    then_i_can_see_my_address_type
+    then_i_see_the_address_type_question
 
     when_i_select_outside_the_uk
-    and_i_incorrectly_fill_in_my_international_address
-    and_i_submit_my_address
-    then_i_see_validation_errors_for_address_line1_for_my_international_address
+    and_i_enter_jersey
+    then_i_see_the_address_form
 
-    when_i_fill_in_an_international_address
-    and_i_submit_my_address
-    then_i_can_check_my_revised_address
-    and_the_completed_section_radios_are_not_selected
+    when_i_fill_in_my_address
+    click_link_or_button 'Save and continue'
+    then_i_see_the_residency_since_birth_question
 
-    when_i_mark_the_section_as_completed
-    and_i_submit_my_details
-    then_i_see_the_form
-    and_that_the_section_is_completed
+    when_i_click_back
+    then_i_see_the_address_form
+    click_link_or_button 'Save and continue'
+    then_i_see_the_residency_since_birth_question
 
-    when_i_click_on_contact_information
-    then_i_can_check_my_revised_answers
+    when_i_answer_yes
+    then_i_see_the_review_page_with_the_expected_values
+
+    when_i_click_to_change_my_residency_response
+    then_i_see_the_residency_since_birth_question
+
+    when_i_click_back
+    then_i_see_the_review_page_with_the_expected_values
   end
 
-  def and_the_completed_section_radios_are_not_selected
-    %w[
-      candidate-interface-section-complete-form-completed-true-field
-      candidate-interface-section-complete-form-completed-field
-    ].each do |radio_id|
-      expect(page).to have_no_checked_field(radio_id)
-    end
+  scenario 'Candidate submits their residency information and lives in a different country or territory to any of their nationalities', :js do
+    given_i_am_signed_in_with_one_login
+    and_i_am_french
+    and_i_visit_the_site
+
+    when_i_click_on_contact_information
+    and_i_submit_my_phone_number
+    then_i_see_the_address_type_question
+
+    when_i_select_outside_the_uk
+    and_i_enter_jersey
+    then_i_see_the_address_form
+
+    when_i_fill_in_my_address
+    click_link_or_button 'Save and continue'
+    then_i_see_the_residency_dates_question
+
+    when_i_click_back
+    then_i_see_the_address_form
+
+    click_link_or_button 'Save and continue'
+    then_i_see_the_residency_dates_question
+
+    when_i_fill_in_the_dates
+    click_link_or_button 'Save and continue'
+    then_i_see_the_review_page_with_expected_values_including_dates
+
+    when_i_click_to_change_my_residency_dates_response
+    then_i_see_the_residency_dates_question
+
+    when_i_click_back
+    then_i_see_the_review_page_with_expected_values_including_dates
+  end
+
+  def and_i_am_british
+    @current_candidate.current_application.update!(first_nationality: 'British')
+  end
+
+  def and_i_am_french
+    @current_candidate.current_application.update!(first_nationality: 'French')
   end
 
   def and_i_visit_the_site
@@ -74,158 +82,96 @@ RSpec.describe 'Entering their contact information' do
   end
 
   def when_i_click_on_contact_information
-    click_link_or_button t('page_titles.contact_information')
-  end
-
-  def and_i_incorrectly_fill_in_my_phone_number
-    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 CAT DOG'
+    click_link_or_button 'Contact information'
   end
 
   def and_i_submit_my_phone_number
-    click_link_or_button t('save_and_continue')
+    fill_in 'Phone number', with: '07700 900 982'
+    click_link_or_button 'Save and continue'
   end
 
-  def then_i_see_validation_errors_for_my_phone_number
-    expect(page).to have_text t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.phone_number.invalid')
-  end
-
-  def and_a_validation_error_is_logged_for_phone_number
-    validation_error = ValidationError.last
-    expect(validation_error).to be_present
-    expect(validation_error.details).to have_key('phone_number')
-    expect(validation_error.user).to eq(current_candidate)
-    expect(validation_error.request_path).to eq(candidate_interface_new_phone_number_path)
-    expect(validation_error.service).to eq('apply')
-  end
-
-  def when_i_fill_in_my_phone_number
-    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
-  end
-
-  def and_i_submit_no_address_type
-    click_link_or_button t('save_and_continue')
-  end
-
-  def then_i_see_validation_errors_for_my_address_type
-    expect(page).to have_text t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_type.blank')
-  end
-
-  def when_i_select_live_in_uk
+  def then_i_see_the_address_type_question
     expect(page).to have_text('Where do you live?')
-    choose 'In the UK'
-    click_link_or_button t('save_and_continue')
-  end
-
-  def and_i_incorrectly_fill_in_my_address
-    fill_in t('application_form.contact_details.address_line3.label.uk'), with: 'London'
-    fill_in t('application_form.contact_details.postcode.label.uk'), with: 'MUCH W0W'
-  end
-
-  def then_i_see_validation_errors_for_my_address
-    expect(page).to have_text t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.blank')
-    expect(page).to have_text t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.postcode.invalid')
-  end
-
-  def when_i_fill_in_my_address
-    find(:css, "[autocomplete='address-line1']").fill_in with: '42 Much Wow Street'
-    fill_in t('application_form.contact_details.address_line3.label.uk'), with: 'London'
-    fill_in t('application_form.contact_details.postcode.label.uk'), with: 'SW1P 3BT'
-  end
-
-  def and_i_submit_my_address
-    click_link_or_button t('save_and_continue')
-  end
-
-  def then_i_can_check_my_answers
-    expect(page).to have_text t('application_form.contact_details.phone_number.label')
-    expect(page).to have_text '07700 900 982'
-  end
-
-  def when_i_click_to_change_my_phone_number
-    within("[data-qa='contact-details-phone-number']") do
-      click_link 'Change'
-    end
-  end
-
-  def then_i_can_see_my_phone_number
-    expect(page).to have_css("input[value='07700 900 982']")
-  end
-
-  def when_i_fill_in_a_different_phone_number
-    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 424 242'
-  end
-
-  def then_i_can_check_my_revised_phone_number
-    expect(page).to have_text t('application_form.contact_details.phone_number.label')
-    expect(page).to have_text '07700 424 242'
-  end
-
-  def when_i_click_to_change_my_address_type
-    within("[data-qa='contact-details-address']") do
-      click_link 'Change'
-    end
-  end
-
-  def then_i_can_see_my_address_type
-    expect(page).to have_css("input[value='uk']")
   end
 
   def when_i_select_outside_the_uk
+    find('label', text: 'Outside the UK').click
+  end
+
+  def and_i_enter_jersey
     expect(page).to have_text('Where do you live?')
-    choose 'Outside the UK'
-    select('India', from: t('application_form.contact_details.country.label'))
-    click_link_or_button t('save_and_continue')
+
+    fill_in 'Which country or territory?', with: 'Jersey'
+    find('.autocomplete__option', text: 'Jersey').click
+    click_link_or_button 'Save and continue'
   end
 
-  def and_i_incorrectly_fill_in_my_international_address
-    fill_in 'candidate_interface_contact_details_form[address_line1]', with: ''
-    fill_in 'candidate_interface_contact_details_form[address_line2]', with: 'New Delhi'
-    fill_in 'candidate_interface_contact_details_form[address_line4]', with: '110006'
+  def then_i_see_the_address_form
+    expect(page).to have_text('What is your address?')
   end
 
-  def then_i_see_validation_errors_for_address_line1
-    expect(page).to have_text t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.blank')
+  def when_i_fill_in_my_address
+    fill_in 'candidate_interface_contact_details_form[address_line1]', with: '133 Rue des Peupliers'
+    fill_in 'candidate_interface_contact_details_form[address_line3]', with: 'St Helier'
+    fill_in 'candidate_interface_contact_details_form[address_line4]', with: 'JE1 0FS'
   end
 
-  def then_i_see_validation_errors_for_address_line1_for_my_international_address
-    expect(page).to have_text t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.international_blank')
+  def then_i_see_the_residency_since_birth_question
+    expect(page).to have_text('Have you lived in Jersey since birth?')
   end
 
-  def when_i_fill_in_an_international_address
-    fill_in 'candidate_interface_contact_details_form[address_line1]', with: '123 Chandni Chowk'
-    fill_in 'candidate_interface_contact_details_form[address_line3]', with: 'New Delhi'
-    fill_in 'candidate_interface_contact_details_form[address_line4]', with: '110006'
+  def when_i_click_back
+    click_link_or_button 'Back'
   end
 
-  def then_i_can_check_my_revised_address
-    expect(page).to have_text '123 Chandni Chowk'
-    expect(page).to have_text 'New Delhi'
-    expect(page).to have_text '110006'
-    expect(page).to have_text 'India'
+  def when_i_answer_yes
+    find('label', text: 'Yes').click
+    click_link_or_button 'Save and continue'
   end
 
-  def when_i_mark_the_section_as_completed
-    choose t('application_form.completed_radio')
+  def then_i_see_the_review_page_with_the_expected_values
+    expect(page).to have_text('Check your contact information')
+
+    within("[data-qa='contact-details-residency']") do
+      expect(page).to have_text('Have you lived in Jersey since birth?')
+      expect(page).to have_text('Yes')
+    end
+
+    expect(page).to have_no_text('From what date have you lived in Jersey?')
   end
 
-  def and_i_submit_my_details
-    click_link_or_button t('continue')
+  def when_i_click_to_change_my_residency_response
+    within("[data-qa='contact-details-residency']") do
+      click_link_or_button 'Change'
+    end
   end
 
-  def when_i_submit_my_details
-    and_i_submit_my_details
+  def then_i_see_the_residency_dates_question
+    expect(page).to have_text('From what date have you lived in Jersey?')
   end
 
-  def then_i_see_the_form
-    expect(page).to have_text(t('page_titles.application_form'))
+  def when_i_fill_in_the_dates
+    fill_in 'Month', with: '10'
+    fill_in 'Year', with: '2003'
   end
 
-  def and_that_the_section_is_completed
-    expect(page).to have_css('#contact-information-badge-id', text: 'Completed')
+  def then_i_see_the_review_page_with_expected_values_including_dates
+    expect(page).to have_text('Check your contact information')
+
+    within("[data-qa='contact-details-residency']") do
+      expect(page).to have_text('Have you lived in Jersey since birth?')
+      expect(page).to have_text('No')
+    end
+
+    within("[data-qa='contact-details-residency-date']") do
+      expect(page).to have_text('Lived in Jersey since')
+      expect(page).to have_text('October 2003')
+    end
   end
 
-  def then_i_can_check_my_revised_answers
-    then_i_can_check_my_revised_phone_number
-    then_i_can_check_my_revised_address
+  def when_i_click_to_change_my_residency_dates_response
+    within("[data-qa='contact-details-residency-date']") do
+      click_link_or_button 'Change'
+    end
   end
 end

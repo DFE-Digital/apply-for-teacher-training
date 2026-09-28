@@ -27,7 +27,6 @@ class FeatureFlag
     [:block_provider_activity_log, 'Block provider activity log if causing problems', 'Lori Bailey'],
     [:ms_clarity, 'Record sessions with MS Clarity'],
     [:import_non_disclosure_trainee_withdrawals, 'Import Non-disclosure data from BigQuery to generate Possible Previous Teacher Training records', 'Apply team'],
-    ['2027_application_form_contact_details_residency_questions', 'Add residency questions to contact details flow in candidate interface', 'Apply team'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

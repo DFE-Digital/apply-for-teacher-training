@@ -22,15 +22,11 @@ module CandidateInterface
     def show_invalid_banner?
       return false unless @editable && @submitting_application
 
-      if FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
-        !(
-          @contact_details_form.valid_for_submission? ||
-          residency_form.valid? ||
-          residency_date_form.valid?
-        )
-      else
-        !@contact_details_form.valid_for_submission?
-      end
+      !(
+        @contact_details_form.valid_for_submission? ||
+        residency_form.valid? ||
+        residency_date_form.valid?
+      )
     end
 
   private
@@ -118,8 +114,6 @@ module CandidateInterface
     end
 
     def residency_row
-      return unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
-
       if residency_form.since_birth.present?
         {
           key: t('application_form.contact_details.residency.label', country: @application_form.country_of_residence),
@@ -151,7 +145,6 @@ module CandidateInterface
     end
 
     def residency_date_row
-      return unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
       return unless @application_form.country_residency_since_birth == false
 
       if residency_date_form.date.is_a?(Date)
@@ -216,18 +209,10 @@ module CandidateInterface
     end
 
     def residency_form
-      unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
-        raise 'Residency form accessed but residency questions feature flag is inactive'
-      end
-
       @residency_form ||= CandidateInterface::ResidencyForm.build_from_application(@application_form)
     end
 
     def residency_date_form
-      unless FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
-        raise 'Residency date form accessed but residency questions feature flag is inactive'
-      end
-
       @residency_date_form ||= CandidateInterface::ResidencyDateForm.build_from_application(@application_form)
     end
   end

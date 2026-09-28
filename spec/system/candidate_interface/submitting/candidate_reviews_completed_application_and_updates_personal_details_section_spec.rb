@@ -6,7 +6,6 @@ RSpec.describe 'Candidate is redirected correctly' do
 
   before do
     stub_bigquery_non_disclosure_trainee_withdrawals_request
-    FeatureFlag.deactivate('2027_application_form_contact_details_residency_questions')
   end
 
   it 'Candidate reviews completed application and updates personal details section', :with_cache do
@@ -72,6 +71,18 @@ RSpec.describe 'Candidate is redirected correctly' do
     when_i_update_my_address
     then_i_redirected_to_the_contact_information_review_page
     and_i_see_my_updated_address
+
+    # Residency
+    when_i_click_change_residency
+    then_i_see_the_residency_form
+
+    when_i_click_back
+    then_i_redirected_to_the_contact_information_review_page
+
+    when_i_click_change_residency
+    and_i_change_my_residency_dates
+    then_i_redirected_to_the_contact_information_review_page
+    and_i_see_the_change_in_residency_dates
   end
 
   def when_i_have_completed_my_application
@@ -122,6 +133,18 @@ RSpec.describe 'Candidate is redirected correctly' do
     end
   end
 
+  def when_i_click_change_residency
+    click_link_or_button 'Change residency'
+  end
+
+  def and_i_change_my_residency_dates
+    choose 'No'
+    click_on 'Save and continue'
+    fill_in 'Month', with: '11'
+    fill_in 'Year', with: '2022'
+    click_on 'Save and continue'
+  end
+
   def then_i_see_the_personal_details_form
     expect(page).to have_current_path(candidate_interface_edit_name_and_dob_path)
   end
@@ -136,6 +159,10 @@ RSpec.describe 'Candidate is redirected correctly' do
 
   def then_i_see_the_address_type_form
     expect(page).to have_current_path(candidate_interface_edit_address_type_path, ignore_query: true)
+  end
+
+  def then_i_see_the_residency_form
+    expect(page).to have_current_path(candidate_interface_edit_residency_path, ignore_query: true)
   end
 
   def when_i_click_back
@@ -182,6 +209,7 @@ RSpec.describe 'Candidate is redirected correctly' do
     click_link_or_button 'Save and continue'
     fill_in 'Town or city', with: 'Auckland'
     click_link_or_button 'Save and continue'
+    click_link_or_button 'Save and continue'
   end
 
   def and_i_see_my_updated_name
@@ -212,5 +240,10 @@ RSpec.describe 'Candidate is redirected correctly' do
     within('[data-qa="contact-details-address"]') do
       expect(page).to have_text('Auckland')
     end
+  end
+
+  def and_i_see_the_change_in_residency_dates
+    expect(page).to have_text 'Lived in United Kingdom since'
+    expect(page).to have_text 'November 2022'
   end
 end
