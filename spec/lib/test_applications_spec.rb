@@ -45,22 +45,20 @@ RSpec.describe TestApplications do
         expect(application_form.efl_completed).to be(true)
       end
 
-      context 'when 2027_visa_expiry feature flag is on', feature_flag: '2027_visa_expiry' do
-        it 'assigns visa expiry details to the application' do
-          expect { create_application }.to change { ApplicationChoice.count }.by(2)
-          application_form = ApplicationForm.last
-          expect(application_form.visa_expired_at.to_date).to eq(2.years.from_now.to_date)
+      it 'assigns visa expiry details to the application' do
+        expect { create_application }.to change { ApplicationChoice.count }.by(2)
+        application_form = ApplicationForm.last
+        expect(application_form.visa_expired_at.to_date).to eq(2.years.from_now.to_date)
 
-          application_choices = application_form.application_choices
-          visa_explanations = application_choices.pluck(:visa_explanation).uniq
-          expect(visa_explanations.count).to eq(1)
-          explanation = visa_explanations.first
+        application_choices = application_form.application_choices
+        visa_explanations = application_choices.pluck(:visa_explanation).uniq
+        expect(visa_explanations.count).to eq(1)
+        explanation = visa_explanations.first
 
-          if explanation == 'other'
-            expect(application_choices.pluck(:visa_explanation_details).uniq.first).not_to be_nil
-          else
-            expect(application_choices.pluck(:visa_explanation_details).uniq).to contain_exactly(nil)
-          end
+        if explanation == 'other'
+          expect(application_choices.pluck(:visa_explanation_details).uniq.first).not_to be_nil
+        else
+          expect(application_choices.pluck(:visa_explanation_details).uniq).to contain_exactly(nil)
         end
       end
     end

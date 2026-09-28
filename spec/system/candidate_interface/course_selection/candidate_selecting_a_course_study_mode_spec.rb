@@ -21,7 +21,6 @@ RSpec.describe 'Selecting a study mode', :with_cache do
   end
 
   scenario 'When visa expires soon' do
-    given_visa_expiry_feature_is_on
     given_i_am_signed_in_with_one_login
     and_visa_will_expire_soon
     and_there_are_course_options
@@ -44,10 +43,6 @@ RSpec.describe 'Selecting a study mode', :with_cache do
     and_i_visit_my_course_choices_page
     then_the_site_is_resolved_automatically_and_i_see_the_course_choice
     and_the_application_is_not_school_placement_auto_selected
-  end
-
-  def given_visa_expiry_feature_is_on
-    FeatureFlag.activate('2027_visa_expiry')
   end
 
   def and_visa_will_expire_soon

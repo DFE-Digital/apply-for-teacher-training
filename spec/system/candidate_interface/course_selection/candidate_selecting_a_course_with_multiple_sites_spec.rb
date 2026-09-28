@@ -25,7 +25,6 @@ RSpec.describe 'Selecting a course with multiple sites', :with_cache do
   end
 
   it 'Candidate selects a course choice when visa expires soon' do
-    given_visa_expiry_feature_is_on
     given_i_am_signed_in_with_one_login
     and_visa_will_expire_soon
     and_there_are_course_options
@@ -51,10 +50,6 @@ RSpec.describe 'Selecting a course with multiple sites', :with_cache do
     and_i_can_see_my_visa_explanation
 
     then_i_am_on_the_application_choice_review_page
-  end
-
-  def given_visa_expiry_feature_is_on
-    FeatureFlag.activate('2027_visa_expiry')
   end
 
   def then_i_see_the_visa_expiry_interruption

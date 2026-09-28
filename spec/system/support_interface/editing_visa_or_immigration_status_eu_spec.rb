@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Editing visa or immigration status, EU' do
   include DfESignInHelpers
 
-  before do
-    FeatureFlag.deactivate('2027_visa_expiry')
-  end
-
   scenario 'Support user edits visa or immigration status' do
     given_i_am_a_support_user
     and_an_application_exists
@@ -34,31 +30,25 @@ RSpec.describe 'Editing visa or immigration status, EU' do
     then_i_am_presented_with_the_correct_eu_options
   end
 
-  context 'visa expiry flag on' do
-    before do
-      FeatureFlag.activate('2027_visa_expiry')
-    end
+  scenario 'Support user edits visa or immigration status' do
+    given_i_am_a_support_user
+    and_an_application_exists
 
-    scenario 'Support user edits visa or immigration status' do
-      given_i_am_a_support_user
-      and_an_application_exists
+    when_i_visit_the_application_page
+    i_do_not_see_the_visa_or_immigration_status_column
 
-      when_i_visit_the_application_page
-      i_do_not_see_the_visa_or_immigration_status_column
+    when_i_click_the_change_link_next_right_to_work
+    and_i_choose_yes
+    and_i_continue
 
-      when_i_click_the_change_link_next_right_to_work
-      and_i_choose_yes
-      and_i_continue
+    and_i_choose_other_and_fill_in_the_details
+    and_i_continue
+    when_i_set_a_visa_expiry_date(2.days.from_now)
+    and_i_add_an_audit_comment
 
-      and_i_choose_other_and_fill_in_the_details
-      and_i_continue
-      when_i_set_a_visa_expiry_date(2.days.from_now)
-      and_i_add_an_audit_comment
-
-      and_i_click_save_and_continue
-      i_see_the_visa_or_immigration_status_column
-      then_i_see_the_text_i_submitted
-    end
+    and_i_click_save_and_continue
+    i_see_the_visa_or_immigration_status_column
+    then_i_see_the_text_i_submitted
   end
 end
 

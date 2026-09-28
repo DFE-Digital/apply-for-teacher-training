@@ -117,10 +117,6 @@ RSpec.describe SupportInterface::ApplicationForms::ImmigrationStatusForm, type: 
     end
 
     context 'when visa expiry flag is on' do
-      before do
-        FeatureFlag.activate('2027_visa_expiry')
-      end
-
       let(:form_data) do
         {
           immigration_status: 'eu_settled',

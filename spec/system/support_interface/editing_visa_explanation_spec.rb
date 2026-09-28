@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Change visa explanation' do
   include DfESignInHelpers
 
-  before do
-    FeatureFlag.activate('2027_visa_expiry')
-  end
-
   scenario 'editing visa explanation', :with_audited do
     given_i_am_a_support_user
     and_there_is_an_application_choice_awaiting_provider_decision

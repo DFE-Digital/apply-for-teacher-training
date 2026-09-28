@@ -65,14 +65,6 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
   end
 
   describe '#save' do
-    before do
-      FeatureFlag.activate('2027_visa_expiry')
-    end
-
-    after do
-      FeatureFlag.deactivate('2027_visa_expiry')
-    end
-
     it 'returns false if not valid' do
       form = described_class.new
 

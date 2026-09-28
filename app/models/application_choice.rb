@@ -132,8 +132,6 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def visa_expires_soon?
-    return false if FeatureFlag.inactive?('2027_visa_expiry')
-
     visa_expired_at = application_form.visa_expired_at
 
     visa_expired_at.present? && visa_expired_at < current_course.start_date + 9.months

@@ -436,10 +436,6 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
   end
 
   context 'visa expires soon and feature flag on' do
-    before do
-      FeatureFlag.activate('2027_visa_expiry')
-    end
-
     let(:application_form) { create(:application_form, visa_expired_at: 1.day.from_now) }
     let(:application_choice) do
       create(:application_choice, :unsubmitted, course:, application_form:)
@@ -453,10 +449,6 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
   end
 
   context 'visa does not expire soon and feature flag on' do
-    before do
-      FeatureFlag.activate('2027_visa_expiry')
-    end
-
     let(:application_form) { create(:application_form, visa_expired_at: 2.years.from_now) }
     let(:application_choice) do
       create(:application_choice, :unsubmitted, course:, application_form:)

@@ -83,10 +83,6 @@ RSpec.describe CandidateInterface::ApplicationChoiceSubmission do
     end
 
     context 'when visa explanation is required but not present' do
-      before do
-        FeatureFlag.activate('2027_visa_expiry')
-      end
-
       let(:course) do
         create(
           :course,

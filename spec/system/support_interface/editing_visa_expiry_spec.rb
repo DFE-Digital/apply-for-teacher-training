@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Editing visa expiry' do
   include DfESignInHelpers
 
-  before do
-    FeatureFlag.activate('2027_visa_expiry')
-  end
-
   scenario 'editing visa expiry date' do
     given_i_am_a_support_user
     and_an_application_exists
