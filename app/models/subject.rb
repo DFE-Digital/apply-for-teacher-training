@@ -28,19 +28,7 @@ class Subject < ApplicationRecord
 
   SKE_STANDARD_COURSES = [].freeze
 
-  SKE_LANGUAGE_COURSES = %w[
-    15
-    17
-    18
-    19
-    20
-    21
-    22
-    24
-  ].freeze
+  SKE_LANGUAGE_COURSES = %w[].freeze
 
-  SKE_PHYSICS_COURSES = %w[
-    F0
-    F3
-  ].freeze
+  SKE_PHYSICS_COURSES = %w[].freeze
 end
