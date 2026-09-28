@@ -49,7 +49,6 @@ RSpec.describe 'Selecting a course', :with_cache do
   end
 
   it 'Candidate selects a course choice when visa expires soon' do
-    given_visa_expiry_feature_is_on
     given_i_am_signed_in_with_one_login
     and_visa_will_expire_soon
     and_there_are_course_options

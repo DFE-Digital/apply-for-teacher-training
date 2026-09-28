@@ -3,23 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Editing visa or immigration status, EU' do
   include DfESignInHelpers
 
-  scenario 'Support user edits visa or immigration status' do
-    given_i_am_a_support_user
-    and_an_application_exists
-
-    when_i_visit_the_application_page
-    i_do_not_see_the_visa_or_immigration_status_column
-
-    when_i_click_the_change_link_next_right_to_work
-    and_i_choose_yes
-    and_i_continue
-
-    and_i_choose_other_and_fill_in_the_details
-    and_i_continue
-    i_see_the_visa_or_immigration_status_column
-    then_i_see_the_text_i_submitted
-  end
-
   scenario 'Support user is presented with the correct options' do
     given_i_am_a_support_user
     and_an_application_exists_with_the_right_to_work
