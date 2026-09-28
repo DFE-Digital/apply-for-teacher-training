@@ -6,7 +6,6 @@ RSpec.describe 'Carry over application and submit new application choices', :wit
 
   before do
     stub_bigquery_non_disclosure_trainee_withdrawals_request
-    FeatureFlag.activate('2027_international_qualifications_flow')
   end
 
   it 'Candidate carries over unsubmitted application with a course to new cycle', time: mid_cycle do

@@ -3,8 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Candidate enters a GCSE equivalent qualification from outside of the UK choosing unstructured data path' do
   include CandidateHelper
 
-  scenario 'Candidate submits their maths international qualification details with unstructured data',
-           feature_flag: '2027_international_qualifications_flow' do
+  scenario 'Candidate submits their maths international qualification details with unstructured data' do
     given_i_am_signed_in_with_one_login
 
     and_i_click_on_the_maths_gcse_link
