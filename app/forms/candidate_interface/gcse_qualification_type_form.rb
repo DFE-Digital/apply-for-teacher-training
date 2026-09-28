@@ -13,9 +13,6 @@ module CandidateInterface
     validates :other_uk_qualification_type, presence: true, if: :other_uk_qualification?
     validates :other_uk_qualification_type, length: { maximum: 100 }
 
-    validates :non_uk_qualification_type, presence: true, if: :non_uk_qualification?
-    validates :non_uk_qualification_type, :subject, :qualification_type, length: { maximum: ApplicationQualification::MAX_QUALIFICATION_TYPE_LENGTH }
-
     def self.build_from_qualification(qualification)
       new(
         level: qualification.level,
