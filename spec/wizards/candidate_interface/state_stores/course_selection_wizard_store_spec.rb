@@ -313,13 +313,8 @@ RSpec.describe CandidateInterface::StateStores::CourseSelectionWizardStore, type
       let(:application_choice) { create(:application_choice, application_form: current_application, course_option:) }
 
       before do
-        FeatureFlag.activate('2027_visa_expiry')
         current_application.update!(visa_expired_at: 1.month.from_now)
         state_store.write(application_choice_id: application_choice.id)
-      end
-
-      after do
-        FeatureFlag.deactivate('2027_visa_expiry')
       end
 
       it 'returns false' do
@@ -333,13 +328,8 @@ RSpec.describe CandidateInterface::StateStores::CourseSelectionWizardStore, type
       let(:application_choice) { create(:application_choice, application_form: current_application, course_option:) }
 
       before do
-        FeatureFlag.activate('2027_visa_expiry')
         current_application.update!(visa_expired_at: 2.years.from_now)
         state_store.write(application_choice_id: application_choice.id)
-      end
-
-      after do
-        FeatureFlag.deactivate('2027_visa_expiry')
       end
 
       it 'returns true' do
@@ -617,10 +607,6 @@ RSpec.describe CandidateInterface::StateStores::CourseSelectionWizardStore, type
   end
 
   describe '.visa_expires_soon?' do
-    before { FeatureFlag.activate('2027_visa_expiry') }
-
-    after { FeatureFlag.deactivate('2027_visa_expiry') }
-
     let(:application_choice) { create(:application_choice, application_form: current_application) }
 
     context "when the candidate's visa expires soon" do

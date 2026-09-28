@@ -286,8 +286,6 @@ RSpec.describe DuplicateApplication do
 
   context 'immigration status and right to work or study carry over' do
     before do
-      FeatureFlag.activate('2027_visa_expiry')
-
       @original_application_form.update!(
         first_nationality: 'Nigerian',
         immigration_status: 'student_visa',

@@ -13,10 +13,6 @@ RSpec.describe CandidateInterface::CarryOverTaskListComponent do
     let(:rendered_component) { render_inline(described_class.new(application_form:)) }
 
     context 'when a candidate has previously applied and has sections to check' do
-      before do
-        FeatureFlag.activate('2027_visa_expiry')
-      end
-
       let(:previous_application_form) { create(:application_form, :submitted, efl_completed: true) }
       let(:application_form) do
         create(
@@ -111,10 +107,6 @@ RSpec.describe CandidateInterface::CarryOverTaskListComponent do
     end
 
     context 'when a candidate is british and has not completed the efl or visa section' do
-      before do
-        FeatureFlag.activate('2027_visa_expiry')
-      end
-
       let(:previous_application_form) { create(:application_form, :submitted, efl_completed: false) }
       let(:application_form) do
         create(

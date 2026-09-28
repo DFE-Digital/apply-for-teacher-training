@@ -355,14 +355,12 @@ module CandidateHelper
         with: 'I have settled status',
       )
 
-      if FeatureFlag.active?('2027_visa_expiry')
-        click_link_or_button t('save_and_continue')
+      click_link_or_button t('save_and_continue')
 
-        visa_expired_at = 2.years.from_now
-        fill_in('candidate_interface_visa_expiry_form[visa_expired_at(3i)]', with: visa_expired_at.day)
-        fill_in('candidate_interface_visa_expiry_form[visa_expired_at(2i)]', with: visa_expired_at.month)
-        fill_in('candidate_interface_visa_expiry_form[visa_expired_at(1i)]', with: visa_expired_at.year)
-      end
+      visa_expired_at = 2.years.from_now
+      fill_in('candidate_interface_visa_expiry_form[visa_expired_at(3i)]', with: visa_expired_at.day)
+      fill_in('candidate_interface_visa_expiry_form[visa_expired_at(2i)]', with: visa_expired_at.month)
+      fill_in('candidate_interface_visa_expiry_form[visa_expired_at(1i)]', with: visa_expired_at.year)
     else
       check 'British'
       check 'Citizen of a different country'

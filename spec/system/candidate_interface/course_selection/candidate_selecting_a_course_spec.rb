@@ -49,7 +49,6 @@ RSpec.describe 'Selecting a course', :with_cache do
   end
 
   it 'Candidate selects a course choice when visa expires soon' do
-    given_visa_expiry_feature_is_on
     given_i_am_signed_in_with_one_login
     and_visa_will_expire_soon
     and_there_are_course_options
@@ -102,7 +101,6 @@ RSpec.describe 'Selecting a course', :with_cache do
   end
 
   it 'Candidate selects a course when visa expires soon and does not enter an explanation' do
-    given_visa_expiry_feature_is_on
     given_i_am_signed_in_with_one_login
     and_visa_will_expire_soon
     and_there_are_course_options
@@ -136,10 +134,6 @@ RSpec.describe 'Selecting a course', :with_cache do
     when_i_click('Continue')
     then_i_am_on_the_application_choice_review_page
     and_i_can_see_my_visa_explanation
-  end
-
-  def given_visa_expiry_feature_is_on
-    FeatureFlag.activate('2027_visa_expiry')
   end
 
   def and_visa_will_expire_soon

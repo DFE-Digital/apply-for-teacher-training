@@ -297,8 +297,7 @@ class ApplicationForm < ApplicationRecord
   ].freeze
 
   def temporary_immigration_status?(status = nil)
-    FeatureFlag.active?('2027_visa_expiry') &&
-      !british_or_irish? &&
+    !british_or_irish? &&
       TEMPORARY_IMMIGRATION_STATUSES.include?(status.presence || immigration_status)
   end
 

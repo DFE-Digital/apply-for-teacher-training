@@ -149,10 +149,6 @@ RSpec.describe SupportInterface::PersonalInformationComponent do
     end
 
     context 'with visa_expiry_row' do
-      before do
-        FeatureFlag.activate('2027_visa_expiry')
-      end
-
       let(:application_form) do
         create(
           :application_form,

@@ -3,38 +3,13 @@ require 'rails_helper'
 RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle do
   include CandidateHelper
 
-  context 'visa expiry flag is off' do
-    before do
-      FeatureFlag.deactivate('2027_visa_expiry')
-    end
-
-    it 'I can specify that I need to apply for right to work or study in the UK' do
-      and_i_am_signed_in
-      and_i_can_complete_personal_information_stating_that_i_need_a_visa_sponsorship
-      and_i_can_change_state_that_i_have_permanent_residence
-      and_i_can_change_nationality_to_an_eu_country_with_settled_status
-      and_i_can_change_immigration_status
-      and_i_can_mark_the_section_complete
-    end
-  end
-
-  context 'visa expiry flag is on' do
-    before do
-      FeatureFlag.activate('2027_visa_expiry')
-    end
-
-    after do
-      FeatureFlag.deactivate('2027_visa_expiry')
-    end
-
-    scenario 'I need to provider a visa expiry date' do
-      and_i_am_signed_in
-      and_i_can_complete_personal_information_stating_that_i_need_a_visa_sponsorship
-      and_i_can_change_state_that_i_have_permanent_residence
-      and_i_can_change_visa_expired_at
-      and_i_can_change_nationality_to_an_eu_country_with_settled_status
-      and_i_can_mark_the_section_complete
-    end
+  scenario 'I need to provider a visa expiry date' do
+    and_i_am_signed_in
+    and_i_can_complete_personal_information_stating_that_i_need_a_visa_sponsorship
+    and_i_can_change_state_that_i_have_permanent_residence
+    and_i_can_change_visa_expired_at
+    and_i_can_change_nationality_to_an_eu_country_with_settled_status
+    and_i_can_mark_the_section_complete
   end
 
   def and_i_am_signed_in
@@ -86,15 +61,13 @@ RSpec.describe 'Entering personal details', time: CycleTimetableHelper.mid_cycle
     fill_in 'Enter visa type or immigration status', with: 'I have permanent residence'
     click_link_or_button t('save_and_continue')
 
-    if FeatureFlag.active?('2027_visa_expiry')
-      expect(page).to have_text('When does your visa expire?')
-      visa_expired_at = 1.year.from_now
-      fill_in('candidate_interface_visa_expiry_form[visa_expired_at(3i)]', with: visa_expired_at.day)
-      fill_in('candidate_interface_visa_expiry_form[visa_expired_at(2i)]', with: visa_expired_at.month)
-      fill_in('candidate_interface_visa_expiry_form[visa_expired_at(1i)]', with: visa_expired_at.year)
-      click_link_or_button t('save_and_continue')
-      expect(page).to have_text(visa_expired_at.to_fs(:govuk_date))
-    end
+    expect(page).to have_text('When does your visa expire?')
+    visa_expired_at = 1.year.from_now
+    fill_in('candidate_interface_visa_expiry_form[visa_expired_at(3i)]', with: visa_expired_at.day)
+    fill_in('candidate_interface_visa_expiry_form[visa_expired_at(2i)]', with: visa_expired_at.month)
+    fill_in('candidate_interface_visa_expiry_form[visa_expired_at(1i)]', with: visa_expired_at.year)
+    click_link_or_button t('save_and_continue')
+    expect(page).to have_text(visa_expired_at.to_fs(:govuk_date))
 
     expect(page).to have_current_path candidate_interface_personal_details_show_path
     expect(page).to have_text('Name')

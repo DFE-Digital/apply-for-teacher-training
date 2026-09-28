@@ -615,25 +615,20 @@ private
         region_code: 'rest_of_the_world',
         efl_completed_at: Time.zone.now,
         efl_completed: true,
-        visa_expired_at: if FeatureFlag.active?('2027_visa_expiry')
-                           2.years.from_now
-                         end,
+        visa_expired_at: 2.years.from_now,
       )
     end
 
-    if FeatureFlag.active?('2027_visa_expiry')
+    visa_explanation = %w[expires_after_course renew leads_to_permanent_visa switch_to_different_visa not_sure other].sample
 
-      visa_explanation = %w[expires_after_course renew leads_to_permanent_visa switch_to_different_visa not_sure other].sample
+    application_form.application_choices.update_all(
+      visa_explanation:,
+    )
 
+    if visa_explanation == 'other'
       application_form.application_choices.update_all(
-        visa_explanation:,
+        visa_explanation_details: Faker::Lorem.sentence(word_count: 20),
       )
-
-      if visa_explanation == 'other'
-        application_form.application_choices.update_all(
-          visa_explanation_details: Faker::Lorem.sentence(word_count: 20),
-        )
-      end
     end
 
     return if application_form.english_proficiency.present?

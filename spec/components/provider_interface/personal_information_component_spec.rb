@@ -72,10 +72,6 @@ RSpec.describe ProviderInterface::PersonalInformationComponent do
   end
 
   context 'with visa expiry flag on and candidate is international' do
-    before do
-      FeatureFlag.activate('2027_visa_expiry')
-    end
-
     let(:application_form) do
       create(
         :completed_application_form,

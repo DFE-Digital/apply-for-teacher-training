@@ -404,18 +404,7 @@ RSpec.describe ApplicationChoice do
   end
 
   describe '#visa_expires_soon?' do
-    context 'when feature feature flag is off' do
-      it 'returns false' do
-        application_choice = build(:application_choice)
-        expect(application_choice.visa_expires_soon?).to be(false)
-      end
-    end
-
-    context 'when feature feature flag is on and visa expires soon' do
-      before do
-        FeatureFlag.activate('2027_visa_expiry')
-      end
-
+    context 'when visa expires soon' do
       it 'returns true' do
         application_form = create(:application_form, visa_expired_at: 1.day.from_now)
         application_choice = create(:application_choice, application_form:)
@@ -423,11 +412,7 @@ RSpec.describe ApplicationChoice do
       end
     end
 
-    context 'when feature feature flag is on and visa does not expire soon' do
-      before do
-        FeatureFlag.activate('2027_visa_expiry')
-      end
-
+    context 'visa does not expire soon' do
       it 'returns true' do
         application_form = create(:application_form, visa_expired_at: 2.years.from_now)
         application_choice = create(:application_choice, application_form:)

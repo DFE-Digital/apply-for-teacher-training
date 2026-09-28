@@ -406,7 +406,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
   end
 
   context 'when the candidate is British or Irish' do
-    it 'does not render the right to work row' do
+    it 'does visa expiry row' do
       nationalities_form = build(
         :nationalities_form,
         first_nationality: 'British',
@@ -422,78 +422,39 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
         first_nationality: 'Albanian',
         second_nationality: 'British',
       )
-
-      expect(rows(application_form:, nationalities_form:, right_to_work_form:)).not_to include(
-        row_for(
-          :immigration_right_to_work,
-          'Yes',
-          candidate_interface_edit_immigration_right_to_work_path('return-to' => 'application-review'),
-          'personal_details_immigration_right_to_work',
-        ),
-      )
+      rows = rows(application_form:, nationalities_form:, right_to_work_form:)
+      row_names = rows.map { |row| row[:key] }
+      expect(row_names.include?('Visa expiry')).to be(false)
+      expect(row_names.include?('Based on your visa expiry date, which of these applies to you?')).to be(false)
     end
   end
 
-  context 'when visa expiry flag is on' do
-    before do
-      FeatureFlag.activate('2027_visa_expiry')
-    end
-
-    after do
-      FeatureFlag.deactivate('2027_visa_expiry')
-    end
-
-    context 'when the candidate is British or Irish' do
-      it 'does visa expiry row' do
-        nationalities_form = build(
-          :nationalities_form,
-          first_nationality: 'British',
-          second_nationality: 'Albanian',
-        )
-        right_to_work_form = build(
-          :right_to_work_form,
-          right_to_work_or_study: 'yes',
-          right_to_work_or_study_details: 'I have the right.',
-        )
-        application_form = build(
-          :application_form,
-          first_nationality: 'Albanian',
-          second_nationality: 'British',
-        )
-        rows = rows(application_form:, nationalities_form:, right_to_work_form:)
-        row_names = rows.map { |row| row[:key] }
-        expect(row_names.include?('Visa expiry')).to be(false)
-        expect(row_names.include?('Based on your visa expiry date, which of these applies to you?')).to be(false)
-      end
-    end
-
-    context 'when the candidate is not British and does not have permanent visa' do
-      it 'does visa expiry row' do
-        nationalities_form = build(
-          :nationalities_form,
-          first_nationality: 'Albanian',
-        )
-        right_to_work_form = build(
-          :right_to_work_form,
-          right_to_work_or_study: 'yes',
-          right_to_work_or_study_details: 'I have the right.',
-        )
-        application_form = create(
-          :application_form,
-          immigration_status: 'other',
-          first_nationality: 'Albanian',
-          visa_expired_at: 2.days.from_now,
-        )
-        application_choice = create(
-          :application_choice,
-          application_form:,
-          visa_explanation: 'other',
-        )
-        rows = rows(application_form:, nationalities_form:, right_to_work_form:, application_choice:)
-        row_names = rows.map { |row| row[:key] }
-        expect(row_names.include?('Visa expiry')).to be(true)
-        expect(row_names.include?('Based on your visa expiry date, which of these applies to you?')).to be(true)
-      end
+  context 'when the candidate is not British and does not have permanent visa' do
+    it 'does visa expiry row' do
+      nationalities_form = build(
+        :nationalities_form,
+        first_nationality: 'Albanian',
+      )
+      right_to_work_form = build(
+        :right_to_work_form,
+        right_to_work_or_study: 'yes',
+        right_to_work_or_study_details: 'I have the right.',
+      )
+      application_form = create(
+        :application_form,
+        immigration_status: 'other',
+        first_nationality: 'Albanian',
+        visa_expired_at: 2.days.from_now,
+      )
+      application_choice = create(
+        :application_choice,
+        application_form:,
+        visa_explanation: 'other',
+      )
+      rows = rows(application_form:, nationalities_form:, right_to_work_form:, application_choice:)
+      row_names = rows.map { |row| row[:key] }
+      expect(row_names.include?('Visa expiry')).to be(true)
+      expect(row_names.include?('Based on your visa expiry date, which of these applies to you?')).to be(true)
     end
   end
 
