@@ -6,7 +6,7 @@ module EndOfCycle
       return unless run?
 
       BatchDelivery.new(relation:, stagger_over: 2.hours, batch_size: BATCH_SIZE).each do |batch_time, references|
-        CancelReferenceRequestsSecondaryWorker.set(wait_until: batch_time).perform_later(references.pluck(:id))
+        CancelReferenceRequestsSecondaryWorker.set(wait_until: batch_time).perform_later(references.pluck(:id).uniq)
       end
     end
 
@@ -16,15 +16,16 @@ module EndOfCycle
       requested_references = ApplicationReference.joins(application_form: :application_choices).feedback_requested
       choice_ids = requested_references.pluck('application_choices.id')
       requested_reference_choice_ids = if run_cancel_reference_requests?
-                                         september_choice_ids = ApplicationChoice
-                                                                .course_start_in_september(RecruitmentCycleTimetable.current_year)
-                                                                .where(id: choice_ids)
-                                                                .ids
-                                         january_choice_ids = ApplicationChoice
+                                         january_form_ids = ApplicationChoice
                                            .course_starts_after_september(RecruitmentCycleTimetable.current_year)
                                            .where(id: choice_ids)
+                                           .pluck(:application_form_id)
+
+                                         ApplicationChoice
+                                           .course_start_in_september(RecruitmentCycleTimetable.current_year)
+                                           .where(id: choice_ids)
+                                           .where.not(application_form_id: january_form_ids) # filter out sept application forms that also have a jan start
                                            .ids
-                                         september_choice_ids - january_choice_ids
                                        elsif run_winter_cancel_reference_requests?
                                          ApplicationChoice
                                            .course_starts_after_september(RecruitmentCycleTimetable.previous_year)
