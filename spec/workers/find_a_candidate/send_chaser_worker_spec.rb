@@ -6,6 +6,7 @@ RSpec.describe FindACandidate::SendChaserWorker do
       it 'creates chasers' do
         invite_1 = create(:pool_invite, :sent_to_candidate)
         invite_2 = create(:pool_invite, :sent_to_candidate)
+        create(:candidate_preference, application_form: invite_1.candidate.current_application)
 
         expect {
           described_class.new.perform([invite_1.id, invite_2.id])

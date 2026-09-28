@@ -15,17 +15,17 @@ Dear <%= @application_form.first_name %>,
 Course length: <%= DisplayCourseLength.call(course_length: @pool_invite.course.course_length) %>
 Age range: <%= @pool_invite.course.age_range %>
 Qualification: <%= @pool_invite.course.qualifications_to_s %>
-Start date: <%= @pool_invite.course.start_date.to_fs(:short_month_and_year) %>
+Start date: <%= @pool_invite.course.start_date.to_fs(:month_and_year) %>
 
-<% if @not_responded_invites_count >= Pool::Invite::NUMBER_OF_INVITES_TO_REMOVE_FROM_POOL %>
-This is the <%= TextOrdinalizer.call(@not_responded_invites_count) %> invitation to apply you have received. If you do not respond you will not receive any more invitations in future.
-<% end %>
-
-[Review and respond to this invitation](<%= @invite_url %>)
+[Accept or decline this invitation](<%= @invite_url %>)
 
 <% if @pool_invite.message_content.present? %>
 # <%= @pool_invite.course.provider.name %> included this message:
 <%= @pool_invite.message_content %>
 <% end %>
+
+## What happens if you do not respond
+
+<%= t('.body.if_you_do_not_respond') %>
 
 <%= t('.body.you_are_receiving') %> [You can change your preferences](<%= @preferences_url %>).

@@ -2,7 +2,7 @@
   <p class="govuk-body">Dear first name,</p>
 
   <p class="govuk-body">
-  <%= @course.provider.name %> has reviewed your application details and would like you to submit an application to:
+    <%= t('candidate_mailer.candidate_invite.body.invite_to_submit', provider_name: @course.provider.name) %>:
   </p>
 
   <h3><%= @course.provider.name %> - <%= @course.name_and_code %></h3>
@@ -18,11 +18,11 @@
     <%= tag.li "Course length: #{DisplayCourseLength.call(course_length: @course.course_length)}", class: 'govuk-!-margin-bottom-0' %>
     <%= tag.li "Age range: #{@course.age_range}", class: 'govuk-!-margin-bottom-0' %>
     <%= tag.li "Qualification: #{@course.qualifications_to_s}", class: 'govuk-!-margin-bottom-0' %>
-    <%= tag.li "Start date: #{@course.start_date.to_fs(:short_month_and_year)}", class: 'govuk-!-margin-bottom-0' %>
+    <%= tag.li "Start date: #{@course.start_date.to_fs(:month_and_year)}", class: 'govuk-!-margin-bottom-0' %>
   <% end %>
 
   <p class="govuk-body">
-  <%= govuk_link_to('Review and respond to this invitation', '#') %>
+    <%= govuk_link_to('Accept or decline this invitation', '#') %>
   </p>
 
   <p class="govuk-body govuk-!-margin-bottom-0"><%= @course.provider.name %> included this message:</p>
