@@ -28,7 +28,7 @@ RSpec.describe CandidateMailer do
         'This will not affect any applications you have already submitted or plan to submit.',
       )
       expect(email.body).to have_text(
-        "[Accept of decline your invitations](#{candidate_interface_invites_url})",
+        "[Accept or decline your invitations](#{candidate_interface_invites_url})",
       )
       expect(email.body).to have_text(
         'to let providers find you in searches and invite you to their courses again.',
