@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe EndOfCycle::CancelReferenceRequestsWorker do
   let(:year) { current_year }
   let(:september_course) { build(:course, start_date: Date.parse("01/09/#{year}")) }
-  let(:january_course) { build(:course, start_date: Date.parse("01/01/#{year}")) }
+  let(:january_course) { build(:course, :with_course_options, start_date: Date.parse("01/01/#{year + 1}")) }
   let(:september_application_choice) do
     create(
       :application_choice,
@@ -45,11 +45,11 @@ RSpec.describe EndOfCycle::CancelReferenceRequestsWorker do
 
     context 'after the decline by default date, and the application has courses ending in September and January', time: decline_by_default_run_date(current_year) do
       it 'does not enqueue a secondary worker for references with requested feedback, with a September course' do
-        create(
+        test_application_chocies = create(
           :application_choice,
           application_form: september_application_choice.application_form,
           current_recruitment_cycle_year: year,
-          course_option: build(:course_option, course: january_course),
+          course_option: january_course.course_options.first,
         )
         expect { described_class.perform_now }.not_to enqueue_job(EndOfCycle::CancelReferenceRequestsSecondaryWorker)
       end
