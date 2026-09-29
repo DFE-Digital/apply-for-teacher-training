@@ -331,7 +331,7 @@ namespace :candidate_interface, path: '/candidate' do
       get '/new-international-flow/grade/edit' => 'gcse/new_international_flow/grades#edit', as: :gcse_new_international_flow_edit_grades
       patch '/new-international-flow/grade/edit' => 'gcse/new_international_flow/grades#update'
 
-      get '/new-international-flow/interruption' => 'gcse/new_international_flow/failing_grade_interruption#show', as: :gcse_new_international_flow_interruption
+      get '/interruption' => 'gcse/failing_grade_interruption#show', as: :gcse_interruption
 
       get '/evidence' => 'gcse/evidence#new', as: :gcse_new_evidence
       patch '/evidence' => 'gcse/evidence#create'

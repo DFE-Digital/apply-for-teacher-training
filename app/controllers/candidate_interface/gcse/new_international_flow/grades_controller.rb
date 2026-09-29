@@ -26,7 +26,7 @@ module CandidateInterface
 
       if @structured_grades_form.save(current_qualification)
         if likely_below_level_four?
-          redirect_to candidate_interface_gcse_new_international_flow_interruption_path
+          redirect_to candidate_interface_gcse_interruption_path
         else
           redirect_to candidate_interface_gcse_details_new_enic_path
         end
@@ -48,7 +48,7 @@ module CandidateInterface
         if !grade_changed
           redirect_to @return_to[:back_path]
         elsif grade_changed && likely_below_level_four?
-          redirect_to candidate_interface_gcse_new_international_flow_interruption_path
+          redirect_to candidate_interface_gcse_interruption_path
         else
           redirect_to candidate_interface_gcse_details_edit_enic_path
         end

@@ -175,9 +175,9 @@ RSpec.describe CandidateInterface::GcseInternationalEquivalentReviewComponent do
       expect(result.css('.govuk-summary-list__key')[3].text).to include('Grade')
       expect(result.css('.govuk-summary-list__value')[3].text).to include('D7')
       expect(result.css('.govuk-summary-list__key')[4].text).to include('Do you have a UK ENIC statement of comparability?')
-      expect(result.css('.govuk-summary-list__value')[4]).to have_link('Enter your ENIC status', href: candidate_interface_gcse_new_international_flow_interruption_path(subject: 'maths', 'return-to': 'application-review'))
+      expect(result.css('.govuk-summary-list__value')[4]).to have_link('Enter your ENIC status', href: candidate_interface_gcse_interruption_path(subject: 'maths', 'return-to': 'application-review'))
       expect(result.css('.govuk-summary-list__key')[5].text).to include('Evidence that your maths skills are at GCSE grade 4 (C) or above')
-      expect(result.css('.govuk-summary-list__value')[5]).to have_link('Enter evidence that your maths skills are at GCSE grade 4 (C) or above', href: candidate_interface_gcse_new_international_flow_interruption_path(subject: 'maths', 'return-to': 'application-review'))
+      expect(result.css('.govuk-summary-list__value')[5]).to have_link('Enter evidence that your maths skills are at GCSE grade 4 (C) or above', href: candidate_interface_gcse_interruption_path(subject: 'maths', 'return-to': 'application-review'))
       expect(result.css('.govuk-summary-list__key')[6].text).to include('Year awarded')
       expect(result.css('.govuk-summary-list__value')[6].text).to include('Enter the year the qualification was awarded')
     end
