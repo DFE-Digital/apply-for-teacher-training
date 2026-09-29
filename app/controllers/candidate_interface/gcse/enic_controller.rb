@@ -56,7 +56,7 @@ module CandidateInterface
            current_qualification.grade.in?(selected_grade_schema.likely_below_level_four)
           candidate_interface_gcse_interruption_path(@subject)
         elsif params['return-to'] == 'schema-type'
-          candidate_interface_gcse_new_international_flow_new_grade_schemas_path
+          candidate_interface_gcse_new_grade_schemas_path
         else
           candidate_interface_gcse_new_international_flow_new_grades_path(@subject)
         end
@@ -67,7 +67,7 @@ module CandidateInterface
         if params['return-to'] == 'application-review'
           candidate_interface_gcse_review_path(@subject)
         elsif params['return-to'] == 'schema-type'
-          candidate_interface_gcse_new_international_flow_edit_grade_schemas_path
+          candidate_interface_gcse_edit_grade_schemas_path
         elsif current_grade_schemas.present? && current_qualification.grade.in?(@structured_grades) &&
               current_qualification.grade.in?(selected_grade_schema.likely_below_level_four)
           candidate_interface_gcse_interruption_path(@subject, 'return-to': 'application-review')

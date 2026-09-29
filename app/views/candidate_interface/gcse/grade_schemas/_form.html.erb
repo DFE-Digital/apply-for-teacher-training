@@ -1,6 +1,6 @@
 <%= f.govuk_error_summary %>
 
-<%= f.govuk_radio_buttons_fieldset :schema_id, legend: { text: t('gcse_edit_new_international_flow_grade_schema.page_title'), size: 'l', tag: 'h1' } do %>
+<%= f.govuk_radio_buttons_fieldset :schema_id, legend: { text: t('gcse_edit_grade_schema.page_title'), size: 'l', tag: 'h1' } do %>
   <% @grade_schemas.each_with_index do |schema, i| %>
     <%= f.govuk_radio_button(
       :schema_id,
