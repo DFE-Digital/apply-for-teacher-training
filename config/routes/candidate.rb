@@ -338,10 +338,10 @@ namespace :candidate_interface, path: '/candidate' do
       get '/new-international-flow/evidence/edit' => 'gcse/new_international_flow/evidence#edit', as: :gcse_new_international_flow_edit_evidence
       patch '/new-international-flow/evidence/edit' => 'gcse/new_international_flow/evidence#update'
 
-      get '/new-international-flow/enic' => 'gcse/new_international_flow/enic#new', as: :gcse_new_international_flow_new_enic
-      patch 'new-international-flow/enic' => 'gcse/new_international_flow/enic#create'
-      get '/new-international-flow/enic/edit' => 'gcse/new_international_flow/enic#edit', as: :gcse_new_international_flow_edit_enic
-      patch '/new-international-flow/enic/edit' => 'gcse/new_international_flow/enic#update'
+      # get '/new-international-flow/enic' => 'gcse/new_international_flow/enic#new', as: :gcse_new_international_flow_new_enic
+      # patch 'new-international-flow/enic' => 'gcse/new_international_flow/enic#create'
+      # get '/new-international-flow/enic/edit' => 'gcse/new_international_flow/enic#edit', as: :gcse_new_international_flow_edit_enic
+      # patch '/new-international-flow/enic/edit' => 'gcse/new_international_flow/enic#update'
 
       get '/new-international-flow/year' => 'gcse/new_international_flow/year#new', as: :gcse_new_international_flow_new_year
       patch '/new-international-flow/year' => 'gcse/new_international_flow/year#create'

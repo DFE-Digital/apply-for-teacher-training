@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::NewInternationalFlow::StatementComparabilityController < Gcse::NewInternationalFlow::BaseController
+  class Gcse::NewInternationalFlow::StatementComparabilityController < Gcse::InternationalBaseController
     def new
       @enic_form = GcseEnicForm.build_from_qualification(current_qualification)
       @form_path = new_international_flow_statement_comparability_path(@subject)

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::NewInternationalFlow::YearController < Gcse::NewInternationalFlow::BaseController
+  class Gcse::NewInternationalFlow::YearController < Gcse::InternationalBaseController
     def new
       set_previous_path
       @year_form = CandidateInterface::GcseYearForm.build_from_qualification(current_qualification)
@@ -50,7 +50,7 @@ module CandidateInterface
                        elsif current_qualification.enic_reference.present?
                          new_international_flow_statement_comparability_path(@subject)
                        else
-                         candidate_interface_gcse_new_international_flow_new_enic_path
+                         candidate_interface_gcse_details_new_enic_path
                        end
     end
   end
