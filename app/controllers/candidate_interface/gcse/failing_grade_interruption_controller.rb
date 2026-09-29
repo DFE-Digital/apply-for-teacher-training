@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::NewInternationalFlow::FailingGradeInterruptionController < Gcse::InternationalBaseController
+  class Gcse::FailingGradeInterruptionController < Gcse::InternationalBaseController
     def show
       @return_to = return_to
       @enic_path = enic_path

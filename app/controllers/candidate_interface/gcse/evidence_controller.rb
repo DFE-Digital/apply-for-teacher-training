@@ -41,7 +41,7 @@ module CandidateInterface
         if params['return-to'] == 'application-review'
           candidate_interface_gcse_review_path(@subject)
         else
-          candidate_interface_gcse_new_international_flow_interruption_path(@subject, 'return-to': 'application-review')
+          candidate_interface_gcse_interruption_path(@subject, 'return-to': 'application-review')
         end
     end
 

@@ -117,11 +117,11 @@ module CandidateInterface
 
       {
         key: "Evidence that your #{capitalize_english(subject)} skills are at GCSE grade 4 (C) or above",
-        value: application_qualification.not_completed_explanation || govuk_link_to("Enter evidence that your #{capitalize_english(subject)} skills are at GCSE grade 4 (C) or above", candidate_interface_gcse_new_international_flow_interruption_path(change_path_params)),
+        value: application_qualification.not_completed_explanation || govuk_link_to("Enter evidence that your #{capitalize_english(subject)} skills are at GCSE grade 4 (C) or above", candidate_interface_gcse_interruption_path(change_path_params)),
       }.tap do |row|
         if application_qualification.not_completed_explanation
           row[:action] = {
-            href: candidate_interface_gcse_new_international_flow_interruption_path(change_path_params),
+            href: candidate_interface_gcse_interruption_path(change_path_params),
             visually_hidden_text: "Evidence that your #{subject} skills are at GCSE grade 4 (C) or above",
           }
         end
@@ -164,7 +164,7 @@ module CandidateInterface
         if application_qualification.enic_reason?
           row[:action] =
             {
-              href: inspect_grade.likely_below? ? candidate_interface_gcse_new_international_flow_interruption_path(change_path_params) : candidate_interface_gcse_details_edit_enic_path(change_path_params),
+              href: inspect_grade.likely_below? ? candidate_interface_gcse_interruption_path(change_path_params) : candidate_interface_gcse_details_edit_enic_path(change_path_params),
               visually_hidden_text: t('application_form.gcse.enic_statement.change_action'),
             }
         end
@@ -173,7 +173,7 @@ module CandidateInterface
 
     def enic_statement_value
       if application_qualification.enic_reason.nil?
-        govuk_link_to('Enter your ENIC status', inspect_grade.likely_below? ? candidate_interface_gcse_new_international_flow_interruption_path(change_path_params) : candidate_interface_gcse_details_edit_enic_path(change_path_params))
+        govuk_link_to('Enter your ENIC status', inspect_grade.likely_below? ? candidate_interface_gcse_interruption_path(change_path_params) : candidate_interface_gcse_details_edit_enic_path(change_path_params))
       else
         t("gcse_edit_enic.#{application_qualification.enic_reason}")
       end
