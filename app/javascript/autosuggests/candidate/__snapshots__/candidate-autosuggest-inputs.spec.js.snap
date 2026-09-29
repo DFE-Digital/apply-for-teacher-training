@@ -3,44 +3,6 @@
 exports[`candidateAutosuggestInputs should return candidateAutosuggestInputs 1`] = `
 [
   {
-    "containerId": "degree-grade-autosuggest",
-    "inputIds": [
-      "candidate-interface-degree-grade-form-other-grade-field",
-      "candidate-interface-degree-grade-form-other-grade-field-error",
-    ],
-  },
-  {
-    "containerId": "degree-institution-autosuggest",
-    "inputIds": [
-      "candidate-interface-degree-institution-form-institution-name-field",
-      "candidate-interface-degree-institution-form-institution-name-field-error",
-      "candidate-interface-degree-wizard-university-field",
-      "candidate-interface-degree-wizard-university-field-error",
-    ],
-  },
-  {
-    "containerId": "degree-type-autosuggest",
-    "inputIds": [
-      "candidate-interface-degree-type-form-type-description-field",
-      "candidate-interface-degree-type-form-type-description-field-error",
-      "candidate-interface-degree-wizard-other-type-field",
-      "candidate-interface-degree-wizard-other-type-field-error",
-    ],
-    "templates": {
-      "inputTemplate": [Function],
-      "suggestionTemplate": [Function],
-    },
-  },
-  {
-    "containerId": "degree-subject-autosuggest",
-    "inputIds": [
-      "candidate-interface-degree-subject-form-subject-field",
-      "candidate-interface-degree-subject-form-subject-field-error",
-      "candidate-interface-degree-wizard-subject-field",
-      "candidate-interface-degree-wizard-subject-field-error",
-    ],
-  },
-  {
     "containerId": "subject-autosuggest-data",
     "inputIds": [
       "candidate-interface-other-qualification-details-form-subject-field",

@@ -1,6 +1,7 @@
 import { initAll as govUKFrontendInitAll } from 'govuk-frontend'
 import initWarnOnUnsavedChanges from './utils/warn-on-unsaved-changes'
 import { initAutocomplete } from './autocompletes/init-autocomplete'
+import { initDfeAutocomplete } from './autocompletes/init-dfe-autocomplete'
 import { initAutosuggest } from './autosuggests/init-autosuggest'
 import { candidateAutocompleteInputs } from './autocompletes/candidate/candidate-autocomplete-inputs'
 import { candidateAutosuggestInputs } from './autosuggests/candidate/candidate-autosuggest-inputs'
@@ -18,6 +19,7 @@ window.Stimulus.register('location-autocomplete', LocationAutocompleteController
 window.Stimulus.register('read-more-read-less', ReadMoreReadLessController)
 
 govUKFrontendInitAll()
+initDfeAutocomplete()
 
 candidateAutocompleteInputs.forEach((autocompleteInput) => {
   initAutocomplete(autocompleteInput)
