@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::NewInternationalFlow::GradeSchemasController < Gcse::NewInternationalFlow::BaseController
+  class Gcse::NewInternationalFlow::GradeSchemasController < Gcse::InternationalBaseController
     def new
       @grade_schemas_form = GcseInternationalGradeSchemasForm.build_from_qualification(current_qualification)
       @grade_schemas = current_grade_schemas
@@ -17,7 +17,7 @@ module CandidateInterface
 
       if @grade_schemas_form.save(current_qualification)
         if @grade_schemas_form.other?
-          redirect_to candidate_interface_gcse_new_international_flow_new_enic_path(@subject, 'return-to': 'schema-type')
+          redirect_to candidate_interface_gcse_details_new_enic_path(@subject, 'return-to': 'schema-type')
         else
           redirect_to candidate_interface_gcse_new_international_flow_new_grades_path(@subject)
         end
@@ -33,7 +33,7 @@ module CandidateInterface
 
       if @grade_schemas_form.save(current_qualification)
         if @grade_schemas_form.other?
-          redirect_to candidate_interface_gcse_new_international_flow_edit_enic_path(@subject, 'return-to': 'schema-type')
+          redirect_to candidate_interface_gcse_details_edit_enic_path(@subject, 'return-to': 'schema-type')
         else
           redirect_to candidate_interface_gcse_new_international_flow_edit_grades_path(@subject, 'return-to': 'schema-type')
         end

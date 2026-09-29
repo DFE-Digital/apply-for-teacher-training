@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::NewInternationalFlow::GradesController < Gcse::NewInternationalFlow::BaseController
+  class Gcse::NewInternationalFlow::GradesController < Gcse::InternationalBaseController
     def new
       @structured_grades_form = GcseInternationalStructuredGradesForm.build_from_qualification(current_qualification,
                                                                                                structured_grades: @structured_grades,
@@ -28,7 +28,7 @@ module CandidateInterface
         if likely_below_level_four?
           redirect_to candidate_interface_gcse_new_international_flow_interruption_path
         else
-          redirect_to candidate_interface_gcse_new_international_flow_new_enic_path
+          redirect_to candidate_interface_gcse_details_new_enic_path
         end
       else
         track_validation_error(@structured_grades_form)
@@ -50,7 +50,7 @@ module CandidateInterface
         elsif grade_changed && likely_below_level_four?
           redirect_to candidate_interface_gcse_new_international_flow_interruption_path
         else
-          redirect_to candidate_interface_gcse_new_international_flow_edit_enic_path
+          redirect_to candidate_interface_gcse_details_edit_enic_path
         end
       else
         track_validation_error(@structured_grades_form)

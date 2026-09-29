@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::NewInternationalFlow::EvidenceController < Gcse::NewInternationalFlow::BaseController
+  class Gcse::NewInternationalFlow::EvidenceController < Gcse::InternationalBaseController
     before_action :set_back_path
 
     def new

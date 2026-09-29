@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::NewInternationalFlow::FailingGradeInterruptionController < Gcse::NewInternationalFlow::BaseController
+  class Gcse::NewInternationalFlow::FailingGradeInterruptionController < Gcse::InternationalBaseController
     def show
       @return_to = return_to
       @enic_path = enic_path
@@ -28,9 +28,9 @@ module CandidateInterface
 
     def enic_path
       if from_review?
-        candidate_interface_gcse_new_international_flow_edit_enic_path(@subject)
+        candidate_interface_gcse_details_edit_enic_path(@subject)
       else
-        candidate_interface_gcse_new_international_flow_new_enic_path(@subject)
+        candidate_interface_gcse_details_new_enic_path(@subject)
       end
     end
 

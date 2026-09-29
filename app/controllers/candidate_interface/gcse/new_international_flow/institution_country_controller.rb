@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::NewInternationalFlow::InstitutionCountryController < Gcse::NewInternationalFlow::BaseController
+  class Gcse::NewInternationalFlow::InstitutionCountryController < Gcse::InternationalBaseController
     def new
       @institution_country_form = GcseInstitutionCountryForm.build_from_qualification(current_qualification)
     end

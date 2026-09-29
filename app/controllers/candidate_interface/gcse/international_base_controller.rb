@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::NewInternationalFlow::BaseController < SectionController
+  class Gcse::InternationalBaseController < SectionController
     include GcseStatementComparabilityPathHelper
 
     before_action :set_subject

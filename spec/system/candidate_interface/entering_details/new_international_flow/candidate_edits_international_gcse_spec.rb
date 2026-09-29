@@ -238,7 +238,7 @@ private
   alias_method :then_i_see_the_year_step, :and_i_see_the_year_step
 
   def then_i_see_the_enic_step
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_edit_enic_path('maths')
+    expect(page).to have_current_path candidate_interface_gcse_details_edit_enic_path('maths')
   end
   alias_method :when_i_see_the_enic_step, :then_i_see_the_enic_step
 
