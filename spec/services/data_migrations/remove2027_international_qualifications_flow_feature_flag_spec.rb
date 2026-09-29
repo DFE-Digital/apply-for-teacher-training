@@ -24,4 +24,3 @@ RSpec.describe DataMigrations::Remove2027InternationalQualificationsFlowFeatureF
     end
   end
 end
-
