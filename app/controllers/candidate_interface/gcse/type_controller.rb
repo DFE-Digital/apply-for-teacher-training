@@ -61,10 +61,8 @@ module CandidateInterface
     end
 
     def next_gcse_path
-      if non_uk_qualification? && FeatureFlag.active?('2027_international_qualifications_flow')
+      if non_uk_qualification?
         candidate_interface_gcse_new_international_flow_new_institution_country_path
-      elsif non_uk_qualification?
-        candidate_interface_gcse_details_new_institution_country_path
       elsif @type_form.missing_qualification?
         candidate_interface_gcse_not_yet_completed_path
       elsif !@type_form.missing_qualification?

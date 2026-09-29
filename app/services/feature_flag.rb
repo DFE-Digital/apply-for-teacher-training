@@ -28,7 +28,6 @@ class FeatureFlag
     [:ms_clarity, 'Record sessions with MS Clarity'],
     [:import_non_disclosure_trainee_withdrawals, 'Import Non-disclosure data from BigQuery to generate Possible Previous Teacher Training records', 'Apply team'],
     ['2027_application_form_contact_details_residency_questions', 'Add residency questions to contact details flow in candidate interface', 'Apply team'],
-    ['2027_international_qualifications_flow', 'Add new flow for international qualifications for which we have structured data', 'Apply team'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

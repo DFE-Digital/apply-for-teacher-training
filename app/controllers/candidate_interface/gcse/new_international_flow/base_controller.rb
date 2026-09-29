@@ -2,7 +2,6 @@ module CandidateInterface
   class Gcse::NewInternationalFlow::BaseController < SectionController
     include GcseStatementComparabilityPathHelper
 
-    before_action :redirect_if_feature_flag_inactive
     before_action :set_subject
     before_action :set_institution_country
     before_action :set_equivalent_qualifications
@@ -75,12 +74,6 @@ module CandidateInterface
       return if @institution_country.blank?
 
       @finder ||= InternationalQualifications::StructuredGcseOptionFinder.new(@institution_country, @subject)
-    end
-
-    def redirect_if_feature_flag_inactive
-      return if FeatureFlag.active?('2027_international_qualifications_flow')
-
-      redirect_to root_path
     end
 
     def subject_param

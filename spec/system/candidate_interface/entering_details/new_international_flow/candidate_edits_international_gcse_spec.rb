@@ -3,8 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Candidate edits a GCSE equivalent qualification from outside of the UK' do
   include CandidateHelper
 
-  scenario 'Candidate edits their maths international qualification details',
-           feature_flag: '2027_international_qualifications_flow' do
+  scenario 'Candidate edits their maths international qualification details' do
     given_i_am_signed_in_with_one_login
     and_i_have_a_maths_wassce
     and_i_click_on_the_maths_gcse_link
@@ -67,8 +66,7 @@ RSpec.describe 'Candidate edits a GCSE equivalent qualification from outside of 
     then_i_see_the_review_page_with_my_new_stored_attrs
   end
 
-  scenario 'Candidate edits their maths international qualification details where qualification has multiple schemas',
-           feature_flag: '2027_international_qualifications_flow' do
+  scenario 'Candidate edits their maths international qualification details where qualification has multiple schemas' do
     given_i_am_signed_in_with_one_login
     and_i_have_a_maths_cbse
     and_i_click_on_the_maths_gcse_link

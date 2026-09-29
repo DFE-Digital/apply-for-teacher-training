@@ -35,7 +35,7 @@ module CandidateInterface
     def save(application_qualification)
       return false unless valid?
 
-      if FeatureFlag.active?('2027_international_qualifications_flow') && (institution_country != application_qualification.institution_country)
+      if institution_country != application_qualification.institution_country
         application_qualification.update!(
           non_uk_qualification_type: nil,
           grade: nil,

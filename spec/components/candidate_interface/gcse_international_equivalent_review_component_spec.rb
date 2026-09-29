@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::GcseInternationalEquivalentReviewComponent,
-               feature_flag: '2027_international_qualifications_flow' do
+RSpec.describe CandidateInterface::GcseInternationalEquivalentReviewComponent do
   include Rails.application.routes.url_helpers
 
   context 'a non uk qualification' do
