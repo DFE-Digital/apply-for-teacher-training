@@ -227,7 +227,8 @@ RSpec.configure do |config|
 
   config.before(:each, :with_cache) do
     allow(Rails).to receive(:cache) do
-      ActiveSupport::Cache.lookup_store(:solid_cache_store)
+      ActiveSupport::Cache.lookup_store(:solid_cache_store, max_age: nil)
+      # max_age: nil guards against time travelling and stops the cache removing keys
     end
     Rails.cache.clear
   end
