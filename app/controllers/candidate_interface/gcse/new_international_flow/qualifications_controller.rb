@@ -48,7 +48,7 @@ module CandidateInterface
       if requires_grade_schema_selection?
         candidate_interface_gcse_new_grade_schemas_path(@subject)
       else
-        candidate_interface_gcse_new_international_flow_new_grades_path(@subject)
+        candidate_interface_gcse_new_international_grades_path(@subject)
       end
     end
 
@@ -56,7 +56,7 @@ module CandidateInterface
       if requires_grade_schema_selection?
         candidate_interface_gcse_edit_grade_schemas_path(@subject)
       else
-        candidate_interface_gcse_new_international_flow_edit_grades_path(@subject)
+        candidate_interface_gcse_edit_international_grades_path(@subject)
       end
     end
 

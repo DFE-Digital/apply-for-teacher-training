@@ -326,10 +326,10 @@ namespace :candidate_interface, path: '/candidate' do
       get '/grade-schema/edit' => 'gcse/grade_schemas#edit', as: :gcse_edit_grade_schemas
       patch '/grade-schema/edit' => 'gcse/grade_schemas#update'
 
-      get '/new-international-flow/grade' => 'gcse/new_international_flow/grades#new', as: :gcse_new_international_flow_new_grades
-      patch 'new-international-flow/grade' => 'gcse/new_international_flow/grades#create'
-      get '/new-international-flow/grade/edit' => 'gcse/new_international_flow/grades#edit', as: :gcse_new_international_flow_edit_grades
-      patch '/new-international-flow/grade/edit' => 'gcse/new_international_flow/grades#update'
+      get '/international-grade' => 'gcse/international_grades#new', as: :gcse_new_international_grades
+      patch '/international-grade' => 'gcse/international_grades#create'
+      get '/international-grade/edit' => 'gcse/international_grades#edit', as: :gcse_edit_international_grades
+      patch '/international-grade/edit' => 'gcse/international_grades#update'
 
       get '/interruption' => 'gcse/failing_grade_interruption#show', as: :gcse_interruption
 

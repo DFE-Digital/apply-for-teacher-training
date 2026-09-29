@@ -97,7 +97,7 @@ en:
       other: For example, ‘A’, ‘4.5’, ‘94%’
   gcse_edit_grade_schema:
     page_title: What type of grade did you get?
-  gcse_edit_new_international_flow_grade:
+  gcse_edit_international_grade:
     page_title: What grade did you get?
   gcse_interruption:
     page_title: This grade may not be equivalent to a GCSE in %{subject} at grade 4 (C) or above

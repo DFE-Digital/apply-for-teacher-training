@@ -22,7 +22,7 @@ module CandidateInterface
       if from_review?
         candidate_interface_gcse_review_path(@subject)
       else
-        candidate_interface_gcse_new_international_flow_new_grades_path
+        candidate_interface_gcse_new_international_grades_path
       end
     end
 
