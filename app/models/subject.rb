@@ -26,27 +26,9 @@ class Subject < ApplicationRecord
     'Q3', #	English
   ].freeze
 
-  SKE_STANDARD_COURSES = [
-    '11', # Computing
-    '16', # English as a second or other language
-    'G1', # Mathematics
-    'F0', # Science
-    'F3', # Physics
-  ].freeze
+  SKE_STANDARD_COURSES = [].freeze
 
-  SKE_LANGUAGE_COURSES = %w[
-    15
-    17
-    18
-    19
-    20
-    21
-    22
-    24
-  ].freeze
+  SKE_LANGUAGE_COURSES = %w[].freeze
 
-  SKE_PHYSICS_COURSES = %w[
-    F0
-    F3
-  ].freeze
+  SKE_PHYSICS_COURSES = %w[].freeze
 end
