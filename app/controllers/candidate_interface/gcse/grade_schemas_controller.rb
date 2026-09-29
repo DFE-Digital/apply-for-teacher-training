@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::NewInternationalFlow::GradeSchemasController < Gcse::InternationalBaseController
+  class Gcse::GradeSchemasController < Gcse::InternationalBaseController
     def new
       @grade_schemas_form = GcseInternationalGradeSchemasForm.build_from_qualification(current_qualification)
       @grade_schemas = current_grade_schemas

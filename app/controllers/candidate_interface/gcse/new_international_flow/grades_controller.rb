@@ -61,11 +61,11 @@ module CandidateInterface
   private
 
     def new_flow_back_path
-      requires_grade_schema_selection? ? candidate_interface_gcse_new_international_flow_new_grade_schemas_path : candidate_interface_gcse_new_international_flow_new_qualifications_path
+      requires_grade_schema_selection? ? candidate_interface_gcse_new_grade_schemas_path : candidate_interface_gcse_new_international_flow_new_qualifications_path
     end
 
     def edit_flow_back_path
-      params['return-to'] == 'schema-type' ? candidate_interface_gcse_new_international_flow_edit_grade_schemas_path(@subject) : candidate_interface_gcse_review_path(@subject)
+      params['return-to'] == 'schema-type' ? candidate_interface_gcse_edit_grade_schemas_path(@subject) : candidate_interface_gcse_review_path(@subject)
     end
 
     def likely_below_level_four?

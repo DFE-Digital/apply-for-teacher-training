@@ -46,7 +46,7 @@ module CandidateInterface
 
     def next_new_path_for_selected_qualification
       if requires_grade_schema_selection?
-        candidate_interface_gcse_new_international_flow_new_grade_schemas_path(@subject)
+        candidate_interface_gcse_new_grade_schemas_path(@subject)
       else
         candidate_interface_gcse_new_international_flow_new_grades_path(@subject)
       end
@@ -54,7 +54,7 @@ module CandidateInterface
 
     def next_edit_path_for_selected_qualification
       if requires_grade_schema_selection?
-        candidate_interface_gcse_new_international_flow_edit_grade_schemas_path(@subject)
+        candidate_interface_gcse_edit_grade_schemas_path(@subject)
       else
         candidate_interface_gcse_new_international_flow_edit_grades_path(@subject)
       end
