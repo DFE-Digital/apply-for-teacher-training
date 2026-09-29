@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ContactInformationComponent do
-  before do
-    allow(FeatureFlag).to receive(:active?)
-      .with('2027_application_form_contact_details_residency_questions')
-      .and_return(true)
-  end
-
   let(:application_form) { build_stubbed(:completed_application_form, date_of_birth: Date.new(1991, 9, 9), country: 'GB-WLS', country_residency_since_birth: true, country_residency_date_from: Date.new(1991, 9, 9)) }
 
   subject(:result) { render_inline(described_class.new(application_form:)) }

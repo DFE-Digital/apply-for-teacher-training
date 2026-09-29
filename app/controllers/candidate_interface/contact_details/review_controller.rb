@@ -44,13 +44,9 @@ module CandidateInterface
     end
 
     def valid_for_submission?
-      if FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
-        ContactDetailsForm.build_from_application(current_application).valid_for_submission? &&
-          ResidencyForm.build_from_application(current_application).valid? &&
-          ResidencyDateForm.build_from_application(current_application).valid?
-      else
-        ContactDetailsForm.build_from_application(current_application).valid_for_submission?
-      end
+      ContactDetailsForm.build_from_application(current_application).valid_for_submission? &&
+        ResidencyForm.build_from_application(current_application).valid? &&
+        ResidencyDateForm.build_from_application(current_application).valid?
     end
   end
 end

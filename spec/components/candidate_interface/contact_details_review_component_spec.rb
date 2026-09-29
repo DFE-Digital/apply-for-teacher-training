@@ -128,12 +128,6 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
       )
     end
 
-    before do
-      allow(FeatureFlag).to receive(:active?)
-        .with('2027_application_form_contact_details_residency_questions')
-        .and_return(true)
-    end
-
     it 'renders the residency row without the dates row' do
       result = render_inline(described_class.new(application_form:))
 
@@ -157,12 +151,6 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
         country_residency_date_from: Date.new(1991, 1, 1),
         country: 'DE',
       )
-    end
-
-    before do
-      allow(FeatureFlag).to receive(:active?)
-        .with('2027_application_form_contact_details_residency_questions')
-        .and_return(true)
     end
 
     it 'renders the residency row without the dates row' do
@@ -189,12 +177,6 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent, type: :compone
         country_residency_date_from: nil,
         country: 'DE',
       )
-    end
-
-    before do
-      allow(FeatureFlag).to receive(:active?)
-        .with('2027_application_form_contact_details_residency_questions')
-        .and_return(true)
     end
 
     it 'renders the residency row with the dates missing row' do

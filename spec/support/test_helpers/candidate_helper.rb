@@ -384,10 +384,8 @@ module CandidateHelper
     fill_in t('application_form.contact_details.postcode.label.uk'), with: 'SW1P 3BT'
     click_link_or_button t('save_and_continue')
 
-    if FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
-      choose 'Yes'
-      click_link_or_button 'Save and continue'
-    end
+    choose 'Yes'
+    click_link_or_button 'Save and continue'
 
     choose t('application_form.completed_radio')
     click_link_or_button t('continue')
@@ -406,10 +404,8 @@ module CandidateHelper
     fill_in 'candidate_interface_contact_details_form[address_line4]', with: '110018'
     click_link_or_button t('save_and_continue')
 
-    if FeatureFlag.active?('2027_application_form_contact_details_residency_questions')
-      choose 'Yes'
-      click_link_or_button 'Save and continue'
-    end
+    choose 'Yes'
+    click_link_or_button 'Save and continue'
 
     choose t('application_form.completed_radio')
     click_link_or_button t('continue')
