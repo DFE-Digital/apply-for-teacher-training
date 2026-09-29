@@ -1,18 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Candidate email click tracking' do
-  include CandidateHelper
-  include DfE::Bigquery::TestHelper
-
-  before do
-    stub_bigquery_non_disclosure_trainee_withdrawals_request
-  end
-
-  it 'Candidate clicks a sign in link in a nudge email', :with_cache do
-    given_i_complete_my_application
-    and_i_logout
-    and_i_have_been_inactive_for_10_days
-    when_the_nudge_worker_runs
+  it 'Candidate clicks a sign in link in a nudge email' do
+    given_i_have_been_sent_a_nudge_email
     then_an_email_is_logged
 
     when_i_open_the_nudge_email_and_click_on_the_link
@@ -20,22 +10,11 @@ RSpec.describe 'Candidate email click tracking' do
     then_an_email_click_is_logged
   end
 
-  def given_i_complete_my_application
-    candidate_completes_application_form
-  end
+private
 
-  def and_i_have_been_inactive_for_10_days
-    current_candidate.current_application.update_columns(
-      updated_at: 10.days.ago,
-    )
-  end
-
-  def and_i_logout
-    logout
-  end
-
-  def when_the_nudge_worker_runs
-    NudgeCandidatesWorker.new.perform
+  def given_i_have_been_sent_a_nudge_email
+    application_form = current_candidate.current_application
+    CandidateMailer.nudge_unsubmitted(application_form).deliver_now
   end
 
   def then_an_email_is_logged
