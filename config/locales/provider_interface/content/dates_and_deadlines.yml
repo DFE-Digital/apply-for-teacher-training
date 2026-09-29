@@ -6,8 +6,10 @@ en:
         caption: "%{cycle_range} (for the %{academic_year_range} academic year )"
         date_and_time: Date and time
         what_happens: What happens
-        find_opens: Candidates can Find courses and begin preparing their applications
-        apply_opens: Candidates can begin applying for courses
-        apply_deadline: Candidates must submit their applications
-        reject_by_default: Any applications awaiting provider decision (including interviewing) will be rejected.
-        decline_by_default: Any offers awaiting candidate decision will be declined.
+        find_opens: Candidates can find courses for the %{cycle_range} recruitment cycle on GOV.UK and begin preparing their applications
+        apply_opens: Start of %{cycle_range} recruitment cycle. Candidates can begin applying for courses
+        apply_deadline: Candidates must submit their applications by this time
+        reject_by_default: Applications for courses starting by the end of September will be rejected if no provider decision has been made. This includes applications at interview stage
+        decline_by_default: End of %{cycle_range} recruitment cycle. Offers for courses starting by the end of September will be declined if no candidate decision has been made
+        winter_reject_by_default: Applications for courses starting by the end of January will be rejected if no provider decision has been made. This includes applications at interview stage
+        winter_decline_by_default: Offers for courses starting by the end of January will be declined if no candidate decision has been made
