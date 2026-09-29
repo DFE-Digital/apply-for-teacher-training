@@ -36,9 +36,9 @@ module CandidateInterface
 
     def evidence_path
       if from_review?
-        candidate_interface_gcse_new_international_flow_edit_evidence_path(@subject)
+        candidate_interface_gcse_edit_evidence_path(@subject)
       else
-        candidate_interface_gcse_new_international_flow_new_evidence_path(@subject)
+        candidate_interface_gcse_new_evidence_path(@subject)
       end
     end
 

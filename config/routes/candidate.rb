@@ -333,10 +333,10 @@ namespace :candidate_interface, path: '/candidate' do
 
       get '/new-international-flow/interruption' => 'gcse/new_international_flow/failing_grade_interruption#show', as: :gcse_new_international_flow_interruption
 
-      get '/new-international-flow/evidence' => 'gcse/new_international_flow/evidence#new', as: :gcse_new_international_flow_new_evidence
-      patch 'new-international-flow/evidence' => 'gcse/new_international_flow/evidence#create'
-      get '/new-international-flow/evidence/edit' => 'gcse/new_international_flow/evidence#edit', as: :gcse_new_international_flow_edit_evidence
-      patch '/new-international-flow/evidence/edit' => 'gcse/new_international_flow/evidence#update'
+      get '/evidence' => 'gcse/evidence#new', as: :gcse_new_evidence
+      patch '/evidence' => 'gcse/evidence#create'
+      get '/evidence/edit' => 'gcse/evidence#edit', as: :gcse_edit_evidence
+      patch '/evidence/edit' => 'gcse/evidence#update'
 
       # get '/new-international-flow/enic' => 'gcse/new_international_flow/enic#new', as: :gcse_new_international_flow_new_enic
       # patch 'new-international-flow/enic' => 'gcse/new_international_flow/enic#create'

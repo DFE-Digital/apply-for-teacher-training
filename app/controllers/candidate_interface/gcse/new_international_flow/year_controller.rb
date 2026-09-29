@@ -46,7 +46,7 @@ module CandidateInterface
 
     def set_previous_path
       @previous_path = if current_qualification.not_completed_explanation.present?
-                         candidate_interface_gcse_new_international_flow_new_evidence_path
+                         candidate_interface_gcse_new_evidence_path
                        elsif current_qualification.enic_reference.present?
                          new_international_flow_statement_comparability_path(@subject)
                        else
