@@ -16,7 +16,7 @@ module CandidateInterface
       @form_path = x_gcse_new_statement_comparability_path(@subject)
 
       if @enic_form.save(current_qualification)
-        redirect_to candidate_interface_gcse_new_international_flow_new_year_path(@subject)
+        redirect_to candidate_interface_gcse_details_new_year_path(@subject)
       else
         track_validation_error(@enic_form)
         render :new

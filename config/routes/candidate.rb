@@ -343,10 +343,10 @@ namespace :candidate_interface, path: '/candidate' do
       # get '/new-international-flow/enic/edit' => 'gcse/new_international_flow/enic#edit', as: :gcse_new_international_flow_edit_enic
       # patch '/new-international-flow/enic/edit' => 'gcse/new_international_flow/enic#update'
 
-      get '/new-international-flow/year' => 'gcse/new_international_flow/year#new', as: :gcse_new_international_flow_new_year
-      patch '/new-international-flow/year' => 'gcse/new_international_flow/year#create'
-      get '/new-international-flow/year/edit' => 'gcse/new_international_flow/year#edit', as: :gcse_new_international_flow_edit_year
-      patch '/new-international-flow/year/edit' => 'gcse/new_international_flow/year#update'
+      # get '/new-international-flow/year' => 'gcse/new_international_flow/year#new', as: :gcse_new_international_flow_new_year
+      # patch '/new-international-flow/year' => 'gcse/new_international_flow/year#create'
+      # get '/new-international-flow/year/edit' => 'gcse/new_international_flow/year#edit', as: :gcse_new_international_flow_edit_year
+      # patch '/new-international-flow/year/edit' => 'gcse/new_international_flow/year#update'
     end
 
     scope '/restructured-work-history' do

@@ -80,11 +80,11 @@ module CandidateInterface
 
       {
         key: 'Year awarded',
-        value: application_qualification.award_year || govuk_link_to('Enter the year the qualification was awarded', candidate_interface_gcse_new_international_flow_edit_year_path(change_path_params)),
+        value: application_qualification.award_year || govuk_link_to('Enter the year the qualification was awarded', candidate_interface_gcse_details_edit_year_path(change_path_params)),
       }.tap do |row|
         if application_qualification.award_year
           row[:action] = {
-            href: candidate_interface_gcse_new_international_flow_edit_year_path(change_path_params),
+            href: candidate_interface_gcse_details_edit_year_path(change_path_params),
             visually_hidden_text: "year awarded for #{application_qualification.non_uk_qualification_type}, #{subject}",
           }
         end
