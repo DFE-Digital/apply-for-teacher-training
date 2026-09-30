@@ -41,7 +41,7 @@ RSpec.describe 'Email log' do
     ).deliver_now
 
     open_email('harry@example.com')
-    expect(current_email.header('reference')).to start_with("#{HostingEnvironment.environment_name}-sign_up_email-#{@candidate.id}-")
+    expect(current_email.reference).to start_with("#{HostingEnvironment.environment_name}-sign_up_email-#{@candidate.id}-")
   end
 
   def and_an_application_is_submitted
@@ -63,7 +63,7 @@ RSpec.describe 'Email log' do
     ).deliver_now
 
     open_email('harry@example.com')
-    expect(current_email.header('reference')).not_to be_nil
+    expect(current_email.reference).not_to be_nil
   end
 
   def and_i_visit_the_email_log
