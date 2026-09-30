@@ -55,6 +55,6 @@ RSpec.describe 'A candidate withdraws with upcoming interviews' do
   def and_i_received_an_interview_cancelled_email
     open_email(@current_candidate.email_address)
     expect(current_email.subject).to have_text('Interview cancelled')
-    expect(current_email.text).to have_text('You withdrew your application.')
+    expect(current_email.personalisation.fetch(:body)).to have_text('You withdrew your application.')
   end
 end
