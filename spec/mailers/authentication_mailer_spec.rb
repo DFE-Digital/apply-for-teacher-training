@@ -21,7 +21,7 @@ RSpec.describe AuthenticationMailer do
         email.deliver_now
       end
 
-      expect(email[:reference].value).to start_with("example_env-sign_up_email-#{candidate.id}")
+      expect(email.reference).to start_with("example_env-sign_up_email-#{candidate.id}")
     end
   end
 
