@@ -79,6 +79,8 @@ class CandidateInterface::CourseSelectionWizard
       graph.add_multiple_conditional_edges(
         from: :find_course_selection,
         branches: [
+          { when: :reapplication_limit_reached?, then: :reached_reapplication_limit },
+          { when: :duplicate_course?, then: :duplicate_course_selection },
           { when: :multiple_study_modes?, then: :course_study_mode },
           { when: :multiple_sites?, then: :course_site },
           { when: :visa_expires_soon?, then: :visa_expiry_interruption },

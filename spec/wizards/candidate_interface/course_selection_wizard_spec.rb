@@ -121,9 +121,27 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
     end
 
     describe 'branching from find_course_selection' do
+      context 'when the candidate has reached there application limit' do
+        before { allow(state_store).to receive(:reapplication_limit_reached?).and_return(true) }
+
+        it { is_expected.to branch_from(:find_course_selection).to(:reached_reapplication_limit) }
+      end
+
+      context 'when candidate has selected a duplicate course' do
+        before do
+          allow(state_store).to receive_messages(reapplication_limit_reached?: false, duplicate_course?: true)
+        end
+
+        it { is_expected.to branch_from(:find_course_selection).to(:duplicate_course_selection) }
+      end
+
       context 'when the candidate applies for a course that has multiple study modes' do
         before do
-          allow(state_store).to receive(:multiple_study_modes?).and_return(true)
+          allow(state_store).to receive_messages(
+            reapplication_limit_reached?: false,
+            duplicate_course?: false,
+            multiple_study_modes?: true,
+          )
         end
 
         it { is_expected.to branch_from(:find_course_selection).to(:course_study_mode) }
@@ -131,7 +149,12 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
       context 'when the candidate applies for a course that has multiple sites' do
         before do
-          allow(state_store).to receive_messages(multiple_study_modes?: false, multiple_sites?: true)
+          allow(state_store).to receive_messages(
+            reapplication_limit_reached?: false,
+            duplicate_course?: false,
+            multiple_study_modes?: false,
+            multiple_sites?: true,
+          )
         end
 
         it { is_expected.to branch_from(:find_course_selection).to(:course_site) }
@@ -139,7 +162,13 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
       context "when the candidate's visa expires soon" do
         before do
-          allow(state_store).to receive_messages(multiple_study_modes?: false, multiple_sites?: false, visa_expires_soon?: true)
+          allow(state_store).to receive_messages(
+            reapplication_limit_reached?: false,
+            duplicate_course?: false,
+            multiple_study_modes?: false,
+            multiple_sites?: false,
+            visa_expires_soon?: true,
+          )
         end
 
         it { is_expected.to branch_from(:find_course_selection).to(:visa_expiry_interruption) }
@@ -147,7 +176,14 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
       context 'when the candidate applies for a course that has only one site and study mode' do
         before do
-          allow(state_store).to receive_messages(multiple_study_modes?: false, multiple_sites?: false, visa_expires_soon?: false, find_course_selected?: true)
+          allow(state_store).to receive_messages(
+            reapplication_limit_reached?: false,
+            duplicate_course?: false,
+            multiple_study_modes?: false,
+            multiple_sites?: false,
+            visa_expires_soon?: false,
+            find_course_selected?: true,
+          )
         end
 
         it { is_expected.to branch_from(:find_course_selection).to(:course_review) }
@@ -155,7 +191,15 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
       context 'when the candidate does not confirm the course' do
         before do
-          allow(state_store).to receive_messages(multiple_study_modes?: false, multiple_sites?: false, visa_expires_soon?: false, find_course_selected?: false, not_confirmed?: true)
+          allow(state_store).to receive_messages(
+            reapplication_limit_reached?: false,
+            duplicate_course?: false,
+            multiple_study_modes?: false,
+            multiple_sites?: false,
+            visa_expires_soon?: false,
+            find_course_selected?: false,
+            not_confirmed?: true,
+          )
         end
 
         it { is_expected.to branch_from(:find_course_selection).to(:application_list) }
