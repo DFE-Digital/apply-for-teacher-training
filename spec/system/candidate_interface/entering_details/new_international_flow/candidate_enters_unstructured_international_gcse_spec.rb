@@ -102,7 +102,7 @@ private
   end
 
   def then_i_see_the_structured_qualifications_page
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_new_qualifications_path('maths')
+    expect(page).to have_current_path candidate_interface_gcse_new_qualifications_path('maths')
     expect(page).to have_text 'WASSCE (West African Senior School Certificate Examination)'
   end
 

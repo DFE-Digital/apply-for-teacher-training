@@ -199,7 +199,7 @@ private
   end
 
   def then_i_see_the_qualification_step_again
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_edit_qualifications_path('maths')
+    expect(page).to have_current_path candidate_interface_gcse_edit_qualifications_path('maths')
   end
 
   def when_i_do_not_change_the_qualification; end

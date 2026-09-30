@@ -13,7 +13,7 @@ module CandidateInterface
       @institution_country_form = GcseInstitutionCountryForm.new(institution_country_params)
 
       if @institution_country_form.save(current_qualification)
-        redirect_to candidate_interface_gcse_new_international_flow_new_qualifications_path
+        redirect_to candidate_interface_gcse_new_qualifications_path
       else
         track_validation_error(@institution_country_form)
         render :new
@@ -28,7 +28,7 @@ module CandidateInterface
 
       if @institution_country_form.save(current_qualification)
         if country_changed
-          redirect_to candidate_interface_gcse_new_international_flow_edit_qualifications_path
+          redirect_to candidate_interface_gcse_edit_qualifications_path
         else
           redirect_to @return_to[:back_path]
         end
@@ -38,7 +38,7 @@ module CandidateInterface
       end
     end
 
-    private
+  private
 
     def institution_country_params
       strip_whitespace params
