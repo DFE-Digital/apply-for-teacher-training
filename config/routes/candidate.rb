@@ -311,10 +311,10 @@ namespace :candidate_interface, path: '/candidate' do
       get '/review' => 'gcse/review#show', as: :gcse_review
       patch '/complete' => 'gcse/review#complete', as: :gcse_complete
 
-      get '/new-international-flow/country' => 'gcse/new_international_flow/institution_country#new', as: :gcse_new_international_flow_new_institution_country
-      patch 'new-international-flow/country' => 'gcse/new_international_flow/institution_country#create'
-      get '/new-international-flow/country/edit' => 'gcse/new_international_flow/institution_country#edit', as: :gcse_new_international_flow_edit_institution_country
-      patch '/new-international-flow/country/edit' => 'gcse/new_international_flow/institution_country#update'
+      # get '/new-international-flow/country' => 'gcse/new_international_flow/institution_country#new', as: :gcse_new_international_flow_new_institution_country
+      # patch 'new-international-flow/country' => 'gcse/new_international_flow/institution_country#create'
+      # get '/new-international-flow/country/edit' => 'gcse/new_international_flow/institution_country#edit', as: :gcse_new_international_flow_edit_institution_country
+      # patch '/new-international-flow/country/edit' => 'gcse/new_international_flow/institution_country#update'
 
       get '/new-international-flow/qualification' => 'gcse/new_international_flow/qualifications#new', as: :gcse_new_international_flow_new_qualifications
       patch 'new-international-flow/qualification' => 'gcse/new_international_flow/qualifications#create'

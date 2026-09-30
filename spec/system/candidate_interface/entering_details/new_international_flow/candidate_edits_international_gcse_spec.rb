@@ -182,7 +182,7 @@ private
   end
 
   def then_i_see_the_edit_country_step
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_edit_institution_country_path('maths')
+    expect(page).to have_current_path candidate_interface_gcse_details_edit_institution_country_path('maths')
   end
 
   def and_i_click_save_and_continue
