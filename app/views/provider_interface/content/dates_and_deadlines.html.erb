@@ -31,12 +31,12 @@
           <% end %>
 
           <% body.with_row do |row| %>
-            <% row.with_cell(numeric: true, text: timetable.winter_reject_by_default_at.to_fs(:govuk_date_and_time)) %>
-            <% row.with_cell(text: t('.winter_reject_by_default', cycle_range: timetable.cycle_range_name)) %>
+            <% row.with_cell(numeric: true, text: timetable.relative_previous_timetable.winter_reject_by_default_at.to_fs(:govuk_date_and_time)) %>
+            <% row.with_cell(text: t('.winter_reject_by_default')) %>
           <% end %>
           <% body.with_row do |row| %>
-            <% row.with_cell(numeric: true, text: timetable.winter_decline_by_default_at.to_fs(:govuk_date_and_time)) %>
-            <% row.with_cell(text: t('.winter_decline_by_default', cycle_range: timetable.cycle_range_name)) %>
+            <% row.with_cell(numeric: true, text: timetable.relative_previous_timetable.winter_decline_by_default_at.to_fs(:govuk_date_and_time)) %>
+            <% row.with_cell(text: t('.winter_decline_by_default')) %>
           <% end %>
           <% body.with_row do |row| %>
             <% row.with_cell(numeric: true, text: timetable.apply_deadline_at.to_fs(:govuk_date_and_time)) %>
