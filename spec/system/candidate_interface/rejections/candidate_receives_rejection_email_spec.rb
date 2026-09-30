@@ -58,25 +58,22 @@ RSpec.describe 'Receives rejection email' do
   end
 
   def and_it_includes_text_for_mid_cycle
-    email_body = current_email.personalisation.fetch(:body)
-    expect(email_body).to include('You can apply again')
-    expect(email_body).to include('This year, more people than ever are choosing to apply again.')
+    expect(current_email.text).to include('You can apply again')
+    expect(current_email.text).to include('This year, more people than ever are choosing to apply again.')
   end
 
   def and_it_includes_text_for_between_cycle
     apply_reopens = current_timetable.apply_reopens_at
-    email_body = current_email.personalisation.fetch(:body)
-    expect(email_body).to include("You can apply again from #{apply_reopens.to_fs(:govuk_date)}")
-    expect(email_body).to include('Lots of people are successful when they apply again.')
+    expect(current_email.text).to include("You can apply again from #{apply_reopens.to_fs(:govuk_date)}")
+    expect(current_email.text).to include('Lots of people are successful when they apply again.')
   end
 
   def and_it_includes_details_of_my_application
-    email_body = current_email.personalisation.fetch(:body)
-    expect(email_body).to include(@application_choice.course.provider.name)
-    expect(email_body).to include(@application_choice.course.name)
-    expect(email_body).to include('No Maths GCSE')
-    expect(email_body).to include('No Science GCSE')
-    expect(email_body).to include('Course full')
-    expect(email_body).to include('Make sure you meet the qualifications criteria')
+    expect(current_email.text).to include(@application_choice.course.provider.name)
+    expect(current_email.text).to include(@application_choice.course.name)
+    expect(current_email.text).to include('No Maths GCSE')
+    expect(current_email.text).to include('No Science GCSE')
+    expect(current_email.text).to include('Course full')
+    expect(current_email.text).to include('Make sure you meet the qualifications criteria')
   end
 end
