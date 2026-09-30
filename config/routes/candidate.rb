@@ -265,10 +265,10 @@ namespace :candidate_interface, path: '/candidate' do
         patch "/#{subject}/statement-comparability" => 'gcse/statement_comparability#create'
         get "/#{subject}/statement-comparability/edit" => 'gcse/statement_comparability#edit', as: "edit_gcse_#{subject}_statement_comparability"
         patch "/#{subject}/statement-comparability/edit" => 'gcse/statement_comparability#update'
-        get "new-international/#{subject}/statement-comparability" => 'gcse/new_international_flow/statement_comparability#new', as: "new_international_flow_new_gcse_#{subject}_statement_comparability"
-        patch "new-international/#{subject}/statement-comparability" => 'gcse/new_international_flow/statement_comparability#create'
-        get "new-international/#{subject}/statement-comparability/edit" => 'gcse/new_international_flow/statement_comparability#edit', as: "new_international_flow_edit_gcse_#{subject}_statement_comparability"
-        patch "new-international/#{subject}/statement-comparability/edit" => 'gcse/new_international_flow/statement_comparability#update'
+        # get "new-international/#{subject}/statement-comparability" => 'gcse/new_international_flow/statement_comparability#new', as: "new_international_flow_new_gcse_#{subject}_statement_comparability"
+        # patch "new-international/#{subject}/statement-comparability" => 'gcse/new_international_flow/statement_comparability#create'
+        # get "new-international/#{subject}/statement-comparability/edit" => 'gcse/new_international_flow/statement_comparability#edit', as: "new_international_flow_edit_gcse_#{subject}_statement_comparability"
+        # patch "new-international/#{subject}/statement-comparability/edit" => 'gcse/new_international_flow/statement_comparability#update'
       end
     end
 
