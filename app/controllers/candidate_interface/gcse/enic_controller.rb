@@ -30,7 +30,7 @@ module CandidateInterface
         if enic_params[:enic_reason] == 'obtained'
           redirect_to x_gcse_edit_statement_comparability_path(@subject)
         elsif current_qualification.award_year.nil?
-          redirect_to candidate_interface_gcse_new_international_flow_edit_year_path(@subject)
+          redirect_to candidate_interface_gcse_details_edit_year_path(@subject)
         else
           redirect_to @return_to[:back_path]
         end
@@ -46,7 +46,7 @@ module CandidateInterface
       if enic_params[:enic_reason] == 'obtained'
         redirect_to x_gcse_new_statement_comparability_path(@subject)
       else
-        redirect_to candidate_interface_gcse_new_international_flow_new_year_path(@subject)
+        redirect_to candidate_interface_gcse_details_new_year_path(@subject)
       end
     end
 
