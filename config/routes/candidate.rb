@@ -316,10 +316,10 @@ namespace :candidate_interface, path: '/candidate' do
       # get '/new-international-flow/country/edit' => 'gcse/new_international_flow/institution_country#edit', as: :gcse_new_international_flow_edit_institution_country
       # patch '/new-international-flow/country/edit' => 'gcse/new_international_flow/institution_country#update'
 
-      get '/new-international-flow/qualification' => 'gcse/new_international_flow/qualifications#new', as: :gcse_new_international_flow_new_qualifications
-      patch 'new-international-flow/qualification' => 'gcse/new_international_flow/qualifications#create'
-      get '/new-international-flow/qualification/edit' => 'gcse/new_international_flow/qualifications#edit', as: :gcse_new_international_flow_edit_qualifications
-      patch '/new-international-flow/qualification/edit' => 'gcse/new_international_flow/qualifications#update'
+      get '/qualification' => 'gcse/qualifications#new', as: :gcse_new_qualifications
+      patch '/qualification' => 'gcse/qualifications#create'
+      get '/qualification/edit' => 'gcse/qualifications#edit', as: :gcse_edit_qualifications
+      patch '/qualification/edit' => 'gcse/qualifications#update'
 
       get '/grade-schema' => 'gcse/grade_schemas#new', as: :gcse_new_grade_schemas
       patch '/grade-schema' => 'gcse/grade_schemas#create'
