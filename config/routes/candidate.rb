@@ -265,10 +265,10 @@ namespace :candidate_interface, path: '/candidate' do
         patch "/#{subject}/statement-comparability" => 'gcse/statement_comparability#create'
         get "/#{subject}/statement-comparability/edit" => 'gcse/statement_comparability#edit', as: "edit_gcse_#{subject}_statement_comparability"
         patch "/#{subject}/statement-comparability/edit" => 'gcse/statement_comparability#update'
-        get "new-international/#{subject}/statement-comparability" => 'gcse/new_international_flow/statement_comparability#new', as: "new_international_flow_new_gcse_#{subject}_statement_comparability"
-        patch "new-international/#{subject}/statement-comparability" => 'gcse/new_international_flow/statement_comparability#create'
-        get "new-international/#{subject}/statement-comparability/edit" => 'gcse/new_international_flow/statement_comparability#edit', as: "new_international_flow_edit_gcse_#{subject}_statement_comparability"
-        patch "new-international/#{subject}/statement-comparability/edit" => 'gcse/new_international_flow/statement_comparability#update'
+        # get "new-international/#{subject}/statement-comparability" => 'gcse/new_international_flow/statement_comparability#new', as: "new_international_flow_new_gcse_#{subject}_statement_comparability"
+        # patch "new-international/#{subject}/statement-comparability" => 'gcse/new_international_flow/statement_comparability#create'
+        # get "new-international/#{subject}/statement-comparability/edit" => 'gcse/new_international_flow/statement_comparability#edit', as: "new_international_flow_edit_gcse_#{subject}_statement_comparability"
+        # patch "new-international/#{subject}/statement-comparability/edit" => 'gcse/new_international_flow/statement_comparability#update'
       end
     end
 
@@ -311,42 +311,42 @@ namespace :candidate_interface, path: '/candidate' do
       get '/review' => 'gcse/review#show', as: :gcse_review
       patch '/complete' => 'gcse/review#complete', as: :gcse_complete
 
-      get '/new-international-flow/country' => 'gcse/new_international_flow/institution_country#new', as: :gcse_new_international_flow_new_institution_country
-      patch 'new-international-flow/country' => 'gcse/new_international_flow/institution_country#create'
-      get '/new-international-flow/country/edit' => 'gcse/new_international_flow/institution_country#edit', as: :gcse_new_international_flow_edit_institution_country
-      patch '/new-international-flow/country/edit' => 'gcse/new_international_flow/institution_country#update'
+      # get '/new-international-flow/country' => 'gcse/new_international_flow/institution_country#new', as: :gcse_new_international_flow_new_institution_country
+      # patch 'new-international-flow/country' => 'gcse/new_international_flow/institution_country#create'
+      # get '/new-international-flow/country/edit' => 'gcse/new_international_flow/institution_country#edit', as: :gcse_new_international_flow_edit_institution_country
+      # patch '/new-international-flow/country/edit' => 'gcse/new_international_flow/institution_country#update'
 
-      get '/new-international-flow/qualification' => 'gcse/new_international_flow/qualifications#new', as: :gcse_new_international_flow_new_qualifications
-      patch 'new-international-flow/qualification' => 'gcse/new_international_flow/qualifications#create'
-      get '/new-international-flow/qualification/edit' => 'gcse/new_international_flow/qualifications#edit', as: :gcse_new_international_flow_edit_qualifications
-      patch '/new-international-flow/qualification/edit' => 'gcse/new_international_flow/qualifications#update'
+      get '/qualification' => 'gcse/qualifications#new', as: :gcse_new_qualifications
+      patch '/qualification' => 'gcse/qualifications#create'
+      get '/qualification/edit' => 'gcse/qualifications#edit', as: :gcse_edit_qualifications
+      patch '/qualification/edit' => 'gcse/qualifications#update'
 
-      get '/new-international-flow/grade-schema' => 'gcse/new_international_flow/grade_schemas#new', as: :gcse_new_international_flow_new_grade_schemas
-      patch 'new-international-flow/grade-schema' => 'gcse/new_international_flow/grade_schemas#create'
-      get '/new-international-flow/grade-schema/edit' => 'gcse/new_international_flow/grade_schemas#edit', as: :gcse_new_international_flow_edit_grade_schemas
-      patch '/new-international-flow/grade-schema/edit' => 'gcse/new_international_flow/grade_schemas#update'
+      get '/grade-schema' => 'gcse/grade_schemas#new', as: :gcse_new_grade_schemas
+      patch '/grade-schema' => 'gcse/grade_schemas#create'
+      get '/grade-schema/edit' => 'gcse/grade_schemas#edit', as: :gcse_edit_grade_schemas
+      patch '/grade-schema/edit' => 'gcse/grade_schemas#update'
 
-      get '/new-international-flow/grade' => 'gcse/new_international_flow/grades#new', as: :gcse_new_international_flow_new_grades
-      patch 'new-international-flow/grade' => 'gcse/new_international_flow/grades#create'
-      get '/new-international-flow/grade/edit' => 'gcse/new_international_flow/grades#edit', as: :gcse_new_international_flow_edit_grades
-      patch '/new-international-flow/grade/edit' => 'gcse/new_international_flow/grades#update'
+      get '/international-grade' => 'gcse/international_grades#new', as: :gcse_new_international_grades
+      patch '/international-grade' => 'gcse/international_grades#create'
+      get '/international-grade/edit' => 'gcse/international_grades#edit', as: :gcse_edit_international_grades
+      patch '/international-grade/edit' => 'gcse/international_grades#update'
 
-      get '/new-international-flow/interruption' => 'gcse/new_international_flow/failing_grade_interruption#show', as: :gcse_new_international_flow_interruption
+      get '/interruption' => 'gcse/failing_grade_interruption#show', as: :gcse_interruption
 
-      get '/new-international-flow/evidence' => 'gcse/new_international_flow/evidence#new', as: :gcse_new_international_flow_new_evidence
-      patch 'new-international-flow/evidence' => 'gcse/new_international_flow/evidence#create'
-      get '/new-international-flow/evidence/edit' => 'gcse/new_international_flow/evidence#edit', as: :gcse_new_international_flow_edit_evidence
-      patch '/new-international-flow/evidence/edit' => 'gcse/new_international_flow/evidence#update'
+      get '/evidence' => 'gcse/evidence#new', as: :gcse_new_evidence
+      patch '/evidence' => 'gcse/evidence#create'
+      get '/evidence/edit' => 'gcse/evidence#edit', as: :gcse_edit_evidence
+      patch '/evidence/edit' => 'gcse/evidence#update'
 
-      get '/new-international-flow/enic' => 'gcse/new_international_flow/enic#new', as: :gcse_new_international_flow_new_enic
-      patch 'new-international-flow/enic' => 'gcse/new_international_flow/enic#create'
-      get '/new-international-flow/enic/edit' => 'gcse/new_international_flow/enic#edit', as: :gcse_new_international_flow_edit_enic
-      patch '/new-international-flow/enic/edit' => 'gcse/new_international_flow/enic#update'
+      # get '/new-international-flow/enic' => 'gcse/new_international_flow/enic#new', as: :gcse_new_international_flow_new_enic
+      # patch 'new-international-flow/enic' => 'gcse/new_international_flow/enic#create'
+      # get '/new-international-flow/enic/edit' => 'gcse/new_international_flow/enic#edit', as: :gcse_new_international_flow_edit_enic
+      # patch '/new-international-flow/enic/edit' => 'gcse/new_international_flow/enic#update'
 
-      get '/new-international-flow/year' => 'gcse/new_international_flow/year#new', as: :gcse_new_international_flow_new_year
-      patch '/new-international-flow/year' => 'gcse/new_international_flow/year#create'
-      get '/new-international-flow/year/edit' => 'gcse/new_international_flow/year#edit', as: :gcse_new_international_flow_edit_year
-      patch '/new-international-flow/year/edit' => 'gcse/new_international_flow/year#update'
+      # get '/new-international-flow/year' => 'gcse/new_international_flow/year#new', as: :gcse_new_international_flow_new_year
+      # patch '/new-international-flow/year' => 'gcse/new_international_flow/year#create'
+      # get '/new-international-flow/year/edit' => 'gcse/new_international_flow/year#edit', as: :gcse_new_international_flow_edit_year
+      # patch '/new-international-flow/year/edit' => 'gcse/new_international_flow/year#update'
     end
 
     scope '/restructured-work-history' do

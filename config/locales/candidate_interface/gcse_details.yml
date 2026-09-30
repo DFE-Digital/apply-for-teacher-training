@@ -95,11 +95,11 @@ en:
       single_award: For example, ‘C’ or ‘4’
       double_award: For example, ‘CD’, ‘4-3’
       other: For example, ‘A’, ‘4.5’, ‘94%’
-  gcse_edit_new_international_flow_grade_schema:
+  gcse_edit_grade_schema:
     page_title: What type of grade did you get?
-  gcse_edit_new_international_flow_grade:
+  gcse_edit_international_grade:
     page_title: What grade did you get?
-  gcse_new_international_flow_interruption:
+  gcse_interruption:
     page_title: This grade may not be equivalent to a GCSE in %{subject} at grade 4 (C) or above
     you_need: You need the equivalent of a GCSE at grade 4 (C) or above to apply for teacher training. Providers are responsible for deciding if you meet this requirement.
     you_need_science: You need the equivalent of a GCSE at grade 4 (C) or above to apply for primary teacher training. Providers are responsible for deciding if you meet this requirement.
@@ -113,7 +113,7 @@ en:
     provide_evidence: Continue without providing a statement of comparability
     apply_for_secondary_header: Apply for secondary teacher training
     apply_for_secondary_html: <p class="govuk-body">You could %{link} instead. This does not require you to have a science qualification.</p>
-  gcse_new_international_flow_evidence:
+  gcse_evidence:
     page_title: Provide evidence that your %{subject} skills are at GCSE grade 4 (C) or above
     caption: Check with providers about what evidence they accept.
     caption_english: Check with providers about what evidence they accept. An English as a foreign language test is not equivalent to a GCSE.
