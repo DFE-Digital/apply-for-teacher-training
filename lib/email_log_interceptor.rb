@@ -1,10 +1,10 @@
 class EmailLogInterceptor
   def self.delivering_email(mail)
-    notify_reference = mail.header['reference']&.value
+    notify_reference = mail.reference
 
     unless notify_reference
       notify_reference = generate_reference
-      mail.header['reference'] = notify_reference
+      mail.reference = notify_reference
     end
 
     logged_email = Email.create!(
