@@ -230,11 +230,11 @@ private
   def when_i_do_not_select_any_gcse_option; end
 
   def then_i_see_the_add_institution_country_page
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_new_institution_country_path('maths')
+    expect(page).to have_current_path candidate_interface_gcse_details_new_institution_country_path('maths')
   end
 
   def then_i_see_the_add_institution_country_page_english
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_new_institution_country_path('english')
+    expect(page).to have_current_path candidate_interface_gcse_details_new_institution_country_path('english')
   end
 
   def when_i_fill_in_a_country_for_which_we_have_structured_data

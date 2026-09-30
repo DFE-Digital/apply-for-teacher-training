@@ -138,7 +138,7 @@ module CandidateInterface
         if application_qualification.institution_country
           row[:action] =
             {
-              href: candidate_interface_gcse_new_international_flow_edit_institution_country_path(change_path_params),
+              href: candidate_interface_gcse_details_edit_institution_country_path(change_path_params),
               visually_hidden_text: 'the country that you studied in',
             }
         end
@@ -149,7 +149,7 @@ module CandidateInterface
       if application_qualification.institution_country
         CountryFinder.find_name_from_iso_code(application_qualification.institution_country)
       else
-        govuk_link_to("Enter the country or territory where you studied for your #{capitalize_english(subject)} qualification", candidate_interface_gcse_new_international_flow_edit_institution_country_path(change_path_params))
+        govuk_link_to("Enter the country or territory where you studied for your #{capitalize_english(subject)} qualification", candidate_interface_gcse_details_edit_institution_country_path(change_path_params))
       end
     end
 

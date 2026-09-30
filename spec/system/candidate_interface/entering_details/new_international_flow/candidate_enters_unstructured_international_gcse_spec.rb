@@ -88,7 +88,7 @@ private
   def when_i_do_not_select_any_gcse_option; end
 
   def then_i_see_the_add_institution_country_page
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_new_institution_country_path('maths')
+    expect(page).to have_current_path candidate_interface_gcse_details_new_institution_country_path('maths')
   end
 
   def when_i_do_not_select_a_country; end
