@@ -28,7 +28,7 @@ end
 
 desc 'Run JS unit tests'
 task :jest do
-  sh 'yarn jest --coverage'
+  sh 'bin/yarn jest --coverage'
 end
 
 desc 'Run Brakeman'
@@ -48,12 +48,12 @@ end
 
 desc 'Run Stylelint'
 task :stylelint do
-  sh 'yarn run lint:css'
+  sh 'bin/yarn run lint:css'
 end
 
 desc 'Run Standard JS Linter'
 task :lint_js do
-  sh 'yarn run lint'
+  sh 'bin/yarn run lint'
 end
 
 desc 'Run all the linters'

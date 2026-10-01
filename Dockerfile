@@ -6,8 +6,11 @@ FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
 RUN apk -U upgrade && \
     apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
-    libxml2-dev libxslt-dev nodejs yarn tzdata libpq libxml2 libjxl yaml-dev libxslt graphviz chromium gcompat \
-    'aom>=3.9.1-r0'
+    libxml2-dev libxslt-dev nodejs-current npm yarn tzdata libpq libxml2 libjxl yaml-dev libxslt graphviz chromium gcompat \
+    aom
+
+RUN yarn global add corepack
+RUN corepack enable && corepack prepare yarn@4.18.0 --activate
 
 RUN echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
@@ -36,9 +39,10 @@ RUN bundler -v && \
     bundle install --retry=5 --jobs=4 && \
     rm -rf /usr/local/bundle/cache
 
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn .yarn
 
-RUN yarn install --check-files
+RUN yarn install --immutable
 
 COPY . .
 
@@ -61,8 +65,11 @@ ENV LANG=en_GB.UTF-8 \
 
 RUN apk -U upgrade && \
     apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz \
-    ttf-dejavu ttf-droid ttf-liberation libx11 openssl nodejs chromium gcompat \
-    'aom>=3.9.1-r0' && \
+    ttf-dejavu ttf-droid ttf-liberation libx11 openssl nodejs-current npm yarn chromium gcompat \
+    aom && \
+    yarn global add corepack && \
+    corepack enable && \
+    corepack prepare yarn@4.18.0 --activate && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 

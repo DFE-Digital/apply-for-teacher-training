@@ -2,5 +2,5 @@ web: SERVICE_TYPE=web bundle exec puma -C config/puma.rb
 solid_queue: bin/jobs
 clock: SERVICE_TYPE=clock bundle exec clockwork config/clock.rb
 caddy: caddy run -c Caddyfile.dev -a caddyfile
-css: yarn build:css --watch
-js: yarn build --watch
+css: bin/yarn build:css --watch
+js: bin/yarn build --watch
