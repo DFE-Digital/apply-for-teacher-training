@@ -15,8 +15,9 @@ class SaveAndInviteProviderUser
       ActiveRecord::Base.transaction do
         save_service.call!
         if HostingEnvironment.review? || HostingEnvironment.development?
-          save_service.provider_user.update!(
-            dfe_sign_in_uid: save_service.provider_user.email_address,
+          provider_user = save_service.try(:provider_user) || save_service.actor
+          provider_user.update!(
+            dfe_sign_in_uid: provider_user.email_address,
           )
         elsif new_user
           invite_service.call!
