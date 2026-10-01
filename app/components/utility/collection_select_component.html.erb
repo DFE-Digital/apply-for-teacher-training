@@ -20,7 +20,6 @@
           form_field: f.govuk_select(
             attribute,
             options_for_select(collection_options_for_select, form_object.try(attribute)),
-            data: { controller: 'autocomplete' },
             label: { text: page_title, size: 'l' },
             caption: { text: caption, size: 'l' },
             hint: { text: hint },
