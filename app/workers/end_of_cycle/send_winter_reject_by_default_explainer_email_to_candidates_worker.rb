@@ -17,7 +17,7 @@ module EndOfCycle
               .where(rejected_by_default: true)
               .pluck(:application_form_id).uniq
       ApplicationForm
-        .joins(:candidate).merge(Candidate.subscribed_to_emails)
+        .joins(:candidate).merge(Candidate.for_marketing_or_nudge_emails)
         .where(id: ids)
         .distinct
     end

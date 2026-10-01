@@ -13,7 +13,7 @@ module EndOfCycle
     def relation
       ApplicationForm
         .current_cycle
-        .joins(:candidate).merge(Candidate.subscribed_to_emails)
+        .joins(:candidate).merge(Candidate.for_marketing_or_nudge_emails)
         .joins(:application_choices).where('application_choices.rejected_by_default': true)
         .distinct
     end
