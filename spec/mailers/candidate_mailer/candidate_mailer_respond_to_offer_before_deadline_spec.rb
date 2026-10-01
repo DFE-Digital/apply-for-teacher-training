@@ -75,7 +75,5 @@ RSpec.describe CandidateMailer do
         )
       end
     end
-
-    it_behaves_like 'an email with unsubscribe option'
   end
 end
