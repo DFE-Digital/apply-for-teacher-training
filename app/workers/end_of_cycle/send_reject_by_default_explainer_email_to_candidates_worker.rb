@@ -13,7 +13,7 @@ module EndOfCycle
     def relation
       ApplicationForm
         .current_cycle
-        .joins(:candidate).merge(Candidate.for_marketing_or_nudge_emails)
+        .joins(:candidate).merge(Candidate.for_transaction_emails)
         .joins(:application_choices).where('application_choices.rejected_by_default': true)
         .distinct
     end
@@ -23,7 +23,9 @@ module EndOfCycle
     def perform(application_form_ids)
       ApplicationForm.where(id: application_form_ids).includes(:application_choices).find_each do |application_form|
         if application_form.application_choices.pluck(:status).include?('offer')
-          CandidateMailer.respond_to_offer_before_deadline(application_form).deliver_later
+          if application_form.candidate.subscribed_to_emails?
+            CandidateMailer.respond_to_offer_before_deadline(application_form).deliver_later
+          end
         else
           CandidateMailer.reject_by_default_explainer(application_form).deliver_later
         end
