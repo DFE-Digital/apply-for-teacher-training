@@ -39,6 +39,15 @@ RSpec.describe SaveAndInviteProviderUser do
       expect { service.call }.to change { ProviderUser.count }.by(1)
     end
 
+    context 'env is development' do
+      it 'saves the email in dfe_sign_in_uid' do
+        allow(HostingEnvironment).to receive(:development?).and_return(true)
+
+        expect { service.call }.to change { ProviderUser.count }.by(1)
+        expect(ProviderUser.last.dfe_sign_in_uid).to eq(ProviderUser.last.email_address)
+      end
+    end
+
     context 'form is invalid' do
       it 'returns false' do
         allow(form).to receive(:valid?).and_return(false)
