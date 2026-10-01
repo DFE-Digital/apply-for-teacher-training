@@ -13,4 +13,4 @@ en:
         decline_by_default: Offers for courses starting by the end of September will be declined if no candidate decision has been made
         winter_reject_by_default: Applications for courses starting by the end of January will be rejected if no provider decision has been made. This includes applications at interview stage
         winter_decline_by_default: Offers for courses starting by the end of January will be declined if no candidate decision has been made
-        end_of_cycle: End of cycle. Candidates can no longer find courses
+        end_of_cycle: End of the %{cycle_range} recruitment cycle. Candidates can no longer find courses on GOV.UK
