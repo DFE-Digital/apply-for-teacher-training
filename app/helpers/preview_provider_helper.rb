@@ -3,8 +3,7 @@ module PreviewProviderHelper
     loop do
       length = rand(3..4)
       random_code = SecureRandom.alphanumeric(length)
-      break unless Provider.exists?(code: random_code)
+      break random_code unless Provider.exists?(code: random_code)
     end
-    random_code
   end
 end
