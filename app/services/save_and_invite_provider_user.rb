@@ -14,7 +14,14 @@ class SaveAndInviteProviderUser
     begin
       ActiveRecord::Base.transaction do
         save_service.call!
-        invite_service.call! if new_user
+        if HostingEnvironment.review? || HostingEnvironment.development?
+          provider_user = save_service.try(:provider_user) || save_service.actor
+          provider_user.update!(
+            dfe_sign_in_uid: provider_user.email_address,
+          )
+        elsif new_user
+          invite_service.call!
+        end
       end
     rescue DfeSignInAPIError => e
       form.errors.add(
