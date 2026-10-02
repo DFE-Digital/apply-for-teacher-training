@@ -93,6 +93,8 @@ class APITokenSummaryComponent < ApplicationComponent
 
     if audit.user.present? && audit.user_type.in?(allowed_user_types)
       audit.user.display_name
+    elsif audit.user.blank? && audit.comment == 'Revoked because of inactivity'
+      t('.system_user')
     else
       t('.default_user')
     end
