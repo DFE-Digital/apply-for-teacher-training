@@ -3,13 +3,13 @@ module SupportInterface
     class DegreesController < SupportInterfaceController
       def edit
         @degree_form = EditDegreeForm.new(
-          ApplicationQualification.find(params[:degree_id]),
+          ApplicationQualification.find(params.expect(:degree_id)),
         )
       end
 
       def update
         @degree_form = EditDegreeForm.new(
-          ApplicationQualification.find(params[:degree_id]),
+          ApplicationQualification.find(params.expect(:degree_id)),
         )
 
         @degree_form.assign_attributes(edit_application_params)

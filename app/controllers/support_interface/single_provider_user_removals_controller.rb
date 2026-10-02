@@ -17,7 +17,7 @@ module SupportInterface
   private
 
     def permissions_to_remove
-      @_permissions_to_remove = ProviderPermissions.find(params[:provider_permissions_id])
+      @_permissions_to_remove = ProviderPermissions.find(params.expect(:provider_permissions_id))
     end
   end
 end

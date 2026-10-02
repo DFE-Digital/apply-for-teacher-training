@@ -30,7 +30,7 @@ module VendorAPI
     end
 
     def with_requested_reference
-      reference = current_provider.application_references.find(params[:id])
+      reference = current_provider.application_references.find(params.expect(:id))
 
       if reference.feedback_status == 'feedback_requested'
         yield reference

@@ -29,7 +29,7 @@ module ProviderInterface
   private
 
     def provider
-      @provider ||= current_provider_user.providers.find(params[:organisation_id])
+      @provider ||= current_provider_user.providers.find(params.expect(:organisation_id))
     end
 
     def permissions_params
@@ -46,8 +46,8 @@ module ProviderInterface
     end
 
     def set_up_relationship_objects
-      @relationship = ProviderRelationshipPermissions.find(params[:id])
-      @provider = Provider.find(params[:organisation_id])
+      @relationship = ProviderRelationshipPermissions.find(params.expect(:id))
+      @provider = Provider.find(params.expect(:organisation_id))
       @presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(
         relationship: @relationship,
         provider_user: current_provider_user,

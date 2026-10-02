@@ -23,7 +23,7 @@ module CandidateInterface
 
     def view_reference
       authorize %i[candidate_interface offer_dashboard], :show?
-      @reference = @references.find(params[:id])
+      @reference = @references.find(params.expect(:id))
 
       redirect_to candidate_interface_references_request_reference_review_path(@reference) if @reference.not_requested_yet?
     end

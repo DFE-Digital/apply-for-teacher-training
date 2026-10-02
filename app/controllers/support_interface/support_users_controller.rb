@@ -6,7 +6,7 @@ module SupportInterface
     end
 
     def show
-      @support_user = SupportUser.find(params[:id])
+      @support_user = SupportUser.find(params.expect(:id))
     end
 
     def new
@@ -25,19 +25,19 @@ module SupportInterface
     end
 
     def confirm_destroy
-      @support_user = SupportUser.find(params[:id])
+      @support_user = SupportUser.find(params.expect(:id))
     end
 
     alias confirm_restore confirm_destroy
 
     def destroy
-      SupportUser.find(params[:id]).discard
+      SupportUser.find(params.expect(:id)).discard
       flash[:success] = 'Support user removed'
       redirect_to support_interface_support_users_path
     end
 
     def restore
-      SupportUser.find(params[:id]).undiscard
+      SupportUser.find(params.expect(:id)).undiscard
       flash[:success] = 'Support user restored'
       redirect_to support_interface_support_users_path
     end

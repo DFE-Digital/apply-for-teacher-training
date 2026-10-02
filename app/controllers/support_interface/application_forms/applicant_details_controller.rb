@@ -3,13 +3,13 @@ module SupportInterface
     class ApplicantDetailsController < SupportInterfaceController
       def edit
         @details = EditApplicantDetailsForm.new(
-          ApplicationForm.find(params[:application_form_id]),
+          ApplicationForm.find(params.expect(:application_form_id)),
         )
       end
 
       def update
         @details = EditApplicantDetailsForm.new(
-          ApplicationForm.find(params[:application_form_id]),
+          ApplicationForm.find(params.expect(:application_form_id)),
         )
 
         @details.assign_attributes(edit_application_params)

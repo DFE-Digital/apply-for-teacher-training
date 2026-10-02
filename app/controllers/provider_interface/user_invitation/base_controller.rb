@@ -15,7 +15,7 @@ module ProviderInterface
     private
 
       def set_provider
-        @provider = current_provider_user.providers.find(params[:organisation_id])
+        @provider = current_provider_user.providers.find(params.expect(:organisation_id))
       end
 
       def assert_can_manage_users!

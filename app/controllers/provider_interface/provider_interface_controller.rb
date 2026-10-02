@@ -110,7 +110,7 @@ module ProviderInterface
     def set_application_choice
       @application_choice = GetApplicationChoicesForProviders.call(
         providers: current_provider_user.providers,
-      ).find(params[:application_choice_id])
+      ).find(params.expect(:application_choice_id))
 
       Sentry.set_extras(application_support_url)
     rescue ActiveRecord::RecordNotFound
