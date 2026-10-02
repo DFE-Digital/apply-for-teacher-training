@@ -1,9 +1,10 @@
 module PreviewProviderHelper
   def unique_provider_code
-    begin
+    loop do
       length = rand(3..4)
       random_code = SecureRandom.alphanumeric(length)
-    end while Provider.exists?(code: random_code)
+      break unless Provider.exists?(code: random_code)
+    end
     random_code
   end
 end

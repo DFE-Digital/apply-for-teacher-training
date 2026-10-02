@@ -39,7 +39,7 @@ class ProviderInterface::FindCandidates::AlreadyInvitedCandidateBannerComponentP
     )
   end
 
-  private
+private
 
   def course
     @course ||= FactoryBot.create(:course, provider:)

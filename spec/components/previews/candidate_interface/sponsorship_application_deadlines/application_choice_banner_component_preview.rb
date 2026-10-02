@@ -21,7 +21,7 @@ class CandidateInterface::SponsorshipApplicationDeadlines::ApplicationChoiceBann
     render(CandidateInterface::SponsorshipApplicationDeadlines::ApplicationChoiceBannerComponent.new(application_choice:))
   end
 
-  private
+private
 
   def application_form
     @application_form ||= FactoryBot.create(:application_form, right_to_work_or_study: 'no')

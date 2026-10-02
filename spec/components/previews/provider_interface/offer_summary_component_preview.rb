@@ -36,7 +36,6 @@ module ProviderInterface
     end
 
     def course
-      debugger
       @course ||= FactoryBot.build(:course, provider:)
     end
 

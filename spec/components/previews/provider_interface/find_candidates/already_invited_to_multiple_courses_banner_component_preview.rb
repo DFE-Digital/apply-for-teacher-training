@@ -44,7 +44,7 @@ class ProviderInterface::FindCandidates::AlreadyInvitedToMultipleCoursesBannerCo
     )
   end
 
-  private
+private
 
   def candidate
     @candidate ||= FactoryBot.create(:candidate)

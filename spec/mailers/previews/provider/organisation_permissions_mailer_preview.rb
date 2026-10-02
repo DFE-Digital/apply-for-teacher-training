@@ -1,7 +1,7 @@
 class Provider::OrganisationPermissionsMailerPreview < ActionMailer::Preview
+  include PreviewProviderHelper
+
   def organisation_permissions_set_up
-    training_provider = FactoryBot.create(:provider)
-    ratifying_provider = FactoryBot.create(:provider)
     provider_user = FactoryBot.create(:provider_user, providers: [ratifying_provider])
     provider_user.provider_permissions.update_all(manage_organisations: true)
     permissions = FactoryBot.create(
@@ -17,8 +17,6 @@ class Provider::OrganisationPermissionsMailerPreview < ActionMailer::Preview
   end
 
   def organisation_permissions_updated
-    training_provider = FactoryBot.create(:provider)
-    ratifying_provider = FactoryBot.create(:provider)
     provider_user = FactoryBot.create(:provider_user, providers: [ratifying_provider])
     provider_user.provider_permissions.update_all(manage_organisations: true)
     permissions = FactoryBot.create(
@@ -33,7 +31,6 @@ class Provider::OrganisationPermissionsMailerPreview < ActionMailer::Preview
   end
 
   def permissions_granted
-    provider = FactoryBot.create(:provider)
     permissions_granted_by_user = FactoryBot.create(:provider_user)
     provider_user = FactoryBot.create(:provider_user, providers: [provider])
     permissions = ProviderPermissions::VALID_PERMISSIONS.map(&:to_s).sample(3)
@@ -42,7 +39,6 @@ class Provider::OrganisationPermissionsMailerPreview < ActionMailer::Preview
   end
 
   def permissions_granted_by_support
-    provider = FactoryBot.create(:provider)
     provider_user = FactoryBot.create(:provider_user, providers: [provider])
     permissions = ProviderPermissions::VALID_PERMISSIONS.map(&:to_s).sample(3)
 
@@ -50,7 +46,6 @@ class Provider::OrganisationPermissionsMailerPreview < ActionMailer::Preview
   end
 
   def inactive_user_prompt
-    provider = FactoryBot.create(:provider)
     provider_user = FactoryBot.create(:provider_user, providers: [provider])
     date = Date.new(2026, 1, 1)
 
@@ -58,7 +53,11 @@ class Provider::OrganisationPermissionsMailerPreview < ActionMailer::Preview
   end
 
   def inactive_user_prompt_multiple_providers
-    providers = FactoryBot.create_list(:provider, 3)
+    providers = [
+      FactoryBot.create(:provider, code: unique_provider_code),
+      FactoryBot.create(:provider, code: unique_provider_code),
+      FactoryBot.create(:provider, code: unique_provider_code),
+    ]
     provider_user = FactoryBot.create(:provider_user, providers:)
     date = Date.new(2026, 1, 1)
 
@@ -66,7 +65,6 @@ class Provider::OrganisationPermissionsMailerPreview < ActionMailer::Preview
   end
 
   def permissions_removed
-    provider = FactoryBot.create(:provider)
     permissions_revoked_by_user = FactoryBot.create(:provider_user)
     provider_user = FactoryBot.create(:provider_user, providers: [provider])
 
@@ -74,14 +72,12 @@ class Provider::OrganisationPermissionsMailerPreview < ActionMailer::Preview
   end
 
   def permissions_removed_by_support
-    provider = FactoryBot.create(:provider)
     provider_user = FactoryBot.create(:provider_user, providers: [provider])
 
     ProviderMailer.permissions_removed(provider_user, provider)
   end
 
   def permissions_updated
-    provider = FactoryBot.create(:provider)
     permissions_updated_by_user = FactoryBot.create(:provider_user)
     provider_user = FactoryBot.create(:provider_user, providers: [provider])
     permissions = ProviderPermissions::VALID_PERMISSIONS.map(&:to_s).sample(3)
@@ -90,7 +86,6 @@ class Provider::OrganisationPermissionsMailerPreview < ActionMailer::Preview
   end
 
   def permissions_updated__all_permissions_removed
-    provider = FactoryBot.create(:provider)
     permissions_updated_by_user = FactoryBot.create(:provider_user)
     provider_user = FactoryBot.create(:provider_user, providers: [provider])
     permissions = []
@@ -99,7 +94,6 @@ class Provider::OrganisationPermissionsMailerPreview < ActionMailer::Preview
   end
 
   def permissions_updated_by_support
-    provider = FactoryBot.create(:provider)
     provider_user = FactoryBot.create(:provider_user, providers: [provider])
     permissions = ProviderPermissions::VALID_PERMISSIONS.map(&:to_s).sample(3)
 
@@ -129,5 +123,16 @@ class Provider::OrganisationPermissionsMailerPreview < ActionMailer::Preview
     }
     provider_user = FactoryBot.create(:provider_user)
     ProviderMailer.set_up_organisation_permissions(provider_user, relationships_to_set_up)
+  end
+
+private
+
+  def provider
+    @provider ||= FactoryBot.create(:provider, code: unique_provider_code)
+  end
+  alias training_provider provider
+
+  def ratifying_provider
+    @ratifying_provider ||= FactoryBot.create(:provider, code: unique_provider_code)
   end
 end

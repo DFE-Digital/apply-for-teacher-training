@@ -13,7 +13,7 @@ class ProviderInterface::CandidateInvitedBannerComponentPreview < ViewComponent:
     )
   end
 
-  private
+private
 
   def provider
     @provider ||= FactoryBot.create(:provider, code: unique_provider_code)

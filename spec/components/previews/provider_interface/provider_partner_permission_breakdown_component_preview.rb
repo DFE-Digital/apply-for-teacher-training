@@ -5,7 +5,7 @@ module ProviderInterface
     layout 'previews/provider'
 
     def both_partners_for_which_permission_applies_and_partners_for_which_permission_does_not_apply
-      allowed_training_providers = build_provider_list( 3)
+      allowed_training_providers = build_provider_list(3)
       allowed_ratifying_providers = build_provider_list(2)
       prohibited_training_providers = build_provider_list(1)
       prohibited_ratifying_providers = build_provider_list(1)
@@ -108,7 +108,7 @@ module ProviderInterface
       )
     end
 
-    private
+  private
 
     def provider
       @provider ||= FactoryBot.create(:provider, code: unique_provider_code)
