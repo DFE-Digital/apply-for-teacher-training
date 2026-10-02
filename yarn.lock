@@ -1297,18 +1297,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-runtime@npm:^8.0.6":
-  version: 8.0.6
-  resolution: "@babel/plugin-transform-runtime@npm:8.0.6"
-  dependencies:
-    "@babel/helper-module-imports": "npm:^8.0.0"
-    "@babel/helper-plugin-utils": "npm:^8.0.1"
-  peerDependencies:
-    "@babel/core": ^8.0.0
-  checksum: 10c0/c622277761119fc6012cd4c0d36f46706506ce286100ca5e005bfe917419dc7ab60a80bb69e1adab2155bb3d4d5ee10874c2c1c82f309323517a64e3d2c81fa2
-  languageName: node
-  linkType: hard
-
 "@babel/plugin-transform-shorthand-properties@npm:^8.0.1":
   version: 8.0.1
   resolution: "@babel/plugin-transform-shorthand-properties@npm:8.0.1"
@@ -3092,7 +3080,6 @@ __metadata:
     "@babel/plugin-transform-destructuring": "npm:^8.0.5"
     "@babel/plugin-transform-optional-chaining": "npm:^8.0.5"
     "@babel/plugin-transform-regenerator": "npm:^8.0.6"
-    "@babel/plugin-transform-runtime": "npm:^8.0.6"
     "@babel/preset-env": "npm:^8.0.6"
     "@ministryofjustice/frontend": "npm:^11.1.0"
     accessible-autocomplete: "npm:^3.0.1"
