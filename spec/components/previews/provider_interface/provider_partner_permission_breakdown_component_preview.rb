@@ -1,13 +1,14 @@
 module ProviderInterface
   class ProviderPartnerPermissionBreakdownComponentPreview < ViewComponent::Preview
+    include PreviewProviderHelper
+
     layout 'previews/provider'
 
     def both_partners_for_which_permission_applies_and_partners_for_which_permission_does_not_apply
-      provider = FactoryBot.create(:provider)
-      allowed_training_providers = FactoryBot.build_list(:provider, 3)
-      allowed_ratifying_providers = FactoryBot.build_list(:provider, 2)
-      prohibited_training_providers = FactoryBot.build_list(:provider, 1)
-      prohibited_ratifying_providers = FactoryBot.build_list(:provider, 1)
+      allowed_training_providers = build_provider_list(3)
+      allowed_ratifying_providers = build_provider_list(2)
+      prohibited_training_providers = build_provider_list(1)
+      prohibited_ratifying_providers = build_provider_list(1)
 
       allowed_training_providers.each do |training_provider|
         FactoryBot.create(:provider_relationship_permissions,
@@ -52,9 +53,8 @@ module ProviderInterface
     end
 
     def only_partners_for_which_permission_applies
-      provider = FactoryBot.create(:provider)
-      allowed_training_providers = FactoryBot.build_list(:provider, 3)
-      allowed_ratifying_providers = FactoryBot.build_list(:provider, 2)
+      allowed_training_providers = build_provider_list(3)
+      allowed_ratifying_providers = build_provider_list(2)
 
       allowed_training_providers.each do |training_provider|
         FactoryBot.create(:provider_relationship_permissions,
@@ -81,9 +81,8 @@ module ProviderInterface
     end
 
     def only_partners_for_which_permission_does_not_apply
-      provider = FactoryBot.create(:provider)
-      prohibited_training_providers = FactoryBot.build_list(:provider, 1)
-      prohibited_ratifying_providers = FactoryBot.build_list(:provider, 1)
+      prohibited_training_providers = build_provider_list(1)
+      prohibited_ratifying_providers = build_provider_list(1)
 
       prohibited_training_providers.each do |training_provider|
         FactoryBot.create(:provider_relationship_permissions,
@@ -107,6 +106,21 @@ module ProviderInterface
         provider:,
         permission: :make_decisions,
       )
+    end
+
+  private
+
+    def provider
+      @provider ||= FactoryBot.create(:provider, code: unique_provider_code)
+    end
+
+    def build_provider_list(number_of_providers = 1)
+      providers_list = []
+
+      number_of_providers.times do
+        providers_list << FactoryBot.build(:provider, code: unique_provider_code)
+      end
+      providers_list
     end
   end
 end

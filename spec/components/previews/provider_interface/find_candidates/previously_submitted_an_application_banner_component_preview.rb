@@ -1,7 +1,9 @@
 class ProviderInterface::FindCandidates::PreviouslySubmittedAnApplicationBannerComponentPreview < ViewComponent::Preview
+  include PreviewProviderHelper
+
   def previous_applications_in_two_cycles
     candidate = FactoryBot.create(:candidate)
-    provider = FactoryBot.create(:provider)
+    provider = FactoryBot.build(:provider, code: unique_provider_code)
     current_provider_user = FactoryBot.create(:provider_user, providers: [provider])
 
     course_current = FactoryBot.create(:course, provider:)

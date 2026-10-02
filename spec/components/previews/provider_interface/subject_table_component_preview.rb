@@ -1,5 +1,7 @@
 module ProviderInterface
   class SubjectTableComponentPreview < ViewComponent::Preview
+    include PreviewProviderHelper
+
     layout 'previews/provider'
 
     FIELD_MAPPING_WITH_CHANGE = {
@@ -26,7 +28,7 @@ module ProviderInterface
         table_caption: 'candidates_who_have_submitted_applications',
         summary_row: row_builder.summary_row,
         subject_rows: row_builder.subject_rows,
-        region: 'all',
+        region: 'all_of_england',
       ) do
         content_tag(:p, class: 'govuk-body') { 'Description of table goes here' }
       end
@@ -45,7 +47,7 @@ module ProviderInterface
         table_caption: 'offers_accepted',
         summary_row: row_builder.summary_row,
         subject_rows: row_builder.subject_rows,
-        region: 'all',
+        region: 'all_of_england',
       ) do
         content_tag(:p, class: 'govuk-body') { 'Description of table goes here' }
       end
@@ -62,7 +64,11 @@ module ProviderInterface
     def provider_report
       @provider_report ||=
         Publications::ProviderRecruitmentPerformanceReport.last ||
-        FactoryBot.create(:provider_recruitment_performance_report)
+        FactoryBot.create(:provider_recruitment_performance_report, provider:)
+    end
+
+    def provider
+      @provider ||= FactoryBot.create(:provider, code: unique_provider_code)
     end
   end
 end

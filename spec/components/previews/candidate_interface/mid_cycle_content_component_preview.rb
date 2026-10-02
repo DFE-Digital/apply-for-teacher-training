@@ -22,9 +22,11 @@ private
   end
 
   class PreviewMidCycleContentComponent < CandidateInterface::MidCycleContentComponent
+    include PreviewProviderHelper
+
     def application_choices
       @application_choices ||= begin
-        provider = FactoryBot.build(:provider, code:)
+        provider = FactoryBot.build(:provider, code: unique_provider_code)
 
         sept_course = FactoryBot.build(:course, provider:)
         sept_course_option = FactoryBot.build(:course_option, course: sept_course)
@@ -33,13 +35,6 @@ private
         CandidateInterface::SortApplicationChoices.call(
           application_choices: @application_form.application_choices.for_sorting,
         )
-      end
-    end
-
-    def code
-      loop do
-        random_code = SecureRandom.alphanumeric(3)
-        break unless Provider.exists?(code: random_code)
       end
     end
   end

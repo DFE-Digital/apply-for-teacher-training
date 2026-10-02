@@ -1,15 +1,17 @@
 class Candidate::WithdrawalsAndRejectionsPreview < ActionMailer::Preview
+  include PreviewProviderHelper
+
   def application_rejected_secondary(reasons = :rejection_reasons)
     course = FactoryBot.create(
       :course,
       :secondary,
       :with_course_options,
-      provider: FactoryBot.build(:provider, code: "PREVIEW#{Provider.count}"),
+      provider:,
     )
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
       application_form:,
-      course:,
+      course_option: course.course_options.last,
       status: :rejected,
       structured_rejection_reasons: send(reasons),
       rejection_reasons_type: reasons.to_s,
@@ -22,7 +24,7 @@ class Candidate::WithdrawalsAndRejectionsPreview < ActionMailer::Preview
       :course,
       :primary,
       :with_course_options,
-      provider: FactoryBot.build(:provider, code: "PREVIEW#{Provider.count}"),
+      provider:,
     )
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
@@ -52,6 +54,7 @@ class Candidate::WithdrawalsAndRejectionsPreview < ActionMailer::Preview
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
       status: :rejected,
+      course_option:,
       structured_rejection_reasons: {
         selected_reasons: [
           { id: 'teaching_knowledge', label: 'Teaching knowledge, ability and interview performance',
@@ -78,6 +81,7 @@ class Candidate::WithdrawalsAndRejectionsPreview < ActionMailer::Preview
     application_choice = FactoryBot.create(
       :application_choice,
       status: :rejected,
+      course_option:,
       structured_rejection_reasons: international_qualifications_rejection_reasons,
       rejection_reasons_type: 'rejection_reasons',
     )
@@ -361,18 +365,18 @@ private
   end
 
   def course_option
-    FactoryBot.build_stubbed(:course_option, course:, site:)
+    @course_option ||= FactoryBot.create(:course_option, course:, site:)
   end
 
   def provider
-    FactoryBot.build_stubbed(:provider)
+    @provider ||= FactoryBot.create(:provider, code: unique_provider_code)
   end
 
   def course
-    FactoryBot.build_stubbed(:course, provider:)
+    @course ||= FactoryBot.create(:course, provider:)
   end
 
   def site
-    @site ||= FactoryBot.build_stubbed(:site, code: '-', name: 'Main site')
+    @site ||= FactoryBot.create(:site, code: '-', name: 'Main site', provider:)
   end
 end

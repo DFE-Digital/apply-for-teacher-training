@@ -22,6 +22,8 @@ private
   end
 
   class PreviewSeptemberStartContentComponent < CandidateInterface::ApplicationChoices::SeptemberStartContentComponent
+    include PreviewProviderHelper
+
     def initialize(application_form:, choice_state: :awaiting_provider_decision, with_tabs: false)
       super(application_form:, with_tabs:)
       @choice_state = choice_state
@@ -29,7 +31,7 @@ private
 
     def application_choices
       @application_choices ||= begin
-        provider = FactoryBot.build(:provider, code:)
+        provider = FactoryBot.build(:provider, code: unique_provider_code)
         course = FactoryBot.build(:course, provider:)
         course_option = FactoryBot.build(:course_option, course: course)
         FactoryBot.create(:application_choice, @choice_state, application_form:, course_option:)
@@ -37,13 +39,6 @@ private
         CandidateInterface::SortApplicationChoices.call(
           application_choices: @application_form.application_choices.for_sorting,
         )
-      end
-    end
-
-    def code
-      loop do
-        random_code = SecureRandom.alphanumeric(3)
-        break unless Provider.exists?(code: random_code)
       end
     end
   end

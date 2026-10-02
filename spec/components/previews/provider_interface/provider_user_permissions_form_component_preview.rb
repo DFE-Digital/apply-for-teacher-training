@@ -1,9 +1,11 @@
 module ProviderInterface
   class ProviderUserPermissionsFormComponentPreview < ViewComponent::Preview
+    include PreviewProviderHelper
+
     layout 'previews/provider'
 
     def provider_with_partner_organisation
-      provider = FactoryBot.create(:provider)
+      provider = FactoryBot.create(:provider, code: unique_provider_code)
       setup_relationship_for(provider)
       render ProviderUserPermissionsFormComponent.new(
         form_model: form_model_for(provider),
@@ -15,7 +17,7 @@ module ProviderInterface
     end
 
     def self_ratifying_provider
-      provider = FactoryBot.create(:provider)
+      provider = FactoryBot.create(:provider, code: unique_provider_code)
       render ProviderUserPermissionsFormComponent.new(
         form_model: form_model_for(provider),
         form_path: '',
@@ -28,7 +30,11 @@ module ProviderInterface
   private
 
     def setup_relationship_for(provider)
-      relationship = FactoryBot.create(:provider_relationship_permissions, training_provider: provider)
+      relationship = FactoryBot.create(
+        :provider_relationship_permissions,
+        training_provider: provider,
+        ratifying_provider: FactoryBot.create(:provider, code: unique_provider_code),
+      )
       FactoryBot.create(:course, :open, provider:, accredited_provider: relationship.ratifying_provider)
     end
 

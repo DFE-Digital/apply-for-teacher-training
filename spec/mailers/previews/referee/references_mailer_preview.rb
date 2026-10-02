@@ -1,4 +1,6 @@
 class Referee::ReferencesMailerPreview < ActionMailer::Preview
+  include PreviewProviderHelper
+
   def reference_request_email
     RefereeMailer.reference_request_email(reference(application_form_with_application_choice_with_accepted_offer))
   end
@@ -43,6 +45,18 @@ private
   end
 
   def application_choice
-    FactoryBot.create(:application_choice, :accepted, course: FactoryBot.build_stubbed(:course))
+    FactoryBot.create(:application_choice, :accepted, course_option:)
+  end
+
+  def course
+    @course ||= FactoryBot.create(:course, provider:)
+  end
+
+  def course_option
+    @course_option ||= FactoryBot.create(:course_option, course:)
+  end
+
+  def provider
+    @provider ||= FactoryBot.create(:provider, code: unique_provider_code)
   end
 end

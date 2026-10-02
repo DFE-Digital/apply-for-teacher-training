@@ -1,5 +1,7 @@
 module ProviderInterface
   class UserPermissionSummaryComponentPreview < ViewComponent::Preview
+    include PreviewProviderHelper
+
     layout 'previews/provider'
 
     def editable_permission_summary
@@ -22,7 +24,7 @@ module ProviderInterface
   private
 
     def example_provider_user
-      provider = FactoryBot.create(:provider)
+      provider = FactoryBot.create(:provider, code: unique_provider_code)
       provider_user = FactoryBot.create(:provider_user)
 
       FactoryBot.create(:provider_permissions,
