@@ -1,23 +1,42 @@
 module ProviderInterface
   class OfferSummaryListComponentPreview < ViewComponent::Preview
+    include PreviewProviderHelper
+
     layout 'previews/provider'
 
     def application_choice_with_offer
-      render_component_for choices: ApplicationChoice.where(status: :offer)
+      render ProviderInterface::OfferSummaryListComponent.new(
+        application_choice: FactoryBot.create(:application_choice, status: :offer, course_option:, application_form:),
+      )
     end
 
     def application_choice_without_offer
-      render_component_for choices: ApplicationChoice.where(status: :awaiting_provider_decision)
+      render ProviderInterface::OfferSummaryListComponent.new(
+        application_choice: FactoryBot.create(
+          :application_choice,
+          status: :awaiting_provider_decision,
+          course_option:,
+          application_form:,
+        ),
+      )
     end
 
   private
 
-    def render_component_for(choices:)
-      if choices.any?
-        render ProviderInterface::OfferSummaryListComponent.new(application_choice: choices.order('RANDOM()').first)
-      else
-        render template: 'support_interface/docs/missing_test_data'
-      end
+    def application_form
+      @application_form ||= FactoryBot.build(:completed_application_form)
+    end
+
+    def provider
+      @provider ||= FactoryBot.build(:provider, code: unique_provider_code)
+    end
+
+    def course
+      @course ||= FactoryBot.build(:course, provider:)
+    end
+
+    def course_option
+      @course_option ||= FactoryBot.build(:course_option, course: course)
     end
   end
 end

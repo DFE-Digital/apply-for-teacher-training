@@ -40,6 +40,8 @@ private
   end
 
   class PreviewAfterDeadlineContentComponent < CandidateInterface::AfterDeadlineContentComponent
+    include PreviewProviderHelper
+
     def initialize(application_form:, september_courses: true, january_courses: false, application_states: %i[offer interviewing])
       super(application_form:)
       @september_courses = september_courses
@@ -53,7 +55,7 @@ private
 
     def application_choices
       @application_choices ||= begin
-        provider = FactoryBot.build(:provider, code:)
+        provider = FactoryBot.build(:provider, code: unique_provider_code)
         if @september_courses
           sept_course_1 = FactoryBot.build(:course, provider:)
           sept_course_option_1 = FactoryBot.build(:course_option, course: sept_course_1)
@@ -73,13 +75,6 @@ private
         CandidateInterface::SortApplicationChoices.call(
           application_choices: @application_form.application_choices.for_sorting,
         )
-      end
-    end
-
-    def code
-      loop do
-        random_code = SecureRandom.alphanumeric(3)
-        break unless Provider.exists?(code: random_code)
       end
     end
   end

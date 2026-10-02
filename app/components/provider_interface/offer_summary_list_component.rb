@@ -21,7 +21,7 @@ module ProviderInterface
           key: 'Candidate name',
           value: application_choice.application_form.full_name,
         },
-      ] + add_change_links_to(course_rows(course_option: application_choice.current_course_option))
+      ] + add_change_links_to(course_rows(application_choice: application_choice))
     end
 
   private
