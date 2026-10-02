@@ -8,8 +8,8 @@ class RevokeStaleVendorAPITokensWorker < ApplicationJob
 
     tokens.find_each do |token|
       token.audit_comment = 'Revoked because of inactivity'
-      token.hashed_token = SecureRandom.hex + Time.zone.now.to_i.to_s,
-                           token.discard!
+      token.hashed_token = SecureRandom.hex + Time.zone.now.to_i.to_s
+      token.discard!
     end
   end
 
