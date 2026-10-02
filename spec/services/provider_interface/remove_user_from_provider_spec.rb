@@ -31,9 +31,12 @@ RSpec.describe ProviderInterface::RemoveUserFromProvider do
         end
       end
 
-      it 'deletes the relationship between user and provider' do
+      it 'deletes the relationship between user and provider and removed dfe_sign_in_uid' do
+        user_to_remove.update(dfe_sign_in_uid: 'test')
         expect { service.call! }.to change(user_to_remove.providers, :count).by(-1)
         expect(user_to_remove.reload.providers).not_to include(provider)
+        expect(user_to_remove.dfe_sign_in_uid).not_to eq('test')
+        expect(user_to_remove.dfe_sign_in_uid).to be_nil
       end
 
       it 'audits the change', :with_audited do

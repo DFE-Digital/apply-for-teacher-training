@@ -11,13 +11,16 @@ module ProviderInterface
     end
 
     def call!
-      audit(actor) do
-        assert_current_user_can_manage_users!
+      ActiveRecord::Base.transaction do
+        audit(actor) do
+          assert_current_user_can_manage_users!
 
-        provider_permission = user_to_remove.provider_permissions.find_by!(provider:)
-        provider_permission.audit_comment = 'User was deleted'
-        provider_permission.destroy!
-        send_permissions_removed_email
+          user_to_remove.update!(dfe_sign_in_uid: nil)
+          provider_permission = user_to_remove.provider_permissions.find_by!(provider:)
+          provider_permission.audit_comment = 'User was deleted'
+          provider_permission.destroy!
+          send_permissions_removed_email
+        end
       end
     end
 
