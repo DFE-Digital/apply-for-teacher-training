@@ -28,6 +28,12 @@ module CandidateInterface
         else
           render :new
         end
+      rescue ActiveRecord::RecordInvalid => e
+        if e.message == 'cannot apply to the same course when an open application exists'
+          redirect_to candidate_interface_course_choices_duplicate_course_selection_path(wizard.provider, wizard.course)
+        else
+          candidate_interface_course_choices_do_you_know_the_course_path
+        end
       end
 
       def update

@@ -48,7 +48,7 @@ module CandidateInterface
       end
 
       def valid_course_choice
-        @valid_course_choice ||= !wizard.duplicate_course? && !wizard.reapplication_limit_reached? && !wizard.course_unavailable? && !wizard.course_closed?
+        !wizard.duplicate_course? && !wizard.reapplication_limit_reached? && !wizard.course_unavailable? && !wizard.course_closed?
       end
     end
   end

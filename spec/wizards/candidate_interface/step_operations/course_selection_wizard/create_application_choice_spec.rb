@@ -59,7 +59,7 @@ RSpec.describe CandidateInterface::StepOperations::CourseSelectionWizard::Create
     end
 
     context 'editing an existing application choice' do
-      let(:application_choice) { create(:application_choice, application_form: current_application) }
+      let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: current_application) }
 
       before do
         state_store.write(application_choice_id: application_choice.id)
@@ -70,6 +70,65 @@ RSpec.describe CandidateInterface::StepOperations::CourseSelectionWizard::Create
         application_choice.reload
         expect(application_choice.course).to eq(course)
         expect(application_choice.provider).to eq(provider)
+      end
+    end
+
+    context 'when a duplicate course application exists' do
+      let(:duplicate_application_choice) do
+        create(
+          :application_choice,
+          :awaiting_provider_decision,
+          application_form: current_application,
+          course_option:,
+        )
+      end
+
+      before { duplicate_application_choice }
+
+      context 'when current step is which_course_are_you_applying_to' do
+        it 'does not raise an error' do
+          expect { execute }.not_to raise_error
+        end
+
+        it 'does not change the number of application choices' do
+          expect { execute }.not_to change(ApplicationChoice, :count)
+        end
+
+        it 'returns an error message regarding the step not being completed' do
+          expect(execute[:message]).to eq('Step not completed')
+        end
+      end
+
+      context 'when current step is find_course_selection' do
+        let(:current_step) { :find_course_selection }
+
+        it 'does not raise an error' do
+          expect { execute }.not_to raise_error
+        end
+
+        it 'does not change the number of application choices' do
+          expect { execute }.not_to change(ApplicationChoice, :count)
+        end
+
+        it 'returns an error message regarding the step not being completed' do
+          expect(execute[:message]).to eq('Step not completed')
+        end
+      end
+
+      context 'when current step is course site' do
+        let(:current_step) { :course_site }
+
+        it 'does not raise an error' do
+          expect { execute }.not_to raise_error
+        end
+
+        it 'does not change the number of application choices' do
+          expect { execute }.not_to change(ApplicationChoice, :count)
+        end
+
+        it 'returns an error message regarding a duplicate course' do
+          expect(execute[:message]).to eq('Application for this course already exists')
+        end
       end
     end
   end
