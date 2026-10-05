@@ -230,11 +230,11 @@ private
   def when_i_do_not_select_any_gcse_option; end
 
   def then_i_see_the_add_institution_country_page
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_new_institution_country_path('maths')
+    expect(page).to have_current_path candidate_interface_gcse_details_new_institution_country_path('maths')
   end
 
   def then_i_see_the_add_institution_country_page_english
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_new_institution_country_path('english')
+    expect(page).to have_current_path candidate_interface_gcse_details_new_institution_country_path('english')
   end
 
   def when_i_fill_in_a_country_for_which_we_have_structured_data
@@ -246,11 +246,11 @@ private
   end
 
   def then_i_see_the_structured_qualifications_page
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_new_qualifications_path('maths')
+    expect(page).to have_current_path candidate_interface_gcse_new_qualifications_path('maths')
   end
 
   def then_i_see_the_structured_qualifications_page_english
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_new_qualifications_path('english')
+    expect(page).to have_current_path candidate_interface_gcse_new_qualifications_path('english')
   end
 
   def when_i_choose_kcse
@@ -310,7 +310,7 @@ private
   end
 
   def then_i_see_the_add_enic_page(subject)
-    expect(page).to have_current_path(candidate_interface_gcse_new_international_flow_new_enic_path(subject), ignore_query: true)
+    expect(page).to have_current_path(candidate_interface_gcse_details_new_enic_path(subject), ignore_query: true)
   end
 
   def when_i_choose_waiting_for_it_to_arrive

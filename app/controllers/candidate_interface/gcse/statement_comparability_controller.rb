@@ -1,23 +1,22 @@
 module CandidateInterface
-  class Gcse::StatementComparabilityController < Gcse::BaseController
-    include Gcse::ResolveGcseEditPathConcern
-
-    before_action :set_previous_path, only: %i[new create]
-
+  class Gcse::StatementComparabilityController < Gcse::InternationalBaseController
     def new
       @enic_form = GcseEnicForm.build_from_qualification(current_qualification)
+      @form_path = x_gcse_new_statement_comparability_path(@subject)
     end
 
     def edit
       @enic_form = GcseEnicForm.build_from_qualification(current_qualification)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(subject_param))
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
+      @form_path = x_gcse_edit_statement_comparability_path(@subject)
     end
 
     def create
       @enic_form = GcseEnicForm.new(enic_params)
+      @form_path = x_gcse_new_statement_comparability_path(@subject)
 
       if @enic_form.save(current_qualification)
-        redirect_to resolve_gcse_edit_path(subject_param)
+        redirect_to candidate_interface_gcse_details_new_year_path(@subject)
       else
         track_validation_error(@enic_form)
         render :new
@@ -26,7 +25,8 @@ module CandidateInterface
 
     def update
       @enic_form = GcseEnicForm.new(enic_params)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(subject_param))
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
+      @form_path = x_gcse_edit_statement_comparability_path(@subject)
 
       if @enic_form.save(current_qualification)
         redirect_to @return_to[:back_path]
@@ -38,17 +38,9 @@ module CandidateInterface
 
   private
 
-    def set_previous_path
-      @previous_path = if current_qualification.non_uk_qualification_type.present?
-                         candidate_interface_gcse_details_new_enic_path(subject_param)
-                       else
-                         candidate_interface_gcse_details_new_type_path(subject_param)
-                       end
-    end
-
     def enic_params
       strip_whitespace params
-        .expect(candidate_interface_gcse_enic_form: %i[enic_reference comparable_uk_qualification])
+                         .expect(candidate_interface_gcse_enic_form: %i[enic_reference comparable_uk_qualification])
     end
   end
 end

@@ -1,0 +1,49 @@
+module CandidateInterface
+  class Gcse::FailingGradeInterruptionController < Gcse::InternationalBaseController
+    def show
+      @return_to = return_to
+      @enic_path = enic_path
+      @evidence_path = evidence_path
+    end
+
+    def science_subject?
+      @science_subject ||= @subject == 'science'
+    end
+    helper_method :science_subject?
+
+    def english_subject?
+      @english_subject ||= @subject == 'english'
+    end
+    helper_method :english_subject?
+
+  private
+
+    def return_to
+      if from_review?
+        candidate_interface_gcse_review_path(@subject)
+      else
+        candidate_interface_gcse_new_international_grades_path
+      end
+    end
+
+    def enic_path
+      if from_review?
+        candidate_interface_gcse_details_edit_enic_path(@subject)
+      else
+        candidate_interface_gcse_details_new_enic_path(@subject)
+      end
+    end
+
+    def evidence_path
+      if from_review?
+        candidate_interface_gcse_edit_evidence_path(@subject)
+      else
+        candidate_interface_gcse_new_evidence_path(@subject)
+      end
+    end
+
+    def from_review?
+      params['return-to'] == 'application-review'
+    end
+  end
+end

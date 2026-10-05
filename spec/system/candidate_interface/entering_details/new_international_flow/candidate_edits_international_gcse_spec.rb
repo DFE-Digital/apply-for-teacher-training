@@ -182,7 +182,7 @@ private
   end
 
   def then_i_see_the_edit_country_step
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_edit_institution_country_path('maths')
+    expect(page).to have_current_path candidate_interface_gcse_details_edit_institution_country_path('maths')
   end
 
   def and_i_click_save_and_continue
@@ -199,7 +199,7 @@ private
   end
 
   def then_i_see_the_qualification_step_again
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_edit_qualifications_path('maths')
+    expect(page).to have_current_path candidate_interface_gcse_edit_qualifications_path('maths')
   end
 
   def when_i_do_not_change_the_qualification; end
@@ -238,7 +238,7 @@ private
   alias_method :then_i_see_the_year_step, :and_i_see_the_year_step
 
   def then_i_see_the_enic_step
-    expect(page).to have_current_path candidate_interface_gcse_new_international_flow_edit_enic_path('maths')
+    expect(page).to have_current_path candidate_interface_gcse_details_edit_enic_path('maths')
   end
   alias_method :when_i_see_the_enic_step, :then_i_see_the_enic_step
 
