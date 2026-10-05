@@ -102,6 +102,16 @@ RSpec.describe ProviderInterface::OfferWizard do
           application_choice.course_option.course.subjects << build(:subject, code: '15', name: 'Portuguese')
         end
 
+        context 'when more than 2 SKE languages' do
+          let(:current_step) { :ske_requirements }
+          let(:subjects) { %w[German French Spanish] }
+
+          it 'adds the correct validation' do
+            expect(wizard.valid?(current_step)).to be(false)
+            expect(wizard.errors[:base]).to be_present
+          end
+        end
+
         context 'when validating languages list' do
           let(:current_step) { :ske_requirements }
 
@@ -354,6 +364,14 @@ RSpec.describe ProviderInterface::OfferWizard do
           context 'when on the ske language flow' do
             let(:current_step) { :ske_requirements }
 
+            context 'when no course required is selected' do
+              let(:ske_conditions) { [] }
+
+              it 'returns :conditions' do
+                expect(wizard.next_step).to eq(:conditions)
+              end
+            end
+
             context 'when languages are selected' do
               let(:subjects) { %w[French Spanish] }
 
@@ -520,6 +538,17 @@ RSpec.describe ProviderInterface::OfferWizard do
         context 'when ske is not required' do
           it 'returns :conditions' do
             expect(wizard.next_step).to eq(:conditions)
+          end
+        end
+
+        context 'when ske is required' do
+          before do
+            wizard.course_option.course.subjects.delete_all
+            wizard.course_option.course.subjects << build(:subject, code: 'G1', name: 'Mathematics')
+          end
+
+          it 'returns :ske_requirements' do
+            expect(wizard.next_step).to eq(:ske_requirements)
           end
         end
       end
