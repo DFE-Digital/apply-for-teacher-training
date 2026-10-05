@@ -59,7 +59,7 @@ RSpec.describe 'Add course to submitted application' do
   def and_the_course_subject_requires_ske
     @application_choice.course_option.course.subjects.delete_all
     @application_choice.course_option.course.subjects << build(
-      :subject, code: 'G1', name: 'Mathematics'
+      :subject, code: '11', name: 'Computing'
     )
   end
 
