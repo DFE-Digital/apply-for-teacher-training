@@ -1,8 +1,8 @@
 module SupportInterface
   class FeatureAuditTrailComponentPreview < ViewComponent::Preview
-    def pilot_open
+    def default
       render SupportInterface::FeatureAuditTrailComponent.new(
-        feature: Feature.find_by(name: 'dfe_sign_in_fallback'),
+        feature: Feature.all.sample,
       )
     end
   end

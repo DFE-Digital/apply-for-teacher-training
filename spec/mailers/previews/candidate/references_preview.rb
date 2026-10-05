@@ -1,4 +1,6 @@
 class Candidate::ReferencesPreview < ActionMailer::Preview
+  include PreviewProviderHelper
+
   def chase_reference
     CandidateMailer.chase_reference(reference_at_offer)
   end
@@ -36,7 +38,7 @@ private
   end
 
   def application_choice_pending_conditions
-    provider = FactoryBot.build(:provider, name: 'Brighthurst Technical College')
+    provider = FactoryBot.build(:provider, name: 'Brighthurst Technical College', code: unique_provider_code)
     course = FactoryBot.build(:course, name: 'Applied Science (Psychology)', code: '3TT5', provider: provider)
     course_option = FactoryBot.build(:course_option, course: course)
 

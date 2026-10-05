@@ -1,61 +1,131 @@
 module ProviderInterface
   class StatusBoxComponentPreview < ViewComponent::Preview
+    include PreviewProviderHelper
+
     layout 'previews/provider'
 
-    def awaiting_provider_decision
-      render_component_for choices: ApplicationChoice.where(status: :awaiting_provider_decision)
-    end
+    # This component is set to render: false
+    # def awaiting_provider_decision
+    #   render ProviderInterface::StatusBoxComponent.new(
+    #     application_choice: FactoryBot.build_stubbed(:application_choice, status: :awaiting_provider_decision, course_option:),
+    #   )
+    # end
 
-    def offer
-      render_component_for choices: ApplicationChoice.where(status: :offer)
-    end
+    # There is no ProviderInterface::StatusBoxComponents::OfferComponent
+    # def offer
+    #   render ProviderInterface::StatusBoxComponent.new(
+    #     application_choice: FactoryBot.build_stubbed(
+    #       :application_choice,
+    #       status: :offer,
+    #       offer: FactoryBot.build_stubbed(:offer),
+    #       course_option:,
+    #     ),
+    #   )
+    # end
 
     def pending_conditions_with_conditions
-      render_component_for choices: ApplicationChoice.where(
-        'status = \'pending_conditions\' AND offer IS NOT NULL AND offer->>\'conditions\' != \'[]\'',
+      render ProviderInterface::StatusBoxComponent.new(
+        application_choice: FactoryBot.build_stubbed(
+          :application_choice,
+          status: :pending_conditions,
+          offer: FactoryBot.build_stubbed(:offer),
+          course_option:,
+        ),
       )
     end
 
     def pending_conditions_with_no_conditions
-      render_component_for choices: ApplicationChoice.where('status = \'pending_conditions\' AND offer->>\'conditions\' = \'[]\'')
+      render ProviderInterface::StatusBoxComponent.new(
+        application_choice: FactoryBot.build_stubbed(
+          :application_choice,
+          status: :pending_conditions,
+          offer: FactoryBot.build_stubbed(:unconditional_offer),
+          course_option:,
+        ),
+      )
     end
 
-    def rejected
-      render_component_for choices: ApplicationChoice.where(status: :rejected)
-    end
+    # There is no ProviderInterface::StatusBoxComponents::RejectedComponent
+    # def rejected
+    #   render ProviderInterface::StatusBoxComponent.new(
+    #     application_choice: FactoryBot.build_stubbed(
+    #       :application_choice,
+    #       status: :rejected,
+    #       course_option:,
+    #     ),
+    #   )
+    # end
 
     def recruited
-      render_component_for choices: ApplicationChoice.where(status: :recruited)
-    end
-
-    def enrolled
-      render_component_for choices: ApplicationChoice.where(status: :enrolled)
+      render ProviderInterface::StatusBoxComponent.new(
+        application_choice: FactoryBot.build_stubbed(
+          :application_choice,
+          status: :recruited,
+          recruited_at: Time.zone.now,
+          course_option:,
+          offer: FactoryBot.build_stubbed(:unconditional_offer),
+        ),
+      )
     end
 
     def declined
-      render_component_for choices: ApplicationChoice.where(status: :declined)
+      render ProviderInterface::StatusBoxComponent.new(
+        application_choice: FactoryBot.build_stubbed(
+          :application_choice,
+          status: :declined,
+          declined_at: Time.zone.now,
+          course_option:,
+          offer: FactoryBot.build_stubbed(:unconditional_offer),
+        ),
+      )
     end
 
     def conditions_not_met
-      render_component_for choices: ApplicationChoice.where(status: :conditions_not_met)
+      render ProviderInterface::StatusBoxComponent.new(
+        application_choice: FactoryBot.build_stubbed(
+          :application_choice,
+          status: :conditions_not_met,
+          course_option:,
+          offer: FactoryBot.build_stubbed(:offer, :with_unmet_conditions),
+        ),
+      )
     end
 
-    def application_withdrawn
-      render_component_for choices: ApplicationChoice.where(status: :withdrawn)
-    end
+    # This component is set to render: false
+    # def application_withdrawn
+    #   render ProviderInterface::StatusBoxComponent.new(
+    #     application_choice: FactoryBot.build_stubbed(
+    #       :application_choice,
+    #       status: :withdrawn,
+    #       course_option:,
+    #     ),
+    #   )
+    # end
 
     def offer_withdrawn
-      render_component_for choices: ApplicationChoice.where(status: :offer_withdrawn)
+      render ProviderInterface::StatusBoxComponent.new(
+        application_choice: FactoryBot.build_stubbed(
+          :application_choice,
+          status: :offer_withdrawn,
+          offer_withdrawn_at: Time.zone.now,
+          course_option:,
+          offer: FactoryBot.build_stubbed(:unconditional_offer),
+        ),
+      )
     end
 
   private
 
-    def render_component_for(choices:)
-      if choices.any?
-        render ProviderInterface::StatusBoxComponent.new(application_choice: choices.order('RANDOM()').first)
-      else
-        render template: 'support_interface/docs/missing_test_data'
-      end
+    def provider
+      @provider ||= FactoryBot.create(:provider, code: unique_provider_code)
+    end
+
+    def course
+      @course ||= FactoryBot.create(:course, provider:)
+    end
+
+    def course_option
+      @course_option ||= FactoryBot.create(:course_option, course: course)
     end
   end
 end

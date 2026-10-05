@@ -1,5 +1,7 @@
 module ProviderInterface
   class UserCardComponentPreview < ViewComponent::Preview
+    include PreviewProviderHelper
+
     layout 'previews/provider'
 
     def user_with_permissions
@@ -21,8 +23,10 @@ module ProviderInterface
   private
 
     def example_provider_user
+      provider = FactoryBot.create(:provider, code: unique_provider_code)
       permissions = FactoryBot.create(
         :provider_permissions,
+        provider:,
         manage_users: Faker::Boolean.boolean(true_ratio: 0.5),
         manage_organisations: Faker::Boolean.boolean(true_ratio: 0.5),
         set_up_interviews: Faker::Boolean.boolean(true_ratio: 0.5),

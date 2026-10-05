@@ -38,6 +38,8 @@ private
   end
 
   class PreviewMultipleActiveApplicationsContentComponent < CandidateInterface::MultipleActiveApplicationsContentComponent
+    include PreviewProviderHelper
+
     def initialize(application_form:, with_current_year_applications: true, january_choice_state: :awaiting_provider_decision)
       super(application_form:)
       @with_current_year_applications = with_current_year_applications
@@ -59,7 +61,7 @@ private
 
     def application_choices
       @application_choices ||= begin
-        provider = FactoryBot.build(:provider, code:)
+        provider = FactoryBot.build(:provider, code: unique_provider_code)
 
         prev_jan_course = FactoryBot.build(:course, provider:, start_date: "01/01/#{application_form.recruitment_cycle_year}")
         prev_jan_course_option = FactoryBot.build(:course_option, course: prev_jan_course)
@@ -84,13 +86,6 @@ private
         CandidateInterface::SortApplicationChoices.call(
           application_choices: @application_form.application_choices.for_sorting,
         )
-      end
-    end
-
-    def code
-      loop do
-        random_code = SecureRandom.alphanumeric(3)
-        break unless Provider.exists?(code: random_code)
       end
     end
   end

@@ -1,5 +1,7 @@
 module ProviderInterface
   class DsaSuccessPageComponentPreview < ViewComponent::Preview
+    include PreviewProviderHelper
+
     layout 'previews/provider'
 
     def permission_setup_required
@@ -19,9 +21,11 @@ module ProviderInterface
   private
 
     def example_provider_user
-      traits = %i[with_provider]
-      traits << :with_manage_users if rand < 0.5
-      FactoryBot.create(:provider_user, *traits)
+      if rand < 0.5
+        FactoryBot.create(:provider_user, :with_manage_users, providers: [FactoryBot.build(:provider, code: unique_provider_code)])
+      else
+        FactoryBot.create(:provider_user, providers: [FactoryBot.build(:provider, code: unique_provider_code)])
+      end
     end
   end
 end

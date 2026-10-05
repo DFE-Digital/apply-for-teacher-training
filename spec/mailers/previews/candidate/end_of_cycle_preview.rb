@@ -1,4 +1,6 @@
 class Candidate::EndOfCyclePreview < ActionMailer::Preview
+  include PreviewProviderHelper
+
   def eoc_first_deadline_reminder
     application_form = FactoryBot.build(
       :application_form,
@@ -13,7 +15,7 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
       :course,
       :with_course_options,
       :secondary,
-      provider: FactoryBot.build(:provider, code: "PREVIEW:#{Provider.count}"),
+      provider:,
     )
     application_choice = FactoryBot.create(:application_choice, course:)
 
@@ -76,28 +78,45 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
 
   def respond_to_offer_before_deadline_one_application_choice
     application_form = FactoryBot.build(:application_form, first_name: 'Bart')
-    FactoryBot.create(:application_choice, :offer, application_form:)
+    course = FactoryBot.build(:course, provider:)
+    course_option = FactoryBot.build(:course_option, course:)
+    FactoryBot.create(:application_choice, :offer, application_form:, course_option:)
 
     CandidateMailer.respond_to_offer_before_deadline(application_form)
   end
 
   def respond_to_offer_before_deadline_many_application_choices
     application_form = FactoryBot.build(:application_form, first_name: 'Bart')
-    FactoryBot.create_list(:application_choice, 2, :offer, application_form:)
+    course_1 = FactoryBot.build(:course, provider:)
+    course_option_1 = FactoryBot.build(:course_option, course: course_1)
+    FactoryBot.create(:application_choice, :offer, application_form:, course_option: course_option_1)
+
+    course_2 = FactoryBot.build(:course, provider:)
+    course_option_2 = FactoryBot.build(:course_option, course: course_2)
+    FactoryBot.create(:application_choice, :offer, application_form:, course_option: course_option_2)
 
     CandidateMailer.respond_to_offer_before_deadline(application_form)
   end
 
   def reject_by_default_explainer_one_application_choice
     application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
-    FactoryBot.create(:application_choice, :rejected_by_default, application_form:)
+    course = FactoryBot.build(:course, provider:)
+    course_option = FactoryBot.build(:course_option, course:)
+    FactoryBot.create(:application_choice, :rejected_by_default, application_form:, course_option:)
 
     CandidateMailer.reject_by_default_explainer(application_form)
   end
 
   def reject_by_default_explainer_many_application_choices
     application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
-    FactoryBot.create_list(:application_choice, 2, :rejected_by_default, application_form:)
+
+    course_1 = FactoryBot.build(:course, provider:)
+    course_option_1 = FactoryBot.build(:course_option, course: course_1)
+    FactoryBot.create(:application_choice, :rejected_by_default, application_form:, course_option: course_option_1)
+
+    course_2 = FactoryBot.build(:course, provider:)
+    course_option_2 = FactoryBot.build(:course_option, course: course_2)
+    FactoryBot.create(:application_choice, :rejected_by_default, application_form:, course_option: course_option_2)
 
     CandidateMailer.reject_by_default_explainer(application_form)
   end
@@ -107,7 +126,7 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
       :course,
       :with_course_options,
       :primary,
-      provider: FactoryBot.build(:provider, code: "PREVIEW:#{Provider.count}"),
+      provider:,
       can_sponsor_skilled_worker_visa: true,
       can_sponsor_student_visa: true,
       visa_sponsorship_application_deadline_at: 1.month.from_now,
@@ -126,7 +145,7 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
       :course,
       :with_course_options,
       :secondary,
-      provider: FactoryBot.build(:provider, code: "PREVIEW:#{Provider.count}"),
+      provider:,
       can_sponsor_skilled_worker_visa: true,
       can_sponsor_student_visa: true,
       visa_sponsorship_application_deadline_at: 1.month.from_now,
@@ -142,11 +161,10 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
   end
 
   def visa_sponsorship_deadline_change
-    provider = FactoryBot.build_stubbed(:provider)
     course = FactoryBot.build_stubbed(
       :course,
       :primary,
-      provider: provider,
+      provider:,
       can_sponsor_skilled_worker_visa: true,
       can_sponsor_student_visa: true,
       visa_sponsorship_application_deadline_at: 1.month.from_now,
@@ -161,11 +179,10 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
   end
 
   def visa_sponsorship_deadline_change_for_secondary_course
-    provider = FactoryBot.build_stubbed(:provider)
     course = FactoryBot.build_stubbed(
       :course,
       :secondary,
-      provider: provider,
+      provider:,
       can_sponsor_skilled_worker_visa: true,
       can_sponsor_student_visa: true,
       visa_sponsorship_application_deadline_at: 1.month.from_now,
@@ -181,7 +198,7 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
 
   def winter_reject_by_default_explainer_one_application_choice
     application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
-    course = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}")
+    course = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}", provider:)
     course_option = FactoryBot.build(:course_option, course:)
     FactoryBot.create(:application_choice, :rejected_by_default, application_form:, course_option:)
 
@@ -190,7 +207,7 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
 
   def winter_reject_by_default_explainer_many_application_choices
     application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
-    course = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}")
+    course = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}", provider:)
     course_option = FactoryBot.build(:course_option, course:)
     FactoryBot.create_list(:application_choice, 2, :rejected_by_default, application_form:, course_option:)
 
@@ -199,7 +216,7 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
 
   def respond_to_offer_before_winter_deadline_one_application_choice
     application_form = FactoryBot.build(:application_form, first_name: 'Bart')
-    course = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}")
+    course = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}", provider:)
     course_option = FactoryBot.build(:course_option, course:)
     FactoryBot.create(:application_choice, :offer, application_form:, course_option:)
 
@@ -208,10 +225,10 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
 
   def respond_to_offer_before_winter_deadline_many_application_choices
     application_form = FactoryBot.build(:application_form, first_name: 'Bart')
-    course_1 = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}")
+    course_1 = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}", provider:)
     course_option_1 = FactoryBot.build(:course_option, course: course_1)
     FactoryBot.create(:application_choice, :offer, application_form:, course_option: course_option_1)
-    course_2 = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}")
+    course_2 = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}", provider:)
     course_option_2 = FactoryBot.build(:course_option, course: course_2)
     FactoryBot.create(:application_choice, :offer, application_form:, course_option: course_option_2)
 
@@ -220,21 +237,25 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
 
   def decline_by_default_explainer_one_application_choice
     application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
-    FactoryBot.create(:application_choice, :declined_by_default, application_form:)
+    course = FactoryBot.build(:course, provider:)
+    course_option = FactoryBot.build(:course_option, course:)
+    FactoryBot.create(:application_choice, :declined_by_default, application_form:, course_option:)
 
     CandidateMailer.decline_by_default_explainer(application_form)
   end
 
   def decline_by_default_explainer_many_application_choices
     application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
-    FactoryBot.create_list(:application_choice, 2, :declined_by_default, application_form:)
+    course = FactoryBot.build(:course, provider:)
+    course_option = FactoryBot.build(:course_option, course:)
+    FactoryBot.create_list(:application_choice, 2, :declined_by_default, application_form:, course_option:)
 
     CandidateMailer.decline_by_default_explainer(application_form)
   end
 
   def winter_decline_by_default_explainer_one_application_choice
     application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
-    course = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}")
+    course = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}", provider:)
     course_option = FactoryBot.build(:course_option, course:)
     FactoryBot.create(:application_choice, :declined_by_default, application_form:, course_option:)
 
@@ -243,10 +264,16 @@ class Candidate::EndOfCyclePreview < ActionMailer::Preview
 
   def winter_decline_by_default_explainer_many_application_choices
     application_form = FactoryBot.build(:application_form, first_name: 'Lisa')
-    course = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}")
+    course = FactoryBot.build(:course, start_date: "01/01/#{RecruitmentCycleTimetable.current_year + 1}", provider:)
     course_option = FactoryBot.build(:course_option, course:)
     FactoryBot.create_list(:application_choice, 2, :declined_by_default, application_form:, course_option:)
 
     CandidateMailer.winter_decline_by_default_explainer(application_form)
+  end
+
+private
+
+  def provider
+    @provider ||= FactoryBot.build(:provider, code: unique_provider_code)
   end
 end
