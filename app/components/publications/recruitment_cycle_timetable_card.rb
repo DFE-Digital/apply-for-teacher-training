@@ -6,6 +6,10 @@ module Publications
 
     attr_reader :timetable
 
+    def change_link?
+      timetable.three_timetables_from_now? && Time.zone.now.month == 10
+    end
+
     def title_text
       current_year = RecruitmentCycleTimetable.current_year
       additional_text = if timetable.recruitment_cycle_year == current_year

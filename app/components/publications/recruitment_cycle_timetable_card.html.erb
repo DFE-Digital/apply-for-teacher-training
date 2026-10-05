@@ -1,8 +1,19 @@
 <%= govuk_summary_card(title: title_text) do |card| %>
+  <% if change_link? %>
+   <%= card.with_action {
+     govuk_link_to(
+       t('.change'),
+       support_interface_edit_recruitment_cycle_timetable_path(
+         recruitment_cycle_year: timetable.recruitment_cycle_year,
+       ),
+     )} %>
+  <% end %>
+
   <%= card.with_summary_list(actions: false) do |summary_list| %>
     <%= summary_list.with_row do |row| %>
       <%= row.with_key { t('.academic_year_range_name') } %>
-      <%= row.with_value { timetable.academic_year_range_name } %>
+      <%#= row.with_value { timetable.academic_year_range_name } %>
+      <%= row.with_value { timetable.recruitment_cycle_year.to_s } %>
     <% end %>
     <%= summary_list.with_row do |row| %>
       <%= row.with_key { t('.find_opens_at') } %>

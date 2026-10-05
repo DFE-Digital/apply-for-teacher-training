@@ -82,6 +82,7 @@ class Clock
   every(1.day, 'EndOfCycle::RejectByDefaultWorker', at: '00:01') { EndOfCycle::RejectByDefaultWorker.perform_later }
   # Decline any offers that are awaiting candidate decision
   every(1.day, 'EndOfCycle::DeclineByDefaultWorker', at: '00:01') { EndOfCycle::DeclineByDefaultWorker.perform_later }
+  every(1.day, 'EndOfCycle::GenerateNewCycle', at: '00:02') { EndOfCycle::GenerateNewCycle.perform_later }
 
   # Weekly jobs
   every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: 'Saturday 00:59') do
