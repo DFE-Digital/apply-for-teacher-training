@@ -24,10 +24,12 @@ module CandidateInterface
                       candidate_interface_edit_course_choices_which_course_are_you_applying_to_path(
                         application_choice_id: application_choice.id,
                       )
-                    else
+                    elsif @wizard.provider.present?
                       candidate_interface_course_choices_which_course_are_you_applying_to_path(
                         provider_id: @wizard.provider.id,
                       )
+                    else
+                      candidate_interface_course_choices_do_you_know_the_course_path
                     end
       end
 

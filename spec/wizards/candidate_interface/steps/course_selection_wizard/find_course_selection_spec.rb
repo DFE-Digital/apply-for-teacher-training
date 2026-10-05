@@ -59,7 +59,14 @@ RSpec.describe CandidateInterface::Steps::CourseSelectionWizard::FindCourseSelec
   describe '.completed?' do
     context 'when the course has multiple sites' do
       before do
-        allow(wizard).to receive_messages(multiple_study_modes?: false, multiple_sites?: true)
+        allow(wizard).to receive_messages(
+          multiple_study_modes?: false,
+          multiple_sites?: true,
+          duplicate_course?: false,
+          reapplication_limit_reached?: false,
+          course_unavailable?: false,
+          course_closed?: false,
+        )
       end
 
       it 'returns false' do
@@ -69,7 +76,82 @@ RSpec.describe CandidateInterface::Steps::CourseSelectionWizard::FindCourseSelec
 
     context 'when the course has multiple study modes' do
       before do
-        allow(wizard).to receive_messages(multiple_study_modes?: true, multiple_sites?: false)
+        allow(wizard).to receive_messages(
+          multiple_study_modes?: true,
+          multiple_sites?: false,
+          duplicate_course?: false,
+          reapplication_limit_reached?: false,
+          course_unavailable?: false,
+          course_closed?: false,
+        )
+      end
+
+      it 'returns false' do
+        expect(described_class.new(wizard:, course_id: course.id, confirm: 'true').completed?).to be(false)
+      end
+    end
+
+    context 'when the course has a duplicate application for this course' do
+      before do
+        allow(wizard).to receive_messages(
+          multiple_study_modes?: false,
+          multiple_sites?: false,
+          duplicate_course?: true,
+          reapplication_limit_reached?: false,
+          course_unavailable?: false,
+          course_closed?: false,
+        )
+      end
+
+      it 'returns false' do
+        expect(described_class.new(wizard:, course_id: course.id, confirm: 'true').completed?).to be(false)
+      end
+    end
+
+    context 'when the candidate has reached their reapplication limit' do
+      before do
+        allow(wizard).to receive_messages(
+          multiple_study_modes?: false,
+          multiple_sites?: false,
+          duplicate_course?: false,
+          reapplication_limit_reached?: true,
+          course_unavailable?: false,
+          course_closed?: false,
+        )
+      end
+
+      it 'returns false' do
+        expect(described_class.new(wizard:, course_id: course.id, confirm: 'true').completed?).to be(false)
+      end
+    end
+
+    context 'when the course is unavailable' do
+      before do
+        allow(wizard).to receive_messages(
+          multiple_study_modes?: false,
+          multiple_sites?: false,
+          duplicate_course?: false,
+          reapplication_limit_reached?: false,
+          course_unavailable?: true,
+          course_closed?: false,
+        )
+      end
+
+      it 'returns false' do
+        expect(described_class.new(wizard:, course_id: course.id, confirm: 'true').completed?).to be(false)
+      end
+    end
+
+    context 'when the course is closed' do
+      before do
+        allow(wizard).to receive_messages(
+          multiple_study_modes?: false,
+          multiple_sites?: false,
+          duplicate_course?: false,
+          reapplication_limit_reached?: false,
+          course_unavailable?: false,
+          course_closed?: true,
+        )
       end
 
       it 'returns false' do
@@ -79,7 +161,14 @@ RSpec.describe CandidateInterface::Steps::CourseSelectionWizard::FindCourseSelec
 
     context 'when not confirmed' do
       before do
-        allow(wizard).to receive_messages(multiple_study_modes?: false, multiple_sites?: false)
+        allow(wizard).to receive_messages(
+          multiple_study_modes?: false,
+          multiple_sites?: false,
+          duplicate_course?: false,
+          reapplication_limit_reached?: false,
+          course_unavailable?: false,
+          course_closed?: false,
+        )
       end
 
       it 'returns false' do
@@ -89,7 +178,14 @@ RSpec.describe CandidateInterface::Steps::CourseSelectionWizard::FindCourseSelec
 
     context 'when confirmed' do
       before do
-        allow(wizard).to receive_messages(multiple_study_modes?: false, multiple_sites?: false)
+        allow(wizard).to receive_messages(
+          multiple_study_modes?: false,
+          multiple_sites?: false,
+          duplicate_course?: false,
+          reapplication_limit_reached?: false,
+          course_unavailable?: false,
+          course_closed?: false,
+        )
       end
 
       it 'returns false' do

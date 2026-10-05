@@ -199,7 +199,7 @@ class CandidateInterface::CourseSelectionWizard
     case current_step.step_id
     when :which_course_are_you_applying_to
       provider.blank?
-    when :course_site, :course_study_mode
+    when :course_site, :course_study_mode, :duplicate_course_selection
       provider.blank? || course.blank?
     else
       false

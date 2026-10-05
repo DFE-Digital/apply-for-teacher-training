@@ -21,11 +21,15 @@ module CandidateInterface
       end
 
       def completed?
-        confirm_answer? && !multiple_study_modes? && !multiple_sites?
+        confirm_answer? && !wizard.multiple_study_modes? && !wizard.multiple_sites? && valid_course_choice
       end
 
       def confirm_answer?
         ActiveModel::Type::Boolean.new.cast(confirm).present?
+      end
+
+      def valid_course_choice
+        !wizard.duplicate_course? && !wizard.reapplication_limit_reached? && !wizard.course_unavailable? && !wizard.course_closed?
       end
     end
   end

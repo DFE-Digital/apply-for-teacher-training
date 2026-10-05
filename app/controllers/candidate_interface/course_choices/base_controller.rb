@@ -28,6 +28,9 @@ module CandidateInterface
         else
           render :new
         end
+      rescue ActiveRecord::RecordInvalid => e
+        @wizard.current_step.errors.add :base, e.message
+        render :new
       end
 
       def update

@@ -4,7 +4,8 @@ module CandidateInterface
       delegate :completed?, to: :current_step
 
       def execute
-        return unless completed?
+        return { success: true, message: 'Step not completed' } unless completed?
+        return { success: true, message: 'Application for this course already exists' } if wizard.duplicate_course?
 
         save_application_choice(application_choice)
         wizard.application_choice = application_choice
