@@ -1,7 +1,7 @@
 <%= render 'support_interface/settings/settings_navigation', title: t('.page_title') %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <% if @timetable_to_review.present? && Time.zone.now.month == 10 %>
+    <% if @timetable_to_review.present? && Time.zone.now.month == 7 %>
       <%= govuk_notification_banner(title_text: 'Important') do |notification_banner| %>
         <% notification_banner.with_heading(
           text: t('.review_cycle_dates', cycle_range: @timetable_to_review.cycle_range_name),

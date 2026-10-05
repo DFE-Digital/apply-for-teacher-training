@@ -12,8 +12,7 @@
   <%= card.with_summary_list(actions: false) do |summary_list| %>
     <%= summary_list.with_row do |row| %>
       <%= row.with_key { t('.academic_year_range_name') } %>
-      <%#= row.with_value { timetable.academic_year_range_name } %>
-      <%= row.with_value { timetable.recruitment_cycle_year.to_s } %>
+      <%= row.with_value { timetable.academic_year_range_name } %>
     <% end %>
     <%= summary_list.with_row do |row| %>
       <%= row.with_key { t('.find_opens_at') } %>

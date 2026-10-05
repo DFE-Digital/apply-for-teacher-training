@@ -57,7 +57,7 @@ module SupportInterface
     def edit_correct_timetable
       return unless HostingEnvironment.production?
 
-      unless timetable.three_timetables_from_now? && Time.zone.now.month == 11
+      unless timetable.three_timetables_from_now? && Time.zone.now.month == 7
         redirect_to support_interface_path
       end
     end

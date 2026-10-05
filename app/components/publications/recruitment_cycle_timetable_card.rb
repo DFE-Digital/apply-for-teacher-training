@@ -7,7 +7,7 @@ module Publications
     attr_reader :timetable
 
     def change_link?
-      timetable.three_timetables_from_now? && Time.zone.now.month == 10
+      timetable.three_timetables_from_now? && Time.zone.now.month == 7
     end
 
     def title_text
