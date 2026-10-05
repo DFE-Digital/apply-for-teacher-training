@@ -29,7 +29,6 @@ class Subject < ApplicationRecord
   SKE_STANDARD_COURSES = [
     '11', # Computing
     '16', # English as a second or other language
-    'G1', # Mathematics
     'F0', # Science
     'F3', # Physics
   ].freeze
