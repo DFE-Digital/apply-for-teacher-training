@@ -21,7 +21,7 @@ RSpec.describe RevokeStaleVendorAPITokensWorker, :with_audited do
 
         expect(token.discarded?).to be(true)
         expect(token.audits.last.comment).to eq 'Revoked because of inactivity'
-        expect(token.hashed_token).to_not eq original_hashed_token
+        expect(token.hashed_token).not_to eq original_hashed_token
       end
 
       it 'revokes unused tokens created over three months ago' do
@@ -39,7 +39,7 @@ RSpec.describe RevokeStaleVendorAPITokensWorker, :with_audited do
 
         expect(token.discarded?).to be(true)
         expect(token.audits.last.comment).to eq 'Revoked because of inactivity'
-        expect(token.hashed_token).to_not eq original_hashed_token
+        expect(token.hashed_token).not_to eq original_hashed_token
       end
 
       it 'does not revoke active tokens' do
