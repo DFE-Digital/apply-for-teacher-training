@@ -29,11 +29,8 @@ module CandidateInterface
           render :new
         end
       rescue ActiveRecord::RecordInvalid => e
-        if e.message == 'cannot apply to the same course when an open application exists'
-          render :new
-        else
-          candidate_interface_course_choices_do_you_know_the_course_path
-        end
+        @wizard.current_step.errors.add :base, e.message
+        render :new
       end
 
       def update
