@@ -152,16 +152,8 @@ class RecruitmentCycleTimetable < ApplicationRecord
     self.class.find_by(recruitment_cycle_year: recruitment_cycle_year + 1)
   end
 
-  def relative_next_next_timetable
-    self.class.find_by(recruitment_cycle_year: recruitment_cycle_year + 2)
-  end
-
   def next_year?
     self == RecruitmentCycleTimetable.next_timetable
-  end
-
-  def next_next_year?
-    self == RecruitmentCycleTimetable.next_next_timetable
   end
 
   def three_timetables_from_now?
