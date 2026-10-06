@@ -173,9 +173,10 @@ group :test do
   gem 'simplecov', require: false
   gem 'super_diff'
   gem 'test_suite_time_machine', '~> 2.0'
-  gem 'timecop'
   gem 'webmock', '~> 3.26'
 end
+
+gem 'timecop'
 
 group :development, :test do
   gem 'brakeman'
