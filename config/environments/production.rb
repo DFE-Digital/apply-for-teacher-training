@@ -3,6 +3,9 @@ require Rails.root.join('app/lib/custom_log_formatter')
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  config.after_initialize do
+    Timecop.freeze(Time.zone.parse('2027-07-22'))
+  end
 
     config.x.read_only_database_url = if HostingEnvironment.review?
                                       # On Heroku we don't have a read replica, so use the main database connection.
