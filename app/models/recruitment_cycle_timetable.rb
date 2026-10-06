@@ -152,10 +152,6 @@ class RecruitmentCycleTimetable < ApplicationRecord
     self.class.find_by(recruitment_cycle_year: recruitment_cycle_year + 1)
   end
 
-  def next_year?
-    self == RecruitmentCycleTimetable.next_timetable
-  end
-
   def three_timetables_from_now?
     self == RecruitmentCycleTimetable.three_timetables_from_now
   end
@@ -253,6 +249,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
 
   def approaching_winter_reject_by_default?
     Time.zone.now.after? winter_reject_by_default_at - 1.week
+  end
+
+  def next_year?
+    self == RecruitmentCycleTimetable.next_timetable
   end
 
   def current_year?

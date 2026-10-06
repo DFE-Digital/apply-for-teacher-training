@@ -39,8 +39,8 @@ en:
         you_can_edit: You can edit the following timetables
         today_is: Today is %{date}
         review_cycle_dates: Review the %{cycle_range} cycle dates
-        review_cycle_body_html: "%{link} Publish the dates when you’re satisfied they’re correct. If you do not publish them by 1 August 2026, they will automatically be published then."
-        review_cycle_link: Review the cycle dates and change them if needed.
+        review_cycle_body_html: "%{link}. Publish the dates when you’re satisfied they’re correct. If you do not publish them by 1 August 2026, they will automatically be published then."
+        review_cycle_link: Review the cycle dates and change them if needed
         the_next_cycle_is_not_defined: The next cycle is not defined
         sync_with_production: Sync cycle timetables with production
         find_has_opened: Find has opened (%{year})
