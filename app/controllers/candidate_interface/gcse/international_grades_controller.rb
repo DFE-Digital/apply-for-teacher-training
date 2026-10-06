@@ -69,6 +69,8 @@ module CandidateInterface
     end
 
     def likely_below_level_four?
+      return false if current_qualification.institution_country.blank?
+
       InspectInternationalGcseGrade.new(current_qualification).likely_below?
     end
 
