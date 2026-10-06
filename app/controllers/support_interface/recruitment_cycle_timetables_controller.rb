@@ -42,6 +42,7 @@ module SupportInterface
 
         redirect_to support_interface_recruitment_cycle_timetables_path
       else
+        @timetable = timetable
         render :edit
       end
     end

@@ -263,10 +263,6 @@ class RecruitmentCycleTimetable < ApplicationRecord
     Time.zone.now.after? winter_reject_by_default_at - 1.week
   end
 
-  def next_year?
-    self == RecruitmentCycleTimetable.next_timetable
-  end
-
   def current_year?
     self == RecruitmentCycleTimetable.current_timetable
   end
