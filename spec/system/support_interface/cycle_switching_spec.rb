@@ -46,17 +46,17 @@ RSpec.describe 'Cycle switching' do
   end
 
   scenario 'Support previews the newly generated cycle in July and updates it' do
-    generate_2030_cycle
     travel_to(Time.zone.parse('2027-07-22')) do
+      generate_2030_cycle
       given_it_is_before_the_apply_deadline
       given_i_am_signed_in_as_a_support_user
       when_i_navigate_to_the_cycle_page
-      when_i_click('Review the cycle dates and change them if needed.')
+      when_i_click('Review the cycle dates and change them if needed')
 
       and_i_see_the_new_cycle_dates
       when_i_click('Publish new cycle dates')
       then_i_see_new_cycle_message
-      when_i_click('Review the cycle dates and change them if needed.')
+      when_i_click('Review the cycle dates and change them if needed')
       when_i_click('Change')
       and_i_update_the_apply_deadline
       then_i_see_new_cycle_message

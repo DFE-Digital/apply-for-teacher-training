@@ -156,6 +156,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
     self == RecruitmentCycleTimetable.three_timetables_from_now
   end
 
+  def editable_in_production?
+    three_timetables_from_now? && Time.zone.now.month == 7
+  end
+
   def relative_previous_timetable
     self.class.find_by(recruitment_cycle_year: recruitment_cycle_year - 1)
   end

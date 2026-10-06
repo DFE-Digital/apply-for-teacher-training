@@ -62,7 +62,10 @@
     </h2>
 
     <% @timetable_presenter.timetables.each do |timetable| %>
-      <%= render Publications::RecruitmentCycleTimetableCard.new(timetable) %>
+      <%= render Publications::RecruitmentCycleTimetableCard.new(
+        timetable,
+        logged_in: respond_to?(:current_support_user) && current_support_user,
+      ) %>
     <% end %>
   </div>
 </div>

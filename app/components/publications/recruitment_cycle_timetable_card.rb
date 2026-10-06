@@ -1,13 +1,14 @@
 module Publications
   class RecruitmentCycleTimetableCard < ApplicationComponent
-    def initialize(timetable)
+    def initialize(timetable, logged_in: false)
       @timetable = timetable
+      @logged_in = logged_in
     end
 
     attr_reader :timetable
 
     def change_link?
-      timetable.three_timetables_from_now? && Time.zone.now.month == 7
+      @logged_in && timetable.editable_in_production?
     end
 
     def title_text
