@@ -254,9 +254,11 @@ namespace :support_interface, path: '/support' do
     get 'recruitment-cycle-timetable', to: 'recruitment_cycle_timetables#index', as: :recruitment_cycle_timetables
     unless HostingEnvironment.production?
       post '/recruitment-cycle-timetables/reset', to: 'recruitment_cycle_timetables#reset', as: :sync_cycle_with_production
-      get '/recruitment-cycle-timetable/:recruitment_cycle_year', to: 'recruitment_cycle_timetables#edit', as: :edit_recruitment_cycle_timetable
-      post '/recruitment-cycle-timetable/:recruitment_cycle_year', to: 'recruitment_cycle_timetables#update', as: :update_recruitment_cycle_timetable
     end
+
+    get '/recruitment-cycle-timetable/show/:recruitment_cycle_year', to: 'recruitment_cycle_timetables#show', as: :show_recruitment_cycle_timetable
+    get '/recruitment-cycle-timetable/:recruitment_cycle_year', to: 'recruitment_cycle_timetables#edit', as: :edit_recruitment_cycle_timetable
+    post '/recruitment-cycle-timetable/:recruitment_cycle_year', to: 'recruitment_cycle_timetables#update', as: :update_recruitment_cycle_timetable
 
     get '/service-banners' => 'settings#service_banners', as: :service_banners
     get '/service-banners/configuration' => 'show_service_banner#edit', as: :edit_show_service_banner

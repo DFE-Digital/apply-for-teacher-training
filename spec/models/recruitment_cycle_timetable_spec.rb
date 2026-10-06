@@ -343,6 +343,18 @@ RSpec.describe RecruitmentCycleTimetable do
     end
   end
 
+  describe '#three_timetables_from_now?' do
+    it 'returns true when the timetable tree timetables from now' do
+      SupportInterface::RecruitmentCycleTimetableGenerator.generate_next_year
+
+      current_timetable = described_class.current_timetable
+      expect(current_timetable.next_year?).to be false
+
+      next_timetable = described_class.three_timetables_from_now
+      expect(next_timetable.three_timetables_from_now?).to be true
+    end
+  end
+
   describe '#current_year?' do
     it 'returns true when the timetable is for the current recruitment cycle' do
       current_timetable = described_class.current_timetable

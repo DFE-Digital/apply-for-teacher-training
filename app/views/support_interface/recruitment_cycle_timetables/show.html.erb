@@ -1,0 +1,22 @@
+<% content_for :browser_title, t('.title') %>
+<% content_for :before_content do %>
+  <%= govuk_back_link(
+    text: 'Back',
+    href: support_interface_recruitment_cycle_timetables_path,
+  ) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render Publications::RecruitmentCycleTimetableCard.new(
+      @timetable,
+      logged_in: respond_to?(:current_support_user) && current_support_user,
+    ) %>
+    <%= govuk_button_to(
+      t('.publish'),
+      '',
+      params: { publish: true },
+      method: :get,
+    ) %>
+  </div>
+</div>

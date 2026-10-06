@@ -1,11 +1,14 @@
 module SupportInterface
   class RecruitmentCycleTimetablePresenter
     delegate_missing_to :timetable
-    attr_reader :timetable, :next_timetable
+    attr_reader :timetable, :next_timetable, :timetables
 
     def initialize(timetable)
       @timetable = timetable
       @next_timetable = timetable.relative_next_timetable
+      @timetables = RecruitmentCycleTimetable.where(
+        'recruitment_cycle_year >= ?', timetable.recruitment_cycle_year
+      ).order(:recruitment_cycle_year)
     end
 
     def cycle_state

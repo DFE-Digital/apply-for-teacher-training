@@ -3,8 +3,7 @@ require Rails.root.join('app/lib/custom_log_formatter')
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-
-    config.x.read_only_database_url = if HostingEnvironment.review?
+  config.x.read_only_database_url = if HostingEnvironment.review?
                                       # On Heroku we don't have a read replica, so use the main database connection.
                                       ENV.fetch("DATABASE_URL")
                                     else

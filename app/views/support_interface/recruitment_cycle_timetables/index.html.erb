@@ -1,6 +1,20 @@
 <%= render 'support_interface/settings/settings_navigation', title: t('.page_title') %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <% if @timetable_to_review.present? && Time.zone.now.month == 7 %>
+      <%= govuk_notification_banner(title_text: 'Important') do |notification_banner| %>
+        <% notification_banner.with_heading(
+          text: t('.review_cycle_dates', cycle_range: @timetable_to_review.cycle_range_name),
+        ) %>
+        <p class="govuk-body">
+          <%= t(
+            '.review_cycle_body_html',
+            link: govuk_link_to(t('.review_cycle_link'),
+            support_interface_show_recruitment_cycle_timetable_path(recruitment_cycle_year: @timetable_to_review.recruitment_cycle_year)),
+          ) %>
+        </p>
+      <% end %>
+    <% end %>
 
     <span class="govuk-caption-xl">
       <%= t('.today_is', date: Time.zone.now.to_fs(:govuk_date)) %>
@@ -47,11 +61,11 @@
       <%= t('.deadlines') %>
     </h2>
 
-    <%= render Publications::RecruitmentCycleTimetableCard.new(@current_timetable) %>
-
-    <% if @current_timetable.relative_next_timetable.present? %>
-      <%= render Publications::RecruitmentCycleTimetableCard.new(@current_timetable.relative_next_timetable) %>
+    <% @timetable_presenter.timetables.each do |timetable| %>
+      <%= render Publications::RecruitmentCycleTimetableCard.new(
+        timetable,
+        logged_in: respond_to?(:current_support_user) && current_support_user,
+      ) %>
     <% end %>
-
   </div>
 </div>

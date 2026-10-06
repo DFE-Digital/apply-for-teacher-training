@@ -889,13 +889,9 @@ application_choice.update_course_option_and_associated_fields!(
 ```
 
 ## Adding a new recruitment cycle
-In July or August of each year, we need to confirm with policy the dates for the cycle after next (because it is about to become the _next_ cycle).
-And we need to generate another draft cycle (3 cycles from now) because we need to have 2 cycles ahead for the test suite to pass.
+Each year in July, a new cycle timetable will be generated. Policy need to agree on the new dates and they or a support user can edit the generated dates
+in the support interface. We always need 2 cycles ahead of the current one.
 
-### First update in production
-Assuming you don't have to make any manual changes:
-Login into the rails console in production.
-Run `SupportInterface::RecruitmentCycleTimetableGenerator.generate_next_year` This will generate the next cycle in the sequence. So if 2028 is the latest cycle in the database, this command will generate 2029.
 Check that the cycle is as you expect it https://www.apply-for-teacher-training.service.gov.uk/publications/recruitment-cycle-timetables
 
 ### Next update the timetables in qa and sandbox

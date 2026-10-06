@@ -1,4 +1,11 @@
-<%= render 'support_interface/settings/settings_navigation', title: t('.page_title', year: @cycle_switcher_form.recruitment_cycle_year) %>
+<% content_for :browser_title, t('.page_title', year: @timetable.recruitment_cycle_year) %>
+<% content_for :before_content do %>
+  <%= govuk_back_link(
+    text: 'Back',
+    href: support_interface_recruitment_cycle_timetables_path,
+  ) %>
+<% end %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 

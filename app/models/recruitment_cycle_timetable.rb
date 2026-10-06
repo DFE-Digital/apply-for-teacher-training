@@ -58,6 +58,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
     where('find_opens_at > ?', Time.zone.now).order(:recruitment_cycle_year).first
   end
 
+  def self.three_timetables_from_now
+    find_by(recruitment_cycle_year: RecruitmentCycleTimetable.current_timetable.recruitment_cycle_year + 3)
+  end
+
   def self.previous_timetable
     where('find_opens_at <= ?', Time.zone.now).order(:recruitment_cycle_year).second_to_last
   end
@@ -146,6 +150,14 @@ class RecruitmentCycleTimetable < ApplicationRecord
 
   def relative_next_timetable
     self.class.find_by(recruitment_cycle_year: recruitment_cycle_year + 1)
+  end
+
+  def three_timetables_from_now?
+    self == RecruitmentCycleTimetable.three_timetables_from_now
+  end
+
+  def editable_in_production?
+    three_timetables_from_now? && Time.zone.now.month == 7
   end
 
   def relative_previous_timetable

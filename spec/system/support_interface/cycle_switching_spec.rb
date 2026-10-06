@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Cycle switching' do
   include DfESignInHelpers
+  include ActiveSupport::Testing::TimeHelpers
 
   let(:body) { Pathname.new(Rails.root.join('spec/examples/production_recruitment_cycle_timetables_api/fetch_all_recruitment_cycles.json')) }
 
@@ -44,7 +45,58 @@ RSpec.describe 'Cycle switching' do
     then_i_see_the_winter_decline_by_default_date_has_been_updated
   end
 
+  scenario 'Support previews the newly generated cycle in July and updates it' do
+    travel_to(Time.zone.parse('2027-07-22')) do
+      generate_2030_cycle
+      given_it_is_before_the_apply_deadline
+      given_i_am_signed_in_as_a_support_user
+      when_i_navigate_to_the_cycle_page
+      when_i_click('Review the cycle dates and change them if needed')
+
+      and_i_see_the_new_cycle_dates
+      when_i_click('Publish new cycle dates')
+      then_i_see_new_cycle_message
+      when_i_click('Review the cycle dates and change them if needed')
+      when_i_click('Change')
+      and_i_update_the_apply_deadline
+      then_i_see_new_cycle_message
+      and_the_apply_open_date_has_changed
+    end
+  end
+
 private
+
+  def generate_2030_cycle
+    SupportInterface::RecruitmentCycleTimetableGenerator.generate_next_year
+  end
+
+  def when_i_click(button)
+    click_link_or_button(button)
+  end
+
+  def and_i_see_the_new_cycle_dates
+    expect(page).to have_text 'Proposed timetable for 2029 to 2030'
+  end
+
+  def then_i_see_new_cycle_message
+    expect(page).to have_text 'You have published the 2029 to 2030 cycle dates'
+  end
+
+  def and_i_update_the_apply_deadline
+    within_fieldset 'Apply opens' do
+      new_date = RecruitmentCycleTimetable.three_timetables_from_now.apply_opens_at + 1.day
+      fill_in 'Day', with: new_date.day
+      fill_in 'Month', with: new_date.month
+      fill_in 'Year', with: new_date.year
+    end
+    click_on 'Update'
+  end
+
+  def and_the_apply_open_date_has_changed
+    within all('.govuk-summary-card').last do
+      expect(page).to have_text('Apply opens10 October 2029 at 9am UK time')
+    end
+  end
 
   def given_it_is_before_the_apply_deadline
     TestSuiteTimeMachine.travel_permanently_to(current_timetable.apply_deadline_at - 13.weeks)
