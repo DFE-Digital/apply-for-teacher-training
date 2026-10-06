@@ -1,0 +1,8 @@
+<% content_for :browser_title, title_with_error_prefix(t(".title.#{@wizard.current_step_name}"), @wizard.current_step.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(@wizard.previous_step_path || candidate_interface_application_choices_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "candidate_interface/preferences/forms/#{@wizard.current_step_name}" %>
+  </div>
+</div>
