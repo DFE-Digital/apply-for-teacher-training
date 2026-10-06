@@ -55,6 +55,9 @@ namespace :candidate_interface, path: '/candidate' do
     resource :publish_preferences, only: %i[show create], path: 'publish-preferences'
   end
 
+  get 'new-preferences/:step', to: 'preferences#new', as: 'new-preferences'
+  post 'new-preferences/:step', to: 'preferences#create'
+
   resources :location_suggestions, only: :index, path: 'location-suggestions'
 
   get 'account-recovery/new'

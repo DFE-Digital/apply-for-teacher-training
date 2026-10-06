@@ -1,0 +1,23 @@
+<span class="govuk-caption-l"><%= t('.caption') %></span>
+<h1 class="govuk-heading-l"><%= t('.header') %></h1>
+
+<span class="govuk-body"><%= t('.body_html') %></span>
+
+<%= form_with model: @wizard.current_step,
+              url: @wizard.current_step_path,
+              scope: @wizard.current_step_name do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <%= f.govuk_radio_buttons_fieldset(:pool_status, legend: { text: t('.title') }, hint: { text: t('.hint_html', link: govuk_link_to(t('.link_text'), candidate_interface_share_details_path)) }) do %>
+    <%= f.govuk_radio_button :pool_status, :opt_in, label: { text: 'Yes' }, link_errors: true %>
+    <%= f.govuk_radio_button :pool_status, :opt_out, label: { text: 'No' } do %>
+      <%= f.govuk_text_area(
+        :opt_out_reason,
+        label: { text: t('.reason_for_opting_out') },
+        max_words: 200,
+      ) %>
+    <% end %>
+  <% end %>
+
+  <%= f.govuk_submit %>
+<% end %>

@@ -1,0 +1,23 @@
+<%= form_with model: @wizard.current_step,
+              url: @wizard.current_step_path,
+              scope: @wizard.current_step_name do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <% content_for(:fieldset_legend) do %>
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+      <h1 class="govuk-heading-l">
+            <span class="govuk-caption-l">
+              <%= t('.caption') %>
+            </span>
+        <%= t('.title') %>
+      </h1>
+    </legend>
+  <% end %>
+
+  <%= f.govuk_radio_buttons_fieldset(:training_locations, legend: -> { content_for(:fieldset_legend) }) do %>
+    <%= f.govuk_radio_button :training_locations, :anywhere, label: { text: t('.anywhere') }, link_errors: true %>
+    <%= f.govuk_radio_button :training_locations, :specific, label: { text: t('.specific') }, hint: { text: t('.specific_locations_hint') } %>
+  <% end %>
+
+  <%= f.govuk_submit t('continue') %>
+<% end %>
