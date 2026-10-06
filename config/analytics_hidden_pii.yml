@@ -29,3 +29,7 @@ shared:
   pool_invites:
     - application_form_id
     - candidate_id
+  fraud_matches:
+    - last_name
+    - date_of_birth
+    - postcode
