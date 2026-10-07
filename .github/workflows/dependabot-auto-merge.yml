@@ -96,16 +96,12 @@ jobs:
             exit 0
           fi
 
-          # Merge only the commit Build and Deploy went green for; if the head
-          # has moved, the newer commit's own workflow_run will handle it.
           HEAD_SHA=$(gh pr view "$PR_NUMBER" --json headRefOid --jq '.headRefOid')
           if [ "$HEAD_SHA" != "$EXPECTED_SHA" ]; then
             echo "PR #$PR_NUMBER head moved ($EXPECTED_SHA -> $HEAD_SHA), skipping"
             exit 0
           fi
 
-          # reviewDecision is only populated when branch protection requires
-          # approving reviews (this repo does not), so check review records.
           APPROVED=$(gh pr view "$PR_NUMBER" --json reviews --jq '[.reviews[].state] | any(. == "APPROVED")')
           if [ "$APPROVED" != "true" ]; then
             echo "PR #$PR_NUMBER is not approved, skipping"
