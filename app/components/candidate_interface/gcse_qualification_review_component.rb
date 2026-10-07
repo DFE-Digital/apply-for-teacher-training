@@ -106,19 +106,26 @@ module CandidateInterface
     def failing_grade_explanation_row
       return nil unless application_qualification.failed_required_gcse?
 
-      {
+      hash = {
         key: 'Are you currently studying to retake this qualification?',
         value: failing_grade_row_value(application_qualification),
-        action: {
-          href: candidate_interface_gcse_details_edit_grade_explanation_path(change_path_params),
-          visually_hidden_text: 'if you are working towards this qualification at grade 4 (C) or above, give us details',
-        },
         html_attributes: {
           data: {
             qa: 'gcse-failing-grade-explanation',
           },
         },
       }
+
+      if !application_qualification.currently_completing_qualification.nil?
+        hash.merge!(
+          action: {
+            href: candidate_interface_gcse_details_edit_grade_explanation_path(change_path_params),
+            visually_hidden_text: 'if you are working towards this qualification at grade 4 (C) or above, give us details',
+          },
+        )
+      end
+
+      hash
     end
 
     def present_grades
@@ -210,7 +217,12 @@ module CandidateInterface
     end
 
     def missing_explanation_for_gcse_row
-      missing_explanation_row if application_qualification.failed_required_gcse? && !application_qualification.currently_completing_qualification
+      if application_qualification.failed_required_gcse? &&
+         !application_qualification.currently_completing_qualification &&
+         !application_qualification.currently_completing_qualification.nil?
+
+        missing_explanation_row
+      end
     end
 
     def missing_explanation_row

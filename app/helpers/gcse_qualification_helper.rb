@@ -49,7 +49,10 @@ module GcseQualificationHelper
     when false
       'No'
     when nil
-      'Not provided'
+      govuk_link_to(
+        'Select an answer',
+        candidate_interface_gcse_details_edit_grade_explanation_path(subject),
+      )
     end
   end
   alias not_completed_explanation_value_row failing_grade_row_value
