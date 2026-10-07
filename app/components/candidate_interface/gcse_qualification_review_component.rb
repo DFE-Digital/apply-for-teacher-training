@@ -227,7 +227,7 @@ module CandidateInterface
 
     def missing_explanation_row
       {
-        key: 'Other evidence I have the skills required (optional)',
+        key: 'Other evidence I have the skills required',
         value: application_qualification.missing_explanation.presence || govuk_link_to('Enter other evidence', candidate_interface_gcse_edit_missing_path(change_path_params)),
       }.tap do |row|
         if application_qualification.missing_explanation
