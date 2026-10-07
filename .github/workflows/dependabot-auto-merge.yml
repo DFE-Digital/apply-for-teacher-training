@@ -1,7 +1,11 @@
 # Auto-approves and merges minor/patch dependabot PRs.
-# Uses direct merge (not --auto) to avoid merge_group check issues.
+# Stage 1 (pull_request): approves eligible PRs as github-actions[bot].
+# Stage 2 (workflow_run): merges the PR once Build and Deploy is green.
+# The merge uses AUTO_MERGE_TOKEN rather than GITHUB_TOKEN
+# GITHUB_TOKEN does not start other workflows
 
 name: Dependabot Auto-Merge
+
 on:
   pull_request:
     types: [opened, synchronize, reopened, labeled]
@@ -39,22 +43,25 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Match dependency against EXCLUDED_PACKAGES list
+      # Match dependency against EXCLUDED_PACKAGES list: exact name match
       - name: Check if package is excluded from auto-merge
         id: excluded
+        env:
+          DEPENDENCY_NAMES: ${{ steps.metadata.outputs.dependency-names }}
         run: |
-          DEPENDENCY="${{ steps.metadata.outputs.dependency-names }}"
-
+          is_excluded=false
           while IFS= read -r EXCLUDED; do
-            [ -z "$EXCLUDED" ] && continue
-            if echo "$DEPENDENCY" | grep -q "$EXCLUDED"; then
+            if [ -z "$EXCLUDED" ]; then
+              continue
+            fi
+            if printf '%s\n' "$DEPENDENCY_NAMES" | tr ',' '\n' | grep -Fxq "$EXCLUDED"; then
               echo "Excluded package detected: $EXCLUDED"
-              echo "is_excluded=true" >> $GITHUB_OUTPUT
-              exit 0
+              is_excluded=true
+              break
             fi
           done <<< "$EXCLUDED_PACKAGES"
 
-          echo "is_excluded=false" >> $GITHUB_OUTPUT
+          echo "is_excluded=$is_excluded" >> "$GITHUB_OUTPUT"
 
       - name: Approve minor/patch updates
         if: |
@@ -67,7 +74,7 @@ jobs:
 
   # Runs after Build and Deploy passes for dependabot pull_request events only
   auto-merge:
-    name: Queue approved Dependabot PRs
+    name: Merge approved Dependabot PRs
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'workflow_run' &&
@@ -76,24 +83,34 @@ jobs:
       github.event.workflow_run.actor.login == 'dependabot[bot]'
 
     steps:
-      # Find the PR, check it was approved above, add to merge queue
       - name: Find and merge Dependabot PR
+        env:
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.AUTO_MERGE_TOKEN }}
+          BRANCH: ${{ github.event.workflow_run.head_branch }}
+          EXPECTED_SHA: ${{ github.event.workflow_run.head_sha }}
         run: |
-          BRANCH="${{ github.event.workflow_run.head_branch }}"
-
-          PR_NUMBER=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
+          PR_NUMBER=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
           if [ -z "$PR_NUMBER" ]; then
             echo "No open PR found for branch $BRANCH"
             exit 0
           fi
 
-          REVIEW=$(gh pr view "$PR_NUMBER" --json reviewDecision --jq '.reviewDecision')
-          if [ "$REVIEW" != "APPROVED" ]; then
+          # Merge only the commit Build and Deploy went green for; if the head
+          # has moved, the newer commit's own workflow_run will handle it.
+          HEAD_SHA=$(gh pr view "$PR_NUMBER" --json headRefOid --jq '.headRefOid')
+          if [ "$HEAD_SHA" != "$EXPECTED_SHA" ]; then
+            echo "PR #$PR_NUMBER head moved ($EXPECTED_SHA -> $HEAD_SHA), skipping"
+            exit 0
+          fi
+
+          # reviewDecision is only populated when branch protection requires
+          # approving reviews (this repo does not), so check review records.
+          APPROVED=$(gh pr view "$PR_NUMBER" --json reviews --jq '[.reviews[].state] | any(. == "APPROVED")')
+          if [ "$APPROVED" != "true" ]; then
             echo "PR #$PR_NUMBER is not approved, skipping"
             exit 0
           fi
 
-          echo "Adding PR #$PR_NUMBER to merge queue"
+          echo "Merging PR #$PR_NUMBER"
           gh pr merge "$PR_NUMBER" --squash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
