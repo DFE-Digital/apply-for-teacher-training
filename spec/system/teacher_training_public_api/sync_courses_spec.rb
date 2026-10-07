@@ -224,6 +224,6 @@ RSpec.describe 'Sync courses', :with_cache do
   end
 
   def and_it_sets_the_last_synced_timestamp
-    expect(TeacherTrainingPublicAPI::SyncCheck.last_sync).not_to be_blank
+    expect(TeacherTrainingPublicAPI::SyncCheck.last_sync(current_year)).not_to be_blank
   end
 end

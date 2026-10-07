@@ -28,13 +28,17 @@ class DetectInvariantsHourlyCheck < ApplicationJob
   end
 
   def detect_course_sync_not_succeeded_for_an_hour
-    unless TeacherTrainingPublicAPI::SyncCheck.check
+    unless TeacherTrainingPublicAPI::SyncCheck.check(current_year)
       Sentry.capture_exception(
         CourseSyncNotSucceededForAnHour.new(
           'The course sync via the Teacher training public API has not succeeded for an hour',
         ),
       )
     end
+  end
+
+  def current_year
+    @current_year ||= RecruitmentCycleTimetable.current_year
   end
 
   class ApplicationEditedByWrongCandidate < StandardError; end
