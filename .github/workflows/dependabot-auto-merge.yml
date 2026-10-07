@@ -1,0 +1,99 @@
+# Auto-approves and merges minor/patch dependabot PRs.
+# Uses direct merge (not --auto) to avoid merge_group check issues.
+
+name: Dependabot Auto-Merge
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+  workflow_run:
+    workflows: ["Build and Deploy"]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  # Packages excluded from auto-merge (require manual review)
+  EXCLUDED_PACKAGES: |
+    govuk-components
+    govuk_design_system_formbuilder
+    govuk-frontend
+    @ministryofjustice/frontend
+    dfe-analytics
+    dfe-reference-data
+    view-components
+
+jobs:
+  auto-approve:
+    name: Auto-approve Dependabot PRs
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'pull_request' &&
+      github.actor == 'dependabot[bot]'
+
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Match dependency against EXCLUDED_PACKAGES list
+      - name: Check if package is excluded from auto-merge
+        id: excluded
+        run: |
+          DEPENDENCY="${{ steps.metadata.outputs.dependency-names }}"
+
+          while IFS= read -r EXCLUDED; do
+            [ -z "$EXCLUDED" ] && continue
+            if echo "$DEPENDENCY" | grep -q "$EXCLUDED"; then
+              echo "Excluded package detected: $EXCLUDED"
+              echo "is_excluded=true" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+          done <<< "$EXCLUDED_PACKAGES"
+
+          echo "is_excluded=false" >> $GITHUB_OUTPUT
+
+      - name: Approve minor/patch updates
+        if: |
+          steps.excluded.outputs.is_excluded == 'false' &&
+          (steps.metadata.outputs.update-type == 'version-update:semver-patch' || steps.metadata.outputs.update-type == 'version-update:semver-minor')
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Runs after Build and Deploy passes for dependabot pull_request events only
+  auto-merge:
+    name: Queue approved Dependabot PRs
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.actor.login == 'dependabot[bot]'
+
+    steps:
+      # Find the PR, check it was approved above, add to merge queue
+      - name: Find and merge Dependabot PR
+        run: |
+          BRANCH="${{ github.event.workflow_run.head_branch }}"
+
+          PR_NUMBER=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No open PR found for branch $BRANCH"
+            exit 0
+          fi
+
+          REVIEW=$(gh pr view "$PR_NUMBER" --json reviewDecision --jq '.reviewDecision')
+          if [ "$REVIEW" != "APPROVED" ]; then
+            echo "PR #$PR_NUMBER is not approved, skipping"
+            exit 0
+          fi
+
+          echo "Adding PR #$PR_NUMBER to merge queue"
+          gh pr merge "$PR_NUMBER" --squash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
