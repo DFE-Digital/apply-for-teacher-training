@@ -5,7 +5,7 @@ RSpec.describe DetectInvariantsHourlyCheck, :with_cache do
     allow(Sentry).to receive(:capture_exception)
 
     # or unwanted exceptions will be thrown by this check
-    TeacherTrainingPublicAPI::SyncCheck.set_last_sync(Time.zone.now)
+    TeacherTrainingPublicAPI::SyncCheck.set_last_sync(Time.zone.now, current_timetable.recruitment_cycle_year)
   end
 
   describe '#perform' do
@@ -57,7 +57,7 @@ RSpec.describe DetectInvariantsHourlyCheck, :with_cache do
     end
 
     it 'detects when the course sync hasn’t succeeded for an hour' do
-      TeacherTrainingPublicAPI::SyncCheck.clear_last_sync
+      TeacherTrainingPublicAPI::SyncCheck.clear_last_sync(current_timetable.recruitment_cycle_year)
 
       described_class.new.perform
 

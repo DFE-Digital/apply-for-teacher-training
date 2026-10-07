@@ -9,7 +9,7 @@ module TeacherTrainingPublicAPI
         scope = TeacherTrainingPublicAPI::Provider
           .where(year: recruitment_cycle_year)
           .paginate(page: page_number, per_page: 200)
-        scope = scope.where(updated_since: TeacherTrainingPublicAPI::SyncCheck.updated_since) if incremental_sync
+        scope = scope.where(updated_since: TeacherTrainingPublicAPI::SyncCheck.updated_since(recruitment_cycle_year)) if incremental_sync
         delay_by = calculate_offset(page_number + 1, incremental_sync)
         response = scope.all
 
@@ -18,7 +18,7 @@ module TeacherTrainingPublicAPI
         is_last_page = true if response.links.links['next'].nil?
       end
 
-      TeacherTrainingPublicAPI::SyncCheck.set_last_sync(Time.zone.now)
+      TeacherTrainingPublicAPI::SyncCheck.set_last_sync(Time.zone.now, recruitment_cycle_year)
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
     end

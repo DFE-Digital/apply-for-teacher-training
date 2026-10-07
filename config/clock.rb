@@ -14,6 +14,10 @@ class Clock
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_later(true)
   end
 
+  every(10.minutes, 'SyncPreviousYearProvidersAndCourses::IncrementalSyncWorker', skip_first_run: true) do
+    SyncPreviousYearProvidersAndCourses::IncrementalSyncWorker.perform_later
+  end
+
   every(10.minutes, 'FindACandidate::PopulatePoolWorker', skip_first_run: true) do
     FindACandidate::PopulatePoolWorker.perform_later
   end
@@ -88,6 +92,10 @@ class Clock
   # Weekly jobs
   every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: 'Saturday 00:59') do
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_later(false)
+  end
+
+  every(7.days, 'SyncPreviousYearProvidersAndCourses::FullSyncWorker', at: 'Sunday 00:59') do
+    SyncPreviousYearProvidersAndCourses::FullSyncWorker.perform_later
   end
 
   every(7.days, 'EndOfCycle::NextYearFullSync', at: 'Friday 00:05') { EndOfCycle::NextYearFullSync.perform_later }
