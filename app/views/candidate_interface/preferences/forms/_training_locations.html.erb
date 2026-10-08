@@ -1,8 +1,6 @@
 <%= form_with model: @wizard.current_step,
               url: @wizard.current_step_path,
               scope: @wizard.current_step_name do |f| %>
-  <%= f.govuk_error_summary %>
-
   <% content_for(:fieldset_legend) do %>
     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
       <h1 class="govuk-heading-l">
@@ -13,6 +11,8 @@
       </h1>
     </legend>
   <% end %>
+
+  <%= f.govuk_error_summary %>
 
   <%= f.govuk_radio_buttons_fieldset(:training_locations, legend: -> { content_for(:fieldset_legend) }) do %>
     <%= f.govuk_radio_button :training_locations, :anywhere, label: { text: t('.anywhere') }, link_errors: true %>

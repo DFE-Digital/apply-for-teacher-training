@@ -1,6 +1,6 @@
 module CandidateInterface
   module Steps
-    class PreferencesWizard::LocationPreferences
+    class PreferencesWizard::LocationPreferenceList
       include DfE::Wizard::Step
     end
   end

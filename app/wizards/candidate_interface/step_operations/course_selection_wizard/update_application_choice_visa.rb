@@ -1,6 +1,6 @@
 module CandidateInterface
   module StepOperations
-    class CourseSelectionWizard::UpdateApplicationChoiceVisa < CourseSelectionWizard::Base
+    class CourseSelectionWizard::UpdateApplicationChoiceVisa < Base
       delegate :application_choice, :state_store, to: :wizard
       delegate :visa_explanation, :visa_explanation_details, to: :state_store
 

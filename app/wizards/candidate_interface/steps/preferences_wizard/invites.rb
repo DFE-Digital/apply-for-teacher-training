@@ -1,6 +1,6 @@
 module CandidateInterface
   module Steps
-    class PreferencesWizard::FundingPreferences
+    class PreferencesWizard::Invites
       include DfE::Wizard::Step
     end
   end

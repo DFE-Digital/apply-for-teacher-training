@@ -1,6 +1,6 @@
 module CandidateInterface
   module StepOperations
-    class CourseSelectionWizard::Base
+    class Base
       attr_reader :step, :wizard
 
       delegate :current_application, :state_store, :current_step_name, :current_step, to: :wizard

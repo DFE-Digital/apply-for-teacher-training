@@ -1,0 +1,15 @@
+<%= form_with model: @wizard.current_step,
+              url: @wizard.current_step_path,
+              scope: @wizard.current_step_name do |f| %>
+  <span class="govuk-caption-l"><%= t('.caption') %></span>
+  <h1 class="govuk-heading-l"><%= t('.title') %></h1>
+
+  <%= govuk_summary_list(actions: false) do |summary_list| %>
+    <% summary_list.with_row do |row| %>
+      <%= row.with_key { t('.location') } %>
+      <%= row.with_value { @wizard.location_name } %>
+    <% end %>
+  <% end %>
+
+  <%= f.govuk_submit t('.remove') %>
+<% end %>
