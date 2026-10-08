@@ -30,7 +30,9 @@ module CandidateInterface
       end
 
       def set_reference
-        @reference = current_application.application_references.find(params.expect(:id))
+        @reference = policy_scope(
+          [:candidate_interface, ApplicationReference],
+        ).find(params.expect(:id))
       end
 
       def set_policy

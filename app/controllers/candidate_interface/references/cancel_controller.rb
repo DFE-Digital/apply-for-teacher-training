@@ -12,7 +12,7 @@ module CandidateInterface
         authorize @reference, :cancel?
 
         if @reference&.feedback_requested?
-          @application_form = current_application
+          @application_form = @reference.application_form
         else
           redirect_to candidate_interface_application_offer_dashboard_reference_path(@reference)
         end

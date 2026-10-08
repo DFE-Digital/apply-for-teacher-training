@@ -12,8 +12,8 @@ module CandidateInterface
     end
 
     def cancel?
-      current_application.application_references.feedback_provided.any? ||
-        current_application.application_references.feedback_requested.many?
+      reference.application_form.application_references.feedback_provided.any? ||
+        reference.application_form.application_references.feedback_requested.many?
     end
 
     def delete?
@@ -21,10 +21,14 @@ module CandidateInterface
       reference.not_requested_yet?
     end
 
+    def can_request?
+      reference.application_form.application_choices.any?(&:accepted_choice?)
+    end
+
     class Scope < ApplicationPolicy::Scope
       def resolve
-        scope.where(application_form_id: current_application.id)
-          .includes(:application_form)
+        application_form_ids = current_candidate.active_application_forms.pluck(:id)
+        scope.where(application_form_id: application_form_ids).includes(:application_form)
       end
     end
   end

@@ -70,6 +70,12 @@ private
       end
     end
 
+    def current_candidate
+      if user.is_a?(Candidate)
+        @current_candidate ||= user
+      end
+    end
+
     def resolve
       raise NoMethodError, "You must define #resolve in #{self.class}"
     end
