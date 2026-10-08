@@ -15,7 +15,7 @@ module TeacherTrainingPublicAPI
 
     def sync_courses(run_in_background, provider)
       if run_in_background
-        updated_since = @incremental_sync ? TeacherTrainingPublicAPI::SyncCheck.updated_since : nil
+        updated_since = @incremental_sync ? TeacherTrainingPublicAPI::SyncCheck.updated_since(@recruitment_cycle_year) : nil
         TeacherTrainingPublicAPI::SyncCourses.set(wait: @delay_by).perform_later(
           provider.id,
           @recruitment_cycle_year,

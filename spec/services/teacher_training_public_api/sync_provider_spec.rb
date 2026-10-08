@@ -59,7 +59,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider do
         expect(TeacherTrainingPublicAPI::SyncCourses).to have_been_enqueued.with(
           provider_from_api.id,
           stubbed_recruitment_cycle_year,
-          updated_since: TeacherTrainingPublicAPI::SyncCheck.updated_since,
+          updated_since: TeacherTrainingPublicAPI::SyncCheck.updated_since(stubbed_recruitment_cycle_year),
         )
         expect(existing_provider.reload.region_code).to eq('north_west')
       end

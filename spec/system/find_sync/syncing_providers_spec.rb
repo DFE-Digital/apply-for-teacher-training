@@ -61,6 +61,6 @@ RSpec.describe 'Syncing providers', :with_cache do
   end
 
   def and_it_sets_the_last_synced_timestamp
-    expect(TeacherTrainingPublicAPI::SyncCheck.last_sync).not_to be_blank
+    expect(TeacherTrainingPublicAPI::SyncCheck.last_sync(current_timetable.recruitment_cycle_year)).not_to be_blank
   end
 end
