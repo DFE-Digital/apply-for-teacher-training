@@ -265,7 +265,39 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
     end
   end
 
-  context 'when the candidate does not have the GCSE and is not currently studying for it' do
+  context 'when the candidate does not have the GCSE and currently_completing_qualification is false' do
+    it 'renders the correct content' do
+      application_form = build(:application_form)
+      @qualification = application_qualification = build(
+        :application_qualification,
+        application_form:,
+        qualification_type: 'missing',
+        level: 'gcse',
+        grade: nil,
+        subject: 'maths',
+        not_completed_explanation: nil,
+        currently_completing_qualification: false,
+        missing_explanation: nil,
+      )
+
+      result = render_inline(
+        described_class.new(
+          application_form:,
+          application_qualification:,
+          subject: 'maths',
+        ),
+      )
+
+      expect(result.css('.govuk-summary-list__key')[0].text).to include('What type of maths qualification do you have?')
+      expect(result.css('.govuk-summary-list__value')[0].text).to include('I don’t have a maths qualification yet')
+      expect(result.css('.govuk-summary-list__key')[1].text).to include('Are you currently studying for this qualification?')
+      expect(result.css('.govuk-summary-list__value')[1].text).to include('No')
+      expect(result.css('.govuk-summary-list__key')[2].text).to include('Other evidence I have the skills required')
+      expect(result.css('.govuk-summary-list__value')[2].text).to include('Enter other evidence')
+    end
+  end
+
+  context 'when the candidate does not have the GCSE and currently_completing_qualification is nil' do
     it 'renders the correct content' do
       application_form = build(:application_form)
       @qualification = application_qualification = build(
@@ -292,8 +324,6 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.css('.govuk-summary-list__value')[0].text).to include('I don’t have a maths qualification yet')
       expect(result.css('.govuk-summary-list__key')[1].text).to include('Are you currently studying for this qualification?')
       expect(result.css('.govuk-summary-list__value')[1].text).to include('Select if you are currently studying for this qualification')
-      expect(result.css('.govuk-summary-list__key')[2].text).to include('Other evidence I have the skills required')
-      expect(result.css('.govuk-summary-list__value')[2].text).to include('Enter other evidence')
     end
   end
 

@@ -213,7 +213,7 @@ module CandidateInterface
     end
 
     def missing_explanation_for_no_gcse_row
-      missing_explanation_row if !application_qualification.currently_completing_qualification
+      missing_explanation_row if application_qualification.currently_completing_qualification == false
     end
 
     def missing_explanation_for_gcse_row
