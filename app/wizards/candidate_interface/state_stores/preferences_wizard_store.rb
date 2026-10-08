@@ -3,7 +3,7 @@ module CandidateInterface
     class PreferencesWizardStore
       include DfE::Wizard::StateStore
 
-      attr_reader :current_application_id
+      attr_reader :current_application_id, :location_preference_list
 
       delegate :candidate, to: :current_application
       delegate :applied_only_to_salaried_courses?, to: :candidate
@@ -28,8 +28,20 @@ module CandidateInterface
         applied_only_to_salaried_courses? && training_locations_anywhere?
       end
 
-      def funding_type
-        nil
+      def location_preferences
+        if self[:location_preference_list].blank?
+          []
+        else
+          self[:location_preference_list]
+        end
+      end
+
+      def dynamic_location_preferences?
+        ActiveModel::Type::Boolean.new.cast(dynamic_location_preferences).present?
+      end
+
+      def any_notifications?
+        current_application.notifications.pool_opt_in.any?
       end
     end
   end

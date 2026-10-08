@@ -1,6 +1,6 @@
 module CandidateInterface
   module StepOperations
-    class CourseSelectionWizard::CreateApplicationChoice < CourseSelectionWizard::Base
+    class CourseSelectionWizard::CreateApplicationChoice < Base
       delegate :completed?, to: :current_step
 
       def execute

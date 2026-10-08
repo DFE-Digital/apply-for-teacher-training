@@ -1,6 +1,8 @@
 module CandidateInterface
   class PreferencesController < CandidateInterfaceController
     before_action :assign_wizard
+    before_action :clear_wizard
+    before_action :assign_location_preference_attributes
 
     def new; end
 
@@ -46,7 +48,20 @@ module CandidateInterface
     end
 
     def clear_wizard
+      return unless @wizard.current_step_name == :opt_in
+
       @wizard&.clear_state
+    end
+
+    def assign_location_preference_attributes
+      return unless @wizard.current_step_name.in?([:add_location_preference, :remove_location_preference]) &&
+                    params[:uuid].present?
+
+      location_preferences = state_store[:location_preference_list]
+      return if location_preferences.blank?
+
+      location_preference = location_preferences.find { |lp| lp[:uuid] == params[:uuid] }
+      state_store.write(uuid: location_preference[:uuid], within: location_preference[:within], location_name: location_preference[:location_name])
     end
   end
 end
