@@ -1,8 +1,6 @@
 # Auto-approves and merges minor/patch dependabot PRs.
 # Stage 1 (pull_request): approves eligible PRs as github-actions[bot].
 # Stage 2 (workflow_run): merges the PR once Build and Deploy is green.
-# The merge uses AUTO_MERGE_TOKEN rather than GITHUB_TOKEN
-# GITHUB_TOKEN does not start other workflows
 
 name: Dependabot Auto-Merge
 
@@ -86,7 +84,7 @@ jobs:
       - name: Find and merge Dependabot PR
         env:
           GH_REPO: ${{ github.repository }}
-          GH_TOKEN: ${{ secrets.AUTO_MERGE_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: ${{ github.event.workflow_run.head_branch }}
           EXPECTED_SHA: ${{ github.event.workflow_run.head_sha }}
         run: |
