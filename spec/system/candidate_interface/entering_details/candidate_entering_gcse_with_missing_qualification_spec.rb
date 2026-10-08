@@ -69,7 +69,7 @@ RSpec.describe 'Candidate entering GCSE details' do
   def then_i_see_the_review_page_with_correct_details
     expect(page).to have_text 'What type of English qualification do you have?'
     expect(page).to have_text 'I don’t have a English qualification yet'
-    expect(page).to have_text 'Other evidence I have the skills required (optional)'
+    expect(page).to have_text 'Other evidence I have the skills required'
     expect(page).to have_text 'I’ve completed a course'
     expect(page).to have_text 'Are you currently studying for this qualification'
     expect(page).to have_text 'No'

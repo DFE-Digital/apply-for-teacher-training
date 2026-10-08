@@ -185,7 +185,6 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.text).to match(/Year awarded+#{@qualification.award_year}/)
       expect(result.text).to match(/Grade+#{@qualification.grade}/)
       expect(result.text).to match(/Are you currently studying to retake this qualification\?#{@qualification.not_completed_explanation}/)
-      expect(result.text).to match(/Other evidence I have the skills required \(optional\)+#{@qualification.missing_explanation}/)
       expect(result.text).not_to match(/Country+#{@qualification.institution_country}/)
     end
   end
@@ -293,7 +292,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.css('.govuk-summary-list__value')[0].text).to include('I don’t have a maths qualification yet')
       expect(result.css('.govuk-summary-list__key')[1].text).to include('Are you currently studying for this qualification?')
       expect(result.css('.govuk-summary-list__value')[1].text).to include('Select if you are currently studying for this qualification')
-      expect(result.css('.govuk-summary-list__key')[2].text).to include('Other evidence I have the skills required (optional)')
+      expect(result.css('.govuk-summary-list__key')[2].text).to include('Other evidence I have the skills required')
       expect(result.css('.govuk-summary-list__value')[2].text).to include('Enter other evidence')
     end
   end
@@ -340,7 +339,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         award_year: '1996',
         subject: 'maths',
         not_completed_explanation: 'No',
-        currently_completing_qualification: nil,
+        currently_completing_qualification: true,
         missing_explanation: '',
       )
 
@@ -360,7 +359,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.css('.govuk-summary-list__value')[2].text).to include('1996')
       expect(result.css('.govuk-summary-list__key')[3].text).to include('Are you currently studying to retake this qualification?')
       expect(result.css('.govuk-summary-list__value')[3].text).to include('No')
-      expect(result.css('.govuk-summary-list__key')[4].text).to include('Other evidence I have the skills required (optional)')
+      expect(result.css('.govuk-summary-list__key')[4].text).to include('Other evidence I have the skills required')
       expect(result.css('.govuk-summary-list__value')[4].text).to include('Enter other evidence')
     end
   end
