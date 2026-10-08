@@ -218,7 +218,7 @@ module CandidateInterface
 
     def missing_explanation_for_gcse_row
       if application_qualification.failed_required_gcse? &&
-         !application_qualification.currently_completing_qualification.nil?
+         application_qualification.currently_completing_qualification == false
 
         missing_explanation_row
       end

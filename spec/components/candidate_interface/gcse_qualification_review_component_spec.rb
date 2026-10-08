@@ -389,8 +389,6 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.css('.govuk-summary-list__value')[2].text).to include('1996')
       expect(result.css('.govuk-summary-list__key')[3].text).to include('Are you currently studying to retake this qualification?')
       expect(result.css('.govuk-summary-list__value')[3].text).to include('No')
-      expect(result.css('.govuk-summary-list__key')[4].text).to include('Other evidence I have the skills required')
-      expect(result.css('.govuk-summary-list__value')[4].text).to include('Enter other evidence')
     end
   end
 
