@@ -1,0 +1,29 @@
+<%= form_with model: @wizard.current_step,
+              url: @wizard.current_step_path,
+              scope: @wizard.current_step_name do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <% content_for(:fieldset_legend) do %>
+    <h1 class="govuk-heading-l">
+          <span class="govuk-caption-l">
+            <%= t('.caption') %>
+          </span>
+      <%= t('.title') %>
+    </h1>
+  <% end %>
+
+  <%= f.govuk_radio_buttons_fieldset(:training_locations, legend: -> { content_for(:fieldset_legend) }) do %>
+    <%= f.govuk_radio_button :funding_type, :fee, label: { text: t('.fee') }, link_errors: true %>
+    <%= f.govuk_radio_button :funding_type, :salary, label: { text: t('.salary') }, hint: { text: t('.warning') } %>
+  <% end %>
+
+  <p class='govuk-body'>
+    <%= govuk_link_to(
+          t('.funding_information'),
+          t('get_into_teaching.url_funding_and_support'),
+          new_tab: true,
+          ) %>
+  </p>
+
+  <%= f.govuk_submit t('continue') %>
+<% end %>
