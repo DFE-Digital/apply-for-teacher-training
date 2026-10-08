@@ -60,7 +60,7 @@ RSpec.describe CandidateInterface::ApplicationReferencePolicy do
     end
 
     context 'when there are more than 1 feedback_requested reference' do
-      it 'does not permit cancelling' do
+      it 'permits cancelling' do
         application_form = create(:application_form)
         _reference = create(
           :application_reference,
@@ -92,6 +92,33 @@ RSpec.describe CandidateInterface::ApplicationReferencePolicy do
 
         expect(scope).to eq([scoped_reference])
       end
+
+      it 'includes all active applications in scope' do
+        active_previous_application_form = create(
+          :application_form,
+          recruitment_cycle_year: previous_year,
+          application_choices: [
+            build(
+              :application_choice,
+              :pending_conditions,
+              course_option: build(:course, :january_start, :with_a_course_option).course_options.first,
+            )
+          ])
+        previous_application_reference = create(:application_reference, application_form: active_previous_application_form)
+
+        current_application_form = create(:application_form, candidate: active_previous_application_form.candidate)
+        current_application_reference = create(:application_reference, application_form: current_application_form)
+
+        scope = described_class::Scope.new(
+          current_application_form.candidate,
+          ApplicationReference,
+          ).resolve
+
+        expect(scope).to include(previous_application_reference)
+        expect(scope).to include(current_application_reference)
+
+      end
     end
+
   end
 end
