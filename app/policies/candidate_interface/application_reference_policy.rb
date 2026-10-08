@@ -15,7 +15,7 @@ module CandidateInterface
       application_form = reference&.application_form || current_application
 
       application_form.application_references.feedback_provided.any? ||
-      application_form.application_references.feedback_requested.many?
+        application_form.application_references.feedback_requested.many?
     end
 
     def delete?

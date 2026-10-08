@@ -102,8 +102,9 @@ RSpec.describe CandidateInterface::ApplicationReferencePolicy do
               :application_choice,
               :pending_conditions,
               course_option: build(:course, :january_start, :with_a_course_option).course_options.first,
-            )
-          ])
+            ),
+          ],
+        )
         previous_application_reference = create(:application_reference, application_form: active_previous_application_form)
 
         current_application_form = create(:application_form, candidate: active_previous_application_form.candidate)
@@ -112,13 +113,11 @@ RSpec.describe CandidateInterface::ApplicationReferencePolicy do
         scope = described_class::Scope.new(
           current_application_form.candidate,
           ApplicationReference,
-          ).resolve
+        ).resolve
 
         expect(scope).to include(previous_application_reference)
         expect(scope).to include(current_application_reference)
-
       end
     end
-
   end
 end
