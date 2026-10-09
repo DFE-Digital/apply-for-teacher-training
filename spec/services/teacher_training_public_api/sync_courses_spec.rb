@@ -330,5 +330,82 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses do
         end
       end
     end
+
+    context 'when a subject has been removed from the api course' do
+      let(:uuid) { SecureRandom.uuid }
+      let(:remaining_subject) { create(:subject, code: 'C1') }
+      let(:removed_subject) { create(:subject, code: 'F1') }
+      let!(:course) do
+        create(
+          :course,
+          provider:,
+          uuid:,
+          course_subjects: [
+            build(:course_subject, subject: remaining_subject),
+            build(:course_subject, subject: removed_subject),
+          ],
+        )
+      end
+      let(:stubbed_attributes) {
+        [
+          { accredited_body_code: nil, uuid: uuid, subject_codes: %w[C1] },
+        ]
+      }
+
+      it 'removes it from the course' do
+        expect { perform_job }.to change { course.reload.subjects.count }.from(2).to(1)
+        expect(course.reload.subjects).to contain_exactly(remaining_subject)
+        expect(Subject.exists?(removed_subject.id)).to be(true)
+      end
+    end
+
+    context 'when a subject has been added to the api course' do
+      let(:uuid) { SecureRandom.uuid }
+      let(:existing_subject) { create(:subject, code: 'C1') }
+      let!(:new_subject) { create(:subject, code: 'F1') }
+      let!(:course) do
+        create(
+          :course,
+          provider:,
+          uuid:,
+          course_subjects: [build(:course_subject, subject: existing_subject)],
+        )
+      end
+      let(:stubbed_attributes) {
+        [
+          { accredited_body_code: nil, uuid: uuid, subject_codes: %w[C1 F1] },
+        ]
+      }
+
+      it 'is added to the course' do
+        expect { perform_job }.to change { course.reload.subjects.count }.from(1).to(2)
+        expect(course.reload.subjects).to contain_exactly(existing_subject, new_subject)
+      end
+    end
+
+    context 'when the subject changes in the api course' do
+      let(:uuid) { SecureRandom.uuid }
+      let(:old_subject) { create(:subject, code: 'C1') }
+      let!(:new_subject) { create(:subject, code: 'F1') }
+      let!(:course) do
+        create(
+          :course,
+          provider:,
+          uuid:,
+          course_subjects: [build(:course_subject, subject: old_subject)],
+        )
+      end
+      let(:stubbed_attributes) {
+        [
+          { accredited_body_code: nil, uuid: uuid, subject_codes: %w[F1] },
+        ]
+      }
+
+      it 'changes the subject on the course' do
+        expect { perform_job }.not_to change(Course, :count)
+        expect(course.reload.subjects).to contain_exactly(new_subject)
+        expect(CourseSubject.where(course:, subject: old_subject)).not_to exist
+      end
+    end
   end
 end
