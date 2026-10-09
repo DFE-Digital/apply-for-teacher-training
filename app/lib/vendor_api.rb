@@ -14,7 +14,7 @@ module VendorAPI
 
   VERSION = VERSION_2_0
 
-  VERSIONS_1_x = {
+  VERSIONS = {
     '1.0' => [
       Changes::RetrieveApplications,
       Changes::RetrieveSingleApplication,
@@ -83,9 +83,6 @@ module VendorAPI
       Changes::V18::LengthOfResidency,
       Changes::V18::MarkInterviewObjectAsOptional,
     ],
+    '2.0' => [],
   }.freeze
-
-  VERSIONS = {
-    '2.0' => VERSIONS_1_x.values.flatten,
-  }.merge(VERSIONS_1_x).freeze
 end
