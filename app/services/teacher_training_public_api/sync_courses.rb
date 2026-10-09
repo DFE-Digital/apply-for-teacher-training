@@ -114,13 +114,15 @@ module TeacherTrainingPublicAPI
       course.study_mode = study_mode(course_from_api)
       course.uuid = course_from_api.uuid
       course.withdrawn = course_from_api.state == 'withdrawn'
-      # Remove subject codes that exist for the course in the API
+
+      # Remove subject codes that no longer exist for the course in the API
       course.subjects.pluck(:code).each do |code|
         if course_from_api.subject_codes.exclude?(code)
           course.course_subjects.destroy_by(subject_id: ::Subject.find_by(code: code).id)
         end
       end
 
+      # Add subject codes that exist for the course in the API
       course_from_api.subject_codes.each do |code|
         subject = ::Subject.find_or_initialize_by(code:)
         course.subjects << subject unless course.course_subjects.exists?(subject_id: subject.id)
