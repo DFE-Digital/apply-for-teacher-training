@@ -4,6 +4,7 @@ class CandidateInterface::PreferencesWizard
   attr_accessor :current_application
 
   delegate :opt_in?,
+           :opt_out?,
            :training_locations_anywhere?,
            :training_locations_specific?,
            :only_salaried_courses_and_anywhere?,
@@ -14,6 +15,7 @@ class CandidateInterface::PreferencesWizard
            :location_preferences,
            :dynamic_location_preferences?,
            :any_notifications?,
+           :preference,
            to: :state_store
 
   def steps_processor
@@ -63,7 +65,12 @@ class CandidateInterface::PreferencesWizard
 
       graph.add_edge from: :funding_preference, to: :publish
 
-      graph.add_edge from: :publish, to: :confirmation
+      graph.add_conditional_edge(
+        from: :publish,
+        when: :any_notifications?,
+        then: :invites,
+        else: :confirmation,
+      )
     end
   end
 
@@ -104,6 +111,12 @@ class CandidateInterface::PreferencesWizard
       )
       builder.on_step(
         :publish,
+        add: [
+          CandidateInterface::StepOperations::PreferencesWizard::SavePreference,
+        ],
+      )
+      builder.on_step(
+        :opt_in,
         add: [
           CandidateInterface::StepOperations::PreferencesWizard::SavePreference,
         ],
