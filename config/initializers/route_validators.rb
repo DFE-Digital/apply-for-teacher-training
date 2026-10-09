@@ -72,8 +72,7 @@ class ValidVendorApiRoute
 
     def versions_up_to_current
       VendorAPI::VERSIONS.keys.filter do |version_number|
-        major_version_number(version_number) == major_version_number(version) &&
-          minor_version_number(version_number) <= minor_version_number(version)
+        Gem::Version.new(full_version_number_from(version_number)) <= Gem::Version.new(full_version_number_from(version))
       end
     end
 

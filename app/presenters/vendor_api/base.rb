@@ -43,7 +43,7 @@ module VendorAPI
     end
 
     def active_version_in_retrieved_version?(version)
-      minor_version_number(active_version) >= minor_version_number(version)
+      Gem::Version.new(active_version) >= Gem::Version.new(version)
     end
 
     def version_available_in_environment?(version)
