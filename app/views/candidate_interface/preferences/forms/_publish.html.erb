@@ -1,0 +1,81 @@
+<span class="govuk-caption-l"><%= t('.caption') %></span>
+<h1 class="govuk-heading-l"><%= t('.title') %></h1>
+
+<%= govuk_summary_list do |summary_list| %>
+  <% summary_list.with_row do |row| %>
+    <% row.with_key { t('.share_information') } %>
+    <% row.with_value { @wizard.opt_in? ? 'Yes' : 'No' } %>
+    <% row.with_action(
+         text: t('.change'),
+         href: candidate_interface_new_preferences_path(step: :opt_in),
+         visually_hidden_text: t('.change_share_information_hint'),
+         ) %>
+  <% end %>
+
+  <% summary_list.with_row do |row| %>
+    <% row.with_key { t('.where_can_you_train') } %>
+    <% row.with_value { t(".#{@wizard.training_locations}") } %>
+    <% row.with_action(
+         text: t('.change'),
+         href: candidate_interface_new_preferences_path(step: :training_locations),
+         visually_hidden_text: t('.change_training_locations_visually_hidden'),
+         ) %>
+  <% end %>
+
+  <% if @wizard.training_locations_specific? %>
+    <% summary_list.with_row do |row| %>
+      <% row.with_key { t('.preferred_locations') } %>
+      <% row.with_value do %>
+        <%= govuk_list do %>
+          <% @wizard.location_preferences.each do |location| %>
+            <%= tag.li t('.location', radius: location[:within], location: location[:location_name]) %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <% row.with_action(
+           text: t('.change'),
+           href: candidate_interface_new_preferences_path(step: :location_preference_list),
+           visually_hidden_text: t('.change_location_preferences_hint'),
+           ) %>
+    <% end %>
+
+    <% summary_list.with_row do |row| %>
+      <% row.with_key { t('.dynamic_locations') } %>
+      <% row.with_value { @wizard.dynamic_location_preferences? ? 'Yes' : 'No' } %>
+      <% row.with_action(
+           text: t('.change'),
+           href: candidate_interface_new_preferences_path(step: :dynamic_location_preferences),
+           visually_hidden_text: t('.change_dynamic_locations_hint'),
+           ) %>
+    <% end %>
+  <% end %>
+
+  <% if @wizard.funding_type.present? %>
+    <% summary_list.with_row do |row| %>
+      <% row.with_key { t('.funding_type') } %>
+      <% row.with_value { t(".#{@wizard.funding_type}_funding_type") } %>
+      <% row.with_action(
+        text: t('.change'),
+        href: candidate_interface_new_preferences_path(step: :funding_preference),
+        visually_hidden_text: t('.change_funding_type'),
+      ) %>
+    <% end %>
+  <% elsif @wizard.applied_only_to_salaried_courses? %>
+    <% summary_list.with_row do |row| %>
+      <% row.with_key { t('.funding_type') } %>
+      <% row.with_value do %>
+        <%= govuk_link_to(
+          t('.select_funding_type'),
+          candidate_interface_new_preferences_path(step: :funding_preference),
+        ) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= form_with model: @wizard.current_step,
+              url: @wizard.current_step_path,
+              scope: @wizard.current_step_name do |f| %>
+  <%= f.govuk_submit(t('.submit')) %>
+<% end %>
+
