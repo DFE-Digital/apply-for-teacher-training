@@ -3,7 +3,7 @@ module CandidateInterface
     class PreferencesWizardStore
       include DfE::Wizard::StateStore
 
-      attr_reader :current_application_id, :location_preference_list
+      attr_reader :current_application_id, :location_preference_list, :preference_id
 
       delegate :candidate, to: :current_application
       delegate :applied_only_to_salaried_courses?, to: :candidate
@@ -12,8 +12,16 @@ module CandidateInterface
         ApplicationForm.find(self[:current_application_id])
       end
 
+      def preference
+        current_application.published_preference
+      end
+
       def opt_in?
         pool_status == 'opt_in'
+      end
+
+      def opt_out?
+        !opt_in?
       end
 
       def training_locations_anywhere?
