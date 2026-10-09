@@ -28,13 +28,13 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <%= render CandidateInterface::AcceptOfferAddNewReferenceComponent.new(
-            application_form: current_application,
+            application_form: @application_choice.application_form,
             application_choice: @application_choice,
           ) %>
 
       <%= render(
             CandidateInterface::AcceptOfferReviewComponent.new(
-              application_form: current_application,
+              application_form: @application_choice.application_form,
               application_choice: @application_choice,
             ),
           ) %>

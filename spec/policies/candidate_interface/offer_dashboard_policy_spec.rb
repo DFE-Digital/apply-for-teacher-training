@@ -39,6 +39,22 @@ RSpec.describe CandidateInterface::OfferDashboardPolicy do
       end
     end
 
+    context 'when application from previous form is recruited' do
+      it 'grants access' do
+        course = create(:course, :january_start, :with_a_course_option)
+        previous_application_form = create(:application_form, recruitment_cycle_year: previous_year)
+        _choice = create(
+          :application_choice,
+          :recruited,
+          application_form: previous_application_form,
+          course_option: course.course_options.first,
+        )
+        current_form = create(:application_form, candidate: previous_application_form.candidate)
+
+        expect(policy).to permit(current_form.candidate, nil)
+      end
+    end
+
     context 'when the application choice is deffered' do
       it 'grants access' do
         application_form = create(:application_form, :completed)

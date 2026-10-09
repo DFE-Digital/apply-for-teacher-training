@@ -127,5 +127,9 @@ FactoryBot.define do
     trait :with_no_vacancies do
       course_options { build_list(:course_option, 2, :no_vacancies, course: instance) }
     end
+
+    trait :january_start do
+      start_date { Date.new(CycleTimetableHelper.current_year, 1, 10) }
+    end
   end
 end

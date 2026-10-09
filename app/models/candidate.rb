@@ -117,7 +117,11 @@ class Candidate < ApplicationRecord
   end
 
   def active_application_choices
-    application_choices.where(application_form: [current_application, active_previous_application])
+    application_choices.where(application_form: [active_application_forms])
+  end
+
+  def active_application_forms
+    [current_application, active_previous_application].compact_blank
   end
 
   def last_updated_application
