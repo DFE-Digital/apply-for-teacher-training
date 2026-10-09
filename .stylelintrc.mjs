@@ -10,6 +10,10 @@ export default {
       emptyLineBefore: "always",
       noEmptyLineBetween: true,
     })),
+    // Stylelint 17 resolves nesting per the CSS spec, so SCSS BEM suffixes
+    // like `&__item` are read as type selectors (`__item.block`). The rule is
+    // documented as CSS-only, so disable it for our SCSS.
+    "selector-no-qualifying-type": null,
     "value-keyword-case": [
       "lower",
       {
