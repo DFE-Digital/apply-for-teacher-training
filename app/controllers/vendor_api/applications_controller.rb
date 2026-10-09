@@ -37,8 +37,8 @@ module VendorAPI
     def pagination_params
       {
         since: since_param.iso8601,
-        page: params[:page],
-        per_page: params[:per_page],
+        page: version_number.to_f >= 2.0 ? params.fetch(:page) : params[:page],
+        per_page: version_number.to_f >= 2.0 ? params.fetch(:per_page) : params[:per_page],
         url: request.original_url,
       }
     end
