@@ -1,25 +1,41 @@
 module CandidateInterface
   module StepOperations
     class PreferencesWizard::SavePreference < Base
+      delegate :training_locations_anywhere?, :training_locations_specific?, :preference, to: :wizard
+
       def execute
-        debugger
+        return { success: true } if current_step_name == :opt_in && wizard.opt_in?
+
         ActiveRecord::Base.transaction do
-          current_application.preferences.create!(
-            dynamic_location_preferences: state_store.dynamic_location_preferences,
-            funding_type: state_store.funding_type,
-            opt_out_reason: state_store.opt_out_reason,
-            pool_status: state_store.pool_status,
-            status: 'published',
-            training_locations: state_store.training_locations,
-            location_preferences:,
-          )
+          if preference.blank?
+            current_application.preferences.create!(**preference_attributes)
+          else
+            preference.update!(**preference_attributes)
+          end
+          wizard.clear_state
         end
+        state_store.write(current_application_id: wizard.current_application.id)
+
         { success: true }
       end
 
     private
 
+      def preference_attributes
+        {
+          status: 'published',
+          dynamic_location_preferences: training_locations_specific? ? state_store.dynamic_location_preferences : nil,
+          funding_type: state_store.funding_type,
+          opt_out_reason: state_store.opt_out_reason,
+          pool_status: state_store.pool_status,
+          training_locations: state_store.training_locations,
+          location_preferences:,
+        }
+      end
+
       def location_preferences
+        return [] if training_locations_anywhere?
+
         state_store.location_preferences.map do |lp|
           location_name = lp[:location_name]
           CandidateLocationPreference.new(
