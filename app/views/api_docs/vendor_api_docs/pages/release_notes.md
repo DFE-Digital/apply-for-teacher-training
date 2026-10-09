@@ -1,3 +1,6 @@
+## v2.0 — October 2026
+
+- Pagination is required
 
 ## v1.8 — May 2026
 
