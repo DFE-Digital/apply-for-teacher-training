@@ -50,6 +50,8 @@ module APIDocs
           api_docs_spec_1_7_url
         when '1.8'
           api_docs_spec_1_8_url
+        when '2.0'
+          api_docs_spec_2_0_url
         end
       end
       helper_method :spec_url_for_current_version
