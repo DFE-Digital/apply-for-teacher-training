@@ -54,7 +54,7 @@ paths:
         schema:
           type: integer
       - name: per_page
-        description: Number of records to return per page (e.g. 50)
+        description: Number of records to return per page, default to 50
         in: query
         required: false
         example: 50
