@@ -54,7 +54,10 @@ module TeacherTrainingPublicAPI
       end
 
       course_options_for_deletion.each do |course_option|
-        if course_option.application_choices.any? || course_option.current_application_choices.any?
+        if course_option.application_choices.any? ||
+           course_option.current_application_choices.any? ||
+           DeferredOfferConfirmation.where(offered_course_option: course_option).any?
+
           course_option.update(site_still_valid: false, vacancy_status: :no_vacancies)
         else
           course_option.destroy
