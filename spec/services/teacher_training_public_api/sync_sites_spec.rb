@@ -99,6 +99,12 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, :run_jobs do
         expect(CourseOption.joins(:site).find_by(sites: { uuid: obsolete_uuid })).not_to be_present
       end
 
+      it 'does not delete course options with deferred offer confirmations' do
+        create(:deferred_offer_confirmation, offered_course_option: course_option)
+        perform_job
+        expect(CourseOption.joins(:site).find_by(sites: { uuid: obsolete_uuid })).to be_present
+      end
+
       context 'when application exists for course option marked for deletion' do
         before { create(:application_choice, course_option:) }
 
