@@ -8,7 +8,7 @@ gem 'timeliness'
 gem 'rails', '~> 8.1.4'
 
 gem 'puma', '~> 8.0'
-gem 'pg', '~> 1.6.3'
+gem 'pg', '~> 1.7.0'
 gem 'blazer'
 
 # do not rely on host’s timezone data, which can be inconsistent
