@@ -1065,6 +1065,7 @@ components:
           - false
         possible_undeclared_previous_teacher_training_url:
           type: string
+          nullable: true
           description: A URL to view data concerning possible undeclared previous
             teacher training details associated with an application. The value is
             `null` if no possible undeclared training has been identified.
@@ -1171,6 +1172,7 @@ components:
           example: I am dyslexic
         obtaining_english_language_qualification_details:
           type: string
+          nullable: true
           maxLength: 256
           description: If the candidate intends to gain this qualification they can
             explain their intention
@@ -1181,6 +1183,7 @@ components:
           example: '2019-06-13T10:44:31Z'
         visa_explanation:
           type: string
+          nullable: true
           maxLength: 256
           description: The candidate’s intention to resolve any issues with their
             visa expiring
@@ -1194,6 +1197,7 @@ components:
           example: expires_after_course
         visa_explanation_details:
           type: string
+          nullable: true
           maxLength: 256
           description: Additional details regarding the candidate’s visa explanation,
             if the visa explanation is "other"
@@ -1529,13 +1533,13 @@ components:
           example: true
           nullable: true
         missing_explanation:
-          type: string (limited to 50 words)
+          type: string
           description: The explanation if "currently_completing_qualification" is
             false
           example: I have an equivalent qualification.
           nullable: true
         other_uk_qualification_type:
-          type: string (limited to 100 characters )
+          type: string
           description: The response to "Another UK qualification" - "Qualification
             name"
           example: Foundational Diploma
@@ -1630,10 +1634,12 @@ components:
         feedback_provided_at:
           type: string
           format: date-time
+          nullable: true
           description: The date and time the reference was provided
           example: '2024-07-10T13:00:00+01:00'
         confidential:
           type: boolean
+          nullable: true
           description: The confidentiality status selected by the referee for the
             reference
           example: true
@@ -2248,23 +2254,23 @@ components:
         first:
           type: string
           description: The first page of the results
-          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z&page=1
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v2.0/applications?since=2021-10-20T12:00:00Z&page=1
         last:
           type: string
           description: The last page of the results
-          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z&page=20
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v2.0/applications?since=2021-10-20T12:00:00Z&page=20
         prev:
           type: string
           description: The previous page of the results
-          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z&page=1
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v2.0/applications?since=2021-10-20T12:00:00Z&page=1
         self:
           type: string
           description: The current page of the results
-          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z&page=2
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v2.0/applications?since=2021-10-20T12:00:00Z&page=2
         next:
           type: string
           description: The next page of the results
-          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z&page=3
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v2.0/applications?since=2021-10-20T12:00:00Z&page=3
     ResponseMetaMultiple:
       type: object
       description: API version and count metadata in multiple application responses
@@ -2277,7 +2283,7 @@ components:
         api_version:
           type: string
           description: API version that produced this response
-          example: v1.1
+          example: v2.0
         timestamp:
           type: string
           format: date-time
@@ -2298,7 +2304,7 @@ components:
         api_version:
           type: string
           description: API version that produced this response
-          example: v1.1
+          example: v2.0
         timestamp:
           type: string
           format: date-time

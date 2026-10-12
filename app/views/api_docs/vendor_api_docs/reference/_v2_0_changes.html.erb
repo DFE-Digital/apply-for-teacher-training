@@ -11,11 +11,13 @@
 </h3>
 
 <p class="govuk-body">
-  When retrieving applications, pagination is required. The `page` and `per_page` parameters allows you to handle large volumes of applications in smaller, manageable batches
+  When retrieving applications, pagination is required. The <code>page</code> and <code>per_page</code> parameters allow you to handle large volumes of applications in smaller, manageable batches.
+</p>
 
-  Use the page parameter to retrieve the indicated page of results. The first call should ask for page 1. Use the links object in the response to navigate subsequent paginated results.
+<p class="govuk-body">
+  Use the <code>page</code> parameter to retrieve the indicated page of results. The first call should ask for page 1. Use the <code>links</code> object in the response to navigate subsequent paginated results.
+</p>
 
-  Use the per_page parameter to specify how many applications to return per page. The default and maximum value is 50.
-
-  To utilise pagination both page and per_page parameters must be specified.
+<p class="govuk-body">
+  Use the <code>per_page</code> parameter to specify how many applications to return per page. This is optional and defaults to 50, which is also the maximum value.
 </p>
