@@ -18,7 +18,7 @@ module VersioningHelpers
   end
 
   def released_versions
-    ordered_versions.reject { |version| prerelease?(full_version_number_from(version)) }
+    ordered_versions.reject { |version| prerelease_suffix?(version) }
   end
 
   def full_version_number_from(version)
@@ -30,7 +30,7 @@ module VersioningHelpers
   end
 
   def production_version
-    ordered_versions.keys.rfind { |version| !prerelease?(full_version_number_from(version)) }
+    ordered_versions.keys.rfind { |version| !prerelease_suffix?(version) }
   end
 
   def released_version

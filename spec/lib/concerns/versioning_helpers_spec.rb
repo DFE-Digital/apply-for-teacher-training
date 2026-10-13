@@ -97,4 +97,30 @@ RSpec.describe VersioningHelpers do
       end
     end
   end
+
+  describe '#production_version' do
+    before do
+      stub_const(
+        'VendorAPI::VERSIONS',
+        { '1.0' => [], '1.1pre' => [], '1.1' => [] },
+      )
+    end
+
+    it 'ignores prereleases without dropping their released version' do
+      expect(production_version).to eq '1.1'
+    end
+  end
+
+  describe '#released_versions' do
+    before do
+      stub_const(
+        'VendorAPI::VERSIONS',
+        { '1.0' => [], '1.1pre' => [], '1.1' => [] },
+      )
+    end
+
+    it 'keeps a released version that has a prerelease sibling' do
+      expect(released_versions.keys).to eq %w[1.0 1.1]
+    end
+  end
 end

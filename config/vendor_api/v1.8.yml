@@ -108,6 +108,7 @@ components:
       properties:
         obtaining_english_language_qualification_details:
           type: string
+          nullable: true
           maxLength: 256
           description: If the candidate intends to gain this qualification they can explain their intention
           example: "I will gain it next year"
@@ -117,6 +118,7 @@ components:
           example: "2019-06-13T10:44:31Z"
         visa_explanation:
           type: string
+          nullable: true
           maxLength: 256
           description: The candidate’s intention to resolve any issues with their visa expiring
           enum:
@@ -129,6 +131,7 @@ components:
           example: "expires_after_course"
         visa_explanation_details:
           type: string
+          nullable: true
           maxLength: 256
           description: Additional details regarding the candidate’s visa explanation, if the visa explanation is "other"
           example: 'Details of renewing my visa'
