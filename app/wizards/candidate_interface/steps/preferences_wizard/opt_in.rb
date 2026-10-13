@@ -7,6 +7,7 @@ module CandidateInterface
       attribute :opt_out_reason
 
       validates :pool_status, presence: true
+      validates :opt_out_reason, word_count: { maximum: 200 }, if: -> { pool_status == 'opt_out' }
 
       def self.permitted_params
         %i[pool_status opt_out_reason]

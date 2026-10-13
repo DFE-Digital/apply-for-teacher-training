@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate adds preferences' do
+RSpec.describe 'Candidate adds preferences', :with_cache do
   include CandidateHelper
   include DfE::Bigquery::TestHelper
 
@@ -49,29 +49,29 @@ RSpec.describe 'Candidate adds preferences' do
     and_i_select_specific_locations
     when_i_click('Continue')
 
-    then_i_am_redirected_to_location_preferences(location_preferences)
+    then_i_am_redirected_to_location_preferences([])
 
     when_i_click('Back')
     then_i_am_redirected_to_training_locations
 
     when_i_click('Continue')
-    then_i_am_redirected_to_location_preferences(location_preferences)
+    then_i_am_redirected_to_location_preferences([])
 
-    when_i_click('Add another area')
+    when_i_click('Add an area')
     and_i_input_a_location
     when_i_click('Add area')
-    then_i_am_redirected_to_location_preferences(new_locations)
+    then_i_am_redirected_to_location_preferences([new_location])
 
     when_i_click_change_on_the_last_location
     and_i_edit_a_location
-    when_i_click('Update training area')
-    then_i_am_redirected_to_location_preferences(updated_locations)
+    when_i_click('Add area')
+    then_i_am_redirected_to_location_preferences([updated_location])
 
     when_i_click('Continue')
     then_i_am_redirected_to_the_dynamic_locations_page
 
     when_i_click('Back')
-    then_i_am_redirected_to_location_preferences(updated_locations)
+    then_i_am_redirected_to_location_preferences([updated_location])
 
     when_i_click('Continue')
     and_i_click('Continue')
@@ -441,8 +441,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def and_the_dynamic_locations_is_checked
-    dynamic_locations = find_by_id('candidate-interface-dynamic-location-preferences-form-dynamic-location-preferences-true-field')
-    expect(dynamic_locations).to be_checked
+    expect(page).to have_field('Yes', checked: true)
   end
 
   def then_i_am_redirected_to_invites

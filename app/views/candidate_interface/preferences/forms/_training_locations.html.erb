@@ -1,3 +1,5 @@
+<% content_for :before_content, govuk_back_link_to(@back_link) %>
+
 <%= form_with model: @wizard.current_step,
               url: @wizard.current_step_path,
               scope: @wizard.current_step_name do |f| %>

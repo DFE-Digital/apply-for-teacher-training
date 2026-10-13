@@ -37,11 +37,7 @@ module CandidateInterface
       end
 
       def location_preferences
-        if self[:location_preference_list].blank?
-          []
-        else
-          self[:location_preference_list]
-        end
+        self[:location_preference_list].presence || []
       end
 
       def dynamic_location_preferences?
@@ -54,4 +50,3 @@ module CandidateInterface
     end
   end
 end
-

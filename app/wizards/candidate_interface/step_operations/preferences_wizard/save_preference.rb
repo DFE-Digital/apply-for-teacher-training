@@ -12,6 +12,7 @@ module CandidateInterface
           else
             preference.update!(**preference_attributes)
           end
+          PreferencesEmail.call(preference: current_application.reload.published_preference)
           wizard.clear_state
         end
         state_store.write(current_application_id: wizard.current_application.id)
@@ -46,7 +47,6 @@ module CandidateInterface
           )
         end
       end
-
 
       def location_coordinates(location_name)
         # Validating if a location is an actual location is hard

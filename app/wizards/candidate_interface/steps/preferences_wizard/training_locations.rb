@@ -5,7 +5,9 @@ module CandidateInterface
 
       attribute :training_locations
 
-      validates :training_locations, presence: true
+      LOCATION_OPTIONS = %w[anywhere specific].freeze
+
+      validates :training_locations, inclusion: { in: LOCATION_OPTIONS }
 
       def self.permitted_params
         %i[training_locations]

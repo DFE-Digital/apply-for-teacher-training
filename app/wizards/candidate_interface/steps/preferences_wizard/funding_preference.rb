@@ -5,7 +5,9 @@ module CandidateInterface
 
       attribute :funding_type
 
-      validates :funding_type, presence: true
+      FUNDING_TYPE_OPTIONS = %w[fee salary].freeze
+
+      validates :funding_type, inclusion: { in: FUNDING_TYPE_OPTIONS }
 
       def self.permitted_params
         %i[funding_type]

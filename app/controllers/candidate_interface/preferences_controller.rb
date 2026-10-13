@@ -3,8 +3,17 @@ module CandidateInterface
     before_action :assign_wizard
     before_action :clear_wizard
     before_action :assign_location_preference_attributes
+    before_action :set_back_link
 
     def new; end
+
+    def edit
+      step = params[:step]
+      state_store.write(preference_as_hash) if preference.present?
+      step ||= preference.present? ? :publish : :opt_in
+
+      redirect_to candidate_interface_new_preferences_path(step:)
+    end
 
     def create
       if @wizard.save_current_step
@@ -16,15 +25,7 @@ module CandidateInterface
       end
     end
 
-    def edit
-      step = params[:step]
-      state_store.write(preference_as_hash) if preference.present?
-      step ||= preference.present? ? :publish : :opt_in
-
-      redirect_to candidate_interface_new_preferences_path(step:)
-    end
-
-    private
+  private
 
     def step_params
       params
@@ -32,9 +33,9 @@ module CandidateInterface
 
     def assign_flash
       if @wizard.current_step_name == :opt_in && @wizard.opt_out?
-        flash[:success] = "You are not sharing your application details with providers you have not applied to"
+        flash[:success] = 'You are not sharing your application details with providers you have not applied to'
       elsif @wizard.current_step_name == :publish && current_application.notifications.pool_opt_in.any?
-        flash[:success] = "You have updated your application sharing preferences"
+        flash[:success] = 'You have updated your application sharing preferences'
       end
     end
 
@@ -97,13 +98,15 @@ module CandidateInterface
     end
 
     def clear_wizard
-      return unless @wizard.current_step_name == :opt_in && preference.blank? || action_name == 'edit'
+      return unless (@wizard.current_step_name == :opt_in && preference.blank?) || action_name == 'edit'
+
+      return if request.referer.include?(@wizard.next_step_path)
 
       @wizard&.clear_state
     end
 
     def assign_location_preference_attributes
-      return unless @wizard.current_step_name.in?([:add_location_preference, :remove_location_preference]) &&
+      return unless @wizard.current_step_name.in?(%i[add_location_preference remove_location_preference]) &&
                     params[:uuid].present?
 
       location_preferences = state_store[:location_preference_list]
@@ -121,6 +124,20 @@ module CandidateInterface
           within: lp.within,
         }
       end
+    end
+
+    def set_back_link
+      @back_link = if current_step.in?(%i[add_location_preference remove_location_preference])
+                     candidate_interface_new_preferences_path(step: :location_preference_list)
+                   elsif preference.present? && current_step == :publish
+                     candidate_interface_invites_path
+                   elsif preference.present?
+                     candidate_interface_new_preferences_path(step: :publish)
+                   elsif @wizard.previous_step_path.present?
+                     @wizard.previous_step_path
+                   else
+                     candidate_interface_new_preferences_path(step: :opt_in)
+                   end
     end
   end
 end
