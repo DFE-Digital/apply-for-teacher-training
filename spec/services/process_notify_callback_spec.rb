@@ -51,9 +51,9 @@ RSpec.describe ProcessNotifyCallback do
         it 'updates the feedback status of the reference to email bounced' do
           process_notify_callback = described_class.new(notify_reference:, status:)
 
-          ApplicationForm.with_unsafe_application_choice_touches do
-            process_notify_callback.call
-          end
+          RequestStore.store[:allow_unsafe_application_choice_touches] = false
+          process_notify_callback.call
+          RequestStore.store[:allow_unsafe_application_choice_touches] = true
 
           expect(reference.reload.feedback_status).to eq('email_bounced')
         end

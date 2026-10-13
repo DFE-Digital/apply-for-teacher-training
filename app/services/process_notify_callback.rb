@@ -40,17 +40,17 @@ private
   end
 
   def mark_reference_as_bounced
-    ActiveRecord::Base.transaction do
-      reference = ApplicationReference.find(@id)
+    ApplicationForm.with_unsafe_application_choice_touches do
+      ActiveRecord::Base.transaction do
+        reference = ApplicationReference.find(@id)
 
-      ApplicationForm.with_unsafe_application_choice_touches do
         reference.update!(feedback_status: 'email_bounced')
-      end
 
-      SendNewRefereeRequestEmail.call(
-        reference:,
-        reason: :email_bounced,
-      )
+        SendNewRefereeRequestEmail.call(
+          reference:,
+          reason: :email_bounced,
+        )
+      end
     end
   end
 
