@@ -43,7 +43,9 @@ private
     ActiveRecord::Base.transaction do
       reference = ApplicationReference.find(@id)
 
-      reference.update!(feedback_status: 'email_bounced')
+      ApplicationForm.with_unsafe_application_choice_touches do
+        reference.update!(feedback_status: 'email_bounced')
+      end
 
       SendNewRefereeRequestEmail.call(
         reference:,
