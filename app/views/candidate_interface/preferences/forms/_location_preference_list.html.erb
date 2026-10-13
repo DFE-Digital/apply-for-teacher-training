@@ -31,9 +31,15 @@
       <% table.with_body do |body| %>
         <% @wizard.location_preferences.each do |location| %>
           <% body.with_row do |row| %>
-            <%= row.with_cell(text: t('.within', within: location.dig(:within))) %>
+            <%= row.with_cell(text: t('.within', within: location.dig(:within).to_f)) %>
 
-            <%= row.with_cell(text: location.dig(:location_name)) %>
+            <%= row.with_cell do %>
+              <% if location.dig(:provider_id).present? %>
+                <%= "#{location.dig(:location_name)} (#{Provider.find(location.dig(:provider_id)).name})"%>
+              <% else %>
+                <%= location.dig(:location_name) %>
+              <% end %>
+            <% end %>
             <%= row.with_cell do %>
               <%= govuk_link_to(
                 t('.change'),

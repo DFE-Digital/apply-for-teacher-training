@@ -35,5 +35,5 @@
         ) %>
   </div>
 
-  <%= f.govuk_submit('Add area') %>
+  <%= f.govuk_submit(params[:uuid].present? ? 'Update training area' : 'Add area') %>
 <% end %>

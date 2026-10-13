@@ -49,29 +49,28 @@ RSpec.describe 'Candidate adds preferences', :with_cache do
     and_i_select_specific_locations
     when_i_click('Continue')
 
-    then_i_am_redirected_to_location_preferences([])
+    then_i_am_redirected_to_location_preferences(location_preferences)
 
     when_i_click('Back')
     then_i_am_redirected_to_training_locations
-
     when_i_click('Continue')
-    then_i_am_redirected_to_location_preferences([])
+    then_i_am_redirected_to_location_preferences(location_preferences)
 
-    when_i_click('Add an area')
+    when_i_click('Add another area')
     and_i_input_a_location
     when_i_click('Add area')
-    then_i_am_redirected_to_location_preferences([new_location])
+    then_i_am_redirected_to_location_preferences(new_locations)
 
     when_i_click_change_on_the_last_location
     and_i_edit_a_location
-    when_i_click('Add area')
-    then_i_am_redirected_to_location_preferences([updated_location])
+    when_i_click('Update training area')
+    then_i_am_redirected_to_location_preferences(updated_locations)
 
     when_i_click('Continue')
     then_i_am_redirected_to_the_dynamic_locations_page
 
     when_i_click('Back')
-    then_i_am_redirected_to_location_preferences([updated_location])
+    then_i_am_redirected_to_location_preferences(updated_locations)
 
     when_i_click('Continue')
     and_i_click('Continue')
@@ -565,8 +564,7 @@ RSpec.describe 'Candidate adds preferences', :with_cache do
   end
 
   def and_the_funding_type_is_checked
-    funding_type = find_by_id('candidate-interface-funding-type-preference-form-funding-type-fee-field')
-    expect(funding_type).to be_checked
+    expect(page).to have_field('I am interested in both courses with fees to pay and salaried courses', checked: true)
   end
 
   def then_i_am_redirected_to_invites_page
