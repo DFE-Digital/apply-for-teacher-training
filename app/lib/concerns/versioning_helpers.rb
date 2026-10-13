@@ -10,7 +10,7 @@ module VersioningHelpers
   end
 
   def minor_version_number(version)
-    Gem::Version.new(version).segments[1] || Gem::Version.new(production_version).segments[1]
+    Gem::Version.new(version).segments[1] || last_minor_production_version_of_major_version(version)
   end
 
   def prerelease_suffix?(version)
@@ -46,5 +46,13 @@ module VersioningHelpers
 
   def ordered_versions
     VendorAPI::VERSIONS.sort_by { |version| Gem::Version.new(version[0]) }.to_h
+  end
+
+  def last_minor_production_version_of_major_version(version)
+    versions = ordered_versions.select do |element|
+      element.exclude?(PRERELEASE_SUFFIX) && element.start_with?(major_version_number(version).to_s)
+    end
+
+    Gem::Version.new(versions.keys.last).segments[1]
   end
 end

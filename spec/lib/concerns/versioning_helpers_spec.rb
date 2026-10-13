@@ -46,5 +46,30 @@ RSpec.describe VersioningHelpers do
         expect(minor_version_number('1')).to eq 1
       end
     end
+
+    context 'with two major versions released' do
+      before do
+        stub_const('VendorAPI::VERSION', '2.0')
+        stub_const(
+          'VendorAPI::VERSIONS',
+          {
+            '1.0' => [],
+            '1.1' => [],
+            '1.2' => [],
+            '1.3pre' => [],
+            '2.0' => [],
+            '2.1pre' => [],
+          },
+        )
+      end
+
+      it 'returns the latest released minor version of version 1' do
+        expect(minor_version_number('1')).to eq 2
+      end
+
+      it 'returns the latest released minor version of version 2' do
+        expect(minor_version_number('2')).to eq 0
+      end
+    end
   end
 end
