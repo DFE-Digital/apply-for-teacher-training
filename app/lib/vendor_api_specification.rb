@@ -18,16 +18,9 @@ class VendorAPISpecification
   end
 
   def spec
-    yaml_for_version = (0..minor_version_number(@version)).each_with_object({}) do |minor_version, versions|
-      version_to_load = "#{major_version_number(@version)}.#{minor_version}"
-
-      yaml_for_version = nil
-      if File.exist?(yaml_file_path(version_to_load))
-        yaml_for_version = YAML.load_file(yaml_file_path(version_to_load), permitted_classes: [Time, Date])
-        yaml_for_version = merge_experimental_spec(yaml_for_version, version_to_load)
-      end
-
-      versions.deep_merge!(yaml_for_version) if yaml_for_version.present?
+    yaml_for_version = versions_up_to_load.each_with_object({}) do |version_to_load, versions|
+      version_yaml = version_yaml_for(version_to_load)
+      versions.deep_merge!(version_yaml) if version_yaml.present?
     end
 
     if draft?
@@ -38,6 +31,19 @@ class VendorAPISpecification
   end
 
 private
+
+  def versions_up_to_load
+    requested = Gem::Version.new(full_version_number_from(@version))
+
+    ordered_versions.keys.select { |version| Gem::Version.new(version) <= requested }
+  end
+
+  def version_yaml_for(version_to_load)
+    return unless File.exist?(yaml_file_path(version_to_load))
+
+    version_yaml = YAML.load_file(yaml_file_path(version_to_load), permitted_classes: [Time, Date])
+    merge_experimental_spec(version_yaml, version_to_load)
+  end
 
   def yaml_file_path(version_to_load)
     "#{SPEC_FILE_DIR}/v#{version_to_load}.yml"
