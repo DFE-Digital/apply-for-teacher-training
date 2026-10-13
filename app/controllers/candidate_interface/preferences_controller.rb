@@ -100,7 +100,7 @@ module CandidateInterface
     def clear_wizard
       return unless (@wizard.current_step_name == :opt_in && preference.blank?) || action_name == 'edit'
 
-      return if request.referer.include?(@wizard.next_step_path)
+      return if request.referer&.include?(@wizard.next_step_path)
 
       @wizard&.clear_state
     end
@@ -113,7 +113,11 @@ module CandidateInterface
       return if location_preferences.blank?
 
       location_preference = location_preferences.find { |lp| lp[:uuid] == params[:uuid] }
-      state_store.write(uuid: location_preference[:uuid], within: location_preference[:within], location_name: location_preference[:location_name])
+      state_store.write(
+        uuid: location_preference[:uuid],
+        within: location_preference[:within],
+        location_name: location_preference[:location_name],
+      )
     end
 
     def format_location_preferences
@@ -122,6 +126,7 @@ module CandidateInterface
           uuid: lp.id.to_s,
           location_name: lp.name,
           within: lp.within,
+          provider_id: lp.provider&.id,
         }
       end
     end

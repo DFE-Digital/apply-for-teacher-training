@@ -4,16 +4,16 @@ module CandidateInterface
       DEFAULT_RADIUS = 10
 
       def execute
-        return if wizard.location_preferences.present? || wizard.training_locations_anywhere?
+        return { success: true } if wizard.location_preferences.present? || wizard.training_locations_anywhere?
 
         location_preference_list = []
 
-        application_form = preference.application_form
+        application_form = wizard.current_application
         sites = application_form.application_choices.map(&:site)
 
         unless application_form.international_address? || application_form.geocode.nil?
           location_preference_list << {
-            name: application_form.postcode,
+            location_name: application_form.postcode,
             within: DEFAULT_RADIUS,
             latitude: application_form.geocode.first,
             longitude: application_form.geocode.last,
@@ -24,7 +24,7 @@ module CandidateInterface
           next unless site.geocoded?
 
           location_preference_list << {
-            name: site.postcode,
+            location_name: site.postcode,
             within: DEFAULT_RADIUS,
             latitude: site.latitude,
             longitude: site.longitude,
