@@ -17,8 +17,8 @@ RSpec.describe ProcessNotifyCallback do
     end
   end
 
+  let(:application_form) { create(:application_form) }
   let(:reference) do
-    application_form = create(:application_form)
     create(:reference, feedback_status: 'feedback_requested', application_form:)
   end
   let(:candidate) { create(:candidate, sign_up_email_bounced: false) }
@@ -35,6 +35,18 @@ RSpec.describe ProcessNotifyCallback do
         process_notify_callback.call
 
         expect(reference.reload.feedback_status).to eq('email_bounced')
+      end
+
+      context 'when the application form is in the previous cycle' do
+        let(:application_form) { create(:application_form, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year) }
+
+        it 'updates the feedback status of the reference to email bounced' do
+          process_notify_callback = described_class.new(notify_reference:, status:)
+
+          process_notify_callback.call
+
+          expect(reference.reload.feedback_status).to eq('email_bounced')
+        end
       end
 
       it 'sets not found to true if reference cannot be found' do
