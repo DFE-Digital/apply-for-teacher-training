@@ -22,7 +22,7 @@ module CandidateInterface
     private
 
       def find_location_preference(list:, uuid:)
-        @find_location_preference ||= list.find{ |lp| lp[:uuid] == uuid }
+        @find_location_preference ||= list.find { |lp| lp[:uuid] == uuid }
       end
     end
   end

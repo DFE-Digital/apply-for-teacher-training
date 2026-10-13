@@ -79,12 +79,10 @@ class CandidateInterface::PreferencesWizard
       state_store:,
       path_builder: lambda { |step_id, _state_store, helpers, options|
         case step_id
-        when :opt_out
+        when :opt_out, :invites
           helpers.candidate_interface_invites_path
         when :confirmation
           helpers.show_candidate_interface_pool_opt_ins_path
-        when :invites
-          helpers.candidate_interface_invites_path
         else
           helpers.candidate_interface_new_preferences_path(
             step: step_id,

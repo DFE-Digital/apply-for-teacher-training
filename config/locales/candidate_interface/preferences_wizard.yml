@@ -1,0 +1,36 @@
+en:
+  activemodel:
+    errors:
+      models:
+        candidate_interface/steps/preferences_wizard/opt_in:
+          attributes:
+            pool_status:
+              blank: Select whether to make your application details visible to other training providers
+        candidate_interface/steps/preferences_wizard/training_locations:
+          attributes:
+            training_locations:
+              inclusion: Select where you can train
+        candidate_interface/steps/preferences_wizard/location_preference_list:
+          attributes:
+            base:
+              location_blank: Add an area you can train in
+        candidate_interface/steps/preferences_wizard/add_location_preference:
+          attributes:
+            within:
+              blank: Enter a location radius
+              greater_than_or_equal_to: The location radius must be 0 miles or more
+              not_a_number: Location radius must be a number
+            location_name:
+              blank: Enter a city, town or postcode
+              invalid_location: City, town or postcode must be in the United Kingdom
+              too_short: The city, town or postcode must be %{count} characters or more
+        candidate_interface/steps/preferences_wizard/dynamic_location_preferences:
+          attributes:
+            dynamic_location_preferences:
+              blank: Select if you want to add the locations of courses you apply to
+        candidate_interface/steps/preferences_wizard/funding_preference:
+          attributes:
+            funding_type:
+              inclusion: Select what funding types you are interested in
+
+
