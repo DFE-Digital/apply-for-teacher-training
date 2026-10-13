@@ -51,8 +51,8 @@ module VersioningHelpers
   def last_minor_production_version_of_major_version(version)
     major = major_version_number(version)
 
-    versions = ordered_versions.keys.select do |candidate|
-      major_version_number(candidate) == major && !prerelease_suffix?(candidate)
+    versions = ordered_versions.keys.select do |key|
+      major_version_number(key) == major && !prerelease_suffix?(key)
     end
 
     last_version = versions.last
