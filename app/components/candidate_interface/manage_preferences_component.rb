@@ -17,18 +17,11 @@ private
 
   def path_to_change_preferences
     if application_form.published_preference&.opt_out?
-      # edit_candidate_interface_pool_opt_in_path(
-      #   application_form.published_preference,
-      # )
       candidate_interface_edit_preferences_path(step: :opt_in)
-    elsif application_form.published_preference.blank?
-      # new_candidate_interface_pool_opt_in_path
-      candidate_interface_new_preferences_path(step: :opt_in)
-    else
-      # candidate_interface_draft_preference_publish_preferences_path(
-      #   application_form.published_preference,
-      # )
+    elsif application_form.duplicated_preferences.last.present? || application_form.published_preference.present?
       candidate_interface_edit_preferences_path(step: :publish)
+    else
+      candidate_interface_new_preferences_path(step: :opt_in)
     end
   end
 end

@@ -2,10 +2,23 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate adds preferences' do
   include CandidateHelper
+  include DfE::Bigquery::TestHelper
 
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+    allow(GoogleMapsAPI::Client).to receive(:new).and_return(client)
+    allow(client).to receive(:autocomplete).and_return(api_response)
+  end
+
+  let(:client) { instance_double(GoogleMapsAPI::Client) }
+  let(:api_response) do
+    [
+      { name: 'BN1 3AA', place_id: 'test_id' },
+    ]
+  end
   let(:provider) { create(:provider) }
 
-  scenario 'Candidate opts in to find a candidate with specific locations' do
+  scenario 'Candidate opts in to find a candidate with specific locations', :with_cache do
     given_i_am_signed_in
     given_i_have_a_duplicate_preference_form
     given_i_am_on_the_share_details_page
@@ -17,6 +30,8 @@ RSpec.describe 'Candidate adds preferences' do
     then_i_am_redirected_to_confirmation_page
     and_my_duplicate_preference_is_published
   end
+
+private
 
   def given_i_have_a_duplicate_preference_form
     @duplicate_preference = create(:candidate_preference, :duplicated, :specific_locations, funding_type: 'salary', application_form: @application)
