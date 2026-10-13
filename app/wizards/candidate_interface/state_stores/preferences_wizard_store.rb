@@ -13,7 +13,7 @@ module CandidateInterface
       end
 
       def preference
-        current_application.published_preference
+        current_application.published_preference || current_application.duplicated_preferences.last
       end
 
       def opt_in?

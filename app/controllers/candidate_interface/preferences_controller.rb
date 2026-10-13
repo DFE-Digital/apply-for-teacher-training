@@ -40,7 +40,7 @@ module CandidateInterface
     end
 
     def preference
-      @preference ||= current_application.published_preference
+      @preference ||= current_application.published_preference || current_application.duplicated_preferences.last
     end
 
     def update_params
