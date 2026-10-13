@@ -102,6 +102,12 @@ class CandidateInterface::PreferencesWizard
         ],
       )
       builder.on_step(
+        add: [
+          :training_locations,
+          CandidateInterface::StepOperations::PreferencesWizard::AssignDefaultLocationPreferences,
+        ],
+      )
+      builder.on_step(
         :remove_location_preference,
         add: [
           CandidateInterface::StepOperations::PreferencesWizard::RemoveLocationPreference,
