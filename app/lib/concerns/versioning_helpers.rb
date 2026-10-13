@@ -49,10 +49,16 @@ module VersioningHelpers
   end
 
   def last_minor_production_version_of_major_version(version)
-    versions = ordered_versions.select do |element|
-      element.exclude?(PRERELEASE_SUFFIX) && element.start_with?(major_version_number(version).to_s)
+    major = major_version_number(version)
+
+    versions = ordered_versions.keys.select do |candidate|
+      major_version_number(candidate) == major && !prerelease_suffix?(candidate)
     end
 
-    Gem::Version.new(versions.keys.last).segments[1]
+    last_version = versions.last
+
+    raise ArgumentError, "No production version found for major version #{major}" if last_version.nil?
+
+    Gem::Version.new(last_version).segments[1]
   end
 end

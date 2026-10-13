@@ -71,5 +71,30 @@ RSpec.describe VersioningHelpers do
         expect(minor_version_number('2')).to eq 0
       end
     end
+
+    context 'with a major version that is a string prefix of another' do
+      before do
+        stub_const('VendorAPI::VERSION', '10.5')
+        stub_const(
+          'VendorAPI::VERSIONS',
+          {
+            '1.0' => [],
+            '1.1' => [],
+            '10.0' => [],
+            '10.5' => [],
+          },
+        )
+      end
+
+      it 'matches the major version exactly, not by string prefix' do
+        expect(minor_version_number('1')).to eq 1
+      end
+    end
+
+    context 'when no production version exists for the major version' do
+      it 'raises an error rather than returning nil' do
+        expect { minor_version_number('3') }.to raise_error(ArgumentError, /major version 3/)
+      end
+    end
   end
 end
