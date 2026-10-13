@@ -38,12 +38,22 @@ RSpec.describe ProcessNotifyCallback do
       end
 
       context 'when the application form is in the previous cycle' do
-        let(:application_form) { create(:application_form, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year) }
+        let(:recruitment_cycle_year) { RecruitmentCycleTimetable.previous_year }
+        let(:application_form) { create(:completed_application_form, recruitment_cycle_year:) }
+        let(:application_choice) do
+          create(:application_choice, :rejected_by_default, application_form:, current_recruitment_cycle_year: recruitment_cycle_year)
+        end
+
+        before do
+          application_choice
+        end
 
         it 'updates the feedback status of the reference to email bounced' do
           process_notify_callback = described_class.new(notify_reference:, status:)
 
-          process_notify_callback.call
+          ApplicationForm.with_unsafe_application_choice_touches do
+            process_notify_callback.call
+          end
 
           expect(reference.reload.feedback_status).to eq('email_bounced')
         end
