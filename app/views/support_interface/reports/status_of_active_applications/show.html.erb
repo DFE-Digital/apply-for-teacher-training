@@ -1,0 +1,40 @@
+<%= render 'support_interface/providers/providers_navigation', title: 'Providers' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third">
+    <%= form_with model: @provider_report, url: '', method: :get do |f| %>
+      <div data-controller='submit-on-click'>
+        <%= f.govuk_collection_select(
+          :provider_id,
+          Provider.all,
+          :id,
+          :name,
+          label: { size: 's', text: 'Select provider' },
+          data: {
+            action: 'click->submit-on-click#call',
+            submit_on_click_target: 'input',
+          },
+        ) %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <p class="govuk-body">
+    <%= govuk_link_to(
+      'Export data (CSV)',
+      support_interface_reports_status_of_active_applications_path(provider_id: @provider, format: :csv),
+    ) %>
+
+    </p>
+    <%= render ProviderInterface::ReportTableComponent.new(headers: ['Courses',
+                                                                     I18n.t('provider_application_states.awaiting_provider_decision').to_s,
+                                                                     I18n.t('provider_application_states.interviewing').to_s,
+                                                                     I18n.t('provider_application_states.offer').to_s,
+                                                                     I18n.t('provider_application_states.pending_conditions').to_s,
+                                                                     I18n.t('provider_application_states.recruited').to_s],
+                                                           rows: @active_application_status_data,
+                                                           show_footer: true) %>
+  </div>
+</div>

@@ -12,12 +12,19 @@ module SupportInterface
       ]
 
       items << { name: 'Personas', url: support_interface_personas_path } if HostingEnvironment.test_environment?
+      items << { name: 'Reports', url: support_interface_reports_path, current: reports? }
 
       items
     end
 
     def api_tokens_path?
       request.path.include?('support/token')
+    end
+
+    def reports?
+      request.path.include?('recruitment-performance-report') ||
+        request.path.include?('status-of-active-applications') ||
+        request.path.include?('withdrawal-reasons-report')
     end
   end
 end

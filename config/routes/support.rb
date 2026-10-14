@@ -241,6 +241,14 @@ namespace :support_interface, path: '/support' do
     end
   end
 
+  resources :reports, only: [:index]
+
+  namespace :reports do
+    resource :status_of_active_applications, only: :show, path: 'status-of-active-applications'
+    resource :withdrawal_reasons_report, only: :show, path: 'withdrawal-reasons-report'
+    resource :recruitment_performance_report, only: :show, path: 'recruitment-performance-report(/:recruitment_cycle_year)'
+  end
+
   get '/email-log', to: 'email_log#index', as: :email_log
   get '/provider-onboarding', to: 'provider_onboarding#index', as: :provider_onboarding
   get '/vendor-api-requests', to: 'vendor_api_requests#index', as: :vendor_api_requests
