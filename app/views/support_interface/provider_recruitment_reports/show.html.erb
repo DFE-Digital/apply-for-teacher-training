@@ -78,13 +78,15 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l"><%= t('.title') %></h1>
+
+      <%= govuk_link_to(
+        'Set your comparison area',
+        new_support_interface_regional_report_filter_path(region: @region),
+        class: 'govuk-button govuk-button--secondary',
+      ) %>
+
       <% if RecruitmentPerformanceReportTimetable.report_season? %>
         <p class="govuk-body"><%= t('.not_ready_to_view') %></p>
-        <%= govuk_link_to(
-          'Set your comparison area',
-          new_support_interface_regional_report_filter_path(region: @region),
-          class: 'govuk-button govuk-button--secondary',
-        ) %>
       <% else %>
         <%= t(
               '.available_in_the_future_html',
