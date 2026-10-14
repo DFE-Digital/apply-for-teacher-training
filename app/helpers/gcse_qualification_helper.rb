@@ -49,7 +49,8 @@ module GcseQualificationHelper
     when false
       'No'
     when nil
-      if helpers.respond_to?(:current_support_user) && helpers.current_support_user
+      if (helpers.respond_to?(:current_support_user) && helpers.current_support_user) ||
+         (helpers.respond_to?(:current_provider_user) && helpers.current_provider_user)
         'Not provided'
       else
         govuk_link_to(
