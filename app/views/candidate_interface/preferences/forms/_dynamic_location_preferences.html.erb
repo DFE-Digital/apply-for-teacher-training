@@ -18,7 +18,7 @@
     :dynamic_location_preferences,
     legend: -> { content_for(:fieldset_legend) },
     hint: { text: t('.hint') },
-    ) do %>
+  ) do %>
     <%= f.govuk_radio_button :dynamic_location_preferences, true, label: { text: 'Yes' }, link_errors: true %>
     <%= f.govuk_radio_button :dynamic_location_preferences, false, label: { text: 'No' } %>
   <% end %>
