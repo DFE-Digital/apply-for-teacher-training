@@ -3,6 +3,7 @@ module SupportInterface
     class RecruitmentPerformanceReportsController < SupportInterfaceController
       before_action :set_provider
       before_action :set_region
+      before_action :set_cycle_year
 
       def show
         @provider_form = ProviderReport.new(provider_id: @provider.id)
@@ -86,6 +87,10 @@ module SupportInterface
           .where(provider: @provider)
           .order(:recruitment_cycle_year, :cycle_week)
           .last
+      end
+
+      def set_cycle_year
+        @recruitment_cycle_year = params.permit(:recruitment_cycle_year)[:recruitment_cycle_year]&.to_i
       end
     end
   end

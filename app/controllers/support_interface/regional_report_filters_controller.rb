@@ -5,13 +5,28 @@ module SupportInterface
 
     def new
       @form = RegionalReportForm.new(region: @region)
+      @backlink = if params[:return_to] == 'reports' && params[:recruitment_cycle_year].present?
+                    support_interface_reports_recruitment_performance_report_path(
+                      region: @region,
+                      recruitment_cycle_year: params[:recruitment_cycle_year],
+                    )
+                  else
+                    support_interface_provider_recruitment_report_path(region: @region)
+                  end
     end
 
     def create
       @form = RegionalReportForm.new(expected_params)
 
       if @form.save
-        redirect_to support_interface_provider_recruitment_report_path(region: @form.region)
+        if reports_page_params[:return_to] == 'reports'
+          redirect_to support_interface_reports_recruitment_performance_report_path(
+            region: @form.region,
+            recruitment_cycle_year: reports_page_params[:recruitment_cycle_year],
+          )
+        else
+          redirect_to support_interface_provider_recruitment_report_path(region: @form.region)
+        end
       else
         render :new
       end
@@ -35,6 +50,17 @@ module SupportInterface
       params.expect(
         support_interface_regional_report_form: [:region],
       )
+    end
+
+    def reports_page_params
+      params.expect(
+        support_interface_regional_report_form: %i[
+          region
+          return_to
+          provider_id
+          recruitment_cycle_year
+        ],
+      ) # [:support_interface_regional_report_form]
     end
   end
 end
