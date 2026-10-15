@@ -49,6 +49,14 @@ paths:
         schema:
           type: integer
 components:
+  responses:
+    VersionInvalid:
+      description: Returned when the API version in the URL is not available in this
+        environment
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/VersionInvalidResponse"
   schemas:
     Links:
       properties:
@@ -70,3 +78,17 @@ components:
       properties:
         api_version:
           example: v2.0
+    VersionInvalidResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: VersionInvalid
+            message: API version is not supported

@@ -59,7 +59,7 @@ RSpec.describe VendorAPI::Base do
     let(:version) { '1.0' }
 
     it 'throws an exception' do
-      expect { presenter }.to raise_error(PresenterNotVersioned)
+      expect { presenter }.to raise_error(ActiveVersionNotAvailableInEnvironment)
     end
   end
 
@@ -78,6 +78,14 @@ RSpec.describe VendorAPI::Base do
       it 'throws an exception' do
         allow(HostingEnvironment).to receive(:production?).and_return(true)
 
+        expect { presenter }.to raise_error(ActiveVersionNotAvailableInEnvironment)
+      end
+    end
+
+    context 'when minor version does not match' do
+      let(:version) { '1.12' }
+
+      it 'throws an exception' do
         expect { presenter }.to raise_error(ActiveVersionNotAvailableInEnvironment)
       end
     end
