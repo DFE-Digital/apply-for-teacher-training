@@ -1,84 +1,10 @@
 module CandidateInterface
   class PoolOptInsController < CandidateInterfaceController
-    before_action :redirect_to_review_for_duplicate_preferences, only: :new
-    before_action :set_preference, only: %i[edit update]
-    before_action :set_back_path, only: %i[edit update]
     before_action :redirect_to_root_path_if_submitted_applications
     before_action :redirect_to_invites_page_if_preference_is_blank_or_opt_out, only: :show
 
     def show
       current_application.notifications.create(notification_type: 'pool_opt_in')
-    end
-
-    def new
-      @back_path = if just_submitted?
-                     candidate_interface_application_choices_path
-                   else
-                     candidate_interface_invites_path
-                   end
-      @submit_params = { submit_application: just_submitted? }.compact_blank
-      @preference_form = PoolOptInsForm.new(current_application:)
-    end
-
-    def edit
-      if @preference.published?
-        @preference = @preference.create_draft_dup
-      end
-
-      @preference_form = PoolOptInsForm.build_from_preference(
-        current_application:,
-        preference: @preference,
-      )
-    end
-
-    def create
-      @preference_form = PoolOptInsForm.new(
-        current_application:,
-        params: request_params,
-      )
-
-      if @preference_form.save
-        if @preference_form.preference.opt_in?
-          redirect_to new_candidate_interface_draft_preference_training_location_path(
-            @preference_form.preference,
-          )
-        else
-          flash[:success] = t('.opt_out_message')
-          PreferencesEmail.call(preference: @preference_form.preference)
-
-          redirect_to candidate_interface_invites_path
-        end
-      else
-        @back_path = if just_submitted?
-                       candidate_interface_application_choices_path
-                     else
-                       candidate_interface_invites_path
-                     end
-        render :new
-      end
-    end
-
-    def update
-      @preference_form = PoolOptInsForm.new(
-        current_application:,
-        preference: @preference,
-        params: request_params,
-      )
-
-      if @preference_form.save
-        if @preference.reload.opt_in?
-          redirect_to @back_path || new_candidate_interface_draft_preference_training_location_path(
-            @preference_form.preference,
-          )
-        else
-          flash[:success] = t('.opt_out_message')
-          PreferencesEmail.call(preference: @preference)
-
-          redirect_to candidate_interface_invites_path
-        end
-      else
-        render :edit
-      end
     end
 
   private
