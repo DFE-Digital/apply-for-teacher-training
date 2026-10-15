@@ -40,6 +40,7 @@ components:
         feedback_provided_at:
           type: string
           format: date-time
+          nullable: true
           description: The date and time the reference was provided
           example: "2024-07-10T13:00:00+01:00"
       required:

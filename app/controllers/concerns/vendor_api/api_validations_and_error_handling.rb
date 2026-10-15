@@ -16,6 +16,7 @@ module VendorAPI
       rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_error
       rescue_from ActionController::ParameterMissing, with: :parameter_missing
       rescue_from ParameterInvalid, with: :parameter_invalid
+      rescue_from ActiveVersionNotAvailableInEnvironment, with: :version_invalid
 
       # Makes PG::QueryCanceled statement timeout errors appear in Skylight
       # against the controller action that triggered them
@@ -102,6 +103,17 @@ module VendorAPI
         errors: [
           {
             error: 'ParameterInvalid',
+            message: e,
+          },
+        ],
+      }
+    end
+
+    def version_invalid(e)
+      render status: :unprocessable_content, json: {
+        errors: [
+          {
+            error: 'VersionInvalid',
             message: e,
           },
         ],
