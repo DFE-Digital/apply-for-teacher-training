@@ -6,6 +6,7 @@ module SupportInterface
       before_action :set_cycle_year
 
       def show
+        # need to delete this
         @provider_form = ProviderReport.new(provider_id: @provider.id)
         @provider_report = latest_report.present? ? Publications::ProviderRecruitmentPerformanceReportPresenter.new(latest_report) : nil
         @report_type = @region == all_of_england ? :NATIONAL : :REGIONAL

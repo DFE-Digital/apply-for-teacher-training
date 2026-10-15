@@ -1,0 +1,15 @@
+<%= render 'support_interface/providers/provider_navigation', title: 'Reports' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render(
+      'support_interface/report_index',
+      SupportInterface::ReportsComponent.new(
+        provider: @provider,
+        current_timetable: @current_timetable,
+        previous_timetable: @previous_timetable,
+        view: 'provider_reports',
+      )
+    ) %>
+  </div>
+</div>

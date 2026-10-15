@@ -60,7 +60,7 @@ module SupportInterface
           provider_id
           recruitment_cycle_year
         ],
-      ) # [:support_interface_regional_report_form]
+      )
     end
   end
 end
