@@ -39,7 +39,7 @@ module VendorAPI
     end
 
     def active_version_not_available
-      (Gem::Version.new(full_version_number_from(released_version)) <=> Gem::Version.new(active_version)).negative?
+      ordered_versions.keys.map(&:to_f).include?(active_version)
     end
 
     def active_version_in_retrieved_version?(version)
