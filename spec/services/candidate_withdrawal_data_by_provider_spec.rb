@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::CandidateWithdrawalDataByProvider do
+RSpec.describe CandidateWithdrawalDataByProvider do
   let(:provider) { create(:provider) }
 
   describe '#submitted_withdrawal_reason_count' do

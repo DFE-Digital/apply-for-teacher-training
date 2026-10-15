@@ -5,7 +5,7 @@ module SupportInterface
 
       def show
         @provider_report = ProviderReport.new(provider_id: @provider.id)
-        @withdrawal_reason_report = ProviderInterface::CandidateWithdrawalReasonsDataByProvider.new(@provider)
+        @withdrawal_reason_report = CandidateWithdrawalReasonsDataByProvider.new(@provider)
       end
 
       def set_provider

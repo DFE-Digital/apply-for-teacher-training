@@ -9,7 +9,8 @@
     <h2 class="govuk-heading-m"><%= @current_timetable.cycle_range_name %> recruitment cycle</h2>
 
     <% unless RecruitmentPerformanceReportTimetable.report_season? %>
-      <%= t('support_interface.provider_recruitment_reports.show.available_in_the_future_html',
+      <%= t(
+        'support_interface.provider_recruitment_reports.show.available_in_the_future_html',
         current_cycle_range: @current_timetable.cycle_range_name,
         first_publication_date: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:govuk_date),
         first_publication_date_no_year: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:day_and_month),
@@ -29,13 +30,13 @@
       <li>
         <%= govuk_link_to(
           t('page_titles.status_of_active_applications'),
-          support_interface_reports_status_of_active_applications_path
+          support_interface_reports_status_of_active_applications_path,
         ) %>
       </li>
       <li>
         <%= govuk_link_to(
           t('page_titles.provider.withdrawal_report'),
-          support_interface_reports_withdrawal_reasons_report_path
+          support_interface_reports_withdrawal_reasons_report_path,
         ) %>
       </li>
     </ul>
@@ -47,7 +48,7 @@
           'Recruitment performance report',
           support_interface_reports_recruitment_performance_report_path(
             recruitment_cycle_year: @previous_timetable.recruitment_cycle_year,
-          )
+          ),
         ) %>
       </li>
     </ul>

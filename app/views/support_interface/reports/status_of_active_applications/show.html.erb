@@ -28,7 +28,7 @@
     ) %>
 
     </p>
-    <%= render ProviderInterface::ReportTableComponent.new(headers: ['Courses',
+    <%= render ReportTableComponent.new(headers: ['Courses',
                                                                      I18n.t('provider_application_states.awaiting_provider_decision').to_s,
                                                                      I18n.t('provider_application_states.interviewing').to_s,
                                                                      I18n.t('provider_application_states.offer').to_s,
