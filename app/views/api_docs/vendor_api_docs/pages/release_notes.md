@@ -1,16 +1,4 @@
 
-## v2.0 — October 2026
-
-- Pagination required
-
-When retrieving applications, pagination is required. The `page` and `per_page` parameters allow you to handle large volumes of applications in smaller, manageable batches.
-
-Use the `page` parameter to retrieve the indicated page of results. The first call should ask for page 1. Use the `links` object in the response to navigate subsequent paginated results.
-
-Use the `per_page` parameter to specify how many applications to return per page. This is optional and defaults to 50, which is also the maximum value.
-
-This is the only breaking change coming with v2.0.
-
 ## v1.8 — May 2026
 
 Some further changes were added to this version and all previous versions in May 2026. These changes reflect data candidates will start supplying in the 2026-27 recruitment cycle.

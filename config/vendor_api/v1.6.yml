@@ -31,7 +31,6 @@ components:
       properties:
         confidential:
           type: boolean
-          nullable: true
           description: The confidentiality status selected by the referee for the reference
           example: true
           enum:

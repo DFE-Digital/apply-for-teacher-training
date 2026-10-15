@@ -10,7 +10,7 @@ module VendorAPI
     def initialize(active_version)
       @active_version = active_version
 
-      raise ActiveVersionNotAvailableInEnvironment, 'API version is not supported' if active_version_not_available
+      raise ActiveVersionNotAvailableInEnvironment if active_version_not_available
 
       VendorAPI::VERSIONS.each_pair do |version, changes|
         next unless active_version_in_retrieved_version?(version) && version_available_in_environment?(version)
@@ -39,12 +39,11 @@ module VendorAPI
     end
 
     def active_version_not_available
-      (Gem::Version.new(full_version_number_from(released_version)) <=> Gem::Version.new(active_version)).negative? ||
-        ordered_versions.keys.map(&:to_f).exclude?(active_version.to_f)
+      (Gem::Version.new(full_version_number_from(released_version)) <=> Gem::Version.new(active_version)).negative?
     end
 
     def active_version_in_retrieved_version?(version)
-      Gem::Version.new(active_version) >= Gem::Version.new(version)
+      minor_version_number(active_version) >= minor_version_number(version)
     end
 
     def version_available_in_environment?(version)
@@ -67,3 +66,4 @@ module VendorAPI
 end
 
 class PresenterNotVersioned < StandardError; end
+class ActiveVersionNotAvailableInEnvironment < StandardError; end

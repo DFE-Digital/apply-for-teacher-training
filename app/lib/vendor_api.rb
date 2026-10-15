@@ -10,9 +10,8 @@ module VendorAPI
   VERSION_1_6 = '1.6'.freeze
   VERSION_1_7 = '1.7'.freeze
   VERSION_1_8 = '1.8'.freeze
-  VERSION_2_0 = '2.0'.freeze
 
-  VERSION = VERSION_2_0
+  VERSION = VERSION_1_8
 
   VERSIONS = {
     '1.0' => [
@@ -83,6 +82,5 @@ module VendorAPI
       Changes::V18::LengthOfResidency,
       Changes::V18::MarkInterviewObjectAsOptional,
     ],
-    '2.0' => [],
   }.freeze
 end

@@ -10,7 +10,7 @@ module VersioningHelpers
   end
 
   def minor_version_number(version)
-    Gem::Version.new(version).segments[1] || last_minor_production_version_of_major_version(version)
+    Gem::Version.new(version).segments[1] || Gem::Version.new(production_version).segments[1]
   end
 
   def prerelease_suffix?(version)
@@ -18,7 +18,7 @@ module VersioningHelpers
   end
 
   def released_versions
-    ordered_versions.reject { |version| prerelease_suffix?(version) }
+    ordered_versions.reject { |version| prerelease?(full_version_number_from(version)) }
   end
 
   def full_version_number_from(version)
@@ -30,7 +30,7 @@ module VersioningHelpers
   end
 
   def production_version
-    ordered_versions.keys.rfind { |version| !prerelease_suffix?(version) }
+    ordered_versions.keys.rfind { |version| !prerelease?(full_version_number_from(version)) }
   end
 
   def released_version
@@ -46,19 +46,5 @@ module VersioningHelpers
 
   def ordered_versions
     VendorAPI::VERSIONS.sort_by { |version| Gem::Version.new(version[0]) }.to_h
-  end
-
-  def last_minor_production_version_of_major_version(version)
-    major = major_version_number(version)
-
-    versions = ordered_versions.keys.select do |key|
-      major_version_number(key) == major && !prerelease_suffix?(key)
-    end
-
-    last_version = versions.last
-
-    raise ArgumentError, "No production version found for major version #{major}" if last_version.nil?
-
-    Gem::Version.new(last_version).segments[1]
   end
 end

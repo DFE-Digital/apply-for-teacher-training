@@ -29,15 +29,6 @@ RSpec.describe VendorAPISpecification do
     end
   end
 
-  describe 'major versions' do
-    it 'inherits the previous major version spec' do
-      previous_major_paths = described_class.new(version: '1.8').as_hash['paths'].keys
-      new_major_paths = described_class.new(version: '2.0').as_hash['paths'].keys
-
-      expect(new_major_paths).to include(*previous_major_paths)
-    end
-  end
-
   describe 'draft specs' do
     it 'loads and merges the draft spec file' do
       allow(YAML).to receive(:load_file).and_call_original
