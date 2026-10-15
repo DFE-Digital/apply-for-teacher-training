@@ -6,6 +6,7 @@ module CandidateInterface
       def execute
         return { success: true } if current_step_name == :opt_in && wizard.opt_in?
 
+        current_application = wizard.current_application
         ActiveRecord::Base.transaction do
           if preference.blank?
             current_application.preferences.create!(**preference_attributes)
@@ -15,7 +16,7 @@ module CandidateInterface
           PreferencesEmail.call(preference: current_application.reload.published_preference)
           wizard.clear_state
         end
-        state_store.write(current_application_id: wizard.current_application.id)
+        state_store.write(current_application_id: current_application.id)
 
         { success: true }
       end
