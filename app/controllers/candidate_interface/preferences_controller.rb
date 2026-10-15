@@ -140,7 +140,7 @@ module CandidateInterface
                      candidate_interface_new_preferences_path(step: :publish)
                    elsif @wizard.previous_step_path.present?
                      @wizard.previous_step_path
-                   elsif request.referer.include?('course-choices')
+                   elsif request.referer&.include?('course-choices')
                      candidate_interface_application_choices_path
                    elsif request.referer.present?
                      request.referer
