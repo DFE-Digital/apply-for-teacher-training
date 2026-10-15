@@ -37,7 +37,7 @@ RSpec.describe CandidateMailer do
         'You are receiving this email because you chose to share your application details with training providers.',
       )
       expect(email.body).to have_text(
-        "[You can change your preferences](#{candidate_interface_draft_preference_publish_preferences_url(application_form.published_preference)})",
+        "[You can change your preferences](#{candidate_interface_edit_preferences_url(step: :publish)})",
       )
     end
   end

@@ -1,7 +1,7 @@
 module CandidateInterface
   class PreferencesController < CandidateInterfaceController
     before_action :assign_wizard
-    before_action :clear_wizard
+    before_action :clear_wizard, only: %i[new edit]
     before_action :assign_location_preference_attributes
     before_action :set_back_link
 
@@ -140,6 +140,10 @@ module CandidateInterface
                      candidate_interface_new_preferences_path(step: :publish)
                    elsif @wizard.previous_step_path.present?
                      @wizard.previous_step_path
+                   elsif request.referer.include?('course-choices')
+                     candidate_interface_application_choices_path
+                   elsif request.referer.present?
+                     request.referer
                    else
                      candidate_interface_new_preferences_path(step: :opt_in)
                    end
