@@ -37,7 +37,7 @@ RSpec.describe 'Candidate submits application with feedback form previously comp
   end
 
   def and_i_see_the_preference_opt_in_page_and_success_message
-    expect(page).to have_current_path(new_candidate_interface_pool_opt_in_path(submit_application: true))
+    expect(page).to have_current_path(candidate_interface_new_preferences_path(step: :opt_in))
     expect(page).to have_text('Application submitted')
   end
 end

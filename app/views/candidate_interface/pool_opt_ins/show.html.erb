@@ -15,9 +15,7 @@
     <p class="govuk-body">
       <%= govuk_link_to(
         t('.change_preferences'),
-        candidate_interface_draft_preference_publish_preferences_path(
-          current_application.published_preference,
-        ),
+        candidate_interface_edit_preferences_path(step: :publish),
       ) %>
     </p>
 
