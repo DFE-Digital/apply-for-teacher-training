@@ -268,6 +268,7 @@ private
       expect(page).to have_text @provider_user.full_name
       expect(page).to have_text 'In-house developers'
       expect(page).to have_text 'Never'
+      expect(page).to have_text 'NA'
       expect(page).to have_text 'Active'
     end
   end
@@ -282,6 +283,7 @@ private
       expect(page).to have_text @provider_user.full_name
       expect(page).to have_text 'Tribal'
       expect(page).to have_text 'Never'
+      expect(page).to have_text 'NA'
       expect(page).to have_text 'Active'
     end
   end
@@ -292,6 +294,7 @@ private
       expect(page).to have_text @provider_user.full_name
       expect(page).to have_text 'In-house developers'
       expect(page).to have_text 'Never'
+      expect(page).to have_text 'NA'
       expect(page).to have_text 'Revoked'
       expect(page).to have_text 'Revoked on'
       expect(page).to have_text 'Revoked by'

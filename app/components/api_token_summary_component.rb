@@ -20,6 +20,7 @@ class APITokenSummaryComponent < ApplicationComponent
         hash[t('.provider')] = token.provider.name_and_code if interface == 'support'
         hash[t('.token_for')] = token.vendor_name
         hash[t('.last_used_on')] = last_used_at
+        hash[t('.api_version')] = token.api_version || 'NA'
         hash[t('.status')] = {
           field_value: token.status.capitalize,
           action: revoke_token,
@@ -33,6 +34,7 @@ class APITokenSummaryComponent < ApplicationComponent
         hash[t('.provider')] = token.provider.name_and_code if interface == 'support'
         hash[t('.token_for')] = token.vendor_name
         hash[t('.last_used_on')] = last_used_at
+        hash[t('.api_version')] = token.api_version || 'NA'
       end
     when 'revoked'
       {}.tap do |hash|
@@ -41,6 +43,7 @@ class APITokenSummaryComponent < ApplicationComponent
         hash[t('.provider')] = token.provider.name_and_code if interface == 'support'
         hash[t('.token_for')] = token.vendor_name
         hash[t('.last_used_on')] = last_used_at
+        hash[t('.api_version')] = token.api_version || 'NA'
         hash[t('.status')] = {
           field_value: token.status.capitalize,
           action: revoke_token,
