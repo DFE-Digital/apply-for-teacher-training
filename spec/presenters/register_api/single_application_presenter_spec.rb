@@ -682,7 +682,8 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
       ).find { |q| q[:subject] == 'science triple award' }
 
       expect(qualification[:id]).to eq 4
-      expect(qualification[:grade]).to eq 'ABC'
+      # According to our docs, they are listed in the order: Biology, Physics, Chemistry, config/vendor_api/v1.0.yml
+      expect(qualification[:grade]).to eq 'ACB'
     end
 
     it 'parses English GCSE structured grades' do
