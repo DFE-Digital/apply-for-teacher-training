@@ -45,6 +45,7 @@ module CandidateInterface
             name: location_name,
             latitude: location_coordinates(location_name)&.latitude,
             longitude: location_coordinates(location_name)&.longitude,
+            provider_id: lp[:provider_id],
           )
         end
       end

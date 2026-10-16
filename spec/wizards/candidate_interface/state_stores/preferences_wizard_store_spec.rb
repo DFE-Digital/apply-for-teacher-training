@@ -69,7 +69,7 @@ RSpec.describe CandidateInterface::StateStores::PreferencesWizardStore, type: :m
       before { state_store.write(pool_status: 'opt_in') }
 
       it 'returns true' do
-        expect(state_store.opt_in?).to eq(true)
+        expect(state_store.opt_in?).to be(true)
       end
     end
 
@@ -77,7 +77,7 @@ RSpec.describe CandidateInterface::StateStores::PreferencesWizardStore, type: :m
       before { state_store.write(pool_status: 'opt_out') }
 
       it 'returns false' do
-        expect(state_store.opt_in?).to eq(false)
+        expect(state_store.opt_in?).to be(false)
       end
     end
   end
@@ -87,7 +87,7 @@ RSpec.describe CandidateInterface::StateStores::PreferencesWizardStore, type: :m
       before { state_store.write(pool_status: 'opt_in') }
 
       it 'returns false' do
-        expect(state_store.opt_out?).to eq(false)
+        expect(state_store.opt_out?).to be(false)
       end
     end
 
@@ -95,7 +95,7 @@ RSpec.describe CandidateInterface::StateStores::PreferencesWizardStore, type: :m
       before { state_store.write(pool_status: 'opt_out') }
 
       it 'returns true' do
-        expect(state_store.opt_out?).to eq(true)
+        expect(state_store.opt_out?).to be(true)
       end
     end
   end
@@ -105,7 +105,7 @@ RSpec.describe CandidateInterface::StateStores::PreferencesWizardStore, type: :m
       before { state_store.write(training_locations: 'anywhere') }
 
       it 'returns true' do
-        expect(state_store.training_locations_anywhere?).to eq(true)
+        expect(state_store.training_locations_anywhere?).to be(true)
       end
     end
 
@@ -113,7 +113,7 @@ RSpec.describe CandidateInterface::StateStores::PreferencesWizardStore, type: :m
       before { state_store.write(training_locations: 'specific') }
 
       it 'returns false' do
-        expect(state_store.training_locations_anywhere?).to eq(false)
+        expect(state_store.training_locations_anywhere?).to be(false)
       end
     end
   end
@@ -123,7 +123,7 @@ RSpec.describe CandidateInterface::StateStores::PreferencesWizardStore, type: :m
       before { state_store.write(training_locations: 'specific') }
 
       it 'returns true' do
-        expect(state_store.training_locations_specific?).to eq(true)
+        expect(state_store.training_locations_specific?).to be(true)
       end
     end
 
@@ -131,7 +131,7 @@ RSpec.describe CandidateInterface::StateStores::PreferencesWizardStore, type: :m
       before { state_store.write(training_locations: 'anywhere') }
 
       it 'returns false' do
-        expect(state_store.training_locations_specific?).to eq(false)
+        expect(state_store.training_locations_specific?).to be(false)
       end
     end
   end
@@ -146,7 +146,7 @@ RSpec.describe CandidateInterface::StateStores::PreferencesWizardStore, type: :m
         before { state_store.write(training_locations: 'anywhere') }
 
         it 'returns true' do
-          expect(state_store.only_salaried_courses_and_anywhere?).to eq(true)
+          expect(state_store.only_salaried_courses_and_anywhere?).to be(true)
         end
       end
 
@@ -154,18 +154,18 @@ RSpec.describe CandidateInterface::StateStores::PreferencesWizardStore, type: :m
         before { state_store.write(training_locations: 'specific') }
 
         it 'returns false' do
-          expect(state_store.only_salaried_courses_and_anywhere?).to eq(false)
+          expect(state_store.only_salaried_courses_and_anywhere?).to be(false)
         end
       end
     end
 
-    context 'when the candidate has applied to only salaried courses' do
+    context 'when the candidate has not applied to only salaried courses' do
       before do
         allow(candidate).to receive(:applied_only_to_salaried_courses?).and_return(false)
       end
 
       it 'returns false' do
-        expect(state_store.only_salaried_courses_and_anywhere?).to eq(false)
+        expect(state_store.only_salaried_courses_and_anywhere?).to be(false)
       end
     end
   end
@@ -179,7 +179,7 @@ RSpec.describe CandidateInterface::StateStores::PreferencesWizardStore, type: :m
 
     context 'when locations preferences have been set' do
       let(:location_preference_list) do
-        [{uid: 'abc123', within: 10, location_name: 'Bristol'}]
+        [{ uid: 'abc123', within: 10, location_name: 'Bristol' }]
       end
 
       before { state_store.write(location_preference_list:) }
@@ -195,7 +195,7 @@ RSpec.describe CandidateInterface::StateStores::PreferencesWizardStore, type: :m
       before { state_store.write(dynamic_location_preferences: 'true') }
 
       it 'returns true' do
-        expect(state_store.dynamic_location_preferences?).to eq(true)
+        expect(state_store.dynamic_location_preferences?).to be(true)
       end
     end
 
@@ -203,7 +203,7 @@ RSpec.describe CandidateInterface::StateStores::PreferencesWizardStore, type: :m
       before { state_store.write(dynamic_location_preferences: 'false') }
 
       it 'returns false' do
-        expect(state_store.dynamic_location_preferences?).to eq(false)
+        expect(state_store.dynamic_location_preferences?).to be(false)
       end
     end
   end
@@ -215,13 +215,13 @@ RSpec.describe CandidateInterface::StateStores::PreferencesWizardStore, type: :m
       end
 
       it 'returns true' do
-        expect(state_store.any_notifications?).to eq(true)
+        expect(state_store.any_notifications?).to be(true)
       end
     end
 
     context 'when the application form has no notifications' do
       it 'returns true' do
-        expect(state_store.any_notifications?).to eq(false)
+        expect(state_store.any_notifications?).to be(false)
       end
     end
   end
