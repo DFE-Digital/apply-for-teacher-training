@@ -5,8 +5,8 @@ default: &default
       concurrency_maintenance_interval: 300
   workers:
     - queues: [high_priority, default, low_priority]
-      threads: <%= ENV.fetch("DEFAULT_QUEUE_THREADS", 1) %>
-      processes: <%= ENV.fetch("DEFAULT_QUEUE_PROCESSES", 1) %>
+      threads: <%= ENV.fetch("DEFAULT_QUEUE_THREADS", 3) %>
+      processes: <%= ENV.fetch("DEFAULT_QUEUE_PROCESSES", 3) %>
       polling_interval: 1
 
     - queues: [mailers]

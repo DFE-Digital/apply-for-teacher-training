@@ -1,0 +1,16 @@
+<%= render 'support_interface/providers/providers_navigation', title: 'Providers' %>
+
+<%= render(
+  SupportInterface::ProviderRecruitmentReportsComponent.new(
+    statistics: @statistics,
+    provider_data: @provider_data,
+    provider_report: @provider_report,
+    provider_edi_reports: @provider_edi_reports,
+    report_type: @report_type,
+    provider: @provider,
+    region: @region,
+    current_timetable: @current_timetable,
+    recruitment_cycle_year: @recruitment_cycle_year,
+    return_to: 'reports',
+  )
+) %>

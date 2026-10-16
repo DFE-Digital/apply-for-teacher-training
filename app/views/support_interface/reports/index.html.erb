@@ -1,0 +1,18 @@
+<%= render 'support_interface/providers/providers_navigation', title: 'Providers' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t('page_titles.provider.reports') %>
+    </h1>
+
+    <%= render(
+      SupportInterface::ReportsComponent.new(
+        provider: Provider.first,
+        current_timetable: @current_timetable,
+        previous_timetable: @previous_timetable,
+        view: 'reports',
+      )
+    ) %>
+  </div>
+</div>

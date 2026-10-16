@@ -9,6 +9,7 @@
 
 <%= render 'support_interface/providers/lacks_admin_users_warning' %>
 
+<% report_paths = ['provider-recruitment-report', 'status-of-active-applications', 'withdrawal-reasons-report'] %>
 <%= render TabNavigationComponent.new(items: [
   { name: 'Details', url: support_interface_provider_path },
   { name: 'Applications', url: support_interface_provider_applications_path },
@@ -19,7 +20,7 @@
   { name: 'Vacancies', url: support_interface_provider_vacancies_path },
   { name: 'Sites', url: support_interface_provider_sites_path },
   { name: 'History', url: support_interface_provider_history_path },
-  { name: t('page_titles.recruitment_performance_report'), url: support_interface_provider_recruitment_report_path },
+  { name: 'Reports', url: support_interface_provider_reports_path, current: report_paths.any?{|path| request.path.include?(path)} },
 ]) %>
 
 <h2 class="govuk-visually-hidden"><%= title %></h2>

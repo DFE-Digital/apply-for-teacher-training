@@ -172,6 +172,10 @@ namespace :support_interface, path: '/support' do
     get '/user/new' => 'single_provider_users#new', as: :new_single_provider_user
     post '/user' => 'single_provider_users#create', as: :create_single_provider_user
 
+    get '/reports' => 'provider_reports#index', as: :provider_reports
+
+    resource :status_of_active_applications, only: :show, path: 'status-of-active-applications'
+    resource :withdrawal_reasons_report, only: :show, path: 'withdrawal-reasons-report'
     resource :provider_recruitment_report, only: :show, path: 'provider-recruitment-report'
     resources :regional_report_filters, only: %i[new create], path: 'regional-report-filter'
 
@@ -239,6 +243,14 @@ namespace :support_interface, path: '/support' do
         get :download
       end
     end
+  end
+
+  resources :reports, only: [:index]
+
+  namespace :reports do
+    resource :status_of_active_applications, only: :show, path: 'status-of-active-applications'
+    resource :withdrawal_reasons_report, only: :show, path: 'withdrawal-reasons-report'
+    resource :provider_recruitment_report, only: :show, path: 'provider-recruitment-report'
   end
 
   get '/email-log', to: 'email_log#index', as: :email_log

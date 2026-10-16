@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::ReportTableComponent do
+RSpec.describe ReportTableComponent do
   let(:headers) { ['Course', 'Received', 'Interviewing', 'Offered', 'Awaiting conditions', 'Ready to enrol'] }
   let(:data) do
     {
