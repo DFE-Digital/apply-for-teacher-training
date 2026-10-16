@@ -19,19 +19,19 @@ RSpec.describe 'Previous teacher training' do
     and_i_see_a_link_to_add_another_previous_teacher_training
     and_i_see_the_existing_previous_teacher_training_details
 
-    when_i_click('Add another previous teacher training course')
+    when_i_click('Add another course')
     and_previous_teacher_training_created
     then_i_am_on_the_provider_name_page
     when_i_input_provider_name
-    then_i_click('Continue')
+    then_i_click('Save and continue')
 
     then_i_am_on_the_dates_page
     when_i_input_training_dates
-    then_i_click('Continue')
+    then_i_click('Save and continue')
 
     then_i_am_on_the_details_page
     when_i_input_details
-    then_i_click('Continue')
+    then_i_click('Save and continue')
 
     then_i_am_on_the_previous_teacher_trainings_page
     and_i_see_the_new_previous_teacher_training_details
@@ -54,6 +54,8 @@ RSpec.describe 'Previous teacher training' do
 
     when_i_visit_the_edit_provider_name_page_for_the_previous_teacher_training
   end
+
+private
 
   def and_there_are_providers_to_select
     create(:course, :open, provider: create(:provider, name: 'test provider'))
@@ -84,7 +86,7 @@ RSpec.describe 'Previous teacher training' do
     within('#started-declaration') do
       expect(page).to have_element(
         :dt,
-        text: 'Have you started an initial teacher training (ITT) course in England before?',
+        text: 'Have you started an initial teacher training (ITT) course in England that you did not finish or pass?',
         class: 'govuk-summary-list__key',
       )
       expect(page).to have_element(:dd, text: 'Yes', class: 'govuk-summary-list__value')
@@ -94,11 +96,11 @@ RSpec.describe 'Previous teacher training' do
   def and_i_see_the_existing_previous_teacher_training_details
     summary_list = [
       {
-        label: 'Name of the training provider',
+        label: 'Training provider',
         value: @existing_previous_teacher_training.provider_name,
       },
       {
-        label: 'Training dates',
+        label: 'Course dates',
         value: @existing_previous_teacher_training.formatted_dates,
       },
       {
@@ -152,7 +154,7 @@ RSpec.describe 'Previous teacher training' do
   end
 
   def when_i_input_provider_name
-    select 'test provider', from: 'Name of the training provider'
+    select 'test provider', from: 'Enter the name of the training provider'
   end
 
   def then_i_am_on_the_dates_page
@@ -177,17 +179,17 @@ RSpec.describe 'Previous teacher training' do
   end
 
   def when_i_input_details
-    fill_in('Give details about any previous teacher training courses', with: 'details')
+    fill_in('Give details about this initial teacher training (ITT) course', with: 'details')
   end
 
   def and_i_see_the_new_previous_teacher_training_details
     summary_list = [
       {
-        label: 'Name of the training provider',
+        label: 'Training provider',
         value: 'test provider',
       },
       {
-        label: 'Training dates',
+        label: 'Course dates',
         value: 'From January 2005 to January 2006',
       },
       {
@@ -223,7 +225,7 @@ RSpec.describe 'Previous teacher training' do
 
   def and_i_see_a_link_to_add_another_previous_teacher_training
     expect(page).to have_link(
-      'Add another previous teacher training course',
+      'Add another course',
       href: create_candidate_interface_previous_teacher_trainings_path(
         candidate_interface_previous_teacher_trainings_start_form: { started: 'yes' },
       ),
