@@ -2,18 +2,13 @@ require 'rails_helper'
 
 RSpec.describe EndOfCycle::NextYearFullSync do
   describe '#perform' do
-    before do
-      allow(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-        .to receive(:perform_later).with(false, next_year)
-    end
-
     context 'after find has closed' do
       it 'does not enqueue the job' do
         travel_temporarily_to(1.second.after(current_timetable.find_closes_at)) do
           described_class.new.perform
 
           expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-            .not_to have_received(:perform_later)
+            .not_to have_been_enqueued
         end
       end
     end
@@ -27,7 +22,7 @@ RSpec.describe EndOfCycle::NextYearFullSync do
           described_class.new.perform
 
           expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-            .not_to have_received(:perform_later)
+            .not_to have_been_enqueued
         end
       end
     end
@@ -41,7 +36,7 @@ RSpec.describe EndOfCycle::NextYearFullSync do
           described_class.new.perform
 
           expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-            .to have_received(:perform_later).with(false, next_year)
+            .to have_been_enqueued.with(false, next_year)
         end
       end
     end

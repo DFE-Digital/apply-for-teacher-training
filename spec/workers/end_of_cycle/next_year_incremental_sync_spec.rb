@@ -2,11 +2,6 @@ require 'rails_helper'
 
 RSpec.describe EndOfCycle::NextYearIncrementalSync do
   describe '#perform' do
-    before do
-      allow(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-        .to receive(:perform_later).with(true, next_year)
-    end
-
     context 'before full sync start start time' do
       it 'does not enqueue the job' do
         start_syncing_after = 2.weeks.before(current_timetable.apply_deadline_at).change(hour: 0o0, min: 4)
@@ -16,7 +11,7 @@ RSpec.describe EndOfCycle::NextYearIncrementalSync do
           described_class.new.perform
 
           expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-            .not_to have_received(:perform_later)
+            .not_to have_been_enqueued
         end
       end
     end
@@ -27,7 +22,7 @@ RSpec.describe EndOfCycle::NextYearIncrementalSync do
           described_class.new.perform
 
           expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-            .not_to have_received(:perform_later)
+            .not_to have_been_enqueued
         end
       end
     end
@@ -41,7 +36,7 @@ RSpec.describe EndOfCycle::NextYearIncrementalSync do
           described_class.new.perform
 
           expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker)
-            .to have_received(:perform_later).with(true, next_year)
+            .to have_been_enqueued.with(true, next_year)
         end
       end
     end

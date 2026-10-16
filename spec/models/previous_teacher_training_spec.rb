@@ -116,12 +116,11 @@ RSpec.describe PreviousTeacherTraining do
       end
 
       it 'enqueues a NonDisclosureTraineeWithdrawalWorker' do
-        allow(NonDisclosureTraineeWithdrawalWorker).to receive(:perform_later)
         previous_teacher_training.make_published
 
         expect(
           NonDisclosureTraineeWithdrawalWorker,
-        ).to have_received(:perform_later).with(application_form.candidate.id)
+        ).to have_been_enqueued.with(application_form.candidate.id)
       end
 
       context 'when the previous teacher training has a duplicate record' do

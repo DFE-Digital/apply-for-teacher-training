@@ -31,11 +31,9 @@ module FindACandidate
             sent_to_candidate_at: 25.hours.ago,
             application_form: second_application_form,
           )
-          allow(SendChaserWorker).to receive(:perform_later)
-
           described_class.new.perform
 
-          expect(SendChaserWorker).to have_received(:perform_later).twice
+          expect(SendChaserWorker).to have_been_enqueued.twice
         end
       end
 
@@ -58,11 +56,9 @@ module FindACandidate
           )
           create(:chaser_sent, chased: invite_1, chaser_type: 'pool_invite')
           create(:chaser_sent, chased: invite_2, chaser_type: 'pool_invite')
-          allow(SendChaserWorker).to receive(:perform_later)
-
           described_class.new.perform
 
-          expect(SendChaserWorker).to have_received(:perform_later).once
+          expect(SendChaserWorker).to have_been_enqueued.once
         end
       end
 
@@ -84,11 +80,9 @@ module FindACandidate
 
           create(:chaser_sent, chased: invite_1, chaser_type: 'pool_invite')
           create(:chaser_sent, chased: invite_2, chaser_type: 'pool_invite')
-          allow(SendChaserWorker).to receive(:perform_later)
-
           described_class.new.perform
 
-          expect(SendChaserWorker).not_to have_received(:perform_later)
+          expect(SendChaserWorker).not_to have_been_enqueued
         end
       end
 
@@ -109,11 +103,9 @@ module FindACandidate
             application_form:,
             recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
           )
-          allow(SendChaserWorker).to receive(:perform_later)
-
           described_class.new.perform
 
-          expect(SendChaserWorker).not_to have_received(:perform_later)
+          expect(SendChaserWorker).not_to have_been_enqueued
         end
       end
 
@@ -122,11 +114,9 @@ module FindACandidate
           application_form = create(:application_form, :completed)
           create(:pool_invite, application_form:)
           create(:pool_invite, application_form:)
-          allow(SendChaserWorker).to receive(:perform_later)
-
           described_class.new.perform
 
-          expect(SendChaserWorker).not_to have_received(:perform_later)
+          expect(SendChaserWorker).not_to have_been_enqueued
         end
       end
 
@@ -145,11 +135,9 @@ module FindACandidate
             candidate_decision: 'accepted',
             sent_to_candidate_at: 25.hours.ago,
           )
-          allow(SendChaserWorker).to receive(:perform_later)
-
           described_class.new.perform
 
-          expect(SendChaserWorker).not_to have_received(:perform_later)
+          expect(SendChaserWorker).not_to have_been_enqueued
         end
       end
 
@@ -168,11 +156,9 @@ module FindACandidate
             sent_to_candidate_at: 25.hours.ago,
             application_form:,
           )
-          allow(SendChaserWorker).to receive(:perform_later)
-
           described_class.new.perform
 
-          expect(SendChaserWorker).not_to have_received(:perform_later)
+          expect(SendChaserWorker).not_to have_been_enqueued
         end
       end
     end

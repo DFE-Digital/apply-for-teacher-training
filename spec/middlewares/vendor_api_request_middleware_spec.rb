@@ -19,14 +19,13 @@ RSpec.describe VendorAPIRequestMiddleware, type: :request do
 
   before do
     mock_app
-    allow(VendorAPIRequestWorker).to receive(:perform_later)
   end
 
   describe '#call on a non-API path' do
     it 'does not enqueue a background job' do
       get '/api/v2'
 
-      expect(VendorAPIRequestWorker).not_to have_received(:perform_later)
+      expect(VendorAPIRequestWorker).not_to have_been_enqueued
     end
   end
 
@@ -34,7 +33,7 @@ RSpec.describe VendorAPIRequestMiddleware, type: :request do
     it 'enqueues a worker job' do
       get '/api/v1/applications/1', params: { foo: 'bar' }
 
-      expect(VendorAPIRequestWorker).to have_received(:perform_later).with(
+      expect(VendorAPIRequestWorker).to have_been_enqueued.with(
         hash_including('path' => '/api/v1/applications/1', 'params' => { 'foo' => 'bar' }, 'method' => 'GET'), anything, 401, anything
       )
     end
@@ -44,7 +43,7 @@ RSpec.describe VendorAPIRequestMiddleware, type: :request do
     it 'enqueues a worker job' do
       get '/api/v1.1/applications/1', params: { foo: 'bar' }
 
-      expect(VendorAPIRequestWorker).to have_received(:perform_later).with(
+      expect(VendorAPIRequestWorker).to have_been_enqueued.with(
         hash_including('path' => '/api/v1.1/applications/1', 'params' => { 'foo' => 'bar' }, 'method' => 'GET'), anything, 401, anything
       )
     end
@@ -54,7 +53,7 @@ RSpec.describe VendorAPIRequestMiddleware, type: :request do
     it 'enqueues a worker job including post data' do
       post '/api/v1/applications/1/offer', as: :json, params: { foo: 'bar' }
 
-      expect(VendorAPIRequestWorker).to have_received(:perform_later).with(
+      expect(VendorAPIRequestWorker).to have_been_enqueued.with(
         hash_including('path' => '/api/v1/applications/1/offer', 'body' => '{"foo":"bar"}', 'method' => 'POST'), anything, 401, anything
       )
     end

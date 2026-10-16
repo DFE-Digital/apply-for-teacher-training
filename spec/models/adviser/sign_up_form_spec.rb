@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Adviser::SignUpForm do
-  before do
-    allow(AdviserSignUpWorker).to receive(:perform_later)
-  end
-
   let(:application_form) { create(:completed_application_form, :with_domestic_adviser_qualifications) }
 
   let(:preferred_teaching_subject) { create(:adviser_teaching_subject) }
@@ -42,7 +38,7 @@ RSpec.describe Adviser::SignUpForm do
 
     it 'enqueues an AdviserSignUpWorker job' do
       sign_up_form.save
-      expect(AdviserSignUpWorker).to have_received(:perform_later)
+      expect(AdviserSignUpWorker).to have_been_enqueued
     end
 
     it 'sets adviser_status to waiting_to_be_assigned' do
@@ -61,7 +57,7 @@ RSpec.describe Adviser::SignUpForm do
       it 'does not enqueue a AdviserSignUpWorker job' do
         sign_up_form.save
 
-        expect(AdviserSignUpWorker).not_to have_received(:perform_later)
+        expect(AdviserSignUpWorker).not_to have_been_enqueued
       end
 
       it 'does not change adviser_status' do

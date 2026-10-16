@@ -65,11 +65,9 @@ RSpec.describe RejectApplication do
     end
 
     it 'emails the candidate' do
-      allow(CandidateMailers::SendRejectionEmailWorker).to receive(:perform_later).and_return(true)
-
       service.save
 
-      expect(CandidateMailers::SendRejectionEmailWorker).to have_received(:perform_later).with(application_choice.id)
+      expect(CandidateMailers::SendRejectionEmailWorker).to have_been_enqueued.with(application_choice.id)
     end
 
     it 'returns true if the call was successful' do
