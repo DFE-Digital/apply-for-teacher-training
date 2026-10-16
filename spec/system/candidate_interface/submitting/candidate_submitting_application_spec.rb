@@ -265,7 +265,7 @@ RSpec.describe 'Candidate submits the application' do
   end
 
   def then_i_am_redirected_to_preference_opt_in_form
-    expect(page).to have_current_path(new_candidate_interface_pool_opt_in_path(submit_application: true))
+    expect(page).to have_current_path(candidate_interface_new_preferences_path(step: :opt_in))
 
     expect(page).to have_text('Application submitted')
     expect(page).to have_text('Do you want to be invited to similar courses?')

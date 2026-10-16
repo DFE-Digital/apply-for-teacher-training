@@ -29,11 +29,11 @@ class CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent < Applica
   end
 
   def candidate_interface_candidate_preferences_review_path
-    return new_candidate_interface_pool_opt_in_path unless application_form.published_preference
+    return candidate_interface_new_preferences_path(step: :opt_in) unless application_form.published_preference
 
-    return candidate_interface_draft_preference_publish_preferences_path(application_form.published_preference) if application_form.published_preference_opt_in?
+    return candidate_interface_edit_preferences_path(step: :publish) if application_form.published_preference_opt_in?
 
-    edit_candidate_interface_pool_opt_in_path(application_form.published_preference)
+    candidate_interface_edit_preferences_path(step: :opt_in)
   end
 
 private
