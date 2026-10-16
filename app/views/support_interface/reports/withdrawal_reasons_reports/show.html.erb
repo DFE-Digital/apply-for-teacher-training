@@ -1,0 +1,11 @@
+<%= render 'support_interface/providers/providers_navigation', title: 'Providers' %>
+
+<div class="govuk-grid-row">
+  <%= render(
+    SupportInterface::WithdrawalReasonsReportsComponent.new(
+      provider_report: @provider_report,
+      withdrawal_reason_report: @withdrawal_reason_report,
+      view: 'reports',
+    )
+  ) %>
+</div>

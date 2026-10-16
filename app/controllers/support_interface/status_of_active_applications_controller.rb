@@ -1,5 +1,7 @@
 module SupportInterface
   class StatusOfActiveApplicationsController < SupportInterfaceController
+    include CSVNameHelper
+
     before_action :set_provider
 
     def show

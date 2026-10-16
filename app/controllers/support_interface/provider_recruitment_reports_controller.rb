@@ -1,5 +1,7 @@
 module SupportInterface
   class ProviderRecruitmentReportsController < SupportInterfaceController
+    before_action :set_cycle_year
+    before_action :verify_recruitment_cycle
     before_action :set_provider
     before_action :set_region
 
@@ -82,6 +84,19 @@ module SupportInterface
         .where(provider: @provider)
         .order(:recruitment_cycle_year, :cycle_week)
         .last
+    end
+
+    def verify_recruitment_cycle
+      unless @recruitment_cycle_year == RecruitmentCycleTimetable.current_year ||
+             @recruitment_cycle_year == RecruitmentCycleTimetable.previous_year
+        redirect_to support_interface_root_path
+      end
+    end
+
+    def set_cycle_year
+      #FIX THIS
+      @recruitment_cycle_year ||= params.permit(:recruitment_cycle_year)[:recruitment_cycle_year]&.to_i ||
+                                  params[:publications_provider_recruitment_performance_report][:recruitment_cycle_year]&.to_i
     end
   end
 end

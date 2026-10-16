@@ -11,7 +11,21 @@ module SupportInterface
       @view = view
     end
 
-    def active_application_link
+    def path_to_current_recruitment_performance
+      if view == 'reports'
+        support_interface_reports_provider_recruitment_report_path(
+          provider_id: provider.id,
+          recruitment_cycle_year: current_timetable.recruitment_cycle_year,
+        )
+      else
+        support_interface_provider_recruitment_report_path(
+          provider,
+          recruitment_cycle_year: current_timetable.recruitment_cycle_year,
+        )
+      end
+    end
+
+    def path_to_active_application
       if view == 'reports'
         support_interface_reports_status_of_active_applications_path(
           provider_id: provider.id,
@@ -23,7 +37,7 @@ module SupportInterface
       end
     end
 
-    def withdrawal_report_link
+    def path_to_withdrawal_report
       if view == 'reports'
         support_interface_reports_withdrawal_reasons_report_path(
           provider_id: provider.id,
@@ -35,7 +49,7 @@ module SupportInterface
       end
     end
 
-    def recruitment_performance_link
+    def path_to_previous_recruitment_performance
       if view == 'reports'
         support_interface_reports_provider_recruitment_report_path(
           provider_id: provider.id,

@@ -1,0 +1,12 @@
+<%= render 'support_interface/providers/providers_navigation', title: 'Providers' %>
+
+<div class="govuk-grid-row">
+  <%= render(
+    SupportInterface::StatusOfActiveApplicationsComponent.new(
+      provider_report: @provider_report,
+      provider: @provider,
+      active_application_status_data: @active_application_status_data,
+      view: 'reports',
+    )
+  ) %>
+</div>

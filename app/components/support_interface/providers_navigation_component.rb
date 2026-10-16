@@ -22,7 +22,7 @@ module SupportInterface
     end
 
     def reports?
-      request.path.include?('recruitment-performance-report') ||
+      request.path.include?('provider-recruitment-report') ||
         request.path.include?('status-of-active-applications') ||
         request.path.include?('withdrawal-reasons-report')
     end

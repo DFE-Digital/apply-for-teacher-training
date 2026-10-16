@@ -1,0 +1,129 @@
+<% if statistics.present? && provider_data.present? && provider_edi_reports %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l"><%= t('.title', cycle_year: @recruitment_cycle_year) %></h1>
+
+      <% if return_to == 'reports' %>
+        <%= form_with model: provider_report, url: '', method: :get do |f| %>
+          <div data-controller='submit-on-click'>
+            <%= f.govuk_collection_select(
+              :provider_id,
+              Provider.all,
+              :id,
+              :name,
+              label: { size: 's', text: 'Select provider' },
+              data: {
+                action: 'click->submit-on-click#call',
+                submit_on_click_target: 'input',
+              },
+            ) %>
+            <%= f.hidden_field :recruitment_cycle_year, value: @recruitment_cycle_year %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Export data (ZIP)', support_interface_provider_recruitment_report_path(provider_id: provider, region:, format: :zip) %>
+      </p>
+      <% unless RecruitmentPerformanceReportTimetable.report_season? %>
+        <p class="govuk-body govuk-!-font-weight-bold"><%= t('.not_available_yet_to_providers', first_publication_date: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:govuk_date)) %></p>
+      <% end %>
+    </div>
+
+    <%= render(
+      RecruitmentPerformanceReport::ReportMethodologyComponent.new(
+        provider_report: provider_report,
+        region: region,
+        comparison_link: new_support_interface_regional_report_filter_path(
+          provider,
+          region:,
+          return_to: return_to.presence,
+          recruitment_cycle_year:,
+        ),
+      ),
+    ) %>
+    <%= render RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(
+      provider, provider_data, statistics, report_type:, region:
+    ) %>
+    <%= render RecruitmentPerformanceReport::CandidatesWithOffersTableComponent.new(
+      provider, provider_data, statistics, report_type:, region:
+    ) %>
+    <%= render RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent.new(
+      provider, provider_data, statistics, report_type:, region:
+    ) %>
+    <%= render RecruitmentPerformanceReport::OffersAcceptedTableComponent.new(
+      provider, provider_data, statistics, report_type:, region:
+    ) %>
+    <%= render RecruitmentPerformanceReport::DeferralsTableComponent.new(
+      provider, provider_data, statistics, report_type:, region:
+    ) %>
+    <%= render RecruitmentPerformanceReport::CandidatesRejectedTableComponent.new(
+      provider, provider_data, statistics, report_type:, region:
+    ) %>
+    <%= render RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(
+      provider, provider_data, statistics, report_type:, region:
+    ) %>
+
+    <%= render RecruitmentPerformanceReport::EdiReportDescription.new(
+      provider_report:,
+    ) %>
+
+    <%= render RecruitmentPerformanceReport::AgeGroupComponent.new(
+      provider:,
+      edi_reports: provider_edi_reports,
+      region:,
+    ) %>
+
+    <%= render RecruitmentPerformanceReport::DisabilityComponent.new(
+      provider: provider,
+      edi_reports: provider_edi_reports,
+      region:
+    ) %>
+
+    <%= render RecruitmentPerformanceReport::DisabilityDeclarationComponent.new(
+      provider:,
+      edi_reports: provider_edi_reports,
+      region:,
+    ) %>
+
+    <%= render RecruitmentPerformanceReport::EthnicGroupComponent.new(
+      provider:,
+      edi_reports: provider_edi_reports,
+      region:,
+    ) %>
+
+    <%= render RecruitmentPerformanceReport::SexComponent.new(
+      provider:,
+      edi_reports: provider_edi_reports,
+      region:,
+    ) %>
+  </div>
+<% else %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l"><%= t('.title', cycle_year: @recruitment_cycle_year) %></h1>
+
+      <%= govuk_link_to(
+        'Set your comparison area',
+        new_support_interface_regional_report_filter_path(
+          provider,
+          return_to: return_to.presence,
+          region:,
+          recruitment_cycle_year:,
+        ),
+        class: 'govuk-button govuk-button--secondary',
+      ) %>
+
+      <% if RecruitmentPerformanceReportTimetable.report_season? %>
+        <p class="govuk-body"><%= t('.not_ready_to_view') %></p>
+      <% else %>
+        <%= t(
+              '.available_in_the_future_html',
+              current_cycle_range: current_timetable.cycle_range_name,
+              first_publication_date: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:govuk_date),
+              first_publication_date_no_year: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:day_and_month),
+            ) %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
