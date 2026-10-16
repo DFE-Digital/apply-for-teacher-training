@@ -14,7 +14,6 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
     and_i_have_an_eligible_application
     and_the_adviser_sign_up_feature_flag_is_enabled
     and_the_get_into_teaching_api_is_accepting_sign_ups
-    and_adviser_sign_up_jobs_can_be_enqueued
     and_i_visit_your_details_page
 
     when_i_click_on_the_adviser_cta
@@ -59,10 +58,6 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   def and_the_get_into_teaching_api_is_accepting_sign_ups
     @api_double = instance_double(GetIntoTeachingApiClient::TeacherTrainingAdviserApi, :sign_up_teacher_training_adviser_candidate, matchback_candidate: nil)
     allow(GetIntoTeachingApiClient::TeacherTrainingAdviserApi).to receive(:new) { @api_double }
-  end
-
-  def and_adviser_sign_up_jobs_can_be_enqueued
-    allow(AdviserSignUpWorker).to receive(:perform_later)
   end
 
   def and_i_have_an_eligible_application
@@ -117,7 +112,7 @@ RSpec.describe 'Candidate signs up for an adviser', :js do
   end
 
   def and_an_adviser_sign_up_job_is_enqueued
-    expect(AdviserSignUpWorker).to have_received(:perform_later).once
+    expect(AdviserSignUpWorker).to have_been_enqueued.once
     expect(Adviser::SignUpRequest.last).to have_attributes(application_form: @application_form)
   end
 

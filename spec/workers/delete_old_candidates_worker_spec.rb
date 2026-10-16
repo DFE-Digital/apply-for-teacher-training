@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe DeleteOldCandidatesWorker do # rubocop:disable RSpec/MultipleDescribes
-  before do
-    allow(DeleteCandidatesWorker).to receive(:perform_later)
-  end
-
   describe '#perform' do
     it 'enqueus job to delete old candidate' do
       candidate = create(:candidate, last_signed_in_at: 8.years.ago)
@@ -12,7 +8,7 @@ RSpec.describe DeleteOldCandidatesWorker do # rubocop:disable RSpec/MultipleDesc
       described_class.new.perform
       expect(
         DeleteCandidatesWorker,
-      ).to have_received(:perform_later).with([candidate.id])
+      ).to have_been_enqueued.with([candidate.id])
     end
   end
 end

@@ -59,14 +59,11 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses do
       let(:stubbed_api_course_state) { 'published' }
 
       it 'does not add visa_sponsorship_application_deadline_at value to course' do
-        allow(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
-          receive(:perform_later),
-        )
         perform_job
 
         expect(provider.courses.where.not(visa_sponsorship_application_deadline_at: nil).count).to eq 0
         expect(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).not_to(
-          have_received(:perform_later),
+          have_been_enqueued,
         )
       end
     end
@@ -76,16 +73,13 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses do
       let(:stubbed_sponsorship_application_deadline_at) { 2.days.from_now }
 
       it 'saves the visa_sponsorship_application_deadline_at value to course' do
-        allow(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
-          receive(:perform_later),
-        )
         perform_job
 
         expect(provider.courses.where.not(visa_sponsorship_application_deadline_at: nil).first.visa_sponsorship_application_deadline_at)
           .to be_within(1.second)
                 .of(stubbed_sponsorship_application_deadline_at)
         expect(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).not_to(
-          have_received(:perform_later),
+          have_been_enqueued,
         )
       end
     end
@@ -166,16 +160,12 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses do
       }
 
       it 'updates the course to open including the invite' do
-        allow(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
-          receive(:perform_later),
-        )
-
         expect { perform_job }.not_to change(Course, :count)
         expect(course.reload.open?).to be(true)
         expect(course.reload.course_status_open?).to be(true)
         expect(invite.reload.course_open).to be(true)
         expect(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
-          have_received(:perform_later).with(course.id),
+          have_been_enqueued.with(course.id),
         )
       end
     end
@@ -203,13 +193,10 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses do
       }
 
       it 'sends emails to candidates that applied for this course' do
-        allow(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
-          receive(:perform_later),
-        )
         perform_job
 
         expect(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
-          have_received(:perform_later).with(course.id),
+          have_been_enqueued.with(course.id),
         )
       end
     end
@@ -237,13 +224,10 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses do
       }
 
       it 'does not send emails to candidates that applied for this course' do
-        allow(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
-          receive(:perform_later),
-        )
         perform_job
 
         expect(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).not_to(
-          have_received(:perform_later).with(course.id),
+          have_been_enqueued.with(course.id),
         )
       end
     end
@@ -271,13 +255,10 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses do
       }
 
       it 'does not send emails to candidates that applied for this course' do
-        allow(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).to(
-          receive(:perform_later),
-        )
         perform_job
 
         expect(CandidateMailers::EnqueueVisaSponsorshipDeadlineChangeWorker).not_to(
-          have_received(:perform_later).with(course.id),
+          have_been_enqueued.with(course.id),
         )
       end
     end

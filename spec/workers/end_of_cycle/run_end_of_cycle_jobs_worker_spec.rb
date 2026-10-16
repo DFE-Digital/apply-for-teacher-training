@@ -1,29 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
-  before do
-    allow(EndOfCycle::CancelUnsubmittedApplicationsWorker).to receive(:perform_later).with(true)
-    allow(EndOfCycle::CloseCoursesOnInvites).to receive(:perform_later).with(true)
-    allow(EndOfCycle::RejectByDefaultWorker).to receive(:perform_later).with(true)
-    allow(EndOfCycle::CancelReferenceRequestsWorker).to receive(:perform_later)
-    allow(EndOfCycle::DeclineByDefaultWorker).to receive(:perform_later).with(true)
-    allow(EndOfCycle::WinterRejectByDefaultWorker).to receive(:perform_later).with(true)
-    allow(EndOfCycle::WinterDeclineByDefaultWorker).to receive(:perform_later).with(true)
-  end
-
   describe '#perform' do
     context 'in mid-cycle' do
       it 'does not run any jobs' do
         date = current_timetable.apply_opens_at + 2.months
         travel_temporarily_to(date) do
           described_class.new.perform
-          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).not_to have_received(:perform_later)
-          expect(EndOfCycle::CloseCoursesOnInvites).not_to have_received(:perform_later)
-          expect(EndOfCycle::RejectByDefaultWorker).not_to have_received(:perform_later)
-          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_later)
-          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_later)
-          expect(EndOfCycle::WinterRejectByDefaultWorker).not_to have_received(:perform_later)
-          expect(EndOfCycle::WinterDeclineByDefaultWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).not_to have_been_enqueued
+          expect(EndOfCycle::CloseCoursesOnInvites).not_to have_been_enqueued
+          expect(EndOfCycle::RejectByDefaultWorker).not_to have_been_enqueued
+          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_been_enqueued
+          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_been_enqueued
+          expect(EndOfCycle::WinterRejectByDefaultWorker).not_to have_been_enqueued
+          expect(EndOfCycle::WinterDeclineByDefaultWorker).not_to have_been_enqueued
         end
       end
     end
@@ -34,15 +24,15 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
         travel_temporarily_to(date) do
           described_class.new.perform
           # The winter jobs from the previous year will run
-          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_received(:perform_later)
-          expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_received(:perform_later)
+          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_been_enqueued
+          expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_been_enqueued
           # These jobs run on the apply deadline
-          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_later).with(true)
-          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_later).with(true)
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_been_enqueued.with(true)
+          expect(EndOfCycle::CloseCoursesOnInvites).to have_been_enqueued.with(true)
           # Not these
-          expect(EndOfCycle::RejectByDefaultWorker).not_to have_received(:perform_later)
-          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_later)
-          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::RejectByDefaultWorker).not_to have_been_enqueued
+          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_been_enqueued
+          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_been_enqueued
         end
       end
     end
@@ -53,16 +43,16 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
         travel_temporarily_to(date) do
           described_class.new.perform
           # The winter jobs from the previous year will run
-          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_received(:perform_later)
-          expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_received(:perform_later)
+          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_been_enqueued
+          expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_been_enqueued
           # These jobs run on the apply deadline
-          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_later).with(true)
-          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_later).with(true)
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_been_enqueued.with(true)
+          expect(EndOfCycle::CloseCoursesOnInvites).to have_been_enqueued.with(true)
           # And the reject by default worker
-          expect(EndOfCycle::RejectByDefaultWorker).to have_received(:perform_later).with(true)
+          expect(EndOfCycle::RejectByDefaultWorker).to have_been_enqueued.with(true)
           # Not these
-          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_later)
-          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_been_enqueued
+          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_been_enqueued
         end
       end
     end
@@ -73,16 +63,16 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
         travel_temporarily_to(date) do
           described_class.new.perform
           # The winter jobs from the previous year will run
-          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_received(:perform_later)
-          expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_received(:perform_later)
+          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_been_enqueued
+          expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_been_enqueued
           # Apply deadline jobs
-          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_received(:perform_later).with(true)
-          expect(EndOfCycle::CloseCoursesOnInvites).to have_received(:perform_later).with(true)
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).to have_been_enqueued.with(true)
+          expect(EndOfCycle::CloseCoursesOnInvites).to have_been_enqueued.with(true)
           # And the reject by default worker
-          expect(EndOfCycle::RejectByDefaultWorker).to have_received(:perform_later).with(true)
+          expect(EndOfCycle::RejectByDefaultWorker).to have_been_enqueued.with(true)
           # And the decline by default worker related jobs
-          expect(EndOfCycle::DeclineByDefaultWorker).to have_received(:perform_later).with(true)
-          expect(EndOfCycle::CancelReferenceRequestsWorker).to have_received(:perform_later)
+          expect(EndOfCycle::DeclineByDefaultWorker).to have_been_enqueued.with(true)
+          expect(EndOfCycle::CancelReferenceRequestsWorker).to have_been_enqueued
         end
       end
     end
@@ -93,15 +83,15 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
         travel_temporarily_to(date) do
           described_class.new.perform
           # The winter reject by default worker will run
-          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_received(:perform_later)
+          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_been_enqueued
           # But not the winter decline by default worker
-          expect(EndOfCycle::WinterDeclineByDefaultWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::WinterDeclineByDefaultWorker).not_to have_been_enqueued
           # Or anything else
-          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).not_to have_received(:perform_later).with(true)
-          expect(EndOfCycle::CloseCoursesOnInvites).not_to have_received(:perform_later).with(true)
-          expect(EndOfCycle::RejectByDefaultWorker).not_to have_received(:perform_later).with(true)
-          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_later).with(true)
-          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).not_to have_been_enqueued.with(true)
+          expect(EndOfCycle::CloseCoursesOnInvites).not_to have_been_enqueued.with(true)
+          expect(EndOfCycle::RejectByDefaultWorker).not_to have_been_enqueued.with(true)
+          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_been_enqueued.with(true)
+          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_been_enqueued
         end
       end
     end
@@ -112,14 +102,14 @@ RSpec.describe EndOfCycle::RunEndOfCycleJobsWorker do
         travel_temporarily_to(date) do
           described_class.new.perform
           # Both winter jobs run
-          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_received(:perform_later)
-          expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_received(:perform_later)
+          expect(EndOfCycle::WinterRejectByDefaultWorker).to have_been_enqueued
+          expect(EndOfCycle::WinterDeclineByDefaultWorker).to have_been_enqueued
           # But nothing else
-          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).not_to have_received(:perform_later).with(true)
-          expect(EndOfCycle::CloseCoursesOnInvites).not_to have_received(:perform_later).with(true)
-          expect(EndOfCycle::RejectByDefaultWorker).not_to have_received(:perform_later).with(true)
-          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_received(:perform_later).with(true)
-          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_received(:perform_later)
+          expect(EndOfCycle::CancelUnsubmittedApplicationsWorker).not_to have_been_enqueued.with(true)
+          expect(EndOfCycle::CloseCoursesOnInvites).not_to have_been_enqueued.with(true)
+          expect(EndOfCycle::RejectByDefaultWorker).not_to have_been_enqueued.with(true)
+          expect(EndOfCycle::DeclineByDefaultWorker).not_to have_been_enqueued.with(true)
+          expect(EndOfCycle::CancelReferenceRequestsWorker).not_to have_been_enqueued
         end
       end
     end

@@ -45,7 +45,6 @@ RSpec.describe WithdrawOffer do
     end
 
     it 'sends an email to the candidate' do
-      allow(CandidateMailers::SendWithdrawnOfferEmailWorker).to receive(:perform_later).and_return(true)
       application_choice = create(:application_choice, status: :offer)
       withdrawal_reason = 'We messed up big time'
 
@@ -55,7 +54,7 @@ RSpec.describe WithdrawOffer do
         offer_withdrawal_reason: withdrawal_reason,
       ).save
 
-      expect(CandidateMailers::SendWithdrawnOfferEmailWorker).to have_received(:perform_later).with(application_choice.id)
+      expect(CandidateMailers::SendWithdrawnOfferEmailWorker).to have_been_enqueued.with(application_choice.id)
     end
   end
 end

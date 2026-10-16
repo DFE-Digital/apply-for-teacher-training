@@ -20,13 +20,11 @@ RSpec.describe SupportInterface::NotifySendRequest do
     let(:notify_request) { create(:notify_send_request) }
 
     before do
-      allow(Support::SendNotifyTemplateWithAttachmentWorker).to receive(:perform_later)
-
       send_emails
     end
 
     it 'triggers a Support::SendNotifyTemplateWithAttachmentWorker' do
-      expect(Support::SendNotifyTemplateWithAttachmentWorker).to have_received(:perform_later)
+      expect(Support::SendNotifyTemplateWithAttachmentWorker).to have_been_enqueued
         .with(
           notify_request.id,
         ).once

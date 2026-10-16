@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Generating new data exports', :with_audited do
   include DfESignInHelpers
 
-  scenario 'When the export type has not been deprecated' do
+  scenario 'When the export type has not been deprecated', run_jobs: false do
     given_i_am_signed_in_as_a_support_user
     and_i_go_to_the_data_export_page
     and_i_click_on_an_active_export_type
@@ -40,10 +40,9 @@ private
   end
 
   def and_i_can_enqueue_an_export
-    allow(DataExporter).to receive(:perform_later)
     click_on 'Generate new export'
 
-    expect(DataExporter).to have_received(:perform_later)
+    expect(DataExporter).to have_been_enqueued
     expect(page).to have_text 'This export is being generated. Refresh the page to see if it completed.'
   end
 
