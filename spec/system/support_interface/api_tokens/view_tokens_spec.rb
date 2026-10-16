@@ -26,7 +26,7 @@ RSpec.describe 'API tokens' do
     provider_1 = create(:provider, name: 'Provider 1', vendor: vendor_1)
     provider_2 = create(:provider, name: 'Provider 2', vendor: vendor_2)
 
-    create(:vendor_api_token, provider: provider_1, description: 'Token for Provider 1', last_used_at: 1.month.ago)
+    create(:vendor_api_token, provider: provider_1, description: 'Token for Provider 1', last_used_at: 1.month.ago, api_version: '1.8')
     create(:vendor_api_token, provider: provider_2, description: 'Token for Provider 2')
   end
 

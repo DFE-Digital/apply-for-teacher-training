@@ -14,6 +14,7 @@ FactoryBot.define do
 
     trait :with_last_used_at do
       last_used_at { 2.days.ago }
+      api_version { '1.8' }
     end
   end
 end

@@ -1,5 +1,7 @@
 module VendorAPI
   module APIValidationsAndErrorHandling
+    include Versioning
+
     extend ActiveSupport::Concern
 
     NOT_FOUND_MODEL_MAPPINGS = {
@@ -25,7 +27,12 @@ module VendorAPI
     end
 
     def require_valid_api_token!
-      return @current_vendor_api_token.update!(last_used_at: Time.zone.now) if valid_api_token?
+      if valid_api_token?
+        return @current_vendor_api_token.update!(
+          last_used_at: Time.zone.now,
+          api_version: version_number,
+        )
+      end
 
       raise ProviderAuthorisation::NotAuthorisedError, 'Please provide a valid authentication token'
     end
