@@ -625,7 +625,7 @@ module CandidateHelper
 
   def candidate_fills_in_previous_teacher_training
     choose('No')
-    click_link_or_button('Continue')
+    click_link_or_button('Save and continue')
     choose('Yes, I have completed this section')
     click_link_or_button('Continue')
   end

@@ -71,11 +71,11 @@ RSpec.describe PreviousTeacherTraining::ListComponent do
           href: "/candidate/previous-teacher-training/#{previous_teacher_training.id}/remove",
         )
         expect(previous_teacher_training_card).to have_link(
-          'Change the name of the training provider',
+          'Change training provider',
           href: "/candidate/previous-teacher-training/#{previous_teacher_training.id}/provider-name/new?return_to=review",
         )
         expect(previous_teacher_training_card).to have_link(
-          'Change training dates',
+          'Change course dates',
           href: "/candidate/previous-teacher-training/#{previous_teacher_training.id}/training-dates/new?return_to=review",
         )
         expect(previous_teacher_training_card).to have_link(
@@ -100,7 +100,7 @@ RSpec.describe PreviousTeacherTraining::ListComponent do
 
     expect(previous_teacher_training_card).to have_element(
       :dt,
-      text: 'Name of the training provider',
+      text: 'Training provider',
       class: 'govuk-summary-list__key',
     )
     expect(previous_teacher_training_card).to have_element(
@@ -110,7 +110,7 @@ RSpec.describe PreviousTeacherTraining::ListComponent do
     )
     expect(previous_teacher_training_card).to have_element(
       :dt,
-      text: 'Training dates',
+      text: 'Course dates',
       class: 'govuk-summary-list__key',
     )
     expect(previous_teacher_training_card).to have_element(

@@ -14,11 +14,11 @@ RSpec.describe 'Edit previous teacher training' do
     when_i_go_to_the_details_page
     and_the_previous_teacher_training_is_completed
     when_i_click('Previous teacher training')
-    and_i_click('Change whether you started a teacher training course before')
+    and_i_click('Change whether you started a teacher training course in England that you did not finish or pass')
 
     then_i_am_on_the_start_page
     when_i_choose('No')
-    and_i_click('Continue')
+    and_i_click('Save and continue')
 
     then_i_am_on_the_review_page_with_started_no
     when_i_choose('No, I’ll come back to it later')
@@ -33,11 +33,11 @@ RSpec.describe 'Edit previous teacher training' do
     when_i_go_to_the_details_page
     and_the_previous_teacher_training_is_completed
     when_i_click('Previous teacher training')
-    and_i_click('Change the name of the training provider')
+    and_i_click('Change training provider')
 
     then_i_am_on_the_provider_name_page
     when_i_input_provider_name
-    and_i_click('Continue')
+    and_i_click('Save and continue')
 
     then_i_am_on_the_review_page
     when_i_choose('No, I’ll come back to it later')
@@ -52,11 +52,11 @@ RSpec.describe 'Edit previous teacher training' do
     when_i_go_to_the_details_page
     and_the_previous_teacher_training_is_completed
     when_i_click('Previous teacher training')
-    and_i_click('Change training dates')
+    and_i_click('Change course dates')
 
     then_i_am_on_the_dates_page
     when_i_input_training_dates
-    and_i_click('Continue')
+    and_i_click('Save and continue')
 
     then_i_am_on_the_review_page
     when_i_choose('No, I’ll come back to it later')
@@ -75,7 +75,7 @@ RSpec.describe 'Edit previous teacher training' do
 
     then_i_am_on_the_details_page
     when_i_input_details
-    and_i_click('Continue')
+    and_i_click('Save and continue')
 
     then_i_am_on_the_review_page
     when_i_choose('No, I’ll come back to it later')
@@ -83,6 +83,8 @@ RSpec.describe 'Edit previous teacher training' do
     and_the_previous_teacher_training_is_not_completed
     and_the_previous_teacher_training_id_is_changed
   end
+
+private
 
   def and_the_necessary_data_is_in_place
     provider = create(:provider, name: 'test provider')
@@ -132,13 +134,13 @@ RSpec.describe 'Edit previous teacher training' do
       ignore_query: true,
     )
     expect(page).to have_select(
-      'Name of the training provider',
+      'Enter the name of the training provider',
       selected: @previous_teacher_training.provider_name,
     )
   end
 
   def when_i_input_provider_name
-    select 'test provider', from: 'Name of the training provider'
+    select 'test provider', from: 'Enter the name of the training provider'
   end
 
   def then_i_am_on_the_dates_page
@@ -163,7 +165,7 @@ RSpec.describe 'Edit previous teacher training' do
   end
 
   def when_i_input_details
-    fill_in('Give details about any previous teacher training courses', with: 'some details')
+    fill_in('Give details about this initial teacher training (ITT) course', with: 'some details')
   end
 
   def then_i_am_on_the_review_page
@@ -172,11 +174,11 @@ RSpec.describe 'Edit previous teacher training' do
     published_record = @application_form.published_previous_teacher_trainings.last
     summary_list = [
       {
-        label: 'Name of the training provider',
+        label: 'Training provider',
         value: published_record.provider_name,
       },
       {
-        label: 'Training dates',
+        label: 'Course dates',
         value: "From #{published_record.started_at.to_fs(:month_and_year)} " \
                "to #{published_record.ended_at.to_fs(:month_and_year)}",
       },
@@ -189,7 +191,7 @@ RSpec.describe 'Edit previous teacher training' do
     within('#started-declaration') do
       expect(page).to have_element(
         :dt,
-        text: 'Have you started an initial teacher training (ITT) course in England before?',
+        text: 'Have you started an initial teacher training (ITT) course in England that you did not finish or pass?',
         class: 'govuk-summary-list__key',
       )
       expect(page).to have_element(
@@ -215,7 +217,7 @@ RSpec.describe 'Edit previous teacher training' do
     published_record = @application_form.published_previous_teacher_trainings.last
     summary_list = [
       {
-        label: 'Have you started an initial teacher training (ITT) course in England before?',
+        label: 'Have you started an initial teacher training (ITT) course in England that you did not finish or pass?',
         value: published_record.started.capitalize,
       },
     ]

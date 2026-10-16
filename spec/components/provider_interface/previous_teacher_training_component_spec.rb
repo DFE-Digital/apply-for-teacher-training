@@ -18,7 +18,7 @@ RSpec.describe ProviderInterface::PreviousTeacherTrainingComponent do
         # PreviousTeacherTraining::StartedDeclarationComponent
         expect(rendered_component).to have_element(
           :dt,
-          text: 'Have you started an initial teacher training (ITT) course in England before?',
+          text: 'Have you started an initial teacher training (ITT) course in England that you did not finish or pass?',
           class: 'govuk-summary-list__key',
         )
         expect(rendered_component).to have_element(
@@ -31,7 +31,7 @@ RSpec.describe ProviderInterface::PreviousTeacherTrainingComponent do
 
         expect(rendered_component).to have_element(
           :dt,
-          text: 'Name of the training provider',
+          text: 'Training provider',
           class: 'govuk-summary-list__key',
         )
         expect(rendered_component).to have_element(
@@ -41,7 +41,7 @@ RSpec.describe ProviderInterface::PreviousTeacherTrainingComponent do
         )
         expect(rendered_component).to have_element(
           :dt,
-          text: 'Training dates',
+          text: 'Course dates',
           class: 'govuk-summary-list__key',
         )
         expect(rendered_component).to have_element(
