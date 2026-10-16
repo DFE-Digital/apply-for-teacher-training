@@ -628,6 +628,7 @@ shared:
     - description
     - vendor_id
     - discarded_at
+    - api_version
   :withdrawal_reasons:
     - id
     - reason
