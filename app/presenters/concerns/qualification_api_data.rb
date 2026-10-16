@@ -126,7 +126,7 @@ module QualificationAPIData
     if qualification.subject.eql?(ApplicationQualification::SCIENCE_TRIPLE_AWARD) && qualification.constituent_grades
       constituent_grades = qualification.constituent_grades
 
-      return "#{constituent_grades['biology']['grade']}#{constituent_grades['chemistry']['grade']}#{constituent_grades['physics']['grade']}"
+      return "#{constituent_grades['biology']['grade']}#{constituent_grades['physics']['grade']}#{constituent_grades['chemistry']['grade']}"
     elsif qualification.grade
       return qualification.predicted_grade ? "#{qualification.grade} (Predicted)" : qualification.grade
     end

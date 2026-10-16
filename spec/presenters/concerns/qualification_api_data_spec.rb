@@ -183,7 +183,8 @@ RSpec.describe QualificationAPIData do
         gcse = qualification_for(presenter, :gcses, qualification.subject)
 
         expect(gcse[:id]).to eq 4
-        expect(gcse[:grade]).to eq 'ABC'
+        # According to our docs, they are listed in the order: Biology, Physics, Chemistry, config/vendor_api/v1.0.yml
+        expect(gcse[:grade]).to eq 'ACB'
       end
     end
 
