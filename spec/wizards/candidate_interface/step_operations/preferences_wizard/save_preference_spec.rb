@@ -98,15 +98,15 @@ RSpec.describe CandidateInterface::StepOperations::PreferencesWizard::SavePrefer
           bristol_location_preference = location_preferences.first
           expect(bristol_location_preference.name).to eq('Bristol')
           expect(bristol_location_preference.within).to eq(20.0)
-          expect(bristol_location_preference.latitude.to_s).to eq('0.534706519e2')
-          expect(bristol_location_preference.longitude.to_s).to eq('-0.22954452e1')
+          expect(bristol_location_preference.latitude.to_s).to eq('53.4706519')
+          expect(bristol_location_preference.longitude.to_s).to eq('-2.2954452')
           expect(bristol_location_preference.provider_id).to eq(provider.id)
 
           london_location_preference = location_preferences.last
           expect(london_location_preference.name).to eq('London')
           expect(london_location_preference.within).to eq(10.0)
-          expect(london_location_preference.latitude.to_s).to eq('0.534706519e2')
-          expect(london_location_preference.longitude.to_s).to eq('-0.22954452e1')
+          expect(london_location_preference.latitude.to_s).to eq('53.4706519')
+          expect(london_location_preference.longitude.to_s).to eq('-2.2954452')
           expect(london_location_preference.provider_id).to be_nil
         end
       end
@@ -175,15 +175,15 @@ RSpec.describe CandidateInterface::StepOperations::PreferencesWizard::SavePrefer
           bristol_location_preference = location_preferences.first
           expect(bristol_location_preference.name).to eq('Bristol')
           expect(bristol_location_preference.within).to eq(20.0)
-          expect(bristol_location_preference.latitude.to_s).to eq('0.534706519e2')
-          expect(bristol_location_preference.longitude.to_s).to eq('-0.22954452e1')
+          expect(bristol_location_preference.latitude.to_s).to eq('53.4706519')
+          expect(bristol_location_preference.longitude.to_s).to eq('-2.2954452')
           expect(bristol_location_preference.provider_id).to eq(provider.id)
 
           london_location_preference = location_preferences.last
           expect(london_location_preference.name).to eq('London')
           expect(london_location_preference.within).to eq(10.0)
-          expect(london_location_preference.latitude.to_s).to eq('0.534706519e2')
-          expect(london_location_preference.longitude.to_s).to eq('-0.22954452e1')
+          expect(london_location_preference.latitude.to_s).to eq('53.4706519')
+          expect(london_location_preference.longitude.to_s).to eq('-2.2954452')
           expect(london_location_preference.provider_id).to be_nil
         end
       end
