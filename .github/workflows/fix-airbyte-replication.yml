@@ -1,0 +1,61 @@
+name: Fix Airbyte Replication
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to fix
+        required: true
+        default: production
+        type: choice
+        options:
+          - production
+      dry-run:
+        description: Check slot status only do not create slot
+        required: false
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+  schedule: # hourly every Sunday midnight until 9am
+    - cron: '0 0-9 * * 0'
+
+permissions:
+  id-token: write
+
+env:
+  SERVICE_NAME: apply
+  SERVICE_SHORT: att
+  TF_VARS_PATH: terraform/aks/workspace_variables
+
+jobs:
+  fix-replication:
+    name: Fix Airbyte replication slot
+    runs-on: ubuntu-latest
+    environment:
+      name: 'production'
+    env:
+      DEPLOY_ENV: 'production'
+      DRY_RUN: 'false'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v7
+
+    - name: Set environment variables
+      run: |
+        tf_vars_file=${TF_VARS_PATH}/${DEPLOY_ENV}.tfvars.json
+        echo "CLUSTER=$(jq -r '.cluster' ${tf_vars_file})" >> $GITHUB_ENV
+        echo "NAMESPACE=$(jq -r '.namespace' ${tf_vars_file})" >> $GITHUB_ENV
+
+    - name: Fix Airbyte replication slot
+      uses: DFE-Digital/github-actions/fix-airbyte-replication-slot@master
+      with:
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        app-name: ${{ env.SERVICE_NAME }}-${{ env.DEPLOY_ENV }}
+        namespace: ${{ env.NAMESPACE }}
+        cluster: ${{ env.CLUSTER }}
+        dry-run: ${{ env.DRY_RUN }}
