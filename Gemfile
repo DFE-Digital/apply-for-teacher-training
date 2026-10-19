@@ -174,7 +174,7 @@ group :test do
   gem 'super_diff'
   gem 'test_suite_time_machine', '~> 2.0'
   gem 'timecop'
-  gem 'webmock', '~> 3.26'
+  gem 'webmock', '~> 3.29'
 end
 
 group :development, :test do
