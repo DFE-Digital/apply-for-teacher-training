@@ -29,7 +29,7 @@ jobs:
       DEPLOY_ENV: ${{ inputs.environment }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install kubectl
         uses: DFE-Digital/github-actions/set-kubectl@master
