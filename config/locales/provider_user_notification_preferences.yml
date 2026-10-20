@@ -12,5 +12,7 @@ en:
       legend: Offer declined
     reference_received:
       legend: Reference received
+    technical_updates:
+      legend: Technical updates
     marketing_emails:
       legend: Marketing emails
