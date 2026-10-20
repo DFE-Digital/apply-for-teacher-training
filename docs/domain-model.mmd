@@ -804,6 +804,7 @@ erDiagram
 		string first_name
 		string last_name
 		datetime last_signed_in_at
+		enum role
 	}
 	TextCondition {
 	}
@@ -1004,9 +1005,9 @@ erDiagram
 	ProviderUser ||--}o ProviderPoolAction : ""
 	ProviderUser o|--}o Note : ""
 	ProviderUser ||--}o RegionalReportFilter : ""
+	ProviderUser ||--}o ProviderUserContentTemplate : ""
 	ProviderUser ||--}o ProviderUserFilter : ""
 	ProviderUser ||--|o ProviderUserNotificationPreferences : ""
-	ProviderUser ||--}o ProviderUserContentTemplate : ""
 	"Publications::NationalRecruitmentPerformanceReport" o|--|o RecruitmentCycleTimetable : ""
 	"Publications::ProviderEdiReport" o|--|o RecruitmentCycleTimetable : ""
 	Provider ||--}o "Publications::ProviderEdiReport" : ""
