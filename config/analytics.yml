@@ -66,6 +66,9 @@ shared:
     - updated_at
     - email_address
     - unsubscribed_from_emails
+    - fraud_match_id
+    - submission_blocked
+    - account_locked
   pool_invites:
     - id
     - candidate_id

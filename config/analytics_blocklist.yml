@@ -439,9 +439,6 @@
   - updated_at
   :candidates:
   - magic_link_token
-  - fraud_match_id
-  - submission_blocked
-  - account_locked
   :provider_user_filters:
   - id
   - provider_user_id

@@ -496,6 +496,21 @@
             "fieldPath": [
               "unsubscribed_from_emails"
             ]
+          },
+          {
+            "fieldPath": [
+              "fraud_match_id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "submission_blocked"
+            ]
+          },
+          {
+            "fieldPath": [
+              "account_locked"
+            ]
           }
         ]
       },
