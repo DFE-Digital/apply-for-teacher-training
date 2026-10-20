@@ -3420,6 +3420,11 @@
             "fieldPath": [
               "marketing_emails"
             ]
+          },
+          {
+            "fieldPath": [
+              "technical_updates"
+            ]
           }
         ]
       },

@@ -624,6 +624,7 @@ erDiagram
 		boolean offer_accepted
 		boolean offer_declined
 		boolean reference_received
+		boolean technical_updates
 	}
 	"Publications::MonthlyStatistics::MonthlyStatisticsReport" {
 		date generation_date
@@ -1004,9 +1005,9 @@ erDiagram
 	ProviderUser ||--}o ProviderPoolAction : ""
 	ProviderUser o|--}o Note : ""
 	ProviderUser ||--}o RegionalReportFilter : ""
+	ProviderUser ||--}o ProviderUserContentTemplate : ""
 	ProviderUser ||--}o ProviderUserFilter : ""
 	ProviderUser ||--|o ProviderUserNotificationPreferences : ""
-	ProviderUser ||--}o ProviderUserContentTemplate : ""
 	"Publications::NationalRecruitmentPerformanceReport" o|--|o RecruitmentCycleTimetable : ""
 	"Publications::ProviderEdiReport" o|--|o RecruitmentCycleTimetable : ""
 	Provider ||--}o "Publications::ProviderEdiReport" : ""
