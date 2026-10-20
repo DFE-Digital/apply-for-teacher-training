@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_14_160707) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_20_122835) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1010,6 +1010,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_160707) do
     t.boolean "offer_declined", default: true, null: false
     t.bigint "provider_user_id", null: false
     t.boolean "reference_received", default: true
+    t.boolean "technical_updates", default: true, null: false
     t.datetime "updated_at", null: false
     t.index ["provider_user_id"], name: "index_provider_user_notifications_on_provider_user_id"
   end

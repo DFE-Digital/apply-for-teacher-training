@@ -502,6 +502,7 @@ shared:
     - provider_user_id
     - updated_at
     - marketing_emails
+    - technical_updates
   provider_users:
     - created_at
     - dfe_sign_in_uid
