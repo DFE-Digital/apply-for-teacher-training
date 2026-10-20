@@ -3,7 +3,7 @@ module SupportInterface
     Region = Data.define(:label, :value)
     include ActiveModel::Model
 
-    attr_accessor :region
+    attr_accessor :region, :recruitment_cycle_year
     validates :region, presence: true
 
     def options

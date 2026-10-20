@@ -1,5 +1,7 @@
 module SupportInterface
   class ProviderRecruitmentReportsController < SupportInterfaceController
+    before_action :set_cycle_year
+    before_action :verify_recruitment_cycle
     before_action :set_provider
     before_action :set_region
 
@@ -32,9 +34,32 @@ module SupportInterface
           end
         end
       end
+
+      @comparison_link = new_support_interface_regional_report_filter_path(
+        @provider,
+        region: @region,
+        recruitment_cycle_year: @recruitment_cycle_year,
+      )
+      @provider_recruitment_component = ProviderRecruitmentReportsComponent.new(
+        statistics: @statistics,
+        provider_data: @provider_data,
+        provider_report: @provider_report,
+        provider_edi_reports: @provider_edi_reports,
+        report_type: @report_type,
+        provider: @provider,
+        region: @region,
+        comparison_link: @comparison_link,
+        reports_ready: reports_ready?,
+      )
     end
 
   private
+
+    def reports_ready?
+      @statistics.present? &&
+        @provider_data.present? &&
+        @provider_edi_reports.present?
+    end
 
     def exporter
       @exporter ||= RecruitmentPerformanceReportExport.new(
@@ -78,10 +103,21 @@ module SupportInterface
     end
 
     def latest_report
-      Publications::ProviderRecruitmentPerformanceReport
-        .where(provider: @provider)
-        .order(:recruitment_cycle_year, :cycle_week)
+      @latest_report ||= Publications::ProviderRecruitmentPerformanceReport
+        .where(provider: @provider, recruitment_cycle_year: @recruitment_cycle_year)
+        .order(:cycle_week)
         .last
+    end
+
+    def verify_recruitment_cycle
+      unless @recruitment_cycle_year == RecruitmentCycleTimetable.current_year ||
+             @recruitment_cycle_year == RecruitmentCycleTimetable.previous_year
+        redirect_to support_interface_root_path
+      end
+    end
+
+    def set_cycle_year
+      @recruitment_cycle_year ||= params.permit(:recruitment_cycle_year)[:recruitment_cycle_year]&.to_i
     end
   end
 end

@@ -1,0 +1,94 @@
+<%= render RecruitmentPerformanceReport::ReportMethodologyComponent.new(
+  provider_report:,
+  comparison_link:,
+) %>
+<%= render RecruitmentPerformanceReport::SubmittedApplicationsTableComponent.new(
+  provider,
+  provider_data,
+  statistics,
+  report_type:,
+  region:,
+  recruitment_cycle_year: provider_report.recruitment_cycle_year,
+) %>
+<%= render RecruitmentPerformanceReport::CandidatesWithOffersTableComponent.new(
+  provider,
+  provider_data,
+  statistics,
+  report_type:,
+  region:,
+  recruitment_cycle_year: provider_report.recruitment_cycle_year,
+) %>
+<%= render RecruitmentPerformanceReport::ProportionCandidatesWithOffersTableComponent.new(
+  provider,
+  provider_data,
+  statistics,
+  report_type:,
+  region:,
+  recruitment_cycle_year: provider_report.recruitment_cycle_year,
+) %>
+<%= render RecruitmentPerformanceReport::OffersAcceptedTableComponent.new(
+  provider,
+  provider_data,
+  statistics,
+  report_type:,
+  region:,
+  recruitment_cycle_year: provider_report.recruitment_cycle_year,
+) %>
+<%= render RecruitmentPerformanceReport::DeferralsTableComponent.new(
+  provider,
+  provider_data,
+  statistics,
+  report_type:,
+  region:,
+  recruitment_cycle_year: provider_report.recruitment_cycle_year,
+) %>
+<%= render RecruitmentPerformanceReport::CandidatesRejectedTableComponent.new(
+  provider,
+  provider_data,
+  statistics,
+  report_type:,
+  region:,
+  recruitment_cycle_year: provider_report.recruitment_cycle_year,
+) %>
+<%= render RecruitmentPerformanceReport::ProportionWithInactiveApplicationsTableComponent.new(
+  provider,
+  provider_data,
+  statistics,
+  report_type:,
+  region:,
+  recruitment_cycle_year: provider_report.recruitment_cycle_year,
+) %>
+
+<%= render RecruitmentPerformanceReport::EdiReportDescription.new(
+  provider_report:,
+) %>
+
+<%= render RecruitmentPerformanceReport::AgeGroupComponent.new(
+  provider:,
+  edi_reports: provider_edi_reports,
+  region:,
+) %>
+
+<%= render RecruitmentPerformanceReport::DisabilityComponent.new(
+  provider:,
+  edi_reports: provider_edi_reports,
+  region:,
+) %>
+
+<%= render RecruitmentPerformanceReport::DisabilityDeclarationComponent.new(
+  provider:,
+  edi_reports: provider_edi_reports,
+  region:,
+) %>
+
+<%= render RecruitmentPerformanceReport::EthnicGroupComponent.new(
+  provider:,
+  edi_reports: provider_edi_reports,
+  region:,
+) %>
+
+<%= render RecruitmentPerformanceReport::SexComponent.new(
+  provider:,
+  edi_reports: provider_edi_reports,
+  region:,
+) %>

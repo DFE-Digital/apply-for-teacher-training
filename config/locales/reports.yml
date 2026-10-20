@@ -1,0 +1,16 @@
+en:
+  reports:
+    provider_recruitment_reports:
+      not_ready_to_view: This report is not ready to view.
+      not_available_yet_to_providers: These reports are not available to providers until %{first_publication_date}.
+    withdrawal_reasons_reports:
+      report_description: This report shows the reasons for withdrawal selected by candidates from a set list. The question is mandatory and candidates can select more than one reason.
+      report_not_visible_html:
+        <p class="govuk-body">You will be able to see this report when it contains data from at least 10 candidates. This is to protect the privacy of candidates. Candidates can select more than one reason for withdrawing so the number of reasons in this report may not match the number of candidates who have withdrawn.</p>
+        <p class="govuk-body">The report shows data from candidates who withdrew their application and selected their reason from a set list. This question is mandatory.</p>
+      withdrawal_report_link_text: 'withdrawal reasons'
+      table_caption: Withdrawal reason report data
+      withdrawal_reason: Withdrawal reason
+      before_accepting: Before accepting
+      after_accepting: After accepting
+      total: Total

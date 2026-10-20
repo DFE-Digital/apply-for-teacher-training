@@ -1,0 +1,44 @@
+<h2 class="govuk-heading-m"><%= @current_timetable.cycle_range_name %> recruitment cycle</h2>
+
+<% unless RecruitmentPerformanceReportTimetable.report_season? %>
+  <%= t(
+    'support_interface.provider_recruitment_reports_component.available_in_the_future_html',
+    current_cycle_range: @current_timetable.cycle_range_name,
+    first_publication_date: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:govuk_date),
+    first_publication_date_no_year: RecruitmentPerformanceReportTimetable.first_publication_date.to_fs(:day_and_month),
+  ) %>
+<% end %>
+
+<ul class="govuk-list govuk-list--spaced">
+  <% if RecruitmentPerformanceReportTimetable.report_season? %>
+    <li>
+      <%= govuk_link_to(
+        'Recruitment performance report',
+        path_to_current_recruitment_performance,
+      ) %>
+    </li>
+  <% end %>
+
+  <li>
+    <%= govuk_link_to(
+      t('page_titles.status_of_active_applications'),
+      path_to_active_application,
+    ) %>
+  </li>
+  <li>
+    <%= govuk_link_to(
+      t('page_titles.provider.withdrawal_report'),
+      path_to_withdrawal_report,
+    ) %>
+  </li>
+</ul>
+
+<h2 class="govuk-heading-m"><%= previous_timetable.cycle_range_name %> recruitment cycle</h2>
+<ul class="govuk-list govuk-list--spaced">
+  <li>
+    <%= govuk_link_to(
+      'Recruitment performance report',
+      path_to_previous_recruitment_performance,
+    ) %>
+  </li>
+</ul>
