@@ -21,6 +21,18 @@ RSpec.describe 'API Authentication' do
     }
   end
 
+  it 'remembers the version used with the token' do
+    unhashed_token = VendorAPIToken.create_with_random_token!(provider: create(:provider), description: 'API token')
+
+    expect {
+      get '/api/v1/ping', headers: { Authorization: "Bearer #{unhashed_token}" }
+    }.to change {
+      VendorAPIToken.find_by_unhashed_token(unhashed_token).api_version
+    }
+
+    expect(VendorAPIToken.find_by_unhashed_token(unhashed_token).api_version).to eq('1.8')
+  end
+
   it 'returns an error if no Authorization header is present' do
     get '/api/v1/ping'
 

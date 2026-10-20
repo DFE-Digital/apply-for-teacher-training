@@ -4,6 +4,7 @@ en:
     created_at: Created on
     token_for: Token for
     last_used_on: Last used on
+    api_version: API version last used
     status: Status
     not_used: Never
     default_user: DFE support user
