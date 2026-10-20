@@ -37,7 +37,7 @@
     "stylelint": "^17.16.0",
     "stylelint-config-gds": "^2.0.0",
     "stylelint-config-recess-order": "^7.8.0",
-    "stylelint-order": "^6.0.4"
+    "stylelint-order": "^8.1.2"
   },
   "resolutions": {
     "strip-ansi": "6.0.1",
