@@ -12,6 +12,7 @@ class ProviderUserNotificationPreferences < ApplicationRecord
     offer_accepted
     offer_declined
     reference_received
+    technical_updates
     marketing_emails
   ].freeze
 
