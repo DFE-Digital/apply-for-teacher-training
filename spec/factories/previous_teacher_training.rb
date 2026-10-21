@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :previous_teacher_training do
     application_form factory: %i[application_form]
-    provider_name { Faker::University.name }
+    provider
+    provider_name { provider.name }
     status { 'draft' }
     started { 'yes' }
     started_at { 2.years.ago }
