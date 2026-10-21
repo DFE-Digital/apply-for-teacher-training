@@ -11,11 +11,19 @@ RSpec.describe SupportInterface::ProviderUserSummaryComponent do
            last_signed_in_at: Time.zone.local(2021, 0o3, 15, 10, 45, 0),
            providers: [create(:provider, name: 'The Provider')])
   end
+  let(:support_user) { create(:support_user) }
 
   subject(:rendered_component) do
     render_inline(
       described_class.new(provider_user),
     ).text
+  end
+
+  before do
+    # rubocop:disable-next RSpec/AnyInstance
+    without_partial_double_verification do
+      allow_any_instance_of(ActionView::Base).to receive(:current_support_user).and_return(support_user)
+    end
   end
 
   it "renders the provider user's details" do

@@ -1,4 +1,4 @@
-load Blazer::Engine.root.join("app/controllers/blazer/base_controller.rb")
+load Blazer::Engine.root.join('app/controllers/blazer/base_controller.rb')
 
 module Blazer
   class BaseController
@@ -9,14 +9,14 @@ module Blazer
 
     before_action :authorize_blazer_access!
 
-    private
+  private
 
     def authorize_blazer_access!
       authorize current_user, policy_class: ::SupportInterface::DeveloperToolPolicy
     end
 
     def current_user
-      return @current_support_user  if defined?(@current_support_user)
+      return @current_support_user if defined?(@current_support_user)
 
       @current_support_user ||= Current.support_session&.user ||
                                 find_session_by_cookie&.support_user
