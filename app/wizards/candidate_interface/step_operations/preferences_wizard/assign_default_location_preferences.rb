@@ -13,6 +13,7 @@ module CandidateInterface
 
         unless application_form.international_address? || application_form.geocode.nil?
           location_preference_list << {
+            uuid: SecureRandom.uuid,
             location_name: application_form.postcode,
             within: DEFAULT_RADIUS,
             latitude: application_form.geocode.first,
@@ -24,6 +25,7 @@ module CandidateInterface
           next unless site.geocoded?
 
           location_preference_list << {
+            uuid: SecureRandom.uuid,
             location_name: site.postcode,
             within: DEFAULT_RADIUS,
             latitude: site.latitude,
