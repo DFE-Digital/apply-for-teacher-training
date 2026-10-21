@@ -7,7 +7,7 @@ module CandidateInterface
         described_class.new(previous_teacher_training)
       end
 
-      let(:previous_teacher_training) { create(:previous_teacher_training) }
+      let(:previous_teacher_training) { create(:previous_teacher_training, :outside_provider) }
 
       describe '#providers' do
         it 'returns an array of all providers' do

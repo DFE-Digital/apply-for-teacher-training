@@ -392,6 +392,7 @@ FactoryBot.define do
         if evaluator.previous_teacher_training_started
           create(
             :previous_teacher_training,
+            :outside_provider,
             status: 'published',
             application_form:,
           )
