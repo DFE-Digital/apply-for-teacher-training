@@ -32,12 +32,15 @@ module CandidateInterface
         end
 
         context 'when option is no after user when through all the steps' do
+          let(:previous_teacher_training) { create(:previous_teacher_training, started: nil) }
+
           it 'saves started enum to previous_teacher_training and clears the rest' do
             form.started = 'no'
 
             expect { form.save }.to change { previous_teacher_training.started }
               .to('no')
               .and change { previous_teacher_training.provider_name }.to(nil)
+              .and change { previous_teacher_training.provider_id }.to(nil)
               .and change { previous_teacher_training.started_at }.to(nil)
               .and change { previous_teacher_training.ended_at }.to(nil)
               .and change { previous_teacher_training.details }.to(nil)

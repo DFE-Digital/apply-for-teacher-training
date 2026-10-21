@@ -27,6 +27,7 @@ module CandidateInterface
           previous_teacher_training.assign_attributes(
             # Add new columns here
             provider_name: nil,
+            provider_id: nil,
             started_at: nil,
             ended_at: nil,
             details: nil,
