@@ -27,18 +27,18 @@ module SupportInterface
             value: render(SupportInterface::PermissionsListComponent.new(permission)),
             actions: if SupportInterface::ProviderUserPolicy.new(helpers.current_support_user, nil).edit?
                        [
-                          {
-                            href: change_path,
-                            text: 'Change',
-                            visually_hidden_text: "permissions for #{permission.provider.name_and_code}",
-                          },
-                          {
-                            href: remove_access_path(permission),
-                            text: 'Remove access',
-                            visually_hidden_text: "to #{permission.provider.name_and_code}",
-                          },
-                        ]
-                       end,
+                         {
+                           href: change_path,
+                           text: 'Change',
+                           visually_hidden_text: "permissions for #{permission.provider.name_and_code}",
+                         },
+                         {
+                           href: remove_access_path(permission),
+                           text: 'Remove access',
+                           visually_hidden_text: "to #{permission.provider.name_and_code}",
+                         },
+                       ]
+                     end,
             html_attributes: {
               data: { qa: "provider-id-#{permission.provider.id}" },
             },

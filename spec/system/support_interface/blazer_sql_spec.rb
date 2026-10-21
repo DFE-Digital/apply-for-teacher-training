@@ -19,7 +19,7 @@ RSpec.describe 'Blazer SQL tool' do
   end
 
   def when_i_sign_in_via_dfe_sign_in
-    sign_in_as_support_user
+    sign_in_as_support_user(role: 'technical')
   end
 
   def then_i_see_the_blazer_admin_interface
