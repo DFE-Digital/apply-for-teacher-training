@@ -48,15 +48,15 @@ en:
         other: "Other:"
   previous_teacher_training:
     list_component:
-      provider_name: Name of the training provider
-      change_provider_name: the name of the training provider
-      training_dates: Training dates
-      change_training_dates: training dates
+      provider_name: Training provider
+      change_provider_name: training provider
+      training_dates: Course dates
+      change_training_dates: course dates
       details: Details
       change_details: details of your previous teacher training
       change: Change
       delete: Delete
     started_declaration_component:
       change: Change
-      started_teacher_training: Have you started an initial teacher training (ITT) course in England before?
-      change_started_teacher_training: whether you started a teacher training course before
+      started_teacher_training: Have you started an initial teacher training (ITT) course in England that you did not finish or pass?
+      change_started_teacher_training: whether you started a teacher training course in England that you did not finish or pass

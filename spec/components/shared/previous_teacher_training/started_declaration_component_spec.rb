@@ -17,7 +17,7 @@ RSpec.describe PreviousTeacherTraining::StartedDeclarationComponent do
 
         expect(rendered_component).to have_element(
           :dt,
-          text: 'Have you started an initial teacher training (ITT) course in England before?',
+          text: 'Have you started an initial teacher training (ITT) course in England that you did not finish or pass?',
           class: 'govuk-summary-list__key',
         )
         expect(rendered_component).to have_element(
@@ -35,7 +35,7 @@ RSpec.describe PreviousTeacherTraining::StartedDeclarationComponent do
 
           expect(rendered_component).to have_element(
             :dt,
-            text: 'Have you started an initial teacher training (ITT) course in England before?',
+            text: 'Have you started an initial teacher training (ITT) course in England that you did not finish or pass?',
             class: 'govuk-summary-list__key',
           )
           expect(rendered_component).to have_element(
@@ -51,7 +51,7 @@ RSpec.describe PreviousTeacherTraining::StartedDeclarationComponent do
 
         it 'renders the component with a change link' do
           expect(rendered_component).to have_link(
-            'Change whether you started a teacher training course before',
+            'Change whether you started a teacher training course in England that you did not finish or pass',
             href: "/candidate/previous-teacher-training/#{previous_teacher_training.id}/edit?return_to=review",
           )
         end

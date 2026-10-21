@@ -38,6 +38,8 @@ RSpec.describe 'Previous teacher training' do
     then_i_am_redirected_to_the_application_details_page
   end
 
+private
+
   def and_there_are_providers_to_select
     create(:course, :open, provider: create(:provider, name: 'test provider'))
     create(:course, :open, provider: create(:provider, name: 'another provider'))
@@ -71,7 +73,7 @@ RSpec.describe 'Previous teacher training' do
     within('#started-declaration') do
       expect(page).to have_element(
         :dt,
-        text: 'Have you started an initial teacher training (ITT) course in England before?',
+        text: 'Have you started an initial teacher training (ITT) course in England that you did not finish or pass?',
         class: 'govuk-summary-list__key',
       )
       expect(page).to have_element(:dd, text: 'Yes', class: 'govuk-summary-list__value')
@@ -80,7 +82,7 @@ RSpec.describe 'Previous teacher training' do
 
   def and_i_see_a_link_to_add_another_previous_teacher_training
     expect(page).to have_link(
-      'Add another previous teacher training course',
+      'Add another course',
       href: create_candidate_interface_previous_teacher_trainings_path(
         candidate_interface_previous_teacher_trainings_start_form: { started: 'yes' },
       ),
@@ -90,11 +92,11 @@ RSpec.describe 'Previous teacher training' do
   def and_i_see_the_existing_previous_teacher_training_details
     summary_list = [
       {
-        label: 'Name of the training provider',
+        label: 'Training provider',
         value: @existing_previous_teacher_training.provider_name,
       },
       {
-        label: 'Training dates',
+        label: 'Course dates',
         value: @existing_previous_teacher_training.formatted_dates,
       },
       {
@@ -124,11 +126,11 @@ RSpec.describe 'Previous teacher training' do
   def then_i_see_the_do_you_want_to_delete_page
     summary_list = [
       {
-        label: 'Name of the training provider',
+        label: 'Training provider',
         value: @existing_previous_teacher_training.provider_name,
       },
       {
-        label: 'Training dates',
+        label: 'Course dates',
         value: @existing_previous_teacher_training.formatted_dates,
       },
       {
@@ -180,8 +182,8 @@ RSpec.describe 'Previous teacher training' do
   end
 
   def and_i_do_not_see_any_change_links
-    expect(page).to have_no_link('Change the name of the training provider')
-    expect(page).to have_no_link('Change training dates')
+    expect(page).to have_no_link('Change training provider')
+    expect(page).to have_no_link('Change course dates')
     expect(page).to have_no_link('Change details of your previous teacher training')
   end
 

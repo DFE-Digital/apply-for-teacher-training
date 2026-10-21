@@ -21,9 +21,9 @@
       <h1 class="govuk-heading-xl govuk-!-margin-bottom-4"><%= t('.title') %> </h1>
 
       <%= f.govuk_date_field :started_at, omit_day: true, legend: { text: t('.start_date'), size: 'm' } %>
-      <%= f.govuk_date_field :ended_at, omit_day: true, legend: { text: t('.end_date'), size: 'm' } %>
+      <%= f.govuk_date_field :ended_at, omit_day: true, legend: { text: t('.end_date'), size: 'm' }, hint: { text: t('.end_date_hint') } %>
 
-      <%= f.govuk_submit %>
+      <%= f.govuk_submit t('save_and_continue') %>
     <% end %>
   </div>
 </div>

@@ -14,30 +14,30 @@ RSpec.describe 'Previous teacher training' do
     when_i_click('Previous teacher training')
 
     then_i_am_on_the_start_page
-    when_i_click('Continue')
+    when_i_click('Save and continue')
     then_i_see_an_error('Select whether you have started a teacher training course before')
     when_i_choose('Yes')
-    then_i_click('Continue')
+    then_i_click('Save and continue')
     and_previous_teacher_training_created
 
     then_i_am_on_the_provider_name_page
-    when_i_click('Continue')
+    when_i_click('Save and continue')
     then_i_see_an_error('Enter the name of the training provider')
     when_i_input_provider_name
-    then_i_click('Continue')
+    then_i_click('Save and continue')
 
     then_i_am_on_the_dates_page
-    when_i_click('Continue')
+    when_i_click('Save and continue')
     then_i_see_an_error('Enter the date that you started the training course')
     then_i_see_an_error('Enter the date that you left the training course')
     when_i_input_training_dates
-    then_i_click('Continue')
+    then_i_click('Save and continue')
 
     then_i_am_on_the_details_page
-    when_i_click('Continue')
+    when_i_click('Save and continue')
     then_i_see_an_error('Enter details about your previous teacher training courses')
     when_i_input_details
-    then_i_click('Continue')
+    then_i_click('Save and continue')
 
     then_i_am_on_the_review_page
     when_i_click('Continue')
@@ -48,6 +48,8 @@ RSpec.describe 'Previous teacher training' do
     then_i_am_on_the_application_details_page
     and_the_previous_teacher_training_is_completed
   end
+
+private
 
   def and_there_is_a_provider_to_select
     provider = create(:provider, name: 'test provider')
@@ -64,7 +66,10 @@ RSpec.describe 'Previous teacher training' do
   end
 
   def then_i_see_an_error(error)
-    expect(page).to have_text(error).twice
+    within('.govuk-error-summary') do
+      expect(page).to have_text(error)
+    end
+    expect(page).to have_element(:p, text: error, class: 'govuk-error-message')
   end
 
   def then_i_am_on_the_start_page
@@ -86,7 +91,7 @@ RSpec.describe 'Previous teacher training' do
   end
 
   def when_i_input_provider_name
-    select 'test provider', from: 'Name of the training provider'
+    select 'test provider', from: 'Enter the name of the training provider'
   end
 
   def then_i_am_on_the_dates_page
@@ -111,7 +116,7 @@ RSpec.describe 'Previous teacher training' do
   end
 
   def when_i_input_details
-    fill_in('Give details about any previous teacher training courses', with: 'details')
+    fill_in('Give details about this initial teacher training (ITT) course', with: 'details')
   end
 
   def then_i_am_on_the_review_page
@@ -124,11 +129,11 @@ RSpec.describe 'Previous teacher training' do
 
     summary_list = [
       {
-        label: 'Name of the training provider',
+        label: 'Training provider',
         value: 'test provider',
       },
       {
-        label: 'Training dates',
+        label: 'Course dates',
         value: 'From January 2005 to January 2006',
       },
       {
@@ -140,7 +145,7 @@ RSpec.describe 'Previous teacher training' do
     within('#started-declaration') do
       expect(page).to have_element(
         :dt,
-        text: 'Have you started an initial teacher training (ITT) course in England before?',
+        text: 'Have you started an initial teacher training (ITT) course in England that you did not finish or pass?',
         class: 'govuk-summary-list__key',
       )
       expect(page).to have_element(

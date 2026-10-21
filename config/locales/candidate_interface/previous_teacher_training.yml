@@ -3,52 +3,58 @@ en:
     previous_teacher_trainings:
       start:
         new:
-          title: Have you started an initial teacher training (ITT) course in England before?
+          title: Have you started an initial teacher training (ITT) course in England that you did not finish or pass?
         edit:
-          title: Have you started an initial teacher training (ITT) course in England before?
+          title: Have you started an initial teacher training (ITT) course in England that you did not finish or pass?
         form:
-          body: Training providers need to know about ITT courses you have started before for safeguarding reasons.
-          you_must_add_all: You must add all ITT courses you have started in the past.
+          body: Training providers need this information for safeguarding reasons.
+          you_must_add_all:
+            You must tell us about every ITT course in England that you started but did not successfully finish or pass.
           if_your_entry_does_not_match:
-            If your entry does not match the data we hold on trainee teachers, we will inform the course you are applying to.
-          hint_html: Do not enter any successfully completed teaching qualifications here. Select ‘no’ and enter them in the %{link} section instead.
+            What you tell us must match the trainee teacher records held by the Department for Education. If it does not match, we will tell the training provider you are applying to.
+          hint_summary_text:
+            If you’ve already completed teacher training in England or elsewhere
+          hint_html:
+            Add any teaching qualifications you already have to the %{link} section.<br><br>
+            If you’re eligible for or already hold QTS, you may not be able to get student finance funding for this course.<br><br>
+            Training providers may suggest alternative routes into teaching in England. Find out more about %{return_to_teaching_link}
+            or routes to QTS if you have %{outside_uk_experience_link}.
           link_text: other qualifications
+          return_to_teaching: returning to teaching
+          outside_uk_experience: teaching experience outside the UK
       names:
         new:
-          title: Name of the training provider
+          title: Enter the name of the training provider
           body_html:
-            "<p>For example, University of East Anglia or Teach First.</p><p> You can add more ITT courses that you have started later. You must add all ITT courses that you have started.</p>"
+            "<p>For example, University of East Anglia or Teach First.</p><p> You can add another course later if you need to.</p>"
       dates:
         new:
-          title: Training dates
-          start_date: Course start date
-          end_date: Date you left the course
+          title: Enter the course dates
+          start_date: Start date
+          end_date: End date
+          end_date_hint: Enter the date you left or finished the course
       details:
         new:
-          title: Give details about any previous teacher training courses
+          title: Give details about this initial teacher training (ITT) course
           hint_html: |
-            Provide information about:
+            You should include:
               <ul>
-              <li>whether you completed the course or not</li>
-              <li>the name and grade of any qualifications you gained if relevant</li>
-              <li>the reasons why you left or did not complete the course</li>
+              <li>the name of the course</li>
+              <li>why you left or did not complete the course</li>
               </ul>
-              Training providers that you submit an application to may want to discuss this information with you. They can also request that you provide a reference from the previous training providers in your application.
+              Training providers may discuss this information with you. They may also ask you for a reference from the training provider.
       review:
         index:
           title: Check your previous teacher training
-          qts_guidance_html: If you have qualified teacher status (QTS) or qualified teacher learning and skills (QTLS), do not apply for ITT. Find out how to %{return_to_teaching}.
-          started_teacher_training: Have you started an initial teacher training (ITT) course in England before?
+          qts_guidance_html:
+            If you’re eligible for or already hold qualified teacher status (QTS) or qualified teacher learning and skills (QTLS),
+            there are other routes into teaching in England.<br><br>
+            Find out more about %{return_to_teaching_link} or routes to QTS if you have %{outside_uk_experience_link}.
+          started_teacher_training: Have you started an initial teacher training (ITT) course in England before???
           change_started_teacher_training: whether you started a teacher training course before
-          provider_name: Name of the training provider
-          change_provider_name: the name of the training provider
-          training_dates: Training dates
-          change_training_dates: training dates
-          details: Details
-          change_details: details of your previous teacher training
-          change: Change
-          submit: Submit
-          add_another_course: Add another previous teacher training course
+          add_another_course: Add another course
+          return_to_teaching: returning to teaching
+          outside_uk_experience: teaching experience outside the UK
         remove:
           title: Are you sure you want to delete this previous teacher training?
           confirm: Yes, delete previous teacher training
