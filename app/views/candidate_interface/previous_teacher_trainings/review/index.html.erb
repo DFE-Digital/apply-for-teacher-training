@@ -11,32 +11,30 @@
 
     <h1 class="govuk-heading-xl"><%= t('.title') %></h1>
 
-    <% if @previous_teacher_trainings.started_yes.exists? %>
-      <p class="govuk-body">
-        <%= t(
-          '.qts_guidance_html',
-          return_to_teaching_link: govuk_link_to(
-            t('.return_to_teaching'),
-            t('teaching_vacancies.url_return_to_teaching'),
-            new_tab: true,
-          ),
-          outside_uk_experience_link: govuk_link_to(
-            t('.outside_uk_experience'),
-            t('apply_for_qts_teach_outside_the_uk.url'),
-            new_tab: true,
-          ),
-        ) %>
-      </p>
+    <p class="govuk-body">
+      <%= t(
+            '.qts_guidance_html',
+            return_to_teaching_link: govuk_link_to(
+              t('.return_to_teaching'),
+              t('teaching_vacancies.url_return_to_teaching'),
+              new_tab: true,
+              ),
+            outside_uk_experience_link: govuk_link_to(
+              t('.outside_uk_experience'),
+              t('apply_for_qts_teach_outside_the_uk.url'),
+              new_tab: true,
+              ),
+            ) %>
+    </p>
 
-      <% if @section_policy.can_edit? %>
-        <%= govuk_button_link_to(
-          t('.add_another_course'),
-          create_candidate_interface_previous_teacher_trainings_path(
-            candidate_interface_previous_teacher_trainings_start_form: { started: 'yes' },
-          ),
-          secondary: true,
-        ) %>
-      <% end %>
+    <% if @previous_teacher_trainings.started_yes.exists? && @section_policy.can_edit? %>
+      <%= govuk_button_link_to(
+        t('.add_another_course'),
+        create_candidate_interface_previous_teacher_trainings_path(
+          candidate_interface_previous_teacher_trainings_start_form: { started: 'yes' },
+        ),
+        secondary: true,
+      ) %>
     <% end %>
 
     <%= render PreviousTeacherTraining::StartedDeclarationComponent.new(application_form: @application_form, actions: @section_policy.can_edit?) %>
