@@ -1,5 +1,7 @@
 module SupportInterface
-  class SingleProviderUserNotificationsController < ApplicationController
+  class SingleProviderUserNotificationsController < SupportInterfaceController
+    before_action :authorize_support_user
+
     def edit
       @form = SaveProviderUserNotificationPreferences.new(provider_user: provider_user_being_edited)
     end
@@ -23,6 +25,10 @@ module SupportInterface
 
       params
         .expect(provider_user_notification_preferences: ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES)
+    end
+
+    def authorize_support_user
+      authorize(provider_user_being_edited, :edit?, policy_class: SupportInterface::ProviderUserPolicy)
     end
   end
 end
