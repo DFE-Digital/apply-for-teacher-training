@@ -4,7 +4,9 @@
       <th scope="col" class="govuk-table__header">ID</th>
       <th scope="col" class="govuk-table__header govuk-!-width-one-third">Name and email address</th>
       <th scope="col" class="govuk-table__header">Providers</th>
-      <th scope="col" class="govuk-table__header">Actions</th>
+      <% if SupportInterface::ProviderUserPolicy.new(helpers.current_support_user, nil).edit? %>
+        <th scope="col" class="govuk-table__header">Actions</th>
+      <% end %>
     </tr>
   </thead>
 
@@ -25,13 +27,15 @@
             <% end %>
           </ul>
         </td>
-        <td class="govuk-table__cell">
-          <% if row[:provider_user].provider_permissions.any? %>
-            <%= govuk_link_to(support_interface_edit_permissions_path(row[:provider_user])) do %>
-              Update permissions<span class="govuk-visually-hidden"> for <%= row[:provider_user].display_name %></span>
+        <% if SupportInterface::ProviderUserPolicy.new(helpers.current_support_user, nil).edit? %>
+          <td class="govuk-table__cell">
+            <% if row[:provider_user].provider_permissions.any? %>
+              <%= govuk_link_to(support_interface_edit_permissions_path(row[:provider_user])) do %>
+                Update permissions<span class="govuk-visually-hidden"> for <%= row[:provider_user].display_name %></span>
+              <% end %>
             <% end %>
-          <% end %>
-        </td>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
