@@ -16,6 +16,8 @@ module SupportInterface
 
     def show
       @provider_user = ProviderUser.find(params.expect(:id))
+
+      authorize @provider_user, policy_class: SupportInterface::ProviderUserPolicy
     end
 
     def audits

@@ -5,6 +5,15 @@ module SupportInterface
 
       false
     end
+    # Blazer methods
+    alias home? show?
+    alias index? show?
+    alias docs? show?
+    alias schema? show?
+    alias refresh? show?
+    alias run? show?
+    alias cancel? show?
+    alias tables? show?
 
     def edit?
       return true if user.technical_role?
@@ -14,5 +23,6 @@ module SupportInterface
     alias new? edit?
     alias create? edit?
     alias update? edit?
+    alias destroy? edit?
   end
 end

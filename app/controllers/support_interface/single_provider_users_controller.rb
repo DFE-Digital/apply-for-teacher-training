@@ -1,5 +1,7 @@
 module SupportInterface
   class SingleProviderUsersController < SupportInterfaceController
+    before_action :authorize_support_user
+
     def new
       @provider = Provider.find(provider_id_param)
       @form = CreateSingleProviderUserForm.new(provider_id: provider_id_param)
@@ -80,6 +82,10 @@ module SupportInterface
             .expect(support_interface_edit_single_provider_user_form: [provider_permissions_forms: {}])
             .fetch(:provider_permissions_forms, {})
             .to_h
+    end
+
+    def authorize_support_user
+      authorize(nil, :edit?, policy_class: SupportInterface::ProviderUserPolicy)
     end
   end
 end

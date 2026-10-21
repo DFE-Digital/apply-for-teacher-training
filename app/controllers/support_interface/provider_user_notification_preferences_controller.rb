@@ -1,6 +1,8 @@
 module SupportInterface
   class ProviderUserNotificationPreferencesController < SupportInterfaceController
     def update_notifications
+      authorize(provider_user, :edit?, policy_class: SupportInterface::ProviderUserPolicy)
+
       provider_user_notifications_service.update_all_notification_preferences!(notification_preferences_params:)
 
       flash[:success] = 'Provider user notifications updated'
