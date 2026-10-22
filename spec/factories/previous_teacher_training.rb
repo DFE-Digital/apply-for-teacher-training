@@ -19,6 +19,7 @@ FactoryBot.define do
       status { 'draft' }
       started { 'no' }
       provider_name { nil }
+      provider_id { nil }
       started_at { nil }
       ended_at { nil }
       details { nil }

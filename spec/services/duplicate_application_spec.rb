@@ -262,6 +262,32 @@ RSpec.describe DuplicateApplication do
       end
     end
 
+    context 'when a candidate published not started, but with a provider_id' do
+      it 'removes the provider_id' do
+        provider = create(:provider)
+        create(
+          :previous_teacher_training,
+          :not_started,
+          status: 'published',
+          provider_id: provider.id,
+          application_form: @original_application_form,
+        )
+
+        @original_application_form.reload
+
+        expect(duplicate_application_form.published_previous_teacher_trainings.last)
+          .to have_attributes(
+            status: 'published',
+            started: 'no',
+            started_at: nil,
+            ended_at: nil,
+            provider_name: nil,
+            provider_id: nil,
+            details: nil,
+          )
+      end
+    end
+
     context 'when a candidate did not publish previous_teacher_training' do
       it 'does not duplicate previous_teacher_training' do
         create(
