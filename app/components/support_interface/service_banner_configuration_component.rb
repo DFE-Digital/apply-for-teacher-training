@@ -21,11 +21,11 @@ module SupportInterface
         key: 'Show service banner',
         value: live_banner ? 'Yes' : 'No',
         action: if SupportInterface::ServiceBannerPolicy.new(helpers.current_support_user, nil).edit?
-          {
-            href: live_banner ? support_interface_edit_show_service_banner_path(interface: @interface, live_banner: true) : support_interface_edit_show_service_banner_path(interface: @interface),
-            visually_hidden_text: 'Change service banner to active',
-          }
-        end,
+                  {
+                    href: live_banner ? support_interface_edit_show_service_banner_path(interface: @interface, live_banner: true) : support_interface_edit_show_service_banner_path(interface: @interface),
+                    visually_hidden_text: 'Change service banner to active',
+                  }
+                end,
       }
     end
 
@@ -36,11 +36,11 @@ module SupportInterface
         key: 'Banner content',
         value: GovukMarkdown.render(t('.live_banner', header: live_banner.header, body: live_banner.body)).html_safe,
         action: if SupportInterface::ServiceBannerPolicy.new(helpers.current_support_user, nil).edit?
-          {
-            href: support_interface_edit_configure_service_banner_path(live_banner, interface: @interface, return_to: 'index'),
-            visually_hidden_text: 'Change service banner content',
-          }
-        end,
+                  {
+                    href: support_interface_edit_configure_service_banner_path(live_banner, interface: @interface, return_to: 'index'),
+                    visually_hidden_text: 'Change service banner content',
+                  }
+                end,
       }
     end
 
