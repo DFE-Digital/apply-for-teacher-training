@@ -27,7 +27,7 @@
       <%= t(".current_state_description.#{@timetable_presenter.cycle_state}") %>
     </p>
 
-    <% unless HostingEnvironment.production? %>
+    <% unless HostingEnvironment.production? || !SupportInterface::RecruitmentCyclePolicy.new(current_support_user, nil).edit? %>
       <h2 class='govuk-heading-m'>
         <%= t('.you_can_edit') %>
       </h2>

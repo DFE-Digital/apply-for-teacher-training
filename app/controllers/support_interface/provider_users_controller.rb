@@ -3,6 +3,8 @@ module SupportInterface
     PAGY_PER_PAGE = 30
 
     def index
+      authorize nil, :show?, policy_class: SupportInterface::ProviderUserPolicy
+
       provider_users_scope = ProviderUser
         .includes(providers: %i[training_provider_permissions ratifying_provider_permissions])
 
@@ -15,16 +17,22 @@ module SupportInterface
     end
 
     def show
+      authorize nil, :show?, policy_class: SupportInterface::ProviderUserPolicy
+
       @provider_user = ProviderUser.find(params.expect(:id))
 
       authorize @provider_user, policy_class: SupportInterface::ProviderUserPolicy
     end
 
     def audits
+      authorize nil, :show?, policy_class: SupportInterface::ProviderUserPolicy
+
       @provider_user = ProviderUser.find(params.expect(:provider_user_id))
     end
 
     def impersonate
+      authorize nil, :edit?, policy_class: SupportInterface::ProviderUserPolicy
+
       @provider_user = ProviderUser.find(params.expect(:provider_user_id))
       Current.support_session.update!(impersonated_provider_user_id: @provider_user.id)
       cookies.signed.permanent[:impersonated_provider_user_id] = {
@@ -38,6 +46,8 @@ module SupportInterface
     end
 
     def end_impersonation
+      authorize nil, :edit?, policy_class: SupportInterface::ProviderUserPolicy
+
       impersonated_user = Current.support_session.impersonated_provider_user
 
       if impersonated_user

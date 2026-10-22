@@ -5,18 +5,28 @@ module SupportInterface
 
       false
     end
+    alias index? show?
 
-    def edit?
+    def new?
       return true if user.support_role? || user.technical_role?
 
       false
     end
-    alias new? edit?
-    alias create? edit?
+    alias create? new?
+
+    def edit?
+      return true if user.technical_role?
+
+      return true if user.support_role? && record != user
+
+      false
+    end
     alias update? edit?
 
     def destroy?
-      return true if user.support_role? || user.technical_role?
+      return true if user.technical_role?
+
+      return true if user.support_role? && record != user
 
       false
     end

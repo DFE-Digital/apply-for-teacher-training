@@ -1,6 +1,8 @@
 module SupportInterface
   class SettingsController < SupportInterfaceController
     def activate_feature_flag
+      authorize nil, :edit?, policy_class: ::SupportInterface::FeatureFlagPolicy
+
       FeatureFlag.activate(params[:feature_name])
 
       flash[:success] = "Feature ‘#{feature_name}’ activated"
@@ -8,6 +10,8 @@ module SupportInterface
     end
 
     def deactivate_feature_flag
+      authorize nil, :edit?, policy_class: ::SupportInterface::FeatureFlagPolicy
+
       FeatureFlag.deactivate(params[:feature_name])
 
       flash[:success] = "Feature ‘#{feature_name}’ deactivated"
@@ -15,6 +19,8 @@ module SupportInterface
     end
 
     def feature_flags
+      authorize nil, :show?, policy_class: SupportInterface::FeatureFlagPolicy
+
       feature_names = FeatureFlag::FEATURES.map(&:first)
       @obsolete_features = Feature
                              .where.not(name: feature_names)
@@ -22,7 +28,9 @@ module SupportInterface
                              .map(&:name)
     end
 
-    def service_banners; end
+    def service_banners
+      authorize nil, :show?, policy_class: SupportInterface::ServiceBannerPolicy
+    end
 
   private
 
