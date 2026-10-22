@@ -86,12 +86,14 @@ class NavigationItems
             href: support_interface_settings_path,
             active: active?(current_controller, %w[settings tasks support_users show_service_banner configure_service_banner]),
           },
-          {
-            text: 'Documentation',
-            href: support_interface_docs_path,
-            active: active?(current_controller, %w[docs]),
-          },
-        ]
+          if SupportInterface::DocumentationPolicy.new(current_support_user, nil).show?
+            {
+              text: 'Documentation',
+              href: support_interface_docs_path,
+              active: active?(current_controller, %w[docs]),
+            }
+          end,
+        ].compact.flatten
       else
         []
       end
