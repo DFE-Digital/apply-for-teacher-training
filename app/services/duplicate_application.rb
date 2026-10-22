@@ -125,7 +125,13 @@ class DuplicateApplication
 
       new_application_form.published_previous_teacher_trainings.create!(
         original_previous_teacher_trainings.map do |original_previous_teacher_training|
-          original_previous_teacher_training.attributes.except(*IGNORED_ATTRIBUTES)
+          new_record = original_previous_teacher_training.attributes.except(*IGNORED_ATTRIBUTES)
+
+          if new_record['started'] == 'no'
+            new_record['provider_id'] = nil
+            new_record['provider_name'] = nil
+          end
+          new_record
         end,
       )
 
