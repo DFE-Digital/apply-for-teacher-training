@@ -3,4 +3,5 @@ class Current < ActiveSupport::CurrentAttributes
   delegate :candidate, to: :session, allow_nil: true
   attribute :support_session
   attribute :provider_session
+  attribute :timetable
 end
