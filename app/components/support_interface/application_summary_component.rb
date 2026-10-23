@@ -100,7 +100,7 @@ module SupportInterface
                       href: edit_support_interface_one_login_auths_path(application_form),
                       visually_hidden_text: 'candidate GOV.UK One Login',
                     }
-            end,
+                  end,
         }
       else
         {
