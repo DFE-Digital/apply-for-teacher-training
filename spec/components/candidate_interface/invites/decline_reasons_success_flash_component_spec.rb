@@ -69,14 +69,14 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent 
 
   describe '#candidate_interface_candidate_preferences_review_path' do
     context 'the candidate has no published preferences' do
-      it 'returns the new_candidate_interface_pool_opt_in_path' do
+      it 'returns the candidate_interface_new_preferences_path(step: :opt_in)' do
         application_form = create(:application_form, published_preferences: [])
         invite = create(:pool_invite, application_form:)
 
         component = described_class.new(invite:)
         render_inline(component) # needed to access the helper methods
 
-        expect(component.candidate_interface_candidate_preferences_review_path).to eq(new_candidate_interface_pool_opt_in_path)
+        expect(component.candidate_interface_candidate_preferences_review_path).to eq(candidate_interface_new_preferences_path(step: :opt_in))
       end
     end
 
@@ -89,7 +89,7 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent 
         component = described_class.new(invite:)
         render_inline(component) # needed to access the helper methods
 
-        expect(component.candidate_interface_candidate_preferences_review_path).to eq(edit_candidate_interface_pool_opt_in_path(preference))
+        expect(component.candidate_interface_candidate_preferences_review_path).to eq(candidate_interface_edit_preferences_path(step: :opt_in))
       end
     end
 
@@ -102,7 +102,7 @@ RSpec.describe CandidateInterface::Invites::DeclineReasonsSuccessFlashComponent 
         component = described_class.new(invite:)
         render_inline(component) # needed to access the helper methods
 
-        expect(component.candidate_interface_candidate_preferences_review_path).to eq(candidate_interface_draft_preference_publish_preferences_path(preference))
+        expect(component.candidate_interface_candidate_preferences_review_path).to eq(candidate_interface_edit_preferences_path(step: :publish))
       end
     end
   end

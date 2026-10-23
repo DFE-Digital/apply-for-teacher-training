@@ -17,6 +17,7 @@ RSpec.describe 'Candidate submits the application' do
       when_i_have_completed_my_application_and_added_primary_as_course_choice
       and_i_go_to_submit_my_application
       then_i_can_see_my_application_has_been_successfully_submitted
+
       when_i_click('Back to your applications')
       and_i_can_see_i_cannot_create_any_more_applications
 
