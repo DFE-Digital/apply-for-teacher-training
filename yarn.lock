@@ -3162,7 +3162,7 @@ __metadata:
     babel-plugin-macros: "npm:^3.1.0"
     dfe-autocomplete: "github:DFE-Digital/dfe-autocomplete"
     esbuild: "npm:^0.28.2"
-    govuk-frontend: "npm:^6.5.1"
+    govuk-frontend: "npm:^6.6.0"
     jest: "npm:^30.5.2"
     jest-environment-jsdom: "npm:^30.5.2"
     jquery: "npm:^4.0.0"
@@ -5108,10 +5108,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"govuk-frontend@npm:^6.5.1":
-  version: 6.5.1
-  resolution: "govuk-frontend@npm:6.5.1"
-  checksum: 10c0/3654d9bf8f185923fe76a6c1da8fabfc8fee59a15ab1f3b1ed663a095a543546c570848b6cd483b66af6c11879e0b98650526627c44090a50c79f74b020f1bae
+"govuk-frontend@npm:^6.6.0":
+  version: 6.6.0
+  resolution: "govuk-frontend@npm:6.6.0"
+  checksum: 10c0/7fb983ee21e97f19df9b980301a05e24a11f3301fcb8ecf5bc8f956b54bd61d55255b2c16fa9d60cf59fd984583b368e128075ea7348e74971e742adcc86a366
   languageName: node
   linkType: hard
 
