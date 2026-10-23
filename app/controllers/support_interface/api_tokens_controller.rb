@@ -3,6 +3,8 @@ module SupportInterface
     before_action :set_token, only: %i[show confirm_revocation revoke]
 
     def index
+      authorize nil, :show?, policy_class: SupportInterface::ProviderPolicy
+
       @filter = SupportInterface::VendorAPITokenFilter.new(
         filter_params:,
       )
@@ -24,14 +26,20 @@ module SupportInterface
     end
 
     def show
+      authorize nil, :show?, policy_class: SupportInterface::ProviderPolicy
+
       @can_manage_tokens = true
     end
 
     def confirm_revocation
+      authorize nil, :destroy?, policy_class: SupportInterface::ProviderPolicy
+
       @revoke_token_form = RevokeTokenForm.new
     end
 
     def revoke
+      authorize nil, :destroy?, policy_class: SupportInterface::ProviderPolicy
+
       @revoke_token_form = RevokeTokenForm.new(
         api_token: @api_token,
         audit_comment: revoke_params[:audit_comment],

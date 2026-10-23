@@ -1,6 +1,8 @@
 module SupportInterface
   module ApplicationForms
     class CommentsController < SupportInterfaceController
+      include AuthorizeSupportUserCandidateEditable
+
       def new
         @application_form = application_form
         @application_comment = ApplicationCommentForm.new

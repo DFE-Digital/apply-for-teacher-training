@@ -1,4 +1,6 @@
 class SupportInterface::ApplicationForms::CourseRecommendationsController < SupportInterface::SupportInterfaceController
+  include AuthorizeSupportUserCandidateEditable
+
   def show
     application_form = ApplicationForm.find(params.expect(:application_form_id))
     recommendation = CandidateCoursesRecommender.recommended_courses_url(candidate: application_form.candidate, locatable: application_form)

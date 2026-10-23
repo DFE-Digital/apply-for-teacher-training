@@ -1,6 +1,8 @@
 module SupportInterface
   module ApplicationForms
     class EditableExtensionController < SupportInterfaceController
+      include AuthorizeSupportUserCandidateEditable
+
       def edit
         @application_form = ApplicationForm.find(params.expect(:application_form_id))
         @form = EditableUntilForm.new(application_form: @application_form)

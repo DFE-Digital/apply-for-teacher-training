@@ -1,5 +1,7 @@
 module SupportInterface
   class DocsController < SupportInterfaceController
+    before_action :authorize_support_user
+
     def index; end
 
     def provider_flow; end
@@ -32,6 +34,12 @@ module SupportInterface
     def component_previews
       @previews_grouped_by_namespace = ViewComponent::Preview.all.reverse.group_by { |p| p.name.split('::').first }
       @page_title = 'Components Previews'
+    end
+
+  private
+
+    def authorize_support_user
+      authorize nil, :show?, policy_class: SupportInterface::DocumentationPolicy
     end
   end
 end

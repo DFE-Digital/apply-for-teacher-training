@@ -17,10 +17,12 @@ module SupportInterface
         {
           key: 'Email notifications',
           value: email_notifications_value,
-          action: {
-            href: change_path,
-            visually_hidden_text: 'email notifications',
-          },
+          action: if SupportInterface::ProviderUserPolicy.new(helpers.current_support_user, nil).edit?
+                    {
+                      href: change_path,
+                      visually_hidden_text: 'email notifications',
+                    }
+                  end,
         },
         { key: 'Account created at', value: provider_user.created_at.to_fs(:govuk_date_and_time) },
         { key: 'Last sign in at', value: provider_user.last_signed_in_at&.to_fs(:govuk_date_and_time) || 'Not signed in yet' },

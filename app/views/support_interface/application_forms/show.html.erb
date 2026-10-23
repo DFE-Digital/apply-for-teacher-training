@@ -35,17 +35,27 @@
 
 <% if @application_form.application_references.any? %>
   <% @application_form.application_references.includes(%i[application_form audits]).creation_order.each_with_index do |reference, i| %>
-    <%= render SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: i + 1, editable: @application_form.editable?) %>
+    <%= render SupportInterface::ReferenceWithFeedbackComponent.new(
+      reference: reference,
+      reference_number: i + 1,
+      editable: current_support_user.can_edit_applications? && @application_form.editable?,
+    ) %>
   <% end %>
 <% end %>
 
 <%= render SupportInterface::QualificationsComponent.new(application_form: @application_form) %>
 
-<%= render WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_form, editable: @application_form.editable?) %>
+<%= render WorkHistoryAndUnpaidExperienceComponent.new(
+  application_form: @application_form,
+  editable: @application_form.editable? && current_support_user.can_edit_applications?,
+) %>
 
 <%= render LanguageSkillsComponent.new(application_form: @application_form) %>
 
-<%= render PersonalStatementComponent.new(application_form: @application_form, editable: @application_form.editable?) %>
+<%= render PersonalStatementComponent.new(
+  application_form: @application_form,
+  editable: current_support_user.can_edit_applications? && @application_form.editable?,
+) %>
 
 <%= render TrainingWithDisabilityComponent.new(application_form: @application_form) %>
 

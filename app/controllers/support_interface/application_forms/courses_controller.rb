@@ -1,6 +1,8 @@
 module SupportInterface
   module ApplicationForms
     class CoursesController < SupportInterfaceController
+      include AuthorizeSupportUserCandidateEditable
+
       def new_search
         @course_search = CourseSearchForm.new(
           application_form_id:,

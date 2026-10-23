@@ -62,36 +62,51 @@ class NavigationItems
     def for_support_primary_nav(current_support_user, current_controller)
       if current_support_user
         [
-          {
-            text: 'Candidates',
-            href: support_interface_applications_path,
-            active: active?(current_controller, %w[candidates import_references application_forms]),
-          },
-          {
-            text: 'Providers',
-            href: support_interface_providers_path,
-            active: active?(
-              current_controller,
-              %w[providers provider_recruitment_performance_report course provider_users api_tokens provider_recruitment_report],
-              %w[application_forms],
-            ),
-          },
-          {
-            text: 'Performance',
-            href: support_interface_performance_path,
-            active: active?(current_controller, %w[performance data_exports validation_errors email_log vendor_api_requests performance_dashboard], %w[provider_recruitment_performance_report]),
-          },
-          {
-            text: 'Settings',
-            href: support_interface_settings_path,
-            active: active?(current_controller, %w[settings tasks support_users show_service_banner configure_service_banner]),
-          },
-          {
-            text: 'Documentation',
-            href: support_interface_docs_path,
-            active: active?(current_controller, %w[docs]),
-          },
-        ]
+          if SupportInterface::CandidatePolicy.new(current_support_user, nil).show?
+            {
+              text: 'Candidates',
+              href: support_interface_applications_path,
+              active: active?(current_controller, %w[candidates import_references application_forms]),
+            }
+          end,
+          if SupportInterface::ProviderPolicy.new(current_support_user, nil).show? ||
+             SupportInterface::ProviderUserPolicy.new(current_support_user, nil).show?
+            {
+              text: 'Providers',
+              href: support_interface_providers_path,
+              active: active?(
+                current_controller,
+                %w[providers provider_recruitment_performance_report course provider_users api_tokens provider_recruitment_report],
+                %w[application_forms],
+              ),
+            }
+          end,
+          if SupportInterface::ProviderPolicy.new(current_support_user, nil).show? ||
+             SupportInterface::ReportPolicy.new(current_support_user, nil).show?
+            {
+              text: 'Performance',
+              href: support_interface_performance_path,
+              active: active?(current_controller, %w[performance data_exports validation_errors email_log vendor_api_requests performance_dashboard], %w[provider_recruitment_performance_report]),
+            }
+          end,
+          if SupportInterface::FeatureFlagPolicy.new(current_support_user, nil).show? ||
+             SupportInterface::RecruitmentCyclePolicy.new(current_support_user, nil).show? ||
+             SupportInterface::SupportUserPolicy.new(current_support_user, nil).show? ||
+             SupportInterface::ServiceBannerPolicy.new(current_support_user, nil).show?
+            {
+              text: 'Settings',
+              href: support_interface_settings_path,
+              active: active?(current_controller, %w[settings tasks support_users show_service_banner configure_service_banner]),
+            }
+          end,
+          if SupportInterface::DocumentationPolicy.new(current_support_user, nil).show?
+            {
+              text: 'Documentation',
+              href: support_interface_docs_path,
+              active: active?(current_controller, %w[docs]),
+            }
+          end,
+        ].compact.flatten
       else
         []
       end

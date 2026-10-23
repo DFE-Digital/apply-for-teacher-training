@@ -1,6 +1,8 @@
 module SupportInterface
   module ApplicationForms
     class ApplicantDetailsController < SupportInterfaceController
+      include AuthorizeSupportUserCandidateEditable
+
       def edit
         @details = EditApplicantDetailsForm.new(
           ApplicationForm.find(params.expect(:application_form_id)),

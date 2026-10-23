@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationSummaryComponent do
+  let(:support_user) { create(:support_user) }
+
+  before do
+    # rubocop:disable-next RSpec/AnyInstance
+    without_partial_double_verification do
+      allow_any_instance_of(ActionView::Base).to receive(:current_support_user).and_return(support_user)
+    end
+  end
+  
   describe '#rows' do
     it 'indicates if the application was submitted less than 5 days ago' do
       submitted_at = 3.business_days.ago

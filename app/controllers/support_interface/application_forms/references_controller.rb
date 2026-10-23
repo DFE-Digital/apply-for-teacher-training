@@ -1,6 +1,8 @@
 module SupportInterface
   module ApplicationForms
     class ReferencesController < SupportInterfaceController
+      include AuthorizeSupportUserCandidateEditable
+
       def edit_reference_details
         @details_form = EditReferenceDetailsForm.build_from_reference(reference)
       end

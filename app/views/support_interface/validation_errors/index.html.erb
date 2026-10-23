@@ -1,6 +1,10 @@
 <%= render 'support_interface/performance/performance_navigation', title: 'Validation errors' %>
 
 <ul class="govuk-list govuk-list--spaced">
-  <li class="govuk-heading-m"><%= govuk_link_to 'Candidate validation errors', support_interface_validation_errors_candidate_path %></li>
-  <li class="govuk-heading-m"><%= govuk_link_to 'Provider validation errors', support_interface_validation_errors_provider_path %></li>
+  <% if SupportInterface::CandidatePolicy.new(current_support_user, nil).show? %>
+    <li class="govuk-heading-m"><%= govuk_link_to 'Candidate validation errors', support_interface_validation_errors_candidate_path %></li>
+  <% end %>
+  <% if SupportInterface::ProviderUserPolicy.new(current_support_user, nil).show? %>
+    <li class="govuk-heading-m"><%= govuk_link_to 'Provider validation errors', support_interface_validation_errors_provider_path %></li>
+  <% end %>
 </ul>

@@ -3,19 +3,35 @@
 
 <% if HostingEnvironment.production? %>
   <%= render TabNavigationComponent.new(items: [
-    { name: 'Feature flags', url: support_interface_feature_flags_path },
-    { name: 'Recruitment cycles', url: support_interface_recruitment_cycle_timetables_path },
-    { name: 'Support users', url: support_interface_support_users_path },
-    { name: 'Service banners', url: support_interface_service_banners_path, current: request.path.include?('/support/settings/service-banners') },
-  ]) %>
+    if SupportInterface::FeatureFlagPolicy.new(current_support_user, nil).show?
+      { name: 'Feature flags', url: support_interface_feature_flags_path }
+    end,
+    if SupportInterface::RecruitmentCyclePolicy.new(current_support_user, nil).show?
+      { name: 'Recruitment cycles', url: support_interface_recruitment_cycle_timetables_path }
+    end,
+    if SupportInterface::SupportUserPolicy.new(current_support_user, nil).index?
+      { name: 'Support users', url: support_interface_support_users_path }
+    end,
+    if SupportInterface::ServiceBannerPolicy.new(current_support_user, nil).show?
+      { name: 'Service banners', url: support_interface_service_banners_path, current: request.path.include?('/support/settings/service-banners') }
+    end,
+  ].compact.flatten) %>
 <% else %>
   <%= render TabNavigationComponent.new(items: [
-    { name: 'Feature flags', url: support_interface_feature_flags_path },
-    { name: 'Recruitment cycles', url: support_interface_recruitment_cycle_timetables_path },
+    if SupportInterface::FeatureFlagPolicy.new(current_support_user, nil).show?
+      { name: 'Feature flags', url: support_interface_feature_flags_path }
+    end,
+    if SupportInterface::RecruitmentCyclePolicy.new(current_support_user, nil).show?
+      { name: 'Recruitment cycles', url: support_interface_recruitment_cycle_timetables_path }
+    end,
     { name: 'Tasks', url: support_interface_tasks_path },
-    { name: 'Support users', url: support_interface_support_users_path },
-    { name: 'Service banners', url: support_interface_service_banners_path, current: request.path.include?('/support/settings/service-banners') },
-  ]) %>
+    if SupportInterface::SupportUserPolicy.new(current_support_user, nil).index?
+      { name: 'Support users', url: support_interface_support_users_path }
+    end,
+    if SupportInterface::ServiceBannerPolicy.new(current_support_user, nil).show?
+      { name: 'Service banners', url: support_interface_service_banners_path, current: request.path.include?('/support/settings/service-banners') }
+    end,
+  ].compact.flatten) %>
 <% end %>
 
 <h2 class="govuk-visually-hidden"><%= title %></h2>

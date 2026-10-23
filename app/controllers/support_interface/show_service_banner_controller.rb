@@ -1,10 +1,14 @@
 module SupportInterface
   class ShowServiceBannerController < SupportInterfaceController
     def show
+      authorize nil, :show?, policy_class: SupportInterface::ServiceBannerPolicy
+
       @banner = ServiceBanner.find(params.expect(:id))
     end
 
     def edit
+      authorize nil, :edit?, policy_class: SupportInterface::ServiceBannerPolicy
+
       @show_service_banner_form = SupportInterface::ShowServiceBannerForm.new(
         show_service_banner: params[:live_banner] || params[:draft_banner] ? 'yes' : 'no',
       )
@@ -12,6 +16,8 @@ module SupportInterface
     end
 
     def update
+      authorize nil, :edit?, policy_class: SupportInterface::ServiceBannerPolicy
+
       @show_service_banner_form = SupportInterface::ShowServiceBannerForm.new(show_service_banner_params)
       @interface = interface_param
 

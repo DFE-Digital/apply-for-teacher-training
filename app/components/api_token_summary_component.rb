@@ -55,7 +55,8 @@ class APITokenSummaryComponent < ApplicationComponent
   end
 
   def revoke_token
-    if can_manage_tokens && token.undiscarded?
+    if SupportInterface::ProviderPolicy.new(helpers.current_support_user, nil).destroy? &&
+       can_manage_tokens && token.undiscarded?
       {
         text: t('.revoke'),
         href: path_to_revoke,

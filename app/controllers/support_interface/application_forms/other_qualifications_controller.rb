@@ -1,6 +1,8 @@
 module SupportInterface
   module ApplicationForms
     class OtherQualificationsController < SupportInterfaceController
+      include AuthorizeSupportUserCandidateEditable
+
       before_action :load_edit_other_qualification_form, only: %i[edit update]
 
       def edit; end
