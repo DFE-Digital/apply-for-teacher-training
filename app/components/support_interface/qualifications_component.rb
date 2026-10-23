@@ -6,6 +6,6 @@ class SupportInterface::QualificationsComponent < ApplicationComponent
   end
 
   def editable
-    @editable ||= SupportInterface::CandidatePolicy.new(helpers.current_support_user, nil).edit?
+    @editable ||= helpers.current_support_user.can_edit_applications?
   end
 end

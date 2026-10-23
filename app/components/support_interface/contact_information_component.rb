@@ -98,7 +98,7 @@ module SupportInterface
     attr_reader :application_form
 
     def editable?
-      @editable ||= SupportInterface::CandidatePolicy.new(helpers.current_support_user, nil).edit? &&
+      @editable ||= helpers.current_support_user.can_edit_applications? &&
                     application_form.editable?
     end
 
