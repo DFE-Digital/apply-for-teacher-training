@@ -52,7 +52,7 @@ jobs:
             if [ -z "$EXCLUDED" ]; then
               continue
             fi
-            if printf '%s\n' "$DEPENDENCY_NAMES" | tr ',' '\n' | grep -Fxq "$EXCLUDED"; then
+            if printf '%s\n' "$DEPENDENCY_NAMES" | tr ',' '\n' | sed 's/^ *//; s/ *$//' | grep -Fxq "$EXCLUDED"; then
               echo "Excluded package detected: $EXCLUDED"
               is_excluded=true
               break
