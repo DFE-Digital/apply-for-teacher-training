@@ -1,7 +1,7 @@
 module SupportInterface
   class SettingsController < SupportInterfaceController
     def activate_feature_flag
-      authorize nil, :edit?, policy_class: ::SupportInterface::FeatureFlagPolicy
+      authorize nil, :edit?, policy_class: SupportInterface::FeatureFlagPolicy
 
       FeatureFlag.activate(params[:feature_name])
 
@@ -10,7 +10,7 @@ module SupportInterface
     end
 
     def deactivate_feature_flag
-      authorize nil, :edit?, policy_class: ::SupportInterface::FeatureFlagPolicy
+      authorize nil, :edit?, policy_class: SupportInterface::FeatureFlagPolicy
 
       FeatureFlag.deactivate(params[:feature_name])
 

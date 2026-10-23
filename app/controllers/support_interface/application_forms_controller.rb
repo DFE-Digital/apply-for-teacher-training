@@ -1,5 +1,6 @@
 module SupportInterface
   class ApplicationFormsController < SupportInterfaceController
+    before_action :authorize_support_user
     def index
       @filter = SupportInterface::ApplicationsFilter.new(params: filter_params)
       @pagy, @application_forms = @filter.filter_records(ApplicationForm)
@@ -14,6 +15,10 @@ module SupportInterface
     end
 
   private
+
+    def authorize_support_user
+      authorize(nil, :show?, policy_class: SupportInterface::CandidatePolicy)
+    end
 
     def application_form
       @_application_form ||= ApplicationForm.find(params.expect(:application_form_id))

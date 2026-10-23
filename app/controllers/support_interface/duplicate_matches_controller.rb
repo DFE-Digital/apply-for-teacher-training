@@ -3,6 +3,8 @@ module SupportInterface
     PAGY_PER_PAGE = 100
 
     def index
+      authorize(nil, :show?, policy_class: SupportInterface::CandidatePolicy)
+
       @filter = SupportInterface::DuplicateMatchesFilter.new(params:)
 
       matches_scope = if @filter.applied_filters[:query].present?
@@ -16,16 +18,22 @@ module SupportInterface
     end
 
     def show
+      authorize(nil, :show?, policy_class: SupportInterface::CandidatePolicy)
+
       @match = DuplicateMatch.find(params.expect(:id))
     end
 
     def update
+      authorize(nil, :edit?, policy_class: SupportInterface::CandidatePolicy)
+
       @match = DuplicateMatch.find(params.expect(:id))
       @match.update(resolved: resolved_params)
       redirect_to support_interface_duplicate_match_path(@match)
     end
 
     def resolved?
+      authorize(nil, :edit?, policy_class: SupportInterface::CandidatePolicy)
+
       resolved_params.present?
     end
     helper_method :resolved?

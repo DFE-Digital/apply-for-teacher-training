@@ -140,7 +140,7 @@ module SupportInterface
         key: 'Name',
         value: name,
       }
-      return row unless @editable
+      return row unless editable_by_support_user?
 
       row.merge(
         action: {
@@ -154,7 +154,7 @@ module SupportInterface
         key: 'Email address',
         value: email_address,
       }
-      return row unless @editable
+      return row unless editable_by_support_user?
 
       row.merge(
         action: {
@@ -168,7 +168,7 @@ module SupportInterface
         key: 'How the candidate knows them and how long for',
         value: relationship_value,
       }
-      return row unless @editable
+      return row unless editable_by_support_user?
 
       row.merge(
         action: {
@@ -196,7 +196,7 @@ module SupportInterface
         key: 'Reference',
         value: (reference.feedback_provided? ? feedback : 'Not yet given'),
       }
-      return row unless @editable
+      return row unless editable_by_support_user?
 
       row.merge(
         action: {
@@ -240,7 +240,7 @@ module SupportInterface
         value: confidentiality_value,
       }
 
-      return row unless @editable
+      return row unless editable_by_support_user?
 
       row.merge(
         action: {
@@ -252,7 +252,8 @@ module SupportInterface
     end
 
     def history_row
-      return if reference.not_requested_yet?
+      return if reference.not_requested_yet? ||
+                !SupportInterface::CandidatePolicy.new(helpers.current_support_user, nil).show?
 
       {
         key: 'Email history',
@@ -296,6 +297,11 @@ module SupportInterface
       else
         t("support_interface.references.confidential_warning.#{reference.confidential}")
       end
+    end
+
+    def editable_by_support_user?
+      @editable_by_support_user ||= SupportInterface::CandidatePolicy.new(helpers.current_support_user, nil).edit? &&
+                                    @editable
     end
 
     attr_reader :reference

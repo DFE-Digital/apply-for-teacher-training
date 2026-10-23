@@ -1,5 +1,7 @@
 module SupportInterface
   class ReferencesController < SupportInterfaceController
+    include AuthorizeSupportUserCandidateEditable
+
     before_action :build_reference
     before_action :redirect_to_application_form_path_unless_feedback_requested_and_test_environment,
                   only: %i[impersonate_and_give impersonate_and_decline]

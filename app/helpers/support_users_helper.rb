@@ -23,12 +23,31 @@ module SupportUsersHelper
         { name: 'History', url: support_interface_provider_history_path },
         { name: t('page_titles.recruitment_performance_report'), url: support_interface_provider_recruitment_report_path },
       ]
-      items = items + provider_items
+      items += provider_items
     end
     items
   end
 
-  private
+  def support_user_performance_nav_items(support_user)
+    items = []
+
+    items << { name: 'Dashboards', url: support_interface_performance_path }
+    items << { name: 'Data directory', url: support_interface_data_directory_path }
+    items << { name: 'Validation errors', url: support_interface_validation_errors_path } if view_provider?(support_user) || view_applications?(support_user)
+    items << { name: 'Email log', url: support_interface_email_log_path }
+    if view_provider?(support_user)
+      provider_items = [
+        { name: 'Provider onboarding', url: support_interface_provider_onboarding_path },
+        { name: 'Vendor API requests', url: support_interface_vendor_api_requests_path },
+        { name: 'Monthly Statistics reports', url: support_interface_monthly_statistics_reports_path },
+      ]
+      items += provider_items
+    end
+
+    items
+  end
+
+private
 
   def view_provider?(support_user)
     @view_provider ||= SupportInterface::ProviderPolicy.new(support_user, nil).show?

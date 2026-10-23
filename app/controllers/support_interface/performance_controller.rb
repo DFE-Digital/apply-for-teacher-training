@@ -5,6 +5,8 @@ module SupportInterface
     REASONS_FOR_REJECTION_RECRUITMENT_CYCLE_YEAR = 2023
     PAGY_PER_PAGE = 30
 
+    # CandidatePolicy
+
     def index; end
 
     def course_options

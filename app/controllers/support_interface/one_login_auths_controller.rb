@@ -1,5 +1,7 @@
 module SupportInterface
   class OneLoginAuthsController < SupportInterfaceController
+    include AuthorizeSupportUserCandidateEditable
+
     before_action :set_application_form_and_candidate
     before_action :redirect_if_one_login_auth_does_not_exist
     def edit

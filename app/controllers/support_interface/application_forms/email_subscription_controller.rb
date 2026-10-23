@@ -1,6 +1,8 @@
 module SupportInterface
   module ApplicationForms
     class EmailSubscriptionController < SupportInterfaceController
+      include AuthorizeSupportUserCandidateEditable
+
       before_action :set_application_form
 
       def edit

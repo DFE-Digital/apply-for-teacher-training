@@ -1,5 +1,7 @@
 module SupportInterface
   class MonthlyStatisticsReportsController < SupportInterfaceController
+    before_action :authorize_support_user
+
     def index
       @monthly_statistics_reports = ::Publications::MonthlyStatistics::MonthlyStatisticsReport.order(publication_date: :desc)
     end
@@ -33,5 +35,9 @@ module SupportInterface
         &.generation_date
     end
     helper_method :latest_past_generation_date
+
+    def authorize_support_user
+      authorize(nil, :show?, policy_class: SupportInterface::ReportPolicy)
+    end
   end
 end

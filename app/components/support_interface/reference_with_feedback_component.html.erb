@@ -3,13 +3,13 @@
     <%= render(SummaryCardHeaderComponent.new(title: title, heading_level: 3)) do %>
       <div class="app-summary-card__actions">
         <ul class="app-summary-card__actions-list">
-          <% if @editable && true %>
+          <% if editable_by_support_user? && true %>
             <li class="app-summary-card__actions-list-item">
               <%= govuk_link_to support_interface_destroy_reference_path(reference) do %>
                 <%= t('application_form.references.delete_reference.action') %>
               <% end %>
             </li>
-            <% if @editable && reference.feedback_refused? %>
+            <% if editable_by_support_user? && reference.feedback_refused? %>
               <li class="app-summary-card__actions-list-item">
                 <%= govuk_link_to support_interface_reinstate_reference_path(reference) do %>
                 Undo refusal<span class="govuk-visually-hidden"> for <%= reference.name %></span>

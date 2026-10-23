@@ -1,6 +1,8 @@
 module SupportInterface
   module ApplicationForms
     class PersonalStatementController < SupportInterfaceController
+      include AuthorizeSupportUserCandidateEditable
+
       before_action :build_application_form
 
       def edit_becoming_a_teacher
