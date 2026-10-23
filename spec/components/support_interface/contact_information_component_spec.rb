@@ -2,6 +2,14 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ContactInformationComponent do
   let(:application_form) { build_stubbed(:completed_application_form, country: 'JE', country_residency_since_birth: false, country_residency_date_from: Date.new(2003, 1, 1)) }
+  let(:support_user) { create(:support_user) }
+
+  before do
+    # rubocop:disable-next RSpec/AnyInstance
+    without_partial_double_verification do
+      allow_any_instance_of(ActionView::Base).to receive(:current_support_user).and_return(support_user)
+    end
+  end
 
   subject(:result) { render_inline(described_class.new(application_form:)) }
 
