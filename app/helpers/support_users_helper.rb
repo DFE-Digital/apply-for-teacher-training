@@ -41,4 +41,8 @@ private
   def view_applications?(support_user)
     @view_applications ||= SupportInterface::CandidatePolicy.new(support_user, nil).show?
   end
+
+  def view_reports?(support_user)
+    @view_applications ||= SupportInterface::ReportPolicy.new(support_user, nil).show?
+  end
 end

@@ -25,4 +25,17 @@ class SupportUser < ApplicationRecord
   def display_name
     [first_name, last_name].join(' ').presence || email_address
   end
+
+  def root_path_for_role(controller)
+    @root_path_for_role ||= begin
+                              nav_item = NavigationItems.for_support_primary_nav(self, controller).first
+                              return if nav_item.blank?
+
+                              nav_item[:href]
+                            end
+  end
+
+  def can_edit_applications?
+    @can_edit_applications ||= SupportInterface::CandidatePolicy.new(self, nil).edit?
+  end
 end

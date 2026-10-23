@@ -1,5 +1,6 @@
 module SupportInterface
   class ApplicationFormsController < SupportInterfaceController
+    before_action :redirect_to_root_path_for_role, only: :index
     before_action :authorize_support_user
     def index
       @filter = SupportInterface::ApplicationsFilter.new(params: filter_params)
@@ -30,6 +31,12 @@ module SupportInterface
       else
         params.with_defaults(year: [RecruitmentCycleTimetable.current_year.to_s])
       end
+    end
+
+    def redirect_to_root_path_for_role
+      return if SupportInterface::CandidatePolicy.new(current_user, nil).show?
+
+      redirect_to current_support_user.root_path_for_role(self)
     end
   end
 end

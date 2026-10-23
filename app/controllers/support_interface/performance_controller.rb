@@ -2,10 +2,10 @@ require 'csv'
 
 module SupportInterface
   class PerformanceController < SupportInterfaceController
+    before_action :authorize_support_user
+
     REASONS_FOR_REJECTION_RECRUITMENT_CYCLE_YEAR = 2023
     PAGY_PER_PAGE = 30
-
-    # CandidatePolicy
 
     def index; end
 
@@ -93,6 +93,10 @@ module SupportInterface
 
     def year_param
       params.fetch(:year, @current_timetable.recruitment_cycle_year)
+    end
+
+    def authorize_support_user
+      authorize nil, :show?, policy_class: SupportInterface::CandidatePolicy
     end
   end
 end
