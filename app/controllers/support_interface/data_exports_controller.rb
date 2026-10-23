@@ -1,8 +1,8 @@
 module SupportInterface
   class DataExportsController < SupportInterfaceController
-    PAGY_PER_PAGE = 30
+    before_action :authorize_support_user
 
-    # ProviderUserPolicy
+    PAGY_PER_PAGE = 30
 
     def show
       @data_export = DataExport.active_exports.find(params.expect(:id))
@@ -87,6 +87,10 @@ module SupportInterface
 
     def export_definition
       @export_definition ||= DataExport.active_export_types.fetch(params.fetch(:export_type_id).to_sym)
+    end
+
+    def authorize_support_user
+      authorize nil, :show?, policy_class: SupportInterface::ProviderUserPolicy
     end
   end
 end

@@ -25,7 +25,7 @@ module Blazer
     def handle_unauthorised
       flash[:info] = 'You are not authorized to perform this action.'
 
-      redirect_to main_app.support_interface_path
+      redirect_to current_user.root_path_for_role(self)
     end
   end
 end

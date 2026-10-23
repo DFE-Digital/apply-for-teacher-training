@@ -1,5 +1,6 @@
 module SupportInterface
   class RegionalReportFiltersController < SupportInterfaceController
+    before_action :authorize_support_user
     before_action :set_provider
     before_action :set_region
 
@@ -35,6 +36,10 @@ module SupportInterface
       params.expect(
         support_interface_regional_report_form: [:region],
       )
+    end
+
+    def authorize_support_user
+      authorize(nil, :show?, policy_class: SupportInterface::ReportPolicy)
     end
   end
 end
