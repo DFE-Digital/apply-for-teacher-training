@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ServiceBannerConfigurationComponent do
+  let(:support_user) { create(:support_user) }
+
+  before do
+    # rubocop:disable-next RSpec/AnyInstance
+    without_partial_double_verification do
+      allow_any_instance_of(ActionView::Base).to receive(:current_support_user).and_return(support_user)
+    end
+  end
+
   context 'when the component is not enabled with no audit history' do
     it 'displays the default rows and text' do
       interface = 'support_console'

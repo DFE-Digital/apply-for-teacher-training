@@ -3,6 +3,15 @@ require 'rails_helper'
 RSpec.describe SupportInterface::ApplicationChoiceComponent do
   include Rails.application.routes.url_helpers
 
+  let(:support_user) { create(:support_user) }
+
+  before do
+    # rubocop:disable-next RSpec/AnyInstance
+    without_partial_double_verification do
+      allow_any_instance_of(ActionView::Base).to receive(:current_support_user).and_return(support_user)
+    end
+  end
+
   context 'Declined offer' do
     let(:declined_offer) do
       create(:application_choice, :with_completed_application_form, :declined)

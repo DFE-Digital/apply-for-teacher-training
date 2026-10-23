@@ -104,7 +104,7 @@ module DfESignInHelpers
     user_is_a_support_user(email_address:, dfe_sign_in_uid:, role:)
   end
 
-  def user_is_a_support_user(email_address:, dfe_sign_in_uid:, role: 'support')
+  def user_is_a_support_user(email_address:, dfe_sign_in_uid:, _role: 'support')
     SupportUser.find_or_create_by!(
       dfe_sign_in_uid:,
       email_address:,
