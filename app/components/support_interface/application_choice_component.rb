@@ -114,11 +114,11 @@ module SupportInterface
         key: 'Conditions',
         value: conditions.blank? ? 'No conditions added' : render(SupportInterface::ConditionsComponent.new(conditions:, application_choice:)),
         action: if editable?
-            {
-              href: support_interface_edit_application_choice_conditions_path(application_choice_id: @application_choice.id),
-              visually_hidden_text: 'conditions',
-            }
-          end,
+                  {
+                    href: support_interface_edit_application_choice_conditions_path(application_choice_id: @application_choice.id),
+                    visually_hidden_text: 'conditions',
+                  }
+                end,
       }
     end
 
@@ -196,10 +196,10 @@ module SupportInterface
                     {
                       href: edit_support_interface_application_choice_visa_explanation_path(
                         application_choice,
-                        ),
+                      ),
                       visually_hidden_text: 'visa explanation',
                     }
-            end,
+                  end,
         }
       end
     end
