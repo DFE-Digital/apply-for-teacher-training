@@ -1,6 +1,8 @@
 module SupportInterface
   module ApplicationForms
     class JobsController < SupportInterfaceController
+      include AuthorizeSupportUserCandidateEditable
+
       before_action :build_application_form
 
       def edit

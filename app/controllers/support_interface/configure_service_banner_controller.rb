@@ -1,11 +1,15 @@
 module SupportInterface
   class ConfigureServiceBannerController < SupportInterfaceController
     def new
+      authorize(nil, policy_class: SupportInterface::ServiceBannerPolicy)
+
       @interface = interface_param
       @configure_service_banner_form = SupportInterface::ConfigureServiceBannerForm.new(interface: @interface)
     end
 
     def edit
+      authorize(nil, policy_class: SupportInterface::ServiceBannerPolicy)
+
       @interface = interface_param
       @banner = ServiceBanner.find(params.expect(:id))
       @back_link_path = edit_back_link_path
@@ -17,6 +21,8 @@ module SupportInterface
     end
 
     def create
+      authorize(nil, policy_class: SupportInterface::ServiceBannerPolicy)
+
       @interface = interface_param
       @configure_service_banner_form = SupportInterface::ConfigureServiceBannerForm.new(configure_service_banner_params.merge(interface: @interface))
 
@@ -29,6 +35,8 @@ module SupportInterface
     end
 
     def update
+      authorize(nil, policy_class: SupportInterface::ServiceBannerPolicy)
+
       @interface = interface_param
       @banner = ServiceBanner.find(params.expect(:id))
       @configure_service_banner_form = SupportInterface::ConfigureServiceBannerForm.new(configure_service_banner_params.merge(banner: @banner, interface: @interface))
@@ -42,11 +50,15 @@ module SupportInterface
     end
 
     def preview
+      authorize(nil, :show?, policy_class: SupportInterface::ServiceBannerPolicy)
+
       @interface = interface_param
       @banner = ServiceBanner.find(params.expect(:id))
     end
 
     def publish
+      authorize(nil, :edit?, policy_class: SupportInterface::ServiceBannerPolicy)
+
       @interface = interface_param
       @banner = ServiceBanner.find(params.expect(:id))
       @banner.published!

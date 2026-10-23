@@ -1,13 +1,19 @@
 module SupportInterface
   module ApplicationForms
     class AddressTypeController < SupportInterfaceController
+      include AuthorizeSupportUserCandidateEditable
+
       before_action :set_application_form
 
       def edit
+        authorize nil, :edit?, policy_class: SupportInterface::CandidatePolicy
+
         @details_form = EditAddressDetailsForm.build_from_application_form(@application_form)
       end
 
       def update
+        authorize nil, :edit?, policy_class: SupportInterface::CandidatePolicy
+
         @details_form = EditAddressDetailsForm.new(address_type_params)
         if @details_form.save_address_type(@application_form)
           redirect_to support_interface_application_form_edit_address_details_path

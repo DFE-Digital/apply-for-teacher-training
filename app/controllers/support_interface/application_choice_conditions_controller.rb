@@ -1,5 +1,7 @@
 module SupportInterface
   class ApplicationChoiceConditionsController < SupportInterfaceController
+    include AuthorizeSupportUserCandidateEditable
+
     def edit
       @form = SupportInterface::ConditionsForm.build_from_application_choice(application_choice)
     end

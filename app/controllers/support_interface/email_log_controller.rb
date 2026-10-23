@@ -6,7 +6,7 @@ module SupportInterface
       @filter = SupportInterface::EmailsFilter.new(params:)
 
       emails = if @filter.filtered?
-                 EmailQuery.call(params: @filter.applied_filters)
+                 EmailQuery.call(params: @filter.applied_filters, user: current_support_user)
                else
                  Email.none
                end

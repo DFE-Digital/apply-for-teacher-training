@@ -1,5 +1,7 @@
 module SupportInterface
   class LocationSuggestionsController < SupportInterfaceController
+    include AuthorizeSupportUserCandidateEditable
+
     def index
       return render(json: [], status: :bad_request) if params[:query].blank?
 

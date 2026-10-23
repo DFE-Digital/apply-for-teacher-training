@@ -2,6 +2,8 @@ module SupportInterface
   module ApplicationForms
     module ApplicationChoices
       class BaseController < SupportInterfaceController
+        include AuthorizeSupportUserCandidateEditable
+
         def build_application_form
           @application_form = ApplicationForm.find(params.expect(:application_form_id))
         end

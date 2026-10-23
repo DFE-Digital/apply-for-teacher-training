@@ -1,8 +1,9 @@
 class EmailQuery
-  attr_reader :params
+  attr_reader :params, :user
 
-  def initialize(params: {})
+  def initialize(params: {}, user: nil)
     @params = params
+    @user = user
   end
 
   def self.call(...)
@@ -11,6 +12,7 @@ class EmailQuery
 
   def call
     scope = Email.order(id: :desc).includes(:application_form)
+    scope = candidate_viewable_scope(scope, user)
     scope = date_scope(scope)
     scope = recipient_scope(scope)
     scope = subject_scope(scope)
@@ -87,5 +89,11 @@ private
 
     provider_email_addresses = provider.provider_users.map { |user| user.email_address.downcase }
     scope.where('lower(emails.to) IN (?)', provider_email_addresses)
+  end
+
+  def candidate_viewable_scope(scope, user)
+    return Email.none if user.blank? || !SupportInterface::CandidatePolicy.new(user, nil).show?
+
+    scope.where.not(mailer: %w[candidate_mailer referee_mailer])
   end
 end

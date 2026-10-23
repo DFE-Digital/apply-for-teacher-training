@@ -2,6 +2,8 @@ module SupportInterface
   module BulkUpload
     class ChecksController < SupportInterfaceController
       def show
+        authorize(nil, :edit?, policy_class: SupportInterface::ProviderUserPolicy)
+
         @provider = Provider.find(provider_id_param)
         @wizard = MultipleProviderUsersWizard.new(
           state_store: multiple_provider_user_store,
