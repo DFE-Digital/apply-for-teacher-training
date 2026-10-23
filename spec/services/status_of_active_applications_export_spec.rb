@@ -1,5 +1,5 @@
 require 'rails_helper'
-RSpec.describe ProviderInterface::StatusOfActiveApplicationsExport do
+RSpec.describe StatusOfActiveApplicationsExport do
   let(:provider) { create(:provider) }
   let(:other_provider) { create(:provider) }
   let(:course_without_accredited_provider) { create(:course, name: 'Beekeeping', provider:, accredited_provider: nil) }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::ActiveApplicationStatusesByProvider do
+RSpec.describe ActiveApplicationStatusesByProvider do
   describe '#call' do
     let(:provider) { create(:provider) }
     let(:other_provider) { create(:provider) }

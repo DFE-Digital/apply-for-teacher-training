@@ -1,0 +1,34 @@
+<%= render 'support_interface/providers/providers_navigation', title: 'Providers' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t('page_titles.withdrawal_reasons_report') %>
+    </h1>
+
+    <%= form_with url: request.path, method: :get do |f| %>
+      <div data-controller='submit-on-click'>
+        <%= f.govuk_select(
+          :provider_id,
+          options_for_select(Provider.all.map { |p| [p.name, p.id] }, @provider.id),
+          label: { size: 's', text: 'Select provider' },
+          data: { action: 'change->submit-on-click#call', submit_on_click_target: 'input' },
+        ) %>
+      </div>
+    <% end %>
+
+    <% if @withdrawal_reason_report.show_report? %>
+      <p class="govuk-body">
+        <%= t('reports.withdrawal_reasons_reports.report_description') %>
+      </p>
+    <% else %>
+      <%= t('reports.withdrawal_reasons_reports.report_not_visible_html') %>
+    <% end %>
+  </div>
+
+  <%= render(
+    WithdrawalReasonsReportsComponent.new(
+      withdrawal_reason_report: @withdrawal_reason_report,
+    ),
+  ) %>
+</div>

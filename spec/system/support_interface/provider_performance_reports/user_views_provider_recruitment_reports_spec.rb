@@ -130,7 +130,21 @@ private
     visit support_interface_path
     click_on 'Providers'
     click_on @provider.name_and_code
-    click_on 'Recruitment performance report'
+    click_on 'Reports'
+
+    current_cycle_report_link = page.all(:link, 'Recruitment performance report').find do |link|
+      link[:href].include?("recruitment_cycle_year=#{current_year}")
+    end
+
+    if current_cycle_report_link
+      current_cycle_report_link.click
+    else
+      # Before the report season the current cycle report is not linked from
+      # the reports index, so support users go to it directly
+      visit(
+        support_interface_provider_recruitment_report_path(@provider, recruitment_cycle_year: current_year),
+      )
+    end
   end
 
   def when_i_set_london_as_my_region
