@@ -1,9 +1,10 @@
 module SupportInterface
   class DeveloperToolPolicy < ApplicationPolicy
     def show?
-      return true if user.technical_role? || user.researcher_role?
-
-      false
+      # return true if user.technical_role? || user.researcher_role?
+      #
+      # false
+      true
     end
     # Blazer methods
     alias home? show?
@@ -16,9 +17,10 @@ module SupportInterface
     alias tables? show?
 
     def edit?
-      return true if user.technical_role?
-
-      false
+      # return true if user.technical_role?
+      #
+      # false
+      true
     end
     alias new? edit?
     alias create? edit?

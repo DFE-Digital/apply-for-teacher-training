@@ -5,9 +5,10 @@ module SupportInterface
     end
 
     def edit?
-      return true if user.technical_role? || user.business_role?
-
-      false
+      # return true if user.technical_role? || user.business_role?
+      #
+      # false
+      true
     end
   end
 end

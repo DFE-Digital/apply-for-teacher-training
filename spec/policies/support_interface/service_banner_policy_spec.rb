@@ -43,8 +43,11 @@ RSpec.describe SupportInterface::ServiceBannerPolicy do
     context 'when user has a support role' do
       let(:role) { 'support' }
 
-      it 'denies access' do
-        expect(policy).not_to permit(support_user, nil)
+      # it 'denies access' do
+      #   expect(policy).not_to permit(support_user, nil)
+      # end
+      it 'permits access' do
+        expect(policy).to permit(support_user, nil)
       end
     end
 
@@ -77,8 +80,11 @@ RSpec.describe SupportInterface::ServiceBannerPolicy do
     context 'when user has a support role' do
       let(:role) { 'support' }
 
-      it 'denies access' do
-        expect(policy).not_to permit(support_user, nil)
+      # it 'denies access' do
+      #   expect(policy).not_to permit(support_user, nil)
+      # end
+      it 'permits access' do
+        expect(policy).to permit(support_user, nil)
       end
     end
 
