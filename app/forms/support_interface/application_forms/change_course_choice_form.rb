@@ -2,6 +2,7 @@ module SupportInterface
   module ApplicationForms
     class ChangeCourseChoiceForm
       include ActiveModel::Model
+      include ActiveModel::Attributes
       include ActiveModel::Validations::Callbacks
 
       attr_accessor :application_choice_id,
@@ -14,11 +15,13 @@ module SupportInterface
                     :audit_comment_ticket,
                     :confirm_course_change,
                     :checkbox_rendered
+      attribute :confirm_provider_changed, :boolean
       attr_writer :recruitment_cycle_year
 
       before_validation :strip_whitespace_from_attributes
 
       validates :provider_code, :course_code, :study_mode, :site_code, :audit_comment_ticket, :accept_guidance, presence: true
+      validates :confirm_provider_changed, presence: true, if: :provider_code_changed?
       validates :confirm_course_change, presence: true, if: :checkbox_rendered?
 
       validate :provider_exists
@@ -31,6 +34,15 @@ module SupportInterface
       delegate :present?, to: :course_option, prefix: true
 
       validates_with ZendeskUrlValidator
+
+      def self.build_from_course_option(course_option)
+        new(
+          provider_code: course_option.course.provider.code,
+          course_code: course_option.course.code,
+          study_mode: course_option.study_mode,
+          site_code: course_option.site.code,
+        )
+      end
 
       def save(application_choice)
         @application_choice = application_choice
@@ -68,6 +80,13 @@ module SupportInterface
         else
           errors.add(:provider_code, :invalid_provider_code)
         end
+      end
+
+      def provider_code_changed?
+        return false if provider_code.blank? || provider.blank? || application_choice.blank?
+
+        choice = ApplicationChoice.find(application_choice)
+        provider != choice.current_provider
       end
 
       def course_exists

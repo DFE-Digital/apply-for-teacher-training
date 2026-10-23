@@ -60,15 +60,6 @@ namespace :support_interface, path: '/support' do
     get '/reinstate-offer/:application_choice_id' => 'application_forms/application_choices/reinstate_declined_offer#confirm_reinstate_offer', as: :application_form_application_choice_reinstate_offer
     patch '/reinstate-offer/:application_choice_id' => 'application_forms/application_choices/reinstate_declined_offer#reinstate_offer'
 
-    get '/change-offered-course-search/:application_choice_id' => 'application_forms/application_choices/change_offered_course#change_offered_course_search', as: :application_form_application_choice_change_offered_course_search
-    post '/change-offered-course-search/:application_choice_id' => 'application_forms/application_choices/change_offered_course#search'
-
-    get '/choose-offered-course/:application_choice_id' => 'application_forms/application_choices/change_offered_course#offered_course_options', as: :application_form_application_choice_choose_offered_course_option
-    post '/choose-offered-course/:application_choice_id' => 'application_forms/application_choices/change_offered_course#choose_offered_course_option'
-
-    get '/confirm-offered-course/:application_choice_id/:application_choice_id' => 'application_forms/application_choices/change_offered_course#confirm_offered_course_option', as: :application_form_application_choice_confirm_offered_course_option
-    patch '/confirm-offered-course/:application_choice_id/:application_choice_id' => 'application_forms/application_choices/change_offered_course#update_offered_course_option'
-
     get '/revert-rejection/:application_choice_id' => 'application_forms/application_choices#confirm_revert_rejection', as: :application_form_revert_rejection
     patch '/revert-rejection/:application_choice_id' => 'application_forms/application_choices#revert_rejection'
 
