@@ -300,7 +300,7 @@ module SupportInterface
     end
 
     def editable_by_support_user?
-      @editable_by_support_user ||= SupportInterface::CandidatePolicy.new(helpers.current_support_user, nil).edit? &&
+      @editable_by_support_user ||= helpers.current_support_user.can_edit_applications? &&
                                     @editable
     end
 
