@@ -1,6 +1,7 @@
 module SupportInterface
   module ApplicationForms
     class DeleteApplicationController < SupportInterfaceController
+      before_action :authorize_support_user
       before_action :find_application_form
 
       def delete
@@ -18,6 +19,10 @@ module SupportInterface
       end
 
     private
+
+      def authorize_support_user
+        authorize nil, :edit?, policy_class: SupportInterface::CandidatePolicy
+      end
 
       def delete_application_params
         params

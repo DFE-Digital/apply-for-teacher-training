@@ -1,6 +1,8 @@
 module SupportInterface
   module ApplicationForms
     class ApplicationChoicesController < SupportInterfaceController
+      include AuthorizeSupportUserCandidateEditable
+
       before_action :build_application_form, :build_application_choice
       before_action :redirect_to_application_form_unless_declined, only: %i[reinstate_offer confirm_reinstate_offer]
 

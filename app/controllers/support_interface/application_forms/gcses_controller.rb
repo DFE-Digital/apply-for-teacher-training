@@ -1,6 +1,8 @@
 module SupportInterface
   module ApplicationForms
     class GcsesController < SupportInterfaceController
+      include AuthorizeSupportUserCandidateEditable
+
       def edit
         @application_qualification = ApplicationQualification.find(params.expect(:id))
 

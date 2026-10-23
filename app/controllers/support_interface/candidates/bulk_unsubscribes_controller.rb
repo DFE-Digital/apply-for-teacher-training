@@ -1,4 +1,6 @@
 class SupportInterface::Candidates::BulkUnsubscribesController < SupportInterface::SupportInterfaceController
+  include AuthorizeSupportUserCandidateEditable
+
   def new
     @bulk_unsubscribe_form = SupportInterface::Candidates::BulkUnsubscribeForm.new
   end

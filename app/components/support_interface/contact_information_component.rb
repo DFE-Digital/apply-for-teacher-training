@@ -98,7 +98,8 @@ module SupportInterface
     attr_reader :application_form
 
     def editable?
-      application_form.editable?
+      @editable ||= SupportInterface::CandidatePolicy.new(helpers.current_support_user, nil).edit? &&
+                    application_form.editable?
     end
 
     def find_country
