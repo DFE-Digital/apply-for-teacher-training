@@ -381,6 +381,7 @@ BACKUP_SAS_PERMISSIONS=cw
 	aks_db_job_backup \
 	aks_db_job_list_backups \
 	aks_db_job_restore \
+	aks_db_job_restore_custom \
 	aks_db_job_interactive_new \
 	aks_db_job_interactive_join \
 	aks_db_job_cleanup
@@ -411,6 +412,17 @@ aks_db_job_restore: \
 		DB_TOOLS_POD_NAME="$(DB_TOOLS_POD_NAME)" \
 		CLEANUP_DB_TOOLS_POD=true \
 		./scripts/db-restore.sh
+
+aks_db_job_restore_custom: \
+    aks_db_job_check_single_pod \
+    aks_db_job_prepare_restore \
+    aks_db_job_create_pod
+	@NAMESPACE="$(NAMESPACE)" \
+	DB_TOOLS_POD_NAME="$(DB_TOOLS_POD_NAME)" \
+	DESTINATION_SERVER="$(DESTINATION_SERVER)" \
+	DESTINATION_DATABASE="$(DESTINATION_DATABASE)" \
+	CLEANUP_DB_TOOLS_POD=true \
+	./scripts/db-restore-custom-target.sh
 
 aks_db_job_interactive_new: \
 	aks_db_job_check_single_pod \

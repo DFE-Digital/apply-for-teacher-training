@@ -1,0 +1,74 @@
+name: Restore database backup to custom target
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment containing the backup
+        required: true
+        default: staging
+        type: choice
+        options:
+          - qa
+          - staging
+          - sandbox
+          - production
+
+      restore_file:
+        description: Backup file to restore
+        required: true
+        type: string
+
+      destination_server:
+        description: PostgreSQL server hostname
+        required: true
+        type: string
+
+      destination_database:
+        description: PostgreSQL database name
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+
+jobs:
+  restore:
+    name: Restore database backup to custom target
+    runs-on: ubuntu-latest
+
+    environment:
+      name: ${{ inputs.environment }}
+
+    env:
+      DEPLOY_ENV: ${{ inputs.environment }}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install kubectl
+        uses: DFE-Digital/github-actions/set-kubectl@master
+
+      - uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set kubelogin environment
+        uses: DFE-Digital/github-actions/set-kubelogin-environment@master
+        with:
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+
+      - name: Grant exec on scripts
+        run: |
+          chmod +x ./scripts/*.sh
+
+      - name: Restore backup to custom target
+        run: |
+          DESTINATION_SERVER="${{ inputs.destination_server }}" \
+          DESTINATION_DATABASE="${{ inputs.destination_database }}" \
+          make ci ${{ env.DEPLOY_ENV }} aks_db_job_restore_custom \
+            RESTORE_FILE="${{ inputs.restore_file }}"
