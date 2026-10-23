@@ -108,7 +108,7 @@ module DfESignInHelpers
     SupportUser.find_or_create_by!(
       dfe_sign_in_uid:,
       email_address:,
-      role:,
+      # role:,
     )
   end
 
