@@ -225,7 +225,7 @@ module SupportInterface
     end
 
     def candidate_editable?
-      @candidate_editable ||= SupportInterface::CandidatePolicy.new(helpers.current_support_user, nil).edit?
+      @candidate_editable ||= helpers.current_support_user.can_edit_applications?
     end
 
     attr_reader :application_form
