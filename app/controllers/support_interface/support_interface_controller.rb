@@ -52,9 +52,15 @@ module SupportInterface
     end
 
     def handle_unauthorised
+      return if current_support_user.blank?
+
       flash[:info] = 'You are not authorized to perform this action.'
 
-      redirect_to main_app.support_interface_path
+      if current_support_user.root_path_for_role(self).blank?
+        render 'errors/not_found', status: :not_found
+      else
+        redirect_to current_support_user.root_path_for_role(self)
+      end
     end
   end
 end

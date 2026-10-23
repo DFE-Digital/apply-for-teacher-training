@@ -31,18 +31,18 @@ module SupportUsersHelper
   def support_user_performance_nav_items(support_user)
     items = []
 
-    items << { name: 'Dashboards', url: support_interface_performance_path }
-    items << { name: 'Data directory', url: support_interface_data_directory_path }
+    items << { name: 'Dashboards', url: support_interface_performance_path } if view_applications?(support_user)
+    items << { name: 'Data directory', url: support_interface_data_directory_path } if view_provider_users?(support_user)
     items << { name: 'Validation errors', url: support_interface_validation_errors_path } if view_provider?(support_user) || view_applications?(support_user)
-    items << { name: 'Email log', url: support_interface_email_log_path }
+    items << { name: 'Email log', url: support_interface_email_log_path } if view_applications?(support_user)
     if view_provider?(support_user)
       provider_items = [
         { name: 'Provider onboarding', url: support_interface_provider_onboarding_path },
         { name: 'Vendor API requests', url: support_interface_vendor_api_requests_path },
-        { name: 'Monthly Statistics reports', url: support_interface_monthly_statistics_reports_path },
       ]
       items += provider_items
     end
+    items << { name: 'Monthly Statistics reports', url: support_interface_monthly_statistics_reports_path } if view_reports?(support_user)
 
     items
   end
@@ -59,5 +59,9 @@ private
 
   def view_applications?(support_user)
     @view_applications ||= SupportInterface::CandidatePolicy.new(support_user, nil).show?
+  end
+
+  def view_reports?(support_user)
+    @view_applications ||= SupportInterface::ReportPolicy.new(support_user, nil).show?
   end
 end

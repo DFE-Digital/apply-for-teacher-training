@@ -4,4 +4,8 @@ class SupportInterface::QualificationsComponent < ApplicationComponent
   def initialize(application_form:)
     @application_form = application_form
   end
+
+  def editable
+    @editable ||= SupportInterface::CandidatePolicy.new(helpers.current_support_user, nil).edit?
+  end
 end

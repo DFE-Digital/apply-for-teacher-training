@@ -3,6 +3,8 @@ module SupportInterface
     PAGY_PER_PAGE = 30
 
     def index
+      authorize nil, :show?, policy_class: SupportInterface::CandidatePolicy
+
       @filter = SupportInterface::EmailsFilter.new(params:)
 
       emails = if @filter.filtered?
