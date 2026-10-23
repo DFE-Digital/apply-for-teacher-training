@@ -79,12 +79,11 @@ task sync_dev_providers: :environment do
   ProductionRecruitmentCycleTimetablesAPI::SyncTimetablesWithProduction.new.call if RecruitmentCycleTimetable.none?
 
   provider_codes = %w[U80 24J 24P D39 S72 1ZW 1N1 Y50 L34 D86 K60 H72 W53 1TZ]
+  TeacherTrainingPublicAPI::SyncSubjects.new.perform
   provider_codes.each do |code|
     provider_from_api = TeacherTrainingPublicAPI::Provider
         .where(year: RecruitmentCycleTimetable.current_year)
         .find(code).first
-
-    TeacherTrainingPublicAPI::SyncSubjects.new.perform
 
     TeacherTrainingPublicAPI::SyncProvider.new(
       provider_from_api:, recruitment_cycle_year: RecruitmentCycleTimetable.previous_year,
