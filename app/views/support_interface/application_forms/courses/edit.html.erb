@@ -3,11 +3,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= govuk_notification_banner(title_text: 'Important') do |notification_banner| %>
-      <% notification_banner.with_heading(text: 'Please read the guidance') %>
-      <p class="govuk-body">This tool should be used in exceptional circumstances where you are moving a candidate from a course with one accredited body to another accredited body. <br role="presentation">If you are planning to use this feature for any other request type, ensure you escalate to senior support staff for approval.</p>
-    <% end %>
-
     <%= form_with(
       model: @change_course_choice,
       url: support_interface_application_form_change_course_choice_path,
@@ -19,13 +14,24 @@
       <p class="govuk-body">If the provider specifies an alternative course but not a site, you should reuse the site code of the existing course.
       Similarly you should also use the study mode of the existing course unless otherwise specified.</p>
 
-      <p class="govuk-body">In case a site's name was specified but not
-      the site code, you can identify the code by navigating through the support interface to the course's vacancies tab where you can find the
+      <p class="govuk-body">In case a site’s name was specified but not
+      the site code, you can identify the code by navigating through the support interface to the course’s vacancies tab where you can find the
       site code printed after the course name.<p>
 
-      <p class="govuk-body">Once the course choice has been changed, please email the candidate and the provider to let them know.</p>
+      <p class="govuk-body">Once the course choice has been changed, email the candidate and the provider to let them know.</p>
 
-      <%= f.govuk_text_field :provider_code, label: { text: 'Provider code', size: 's' }, width: 5 %>
+      <%= f.govuk_text_field(
+            :provider_code,
+            label: { text: 'Provider code', size: 's' },
+            hint: { text: 'Only change the provider code in exceptional circumstances. Changing provider will enable another provider to view the candidate’s application.' },
+            width: 5,
+          ) %>
+      <% if @change_course_choice.errors[:confirm_provider_changed].present? || @change_course_choice.confirm_provider_changed %>
+        <%= f.govuk_check_boxes_fieldset :confirm_provider_changed, legend: nil do %>
+          <%= f.govuk_check_box :confirm_provider_changed, true, multiple: false, label: { text: 'I confirm I want to move the candidate to a course with a different provider.' }, link_errors: true %>
+        <% end %>
+      <% end %>
+
       <%= f.govuk_text_field :course_code, label: { text: 'Course code', size: 's' }, width: 5 %>
       <%= f.govuk_radio_buttons_fieldset :study_mode, legend: { text: 'Study mode', size: 's' } do %>
         <%= f.govuk_radio_button :study_mode, :full_time, label: { text: 'Full time' } %>

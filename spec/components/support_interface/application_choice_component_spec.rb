@@ -38,12 +38,12 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       result = render_inline(described_class.new(accepted_choice))
 
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.support_interface_application_form_application_choice_change_offered_course_search_path(
+        Rails.application.routes.url_helpers.support_interface_application_form_change_course_choice_path(
           application_form_id: accepted_choice.application_form.id,
           application_choice_id: accepted_choice.id,
         ),
       )
-      expect(result.css('.govuk-summary-list__actions').text.strip).to include('Change offered course')
+      expect(result.css('.govuk-summary-list__actions').text.strip).to include('Change course choice')
     end
 
     context 'with conditions' do
@@ -169,12 +169,12 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       result = render_inline(described_class.new(unconditional_offer))
 
       expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(
-        Rails.application.routes.url_helpers.support_interface_application_form_application_choice_change_offered_course_search_path(
+        Rails.application.routes.url_helpers.support_interface_application_form_change_course_choice_path(
           application_form_id: unconditional_offer.application_form.id,
           application_choice_id: unconditional_offer.id,
         ),
       )
-      expect(result.css('.govuk-summary-list__actions a').text.strip).to include('Change offered course')
+      expect(result.css('.govuk-summary-list__actions a').text.strip).to include('Change course choice')
     end
   end
 

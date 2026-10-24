@@ -26,7 +26,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
     context 'if the new course is already an existing choice' do
       it 'raises a CourseChoiceError error' do
         first_course_option = create(:course_option)
-        second_course_option = create(:course_option, course: create(:course, funding_type: 'fee'))
+        second_course_option = create(:course_option, course: create(:course, funding_type: 'fee', provider: first_course_option.course.provider))
         application_form = create(:application_form)
         application_choice_to_change = create(:application_choice, :awaiting_provider_decision, course_option: first_course_option, application_form:)
         create(:application_choice, :awaiting_provider_decision, course_option: second_course_option, application_form:)
@@ -375,6 +375,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
           site_code: other_course_option.site.code,
           audit_comment_ticket: zendesk_ticket,
           accept_guidance: true,
+          confirm_provider_changed: true,
         )
 
         expect { form.save(application_choice.id) }.to raise_error(ProviderInterviewError)
@@ -386,7 +387,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
         original_course_option = create(:course_option)
         application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
 
-        course_option = create(:course_option)
+        course_option = create(:course_option, course: create(:course, provider: original_course_option.course.provider))
         zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
 
         form = described_class.new(
@@ -412,7 +413,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
         original_course_option = create(:course_option, course: create(:course, recruitment_cycle_year: 2024))
         application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
 
-        course_option = create(:course_option, course: create(:course, recruitment_cycle_year: 2024))
+        course_option = create(:course_option, course: create(:course, recruitment_cycle_year: 2024, provider: original_course_option.course.provider))
         zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
 
         form = described_class.new(
@@ -440,7 +441,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
         offer_with_ske = create(:offer, :with_ske_conditions)
         application_choice = create(:application_choice, :offer, offer: offer_with_ske, course_option: original_course_option)
 
-        course_option = create(:course_option, study_mode: :full_time, course: create(:course, funding_type: 'fee'))
+        course_option = create(:course_option, study_mode: :full_time, course: create(:course, funding_type: 'fee', provider: original_course_option.course.provider))
         zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
 
         form = described_class.new(
@@ -460,6 +461,41 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
         expect(application_choice.audits.last.comment).to include(zendesk_ticket)
         expect(application_choice.reload.offer.ske_conditions).to be_empty
       end
+    end
+
+    context 'provider code has changed' do
+      it 'requires confirmation of changed provider' do
+        original_course_option = create(:course_option)
+        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+
+        course_option = create(:course_option, course: create(:course))
+        zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+
+        form = described_class.new(
+          application_choice_id: application_choice.id,
+          provider_code: course_option.provider.code,
+          course_code: course_option.course.code,
+          study_mode: course_option.course.study_mode,
+          site_code: course_option.site.code,
+          audit_comment_ticket: zendesk_ticket,
+          accept_guidance: true,
+        )
+
+        expect(form.save(application_choice.id)).to be(false)
+        expect(form.errors[:confirm_provider_changed]).to include('Confirm that you want to change the provider. This should only be done in exceptional circumstances')
+      end
+    end
+  end
+
+  describe '#build_from_course_option' do
+    it 'assigns correct codes' do
+      course_option = create(:course_option)
+
+      form = described_class.build_from_course_option(course_option)
+      expect(form.provider_code).to eq(course_option.provider.code)
+      expect(form.course_code).to eq(course_option.course.code)
+      expect(form.study_mode).to eq(course_option.course.study_mode)
+      expect(form.site_code).to eq(course_option.site.code)
     end
   end
 end

@@ -77,7 +77,7 @@ module SupportInterface
       {
         key: 'Course offered',
         value: render(CourseOptionDetailsComponent.new(course_option: application_choice.current_course_option, application_choice:)),
-      }.merge(change_course_offered_link)
+      }.merge(change_course_choice_link)
     end
 
     def course_row
@@ -86,7 +86,7 @@ module SupportInterface
       {
         key: 'Course',
         value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option, application_choice:)),
-      }.merge(change_course_choice_link).merge(change_course_offered_link)
+      }.merge(change_course_choice_link)
     end
 
     def rejected_at_or_by_default_at_row
@@ -217,26 +217,12 @@ module SupportInterface
     end
 
     def change_course_choice_link
-      return {} unless @application_choice.application_form.editable? && ChangeApplicationChoiceCourseOption::VALID_STATES.include?(application_choice.status.to_sym)
+      return {} unless @application_choice.application_form.editable? && @application_choice.state_visible_to_provider?
 
       {
         action: {
           href: support_interface_application_form_change_course_choice_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
           text: 'Change course choice',
-        },
-      }
-    end
-
-    def change_course_offered_link
-      return {} unless @application_choice.pending_conditions? || @application_choice.unconditional_offer_pending_recruitment?
-
-      {
-        action: {
-          href: support_interface_application_form_application_choice_change_offered_course_search_path(
-            application_form_id: application_choice.application_form.id,
-            application_choice_id: application_choice.id,
-          ),
-          text: 'Change offered course',
         },
       }
     end
