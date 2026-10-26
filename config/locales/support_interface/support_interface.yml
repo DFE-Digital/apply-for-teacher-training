@@ -123,6 +123,8 @@ en:
               blank: Please select a course
         support_interface/application_forms/change_course_choice_form:
           attributes:
+            confirm_provider_changed:
+              blank: Confirm that you want to change the provider. This should only be done in exceptional circumstances
             provider_code:
               blank: Enter a provider code
               invalid_provider_code: Enter a real provider code
