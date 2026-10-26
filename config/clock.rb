@@ -22,6 +22,8 @@ class Clock
     FindACandidate::PopulatePoolWorker.perform_later
   end
 
+  every(10.minutes, 'UpdateDuplicateMatchesWorker') { UpdateDuplicateMatchesWorker.perform_later }
+
   # Hourly jobs
 
   every(1.hour, 'DeleteFinishedJobs', at: '**:01') { DeleteFinishedJobsWorker.perform_later }
@@ -33,7 +35,6 @@ class Clock
   end
   every(1.hour, 'ChaseReferences', at: '**:20') { ChaseReferences.perform_later }
   every(1.hour, 'UpdateOutOfDateProviderIdsOnApplicationChoices', at: '**:20') { UpdateOutOfDateProviderIdsOnApplicationChoices.perform_later }
-  every(1.hour, 'UpdateDuplicateMatchesWorker', at: '**:25') { UpdateDuplicateMatchesWorker.perform_later }
   every(1.hour, 'DetectInvariantsHourlyCheck', at: '**:30') { DetectInvariantsHourlyCheck.perform_later }
   every(1.hour, 'Adviser::FetchTeachingSubjectsWorker', at: '**:15') { Adviser::FetchTeachingSubjectsWorker.perform_later }
   every(1.hour, 'EndOfCycle::NextYearIncrementalSync', at: '**:14', skip_first_run: true) do
