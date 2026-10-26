@@ -66,7 +66,7 @@ RSpec.describe CandidateInterface::StepOperations::PreferencesWizard::AssignDefa
       it 'assigns default location preferences' do
         execute
 
-        expect(wizard.location_preferences.map{ |lp| lp.except(:uuid) }).to contain_exactly(
+        expect(wizard.location_preferences.map { |lp| lp.except(:uuid) }).to contain_exactly(
           {
             within: 10,
             location_name: current_application.postcode,
@@ -79,9 +79,9 @@ RSpec.describe CandidateInterface::StepOperations::PreferencesWizard::AssignDefa
             latitude: 54.0001,
             longitude: -2.0003,
             provider_id: site.provider.id,
-          }
+          },
         )
-        expect(wizard.location_preferences.all?{|lp| lp[:uuid].present?}).to be true
+        expect(wizard.location_preferences.all? { |lp| lp[:uuid].present? }).to be true
       end
     end
   end
