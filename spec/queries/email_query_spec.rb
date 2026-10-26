@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe EmailQuery do
   describe '.call' do
-    subject(:call) { described_class.call(params:) }
+    subject(:call) { described_class.call(params:, user:) }
 
     let(:params) { {} }
+    let(:user) { create(:support_user) }
 
     context 'when no params are given' do
       let(:emails) { create_list(:email, 10) }

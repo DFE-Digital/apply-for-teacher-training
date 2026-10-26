@@ -49,7 +49,7 @@ module SupportInterface
 
       authorize(@support_user, :destroy?, policy_class: SupportInterface::SupportUserPolicy)
 
-      @support_user.destroy
+      @support_user.discard
       flash[:success] = 'Support user removed'
       redirect_to support_interface_support_users_path
     end

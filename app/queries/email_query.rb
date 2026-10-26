@@ -94,6 +94,6 @@ private
   def candidate_viewable_scope(scope, user)
     return Email.none if user.blank? || !SupportInterface::CandidatePolicy.new(user, nil).show?
 
-    scope.where.not(mailer: %w[candidate_mailer referee_mailer])
+    scope
   end
 end
