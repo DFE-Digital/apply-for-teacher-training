@@ -5,6 +5,7 @@ module ProviderInterface
         return {} if application_choice.blank?
 
         application = ApplicationChoiceExportDecorator.new(application_choice)
+        application_form = application_choice.application_form
         {
           'Application number' => application.id,
           'Recruitment cycle' => application.application_form.recruitment_cycle_timetable.cycle_range_name,
@@ -16,6 +17,12 @@ module ProviderInterface
           'Date of birth' => application.application_form.date_of_birth,
           'Nationality' => application.nationalities.map { |nat| CountryFinder.find_name_from_iso_code(nat) }.join(', '),
           'Nationality code' => application.nationalities.join(' '),
+          'Right to work or study in UK' => ProviderInterface::PersonalInformationComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.fetch(
+            application_form.right_to_work_or_study, nil
+          ),
+          'Visa type or immigration status' => visa_type(application_form),
+          'Visa expiry' => visa_expiry(application_form),
+          'Lived in UK since' => application_form.country_residency_since_birth ? 'Birth' : application_form.country_residency_date_from.to_fs(:month_and_year),
           'Disability support request' => application.application_form.disability_disclosure,
           'Email address' => application.application_form.candidate.email_address,
           'Phone number' => application.application_form.phone_number,
@@ -60,6 +67,28 @@ module ProviderInterface
           'Offer accepted date' => application.accepted_at,
           'Withdrawn date' => application.withdrawn_at,
           'Declined date' => application.declined_at,
+        }
+      end
+
+      def visa_type(application_form)
+        if application_form.right_to_work_or_study == 'yes'
+          FormatResidencyDetailsService.new(application_form:).residency_details_value
+        end
+      end
+
+      def visa_expiry(application_form)
+        if application_form.temporary_immigration_status? && application_form.visa_expired_at.present?
+          application_form.visa_expired_at.to_fs(:govuk_date)
+        end
+      end
+
+      def lived_in_uk(application_form)
+        return if application_form.country_residency_date_from.blank?
+
+        ## figure this out
+        {
+          key: "Lived in #{CountryFinder.find_name_from_hesa_code(@application_form.country)} since",
+          value: @application_form.country_residency_since_birth ? 'Birth' : @application_form.country_residency_date_from.to_fs(:month_and_year),
         }
       end
 
