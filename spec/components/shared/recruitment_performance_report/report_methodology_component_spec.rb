@@ -35,7 +35,7 @@ RSpec.describe RecruitmentPerformanceReport::ReportMethodologyComponent do
           'Candidates who withdrew or deferred applications after submitting them are included in the figures.',
         )
         expect(rendered_component).to have_text(
-          'This report updates weekly on a Monday, starting from 12 January 2026.',
+          "This report updates weekly on a Monday, starting from #{provider_report.report_starting_date}.",
         )
         expect(rendered_component).to have_text(
           'The 2025 to 2026 recruitment cycle started 30 September 2025 and ends on 28 September 2026.',
@@ -44,7 +44,7 @@ RSpec.describe RecruitmentPerformanceReport::ReportMethodologyComponent do
           'Report updates',
         )
         expect(rendered_component).to have_text(
-          'This report updates weekly on a Monday, starting from 12 January 2026. You can only view data from the most recent week.',
+          "This report updates weekly on a Monday, starting from #{provider_report.report_starting_date}. You can only view data from the most recent week.",
         )
         expect(rendered_component).to have_text(
           'the same week in the previous recruitment cycle 2024 to 2025',
@@ -53,7 +53,7 @@ RSpec.describe RecruitmentPerformanceReport::ReportMethodologyComponent do
 
       it 'does not show content for previous cycle' do
         expect(rendered_component).to have_no_text(
-          'The recruitment performance reports for the 2025 to 2026 recruitment cycle will be available from 12 January 2026.',
+          "The recruitment performance reports for the #{provider_report.next_cycle_range_name} recruitment cycle will be available from #{provider_report.next_reporting_start_date}.",
         )
       end
     end
@@ -81,7 +81,7 @@ RSpec.describe RecruitmentPerformanceReport::ReportMethodologyComponent do
           'Candidates who withdrew or deferred applications after submitting them are included in the figures.',
         )
         expect(rendered_component).to have_text(
-          'The recruitment performance reports for the 2025 to 2026 recruitment cycle will be available from 12 January 2026.',
+          "The recruitment performance reports for the #{provider_report.next_cycle_range_name} recruitment cycle will be available from #{provider_report.next_reporting_start_date}.",
         )
         expect(rendered_component).to have_text(
           'The 2024 to 2025 recruitment cycle started 1 October 2024 and ends on 29 September 2025.',
@@ -99,7 +99,7 @@ RSpec.describe RecruitmentPerformanceReport::ReportMethodologyComponent do
           'Report updates',
         )
         expect(rendered_component).to have_no_text(
-          'This report updates weekly on a Monday, starting from 12 January 2026. You can only view data from the most recent week.',
+          "This report updates weekly on a Monday, starting from #{provider_report.report_starting_date}. You can only view data from the most recent week.",
         )
       end
     end

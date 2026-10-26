@@ -1,0 +1,24 @@
+<%= render 'support_interface/providers/provider_navigation', title: 'Reports' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l"> <%= @provider.name %></span>
+      <%= t('page_titles.withdrawal_reasons_report') %>
+    </h1>
+
+    <% if @withdrawal_reason_report.show_report? %>
+      <p class="govuk-body">
+        <%= t('reports.withdrawal_reasons_reports.report_description') %>
+      </p>
+    <% else %>
+      <%= t('reports.withdrawal_reasons_reports.report_not_visible_html') %>
+    <% end %>
+  </div>
+
+  <%= render(
+    WithdrawalReasonsReportsComponent.new(
+      withdrawal_reason_report: @withdrawal_reason_report,
+    ),
+  ) %>
+</div>

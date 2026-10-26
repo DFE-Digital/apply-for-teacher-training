@@ -7,9 +7,11 @@ import sortByFilter from './utils/sort-by-filter'
 // stimulus
 import { Application } from '@hotwired/stimulus'
 import LocationAutocompleteController from './controllers/location_autocomplete_controller'
+import SubmitOnClickController from './controllers/submit_on_click_controller'
 
 window.Stimulus = Application.start()
 window.Stimulus.register('location-autocomplete', LocationAutocompleteController)
+window.Stimulus.register('submit-on-click', SubmitOnClickController)
 
 govUKFrontendInitAll()
 

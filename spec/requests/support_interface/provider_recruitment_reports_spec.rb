@@ -10,8 +10,9 @@ RSpec.describe 'Support interface - Provider recruitment report' do
     )
   end
   let(:provider) { create(:provider) }
+  let(:recruitment_cycle_year) { current_year }
   let(:provider_report) do
-    create(:provider_recruitment_performance_report, provider:, recruitment_cycle_year: 2025)
+    create(:provider_recruitment_performance_report, provider:, recruitment_cycle_year:)
   end
   let(:regional_report) do
     create(
@@ -41,7 +42,10 @@ RSpec.describe 'Support interface - Provider recruitment report' do
 
   describe 'GET show' do
     it 'returns 200' do
-      get support_interface_provider_recruitment_report_path(provider_id: provider.id)
+      get support_interface_provider_recruitment_report_path(
+        provider_id: provider.id,
+        recruitment_cycle_year:,
+      )
 
       expect(response).to have_http_status :ok
       expect(response.content_type).to eq('text/html; charset=utf-8')
@@ -52,6 +56,7 @@ RSpec.describe 'Support interface - Provider recruitment report' do
         get support_interface_provider_recruitment_report_path(
           provider_id: provider.id,
           format: :zip,
+          recruitment_cycle_year:,
         )
 
         expect(response).to have_http_status :ok
@@ -68,6 +73,7 @@ RSpec.describe 'Support interface - Provider recruitment report' do
           get support_interface_provider_recruitment_report_path(
             provider_id: provider.id,
             format: :zip,
+            recruitment_cycle_year:,
           )
 
           expect(response).to have_http_status :not_found

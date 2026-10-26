@@ -1,0 +1,32 @@
+<%= render 'support_interface/providers/providers_navigation', title: 'Providers' %>
+<%= govuk_back_link(
+  href: support_interface_reports_provider_recruitment_report_path(
+    provider_id: @provider.id,
+    region: @region,
+    recruitment_cycle_year: @recruitment_cycle_year,
+  ),
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @form,
+      url: support_interface_reports_providers_regional_report_filters_path,
+    ) do |f| %>
+      <%= f.hidden_field :recruitment_cycle_year, value: @recruitment_cycle_year %>
+      <%= f.hidden_field :provider_id, value: @provider.id %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_collection_radio_buttons(
+        :region,
+        @form.options,
+        :value,
+        :label,
+        bold_labels: false,
+        legend: { text: 'Set a comparison area', size: 'm' },
+      ) %>
+
+      <%= f.govuk_submit 'Update comparison area' %>
+    <% end %>
+  </div>
+</div>

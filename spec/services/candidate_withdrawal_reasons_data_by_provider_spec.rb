@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::CandidateWithdrawalReasonsDataByProvider do
+RSpec.describe CandidateWithdrawalReasonsDataByProvider do
   let(:provider) { create(:provider) }
 
   describe '#all_rows' do

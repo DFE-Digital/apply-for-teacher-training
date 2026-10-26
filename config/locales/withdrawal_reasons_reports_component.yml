@@ -1,0 +1,9 @@
+en:
+  withdrawal_reasons_reports_component:
+    report_description: This report shows the reasons for withdrawal selected by candidates from a set list. The question is mandatory and candidates can select more than one reason.
+    table_caption: Withdrawal reason report data
+    withdrawal_reason: Withdrawal reason
+    before_accepting: Before accepting
+    after_accepting: After accepting
+    total: Total
+    report_not_ready: Report not ready
