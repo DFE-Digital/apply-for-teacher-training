@@ -55,8 +55,7 @@ class APITokenSummaryComponent < ApplicationComponent
   end
 
   def revoke_token
-    if SupportInterface::ProviderPolicy.new(helpers.current_support_user, nil).destroy? &&
-       can_manage_tokens && token.undiscarded?
+    if revocable?
       {
         text: t('.revoke'),
         href: path_to_revoke,
@@ -102,5 +101,16 @@ class APITokenSummaryComponent < ApplicationComponent
     else
       t('.default_user')
     end
+  end
+
+private
+
+  def revocable?
+    editable_by_user = if helpers.try(:current_support_user).present?
+                         SupportInterface::ProviderPolicy.new(helpers.current_support_user, nil).destroy?
+                       else
+                         true
+                       end
+    editable_by_user && can_manage_tokens && token.undiscarded?
   end
 end

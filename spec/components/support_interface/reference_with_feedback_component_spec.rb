@@ -15,9 +15,6 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent, type: :componen
     without_partial_double_verification do
       allow_any_instance_of(ActionView::Base).to receive(:current_support_user).and_return(support_user)
     end
-  end
-
-  before do
     render_inline(described_class.new(reference:, reference_number: 1, editable:))
   end
 

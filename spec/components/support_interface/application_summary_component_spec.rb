@@ -9,7 +9,7 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
       allow_any_instance_of(ActionView::Base).to receive(:current_support_user).and_return(support_user)
     end
   end
-  
+
   describe '#rows' do
     it 'indicates if the application was submitted less than 5 days ago' do
       submitted_at = 3.business_days.ago
