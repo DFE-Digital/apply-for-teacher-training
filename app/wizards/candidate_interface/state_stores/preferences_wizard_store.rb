@@ -3,7 +3,7 @@ module CandidateInterface
     class PreferencesWizardStore
       include DfE::Wizard::StateStore
 
-      attr_reader :current_application_id, :location_preference_list, :preference_id
+      attr_reader :current_application_id, :location_preference_list, :preference_id, :return_step
 
       delegate :candidate, to: :current_application
       delegate :applied_only_to_salaried_courses?, to: :candidate
