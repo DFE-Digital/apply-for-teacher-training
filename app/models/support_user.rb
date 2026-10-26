@@ -15,6 +15,13 @@ class SupportUser < ApplicationRecord
 
   has_many :dsi_sessions, as: :user, dependent: :destroy
 
+  enum :role, {
+    user_support: 'user_support',
+    technical_management: 'technical_management',
+    service_administration: 'service_administration',
+    research_and_design: 'research_and_design',
+  }, suffix: true
+
   def display_name
     [first_name, last_name].join(' ').presence || email_address
   end

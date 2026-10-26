@@ -21,6 +21,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_122835) do
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "handle_interviews", ["in_manage", "outside_service"]
+  create_enum "support_user_roles", ["user_support", "technical_management", "service_administration", "research_and_design"]
 
   create_table "account_recovery_request_codes", force: :cascade do |t|
     t.bigint "account_recovery_request_id", null: false
@@ -1371,6 +1372,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_122835) do
     t.string "last_name"
     t.datetime "last_signed_in_at", precision: nil
     t.datetime "updated_at", null: false
+    t.enum "role", enum_type: "support_user_roles"
     t.index ["dfe_sign_in_uid"], name: "index_support_users_on_dfe_sign_in_uid", unique: true
     t.index ["discarded_at"], name: "index_support_users_on_discarded_at"
     t.index ["email_address"], name: "index_support_users_on_email_address", unique: true

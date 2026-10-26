@@ -358,6 +358,7 @@
   - first_name
   - last_name
   - discarded_at
+  - role
   :provider_user_notifications:
   - chase_provider_decision
   :provider_users:
