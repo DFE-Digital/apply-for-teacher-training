@@ -82,16 +82,6 @@ module ProviderInterface
         end
       end
 
-      def lived_in_uk(application_form)
-        return if application_form.country_residency_date_from.blank?
-
-        ## figure this out
-        {
-          key: "Lived in #{CountryFinder.find_name_from_hesa_code(@application_form.country)} since",
-          value: @application_form.country_residency_since_birth ? 'Birth' : @application_form.country_residency_date_from.to_fs(:month_and_year),
-        }
-      end
-
       def replace_smart_quotes(text)
         text&.gsub(/(“|”)/, '"')&.gsub(/(‘|’)/, "'")
       end
