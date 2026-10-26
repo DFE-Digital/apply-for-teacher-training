@@ -12,7 +12,7 @@ module CandidateInterface
       state_store.write(preference_as_hash) if preference.present?
       step ||= preference.present? ? :publish : :opt_in
 
-      redirect_to candidate_interface_new_preferences_path(step:)
+      redirect_to candidate_interface_new_preferences_path(step:, return_step: params[:return_step])
     end
 
     def create
@@ -132,11 +132,14 @@ module CandidateInterface
     end
 
     def set_back_link
+      state_store.write(return_step: nil) if current_step == :publish
+      state_store.write(return_step: params[:return_step].to_sym) if params[:return_step].present?
+
       @back_link = if current_step.in?(%i[add_location_preference remove_location_preference])
                      candidate_interface_new_preferences_path(step: :location_preference_list)
                    elsif preference.present? && current_step == :publish
                      candidate_interface_invites_path
-                   elsif preference.present?
+                   elsif state_store[:return_step] == @wizard.current_step_name
                      candidate_interface_new_preferences_path(step: :publish)
                    elsif @wizard.previous_step_path.present?
                      @wizard.previous_step_path
