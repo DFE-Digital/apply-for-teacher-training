@@ -121,7 +121,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         ),
         'Visa type or immigration status' => visa_type,
         'Visa expiry' => visa_expired_at,
-        'Lived in UK since' => application_form.country_residency_since_birth ? 'Birth' : application_form.country_residency_date_from.to_fs(:month_and_year),
+        'Resident since' => application_form.country_residency_since_birth ? 'Birth' : application_form.country_residency_date_from.to_fs(:month_and_year),
         'Disability support request' => application_choice.application_form.disability_disclosure,
         'Email address' => application_choice.application_form.candidate.email_address,
         'Phone number' => application_choice.application_form.phone_number,

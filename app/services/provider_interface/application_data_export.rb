@@ -22,7 +22,7 @@ module ProviderInterface
           ),
           'Visa type or immigration status' => visa_type(application_form),
           'Visa expiry' => visa_expiry(application_form),
-          'Lived in UK since' => application_form.country_residency_since_birth ? 'Birth' : application_form.country_residency_date_from.to_fs(:month_and_year),
+          'Resident since' => application_form.country_residency_since_birth ? 'Birth' : application_form.country_residency_date_from.to_fs(:month_and_year),
           'Disability support request' => application.application_form.disability_disclosure,
           'Email address' => application.application_form.candidate.email_address,
           'Phone number' => application.application_form.phone_number,
