@@ -12,7 +12,7 @@
     "govuk-frontend": "^6.5.1",
     "jquery": "^4.0.0",
     "lodash.debounce": "^4.0.8",
-    "postcss": "^8.5.30",
+    "postcss": "^8.5.31",
     "puppeteer": "^25.14.0",
     "sass": "^1.105.2",
     "stimulus": "^3.2.2"
