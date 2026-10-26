@@ -56,7 +56,7 @@ module SupportInterface
     end
 
     def reset
-      authorize nil, :edit, policy_class: SupportInterface::RecruitmentCyclePolicy
+      authorize nil, :edit?, policy_class: SupportInterface::RecruitmentCyclePolicy
 
       ProductionRecruitmentCycleTimetablesAPI::SyncTimetablesWithProduction.new.call
       flash[:success] = I18n.t('support_interface.recruitment_cycle_timetables.reset.success_message')
