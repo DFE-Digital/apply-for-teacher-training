@@ -64,7 +64,44 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
       end
     end
 
-    def expect_row_to_match_application_choice(row, application_choice)
+    context 'with international candidate' do
+      let(:application_form) do
+        create(
+          :completed_application_form,
+          :international_address,
+          :with_degree,
+          first_nationality: 'French',
+          right_to_work_or_study: 'yes',
+          immigration_status: :student_visa,
+          visa_expired_at:,
+        )
+      end
+      let(:visa_expired_at) { DateTime.new(2028, 10, 10) }
+      let(:application_choice) { create(:application_choice, :offered, application_form:) }
+      let!(:efl) { create(:english_proficiency, application_form:, qualification_not_needed: true) }
+      let!(:maths_gcse) { create(:gcse_qualification, application_form:, subject: 'maths', grade: 'B', award_year: 2019) }
+      let!(:english_gcse) { create(:gcse_qualification, application_form:, subject: 'english', grade: 'A', award_year: 2019) }
+
+      it 'returns the correct data' do
+        expect_row_to_match_application_choice(
+          exported_row,
+          application_choice,
+          nationality: 'France, United States',
+          nationality_code: 'FR US',
+          visa_type: 'Student visa',
+          visa_expired_at: visa_expired_at.to_fs(:govuk_date),
+        )
+      end
+    end
+
+    def expect_row_to_match_application_choice(
+      row,
+      application_choice,
+      nationality: 'United Kingdom, United States',
+      nationality_code: 'GB US',
+      visa_type: nil,
+      visa_expired_at: nil
+    )
       first_degree = application_choice.application_form.application_qualifications
                        .order(created_at: :asc)
                        .find_by(level: 'degree')
@@ -77,8 +114,14 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'First name' => application_choice.application_form.first_name,
         'Last name' => application_choice.application_form.last_name,
         'Date of birth' => application_choice.application_form.date_of_birth,
-        'Nationality' => 'United Kingdom, United States',
-        'Nationality code' => 'GB US',
+        'Nationality' => nationality,
+        'Nationality code' => nationality_code,
+        'Right to work or study in UK' => ProviderInterface::PersonalInformationComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.fetch(
+          application_form.right_to_work_or_study, nil
+        ),
+        'Visa type or immigration status' => visa_type,
+        'Visa expiry' => visa_expired_at,
+        'Resident since' => application_form.country_residency_since_birth ? 'Birth' : application_form.country_residency_date_from.to_fs(:month_and_year),
         'Disability support request' => application_choice.application_form.disability_disclosure,
         'Email address' => application_choice.application_form.candidate.email_address,
         'Phone number' => application_choice.application_form.phone_number,
