@@ -8,7 +8,7 @@ RSpec.describe SupportInterface::ReportPolicy do
 
   permissions :show? do
     context 'when user has a support role' do
-      let(:role) { 'support' }
+      let(:role) { 'user_support' }
 
       it 'permits access' do
         expect(policy).to permit(support_user, nil)
@@ -16,15 +16,15 @@ RSpec.describe SupportInterface::ReportPolicy do
     end
 
     context 'when the user has a technical role' do
-      let(:role) { 'technical' }
+      let(:role) { 'technical_management' }
 
       it 'permits access' do
         expect(policy).to permit(support_user, nil)
       end
     end
 
-    context 'when the user has a business role' do
-      let(:role) { 'business' }
+    context 'when the user has a service_administration role' do
+      let(:role) { 'service_administration' }
 
       it 'permits access' do
         expect(policy).to permit(support_user, nil)
@@ -32,7 +32,7 @@ RSpec.describe SupportInterface::ReportPolicy do
     end
 
     context 'when the user has a researcher role' do
-      let(:role) { 'researcher' }
+      let(:role) { 'research_and_design' }
 
       it 'permits access' do
         expect(policy).to permit(support_user, nil)

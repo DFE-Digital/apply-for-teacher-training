@@ -6,7 +6,7 @@ module SupportInterface
 
     # API tokens
     def edit?
-      # return true if user.support_role? || user.technical_role?
+      # return true if user.user_support_role? || user.technical_management_role?
       #
       # false
       true
@@ -16,7 +16,7 @@ module SupportInterface
     alias update? edit?
 
     def destroy?
-      # return true if user.support_role? || user.technical_role?
+      # return true if user.user_support_role? || user.technical_management_role?
       #
       # false
       true

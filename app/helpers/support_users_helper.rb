@@ -30,7 +30,7 @@ module SupportUsersHelper
 
   def support_user_performance_nav_items(support_user)
     items = []
-    
+
     items << { name: 'Dashboards', url: support_interface_performance_path } if view_applications?(support_user)
     items << { name: 'Data directory', url: support_interface_data_directory_path } if view_provider_users?(support_user)
     items << { name: 'Validation errors', url: support_interface_validation_errors_path } if view_applications?(support_user)

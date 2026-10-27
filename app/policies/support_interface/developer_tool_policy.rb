@@ -1,7 +1,7 @@
 module SupportInterface
   class DeveloperToolPolicy < ApplicationPolicy
     def show?
-      # return true if user.technical_role? || user.researcher_role?
+      # return true if user.technical_management_role? || user.research_and_design_role?
       #
       # false
       true
@@ -17,7 +17,7 @@ module SupportInterface
     alias tables? show?
 
     def edit?
-      # return true if user.technical_role?
+      # return true if user.technical_management_role?
       #
       # false
       true
