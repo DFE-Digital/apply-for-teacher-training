@@ -357,7 +357,6 @@
   - details
   :support_users:
   - id
-  - role
   - dfe_sign_in_uid
   - created_at
   - updated_at
