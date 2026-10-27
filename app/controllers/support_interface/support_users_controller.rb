@@ -32,6 +32,26 @@ module SupportInterface
       end
     end
 
+    def edit
+      @support_user = SupportUser.find(params.expect(:id))
+    end
+
+    def update
+      @support_user = SupportUser.find(params.expect(:id))
+
+      if @support_user.update(support_user_update_params)
+        flash[:success] = 'Support user role updated'
+        redirect_to support_interface_support_users_path
+      else
+        render :edit
+      end
+    end
+
+    def roles
+      @back_link = request.referer || support_interface_support_users_path
+      @roles = SupportUser.roles.values
+    end
+
     def confirm_destroy
       @support_user = SupportUser.find(params.expect(:id))
 
@@ -67,7 +87,11 @@ module SupportInterface
   private
 
     def support_user_params
-      params.expect(support_user: %i[email_address dfe_sign_in_uid])
+      params.expect(support_user: %i[email_address dfe_sign_in_uid role])
+    end
+
+    def support_user_update_params
+      params.expect(support_user: %i[role])
     end
   end
 end

@@ -1,0 +1,11 @@
+<%# locals: (f:, size: m) %>
+
+<%= f.govuk_radio_buttons_fieldset :role, legend: { text: 'Select a role', size: } do %>
+  <%= govuk_warning_text(text: t('.give_user_roles')) %>
+
+  <p class='govuk-body'><%= govuk_link_to(t('.view_full_details'), roles_support_interface_support_users_path) %></p>
+
+  <% SupportUser.roles.values.each_with_index do |role, i| %>
+    <%= f.govuk_radio_button :role, role, label: { text: t("support_interface.support_user.roles.#{role}") }, hint: { text: t(".role.#{role}_hint")}, link_errors: i.zero? %>
+  <% end %>
+<% end %>

@@ -1,0 +1,16 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @support_user.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_support_users_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @support_user, url: support_interface_support_user_path, method: :patch do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <span class="govuk-caption-l"><%= @support_user.display_name %></span>
+
+      <%= render 'role_form', f:, size: 'l' %>
+
+      <%= f.govuk_submit t('.update_role') %>
+    <% end %>
+  </div>>
+</div>

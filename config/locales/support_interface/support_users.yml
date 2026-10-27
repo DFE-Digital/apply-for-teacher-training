@@ -1,0 +1,21 @@
+en:
+  support_interface:
+    support_users:
+      edit:
+        title: Select a role
+        update_role: Update role
+      role_form:
+        give_user_roles:
+          Only give a user the role they need to do their job.
+          Giving a user a role they do not need could allow them to view sensitive data or change how the service works.
+        view_full_details:
+          View full details for each role, including what they can access and change
+        role:
+          user_support: User support
+          user_support_hint: Access and manage candidate, provider and provider user data to investigate and resolve support requests.
+          technical_management: Technical management
+          technical_management_hint: Access all areas of the service, including developer tools, to resolve technical issues and maintain the service.
+          service_administration: Service administration
+          service_administration_hint: Access provider data and limited provider user data to understand performance and support decision making.
+          research_and_design: Research and design
+          research_and_design_hint: Access provider data, limited user data and developer tools to understand user journeys and interactions.

@@ -301,7 +301,11 @@ namespace :support_interface, path: '/support' do
     get '/restore/:id' => 'support_users#confirm_restore', as: :confirm_restore_support_user
     delete '/restore/:id' => 'support_users#restore', as: :restore_support_user
 
-    resources :support_users, only: %i[index new create show], path: :support
+    resources :support_users, only: %i[index new create show edit update], path: :support do
+      collection do
+        get :roles
+      end
+    end
 
     get '/provider/end-impersonation' => 'provider_users#end_impersonation', as: :end_impersonation
 

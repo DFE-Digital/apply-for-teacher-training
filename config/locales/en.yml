@@ -473,6 +473,12 @@ en:
     api_tokens:
       new:
         page_title: Create an API token
+    support_user:
+      roles:
+        user_support: User support
+        technical_management: Technical management
+        service_administration: Service administration
+        research_and_design: Research and design
   activemodel:
     attributes:
       vendor_api/metadata:
