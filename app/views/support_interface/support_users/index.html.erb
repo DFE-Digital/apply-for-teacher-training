@@ -24,6 +24,8 @@
         <td class="govuk-table__cell">
           <% if support_user.role.present? %>
             <%= t("support_interface.support_user.roles.#{support_user.role}") %>
+          <% else %>
+            No role
           <% end %>
         </td>
         <td class="govuk-table__cell">
