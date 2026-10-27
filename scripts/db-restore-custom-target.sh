@@ -41,30 +41,19 @@ kubectl exec \
     echo "Building destination connection string..."
 
     ORIGINAL_URL="$DATABASE_URL"
-
-    DESTINATION_URL=$(python3 - <<EOF
-from urllib.parse import urlparse, urlunparse
-import os
-
-url = urlparse(os.environ["ORIGINAL_URL"])
-
-new_netloc = (
-    f"{url.username}:{url.password}@"
-    f"{os.environ['DESTINATION_SERVER']}:5432"
-)
-
-print(
-    urlunparse((
-        url.scheme,
-        new_netloc,
-        os.environ["DESTINATION_DATABASE"],
-        "",
-        url.query,
-        ""
-    ))
-)
-EOF
-)
+    
+    if [[ "$DESTINATION_SERVER" != *.postgres.database.azure.com ]]; then
+        DESTINATION_SERVER="${DESTINATION_SERVER}.postgres.database.azure.com"
+    fi
+    
+    DESTINATION_URL=$(
+        echo "$ORIGINAL_URL" | \
+        sed -E \
+            "s|@[^:/?]+(:[0-9]+)?/[^?]+|@${DESTINATION_SERVER}:5432/${DESTINATION_DATABASE}|"
+    )
+    
+    echo "Destination server: $DESTINATION_SERVER"
+    echo "Destination database: $DESTINATION_DATABASE"
 
     echo "Testing destination connection..."
 
