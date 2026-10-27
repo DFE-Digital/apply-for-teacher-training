@@ -67,7 +67,7 @@ class NavigationItems
                 text: 'Candidates',
                 href: support_interface_applications_path,
                 active: active?(current_controller, %w[candidates import_references application_forms]),
-              },
+              }
           end,
           if SupportInterface::ProviderPolicy.new(current_support_user, nil).show? ||
              SupportInterface::ProviderUserPolicy.new(current_support_user, nil).show?
@@ -78,8 +78,8 @@ class NavigationItems
                 current_controller,
                 %w[providers provider_recruitment_performance_report course provider_users api_tokens provider_recruitment_report reports],
                 %w[application_forms performance],
-              ),
-            },
+              )
+            }
           end,
           if SupportInterface::ProviderPolicy.new(current_support_user, nil).show? ||
              SupportInterface::ReportPolicy.new(current_support_user, nil).show?
@@ -87,7 +87,7 @@ class NavigationItems
               text: 'Performance',
               href: support_interface_performance_path,
               active: active?(current_controller, %w[performance data_exports validation_errors email_log vendor_api_requests performance_dashboard], %w[provider_recruitment_performance_report recruitment_performance_report]),
-            },
+            }
           end,
           if SupportInterface::FeatureFlagPolicy.new(current_support_user, nil).show? ||
              SupportInterface::RecruitmentCyclePolicy.new(current_support_user, nil).show? ||
@@ -97,7 +97,7 @@ class NavigationItems
               text: 'Settings',
               href: support_interface_settings_path,
               active: active?(current_controller, %w[settings tasks support_users show_service_banner configure_service_banner]),
-            },
+            }
           end,
           if SupportInterface::DocumentationPolicy.new(current_support_user, nil).show?
             {
@@ -129,6 +129,8 @@ class NavigationItems
         []
       end
     end
+
+
 
     def for_provider_primary_nav(current_provider_user, current_controller, performing_setup: false)
       items = []

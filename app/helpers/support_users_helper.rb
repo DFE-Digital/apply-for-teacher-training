@@ -28,6 +28,20 @@ module SupportUsersHelper
     items
   end
 
+  def support_user_performance_nav_items(support_user)
+    items = []
+    
+    items << { name: 'Dashboards', url: support_interface_performance_path } if view_applications?(support_user)
+    items << { name: 'Data directory', url: support_interface_data_directory_path } if view_provider_users?(support_user)
+    items << { name: 'Validation errors', url: support_interface_validation_errors_path } if view_applications?(support_user)
+    items << { name: 'Email log', url: support_interface_email_log_path } if view_applications?(support_user) || view_provider_users?(support_user)
+    items << { name: 'Provider onboarding', url: support_interface_provider_onboarding_path } if view_provider?(support_user)
+    items << { name: 'Vendor API requests', url: support_interface_vendor_api_requests_path } if view_provider?(support_user)
+    items << { name: 'Monthly Statistics reports', url: support_interface_monthly_statistics_reports_path } if view_reports?(support_user)
+
+    items
+  end
+
 private
 
   def view_provider?(support_user)
