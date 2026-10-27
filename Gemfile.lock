@@ -187,6 +187,7 @@ GEM
     audited (5.8.0)
       activerecord (>= 5.2, < 8.2)
       activesupport (>= 5.2, < 8.2)
+    awesome_print (1.9.2)
     azure-blob (0.9.0)
       cgi
       rexml
@@ -903,6 +904,7 @@ DEPENDENCIES
   ar-sequence
   archive-zip
   audited
+  awesome_print
   azure-blob
   bcrypt
   blazer
@@ -1037,6 +1039,7 @@ CHECKSUMS
   attr_extras (7.1.0) sha256=d96fc9a9dd5d85ba2d37762440a816f840093959ae26bb90da994c2d9f1fc827
   attr_required (1.0.2) sha256=f0ebfc56b35e874f4d0ae799066dbc1f81efefe2364ca3803dc9ea6a4de6cb99
   audited (5.8.0) sha256=35cd63f9ee1eb2a1f773e7abf5915bb4e870b6338173e27c31e0e604e353f371
+  awesome_print (1.9.2) sha256=e99b32b704acff16d768b3468680793ced40bfdc4537eb07e06a4be11133786e
   azure-blob (0.9.0) sha256=bb722b93b0b2daf5ca15165b532b3f6321b6ae32703c21dab7e6d6f0315dd08d
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bcrypt (3.1.22) sha256=1f0072e88c2d705d94aff7f2c5cb02eb3f1ec4b8368671e19112527489f29032

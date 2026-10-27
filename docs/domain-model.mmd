@@ -626,46 +626,6 @@ erDiagram
 		boolean reference_received
 		boolean technical_updates
 	}
-	"Publications::MonthlyStatistics::MonthlyStatisticsReport" {
-		date generation_date
-		string month
-		date publication_date
-		json statistics
-	}
-	"Publications::NationalRecruitmentPerformanceReport" {
-		integer cycle_week
-		date generation_date
-		date publication_date
-		json statistics
-	}
-	"Publications::ProviderEdiReport" {
-		string category
-		integer cycle_week
-		date generation_date
-		date publication_date
-		json statistics
-	}
-	"Publications::ProviderRecruitmentPerformanceReport" {
-		integer cycle_week
-		date generation_date
-		date publication_date
-		json statistics
-	}
-	"Publications::RegionalEdiReport" {
-		string category
-		integer cycle_week
-		date generation_date
-		date publication_date
-		string region
-		json statistics
-	}
-	"Publications::RegionalRecruitmentPerformanceReport" {
-		integer cycle_week
-		date generation_date
-		date publication_date
-		string region
-		json statistics
-	}
 	RecruitmentCycleTimetable {
 		datetime apply_deadline_at
 		datetime apply_opens_at
@@ -1000,7 +960,6 @@ erDiagram
 	Provider ||--}o ProviderAgreement : ""
 	Provider o|--}o VendorAPIRequest : ""
 	Provider ||--}o VendorAPIToken : ""
-	Provider ||--}o "Publications::ProviderRecruitmentPerformanceReport" : ""
 	ProviderUser ||--}o ProviderAgreement : ""
 	ProviderUser ||--}o ProviderPermissions : ""
 	ProviderUser ||--}o ProviderPoolAction : ""
@@ -1009,12 +968,6 @@ erDiagram
 	ProviderUser ||--}o ProviderUserContentTemplate : ""
 	ProviderUser ||--}o ProviderUserFilter : ""
 	ProviderUser ||--|o ProviderUserNotificationPreferences : ""
-	"Publications::NationalRecruitmentPerformanceReport" o|--|o RecruitmentCycleTimetable : ""
-	"Publications::ProviderEdiReport" o|--|o RecruitmentCycleTimetable : ""
-	Provider ||--}o "Publications::ProviderEdiReport" : ""
-	"Publications::ProviderRecruitmentPerformanceReport" o|--|o RecruitmentCycleTimetable : ""
-	"Publications::RegionalEdiReport" o|--|o RecruitmentCycleTimetable : ""
-	"Publications::RegionalRecruitmentPerformanceReport" o|--|o RecruitmentCycleTimetable : ""
 	Provider ||--}o RegionalReportFilter : ""
 	ApplicationChoice ||--}o RejectionFeedback : ""
 	"SolidQueue::BlockedExecution" o|--|o "SolidQueue::Semaphore" : ""

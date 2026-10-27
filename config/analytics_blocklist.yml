@@ -1,5 +1,12 @@
 ---
 :shared:
+  :withdrawal_reasons_reports:
+  - id
+  - provider_id
+  - recruitment_cycle_year
+  - statistics
+  - created_at
+  - updated_at
   :solid_cache_entries:
   - id
   - key
@@ -350,6 +357,7 @@
   - details
   :support_users:
   - id
+  - role
   - dfe_sign_in_uid
   - created_at
   - updated_at
