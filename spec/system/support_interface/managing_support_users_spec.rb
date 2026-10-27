@@ -134,7 +134,7 @@ private
   end
 
   def and_i_select_the_user_support_role
-    choose "User support"
+    choose 'User support'
   end
   alias_method :when_i_select_the_user_support_role, :and_i_select_the_user_support_role
 
