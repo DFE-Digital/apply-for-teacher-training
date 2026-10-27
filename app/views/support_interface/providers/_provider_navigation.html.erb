@@ -10,6 +10,6 @@
 <%= render 'support_interface/providers/lacks_admin_users_warning' %>
 
 <% report_paths = %w[provider-recruitment-report status-of-active-applications withdrawal-reasons-report] %>
-<%= render TabNavigationComponent.new(items: support_user_provider_nav_items(current_support_user), report_current: report_paths.any? { |path| request.path.include?(path) }) %>
+<%= render TabNavigationComponent.new(items: support_user_provider_nav_items(current_support_user, report_current: report_paths.any? { |path| request.path.include?(path) })) %>
 
 <h2 class="govuk-visually-hidden"><%= title %></h2>
