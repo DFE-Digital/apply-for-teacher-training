@@ -37,7 +37,7 @@ RSpec.describe 'Remove and restore support user' do
 
   def and_i_remove_a_support_user
     within('.govuk-table__body') do
-      click_link_or_button("Remove user #{@removed_user_name}")
+      click_link_or_button("Remove #{@removed_user_name}")
     end
   end
 
@@ -64,7 +64,7 @@ RSpec.describe 'Remove and restore support user' do
 
   def and_i_restore_a_support_user
     within('.govuk-table__body') do
-      click_link_or_button("Restore user #{@removed_user_name}")
+      click_link_or_button("Restore #{@removed_user_name}")
     end
   end
 
