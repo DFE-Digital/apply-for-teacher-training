@@ -733,6 +733,8 @@ en:
               taken: A support user with this email address already exists
             dfe_sign_in_uid:
               blank: DfE Sign-in UID cannot be blank
+            role:
+              blank: Select a role
         application_choice:
           attributes:
             status:

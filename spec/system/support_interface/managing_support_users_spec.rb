@@ -9,7 +9,10 @@ RSpec.describe 'Managing support users' do
     when_i_visit_the_support_console
     and_i_click_the_manage_support_users_link
     and_i_click_the_add_user_link
-    and_i_enter_the_users_email_and_dsi_uid
+    and_i_click_add_user
+    then_i_see_validation_errors
+
+    when_i_enter_the_users_email_and_dsi_uid
     and_i_select_the_user_support_role
     and_i_click_add_user
 
@@ -68,11 +71,11 @@ private
   end
 
   def and_there_are_other_support_users_in_the_db
-    SupportUser.create(email_address: 'isignedinyesterday@msn.com', last_signed_in_at: Time.zone.yesterday, dfe_sign_in_uid: 'Y')
+    SupportUser.create(email_address: 'isignedinyesterday@msn.com', last_signed_in_at: Time.zone.yesterday, dfe_sign_in_uid: 'Y', role: 'user_support')
     SupportUser.find_by(email_address: 'user@apply-support.com')
           .update!(last_signed_in_at: Time.zone.now.beginning_of_day)
-    SupportUser.create(email_address: 'isignedintoday@msn.com', last_signed_in_at: Time.zone.now, dfe_sign_in_uid: 'TD')
-    SupportUser.create(email_address: 'isignedintomorrow@msn.com', last_signed_in_at: Time.zone.tomorrow, dfe_sign_in_uid: 'TM')
+    SupportUser.create(email_address: 'isignedintoday@msn.com', last_signed_in_at: Time.zone.now, dfe_sign_in_uid: 'TD', role: 'user_support')
+    SupportUser.create(email_address: 'isignedintomorrow@msn.com', last_signed_in_at: Time.zone.tomorrow, dfe_sign_in_uid: 'TM', role: 'user_support')
   end
 
   def given_i_am_a_support_user
@@ -92,6 +95,7 @@ private
     fill_in 'support_user[email_address]', with: 'harrison@example.com'
     fill_in 'support_user[dfe_sign_in_uid]', with: '12345-ABCDE'
   end
+  alias_method :when_i_enter_the_users_email_and_dsi_uid, :and_i_enter_the_users_email_and_dsi_uid
 
   def and_i_click_the_add_user_link
     click_link_or_button 'Add support user'
@@ -183,5 +187,11 @@ private
     within(row) do
       expect(page).to have_text('User support')
     end
+  end
+
+  def then_i_see_validation_errors
+    expect(page).to have_text('Enter an email address')
+    expect(page).to have_text('DfE Sign-in UID cannot be blank')
+    expect(page).to have_text('Select a role')
   end
 end

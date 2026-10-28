@@ -118,6 +118,7 @@ module DfESignInHelpers
       dfe_sign_in_uid:,
       email_address:,
       discarded_at:,
+      role: 'user_support',
     )
   end
 

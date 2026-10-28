@@ -7,8 +7,9 @@
       <%= f.govuk_error_summary %>
 
       <span class="govuk-caption-l"><%= @support_user.display_name %></span>
+      <h1 class="govuk-heading-l">Select a role</h1>
 
-      <%= render 'role_form', f:, size: 'l' %>
+      <%= render 'role_form', f:, hidden: true %>
 
       <%= f.govuk_submit t('.update_role') %>
     <% end %>

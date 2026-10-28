@@ -52,7 +52,7 @@ module SupportInterface
     end
 
     def roles
-      authorize(@support_user, :destroy?, policy_class: SupportInterface::DocumentationPolicy)
+      authorize(@support_user, :show?, policy_class: SupportInterface::DocumentationPolicy)
 
       @back_link = request.referer || support_interface_support_users_path
       @roles = SupportUser.roles.values
@@ -97,6 +97,8 @@ module SupportInterface
     end
 
     def support_user_update_params
+      return {} if params[:support_user].nil?
+
       params.expect(support_user: %i[role])
     end
   end
