@@ -22,7 +22,7 @@ module DfE
       end
 
       def table_name
-        '1_key_tables.provider_withdrawal_reasons'
+        'dataform.provider_withdrawal_reasons'
       end
 
       def data
