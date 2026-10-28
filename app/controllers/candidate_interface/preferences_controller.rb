@@ -133,8 +133,8 @@ module CandidateInterface
     end
 
     def clear_location_attributes
-      return if @wizard.current_step_name.in?(%i[add_location_preference remove_location_preference]) &&
-                params[:uuid].present?
+      return if (@wizard.current_step_name == :add_location_preference && params[:uuid].present?) ||
+                @wizard.current_step_name == :remove_location_preference
 
       state_store.write(uuid: nil, location_name: nil, within: nil, provider_id: nil)
     end
