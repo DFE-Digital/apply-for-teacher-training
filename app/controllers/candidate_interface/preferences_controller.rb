@@ -79,7 +79,6 @@ module CandidateInterface
     end
 
     def state_store
-      # state_store.read
       @state_store ||= CandidateInterface::StateStores::PreferencesWizardStore.new(
         repository: DfE::Wizard::Repository::Cache.new(
           cache: Rails.cache,
@@ -135,7 +134,7 @@ module CandidateInterface
 
     def clear_location_attributes
       return if @wizard.current_step_name.in?(%i[add_location_preference remove_location_preference]) &&
-                    params[:uuid].present?
+                params[:uuid].present?
 
       state_store.write(uuid: nil, location_name: nil, within: nil, provider_id: nil)
     end
