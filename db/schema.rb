@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_20_122835) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_23_140958) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1474,6 +1474,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_122835) do
     t.index ["reason"], name: "index_withdrawal_reasons_on_reason"
   end
 
+  create_table "withdrawal_reasons_reports", force: :cascade do |t|
+    t.bigint "provider_id", null: false
+    t.integer "recruitment_cycle_year", null: false
+    t.json "statistics"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider_id"], name: "index_withdrawal_reasons_reports_on_provider_id"
+    t.index ["recruitment_cycle_year"], name: "index_withdrawal_reasons_reports_on_recruitment_cycle_year"
+  end
   add_foreign_key "account_recovery_request_codes", "account_recovery_requests", on_delete: :cascade
   add_foreign_key "account_recovery_requests", "candidates", on_delete: :cascade
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -1546,4 +1555,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_122835) do
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
   add_foreign_key "withdrawal_reasons", "application_choices", on_delete: :cascade
+  add_foreign_key "withdrawal_reasons_reports", "providers", on_delete: :cascade
 end

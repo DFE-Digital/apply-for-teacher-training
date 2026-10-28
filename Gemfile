@@ -14,6 +14,8 @@ gem 'blazer'
 # do not rely on host’s timezone data, which can be inconsistent
 gem 'tzinfo-data'
 
+gem 'awesome_print'
+
 gem 'google-cloud-bigquery'
 
 gem 'govuk-components', '~> 6.5'
