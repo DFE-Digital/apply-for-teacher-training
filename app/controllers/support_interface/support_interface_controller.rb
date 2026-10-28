@@ -56,7 +56,7 @@ module SupportInterface
 
       flash.now[:info] = [
         'You do not have access to this page',
-        'This is because your assigned role does not have the permissions needed.'
+        'This is because your assigned role does not have the permissions needed.',
       ]
 
       if current_support_user.root_path_for_role(self).blank?
