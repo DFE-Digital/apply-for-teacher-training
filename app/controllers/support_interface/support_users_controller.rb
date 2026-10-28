@@ -21,6 +21,8 @@ module SupportInterface
 
     def edit
       @support_user = SupportUser.find(params.expect(:id))
+
+      authorize(@support_user, policy_class: SupportInterface::SupportUserPolicy)
     end
 
     def create
@@ -39,6 +41,8 @@ module SupportInterface
     def update
       @support_user = SupportUser.find(params.expect(:id))
 
+      authorize(@support_user, policy_class: SupportInterface::SupportUserPolicy)
+
       if @support_user.update(support_user_update_params)
         flash[:success] = 'Support user role updated'
         redirect_to support_interface_support_users_path
@@ -48,6 +52,8 @@ module SupportInterface
     end
 
     def roles
+      authorize(@support_user, :destroy?, policy_class: SupportInterface::DocumentationPolicy)
+
       @back_link = request.referer || support_interface_support_users_path
       @roles = SupportUser.roles.values
     end
