@@ -6,7 +6,7 @@ module CandidateInterface
 
         if location_preference_list.blank? || find_location_preference(list: location_preference_list, uuid: state_store.uuid).blank?
           location_preference_list << {
-            uuid: state_store.uuid,
+            uuid: state_store.uuid || SecureRandom.uuid,
             within: state_store.within,
             location_name: state_store.location_name,
           }
