@@ -28,7 +28,7 @@ module CandidateInterface
           status: 'published',
           dynamic_location_preferences: training_locations_specific? ? state_store.dynamic_location_preferences : nil,
           funding_type: state_store.funding_type,
-          opt_out_reason: state_store.opt_out_reason,
+          opt_out_reason: state_store.opt_out? ? state_store.opt_out_reason : nil,
           pool_status: state_store.pool_status,
           training_locations: state_store.training_locations,
           location_preferences:,

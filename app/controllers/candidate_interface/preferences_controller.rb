@@ -4,6 +4,7 @@ module CandidateInterface
     before_action :clear_wizard, only: %i[new edit]
     before_action :assign_location_preference_attributes
     before_action :set_back_link
+    before_action :clear_location_attributes
 
     def new; end
 
@@ -78,6 +79,7 @@ module CandidateInterface
     end
 
     def state_store
+      # state_store.read
       @state_store ||= CandidateInterface::StateStores::PreferencesWizardStore.new(
         repository: DfE::Wizard::Repository::Cache.new(
           cache: Rails.cache,
@@ -129,6 +131,13 @@ module CandidateInterface
           provider_id: lp.provider&.id,
         }
       end
+    end
+
+    def clear_location_attributes
+      return if @wizard.current_step_name.in?(%i[add_location_preference remove_location_preference]) &&
+                    params[:uuid].present?
+
+      state_store.write(uuid: nil, location_name: nil, within: nil, provider_id: nil)
     end
 
     def set_back_link
