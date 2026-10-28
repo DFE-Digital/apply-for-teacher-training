@@ -175,7 +175,8 @@ module SupportInterface
     attr_reader :application_form
 
     def editable?
-      application_form.editable?
+      @editable ||= helpers.current_support_user.can_edit_applications? &&
+                    application_form.editable?
     end
   end
 end

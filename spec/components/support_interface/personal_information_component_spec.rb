@@ -11,6 +11,14 @@ RSpec.describe SupportInterface::PersonalInformationComponent do
       third_nationality: 'Spanish',
     )
   end
+  let(:support_user) { create(:support_user) }
+
+  before do
+    # rubocop:disable-next RSpec/AnyInstance
+    without_partial_double_verification do
+      allow_any_instance_of(ActionView::Base).to receive(:current_support_user).and_return(support_user)
+    end
+  end
 
   subject(:result) { render_inline(described_class.new(application_form:)) }
 

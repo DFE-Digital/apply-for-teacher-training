@@ -1,5 +1,7 @@
 module SupportInterface
-  class SingleProviderUserRemovalsController < ApplicationController
+  class SingleProviderUserRemovalsController < SupportInterfaceController
+    before_action :authorize_support_user
+
     def new
       @permissions = permissions_to_remove
       @provider = permissions_to_remove.provider
@@ -18,6 +20,10 @@ module SupportInterface
 
     def permissions_to_remove
       @_permissions_to_remove = ProviderPermissions.find(params.expect(:provider_permissions_id))
+    end
+
+    def authorize_support_user
+      authorize(permissions_to_remove.provider_user, :edit?, policy_class: SupportInterface::ProviderUserPolicy)
     end
   end
 end

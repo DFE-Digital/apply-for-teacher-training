@@ -1,6 +1,8 @@
 module SupportInterface
   module ApplicationForms
     class CoursesController < SupportInterfaceController
+      include AuthorizeSupportUserCandidateEditable
+
       def edit
         application_choice = ApplicationChoice.find(application_choice_id)
         @change_course_choice = ChangeCourseChoiceForm.build_from_course_option(application_choice.current_course_option)

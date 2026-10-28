@@ -2,6 +2,8 @@ module SupportInterface
   class RecruitmentCycleTimetablesController < SupportInterfaceController
     before_action :edit_correct_timetable, only: %i[edit update]
     def index
+      authorize nil, :show?, policy_class: SupportInterface::RecruitmentCyclePolicy
+
       @timetable_presenter = SupportInterface::RecruitmentCycleTimetablePresenter.new(current_timetable)
       @timetable_to_review = RecruitmentCycleTimetable.find_by(
         recruitment_cycle_year: @current_timetable.recruitment_cycle_year + 3,
@@ -9,6 +11,8 @@ module SupportInterface
     end
 
     def show
+      authorize nil, :show?, policy_class: SupportInterface::RecruitmentCyclePolicy
+
       @timetable = timetable
       if params[:publish]
         flash[:success] = I18n.t(
@@ -20,11 +24,15 @@ module SupportInterface
     end
 
     def edit
+      authorize nil, :edit?, policy_class: SupportInterface::RecruitmentCyclePolicy
+
       @timetable = timetable
       @cycle_switcher_form = SupportInterface::CycleSwitcherFormBuilder.new.build(timetable:)
     end
 
     def update
+      authorize nil, :edit?, policy_class: SupportInterface::RecruitmentCyclePolicy
+
       @cycle_switcher_form = SupportInterface::CycleSwitcherFormBuilder.new.build(
         recruitment_cycle_timetable_form_params, timetable:
       )
@@ -48,6 +56,8 @@ module SupportInterface
     end
 
     def reset
+      authorize nil, :edit?, policy_class: SupportInterface::RecruitmentCyclePolicy
+
       ProductionRecruitmentCycleTimetablesAPI::SyncTimetablesWithProduction.new.call
       flash[:success] = I18n.t('support_interface.recruitment_cycle_timetables.reset.success_message')
       redirect_to support_interface_recruitment_cycle_timetables_path

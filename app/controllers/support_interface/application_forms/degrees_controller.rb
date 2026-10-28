@@ -1,6 +1,8 @@
 module SupportInterface
   module ApplicationForms
     class DegreesController < SupportInterfaceController
+      include AuthorizeSupportUserCandidateEditable
+
       def edit
         @degree_form = EditDegreeForm.new(
           ApplicationQualification.find(params.expect(:degree_id)),

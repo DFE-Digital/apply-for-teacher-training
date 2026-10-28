@@ -1,5 +1,6 @@
 module SupportInterface
   class RegionalReportFiltersController < SupportInterfaceController
+    before_action :authorize_support_user
     before_action :set_provider
     before_action :set_recruitment_cycle_year
     before_action :set_region
@@ -46,6 +47,10 @@ module SupportInterface
     def set_recruitment_cycle_year
       @recruitment_cycle_year ||= params.permit(:recruitment_cycle_year)[:recruitment_cycle_year] ||
                                   params.dig(:support_interface_regional_report_form, :recruitment_cycle_year)
+    end
+
+    def authorize_support_user
+      authorize(nil, :show?, policy_class: SupportInterface::ReportPolicy)
     end
   end
 end

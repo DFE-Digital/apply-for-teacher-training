@@ -10,9 +10,15 @@
 <% end %>
 
 <%= render TabNavigationComponent.new(items: [
-  { name: 'Details', url: support_interface_course_path(@course) },
-  { name: 'Applications', url: support_interface_course_applications_path(@course) },
-  { name: 'Vacancies', url: support_interface_course_vacancies_path(@course) },
-]) %>
+  if SupportInterface::ProviderPolicy.new(current_support_user, nil).show?
+    { name: 'Details', url: support_interface_course_path(@course) }
+  end,
+  if SupportInterface::CandidatePolicy.new(current_support_user, nil).show?
+    { name: 'Applications', url: support_interface_course_applications_path(@course) }
+  end,
+  if SupportInterface::ProviderPolicy.new(current_support_user, nil).show?
+    { name: 'Vacancies', url: support_interface_course_vacancies_path(@course) }
+  end,
+].compact.flatten) %>
 
 <h2 class="govuk-visually-hidden"><%= title %></h2>

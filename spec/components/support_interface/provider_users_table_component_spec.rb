@@ -7,6 +7,15 @@ RSpec.describe SupportInterface::ProviderUsersTableComponent do
     ).text
   end
 
+  let(:support_user) { create(:support_user) }
+
+  before do
+    # rubocop:disable-next RSpec/AnyInstance
+    without_partial_double_verification do
+      allow_any_instance_of(ActionView::Base).to receive(:current_support_user).and_return(support_user)
+    end
+  end
+
   context 'when the provider user has all fields present' do
     let(:provider_users) do
       [

@@ -3,6 +3,8 @@ module SupportInterface
     PAGY_PER_PAGE = 30
 
     def index
+      authorize nil, :show?, policy_class: SupportInterface::ProviderPolicy
+
       @filter = SupportInterface::VendorAPIRequestsFilter.new(params:)
       vendor_api_requests = if @filter.filtered?
                               VendorAPIRequestQuery.call(params: @filter.applied_filters)

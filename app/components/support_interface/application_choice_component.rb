@@ -113,10 +113,12 @@ module SupportInterface
       {
         key: 'Conditions',
         value: conditions.blank? ? 'No conditions added' : render(SupportInterface::ConditionsComponent.new(conditions:, application_choice:)),
-        action: {
-          href: support_interface_edit_application_choice_conditions_path(application_choice_id: @application_choice.id),
-          visually_hidden_text: 'conditions',
-        },
+        action: if editable?
+                  {
+                    href: support_interface_edit_application_choice_conditions_path(application_choice_id: @application_choice.id),
+                    visually_hidden_text: 'conditions',
+                  }
+                end,
       }
     end
 
@@ -190,12 +192,14 @@ module SupportInterface
         {
           key: t('visa_expiry_form.visa_explanation_label'),
           value:,
-          action: {
-            href: edit_support_interface_application_choice_visa_explanation_path(
-              application_choice,
-            ),
-            visually_hidden_text: 'visa explanation',
-          },
+          action: if editable?
+                    {
+                      href: edit_support_interface_application_choice_visa_explanation_path(
+                        application_choice,
+                      ),
+                      visually_hidden_text: 'visa explanation',
+                    }
+                  end,
         }
       end
     end
@@ -217,7 +221,9 @@ module SupportInterface
     end
 
     def change_course_choice_link
-      return {} unless @application_choice.application_form.editable? && @application_choice.state_visible_to_provider?
+      return {} unless editable? &&
+                       @application_choice.application_form.editable? &&
+                       @application_choice.state_visible_to_provider?
 
       {
         action: {
@@ -228,7 +234,7 @@ module SupportInterface
     end
 
     def status_action_link
-      return {} unless @application_choice.editable?
+      return {} unless editable? && @application_choice.editable?
 
       if application_choice.declined? && !application_choice.declined_by_default
         {
@@ -266,6 +272,10 @@ module SupportInterface
     def any_successful_application_choices?(application_choice)
       choices = application_choice.application_form.application_choices
       choices.any?(&:state_offer_accepted?)
+    end
+
+    def editable?
+      @editable ||= helpers.current_support_user.can_edit_applications?
     end
   end
 end

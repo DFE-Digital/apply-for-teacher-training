@@ -2,6 +2,8 @@ module SupportInterface
   module BulkUpload
     class PermissionsController < SupportInterfaceController
       def edit
+        authorize(nil, policy_class: SupportInterface::ProviderUserPolicy)
+
         multiple_provider_users_wizard = MultipleProviderUsersWizard.new(
           state_store: multiple_provider_user_store,
           provider_id: provider_id_param,
@@ -15,6 +17,8 @@ module SupportInterface
       end
 
       def update
+        authorize(nil, policy_class: SupportInterface::ProviderUserPolicy)
+
         multiple_provider_users_wizard = MultipleProviderUsersWizard.new(
           state_store: multiple_provider_user_store,
           provider_id: provider_id_param,

@@ -3,10 +3,12 @@ module SupportInterface
     PAGY_PER_PAGE = 30
 
     def index
+      authorize nil, :show?, policy_class: SupportInterface::CandidatePolicy
+
       @filter = SupportInterface::EmailsFilter.new(params:)
 
       emails = if @filter.filtered?
-                 EmailQuery.call(params: @filter.applied_filters)
+                 EmailQuery.call(params: @filter.applied_filters, user: current_support_user)
                else
                  Email.none
                end

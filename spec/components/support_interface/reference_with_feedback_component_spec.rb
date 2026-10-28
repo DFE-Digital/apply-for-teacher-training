@@ -8,8 +8,13 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent, type: :componen
            name: 'Jane Smith')
   }
   let(:editable) { true }
+  let(:support_user) { create(:support_user) }
 
   before do
+    # rubocop:disable-next RSpec/AnyInstance
+    without_partial_double_verification do
+      allow_any_instance_of(ActionView::Base).to receive(:current_support_user).and_return(support_user)
+    end
     render_inline(described_class.new(reference:, reference_number: 1, editable:))
   end
 

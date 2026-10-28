@@ -95,10 +95,12 @@ module SupportInterface
         {
           key: 'Has GOV.UK One Login',
           value: "Yes (#{candidate.one_login_auth.email_address})",
-          action: {
-            href: edit_support_interface_one_login_auths_path(application_form),
-            visually_hidden_text: 'candidate GOV.UK One Login',
-          },
+          action: if candidate_editable?
+                    {
+                      href: edit_support_interface_one_login_auths_path(application_form),
+                      visually_hidden_text: 'candidate GOV.UK One Login',
+                    }
+                  end,
         }
       else
         {
@@ -112,10 +114,12 @@ module SupportInterface
       {
         key: 'Subscribed to emails',
         value: subscribed_to_emails? ? 'Yes' : 'No',
-        action: {
-          href: support_interface_email_subscription_path(application_form),
-          visually_hidden_text: 'applicant email subscription status',
-        },
+        action: if candidate_editable?
+                  {
+                    href: support_interface_email_subscription_path(application_form),
+                    visually_hidden_text: 'applicant email subscription status',
+                  }
+                end,
       }
     end
 
@@ -158,10 +162,12 @@ module SupportInterface
       {
         key: 'Is this application editable',
         value: application_form.editable_extension? ? "Yes, editable until #{application_form.editable_until.to_fs(:govuk_date_and_time)}" : 'No',
-        action: {
-          href: support_interface_editable_extension_path(application_form),
-          visually_hidden_text: 'editable until',
-        },
+        action: if candidate_editable?
+                  {
+                    href: support_interface_editable_extension_path(application_form),
+                    visually_hidden_text: 'editable until',
+                  }
+                end,
       }
     end
 
@@ -216,6 +222,10 @@ module SupportInterface
 
     def application_form_in_the_pool?
       CandidatePoolApplication.where(application_form_id: application_form.id).present?
+    end
+
+    def candidate_editable?
+      @candidate_editable ||= helpers.current_support_user.can_edit_applications?
     end
 
     attr_reader :application_form

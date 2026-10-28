@@ -5,6 +5,8 @@ module SupportInterface
     PAGY_PER_PAGE = 30
 
     def index
+      authorize(nil, :show?, policy_class: SupportInterface::CandidatePolicy)
+
       @candidates = Candidate
                       .includes(application_forms: :application_choices)
                       .order(updated_at: :desc)
@@ -24,12 +26,16 @@ module SupportInterface
     end
 
     def show
+      authorize(nil, :show?, policy_class: SupportInterface::CandidatePolicy)
+
       @candidate = Candidate.find(params.expect(:candidate_id))
       @candidate_account_status = SupportInterface::CandidateAccountStatusForm.new(candidate: @candidate)
       @application_forms = @candidate.application_forms.order(updated_at: :desc)
     end
 
     def impersonate
+      authorize(nil, :edit?, policy_class: SupportInterface::CandidatePolicy)
+
       candidate = Candidate.find(params.expect(:candidate_id))
       # bypass_sign_in will not update the database when signing in
       # https://stackoverflow.com/questions/50405133/devise-bypass-sign-in-without-active-for-authentication-callback#50409127
@@ -41,6 +47,8 @@ module SupportInterface
     end
 
     def edit_candidate_account_status
+      authorize(nil, :edit?, policy_class: SupportInterface::CandidatePolicy)
+
       @candidate = Candidate.find(params.expect(:candidate_id))
       @candidate_account_status = SupportInterface::CandidateAccountStatusForm.new(
         candidate: @candidate,
@@ -48,6 +56,8 @@ module SupportInterface
     end
 
     def update_candidate_account_status
+      authorize(nil, :edit?, policy_class: SupportInterface::CandidatePolicy)
+
       @candidate = Candidate.find(params.expect(:candidate_id))
       @candidate_account_status = SupportInterface::CandidateAccountStatusForm.new(
         candidate_account_status_params,

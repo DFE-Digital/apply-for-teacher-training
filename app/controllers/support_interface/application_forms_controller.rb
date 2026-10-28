@@ -1,5 +1,7 @@
 module SupportInterface
   class ApplicationFormsController < SupportInterfaceController
+    before_action :redirect_to_root_path_for_role, only: :index
+    before_action :authorize_support_user
     def index
       @filter = SupportInterface::ApplicationsFilter.new(params: filter_params)
       @pagy, @application_forms = @filter.filter_records(ApplicationForm)
@@ -15,6 +17,10 @@ module SupportInterface
 
   private
 
+    def authorize_support_user
+      authorize(nil, :show?, policy_class: SupportInterface::CandidatePolicy)
+    end
+
     def application_form
       @_application_form ||= ApplicationForm.find(params.expect(:application_form_id))
     end
@@ -25,6 +31,12 @@ module SupportInterface
       else
         params.with_defaults(year: [RecruitmentCycleTimetable.current_year.to_s])
       end
+    end
+
+    def redirect_to_root_path_for_role
+      return if SupportInterface::CandidatePolicy.new(current_user, nil).show?
+
+      redirect_to current_support_user.root_path_for_role(self)
     end
   end
 end

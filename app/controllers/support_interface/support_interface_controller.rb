@@ -2,12 +2,14 @@ module SupportInterface
   class SupportInterfaceController < ApplicationController
     include Pagy::Backend
     include DsiSupportAuth
+    include Pundit::Authorization
 
     layout 'support_layout'
     before_action :authenticate_support_user!
     before_action :set_user_context
     before_action :set_current_timetable
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
+    rescue_from Pundit::NotAuthorizedError, with: :handle_unauthorised
 
     helper_method :current_support_user
 
@@ -47,6 +49,18 @@ module SupportInterface
 
       payload.merge!({ support_user_id: current_support_user.id }) if current_support_user
       payload.merge!(query_params: request_query_params)
+    end
+
+    def handle_unauthorised
+      return if current_support_user.blank?
+
+      flash.now[:info] = 'You are not authorized to perform this action.'
+
+      if current_support_user.root_path_for_role(self).blank?
+        render 'errors/not_found', status: :not_found
+      else
+        redirect_to current_support_user.root_path_for_role(self)
+      end
     end
   end
 end
