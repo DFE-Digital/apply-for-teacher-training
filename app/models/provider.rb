@@ -18,6 +18,12 @@ class Provider < ApplicationRecord
   has_many :vendor_api_tokens, dependent: :destroy
 
   has_many :performance_reports, class_name: 'Publications::ProviderRecruitmentPerformanceReport', dependent: nil
+  has_one(
+    :withdrawal_reasons_report,
+    -> { order(created_at: :desc) },
+    class_name: 'Publications::WithdrawalReasonsReport',
+    dependent: :destroy,
+  )
 
   enum :region_code, {
     east_midlands: 'east_midlands',

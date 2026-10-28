@@ -179,7 +179,11 @@ RSpec.describe DfE::Bigquery::WithdrawalReasonsMetrics do
 
       expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
         SELECT provider_code, provider_id, provider_name, recruitment_cycle_year, withdrawal_tier, tier_withdrawal_reason, before_accepting, after_accepting
+<<<<<<< HEAD
         FROM `dataform.provider_withdrawal_reasons`
+=======
+        FROM `1_key_tables.provider_withdrawal_reasons`
+>>>>>>> c93079005e (view)
         WHERE provider_id = "#{provider.id}"
         AND recruitment_cycle_year = 2026
       SQL
