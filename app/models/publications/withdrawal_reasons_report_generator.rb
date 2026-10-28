@@ -12,11 +12,13 @@ module Publications
     end
 
     def call
-      Publications::WithdrawalReasonsReport.create!(
-        provider_id:,
-        recruitment_cycle_year:,
-        statistics: data,
-      )
+      if data.present?
+        Publications::WithdrawalReasonsReport.create!(
+          provider_id:,
+          recruitment_cycle_year:,
+          statistics: data,
+        )
+      end
     end
 
     def data

@@ -111,17 +111,7 @@ private
   end
 
   def and_the_withdrawal_reasons_report_has_been_generated
-    # rubocop:disable Style/CombinableLoops
-    create_list(:application_form, 5).each do |application_form|
-      accepted_application_choice = create(:application_choice, :accepted, application_form:, provider_ids: [provider.id])
-      create(:withdrawal_reason, :published, application_choice: accepted_application_choice)
-    end
-
-    create_list(:application_form, 5).each do |application_form|
-      withdrawn_application_choice = create(:application_choice, :withdrawn, application_form:, provider_ids: [provider.id])
-      create(:withdrawal_reason, :published, application_choice: withdrawn_application_choice)
-    end
-    # rubocop:enable Style/CombinableLoops
+    create(:withdrawal_reasons_report, provider:)
   end
 
   def when_i_navigate_to_the_reports_page_in_support

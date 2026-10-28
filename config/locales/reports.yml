@@ -19,6 +19,9 @@ en:
       report_not_visible_html: |
         <p class="govuk-body">You will be able to see this report when it contains data from at least 10 candidates. This is to protect the privacy of candidates. Candidates can select more than one reason for withdrawing so the number of reasons in this report may not match the number of candidates who have withdrawn.</p>
         <p class="govuk-body">The report shows data from candidates who withdrew their application and selected their reason from a set list. This question is mandatory.</p>
+        <p class="govuk-body">
+          This report is generated every day.
+        </p>
       withdrawal_report_link_text: 'withdrawal reasons'
       table_caption: Withdrawal reason report data
       withdrawal_reason: Withdrawal reason
