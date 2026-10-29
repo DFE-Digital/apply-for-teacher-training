@@ -105,4 +105,3 @@ maintenance_page/manifests/maintenance/deployment_maintenance.yml
 
 # Generated as part of DB Backups via Makefile
 sas*.txt
-AGENTS.md
