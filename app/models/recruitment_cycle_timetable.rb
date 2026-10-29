@@ -36,11 +36,7 @@ class RecruitmentCycleTimetable < ApplicationRecord
     # We haven't started a new cycle until find_opens, so if we are in that 8 hour gap, we want the earlier cycle.
     # eg, if we are 4 hours before the find_opens_at for the 2025 cycle, we want to return the 2024 cycle.
     Current.timetable ||= where('find_opens_at <= ?', Time.zone.now).order(:recruitment_cycle_year).last
-    # where('find_opens_at <= ?', Time.zone.now).order(:recruitment_cycle_year).last
   end
-#  2026-10-21 10:15:53.441497 I [29355:puma srv tp 001] (980.8ms) SupportInterface::ProviderRecruitmentReportsController -- Completed #show -- {controller: "SupportInterface::ProviderRecruitmentReportsController", action: "show", params: {"provider_id" => "1"}, format: "HTML", method: "GET", path: "/support/providers/1/provider-recruitment-report", status: 200, view_runtime: 836.46, db_runtime: 64.6, queries_count: 208, cached_queries_count: 1, query_params: {"controller" => "support_interface/provider_recruitment_reports", "action" => "show", "provider_id" => "1"}, user_agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36", support_user_id: 1, allocations: 682779, cpu_time: 907.24, idle_time: 73.55, gc_time: 237.87, status_message: "OK"}
-    #  2026-10-21 10:16:31.959280 I [29426:puma srv tp 001] (968.7ms) SupportInterface::ProviderRecruitmentReportsController -- Completed #show -- {controller: "SupportInterface::ProviderRecruitmentReportsController", action: "show", params: {"provider_id" => "1"}, format: "HTML", method: "GET", path: "/support/providers/1/provider-recruitment-report", status: 200, view_runtime: 800.67, db_runtime: 28.46, queries_count: 51, cached_queries_count: 1, query_params: {"controller" => "support_interface/provider_recruitment_reports", "action" => "show", "provider_id" => "1"}, user_agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36", support_user_id: 1, allocations: 654012, cpu_time: 925.1, idle_time: 43.58, gc_time: 262.96, status_message: "OK"}
-
 
   def self.current_cycle_range_name
     current_timetable.cycle_range_name
