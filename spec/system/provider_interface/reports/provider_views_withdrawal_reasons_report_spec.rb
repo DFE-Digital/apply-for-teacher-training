@@ -4,14 +4,14 @@ RSpec.describe 'Provider views withdrawal reports' do
   include DfESignInHelpers
 
   scenario 'Provider navigates to report where fewer than 10 candidates have provided withdrawal reasons' do
-    given_some_candidates_have_withdrawn_applications(9)
+    given_report_is_not_generated
     and_i_sign_in_as_a_provider_user
     when_i_navigate_to_the_withdrawal_reasons_report
     then_i_see_the_report_without_data
   end
 
   scenario 'Provider navigates to the report where at least 10 candidates have provided withdrawal reasons' do
-    given_some_candidates_have_withdrawn_applications(10)
+    given_report_is_generated
     and_i_sign_in_as_a_provider_user
     when_i_navigate_to_the_withdrawal_reasons_report
     then_i_see_the_report_with_data
@@ -19,14 +19,14 @@ RSpec.describe 'Provider views withdrawal reports' do
 
 private
 
-  def given_some_candidates_have_withdrawn_applications(number_of_applications)
+  def given_report_is_not_generated
+    create(:provider_user, :with_dfe_sign_in, email_address: 'email@provider.ac.uk')
+  end
+
+  def given_report_is_generated
     provider_user = create(:provider_user, :with_dfe_sign_in, email_address: 'email@provider.ac.uk')
     provider = provider_user.providers.first
-    application_forms = create_list(:application_form, number_of_applications)
-    application_forms.each do |application_form|
-      application_choice = create(:application_choice, :withdrawn, application_form: application_form, provider_ids: [provider.id])
-      create(:withdrawal_reason, status: 'published', application_choice:, reason: WithdrawalReason.all_reasons.sample)
-    end
+    create(:withdrawal_reasons_report, provider:)
   end
 
   def and_i_sign_in_as_a_provider_user

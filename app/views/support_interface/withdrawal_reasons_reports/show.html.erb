@@ -8,9 +8,10 @@
     </h1>
 
     <% if @withdrawal_reason_report.show_report? %>
-      <p class="govuk-body">
-        <%= t('reports.withdrawal_reasons_reports.report_description') %>
-      </p>
+      <%= t(
+        'reports.withdrawal_reasons_reports.report_description_html',
+        generated_at: @withdrawal_reason_report.generated_at.to_fs(:govuk_date_and_time),
+      ) %>
     <% else %>
       <%= t('reports.withdrawal_reasons_reports.report_not_visible_html') %>
     <% end %>

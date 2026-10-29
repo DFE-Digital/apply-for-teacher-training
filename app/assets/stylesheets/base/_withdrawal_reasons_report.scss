@@ -27,10 +27,10 @@
   &__cell--second-level-with-nested-reasons {
     padding-left: govuk.govuk-spacing(3);
 
-    background: govuk-colour('light-grey');
+    background: govuk.govuk-colour('light-grey');
   }
 
   &__cell--light-grey-background {
-    background: govuk-colour('light-grey');
+    background: govuk.govuk-colour('light-grey');
   }
 }

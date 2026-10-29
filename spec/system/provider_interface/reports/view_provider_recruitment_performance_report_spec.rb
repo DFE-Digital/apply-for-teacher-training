@@ -217,7 +217,7 @@ private
   end
 
   def given_the_reports_are_generated
-    GenerateRecruitmentPerformanceReports.call
+    GenerateProviderReports.call
   end
 
   def and_i_do_not_see_the_set_comparison_area_button

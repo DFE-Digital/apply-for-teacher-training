@@ -57,5 +57,17 @@ RSpec.describe Publications::WithdrawalReasonsReportGenerator do
         statistics: attributes,
       })
     end
+
+    context 'when data is blank' do
+      before do
+        stub_bigquery_withdrawal_reasons_request(result: false)
+      end
+
+      it 'does not store data in the model' do
+        generator.call
+
+        expect { generator.call }.to not_change(Publications::WithdrawalReasonsReport, :count)
+      end
+    end
   end
 end

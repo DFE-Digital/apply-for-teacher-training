@@ -52,8 +52,8 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
   puts 'Populate Candiate pool'
   GenerateCandidatePoolData.call
 
-  puts 'Generate Recruitment Performance reports'
-  GenerateRecruitmentPerformanceReports.call
+  puts 'Generate provider reports'
+  GenerateProviderReports.call
 end
 
 desc 'Create undergraduate courses'

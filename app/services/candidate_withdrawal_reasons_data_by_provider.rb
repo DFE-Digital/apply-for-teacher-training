@@ -1,6 +1,11 @@
 class CandidateWithdrawalReasonsDataByProvider
+  attr_reader :generated_at
+
   def initialize(provider)
     @provider = provider
+    @report = provider.withdrawal_reasons_report
+    @generated_at = @report&.updated_at
+    @statistics = @report&.statistics&.sort_by { |stat| stat['tier_withdrawal_reason'] }
   end
 
   ReasonRow = Data.define(:reason, :before_accepting, :after_accepting, :total)
@@ -10,53 +15,58 @@ class CandidateWithdrawalReasonsDataByProvider
   end
 
   def all_rows
-    return [] if application_form_count < ProviderReports::MINIMUM_DATA_SIZE_REQUIRED
+    return [] if @statistics.blank?
 
-    rows = []
-    nested_reasons.each_key do |level_one_reason|
-      rows << build_reason_row(level_one_reason, 'level_one')
-
-      nested_reasons[level_one_reason].each_key do |level_two_reason|
-        full_level_two_reason = [level_one_reason, level_two_reason].join('.')
-
-        if nested_reasons[level_one_reason][level_two_reason].present?
-          rows << build_reason_row(full_level_two_reason, 'level_two_with_nested_reasons')
-          nested_reasons[level_one_reason][level_two_reason].each_key do |level_three_reason|
-            full_level_three_reason = [level_one_reason, level_two_reason, level_three_reason].join('.')
-            rows << build_reason_row(full_level_three_reason, 'level_three')
-          end
-        else
-          rows << build_reason_row(full_level_two_reason, 'level_two')
-        end
-      end
+    @statistics.map do |stat|
+      build_reason_row(stat)
     end
-    rows
   end
 
 private
 
-  def build_reason_row(reason, level)
+  def build_reason_row(stat)
     ReasonRow.new(
       reason: {
-        text: translate(reason),
-        html_attributes: text_cell_attributes_for(level),
+        text: translate(stat['tier_withdrawal_reason']),
+        html_attributes: text_cell_attributes_for(level(stat)),
       },
       before_accepting: {
-        text: before_accepting_count(reason),
+        text: stat['before_accepting'],
         numeric: true,
-        html_attributes: numeric_cell_attributes_for(level),
+        html_attributes: numeric_cell_attributes_for(level(stat)),
       },
       after_accepting: {
-        text: after_accepting_count(reason),
+        text: stat['after_accepting'],
         numeric: true,
-        html_attributes: numeric_cell_attributes_for(level),
+        html_attributes: numeric_cell_attributes_for(level(stat)),
       },
       total: {
-        text: before_accepting_count(reason) + after_accepting_count(reason),
+        text: stat['before_accepting'].to_i + stat['after_accepting'].to_i,
         numeric: true,
-        html_attributes: numeric_cell_attributes_for(level),
+        html_attributes: numeric_cell_attributes_for(level(stat)),
       },
     )
+  end
+
+  def level(stat)
+    case stat['withdrawal_tier']
+    when 'tier_1'
+      'level_one'
+    when 'tier_2'
+      nested_tier_2 = @statistics.find do |item|
+        item['tier_withdrawal_reason'].start_with?(stat['tier_withdrawal_reason']) &&
+          item['withdrawal_tier'] == 'tier_3'
+      end.present?
+
+      if nested_tier_2
+        'level_two_with_nested_reasons'
+      else
+        'level_two'
+      end
+
+    else
+      'level_three'
+    end
   end
 
   def text_cell_attributes_for(level)
@@ -88,46 +98,5 @@ private
   def translate(string)
     translation_string = string.dup.gsub('-', '_')
     I18n.t("candidate_interface.withdrawal_reasons.reasons.#{translation_string}.label")
-  end
-
-  def before_accepting_count(reason)
-    withdrawal_reasons_before_acceptance.filter { |r| r.starts_with?(reason) }.length
-  end
-
-  def after_accepting_count(reason)
-    withdrawal_reasons_after_acceptance.filter { |r| r.starts_with?(reason) }.length
-  end
-
-  def nested_reasons
-    @nested_reasons ||= WithdrawalReason.selectable_reasons
-  end
-
-  def withdrawal_reasons_before_acceptance
-    @withdrawal_reasons_before_acceptance ||=
-      withdrawal_reasons
-      .where(application_choices: { accepted_at: nil })
-      .uniq
-      .pluck(:reason)
-  end
-
-  def withdrawal_reasons_after_acceptance
-    @withdrawal_reasons_after_acceptance ||=
-      withdrawal_reasons
-        .where.not(application_choices: { accepted_at: nil })
-        .uniq
-        .pluck(:reason)
-  end
-
-  def withdrawal_reasons
-    @withdrawal_reasons ||=
-      WithdrawalReason
-        .joins(:application_choice)
-        .published
-        .where('application_choices.provider_ids @> ARRAY[?]::bigint[]', @provider.id)
-        .where(application_choices: { current_recruitment_cycle_year: RecruitmentCycleTimetable.current_year })
-  end
-
-  def application_form_count
-    withdrawal_reasons.select('application_choices.application_form_id').distinct.count
   end
 end

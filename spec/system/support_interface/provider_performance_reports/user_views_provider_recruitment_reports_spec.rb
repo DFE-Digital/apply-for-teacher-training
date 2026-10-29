@@ -123,7 +123,7 @@ private
   end
 
   def and_edi_report_has_been_generated
-    GenerateRecruitmentPerformanceReports.call
+    GenerateProviderReports.call
   end
 
   def when_i_navigate_to_the_providers_report_page_in_support
