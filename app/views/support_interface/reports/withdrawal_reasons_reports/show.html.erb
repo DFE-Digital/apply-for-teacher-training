@@ -10,7 +10,7 @@
       <div data-controller='submit-on-click'>
         <%= f.govuk_select(
           :provider_id,
-          options_for_select(Provider.where.associated(:withdrawal_reasons_report).map { |p| [p.name, p.id] }, @provider.id),
+          options_for_select(Provider.where.associated(:withdrawal_reasons_report).distinct.map { |p| [p.name, p.id] }, @provider.id),
           label: { size: 's', text: 'Select provider' },
           data: { action: 'change->submit-on-click#call', submit_on_click_target: 'input' },
         ) %>
