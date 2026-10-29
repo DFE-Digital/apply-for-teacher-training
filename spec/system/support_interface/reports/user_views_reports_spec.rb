@@ -112,6 +112,7 @@ private
 
   def and_the_withdrawal_reasons_report_has_been_generated
     create(:withdrawal_reasons_report, provider:)
+    create(:withdrawal_reasons_report, provider: another_provider)
   end
 
   def when_i_navigate_to_the_reports_page_in_support
