@@ -60,7 +60,7 @@ RSpec.describe RecruitmentPerformanceReportExport do
         provider_report
         regional_report
         national_report
-        GenerateRecruitmentPerformanceReports.call
+        GenerateProviderReports.call
         edi_reports
       end
 
