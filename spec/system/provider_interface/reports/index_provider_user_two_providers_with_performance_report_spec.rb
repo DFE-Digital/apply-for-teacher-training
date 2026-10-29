@@ -83,6 +83,6 @@ RSpec.describe 'Provider with two providers reports index' do
   end
 
   def generate_recruitment_reports
-    GenerateRecruitmentPerformanceReports.call
+    GenerateProviderReports.call
   end
 end

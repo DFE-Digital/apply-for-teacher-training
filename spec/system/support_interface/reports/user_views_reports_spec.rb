@@ -107,7 +107,7 @@ private
   end
 
   def and_reports_have_been_generated
-    GenerateRecruitmentPerformanceReports.call
+    GenerateProviderReports.call
   end
 
   def and_the_withdrawal_reasons_report_has_been_generated
