@@ -32,8 +32,6 @@ module ProviderInterface
       @timetables = [current_timetable, current_timetable.relative_next_timetable]
     end
 
-    def roadmap; end
-
     def organisation_permissions
       render_content_page :organisation_permissions,
                           breadcrumb_title: 'service_guidance_provider',
