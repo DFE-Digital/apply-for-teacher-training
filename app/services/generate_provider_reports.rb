@@ -1,4 +1,4 @@
-class GenerateRecruitmentPerformanceReports
+class GenerateProviderReports
   def self.call
     new.call
   end
@@ -66,6 +66,10 @@ class GenerateRecruitmentPerformanceReports
           recruitment_cycle_year: previous_cycle,
           cycle_week: previous_cycle_week,
         )
+
+        if provider.id.even?
+          FactoryBot.create(:withdrawal_reasons_report, provider:)
+        end
       end
     end
   end
@@ -96,6 +100,7 @@ class GenerateRecruitmentPerformanceReports
       Publications::NationalRecruitmentPerformanceReport.delete_all
       Publications::ProviderEdiReport.delete_all
       Publications::ProviderRecruitmentPerformanceReport.delete_all
+      Publications::WithdrawalReasonsReport.delete_all
     end
   end
 end
