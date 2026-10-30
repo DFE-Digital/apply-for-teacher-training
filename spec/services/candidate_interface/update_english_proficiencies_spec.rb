@@ -169,8 +169,10 @@ RSpec.describe CandidateInterface::UpdateEnglishProficiencies do
     end
 
     context 'when an english proficiency is given' do
+      before { english_proficiency }
+
       context 'when the english proficiency is in a draft state' do
-        let(:english_proficiency) { create(:english_proficiency, :draft) }
+        let(:english_proficiency) { create(:english_proficiency, :draft, application_form:) }
 
         it 'updates and published the given english proficiency' do
           expect { call }.not_to change(application_form.english_proficiencies, :count)
@@ -184,7 +186,7 @@ RSpec.describe CandidateInterface::UpdateEnglishProficiencies do
 
       context 'when the english proficiency is in a draft state, and the qualification statuses is "no_qualification"' do
         let(:qualification_statuses) { ['no_qualification'] }
-        let(:english_proficiency) { create(:english_proficiency, :draft) }
+        let(:english_proficiency) { create(:english_proficiency, :draft, application_form:) }
 
         it 'updates the given english proficiency' do
           expect { call }.not_to change(application_form.english_proficiencies, :count)
@@ -199,7 +201,7 @@ RSpec.describe CandidateInterface::UpdateEnglishProficiencies do
       context 'when the english proficiency is in a draft state, and publish is true' do
         let(:publish) { true }
         let(:qualification_statuses) { ['no_qualification'] }
-        let(:english_proficiency) { create(:english_proficiency, :draft) }
+        let(:english_proficiency) { create(:english_proficiency, :draft, application_form:) }
 
         it 'updates the given english proficiency' do
           expect { call }.not_to change(application_form.english_proficiencies, :count)
@@ -208,6 +210,44 @@ RSpec.describe CandidateInterface::UpdateEnglishProficiencies do
           expect(english_proficiency.degree_taught_in_english).to be(false)
           expect(english_proficiency.has_qualification).to be(false)
           expect(english_proficiency.draft).to be(false)
+        end
+      end
+
+      context 'when the english proficiency is not in a draft state' do
+        let(:qualification_statuses) { ['no_qualification'] }
+        let(:english_proficiency) { create(:english_proficiency, application_form:) }
+
+        it 'creates a draft english proficiency' do
+          expect { call }.to change(application_form.english_proficiencies, :count).by(1)
+
+          expect(application_form.reload.english_proficiency).to eq(english_proficiency)
+
+          new_english_proficiency = application_form.english_proficiencies.last
+          expect(new_english_proficiency.qualification_not_needed).to be(false)
+          expect(new_english_proficiency.no_qualification).to be(true)
+          expect(new_english_proficiency.degree_taught_in_english).to be(false)
+          expect(new_english_proficiency.has_qualification).to be(false)
+          expect(new_english_proficiency.draft).to be(true)
+        end
+      end
+
+      context 'when the english proficiency is not in a draft state, and publish is true' do
+        let(:qualification_statuses) { ['no_qualification'] }
+        let(:no_qualification_details) { 'Work in progress' }
+        let(:publish) { true }
+        let(:english_proficiency) { create(:english_proficiency, application_form:) }
+
+        it 'creates a draft english proficiency' do
+          expect { call }.not_to change(application_form.english_proficiencies, :count)
+
+          expect(application_form.reload.english_proficiency).not_to eq(english_proficiency)
+
+          new_english_proficiency = application_form.english_proficiencies.last
+          expect(new_english_proficiency.qualification_not_needed).to be(false)
+          expect(new_english_proficiency.no_qualification).to be(true)
+          expect(new_english_proficiency.degree_taught_in_english).to be(false)
+          expect(new_english_proficiency.has_qualification).to be(false)
+          expect(new_english_proficiency.draft).to be(false)
         end
       end
     end

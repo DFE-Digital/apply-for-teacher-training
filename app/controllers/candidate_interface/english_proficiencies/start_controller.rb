@@ -42,7 +42,7 @@ module CandidateInterface
       end
 
       def set_return_to
-        return_path = if english_proficiency.draft
+        return_path = if english_proficiency.draft && current_application.english_proficiency.blank?
                         application_form_path
                       else
                         candidate_interface_english_proficiencies_review_path
