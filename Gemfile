@@ -19,7 +19,7 @@ gem 'awesome_print'
 gem 'google-cloud-bigquery'
 
 gem 'govuk-components', '~> 6.5'
-gem 'govuk_design_system_formbuilder', '~> 6.5.0'
+gem 'govuk_design_system_formbuilder', '~> 6.6.0'
 
 # GOV.UK Notify
 gem 'mail-notify'
