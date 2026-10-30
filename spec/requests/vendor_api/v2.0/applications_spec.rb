@@ -74,4 +74,13 @@ RSpec.describe 'Vendor API - GET /api/v2.0/applications' do
       )
     end
   end
+
+  describe 'recording pagination usage on the token' do
+    it 'records pagination as true' do
+      get_api_request "/api/v2.0/applications?since=#{CGI.escape(1.day.ago.iso8601)}&page=1"
+
+      expect(response).to have_http_status(:ok)
+      expect(VendorAPIToken.find_by_unhashed_token(api_token).pagination).to be(true)
+    end
+  end
 end
