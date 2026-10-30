@@ -16,8 +16,7 @@ bin/rails db:setup
 echo "Setting up local dev data..."
 bundle exec rake setup_local_dev_data
 
-echo "Run Sidekiq and Rails"
-mkdir tmp/pids
-SERVICE_TYPE=web bundle exec puma -C config/puma.rb & SERVICE_TYPE=worker bundle exec sidekiq -c 5 -C config/sidekiq-main.yml
+mkdir -p tmp/pids
+echo "Run bin/dev to start the application processes."
 
 echo "Done!"
