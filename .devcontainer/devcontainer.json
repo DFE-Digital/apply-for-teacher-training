@@ -15,7 +15,7 @@
       "version": "4.0.9"
     },
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "16.13.0"
+      "version": "24.18.1"
     },
     "ghcr.io/devcontainers/features/common-utils:1": {
       "username": "vscode",
