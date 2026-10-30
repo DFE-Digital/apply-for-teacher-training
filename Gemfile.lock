@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/DFE-Digital/dfe-analytics.git
-  revision: 3367c90f9e2566f9b27b87abee13b4070f6b663f
-  tag: v1.16.0
+  revision: 1beb572140130981efc7c7a77229c1702c7e79bd
+  tag: v1.16.1
   specs:
-    dfe-analytics (1.16.0)
+    dfe-analytics (1.16.1)
       google-cloud-bigquery (~> 1.38)
       httparty (~> 0.24)
       json (< 3)
@@ -257,7 +257,7 @@ GEM
     crass (1.0.8)
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
-    csv (3.3.6)
+    csv (3.3.7)
     date (3.5.1)
     declarative (0.0.20)
     deepsort (0.5.0)
@@ -409,7 +409,7 @@ GEM
       llhttp (~> 0.6.1)
     http-cookie (1.1.6)
       domain_name (~> 0.5)
-    httparty (0.24.2)
+    httparty (0.24.3)
       csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
@@ -1075,12 +1075,12 @@ CHECKSUMS
   crack (1.0.1) sha256=ff4a10390cd31d66440b7524eb1841874db86201d5b70032028553130b6d4c7e
   crass (1.0.8) sha256=7a0145c7a2c59f8e7923b3a69ce819c444823a00a5127d805298fea13be24efe
   cssbundling-rails (1.4.3) sha256=53aecd5a7d24ac9c8fcd92975acd0e830fead4ee4583d3d3d49bb64651946e41
-  csv (3.3.6) sha256=aba61e7e507a66f03d45cb1f3c4b6359861c3504038b422962875dce099e4456
+  csv (3.3.7) sha256=15a3f16f6628da8664d455eb634e7f22031bcf53044923caf56975109e71b9f8
   date (3.5.1) sha256=750d06384d7b9c15d562c76291407d89e368dda4d4fff957eb94962d325a0dc0
   declarative (0.0.20) sha256=8021dd6cb17ab2b61233c56903d3f5a259c5cf43c80ff332d447d395b17d9ff9
   deepsort (0.5.0) sha256=8db57207449e54d693e250bc3d62c2e92724602b0f4d680fa846021934f6419f
   devise (4.9.4) sha256=920042fe5e704c548aa4eb65ebdd65980b83ffae67feb32c697206bfd975a7f8
-  dfe-analytics (1.16.0)
+  dfe-analytics (1.16.1)
   dfe-autocomplete (1.0.0)
   dfe-reference-data (3.8.6)
   dfe-wizard (1.0.0)
@@ -1140,7 +1140,7 @@ CHECKSUMS
   html-attributes-utils (1.0.2) sha256=594e0b37b3dd4e554abe893bee9719896f876675fd08fe534fc2e6e1b4e2538c
   http (6.0.4) sha256=3768f902489ea8309424f1881c668af8d3ca73675648a755dfe2cb0030d42d26
   http-cookie (1.1.6) sha256=ba4b82be64de61dc281243dac70e3c382c45142f20268ed9276a3670c93feaa9
-  httparty (0.24.2) sha256=8fca6a54aa0c4aa4303a0fd33e5e2156175d6a5334f714263b458abd7fda9c38
+  httparty (0.24.3) sha256=5c95cf29ca70d5bfd834e56140ddfca6e94166c3b870cde9c25d157cdb5a00d2
   humanize (3.1.0) sha256=cbcc371a885bd661239d1e7a0cd192bc6e5f090b43973bae38ed5bfe57913bbe
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
   importmap-rails (2.2.3) sha256=7101be2a4dc97cf1558fb8f573a718404c5f6bcfe94f304bf1f39e444feeb16a
