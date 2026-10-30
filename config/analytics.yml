@@ -633,6 +633,7 @@ shared:
     - vendor_id
     - discarded_at
     - api_version
+    - pagination
   :withdrawal_reasons:
     - id
     - reason
