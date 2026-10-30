@@ -159,7 +159,7 @@
       <% end %>
     <% end %>
 
-    <h3 class='govuk-heading-s' id='provider_user_data'>Provider (user) data</h3>
+    <h3 class='govuk-heading-s' id='provider_user_data'>Provider user data</h3>
 
     <p class='govuk-body'>
       Includes permissions, email logs and user email addresses.
@@ -176,11 +176,11 @@
 
         <%= table.with_body do |body| %>
           <%= body.with_row do |row| %>
-            <%= row.with_cell(header: true, text: 'View (including download)', width: 'one-quarter') %>
+            <%= row.with_cell(header: true, text: 'View', width: 'one-quarter') %>
             <%= row.with_cell(text: 'Access') %>
             <%= row.with_cell(text: 'Access') %>
-            <%= row.with_cell(text: 'No access') %>
-            <%= row.with_cell(text: 'No access') %>
+            <%= row.with_cell(text: 'Access') %>
+            <%= row.with_cell(text: 'Access') %>
           <% end %>
 
           <%= body.with_row do |row| %>
@@ -426,7 +426,7 @@
           <% end %>
 
           <%= body.with_row do |row| %>
-            <%= row.with_cell(header: true, text: 'Delete (revoke)', width: 'one-quarter') %>
+            <%= row.with_cell(header: true, text: 'Revoke', width: 'one-quarter') %>
             <%= row.with_cell(text: 'Access') %>
             <%= row.with_cell(text: 'Access') %>
             <%= row.with_cell(text: 'No access') %>

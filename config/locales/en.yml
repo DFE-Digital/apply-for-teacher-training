@@ -732,7 +732,7 @@ en:
               invalid: Enter an email address in the correct format, like name@example.com
               taken: A support user with this email address already exists
             dfe_sign_in_uid:
-              blank: DfE Sign-in UID cannot be blank
+              blank: Enter a DfE Sign-in ID
             role:
               blank: Select a role
         application_choice:
