@@ -15,6 +15,7 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
       email_address: 'support@example.com',
       first_name: 'Susan',
       last_name: 'Upport',
+      role: 'user_support',
     )
   end
 

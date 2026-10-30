@@ -6,6 +6,7 @@ RSpec.describe SupportUser do
 
     it { is_expected.to validate_presence_of(:email_address) }
     it { is_expected.to validate_uniqueness_of(:email_address).case_insensitive }
+    it { is_expected.to validate_presence_of(:role) }
   end
 
   describe '#downcase_email_address' do

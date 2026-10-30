@@ -471,6 +471,12 @@ en:
     api_tokens:
       new:
         page_title: Create an API token
+    support_user:
+      roles:
+        user_support: User support
+        technical_management: Technical management
+        service_administration: Service administration
+        research_and_design: Research and design
   activemodel:
     attributes:
       vendor_api/metadata:
@@ -724,7 +730,9 @@ en:
               invalid: Enter an email address in the correct format, like name@example.com
               taken: A support user with this email address already exists
             dfe_sign_in_uid:
-              blank: DfE Sign-in UID cannot be blank
+              blank: Enter a DfE Sign-in ID
+            role:
+              blank: Select a role
         application_choice:
           attributes:
             status:

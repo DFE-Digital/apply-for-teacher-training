@@ -97,7 +97,8 @@ SupportUser.create!(
   dfe_sign_in_uid: 'dev-support',
   email_address: 'support@example.com',
   first_name: 'Susan',
-  last_name: 'Upport'
+  last_name: 'Upport',
+  role: 'user_support'
 )
 ```
 

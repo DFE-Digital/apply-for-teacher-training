@@ -3,11 +3,12 @@ class SupportUser < ApplicationRecord
   include AuthenticatedUsingMagicLinks
 
   attr_accessor :impersonated_provider_user
-  validates :dfe_sign_in_uid, presence: true
   validates :email_address,
             presence: true,
             uniqueness: { case_sensitive: false },
             format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :dfe_sign_in_uid, presence: true
+  validates :role, presence: true
 
   normalizes :email_address, with: ->(email) { email.downcase.strip }
 

@@ -39,10 +39,8 @@ module DfESignInHelpers
     click_link_or_button 'Sign in using DfE Sign-in'
   end
 
-  # def sign_in_as_support_user(role: 'support')
-  def sign_in_as_support_user
-    support_user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com', dfe_sign_in_uid: 'abc')
-    # support_user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com', dfe_sign_in_uid: 'abc', role:)
+  def sign_in_as_support_user(role: 'user_support')
+    support_user_exists_in_dfe_sign_in(email_address: 'user@apply-support.com', dfe_sign_in_uid: 'abc', role:)
     support_user_signs_in_using_dfe_sign_in
   end
   alias given_i_am_signed_in_as_a_support_user sign_in_as_support_user
@@ -101,19 +99,17 @@ module DfESignInHelpers
     }
   end
 
-  # def support_user_exists_in_dfe_sign_in(email_address: 'email@apply-support.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID', role: 'support')
-  def support_user_exists_in_dfe_sign_in(email_address: 'email@apply-support.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+  def support_user_exists_in_dfe_sign_in(email_address: 'email@apply-support.ac.uk', dfe_sign_in_uid: 'DFE_SIGN_IN_UID', role: 'user_support')
     support_user_exists_dsi(email_address:, dfe_sign_in_uid:)
     user_is_a_support_user(email_address:, dfe_sign_in_uid:)
-    # user_is_a_support_user(email_address:, dfe_sign_in_uid:, role:)
+    user_is_a_support_user(email_address:, dfe_sign_in_uid:, role:)
   end
 
-  # def user_is_a_support_user(email_address:, dfe_sign_in_uid:, role: 'support')
-  def user_is_a_support_user(email_address:, dfe_sign_in_uid:)
+  def user_is_a_support_user(email_address:, dfe_sign_in_uid:, role: 'user_support')
     SupportUser.find_or_create_by!(
       dfe_sign_in_uid:,
       email_address:,
-      # role:,
+      role:,
     )
   end
 
@@ -122,6 +118,7 @@ module DfESignInHelpers
       dfe_sign_in_uid:,
       email_address:,
       discarded_at:,
+      role: 'user_support',
     )
   end
 

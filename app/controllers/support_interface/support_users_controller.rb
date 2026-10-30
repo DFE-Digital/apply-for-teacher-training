@@ -19,6 +19,12 @@ module SupportInterface
       authorize(@support_user, policy_class: SupportInterface::SupportUserPolicy)
     end
 
+    def edit
+      @support_user = SupportUser.find(params.expect(:id))
+
+      authorize(@support_user, policy_class: SupportInterface::SupportUserPolicy)
+    end
+
     def create
       @support_user = SupportUser.new(support_user_params)
 
@@ -30,6 +36,26 @@ module SupportInterface
       else
         render :new
       end
+    end
+
+    def update
+      @support_user = SupportUser.find(params.expect(:id))
+
+      authorize(@support_user, policy_class: SupportInterface::SupportUserPolicy)
+
+      if @support_user.update(support_user_update_params)
+        flash[:success] = 'Support user role updated'
+        redirect_to support_interface_support_users_path
+      else
+        render :edit
+      end
+    end
+
+    def roles
+      authorize(@support_user, :show?, policy_class: SupportInterface::DocumentationPolicy)
+
+      @back_link = request.referer || support_interface_support_users_path
+      @roles = SupportUser.roles.values
     end
 
     def confirm_destroy
@@ -67,7 +93,13 @@ module SupportInterface
   private
 
     def support_user_params
-      params.expect(support_user: %i[email_address dfe_sign_in_uid])
+      params.expect(support_user: %i[email_address dfe_sign_in_uid role])
+    end
+
+    def support_user_update_params
+      return {} if params[:support_user].nil?
+
+      params.expect(support_user: %i[role])
     end
   end
 end

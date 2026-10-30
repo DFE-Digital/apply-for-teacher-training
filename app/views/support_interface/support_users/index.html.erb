@@ -6,6 +6,7 @@
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">Email</th>
+      <th scope="col" class="govuk-table__header">Role</th>
       <th scope="col" class="govuk-table__header">Last Login Date</th>
       <th scope="col" class="govuk-table__header">DfE Sign-in UID</th>
       <% if SupportInterface::SupportUserPolicy.new(current_support_user, nil).edit? %>
@@ -20,7 +21,14 @@
         <td class="govuk-table__cell">
           <%= govuk_link_to support_user.display_name, support_interface_support_user_path(support_user) %>
         </td>
-          <td class="govuk-table__cell">
+        <td class="govuk-table__cell">
+          <% if support_user.role.present? %>
+            <%= t("support_interface.support_user.roles.#{support_user.role}") %>
+          <% else %>
+            No role
+          <% end %>
+        </td>
+        <td class="govuk-table__cell">
           <%= support_user.last_signed_in_at&.to_fs(:govuk_date_and_time) || 'Not signed in yet' %>
         </td>
         <td class="govuk-table__cell">
@@ -28,13 +36,15 @@
         </td>
         <% if SupportInterface::SupportUserPolicy.new(current_support_user, nil).edit? %>
           <td class="govuk-table__cell">
-            <% if SupportInterface::SupportUserPolicy.new(current_support_user, support_user).edit? %>
+            <div class="flex-content">
+              <%= govuk_link_to('Change role', edit_support_interface_support_user_path(support_user)) %>
+
               <% link_action = support_user.discarded? ? 'Restore' : 'Remove' %>
               <% link_path = support_user_account_management_path(support_user) %>
               <%= govuk_link_to(link_path) do %>
-                <%= link_action %> user<span class="govuk-visually-hidden"> <%= support_user.display_name %></span>
+                <%= link_action %><span class="govuk-visually-hidden"> <%= support_user.display_name %></span>
               <% end %>
-            <% end %>
+            </div>
           </td>
         <% end %>
       </tr>
