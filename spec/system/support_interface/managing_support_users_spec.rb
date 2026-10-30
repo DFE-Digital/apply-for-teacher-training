@@ -191,7 +191,7 @@ private
 
   def then_i_see_validation_errors
     expect(page).to have_text('Enter an email address')
-    expect(page).to have_text('DfE Sign-in UID cannot be blank')
+    expect(page).to have_text('Enter a DfE Sign-in ID')
     expect(page).to have_text('Select a role')
   end
 end
