@@ -48,7 +48,6 @@ module CandidateInterface
            (new_english_proficiency.qualification_not_needed && !new_english_proficiency.has_qualification)
           new_english_proficiency.publish!
         end
-
         new_english_proficiency.save!
         application_form.save!
       end
@@ -58,7 +57,9 @@ module CandidateInterface
       @new_english_proficiency ||= if english_proficiency.nil?
                                      application_form.english_proficiencies.build
                                    elsif !english_proficiency.draft
-                                     english_proficiency.dup
+                                     duplicate_english_proficiency = english_proficiency.dup
+                                     duplicate_english_proficiency.draft = true
+                                     duplicate_english_proficiency
                                    else
                                      english_proficiency
                                    end
