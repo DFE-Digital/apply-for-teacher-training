@@ -1,7 +1,21 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate edits published preference' do
+RSpec.describe 'Candidate edits published preference', :with_cache do
+  include DfE::Bigquery::TestHelper
+
+  before do
+    stub_bigquery_non_disclosure_trainee_withdrawals_request
+    allow(GoogleMapsAPI::Client).to receive(:new).and_return(client)
+    allow(client).to receive(:autocomplete).and_return(api_response)
+  end
+
   let(:provider) { create(:provider) }
+  let(:client) { instance_double(GoogleMapsAPI::Client) }
+  let(:api_response) do
+    [
+      { name: 'BN1 3AA', place_id: 'test_id' },
+    ]
+  end
 
   scenario 'Candidate edits share preferences' do
     given_i_am_signed_in
@@ -15,7 +29,7 @@ RSpec.describe 'Candidate edits published preference' do
 
     when_i_click('Continue')
     then_i_am_redirected_on_the_invites_path
-    and_the_candidate_preference_id_is_changed
+    and_the_candidate_preference_pool_status_is_changed
   end
 
   scenario 'Candidate adds a reason for opting out' do
@@ -31,7 +45,8 @@ RSpec.describe 'Candidate edits published preference' do
 
     when_i_click('Continue')
     then_i_am_redirected_on_the_invites_path
-    and_the_candidate_preference_id_is_changed
+    and_the_candidate_preference_pool_status_is_changed
+    and_the_candidate_preference_opt_out_reason_is_changed
   end
 
   scenario 'Candidate edits dynamic location preferences' do
@@ -48,7 +63,7 @@ RSpec.describe 'Candidate edits published preference' do
     then_i_am_redirected_to_preference_review_page
     when_i_click('Submit preferences')
     then_i_am_redirected_to_the_confirmation_page
-    and_the_candidate_preference_id_is_changed
+    and_the_candidate_preference_dynamic_location_preferences_is_changed
   end
 
   scenario 'Candidate edits training locations' do
@@ -65,7 +80,7 @@ RSpec.describe 'Candidate edits published preference' do
 
     when_i_click('Submit preferences')
     then_i_am_redirected_to_the_confirmation_page
-    and_the_candidate_preference_id_is_changed
+    and_the_candidate_preference_training_locations_is_changed
     and_there_are_no_location_preferences
   end
 
@@ -84,8 +99,7 @@ RSpec.describe 'Candidate edits published preference' do
 
     when_i_click('Submit preferences')
     then_i_am_redirected_to_the_confirmation_page
-    and_the_candidate_preference_id_is_changed
-    and_only_interested_in_salary_courses
+    and_the_candidate_preference_funding_type_is_changed
   end
 
   scenario 'Candidate edits funding_type without setting it in the first place' do
@@ -103,9 +117,10 @@ RSpec.describe 'Candidate edits published preference' do
 
     when_i_click('Submit preferences')
     then_i_am_redirected_to_the_confirmation_page
-    and_the_candidate_preference_id_is_changed
-    and_only_interested_in_salary_courses
+    and_the_candidate_preference_funding_type_is_changed
   end
+
+private
 
   def given_i_am_signed_in(funding_type: 'fee')
     given_i_am_signed_in_with_one_login
@@ -157,9 +172,10 @@ RSpec.describe 'Candidate edits published preference' do
   end
 
   def and_i_add_a_reason_for_opting_out
+    @opt_out_reason = Faker::Lorem.sentence(word_count: 199)
     fill_in(
       'Why do you not want to share your application details with other providers? (Optional)',
-      with: Faker::Lorem.sentence(word_count: 199),
+      with: @opt_out_reason,
     )
   end
 
@@ -176,7 +192,7 @@ RSpec.describe 'Candidate edits published preference' do
   end
 
   def and_there_are_no_location_preferences
-    expect(@application_form.published_preferences.last.location_preferences).to eq []
+    expect(@application_form.published_preference.location_preferences).to eq []
   end
 
   def when_i_navigate_to_dynamic_locations
@@ -196,8 +212,7 @@ RSpec.describe 'Candidate edits published preference' do
   end
 
   def and_the_funding_type_is_checked
-    funding_type = find_by_id('candidate-interface-funding-type-preference-form-funding-type-fee-field')
-    expect(funding_type).to be_checked
+    expect(page).to have_field('I am interested in both courses with fees to pay and salaried courses', checked: true)
   end
 
   def when_i_check_no_only_salary_courses
@@ -210,5 +225,25 @@ RSpec.describe 'Candidate edits published preference' do
 
   def and_candidate_preference_funding_type_is_nil
     @existing_candidate_preference.update(funding_type: nil)
+  end
+
+  def and_the_candidate_preference_pool_status_is_changed
+    expect(@application_form.published_preference.pool_status).to eq('opt_out')
+  end
+
+  def and_the_candidate_preference_opt_out_reason_is_changed
+    expect(@application_form.published_preference.opt_out_reason).to eq(@opt_out_reason)
+  end
+
+  def and_the_candidate_preference_dynamic_location_preferences_is_changed
+    expect(@application_form.published_preference.dynamic_location_preferences).to be(false)
+  end
+
+  def and_the_candidate_preference_training_locations_is_changed
+    expect(@application_form.published_preference.training_locations).to eq('anywhere')
+  end
+
+  def and_the_candidate_preference_funding_type_is_changed
+    expect(@application_form.published_preference.funding_type).to eq('salary')
   end
 end
