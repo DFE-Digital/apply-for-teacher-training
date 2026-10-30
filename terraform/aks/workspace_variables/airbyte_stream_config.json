@@ -4363,6 +4363,11 @@
             "fieldPath": [
               "api_version"
             ]
+          },
+          {
+            "fieldPath": [
+              "pagination"
+            ]
           }
         ]
       },
