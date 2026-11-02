@@ -1,5 +1,7 @@
 ---
 :shared:
+  :vendor_api_tokens:
+  - pagination
   :withdrawal_reasons_reports:
   - id
   - provider_id
