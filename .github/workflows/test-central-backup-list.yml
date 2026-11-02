@@ -19,7 +19,6 @@ env:
   SERVICE_NAME: apply
   SERVICE_SHORT: att
   TF_VARS_PATH: terraform/aks/workspace_variables
-  RESOURCE_PREFIX: s189t01
 
 jobs:
 
@@ -40,11 +39,13 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - uses: DFE-Digital/github-actions/postgres-tools@master
+      - uses: DFE-Digital/github-actions/postgres-tools@3113-adds-new-postgres-backup
         with:
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           operation: list-backups
           service-name: ${{ env.SERVICE_NAME }}
           service-short: ${{ env.SERVICE_SHORT }}
           environment: ${{ inputs.environment }}
           tf-vars-path: ${{ env.TF_VARS_PATH }}
-          resource-prefix: ${{ env.RESOURCE_PREFIX }}
