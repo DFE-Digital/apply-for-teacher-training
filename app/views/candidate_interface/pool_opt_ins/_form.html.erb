@@ -7,7 +7,8 @@
       <%= f.govuk_text_area(
         :opt_out_reason,
         label: { text: t('.reason_for_opting_out') },
-        max_words: 200,
+        max_length: 200,
+        count_type: :words,
       ) %>
     <% end %>
   <% end %>

@@ -3,7 +3,7 @@
 <%= f.govuk_text_area :relationship,
                       label: { text: t('application_form.references.relationship.label', referee_name: @reference.name), size: 'l', tag: 'h1' },
                       hint: { text: t("application_form.references.relationship.hint_text.#{@reference.referee_type.downcase}") },
-                      max_chars: 500, threshold: 95 %>
+                      max_length: 500, count_type: :length, threshold: 95 %>
 
 <p class="govuk-body">We will show your answer to <%= @reference.name %> and ask them to confirm whether it is correct.</p>
 

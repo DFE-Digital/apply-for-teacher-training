@@ -24,7 +24,8 @@
           <%= f.govuk_text_area(
                 :comment,
                 label: { text: reason.other_reason, size: 's' },
-                max_words: 200,
+                max_length: 200,
+                count_type: :words,
                 rows: 5,
                 link_errors: true,
               ) %>

@@ -15,7 +15,7 @@
       <h1 class="govuk-heading-l">Add note</h1>
 
       <%= f.hidden_field :referer, value: @new_note_form.referer || request.referer %>
-      <%= f.govuk_text_area :message, label: { text: 'Note', size: 'm' }, max_chars: 500 %>
+      <%= f.govuk_text_area :message, label: { text: 'Note', size: 'm' }, max_length: 500, count_type: :length %>
 
       <%= f.govuk_submit 'Save note' %>
     <% end %>

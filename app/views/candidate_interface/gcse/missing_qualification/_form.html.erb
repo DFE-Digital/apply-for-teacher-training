@@ -22,7 +22,7 @@
           <% end %>
         <% end %>
 
-        <%= f.govuk_text_area :missing_explanation, label: { text: "Give evidence of having #{capitalize_english(@subject)} skills at the required standard", size: 'm' }, rows: 4, max_words: 50 do %>
+        <%= f.govuk_text_area :missing_explanation, label: { text: "Give evidence of having #{capitalize_english(@subject)} skills at the required standard", size: 'm' }, rows: 4, max_length: 50, count_type: :words do %>
         <% end %>
 
         <%= f.govuk_submit t('save_and_continue') %>

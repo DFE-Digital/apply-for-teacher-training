@@ -22,7 +22,8 @@
         label: { text: t('.title'), size: 'xl' },
         hint: { text: t('.hint_html') },
         rows: 10,
-        max_words: 200,
+        max_length: 200,
+        count_type: :words,
       ) %>
 
       <%= f.govuk_submit t('save_and_continue') %>

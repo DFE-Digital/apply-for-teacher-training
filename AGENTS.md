@@ -33,6 +33,7 @@ Run the relevant specs and RuboCop on changed files before finishing a task. Do 
 
 ## Stop and ask before
 
+- Running specs. These can take a long time and we do not need to run them locally for each change.
 - Adding, removing or upgrading any gem or JS package
 - Changing authentication or authorisation: Devise, OmniAuth (Entra ID, GOV.UK One Login), Warden, Pundit policies, Rack::Attack, session handling, identity matching
 - Editing an existing migration, or writing a migration that changes or removes data

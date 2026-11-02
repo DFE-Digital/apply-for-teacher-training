@@ -10,7 +10,7 @@
 
       <%= f.govuk_text_field :header, label: { text: t('.banner_header_label'), size: 'm' } %>
 
-      <%= f.govuk_text_area :body, label: { text: t('.banner_content_label'), size: 'm' }, hint: { text: t('.caption') }, max_chars: 400, link_errors: true %>
+      <%= f.govuk_text_area :body, label: { text: t('.banner_content_label'), size: 'm' }, hint: { text: t('.caption') }, max_length: 400, count_type: :length, link_errors: true %>
 
       <%= f.govuk_submit t('.preview') %>
     <% end %>

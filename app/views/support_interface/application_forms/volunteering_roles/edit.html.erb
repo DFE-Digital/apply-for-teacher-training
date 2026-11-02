@@ -49,7 +49,7 @@
         <% end %>
       </div>
 
-      <%= f.govuk_text_area :details, label: { text: t('application_form.volunteering.details.label'), size: 'm' }, hint: { text: t('application_form.volunteering.details.hint_text') }, max_words: 150 %>
+      <%= f.govuk_text_area :details, label: { text: t('application_form.volunteering.details.label'), size: 'm' }, hint: { text: t('application_form.volunteering.details.hint_text') }, max_length: 150, count_type: :words %>
 
       <%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.audit_comment_ticket.label'), size: 'm' }, hint: { text: t('support_interface.audit_comment_ticket.hint') } %>
 
