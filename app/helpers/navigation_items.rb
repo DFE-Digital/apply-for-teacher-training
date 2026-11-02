@@ -222,7 +222,8 @@ class NavigationItems
 
     def for_vendor_api_docs(current_controller)
       items = [
-        NavigationItem.new('Home', api_docs_home_path, active_action?(current_controller, 'home'), []),
+        NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.home_navigation'), api_docs_home_path, active_action?(current_controller, 'home'), []),
+        NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.news_navigation'), api_docs_news_path, active_action?(current_controller, 'news'), []),
         NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.usage'), api_docs_usage_path, active_action?(current_controller, 'usage'), []),
         NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.reference'), api_docs_reference_path, active_action?(current_controller, 'reference'), []),
         NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.release_notes'), api_docs_release_notes_path, active_action?(current_controller, 'release_notes'), []),

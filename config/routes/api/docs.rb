@@ -1,6 +1,7 @@
 namespace :api_docs, path: nil do
   scope module: :vendor_api_docs, path: '/api-docs' do
     get '/' => 'pages#home', as: :home
+    get '/news' => 'pages#news', as: :news
     get '/usage-scenarios' => 'pages#usage', as: :usage
 
     get '/release-notes' => 'pages#release_notes', as: :release_notes

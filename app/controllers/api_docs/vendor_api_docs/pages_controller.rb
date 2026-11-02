@@ -5,6 +5,10 @@ module APIDocs
         render_content_page :home, locals: { current_api_version:, next_api_version: }
       end
 
+      def news
+        render_content_page :news
+      end
+
       def usage
         render_content_page :usage
       end
