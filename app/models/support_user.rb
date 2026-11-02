@@ -30,7 +30,7 @@ class SupportUser < ApplicationRecord
   def root_path_for_role(controller)
     @root_path_for_role ||= begin
       nav_item = NavigationItems.for_support_primary_nav(self, controller).first
-      if nav_item.blank?
+      if nav_item.present?
         nav_item[:href]
       end
     end
