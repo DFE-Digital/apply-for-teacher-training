@@ -3,6 +3,7 @@ module CandidateInterface
     delegate :number_of_slots_left,
              :academic_year_range_name,
              :in_progress_limit,
+             :in_progress_and_draft_count,
              :total_submitted_application_limit_reached?,
              :can_add_more_choices?,
              :cannot_submit_more_choices?,
@@ -64,7 +65,7 @@ module CandidateInterface
         tag.p(
           t(
             'mid_cycle_content_component.no_more_slots_left',
-            max_number_of_slots: in_progress_limit,
+            max_number_of_slots: in_progress_and_draft_count,
           ),
           class: 'govuk-body',
         )

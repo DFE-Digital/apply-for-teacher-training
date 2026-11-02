@@ -63,6 +63,10 @@ module ChoiceLimitsCalculator
     !can_add_more_choices?
   end
 
+  def in_progress_and_draft_count
+    in_progress_count + draft_count
+  end
+
   def number_of_slots_left
     slots_left = in_progress_limit - in_progress_count # in progress take up a slot
     slots_left -= draft_count # drafts take up a slot
