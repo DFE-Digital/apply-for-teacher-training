@@ -14,7 +14,8 @@
             <%= f.govuk_text_area :explanation,
                                   label: { text: t('application_form.restructured_work_history.explanation.label') },
                                   hint: { text: t('application_form.restructured_work_history.explanation.hint_text') },
-                                  max_words: 400,
+                                  max_length: 400,
+                                  count_type: :words,
                                   threshold: 90 %>
           <% end %>
         <% end %>

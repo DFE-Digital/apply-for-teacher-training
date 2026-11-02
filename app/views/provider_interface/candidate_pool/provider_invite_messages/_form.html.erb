@@ -22,7 +22,8 @@
           label: { text: t('.enter_message'), class: 'govuk-!-margin-bottom-3' },
           hint: -> { render 'formatting_information' },
           value: current_provider_user.in_use_provider_user_content_template&.body,
-          max_words: 200,
+          max_length: 200,
+          count_type: :words,
         ) %>
       </div>
 

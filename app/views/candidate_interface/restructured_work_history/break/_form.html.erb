@@ -13,6 +13,6 @@
   <%= f.govuk_date_field :end_date, omit_day: true, legend: { text: 'End of break', size: 'm' } %>
 </div>
 
-<%= f.govuk_text_area :reason, label: { text: 'Enter reasons for break in work history', size: 'm' }, hint: { text: 'For example, ‘I was unemployed’, ‘I had health issues’ or ‘I was caring for a child’' }, max_words: 400, threshold: 90 %>
+<%= f.govuk_text_area :reason, label: { text: 'Enter reasons for break in work history', size: 'm' }, hint: { text: 'For example, ‘I was unemployed’, ‘I had health issues’ or ‘I was caring for a child’' }, max_length: 400, count_type: :words, threshold: 90 %>
 
 <%= f.govuk_submit t('continue') %>
