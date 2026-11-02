@@ -666,6 +666,9 @@ erDiagram
 		string region
 		json statistics
 	}
+	"Publications::WithdrawalReasonsReport" {
+		json statistics
+	}
 	RecruitmentCycleTimetable {
 		datetime apply_deadline_at
 		datetime apply_opens_at
@@ -849,6 +852,7 @@ erDiagram
 		datetime discarded_at
 		string hashed_token
 		datetime last_used_at
+		boolean pagination
 	}
 	VendorApiUser {
 		string email_address
@@ -1001,6 +1005,7 @@ erDiagram
 	Provider o|--}o VendorAPIRequest : ""
 	Provider ||--}o VendorAPIToken : ""
 	Provider ||--}o "Publications::ProviderRecruitmentPerformanceReport" : ""
+	Provider ||--|o "Publications::WithdrawalReasonsReport" : ""
 	ProviderUser ||--}o ProviderAgreement : ""
 	ProviderUser ||--}o ProviderPermissions : ""
 	ProviderUser ||--}o ProviderPoolAction : ""
@@ -1015,6 +1020,7 @@ erDiagram
 	"Publications::ProviderRecruitmentPerformanceReport" o|--|o RecruitmentCycleTimetable : ""
 	"Publications::RegionalEdiReport" o|--|o RecruitmentCycleTimetable : ""
 	"Publications::RegionalRecruitmentPerformanceReport" o|--|o RecruitmentCycleTimetable : ""
+	"Publications::WithdrawalReasonsReport" o|--|o RecruitmentCycleTimetable : ""
 	Provider ||--}o RegionalReportFilter : ""
 	ApplicationChoice ||--}o RejectionFeedback : ""
 	"SolidQueue::BlockedExecution" o|--|o "SolidQueue::Semaphore" : ""
