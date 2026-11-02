@@ -8,6 +8,8 @@ module VendorAPI
     rescue_from PerPageParameterInvalid, with: :per_page_parameter_invalid
 
     def index
+      @current_vendor_api_token.update!(pagination: pagination_requested?)
+
       render json: serialized_application_choices_data
     end
 
@@ -41,6 +43,10 @@ module VendorAPI
         per_page: params[:per_page],
         url: request.original_url,
       }
+    end
+
+    def pagination_requested?
+      params[:page].present? || params[:per_page].present?
     end
 
     def since_param

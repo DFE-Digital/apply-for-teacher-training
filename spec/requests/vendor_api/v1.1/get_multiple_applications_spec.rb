@@ -174,4 +174,45 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications' do
                                                            '1.1')
     end
   end
+
+  describe 'recording pagination usage on the token' do
+    let(:token) { VendorAPIToken.find_by_unhashed_token(api_token) }
+
+    it 'records pagination as true when the page parameter is used' do
+      get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&page=1"
+
+      expect(response).to have_http_status(:ok)
+      expect(token.pagination).to be(true)
+    end
+
+    it 'records pagination as true when the per_page parameter is used' do
+      get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&per_page=2"
+
+      expect(response).to have_http_status(:ok)
+      expect(token.pagination).to be(true)
+    end
+
+    it 'records pagination as false when no pagination parameters are used' do
+      get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+
+      expect(response).to have_http_status(:ok)
+      expect(token.pagination).to be(false)
+    end
+
+    it 'updates pagination when the token stops using pagination' do
+      get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&page=1&per_page=2"
+      get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+
+      expect(token.pagination).to be(false)
+    end
+
+    it 'does not record pagination when other endpoints are used' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(status: 'awaiting_provider_decision')
+
+      get_api_request "/api/v1.1/applications/#{application_choice.id}"
+
+      expect(response).to have_http_status(:ok)
+      expect(token.pagination).to be_nil
+    end
+  end
 end
