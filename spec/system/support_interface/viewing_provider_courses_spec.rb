@@ -62,17 +62,33 @@ RSpec.describe 'Viewing cycle information' do
     and_i_select_to_filter_by_closed_courses
     and_i_click_on_apply_filters
     then_i_see_only_open_and_closed_courses
+
+    when_i_click_on_clear_filters
+    then_i_see_all_courses_for_the_provider
+
+    when_i_select_to_filter_by_closed_courses
+    and_i_select_to_filter_by_courses_a_course_code
+    and_i_click_on_apply_filters
+    then_i_see_no_courses_for_the_provider
   end
 
 private
 
   def and_courses_exist_in_the_database
     @provider = create(:provider)
-    @open_course = create(:course, :open, provider: @provider, name: 'English', exposed_in_find: true)
-    @closed_course = create(:course, :closed, provider: @provider, name: 'English', exposed_in_find: true)
-    @unavailable_course = create(:course, :unavailable, provider: @provider, name: 'Science')
-    @next_year_course = create(:course, :open, recruitment_cycle_year: RecruitmentCycleTimetable.next_year, provider: @provider, name: 'Mathematics', exposed_in_find: true)
-    @another_provider_course = create(:course, :open, name: 'Art and design', exposed_in_find: true)
+    @open_course = create(:course, :open, provider: @provider, name: 'English', exposed_in_find: true, code: 'ENG101')
+    @closed_course = create(:course, :closed, provider: @provider, name: 'English', exposed_in_find: true, code: 'ENG102')
+    @unavailable_course = create(:course, :unavailable, provider: @provider, name: 'Science', code: 'SCI101')
+    @next_year_course = create(
+      :course,
+      :open,
+      recruitment_cycle_year: RecruitmentCycleTimetable.next_year,
+      provider: @provider,
+      name: 'Mathematics',
+      exposed_in_find: true,
+      code: 'MATH101',
+    )
+    @another_provider_course = create(:course, :open, name: 'Art and design', exposed_in_find: true, code: 'ART101')
   end
 
   def when_i_navigate_to_the_provider_courses_page
@@ -137,6 +153,7 @@ private
   def when_i_select_to_filter_by_courses_a_course_code
     fill_in 'Course code', with: @open_course.code
   end
+  alias_method :and_i_select_to_filter_by_courses_a_course_code, :when_i_select_to_filter_by_courses_a_course_code
 
   def then_i_see_only_courses_with_that_course_code
     within('table.govuk-table') do
@@ -213,5 +230,9 @@ private
       expect(page).to have_no_text("#{@next_year_course.name} (#{@next_year_course.code})")
       expect(page).to have_no_text("#{@another_provider_course.name} (#{@another_provider_course.code})")
     end
+  end
+
+  def then_i_see_no_courses_for_the_provider
+    expect(page).to have_text('There aren’t any courses for this provider.')
   end
 end
