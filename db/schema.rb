@@ -441,17 +441,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_113425) do
     t.bigint "application_form_id", null: false
     t.bigint "candidate_id", null: false
     t.boolean "course_funding_type_fee"
+    t.bigint "course_ids", default: [], null: false, array: true
     t.boolean "course_type_postgraduate", default: false, null: false
     t.boolean "course_type_undergraduate", default: false, null: false
     t.datetime "created_at", null: false
+    t.boolean "is_send", default: false
     t.boolean "needs_visa", default: false, null: false
     t.bigint "rejected_provider_ids", default: [], null: false, array: true
     t.boolean "study_mode_full_time", default: false, null: false
     t.boolean "study_mode_part_time", default: false, null: false
     t.bigint "subject_ids", default: [], null: false, array: true
     t.datetime "updated_at", null: false
-    t.boolean "is_send", default: false
-    t.bigint "course_ids", default: [], null: false, array: true
     t.index ["application_form_id"], name: "index_candidate_pool_applications_on_application_form_id", unique: true
     t.index ["candidate_id"], name: "index_candidate_pool_applications_on_candidate_id"
   end
@@ -553,6 +553,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_113425) do
     t.integer "fee_international"
     t.string "financial_support"
     t.string "funding_type"
+    t.boolean "is_send", default: false
     t.string "level"
     t.string "name"
     t.string "program_type"
@@ -566,7 +567,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_113425) do
     t.uuid "uuid"
     t.datetime "visa_sponsorship_application_deadline_at"
     t.boolean "withdrawn"
-    t.boolean "is_send", default: false
     t.index ["applications_open_from"], name: "index_courses_on_applications_open_from"
     t.index ["code"], name: "index_courses_on_code"
     t.index ["provider_id"], name: "index_courses_on_provider_id"
@@ -610,10 +610,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_113425) do
   end
 
   create_table "degree_subject_groups", force: :cascade do |t|
-    t.string "name"
-    t.string "subject_group_uuid"
     t.bigint "application_qualification_id", null: false
     t.datetime "created_at", null: false
+    t.string "name"
+    t.string "subject_group_uuid"
     t.datetime "updated_at", null: false
     t.index ["application_qualification_id"], name: "index_degree_subject_groups_on_application_qualification_id"
   end
@@ -980,11 +980,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_113425) do
   end
 
   create_table "provider_user_content_templates", force: :cascade do |t|
-    t.bigint "provider_user_id", null: false
-    t.string "kind", null: false
     t.text "body", null: false
-    t.boolean "in_use", default: false, null: false
     t.datetime "created_at", null: false
+    t.boolean "in_use", default: false, null: false
+    t.string "kind", null: false
+    t.bigint "provider_user_id", null: false
     t.datetime "updated_at", null: false
     t.index ["kind"], name: "index_provider_user_content_templates_on_kind"
     t.index ["provider_user_id"], name: "index_provider_user_content_templates_on_provider_user_id"
@@ -1012,8 +1012,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_113425) do
     t.boolean "offer_declined", default: true, null: false
     t.bigint "provider_user_id", null: false
     t.boolean "reference_received", default: true
-    t.datetime "updated_at", null: false
     t.boolean "technical_updates", default: true, null: false
+    t.datetime "updated_at", null: false
     t.index ["provider_user_id"], name: "index_provider_user_notifications_on_provider_user_id"
   end
 
@@ -1432,12 +1432,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_113425) do
   create_table "vendor_api_tokens", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "description", null: false
+    t.datetime "discarded_at"
     t.string "hashed_token", null: false
     t.datetime "last_used_at", precision: nil
     t.bigint "provider_id", null: false
     t.datetime "updated_at", null: false
     t.bigint "vendor_id"
-    t.datetime "discarded_at"
     t.string "api_version"
     t.boolean "pagination"
     t.index ["discarded_at"], name: "index_vendor_api_tokens_on_discarded_at"
@@ -1460,8 +1460,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_113425) do
   create_table "vendors", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
-    t.datetime "updated_at", null: false
     t.string "status", default: "unconfirmed", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_vendors_on_name", unique: true
   end
 
@@ -1485,7 +1485,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_113425) do
     t.index ["provider_id"], name: "index_withdrawal_reasons_reports_on_provider_id"
     t.index ["recruitment_cycle_year"], name: "index_withdrawal_reasons_reports_on_recruitment_cycle_year"
   end
-
   add_foreign_key "account_recovery_request_codes", "account_recovery_requests", on_delete: :cascade
   add_foreign_key "account_recovery_requests", "candidates", on_delete: :cascade
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
