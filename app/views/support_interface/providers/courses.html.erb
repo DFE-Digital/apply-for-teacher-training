@@ -5,20 +5,26 @@
 <% end %>
 
 <% if @provider.courses.any? %>
-  <% @courses_by_year.each do |year, courses| %>
-    <% if courses.any? %>
-      <h2 class="govuk-heading-m"><%= year %>: <%= pluralize(courses.size, 'course') %> (<%= courses.count(&:open?) %> Open) <%= t('.not_yet_published') if @current_timetable.relative_next_year == year %></h2>
+  <%# @courses_by_year.each do |year, courses| %>
+    <%# if courses.any? %>
+<!--      <h2 class="govuk-heading-m"><%#= year %>: <%#= pluralize(courses.size, 'course') %> (<%#= courses.count(&:open?) %> Open) <%#= t('.not_yet_published') if @current_timetable.relative_next_year == year %></h2>-->
+<!---->
+      <%# if @current_timetable.relative_next_year == year %>
+<!--        <p class="govuk-body"><%#= t('.courses_published_recruitment_opens') %></p>-->
+      <%# end %>
+<!---->
+      <%#= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: courses)) %>
+    <%# else %>
+<!--      <h3 class="govuk-heading-m"><%#= year %>: No courses</h3>-->
+<!---->
+<!--      <p class="govuk-body"><%#= t('.no_courses_for_year', year: year) %></p>-->
+    <%# end %>
+  <%# end %>
 
-      <% if @current_timetable.relative_next_year == year %>
-        <p class="govuk-body"><%= t('.courses_published_recruitment_opens') %></p>
-      <% end %>
 
-      <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: courses)) %>
-    <% else %>
-      <h3 class="govuk-heading-m"><%= year %>: No courses</h3>
-
-      <p class="govuk-body"><%= t('.no_courses_for_year', year: year) %></p>
-    <% end %>
+  <%= render PaginatedFilterComponent.new(filter: @filter, collection: @pagy) do %>
+    <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @courses)) %>
+    <%= govuk_pagination(pagy: @pagy) %>
   <% end %>
 <% else %>
   <p class="govuk-body"><%= t('.no_courses_yet') %></p>

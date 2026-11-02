@@ -32,10 +32,12 @@ module SupportInterface
 
       authorize @provider, :show?, policy_class: SupportInterface::ProviderPolicy
 
-      courses = @provider.courses.includes(accredited_provider: [:provider_agreements]).order(:name).group_by(&:recruitment_cycle_year)
-      years = RecruitmentCycleTimetable.years_visible_in_support.reverse.to_h { |year| [year, []] } # rubocop:disable Rails/IndexWith
+      courses = @provider.courses.includes(accredited_provider: [:provider_agreements]).order(recruitment_cycle_year: :desc, name: :asc)
 
-      @courses_by_year = years.merge(courses)
+      @filter = SupportInterface::ProviderCoursesFilter.new(
+        params: params.merge(provider_id: @provider.id),
+      )
+      @pagy, @courses = pagy(@filter.filter_records(courses))
     end
 
     def ratified_courses
