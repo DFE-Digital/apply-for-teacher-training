@@ -281,6 +281,7 @@ shared:
     - country_residency_date_from
     - country_residency_since_birth
     - previous_last_names
+    - applications_limit
   application_qualifications:
     - application_form_id
     - award_year
