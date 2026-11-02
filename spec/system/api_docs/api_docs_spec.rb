@@ -15,7 +15,7 @@ RSpec.describe 'API docs' do
 
   def i_can_browse_the_api_docs
     visit api_docs_home_path
-    expect(page).to have_text 'This is API documentation'
+    expect(page).to have_text 'This is the API documentation for the Department for Education (DfE)’s Apply for teacher training service.'
 
     click_link_or_button 'Usage scenarios'
     expect(page).to have_text 'The scenarios on this page'
