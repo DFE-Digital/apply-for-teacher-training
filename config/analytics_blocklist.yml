@@ -1,7 +1,5 @@
 ---
 :shared:
-  :vendor_api_tokens:
-  - pagination
   :withdrawal_reasons_reports:
   - id
   - provider_id
@@ -355,6 +353,7 @@
   - updated_at
   :vendor_api_tokens:
   - hashed_token
+  - pagination
   :validation_errors:
   - details
   :support_users:
