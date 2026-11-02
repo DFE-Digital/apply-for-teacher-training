@@ -18,4 +18,5 @@ To prepare for this change:
 3. Test the changes on sandbox.
 4. Update your integrations to use the version 2.0 endpoint before April 2027.
 
-You can contact us for help at [bat.technical-enquiries@education.gov.uk](mailto:bat.technical-enquiries@education.gov.uk) at <bat.technical-enquiries@education.gov.uk>.
+You can contact us for help at [bat.technical-enquiries@education.gov.uk](mailto:bat.technical-enquiries@education.gov.uk)
+
