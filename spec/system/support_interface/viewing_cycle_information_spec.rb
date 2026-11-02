@@ -5,7 +5,7 @@ RSpec.describe 'Viewing cycle information' do
 
   context 'Environment is not production' do
     scenario 'viewing cycle information when not in production', time: mid_cycle do
-      given_i_am_signed_in_as_a_support_user
+      given_i_am_signed_in_as_a_support_user(role: 'technical_management')
       when_i_click_on_the_recruitment_cycle_link
       then_i_see_information_about_editing_cycle_timetables
       and_i_see_other_content
@@ -14,7 +14,7 @@ RSpec.describe 'Viewing cycle information' do
 
   context 'Environment is production' do
     scenario 'viewing cycle information when in production', time: mid_cycle do
-      given_i_am_signed_in_as_a_support_user
+      given_i_am_signed_in_as_a_support_user(role: 'technical_management')
       and_env_is_production
       when_i_click_on_the_recruitment_cycle_link
       then_i_do_not_see_information_about_editing_cycle_timetables

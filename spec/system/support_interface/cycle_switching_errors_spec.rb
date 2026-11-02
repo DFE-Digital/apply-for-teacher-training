@@ -6,7 +6,7 @@ RSpec.describe 'Cycle switching errors' do
   let(:timetable) { current_timetable }
 
   scenario 'adding invalid dates' do
-    given_i_am_signed_in_as_a_support_user
+    given_i_am_signed_in_as_a_support_user(role: 'technical_management')
     and_i_navigate_to_edit_current_cycle
     when_i_enter_invalid_dates_in_all_the_fields
     then_i_see_invalid_date_errors
@@ -14,7 +14,7 @@ RSpec.describe 'Cycle switching errors' do
 
   context 'Wrong sequence dates' do
     before do
-      given_i_am_signed_in_as_a_support_user
+      given_i_am_signed_in_as_a_support_user(role: 'technical_management')
       and_i_navigate_to_edit_current_cycle
     end
 

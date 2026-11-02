@@ -20,7 +20,7 @@ RSpec.describe 'Feature flags', :with_audited do
   end
 
   def given_i_am_a_support_user
-    sign_in_as_support_user
+    sign_in_as_support_user(role: 'technical_management')
   end
 
   def and_there_is_a_feature_flag_set_up

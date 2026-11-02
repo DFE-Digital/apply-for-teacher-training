@@ -100,7 +100,7 @@ RSpec.describe 'Configure service banner' do
 private
 
   def given_i_am_a_support_user
-    sign_in_as_support_user
+    sign_in_as_support_user(role: 'technical_management')
     @support_user = SupportUser.find_by(email_address: 'user@apply-support.com')
   end
 

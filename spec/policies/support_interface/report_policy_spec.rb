@@ -3,8 +3,7 @@ require 'rails_helper'
 RSpec.describe SupportInterface::ReportPolicy do
   subject(:policy) { described_class }
 
-  # let(:support_user) { create(:support_user, role:) }
-  let(:support_user) { create(:support_user) }
+  let(:support_user) { create(:support_user, role:) }
 
   permissions :show? do
     context 'when user has a support role' do

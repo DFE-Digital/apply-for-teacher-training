@@ -17,7 +17,7 @@ RSpec.describe 'Cycle switching' do
 
   scenario 'Support user switches cycle schedule' do
     given_it_is_before_the_apply_deadline
-    given_i_am_signed_in_as_a_support_user
+    given_i_am_signed_in_as_a_support_user(role: 'technical_management')
     when_i_navigate_to_the_cycle_page
     and_i_see_a_mid_cycle_description_and_content
 
@@ -26,7 +26,7 @@ RSpec.describe 'Cycle switching' do
   end
 
   scenario 'Support user updates the winter reject by default date' do
-    given_i_am_signed_in_as_a_support_user
+    given_i_am_signed_in_as_a_support_user(role: 'technical_management')
     when_i_navigate_to_the_cycle_page
     and_i_click_on_the_current_recruitment_cycle
     then_i_see_the_edit_recruitment_cycle_page
@@ -36,7 +36,7 @@ RSpec.describe 'Cycle switching' do
   end
 
   scenario 'Support user updates the winter decline by default date' do
-    given_i_am_signed_in_as_a_support_user
+    given_i_am_signed_in_as_a_support_user(role: 'technical_management')
     when_i_navigate_to_the_cycle_page
     and_i_click_on_the_current_recruitment_cycle
     then_i_see_the_edit_recruitment_cycle_page
@@ -49,7 +49,7 @@ RSpec.describe 'Cycle switching' do
     travel_to(Time.zone.parse('2027-07-22')) do
       generate_2030_cycle
       given_it_is_before_the_apply_deadline
-      given_i_am_signed_in_as_a_support_user
+      given_i_am_signed_in_as_a_support_user(role: 'technical_management')
       when_i_navigate_to_the_cycle_page
       when_i_click('Review the cycle dates and change them if needed')
 

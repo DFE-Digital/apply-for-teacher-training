@@ -106,11 +106,13 @@ module DfESignInHelpers
   end
 
   def user_is_a_support_user(email_address:, dfe_sign_in_uid:, role: 'user_support')
-    SupportUser.find_or_create_by!(
+    SupportUser.find_or_initialize_by(
       dfe_sign_in_uid:,
       email_address:,
-      role:,
-    )
+    ).tap do |user|
+      user.role = role
+      user.save!
+    end
   end
 
   def user_is_a_removed_support_user(email_address:, dfe_sign_in_uid:, discarded_at: Date.new(2020, 1, 1))

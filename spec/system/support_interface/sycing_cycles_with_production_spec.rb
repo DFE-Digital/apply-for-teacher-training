@@ -15,7 +15,7 @@ RSpec.describe 'Syncing cycles with production' do
   end
 
   scenario 'Undoing a change in the cycle timetable' do
-    given_i_am_signed_in_as_a_support_user
+    given_i_am_signed_in_as_a_support_user(role: 'technical_management')
     and_i_navigate_to_edit_current_cycle
     when_i_make_a_successful_change_to_the_cycle
     and_i_sync_timetables_with_production

@@ -5,20 +5,18 @@ module SupportInterface
     end
 
     def edit?
-      # return true if user.user_support_role? || user.technical_management_role?
-      #
-      # false
-      true
+      return true if user.user_support_role? || user.technical_management_role?
+
+      false
     end
     alias new? edit?
     alias create? edit?
     alias update? edit?
 
     def destroy?
-      # return true if user.user_support_role? || user.technical_management_role?
-      #
-      # false
-      true
+      return true if user.user_support_role? || user.technical_management_role?
+
+      false
     end
   end
 end
