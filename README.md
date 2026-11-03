@@ -6,6 +6,21 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 ![Screenshot of the candidate-facing interface](docs/apply-screenshot.png)
 
+## Table of Contents
+
+- [Live environments](#live-environments)
+- [Guides](#guides)
+- [Dependencies](#dependencies)
+- [How the application works](#how-the-application-works)
+  - [Candidate interface](#candidate-interface)
+  - [Provider interface](#provider-interface)
+  - [APIs](#apis)
+  - [Architecture](#architecture)
+  - [Domain Model](#domain-model)
+  - [Application states](#application-states)
+- [Infrastructure validation workflow](#infrastructure-validation-workflow)
+- [License](#license)
+
 ## Live environments
 
 | Name       | URL                                                                  | Description                                                           | AKS namespace    |
@@ -14,12 +29,6 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 | Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk) | Demo environment for software vendors who integrate with our API      | `bat-production` |
 | Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk) | For internal use by DfE to test deploys                               | `bat-staging`    |
 | QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from main | `bat-qa`         |
-
-## Table of Contents
-
-- [Dependencies](#dependencies)
-- [Overview](#how-the-application-works)
-- [License](#licence)
 
 ## Guides
 
@@ -36,7 +45,7 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 | [Ruby](.ruby-version) | 4.0.9   |
 | Node.js               | 24.18.1 |
 | Yarn                  | 4.18.0  |
-| PostgreSQL            | 16      |
+| PostgreSQL            | 17.11   |
 
 ### Development dependencies
 
@@ -44,7 +53,51 @@ See [Developer setup](docs/development/developer-setup.md)
 
 ## How the application works
 
-The application has a number of different interfaces for different types of users:
+The application has a number of different interfaces for different types of users.
+
+### Candidate interface
+
+#### User type
+
+Individuals who are applying for teacher training.
+
+#### Purpose
+
+The candidate interface is the main public-facing interface for the service. It allows candidates to create an account, complete applications, and submit them to the relevant provider offering teacher training.
+
+### Provider interface
+
+#### User type
+
+Individuals working for a provider who is offering teacher training.
+
+#### Purpose
+
+The provider interface allows providers to view applications submitted by candidates, and to make decisions on those applications.
+
+### Support interface
+
+#### User type
+
+Individuals working for the DfE who are supporting candidates and providers.
+
+#### Purpose
+
+The support interface allows DfE staff to assist candidates and providers with their applications.
+
+### Reference interface
+
+#### User type
+
+Individuals who have been requested by a candidate to provide a reference for their application.
+
+#### Purpose
+
+The reference interface allows referees to provide references for candidates who have requested them.
+
+### APIs
+
+This app provides several APIs for programmatic access to the Apply service. [Read about them here](docs/development/apply-apis.md).
 
 ![Diagram of the Apply interfaces](docs/architecture-context.svg)
 
@@ -64,11 +117,7 @@ Regenerate this diagram with `bundle exec rake erd`.
 
 ### Application states
 
-[See detailed documentation here](docs/states.md)
-
-### Apply APIs
-
-This app provides several APIs for programmatic access to the Apply service. [Read about them here](/docs/development/apply-apis.md).
+[See detailed documentation here](docs/development/states.md)
 
 ## Infrastructure validation workflow
 
