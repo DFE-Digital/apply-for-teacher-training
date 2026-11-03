@@ -33,19 +33,19 @@ class Subject < ApplicationRecord
     'F3', # Physics
   ].freeze
 
-  SKE_LANGUAGE_COURSES = %w[
-    15
-    17
-    18
-    19
-    20
-    21
-    22
-    24
+  SKE_LANGUAGE_COURSES = [
+    '15', # French
+    '17', # German
+    '18', # Italian
+    '19', # Japanese
+    '20', # Mandarin
+    '21', # Russian
+    '22', # Spanish
+    '24', # Modern languages (other)
   ].freeze
 
-  SKE_PHYSICS_COURSES = %w[
-    F0
-    F3
+  SKE_PHYSICS_COURSES = [
+    'F0', # Physics
+    'F3', # Science
   ].freeze
 end
