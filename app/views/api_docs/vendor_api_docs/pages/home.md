@@ -144,16 +144,16 @@ We document changes in our [release notes](/api-docs/release-notes).
 
 When we officially release an API version, we make minor version updates available on:
 
-- their own minor version URL, for example `v1.1`
-- a major version URL which does not indicate a minor version, for example `v1`
+- their own minor version URL, for example `v2.1`
+- a major version URL which does not indicate a minor version, for example `v2`
 
 This means you do not need to update student record systems every time we make a minor update.
 
-For example, after version `1.1` is released you can use:
+For example, after version `2.1` is released you can use:
 
-- <https://www.apply-for-teacher-training.service.gov.uk/api/v1.0> for version `1.0`
-- <https://www.apply-for-teacher-training.service.gov.uk/api/v1.1> for version `1.1`
-- <https://www.apply-for-teacher-training.service.gov.uk/api/v1> for version `1.1`, but if version `1.2` is released this URL will give you version `1.2` instead
+- <https://www.apply-for-teacher-training.service.gov.uk/api/v2.0> for version `2.0`
+- <https://www.apply-for-teacher-training.service.gov.uk/api/v2.1> for version `2.1`
+- <https://www.apply-for-teacher-training.service.gov.uk/api/v2> for version `2.1`, but if version `2.2` is released this URL will give you version `2.2` instead
 
 ## How applications are updated
 
