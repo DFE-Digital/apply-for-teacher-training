@@ -1,4 +1,4 @@
-name: Test Centralised PostgreSQL List Backups
+name: PostgreSQL - Custom Restore
 
 on:
   workflow_dispatch:
@@ -12,6 +12,21 @@ on:
           - sandbox
           - production
 
+      restore-file:
+        description: Backup file to restore
+        required: true
+        type: string
+
+      destination-server:
+        description: Target PostgreSQL server
+        required: true
+        type: string
+
+      destination-database:
+        description: Target database
+        required: true
+        type: string
+
 permissions:
   id-token: write
 
@@ -21,16 +36,17 @@ env:
   TF_VARS_PATH: terraform/aks/workspace_variables
 
 jobs:
-
-  list-backups:
-
+  custom-restore:
+    name: PostgreSQL Custom Restore
     runs-on: ubuntu-latest
 
     environment:
       name: ${{ inputs.environment }}
 
-    steps:
+    env:
+      DEPLOY_ENV: ${{ inputs.environment }}
 
+    steps:
       - uses: actions/checkout@v7
 
       - uses: azure/login@v3
@@ -39,13 +55,16 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - uses: DFE-Digital/github-actions/postgres-tools@3113-adds-new-postgres-backup
+      - uses: DFE-Digital/github-actions/postgres-tools@master
         with:
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          operation: list-backups
+          operation: restore-custom
           service-name: ${{ env.SERVICE_NAME }}
           service-short: ${{ env.SERVICE_SHORT }}
-          environment: ${{ inputs.environment }}
+          environment: ${{ env.DEPLOY_ENV }}
           tf-vars-path: ${{ env.TF_VARS_PATH }}
+          restore-file: ${{ inputs.restore-file }}
+          destination-server: ${{ inputs.destination-server }}
+          destination-database: ${{ inputs.destination-database }}
