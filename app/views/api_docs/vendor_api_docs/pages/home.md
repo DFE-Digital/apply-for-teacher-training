@@ -1,14 +1,32 @@
 
 This is the API documentation for the Department for Education (DfE)’s Apply for teacher training service.
 
-Contents<br>
--- [What this API is for](#what-this-api-is-for)<br>
--- [What the API does not support](#what-the-api-does-not-support)<br>
--- [Codes and reference data](#codes-and-reference-data)<br>
--- [How to connect to the API](#how-to-connect-to-the-api)<br>
--- [API versioning strategy](#api-versioning-strategy)<br>
--- [How applications are updated](#how-applications-are-updated)<br>
--- [Testing](#testing)
+<div class="app-contents-list--font-size-19 govuk-!-margin-bottom-6">
+  <p class="govuk-body govuk-!-margin-bottom-0">Contents</p>
+  <ol class="app-contents-list__list">
+    <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+      <%= govuk_link_to 'What this API is for', '#what-this-api-is-for' %>
+    </li>
+    <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+      <%= govuk_link_to 'What the API does not support', '#what-the-api-does-not-support' %>
+    </li>
+    <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+      <%= govuk_link_to 'Codes and reference data', '#codes-and-reference-data' %>
+    </li>
+    <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+      <%= govuk_link_to 'How to connect to the API', '#how-to-connect-to-the-api' %>
+    </li>
+    <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+      <%= govuk_link_to 'API versioning strategy', '#api-versioning-strategy' %>
+    </li>
+    <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+      <%= govuk_link_to 'How applications are updated', '#how-applications-are-updated' %>
+    </li>
+    <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+      <%= govuk_link_to 'Testing', '#testing' %>
+    </li>
+  </ol>
+</div>
 
 ## What this API is for
 
@@ -41,7 +59,7 @@ The API uses codes to express:
 
 - dates, in formats intended to be [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) compliant
 - nationality, as an [ISO 3166-2](https://www.iso.org/iso-3166-country-codes.html) country code
-- demographic data for HESA reporting, using [HESA codes for the most recent Initial Teacher Training return](https://www.hesa.ac.uk/collection/c21053)
+- demographic data for HESA reporting, using [HESA codes for the most recent Initial Teacher Training return](https://www.hesa.ac.uk/collection/c24053/)
 
 This documentation will be updated when the codes for the next cycle are released.
 
@@ -51,8 +69,6 @@ To keep these values consistent, the API exposes:
 
 - a list of GCSE subjects based on [Ofqual’s list](https://register.ofqual.gov.uk/Download), at `/reference-data/gcse-subjects`
 - a list of A and AS level subjects based on [Ofqual’s list](https://register.ofqual.gov.uk/Download), at `/reference-data/a-and-as-level-subjects`
-
-Grades for GCSEs and A/AS levels are strictly validated since the ITT 2021 recruitment cycle. The following lists contain all possible grades for these qualifications:
 
 Grades for GCSEs, and A and AS levels have been strictly validated since the ITT 2021 recruitment cycle. The following lists contain:
 
