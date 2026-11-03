@@ -11,8 +11,8 @@
 
 To run the application locally, you will need to have the following local dependencies installed:
 
-- [`ruby`](.tool-versions)
-- [`node`](.tool-versions)
+- [`ruby`](../../.tool-versions)
+- [`node`](../../.tool-versions)
 - Graphviz 2.22+ (`brew install graphviz`) to generate the [domain model diagram](#domain-model)
 - [`chromedriver`](https://googlechromelabs.github.io/chrome-for-testing/) (you will need chromedriver and a version of Chrome installed to run the full test suite)
 
@@ -46,7 +46,7 @@ As for running service dependencies, you have 2 options:
 
 Running the service dependencies requires you to have Postgres installed and running on your machine.
 
-- `postgresql` v14
+- `postgresql` v17
 
 To install these dependencies, you can use a package manager like `brew` on MacOS or `apt` on Linux distros.
 
@@ -55,6 +55,8 @@ To install these dependencies, you can use a package manager like `brew` on MacO
 As an alternative, you can use containerized dependencies. This is useful to ensure that Postgres do not conflict with other projects on your machine.
 
 You will need to have `docker` locally installed. You can follow the instructions [here](https://docs.docker.com/get-docker/).
+
+The Compose database volume is created for the PostgreSQL major version in the Compose file. If you have existing data from an earlier major version, back it up and upgrade or restore it before starting PostgreSQL 17; do not reuse an old data volume directly.
 
 #### Running the service dependencies via Docker
 

@@ -4,7 +4,7 @@ Apply for teacher training: a Rails service (DfE) where candidates apply for tea
 
 ## Stack
 
-- Ruby (see `.ruby-version`), Rails, PostgreSQL 16, Solid Queue (`bin/jobs`), Clockwork (`config/clock.rb`)
+- Ruby (see `.ruby-version`), Rails, PostgreSQL 17, Solid Queue (`bin/jobs`), Clockwork (`config/clock.rb`)
 - Frontend: GOV.UK Frontend, ViewComponent (`app/components`), esbuild + Sass via Yarn
 - Tests: RSpec (Ruby), Jest (JS)
 
