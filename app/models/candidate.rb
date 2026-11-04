@@ -25,6 +25,7 @@ class Candidate < ApplicationRecord
   has_one :account_recovery_request, dependent: :destroy
   belongs_to :course_from_find, class_name: 'Course', optional: true
   belongs_to :duplicate_match, foreign_key: 'fraud_match_id', optional: true
+  belongs_to :triggered_duplicate_match, optional: true
 
   has_many :pool_invites, dependent: :destroy, class_name: 'Pool::Invite'
   has_many :published_pool_invites, -> { published }, dependent: :destroy, class_name: 'Pool::Invite'

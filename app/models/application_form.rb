@@ -290,6 +290,16 @@ class ApplicationForm < ApplicationRecord
 
   after_update :geocode_address_and_update_region_if_required
 
+  DUPLICATE_MATCH_TRIGGER_FIELDS = %w[
+    last_name date_of_birth postcode personal_details_completed contact_details_completed
+  ].freeze
+
+  before_save do |form|
+    @duplicate_match_check_required ||= form.changes_to_save.keys.intersect?(DUPLICATE_MATCH_TRIGGER_FIELDS)
+  end
+
+  after_commit :enqueue_triggered_duplicate_match_check, on: %i[create update]
+  after_rollback { @duplicate_match_check_required = false }
   TEMPORARY_IMMIGRATION_STATUSES = immigration_statuses.keys - %w[
     eu_settled
     indefinite_leave_to_remain_in_the_uk
@@ -817,6 +827,15 @@ class ApplicationForm < ApplicationRecord
   end
 
 private
+
+  def enqueue_triggered_duplicate_match_check
+    return unless @duplicate_match_check_required
+
+    @duplicate_match_check_required = false
+    return unless personal_details_completed && contact_details_completed
+
+    UpdateTriggeredDuplicateMatchesWorker.perform_later(id)
+  end
 
   def geocode_address_and_update_region_if_required
     return unless address_changed?
