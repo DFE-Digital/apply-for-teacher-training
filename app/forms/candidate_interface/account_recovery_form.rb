@@ -30,9 +30,12 @@ module CandidateInterface
 
       ActiveRecord::Base.transaction do
         old_candidate.account_recovery_status_recovered!
-        current_candidate.one_login_auth.update!(candidate: old_candidate)
+        one_login_auth = current_candidate.one_login_auth
+        one_login_auth.update!(candidate: old_candidate)
+
         current_candidate.reload
         current_candidate.destroy!
+        old_candidate.update!(email_address: one_login_auth.email_address)
       end
     end
 

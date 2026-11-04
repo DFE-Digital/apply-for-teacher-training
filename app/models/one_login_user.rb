@@ -33,6 +33,7 @@ private
 
   def candidate_with_one_login(one_login_auth)
     one_login_auth.update!(email_address:)
+    one_login_auth.candidate.update!(email_address:)
     one_login_auth.candidate
   end
 
