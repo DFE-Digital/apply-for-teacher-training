@@ -12,8 +12,11 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 - [Guides](#guides)
 - [Dependencies](#dependencies)
 - [How the application works](#how-the-application-works)
-  - [Candidate interface](#candidate-interface)
-  - [Provider interface](#provider-interface)
+  - [How Apply works with Find](#how-apply-works-with-find)
+  - [Candidate interface - Apply](#candidate-interface---apply)
+  - [Provider interface - Manage](#provider-interface---manage)
+  - [Support interface](#support-interface)
+  - [Reference interface](#reference-interface)
   - [APIs](#apis)
   - [Architecture](#architecture)
   - [Domain Model](#domain-model)
@@ -55,7 +58,20 @@ See [Developer setup](docs/development/developer-setup.md)
 
 The application has a number of different interfaces for different types of users.
 
-### Candidate interface
+### How Apply works with Find
+
+Providers publish their teacher training courses through Find. Apply keeps its
+provider and course information in sync with Find through the Teacher Training
+Public API, including whether a course is available to candidates.
+
+When a candidate chooses a course on Find and selects the option to apply, Find
+links them to Apply with the provider and course details. Apply uses these
+details to identify the course and continue the candidate into the application
+journey. Candidates who are not signed in can create an account or sign in;
+they then complete and submit their application through Apply. Find helps
+candidates discover courses, while Apply handles the application itself.
+
+### Candidate interface - Apply
 
 #### User type
 
@@ -65,7 +81,7 @@ Individuals who are applying for teacher training.
 
 The candidate interface is the main public-facing interface for the service. It allows candidates to create an account, complete applications, and submit them to the relevant provider offering teacher training.
 
-### Provider interface
+### Provider interface - Manage
 
 #### User type
 
