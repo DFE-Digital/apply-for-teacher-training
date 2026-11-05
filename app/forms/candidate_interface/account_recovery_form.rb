@@ -29,7 +29,10 @@ module CandidateInterface
       return false unless valid?
 
       ActiveRecord::Base.transaction do
-        old_candidate.account_recovery_status_recovered!
+        old_candidate.update!(
+          account_recovery_status: :recovered,
+          recovered_at: Time.zone.now,
+        )
         one_login_auth = current_candidate.one_login_auth
         one_login_auth.update!(candidate: old_candidate)
 
