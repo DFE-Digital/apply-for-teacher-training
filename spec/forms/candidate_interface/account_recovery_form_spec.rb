@@ -79,8 +79,10 @@ RSpec.describe CandidateInterface::AccountRecoveryForm, type: :model do
 
   describe '#call' do
     it 'recovers the old candidate account' do
+      current_auth_email = current_candidate.one_login_auth.email_address
       expect { form.call }.to change { old_candidate.reload.account_recovery_status }.to('recovered')
         .and change { old_candidate.one_login_auth.present? }.to(true)
+        .and change { old_candidate.reload.email_address }.to(current_auth_email)
 
       expect { current_candidate.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end

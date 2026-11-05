@@ -55,6 +55,7 @@ shared:
     - updated_at
   candidates:
     - account_recovery_status
+    - recovered_at
     - candidate_api_updated_at
     - course_from_find_id
     - created_at

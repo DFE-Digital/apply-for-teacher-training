@@ -26,6 +26,7 @@ RSpec.describe OneLoginUser do
       )
 
       expect(authenticate).to eq(candidate)
+      expect(candidate.reload.email_address).to eq(candidate.one_login_auth.email_address)
     end
 
     it 'authenticates successfuly using the email and creates a one_login_auth' do
