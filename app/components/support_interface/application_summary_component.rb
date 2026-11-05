@@ -114,7 +114,7 @@ module SupportInterface
     def account_recovered_row
       {
         key: 'Account recovered',
-        value: candidate.recovered_at.presence&.to_f(&:govuk_date) || 'No',
+        value: candidate.recovered_at.presence&.to_fs(:govuk_date_and_time) || 'No',
       }
     end
 
