@@ -511,6 +511,11 @@
             "fieldPath": [
               "account_locked"
             ]
+          },
+          {
+            "fieldPath": [
+              "triggered_duplicate_match_id"
+            ]
           }
         ]
       },
@@ -4594,6 +4599,70 @@
           {
             "fieldPath": [
               "resolved"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "triggered_duplicate_matches",
+        "syncMode": "incremental_append",
+        "cursorField": [
+          "_ab_cdc_lsn"
+        ],
+        "primaryKey": [
+          [
+            "id"
+          ]
+        ],
+        "selectedFields": [
+          {
+            "fieldPath": [
+              "_ab_cdc_lsn"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_deleted_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "_ab_cdc_updated_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "id"
+            ]
+          },
+          {
+            "fieldPath": [
+              "recruitment_cycle_year"
+            ]
+          },
+          {
+            "fieldPath": [
+              "last_name"
+            ]
+          },
+          {
+            "fieldPath": [
+              "date_of_birth"
+            ]
+          },
+          {
+            "fieldPath": [
+              "postcode"
+            ]
+          },
+          {
+            "fieldPath": [
+              "created_at"
+            ]
+          },
+          {
+            "fieldPath": [
+              "updated_at"
             ]
           }
         ]

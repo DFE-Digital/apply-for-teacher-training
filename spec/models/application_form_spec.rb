@@ -130,6 +130,52 @@ RSpec.describe ApplicationForm do
         end
       end
     end
+
+    describe 'enqueue_triggered_duplicate_match_check' do
+      let(:application_form) do
+        create(
+          :application_form,
+          personal_details_completed: false,
+          contact_details_completed: true,
+        )
+      end
+
+      before { application_form }
+
+      it 'enqueues the check when personal and contact details are first both completed' do
+        expect { application_form.update!(personal_details_completed: true) }
+          .to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker).with(application_form.id)
+      end
+
+      it 'does not enqueue the check when only one section is completed' do
+        expect { application_form.update!(last_name: 'Smith') }
+          .not_to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker)
+      end
+
+      context 'when both sections are already completed' do
+        before { application_form.update!(personal_details_completed: true) }
+
+        it 'enqueues the check when the last name changes' do
+          expect { application_form.update!(last_name: 'Smith') }
+            .to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker).with(application_form.id)
+        end
+
+        it 'enqueues the check when the date of birth changes' do
+          expect { application_form.update!(date_of_birth: Date.new(1980, 1, 1)) }
+            .to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker).with(application_form.id)
+        end
+
+        it 'enqueues the check when the postcode changes' do
+          expect { application_form.update!(postcode: 'SW1A 1AA') }
+            .to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker).with(application_form.id)
+        end
+
+        it 'does not enqueue the check when an unrelated field changes' do
+          expect { application_form.update!(first_name: 'Alex') }
+            .not_to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker)
+        end
+      end
+    end
   end
 
   describe '#cannot_add_more_choices?' do
