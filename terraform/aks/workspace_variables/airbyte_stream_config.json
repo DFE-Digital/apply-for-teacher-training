@@ -511,6 +511,11 @@
             "fieldPath": [
               "account_locked"
             ]
+          },
+          {
+            "fieldPath": [
+              "recovered_at"
+            ]
           }
         ]
       },
