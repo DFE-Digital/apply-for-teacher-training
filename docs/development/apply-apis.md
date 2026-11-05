@@ -3,7 +3,6 @@
 The Apply service has four different APIs, each of which cater for different audiences and use cases.
 
 1. [Candidate API](#candidate-api)
-2. [Data API](#data-api)
 3. [Register API](#register-api)
 4. [Vendor API](#vendor-api)
 
@@ -14,14 +13,6 @@ The Apply service has four different APIs, each of which cater for different aud
 🔐 Authenticate with [ServiceAPIUser](/app/models/service_api_user.rb)
 
 The Candidate API provides candidate information to other services. It's currently only used by the CRM team in Get Into Teaching (GIT).
-
-## Data API
-
-📖 [Data API docs](https://www.apply-for-teacher-training.service.gov.uk/data-api)
-<br>
-🔐 Authenticate with [ServiceAPIUser](/app/models/service_api_user.rb)
-
-The Data API provides data extracts and reporting about the Apply service. Responses are in CSV format. It's used by the Teacher Analysis Division (TAD) team.
 
 ## Register API
 
@@ -43,4 +34,4 @@ At the point an application is retrieved by Register, Register becomes the "sour
 
 The Vendor API allows providers to manage applications programmatically: fetch applications, make offers, reject applications, etc. It makes the key functionality of Manage available via API to vendor Student Record Systems (SRS).
 
-Users of this API authenticate with a Vendor API token. These can be issued and revoked in the support console under [Providers > API tokens](https://www.apply-for-teacher-training.service.gov.uk/support/tokens).
+Users of this API authenticate with a Vendor API token. Provider users are responsible for managing their own tokens via Organisational Settings in the Manage interface.

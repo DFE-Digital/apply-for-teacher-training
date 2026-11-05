@@ -35,21 +35,25 @@ This is a table of all the states that an ApplicationChoice can have.
 
 These are groupings of states that allow us to define behaviour for a any application whose status is in the group.
 
-|Category|States|Description|
-|---|----|---|
-|STATES_NOT_VISIBLE_TO_PROVIDER |unsubmitted<br>cancelled<br>application_not_sent|Applications that have not been submitted and so do not concern providers|
-|STATES_VISIBLE_TO_PROVIDER|awaiting_provider_decision<br>interviewing<br>offer<br>pending_conditions<br>recruited<br>rejected<br>declined<br>withdrawn<br>conditions_not_met<br>offer_withdrawn<br>offer_deferred<br>inactive|The opposite of STATES_NOT_VISIBLE_TO_PROVIDER. [Some of these states are aliased in the API](https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/app/presenters/vendor_api/application_presenter.rb#L11) |
-|INTERVIEWABLE_STATES|awaiting_provider_decision<br>interviewing<br>inactive|States in which an application can have an interview created for them|
-|ACCEPTED_STATES|pending_conditions<br>conditions_not_met<br>recruited<br>offer_deferred|The states that are possible once a provider has made an offer and the candidate has accepted.|
-|OFFERED_STATES|ACCEPTED_STATES<br>declined<br>offer<br>offer_withdrawn|All states possible if a provider wants to offer a candidate a place|
-|POST_OFFERED_STATES|ACCEPTED_STATES<br>declined<br>offer_withdrawn|All states possible from the offer state|
-|UNSUCCESSFUL_STATES|withdrawn<br>cancelled<br>rejected<br>declined<br>conditions_not_met<br>offer_withdrawn<br>application_not_sent<br>inactive|Applications that have ended in a state that is not recruited|
-|SUCCESSFUL_STATES|pending_conditions<br>offer<br>offer_deferred<br>recruited|Applications that have received an open offer, or have been deferred or recruited|
-|DECISION_PENDING_STATUSES|awaiting_provider_decision<br>interviewing|Applications which can move to an offer or rejected state|
-|DECISION_PENDING_AND_INACTIVE_STATUSES|awaiting_provider_decision<br>interviewing<br>inactive||
-|REAPPLY_STATUSES|rejected<br>cancelled<br>withdrawn<br>declined<br>offer_withdrawn|If an pplication is in these states, the candidate can apply for the course again|
-|TERMINAL_STATES|UNSUCCESSFUL_STATES<br>recruited|Used only in ApplicationMonitor (SupportInterface)|
-|IN_PROGRESS_STATES|DECISION_PENDING_STATUSES<br>ACCEPTED_STATES<br>offer|Applications which have been submitted and are still under consideration|
+See https://www.apply-for-teacher-training.service.gov.uk/support/docs/application-states.
+
+| Category | States | Description |
+|----------|--------|-------------|
+| Active previous | awaiting_provider_decision<br>inactive<br>interviewing<br>offer<br>pending_conditions<br>recruited | Applications in these states from the previous recruitment cycle are still considered active. |
+| Carry over | cancelled<br>rejected<br>application_not_sent<br>offer_withdrawn<br>declined<br>withdrawn<br>conditions_not_met | Application in these states can be carried over to the next recruitment cycle. |
+| Chase referee | pending_conditions<br>recruited<br>offer_deferred | Applications in these states are permitted to email referees regarding references for the candidate. |
+| In progress | awaiting_provider_decision<br>interviewing<br>offer<br>pending_conditions<br>recruited<br>offer_deferred | Applications in this state are considered to be ongoing, not yet completed, or require further action. |
+| Interviewable | awaiting_provider_decision<br>inactive<br>interviewing | States in which an application can have an interview created for them. |
+| Offer accepted | pending_conditions<br>recruited<br>conditions_not_met<br>offer_deferred | The states that are possible once a provider has made an offer and the candidate has accepted. |
+| Offered | offer<br>pending_conditions<br>recruited<br>offer_withdrawn<br>declined<br>conditions_not_met<br>offer_deferred | All states possible if a provider wants to offer a candidate a place. |
+| Pending provider decision | awaiting_provider_decision<br>interviewing | States in which the application is awaiting the provider to action/make a decision. |
+| Post offered | pending_conditions<br>recruited<br>offer_withdrawn<br>declined<br>conditions_not_met<br>offer_deferred | All states possible from the offer state. |
+| Reapply | cancelled<br>rejected<br>offer_withdrawn<br>declined<br>withdrawn | If an pplication is in these states, the candidate can apply for the course again. |
+| Successful | offer<br>pending_conditions<br>recruited<br>offer_deferred | States in which the application has been successfully placed for teacher training. |
+| Terminal | cancelled<br>inactive<br>recruited<br>rejected<br>application_not_sent<br>offer_withdrawn<br>declined<br>withdrawn<br>conditions_not_met | Used only in ApplicationMonitor (SupportInterface). |
+| Unsuccessful | cancelled<br>inactive<br>rejected<br>application_not_sent<br>offer_withdrawn<br>declined<br>withdrawn<br>conditions_not_met | States in which the application has not been successfully placed for teacher training. |
+| Visible to provider | awaiting_provider_decision<br>inactive<br>interviewing<br>offer<br>pending_conditions<br>recruited<br>rejected<br>offer_withdrawn<br>declined<br>withdrawn<br>conditions_not_met<br>offer_deferred | Applications is states what a provider can view. |
+
 
 ## Diagram
 
