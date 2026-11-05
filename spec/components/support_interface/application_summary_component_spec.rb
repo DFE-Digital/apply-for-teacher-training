@@ -87,6 +87,30 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
       end
     end
 
+    context 'when the candidate has recovered their account' do
+      it 'displays the date the account was recovered for the Account recovered row' do
+        recovered_at = 2.days.ago
+        candidate = create(:candidate, recovered_at:)
+        application_form = create(:completed_application_form, candidate:)
+
+        result = render_inline(described_class.new(application_form:))
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Account recovered')
+        expect(result.css('.govuk-summary-list__value').text).to include(recovered_at.to_fs(:govuk_date_and_time))
+      end
+    end
+
+    context 'when the candidate has not recovered their account' do
+      it 'displays "No" for the Account recovered row' do
+        application_form = create(:completed_application_form, candidate: create(:candidate, recovered_at: nil))
+
+        result = render_inline(described_class.new(application_form:))
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Account recovered')
+        expect(result.css('.govuk-summary-list__value').text).to include('No')
+      end
+    end
+
     context 'when the candidate has opted into sharing application details with providers but still has pending decisions' do
       it 'displays "Opted in (not findable)" for the Find a Candidate opt-in status row' do
         application_form = create(:application_form)

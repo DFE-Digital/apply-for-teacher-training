@@ -27,6 +27,7 @@ module SupportInterface
         average_distance_row,
         editable_extension_row,
         one_login_account_row,
+        account_recovered_row,
         unsubscribed_from_emails,
         find_a_candidate_state_row,
         find_a_candidate_location_preferences_row,
@@ -108,6 +109,13 @@ module SupportInterface
           value: 'No',
         }
       end
+    end
+
+    def account_recovered_row
+      {
+        key: 'Account recovered',
+        value: candidate.recovered_at.presence&.to_fs(:govuk_date_and_time) || 'No',
+      }
     end
 
     def unsubscribed_from_emails
