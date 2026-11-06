@@ -5,6 +5,7 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
 
   before do
     given_i_am_signed_in_with_one_login
+    assert_current_path(/candidate\/(?!account|interstitial)/)
     @current_candidate.application_forms.destroy_all
   end
 
