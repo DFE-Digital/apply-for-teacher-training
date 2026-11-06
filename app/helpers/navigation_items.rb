@@ -66,7 +66,7 @@ class NavigationItems
             {
               text: 'Candidates',
               href: support_interface_applications_path,
-              active: active?(current_controller, %w[candidates import_references application_forms]),
+              active: active?(current_controller, %w[candidates import_references application_forms duplicate_matches]),
             }
           end,
           if SupportInterface::ProviderPolicy.new(current_support_user, nil).show? ||
