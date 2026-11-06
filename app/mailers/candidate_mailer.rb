@@ -689,9 +689,7 @@ class CandidateMailer < ApplicationMailer
     end
     @invites_url = candidate_interface_invites_url
     @application_form = invites.first.application_form
-    @preferences_url = candidate_interface_draft_preference_publish_preferences_url(
-      @application_form.published_preference,
-    )
+    @preferences_url = candidate_interface_edit_preferences_url(step: :publish)
 
     email_for_candidate(
       @application_form,
@@ -715,9 +713,7 @@ class CandidateMailer < ApplicationMailer
 
   def pool_opt_in(application_form)
     @share_details_url = candidate_interface_share_details_url
-    @update_preferences_url = candidate_interface_draft_preference_publish_preferences_url(
-      application_form.published_preference,
-    )
+    @update_preferences_url = candidate_interface_edit_preferences_url(step: :publish)
     @application_sharing_url = candidate_interface_invites_url
 
     email_for_candidate(
@@ -728,9 +724,7 @@ class CandidateMailer < ApplicationMailer
   end
 
   def pool_opt_out(application_form)
-    @update_preferences_url = candidate_interface_draft_preference_publish_preferences_url(
-      application_form.published_preference,
-    )
+    @update_preferences_url = candidate_interface_edit_preferences_url(step: :publish)
     @sharing_guidance_url = candidate_interface_share_details_url
 
     email_for_candidate(
@@ -741,9 +735,7 @@ class CandidateMailer < ApplicationMailer
   end
 
   def pool_opt_out_after_opting_in(application_form)
-    @update_preferences_url = candidate_interface_draft_preference_publish_preferences_url(
-      application_form.published_preference,
-    )
+    @update_preferences_url = candidate_interface_edit_preferences_url(step: :publish)
 
     email_for_candidate(
       application_form,
@@ -754,9 +746,7 @@ class CandidateMailer < ApplicationMailer
 
   def pool_re_opt_in(application_form)
     @share_details_url = candidate_interface_share_details_url
-    @update_preferences_url = candidate_interface_draft_preference_publish_preferences_url(
-      application_form.published_preference,
-    )
+    @update_preferences_url = candidate_interface_edit_preferences_url(step: :publish)
     @application_sharing_url = candidate_interface_invites_url
 
     email_for_candidate(
@@ -820,11 +810,11 @@ private
     application_form = candidate.current_application
 
     if application_form.published_preference&.opt_out?
-      edit_candidate_interface_pool_opt_in_url(application_form.published_preference)
+      candidate_interface_edit_preferences_url(step: :opt_in)
     elsif application_form.published_preference.blank?
-      new_candidate_interface_pool_opt_in_url
+      candidate_interface_new_preferences_url(step: :opt_in)
     else
-      candidate_interface_draft_preference_publish_preferences_url(application_form.published_preference)
+      candidate_interface_edit_preferences_url(step: :publish)
     end
   end
 

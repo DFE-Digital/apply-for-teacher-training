@@ -42,18 +42,15 @@ namespace :candidate_interface, path: '/candidate' do
 
   resources :share_details, only: :index, path: 'share-details'
 
-  resources :pool_opt_ins, only: %i[new create edit update], path: 'preferences-opt-in' do
+  resources :pool_opt_ins, only: [], path: 'preferences-opt-in' do
     collection do
       get 'show', as: :show
     end
   end
-  resources :draft_preferences, only: %i[show update], path: 'preferences' do
-    resources :training_locations, only: %i[new create], path: 'training-locations'
-    resources :location_preferences, path: 'location-preferences'
-    resources :dynamic_location_preferences, only: %i[new create], path: 'dynamic-location-preferences'
-    resources :funding_type_preferences, only: %i[new create], path: 'funding-type'
-    resource :publish_preferences, only: %i[show create], path: 'publish-preferences'
-  end
+
+  get 'preferences/:step', to: 'preferences#new', as: 'new-preferences'
+  post 'preferences/:step', to: 'preferences#create'
+  get 'preferences/edit/:step', to: 'preferences#edit', as: 'edit-preferences'
 
   resources :location_suggestions, only: :index, path: 'location-suggestions'
 

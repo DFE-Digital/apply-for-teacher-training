@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate adds preferences' do
+RSpec.describe 'Candidate adds preferences', :with_cache do
   include CandidateHelper
   include DfE::Bigquery::TestHelper
 
@@ -53,7 +53,6 @@ RSpec.describe 'Candidate adds preferences' do
 
     when_i_click('Back')
     then_i_am_redirected_to_training_locations
-
     when_i_click('Continue')
     then_i_am_redirected_to_location_preferences(location_preferences)
 
@@ -203,7 +202,7 @@ RSpec.describe 'Candidate adds preferences' do
   scenario 'Candidate opts out of find a candidate' do
     given_i_am_signed_in
 
-    visit new_candidate_interface_pool_opt_in_path
+    visit candidate_interface_new_preferences_path(step: :opt_in)
     and_i_opt_out_to_find_a_candidate
     when_i_click('Continue')
 
@@ -213,7 +212,7 @@ RSpec.describe 'Candidate adds preferences' do
   scenario 'Candidate opts out of find a candidate and gives a reason' do
     given_i_am_signed_in
 
-    visit new_candidate_interface_pool_opt_in_path
+    visit candidate_interface_new_preferences_path(step: :opt_in)
     and_i_opt_out_to_find_a_candidate
     and_i_enter_a_reason_with_too_many_words
     when_i_click('Continue')
@@ -228,7 +227,7 @@ RSpec.describe 'Candidate adds preferences' do
   scenario 'Candidate opts in to find a candidate with specific locations and enters a malicious location', :js do
     given_google_returns_a_malicious_option
     given_i_am_signed_in
-    visit new_candidate_interface_pool_opt_in_path
+    visit candidate_interface_new_preferences_path(step: :opt_in)
 
     when_i_opt_in_to_find_a_candidate
     and_i_click('Continue')
@@ -240,6 +239,8 @@ RSpec.describe 'Candidate adds preferences' do
     and_i_input_a_location
     then_i_see_the_malicious_location_suggestion_as_a_string
   end
+
+private
 
   def given_i_am_signed_in(funding_type: 'salary')
     given_i_am_signed_in_with_one_login
@@ -441,8 +442,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def and_the_dynamic_locations_is_checked
-    dynamic_locations = find_by_id('candidate-interface-dynamic-location-preferences-form-dynamic-location-preferences-true-field')
-    expect(dynamic_locations).to be_checked
+    expect(page).to have_field('Yes', checked: true)
   end
 
   def then_i_am_redirected_to_invites
@@ -566,8 +566,7 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def and_the_funding_type_is_checked
-    funding_type = find_by_id('candidate-interface-funding-type-preference-form-funding-type-fee-field')
-    expect(funding_type).to be_checked
+    expect(page).to have_field('I am interested in both courses with fees to pay and salaried courses', checked: true)
   end
 
   def then_i_am_redirected_to_invites_page
@@ -582,12 +581,12 @@ RSpec.describe 'Candidate adds preferences' do
   end
 
   def then_i_see_the_malicious_location_suggestion_as_a_string
-    expect(page).to have_css('#candidate-interface-location-preferences-form-name-field__listbox', visible: :visible)
+    expect(page).to have_css('#add-location-preference-location-name-field__listbox', visible: :visible)
     expect(
-      page.find('ul', id: 'candidate-interface-location-preferences-form-name-field__listbox'),
+      page.find('ul', id: 'add-location-preference-location-name-field__listbox'),
     ).to have_text('<h2><a href="test.com">test.ca</a></h2>')
 
-    within('#candidate-interface-location-preferences-form-name-field__listbox') do
+    within('#add-location-preference-location-name-field__listbox') do
       expect(page).to have_no_css('a', text: 'test.ca')
       expect(page).to have_no_css('h2')
     end
