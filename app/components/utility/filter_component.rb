@@ -30,7 +30,7 @@ class FilterComponent < ApplicationComponent
       [
         {
           title: "#{filter[:value]['3i']}/#{filter[:value]['2i']}/#{filter[:value]['1i']}",
-          remove_link: remove_search_tag_link(filter[:name]),
+          remove_link: remove_date_tag_link(filter[:name]),
         },
       ]
     end
@@ -53,6 +53,15 @@ class FilterComponent < ApplicationComponent
   def remove_search_tag_link(name)
     params = filters_to_params(filters)
     params.delete(name)
+    params[:remove] = true # for removing last filter
+    to_query(params)
+  end
+
+  def remove_date_tag_link(name)
+    params = filters_to_params(filters)
+    params.delete("#{name}(3i)")
+    params.delete("#{name}(2i)")
+    params.delete("#{name}(1i)")
     params[:remove] = true # for removing last filter
     to_query(params)
   end
@@ -97,6 +106,10 @@ class FilterComponent < ApplicationComponent
         hash[filter[:name]] = filter[:value]
       when :checkboxes, :checkbox_filter
         hash[filter[:name]] = filter[:options].select { |o| o[:checked] }.map { |o| o[:value] }
+      when :date
+        hash["#{filter[:name]}(3i)"] = filter[:value]['3i']
+        hash["#{filter[:name]}(2i)"] = filter[:value]['2i']
+        hash["#{filter[:name]}(1i)"] = filter[:value]['1i']
       end
     end
   end
