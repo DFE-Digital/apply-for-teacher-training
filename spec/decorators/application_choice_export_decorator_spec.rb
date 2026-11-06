@@ -101,6 +101,28 @@ RSpec.describe ApplicationChoiceExportDecorator do
     end
   end
 
+  describe 'a_level_qualifications_summary' do
+    it 'returns a summary of A levels for an application form' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, application_form:)
+      create(:other_qualification, qualification_type: 'A level', subject: 'Mathematics', grade: 'A', application_form:)
+      create(:other_qualification, qualification_type: 'A level', subject: 'Physics', grade: 'B', application_form:)
+
+      summary = described_class.new(application_choice).a_level_qualifications_summary
+
+      expect(summary).to eq('Mathematics A; Physics B')
+    end
+
+    it 'returns nil if a form has no A levels' do
+      application_form = create(:completed_application_form)
+      application_choice = create(:application_choice, application_form:)
+
+      summary = described_class.new(application_choice).a_level_qualifications_summary
+
+      expect(summary).to be_nil
+    end
+  end
+
   describe 'degrees_completed_flag' do
     it 'returns 1 if the degrees section of the application form has been completed' do
       application_form = create(:completed_application_form)
