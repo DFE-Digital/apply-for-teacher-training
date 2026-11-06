@@ -17,13 +17,17 @@ task _reset_qa: %i[
 task truncate_qa_database_retaining_support_users: :environment do
   raise 'Not permitted on this environment' unless HostingEnvironment.generate_test_data?
 
-  support_user_data = SupportUser.pluck(:email_address, :dfe_sign_in_uid)
+  support_user_data = SupportUser.pluck(:email_address, :dfe_sign_in_uid, :role)
 
   ActiveRecord::Tasks::DatabaseTasks.truncate_all
   puts 'Truncated database'
 
-  support_user_data.each do |(email, uid)|
-    SupportUser.find_or_create_by(email_address: email, dfe_sign_in_uid: uid)
+  support_user_data.each do |(email, uid, role)|
+    SupportUser.find_or_create_by(
+      email_address: email,
+      dfe_sign_in_uid: uid,
+      role: role,
+    )
   end
   puts 'Support users restored'
 end
