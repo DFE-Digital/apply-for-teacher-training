@@ -21,6 +21,15 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
       .presence
   end
 
+  def a_level_qualifications_summary
+    application_form
+      .application_qualifications
+      .select { |qualification| qualification.other? && qualification.qualification_type == CandidateInterface::OtherQualificationTypeForm::A_LEVEL_TYPE }
+      .map { |a_level| "#{a_level.subject} #{a_level.grade}" }
+      .join('; ')
+      .presence
+  end
+
   def degrees_completed_flag
     application_form.degrees_completed ? 1 : 0
   end

@@ -32,6 +32,18 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
           expect_row_to_match_application_choice(exported_row, application_choice)
         end
       end
+
+      context 'with an A level' do
+        let(:application_form) { create(:completed_application_form, degrees_completed: false) }
+
+        before do
+          create(:other_qualification, qualification_type: 'A level', subject: 'Mathematics', grade: 'A', award_year: '2019', application_form:)
+        end
+
+        it 'includes the A level' do
+          expect(exported_row['A levels']).to eq('Mathematics A')
+        end
+      end
     end
 
     context 'when the application choice is inactive' do
@@ -157,6 +169,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'Type of international degree' => first_degree&.non_uk_qualification_type,
         'GCSEs' => 'GCSE maths, B, 2019; GCSE English, A, 2019',
         'Explanation for missing GCSEs' => nil,
+        'A levels' => nil,
         'Offered date' => application_choice.offered_at,
         'Recruited date' => application_choice.recruited_at,
         'Rejected date' => application_choice.rejected_at,

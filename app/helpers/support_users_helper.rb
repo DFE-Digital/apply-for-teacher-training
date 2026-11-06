@@ -7,7 +7,7 @@ module SupportUsersHelper
     end
   end
 
-  def support_user_provider_nav_items(support_user, report_current = nil)
+  def support_user_provider_nav_items(support_user, report_current: false)
     items = []
 
     items << { name: 'Details', url: support_interface_provider_path } if view_provider?(support_user)
