@@ -125,6 +125,32 @@ RSpec.describe Publications::RegionalEdiReportGenerator do
         )
       end
 
+      context 'when reports already exist' do
+        subject(:generator) { described_class.new(cycle_week:, region:, recruitment_cycle_year: 2026) }
+
+        let(:report_attributes) { { region: :london, category: :sex, recruitment_cycle_year: 2026 } }
+        let!(:two_weeks_ago) { create(:regional_edi_report, **report_attributes, cycle_week: 9) }
+        let!(:previous_week) { create(:regional_edi_report, **report_attributes, cycle_week: 10) }
+        let!(:previous_cycle) { create(:regional_edi_report, region: :london, category: :sex, recruitment_cycle_year: 2025, cycle_week: 52) }
+        let!(:other_category) { create(:regional_edi_report, region: :london, category: :age_group, recruitment_cycle_year: 2026, cycle_week: 9) }
+        let!(:other_region) { create(:regional_edi_report, region: :north_east, category: :sex, recruitment_cycle_year: 2026, cycle_week: 9) }
+
+        it 'keeps the new report, the previous week, other cycles, categories and regions' do
+          generator.call
+
+          current = Publications::RegionalEdiReport.order(:id).last
+          expect(Publications::RegionalEdiReport.all).to contain_exactly(
+            current, previous_week, previous_cycle, other_category, other_region
+          )
+        end
+
+        it 'deletes older weeks for the region and category in the cycle' do
+          generator.call
+
+          expect(Publications::RegionalEdiReport.exists?(two_weeks_ago.id)).to be(false)
+        end
+      end
+
       context 'when cycle_week is 12' do
         it 'creates a new report' do
           expect { generator.call }.to change(Publications::RegionalEdiReport, :count).by(1)

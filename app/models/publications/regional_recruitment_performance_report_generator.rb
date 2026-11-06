@@ -21,14 +21,21 @@ module Publications
     end
 
     def call
-      Publications::RegionalRecruitmentPerformanceReport.create!(
-        statistics: data,
-        region:,
-        cycle_week:,
-        publication_date:,
-        generation_date:,
-        recruitment_cycle_year:,
-      )
+      ActiveRecord::Base.transaction do
+        current = Publications::RegionalRecruitmentPerformanceReport.create!(
+          statistics: data,
+          region:,
+          cycle_week:,
+          publication_date:,
+          generation_date:,
+          recruitment_cycle_year:,
+        )
+
+        Publications::RegionalRecruitmentPerformanceReport
+          .where(region:, recruitment_cycle_year:, cycle_week: [cycle_week, ...(cycle_week - 1)])
+          .where.not(id: current.id)
+          .delete_all
+      end
     end
 
     def data
