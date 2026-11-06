@@ -757,7 +757,7 @@ GEM
       activesupport (>= 7.1)
       factory_bot (~> 6.4)
     securerandom (0.4.1)
-    selenium-webdriver (4.51.0)
+    selenium-webdriver (4.52.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rubyzip (>= 1.2.2, < 4.0)
@@ -1276,7 +1276,7 @@ CHECKSUMS
   safely_block (1.0.0) sha256=bea80e084e620adeada62fd98cf461bbb9888d40dc0f06d337df9d01e1a658e5
   satisfactory (1.0.0) sha256=828696bbac1a58f8b62a8fd3beff27cc8e0cefd2b8571d3bddf4a337ee9173a5
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
-  selenium-webdriver (4.51.0) sha256=09edf1b7fc360e0570bac609676f804ed527fe0b2f285e03233561e29b0ec105
+  selenium-webdriver (4.52.0) sha256=5d45ba100ea8b57f5a8c25979a636d48b4c60c39973478930d78e884bdeecd2d
   semantic_logger (5.1.0) sha256=9a8170fc0212ad47ef29e0760219cf416cb5b9973061981733234f7148b6d6ea
   sentry-rails (7.2.0) sha256=c3874fed94a68f3f60a917243b6e25414ff284455abd14e3351479a32807af79
   sentry-ruby (7.2.0) sha256=2da448c2b7028a7691f31ae5c946830b8e694d0aec78ef2b9e5c7e1da9c3e01a
