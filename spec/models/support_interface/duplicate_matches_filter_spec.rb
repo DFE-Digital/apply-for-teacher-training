@@ -46,7 +46,7 @@ RSpec.describe SupportInterface::DuplicateMatchesFilter do
               },
               name: 'date_of_birth',
             },
-          ]
+          ],
         )
       end
     end
@@ -61,7 +61,7 @@ RSpec.describe SupportInterface::DuplicateMatchesFilter do
             heading: 'Name',
             value: 'John Doe',
             name: 'name',
-          }
+          },
         )
       end
     end
@@ -76,7 +76,7 @@ RSpec.describe SupportInterface::DuplicateMatchesFilter do
             heading: 'Email',
             value: 'john.doe@example.com',
             name: 'email',
-          }
+          },
         )
       end
     end
@@ -91,7 +91,7 @@ RSpec.describe SupportInterface::DuplicateMatchesFilter do
             heading: 'Postcode',
             value: 'SW1A 1AA',
             name: 'postcode',
-          }
+          },
         )
       end
     end
@@ -106,7 +106,7 @@ RSpec.describe SupportInterface::DuplicateMatchesFilter do
             heading: 'Date of birth',
             value: { '3i' => '01', '2i' => '01', '1i' => '2000' },
             name: 'date_of_birth',
-          }
+          },
         )
       end
     end
@@ -138,7 +138,7 @@ RSpec.describe SupportInterface::DuplicateMatchesFilter do
       it 'returns only duplicate matches with the specified name' do
         filter = described_class.new(params: params.merge(name: last_name))
 
-        expect(filter.filter_records(DuplicateMatch.all)).to match_array([duplicate_match])
+        expect(filter.filter_records(DuplicateMatch.all)).to contain_exactly(duplicate_match)
       end
     end
 
@@ -146,7 +146,7 @@ RSpec.describe SupportInterface::DuplicateMatchesFilter do
       it 'returns only duplicate matches with the specified email' do
         filter = described_class.new(params: params.merge(email: candidate_1.email_address))
 
-        expect(filter.filter_records(DuplicateMatch.all)).to match_array([duplicate_match])
+        expect(filter.filter_records(DuplicateMatch.all)).to contain_exactly(duplicate_match)
       end
     end
 
@@ -154,7 +154,7 @@ RSpec.describe SupportInterface::DuplicateMatchesFilter do
       it 'returns only duplicate matches with the specified postcode' do
         filter = described_class.new(params: params.merge(postcode:))
 
-        expect(filter.filter_records(DuplicateMatch.all)).to match_array([duplicate_match])
+        expect(filter.filter_records(DuplicateMatch.all)).to contain_exactly(duplicate_match)
       end
     end
 
@@ -162,7 +162,7 @@ RSpec.describe SupportInterface::DuplicateMatchesFilter do
       it 'returns only duplicate matches with the specified date of birth' do
         filter = described_class.new(params: params.merge('date_of_birth(3i)' => duplicate_match.date_of_birth.day.to_s, 'date_of_birth(2i)' => duplicate_match.date_of_birth.month.to_s, 'date_of_birth(1i)' => duplicate_match.date_of_birth.year.to_s))
 
-        expect(filter.filter_records(DuplicateMatch.all)).to match_array([duplicate_match])
+        expect(filter.filter_records(DuplicateMatch.all)).to contain_exactly(duplicate_match)
       end
     end
   end
