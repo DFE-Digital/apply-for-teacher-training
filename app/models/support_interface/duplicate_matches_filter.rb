@@ -52,12 +52,16 @@ module SupportInterface
       duplicate_matches = duplicate_matches.where('fraud_matches.postcode ILIKE ?', "%#{applied_filters[:postcode]}%") if applied_filters[:postcode].present?
       if applied_filters['date_of_birth(3i)'].present? && applied_filters['date_of_birth(2i)'].present? &&
          applied_filters['date_of_birth(1i)'].present?
-        date_of_birth = Date.new(
-          applied_filters['date_of_birth(1i)'].to_i,
-          applied_filters['date_of_birth(2i)'].to_i,
-          applied_filters['date_of_birth(3i)'].to_i,
-        )
-        duplicate_matches = duplicate_matches.where(date_of_birth: date_of_birth)
+        if Date.valid_date?(applied_filters['date_of_birth(1i)'].to_i, applied_filters['date_of_birth(2i)'].to_i, applied_filters['date_of_birth(3i)'].to_i)
+          date_of_birth = Date.new(
+            applied_filters['date_of_birth(1i)'].to_i,
+            applied_filters['date_of_birth(2i)'].to_i,
+            applied_filters['date_of_birth(3i)'].to_i,
+          )
+          duplicate_matches = duplicate_matches.where(date_of_birth: date_of_birth)
+        else
+          duplicate_matches = duplicate_matches.none
+        end
       end
       duplicate_matches.distinct
     end
