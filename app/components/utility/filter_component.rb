@@ -26,6 +26,13 @@ class FilterComponent < ApplicationComponent
           arr << { title: option[:label], remove_link: remove_checkbox_tag_link(filter[:name], option[:value]) }
         end
       end
+    when :date
+      [
+        {
+          title: "#{filter[:value]['3i']}/#{filter[:value]['2i']}/#{filter[:value]['1i']}",
+          remove_link: remove_search_tag_link(filter[:name]),
+        },
+      ]
     end
   end
 
@@ -76,6 +83,8 @@ class FilterComponent < ApplicationComponent
       filter[:primary] != true && filter[:value].present?
     when :checkboxes, :checkbox_filter
       filter[:options].any? { |o| o[:checked] }
+    when :date
+      filter[:value].values.all?(&:present?)
     end
   end
 

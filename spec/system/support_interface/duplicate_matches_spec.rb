@@ -47,6 +47,46 @@ RSpec.describe 'See Duplicate candidate matches' do
     then_i_see_list_of_duplicates_from_last_recruitment_cycle
   end
 
+  scenario 'Support user filters duplicate matches by name, email, postcode and date of birth' do
+    given_i_am_a_support_user
+    when_there_are_candidates_with_duplicate_applications_in_the_system
+    and_the_update_duplicate_matches_worker_has_run
+    and_i_go_to_duplicate_matches_page
+    and_i_click_the_duplicate_matches_tab
+    then_i_see_list_of_duplicates
+
+    when_i_filter_duplicate_matches_by_name
+    and_i_click_on_apply_filters
+    then_i_see_list_of_duplicates_filtered_by_name
+    and_the_name_filter_is_applied
+
+    when_click_on_clear_filters
+    then_i_see_list_of_duplicates
+
+    when_i_filter_duplicate_matches_by_email
+    and_i_click_on_apply_filters
+    then_i_see_list_of_duplicates_filtered_by_email
+    and_the_email_filter_is_applied
+
+    when_click_on_clear_filters
+    then_i_see_list_of_duplicates
+
+    when_i_filter_duplicate_matches_by_postcode
+    and_i_click_on_apply_filters
+    then_i_see_list_of_duplicates_filtered_by_postcode
+    and_the_postcode_filter_is_applied
+
+    when_click_on_clear_filters
+    then_i_see_list_of_duplicates
+
+    when_i_filter_duplicate_matches_by_date_of_birth
+    and_i_click_on_apply_filters
+    then_i_see_list_of_duplicates_filtered_by_date_of_birth
+    and_the_date_of_birth_filter_is_applied
+  end
+
+private
+
   def given_i_am_a_support_user
     sign_in_as_support_user
   end
@@ -59,8 +99,8 @@ RSpec.describe 'See Duplicate candidate matches' do
 
     @bobs_application_form = create(:application_form, candidate: @bob, first_name: 'Bob', last_name: 'Roberts', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: 7.days.ago)
     @roberts_application_form = create(:application_form, candidate: @robert, first_name: 'Robert', last_name: 'Roberts', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
-    @alices_application_form = create(:application_form, candidate: @alice, first_name: 'Alice', last_name: 'Roberts', date_of_birth: '1999-10-12', postcode: 'W3 6ET', submitted_at: 10.days.ago)
-    @alis_application_form = create(:application_form, candidate: @ali, first_name: 'Ali', last_name: 'Roberts', date_of_birth: '1999-10-12', postcode: 'W3 6ET')
+    @alices_application_form = create(:application_form, candidate: @alice, first_name: 'Alice', last_name: 'Williams', date_of_birth: '1999-10-12', postcode: 'W3 6ET', submitted_at: 10.days.ago)
+    @alis_application_form = create(:application_form, candidate: @ali, first_name: 'Ali', last_name: 'Williams', date_of_birth: '1999-10-12', postcode: 'W3 6ET')
   end
 
   def and_the_duplicate_match_was_created_last_recruitment_cycle
@@ -100,6 +140,11 @@ RSpec.describe 'See Duplicate candidate matches' do
     expect(page).to have_no_link('2 candidates with postcode W3 6ET')
   end
 
+  def then_i_see_list_of_duplicates
+    expect(page).to have_text('2 candidates with postcode W6 9BH and DOB 8 Aug 1998')
+    expect(page).to have_text('2 candidates with postcode W3 6ET and DOB 12 Oct 1999')
+  end
+
   def and_i_click_on_a_match_that_is_not_resolved
     click_link_or_button '2 candidates with postcode W6 9BH and DOB 8 Aug 1998'
   end
@@ -113,12 +158,12 @@ RSpec.describe 'See Duplicate candidate matches' do
   end
 
   def when_i_search_for_a_duplicate_match_by_email
-    fill_in :query, with: @bob.email_address
+    fill_in 'Email', with: @bob.email_address
     click_link_or_button 'Apply filters'
   end
 
   def when_i_search_for_a_resolved_duplicate_match_by_email
-    fill_in :query, with: @alice.email_address
+    fill_in 'Email', with: @alice.email_address
     click_link_or_button 'Apply filters'
   end
 
@@ -171,5 +216,61 @@ RSpec.describe 'See Duplicate candidate matches' do
   def then_i_see_list_of_resolved_duplicates
     expect(page).to have_text('2 candidates with postcode W3 6ET and DOB 12 Oct 1999')
     expect(page).to have_no_link('2 candidates with postcode W6 9BH')
+  end
+
+  def when_i_filter_duplicate_matches_by_name
+    fill_in 'Name', with: 'Roberts'
+  end
+
+  def when_i_filter_duplicate_matches_by_email
+    fill_in 'Email', with: 'bob@example.com'
+  end
+
+  def when_i_filter_duplicate_matches_by_postcode
+    fill_in 'Postcode', with: 'W6 9BH'
+  end
+
+  def when_i_filter_duplicate_matches_by_date_of_birth
+    fill_in 'Day', with: '08'
+    fill_in 'Month', with: '08'
+    fill_in 'Year', with: '1998'
+  end
+
+  def and_i_click_on_apply_filters
+    click_link_or_button 'Apply filters'
+  end
+
+  def then_i_see_list_of_duplicates_filtered_by_name
+    expect(page).to have_text('2 candidates with postcode W6 9BH and DOB 8 Aug 1998')
+    expect(page).to have_no_text('2 candidates with postcode W3 6ET and DOB 12 Oct 1999')
+  end
+  alias_method :then_i_see_list_of_duplicates_filtered_by_email, :then_i_see_list_of_duplicates_filtered_by_name
+  alias_method :then_i_see_list_of_duplicates_filtered_by_postcode, :then_i_see_list_of_duplicates_filtered_by_name
+  alias_method :then_i_see_list_of_duplicates_filtered_by_date_of_birth, :then_i_see_list_of_duplicates_filtered_by_name
+
+  def when_click_on_clear_filters
+    click_on 'Clear filters'
+  end
+
+  def and_the_name_filter_is_applied
+    expect(page).to have_field('Name', with: 'Roberts')
+    expect(page).to have_element('ul', text: 'Roberts', class: 'moj-filter-tags')
+  end
+
+  def and_the_email_filter_is_applied
+    expect(page).to have_field('Email', with: 'bob@example.com')
+    expect(page).to have_element('ul', text: 'bob@example.com', class: 'moj-filter-tags')
+  end
+
+  def and_the_postcode_filter_is_applied
+    expect(page).to have_field('Postcode', with: 'W6 9BH')
+    expect(page).to have_element('ul', text: 'W6 9BH', class: 'moj-filter-tags')
+  end
+
+  def and_the_date_of_birth_filter_is_applied
+    expect(page).to have_field('Day', with: '08')
+    expect(page).to have_field('Month', with: '08')
+    expect(page).to have_field('Year', with: '1998')
+    expect(page).to have_element('ul', text: '08/08/1998', class: 'moj-filter-tags')
   end
 end
