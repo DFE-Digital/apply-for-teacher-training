@@ -52,16 +52,17 @@ Run the relevant specs and RuboCop on changed files before finishing a task. Do 
 - Never read .env* files
 
 ## Conventions
+
 - Follow the existing RuboCop config (`.rubocop.yml` plus `config/rubocop/config/*`), including custom cops in `lib/rubocop/cop`, e.g. use the GOV.UK helpers (`govuk_link_to`, `govuk_button_to`, `govuk_submit`) instead of raw Rails helpers, and do not use `should` in specs.
 - Do not add new entries to `.rubocop_todo.yml`. Fix the offence instead.
 - Match the style of neighbouring files; keep comments sparse.
 - Use form objects and keep form validations in them. Don't add validations in active record models files for validating form. Use form object validations.
-- Use dfe-wizard gem to build multi step forms. Look at previous implementations of multi-step using dfe-wizard in this app.
+- Use dfe-wizard gem to build multi-step forms. Look previous implementations of multi-step using dfe-wizard in this app.
 
 ### Testing
 
 - Use gherkin syntax for system specs. Steps are English-named methods (`given_…`, `when_…`, `then_…`) without parameters, all defined in the same file.
-- Use `:js` flag for system specs that interact with javascrip.
+- Use `:js` flag for system specs that interact with javascript.
 - Tag time-sensitive specs with a cycle time, e.g. `time: mid_cycle`. CI runs with offset dates; reproduce them locally with `TEST_DATE_AND_TIME=after_apply_deadline` (also `real_world`, `before_apply_reopens`, `after_apply_reopens`).
 - Smoke specs are excluded by default (`--tag ~smoke:true`).
 
@@ -69,7 +70,9 @@ Run the relevant specs and RuboCop on changed files before finishing a task. Do 
 
 - Migrations must be safe to deploy separately from the code that uses them. Code should not rely on a migration in the same PR.
 - Data migrations should be created when removing large amount of records in production.
-- New columns or tables must be added to `config/analytics.yml` and `config/airbyte_stream_config.json` or `config/analytics_blocklist.yml`.
+- Ask the developer where to include new columns or tables. Either:
+  - `config/analytics.yml` and `terraform/aks/workspace_variables/airbyte_stream_config.json` or
+  - `config/analytics_blocklist.yml`.
 - When removing a feature flag (`app/services/feature_flag.rb`), add a data migration that deletes it.
 - BigQuery cannot be queried locally (it needs Workload Identity Federation). Stub it in specs and test it on review apps or QA. See `docs/development/bigquery_and_reports.md`.
 
