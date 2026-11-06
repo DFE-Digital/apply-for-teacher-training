@@ -193,15 +193,14 @@ private
         return application_choices
       end
 
-      if states.include?(:unsubmitted)
-        return application_choices
-      end
+      choices_to_submit = application_choices.reject.with_index { |_choice, i| states[i] == :unsubmitted }
+      return application_choices if choices_to_submit.empty?
 
       fast_forward
 
       @application_form.update!(submitted_at: Time.zone.now)
 
-      @application_form.application_choices.each do |choice|
+      choices_to_submit.each do |choice|
         CandidateInterface::SubmitApplicationChoice.new(choice).call
 
         choice.update_columns(
@@ -215,6 +214,8 @@ private
       @application_form.update_columns(submitted_at: time, updated_at: time)
 
       states.zip(application_choices).each do |state, application_choice|
+        next if state == :unsubmitted
+
         maybe_add_note(application_choice.reload)
         put_application_choice_in_state(application_choice.reload, state, incomplete_references)
         maybe_add_note(application_choice.reload)

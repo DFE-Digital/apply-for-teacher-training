@@ -19,6 +19,45 @@ RSpec.describe TestApplications do
       expect(application_form.recruitment_cycle_year).to eq(recruitment_cycle_year)
     end
 
+    context 'when an offer is requested', time: mid_cycle do
+      let(:recruitment_cycle_year) { current_year }
+      let(:states) { [:offer] }
+
+      it 'creates an offered choice with a submitted application form' do
+        application_choices = create_application
+
+        expect(application_choices.map { |choice| choice.reload.status }).to eq(['offer'])
+        expect(ApplicationForm.last.submitted_at).to be_present
+      end
+    end
+
+    context 'when unsubmitted and offered choices are requested', time: mid_cycle do
+      let(:recruitment_cycle_year) { current_year }
+      let(:courses_to_apply_to) { create_list(:course, 2, :with_a_course_option, recruitment_cycle_year:) }
+      let(:states) { %i[unsubmitted offer] }
+
+      it 'submits the application form without submitting the draft choice' do
+        application_choices = create_application.map(&:reload)
+
+        expect(application_choices.map(&:status)).to eq(%w[unsubmitted offer])
+        expect(application_choices.first.sent_to_provider_at).to be_nil
+        expect(application_choices.last.sent_to_provider_at).to be_present
+        expect(ApplicationForm.last.submitted_at).to be_present
+      end
+    end
+
+    context 'when only unsubmitted choices are requested' do
+      let(:states) { [:unsubmitted] }
+
+      it 'leaves the application form and choice unsubmitted' do
+        application_choices = create_application.map(&:reload)
+
+        expect(application_choices.map(&:status)).to eq(['unsubmitted'])
+        expect(application_choices.first.sent_to_provider_at).to be_nil
+        expect(ApplicationForm.last.submitted_at).to be_nil
+      end
+    end
+
     context 'when the course accepts visas' do
       let(:courses_to_apply_to) {
         create_list(
