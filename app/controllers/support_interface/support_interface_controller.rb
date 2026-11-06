@@ -65,5 +65,10 @@ module SupportInterface
         redirect_to current_support_user.root_path_for_role(self)
       end
     end
+
+    def strip_whitespace(params)
+      stripped_params = StripWhitespace.from_hash(params)
+      StripInvisibleWhitespace.from_hash(stripped_params)
+    end
   end
 end

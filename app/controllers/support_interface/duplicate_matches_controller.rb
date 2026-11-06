@@ -5,7 +5,7 @@ module SupportInterface
     def index
       authorize(nil, :show?, policy_class: SupportInterface::CandidatePolicy)
 
-      @filter = SupportInterface::DuplicateMatchesFilter.new(params:)
+      @filter = SupportInterface::DuplicateMatchesFilter.new(params: search_params)
 
       matches_scope = @filter.filter_records(duplicate_matches(resolved: resolved?))
 
@@ -35,6 +35,10 @@ module SupportInterface
     helper_method :resolved?
 
   private
+
+    def search_params
+      strip_whitespace params
+    end
 
     def resolved_params
       ActiveModel::Type::Boolean.new.cast(params[:resolved])
