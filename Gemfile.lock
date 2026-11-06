@@ -172,7 +172,7 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    addressable (2.9.0)
+    addressable (2.9.2)
       public_suffix (>= 2.0.2, < 8.0)
     aes_key_wrap (1.1.0)
     anyway_config (2.7.2)
@@ -336,21 +336,21 @@ GEM
       csv (>= 3.0.0)
     globalid (1.4.0)
       activesupport (>= 6.1)
-    google-apis-bigquery_v2 (0.108.0)
+    google-apis-bigquery_v2 (0.109.0)
       google-apis-core (>= 0.15.0, < 2.a)
-    google-apis-core (1.4.0)
+    google-apis-core (1.4.1)
       addressable (~> 2.9)
       faraday (~> 2.13)
       faraday-follow_redirects (~> 0.3)
       googleauth (~> 1.14)
       mini_mime (~> 1.1)
-      multi_json (~> 1.11)
-      representable (~> 3.0)
+      multi_json (~> 1.21, >= 1.21.2)
+      representable (~> 3.3, >= 3.3.1)
       retriable (>= 3.1, < 5.0)
-    google-cloud-bigquery (1.64.1)
+    google-cloud-bigquery (1.64.2)
       bigdecimal (>= 3.0, < 5)
       concurrent-ruby (~> 1.0)
-      google-apis-bigquery_v2 (~> 0.71)
+      google-apis-bigquery_v2 (~> 0.88)
       google-apis-core (>= 0.18, < 2)
       google-cloud-core (~> 1.6)
       googleauth (~> 1.9)
@@ -1032,7 +1032,7 @@ CHECKSUMS
   activerecord-cte (0.4.0) sha256=e86b613c7a704b81d02ad0dc26ceeb7f137d2acd6fbc28fae07781d73cd3b337
   activestorage (8.1.4) sha256=f4956f3ec9ee63e5e0b332b57c877cb627f82b56f4cc902279310d2aa285c7a8
   activesupport (8.1.4) sha256=891dd3fe43c4fc8391934b237b1189bb1f661c932a84a840043db9d46a4e80df
-  addressable (2.9.0) sha256=7fdf6ac3660f7f4e867a0838be3f6cf722ace541dd97767fa42bc6cfa980c7af
+  addressable (2.9.2) sha256=9117c7e7d6ee07230e75ce41fb9401ae55354dc654fcd0e862ba41d539e9a610
   aes_key_wrap (1.1.0) sha256=b935f4756b37375895db45669e79dfcdc0f7901e12d4e08974d5540c8e0776a5
   anyway_config (2.7.2) sha256=30f6b087c0b41afdd43fe46c81d65a16f052a8489dab453abaeb4ea67aa74bad
   ar-sequence (0.2.1) sha256=a5b7bad91c845cacb20e085f0ff64fe6f080c2240d2f4d5f56e6394ec9845910
@@ -1120,9 +1120,9 @@ CHECKSUMS
   get_into_teaching_api_client (4.3.8)
   get_into_teaching_api_client_faraday (4.3.8)
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
-  google-apis-bigquery_v2 (0.108.0) sha256=1c72701035f911a6e349d8b1936a65f9d9b39da4f7a4b863ca571a5685068918
-  google-apis-core (1.4.0) sha256=74e838a334926e79ce685d3ff9f418956cc23e48c5fd7cade779fea933e96582
-  google-cloud-bigquery (1.64.1) sha256=b45eb3197323dc45983ac7753e0d6021b198420d1c5902cf5492a9352920148e
+  google-apis-bigquery_v2 (0.109.0) sha256=c9d6f4f886f5153fbf8665bfeb23f77a3818c2973cbb2352680d1927afc1be56
+  google-apis-core (1.4.1) sha256=96b3ff67fbcebe13f90f600490f26c97eb9763ed9f92b1adf8cd33732009b494
+  google-cloud-bigquery (1.64.2) sha256=8ab5ea60bd31df541b84b6d6e2dc001dbbb23ee37e20a381f740d7e52e0a5522
   google-cloud-core (1.9.1) sha256=6590e393cbeadf018e6880038e19348d2ccfc83000625c569a9b21ab3b450af0
   google-cloud-env (2.4.1) sha256=987cc58afc50ce2903128ab4dcd442159be4457246b8137e41d49d5c3fc590dd
   google-cloud-errors (1.7.1) sha256=818bcf30998d10f28f30532a2595b49438cb7abf42f6ac495843078839987207
