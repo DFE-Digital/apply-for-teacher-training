@@ -25,7 +25,7 @@ module Publications
             recruitment_cycle_year:,
           ).where.not(
             id: current.id,
-          ).destroy_all
+          ).delete_all
         end
       end
     end
