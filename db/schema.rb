@@ -1485,6 +1485,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_05_135651) do
     t.index ["provider_id"], name: "index_withdrawal_reasons_reports_on_provider_id"
     t.index ["recruitment_cycle_year"], name: "index_withdrawal_reasons_reports_on_recruitment_cycle_year"
   end
+
   add_foreign_key "account_recovery_request_codes", "account_recovery_requests", on_delete: :cascade
   add_foreign_key "account_recovery_requests", "candidates", on_delete: :cascade
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

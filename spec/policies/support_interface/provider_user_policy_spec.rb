@@ -3,8 +3,7 @@ require 'rails_helper'
 RSpec.describe SupportInterface::ProviderUserPolicy do
   subject(:policy) { described_class }
 
-  # let(:support_user) { create(:support_user, role:) }
-  let(:support_user) { create(:support_user) }
+  let(:support_user) { create(:support_user, role:) }
 
   permissions :show? do
     context 'when user has a support role' do
@@ -60,22 +59,16 @@ RSpec.describe SupportInterface::ProviderUserPolicy do
     context 'when the user has a service_administration role' do
       let(:role) { 'service_administration' }
 
-      # it 'denies access' do
-      #   expect(policy).not_to permit(support_user, nil)
-      # end
-      it 'permits access' do
-        expect(policy).to permit(support_user, nil)
+      it 'denies access' do
+        expect(policy).not_to permit(support_user, nil)
       end
     end
 
     context 'when the user has a researcher role' do
       let(:role) { 'research_and_design' }
 
-      # it 'denies access' do
-      #   expect(policy).not_to permit(support_user, nil)
-      # end
-      it 'permits access' do
-        expect(policy).to permit(support_user, nil)
+      it 'denies access' do
+        expect(policy).not_to permit(support_user, nil)
       end
     end
   end
@@ -100,22 +93,16 @@ RSpec.describe SupportInterface::ProviderUserPolicy do
     context 'when the user has a service_administration role' do
       let(:role) { 'service_administration' }
 
-      # it 'denies access' do
-      #   expect(policy).not_to permit(support_user, nil)
-      # end
-      it 'permits access' do
-        expect(policy).to permit(support_user, nil)
+      it 'denies access' do
+        expect(policy).not_to permit(support_user, nil)
       end
     end
 
     context 'when the user has a researcher role' do
       let(:role) { 'research_and_design' }
 
-      # it 'denies access' do
-      #   expect(policy).not_to permit(support_user, nil)
-      # end
-      it 'permits access' do
-        expect(policy).to permit(support_user, nil)
+      it 'denies access' do
+        expect(policy).not_to permit(support_user, nil)
       end
     end
   end

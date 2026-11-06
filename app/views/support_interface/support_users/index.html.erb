@@ -34,8 +34,8 @@
         <td class="govuk-table__cell">
           <%= support_user.dfe_sign_in_uid %>
         </td>
-        <% if SupportInterface::SupportUserPolicy.new(current_support_user, nil).edit? %>
-          <td class="govuk-table__cell">
+        <td class="govuk-table__cell">
+          <% if SupportInterface::SupportUserPolicy.new(current_support_user, support_user).edit? %>
             <div class="flex-content">
               <%= govuk_link_to('Change role', edit_support_interface_support_user_path(support_user)) %>
 
@@ -45,8 +45,8 @@
                 <%= link_action %><span class="govuk-visually-hidden"> <%= support_user.display_name %></span>
               <% end %>
             </div>
-          </td>
-        <% end %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
