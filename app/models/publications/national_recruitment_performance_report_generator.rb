@@ -20,13 +20,21 @@ module Publications
     end
 
     def call
-      Publications::NationalRecruitmentPerformanceReport.create!(
-        statistics: data,
-        cycle_week:,
-        publication_date:,
-        generation_date:,
-        recruitment_cycle_year:,
-      )
+      ActiveRecord::Base.transaction do
+        current = Publications::NationalRecruitmentPerformanceReport.create!(
+          statistics: data,
+          cycle_week:,
+          publication_date:,
+          generation_date:,
+          recruitment_cycle_year:,
+        )
+
+        # Keep the previous week so provider reports still lagging behind can find their matching report
+        Publications::NationalRecruitmentPerformanceReport.where(
+          recruitment_cycle_year:,
+          cycle_week: [cycle_week, ...(cycle_week - 1)],
+        ).where.not(id: current.id).destroy_all
+      end
     end
 
     def data

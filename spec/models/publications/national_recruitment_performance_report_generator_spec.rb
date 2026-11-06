@@ -89,6 +89,28 @@ RSpec.describe Publications::NationalRecruitmentPerformanceReportGenerator do
       end
     end
 
+    context 'when reports already exist' do
+      subject(:generator) { described_class.new(cycle_week:, recruitment_cycle_year: 2026) }
+
+      let!(:two_weeks_ago) { create(:national_recruitment_performance_report, recruitment_cycle_year: 2026, cycle_week: 9) }
+      let!(:previous_week) { create(:national_recruitment_performance_report, recruitment_cycle_year: 2026, cycle_week: 10) }
+      let!(:same_week) { create(:national_recruitment_performance_report, recruitment_cycle_year: 2026, cycle_week: 11) }
+      let!(:previous_cycle) { create(:national_recruitment_performance_report, recruitment_cycle_year: 2025, cycle_week: 52) }
+
+      it 'keeps the new report, the previous week and reports from other cycles' do
+        generator.call
+
+        current = Publications::NationalRecruitmentPerformanceReport.order(:id).last
+        expect(Publications::NationalRecruitmentPerformanceReport.all).to contain_exactly(current, previous_week, previous_cycle)
+      end
+
+      it 'deletes older weeks and duplicates of the same week in the cycle' do
+        generator.call
+
+        expect(Publications::NationalRecruitmentPerformanceReport.where(id: [two_weeks_ago.id, same_week.id])).to be_empty
+      end
+    end
+
     context 'when setting a future generation date' do
       subject(:generator) { described_class.new(cycle_week:, generation_date:) }
 

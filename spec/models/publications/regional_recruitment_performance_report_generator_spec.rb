@@ -88,6 +88,29 @@ RSpec.describe Publications::RegionalRecruitmentPerformanceReportGenerator do
       end
     end
 
+    context 'when reports already exist' do
+      subject(:generator) { described_class.new(cycle_week:, region:, recruitment_cycle_year: 2026) }
+
+      let!(:two_weeks_ago) { create(:regional_recruitment_performance_report, region: :london, recruitment_cycle_year: 2026, cycle_week: 9) }
+      let!(:previous_week) { create(:regional_recruitment_performance_report, region: :london, recruitment_cycle_year: 2026, cycle_week: 10) }
+      let!(:same_week) { create(:regional_recruitment_performance_report, region: :london, recruitment_cycle_year: 2026, cycle_week: 11) }
+      let!(:previous_cycle) { create(:regional_recruitment_performance_report, region: :london, recruitment_cycle_year: 2025, cycle_week: 52) }
+      let!(:other_region) { create(:regional_recruitment_performance_report, region: :north_east, recruitment_cycle_year: 2026, cycle_week: 9) }
+
+      it 'keeps the new report, the previous week, other cycles and other regions' do
+        generator.call
+
+        current = Publications::RegionalRecruitmentPerformanceReport.order(:id).last
+        expect(Publications::RegionalRecruitmentPerformanceReport.all).to contain_exactly(current, previous_week, previous_cycle, other_region)
+      end
+
+      it 'deletes older weeks and duplicates of the same week for the region in the cycle' do
+        generator.call
+
+        expect(Publications::RegionalRecruitmentPerformanceReport.where(id: [two_weeks_ago.id, same_week.id])).to be_empty
+      end
+    end
+
     context 'when setting a future generation date' do
       subject(:generator) { described_class.new(cycle_week:, generation_date:, region:) }
 
