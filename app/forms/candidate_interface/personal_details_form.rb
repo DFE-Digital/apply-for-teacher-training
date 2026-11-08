@@ -25,12 +25,14 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      application_form.update(
-        first_name:,
-        last_name:,
-        previous_last_names: previous_last_names_declared? ? previous_last_names : nil,
-        date_of_birth:,
-      )
+      EnqueueTriggeredDuplicateMatchCheck.new(application_form).call do
+        application_form.update(
+          first_name:,
+          last_name:,
+          previous_last_names: previous_last_names_declared? ? previous_last_names : nil,
+          date_of_birth:,
+        )
+      end
     end
 
     def name

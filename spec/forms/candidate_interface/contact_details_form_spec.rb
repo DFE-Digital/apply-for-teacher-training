@@ -36,6 +36,21 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
   end
 
   describe '#save_address' do
+    it 'enqueues a duplicate check when an international address is saved with personal details entered' do
+      application_form = create(:application_form, last_name: 'Smith', date_of_birth: Date.new(1990, 1, 1), personal_details_completed: false, contact_details_completed: false)
+      contact_details = described_class.new(address_type: 'international', country: 'FR', address_line1: 'Example address')
+
+      expect { contact_details.save_address(application_form) }
+        .to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker).with(application_form.id).exactly(:once)
+    end
+
+    it 'does not enqueue a duplicate check for an invalid address' do
+      application_form = create(:application_form)
+
+      expect { described_class.new(address_type: 'uk').save_address(application_form) }
+        .not_to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker)
+    end
+
     it 'returns false if not valid' do
       contact_details = described_class.new
 

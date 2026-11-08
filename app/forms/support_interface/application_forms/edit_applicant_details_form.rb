@@ -32,17 +32,19 @@ module SupportInterface
       end
 
       def save!
-        @application_form.update!(
-          first_name:,
-          last_name:,
-          previous_last_names:,
-          date_of_birth:,
-          phone_number:,
-          audit_comment:,
-        )
+        EnqueueTriggeredDuplicateMatchCheck.new(@application_form).call do
+          @application_form.update!(
+            first_name:,
+            last_name:,
+            previous_last_names:,
+            date_of_birth:,
+            phone_number:,
+            audit_comment:,
+          )
 
-        candidate.email_address = email_address
-        candidate.save!
+          candidate.email_address = email_address
+          candidate.save!
+        end
       end
 
       def date_of_birth
