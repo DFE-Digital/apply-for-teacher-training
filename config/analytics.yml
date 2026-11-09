@@ -70,6 +70,7 @@ shared:
     - fraud_match_id
     - submission_blocked
     - account_locked
+    - triggered_duplicate_match_id
   pool_invites:
     - id
     - candidate_id
@@ -666,6 +667,14 @@ shared:
     - created_at
     - updated_at
     - resolved
+  triggered_duplicate_matches:
+    - id
+    - recruitment_cycle_year
+    - last_name
+    - date_of_birth
+    - postcode
+    - created_at
+    - updated_at
   degree_subject_groups:
     - id
     - application_qualification_id

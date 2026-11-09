@@ -818,6 +818,12 @@ erDiagram
 		string registration_number
 		integer total_score
 	}
+	TriggeredDuplicateMatch {
+		date date_of_birth
+		string last_name
+		string postcode
+		integer recruitment_cycle_year
+	}
 	ValidationError {
 		jsonb details
 		string form_object
@@ -942,6 +948,7 @@ erDiagram
 	Candidate ||--|o OneLoginAuth : ""
 	Course o|--}o Candidate : ""
 	DuplicateMatch o|--}o Candidate : ""
+	TriggeredDuplicateMatch o|--}o Candidate : ""
 	Candidate ||--}o "Pool::Invite" : ""
 	Candidate o|..}o PreviousTeacherTraining : ""
 	Candidate ||--}o PossiblePreviousTeacherTraining : ""

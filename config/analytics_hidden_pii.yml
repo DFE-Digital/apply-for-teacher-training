@@ -33,3 +33,7 @@ shared:
     - last_name
     - date_of_birth
     - postcode
+  triggered_duplicate_matches:
+    - last_name
+    - date_of_birth
+    - postcode
