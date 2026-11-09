@@ -57,7 +57,6 @@ module SupportInterface
 
     validates :audit_comment, presence: true
     validates_with ZendeskUrlValidator
-    validates_with SafeChoiceUpdateValidator
 
     def self.build_from_qualification(qualification)
       form = new({
@@ -140,8 +139,10 @@ module SupportInterface
     def save
       return false unless valid?
 
-      update_gcse.tap do
-        reset_missing_and_not_completed_explanations!(qualification)
+      ApplicationForm.with_unsafe_application_choice_touches do
+        update_gcse.tap do
+          reset_missing_and_not_completed_explanations!(qualification)
+        end
       end
     end
 

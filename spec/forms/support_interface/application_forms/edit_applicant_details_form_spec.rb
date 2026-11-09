@@ -18,10 +18,6 @@ RSpec.describe SupportInterface::ApplicationForms::EditApplicantDetailsForm, typ
     it { is_expected.to validate_length_of(:last_name).is_at_most(60) }
     it { is_expected.to validate_length_of(:email_address).is_at_most(100) }
 
-    it 'validates with SafeChoiceUpdateValidator' do
-      expect(model.class.validators.map(&:class)).to include(SafeChoiceUpdateValidator)
-    end
-
     describe '#date_of_birth' do
       let(:application_form) { build(:application_form, :minimum_info, date_of_birth:) }
       let(:date_of_birth) { nil }
@@ -98,6 +94,25 @@ RSpec.describe SupportInterface::ApplicationForms::EditApplicantDetailsForm, typ
         model.save!
         expect(application_form.reload).to have_attributes(attributes.except(:email_address, :audit_comment))
         expect(application_form.candidate.reload.email_address).to eq('gandalf.the.white@example.com')
+      end
+    end
+
+    context 'when the application is from a previous cycle' do
+      let(:application_form) do
+        create(
+          :completed_application_form,
+          recruitment_cycle_year: previous_year,
+          application_choices_count: 1,
+        )
+      end
+
+      before { RequestStore.store[:allow_unsafe_application_choice_touches] = false }
+
+      it 'updates the application form without raising an error' do
+        model.assign_attributes(attributes)
+
+        expect { model.save! }.not_to raise_error
+        expect(application_form.reload).to have_attributes(attributes.except(:email_address, :audit_comment))
       end
     end
   end

@@ -15,7 +15,6 @@ module SupportInterface
       validates :audit_comment_ticket, presence: true
       validate :reference_has_no_safeguarding_concern
       validates_with ZendeskUrlValidator
-      validates_with SafeChoiceUpdateValidator
 
       def save
         return false unless valid?

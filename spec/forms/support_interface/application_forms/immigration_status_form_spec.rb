@@ -59,14 +59,6 @@ RSpec.describe SupportInterface::ApplicationForms::ImmigrationStatusForm, type: 
 
       it { is_expected.not_to validate_presence_of(:right_to_work_or_study_details) }
     end
-
-    context 'with SafeChoiceUpdateValidator' do
-      before { form.application_form = build(:application_form, :minimum_info) }
-
-      it 'validates with SafeChoiceUpdateValidator' do
-        expect(form.class.validators.map(&:class)).to include(SafeChoiceUpdateValidator)
-      end
-    end
   end
 
   describe '.build_from_application' do
@@ -142,6 +134,25 @@ RSpec.describe SupportInterface::ApplicationForms::ImmigrationStatusForm, type: 
         expect(form.save(application_form)).to be(true)
         expect(application_form.visa_expired_at).to be_nil
         expect(application_choice.reload.visa_explanation).to be_nil
+      end
+    end
+
+    context 'when the application is from a previous cycle' do
+      let(:application_form) do
+        create(
+          :completed_application_form,
+          recruitment_cycle_year: previous_year,
+          application_choices_count: 1,
+        )
+      end
+
+      before { RequestStore.store[:allow_unsafe_application_choice_touches] = false }
+
+      it 'updates the application form without raising an error' do
+        form = described_class.new(form_data)
+
+        expect(form.save(application_form)).to be(true)
+        expect(application_form.reload.right_to_work_or_study_details).to eq('I have settled status')
       end
     end
   end

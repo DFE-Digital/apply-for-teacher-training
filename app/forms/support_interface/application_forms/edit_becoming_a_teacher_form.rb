@@ -10,7 +10,6 @@ module SupportInterface
                 presence: true
 
       validates :audit_comment, presence: true
-      validates_with SafeChoiceUpdateValidator
 
       def self.build_from_application(application_form)
         new(
@@ -22,10 +21,12 @@ module SupportInterface
         @application_form = application_form
         return false unless valid?
 
-        application_form.update!(
-          becoming_a_teacher:,
-          audit_comment:,
-        )
+        ApplicationForm.with_unsafe_application_choice_touches do
+          application_form.update!(
+            becoming_a_teacher:,
+            audit_comment:,
+          )
+        end
       end
     end
   end
