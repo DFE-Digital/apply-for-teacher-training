@@ -5,13 +5,9 @@ module SupportInterface
     def index
       authorize(nil, :show?, policy_class: SupportInterface::CandidatePolicy)
 
-      @filter = SupportInterface::DuplicateMatchesFilter.new(params:)
+      @filter = SupportInterface::DuplicateMatchesFilter.new(params: search_params)
 
-      matches_scope = if @filter.applied_filters[:query].present?
-                        duplicate_matches(resolved: resolved?).joins(:candidates).where('CONCAT(email_address) ILIKE ?', "%#{@filter.applied_filters[:query]}%")
-                      else
-                        duplicate_matches(resolved: resolved?)
-                      end
+      matches_scope = @filter.filter_records(duplicate_matches(resolved: resolved?))
 
       @pagy, @matches = pagy(matches_scope, limit: PAGY_PER_PAGE)
       @under_review_count = duplicate_matches(resolved: false).count
@@ -39,6 +35,10 @@ module SupportInterface
     helper_method :resolved?
 
   private
+
+    def search_params
+      strip_whitespace params
+    end
 
     def resolved_params
       ActiveModel::Type::Boolean.new.cast(params[:resolved])

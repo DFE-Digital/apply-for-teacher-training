@@ -50,7 +50,7 @@
                   <h3 class="govuk-heading-m"><%= filter[:title] %></h3>
                 <% end %>
 
-                <% if multiple_fields?(filter) %>
+                <% if multiple_fields?(filter) || filter[:type] == :date %>
                   <fieldset class="govuk-fieldset">
                     <legend id="filter-legend-<%= filter[:name] %>" class="govuk-fieldset__legend govuk-fieldset__legend--s">
                       <%= filter[:heading] %>
@@ -65,6 +65,33 @@
                   <%= render ProviderInterface::LocationFilterComponent.new(filter:) %>
                 <% elsif filter[:type] == :search %>
                   <input class="govuk-input <%= filter[:css_classes] %>" id="<%= filter[:name] %>" name="<%= filter[:name] %>" type="text" value="<%= filter[:value] %>" aria-labelledby="filter-legend-<%= filter[:name] %>" autocomplete="off">
+                <% elsif filter[:type] == :date %>
+                  <div class="govuk-date-input">
+                    <div class="govuk-date-input__item">
+                      <div class="govuk-form-group">
+                        <label class="govuk-label govuk-date-input__label" for="<%= filter[:name] %>_3i">
+                          Day
+                        </label>
+                        <input id="<%= filter[:name] %>_3i" class="govuk-input govuk-date-input__input govuk-input--width-2" name="<%= filter[:name] %>(3i)" type="text" value="<%= filter[:value]['3i'] %>" inputmode="numeric" autocomplete="off">
+                      </div>
+                    </div>
+                    <div class="govuk-date-input__item">
+                      <div class="govuk-form-group">
+                        <label class="govuk-label govuk-date-input__label" for="<%= filter[:name] %>_2i">
+                          Month
+                        </label>
+                        <input id="<%= filter[:name] %>_2i" class="govuk-input govuk-date-input__input govuk-input--width-2" name="<%= filter[:name] %>(2i)" type="text" value="<%= filter[:value]['2i'] %>" inputmode="numeric" autocomplete="off">
+                      </div>
+                    </div>
+                    <div class="govuk-date-input__item">
+                      <div class="govuk-form-group">
+                        <label class="govuk-label govuk-date-input__label" for="<%= filter[:name] %>_1i">
+                          Year
+                        </label>
+                        <input id="<%= filter[:name] %>_1i" class="govuk-input govuk-date-input__input govuk-input--width-4" name="<%= filter[:name] %>(1i)" type="text" value="<%= filter[:value]['1i'] %>" inputmode="numeric" autocomplete="off">
+                      </div>
+                    </div>
+                  </div>
                 <% elsif filter[:type] == :checkboxes %>
                   <input value="" name="<%= filter[:name] %>[]" type="hidden">
                   <% filter[:options].each do |option| %>

@@ -26,6 +26,13 @@ class FilterComponent < ApplicationComponent
           arr << { title: option[:label], remove_link: remove_checkbox_tag_link(filter[:name], option[:value]) }
         end
       end
+    when :date
+      [
+        {
+          title: "#{filter[:value]['3i']}/#{filter[:value]['2i']}/#{filter[:value]['1i']}",
+          remove_link: remove_date_tag_link(filter[:name]),
+        },
+      ]
     end
   end
 
@@ -46,6 +53,15 @@ class FilterComponent < ApplicationComponent
   def remove_search_tag_link(name)
     params = filters_to_params(filters)
     params.delete(name)
+    params[:remove] = true # for removing last filter
+    to_query(params)
+  end
+
+  def remove_date_tag_link(name)
+    params = filters_to_params(filters)
+    params.delete("#{name}(3i)")
+    params.delete("#{name}(2i)")
+    params.delete("#{name}(1i)")
     params[:remove] = true # for removing last filter
     to_query(params)
   end
@@ -76,6 +92,8 @@ class FilterComponent < ApplicationComponent
       filter[:primary] != true && filter[:value].present?
     when :checkboxes, :checkbox_filter
       filter[:options].any? { |o| o[:checked] }
+    when :date
+      filter[:value].values.all?(&:present?)
     end
   end
 
@@ -88,6 +106,10 @@ class FilterComponent < ApplicationComponent
         hash[filter[:name]] = filter[:value]
       when :checkboxes, :checkbox_filter
         hash[filter[:name]] = filter[:options].select { |o| o[:checked] }.map { |o| o[:value] }
+      when :date
+        hash["#{filter[:name]}(3i)"] = filter[:value]['3i']
+        hash["#{filter[:name]}(2i)"] = filter[:value]['2i']
+        hash["#{filter[:name]}(1i)"] = filter[:value]['1i']
       end
     end
   end
