@@ -112,7 +112,9 @@ module CandidateInterface
       unless valid_for_submission?
         attributes = attributes.merge(contact_details_completed: nil)
       end
-      application_form.update(attributes)
+      EnqueueTriggeredDuplicateMatchCheck.new(application_form).call do
+        application_form.update(attributes)
+      end
     end
   end
 end

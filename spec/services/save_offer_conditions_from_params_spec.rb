@@ -74,7 +74,9 @@ RSpec.describe SaveOfferConditionsFromParams do
         it 'sends the offer creation events to DfE Analytics' do
           service.save
 
-          offer_condition_jobs = enqueued_jobs.select { |job| job['arguments'][0][0]['entity_table_name'] == 'offer_conditions' }
+          offer_condition_jobs = enqueued_jobs.select do |job|
+            job['job_class'] == 'DfE::Analytics::SendEvents' && job['arguments'][0][0]['entity_table_name'] == 'offer_conditions'
+          end
 
           condition_types = %w[ReferenceCondition SkeCondition TextCondition]
 

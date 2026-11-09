@@ -940,6 +940,8 @@ PreviousTeacherTraining.create(application_form_id:, provider_id:, status: 'publ
 
 ## Create DuplicateMatch
 
+The parallel triggered duplicate-checking process saves results in `triggered_duplicate_matches`, without sending emails or blocking accounts. Candidate and support forms enqueue checks after address changes when last name and date of birth are present, or after changes to last name or date of birth when an address has also been entered. A postcode or any non-blank address line counts as an entered address; section completion flags are not required. Direct model updates and section completion do not trigger this process. The scheduled worker and support workflow below are unchanged.
+
 Sometimes our duplicate `UpdateDuplicateMatchesWorker` will not pick up some candidates, especially if they had an application_form in a previous_cycle. Their ApplicationForm#previous_application_form_id is present.
 
 In cases like this we can manually create a DuplicateMatch which will be displayed in the support console and support users can deal with.

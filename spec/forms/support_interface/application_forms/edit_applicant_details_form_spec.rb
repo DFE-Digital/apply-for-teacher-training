@@ -54,6 +54,26 @@ RSpec.describe SupportInterface::ApplicationForms::EditApplicantDetailsForm, typ
       }
     end
 
+    it 'enqueues a duplicate check for changed personal details with a postcode-less address' do
+      application_form = create(:application_form, :minimum_info, address_line2: 'Example address', postcode: nil, personal_details_completed: false, contact_details_completed: false)
+      details_form = described_class.new(application_form)
+      details_form.last_name = 'Example surname'
+      details_form.audit_comment = 'Correcting applicant details'
+
+      expect { details_form.save! }
+        .to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker).with(application_form.id).exactly(:once)
+    end
+
+    it 'does not enqueue a duplicate check for a first-name-only change' do
+      application_form = create(:application_form, :minimum_info)
+      details_form = described_class.new(application_form)
+      details_form.first_name = 'Alex'
+      details_form.audit_comment = 'Correcting first name'
+
+      expect { details_form.save! }
+        .not_to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker)
+    end
+
     it 'updates the attributes of an application form' do
       model.assign_attributes(attributes)
       model.save!

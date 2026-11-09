@@ -46,19 +46,23 @@ module SupportInterface
         }
         attrs[:country] = 'GB' if uk?
 
-        ApplicationForm.with_unsafe_application_choice_touches do
-          application_form.update(attrs)
+        EnqueueTriggeredDuplicateMatchCheck.new(application_form).call do
+          ApplicationForm.with_unsafe_application_choice_touches do
+            application_form.update(attrs)
+          end
         end
       end
 
       def save_address_type(application_form)
         return false unless valid?(:address_type)
 
-        ApplicationForm.with_unsafe_application_choice_touches do
-          application_form.update(
-            address_type:,
-            country: country.presence,
-          )
+        EnqueueTriggeredDuplicateMatchCheck.new(application_form).call do
+          ApplicationForm.with_unsafe_application_choice_touches do
+            application_form.update(
+              address_type:,
+              country: country.presence,
+            )
+          end
         end
       end
 
