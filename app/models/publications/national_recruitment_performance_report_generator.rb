@@ -31,8 +31,7 @@ module Publications
 
         # Keep the previous week so provider reports still lagging behind can find their matching report
         Publications::NationalRecruitmentPerformanceReport.where(
-          recruitment_cycle_year:,
-          cycle_week: [cycle_week, ...(cycle_week - 1)],
+          'recruitment_cycle_year = ? and cycle_week < ?', recruitment_cycle_year, cycle_week - 1
         ).where.not(id: current.id).delete_all
       end
     end

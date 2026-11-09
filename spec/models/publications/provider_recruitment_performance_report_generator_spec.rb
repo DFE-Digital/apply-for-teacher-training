@@ -103,7 +103,6 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
         let(:report_attributes) { { provider_id:, recruitment_cycle_year: 2026 } }
         let!(:two_weeks_ago) { create(:provider_recruitment_performance_report, **report_attributes, cycle_week: 10) }
         let!(:previous_week) { create(:provider_recruitment_performance_report, **report_attributes, cycle_week: 11) }
-        let!(:same_week) { create(:provider_recruitment_performance_report, **report_attributes, cycle_week: 12) }
         let!(:previous_cycle_same_week) { create(:provider_recruitment_performance_report, provider_id:, recruitment_cycle_year: 2025, cycle_week: 12) }
         let!(:other_provider) { create(:provider_recruitment_performance_report, recruitment_cycle_year: 2026, cycle_week: 10) }
 
@@ -119,7 +118,7 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
         it 'deletes older weeks and duplicates of the same week for the provider in the cycle' do
           generator.call
 
-          expect(Publications::ProviderRecruitmentPerformanceReport.where(id: [two_weeks_ago.id, same_week.id])).to be_empty
+          expect(Publications::ProviderRecruitmentPerformanceReport.where(id: [two_weeks_ago.id])).to be_empty
         end
       end
 

@@ -32,7 +32,8 @@ module Publications
         )
 
         Publications::RegionalRecruitmentPerformanceReport
-          .where(region:, recruitment_cycle_year:, cycle_week: [cycle_week, ...(cycle_week - 1)])
+          .where(region:, recruitment_cycle_year:)
+          .where('cycle_week < ?', cycle_week - 1)
           .where.not(id: current.id)
           .delete_all
       end

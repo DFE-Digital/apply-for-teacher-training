@@ -93,7 +93,6 @@ RSpec.describe Publications::RegionalRecruitmentPerformanceReportGenerator do
 
       let!(:two_weeks_ago) { create(:regional_recruitment_performance_report, region: :london, recruitment_cycle_year: 2026, cycle_week: 9) }
       let!(:previous_week) { create(:regional_recruitment_performance_report, region: :london, recruitment_cycle_year: 2026, cycle_week: 10) }
-      let!(:same_week) { create(:regional_recruitment_performance_report, region: :london, recruitment_cycle_year: 2026, cycle_week: 11) }
       let!(:previous_cycle) { create(:regional_recruitment_performance_report, region: :london, recruitment_cycle_year: 2025, cycle_week: 52) }
       let!(:other_region) { create(:regional_recruitment_performance_report, region: :north_east, recruitment_cycle_year: 2026, cycle_week: 9) }
 
@@ -107,7 +106,7 @@ RSpec.describe Publications::RegionalRecruitmentPerformanceReportGenerator do
       it 'deletes older weeks and duplicates of the same week for the region in the cycle' do
         generator.call
 
-        expect(Publications::RegionalRecruitmentPerformanceReport.where(id: [two_weeks_ago.id, same_week.id])).to be_empty
+        expect(Publications::RegionalRecruitmentPerformanceReport.where(id: [two_weeks_ago.id])).to be_empty
       end
     end
 

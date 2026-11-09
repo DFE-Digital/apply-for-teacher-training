@@ -69,8 +69,7 @@ module Publications
             region:,
             category:,
             recruitment_cycle_year:,
-            cycle_week: [cycle_week, ...(cycle_week - 1)],
-          ).where.not(id: current.id).delete_all
+          ).where('cycle_week < ?', cycle_week - 1).where.not(id: current.id).delete_all
         end
       end
     end
