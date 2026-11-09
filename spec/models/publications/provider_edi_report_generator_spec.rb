@@ -114,32 +114,6 @@ RSpec.describe Publications::ProviderEdiReportGenerator do
       end
     end
 
-    context 'when reports already exist' do
-      subject(:generator) { described_class.new(provider_id: provider.id, cycle_week:, recruitment_cycle_year: 2026) }
-
-      let(:report_attributes) { { provider:, category: :sex, recruitment_cycle_year: 2026 } }
-      let!(:two_weeks_ago) { create(:provider_edi_report, **report_attributes, cycle_week: 9) }
-      let!(:previous_week) { create(:provider_edi_report, **report_attributes, cycle_week: 10) }
-      let!(:previous_cycle_same_week) { create(:provider_edi_report, provider:, category: :sex, recruitment_cycle_year: 2025, cycle_week: 11) }
-      let!(:other_category) { create(:provider_edi_report, provider:, category: :age_group, recruitment_cycle_year: 2026, cycle_week: 9) }
-      let!(:other_provider) { create(:provider_edi_report, category: :sex, recruitment_cycle_year: 2026, cycle_week: 9) }
-
-      it 'keeps the new report, the previous week, other cycles, categories and providers' do
-        generator.call
-
-        current = Publications::ProviderEdiReport.order(:id).last
-        expect(Publications::ProviderEdiReport.all).to contain_exactly(
-          current, previous_week, previous_cycle_same_week, other_category, other_provider
-        )
-      end
-
-      it 'deletes older weeks and duplicates of the same week for the provider and category in the cycle' do
-        generator.call
-
-        expect(Publications::ProviderEdiReport.where(id: [two_weeks_ago.id])).to be_empty
-      end
-    end
-
     context 'when the response from BigQuery contains multiple category data' do
       before do
         stub_bigquery_provider_edi_request(

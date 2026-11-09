@@ -41,23 +41,15 @@ module Publications
         end
         next if category_data.empty?
 
-        ActiveRecord::Base.transaction do
-          current = Publications::ProviderEdiReport.create!(
-            provider_id:,
-            statistics: category_data,
-            cycle_week:,
-            category:,
-            publication_date:,
-            generation_date:,
-            recruitment_cycle_year:,
-          )
-
-          Publications::ProviderEdiReport.where(
-            provider_id:,
-            category:,
-            recruitment_cycle_year:,
-          ).where('cycle_week < ?', cycle_week - 1).where.not(id: current.id).delete_all
-        end
+        Publications::ProviderEdiReport.create!(
+          provider_id:,
+          statistics: category_data,
+          cycle_week:,
+          category:,
+          publication_date:,
+          generation_date:,
+          recruitment_cycle_year:,
+        )
       end
     end
 

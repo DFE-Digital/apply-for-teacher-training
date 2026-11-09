@@ -28,21 +28,14 @@ module Publications
         return
       end
 
-      ActiveRecord::Base.transaction do
-        current = Publications::ProviderRecruitmentPerformanceReport.create!(
-          provider_id:,
-          statistics: data,
-          cycle_week:,
-          publication_date:,
-          generation_date:,
-          recruitment_cycle_year:,
-        )
-
-        Publications::ProviderRecruitmentPerformanceReport.where(
-          provider_id:,
-          recruitment_cycle_year:,
-        ).where('cycle_week < ?', cycle_week - 1).where.not(id: current.id).delete_all
-      end
+      Publications::ProviderRecruitmentPerformanceReport.create!(
+        provider_id:,
+        statistics: data,
+        cycle_week:,
+        publication_date:,
+        generation_date:,
+        recruitment_cycle_year:,
+      )
     end
 
     def data

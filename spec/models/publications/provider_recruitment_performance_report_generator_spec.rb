@@ -97,31 +97,6 @@ RSpec.describe Publications::ProviderRecruitmentPerformanceReportGenerator do
         end
       end
 
-      context 'when reports already exist' do
-        subject(:generator) { described_class.new(provider_id:, cycle_week:, recruitment_cycle_year: 2026) }
-
-        let(:report_attributes) { { provider_id:, recruitment_cycle_year: 2026 } }
-        let!(:two_weeks_ago) { create(:provider_recruitment_performance_report, **report_attributes, cycle_week: 10) }
-        let!(:previous_week) { create(:provider_recruitment_performance_report, **report_attributes, cycle_week: 11) }
-        let!(:previous_cycle_same_week) { create(:provider_recruitment_performance_report, provider_id:, recruitment_cycle_year: 2025, cycle_week: 12) }
-        let!(:other_provider) { create(:provider_recruitment_performance_report, recruitment_cycle_year: 2026, cycle_week: 10) }
-
-        it 'keeps the new report, the previous week, other cycles and other providers' do
-          generator.call
-
-          current = Publications::ProviderRecruitmentPerformanceReport.order(:id).last
-          expect(Publications::ProviderRecruitmentPerformanceReport.all).to contain_exactly(
-            current, previous_week, previous_cycle_same_week, other_provider
-          )
-        end
-
-        it 'deletes older weeks and duplicates of the same week for the provider in the cycle' do
-          generator.call
-
-          expect(Publications::ProviderRecruitmentPerformanceReport.where(id: [two_weeks_ago.id])).to be_empty
-        end
-      end
-
       context 'when setting a future generation date' do
         subject(:generator) { described_class.new(provider_id:, cycle_week:, generation_date:) }
 

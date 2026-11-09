@@ -13,20 +13,11 @@ module Publications
 
     def call
       if data.present?
-        ActiveRecord::Base.transaction do
-          current = Publications::WithdrawalReasonsReport.create!(
-            provider_id:,
-            recruitment_cycle_year:,
-            statistics: data,
-          )
-
-          Publications::WithdrawalReasonsReport.where(
-            provider_id:,
-            recruitment_cycle_year:,
-          ).where.not(
-            id: current.id,
-          ).delete_all
-        end
+        Publications::WithdrawalReasonsReport.create!(
+          provider_id:,
+          recruitment_cycle_year:,
+          statistics: data,
+        )
       end
     end
 

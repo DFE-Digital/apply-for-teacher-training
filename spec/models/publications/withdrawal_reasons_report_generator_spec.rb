@@ -58,25 +58,6 @@ RSpec.describe Publications::WithdrawalReasonsReportGenerator do
       })
     end
 
-    context 'when reports already exist' do
-      let!(:existing_report) { create(:withdrawal_reasons_report, provider_id:, recruitment_cycle_year:) }
-      let!(:previous_cycle) { create(:withdrawal_reasons_report, provider_id:, recruitment_cycle_year: 2025) }
-      let!(:other_provider) { create(:withdrawal_reasons_report, recruitment_cycle_year:) }
-
-      it 'keeps the new report, reports from other cycles and other providers' do
-        generator.call
-
-        current = Publications::WithdrawalReasonsReport.order(:id).last
-        expect(Publications::WithdrawalReasonsReport.all).to contain_exactly(current, previous_cycle, other_provider)
-      end
-
-      it 'deletes the existing report for the provider in the cycle' do
-        generator.call
-
-        expect(Publications::WithdrawalReasonsReport.exists?(existing_report.id)).to be(false)
-      end
-    end
-
     context 'when data is blank' do
       before do
         stub_bigquery_withdrawal_reasons_request(result: false)
