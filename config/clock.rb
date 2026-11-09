@@ -103,5 +103,8 @@ class Clock
   every(7.days, 'EndOfCycle::NextYearFullSync', at: 'Friday 00:05') { EndOfCycle::NextYearFullSync.perform_later }
 
   every(7.days, 'Schedule Recruitment Performance reports', at: 'Monday 05:30', if: ->(_period) { RecruitmentPerformanceReportTimetable.report_season? }) { Publications::RecruitmentPerformanceReportScheduler.new.call }
+
+  every(7.days, 'Delete old reports', at: 'Monday 05:31') { Publications::DeleteOldReportsWorker.perform_later }
+
   every(7.days, 'ProviderRecruitmentPerformanceReportReminder', at: 'Monday 12:00') { Publications::ProviderRecruitmentPerformanceReminderWorker.perform_later }
 end
