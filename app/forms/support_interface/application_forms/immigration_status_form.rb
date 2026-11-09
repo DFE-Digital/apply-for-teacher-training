@@ -10,7 +10,6 @@ module SupportInterface
       validates :right_to_work_or_study_details, presence: true, if: :other_immigration_status?
       validates :right_to_work_or_study_details, word_count: { maximum: 7 }
       validates :audit_comment, presence: true
-      validates_with SafeChoiceUpdateValidator
 
       def self.build_from_application(application_form)
         new(
@@ -26,17 +25,19 @@ module SupportInterface
 
         return false unless valid?
 
-        update_result = application_form.update(
-          immigration_status:,
-          right_to_work_or_study_details: other_immigration_status? ? right_to_work_or_study_details : nil,
-          visa_expired_at: if application_form.temporary_immigration_status?(immigration_status)
-                             application_form.visa_expired_at
-                           end,
-          audit_comment:,
-        )
+        ApplicationForm.with_unsafe_application_choice_touches do
+          update_result = application_form.update(
+            immigration_status:,
+            right_to_work_or_study_details: other_immigration_status? ? right_to_work_or_study_details : nil,
+            visa_expired_at: if application_form.temporary_immigration_status?(immigration_status)
+                               application_form.visa_expired_at
+                             end,
+            audit_comment:,
+          )
 
-        update_visa_explanation(application_form)
-        update_result
+          update_visa_explanation(application_form)
+          update_result
+        end
       end
 
       def eu_nationality?

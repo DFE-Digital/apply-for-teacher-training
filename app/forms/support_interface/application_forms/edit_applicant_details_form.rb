@@ -14,7 +14,6 @@ module SupportInterface
       validates :date_of_birth, date: { presence: true, date_of_birth: true }
       validates :phone_number, presence: true, phone_number: true
       validates :audit_comment, presence: true
-      validates_with SafeChoiceUpdateValidator
 
       def initialize(application_form)
         @application_form = application_form
@@ -33,14 +32,16 @@ module SupportInterface
 
       def save!
         EnqueueTriggeredDuplicateMatchCheck.new(@application_form).call do
-          @application_form.update!(
-            first_name:,
-            last_name:,
-            previous_last_names:,
-            date_of_birth:,
-            phone_number:,
-            audit_comment:,
-          )
+          ApplicationForm.with_unsafe_application_choice_touches do
+            @application_form.update!(
+              first_name:,
+              last_name:,
+              previous_last_names:,
+              date_of_birth:,
+              phone_number:,
+              audit_comment:,
+            )
+          end
 
           candidate.email_address = email_address
           candidate.save!

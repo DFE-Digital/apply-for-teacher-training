@@ -19,8 +19,6 @@ module SupportInterface
       validate :enic_reason_validation
       validates :audit_comment, presence: true
 
-      validates_with SafeChoiceUpdateValidator
-
       delegate :application_form, :subject, :international, to: :degree
       alias international? international
 
@@ -73,7 +71,9 @@ module SupportInterface
             enic_reason:,
           )
         end
-        @degree.update!(**attributes)
+        ApplicationForm.with_unsafe_application_choice_touches do
+          @degree.update!(**attributes)
+        end
       end
     end
   end

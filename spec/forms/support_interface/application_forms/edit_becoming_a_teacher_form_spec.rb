@@ -16,10 +16,6 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, :wi
 
     it { is_expected.to allow_value(valid_text).for(:becoming_a_teacher) }
     it { is_expected.not_to allow_value(invalid_text).for(:becoming_a_teacher) }
-
-    it 'validates with SafeChoiceUpdateValidator' do
-      expect(form.class.validators.map(&:class)).to include(SafeChoiceUpdateValidator)
-    end
   end
 
   describe '.build_from_application' do
@@ -81,6 +77,25 @@ RSpec.describe SupportInterface::ApplicationForms::EditBecomingATeacherForm, :wi
         expect(application_form.reload.becoming_a_teacher).to be_nil
         expect(application_form.audits.last.comment).to be_nil
         expect(result).to be_nil
+      end
+    end
+
+    context 'when the application is from a previous cycle' do
+      let(:application_form) do
+        create(
+          :completed_application_form,
+          recruitment_cycle_year: previous_year,
+          application_choices_count: 1,
+        )
+      end
+
+      before { RequestStore.store[:allow_unsafe_application_choice_touches] = false }
+
+      it 'updates the application form without raising an error' do
+        form = described_class.new(becoming_a_teacher: 'I really want to teach.', audit_comment: 'It was on a zendesk ticket.')
+
+        expect { form.save(application_form) }.not_to raise_error
+        expect(application_form.reload.becoming_a_teacher).to eq 'I really want to teach.'
       end
     end
   end

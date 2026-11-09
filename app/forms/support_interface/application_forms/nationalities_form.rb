@@ -16,7 +16,6 @@ module SupportInterface
       )
       validates :audit_comment, presence: true
       validate :candidate_provided_nationality
-      validates_with SafeChoiceUpdateValidator
 
       def self.build_from_application(application_form)
         new(
@@ -30,30 +29,32 @@ module SupportInterface
 
         nationalities = candidates_nationalities
 
-        if british.present? || irish.present?
-          update_result = application_form.update!(
-            first_nationality: nationalities[0],
-            second_nationality: nationalities[1],
-            third_nationality: nationalities[2],
-            fourth_nationality: nationalities[3],
-            fifth_nationality: nationalities[4],
-            right_to_work_or_study: nil,
-            right_to_work_or_study_details: nil,
-            visa_expired_at: nil,
-            audit_comment:,
-          )
-          update_visa_explanation(application_form)
+        ApplicationForm.with_unsafe_application_choice_touches do
+          if british.present? || irish.present?
+            update_result = application_form.update!(
+              first_nationality: nationalities[0],
+              second_nationality: nationalities[1],
+              third_nationality: nationalities[2],
+              fourth_nationality: nationalities[3],
+              fifth_nationality: nationalities[4],
+              right_to_work_or_study: nil,
+              right_to_work_or_study_details: nil,
+              visa_expired_at: nil,
+              audit_comment:,
+            )
+            update_visa_explanation(application_form)
 
-          update_result
-        else
-          application_form.update!(
-            first_nationality: nationalities[0],
-            second_nationality: nationalities[1],
-            third_nationality: nationalities[2],
-            fourth_nationality: nationalities[3],
-            fifth_nationality: nationalities[4],
-            audit_comment:,
-          )
+            update_result
+          else
+            application_form.update!(
+              first_nationality: nationalities[0],
+              second_nationality: nationalities[1],
+              third_nationality: nationalities[2],
+              fourth_nationality: nationalities[3],
+              fifth_nationality: nationalities[4],
+              audit_comment:,
+            )
+          end
         end
       end
 
