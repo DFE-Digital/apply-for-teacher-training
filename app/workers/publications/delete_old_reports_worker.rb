@@ -4,7 +4,7 @@ module Publications
 
     retry_on StandardError, attempts: 3
 
-    WEEKS_TO_KEEP = 26
+    WEEKS_TO_KEEP = 26 # roughly 6 months
 
     REPORTS = [
       Publications::NationalRecruitmentPerformanceReport,
@@ -15,6 +15,10 @@ module Publications
     ].freeze
 
     def perform
+      # This keeps 6 months of recruitment reports in the current cycle
+      # And just the last week of the previous cycle
+      # It also keeps 6 months of WithdrawalReasonsReport
+
       current_year = RecruitmentCycleTimetable.current_year
       previous_year = RecruitmentCycleTimetable.previous_year
       oldest_week_to_keep = RecruitmentCycleTimetable.current_cycle_week - WEEKS_TO_KEEP
