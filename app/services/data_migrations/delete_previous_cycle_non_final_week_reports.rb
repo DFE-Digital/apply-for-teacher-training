@@ -19,10 +19,7 @@ module DataMigrations
       return if final_week.nil?
 
       REPORTS.each do |report|
-        report
-          .where(recruitment_cycle_year:)
-          .where.not(cycle_week: final_week)
-          .delete_all
+        report.where(recruitment_cycle_year:).where.not(cycle_week: final_week).delete_all
       end
     end
   end
