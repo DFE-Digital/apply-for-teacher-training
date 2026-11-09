@@ -32,6 +32,100 @@ en:
       update_my_locations: Add the locations of courses you apply to
       change: Change
       submit: Submit preferences
+      new:
+        title:
+          opt_in:  Do you want to make your application details visible to other training providers?
+          training_locations: Where can you train?
+          publish: Check your application sharing preferences
+          location_preference_list: Areas you can train in
+          add_location_preference: Add an area where you can train
+          remove_location_preference: Do you want to remove this training area?
+          dynamic_location_preferences: Add the locations of courses you apply to
+          funding_preference: What funding types are you interested in?
+      forms:
+        opt_in:
+          header: Do you want to be invited to similar courses?
+          caption: Application sharing
+          body_html: |
+            <p>You can choose to make your application details visible to other training providers who have spaces on their courses.</p>
+            <p>If a training provider sees your details and thinks you are suitable for their course, they can send you an email inviting you to submit an application - you can choose if you want to apply or not.</p>
+            <p>You can set location preferences for courses that you want to be invited to.</p>
+            <p>You will appear in search results for courses that are similar to ones you have applied to in the past.</p>
+            <p>So that the course you have just applied to has time to review your application properly, we will hide you from the list until they have made a decision.</p>
+            <p>You can change your mind at any time.</p>
+          title: Would you like to share your application details with other training providers?
+          hint_html: |
+            %{link}
+          link_text: Read more about how application sharing works
+          reason_for_opting_out: Why do you not want to share your application details with other providers? (Optional)
+        training_locations:
+          title: Where can you train?
+          caption: Application sharing
+          anywhere: Anywhere in England
+          specific: In specific locations
+          specific_locations_hint: Only receive invitations to apply to courses near your chosen locations
+        publish:
+          title: Check your application sharing preferences
+          caption: Application sharing
+          share_information: Do you want to be invited to apply to similar courses?
+          where_can_you_train: Where can you train?
+          specific: In specific locations
+          anywhere: Anywhere in England
+          change_training_locations_visually_hidden: where you would like to train
+          preferred_locations: Areas you can train in
+          dynamic_locations: Add the locations of courses you apply to
+          change: Change
+          submit: Submit preferences
+          location: Within %{radius} miles of %{location}
+          no_location_preferences: You have no location preferences
+          change_share_information_hint: whether you want to share your application details
+          change_location_preferences_hint: your preferred locations
+          change_dynamic_locations_hint: your locations when you apply to a new course
+          select_funding_type: Select whether you would consider fee-funded courses
+          funding_type: What funding types are you interested in?
+          change_funding_type: whether you would consider fee-funded courses
+          fee_funding_type: Courses with fees to pay and salaried courses
+          salary_funding_type: Salaried courses only
+        location_preference_list:
+          title: Areas you can train in
+          caption: Application sharing
+          body: Training providers will use the locations you enter here to search for candidates near their courses. You should add all locations that you can train in.
+          select_locations: Add, change or remove areas
+          location: from city, town, or postcode
+          distance_from_location: I can travel up to
+          change: Change
+          update_location_preferences: Add the locations of courses you apply to
+          remove: Remove
+          add_another_location: Add another area
+          add_location: Add an area
+          within: "%{within} miles"
+          no_location_preferences: You have not added any training areas
+        add_location_preference:
+          title: Add an area where you can train
+          caption: Application sharing
+          within: I can travel up to
+          name: from city, town or postcode
+          miles: miles
+          enter_distance_in_miles: Enter distance in miles
+        remove_location_preference:
+          title: Do you want to remove this training area?
+          caption: Application sharing
+          location: Area
+          remove: Yes, remove training area
+        dynamic_location_preferences:
+          caption: Application sharing
+          title: Add the locations of courses you apply to
+          hint: >
+            Each time you apply to a new course, we can add the course location to the places you can train. You will
+            receive invitations for these locations as well.
+        funding_preference:
+          title: What funding types are you interested in?
+          caption: Application sharing
+          warning: Salaried courses are in high demand and fill up quickly. You are unlikely to be invited to apply to a salaried course.
+          funding_information_html: Find out more about funding your training and the %{link}
+          fee: I am interested in both courses with fees to pay and salaried courses
+          salary: I am only interested in salaried courses or apprenticeships
+          funding_information: Find out more about funding your training
     draft_preferences:
       show:
         duplicated_preference_explanation: These preferences are based on your settings from the last recruitment cycle.
