@@ -47,8 +47,8 @@ RSpec.describe PreviousTeacherTraining::ListComponent do
         expect(rendered_component).to have_element(:div, id: previous_teacher_training_id)
 
         previous_teacher_training_card = rendered_component.css("##{previous_teacher_training_id}")
-        expect(previous_teacher_training_card).not_to have_element(:div, class: 'govuk-summary-card')
-        expect(previous_teacher_training_card).not_to have_element(
+        expect(previous_teacher_training_card).to have_no_element(:div, class: 'govuk-summary-card')
+        expect(previous_teacher_training_card).to have_no_element(
           :h2,
           text: previous_teacher_training.provider_name,
           class: 'govuk-summary-card__title',

@@ -45,7 +45,7 @@ module OfferStepsHelper
   def when_i_add_further_conditions
     click_link_or_button 'Add another condition'
     fill_in('provider_interface_offer_wizard[further_conditions][0][text]', with: 'A* on Maths A Level')
-    expect(page.current_url).to include('#provider-interface-offer-wizard-further-conditions-0-text-field')
+    expect(page.current_url.to_s).to include('#provider-interface-offer-wizard-further-conditions-0-text-field')
   end
 
   def and_i_add_and_remove_another_condition

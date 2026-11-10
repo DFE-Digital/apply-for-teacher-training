@@ -220,7 +220,7 @@ RSpec.describe 'Entering a degree', :with_cache do
     choose 'Other'
     select 'Fourth-class honours',
            from: 'candidate_interface_degree_form[other_grade]',
-           visible: false
+           visible: :all
     and_i_click_save_and_continue
 
     fill_in 'What year did you start your degree?', with: '2020'

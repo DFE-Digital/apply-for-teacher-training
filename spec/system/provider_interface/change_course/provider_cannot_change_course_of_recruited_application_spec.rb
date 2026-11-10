@@ -61,7 +61,7 @@ RSpec.describe 'Provider changes a course' do
   end
 
   def then_i_dont_see_the_study_mode_page
-    expect(page.current_url).not_to include 'study-modes'
+    expect(page.current_url.to_s).not_to include 'study-modes'
   end
 
   def and_i_select_a_new_location

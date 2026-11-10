@@ -119,9 +119,9 @@ private
   end
 
   def and_i_see_the_completed_fields
-    expect(find_field(t('first_name.label', scope: @scope)).value).to eq('Lando')
-    expect(find_field(t('last_name.label', scope: @scope)).value).to eq('Calrissian')
-    expect(find_field('Month').value).to eq('11')
+    expect(page).to have_field(t('first_name.label', scope: @scope), with: 'Lando')
+    expect(page).to have_field(t('last_name.label', scope: @scope), with: 'Calrissian')
+    expect(page).to have_field('Month', with: '11')
   end
 
   def when_i_fill_in_the_rest_of_my_details

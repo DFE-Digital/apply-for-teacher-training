@@ -1,7 +1,7 @@
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Account</th>
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Email address</th>
       <% accounts.each do |account| %>
         <th scope="col" class="govuk-table__header">
           <%= govuk_link_to account.email_address, support_interface_candidate_path(account.candidate_id) %>
@@ -10,6 +10,12 @@
     </tr>
   </thead>
   <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">One Login email address</th>
+      <% accounts.each do |account| %>
+        <td class="govuk-table__cell"><%= account.one_login_email_address %></td>
+      <% end %>
+    </tr>
     <tr class="govuk-table__row">
       <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Created at</th>
       <% accounts.each do |account| %>
@@ -23,7 +29,7 @@
       <% end %>
     </tr>
     <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">DOB</th>
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Date of birth</th>
       <% accounts.each do |account| %>
         <td class="govuk-table__cell"><%= account.date_of_birth %></td>
       <% end %>
@@ -39,9 +45,43 @@
       <% end %>
     </tr>
     <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Submitted</th>
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Applications submitted</th>
       <% accounts.each do |account| %>
         <td class="govuk-table__cell"><%= account.application_status %></td>
+      <% end %>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Application progress</th>
+      <% accounts.each do |account| %>
+        <td class="govuk-table__cell">
+          <% account.application_progress.each do |status, number| %>
+            <p class="govuk-body">
+              <%= number %> x <%= render SupportInterface::ApplicationStatusTagComponent.new(status: status) %>
+            </p>
+          <% end %>
+        </td>
+      <% end %>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Safeguarding </th>
+      <% accounts.each do |account| %>
+        <td class="govuk-table__cell">
+          <% if account.safeguarding_concerns.present? %>
+            <p class="govuk-body">
+              <%= govuk_link_to account.safeguarding_concerns, "#{support_interface_application_form_path(account.current_application)}#safeguarding-section" %>
+            </p>
+          <% end %>
+          <% if account.reference_safeguarding_concerns.present? %>
+            <p class="govuk-body">
+              <%= govuk_link_to account.reference_safeguarding_concerns, "#{support_interface_application_form_path(account.current_application)}#references" %>
+            </p>
+          <% end %>
+          <% if account.safeguarding_concerns.blank? && account.reference_safeguarding_concerns.blank? %>
+            <p class="govuk-body">
+              None
+            </p>
+          <% end %>
+        </td>
       <% end %>
     </tr>
     <tr class="govuk-table__row">
@@ -50,5 +90,12 @@
         <td class="govuk-table__cell"><%= account.account_status %></td>
       <% end %>
     </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Actions</th>
+      <% accounts.each do |account| %>
+        <td class="govuk-table__cell">
+          <!-- Actions TBC -->
+        </td>
+      <% end %>
   </tbody>
 </table>

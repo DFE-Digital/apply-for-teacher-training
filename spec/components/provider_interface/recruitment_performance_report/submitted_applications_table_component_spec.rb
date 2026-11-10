@@ -97,7 +97,7 @@ RSpec.describe RecruitmentPerformanceReport::SubmittedApplicationsTableComponent
 
       expect(page).to have_table('1. Candidates who have submitted applications')
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')
-      expect(page).not_to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
+      expect(page).to have_no_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
       secondary_subject_headings.each do |heading|
         expect(page).to have_element(
           'th',
@@ -120,9 +120,9 @@ RSpec.describe RecruitmentPerformanceReport::SubmittedApplicationsTableComponent
       expect(page).to have_table('1. Candidates who have submitted applications')
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
 
-      expect(page).not_to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')
+      expect(page).to have_no_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')
       secondary_subject_headings.each do |heading|
-        expect(page).not_to have_element(
+        expect(page).to have_no_element(
           'th',
           scope: 'row',
           class: 'govuk-table__header app-table__header--padding-left',

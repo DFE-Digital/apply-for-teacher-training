@@ -50,7 +50,7 @@ RSpec.describe 'A provider user signs out of DSI as well as Apply' do
     }
 
     expected_url = "https://identityprovider.gov.uk/session/end?#{expected_query.to_query}"
-    expect(page.current_url).to eq(expected_url)
+    expect(page).to have_current_path(expected_url)
   end
 
   def and_dsi_redirects_me_back_to_the_provider_interface

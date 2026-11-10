@@ -29,7 +29,7 @@ private
     visit support_interface_email_log_path(application_form_id: @bob_application_form.id)
 
     expect(page).to have_current_path('/support/email-log', ignore_query: true)
-    expect(page).not_to have_element(:p, text: 'Select filters to search for emails.', class: 'govuk-body')
+    expect(page).to have_no_element(:p, text: 'Select filters to search for emails.', class: 'govuk-body')
   end
 
   def then_i_see_an_email_for_bob
@@ -49,8 +49,8 @@ private
 
   def and_i_do_not_see_an_email_for_jane
     within('.govuk-table') do
-      expect(page).not_to have_element(:dd, text: 'jane@example.com')
-      expect(page).not_to have_element(:dd, text: 'Hello Jane')
+      expect(page).to have_no_element(:dd, text: 'jane@example.com')
+      expect(page).to have_no_element(:dd, text: 'Hello Jane')
     end
   end
 

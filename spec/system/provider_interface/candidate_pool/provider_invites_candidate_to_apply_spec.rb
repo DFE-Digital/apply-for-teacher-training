@@ -481,7 +481,7 @@ private
   end
 
   def then_the_message_is_prepopulated
-    expect(find_field('Enter your message').value).to eq('message_content')
+    expect(page).to have_field('Enter your message', with: 'message_content')
   end
 
   def when_i_visit_the_find_candidates_not_seen_page

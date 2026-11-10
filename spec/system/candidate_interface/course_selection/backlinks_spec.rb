@@ -83,7 +83,7 @@ RSpec.describe 'Candidate edits course choices', :with_cache do
   end
 
   def then_i_see_a_back_link_to_study_mode_choice
-    expect(page.current_url).to match(/\/candidate\/application\/continuous-applications\/provider\/\d+\/courses\/\d+/)
+    expect(page).to have_current_path(/\/candidate\/application\/continuous-applications\/provider\/\d+\/courses\/\d+/, url: true)
   end
 
   def and_i_choose_the_full_time_study_mode

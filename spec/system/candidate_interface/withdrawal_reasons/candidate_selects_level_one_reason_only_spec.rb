@@ -65,7 +65,7 @@ private
     withdrawal_reason = @application_choice.withdrawal_reasons.last
     expect(page).to have_current_path(candidate_interface_withdrawal_reasons_level_one_reason_edit_path(@application_choice, withdrawal_reason), ignore_query: true)
     expect(page.find_field('Other')).to be_checked
-    expect(find_field('Details').value).to eq 'Some details'
+    expect(page).to have_field('Details', with: 'Some details')
   end
 
   def then_i_see_an_error_message_telling_me_to_select_an_option

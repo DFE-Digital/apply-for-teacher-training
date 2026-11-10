@@ -93,9 +93,9 @@ private
   end
 
   def and_i_do_not_see_the_previous_teacher_trainings_for_other_candidate
-    expect(page).not_to have_element(:div, id: "previous-teacher-training-#{@another_previous_teacher_training.id}")
-    expect(page).not_to have_element(:dd, text: @another_previous_teacher_training.provider_name, class: 'govuk-summary-list__value')
-    expect(page).not_to have_element(:dd, text: @another_previous_teacher_training.details, class: 'govuk-summary-list__value')
+    expect(page).to have_no_element(:div, id: "previous-teacher-training-#{@another_previous_teacher_training.id}")
+    expect(page).to have_no_element(:dd, text: @another_previous_teacher_training.provider_name, class: 'govuk-summary-list__value')
+    expect(page).to have_no_element(:dd, text: @another_previous_teacher_training.details, class: 'govuk-summary-list__value')
   end
 
   def when_i_click(button)

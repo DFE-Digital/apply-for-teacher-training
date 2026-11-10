@@ -94,7 +94,7 @@ RSpec.describe RecruitmentPerformanceReport::ProportionCandidatesWithOffersTable
 
       expect(page).to have_table('3. Proportion of candidates with an offer')
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')
-      expect(page).not_to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
+      expect(page).to have_no_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
       secondary_subject_headings.each do |heading|
         expect(page).to have_element(
           'th',
@@ -115,10 +115,10 @@ RSpec.describe RecruitmentPerformanceReport::ProportionCandidatesWithOffersTable
       render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
       expect(page).to have_table('3. Proportion of candidates with an offer')
-      expect(page).not_to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')
+      expect(page).to have_no_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
       secondary_subject_headings.each do |heading|
-        expect(page).not_to have_element(
+        expect(page).to have_no_element(
           'th',
           scope: 'row',
           class: 'govuk-table__header app-table__header--padding-left',

@@ -151,7 +151,7 @@ private
     )
 
     within("#previous-teacher-training-#{@existing_previous_teacher_training.id}") do
-      expect(page).not_to have_element('h2', text: @existing_previous_teacher_training.provider_name, class: 'govuk-summary-card__title')
+      expect(page).to have_no_element('h2', text: @existing_previous_teacher_training.provider_name, class: 'govuk-summary-card__title')
       within('.govuk-summary-list') do
         summary_list.each_with_index do |item, index|
           within ".govuk-summary-list__row:nth-of-type(#{index + 1})" do

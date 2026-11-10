@@ -96,7 +96,7 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_fill_in_the_subject_with_a_custom_subject_that_has_an_incorrect_auto_suggestion
-    @input = find('input[name="candidate_interface_degree_form[subject_raw]"]')
+    @input = find_field('candidate_interface_degree_form[subject_raw]')
     @input.native.send_keys('History of Art and History')
     find_by_id('main-content').click
   end
@@ -119,7 +119,7 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_choose_united_kingdom
-    choose 'United Kingdom', visible: false
+    choose 'United Kingdom', visible: :all
   end
 
   def and_i_click_on_save_and_continue
@@ -135,7 +135,7 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_choose_the_level
-    choose 'Bachelor', visible: false
+    choose 'Bachelor', visible: :all
   end
 
   def then_i_can_see_the_subject_page
@@ -145,7 +145,7 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   def when_i_fill_in_the_subject
     fill_in 'What subject is your degree?', with: 'History'
     # Close the suggestions menu so it doesn't shift the submit button when the input loses focus
-    find('input[name="candidate_interface_degree_form[subject_raw]"]').native.send_keys(:escape)
+    find_field('candidate_interface_degree_form[subject_raw]').native.send_keys(:escape)
   end
 
   def then_i_can_see_the_type_page
@@ -153,10 +153,10 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_choose_an_unknown_type_of_degree
-    choose 'Another bachelor’s degree type', visible: false
+    choose 'Another bachelor’s degree type', visible: :all
     fill_in 'Degree type', with: 'Jedi Knight'
     # Close the suggestions menu so it doesn't shift the submit button when the input loses focus
-    find('input[name="candidate_interface_degree_form[other_type_raw]"]').native.send_keys(:escape)
+    find_field('candidate_interface_degree_form[other_type_raw]').native.send_keys(:escape)
   end
 
   def then_i_can_see_the_university_page
@@ -166,7 +166,7 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   def when_i_fill_in_the_university
     fill_in 'candidate_interface_degree_form[university_raw]', with: 'University of Cambridge'
     # Close the suggestions menu so it doesn't shift the submit button when the input loses focus
-    find('input[name="candidate_interface_degree_form[university_raw]"]').native.send_keys(:escape)
+    find_field('candidate_interface_degree_form[university_raw]').native.send_keys(:escape)
   end
 
   def then_i_can_see_the_completion_page
@@ -174,7 +174,7 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_choose_whether_degree_is_completed
-    choose 'Yes', visible: false
+    choose 'Yes', visible: :all
   end
 
   def then_i_can_see_the_grade_page
@@ -182,7 +182,7 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_select_the_grade
-    choose 'First-class honours', visible: false
+    choose 'First-class honours', visible: :all
   end
 
   def then_i_can_see_the_start_year_page
@@ -207,7 +207,7 @@ RSpec.describe 'Adding an unknown degree', :js, :with_cache do
   end
 
   def when_i_mark_this_section_as_completed
-    choose t('application_form.completed_radio'), visible: false
+    choose t('application_form.completed_radio'), visible: :all
   end
 
   def then_i_see_the_form

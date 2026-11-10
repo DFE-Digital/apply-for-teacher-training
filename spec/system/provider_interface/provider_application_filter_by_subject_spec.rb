@@ -64,7 +64,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
   end
 
   def i_can_see_all_filters_available_for_providers_i_have_access_to
-    checkboxes = all('.app-checkbox-filter__container .govuk-checkboxes__label', visible: true)
+    checkboxes = all('.app-checkbox-filter__container .govuk-checkboxes__label', visible: :visible)
     expect(checkboxes.count).to eq(17)
   end
 
@@ -83,7 +83,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
   end
 
   def when_i_filter_by_course_subjects_that_have_no_courses
-    check 'Geography', visible: false
+    check 'Geography', visible: :all
     click_link_or_button('Apply filters', match: :first)
   end
 
@@ -94,7 +94,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
   def when_i_filter_by_course_subjects_related_to_courses
     click_link_or_button 'Clear filters'
 
-    check 'Mathematics', visible: false
+    check 'Mathematics', visible: :all
     click_link_or_button('Apply filters', match: :first)
   end
 
@@ -121,18 +121,18 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
   end
 
   def then_i_only_see_checkboxes_that_correspond_to_it
-    checkboxes = all('.app-checkbox-filter__container .govuk-checkboxes__label', visible: true)
+    checkboxes = all('.app-checkbox-filter__container .govuk-checkboxes__label', visible: :visible)
     expect(checkboxes.count).to eq(2)
     expect(checkboxes.map(&:text)).to contain_exactly('Primary', 'Primary with physical education')
   end
 
   def when_i_filter_by_a_provider_with_only_a_couple_of_subjects
-    check main_provider.name, visible: false
+    check main_provider.name, visible: :all
     click_link_or_button('Apply filters', match: :first)
   end
 
   def then_i_only_see_the_provider_available_subjects
-    checkboxes = all('.app-checkbox-filter__container .govuk-checkboxes__label', visible: true)
+    checkboxes = all('.app-checkbox-filter__container .govuk-checkboxes__label', visible: :visible)
     expect(checkboxes.count).to eq(3)
   end
 
@@ -143,8 +143,8 @@ RSpec.describe 'Providers should be able to filter applications by subject', :js
   def when_i_filter_by_provider_and_a_subject
     click_link_or_button 'Clear filters'
 
-    check secondary_provider.name, visible: false
-    check 'Mathematics', visible: false
+    check secondary_provider.name, visible: :all
+    check 'Mathematics', visible: :all
     click_link_or_button('Apply filters', match: :first)
   end
 
