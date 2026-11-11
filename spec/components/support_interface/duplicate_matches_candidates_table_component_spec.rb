@@ -140,7 +140,7 @@ RSpec.describe SupportInterface::DuplicateMatchesCandidatesTableComponent do
       end
 
       safeguarding_row = format_row(rows[8])
-      expect(safeguarding_row[0]).to have_text('Safeguarding')
+      expect(safeguarding_row[0]).to have_text('Safeguarding information')
       if candidate == candidate_1
         expect(safeguarding_row[1]).to have_text('Safeguarding issue declared')
         expect(safeguarding_row[2]).to have_text('Reference with safeguarding issue')
