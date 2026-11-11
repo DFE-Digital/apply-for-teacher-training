@@ -17,4 +17,16 @@ class Candidate::AuthenticationMailerPreview < ActionMailer::Preview
 
     CandidateMailer.duplicate_match_email(application_form)
   end
+
+  def duplicate_account_locked
+    application_form = FactoryBot.build(:application_form, first_name: 'Tester')
+
+    CandidateMailer.duplicate_account_locked(application_form)
+  end
+
+  def duplicate_account_original_account_sign_in
+    application_form = FactoryBot.build(:application_form, first_name: 'Tester')
+
+    CandidateMailer.duplicate_account_original_account_sign_in(application_form)
+  end
 end

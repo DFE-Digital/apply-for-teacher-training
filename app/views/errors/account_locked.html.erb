@@ -4,9 +4,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l"><%= t('page_titles.account_locked') %></h1>
-    <p class="govuk-body">This is because you created more than one account.</p>
+    <p class="govuk-body">You already have an Apply for teacher training account, so we’ve locked this account.</p>
     <p class="govuk-body">
-      Get in touch at <a class="govuk-link" href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher@digital.education.gov.uk</a> if you need help.
+      We’ve sent an email to the address linked to your original account. Follow the link in the email to sign in and continue your application, or <%= govuk_link_to 'sign in here', candidate_interface_create_account_or_sign_in_path %>.
+    </p>
+    <p class="govuk-body">
+      If you cannot access your original account or the email address linked to it, contact <%= govuk_mail_to 'becomingateacher@digital.education.gov.uk', 'becomingateacher@digital.education.gov.uk' %>.
     </p>
   </div>
 </div>

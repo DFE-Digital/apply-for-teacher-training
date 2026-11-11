@@ -143,6 +143,10 @@ en:
       subject: Find your teacher training course now
     duplicate_match:
       subject: You created more than one account to apply for teacher training
+    duplicate_account_locked:
+      subject: Your new Apply for teacher training account has been locked
+    duplicate_account_original_account_sign_in:
+      subject: Use this email address to sign in to Apply for teacher training
     nudge_unsubmitted:
       subject: Get last-minute advice about your teacher training application
     nudge_unsubmitted_with_incomplete_references:
