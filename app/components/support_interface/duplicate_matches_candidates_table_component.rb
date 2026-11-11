@@ -26,7 +26,7 @@ module SupportInterface
           name: current_application.full_name,
           date_of_birth: match.date_of_birth.to_fs(:govuk_date_short_month),
           address: current_application.full_address,
-          application_status: current_application.application_choices.in_progress.count,
+          application_status: current_application.application_choices.not_unsubmitted.count,
           application_progress: current_application.application_choices.group(:status).count.sort_by { |_k, v| v },
           safeguarding_concerns: current_application.has_safeguarding_issues_to_declare? ? 'Safeguarding issue declared' : nil,
           reference_safeguarding_concerns: if current_application.application_references.any?(&:has_safeguarding_concerns_to_declare?)
