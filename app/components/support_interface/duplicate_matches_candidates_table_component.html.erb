@@ -95,13 +95,14 @@
       <% accounts.each do |account| %>
         <td class="govuk-table__cell">
           <%= form_with(
-                url: support_interface_update_multiple_candidate_account_statuses_path,
-                method: :patch,
-                scope: 'support_interface_multiple_candidate_account_status_form') do |f| %>
+            url: support_interface_update_multiple_candidate_account_statuses_path,
+            method: :patch,
+            scope: 'support_interface_multiple_candidate_account_status_form',
+          ) do |f| %>
             <%= f.hidden_field :status, value: account.account_status == 'Active' ? 'account_access_locked' : 'unblocked' %>
             <%= f.hidden_field 'candidate_ids', value: account.candidate_id, multiple: true %>
             <%= f.hidden_field :match_id, value: match.id %>
-            <%= f.govuk_submit(account.account_status == 'Active' ? 'Lock account' : 'Unlock account', class: "govuk-button", secondary: true) %>
+            <%= f.govuk_submit(account.account_status == 'Active' ? 'Lock account' : 'Unlock account', secondary: true) %>
           <% end %>
         </td>
       <% end %>
@@ -109,9 +110,10 @@
 </table>
 
 <%= form_with(
-      url: support_interface_update_multiple_candidate_account_statuses_path,
-      method: :patch,
-      scope: 'support_interface_multiple_candidate_account_status_form') do |f| %>
+  url: support_interface_update_multiple_candidate_account_statuses_path,
+  method: :patch,
+  scope: 'support_interface_multiple_candidate_account_status_form',
+) do |f| %>
   <%= f.hidden_field :status, value: 'unblocked' %>
   <% match.candidates.each do |candidate| %>
     <%= f.hidden_field 'candidate_ids', value: candidate.id, multiple: true %>

@@ -88,13 +88,9 @@ module SupportInterface
       num_unlocked_accounts = match.reload.candidates.where(submission_blocked: false, account_locked: false).count
 
       flash[:success] = if status == 'account_access_locked'
-                          [
-                            t('.account_locked', count: candidate_ids.size),
-                          ]
+                          [t('.account_locked', count: candidate_ids.size)]
                         else
-                          [
-                            t('.account_unlocked', count: candidate_ids.size, num_unlocked_accounts: num_unlocked_accounts),
-                          ]
+                          [t('.account_unlocked', count: candidate_ids.size, num_unlocked_accounts: num_unlocked_accounts)]
                         end
 
       if candidate_ids.size == 1
