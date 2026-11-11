@@ -228,7 +228,7 @@ RSpec.describe 'Entering a degree', :js, :with_cache do
   def when_i_fill_in_the_subject
     fill_in 'candidate_interface_degree_form[subject_raw]', with: 'History'
     # Close the suggestions menu so it doesn't shift the submit button when the input loses focus
-    find('input[name="candidate_interface_degree_form[subject_raw]"]').native.send_keys(:escape)
+    find_field('candidate_interface_degree_form[subject_raw]').native.send_keys(:escape)
   end
 
   def then_i_can_see_the_type_page
@@ -250,7 +250,7 @@ RSpec.describe 'Entering a degree', :js, :with_cache do
   def when_i_fill_in_the_university_with_free_text
     fill_in 'candidate_interface_degree_form[university_raw]', with: 'Test Uni  '
     # Close the suggestions menu so it doesn't shift the submit button when the input loses focus
-    find('input[name="candidate_interface_degree_form[university_raw]"]').native.send_keys(:escape)
+    find_field('candidate_interface_degree_form[university_raw]').native.send_keys(:escape)
   end
 
   def then_i_can_see_the_completion_page

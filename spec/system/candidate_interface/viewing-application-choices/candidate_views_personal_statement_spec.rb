@@ -110,6 +110,6 @@ RSpec.describe 'Personal statement', :js do
   end
 
   def short_text_personal_statement_element
-    page.find(id: 'short-text', visible: true)
+    page.find(id: 'short-text', visible: :visible)
   end
 end

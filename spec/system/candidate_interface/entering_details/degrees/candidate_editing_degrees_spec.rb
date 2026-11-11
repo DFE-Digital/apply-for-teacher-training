@@ -164,7 +164,7 @@ RSpec.describe 'Editing a degree' do
 
   def then_i_see_my_undergraduate_degree_grade_filled_in
     expect(page.find_field('Other')).to be_checked
-    expect(page.find_field('Enter your degree grade').value).to eq('Aegrotat')
+    expect(page).to have_field('Enter your degree grade', with: 'Aegrotat')
   end
 
   def then_i_see_my_chosen_undergraduate_country

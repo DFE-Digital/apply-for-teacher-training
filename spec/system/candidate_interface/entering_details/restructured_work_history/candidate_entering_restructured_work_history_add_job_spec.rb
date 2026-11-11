@@ -62,7 +62,7 @@ RSpec.describe 'Candidate submits restructured work history' do
 
   def and_i_see_the_incorrect_date_values
     within('[data-qa="start-date"]') do
-      expect(find_field('Month').value).to eq('33')
+      expect(page).to have_field('Month', with: '33')
     end
   end
 

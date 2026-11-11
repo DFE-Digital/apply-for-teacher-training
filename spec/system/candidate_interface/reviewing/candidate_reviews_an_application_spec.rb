@@ -143,7 +143,7 @@ private
   end
 
   def and_i_do_not_see_the_funding_advice
-    expect(page).not_to have_element(
+    expect(page).to have_no_element(
       :p,
       text: 'Non-UK citizens are unlikely to get help funding your training unless you have permission to live permanently in the UK. Find out about funding for non-UK citizens (opens in new tab)',
     )

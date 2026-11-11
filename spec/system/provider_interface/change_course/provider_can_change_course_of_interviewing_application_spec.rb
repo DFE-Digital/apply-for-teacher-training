@@ -160,7 +160,7 @@ RSpec.describe 'Provider changes a course', :with_cache do
   end
 
   def then_i_dont_see_the_study_mode_page
-    expect(page.current_url).not_to include 'study-modes'
+    expect(page.current_url.to_s).not_to include 'study-modes'
   end
 
   def then_no_study_mode_is_pre_selected

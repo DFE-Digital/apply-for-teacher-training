@@ -319,7 +319,7 @@ private
   end
 
   def then_i_see_the_apply_banner_is_no_longer_visible
-    expect(page).to have_no_selector('.govuk-notification-banner__title', text: 'Information')
+    expect(page).to have_no_css('.govuk-notification-banner__title', text: 'Information')
     expect(page).to have_no_text(@apply_banner.header)
     expect(page).to have_no_text(@apply_banner.body)
   end
@@ -334,7 +334,7 @@ private
   end
 
   def then_i_see_the_manage_banner_is_no_longer_visible
-    expect(page).to have_no_selector('.govuk-notification-banner__title', text: 'Information')
+    expect(page).to have_no_css('.govuk-notification-banner__title', text: 'Information')
     expect(page).to have_no_text(@manage_banner.header)
     expect(page).to have_no_text(@manage_banner.body)
   end

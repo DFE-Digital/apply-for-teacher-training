@@ -77,7 +77,7 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js, :with_cache do
     click_link_or_button 'Make decision'
     expect(page).to have_text('Make a decision')
     expect(page).to have_text('Course applied for')
-    choose('Make an offer', visible: false)
+    choose('Make an offer', visible: :all)
     and_i_click_continue
   end
 
@@ -86,8 +86,8 @@ RSpec.describe 'Provider makes an offer with JS enabled', :js, :with_cache do
   end
 
   def and_the_default_conditions_are_checked
-    expect(find("input[value='Fitness to train to teach check']", visible: false)).to be_checked
-    expect(find("input[value='Disclosure and Barring Service (DBS) check']", visible: false)).to be_checked
+    expect(find("input[value='Fitness to train to teach check']", visible: :all)).to be_checked
+    expect(find("input[value='Disclosure and Barring Service (DBS) check']", visible: :all)).to be_checked
   end
 
   def when_i_add_a_further_condition(text:, index:)

@@ -289,6 +289,6 @@ private
   end
 
   def when_i_select_the_grade
-    choose 'First-class honours', visible: false
+    choose 'First-class honours', visible: :all
   end
 end

@@ -31,7 +31,7 @@
   <% end %>
 <% end %>
 
-<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">References</h2>
+<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8" id="references">References</h2>
 
 <% if @application_form.application_references.any? %>
   <% @application_form.application_references.includes(%i[application_form audits]).creation_order.each_with_index do |reference, i| %>

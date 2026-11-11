@@ -93,9 +93,9 @@ private
 
   def and_i_do_not_see_an_email_for_jane
     within('.govuk-table') do
-      expect(page).not_to have_element(:dd, text: 'jane@example.com')
-      expect(page).not_to have_element(:dd, text: 'Hello Jane')
-      expect(page).not_to have_element(:dd, text: 'Pending')
+      expect(page).to have_no_element(:dd, text: 'jane@example.com')
+      expect(page).to have_no_element(:dd, text: 'Hello Jane')
+      expect(page).to have_no_element(:dd, text: 'Pending')
     end
   end
 end

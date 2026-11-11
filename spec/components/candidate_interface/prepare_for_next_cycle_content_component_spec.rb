@@ -149,7 +149,7 @@ RSpec.describe CandidateInterface::PrepareForNextCycleContentComponent do
               text: "You will be able to apply from #{apply_opens}.",
               class: 'govuk-body',
             )
-            expect(rendered_component).not_to have_element(
+            expect(rendered_component).to have_no_element(
               :p,
               text: 'Before you apply, you will need to update your details if any sections are incomplete. You can do this now.',
               class: 'govuk-body',
