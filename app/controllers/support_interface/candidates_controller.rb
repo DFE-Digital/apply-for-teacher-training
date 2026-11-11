@@ -67,6 +67,43 @@ module SupportInterface
       redirect_to support_interface_candidate_path(@candidate)
     end
 
+    def update_multiple_candidate_account_statuses
+      authorize(nil, :edit?, policy_class: SupportInterface::CandidatePolicy)
+
+      candidate_ids = multiple_candidate_account_status_params[:candidate_ids]
+
+      status = multiple_candidate_account_status_params[:status]
+
+      candidate_ids.each do |candidate_id|
+        candidate = Candidate.find(candidate_id)
+        candidate_account_status_form = SupportInterface::CandidateAccountStatusForm.new(
+          candidate: candidate,
+          status:,
+        )
+        candidate_account_status_form.update!
+      end
+
+      match = DuplicateMatch.find(multiple_candidate_account_status_params[:match_id])
+
+      num_unlocked_accounts = match.reload.candidates.where(submission_blocked: false, account_locked: false).count
+
+      flash[:success] = if status == 'account_access_locked'
+                          [
+                            t('.account_locked', count: candidate_ids.size),
+                          ]
+                        else
+                          [
+                            t('.account_unlocked', count: candidate_ids.size, num_unlocked_accounts: num_unlocked_accounts),
+                          ]
+                        end
+
+      if candidate_ids.size == 1
+        flash[:success] << t('.account_unlocked_description', count: num_unlocked_accounts)
+      end
+
+      redirect_to support_interface_duplicate_match_path(id: match.id)
+    end
+
   private
 
     def disable_on_production
@@ -78,6 +115,14 @@ module SupportInterface
     def candidate_account_status_params
       { candidate: @candidate }.merge(
         params.expect(support_interface_candidate_account_status_form: [:status]),
+      )
+    end
+
+    def multiple_candidate_account_status_params
+      params.expect(
+        support_interface_multiple_candidate_account_status_form: [:status,
+                                                                   :match_id,
+                                                                   candidate_ids: []],
       )
     end
   end
