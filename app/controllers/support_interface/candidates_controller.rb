@@ -93,7 +93,7 @@ module SupportInterface
                           [t('.account_unlocked', count: candidate_ids.size, num_unlocked_accounts: num_unlocked_accounts)]
                         end
 
-      if candidate_ids.size == 1
+      if candidate_ids.size == 1 && num_unlocked_accounts >= 2
         flash[:success] << t('.account_unlocked_description', count: num_unlocked_accounts)
       end
 

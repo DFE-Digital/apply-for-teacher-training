@@ -177,7 +177,6 @@ private
 
   def then_i_see_that_the_account_has_been_locked
     expect(page).to have_text('This account has been locked')
-    expect(page).to have_text('There is currently 1 account unlocked.')
   end
 
   def and_the_candidates_account_status_has_been_locked
