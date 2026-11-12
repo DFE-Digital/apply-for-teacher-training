@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DeleteOldCandidatesWorker do # rubocop:disable RSpec/MultipleDescribes
   describe '#perform' do
-    it 'enqueus job to delete old candidate' do
+    it 'enqueues job to delete old candidate' do
       candidate = create(:candidate, last_signed_in_at: 8.years.ago)
 
       described_class.new.perform
@@ -168,7 +168,7 @@ RSpec.describe DeleteCandidatesWorker do
                                     reference_tokens pool_invite_decline_reasons account_recovery_request_codes]
 
       expected_deleted_records.each do |key|
-        raise "Key #{key} not in expected_deleted_records" if DeletedCandidate.first.deleted_records.keys.exclude?(key)
+        raise "Key #{key} not in expected_deleted_records" if DeletedEntity.first.deleted_records.keys.exclude?(key)
 
         expect(DeletedEntity.first.deleted_records.keys.include?(key)).to be(true)
       end
