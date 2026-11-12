@@ -67,8 +67,8 @@ RSpec.describe SupportInterface::DeveloperToolPolicy do
     context 'when the user has a researcher role' do
       let(:role) { 'research_and_design' }
 
-      it 'denies access' do
-        expect(policy).not_to permit(support_user, nil)
+      it 'permits access' do
+        expect(policy).to permit(support_user, nil)
       end
     end
   end

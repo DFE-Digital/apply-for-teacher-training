@@ -16,7 +16,7 @@ module SupportInterface
     alias tables? show?
 
     def edit?
-      return true if user.technical_management_role?
+      return true if user.technical_management_role? || user.research_and_design_role?
 
       false
     end
