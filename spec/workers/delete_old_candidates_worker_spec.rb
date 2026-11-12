@@ -149,12 +149,13 @@ RSpec.describe DeleteCandidatesWorker do
         expect(model.count).to eq(0)
       end
       expect(ApplicationForm.count).to eq(0)
-      expect(DeletedCandidate.first.candidate_id).to eq(candidate_id)
-      expect(DeletedCandidate.first.deleted_records['candidates']).to eq([candidate_id])
-      expect(DeletedCandidate.first.deleted_records['application_forms'].sort).to eq(application_form_ids)
-      expect(DeletedCandidate.first.deleted_records['application_choices'].sort).to eq(application_choice_ids)
+      expect(DeletedEntity.first.entity_id).to eq(candidate_id)
+      expect(DeletedEntity.first.entity_name).to eq('candidate')
+      expect(DeletedEntity.first.deleted_records['candidates']).to eq([candidate_id])
+      expect(DeletedEntity.first.deleted_records['application_forms'].sort).to eq(application_form_ids)
+      expect(DeletedEntity.first.deleted_records['application_choices'].sort).to eq(application_choice_ids)
       # return only analytics records
-      expect(DeletedCandidate.first.deleted_records['sessions']).to be_nil
+      expect(DeletedEntity.first.deleted_records['sessions']).to be_nil
 
       expected_deleted_records = %w[previous_teacher_trainings candidate_preferences
                                     candidate_location_preferences candidates pool_invites
@@ -169,7 +170,7 @@ RSpec.describe DeleteCandidatesWorker do
       expected_deleted_records.each do |key|
         raise "Key #{key} not in expected_deleted_records" if DeletedCandidate.first.deleted_records.keys.exclude?(key)
 
-        expect(DeletedCandidate.first.deleted_records.keys.include?(key)).to be(true)
+        expect(DeletedEntity.first.deleted_records.keys.include?(key)).to be(true)
       end
     end
   end

@@ -431,9 +431,10 @@ erDiagram
 		string name
 		string subject_group_uuid
 	}
-	DeletedCandidate {
-		integer candidate_id
+	DeletedEntity {
 		jsonb deleted_records
+		integer entity_id
+		string entity_name
 	}
 	DsiSession {
 		string dfe_sign_in_uid

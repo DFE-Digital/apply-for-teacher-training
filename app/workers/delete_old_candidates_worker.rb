@@ -14,7 +14,7 @@ class DeleteCandidatesWorker < ApplicationJob
       ActiveRecord::Base.transaction do
         deleted_records = rails_dependent_records(candidate).slice(*analytics_tables).compact_blank
 
-        DeletedCandidate.create!(candidate_id: candidate.id, deleted_records:)
+        DeletedEntity.create!(entity_id: candidate.id, entity_name: 'candidate', deleted_records:)
         candidate.without_auditing do
           candidate.destroy!
         end
