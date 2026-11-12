@@ -118,6 +118,8 @@ namespace :support_interface, path: '/support' do
     post '/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
     get '/status' => 'candidates#edit_candidate_account_status', as: :edit_candidate_account_status
     patch '/status' => 'candidates#update_candidate_account_status', as: :update_candidate_account_status
+    get '/change_email_address/:match_id' => 'candidates#edit_candidate_email_address', as: :edit_candidate_email_address
+    patch '/change_email_address/:match_id' => 'candidates#update_candidate_email_address', as: :update_candidate_email_address
   end
 
   scope path: '/references/:reference_id' do

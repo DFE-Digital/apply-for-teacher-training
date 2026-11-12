@@ -100,6 +100,20 @@ module SupportInterface
       redirect_to support_interface_duplicate_match_path(id: match.id)
     end
 
+    def edit_candidate_email_address
+      authorize(nil, :edit?, policy_class: SupportInterface::CandidatePolicy)
+
+      @match = DuplicateMatch.find(params.expect(:match_id))
+      @candidate = @match.candidates.find(params.expect(:candidate_id))
+      @candidate_email_addresses = @match.candidates.pluck(:email_address)
+    end
+
+    def update_candidate_email_address
+      authorize(nil, :edit?, policy_class: SupportInterface::CandidatePolicy)
+
+      @candidate = Candidate.find(params.expect(:candidate_id))
+    end
+
   private
 
     def disable_on_production
