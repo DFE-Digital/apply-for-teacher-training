@@ -666,6 +666,13 @@ en:
               invalid_name: The file name of your attachment must be 100 characters or fewer.
               invalid_type:
                 "The file attachment must be one of the following file types: .csv, .jpeg, .jpg, .png, .xlsx, .doc, .docx, .pdf, .json, .odt, .rtf, .txt"
+        support_interface/candidate_email_address_change_form:
+            attributes:
+              email_address:
+                blank: Select an email address
+              other_email_address:
+                blank: Enter an email address
+
   activerecord:
     attributes:
       application_qualification/qualification_type:

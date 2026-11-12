@@ -105,13 +105,36 @@ module SupportInterface
 
       @match = DuplicateMatch.find(params.expect(:match_id))
       @candidate = @match.candidates.find(params.expect(:candidate_id))
-      @candidate_email_addresses = @match.candidates.pluck(:email_address)
+      @candidate_email_addresses = @match.candidates
+                                         .where.not(id: @candidate.id)
+                                         .where(account_locked: true)
+                                         .pluck(:email_address)
+      @form = SupportInterface::CandidateEmailAddressChangeForm.new(
+        match_id: @match.id,
+        candidate_id: @candidate.id,
+      )
     end
 
     def update_candidate_email_address
       authorize(nil, :edit?, policy_class: SupportInterface::CandidatePolicy)
 
-      @candidate = Candidate.find(params.expect(:candidate_id))
+      @match = DuplicateMatch.find(params.expect(:match_id))
+      @candidate = @match.candidates.find(params.expect(:candidate_id))
+
+      @form = SupportInterface::CandidateEmailAddressChangeForm.new(
+        candidate_email_address_change_params,
+      )
+
+      if @form.update!
+        flash[:success] = 'Email address updated'
+        redirect_to support_interface_duplicate_match_path(id: @match.id)
+      else
+        @candidate_email_addresses = @match.candidates
+                                           .where.not(id: @candidate.id)
+                                           .where(account_locked: true)
+                                           .pluck(:email_address)
+        render :edit_candidate_email_address
+      end
     end
 
   private
@@ -133,6 +156,17 @@ module SupportInterface
         support_interface_multiple_candidate_account_status_form: [:status,
                                                                    :match_id,
                                                                    candidate_ids: []],
+      )
+    end
+
+    def candidate_email_address_change_params
+      { match_id: @match.id, candidate_id: @candidate.id }.merge(
+        params.expect(
+          support_interface_candidate_email_address_change_form: %i[
+            email_address
+            other_email_address
+          ],
+        ),
       )
     end
   end
