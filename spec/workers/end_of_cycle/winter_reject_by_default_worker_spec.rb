@@ -6,6 +6,7 @@ RSpec.describe EndOfCycle::WinterRejectByDefaultWorker do
   let(:last_september_course) { create(:course, recruitment_cycle_year: year - 1, start_date: Date.parse("01/09/#{year - 1}")) }
   let(:september_course) { create(:course, start_date: Date.parse("01/09/#{year}")) }
   let(:january_course) { create(:course, recruitment_cycle_year: year - 1, start_date: Date.parse("01/01/#{year}")) }
+  let(:february_course_next_cycle) { create(:course, recruitment_cycle_year: year, start_date: Date.parse("02/02/#{year}")) }
   let(:duplicate_january_course) { create(:course, start_date: Date.parse("01/01/#{year}")) }
   let!(:last_september_choice) do
     create(
@@ -29,6 +30,14 @@ RSpec.describe EndOfCycle::WinterRejectByDefaultWorker do
       :inactive,
       current_recruitment_cycle_year: year,
       course_option: create(:course_option, course: duplicate_january_course),
+    )
+  end
+  let(:inactive_feb_start) do
+    create(
+      :application_choice,
+      :inactive,
+      current_recruitment_cycle_year: year,
+      course_option: create(:course_option, course: february_course_next_cycle),
     )
   end
   let!(:interviewing_choice) do
@@ -56,6 +65,7 @@ RSpec.describe EndOfCycle::WinterRejectByDefaultWorker do
 
   before do
     unrejectable_choice
+    inactive_feb_start # Anything starting after 31 Jan will be included in regular RBD job.
     # It will not include the offered application choice
     create(:application_choice, :offer)
   end
