@@ -13,14 +13,16 @@ module SupportInterface
     def update!
       return false unless valid?
 
-      if candidate_with_email_address.present?
-        original_email_address = candidate.email_address
+      ActiveRecord::Base.transaction do
+        if candidate_with_email_address.present?
+          original_email_address = candidate.email_address
 
-        candidate_with_email_address.update!(email_address: dummy_email_address)
-        candidate.update!(email_address: updatable_candidate_email)
-        candidate_with_email_address.update!(email_address: original_email_address)
-      else
-        candidate.update!(email_address: updatable_candidate_email)
+          candidate_with_email_address.update!(email_address: dummy_email_address)
+          candidate.update!(email_address: updatable_candidate_email)
+          candidate_with_email_address.update!(email_address: original_email_address)
+        else
+          candidate.update!(email_address: updatable_candidate_email)
+        end
       end
     end
 
@@ -32,6 +34,7 @@ module SupportInterface
 
     def valid_updatable_candidate_email
       return unless other_email_address_entered?
+      return if candidate_with_email_address.present?
 
       if Candidate.where.not(id: candidate.id).exists?(email_address: updatable_candidate_email)
         errors.add(:other_email_address, 'This email address is already linked to another active account.')
@@ -61,7 +64,7 @@ module SupportInterface
     def candidate_with_email_address
       return @candidate_with_email_address if defined?(@candidate_with_email_address)
 
-      @candidate_with_email_address = match.candidates.find_by(email_address: updatable_candidate_email)
+      @candidate_with_email_address = match.candidates.where(account_locked: true).find_by(email_address: updatable_candidate_email)
     end
   end
 end
