@@ -109,6 +109,8 @@ namespace :support_interface, path: '/support' do
 
   scope path: '/candidates' do
     resource :bulk_unsubscribe, only: %i[new create], path: '/bulk-unsubscribe', module: :candidates
+
+    patch '/statuses' => 'candidates#update_multiple_candidate_account_statuses', as: :update_multiple_candidate_account_statuses
   end
 
   scope path: '/candidates/:candidate_id' do

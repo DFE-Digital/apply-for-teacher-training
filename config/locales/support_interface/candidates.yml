@@ -1,0 +1,14 @@
+en:
+  support_interface:
+    candidates:
+      update_multiple_candidate_account_statuses:
+        account_locked:
+          one: "This account has been locked"
+          other: "These accounts have been locked"
+        account_unlocked:
+          one: "This account has been unlocked"
+          other: "These accounts have been unlocked"
+        account_unlocked_description:
+          one: "There is currently 1 account unlocked."
+          other: "There are currently %{count} accounts unlocked."
+
