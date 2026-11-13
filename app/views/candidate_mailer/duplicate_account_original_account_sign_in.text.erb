@@ -1,0 +1,11 @@
+Dear <%= @application_form.first_name %>
+
+You recently created a new Apply for teacher training account using a different email address. The new account has been locked.
+
+You should use your original account associated with this email address to apply for teacher training.
+
+Sign in to your original account here: <%= @sign_in_link %>.
+
+If you did not create another account or you cannot sign in, contact us at becomingateacher@digital.education.gov.uk.
+
+<%= render 'candidate_mailer/end_of_cycle/contact_us' %>

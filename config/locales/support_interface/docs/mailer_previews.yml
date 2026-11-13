@@ -53,6 +53,8 @@ en:
             fallback_sign_in_email: Sent when a support user is unable to sign into their account with DfE sign in
           candidate_authentication_mailer:
             duplicate_match_email: When a candidate tries to create more than 1 account to apply for teacher training using the same email address or personal details. Their accounts are locked
+            duplicate_account_locked: Sent to the email address of a new account when we find the candidate already has an account. The new account is locked.
+            duplicate_account_original_account_sign_in: Sent to the email address of the original account when the candidate creates a new account that is locked, with a link to sign in.
             sign_in_email: Authentication link sent when a candidate signs into the service. (Inactive)
             sign_up_email: Sent when a candidate creates an account for the first time. (Inactive)
             sign_in_email_without_account_email: Sent when a candidate tries to sign in with an email address that does not exist in our database. (Inactive)
