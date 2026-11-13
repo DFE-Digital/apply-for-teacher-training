@@ -94,6 +94,12 @@
       <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Actions</th>
       <% accounts.each do |account| %>
         <td class="govuk-table__cell">
+          <% if account.account_status == 'Active' %>
+            <p class="govuk-body">
+              <%= govuk_link_to 'Change email address', support_interface_edit_candidate_email_address_path(candidate_id: account.candidate_id, match_id: match.id) %>
+            </p>
+          <% end %>
+
           <%= form_with(
             url: support_interface_update_multiple_candidate_account_statuses_path,
             method: :patch,

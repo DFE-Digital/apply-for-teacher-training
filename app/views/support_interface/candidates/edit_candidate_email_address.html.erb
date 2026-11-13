@@ -1,0 +1,31 @@
+<% content_for :before_content, govuk_back_link_to(support_interface_duplicate_match_path(id: @match.id), 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l">
+        <%= @candidate.email_address %>
+      </span>
+      Change email address
+    </h1>
+
+    <%= form_with(
+      model: @form,
+      method: :patch,
+      url: support_interface_update_candidate_email_address_path(candidate_id: @candidate.id, match_id: @match.id),
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset(:email_address, legend: { size: 'm', text: 'What email address should this account use?' }) do %>
+        <% @candidate_email_addresses.each_with_index do |candidate_email_address, i| %>
+          <%= f.govuk_radio_button :email_address, candidate_email_address, label: { text: candidate_email_address }, link_errors: i.zero? %>
+        <% end %>
+        <%= f.govuk_radio_button :email_address, 'other', label: { text: 'Other email address' } do %>
+          <%= f.govuk_text_field :other_email_address, label: { text: 'Enter email address' } %>
+        <% end %>
+      <% end %>
+
+      <%= f.govuk_submit 'Change email address' %>
+    <% end %>
+  </div>
+</div>
