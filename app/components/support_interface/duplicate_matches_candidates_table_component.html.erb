@@ -110,15 +110,17 @@
   </tbody>
 </table>
 
-<%= form_with(
-  url: support_interface_update_multiple_candidate_account_statuses_path,
-  method: :patch,
-  scope: 'support_interface_multiple_candidate_account_status_form',
-) do |f| %>
-  <%= f.hidden_field :status, value: 'unblocked' %>
-  <% match.candidates.each do |candidate| %>
-    <%= f.hidden_field 'candidate_ids', value: candidate.id, multiple: true %>
+<% if accounts.any? { |account| account.account_status != 'Active' } %>
+  <%= form_with(
+    url: support_interface_update_multiple_candidate_account_statuses_path,
+    method: :patch,
+    scope: 'support_interface_multiple_candidate_account_status_form',
+  ) do |f| %>
+    <%= f.hidden_field :status, value: 'unblocked' %>
+    <% match.candidates.each do |candidate| %>
+      <%= f.hidden_field 'candidate_ids', value: candidate.id, multiple: true %>
+    <% end %>
+    <%= f.hidden_field :match_id, value: match.id %>
+    <%= f.govuk_submit('Unlock all', secondary: true, class: 'govuk-button govuk-!-margin-0') %>
   <% end %>
-  <%= f.hidden_field :match_id, value: match.id %>
-  <%= f.govuk_submit('Unlock all', secondary: true, class: 'govuk-button govuk-!-margin-0') %>
 <% end %>
