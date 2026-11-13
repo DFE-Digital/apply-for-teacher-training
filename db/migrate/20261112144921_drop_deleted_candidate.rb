@@ -11,7 +11,5 @@ class DropDeletedCandidate < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-
-    add_index :deleted_candidates, :candidate_id, algorithm: :concurrently
   end
 end
