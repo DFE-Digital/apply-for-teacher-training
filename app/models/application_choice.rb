@@ -97,17 +97,17 @@ class ApplicationChoice < ApplicationRecord
   scope :declined_by_default, -> { where(declined_by_default: true) }
   scope :course_starts_after_september, lambda { |course_start_date_year|
     end_of_september = Date.parse("30/09/#{course_start_date_year}").at_end_of_day
-    end_of_next_august = Date.parse("31/08/#{course_start_date_year + 1}").at_end_of_day
+    end_of_next_january = Date.parse("31/01/#{course_start_date_year + 1}").at_end_of_day
 
     course_joined_choices = joins(course_option: :course)
     # Providers duplicate courses with January start dates into the next recruitment cycle.
     # Therefore, application choices with January start dates are considered to be application choice:
     # - with a course starting after September in the same year as the recruitment cycle
-    # - with a course starting before September in the next recruitment cycle
+    # - with a course starting before February in the next recruitment cycle
     course_joined_choices.where(current_recruitment_cycle_year: course_start_date_year)
                          .where('courses.start_date > ?', end_of_september).or(
                            course_joined_choices.where(current_recruitment_cycle_year: course_start_date_year + 1)
-                                                .where('courses.start_date < ?', end_of_next_august),
+                                                .where('courses.start_date < ?', end_of_next_january),
                          )
   }
   scope :course_start_in_september, lambda { |recruitment_cycle_year|
@@ -126,7 +126,7 @@ class ApplicationChoice < ApplicationRecord
 
     course.start_date > Date.parse("30/09/#{current_recruitment_cycle_year}").at_end_of_day ||
       (
-        course.start_date < Date.parse("31/08/#{current_recruitment_cycle_year}").at_end_of_day &&
+        course.start_date < Date.parse("31/01/#{current_recruitment_cycle_year}").at_end_of_day &&
           course.start_date > Date.parse("30/09/#{current_recruitment_cycle_year - 1}").at_end_of_day
       )
   end
