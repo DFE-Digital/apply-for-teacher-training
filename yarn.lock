@@ -2490,13 +2490,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ministryofjustice/frontend@npm:^11.1.0":
-  version: 11.1.0
-  resolution: "@ministryofjustice/frontend@npm:11.1.0"
+"@ministryofjustice/frontend@npm:^12.0.0":
+  version: 12.0.0
+  resolution: "@ministryofjustice/frontend@npm:12.0.0"
   peerDependencies:
-    govuk-frontend: ^6.0.0
+    govuk-frontend: ^6.2.0
     moment: ^2.30.1
-  checksum: 10c0/46e7c90f93ed0ba830c6e4ea4ba30b6074be37b0b4d3673fdabb8203a757c73912f1b139e8d9912faf9f602fefee67dbe04ec7e320a358102b7c5bd98caba9c9
+  checksum: 10c0/e569b82ce5090b47d704cad4c7ce6dda1fe61303766175782b4d5be667ae92348c808ca7ce987160dc6ad2b3387905176199a2285cb5b6c687321d5844c1fcac
   languageName: node
   linkType: hard
 
@@ -3186,7 +3186,7 @@ __metadata:
     "@babel/plugin-transform-optional-chaining": "npm:^8.0.5"
     "@babel/plugin-transform-regenerator": "npm:^8.0.6"
     "@babel/preset-env": "npm:^8.0.7"
-    "@ministryofjustice/frontend": "npm:^11.1.0"
+    "@ministryofjustice/frontend": "npm:^12.0.0"
     accessible-autocomplete: "npm:^3.0.1"
     babel-jest: "npm:^30.5.2"
     babel-plugin-dynamic-import-node: "npm:^2.3.3"
