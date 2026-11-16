@@ -57,6 +57,9 @@ en:
   gcse_edit_institution_country:
     page_title: In which country or territory did you study for your %{subject} qualification?
   gcse_edit_specific_qualification:
+    unstructured:
+      page_title:
+        What qualification in %{subject} do you have that is equivalent to a GCSE?
     page_title: What qualification in %{subject} do you have?
   gcse_edit_enic:
     page_title: Show how your %{subject} qualification compares to a UK one
