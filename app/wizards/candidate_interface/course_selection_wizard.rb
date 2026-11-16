@@ -20,6 +20,7 @@ class CandidateInterface::CourseSelectionWizard
            :not_multiple_sites_or_study_modes?,
            :visa_expires_soon?,
            :not_confirmed?,
+           :requires_visa_sponsorship?,
            to: :state_store
 
   def steps_processor
@@ -90,11 +91,14 @@ class CandidateInterface::CourseSelectionWizard
         default: :course_review,
       )
 
-      graph.add_conditional_edge(
+      graph.add_multiple_conditional_edges(
         from: :course_site,
-        when: :visa_expires_soon?,
-        then: :visa_expiry_interruption,
-        else: :course_review,
+        branches: [
+          { when: :requires_visa_sponsorship?, then: :visa_not_covered_interruption },
+          { when: :visa_expires_soon?, then: :visa_expiry_interruption },
+          { when: :visa_not_expires_soon?, then: :course_review },
+        ],
+        default: :course_review,
       )
 
       graph.add_edge from: :visa_expiry_interruption, to: :visa_explanation

@@ -106,6 +106,14 @@ module CandidateInterface
 
         application_choice.visa_expires_soon?
       end
+
+      def visa_not_expires_soon?
+        !visa_expires_soon?
+      end
+
+      def requires_visa_sponsorship?
+        current_application.requires_visa_sponsorship?
+      end
     end
   end
 end
