@@ -1,4 +1,5 @@
 <% content_for :before_content, govuk_back_link_to(support_interface_duplicate_match_path(id: @match.id), 'Back') %>
+<% content_for :title, title_with_error_prefix('Change email address', @form.errors.any?) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

@@ -1,13 +1,16 @@
 module SupportInterface
   class CandidateEmailAddressChangeForm
     include ActiveModel::Model
+    include ActiveModel::Validations
+    include ActiveModel::Validations::Callbacks
 
     attr_accessor :match_id, :email_address, :other_email_address, :candidate_id
 
-    validates :email_address, presence: true
+    before_validation :normalize_email_address
+    validates :email_address, presence: true, length: { maximum: 100 }, valid_for_notify: true, unless: -> { other_email_address_entered? }
     validates :candidate_id, presence: true
     validates :match_id, presence: true
-    validates :other_email_address, presence: true, if: :other_email_address_entered?
+    validates :other_email_address, presence: true, length: { maximum: 100 }, valid_for_notify: true, if: :other_email_address_entered?
     validate :valid_updatable_candidate_email
 
     def update!
@@ -27,6 +30,11 @@ module SupportInterface
     end
 
   private
+
+    def normalize_email_address
+      self.email_address = email_address.strip.downcase if email_address.present?
+      self.other_email_address = other_email_address.strip.downcase if other_email_address.present?
+    end
 
     def other_email_address_entered?
       @other_email_address_entered ||= email_address == 'other'
@@ -50,7 +58,7 @@ module SupportInterface
     end
 
     def dummy_email_address
-      @dummy_email_address ||= "#{candidate_id}_to_#{candidate_with_email_address&.id || 'new_email_address'}@example.com"
+      @dummy_email_address ||= "#{candidate_id}_to_#{candidate_with_email_address&.id || SecureRandom.uuid}@example.com"
     end
 
     def match

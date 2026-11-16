@@ -147,25 +147,29 @@ module SupportInterface
 
     def candidate_account_status_params
       { candidate: @candidate }.merge(
-        params.expect(support_interface_candidate_account_status_form: [:status]),
+        strip_whitespace(params.expect(support_interface_candidate_account_status_form: [:status])),
       )
     end
 
     def multiple_candidate_account_status_params
-      params.expect(
-        support_interface_multiple_candidate_account_status_form: [:status,
-                                                                   :match_id,
-                                                                   candidate_ids: []],
+      strip_whitespace(
+        params.expect(
+          support_interface_multiple_candidate_account_status_form: [:status,
+                                                                     :match_id,
+                                                                     candidate_ids: []],
+        )
       )
     end
 
     def candidate_email_address_change_params
       { match_id: @match.id, candidate_id: @candidate.id }.merge(
-        params.expect(
-          support_interface_candidate_email_address_change_form: %i[
-            email_address
-            other_email_address
-          ],
+        strip_whitespace(
+          params.expect(
+            support_interface_candidate_email_address_change_form: %i[
+              email_address
+              other_email_address
+            ],
+          ),
         ),
       )
     end
