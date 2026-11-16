@@ -252,7 +252,7 @@ private
   def and_i_do_not_change_anything; end
 
   def and_i_see_the_qualification_page
-    expect(page).to have_text 'What qualification in maths do you have?'
+    expect(page).to have_text 'What qualification in maths do you have that is equivalent to a GCSE?'
   end
   alias_method :then_i_see_the_qualification_page, :and_i_see_the_qualification_page
 
