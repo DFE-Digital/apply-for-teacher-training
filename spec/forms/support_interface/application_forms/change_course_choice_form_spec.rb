@@ -10,6 +10,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
     it { is_expected.to validate_presence_of(:course_code) }
     it { is_expected.to validate_presence_of(:study_mode) }
     it { is_expected.to validate_presence_of(:site_code) }
+    it { is_expected.to validate_presence_of(:recruitment_cycle_year) }
 
     context 'for an invalid zendesk link' do
       invalid_link = 'nonsense'
@@ -39,6 +40,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
           course_code: second_course_option.course.code,
           study_mode: second_course_option.study_mode,
           site_code: second_course_option.site.code,
+          recruitment_cycle_year: second_course_option.course.recruitment_cycle_year,
           audit_comment_ticket: zendesk_ticket,
           accept_guidance: true,
         )
@@ -238,6 +240,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
           course_code: course_option.course.code,
           study_mode: :part_time,
           site_code: course_option.site.code,
+          recruitment_cycle_year: course_option.course.recruitment_cycle_year,
           audit_comment_ticket: zendesk_ticket,
           accept_guidance: true,
         )
@@ -259,6 +262,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
             course_code: course_option.course.code,
             study_mode: :part_time,
             site_code: another_site.code,
+            recruitment_cycle_year: course_option.course.recruitment_cycle_year,
             audit_comment_ticket: zendesk_ticket,
             accept_guidance: true,
           )
@@ -284,6 +288,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
           provider_code: course_option.provider.code,
           course_code: course_option.course.code,
           study_mode: course_option.course.study_mode,
+          recruitment_cycle_year: course_option.course.recruitment_cycle_year,
           site_code: 'ZZ',
           audit_comment_ticket: zendesk_ticket,
           accept_guidance: true,
@@ -373,6 +378,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
           course_code: other_course_option.course.code,
           study_mode: other_course_option.course.study_mode,
           site_code: other_course_option.site.code,
+          recruitment_cycle_year: other_course_option.course.recruitment_cycle_year,
           audit_comment_ticket: zendesk_ticket,
           accept_guidance: true,
           confirm_provider_changed: true,
@@ -396,6 +402,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
           course_code: course_option.course.code,
           study_mode: course_option.course.study_mode,
           site_code: course_option.site.code,
+          recruitment_cycle_year: course_option.course.recruitment_cycle_year,
           audit_comment_ticket: zendesk_ticket,
           accept_guidance: true,
         )
@@ -450,6 +457,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, :with
           course_code: course_option.course.code,
           study_mode: course_option.course.study_mode,
           site_code: course_option.site.code,
+          recruitment_cycle_year: course_option.course.recruitment_cycle_year,
           audit_comment_ticket: zendesk_ticket,
           accept_guidance: true,
         )
