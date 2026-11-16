@@ -3,6 +3,7 @@ module SupportInterface
     attr_reader :candidate
 
     def initialize(candidate)
+      # do we still need this?
       @candidate = candidate
     end
 

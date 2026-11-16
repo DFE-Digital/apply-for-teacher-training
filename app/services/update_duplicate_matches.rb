@@ -32,7 +32,6 @@ private
     candidate = Candidate.find(match['candidate_id'])
 
     if existing_duplicate_match.present?
-      # lock them here
       unless existing_duplicate_match.candidates.include?(candidate)
         existing_duplicate_match.candidates << candidate
         unresolve_match(existing_duplicate_match)
@@ -52,27 +51,23 @@ private
     candidate
   end
 
-  def notify_candidate(candidate, duplicate_match)
-    SupportInterface::SendDuplicateMatchEmail.new(candidate).call
+  def notify_original_account(candidate, duplicate_match)
+    CandidateMailer.duplicate_match_original_account_email(candidate.current_application).deliver_later
+    duplicate_match.update!(candidate_last_contacted_at: Time.zone.now)
+  end
+
+  def notify_new_account(candidate, duplicate_match)
+    CandidateMailer.duplicate_match_email(candidate.current_application).deliver_later
     duplicate_match.update!(candidate_last_contacted_at: Time.zone.now)
   end
 
   def process_match(candidate, duplicate_match)
-    # notify both accounts
-    #
-    #  new_candidate = Candidate.find_by(id: params.require(:candidate_id))
-    #  CandidateMailer.duplicate_account_locked(
-    #    new_candidate.current_application,
-    #  ).deliver_later
-
-    #  match = new_candidate.duplicate_match
-    #  old_candidate = match.candidates.where.not(id: new_candidate.id).order(:created_at).last
-    #  CandidateMailer.duplicate_account_original_account_sign_in(
-    #    old_candidate.current_application,
-    #  ).deliver_later
-    #
-    notify_candidate(candidate, duplicate_match) if @send_email
-    lock_account(candidate) if @lock_account
+    if duplicate_match.candidates.count > 1
+      notify_original_account(candidate, duplicate_match) if @send_email
+    else
+      notify_new_account(candidate, duplicate_match) if @send_email
+      lock_account(candidate) if @lock_account
+    end
   end
 
   def lock_account(candidate)

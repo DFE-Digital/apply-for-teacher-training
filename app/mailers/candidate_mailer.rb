@@ -580,11 +580,7 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def duplicate_account_locked(application_form)
-    email_for_candidate(application_form)
-  end
-
-  def duplicate_account_original_account_sign_in(application_form)
+  def duplicate_match_original_account_email(application_form)
     @sign_in_link = candidate_interface_create_account_or_sign_in_url
     email_for_candidate(application_form)
   end
