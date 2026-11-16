@@ -14,13 +14,13 @@ module SupportInterface
                     :accept_guidance,
                     :audit_comment_ticket,
                     :confirm_course_change,
-                    :checkbox_rendered
+                    :checkbox_rendered,
+                    :recruitment_cycle_year
       attribute :confirm_provider_changed, :boolean
-      attr_writer :recruitment_cycle_year
 
       before_validation :strip_whitespace_from_attributes
 
-      validates :provider_code, :course_code, :study_mode, :site_code, :audit_comment_ticket, :accept_guidance, presence: true
+      validates :provider_code, :course_code, :study_mode, :site_code, :recruitment_cycle_year, :audit_comment_ticket, :accept_guidance, presence: true
       validates :confirm_provider_changed, presence: true, if: :provider_code_changed?
       validates :confirm_course_change, presence: true, if: :checkbox_rendered?
 
@@ -41,6 +41,7 @@ module SupportInterface
           course_code: course_option.course.code,
           study_mode: course_option.study_mode,
           site_code: course_option.site.code,
+          recruitment_cycle_year: course_option.course.recruitment_cycle_year,
         )
       end
 
@@ -141,10 +142,6 @@ module SupportInterface
 
       def remove_ske_conditions!
         RemoveSkeConditionsFromOffer.new(offer: application_choice_with_offer).call
-      end
-
-      def recruitment_cycle_year
-        @recruitment_cycle_year || RecruitmentCycleTimetable.current_year
       end
 
     private
