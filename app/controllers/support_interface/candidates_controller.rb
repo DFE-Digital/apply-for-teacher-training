@@ -105,10 +105,7 @@ module SupportInterface
 
       @match = DuplicateMatch.find(params.expect(:match_id))
       @candidate = @match.candidates.find(params.expect(:candidate_id))
-      @candidate_email_addresses = @match.candidates
-                                         .where.not(id: @candidate.id)
-                                         .where(account_locked: true)
-                                         .pluck(:email_address)
+      set_candidate_match_email_addresses
       @form = SupportInterface::CandidateEmailAddressChangeForm.new(
         match_id: @match.id,
         candidate_id: @candidate.id,
@@ -129,10 +126,7 @@ module SupportInterface
         flash[:success] = 'Email address updated'
         redirect_to support_interface_duplicate_match_path(id: @match.id)
       else
-        @candidate_email_addresses = @match.candidates
-                                           .where.not(id: @candidate.id)
-                                           .where(account_locked: true)
-                                           .pluck(:email_address)
+        set_candidate_match_email_addresses
         render :edit_candidate_email_address
       end
     end
@@ -172,6 +166,13 @@ module SupportInterface
           ),
         ),
       )
+    end
+
+    def set_candidate_match_email_addresses
+      matched_candidates = @match.candidates.where.not(id: @candidate.id)
+      @candidate_email_addresses = matched_candidates.where(account_locked: true)
+                                                     .or(matched_candidates.where(submission_blocked: true))
+                                                     .pluck(:email_address)
     end
   end
 end
