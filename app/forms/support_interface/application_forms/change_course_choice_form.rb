@@ -17,7 +17,6 @@ module SupportInterface
                     :checkbox_rendered,
                     :recruitment_cycle_year
       attribute :confirm_provider_changed, :boolean
-      attr_writer
 
       before_validation :strip_whitespace_from_attributes
 
