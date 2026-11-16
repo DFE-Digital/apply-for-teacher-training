@@ -21,7 +21,7 @@
         <% @candidate_email_addresses.each_with_index do |candidate_email_address, i| %>
           <%= f.govuk_radio_button :email_address, candidate_email_address, label: { text: candidate_email_address }, link_errors: i.zero? %>
         <% end %>
-        <%= f.govuk_radio_button :email_address, 'other', label: { text: 'Other email address' } do %>
+        <%= f.govuk_radio_button :email_address, 'other', label: { text: 'Other email address' }, link_errors: @candidate_email_addresses.empty? do %>
           <%= f.govuk_text_field :other_email_address, label: { text: 'Enter email address' } %>
         <% end %>
       <% end %>
