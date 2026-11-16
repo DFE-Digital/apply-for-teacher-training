@@ -100,6 +100,37 @@ module SupportInterface
       redirect_to support_interface_duplicate_match_path(id: match.id)
     end
 
+    def edit_candidate_email_address
+      authorize(nil, :edit?, policy_class: SupportInterface::CandidatePolicy)
+
+      @match = DuplicateMatch.find(params.expect(:match_id))
+      @candidate = @match.candidates.find(params.expect(:candidate_id))
+      set_candidate_match_email_addresses
+      @form = SupportInterface::CandidateEmailAddressChangeForm.new(
+        match_id: @match.id,
+        candidate_id: @candidate.id,
+      )
+    end
+
+    def update_candidate_email_address
+      authorize(nil, :edit?, policy_class: SupportInterface::CandidatePolicy)
+
+      @match = DuplicateMatch.find(params.expect(:match_id))
+      @candidate = @match.candidates.find(params.expect(:candidate_id))
+
+      @form = SupportInterface::CandidateEmailAddressChangeForm.new(
+        candidate_email_address_change_params,
+      )
+
+      if @form.update!
+        flash[:success] = 'Email address updated'
+        redirect_to support_interface_duplicate_match_path(id: @match.id)
+      else
+        set_candidate_match_email_addresses
+        render :edit_candidate_email_address
+      end
+    end
+
   private
 
     def disable_on_production
@@ -110,16 +141,38 @@ module SupportInterface
 
     def candidate_account_status_params
       { candidate: @candidate }.merge(
-        params.expect(support_interface_candidate_account_status_form: [:status]),
+        strip_whitespace(params.expect(support_interface_candidate_account_status_form: [:status])),
       )
     end
 
     def multiple_candidate_account_status_params
-      params.expect(
-        support_interface_multiple_candidate_account_status_form: [:status,
-                                                                   :match_id,
-                                                                   candidate_ids: []],
+      strip_whitespace(
+        params.expect(
+          support_interface_multiple_candidate_account_status_form: [:status,
+                                                                     :match_id,
+                                                                     candidate_ids: []],
+        ),
       )
+    end
+
+    def candidate_email_address_change_params
+      { match_id: @match.id, candidate_id: @candidate.id }.merge(
+        strip_whitespace(
+          params.expect(
+            support_interface_candidate_email_address_change_form: %i[
+              email_address
+              other_email_address
+            ],
+          ),
+        ),
+      )
+    end
+
+    def set_candidate_match_email_addresses
+      matched_candidates = @match.candidates.where.not(id: @candidate.id)
+      @candidate_email_addresses = matched_candidates.where(account_locked: true)
+                                                     .or(matched_candidates.where(submission_blocked: true))
+                                                     .pluck(:email_address)
     end
   end
 end
