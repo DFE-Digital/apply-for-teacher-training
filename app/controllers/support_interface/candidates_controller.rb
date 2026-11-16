@@ -157,7 +157,7 @@ module SupportInterface
           support_interface_multiple_candidate_account_status_form: [:status,
                                                                      :match_id,
                                                                      candidate_ids: []],
-        )
+        ),
       )
     end
 
