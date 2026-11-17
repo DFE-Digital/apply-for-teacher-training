@@ -123,7 +123,6 @@ Rails.application.configure do
 
   config.middleware.use Bullet::Rack
 
-
   if ENV.fetch('BULLET', 'false') == 'true'
     config.after_initialize do
       Bullet.enable = true
