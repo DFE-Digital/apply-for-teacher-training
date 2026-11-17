@@ -1,4 +1,5 @@
 require "active_support/core_ext/integer/time"
+require "bullet"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -119,4 +120,17 @@ Rails.application.configure do
   # This query will return a `String` if postgresql_adapter_decode_dates is set to false.
 
   config.active_record.postgresql_adapter_decode_dates = false
+
+  config.middleware.use Bullet::Rack
+
+
+  if ENV.fetch('BULLET', 'false') == 'true'
+    config.after_initialize do
+      Bullet.enable = true
+      Bullet.bullet_logger = true
+      Bullet.rails_logger = true
+      Bullet.add_footer = true
+      Bullet.add_safelist type: :n_plus_one_query, class_name: 'Audited::Audit', association: :user
+    end
+  end
 end

@@ -7,10 +7,15 @@ module ProviderInterface
       interviews = Interview.for_application_choices(application_choices_for_user_providers)
                             .undiscarded
                             .upcoming
-                            .includes([:provider, application_choice: [:course_option, application_form: [:candidate]]])
+                            .includes([:provider, application_choice: [:current_course, :course_option, application_form: [:candidate]]])
                             .order(:date_and_time)
 
-      @pagy, @interviews = pagy(interviews, limit: PAGY_PER_PAGE)
+      @filter = ProviderInterviewFilter.new(
+        params: strip_whitespace(params),
+        interviews:,
+      )
+
+      @pagy, @interviews = pagy(@filter.applied_filters, limit: PAGY_PER_PAGE)
       @grouped_interviews = @interviews.group_by(&:date)
     end
 
@@ -18,10 +23,15 @@ module ProviderInterface
       interviews = Interview.for_application_choices(application_choices_for_user_providers)
                             .undiscarded
                             .past
-                            .includes([:provider, application_choice: [:course_option, application_form: [:candidate]]])
+                            .includes([:provider, application_choice: [:current_course, :course_option, application_form: [:candidate]]])
                             .order(date_and_time: :desc)
 
-      @pagy, @interviews = pagy(interviews, limit: PAGY_PER_PAGE)
+      @filter = ProviderInterviewFilter.new(
+        params: strip_whitespace(params),
+        interviews:,
+      )
+
+      @pagy, @interviews = pagy(@filter.applied_filters, limit: PAGY_PER_PAGE)
       @grouped_interviews = @interviews.group_by(&:date)
     end
 

@@ -114,14 +114,6 @@ class FilterComponent < ApplicationComponent
     end
   end
 
-  def show_bottom_button?
-    if @filter.respond_to?(:show_bottom_button?)
-      @filter.show_bottom_button?
-    else
-      false
-    end
-  end
-
   def multiple_fields?(filter)
     field_count(filter) > 1 # to determine whether a fieldset is required
   end
