@@ -486,6 +486,7 @@ namespace :candidate_interface, path: '/candidate' do
       patch '/:application_choice_id/courses/:course_id/:study_mode/edit' => 'course_choices/course_site#update'
 
       get '/:application_choice_id/visa-expiry-interruption' => 'course_choices/visa_expiry_interruption#new', as: :course_choices_visa_expiry_interruption
+      get '/:application_choice_id/visa-covered-interruption' => 'course_choices/visa_not_covered_interruption#new', as: :course_choices_visa_not_covered_interruption_review
 
       get '/:application_choice_id/visa-explanation' => 'course_choices/visa_explanation#new', as: :course_choices_visa_explanation
       post '/:application_choice_id/visa-explanation' => 'course_choices/visa_explanation#create'

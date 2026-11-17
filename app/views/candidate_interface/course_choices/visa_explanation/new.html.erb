@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.which_location'), @wizard.current_step.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.visa_explanation'), @wizard.current_step.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(@wizard.previous_step_path(fallback: candidate_interface_course_choices_course_review_path(@application_choice))) %>
 
 <div class="govuk-grid-row">
