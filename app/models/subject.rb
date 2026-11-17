@@ -43,9 +43,4 @@ class Subject < ApplicationRecord
     '22', # Spanish
     '24', # Modern languages (other)
   ].freeze
-
-  SKE_PHYSICS_COURSES = [
-    'F0', # Physics
-    'F3', # Science
-  ].freeze
 end
