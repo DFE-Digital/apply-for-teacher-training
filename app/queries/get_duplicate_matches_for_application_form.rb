@@ -21,16 +21,16 @@ class GetDuplicateMatchesForApplicationForm
     return [] if matching_forms.distinct.count(:candidate_id) < 2
 
     matching_forms
-      .select('DISTINCT ON (application_forms.candidate_id) application_forms.candidate_id, application_forms.last_name, application_forms.date_of_birth')
+      .select(<<~SQL.squish)
+        DISTINCT ON (application_forms.candidate_id)
+          application_forms.id,
+          application_forms.candidate_id,
+          application_forms.first_name,
+          application_forms.last_name,
+          application_forms.date_of_birth,
+          application_forms.postcode
+      SQL
       .order('application_forms.candidate_id, application_forms.submitted_at DESC NULLS LAST')
-      .map do |form|
-        {
-          'candidate_id' => form.candidate_id,
-          'last_name' => form.last_name,
-          'date_of_birth' => form.date_of_birth,
-          'postcode' => normalised_postcode,
-        }
-      end
   end
 
 private

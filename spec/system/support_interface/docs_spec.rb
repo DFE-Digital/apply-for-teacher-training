@@ -46,6 +46,7 @@ RSpec.describe 'Docs' do
       candidate_mailer-respond_to_offer_before_deadline
       candidate_mailer-new_cycle_has_started
       candidate_mailer-duplicate_match_email
+      candidate_mailer-duplicate_match_original_account_email
       candidate_mailer-find_has_opened
       candidate_mailer-unconditional_offer_accepted
       candidate_mailer-conditions_statuses_changed
