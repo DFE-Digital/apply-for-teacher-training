@@ -48,7 +48,7 @@ RSpec.describe 'API tokens' do
       check('Vendor 1')
     end
 
-    click_link_or_button 'Apply filters'
+    click_link_or_button 'Apply filters', match: :first
   end
 
   def then_i_see_only_the_tokens_for_a_specific_vendor

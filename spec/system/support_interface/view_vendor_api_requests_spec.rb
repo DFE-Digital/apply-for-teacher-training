@@ -194,7 +194,7 @@ RSpec.describe 'Vendor API Requests' do
 
   def when_i_filter_by_status_200
     check '200'
-    click_link_or_button 'Apply filters'
+    click_link_or_button 'Apply filters', match: :first
   end
 
   def then_i_only_see_api_requests_filtered_by_status
@@ -210,7 +210,7 @@ RSpec.describe 'Vendor API Requests' do
 
   def and_i_filter_by_request_method
     check 'GET'
-    click_link_or_button 'Apply filters'
+    click_link_or_button 'Apply filters', match: :first
   end
 
   def then_i_see_api_requests_filtered_by_request_method
@@ -221,7 +221,7 @@ RSpec.describe 'Vendor API Requests' do
 
   def and_i_search_for_a_specific_request_path
     fill_in :q, with: @post_api_request.request_path
-    click_link_or_button 'Apply filters'
+    click_link_or_button 'Apply filters', match: :first
   end
 
   def then_i_only_see_api_requests_filtered_by_the_search
@@ -231,7 +231,7 @@ RSpec.describe 'Vendor API Requests' do
 
   def when_i_filter_by_provider
     fill_in 'Provider code', with: @validated_provider.code
-    click_link_or_button 'Apply filters'
+    click_link_or_button 'Apply filters', match: :first
   end
 
   def then_i_only_see_api_requests_filtered_by_provider
@@ -275,7 +275,7 @@ RSpec.describe 'Vendor API Requests' do
 
   def when_i_filter_by_an_invalid_provider_code
     fill_in 'Provider code', with: 'INVALID'
-    click_link_or_button 'Apply filters'
+    click_link_or_button 'Apply filters', match: :first
   end
 
   def then_i_see_that_i_have_entered_an_invalid_provider_code
@@ -289,6 +289,6 @@ RSpec.describe 'Vendor API Requests' do
 
   def and_i_filter_by_a_request_method_with_no_associated_records
     check 'HEAD'
-    click_link_or_button 'Apply filters'
+    click_link_or_button 'Apply filters', match: :first
   end
 end

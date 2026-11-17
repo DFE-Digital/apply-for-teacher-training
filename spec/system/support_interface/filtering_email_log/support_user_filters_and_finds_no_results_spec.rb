@@ -37,7 +37,7 @@ private
   def and_i_filter_emails_by_an_invalid_recipient
     within('.moj-filter__content') do
       fill_in 'Recipient (To)', with: 'invalid@example.com'
-      click_on 'Apply filters'
+      click_on 'Apply filters', match: :first
     end
   end
 

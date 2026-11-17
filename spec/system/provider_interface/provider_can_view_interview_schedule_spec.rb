@@ -182,7 +182,7 @@ RSpec.describe 'A Provider user' do
   end
 
   def then_i_see_no_upcoming_interviews
-    expect(page).to have_text('No upcoming interviews')
+    expect(page).to have_text('There are no results for the selected filters.')
   end
 
   def and_i_click_past_interviews
@@ -196,7 +196,8 @@ RSpec.describe 'A Provider user' do
   end
 
   def then_i_see_no_past_interviews
-    expect(page).to have_text('No past interviews')
+    expect(page).to have_current_path(past_provider_interface_interview_schedule_path)
+    expect(page).to have_text('There are no results for the selected filters.')
   end
 
   def and_i_can_verify_that_the_correct_information_is_presented
