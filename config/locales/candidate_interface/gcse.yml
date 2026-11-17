@@ -20,8 +20,11 @@ en:
         hint_text_english: For example, High School Diploma, Baccalauréat Général or WASSCE. Do not enter an English as a foreign language assessment here.
       non_uk_other_qualification:
         label: Enter the name of the qualification
-        hint_text: Do not enter a qualification equivalent to an A level or a degree, or an English as a foreign language test.
-        non_structured_hint_text_html: For example, high school diploma or Baccalauréat Général.<br><br>This must be equivalent to a GCSE.
+        hint_text: Do not enter a qualification equivalent to an A level or a degree.
+        hint_text_english: Do not enter a qualification equivalent to an A level or a degree, or an English as a foreign language test.
+        non_structured_hint_text_html:
+          For example, high school diploma or Baccalauréat Général.<br><br>
+          Do not enter a qualification equivalent to an A level or a degree.
         non_structured_hint_text_english_html:
           For example, high school diploma or Baccalauréat Général.<br><br>
           Do not enter a qualification equivalent to an A level or a degree, or an English as a foreign language test.
