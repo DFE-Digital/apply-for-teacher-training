@@ -5,12 +5,14 @@
   :visa_explanation,
   legend: { text: t('visa_expiry_form.visa_explanation_label'), tag: 'h1', size: 'l' },
 ) do %>
-  <%= f.govuk_radio_button(
-    :visa_explanation,
-    :expires_after_course,
-    link_errors: true,
-    label: { text: t('visa_expiry_form.options.expires_after_course') },
-  ) %>
+  <% unless @wizard.requires_visa_sponsorship? %>
+    <%= f.govuk_radio_button(
+      :visa_explanation,
+      :expires_after_course,
+      link_errors: true,
+      label: { text: t('visa_expiry_form.options.expires_after_course') },
+    ) %>
+  <% end %>
   <%= f.govuk_radio_button(
     :visa_explanation,
     :renew,
