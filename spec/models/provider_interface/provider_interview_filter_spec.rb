@@ -69,6 +69,24 @@ RSpec.describe ProviderInterface::ProviderInterviewFilter do
     end
   end
 
+  describe '#filters_applied?' do
+    it 'returns false when no filters are applied' do
+      expect(build_filter.filters_applied?).to be(false)
+    end
+
+    it 'returns false when only blank values are given' do
+      expect(build_filter(subject: [''], course_ids: ['']).filters_applied?).to be(false)
+    end
+
+    it 'returns true when a subject is selected' do
+      expect(build_filter(subject: [mathematics.id.to_s]).filters_applied?).to be(true)
+    end
+
+    it 'returns true when a course is selected' do
+      expect(build_filter(course_ids: [history_course.id.to_s]).filters_applied?).to be(true)
+    end
+  end
+
   describe '#applied_filters' do
     it 'returns all interviews when no filters are applied' do
       expect(build_filter.applied_filters).to contain_exactly(maths_interview, history_interview)

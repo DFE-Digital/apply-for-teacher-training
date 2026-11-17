@@ -22,8 +22,10 @@
           <% end %>
         </div>
         <%= govuk_pagination(pagy: @pagy) %>
-      <% else %>
+      <% elsif @filter.filters_applied? %>
         <p>There are no results for the selected filters.</p>
+      <% else %>
+        <p>No past interviews</p>
       <% end %>
     <% end %>
   </div>

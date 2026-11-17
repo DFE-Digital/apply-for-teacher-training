@@ -18,6 +18,10 @@ module ProviderInterface
       filter_by_course(filtered_interviews)
     end
 
+    def filters_applied?
+      subject_ids_filter.present? || course_id_filter.present?
+    end
+
   private
 
     def subject_options

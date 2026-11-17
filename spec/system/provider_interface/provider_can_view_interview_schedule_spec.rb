@@ -50,6 +50,9 @@ RSpec.describe 'A Provider user' do
     when_i_clear_the_filters
     and_i_filter_by_the_history_course
     then_i_see_only_the_upcoming_history_interview
+
+    when_i_also_filter_by_the_mathematics_subject
+    then_i_see_there_are_no_results_for_the_selected_filters
   end
 
   scenario 'can filter past interviews by subject and course' do
@@ -68,6 +71,9 @@ RSpec.describe 'A Provider user' do
     when_i_clear_the_filters
     and_i_filter_by_the_history_course
     then_i_see_only_the_past_history_interview
+
+    when_i_also_filter_by_the_mathematics_subject
+    then_i_see_there_are_no_results_for_the_selected_filters
   end
 
   def given_i_am_a_provider_user
@@ -136,6 +142,15 @@ RSpec.describe 'A Provider user' do
     click_link_or_button 'Clear filters'
   end
 
+  def when_i_also_filter_by_the_mathematics_subject
+    when_i_filter_by_the_mathematics_subject
+  end
+
+  def then_i_see_there_are_no_results_for_the_selected_filters
+    expect(page).to have_no_css('.app-interview-card')
+    expect(page).to have_text('There are no results for the selected filters.')
+  end
+
   def then_i_see_the_upcoming_maths_and_history_interviews
     then_i_see_interviews_for(@maths_course, @history_course)
   end
@@ -182,7 +197,7 @@ RSpec.describe 'A Provider user' do
   end
 
   def then_i_see_no_upcoming_interviews
-    expect(page).to have_text('There are no results for the selected filters.')
+    expect(page).to have_text('No upcoming interviews')
   end
 
   def and_i_click_past_interviews
@@ -196,8 +211,7 @@ RSpec.describe 'A Provider user' do
   end
 
   def then_i_see_no_past_interviews
-    expect(page).to have_current_path(past_provider_interface_interview_schedule_path)
-    expect(page).to have_text('There are no results for the selected filters.')
+    expect(page).to have_text('No past interviews')
   end
 
   def and_i_can_verify_that_the_correct_information_is_presented
