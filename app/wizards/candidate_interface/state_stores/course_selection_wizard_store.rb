@@ -64,7 +64,7 @@ module CandidateInterface
       end
 
       def not_multiple_sites_or_study_modes?
-        !multiple_study_modes? && not_multiple_sites? && !visa_expires_soon?
+        !multiple_study_modes? && not_multiple_sites? && !visa_expires_soon? && !requires_visa_sponsorship?
       end
 
       def multiple_study_modes?
