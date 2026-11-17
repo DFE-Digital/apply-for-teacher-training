@@ -35,6 +35,41 @@ RSpec.describe 'A Provider user' do
     and_i_can_verify_that_the_correct_information_is_presented
   end
 
+  scenario 'can filter upcoming interviews by subject and course' do
+    given_i_am_a_provider_user
+    and_there_are_interviews_for_different_subjects
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_visit_the_provider_interface
+    and_i_click_interview_schedule
+    then_i_see_the_upcoming_maths_and_history_interviews
+
+    when_i_filter_by_the_mathematics_subject
+    then_i_see_only_the_upcoming_maths_interview
+
+    when_i_clear_the_filters
+    and_i_filter_by_the_history_course
+    then_i_see_only_the_upcoming_history_interview
+  end
+
+  scenario 'can filter past interviews by subject and course' do
+    given_i_am_a_provider_user
+    and_there_are_interviews_for_different_subjects
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_visit_the_provider_interface
+    and_i_click_interview_schedule
+    and_i_click_past_interviews
+    then_i_see_the_past_maths_and_history_interviews
+
+    when_i_filter_by_the_mathematics_subject
+    then_i_see_only_the_past_maths_interview
+
+    when_i_clear_the_filters
+    and_i_filter_by_the_history_course
+    then_i_see_only_the_past_history_interview
+  end
+
   def given_i_am_a_provider_user
     user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
   end
@@ -71,6 +106,68 @@ RSpec.describe 'A Provider user' do
       create(:interview,
              :past_date_and_time,
              application_choice:)
+    end
+  end
+
+  def and_there_are_interviews_for_different_subjects
+    @maths_course = create(:course, provider:, name: 'Maths course', subjects: [create(:subject, name: 'Mathematics')])
+    @history_course = create(:course, provider:, name: 'History course', subjects: [create(:subject, name: 'History')])
+
+    maths_choice = create(:application_choice, :awaiting_provider_decision, course_option: create(:course_option, course: @maths_course))
+    history_choice = create(:application_choice, :awaiting_provider_decision, course_option: create(:course_option, course: @history_course))
+
+    create(:interview, :future_date_and_time, application_choice: maths_choice)
+    create(:interview, :future_date_and_time, application_choice: history_choice)
+    create(:interview, :past_date_and_time, application_choice: maths_choice)
+    create(:interview, :past_date_and_time, application_choice: history_choice)
+  end
+
+  def when_i_filter_by_the_mathematics_subject
+    check 'Mathematics'
+    click_link_or_button 'Apply filters', match: :first
+  end
+
+  def and_i_filter_by_the_history_course
+    check @history_course.name_and_code
+    click_link_or_button 'Apply filters', match: :first
+  end
+
+  def when_i_clear_the_filters
+    click_link_or_button 'Clear filters'
+  end
+
+  def then_i_see_the_upcoming_maths_and_history_interviews
+    then_i_see_interviews_for(@maths_course, @history_course)
+  end
+
+  def then_i_see_only_the_upcoming_maths_interview
+    then_i_see_interviews_for(@maths_course)
+  end
+
+  def then_i_see_only_the_upcoming_history_interview
+    then_i_see_interviews_for(@history_course)
+  end
+
+  def then_i_see_the_past_maths_and_history_interviews
+    expect(page).to have_current_path(past_provider_interface_interview_schedule_path, ignore_query: true)
+    then_i_see_interviews_for(@maths_course, @history_course)
+  end
+
+  def then_i_see_only_the_past_maths_interview
+    expect(page).to have_current_path(past_provider_interface_interview_schedule_path, ignore_query: true)
+    then_i_see_interviews_for(@maths_course)
+  end
+
+  def then_i_see_only_the_past_history_interview
+    expect(page).to have_current_path(past_provider_interface_interview_schedule_path, ignore_query: true)
+    then_i_see_interviews_for(@history_course)
+  end
+
+  def then_i_see_interviews_for(*courses)
+    within '.app-interviews' do
+      expect(page).to have_css('.app-interview-card', count: courses.count)
+      courses.each { |course| expect(page).to have_text(course.name) }
+      ([@maths_course, @history_course] - courses).each { |course| expect(page).to have_no_text(course.name) }
     end
   end
 

@@ -36,13 +36,10 @@ module ProviderInterface
     end
 
     def course_ids
-      @course_ids ||= interviews.map do |interview|
-        interview.current_course.id
-      end.uniq
-    end
-
-    def application_choice_ids
-      @application_choice_id ||= interviews.map(&:application_choice_id)
+      @course_ids ||= CourseOption
+        .where(id: ApplicationChoice.where(id: interviews.select(:application_choice_id)).select(:current_course_option_id))
+        .distinct
+        .pluck(:course_id)
     end
 
     def courses_filter
@@ -50,7 +47,7 @@ module ProviderInterface
         type: :checkboxes,
         heading: 'Course',
         name: 'course_ids',
-        options: Course.where(id: course_ids).order(:name).distinct.map do |course|
+        options: Course.where(id: course_ids).order(:name).map do |course|
           {
             value: course.id,
             label: course.name_and_code,
@@ -70,8 +67,8 @@ module ProviderInterface
 
       interviews.where(
         application_choice_id: ApplicationChoice
-          .joins(:course)
-          .where(id: application_choice_ids, course: { id: id_course }).select(:id),
+          .joins(:current_course)
+          .where(current_course: { id: id_course }).select(:id),
       )
     end
 
@@ -84,8 +81,8 @@ module ProviderInterface
 
       interviews.where(
         application_choice_id: ApplicationChoice
-          .joins(:course)
-          .where(id: application_choice_ids, course: { id: course_id_filter }).select(:id),
+          .joins(:current_course)
+          .where(current_course: { id: course_id_filter }).select(:id),
       )
     end
 
