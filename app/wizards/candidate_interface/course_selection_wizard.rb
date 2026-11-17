@@ -37,6 +37,7 @@ class CandidateInterface::CourseSelectionWizard
       graph.add_node :course_site, CandidateInterface::Steps::CourseSelectionWizard::CourseSite
       graph.add_node :find_course_selection, CandidateInterface::Steps::CourseSelectionWizard::FindCourseSelection
       graph.add_node :visa_expiry_interruption, CandidateInterface::Steps::CourseSelectionWizard::VisaExpiryInterruption
+      graph.add_node :visa_not_covered_interruption, CandidateInterface::Steps::CourseSelectionWizard::VisaNotCoveredInterruption
       graph.add_node :visa_explanation, CandidateInterface::Steps::CourseSelectionWizard::VisaExplanation
       graph.add_node :course_review, CandidateInterface::Steps::CourseSelectionWizard::CourseReview
       graph.add_node :application_list, CandidateInterface::Steps::CourseSelectionWizard::ApplicationList
@@ -62,6 +63,7 @@ class CandidateInterface::CourseSelectionWizard
           { when: :not_multiple_sites_or_study_modes?, then: :course_review },
           { when: :multiple_study_modes?, then: :course_study_mode },
           { when: :multiple_sites?, then: :course_site },
+          { when: :requires_visa_sponsorship?, then: :visa_not_covered_interruption },
           { when: :visa_expires_soon?, then: :visa_expiry_interruption },
         ],
         default: :course_review,
@@ -71,6 +73,7 @@ class CandidateInterface::CourseSelectionWizard
         from: :course_study_mode,
         branches: [
           { when: :multiple_sites?, then: :course_site },
+          { when: :requires_visa_sponsorship?, then: :visa_not_covered_interruption },
           { when: :visa_expires_soon?, then: :visa_expiry_interruption },
           { when: :not_multiple_sites?, then: :course_review },
         ],
@@ -84,6 +87,7 @@ class CandidateInterface::CourseSelectionWizard
           { when: :duplicate_course?, then: :duplicate_course_selection },
           { when: :multiple_study_modes?, then: :course_study_mode },
           { when: :multiple_sites?, then: :course_site },
+          { when: :requires_visa_sponsorship?, then: :visa_not_covered_interruption },
           { when: :visa_expires_soon?, then: :visa_expiry_interruption },
           { when: :find_course_selected?, then: :course_review },
           { when: :not_confirmed?, then: :application_list },
@@ -100,6 +104,8 @@ class CandidateInterface::CourseSelectionWizard
         ],
         default: :course_review,
       )
+
+      graph.add_edge from: :visa_not_covered_interruption, to: :visa_explanation
 
       graph.add_edge from: :visa_expiry_interruption, to: :visa_explanation
 
@@ -179,6 +185,11 @@ class CandidateInterface::CourseSelectionWizard
       config.map_step :visa_expiry_interruption, to: lambda { |wizard, options, helpers|
         options[:application_choice_id] = wizard.application_choice.id
         helpers.candidate_interface_course_choices_visa_expiry_interruption_path(**options)
+      }
+
+      config.map_step :visa_not_covered_interruption, to: lambda { |wizard, options, helpers|
+        options[:application_choice_id] = wizard.application_choice.id
+        helpers.candidate_interface_course_choices_visa_not_covered_interruption_review_path(**options)
       }
 
       config.map_step :visa_explanation, to: lambda { |wizard, options, helpers|

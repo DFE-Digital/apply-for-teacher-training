@@ -1,0 +1,34 @@
+<% content_for :title, t('page_titles.visa_not_covered_interruption') %>
+<% content_for(:before_content, govuk_back_link_to(
+  candidate_interface_course_choices_course_review_path(@application_choice),
+  'Back to application',
+  )) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <div class="app-grid-column--grey">
+      <h1 class="govuk-heading-l"><%= t('page_titles.visa_not_covered_interruption') %></h1>
+      <p class="govuk-body">
+        Your visa is linked to your current studies or job.
+        It may no longer be valid if you leave those to start this course.
+      </p>
+
+      <p class="govuk-body">
+        You must have the right to study in the UK for the duration of the course.
+        This course does not offer visa sponsorship.
+      </p>
+
+      <p class="govuk-body">
+        You can continue your application and tell the training provider how you expect to stay in the UK for this course.
+      </p>
+
+      <p class="govuk-body">
+        Alternatively, you can <%= govuk_link_to 'finding a course that offers visa sponsorship', @find_url_with_visa_filter, new_tab: true %>.
+      </p>
+    </div>
+    <div class="govuk-button-group app-course-choice__confirm-submission">
+      <%= govuk_button_link_to('Continue', @wizard.next_step_path, method: :get) %>
+      <%= govuk_link_to('Go to your account', candidate_interface_details_path) %>
+    </div>
+  </div>
+</div>
