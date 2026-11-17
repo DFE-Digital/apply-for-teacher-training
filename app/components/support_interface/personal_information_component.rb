@@ -146,14 +146,19 @@ module SupportInterface
                   'None'
                 end
 
-        {
+        row = {
           key: t('page_titles.visa_expiry'),
           value:,
+        }
+
+        return row unless editable?
+
+        row.merge(
           action: {
             href: support_interface_application_form_edit_visa_expiry_path(@application_form),
             visually_hidden_text: t('page_titles.visa_expiry').downcase,
           },
-        }
+        )
       end
     end
 
