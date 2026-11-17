@@ -22,8 +22,6 @@ class Clock
     FindACandidate::PopulatePoolWorker.perform_later
   end
 
-  every(10.minutes, 'UpdateDuplicateMatchesWorker') { UpdateDuplicateMatchesWorker.perform_later }
-
   # Hourly jobs
 
   every(1.hour, 'DeleteFinishedJobs', at: '**:01') { DeleteFinishedJobsWorker.perform_later }

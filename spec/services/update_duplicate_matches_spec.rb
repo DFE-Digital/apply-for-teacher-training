@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UpdateDuplicateMatches, :run_jobs do
+RSpec.describe UpdateDuplicateMatches do
   let(:candidate1) { create(:candidate) }
   let(:candidate2) { create(:candidate) }
   let!(:application_form) do

@@ -57,7 +57,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditApplicantDetailsForm, typ
       details_form.audit_comment = 'Correcting applicant details'
 
       expect { details_form.save! }
-        .to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker).with(application_form.id).exactly(:once)
+        .to have_enqueued_job(UpdateDuplicateMatchesWorker).with(application_form.id).exactly(:once)
     end
 
     it 'does not enqueue a duplicate check for a first-name-only change' do
@@ -67,7 +67,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditApplicantDetailsForm, typ
       details_form.audit_comment = 'Correcting first name'
 
       expect { details_form.save! }
-        .not_to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker)
+        .not_to have_enqueued_job(UpdateDuplicateMatchesWorker)
     end
 
     it 'updates the attributes of an application form' do

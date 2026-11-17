@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe EnqueueTriggeredDuplicateMatchCheck do
+RSpec.describe EnqueueDuplicateMatchCheck do
   let(:application_form) do
     create(
       :application_form,
@@ -25,7 +25,7 @@ RSpec.describe EnqueueTriggeredDuplicateMatchCheck do
 
         expect do
           described_class.new(application_form).call { application_form.update!(field => value) }
-        end.to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker).with(application_form.id).exactly(:once)
+        end.to have_enqueued_job(UpdateDuplicateMatchesWorker).with(application_form.id).exactly(:once)
       end
     end
 
@@ -37,7 +37,7 @@ RSpec.describe EnqueueTriggeredDuplicateMatchCheck do
 
           expect do
             described_class.new(application_form).call { application_form.update!(field => value) }
-          end.to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker).with(application_form.id).exactly(:once)
+          end.to have_enqueued_job(UpdateDuplicateMatchesWorker).with(application_form.id).exactly(:once)
         end
       end
       it "does not enqueue an address change when #{field} is missing" do
@@ -45,14 +45,14 @@ RSpec.describe EnqueueTriggeredDuplicateMatchCheck do
 
         expect do
           described_class.new(application_form).call { application_form.update!(address_line1: 'Example address') }
-        end.not_to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker)
+        end.not_to have_enqueued_job(UpdateDuplicateMatchesWorker)
       end
     end
 
     it 'does not enqueue personal changes without an address' do
       expect do
         described_class.new(application_form).call { application_form.update!(last_name: 'Jones') }
-      end.not_to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker)
+      end.not_to have_enqueued_job(UpdateDuplicateMatchesWorker)
     end
 
     it 'does not count whitespace-only address lines as an address' do
@@ -60,13 +60,13 @@ RSpec.describe EnqueueTriggeredDuplicateMatchCheck do
 
       expect do
         described_class.new(application_form).call { application_form.update!(last_name: 'Jones') }
-      end.not_to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker)
+      end.not_to have_enqueued_job(UpdateDuplicateMatchesWorker)
     end
 
     it 'does not enqueue when values are unchanged' do
       expect do
         described_class.new(application_form).call { application_form.update!(last_name: 'Smith') }
-      end.not_to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker)
+      end.not_to have_enqueued_job(UpdateDuplicateMatchesWorker)
     end
 
     it 'does not enqueue when unrelated fields or completion flags change' do
@@ -74,7 +74,7 @@ RSpec.describe EnqueueTriggeredDuplicateMatchCheck do
         described_class.new(application_form).call do
           application_form.update!(first_name: 'Alex', personal_details_completed: true, contact_details_completed: true)
         end
-      end.not_to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker)
+      end.not_to have_enqueued_job(UpdateDuplicateMatchesWorker)
     end
 
     it 'does not enqueue when a save returns false' do
@@ -84,7 +84,7 @@ RSpec.describe EnqueueTriggeredDuplicateMatchCheck do
           false
         end
         expect(result).to be(false)
-      end.not_to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker)
+      end.not_to have_enqueued_job(UpdateDuplicateMatchesWorker)
     end
 
     it 'preserves successful return values and enqueues once for multiple changes' do
@@ -93,7 +93,7 @@ RSpec.describe EnqueueTriggeredDuplicateMatchCheck do
           application_form.update!(last_name: 'Jones', address_line1: 'Example address')
         end
         expect(result).to be(true)
-      end.to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker).with(application_form.id).exactly(:once)
+      end.to have_enqueued_job(UpdateDuplicateMatchesWorker).with(application_form.id).exactly(:once)
     end
 
     it 'does not lose changes when another save occurs in the block' do
@@ -102,12 +102,12 @@ RSpec.describe EnqueueTriggeredDuplicateMatchCheck do
           application_form.update!(address_line1: 'Example address')
           application_form.update!(first_name: 'Alex')
         end
-      end.to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker).with(application_form.id).exactly(:once)
+      end.to have_enqueued_job(UpdateDuplicateMatchesWorker).with(application_form.id).exactly(:once)
     end
 
     it 'does not enqueue for a direct model update' do
       expect { application_form.update!(address_line1: 'Example address') }
-        .not_to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker)
+        .not_to have_enqueued_job(UpdateDuplicateMatchesWorker)
     end
   end
 end
