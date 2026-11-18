@@ -119,7 +119,7 @@ private
   end
 
   def and_i_click_on_apply_filters
-    click_on 'Apply filters'
+    click_on 'Apply filters', match: :first
   end
 
   def then_i_see_only_courses_in_the_current_recruitment_cycle

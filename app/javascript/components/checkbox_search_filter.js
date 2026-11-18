@@ -14,6 +14,7 @@ class CheckboxSearchFilter {
     this.container = params.container
     this.container.classList.add('app-checkbox-filter--enhanced')
     this.checkboxes = this.container.querySelectorAll("input[type='checkbox']")
+    this.isSearchable = this.container.dataset.search === 'true'
     this.checkboxesContainer = this.container.querySelector('.app-checkbox-filter__container')
     this.checkboxesInnerContainer = this.checkboxesContainer.querySelector('.app-checkbox-filter__container-inner')
     this.setup()
@@ -110,12 +111,12 @@ class CheckboxSearchFilter {
   }
 
   setup () {
-    const MIN_FILTERED_CHECKBOX_LENGTH = 15
-
     this.setupStatusBox()
     this.setupHeading()
-    if (this.checkboxes.length >= MIN_FILTERED_CHECKBOX_LENGTH) {
+    if (this.isSearchable) {
       this.setupTextBox()
+    } else {
+      this.container.classList.add('app-checkbox-filter--no-search')
     }
     this.setupHeight()
   }

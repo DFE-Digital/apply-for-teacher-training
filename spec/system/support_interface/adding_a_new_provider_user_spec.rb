@@ -66,7 +66,7 @@ RSpec.describe 'Managing provider users v2' do
 
   def and_i_filter_providers_by_having_courses
     check 'With courses'
-    click_link_or_button 'Apply filters'
+    click_link_or_button 'Apply filters', match: :first
   end
 
   def and_i_click_add_user
@@ -142,7 +142,7 @@ RSpec.describe 'Managing provider users v2' do
 
     fill_in :q, with: 'harrison'
     check 'Never signed in'
-    click_link_or_button 'Apply filters'
+    click_link_or_button 'Apply filters', match: :first
   end
 
   def and_i_see_the_user_i_created
@@ -152,7 +152,7 @@ RSpec.describe 'Managing provider users v2' do
   def when_i_filter_the_list_of_provider_users_by_id
     @new_user = ProviderUser.find_by(email_address: 'harrison@example.com')
     fill_in :q, with: @new_user.id
-    click_link_or_button 'Apply filters'
+    click_link_or_button 'Apply filters', match: :first
   end
 
   def and_the_user_is_sent_a_welcome_email

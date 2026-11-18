@@ -81,7 +81,7 @@ RSpec.describe 'Email log' do
   def and_i_filter_emails_for_harry
     within('.moj-filter__content') do
       fill_in 'Recipient (To)', with: 'harry@example.com'
-      click_on 'Apply filters'
+      click_on 'Apply filters', match: :first
     end
   end
 
@@ -142,7 +142,7 @@ RSpec.describe 'Email log' do
     fill_in 'Recipient (To)', with: 'harry@example.com'
     uncheck 'Permanent failure'
     uncheck 'Delivered'
-    click_link_or_button 'Apply filters'
+    click_link_or_button 'Apply filters', match: :first
   end
 
   def then_i_see_only_emails_that_match_the_supplied_address

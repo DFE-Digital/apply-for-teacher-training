@@ -52,7 +52,7 @@ private
   def when_i_filter_emails_by_recipient
     within('.moj-filter__content') do
       fill_in 'Recipient (To)', with: 'bob@example.com'
-      click_on 'Apply filters'
+      click_on 'Apply filters', match: :first
     end
   end
 
@@ -91,7 +91,7 @@ private
   def when_i_filter_by_12_days_ago
     within('.moj-filter__content') do
       fill_in 'Days ago', with: 12
-      click_on 'Apply filters'
+      click_on 'Apply filters', match: :first
     end
   end
 

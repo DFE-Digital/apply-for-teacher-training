@@ -20,10 +20,6 @@ module ProviderInterface
       applied_filters.pluck(:candidate_id).uniq.size
     end
 
-    def show_bottom_button?
-      true
-    end
-
     def save_pagination(pagination_page)
       @provider_user_filter.update(pagination_page:)
     end

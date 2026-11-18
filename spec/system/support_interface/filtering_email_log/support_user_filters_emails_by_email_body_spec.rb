@@ -47,14 +47,14 @@ private
   def and_i_filter_emails_by_email_body
     within('.moj-filter__content') do
       fill_in 'Email body', with: 'Welcome to'
-      click_on 'Apply filters'
+      click_on 'Apply filters', match: :first
     end
   end
 
   def when_i_filter_emails_by_application_form_id
     within('.moj-filter__content') do
       fill_in 'Application form ID', with: @application_form.id
-      click_on 'Apply filters'
+      click_on 'Apply filters', match: :first
     end
   end
 

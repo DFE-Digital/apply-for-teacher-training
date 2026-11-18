@@ -42,6 +42,16 @@
   padding: govuk.govuk-spacing(1) govuk.govuk-spacing(2);
 }
 
+.app-checkbox-filter--no-search {
+  .app-checkbox-filter__container {
+    margin: (- govuk.govuk-spacing(2));
+  }
+
+  .app-checkbox-filter__container-inner {
+    padding: govuk.govuk-spacing(2);
+  }
+}
+
 .app-checkbox-filter__filter {
   position: relative;
 

@@ -8,20 +8,25 @@
       { name: t('provider_interface.interviews.upcoming'), url: provider_interface_interview_schedule_path },
       { name: t('provider_interface.interviews.past'), url: past_provider_interface_interview_schedule_path },
     ]) %>
-    <% if @grouped_interviews.any? %>
-      <div class="app-interviews">
-        <% @grouped_interviews.each do |date, interviews| %>
-          <h2 class="govuk-heading-s govuk-!-margin-top-7 govuk-!-margin-bottom-3">
-            <%= Date.parse(date).today? ? "Today (#{date})" : date %>
-          </h2>
-          <% interviews.each do |interview| %>
-            <%= render ProviderInterface::InterviewCardComponent.new(interview: interview) %>
+
+    <%= render PaginatedFilterComponent.new(filter: @filter, collection: @grouped_interviews) do %>
+      <% if @grouped_interviews.any? %>
+        <div class="app-interviews">
+          <% @grouped_interviews.each do |date, interviews| %>
+            <h2 class="govuk-heading-s govuk-!-margin-top-7 govuk-!-margin-bottom-3">
+              <%= Date.parse(date).today? ? "Today (#{date})" : date %>
+            </h2>
+            <% interviews.each do |interview| %>
+              <%= render ProviderInterface::InterviewCardComponent.new(interview: interview) %>
+            <% end %>
           <% end %>
-        <% end %>
-      </div>
-      <%= govuk_pagination(pagy: @pagy) %>
-    <% else %>
-      <p>No upcoming interviews</p>
+        </div>
+        <%= govuk_pagination(pagy: @pagy) %>
+      <% elsif @filter.filters_applied? %>
+        <p>There are no results for the selected filters.</p>
+      <% else %>
+        <p>No upcoming interviews</p>
+      <% end %>
     <% end %>
   </div>
 </div>

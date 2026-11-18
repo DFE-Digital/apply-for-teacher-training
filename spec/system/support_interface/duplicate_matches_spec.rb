@@ -165,12 +165,12 @@ private
 
   def when_i_search_for_a_duplicate_match_by_email
     fill_in 'Email', with: @bob.email_address
-    click_link_or_button 'Apply filters'
+    click_link_or_button 'Apply filters', match: :first
   end
 
   def when_i_search_for_a_resolved_duplicate_match_by_email
     fill_in 'Email', with: @alice.email_address
-    click_link_or_button 'Apply filters'
+    click_link_or_button 'Apply filters', match: :first
   end
 
   def when_i_click_on_resolve
@@ -243,7 +243,7 @@ private
   end
 
   def and_i_click_on_apply_filters
-    click_link_or_button 'Apply filters'
+    click_link_or_button 'Apply filters', match: :first
   end
 
   def then_i_see_list_of_duplicates_filtered_by_name
