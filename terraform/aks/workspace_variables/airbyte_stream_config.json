@@ -1188,6 +1188,11 @@
             "fieldPath": [
               "school_placement_auto_selected"
             ]
+          },
+          {
+            "fieldPath": [
+              "current_recruitment_cycle_year"
+            ]
           }
         ]
       },
