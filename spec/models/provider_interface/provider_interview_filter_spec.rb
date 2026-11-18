@@ -41,7 +41,7 @@ RSpec.describe ProviderInterface::ProviderInterviewFilter do
     it 'returns a course filter with the interviewed courses' do
       course_filter = build_filter.filters.last
 
-      expect(course_filter).to include(type: :checkboxes, heading: 'Course', name: 'course_ids')
+      expect(course_filter).to include(type: :checkbox_filter, heading: 'Course', name: 'course_ids')
       expect(course_filter[:options]).to eq(
         [
           { value: history_course.id, label: history_course.name_and_code, checked: false },
