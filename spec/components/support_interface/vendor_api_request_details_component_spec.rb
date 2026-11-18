@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::VendorAPIRequestDetailsComponent do
   it 'renders Unknown for an unknown provider' do
-    req = build(:vendor_api_request, provider: nil)
+    req = build(:vendor_api_request_v2, provider: nil)
 
     component = render_inline(described_class.new(req))
 
@@ -10,7 +10,7 @@ RSpec.describe SupportInterface::VendorAPIRequestDetailsComponent do
   end
 
   it 'includes a link to the application if the request identifies a single application' do
-    req = build(:vendor_api_request, request_path: '/api/v1/applications/11/offer')
+    req = build(:vendor_api_request_v2, request_path: '/api/v1/applications/11/offer')
 
     component = render_inline(described_class.new(req))
     link_to_application = component.at_css('a:contains("View in support")')
@@ -20,7 +20,7 @@ RSpec.describe SupportInterface::VendorAPIRequestDetailsComponent do
   end
 
   it 'does not includes a link to the application if the request does not identify a single application' do
-    req = build(:vendor_api_request, request_path: '/api/v1/applications')
+    req = build(:vendor_api_request_v2, request_path: '/api/v1/applications')
 
     component = render_inline(described_class.new(req))
 

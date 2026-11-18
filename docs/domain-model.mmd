@@ -836,15 +836,6 @@ erDiagram
 		string name
 		string status
 	}
-	VendorAPIRequest {
-		jsonb request_body
-		jsonb request_headers
-		string request_method
-		string request_path
-		jsonb response_body
-		jsonb response_headers
-		integer status_code
-	}
 	VendorAPIRequestV2 {
 		jsonb request_body
 		jsonb request_headers
@@ -1011,7 +1002,7 @@ erDiagram
 	Provider o|..}o ProviderUser : ""
 	Provider ||--}o ProviderRelationshipPermissions : ""
 	Provider ||--}o ProviderAgreement : ""
-	Provider o|--}o VendorAPIRequest : ""
+	Provider o|--}o VendorAPIRequestV2 : ""
 	Provider ||--}o VendorAPIToken : ""
 	Provider ||--}o "Publications::ProviderRecruitmentPerformanceReport" : ""
 	Provider ||--|o "Publications::WithdrawalReasonsReport" : ""
@@ -1048,5 +1039,4 @@ erDiagram
 	ProviderUser o|--}o ValidationError : ""
 	SupportUser o|--}o ValidationError : ""
 	Vendor o|--}o VendorAPIToken : ""
-	Provider o|--}o VendorAPIRequestV2 : ""
 	VendorAPIToken ||--}o VendorApiUser : ""
