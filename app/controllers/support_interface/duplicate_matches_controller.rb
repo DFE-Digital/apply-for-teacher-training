@@ -6,11 +6,13 @@ module SupportInterface
       authorize(nil, :show?, policy_class: SupportInterface::CandidatePolicy)
 
       @filter = SupportInterface::DuplicateMatchesFilter.new(params: search_params)
+      debugger
 
       matches_scope = @filter.filter_records(duplicate_matches(resolved: resolved?))
 
       @pagy, @matches = pagy(matches_scope, limit: PAGY_PER_PAGE)
       @under_review_count = duplicate_matches(resolved: false).count
+      @under_review_count
     end
 
     def show

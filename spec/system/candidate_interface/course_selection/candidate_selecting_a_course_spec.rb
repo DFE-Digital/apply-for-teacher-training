@@ -145,7 +145,7 @@ RSpec.describe 'Selecting a course', :with_cache do
   end
 
   def and_i_can_see_my_visa_explanation
-    expect(page).to have_text('Based on your visa expiry date, which of these applies to you?')
+    expect(page).to have_text('How will you be able to stay in the UK for the duration of this course?')
     expect(page).to have_text('My visa expires after the course ends')
   end
 
@@ -154,7 +154,7 @@ RSpec.describe 'Selecting a course', :with_cache do
   end
 
   def then_i_explain_my_visa_situation
-    expect(page).to have_text('Based on your visa expiry date, which of these applies to you?')
+    expect(page).to have_text('How will you be able to stay in the UK for the duration of this course?')
     choose 'My visa expires after the course ends'
   end
 
