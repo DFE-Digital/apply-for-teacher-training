@@ -17,4 +17,10 @@ class Candidate::AuthenticationMailerPreview < ActionMailer::Preview
 
     CandidateMailer.duplicate_match_email(application_form)
   end
+
+  def duplicate_match_original_account_email
+    application_form = FactoryBot.build(:application_form, first_name: 'Tester')
+
+    CandidateMailer.duplicate_match_original_account_email(application_form)
+  end
 end

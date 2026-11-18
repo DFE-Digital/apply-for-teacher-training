@@ -31,7 +31,7 @@ module SupportInterface
       end
 
       def save!
-        EnqueueTriggeredDuplicateMatchCheck.new(@application_form).call do
+        EnqueueDuplicateMatchCheck.new(@application_form).call do
           ApplicationForm.with_unsafe_application_choice_touches do
             @application_form.update!(
               first_name:,

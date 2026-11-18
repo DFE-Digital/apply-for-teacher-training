@@ -572,6 +572,15 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def duplicate_match_original_account_email(application_form)
+    @application_form = application_form
+    @sign_in_link = candidate_interface_create_account_or_sign_in_url
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.duplicate_match.original_account_subject'),
+    )
+  end
+
   def duplicate_match_email(application_form)
     @application_form = application_form
     email_for_candidate(

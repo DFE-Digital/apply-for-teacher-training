@@ -9,9 +9,12 @@ RSpec.describe CandidateMailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'You created more than one account to apply for teacher training',
+        'Your new Apply for teacher training account has been locked',
         'greeting' => 'Dear Fred',
-        'details' => 'You created more than one account to apply for teacher training. Your accounts have been locked.',
+        'details' => 'You recently created a new Apply for teacher training account using this email address.',
+        'locked' => 'We’ve found that you already have an account, so we’ve locked the new one.',
+        'original account' => 'We’ve sent an email to the address linked to your original account with a link to sign in.',
+        'support' => 'If you cannot access your original account or its email address, contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).',
       )
     end
   end

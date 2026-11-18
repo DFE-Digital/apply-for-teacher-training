@@ -78,14 +78,14 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
       personal_details = described_class.new(form_data)
 
       expect { personal_details.save(application_form) }
-        .to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker).with(application_form.id).exactly(:once)
+        .to have_enqueued_job(UpdateDuplicateMatchesWorker).with(application_form.id).exactly(:once)
     end
 
     it 'does not enqueue a duplicate check when the form is invalid' do
       application_form = create(:application_form, address_line1: 'Example address')
 
       expect { described_class.new.save(application_form) }
-        .not_to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker)
+        .not_to have_enqueued_job(UpdateDuplicateMatchesWorker)
     end
 
     it 'returns false if not valid' do

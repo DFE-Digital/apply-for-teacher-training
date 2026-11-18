@@ -37,14 +37,14 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
       details_form = described_class.new(address_type: 'international', address_line1: 'Example address', audit_comment: 'Correcting address')
 
       expect { details_form.save_address(application_form) }
-        .to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker).with(application_form.id).exactly(:once)
+        .to have_enqueued_job(UpdateDuplicateMatchesWorker).with(application_form.id).exactly(:once)
     end
 
     it 'does not enqueue a duplicate check for an invalid address' do
       application_form = create(:application_form)
 
       expect { described_class.new(address_type: 'uk').save_address(application_form) }
-        .not_to have_enqueued_job(UpdateTriggeredDuplicateMatchesWorker)
+        .not_to have_enqueued_job(UpdateDuplicateMatchesWorker)
     end
 
     it 'returns false if not valid' do

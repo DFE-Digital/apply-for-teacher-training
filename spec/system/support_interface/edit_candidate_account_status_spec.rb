@@ -80,8 +80,9 @@ private
   end
 
   def and_the_update_duplicate_matches_worker_has_run
-    UpdateDuplicateMatchesWorker.perform_now
-    Candidate.update_all(submission_blocked: false) # to test the account status we need a clean slate
+    UpdateDuplicateMatchesWorker.perform_now(@application_form_one.id)
+    DuplicateMatch.update_all(resolved: false)
+    Candidate.update_all(submission_blocked: false, account_locked: false) # to test the account status we need a clean slate
   end
 
   def when_i_go_to_duplicate_matches_page

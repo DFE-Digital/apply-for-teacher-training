@@ -12,7 +12,7 @@ RSpec.describe 'See Duplicate candidate matches' do
 
     when_there_are_candidates_with_duplicate_applications_in_the_system
     and_the_update_duplicate_matches_worker_has_run
-    and_the_second_duplicate_match_is_resolved
+    and_the_first_duplicate_match_is_under_review
     and_i_click_the_duplicate_matches_tab
     then_i_see_list_of_under_review_duplicates
     and_i_see_a_counter_for_under_review_duplicates
@@ -51,6 +51,7 @@ RSpec.describe 'See Duplicate candidate matches' do
     given_i_am_a_support_user
     when_there_are_candidates_with_duplicate_applications_in_the_system
     and_the_update_duplicate_matches_worker_has_run
+    and_both_duplicate_matches_are_under_review
     and_i_go_to_duplicate_matches_page
     and_i_click_the_duplicate_matches_tab
     then_i_see_list_of_duplicates
@@ -119,11 +120,16 @@ private
   end
 
   def and_the_update_duplicate_matches_worker_has_run
-    UpdateDuplicateMatchesWorker.perform_now
+    UpdateDuplicateMatchesWorker.perform_now(@bobs_application_form.id)
+    UpdateDuplicateMatchesWorker.perform_now(@alices_application_form.id)
   end
 
-  def and_the_second_duplicate_match_is_resolved
-    @ali.reload.duplicate_match.update!(resolved: true)
+  def and_the_first_duplicate_match_is_under_review
+    @bob.reload.duplicate_match.update!(resolved: false)
+  end
+
+  def and_both_duplicate_matches_are_under_review
+    DuplicateMatch.update_all(resolved: false)
   end
 
   def and_i_go_to_duplicate_matches_page

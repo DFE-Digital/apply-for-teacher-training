@@ -1,4 +1,4 @@
-class EnqueueTriggeredDuplicateMatchCheck
+class EnqueueDuplicateMatchCheck
   ADDRESS_FIELDS = %w[address_line1 address_line2 address_line3 address_line4 postcode address_type country].freeze
   PERSONAL_FIELDS = %w[last_name date_of_birth].freeze
 
@@ -10,7 +10,7 @@ class EnqueueTriggeredDuplicateMatchCheck
   def call
     yield.tap do |saved|
       if saved && check_required?
-        UpdateTriggeredDuplicateMatchesWorker.perform_later(@application_form.id)
+        UpdateDuplicateMatchesWorker.perform_later(@application_form.id)
       end
     end
   end

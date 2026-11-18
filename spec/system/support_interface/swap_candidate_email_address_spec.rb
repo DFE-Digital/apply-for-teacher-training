@@ -106,7 +106,8 @@ private
   end
 
   def and_the_update_duplicate_matches_worker_has_run
-    UpdateDuplicateMatchesWorker.perform_now
+    UpdateDuplicateMatchesWorker.perform_now(@application_form_one.id)
+    DuplicateMatch.update_all(resolved: false)
     Candidate.update_all(submission_blocked: false) # to test the account status we need a clean slate
   end
 

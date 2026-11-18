@@ -25,7 +25,7 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      EnqueueTriggeredDuplicateMatchCheck.new(application_form).call do
+      EnqueueDuplicateMatchCheck.new(application_form).call do
         application_form.update(
           first_name:,
           last_name:,
