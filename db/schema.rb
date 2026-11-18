@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_12_144921) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_18_110536) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -1424,21 +1424,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_12_144921) do
     t.index ["provider_id"], name: "index_vendor_api_request_v2s_on_provider_id"
     t.index ["request_path"], name: "index_vendor_api_request_v2s_on_request_path"
     t.index ["status_code"], name: "index_vendor_api_request_v2s_on_status_code"
-  end
-
-  create_table "vendor_api_requests", force: :cascade do |t|
-    t.datetime "created_at", precision: nil
-    t.bigint "provider_id"
-    t.jsonb "request_body"
-    t.jsonb "request_headers"
-    t.string "request_method"
-    t.string "request_path"
-    t.jsonb "response_body"
-    t.jsonb "response_headers"
-    t.integer "status_code"
-    t.index ["provider_id"], name: "index_vendor_api_requests_on_provider_id"
-    t.index ["request_path"], name: "index_vendor_api_requests_on_request_path"
-    t.index ["status_code"], name: "index_vendor_api_requests_on_status_code"
   end
 
   create_table "vendor_api_tokens", force: :cascade do |t|

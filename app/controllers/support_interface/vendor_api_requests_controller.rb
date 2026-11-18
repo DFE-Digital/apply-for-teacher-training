@@ -9,7 +9,7 @@ module SupportInterface
       vendor_api_requests = if @filter.filtered?
                               VendorAPIRequestQuery.call(params: @filter.applied_filters)
                             else
-                              VendorAPIRequest.none
+                              VendorAPIRequestV2.none
                             end
 
       @pagy, @vendor_api_requests = pagy_array(vendor_api_requests, limit: PAGY_PER_PAGE)

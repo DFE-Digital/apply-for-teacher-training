@@ -14,7 +14,7 @@ class Provider < ApplicationRecord
   has_many :training_provider_permissions, class_name: 'ProviderRelationshipPermissions', foreign_key: :training_provider_id, dependent: nil
   has_many :ratifying_provider_permissions, class_name: 'ProviderRelationshipPermissions', foreign_key: :ratifying_provider_id, dependent: nil
   has_many :provider_agreements, dependent: :destroy
-  has_many :vendor_api_requests, dependent: nil
+  has_many :vendor_api_requests, class_name: 'VendorAPIRequestV2', dependent: nil
   has_many :vendor_api_tokens, dependent: :destroy
 
   has_many :performance_reports, class_name: 'Publications::ProviderRecruitmentPerformanceReport', dependent: nil

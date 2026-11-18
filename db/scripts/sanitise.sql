@@ -31,7 +31,7 @@ DELETE FROM "blazer_queries";
 DELETE FROM "email_clicks";
 DELETE FROM "emails";
 DELETE FROM "find_feedback";
-DELETE FROM "vendor_api_requests";
+DELETE FROM "vendor_api_requests_v2s";
 DELETE FROM "sessions";
 DELETE FROM "session_errors";
 DELETE FROM "pool_eligible_application_forms";
