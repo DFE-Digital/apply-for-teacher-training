@@ -43,7 +43,7 @@ module CandidateInterface
     def type_row
       {
         key: t('application_form.gcse.qualification_type.label'),
-        value: 'Qualification from outside the UK',
+        value: 'Qualification from outside the UK that is equivalent to a GCSE',
         action: {
           href: candidate_interface_gcse_details_edit_type_path(change_path_params),
           visually_hidden_text: 'qualification from outside the UK',

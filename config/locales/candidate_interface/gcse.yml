@@ -10,7 +10,7 @@ en:
         gce_o_level: UK O level (from before 1989)
         scottish_national_5: Scottish National 5
         other_uk: Another UK qualification
-        non_uk: Qualification from outside the UK
+        non_uk: Qualification from outside the UK that is equivalent to a GCSE
         missing: I do not have a qualification in %{subject} yet
       other_uk:
         label: Qualification name
@@ -19,14 +19,20 @@ en:
         hint_text: For example, High School Diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller
         hint_text_english: For example, High School Diploma, Baccalauréat Général or WASSCE. Do not enter an English as a foreign language assessment here.
       non_uk_other_qualification:
-        label: Enter the name of your qualification
-        hint_text: Do not enter an English as a foreign language test here
-        non_structured_hint_text: For example, high school diploma or Baccalauréat Général. This must be equivalent to a GCSE.
-        non_structured_hint_text_english: For example, high school diploma or Baccalauréat Général. This must be equivalent to a GCSE. Do not enter an English as a foreign language test here.
+        label: Enter the name of the qualification
+        hint_text: Do not enter a qualification equivalent to an A level or a degree.
+        hint_text_english: Do not enter a qualification equivalent to an A level or a degree, or an English as a foreign language test.
+        non_structured_hint_text_html:
+          For example, high school diploma or Baccalauréat Général.<br><br>
+          Do not enter a qualification equivalent to an A level or a degree.
+        non_structured_hint_text_english_html:
+          For example, high school diploma or Baccalauréat Général.<br><br>
+          Do not enter a qualification equivalent to an A level or a degree, or an English as a foreign language test.
       non_uk_other_grade:
         label: Enter your grade
         non_structured_label: What grade did you get?
-        hint_text: For example, A, 4.5, 94%, or 42/60
+        hint_text:
+          Enter the grade as it appears on your certificate. For example, A, 4.5, 94%, or 42/60.
       not_completed_explanation:
         label: If you are working towards this qualification, give us details (optional)
       grade:

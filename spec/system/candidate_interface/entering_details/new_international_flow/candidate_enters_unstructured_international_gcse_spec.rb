@@ -111,7 +111,7 @@ private
   end
 
   def then_i_see_a_text_field_to_enter_another_qualification_not_listed
-    expect(page).to have_text 'Enter the name of your qualification'
+    expect(page).to have_text 'Enter the name of the qualification'
   end
 
   def when_i_enter_an_unstructured_qualification
