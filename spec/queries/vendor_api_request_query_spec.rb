@@ -18,16 +18,6 @@ RSpec.describe VendorAPIRequestQuery do
       end
     end
 
-    context 'when legacy vendor API requests exist' do
-      let!(:legacy_api_request) { create(:vendor_api_request) }
-      let!(:vendor_api_request) { create(:vendor_api_request_v2) }
-
-      it 'returns only VendorAPIRequestV2 records' do
-        expect(call).to all(be_a(VendorAPIRequestV2))
-        expect(call).to contain_exactly(vendor_api_request)
-      end
-    end
-
     context 'when given a provider code param' do
       let(:provider) { create(:provider, code: 'ZZZ') }
       let!(:provider_api_request) { create(:vendor_api_request_v2, provider:) }

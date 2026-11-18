@@ -35,7 +35,7 @@ These should be left alone.
 - email_clicks
 - emails
 - find_feedback
-- vendor_api_requests
+- vendor_api_request_v2s
 
 ### The following fields will by anonymised
 
