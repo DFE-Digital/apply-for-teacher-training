@@ -28,7 +28,7 @@ module SupportInterface
     end
 
     def resolved?
-      authorize(nil, :edit?, policy_class: SupportInterface::CandidatePolicy)
+      authorize(nil, :show?, policy_class: SupportInterface::CandidatePolicy)
 
       resolved_params.present?
     end
