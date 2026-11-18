@@ -5,6 +5,8 @@ module CandidateInterface
 
       attr_reader :current_application_id, :application_choice_id
 
+      delegate :requires_visa_sponsorship?, to: :current_application
+
       def know_the_course_to_apply?
         answer == 'yes'
       end
@@ -109,10 +111,6 @@ module CandidateInterface
 
       def visa_not_expires_soon?
         !visa_expires_soon?
-      end
-
-      def requires_visa_sponsorship?
-        current_application.requires_visa_sponsorship?
       end
     end
   end
