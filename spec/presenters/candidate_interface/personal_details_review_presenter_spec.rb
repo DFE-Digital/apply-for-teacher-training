@@ -454,7 +454,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, :mid_cycle do
       rows = rows(application_form:, nationalities_form:, right_to_work_form:, application_choice:)
       row_names = rows.map { |row| row[:key] }
       expect(row_names.include?('Visa expiry')).to be(true)
-      expect(row_names.include?('Based on your visa expiry date, which of these applies to you?')).to be(true)
+      expect(row_names.include?('How will you be able to stay in the UK for the duration of this course?')).to be(true)
     end
   end
 
