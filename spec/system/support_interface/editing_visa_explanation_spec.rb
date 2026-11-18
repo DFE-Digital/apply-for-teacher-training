@@ -55,7 +55,7 @@ RSpec.describe 'Change visa explanation' do
   end
 
   def then_i_expect_to_see_my_explanation
-    within '.govuk-summary-list__row', text: 'Based on your visa expiry date, which of these applies to you?' do
+    within '.govuk-summary-list__row', text: 'How will you be able to stay in the UK for the duration of this course?' do
       expect(page).to have_text('My visa expires after the course ends')
     end
   end

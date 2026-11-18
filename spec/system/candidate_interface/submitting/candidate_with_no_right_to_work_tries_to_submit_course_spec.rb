@@ -18,18 +18,39 @@ RSpec.describe 'Candidate with no right to work or study', :with_cache do
   scenario 'when submit a course that cannot sponsor student visa' do
     when_i_have_completed_my_foreign_application
     and_i_add_a_course_that_cannot_sponsor_student_visa
+    then_i_see_the_visa_may_not_cover_course_interruption
+
+    when_i_click_on_continue
+    then_see_the_visa_explanation_form_page
+
+    when_i_select_i_expect_to_extend_my_current_visa
+    and_i_click_on_continue
     then_i_see_an_error_message_that_the_course_does_not_sponsor_visa
   end
 
   scenario 'when submit a course that cannot sponsor skilled worker visa' do
     when_i_have_completed_my_foreign_application
     and_i_add_a_course_that_cannot_sponsor_skilled_worker
+    then_i_see_the_visa_may_not_cover_course_interruption
+
+    when_i_click_on_continue
+    then_see_the_visa_explanation_form_page
+
+    when_i_select_i_expect_to_extend_my_current_visa
+    and_i_click_on_continue
     then_i_see_an_error_message_that_the_course_does_not_sponsor_visa
   end
 
   scenario 'when submit a course that can sponsor student visa' do
     when_i_have_completed_my_foreign_application
     and_i_add_a_course_that_can_sponsor_student_visa
+    then_i_see_the_visa_may_not_cover_course_interruption
+
+    when_i_click_on_continue
+    then_see_the_visa_explanation_form_page
+
+    when_i_select_i_expect_to_extend_my_current_visa
+    and_i_click_on_continue
     then_i_do_not_see_an_error_message_that_the_course_does_not_sponsor_visa
     and_i_submit_the_international_application
     then_i_can_see_my_application_has_been_successfully_submitted
@@ -38,6 +59,13 @@ RSpec.describe 'Candidate with no right to work or study', :with_cache do
   scenario 'when submit a course that can sponsor skilled worker visa' do
     when_i_have_completed_my_foreign_application
     and_i_add_a_course_that_can_sponsor_skilled_worker
+    then_i_see_the_visa_may_not_cover_course_interruption
+
+    when_i_click_on_continue
+    then_see_the_visa_explanation_form_page
+
+    when_i_select_i_expect_to_extend_my_current_visa
+    and_i_click_on_continue
     then_i_do_not_see_an_error_message_that_the_course_does_not_sponsor_visa
     and_i_submit_the_international_application
     then_i_can_see_my_application_has_been_successfully_submitted
@@ -46,22 +74,45 @@ RSpec.describe 'Candidate with no right to work or study', :with_cache do
   scenario 'when i have a skilled worker visa and course does not sponsor' do
     when_i_complete_an_application_with_skilled_worker_visa
     and_i_add_a_course_that_cannot_sponsor_skilled_worker
+    then_i_see_the_visa_may_not_cover_course_interruption
+
+    when_i_click_on_continue
+    then_see_the_visa_explanation_form_page
+
+    when_i_select_i_expect_to_extend_my_current_visa
+    and_i_click_on_continue
     then_i_see_an_error_message_that_the_course_does_not_sponsor_visa
   end
 
   scenario 'when i have a student visa and course does not sponsor' do
     when_i_complete_an_application_with_student_visa
     and_i_add_a_course_that_cannot_sponsor_student_visa
+    then_i_see_the_visa_may_not_cover_course_interruption
+
+    when_i_click_on_continue
+    then_see_the_visa_explanation_form_page
+
+    when_i_select_i_expect_to_extend_my_current_visa
+    and_i_click_on_continue
     then_i_see_an_error_message_that_the_course_does_not_sponsor_visa
   end
 
   scenario 'when I have a student visa and the course I select sponsors visas' do
     when_i_complete_an_application_with_student_visa
     and_i_add_a_course_that_can_sponsor_student_visa
+    then_i_see_the_visa_may_not_cover_course_interruption
+
+    when_i_click_on_continue
+    then_see_the_visa_explanation_form_page
+
+    when_i_select_i_expect_to_extend_my_current_visa
+    and_i_click_on_continue
     then_i_do_not_see_an_error_message_that_the_course_does_not_sponsor_visa
     and_i_submit_the_international_application
     then_i_can_see_my_application_has_been_successfully_submitted
   end
+
+private
 
   def and_there_are_course_options
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
@@ -232,5 +283,47 @@ RSpec.describe 'Candidate with no right to work or study', :with_cache do
     expect(page).to have_text 'Application submitted'
 
     expect(@application_form.application_choices.first).to be_awaiting_provider_decision
+  end
+
+  def when_i_click_on_continue
+    click_on 'Continue'
+  end
+  alias_method :and_i_click_on_continue, :when_i_click_on_continue
+
+  def then_i_see_the_visa_may_not_cover_course_interruption
+    expect(page).to have_current_path(
+      candidate_interface_course_choices_visa_not_covered_interruption_review_path(@application_form.application_choices.first),
+    )
+    expect(page).to have_text('Your current visa may not cover this course')
+    expect(page).to have_text(
+      'Your visa is linked to your current studies or job. It may no longer be valid if you leave those to start this course.',
+    )
+    expect(page).to have_text(
+      'You must have the right to study in the UK for the duration of the course. This course does not offer visa sponsorship.',
+    )
+    expect(page).to have_text(
+      'You can continue your application and tell the training provider how you expect to stay in the UK for this course.',
+    )
+    expect(page).to have_text(
+      'Alternatively, you can finding a course that offers visa sponsorship (opens in new tab).',
+    )
+  end
+
+  def then_see_the_visa_explanation_form_page
+    expect(page).to have_current_path(
+      candidate_interface_course_choices_visa_explanation_path(
+        @application_form.application_choices.first,
+      ),
+    )
+    expect(page).to have_text('How will you be able to stay in the UK for the duration of this course?')
+    expect(page).to have_field('I expect to extend my current visa', type: :radio)
+    expect(page).to have_field('I expect to have indefinite leave to remain (ILR) or settled status', type: :radio)
+    expect(page).to have_field('I expect to switch to a different visa', type: :radio)
+    expect(page).to have_field('Other', type: :radio)
+    expect(page).to have_field('I’m not sure', type: :radio)
+  end
+
+  def when_i_select_i_expect_to_extend_my_current_visa
+    choose 'I expect to extend my current visa'
   end
 end

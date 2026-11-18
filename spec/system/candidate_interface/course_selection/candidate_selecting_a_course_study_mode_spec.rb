@@ -65,12 +65,12 @@ RSpec.describe 'Selecting a study mode', :with_cache do
 
   def when_i_change_my_visa_explanation
     click_link_or_button 'Change visa explanation'
-    choose 'I will be able to renew or extend my current visa'
+    choose 'I expect to extend my current visa'
     click_link_or_button 'Continue'
   end
 
   def then_i_can_see_my_new_visa_explanation
-    expect(page).to have_text('I will be able to renew or extend my current visa')
+    expect(page).to have_text('I expect to extend my current visa')
   end
 
   def when_i_click(button)
