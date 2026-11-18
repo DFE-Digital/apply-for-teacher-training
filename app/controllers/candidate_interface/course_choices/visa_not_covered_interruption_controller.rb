@@ -7,7 +7,7 @@ module CandidateInterface
 
       def new; end
 
-      private
+    private
 
       def current_step
         :visa_not_covered_interruption

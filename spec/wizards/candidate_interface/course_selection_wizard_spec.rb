@@ -26,6 +26,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
     it { is_expected.to delegate_method(:not_multiple_sites_or_study_modes?).to(:state_store) }
     it { is_expected.to delegate_method(:visa_expires_soon?).to(:state_store) }
     it { is_expected.to delegate_method(:not_confirmed?).to(:state_store) }
+    it { is_expected.to delegate_method(:requires_visa_sponsorship?).to(:state_store) }
   end
 
   describe 'steps' do
@@ -40,6 +41,10 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
     let(:current_step_params) { { current_application_id: application_form.id } }
     let(:application_form) { create(:completed_application_form) }
+
+    before do
+      state_store.write(current_application_id: application_form.id)
+    end
 
     describe 'root_step' do
       it 'returns the :do_you_know_the_course as the root step' do
