@@ -105,8 +105,8 @@
                     </div>
                   <% end %>
                 <% elsif filter[:type] == :checkbox_filter %>
-                  <div id="<%= filter[:name] %>" class="app-checkbox-filter app-checkbox-filter--enhanced">
-                    <% if active_filters&.find { |f| f[:name] == filter[:name] } && filter[:hide_tags].blank? %>
+                  <div id="<%= filter[:name] %>" class="app-checkbox-filter app-checkbox-filter--enhanced" data-search="<%= checkbox_search?(filter) %>">
+                    <% if active_filters&.find { |f| f[:name] == filter[:name] } && filter[:hide_tags].blank? && checkbox_search?(filter) %>
                       <div class="app-checkbox-filter__selected">
                         <ul class="app-checkbox-filter__tags">
                           <% tags_for_active_filter(filter).each do |tag| %>

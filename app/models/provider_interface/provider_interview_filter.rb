@@ -48,7 +48,7 @@ module ProviderInterface
 
     def courses_filter
       {
-        type: :checkboxes,
+        type: :checkbox_filter,
         heading: 'Course',
         name: 'course_ids',
         options: Course.where(id: course_ids).order(:name).map do |course|

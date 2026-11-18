@@ -3,6 +3,7 @@ import filter from './components/paginated_filter'
 import { initAutocomplete } from './autocompletes/init-autocomplete'
 import { supportAutocompleteInputs } from './autocompletes/support/support-autocomplete-inputs'
 import sortByFilter from './utils/sort-by-filter'
+import checkboxSearchFilter from './components/checkbox_search_filter'
 
 // stimulus
 import { Application } from '@hotwired/stimulus'
@@ -21,3 +22,5 @@ supportAutocompleteInputs.forEach((autocompleteInput) => {
 
 filter()
 sortByFilter()
+
+checkboxSearchFilter('subject', 'Search for subject')

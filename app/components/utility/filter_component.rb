@@ -1,6 +1,8 @@
 class FilterComponent < ApplicationComponent
   include ViewHelper
 
+  FILTER_OPTIONS_FOR_SEARCH = 15
+
   attr_reader :filter
   delegate :filters, to: :filter
 
@@ -119,6 +121,10 @@ class FilterComponent < ApplicationComponent
   end
 
 private
+
+  def checkbox_search?(filter)
+    filter.fetch(:options, []).count >= FILTER_OPTIONS_FOR_SEARCH
+  end
 
   def to_query(params)
     "?#{params.to_query}"
