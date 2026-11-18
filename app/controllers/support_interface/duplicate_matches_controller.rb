@@ -6,7 +6,6 @@ module SupportInterface
       authorize(nil, :show?, policy_class: SupportInterface::CandidatePolicy)
 
       @filter = SupportInterface::DuplicateMatchesFilter.new(params: search_params)
-      debugger
 
       matches_scope = @filter.filter_records(duplicate_matches(resolved: resolved?))
 
