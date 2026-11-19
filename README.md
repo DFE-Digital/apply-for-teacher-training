@@ -45,7 +45,7 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 | Dependency            | Version |
 |-----------------------|---------|
-| [Ruby](.ruby-version) | 4.0.9   |
+| [Ruby](.ruby-version) | 4.0.10  |
 | Node.js               | 24.18.1 |
 | Yarn                  | 4.18.0  |
 | PostgreSQL            | 17.11   |
