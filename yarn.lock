@@ -1319,6 +1319,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/plugin-transform-regenerator@npm:^8.1.2":
+  version: 8.1.2
+  resolution: "@babel/plugin-transform-regenerator@npm:8.1.2"
+  dependencies:
+    "@babel/helper-plugin-utils": "npm:^8.0.1"
+  peerDependencies:
+    "@babel/core": ^8.0.0
+  checksum: 10c0/1b81a8b07682f89cb92c8f2d279a2d8b5a3ff765c606b76ad569afe54e400e29f09c08abebb425ab876dadfa5caf47877c14fa61de3cf5845ce131285bf4abbc
+  languageName: node
+  linkType: hard
+
 "@babel/plugin-transform-regexp-modifiers@npm:^8.0.1":
   version: 8.0.1
   resolution: "@babel/plugin-transform-regexp-modifiers@npm:8.0.1"
@@ -3184,7 +3195,7 @@ __metadata:
     "@babel/plugin-syntax-dynamic-import": "npm:^7.8.3"
     "@babel/plugin-transform-destructuring": "npm:^8.0.5"
     "@babel/plugin-transform-optional-chaining": "npm:^8.0.5"
-    "@babel/plugin-transform-regenerator": "npm:^8.0.6"
+    "@babel/plugin-transform-regenerator": "npm:^8.1.2"
     "@babel/preset-env": "npm:^8.0.7"
     "@ministryofjustice/frontend": "npm:^11.1.0"
     accessible-autocomplete: "npm:^3.0.1"
