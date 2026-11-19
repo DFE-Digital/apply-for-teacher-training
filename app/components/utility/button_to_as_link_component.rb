@@ -1,4 +1,6 @@
 class ButtonToAsLinkComponent < ApplicationComponent
+  strip_trailing_whitespace
+
   def initialize(name:, path:, classes: [])
     @name = name
     @path = path

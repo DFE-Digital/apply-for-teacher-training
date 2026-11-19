@@ -28,7 +28,9 @@ en:
   national_careers_service:
     find_a_course_url: https://nationalcareers.service.gov.uk/find-a-course/search
   govuk:
-    one_login_account_guidance: You need a GOV.UK One Login to sign in to this service. You can create one if you do not already have one.
+    one_login_account_guidance_html: |
+      <p class='govuk-body'>You need a GOV.UK One Login to sign in. You can create one if you do not already have one.</p>
+      <p class='govuk-body'>If you are already signed in to GOV.UK One Login, you will not need to sign in again.</p>
     read_application_process_guidance: Read about application timings and deadlines
     url: https://www.gov.uk
     terms_conditions_url: https://www.gov.uk/help/terms-conditions
@@ -106,7 +108,13 @@ en:
   account_recovery_banner:
     title: Important
     header: If you have signed in before and your details are missing
-    content_html: You need to connect the email address you have used for GOV.UK One Login with the one you have used to sign in to this service in the past. If this is your first time signing into Apply for teacher training you can %{button_link}.
+    content_html: |
+      <p class='govuk-body'>
+        You need to connect the email address you have used for GOV.UK One Login with the one you have used to sign in to Apply for teacher training in the past.
+      </p>
+      <div class='govuk-body'>
+        If this is your first time using Apply for teacher training, or your details are not missing, you can %{button_link}.
+      </div>
     close_this_message: close this message
     get_your_details_back: Get your details back
     dismiss: Dismiss
@@ -124,7 +132,7 @@ en:
     there_is_a_problem: There is a problem
     account_recovery: Enter the code we sent to %{email}
     account_recovery_resend_email: Enter the new code we sent to %{email}
-    account_recovery_request: Get your account details back
+    account_recovery_request: Get your details back
     your_applications: Your applications
     application_feedback: How can we improve %{section} section?
     application_form: Your application
