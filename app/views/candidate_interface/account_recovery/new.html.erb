@@ -17,7 +17,6 @@
     <%= form_with model: @account_recovery, url: candidate_interface_account_recovery_create_path do |f| %>
       <%= f.govuk_error_summary %>
 
-
       <%= f.govuk_text_field :code, label: { text: page_title, size: 'l' }, width: 20 %>
 
       <%= f.govuk_submit %>

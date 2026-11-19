@@ -3,7 +3,7 @@ en:
     account_recovery_requests:
       new:
         form:
-          content: Enter the email address you’ve used to sign in to apply for teacher training in the past. We’ll send a code to that email address.
+          content: Enter the email address you’ve used to sign in to Apply for teacher training in the past. We’ll send a code to that email address.
           email_address:
             label: Email address
           submit: Send email

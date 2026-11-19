@@ -52,4 +52,4 @@ en:
             previous_account_email_address:
               blank: Enter an email address in the correct format, like name@example.com
               invalid: Enter an email address in the correct format, like name@example.com
-              email_same_as_current_candidate: Enter the email address you use to sign in to Apply for teacher training
+              email_same_as_current_candidate: You have entered the email address you are currently logged in with. Enter the email address you’ve used to sign in to Apply for teacher training in the past.

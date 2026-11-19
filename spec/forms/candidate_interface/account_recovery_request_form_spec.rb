@@ -33,7 +33,7 @@ RSpec.describe CandidateInterface::AccountRecoveryRequestForm, type: :model do
 
         expect(form).not_to be_valid
         expect(form.errors[:previous_account_email_address]).to eq(
-          ['Enter the email address you use to sign in to Apply for teacher training'],
+          ['You have entered the email address you are currently logged in with. Enter the email address you’ve used to sign in to Apply for teacher training in the past.'],
         )
       end
     end
