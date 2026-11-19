@@ -6,7 +6,6 @@ module CandidateInterface
       before_action :assign_wizard_with_application_choice
 
       def new
-        @application_choice = application_choice
         @find_provider_url = application_choice.find_provider_url
         @find_url_with_visa_filter = "#{find_url}/results?can_sponsor_visa=true"
       end

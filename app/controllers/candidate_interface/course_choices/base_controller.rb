@@ -9,7 +9,7 @@ module CandidateInterface
       before_action :redirect_to_your_applications_if_submitted, only: %i[edit update]
       before_action :assign_wizard
       before_action :assign_wizard_with_application_choice, only: %i[edit update]
-      before_action :redirect_to_wizard_start, only: [:new]
+      before_action :redirect_to_wizard_start
 
       def new; end
 
