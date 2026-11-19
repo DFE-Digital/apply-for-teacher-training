@@ -22,19 +22,19 @@ module EndOfCycle
                                            @application_form
                                              .application_choices
                                              .course_starts_after_september(
-                                               @application_form.recruitment_cycle_year,
+                                               previous_timetable.recruitment_cycle_year,
                                              )
                                          else
                                            @application_form
                                              .application_choices
                                              .course_start_in_september(
-                                               @application_form.recruitment_cycle_year,
+                                               current_timetable.recruitment_cycle_year,
                                              )
                                          end.where(status: REJECTABLE_STATUSES)
     end
 
     def run_winter_reject_by_default?
-      @application_form.recruitment_cycle_timetable.after_winter_reject_by_default?
+      previous_timetable.after_winter_reject_by_default? && current_timetable.before_reject_by_default?
     end
 
     def reject_application_choice!(application_choice)
@@ -51,6 +51,14 @@ module EndOfCycle
         interview.update!(cancellation_reason:, cancelled_at: Time.zone.now)
         CandidateMailer.interview_cancelled(application_choice, interview, cancellation_reason).deliver_later
       end
+    end
+
+    def previous_timetable
+      @previous_timetable ||= RecruitmentCycleTimetable.previous_timetable
+    end
+
+    def current_timetable
+      @current_timetable ||= RecruitmentCycleTimetable.current_timetable
     end
   end
 end
