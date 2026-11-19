@@ -21,6 +21,10 @@ RSpec.describe CandidateInterface::StateStores::CourseSelectionWizardStore, type
 
   before { wizard }
 
+  describe 'delegations' do
+    it { is_expected.to delegate_method(:requires_visa_sponsorship?).to(:current_application) }
+  end
+
   describe '.know_the_course_to_apply?' do
     context 'when answer is yes' do
       before do
