@@ -22,6 +22,9 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByRegion do
         { name: 'number_of_candidates_submitted_to_date', type: 'INTEGER', value: '100' },
         { name: 'number_of_candidates_submitted_to_same_date_previous_cycle', type: 'INTEGER', value: '200' },
         { name: 'number_of_candidates_submitted_to_date_as_proportion_of_last_cycle', type: 'FLOAT', value: '0.5' },
+        { name: 'number_of_candidates_unsubmitted_to_date', type: 'INTEGER', value: '50' },
+        { name: 'number_of_candidates_unsubmitted_to_same_date_previous_cycle', type: 'INTEGER', value: '100' },
+        { name: 'number_of_candidates_unsubmitted_to_date_as_proportion_of_last_cycle', type: 'FLOAT', value: '0.5' },
         { name: 'number_of_candidates_with_offers_to_date', type: 'INTEGER', value: '10' },
         { name: 'number_of_candidates_with_offers_to_same_date_previous_cycle', type: 'INTEGER', value: '5' },
         { name: 'number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle', type: 'FLOAT', value: '2.0' },
@@ -53,6 +56,9 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByRegion do
           number_of_candidates_submitted_to_date: 100,
           number_of_candidates_submitted_to_same_date_previous_cycle: 200,
           number_of_candidates_submitted_to_date_as_proportion_of_last_cycle: 0.5,
+          number_of_candidates_unsubmitted_to_date: 50,
+          number_of_candidates_unsubmitted_to_same_date_previous_cycle: 100,
+          number_of_candidates_unsubmitted_to_date_as_proportion_of_last_cycle: 0.5,
           number_of_candidates_with_offers_to_date: 10,
           number_of_candidates_with_offers_to_same_date_previous_cycle: 5,
           number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle: 2.0,
@@ -86,7 +92,7 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByRegion do
       allow(Google::Apis::BigqueryV2::QueryRequest).to receive(:new).and_call_original
       region_statistics
       expect(Google::Apis::BigqueryV2::QueryRequest).to have_received(:new).with(query: <<~SQL, timeout_ms: 10_000, use_legacy_sql: false)
-        SELECT nonregion_filter, nonregion_filter_category, cycle_week, recruitment_cycle_year, region_filter, number_of_candidates_submitted_to_date, number_of_candidates_submitted_to_same_date_previous_cycle, number_of_candidates_submitted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_offers_to_date, number_of_candidates_with_offers_to_same_date_previous_cycle, number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle, offer_rate_to_date, offer_rate_to_same_date_previous_cycle, number_of_candidates_accepted_to_date, number_of_candidates_accepted_to_same_date_previous_cycle, number_of_candidates_accepted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates, number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle
+        SELECT nonregion_filter, nonregion_filter_category, cycle_week, recruitment_cycle_year, region_filter, number_of_candidates_submitted_to_date, number_of_candidates_submitted_to_same_date_previous_cycle, number_of_candidates_submitted_to_date_as_proportion_of_last_cycle, number_of_candidates_unsubmitted_to_date, number_of_candidates_unsubmitted_to_same_date_previous_cycle, number_of_candidates_unsubmitted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_offers_to_date, number_of_candidates_with_offers_to_same_date_previous_cycle, number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle, offer_rate_to_date, offer_rate_to_same_date_previous_cycle, number_of_candidates_accepted_to_date, number_of_candidates_accepted_to_same_date_previous_cycle, number_of_candidates_accepted_to_date_as_proportion_of_last_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_same_date_previous_cycle, number_of_candidates_with_reconfirmed_offers_deferred_from_previous_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_same_date_previous_cycle, number_of_candidates_who_had_all_applications_rejected_this_cycle_to_date_as_proportion_of_last_cycle, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date, number_of_candidates_who_had_an_inactive_application_this_cycle_to_date_as_proportion_of_submitted_candidates, number_of_candidates_who_had_an_inactive_application_last_cycle_to_date_as_proportion_of_submitted_candidates_last_cycle
         FROM `1_key_tables.application_metrics_by_region`
         WHERE region_filter = "London"
         AND region_filter_category = "ITL1"
@@ -109,6 +115,9 @@ RSpec.describe DfE::Bigquery::ApplicationMetricsByRegion do
       expect(region_statistics.first.number_of_candidates_submitted_to_date).to eq 100
       expect(region_statistics.first.number_of_candidates_submitted_to_same_date_previous_cycle).to eq 200
       expect(region_statistics.first.number_of_candidates_submitted_to_date_as_proportion_of_last_cycle).to eq 0.5
+      expect(region_statistics.first.number_of_candidates_unsubmitted_to_date).to eq 50
+      expect(region_statistics.first.number_of_candidates_unsubmitted_to_same_date_previous_cycle).to eq 100
+      expect(region_statistics.first.number_of_candidates_unsubmitted_to_date_as_proportion_of_last_cycle).to eq 0.5
       expect(region_statistics.first.number_of_candidates_with_offers_to_date).to eq 10
       expect(region_statistics.first.number_of_candidates_with_offers_to_same_date_previous_cycle).to eq 5
       expect(region_statistics.first.number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle).to eq 2.0

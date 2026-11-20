@@ -1,0 +1,149 @@
+require 'rails_helper'
+
+RSpec.describe RecruitmentPerformanceReport::UnsubmittedApplicationsTableComponent do
+  it 'renders the report with expected columns and formats', :aggregate_failures do
+    provider_report = create(:provider_recruitment_performance_report)
+    provider = provider_report.provider
+    national_statistics = create(:national_recruitment_performance_report).statistics
+
+    render_inline described_class.new(provider, provider_report.statistics, national_statistics)
+
+    expect(page).to have_table('2. Candidates who have unsubmitted applications')
+
+    expect(page).to have_text provider.name
+    expect(page).to have_text 'All providers'
+    expect(page).to have_text 'Subject'
+    ['This cycle', 'Last cycle', 'Percentage change'].each do |heading|
+      expect(page).to have_element('th', scope: 'col', class: 'govuk-table__header', text: heading).twice
+    end
+
+    %w[Primary Secondary].each do |heading|
+      expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: heading)
+    end
+
+    primary_row = page.find('tr.govuk-table__row', text: 'Primary')
+    expect(primary_row).to have_text '6'
+    expect(primary_row).to have_text '23'
+    expect(primary_row).to have_text '-74%'
+    expect(primary_row).to have_text '5,286'
+    expect(primary_row).to have_text '5,346'
+    expect(primary_row).to have_text '-1%'
+
+    secondary_subject_headings.each do |heading|
+      expect(page).to have_element(
+        'th',
+        scope: 'row',
+        class: 'govuk-table__header recruitment-performance-report-table__cell--secondary-subject',
+        text: heading,
+      )
+    end
+  end
+
+  it 'renders the report with expected columns previous_cycle', :aggregate_failures do
+    provider_report = create(:provider_recruitment_performance_report)
+    provider = provider_report.provider
+    national_statistics = create(:national_recruitment_performance_report).statistics
+    previous_cycle_year = RecruitmentCycleTimetable.previous_year
+
+    render_inline described_class.new(
+      provider,
+      provider_report.statistics,
+      national_statistics,
+      recruitment_cycle_year: previous_cycle_year,
+    )
+
+    expect(page).to have_table('2. Candidates who have unsubmitted applications')
+
+    expect(page).to have_text provider.name
+    expect(page).to have_text 'All providers'
+    expect(page).to have_text 'Subject'
+    [
+      "#{previous_cycle_year} cycle",
+      "#{previous_cycle_year - 1} cycle",
+      'Percentage change',
+    ].each do |heading|
+      expect(page).to have_element('th', scope: 'col', class: 'govuk-table__header', text: heading).twice
+    end
+
+    %w[Primary Secondary].each do |heading|
+      expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: heading)
+    end
+
+    primary_row = page.find('tr.govuk-table__row', text: 'Primary')
+    expect(primary_row).to have_text '6'
+    expect(primary_row).to have_text '23'
+    expect(primary_row).to have_text '-74%'
+    expect(primary_row).to have_text '5,286'
+    expect(primary_row).to have_text '5,346'
+    expect(primary_row).to have_text '-1%'
+
+    secondary_subject_headings.each do |heading|
+      expect(page).to have_element(
+        'th',
+        scope: 'row',
+        class: 'govuk-table__header recruitment-performance-report-table__cell--secondary-subject',
+        text: heading,
+      )
+    end
+  end
+
+  describe 'provider report only has secondary data' do
+    it 'does not render primary data' do
+      provider_report = create(:provider_recruitment_performance_report, :secondary_only)
+      provider = provider_report.provider
+      national_statistics = create(:national_recruitment_performance_report).statistics
+
+      render_inline described_class.new(provider, provider_report.statistics, national_statistics)
+
+      expect(page).to have_table('2. Candidates who have unsubmitted applications')
+      expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')
+      expect(page).to have_no_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
+      secondary_subject_headings.each do |heading|
+        expect(page).to have_element(
+          'th',
+          scope: 'row',
+          class: 'govuk-table__header recruitment-performance-report-table__cell--secondary-subject',
+          text: heading,
+        )
+      end
+    end
+  end
+
+  describe 'when the provider report only has statistics for primary courses' do
+    it 'does not render secondary data' do
+      provider_report = create(:provider_recruitment_performance_report, :primary_only)
+      provider = provider_report.provider
+      national_statistics = create(:national_recruitment_performance_report).statistics
+
+      render_inline described_class.new(provider, provider_report.statistics, national_statistics)
+
+      expect(page).to have_table('2. Candidates who have unsubmitted applications')
+      expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
+
+      expect(page).to have_no_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')
+      secondary_subject_headings.each do |heading|
+        expect(page).to have_no_element(
+          'th',
+          scope: 'row',
+          class: 'govuk-table__header recruitment-performance-report-table__cell--secondary-subject',
+          text: heading,
+        )
+      end
+    end
+  end
+
+  def secondary_subject_headings
+    ['Art & Design',
+     'Biology',
+     'Design & Technology',
+     'English',
+     'Geography',
+     'History',
+     'Mathematics',
+     'Music',
+     'Others',
+     'Physical Education',
+     'Physics',
+     'Religious Education']
+  end
+end

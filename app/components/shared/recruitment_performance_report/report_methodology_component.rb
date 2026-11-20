@@ -30,6 +30,7 @@ module RecruitmentPerformanceReport
     def links_list
       [
         govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidates_who_have_submitted_applications'), '#candidates_who_have_submitted_applications', no_visited_state: true),
+        govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidates_who_have_unsubmitted_applications'), '#candidates_who_have_unsubmitted_applications', no_visited_state: true),
         govuk_link_to(t('shared.recruitment_performance_report.report_description_component.candidates_with_an_offer'), '#candidates_with_an_offer', no_visited_state: true),
         govuk_link_to(t('shared.recruitment_performance_report.report_description_component.proportion_of_candidates_with_an_offer'), '#proportion_of_candidates_with_an_offer', no_visited_state: true),
         govuk_link_to(t('shared.recruitment_performance_report.report_description_component.offers_accepted'), '#offers_accepted', no_visited_state: true),

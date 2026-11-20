@@ -113,6 +113,37 @@ RSpec.describe RecruitmentPerformanceReportExport do
           expect(zip_file).to have_csv_file_content(csv_filename, csv_data)
         end
 
+        it 'exports a candidates_who_have_unsubmitted_applications report' do
+          zip_file = export.call
+          csv_filename = 'candidates_who_have_unsubmitted_applications_*.csv'
+          csv_data =
+            [
+              ['', provider.name, '', '', 'All providers', '', ''],
+              ['Subject', 'Last cycle', 'This cycle', 'Percentage change', 'Last cycle', 'This cycle', 'Percentage change'],
+              %w[Primary 23 6 -74% 5346 5286 -1%],
+              %w[Secondary 54 20 -63% 7636 10097 32%],
+              ['Art & Design', '2', '2', '0%', '282', '452', '60%'],
+              %w[Biology 6 1 -83% 649 1016 57%],
+              %w[Chemistry 2 0 -100% 577 831 44%],
+              %w[Computing 2 0 -100% 370 558 51%],
+              ['Design & Technology', '1', '1', '0%', '274', '352', '28%'],
+              %w[Drama 1 0 -100% 169 178 5%],
+              %w[English 7 2 -71% 1250 1392 11%],
+              %w[Geography 3 1 -67% 438 522 19%],
+              %w[History 2 2 0% 482 526 9%],
+              %w[Mathematics 7 1 -86% 1399 1916 37%],
+              ['Modern Foreign Languages', '1', '0', '-100%', '601', '828', '38%'],
+              %w[Music 1 0 -100% 126 163 29%],
+              %w[Others 9 5 -44% 368 429 17%],
+              ['Physical Education', '5', '2', '-60%', '844', '1019', '21%'],
+              %w[Physics 6 1 -83% 596 1569 163%],
+              ['Religious Education', '2', '1', '-50%', '196', '355', '81%'],
+              ['All subjects', '77', '26', '-66%', '12362', '14418', '17%'],
+            ]
+
+          expect(zip_file).to have_csv_file_content(csv_filename, csv_data)
+        end
+
         it 'exports a candidates_that_received_an_offer report' do
           zip_file = export.call
           csv_filename = 'candidates_that_received_an_offer_*.csv'
@@ -371,6 +402,37 @@ RSpec.describe RecruitmentPerformanceReportExport do
               %w[Physics 14 3 -79% 859 1787 108%],
               ['Religious Education', '5', '2', '-60%', '78', '49', '-37%'],
               ['All subjects', '192', '65', '-66%', '4319', '5252', '22%'],
+            ]
+
+          expect(zip_file).to have_csv_file_content(csv_filename, csv_data)
+        end
+
+        it 'exports a candidates_who_have_unsubmitted_applications report for the selected region' do
+          zip_file = export.call
+          csv_filename = 'candidates_who_have_unsubmitted_applications_*.csv'
+          csv_data =
+            [
+              ['', provider.name, '', '', 'Providers in London', '', ''],
+              ['Subject', 'Last cycle', 'This cycle', 'Percentage change', 'Last cycle', 'This cycle', 'Percentage change'],
+              %w[Primary 23 6 -74% 406 368 -9%],
+              %w[Secondary 54 20 -63% 1336 1755 31%],
+              ['Art & Design', '2', '2', '0%', '34', '46', '35%'],
+              %w[Biology 6 1 -83% 134 86 -36%],
+              %w[Chemistry 2 0 -100% 106 98 -8%],
+              %w[Computing 2 0 -100% 50 77 54%],
+              ['Design & Technology', '1', '1', '0%', '15', '32', '113%'],
+              %w[Drama 1 0 -100% 14 10 -29%],
+              %w[English 7 2 -71% 95 108 14%],
+              %w[Geography 3 1 -67% 61 43 -30%],
+              %w[History 2 2 0% 44 38 -14%],
+              %w[Mathematics 7 1 -86% 220 224 2%],
+              ['Modern Foreign Languages', '1', '0', '-100%', '147', '201', '37%'],
+              %w[Music 1 0 -100% 10 8 -20%],
+              %w[Others 9 5 -44% 7 3 -57%],
+              ['Physical Education', '5', '2', '-60%', '68', '72', '6%'],
+              %w[Physics 6 1 -83% 344 715 108%],
+              ['Religious Education', '2', '1', '-50%', '31', '20', '-35%'],
+              ['All subjects', '77', '26', '-66%', '1728', '2101', '22%'],
             ]
 
           expect(zip_file).to have_csv_file_content(csv_filename, csv_data)
