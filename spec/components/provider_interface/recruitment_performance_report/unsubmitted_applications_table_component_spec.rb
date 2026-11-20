@@ -109,7 +109,7 @@ RSpec.describe RecruitmentPerformanceReport::UnsubmittedApplicationsTableCompone
     end
   end
 
-  describe 'provider report only has' do
+  describe 'when the provider report only has statistics for primary courses' do
     it 'does not render secondary data' do
       provider_report = create(:provider_recruitment_performance_report, :primary_only)
       provider = provider_report.provider
@@ -125,7 +125,7 @@ RSpec.describe RecruitmentPerformanceReport::UnsubmittedApplicationsTableCompone
         expect(page).to have_no_element(
           'th',
           scope: 'row',
-          class: 'govuk-table__header app-table__header--padding-left',
+          class: 'govuk-table__header recruitment-performance-report-table__cell--secondary-subject',
           text: heading,
         )
       end
