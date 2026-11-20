@@ -7,6 +7,7 @@ class RecruitmentPerformanceReportExport
   attr_reader :provider, :region, :report_type, :provider_report, :edi_reports, :reports
 
   CANDIDATES_WHO_HAVE_SUBMITTED_APPLICATIONS = 'candidates_who_have_submitted_applications'.freeze
+  CANDIDATES_WHO_HAVE_UNSUBMITTED_APPLICATIONS = 'candidates_who_have_unsubmitted_applications'.freeze
   CANDIDATES_THAT_RECEIVED_AN_OFFER = 'candidates_that_received_an_offer'.freeze
   PROPORTION_OF_CANDIDATES_WITH_AN_OFFER = 'proportion_of_candidates_with_an_offer'.freeze
   OFFERS_ACCEPTED = 'offers_accepted'.freeze
@@ -33,6 +34,7 @@ class RecruitmentPerformanceReportExport
     @edi_reports = edi_reports
     @reports = [
       CANDIDATES_WHO_HAVE_SUBMITTED_APPLICATIONS,
+      CANDIDATES_WHO_HAVE_UNSUBMITTED_APPLICATIONS,
       CANDIDATES_THAT_RECEIVED_AN_OFFER,
       PROPORTION_OF_CANDIDATES_WITH_AN_OFFER,
       OFFERS_ACCEPTED,
@@ -83,6 +85,13 @@ private
     field_mapping = RecruitmentPerformanceReport::SubmittedApplicationsTableComponent::BIG_QUERY_COLUMN_NAMES_MAPPING
     rows = build_subject_rows(field_mapping)
     file_name = CANDIDATES_WHO_HAVE_SUBMITTED_APPLICATIONS
+    rows_to_csv(file_name:, rows:, field_mapping:, export_folder:, timestamp:)
+  end
+
+  def candidates_who_have_unsubmitted_applications_report(export_folder, timestamp)
+    field_mapping = RecruitmentPerformanceReport::UnsubmittedApplicationsTableComponent::BIG_QUERY_COLUMN_NAMES_MAPPING
+    rows = build_subject_rows(field_mapping)
+    file_name = CANDIDATES_WHO_HAVE_UNSUBMITTED_APPLICATIONS
     rows_to_csv(file_name:, rows:, field_mapping:, export_folder:, timestamp:)
   end
 
