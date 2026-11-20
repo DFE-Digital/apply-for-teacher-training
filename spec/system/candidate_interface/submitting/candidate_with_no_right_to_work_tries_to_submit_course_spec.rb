@@ -305,7 +305,7 @@ private
       'You can continue your application and tell the training provider how you expect to stay in the UK for this course.',
     )
     expect(page).to have_text(
-      'Alternatively, you can finding a course that offers visa sponsorship (opens in new tab).',
+      'Alternatively, you can find a course that offers visa sponsorship (opens in new tab).',
     )
   end
 
