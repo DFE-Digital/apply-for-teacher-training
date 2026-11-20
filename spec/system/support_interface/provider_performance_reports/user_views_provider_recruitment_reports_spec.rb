@@ -213,38 +213,45 @@ private
       id: 'candidates_who_have_submitted_applications',
     )
 
+    expect(page).to have_link('Candidates who have unsubmitted applications', href: '#candidates_who_have_unsubmitted_applications')
+    expect(page).to have_css(
+      'h2',
+      text: '2. Candidates who have unsubmitted applications',
+      id: 'candidates_who_have_unsubmitted_applications',
+    )
+
     expect(page).to have_link('Candidates that received an offer', href: '#candidates_with_an_offer')
     expect(page).to have_css(
       'h2',
-      text: '2. Candidates that received an offer',
+      text: '3. Candidates that received an offer',
       id: 'candidates_with_an_offer',
     )
 
     expect(page).to have_link('Proportion of candidates with an offer', href: '#proportion_of_candidates_with_an_offer')
     expect(page).to have_css(
       'h2',
-      text: '3. Proportion of candidates with an offer',
+      text: '4. Proportion of candidates with an offer',
       id: 'proportion_of_candidates_with_an_offer',
     )
 
     expect(page).to have_link('Offers accepted', href: '#offers_accepted')
     expect(page).to have_css(
       'h2',
-      text: '4. Offers accepted',
+      text: '5. Offers accepted',
       id: 'offers_accepted',
     )
 
     expect(page).to have_link('Deferrals', href: '#candidate_deferrals')
     expect(page).to have_css(
       'h2',
-      text: '5. Deferrals',
+      text: '6. Deferrals',
       id: 'candidate_deferrals',
     )
 
     expect(page).to have_link('Candidates rejected', href: '#candidates_rejected')
     expect(page).to have_css(
       'h2',
-      text: '6. Candidates rejected',
+      text: '7. Candidates rejected',
       id: 'candidates_rejected',
     )
 
@@ -254,12 +261,12 @@ private
     )
     expect(page).to have_css(
       'h2',
-      text: '7. Proportion of candidates who have waited more than 30 working days for a response',
+      text: '8. Proportion of candidates who have waited more than 30 working days for a response',
       id: 'proportion_with_inactive_applications_table_component',
     )
     expect(page).to have_css(
       'h2',
-      text: '8. Sex, disability, ethnicity and age of candidates',
+      text: '9. Sex, disability, ethnicity and age of candidates',
       id: 'sex_disability_and_ethnicity_tables',
     )
 
