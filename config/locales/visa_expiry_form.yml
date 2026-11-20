@@ -1,4 +1,15 @@
 en:
   visa_expiry_form:
-    visa_explanation_label: Based on your visa expiry date, which of these applies to you?
+    visa_explanation_label: How will you be able to stay in the UK for the duration of this course?
+    unluckily_successful: You can submit your application, but it is unlikely to be successful.
+    options:
+      expires_after_course: My visa expires after the course ends
+      renew: I expect to extend my current visa
+      leads_to_permanent_visa: I expect to have indefinite leave to remain (ILR) or settled status
+      switch_to_different_visa: I expect to switch to a different visa
+      other: Other
+      details: Enter details
+      not_sure: I’m not sure
+
+
 

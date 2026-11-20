@@ -11,6 +11,7 @@ module SupportInterface
 
       @pagy, @matches = pagy(matches_scope, limit: PAGY_PER_PAGE)
       @under_review_count = duplicate_matches(resolved: false).count
+      @under_review_count
     end
 
     def show

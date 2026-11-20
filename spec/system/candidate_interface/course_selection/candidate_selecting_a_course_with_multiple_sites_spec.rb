@@ -44,7 +44,7 @@ RSpec.describe 'Selecting a course with multiple sites', :with_cache do
     and_i_choose_a_location
 
     then_i_see_the_visa_expiry_interruption
-    when_i_click('Continue to submit this application')
+    when_i_click('Continue')
     then_i_explain_my_visa_situation
     when_i_click('Continue')
     and_i_can_see_my_visa_explanation
@@ -57,7 +57,7 @@ RSpec.describe 'Selecting a course with multiple sites', :with_cache do
   end
 
   def and_i_can_see_my_visa_explanation
-    expect(page).to have_text('Based on your visa expiry date, which of these applies to you?')
+    expect(page).to have_text('How will you be able to stay in the UK for the duration of this course?')
     expect(page).to have_text('My visa expires after the course ends')
   end
 
@@ -66,7 +66,7 @@ RSpec.describe 'Selecting a course with multiple sites', :with_cache do
   end
 
   def then_i_explain_my_visa_situation
-    expect(page).to have_text('Based on your visa expiry date, which of these applies to you?')
+    expect(page).to have_text('How will you be able to stay in the UK for the duration of this course?')
     choose 'My visa expires after the course ends'
   end
 

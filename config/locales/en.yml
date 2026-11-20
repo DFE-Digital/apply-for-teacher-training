@@ -120,7 +120,9 @@ en:
     dismiss: Dismiss
   page_titles:
     status_of_active_applications: Status of active applications
+    visa_explanation: How will you be able to stay in the UK for the duration of this course?
     visa_expiry_interruption: Your visa may expire before the course ends
+    visa_not_covered_interruption: Your current visa may not cover this course
     visa_expiry: Visa expiry
     edit_applicant_visa_expiry: Edit applicant visa expiry
     edit_applicant_visa_explanation: Edit applicant visa explanation

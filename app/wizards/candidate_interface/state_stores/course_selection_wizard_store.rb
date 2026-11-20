@@ -5,6 +5,8 @@ module CandidateInterface
 
       attr_reader :current_application_id, :application_choice_id
 
+      delegate :requires_visa_sponsorship?, to: :current_application
+
       def know_the_course_to_apply?
         answer == 'yes'
       end
@@ -64,7 +66,7 @@ module CandidateInterface
       end
 
       def not_multiple_sites_or_study_modes?
-        !multiple_study_modes? && not_multiple_sites? && !visa_expires_soon?
+        !multiple_study_modes? && not_multiple_sites? && !visa_expires_soon? && !requires_visa_sponsorship?
       end
 
       def multiple_study_modes?
@@ -105,6 +107,10 @@ module CandidateInterface
         return false if application_choice.blank?
 
         application_choice.visa_expires_soon?
+      end
+
+      def visa_not_expires_soon?
+        !visa_expires_soon?
       end
     end
   end

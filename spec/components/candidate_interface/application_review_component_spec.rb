@@ -443,7 +443,7 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
 
     it 'renders visa explanation row' do
       expect(result.text).to include(
-        'Based on your visa expiry date, which of these applies to you?',
+        'How will you be able to stay in the UK for the duration of this course?',
       )
     end
   end
@@ -456,7 +456,7 @@ RSpec.describe CandidateInterface::ApplicationReviewComponent do
 
     it 'renders visa explanation row' do
       expect(result.text).not_to include(
-        'Based on your visa expiry date, which of these applies to you?',
+        'How will you be able to stay in the UK for the duration of this course?',
       )
     end
   end
