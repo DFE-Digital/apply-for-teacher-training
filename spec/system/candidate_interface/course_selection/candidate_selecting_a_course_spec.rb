@@ -75,7 +75,7 @@ RSpec.describe 'Selecting a course', :with_cache do
     and_i_choose_a_course
 
     then_i_see_the_visa_expiry_interruption
-    when_i_click('Continue to submit this application')
+    when_i_click('Continue')
     then_i_explain_my_visa_situation
     when_i_click('Continue')
     then_i_am_on_the_application_choice_review_page
@@ -129,7 +129,7 @@ RSpec.describe 'Selecting a course', :with_cache do
     given_i_am_on_the_review_page
     when_i_click('Enter your visa explanation')
     then_i_see_the_visa_expiry_interruption
-    when_i_click('Continue to submit this application')
+    when_i_click('Continue')
     then_i_explain_my_visa_situation
     when_i_click('Continue')
     then_i_am_on_the_application_choice_review_page
