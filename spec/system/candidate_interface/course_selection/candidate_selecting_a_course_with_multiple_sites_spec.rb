@@ -44,7 +44,7 @@ RSpec.describe 'Selecting a course with multiple sites', :with_cache do
     and_i_choose_a_location
 
     then_i_see_the_visa_expiry_interruption
-    when_i_click('Continue to submit this application')
+    when_i_click('Continue')
     then_i_explain_my_visa_situation
     when_i_click('Continue')
     and_i_can_see_my_visa_explanation

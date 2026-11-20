@@ -49,7 +49,7 @@ RSpec.describe 'Candidate submits the application with interruption pages' do
     when_i_click_to_review_my_application
     then_i_see_an_interruption_page_for_incompatible_grade
 
-    when_i_click('Continue to submit this application')
+    when_i_click('Continue')
     then_i_see_the_review_and_submit_page
   end
 
