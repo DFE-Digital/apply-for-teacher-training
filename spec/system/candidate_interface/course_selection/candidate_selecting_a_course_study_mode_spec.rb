@@ -30,7 +30,7 @@ RSpec.describe 'Selecting a study mode', :with_cache do
 
     when_i_select_a_site
     then_i_see_the_visa_expiry_interruption
-    when_i_click('Continue to submit this application')
+    when_i_click('Continue')
     then_i_explain_my_visa_situation
     when_i_click('Continue')
     then_i_see_my_course_choice
