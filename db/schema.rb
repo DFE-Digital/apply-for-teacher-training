@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_18_110536) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_20_140521) do
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -482,7 +482,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_18_110536) do
     t.datetime "magic_link_token_sent_at", precision: nil
     t.boolean "sign_up_email_bounced", default: false, null: false
     t.boolean "submission_blocked", default: false, null: false
-    t.bigint "triggered_duplicate_match_id"
     t.boolean "unsubscribed_from_emails", default: false
     t.datetime "updated_at", precision: nil, null: false
     t.datetime "recovered_at"
@@ -491,7 +490,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_18_110536) do
     t.index ["fraud_match_id"], name: "index_candidates_on_fraud_match_id"
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
     t.index ["submission_blocked"], name: "index_candidates_on_submission_blocked"
-    t.index ["triggered_duplicate_match_id"], name: "index_candidates_on_triggered_duplicate_match_id"
     t.index ["unsubscribed_from_emails"], name: "index_candidates_on_unsubscribed_from_emails"
   end
 
@@ -1387,16 +1385,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_18_110536) do
     t.string "registration_number", null: false
     t.integer "total_score", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "triggered_duplicate_matches", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.date "date_of_birth"
-    t.string "last_name"
-    t.string "postcode"
-    t.integer "recruitment_cycle_year"
-    t.datetime "updated_at", null: false
-    t.index ["date_of_birth", "last_name"], name: "index_triggered_duplicate_matches_on_dob_and_last_name"
   end
 
   create_table "validation_errors", force: :cascade do |t|
