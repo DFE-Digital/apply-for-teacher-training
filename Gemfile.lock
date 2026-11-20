@@ -384,7 +384,7 @@ GEM
     govuk_markdown (2.0.5)
       activesupport
       redcarpet
-    grover (1.2.10)
+    grover (2.0.1)
       nokogiri (~> 1)
     guard (2.18.1)
       formatador (>= 0.2.4)
@@ -1132,7 +1132,7 @@ CHECKSUMS
   govuk-components (6.6.0) sha256=99edf19e81f7560fdc752b709a8b661d379a92074f2186ac4c9eaddcffbae308
   govuk_design_system_formbuilder (6.6.0) sha256=f4f60620989b50beec1e8f6d1af4b3065a48cb1a86ebb6d01689b676ea9370c4
   govuk_markdown (2.0.5) sha256=e52346563f0c0daf9269112d126c881e6341ae494bb67a660636c0f549a55324
-  grover (1.2.10) sha256=989b21d1a0048e3793b9939b392152fb309c7a107911ad04c10e422de4e1479b
+  grover (2.0.1) sha256=fcb71e18c8bebf8c7bb4127abad7ec15b469291bd2f2cee3b78e84c6e3225cd6
   guard (2.18.1) sha256=a3893d3b23d538a9b2d6f05a27713e0ed53ea881df0f0550b21a3393c6d87c09
   guard-compat (1.2.1) sha256=3ad21ab0070107f92edfd82610b5cdc2fb8e368851e72362ada9703443d646fe
   guard-rspec (4.7.3) sha256=a47ba03cbd1e3c71e6ae8645cea97e203098a248aede507461a43e906e2f75ca
