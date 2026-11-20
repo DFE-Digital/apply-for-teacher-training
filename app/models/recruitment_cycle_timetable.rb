@@ -203,6 +203,10 @@ class RecruitmentCycleTimetable < ApplicationRecord
     Time.zone.now.after? reject_by_default_at
   end
 
+  def before_reject_by_default?
+    Time.zone.now.before? reject_by_default_at
+  end
+
   def after_winter_decline_by_default?
     Time.zone.now.after? winter_decline_by_default_at
   end
