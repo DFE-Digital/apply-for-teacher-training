@@ -522,11 +522,6 @@
               "recovered_at"
             ]
           },
-          {
-            "fieldPath": [
-              "triggered_duplicate_match_id"
-            ]
-          }
         ]
       },
       {
