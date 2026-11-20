@@ -170,7 +170,12 @@ module CandidateInterface
 
     def check_account_locked
       if current_candidate&.account_locked?
-        sign_out(current_candidate)
+        if one_login_enabled?
+          terminate_session
+        else
+          sign_out(current_candidate)
+        end
+
         redirect_to candidate_interface_account_locked_path
       end
     end

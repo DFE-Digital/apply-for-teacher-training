@@ -2,8 +2,7 @@ module CandidateInterface
   class ErrorsController < CandidateInterfaceController
     skip_before_action :verify_authenticity_token
     skip_before_action :authenticate_candidate!
-    skip_before_action :require_authentication, only: [:wrong_email_address]
-    skip_before_action :require_authentication
+    skip_before_action :require_authentication, only: %i[wrong_email_address account_locked]
 
     def account_locked
       render 'errors/account_locked', status: :forbidden, formats: :html
