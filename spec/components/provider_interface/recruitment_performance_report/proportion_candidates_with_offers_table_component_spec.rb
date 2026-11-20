@@ -8,7 +8,7 @@ RSpec.describe RecruitmentPerformanceReport::ProportionCandidatesWithOffersTable
 
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-    expect(page).to have_table('3. Proportion of candidates with an offer')
+    expect(page).to have_table('4. Proportion of candidates with an offer')
 
     expect(page).to have_text provider.name
     expect(page).to have_text 'All providers'
@@ -51,7 +51,7 @@ RSpec.describe RecruitmentPerformanceReport::ProportionCandidatesWithOffersTable
       recruitment_cycle_year: previous_cycle_year,
     )
 
-    expect(page).to have_table('3. Proportion of candidates with an offer')
+    expect(page).to have_table('4. Proportion of candidates with an offer')
 
     expect(page).to have_text provider.name
     expect(page).to have_text 'All providers'
@@ -92,7 +92,7 @@ RSpec.describe RecruitmentPerformanceReport::ProportionCandidatesWithOffersTable
 
       render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-      expect(page).to have_table('3. Proportion of candidates with an offer')
+      expect(page).to have_table('4. Proportion of candidates with an offer')
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')
       expect(page).to have_no_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
       secondary_subject_headings.each do |heading|
@@ -114,7 +114,7 @@ RSpec.describe RecruitmentPerformanceReport::ProportionCandidatesWithOffersTable
 
       render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-      expect(page).to have_table('3. Proportion of candidates with an offer')
+      expect(page).to have_table('4. Proportion of candidates with an offer')
       expect(page).to have_no_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
       secondary_subject_headings.each do |heading|

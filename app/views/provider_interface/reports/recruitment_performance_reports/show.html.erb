@@ -21,17 +21,17 @@
         <%= govuk_link_to 'Export data (ZIP)', provider_interface_reports_provider_recruitment_performance_report_path(provider_id: @provider, format: :zip) %>
       </p>
     <% else %>
-      <p class="govuk-body">
-        <%= t('reports.provider_recruitment_reports.not_ready_to_view') %>
-      </p>
-
-      <% if RecruitmentPerformanceReportTimetable.report_season? %>
+      <% if @recruitment_cycle_year == RecruitmentCycleTimetable.previous_year || RecruitmentPerformanceReportTimetable.report_season? %>
         <%= govuk_link_to(
           'Set your comparison area',
           @comparison_link,
           class: 'govuk-button govuk-button--secondary',
         ) %>
       <% end %>
+
+      <p class="govuk-body">
+        <%= t('reports.provider_recruitment_reports.not_ready_to_view') %>
+      </p>
     <% end %>
   </div>
 
