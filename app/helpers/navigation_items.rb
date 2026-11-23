@@ -77,7 +77,7 @@ class NavigationItems
               active: active?(
                 current_controller,
                 %w[providers provider_recruitment_performance_report course provider_users api_tokens provider_recruitment_report reports],
-                %w[application_forms performance],
+                %w[application_forms performance monthly_statistics_reports],
               ),
             }
           end,
@@ -86,7 +86,7 @@ class NavigationItems
             {
               text: 'Performance',
               href: support_interface_performance_path,
-              active: active?(current_controller, %w[performance data_exports validation_errors email_log vendor_api_requests performance_dashboard], %w[provider_recruitment_performance_report recruitment_performance_report]),
+              active: active?(current_controller, %w[performance data_exports validation_errors email_log vendor_api_requests performance_dashboard monthly_statistics_reports], %w[provider_recruitment_performance_report recruitment_performance_report]),
             }
           end,
           if SupportInterface::FeatureFlagPolicy.new(current_support_user, nil).show? ||
