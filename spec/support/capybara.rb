@@ -6,6 +6,20 @@ if ENV['TEST_ENV_NUMBER']
 end
 Capybara.default_normalize_ws = true
 
+# Newer Chrome rejects the `origin: '*'` Capybara passes to
+# Storage.clearDataForOrigin when resetting sessions. Clear cookies directly.
+module ChromeResetWithoutWildcardOrigin
+  def execute_cdp(cmd, params = {})
+    if cmd == 'Storage.clearDataForOrigin' && params[:origin] == '*'
+      super('Network.clearBrowserCookies')
+    else
+      super
+    end
+  end
+end
+
+Capybara::Selenium::Driver::ChromeDriver.prepend(ChromeResetWithoutWildcardOrigin)
+
 options = Selenium::WebDriver::Chrome::Options.new.tap do |opts|
   opts.add_argument('--no-sandbox')
   opts.add_argument('--disable-dev-shm-usage')
