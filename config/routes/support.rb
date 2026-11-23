@@ -80,8 +80,8 @@ namespace :support_interface, path: '/support' do
       post 'volunteering-roles/:volunteering_role_id' => 'application_forms/volunteering_roles#update', as: :application_form_update_volunteering_role
     end
 
-    get '/previous-teacher-trainings/:previous_teacher_training_id' => 'application_forms/previous_teacher_trainings#edit', as: :application_form_edit_previous_teacher_training
-    post '/previous-teacher-trainings/:previous_teacher_training_id' => 'application_forms/previous_teacher_trainings#update', as: :application_form_update_previous_teacher_training
+    get '/previous-teacher-trainings/:previous_teacher_training_id' => 'application_forms/previous_teacher_trainings#edit', as: :application_form_edit_previous_teacher_trainings
+    post '/previous-teacher-trainings/:previous_teacher_training_id' => 'application_forms/previous_teacher_trainings#update', as: :application_form_update_previous_teacher_trainings
 
     resource :one_login_auths, only: %i[edit update], path: '/one-login-auths'
   end

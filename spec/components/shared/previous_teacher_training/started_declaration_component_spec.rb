@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe PreviousTeacherTraining::StartedDeclarationComponent do
   let(:application_form) { create(:application_form) }
-  let(:rendered_component) { render_inline(described_class.new(application_form:)) }
-  let(:component) { described_class.new(application_form:) }
+  let(:rendered_component) { render_inline(described_class.new(application_form:, current_user:, actions: true)) }
+  let(:component) { described_class.new(application_form:, current_user:) }
+  let(:current_user) { create(:candidate) }
 
   describe 'render?' do
     subject(:rendered) { component.render? }
@@ -47,7 +48,7 @@ RSpec.describe PreviousTeacherTraining::StartedDeclarationComponent do
       end
 
       context 'when actions if true' do
-        let(:rendered_component) { render_inline(described_class.new(application_form:, actions: true)) }
+        let(:rendered_component) { render_inline(described_class.new(application_form:, current_user:, actions: true)) }
 
         it 'renders the component with a change link' do
           expect(rendered_component).to have_link(

@@ -4,7 +4,7 @@
       <%= t('support_interface.safeguarding_issues_component.previous_training_heading') %>
     </h2>
 
-    <%= render PreviousTeacherTraining::StartedDeclarationComponent.new(application_form: @application_form, actions: true) %>
+    <%= render PreviousTeacherTraining::StartedDeclarationComponent.new(application_form: @application_form, current_user:, actions: true) %>
     <%= render PreviousTeacherTraining::ListComponent.with_collection(@application_form.previous_teacher_trainings.published.started_yes.order_by_dates, heading_level: 3, actions: true) %>
   <% end %>
 

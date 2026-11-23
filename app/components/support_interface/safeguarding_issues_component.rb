@@ -1,9 +1,10 @@
 module SupportInterface
   class SafeguardingIssuesComponent < ApplicationComponent
-    attr_reader :message
+    attr_reader :message, :current_user
 
-    def initialize(application_form:)
+    def initialize(application_form:, current_user:)
       @application_form = application_form
+      @current_user = current_user
       @message = SafeguardingStatus.new(
         status: application_form.safeguarding_issues_status,
         i18n_key: 'support_interface.safeguarding_issues_component',
