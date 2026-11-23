@@ -90,5 +90,27 @@ RSpec.describe EndOfCycle::RejectByDefaultService do
       expect(jan_interview.reload.cancellation_reason).to eq('Your application was unsuccessful.')
       expect(sept_interview.reload.cancellation_reason).to be_nil
     end
+
+    it 'only cancels Jan choices, nothing later', time: after_winter_reject_by_default(2026) do
+      af_current_year = create(:application_form, recruitment_cycle_year: 2027) # we are into the 2027 cycle after the wrbd 2026 date
+      jan_choice = create(
+        :application_choice,
+        :awaiting_provider_decision,
+        application_form: af_current_year,
+      )
+
+      jan_choice.course.update!(start_date: Time.zone.local(2027, 1, 10))
+
+      sept_choice = create(
+        :application_choice,
+        :awaiting_provider_decision,
+        application_form: af_current_year,
+      )
+
+      described_class.new(af_current_year).call
+
+      expect(sept_choice.reload.status).to eq('awaiting_provider_decision')
+      expect(jan_choice.reload.status).to eq('rejected')
+    end
   end
 end
