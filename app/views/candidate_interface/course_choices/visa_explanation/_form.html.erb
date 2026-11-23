@@ -16,6 +16,7 @@
   <%= f.govuk_radio_button(
     :visa_explanation,
     :renew,
+    link_errors: @wizard.requires_visa_sponsorship?,
     label: { text: t('visa_expiry_form.options.renew') },
   ) %>
   <%= f.govuk_radio_button(
