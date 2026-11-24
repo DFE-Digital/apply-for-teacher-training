@@ -21,10 +21,28 @@ module SupportInterface
           original_email_address = candidate.email_address
 
           candidate_with_email_address.update!(email_address: dummy_email_address)
-          candidate.update!(email_address: updatable_candidate_email)
-          candidate_with_email_address.update!(email_address: original_email_address)
+          candidate.one_login_auth&.destroy
+          candidate.account_recovery_request&.destroy
+
+          candidate_with_email_address.one_login_auth&.destroy
+          candidate_with_email_address.account_recovery_request&.destroy
+          candidate.update!(
+            email_address: updatable_candidate_email,
+            account_recovery_status: 'not_started',
+          )
+
+          candidate_with_email_address.update!(
+            email_address: original_email_address,
+            account_recovery_status: 'not_started',
+          )
         else
-          candidate.update!(email_address: updatable_candidate_email)
+          candidate.one_login_auth&.destroy
+          candidate.account_recovery_request&.destroy
+
+          candidate.update!(
+            email_address: updatable_candidate_email,
+            account_recovery_status: 'not_started',
+          )
         end
       end
     end
