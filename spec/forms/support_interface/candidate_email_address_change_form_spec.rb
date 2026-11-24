@@ -45,6 +45,18 @@ RSpec.describe SupportInterface::CandidateEmailAddressChangeForm, type: :model d
         expect { form.update! }.to change { candidate_1.reload.email_address }.from(candidate_1.email_address).to(candidate_2.email_address)
           .and change { candidate_2.reload.email_address }.from(candidate_2.email_address).to(candidate_1.email_address)
       end
+
+      it 'destroys the one_login_auth and account_recovery_request of both candidates' do
+        create(:one_login_auth, candidate: candidate_1)
+        create(:account_recovery_request, candidate: candidate_1)
+        create(:one_login_auth, candidate: candidate_2)
+        create(:account_recovery_request, candidate: candidate_2)
+
+        expect { form.update! }.to change { candidate_1.reload.one_login_auth }.to(nil)
+          .and change { candidate_1.reload.account_recovery_request }.to(nil)
+          .and change { candidate_2.reload.one_login_auth }.to(nil)
+          .and change { candidate_2.reload.account_recovery_request }.to(nil)
+      end
     end
 
     context 'when the candidate exists, and is in the duplicate match, for the given other email address' do
