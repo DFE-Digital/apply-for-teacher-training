@@ -1,0 +1,29 @@
+<% content_for :browser_title, 'Remove previous teacher training' %>
+<% content_for :before_content, govuk_back_link_to(:back) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @previous_teacher_training,
+      url: support_interface_application_form_destroy_teacher_training_previous_teacher_trainings_path(@application_form, @previous_teacher_training),
+      method: :delete,
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <span class="govuk-caption-l"><%= t('.caption') %></span>
+      <h1 class="govuk-heading-l"><%= t('.title') %></h1>
+
+      <%= render PreviousTeacherTraining::ListComponent.new(
+        previous_teacher_training: @previous_teacher_training,
+        current_user: current_candidate,
+        card: false,
+      ) %>
+
+      <%= f.govuk_submit t('.confirm'), warning: true %>
+    <% end %>
+
+    <p class="govuk-body">
+      <%= govuk_link_to t('.cancel'), request.referer %>
+    </p>
+  </div>
+</div>

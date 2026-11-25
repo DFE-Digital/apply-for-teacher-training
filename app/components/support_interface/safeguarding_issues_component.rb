@@ -14,5 +14,9 @@ module SupportInterface
     def previous_training_record
       @previous_training_record ||= @application_form.published_previous_teacher_trainings.sample
     end
+
+    def yes_started_previous_teacher_trainings
+      @yes_started_previous_training_record ||= @application_form.published_previous_teacher_trainings.started_yes
+    end
   end
 end

@@ -39,9 +39,9 @@ private
 
   def change_link
     if current_user.is_a?(SupportUser)
-      support_interface_application_form_edit_previous_teacher_trainings_path(
+      support_interface_application_form_edit_declaration_previous_teacher_trainings_path(
         application_form,
-        published_previous_teacher_training
+        published_previous_teacher_training,
       )
     else
       edit_candidate_interface_previous_teacher_trainings_path(

@@ -1,0 +1,29 @@
+en:
+  support_interface:
+    application_forms:
+      previous_teacher_trainings:
+        edit_declaration:
+          title: Edit previous teacher training
+          form:
+            started: Has the candidate started an initial teacher training (ITT) course in England that they did not finish or pass?
+        new_teacher_training:
+          title: Add previous teacher training
+        edit_teacher_training:
+          title: Edit previous teacher training
+        teacher_training_form:
+          provider_name: Name of the training provider
+          start_date: Start date
+          end_date: End date
+          end_date_hint: Enter the date the candidate left or finished the course
+          details: Details about this initial teacher training (ITT) course
+          audit_comment: Audit comment
+        review:
+          add_another_course: Add another course
+        remove_teacher_training:
+          title: Are you sure you want to delete this previous teacher training?
+          confirm: Yes, delete previous teacher training
+          provider_name: Name of the training provider
+          training_dates: Training dates
+          details: Details
+          caption: Previous teacher training
+          cancel: Cancel

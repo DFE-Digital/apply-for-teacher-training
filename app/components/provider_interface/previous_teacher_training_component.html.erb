@@ -5,5 +5,5 @@
 
   <%= render PreviousTeacherTraining::StartedDeclarationComponent.new(application_form:, current_user:) %>
 
-  <%= render PreviousTeacherTraining::ListComponent.with_collection(previous_teacher_trainings) %>
+  <%= render PreviousTeacherTraining::ListComponent.with_collection(previous_teacher_trainings, current_user:) %>
 </section>

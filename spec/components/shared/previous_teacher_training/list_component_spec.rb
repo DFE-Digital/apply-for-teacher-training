@@ -2,10 +2,11 @@ require 'rails_helper'
 
 RSpec.describe PreviousTeacherTraining::ListComponent do
   let(:application_form) { create(:application_form) }
+  let(:current_user) { application_form.candidate }
 
   describe 'renders the component' do
     subject(:rendered_component) do
-      render_inline(described_class.with_collection(previous_teacher_trainings, card:, actions:))
+      render_inline(described_class.with_collection(previous_teacher_trainings, current_user:, card:, actions:))
     end
 
     let(:actions) { false }

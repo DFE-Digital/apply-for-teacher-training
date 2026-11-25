@@ -15,6 +15,7 @@
 
       <%= render PreviousTeacherTraining::ListComponent.new(
         previous_teacher_training: @previous_teacher_training,
+        current_user: current_candidate,
         card: false,
       ) %>
 

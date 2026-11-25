@@ -1,0 +1,14 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(:back) %>
+
+<h1 class="govuk-heading-l">
+  <%= t('.title') %>
+</h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render 'teacher_training_form',
+               url: support_interface_application_form_update_teacher_training_previous_teacher_trainings_path(@application_form, @previous_teacher_training),
+               method: :patch %>
+  </div>
+</div>

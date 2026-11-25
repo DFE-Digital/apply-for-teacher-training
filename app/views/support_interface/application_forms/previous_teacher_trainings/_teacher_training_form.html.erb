@@ -1,0 +1,34 @@
+<%= form_with(
+  model: @form,
+  url:,
+  method:,
+) do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <%= render DfE::Autocomplete::View.new(
+    f,
+    attribute_name: :provider_name,
+    form_field: f.govuk_select(
+      :provider_name,
+      options_for_select(dfe_autocomplete_options(@form.providers), f.object.provider_name),
+      aria: { label: 'support-interface-application-forms-previous-teacher-trainings-teacher-training-form-provider-name-field-select' },
+      label: { text: t('.provider_name'), size: 'm' },
+    ),
+  ) %>
+
+  <%= f.govuk_date_field :started_at, omit_day: true, legend: { text: t('.start_date'), size: 'm' } %>
+
+  <%= f.govuk_date_field :ended_at, omit_day: true, legend: { text: t('.end_date'), size: 'm' }, hint: { text: t('.end_date_hint') } %>
+
+  <%= f.govuk_text_area(
+    :details,
+    label: { text: t('.details'), size: 'm' },
+    rows: 10,
+    max_length: 200,
+    count_type: :words,
+  ) %>
+
+  <%= f.govuk_text_field :audit_comment, label: { text: 'Zendesk ticket', size: 'm' } %>
+
+  <%= f.govuk_submit t('save_and_continue') %>
+<% end %>
