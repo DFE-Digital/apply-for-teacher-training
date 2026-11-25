@@ -9,7 +9,7 @@ en:
         national_last_cycle: Last cycle
         national_percentage_change: Percentage change
         candidates_who_have_submitted_applications: 1. Candidates who have submitted applications
-        candidates_who_have_unsubmitted_applications: 2. Candidates who have unsubmitted applications
+        candidates_who_have_unsubmitted_applications: 2. Candidates with draft applications
         candidates_with_an_offer: 3. Candidates that received an offer
         proportion_of_candidates_with_an_offer: 4. Proportion of candidates with an offer
         offers_accepted: 5. Offers accepted
@@ -37,7 +37,7 @@ en:
         contents: Contents
         about_this_data: About this data
         candidates_who_have_submitted_applications: Candidates who have submitted applications
-        candidates_who_have_unsubmitted_applications: Candidates who have unsubmitted applications
+        candidates_who_have_unsubmitted_applications: Candidates with draft applications
         candidates_with_an_offer: Candidates that received an offer
         proportion_of_candidates_with_an_offer: Proportion of candidates with an offer
         offers_accepted: Offers accepted
@@ -112,8 +112,10 @@ en:
         candidates_who_withdrew: Candidates who withdrew or deferred their applications after they submitted them are included.
       unsubmitted_applications_table_component:
         number_of_candidates_unsubmitted: >
-          This table shows the number of candidates who have unsubmitted one or more applications to %{provider_name} so
+          This table shows the number of candidates who prepared, but not submitted, applications to %{provider_name} so
           far this recruitment cycle.
+        number_of_candidates_unsubmitted_previous_year: >
+          This table shows the number of candidates who prepared, but not submitted, applications to %{provider_name} in the %{recruitment_cycle_year} cycle.
         last_cycle: last cycle,
         national_data: national data.
         regional_data: regional data.

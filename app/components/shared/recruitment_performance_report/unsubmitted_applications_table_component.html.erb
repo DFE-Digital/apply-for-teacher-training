@@ -9,7 +9,7 @@
   <span>
     <p class="govuk-body">
       <% if recruitment_cycle_year == RecruitmentCycleTimetable.previous_year %>
-        This table shows the number of candidates who have unsubmitted one or more applications to <%= @provider.name %> in the <%= recruitment_cycle_year %> cycle.
+        <%= t('shared.recruitment_performance_report.unsubmitted_applications_table_component.number_of_candidates_unsubmitted_previous_year', provider_name: @provider.name, recruitment_cycle_year:) %>
       <% else %>
         <%= t('shared.recruitment_performance_report.unsubmitted_applications_table_component.number_of_candidates_unsubmitted', provider_name: @provider.name) %>
       <% end %>

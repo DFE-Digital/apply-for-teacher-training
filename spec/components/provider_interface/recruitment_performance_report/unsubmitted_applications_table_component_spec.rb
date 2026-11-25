@@ -8,7 +8,7 @@ RSpec.describe RecruitmentPerformanceReport::UnsubmittedApplicationsTableCompone
 
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-    expect(page).to have_table('2. Candidates who have unsubmitted applications')
+    expect(page).to have_table('2. Candidates with draft applications')
 
     expect(page).to have_text provider.name
     expect(page).to have_text 'All providers'
@@ -52,7 +52,7 @@ RSpec.describe RecruitmentPerformanceReport::UnsubmittedApplicationsTableCompone
       recruitment_cycle_year: previous_cycle_year,
     )
 
-    expect(page).to have_table('2. Candidates who have unsubmitted applications')
+    expect(page).to have_table('2. Candidates with draft applications')
 
     expect(page).to have_text provider.name
     expect(page).to have_text 'All providers'
@@ -95,7 +95,7 @@ RSpec.describe RecruitmentPerformanceReport::UnsubmittedApplicationsTableCompone
 
       render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-      expect(page).to have_table('2. Candidates who have unsubmitted applications')
+      expect(page).to have_table('2. Candidates with draft applications')
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')
       expect(page).to have_no_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
       secondary_subject_headings.each do |heading|
@@ -117,7 +117,7 @@ RSpec.describe RecruitmentPerformanceReport::UnsubmittedApplicationsTableCompone
 
       render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-      expect(page).to have_table('2. Candidates who have unsubmitted applications')
+      expect(page).to have_table('2. Candidates with draft applications')
       expect(page).to have_element('th', scope: 'row', class: 'govuk-table__header', text: 'Primary')
 
       expect(page).to have_no_element('th', scope: 'row', class: 'govuk-table__header', text: 'Secondary')

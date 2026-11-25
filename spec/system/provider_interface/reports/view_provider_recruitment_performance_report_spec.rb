@@ -133,10 +133,10 @@ private
       id: 'candidates_who_have_submitted_applications',
     )
 
-    expect(page).to have_link('Candidates who have unsubmitted applications', href: '#candidates_who_have_unsubmitted_applications')
+    expect(page).to have_link('Candidates with draft applications', href: '#candidates_who_have_unsubmitted_applications')
     expect(page).to have_css(
       'h2',
-      text: '2. Candidates who have unsubmitted applications',
+      text: '2. Candidates with draft applications',
       id: 'candidates_who_have_unsubmitted_applications',
     )
 
