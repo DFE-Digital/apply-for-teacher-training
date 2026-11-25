@@ -112,10 +112,10 @@ en:
         candidates_who_withdrew: Candidates who withdrew or deferred their applications after they submitted them are included.
       unsubmitted_applications_table_component:
         number_of_candidates_unsubmitted: >
-          This table shows the number of candidates who prepared, but not submitted, applications to %{provider_name} so
+          This table shows the number of candidates who have prepared, but not submitted applications to %{provider_name} so
           far this recruitment cycle.
         number_of_candidates_unsubmitted_previous_year: >
-          This table shows the number of candidates who prepared, but not submitted, applications to %{provider_name} in the %{recruitment_cycle_year} cycle.
+          This table shows the number of candidates who prepared, but did not submit applications to %{provider_name} in the %{recruitment_cycle_year} cycle.
         last_cycle: last cycle,
         national_data: national data.
         regional_data: regional data.
