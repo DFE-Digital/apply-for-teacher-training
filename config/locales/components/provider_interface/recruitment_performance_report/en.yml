@@ -9,11 +9,12 @@ en:
         national_last_cycle: Last cycle
         national_percentage_change: Percentage change
         candidates_who_have_submitted_applications: 1. Candidates who have submitted applications
-        candidates_with_an_offer: 2. Candidates that received an offer
-        proportion_of_candidates_with_an_offer: 3. Proportion of candidates with an offer
-        offers_accepted: 4. Offers accepted
-        candidates_rejected: 6. Candidates rejected
-        proportion_with_inactive_applications_table_component: 7. Proportion of candidates who have waited more than 30 working days for a response
+        candidates_who_have_unsubmitted_applications: 2. Candidates with draft applications
+        candidates_with_an_offer: 3. Candidates that received an offer
+        proportion_of_candidates_with_an_offer: 4. Proportion of candidates with an offer
+        offers_accepted: 5. Offers accepted
+        candidates_rejected: 7. Candidates rejected
+        proportion_with_inactive_applications_table_component: 8. Proportion of candidates who have waited more than 30 working days for a response
       report_description_component:
         last_updated: 'Last updated: %{date}'
         this_report_shows: >
@@ -36,6 +37,7 @@ en:
         contents: Contents
         about_this_data: About this data
         candidates_who_have_submitted_applications: Candidates who have submitted applications
+        candidates_who_have_unsubmitted_applications: Candidates with draft applications
         candidates_with_an_offer: Candidates that received an offer
         proportion_of_candidates_with_an_offer: Proportion of candidates with an offer
         offers_accepted: Offers accepted
@@ -108,6 +110,15 @@ en:
         national_data: national data.
         regional_data: regional data.
         candidates_who_withdrew: Candidates who withdrew or deferred their applications after they submitted them are included.
+      unsubmitted_applications_table_component:
+        number_of_candidates_unsubmitted: >
+          This table shows the number of candidates who have prepared, but not submitted applications to %{provider_name} so
+          far this recruitment cycle.
+        number_of_candidates_unsubmitted_previous_year: >
+          This table shows the number of candidates who prepared, but did not submit applications to %{provider_name} in the %{recruitment_cycle_year} cycle.
+        last_cycle: last cycle,
+        national_data: national data.
+        regional_data: regional data.
       candidates_with_offers_table_component:
         candidates_who_have_received_offer: >
           This table shows candidates who have received one or more offers from %{provider_name} so far this recruitment cycle.
@@ -148,7 +159,7 @@ en:
         withdrawn_by_candidate: withdrawn by candidates
         deferred: deferred until the next cycle
       deferrals_table_component:
-        caption: "5. Deferrals"
+        caption: "6. Deferrals"
         deferrals: Deferrals
         deferrals_last_cycle_to_this_cycle: Deferrals from last cycle to this cycle
         deferrals_this_cycle_to_next: Deferrals this cycle (so far) to next cycle

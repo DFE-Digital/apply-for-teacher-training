@@ -10,6 +10,16 @@
   region:,
   recruitment_cycle_year: provider_report.recruitment_cycle_year,
 ) %>
+
+<%= render RecruitmentPerformanceReport::UnsubmittedApplicationsTableComponent.new(
+  provider,
+  provider_data,
+  statistics,
+  report_type:,
+  region:,
+  recruitment_cycle_year: provider_report.recruitment_cycle_year,
+) %>
+
 <%= render RecruitmentPerformanceReport::CandidatesWithOffersTableComponent.new(
   provider,
   provider_data,

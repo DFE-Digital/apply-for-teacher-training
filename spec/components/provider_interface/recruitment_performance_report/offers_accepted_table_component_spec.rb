@@ -8,7 +8,7 @@ RSpec.describe RecruitmentPerformanceReport::OffersAcceptedTableComponent do
 
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-    expect(page).to have_table('4. Offers accepted')
+    expect(page).to have_table('5. Offers accepted')
     expect(page).to have_text(description)
 
     expect(page).to have_text provider.name
@@ -53,7 +53,7 @@ RSpec.describe RecruitmentPerformanceReport::OffersAcceptedTableComponent do
       recruitment_cycle_year: previous_cycle_year,
     )
 
-    expect(page).to have_table('4. Offers accepted')
+    expect(page).to have_table('5. Offers accepted')
     expect(page).to have_text(previous_cycle_description(previous_cycle_year))
 
     expect(page).to have_text provider.name

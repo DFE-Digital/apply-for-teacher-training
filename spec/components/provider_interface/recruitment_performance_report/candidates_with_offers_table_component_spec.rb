@@ -8,7 +8,7 @@ RSpec.describe RecruitmentPerformanceReport::CandidatesWithOffersTableComponent 
 
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-    expect(page).to have_table('2. Candidates that received an offer')
+    expect(page).to have_table('3. Candidates that received an offer')
     expect(page).to have_text(description(provider.name))
 
     expect(page).to have_text provider.name
@@ -54,7 +54,7 @@ RSpec.describe RecruitmentPerformanceReport::CandidatesWithOffersTableComponent 
       recruitment_cycle_year: previous_cycle_year,
     )
 
-    expect(page).to have_table('2. Candidates that received an offer')
+    expect(page).to have_table('3. Candidates that received an offer')
     expect(page).to have_text(previous_cycle_description(provider.name, previous_cycle_year))
 
     expect(page).to have_text provider.name

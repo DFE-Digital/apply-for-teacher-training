@@ -8,7 +8,7 @@ RSpec.describe RecruitmentPerformanceReport::ProportionWithInactiveApplicationsT
 
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-    expect(page).to have_table('7. Proportion of candidates who have waited more than 30 working days for a response')
+    expect(page).to have_table('8. Proportion of candidates who have waited more than 30 working days for a response')
     expect(page).to have_text(description(provider.name))
     expect(page).to have_text('Subject')
 
@@ -52,7 +52,7 @@ RSpec.describe RecruitmentPerformanceReport::ProportionWithInactiveApplicationsT
       recruitment_cycle_year: previous_cycle_year,
     )
 
-    expect(page).to have_table('7. Proportion of candidates who have waited more than 30 working days for a response')
+    expect(page).to have_table('8. Proportion of candidates who have waited more than 30 working days for a response')
     expect(page).to have_text(description(provider.name))
     expect(page).to have_text('Subject')
 

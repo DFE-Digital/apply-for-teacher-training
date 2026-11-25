@@ -1,0 +1,18 @@
+<%= render RecruitmentPerformanceReport::SubjectTableComponent.new(
+  @provider,
+  table_caption: 'candidates_who_have_unsubmitted_applications',
+  subject_rows: @row_builder.subject_rows,
+  summary_row: @row_builder.summary_row,
+  region:,
+  recruitment_cycle_year:,
+) do %>
+  <span>
+    <p class="govuk-body">
+      <% if recruitment_cycle_year == RecruitmentCycleTimetable.previous_year %>
+        <%= t('shared.recruitment_performance_report.unsubmitted_applications_table_component.number_of_candidates_unsubmitted_previous_year', provider_name: @provider.name, recruitment_cycle_year:) %>
+      <% else %>
+        <%= t('shared.recruitment_performance_report.unsubmitted_applications_table_component.number_of_candidates_unsubmitted', provider_name: @provider.name) %>
+      <% end %>
+    </p>
+  </span>
+<% end %>

@@ -8,7 +8,7 @@ RSpec.describe RecruitmentPerformanceReport::DeferralsTableComponent do
 
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-    expect(page).to have_table('5. Deferrals')
+    expect(page).to have_table('6. Deferrals')
     expect(page).to have_text(description(provider.name))
 
     [provider.name, 'All providers'].each do |heading|
@@ -42,7 +42,7 @@ RSpec.describe RecruitmentPerformanceReport::DeferralsTableComponent do
       recruitment_cycle_year: previous_cycle_year,
     )
 
-    expect(page).to have_table('5. Deferrals')
+    expect(page).to have_table('6. Deferrals')
     expect(page).to have_text(previous_cycle_description(provider.name, previous_cycle_year))
 
     [provider.name, 'All providers'].each do |heading|

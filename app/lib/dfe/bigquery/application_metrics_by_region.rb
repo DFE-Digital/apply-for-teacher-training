@@ -12,6 +12,9 @@ module DfE
         number_of_candidates_submitted_to_date
         number_of_candidates_submitted_to_same_date_previous_cycle
         number_of_candidates_submitted_to_date_as_proportion_of_last_cycle
+        number_of_candidates_unsubmitted_to_date
+        number_of_candidates_unsubmitted_to_same_date_previous_cycle
+        number_of_candidates_unsubmitted_to_date_as_proportion_of_last_cycle
         number_of_candidates_with_offers_to_date
         number_of_candidates_with_offers_to_same_date_previous_cycle
         number_of_candidates_with_offers_to_date_as_proportion_of_last_cycle

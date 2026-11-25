@@ -8,7 +8,7 @@ RSpec.describe RecruitmentPerformanceReport::CandidatesRejectedTableComponent do
 
     render_inline described_class.new(provider, provider_report.statistics, national_statistics)
 
-    expect(page).to have_table('6. Candidates rejected')
+    expect(page).to have_table('7. Candidates rejected')
     expect(page).to have_text(description(provider.name))
 
     expect(page).to have_text provider.name
@@ -53,7 +53,7 @@ RSpec.describe RecruitmentPerformanceReport::CandidatesRejectedTableComponent do
       recruitment_cycle_year: previous_cycle_year,
     )
 
-    expect(page).to have_table('6. Candidates rejected')
+    expect(page).to have_table('7. Candidates rejected')
     expect(page).to have_text(previous_cycle_description(provider.name, previous_cycle_year))
 
     expect(page).to have_text provider.name
