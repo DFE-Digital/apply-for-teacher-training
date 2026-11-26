@@ -120,6 +120,18 @@ shared:
     - sent_to_adviser_at
     - created_at
     - updated_at
+  :audits:
+    - sync_mode: incremental_deduped_history
+    - id
+    - auditable_id
+    - auditable_type
+    - associated_id
+    - associated_type
+    - user_id
+    - user_type
+    - request_uuid
+    - created_at
+    - action
   application_choices:
     - visa_explanation
     - visa_explanation_details
