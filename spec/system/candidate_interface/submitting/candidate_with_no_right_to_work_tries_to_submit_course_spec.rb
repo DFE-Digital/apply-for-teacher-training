@@ -296,7 +296,7 @@ private
       'You can continue your application and tell the training provider how you expect to stay in the UK for this course.',
     )
     expect(page).to have_text(
-      'This course offers visa sponsorship, you may be able to extend your visa.'
+      'This course offers visa sponsorship, you may be able to extend your visa.',
     )
   end
 

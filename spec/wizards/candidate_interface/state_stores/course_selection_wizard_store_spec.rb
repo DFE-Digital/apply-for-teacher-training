@@ -656,7 +656,7 @@ RSpec.describe CandidateInterface::StateStores::CourseSelectionWizardStore, type
       )
     end
 
-    context "when the course does not support visa sponsorship" do
+    context 'when the course does not support visa sponsorship' do
       before do
         state_store.write(current_application_id: current_application.id, application_choice_id: application_choice.id)
       end
@@ -666,7 +666,7 @@ RSpec.describe CandidateInterface::StateStores::CourseSelectionWizardStore, type
       end
     end
 
-    context "when the course can sponsor skilled worker visa" do
+    context 'when the course can sponsor skilled worker visa' do
       let(:course) { create(:course, can_sponsor_skilled_worker_visa: true, can_sponsor_student_visa: false) }
 
       before do
@@ -678,7 +678,7 @@ RSpec.describe CandidateInterface::StateStores::CourseSelectionWizardStore, type
       end
     end
 
-    context "when the course can sponsor student visa" do
+    context 'when the course can sponsor student visa' do
       let(:course) { create(:course, can_sponsor_skilled_worker_visa: false, can_sponsor_student_visa: true) }
 
       before do

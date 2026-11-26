@@ -784,7 +784,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def requires_visa_sponsorship?
-    right_to_work_or_study_no? || (student_or_skilled_worker_visa?)
+    right_to_work_or_study_no? || student_or_skilled_worker_visa?
   end
 
   def student_or_skilled_worker_visa?
