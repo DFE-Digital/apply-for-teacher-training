@@ -22,7 +22,7 @@ RSpec.describe CandidateInterface::StateStores::CourseSelectionWizardStore, type
   before { wizard }
 
   describe 'delegations' do
-    it { is_expected.to delegate_method(:requires_visa_sponsorship?).to(:current_application) }
+    it { is_expected.to delegate_method(:student_or_skilled_worker_visa?).to(:current_application) }
   end
 
   describe '.know_the_course_to_apply?' do
@@ -642,6 +642,51 @@ RSpec.describe CandidateInterface::StateStores::CourseSelectionWizardStore, type
 
       it 'returns false' do
         expect(state_store.visa_expires_soon?).to be(false)
+      end
+    end
+  end
+
+  describe '.course_supports_visa_sponsorship?' do
+    let(:course) { create(:course, can_sponsor_skilled_worker_visa: false, can_sponsor_student_visa: false) }
+    let(:application_choice) do
+      create(
+        :application_choice,
+        application_form: current_application,
+        course_option: create(:course_option, course: course),
+      )
+    end
+
+    context "when the course does not support visa sponsorship" do
+      before do
+        state_store.write(current_application_id: current_application.id, application_choice_id: application_choice.id)
+      end
+
+      it 'returns true' do
+        expect(state_store.course_supports_visa_sponsorship?).to be(false)
+      end
+    end
+
+    context "when the course can sponsor skilled worker visa" do
+      let(:course) { create(:course, can_sponsor_skilled_worker_visa: true, can_sponsor_student_visa: false) }
+
+      before do
+        state_store.write(current_application_id: current_application.id, application_choice_id: application_choice.id)
+      end
+
+      it 'returns true' do
+        expect(state_store.course_supports_visa_sponsorship?).to be(true)
+      end
+    end
+
+    context "when the course can sponsor student visa" do
+      let(:course) { create(:course, can_sponsor_skilled_worker_visa: false, can_sponsor_student_visa: true) }
+
+      before do
+        state_store.write(current_application_id: current_application.id, application_choice_id: application_choice.id)
+      end
+
+      it 'returns true' do
+        expect(state_store.course_supports_visa_sponsorship?).to be(true)
       end
     end
   end

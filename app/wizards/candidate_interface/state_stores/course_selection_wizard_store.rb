@@ -5,7 +5,7 @@ module CandidateInterface
 
       attr_reader :current_application_id, :application_choice_id
 
-      delegate :requires_visa_sponsorship?, to: :current_application
+      delegate :student_or_skilled_worker_visa?, to: :current_application
 
       def know_the_course_to_apply?
         answer == 'yes'
@@ -66,7 +66,7 @@ module CandidateInterface
       end
 
       def not_multiple_sites_or_study_modes?
-        !multiple_study_modes? && not_multiple_sites? && !visa_expires_soon? && !requires_visa_sponsorship?
+        !multiple_study_modes? && not_multiple_sites? && !visa_expires_soon? && !student_or_skilled_worker_visa?
       end
 
       def multiple_study_modes?
@@ -111,6 +111,10 @@ module CandidateInterface
 
       def visa_not_expires_soon?
         !visa_expires_soon?
+      end
+
+      def course_supports_visa_sponsorship?
+        course.can_sponsor_student_visa || course.can_sponsor_skilled_worker_visa
       end
     end
   end

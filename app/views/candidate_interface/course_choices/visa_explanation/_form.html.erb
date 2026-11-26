@@ -5,7 +5,7 @@
   :visa_explanation,
   legend: { text: t('visa_expiry_form.visa_explanation_label'), tag: 'h1', size: 'l' },
 ) do %>
-  <% unless @wizard.requires_visa_sponsorship? %>
+  <% unless @wizard.student_or_skilled_worker_visa? %>
     <%= f.govuk_radio_button(
       :visa_explanation,
       :expires_after_course,
@@ -16,7 +16,7 @@
   <%= f.govuk_radio_button(
     :visa_explanation,
     :renew,
-    link_errors: @wizard.requires_visa_sponsorship?,
+    link_errors: @wizard.student_or_skilled_worker_visa?,
     label: { text: t('visa_expiry_form.options.renew') },
   ) %>
   <%= f.govuk_radio_button(

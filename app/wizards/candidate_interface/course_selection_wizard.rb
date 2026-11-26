@@ -20,7 +20,8 @@ class CandidateInterface::CourseSelectionWizard
            :not_multiple_sites_or_study_modes?,
            :visa_expires_soon?,
            :not_confirmed?,
-           :requires_visa_sponsorship?,
+           :student_or_skilled_worker_visa?,
+           :course_supports_visa_sponsorship?,
            to: :state_store
 
   def steps_processor
@@ -63,7 +64,7 @@ class CandidateInterface::CourseSelectionWizard
           { when: :not_multiple_sites_or_study_modes?, then: :course_review },
           { when: :multiple_study_modes?, then: :course_study_mode },
           { when: :multiple_sites?, then: :course_site },
-          { when: :requires_visa_sponsorship?, then: :visa_not_covered_interruption },
+          { when: :student_or_skilled_worker_visa?, then: :visa_not_covered_interruption },
           { when: :visa_expires_soon?, then: :visa_expiry_interruption },
         ],
         default: :course_review,
@@ -73,7 +74,7 @@ class CandidateInterface::CourseSelectionWizard
         from: :course_study_mode,
         branches: [
           { when: :multiple_sites?, then: :course_site },
-          { when: :requires_visa_sponsorship?, then: :visa_not_covered_interruption },
+          { when: :student_or_skilled_worker_visa?, then: :visa_not_covered_interruption },
           { when: :visa_expires_soon?, then: :visa_expiry_interruption },
           { when: :not_multiple_sites?, then: :course_review },
         ],
@@ -87,7 +88,7 @@ class CandidateInterface::CourseSelectionWizard
           { when: :duplicate_course?, then: :duplicate_course_selection },
           { when: :multiple_study_modes?, then: :course_study_mode },
           { when: :multiple_sites?, then: :course_site },
-          { when: :requires_visa_sponsorship?, then: :visa_not_covered_interruption },
+          { when: :student_or_skilled_worker_visa?, then: :visa_not_covered_interruption },
           { when: :visa_expires_soon?, then: :visa_expiry_interruption },
           { when: :find_course_selected?, then: :course_review },
           { when: :not_confirmed?, then: :application_list },
@@ -98,7 +99,7 @@ class CandidateInterface::CourseSelectionWizard
       graph.add_multiple_conditional_edges(
         from: :course_site,
         branches: [
-          { when: :requires_visa_sponsorship?, then: :visa_not_covered_interruption },
+          { when: :student_or_skilled_worker_visa?, then: :visa_not_covered_interruption },
           { when: :visa_expires_soon?, then: :visa_expiry_interruption },
           { when: :visa_not_expires_soon?, then: :course_review },
         ],

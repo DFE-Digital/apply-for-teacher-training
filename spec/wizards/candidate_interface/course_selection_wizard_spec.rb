@@ -26,7 +26,8 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
     it { is_expected.to delegate_method(:not_multiple_sites_or_study_modes?).to(:state_store) }
     it { is_expected.to delegate_method(:visa_expires_soon?).to(:state_store) }
     it { is_expected.to delegate_method(:not_confirmed?).to(:state_store) }
-    it { is_expected.to delegate_method(:requires_visa_sponsorship?).to(:state_store) }
+    it { is_expected.to delegate_method(:student_or_skilled_worker_visa?).to(:state_store) }
+    it { is_expected.to delegate_method(:course_supports_visa_sponsorship?).to(:state_store) }
   end
 
   describe 'steps' do
@@ -156,7 +157,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
             not_multiple_sites_or_study_modes?: false,
             multiple_study_modes?: false,
             multiple_sites?: false,
-            requires_visa_sponsorship?: true,
+            student_or_skilled_worker_visa?: true,
           )
         end
 
@@ -173,7 +174,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
             not_multiple_sites_or_study_modes?: false,
             multiple_study_modes?: false,
             multiple_sites?: false,
-            requires_visa_sponsorship?: false,
+            student_or_skilled_worker_visa?: false,
             visa_expires_soon?: true,
           )
         end
@@ -229,7 +230,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
             duplicate_course?: false,
             multiple_study_modes?: false,
             multiple_sites?: false,
-            requires_visa_sponsorship?: true,
+            student_or_skilled_worker_visa?: true,
           )
         end
 
@@ -243,7 +244,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
             duplicate_course?: false,
             multiple_study_modes?: false,
             multiple_sites?: false,
-            requires_visa_sponsorship?: false,
+            student_or_skilled_worker_visa?: false,
             visa_expires_soon?: true,
           )
         end
@@ -258,7 +259,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
             duplicate_course?: false,
             multiple_study_modes?: false,
             multiple_sites?: false,
-            requires_visa_sponsorship?: false,
+            student_or_skilled_worker_visa?: false,
             visa_expires_soon?: false,
             find_course_selected?: true,
           )
@@ -274,7 +275,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
             duplicate_course?: false,
             multiple_study_modes?: false,
             multiple_sites?: false,
-            requires_visa_sponsorship?: false,
+            student_or_skilled_worker_visa?: false,
             visa_expires_soon?: false,
             find_course_selected?: false,
             not_confirmed?: true,
@@ -296,7 +297,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
       context 'when the candidate requires visa sponsorship' do
         before do
-          allow(state_store).to receive_messages(multiple_sites?: false, requires_visa_sponsorship?: true)
+          allow(state_store).to receive_messages(multiple_sites?: false, student_or_skilled_worker_visa?: true)
         end
 
         it { is_expected.to branch_from(:course_study_mode).to(:visa_not_covered_interruption) }
@@ -306,7 +307,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
         before do
           allow(state_store).to receive_messages(
             multiple_sites?: false,
-            requires_visa_sponsorship?: false,
+            student_or_skilled_worker_visa?: false,
             visa_expires_soon?: true,
           )
         end
@@ -318,7 +319,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
         before do
           allow(state_store).to receive_messages(
             multiple_sites?: false,
-            requires_visa_sponsorship?: false,
+            student_or_skilled_worker_visa?: false,
             visa_expires_soon?: false,
             not_multiple_sites?: true,
           )
@@ -331,7 +332,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
     describe 'branching from course_site' do
       context 'when the candidate requires visa sponsorship' do
         before do
-          allow(state_store).to receive(:requires_visa_sponsorship?).and_return(true)
+          allow(state_store).to receive(:student_or_skilled_worker_visa?).and_return(true)
         end
 
         it { is_expected.to branch_from(:course_site).to(:visa_not_covered_interruption) }
@@ -339,7 +340,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
       context "when the candidate's visa expires soon" do
         before do
-          allow(state_store).to receive_messages(requires_visa_sponsorship?: false, visa_expires_soon?: true)
+          allow(state_store).to receive_messages(student_or_skilled_worker_visa?: false, visa_expires_soon?: true)
         end
 
         it { is_expected.to branch_from(:course_site).to(:visa_expiry_interruption) }
@@ -347,7 +348,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
       context 'when the candidate does not require visa sponsorship and their visa does not expire soon' do
         before do
-          allow(state_store).to receive_messages(requires_visa_sponsorship?: false, visa_expires_soon?: false)
+          allow(state_store).to receive_messages(student_or_skilled_worker_visa?: false, visa_expires_soon?: false)
         end
 
         it { is_expected.to branch_from(:course_site).to(:course_review) }
