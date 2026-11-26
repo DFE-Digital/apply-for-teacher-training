@@ -96,12 +96,12 @@ private
           return_to: 'review',
         )
       when :dates
-        new_candidate_interface_previous_teacher_training_dates_path(
+        new_candidate_interface_previous_teacher_training_date_path(
           @previous_teacher_training,
           return_to: 'review',
         )
       when :details
-        new_candidate_interface_previous_teacher_training_details_path(
+        new_candidate_interface_previous_teacher_training_detail_path(
           @previous_teacher_training,
           return_to: 'review',
         )

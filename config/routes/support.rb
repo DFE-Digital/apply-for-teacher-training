@@ -80,15 +80,15 @@ namespace :support_interface, path: '/support' do
       post 'volunteering-roles/:volunteering_role_id' => 'application_forms/volunteering_roles#update', as: :application_form_update_volunteering_role
     end
 
-    get '/previous-teacher-trainings/:previous_teacher_training_id/edit_declaration' => 'application_forms/previous_teacher_trainings#edit_declaration', as: :application_form_edit_declaration_previous_teacher_trainings
-    patch '/previous-teacher-trainings/:previous_teacher_training_id/update_declaration' => 'application_forms/previous_teacher_trainings#update_declaration', as: :application_form_update_declaration_previous_teacher_trainings
+    get '/previous-teacher-trainings/:previous_teacher_training_id/edit-declaration' => 'application_forms/previous_teacher_trainings#edit_declaration', as: :application_form_edit_declaration_previous_teacher_trainings
+    patch '/previous-teacher-trainings/:previous_teacher_training_id/update-declaration' => 'application_forms/previous_teacher_trainings#update_declaration', as: :application_form_update_declaration_previous_teacher_trainings
 
-    get '/previous-teacher-trainings/new_teacher_training' => 'application_forms/previous_teacher_trainings#new_teacher_training', as: :application_form_new_teacher_training_previous_teacher_trainings
-    post '/previous-teacher-trainings/create_teacher_training' => 'application_forms/previous_teacher_trainings#create_teacher_training', as: :application_form_create_teacher_training_previous_teacher_trainings
-    get '/previous-teacher-trainings/:previous_teacher_training_id/edit_teacher_training' => 'application_forms/previous_teacher_trainings#edit_teacher_training', as: :application_form_edit_teacher_training_previous_teacher_trainings
-    patch '/previous-teacher-trainings/:previous_teacher_training_id/update_teacher_training' => 'application_forms/previous_teacher_trainings#update_teacher_training', as: :application_form_update_teacher_training_previous_teacher_trainings
-    get '/previous-teacher-trainings/:previous_teacher_training_id/remove_teacher_training' => 'application_forms/previous_teacher_trainings#remove_teacher_training', as: :application_form_remove_teacher_training_previous_teacher_trainings
-    delete '/previous-teacher-trainings/:previous_teacher_training_id/destroy_teacher_training' => 'application_forms/previous_teacher_trainings#destroy_teacher_training', as: :application_form_destroy_teacher_training_previous_teacher_trainings
+    get '/previous-teacher-trainings/new-teacher-training' => 'application_forms/previous_teacher_trainings#new_teacher_training', as: :application_form_new_teacher_training_previous_teacher_trainings
+    post '/previous-teacher-trainings/create-teacher-training' => 'application_forms/previous_teacher_trainings#create_teacher_training', as: :application_form_create_teacher_training_previous_teacher_trainings
+    get '/previous-teacher-trainings/:previous_teacher_training_id/edit-teacher-training' => 'application_forms/previous_teacher_trainings#edit_teacher_training', as: :application_form_edit_teacher_training_previous_teacher_trainings
+    patch '/previous-teacher-trainings/:previous_teacher_training_id/update-teacher-training' => 'application_forms/previous_teacher_trainings#update_teacher_training', as: :application_form_update_teacher_training_previous_teacher_trainings
+    get '/previous-teacher-trainings/:previous_teacher_training_id/remove-teacher-training' => 'application_forms/previous_teacher_trainings#remove_teacher_training', as: :application_form_remove_teacher_training_previous_teacher_trainings
+    delete '/previous-teacher-trainings/:previous_teacher_training_id/destroy-teacher-training' => 'application_forms/previous_teacher_trainings#destroy_teacher_training', as: :application_form_destroy_teacher_training_previous_teacher_trainings
 
     resource :one_login_auths, only: %i[edit update], path: '/one-login-auths'
   end

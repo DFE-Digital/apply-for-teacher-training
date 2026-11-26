@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::PreviousTeacherTrainingComponent do
   let(:application_form) { create(:application_form) }
-  let(:rendered_component) { render_inline(described_class.new(application_form:)) }
-  let(:component) { described_class.new(application_form:) }
+  let(:current_user) { build_stubbed(:provider_user) }
+  let(:rendered_component) { render_inline(described_class.new(application_form:, current_user: current_user)) }
+  let(:component) { described_class.new(application_form:, current_user: current_user) }
 
   describe '.render' do
     subject(:rendered) { component.render? }
