@@ -935,7 +935,22 @@ ended_at = STARTED_AT # this should be Date.new(yyyy/m/d)
 details = DETAILS # up to 200 words
 audit_comment = 'ZENDESK_URL'
 
-PreviousTeacherTraining.create(application_form_id:, provider_id:, status: 'published', started: 'yes', provider_name:, started_at:, ended_at:, details:, audit_comment:)
+PreviousTeacherTraining.create(
+  application_form_id:,
+  provider_id:,
+  status: 'published',
+  started: 'yes',
+  provider_name:,
+  started_at:,
+  ended_at:,
+  details:,
+  audit_comment:
+)
+
+PreviousTeacherTraining.where(
+  application_form_id:,
+  started: 'no',
+).destroy_all
 ```
 
 ## Create DuplicateMatch
