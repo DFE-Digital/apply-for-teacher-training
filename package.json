@@ -34,7 +34,7 @@
     "jest-environment-jsdom": "^30.5.2",
     "prettier": "^3.10.1",
     "standard": "^17.1.2",
-    "stylelint": "^17.16.0",
+    "stylelint": "^18.0.0",
     "stylelint-config-gds": "^2.0.0",
     "stylelint-config-recess-order": "^7.10.1",
     "stylelint-order": "^8.1.3"
