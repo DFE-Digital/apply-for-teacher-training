@@ -46,7 +46,7 @@ RSpec.describe 'Candidate with no right to work or study', :with_cache do
   scenario 'when i have a skilled worker visa and course does not sponsor' do
     when_i_complete_an_application_with_skilled_worker_visa
     and_i_add_a_course_that_cannot_sponsor_skilled_worker
-    then_i_see_the_visa_may_not_cover_course_interruption_for_a_course_sponsoring_visas
+    then_i_see_the_visa_may_not_cover_course_interruption
 
     when_i_click_on_continue
     then_see_the_visa_explanation_form_page
@@ -59,7 +59,7 @@ RSpec.describe 'Candidate with no right to work or study', :with_cache do
   scenario 'when i have a student visa and course does not sponsor' do
     when_i_complete_an_application_with_student_visa
     and_i_add_a_course_that_cannot_sponsor_student_visa
-    then_i_see_the_visa_may_not_cover_course_interruption_for_a_course_sponsoring_visas
+    then_i_see_the_visa_may_not_cover_course_interruption
 
     when_i_click_on_continue
     then_see_the_visa_explanation_form_page
@@ -294,6 +294,9 @@ private
     )
     expect(page).to have_text(
       'You can continue your application and tell the training provider how you expect to stay in the UK for this course.',
+    )
+    expect(page).to have_text(
+      'This course offers visa sponsorship, you may be able to extend your visa.'
     )
   end
 

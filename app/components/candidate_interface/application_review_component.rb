@@ -174,7 +174,15 @@ module CandidateInterface
       {
         key: t('visa_expiry_form.visa_explanation_label'),
       }.tap do |row|
-        if application_choice.visa_explanation.nil?
+        if application_choice.visa_explanation.nil? && application_form.student_or_skilled_worker_visa?
+          row[:value] = govuk_link_to(
+            'Enter your visa explanation',
+            candidate_interface_course_choices_visa_not_covered_interruption_review_path(
+              @application_choice,
+              return_to: 'review',
+            ),
+          )
+        elsif application_choice.visa_explanation.nil?
           row[:value] = govuk_link_to(
             'Enter your visa explanation',
             candidate_interface_course_choices_visa_expiry_interruption_path(
