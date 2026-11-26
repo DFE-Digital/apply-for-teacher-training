@@ -74,7 +74,7 @@ private
 
     {
       actions: [{
-        href: change_link,
+        href: change_link(attribute: :name),
         text: I18n.t('previous_teacher_training.list_component.change'),
         classes: 'govuk-link--no-visited-state',
         visually_hidden_text: I18n.t('previous_teacher_training.list_component.change_provider_name'),
@@ -82,17 +82,32 @@ private
     }
   end
 
-  def change_link
+  def change_link(attribute:)
     if current_user.is_a?(SupportUser)
       support_interface_application_form_edit_teacher_training_previous_teacher_trainings_path(
         @previous_teacher_training.application_form,
         @previous_teacher_training,
       )
     else
-      new_candidate_interface_previous_teacher_training_name_path(
-        @previous_teacher_training,
-        return_to: 'review',
-      )
+      case attribute
+      when :name
+        new_candidate_interface_previous_teacher_training_name_path(
+          @previous_teacher_training,
+          return_to: 'review',
+        )
+      when :dates
+        new_candidate_interface_previous_teacher_training_dates_path(
+          @previous_teacher_training,
+          return_to: 'review',
+        )
+      when :details
+        new_candidate_interface_previous_teacher_training_details_path(
+          @previous_teacher_training,
+          return_to: 'review',
+        )
+      else
+        raise "Unknown attribute #{attribute}"
+      end
     end
   end
 
@@ -109,7 +124,7 @@ private
     {
       actions: [{
         text: I18n.t('previous_teacher_training.list_component.change'),
-        href: change_link,
+        href: change_link(attribute: :dates),
         classes: 'govuk-link--no-visited-state',
         visually_hidden_text: I18n.t('previous_teacher_training.list_component.change_training_dates'),
       }],
@@ -129,7 +144,7 @@ private
     {
       actions: [{
         text: I18n.t('previous_teacher_training.list_component.change'),
-        href: change_link,
+        href: change_link(attribute: :details),
         classes: 'govuk-link--no-visited-state',
         visually_hidden_text: I18n.t('previous_teacher_training.list_component.change_details'),
       }],
