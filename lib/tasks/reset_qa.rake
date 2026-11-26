@@ -12,6 +12,7 @@ task _reset_qa: %i[
   sync_dev_providers
   generate_test_applications
   run_end_of_cycle_jobs
+  add_vendors
 ]
 
 task truncate_qa_database_retaining_support_users: :environment do
@@ -42,4 +43,14 @@ task :run_end_of_cycle_jobs, :environment do
 
   EndOfCycle::RunEndOfCycleJobsWorker.perform_later
   puts 'Running all relevant end of cycle jobs based on the current point in the cycle'
+end
+
+task :add_vendors, :environment do
+  raise 'Not permitted on this environment' unless HostingEnvironment.generate_test_data?
+
+  puts 'Creating Vendors'
+  ['tribal', 'ellucian', 'oracle', 'thesis_cloud', 'capita'].each do |name|
+    Vendor.create(name:, status: 'confirmed')
+  end
+  Vendor.create(name: 'in_house', status: 'unconfirmed')
 end
