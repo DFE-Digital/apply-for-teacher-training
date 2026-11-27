@@ -47,13 +47,25 @@ RSpec.describe PreviousTeacherTraining::StartedDeclarationComponent do
         end
       end
 
-      context 'when actions if true' do
+      context 'when actions if true, and the current_user is the candidate' do
         let(:rendered_component) { render_inline(described_class.new(application_form:, current_user:, actions: true)) }
 
         it 'renders the component with a change link' do
           expect(rendered_component).to have_link(
             'Change whether you started a teacher training course in England that you did not finish or pass',
             href: "/candidate/previous-teacher-training/#{previous_teacher_training.id}/edit?return_to=review",
+          )
+        end
+      end
+
+      context 'when actions if true, and the current_user is a support user' do
+        let(:current_user) { create(:support_user) }
+        let(:rendered_component) { render_inline(described_class.new(application_form:, current_user:, actions: true)) }
+
+        it 'renders the component with a change link' do
+          expect(rendered_component).to have_link(
+            'Change whether you started a teacher training course in England that you did not finish or pass',
+            href: "/support/applications/#{application_form.id}/previous-teacher-trainings/#{previous_teacher_training.id}/edit-declaration",
           )
         end
       end
