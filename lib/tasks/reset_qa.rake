@@ -49,7 +49,7 @@ task :add_vendors, :environment do
   raise 'Not permitted on this environment' unless HostingEnvironment.generate_test_data?
 
   puts 'Creating Vendors'
-  ['tribal', 'ellucian', 'oracle', 'thesis_cloud', 'capita'].each do |name|
+  %w[tribal ellucian oracle thesis_cloud capita].each do |name|
     Vendor.create(name:, status: 'confirmed')
   end
   Vendor.create(name: 'in_house', status: 'unconfirmed')
