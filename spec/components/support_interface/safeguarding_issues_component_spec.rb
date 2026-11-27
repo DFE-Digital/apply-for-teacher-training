@@ -58,4 +58,21 @@ RSpec.describe SupportInterface::SafeguardingIssuesComponent do
       expect(result.text).to include('Not answered yet')
     end
   end
+
+  context 'when the candidate has declared a previous teacher training' do
+    let(:candidate) { create(:candidate) }
+    
+    it 'displays a button to add another course' do
+      application_form = create(
+        :application_form,
+        safeguarding_issues: 'I have a criminal conviction.',
+        safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
+        candidate:,
+        previous_teacher_trainings: [build(:previous_teacher_training, :published)],
+      )
+      result = render_inline(described_class.new(application_form:, current_user: candidate))
+
+      expect(result.text).to include('Add another course')
+    end
+  end
 end
