@@ -1,7 +1,7 @@
 module SupportInterface
   class DeveloperToolPolicy < ApplicationPolicy
     def show?
-      return true if user.technical_management_role? || user.research_and_design_role?
+      return true if user.technical_management_role? || user.research_and_design_role? || user.service_administration_role?
 
       false
     end
