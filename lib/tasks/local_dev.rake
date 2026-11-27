@@ -35,6 +35,12 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
 
   Rake::Task['create_persona_users'].invoke
 
+  puts 'Creating Vendors'
+  %w[tribal ellucian oracle thesis_cloud capita].each do |name|
+    Vendor.create(name:, status: 'confirmed')
+  end
+  Vendor.create(name: 'in_house', status: 'unconfirmed')
+
   puts 'Generating a Vendor API token...'
   VendorAPIToken.create_with_random_token!(provider: Provider.find_by(code: 'U80'), description: 'API token')
 
