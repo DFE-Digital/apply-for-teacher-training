@@ -1,0 +1,45 @@
+<%= form_with(
+  model: @form,
+  url:,
+  method:,
+) do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <%= render DfE::Autocomplete::View.new(
+    f,
+    attribute_name: :provider_name,
+    form_field: f.govuk_select(
+      :provider_name,
+      options_for_select(dfe_autocomplete_options(@form.providers), f.object.provider_name),
+      label: { text: t('.provider_name'), size: 'm' },
+    ),
+  ) %>
+
+  <%= f.govuk_date_field :started_at, omit_day: true, legend: { text: t('.start_date'), size: 'm' } %>
+
+  <%= f.govuk_date_field :ended_at, omit_day: true, legend: { text: t('.end_date'), size: 'm' }, hint: { text: t('.end_date_hint') } %>
+
+  <% content_for(:hint) do %>
+    <p class="govuk-body govuk-hint">
+      This should include:
+    </p>
+
+    <ul>
+      <li>the name of the course</li>
+      <li>why the candidate left or did not complete the course</li>
+    </ul>
+  <% end %>
+
+  <%= f.govuk_text_area(
+    :details,
+    label: { text: t('.details'), size: 'm' },
+    hint: -> { content_for(:hint) },
+    rows: 10,
+    max_length: 200,
+    count_type: :words,
+  ) %>
+
+  <%= f.govuk_text_field :audit_comment, label: { text: 'Zendesk ticket', size: 'm' } %>
+
+  <%= f.govuk_submit t('save_and_continue') %>
+<% end %>

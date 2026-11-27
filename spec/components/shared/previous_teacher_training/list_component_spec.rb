@@ -2,10 +2,11 @@ require 'rails_helper'
 
 RSpec.describe PreviousTeacherTraining::ListComponent do
   let(:application_form) { create(:application_form) }
+  let(:current_user) { application_form.candidate }
 
   describe 'renders the component' do
     subject(:rendered_component) do
-      render_inline(described_class.with_collection(previous_teacher_trainings, card:, actions:))
+      render_inline(described_class.with_collection(previous_teacher_trainings, current_user:, card:, actions:))
     end
 
     let(:actions) { false }
@@ -63,28 +64,57 @@ RSpec.describe PreviousTeacherTraining::ListComponent do
       end
       let(:previous_teacher_training) { previous_teacher_trainings.last }
 
-      it 'renders the previous teacher training card with actions' do
-        previous_teacher_training_id = "previous-teacher-training-#{previous_teacher_training.id}"
-        previous_teacher_training_card = rendered_component.css("##{previous_teacher_training_id}")
-        expect(previous_teacher_training_card).to have_link(
-          'Delete',
-          href: "/candidate/previous-teacher-training/#{previous_teacher_training.id}/remove",
-        )
-        expect(previous_teacher_training_card).to have_link(
-          'Change training provider',
-          href: "/candidate/previous-teacher-training/#{previous_teacher_training.id}/provider-name/new?return_to=review",
-        )
-        expect(previous_teacher_training_card).to have_link(
-          'Change course dates',
-          href: "/candidate/previous-teacher-training/#{previous_teacher_training.id}/training-dates/new?return_to=review",
-        )
-        expect(previous_teacher_training_card).to have_link(
-          'Change details of your previous teacher training',
-          href: "/candidate/previous-teacher-training/#{previous_teacher_training.id}/training-details/new?return_to=review",
-        )
+      context 'when current_user is the candidate' do
+        it 'renders the previous teacher training card with actions' do
+          previous_teacher_training_id = "previous-teacher-training-#{previous_teacher_training.id}"
+          previous_teacher_training_card = rendered_component.css("##{previous_teacher_training_id}")
+          expect(previous_teacher_training_card).to have_link(
+            'Delete',
+            href: "/candidate/previous-teacher-training/#{previous_teacher_training.id}/remove",
+          )
+          expect(previous_teacher_training_card).to have_link(
+            'Change training provider',
+            href: "/candidate/previous-teacher-training/#{previous_teacher_training.id}/provider-name/new?return_to=review",
+          )
+          expect(previous_teacher_training_card).to have_link(
+            'Change course dates',
+            href: "/candidate/previous-teacher-training/#{previous_teacher_training.id}/training-dates/new?return_to=review",
+          )
+          expect(previous_teacher_training_card).to have_link(
+            'Change details of your previous teacher training',
+            href: "/candidate/previous-teacher-training/#{previous_teacher_training.id}/training-details/new?return_to=review",
+          )
+        end
+      end
+
+      context 'when current_user is a support user' do
+        let(:current_user) { create(:support_user) }
+
+        it 'renders the previous teacher training card with actions' do
+          previous_teacher_training_id = "previous-teacher-training-#{previous_teacher_training.id}"
+          previous_teacher_training_card = rendered_component.css("##{previous_teacher_training_id}")
+          expect(previous_teacher_training_card).to have_link(
+            'Delete',
+            href: "/support/applications/#{application_form.id}/previous-teacher-trainings/#{previous_teacher_training.id}/remove-teacher-training",
+          )
+          expect(previous_teacher_training_card).to have_link(
+            'Change training provider',
+            href: "/support/applications/#{application_form.id}/previous-teacher-trainings/#{previous_teacher_training.id}/edit-teacher-training",
+          )
+          expect(previous_teacher_training_card).to have_link(
+            'Change course dates',
+            href: "/support/applications/#{application_form.id}/previous-teacher-trainings/#{previous_teacher_training.id}/edit-teacher-training",
+          )
+          expect(previous_teacher_training_card).to have_link(
+            'Change details of your previous teacher training',
+            href: "/support/applications/#{application_form.id}/previous-teacher-trainings/#{previous_teacher_training.id}/edit-teacher-training",
+          )
+        end
       end
     end
   end
+
+private
 
   def previous_teacher_training_card_displayed(previous_teacher_training)
     previous_teacher_training_id = "previous-teacher-training-#{previous_teacher_training.id}"

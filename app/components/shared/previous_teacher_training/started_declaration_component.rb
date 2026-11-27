@@ -1,10 +1,11 @@
 class PreviousTeacherTraining::StartedDeclarationComponent < ApplicationComponent
   include ViewHelper
 
-  attr_reader :application_form, :actions
+  attr_reader :application_form, :actions, :current_user
 
-  def initialize(application_form:, actions: false)
+  def initialize(application_form:, current_user:, actions: false)
     @application_form = application_form
+    @current_user = current_user
     @actions = actions
   end
 
@@ -29,14 +30,25 @@ private
     {
       actions: [{
         text: I18n.t('previous_teacher_training.started_declaration_component.change'),
-        href: edit_candidate_interface_previous_teacher_trainings_path(
-          published_previous_teacher_training,
-          return_to: 'review',
-        ),
+        href: change_link,
         classes: 'govuk-link--no-visited-state',
         visually_hidden_text: I18n.t('previous_teacher_training.started_declaration_component.change_started_teacher_training'),
       }],
     }
+  end
+
+  def change_link
+    if current_user.is_a?(SupportUser)
+      support_interface_application_form_edit_declaration_previous_teacher_trainings_path(
+        application_form,
+        published_previous_teacher_training,
+      )
+    else
+      edit_candidate_interface_previous_teacher_trainings_path(
+        published_previous_teacher_training,
+        return_to: 'review',
+      )
+    end
   end
 
   def started?

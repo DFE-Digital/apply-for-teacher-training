@@ -4,8 +4,18 @@
       <%= t('support_interface.safeguarding_issues_component.previous_training_heading') %>
     </h2>
 
-    <%= render PreviousTeacherTraining::StartedDeclarationComponent.new(application_form: @application_form) %>
-    <%= render PreviousTeacherTraining::ListComponent.with_collection(@application_form.previous_teacher_trainings.published.started_yes.order_by_dates, heading_level: 3) %>
+    <% if yes_started_previous_teacher_trainings.exists? %>
+      <%= govuk_button_link_to(
+        t('support_interface.safeguarding_issues_component.add_another_course'),
+        support_interface_application_form_new_teacher_training_previous_teacher_trainings_path(
+          @application_form,
+        ),
+        secondary: true,
+      ) %>
+    <% end %>
+
+    <%= render PreviousTeacherTraining::StartedDeclarationComponent.new(application_form: @application_form, current_user:, actions: true) %>
+    <%= render PreviousTeacherTraining::ListComponent.with_collection(yes_started_previous_teacher_trainings.order_by_dates, current_user:, heading_level: 3, actions: true) %>
   <% end %>
 
   <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">
