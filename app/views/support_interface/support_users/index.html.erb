@@ -1,6 +1,8 @@
 <%= render 'support_interface/settings/settings_navigation', title: 'Support users' %>
 
-<%= govuk_button_link_to 'Add support user', new_support_interface_support_user_path %>
+<% if SupportInterface::SupportUserPolicy.new(current_support_user, nil).create? %>
+  <%= govuk_button_link_to 'Add support user', new_support_interface_support_user_path %>
+<% end %>
 
 <table class="govuk-table">
   <thead class="govuk-table__head">
