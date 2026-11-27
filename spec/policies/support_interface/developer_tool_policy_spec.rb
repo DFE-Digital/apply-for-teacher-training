@@ -25,8 +25,8 @@ RSpec.describe SupportInterface::DeveloperToolPolicy do
     context 'when the user has a service_administration role' do
       let(:role) { 'service_administration' }
 
-      it 'denies access' do
-        expect(policy).not_to permit(support_user, nil)
+      it 'permits access' do
+        expect(policy).to permit(support_user, nil)
       end
     end
 
