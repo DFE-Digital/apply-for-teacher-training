@@ -13,6 +13,43 @@ SERVICE_NAME=apply
 DB_TOOLS_POD_NAME=apply-$(CONFIG)-postgres-db-tools-pod
 NAMESPACE = $(shell jq -r '.namespace' terraform/aks/workspace_variables/$(CONFIG).tfvars.json)
 
+.PHONY: postgres-tools-action-inputs
+postgres-tools-action-inputs: ## Print resource names for the PostgreSQL tools action
+	@set -eu; \
+	case "$(CONFIG)" in \
+		qa|staging|sandbox|production) ;; \
+		*) echo "Unknown PostgreSQL environment: $(CONFIG)" >&2; exit 1 ;; \
+	esac; \
+	. "global_config/$(CONFIG).sh"; \
+	SERVICE_NAME="$(SERVICE_NAME)"; \
+	SERVICE_SHORT="$(SERVICE_SHORT)"; \
+	TF_VARS_FILE="terraform/aks/workspace_variables/$${CONFIG}.tfvars.json"; \
+	CLUSTER=$$(jq -er '.cluster' "$$TF_VARS_FILE"); \
+	NAMESPACE=$$(jq -er '.namespace' "$$TF_VARS_FILE"); \
+	case "$$CLUSTER" in \
+		test) CLUSTER_RG="s189t01-tsc-ts-rg"; CLUSTER_NAME="s189t01-tsc-test-aks" ;; \
+		platform-test) CLUSTER_RG="s189t01-tsc-pt-rg"; CLUSTER_NAME="s189t01-tsc-platform-test-aks" ;; \
+		production) CLUSTER_RG="s189p01-tsc-pd-rg"; CLUSTER_NAME="s189p01-tsc-production-aks" ;; \
+		*) echo "Unknown cluster: $$CLUSTER" >&2; exit 1 ;; \
+	esac; \
+	if [ -n "$${AZURE_RESOURCE_PREFIX:-}" ]; then \
+		RESOURCE_PREFIX="$$AZURE_RESOURCE_PREFIX"; \
+	elif [ -n "$${RESOURCE_NAME_PREFIX:-}" ]; then \
+		RESOURCE_PREFIX="$$RESOURCE_NAME_PREFIX"; \
+	else \
+		echo "Unable to determine resource prefix" >&2; exit 1; \
+	fi; \
+	STORAGE_ACCOUNT_NAME="$${RESOURCE_PREFIX}$${SERVICE_SHORT}dbbkp$${CONFIG_SHORT}sa"; \
+	DEPLOYMENT_NAME="$${SERVICE_NAME}-$${CONFIG}"; \
+	DB_TOOLS_POD_NAME="$${DEPLOYMENT_NAME}-postgres-db-tools-pod"; \
+	printf 'cluster_name=%s\n' "$$CLUSTER_NAME"; \
+	printf 'cluster_rg=%s\n' "$$CLUSTER_RG"; \
+	printf 'namespace=%s\n' "$$NAMESPACE"; \
+	printf 'storage_account_name=%s\n' "$$STORAGE_ACCOUNT_NAME"; \
+	printf 'deployment_name=%s\n' "$$DEPLOYMENT_NAME"; \
+	printf 'db_tools_pod_name=%s\n' "$$DB_TOOLS_POD_NAME"; \
+	printf 'container_name=database-backup\n'
+
 define copy_to_host
 	## Obtains the results folder from within the stopped container and copies it to the local file system on the agent.
 	container_id=$$(docker ps -a --no-trunc | grep apply-for-teacher-training | head -1 | cut -d ' ' -f1); \

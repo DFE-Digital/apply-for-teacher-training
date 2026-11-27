@@ -19,11 +19,6 @@ on:
 permissions:
   id-token: write
 
-env:
-  SERVICE_NAME: apply
-  SERVICE_SHORT: att
-  TF_VARS_PATH: terraform/aks/workspace_variables
-
 jobs:
   backup:
     name: PostgreSQL Backup
@@ -44,35 +39,43 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - uses: DFE-Digital/github-actions/postgres-tools@master
+      - name: Derive PostgreSQL resource names
+        id: derive_names
+        shell: bash
+        run: make postgres-tools-action-inputs CONFIG="${DEPLOY_ENV}" >> "$GITHUB_OUTPUT"
+
+      - uses: DFE-Digital/github-actions/postgres-tools@3186-pod-backup-make-generic
         with:
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           operation: backup
-          service-name: ${{ env.SERVICE_NAME }}
-          service-short: ${{ env.SERVICE_SHORT }}
-          environment: ${{ env.DEPLOY_ENV }}
-          tf-vars-path: ${{ env.TF_VARS_PATH }}
+          cluster-name: ${{ steps.derive_names.outputs.cluster_name }}
+          cluster-rg: ${{ steps.derive_names.outputs.cluster_rg }}
+          namespace: ${{ steps.derive_names.outputs.namespace }}
+          storage-account-name: ${{ steps.derive_names.outputs.storage_account_name }}
+          deployment-name: ${{ steps.derive_names.outputs.deployment_name }}
+          db-tools-pod-name: ${{ steps.derive_names.outputs.db_tools_pod_name }}
+          container-name: ${{ steps.derive_names.outputs.container_name }}
 
-      - name: Notify teams channel on job failure
-        if: ${{ failure() }}
-        uses: DFE-Digital/github-actions/send-to-teams-channel@master
-        with:
-          teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
-          title: PostgreSQL Backup
-          service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
-          message: |
-            The PostgreSQL backup of ${{ env.DEPLOY_ENV }} has failed
+      # - name: Notify teams channel on job failure
+      #   if: ${{ failure() }}
+      #   uses: DFE-Digital/github-actions/send-to-teams-channel@master
+      #   with:
+      #     teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+      #     title: PostgreSQL Backup
+      #     service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
+      #     message: |
+      #       The PostgreSQL backup of ${{ env.DEPLOY_ENV }} has failed
 
-      - name: Notify teams channel on workflow success
-        if: ${{ success() }}
-        uses: DFE-Digital/github-actions/send-to-teams-channel@master
-        with:
-          teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
-          title: PostgreSQL Backup
-          service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
-          status: good
-          minimal: true
-          message: |
-            The PostgreSQL backup of ${{ env.DEPLOY_ENV }} completed successfully
+      # - name: Notify teams channel on workflow success
+      #   if: ${{ success() }}
+      #   uses: DFE-Digital/github-actions/send-to-teams-channel@master
+      #   with:
+      #     teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+      #     title: PostgreSQL Backup
+      #     service: ${{ vars.TEAMS_MSG_SERVICE_NAME }}
+      #     status: good
+      #     minimal: true
+      #     message: |
+      #       The PostgreSQL backup of ${{ env.DEPLOY_ENV }} completed successfully
