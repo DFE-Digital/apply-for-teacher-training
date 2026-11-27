@@ -11,7 +11,6 @@
     form_field: f.govuk_select(
       :provider_name,
       options_for_select(dfe_autocomplete_options(@form.providers), f.object.provider_name),
-      aria: { label: 'support-interface-application-forms-previous-teacher-trainings-teacher-training-form-provider-name-field-select' },
       label: { text: t('.provider_name'), size: 'm' },
     ),
   ) %>
@@ -20,9 +19,21 @@
 
   <%= f.govuk_date_field :ended_at, omit_day: true, legend: { text: t('.end_date'), size: 'm' }, hint: { text: t('.end_date_hint') } %>
 
+  <% content_for(:hint) do %>
+    <p class="govuk-body govuk-hint">
+      This should include:
+    </p>
+
+    <ul>
+      <li>the name of the course</li>
+      <li>why the candidate left or did not complete the course</li>
+    </ul>
+  <% end %>
+
   <%= f.govuk_text_area(
     :details,
     label: { text: t('.details'), size: 'm' },
+    hint: -> { content_for(:hint) },
     rows: 10,
     max_length: 200,
     count_type: :words,

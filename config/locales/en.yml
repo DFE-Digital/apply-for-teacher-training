@@ -680,6 +680,33 @@ en:
                 blank: Select an email address
               other_email_address:
                 blank: Enter an email address
+        support_interface/application_forms/previous_teacher_trainings/declaration_form:
+            attributes:
+              started:
+                blank: Select whether the candidate has started a teacher training course before
+              audit_comment:
+                blank: Enter a Zendesk ticket URL
+        support_interface/application_forms/previous_teacher_trainings/teacher_training_form:
+            attributes:
+              provider_name:
+                blank: Enter the name of the training provider
+                too_long: Enter a training provider name that is fewer than 100 characters
+              started_at:
+                blank_date: Enter the date that the candidate started the training course
+                blank_date_fields: Enter the %{fields} that the candidate started the training course
+                before: Enter a course start date that is before the date the candidate left the course
+                past: Date that you started the training course must be in the past
+                invalid_date_month_and_year: Enter a real course start date, for example 5 2019
+              ended_at:
+                blank_date: Enter the date that the candidate left the training course
+                blank_date_fields: Enter the %{fields} that the candidate left the training course
+                invalid_date_month_and_year: Enter a real course leave date, for example 5 2019
+                past: Date that the candidate left the training course must be in the past
+              details:
+                blank: Enter details about the previous teacher training courses
+                too_many_words: Your answer must be %{maximum} words or less. You have %{count} words too many.
+              audit_comment:
+                blank: Enter a Zendesk ticket URL
 
   activerecord:
     attributes:

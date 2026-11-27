@@ -44,9 +44,9 @@ module SupportInterface
         end
 
         def next_path
-          if previous_teacher_training.started_yes? && application_form.previous_teacher_trainings.count > 1
+          if previous_teacher_training.started_yes? && previous_teacher_training.provider_name.blank?
             support_interface_application_form_edit_teacher_training_previous_teacher_trainings_path(application_form, previous_teacher_training)
-          elsif previous_teacher_training.started_no?
+          else
             support_interface_application_form_path(application_form)
           end
         end

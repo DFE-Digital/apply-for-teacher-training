@@ -8,11 +8,11 @@ module SupportInterface
         attr_accessor :provider_name, :start_date_day, :start_date_month, :start_date_year,
                       :end_date_day, :end_date_month, :end_date_year, :details, :audit_comment, :previous_teacher_training
 
-        validates :provider_name, presence: true
-        validates :audit_comment, presence: true
-        validates :details, presence: true, word_count: { maximum: 200 }
+        validates :provider_name, presence: true, length: { maximum: 100 }
         validates :started_at, date: { month_and_year: true, presence: true, past: true, before: :ended_at }
         validates :ended_at, date: { month_and_year: true, presence: true, past: true }
+        validates :details, presence: true, word_count: { maximum: 200 }
+        validates :audit_comment, presence: true
 
         def initialize(previous_teacher_training = nil)
           return unless previous_teacher_training
