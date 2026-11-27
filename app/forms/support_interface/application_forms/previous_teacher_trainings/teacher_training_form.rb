@@ -5,8 +5,8 @@ module SupportInterface
         include ActiveModel::Model
         include DateValidationHelper
 
-        attr_accessor :provider_name, :start_date_day, :start_date_month, :start_date_year,
-                      :end_date_day, :end_date_month, :end_date_year, :details, :audit_comment, :previous_teacher_training
+        attr_accessor :provider_name, :start_date_month, :start_date_year, :end_date_month, :end_date_year, :details,
+                      :audit_comment, :previous_teacher_training
 
         validates :provider_name, presence: true, length: { maximum: 100 }
         validates :started_at, date: { month_and_year: true, presence: true, past: true, before: :ended_at }
@@ -34,6 +34,7 @@ module SupportInterface
           return false unless valid?
 
           previous_teacher_training.started = 'yes'
+          previous_teacher_training.status = 'draft'
           previous_teacher_training.provider_name = provider_name
           previous_teacher_training.provider_id = Provider.find_by(name: provider_name)&.id
           previous_teacher_training.started_at = started_at

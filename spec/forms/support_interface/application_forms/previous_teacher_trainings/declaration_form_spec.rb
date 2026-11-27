@@ -26,14 +26,55 @@ RSpec.describe SupportInterface::ApplicationForms::PreviousTeacherTrainings::Dec
 
   describe 'save' do
     context 'when the attributes are not valid' do
+      before do
+        form.assign_attributes(started: nil, audit_comment: nil)
+      end
+
       it 'returns false' do
         expect(form.save).to be(false)
 
-        expect(form.errors).to include([''])
+        expect(form.errors[:started]).to eq(['Select whether the candidate has started a teacher training course before'])
+        expect(form.errors[:audit_comment]).to eq(['Enter a Zendesk ticket URL'])
       end
     end
 
-    context 'when '
+    context 'when the previous teacher training is assigned to not started' do
+      before do
+        form.assign_attributes(started: 'no', audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
+      end
+
+      it 'returns true, and changes the previous teacher training to "no" (not started) and nullifies the attributes' do
+        expect(form.save).to be(true)
+        previous_teacher_training.reload
+
+        expect(previous_teacher_training.started).to eq('no')
+        expect(previous_teacher_training.provider_name).to be_nil
+        expect(previous_teacher_training.provider_id).to be_nil
+        expect(previous_teacher_training.started_at).to be_nil
+        expect(previous_teacher_training.ended_at).to be_nil
+        expect(previous_teacher_training.details).to be_nil
+      end
+    end
+
+    context 'when the previous teacher training is assigned to started' do
+      let(:previous_teacher_training) { create(:previous_teacher_training, :not_started) }
+
+      before do
+        form.assign_attributes(started: 'yes', audit_comment: 'https://becomingateacher.zendesk.com/agent/tickets/12345')
+      end
+
+      it 'returns true, and the previous teacher training is not changed' do
+        expect(form.save).to be(true)
+        previous_teacher_training.reload
+
+        expect(previous_teacher_training.started).to eq('no')
+        expect(previous_teacher_training.provider_name).to be_nil
+        expect(previous_teacher_training.provider_id).to be_nil
+        expect(previous_teacher_training.started_at).to be_nil
+        expect(previous_teacher_training.ended_at).to be_nil
+        expect(previous_teacher_training.details).to be_nil
+      end
+    end
   end
 
   describe '.next_path' do

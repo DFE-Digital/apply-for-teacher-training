@@ -28,7 +28,7 @@ module SupportInterface
           previous_teacher_training.started = started
 
           if previous_teacher_training.started_no?
-            previous_teacher_training.started = started
+            previous_teacher_training.status = 'draft'
             previous_teacher_training.audit_comment = audit_comment
             previous_teacher_training.provider_name = nil
             previous_teacher_training.provider_id = nil

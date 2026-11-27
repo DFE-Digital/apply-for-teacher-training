@@ -3,7 +3,6 @@ module SupportInterface
     module PreviousTeacherTrainings
       class RemoveForm
         include ActiveModel::Model
-        include Rails.application.routes.url_helpers
 
         attr_accessor :previous_teacher_training
 
