@@ -9,26 +9,35 @@
     <div class="app-grid-column--grey">
       <h1 class="govuk-heading-l"><%= t('page_titles.visa_expiry_interruption') %></h1>
       <p class="govuk-body">
-        Your visa expires on <%= current_application.visa_expired_at.to_fs(:govuk_date) %>.<br>
+        Your visa expires on <%= current_application.visa_expired_at.to_fs(:govuk_date) %>.
+      </p>
+
+      <p class="govuk-body">
         This course starts in <%= @application_choice.current_course.start_date.to_fs(:month_and_year) %>.
       </p>
 
       <p class="govuk-body">
-        You must have a visa that is valid until the end of your course.
+        You must have the right to study in the UK for the duration of the course.
       </p>
 
       <p class="govuk-body">
-        You may want to contact
-        <%= govuk_link_to @application_choice.provider.name, @find_provider_url, new_tab: true %>
+        You may want to
+        <%= govuk_link_to "contact #{@application_choice.provider.name}", @find_provider_url, new_tab: true %>
         to confirm the exact course end date.
       </p>
 
       <p class="govuk-body">
-        Or consider <%= govuk_link_to 'finding a course that offers visa sponsorship', @find_url_with_visa_filter, new_tab: true %>
+        You can continue your application and tell the training provider how you expect to stay in the UK for this course.
       </p>
+
+      <% unless @wizard.course_supports_visa_sponsorship? %>
+        <p class="govuk-body">
+          Alternatively, you can <%= govuk_link_to 'find a course that offers visa sponsorship', @find_url_with_visa_filter, new_tab: true %>
+        </p>
+      <% end %>
     </div>
     <div class="govuk-button-group app-course-choice__confirm-submission">
-      <%= govuk_button_link_to('Continue to submit this application', @wizard.next_step_path, method: :get) %>
+      <%= govuk_button_link_to('Continue', @wizard.next_step_path, method: :get) %>
       <%= govuk_link_to('Go to your account', candidate_interface_details_path) %>
     </div>
   </div>

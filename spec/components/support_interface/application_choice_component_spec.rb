@@ -552,7 +552,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
       result = render_inline(described_class.new(application_choice))
 
-      expect(result.text).not_to include('Based on your visa expiry date, which of these applies to you?')
+      expect(result.text).not_to include('How will you be able to stay in the UK for the duration of this course?')
     end
   end
 end

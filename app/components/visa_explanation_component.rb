@@ -7,7 +7,7 @@ class VisaExplanationComponent < ApplicationComponent
 
   def formatted_content
     explanation = I18n.t(
-      "candidate_interface.visa_explanation_component.#{@application_choice.visa_explanation}",
+      "visa_expiry_form.options.#{@application_choice.visa_explanation}",
     )
 
     if @application_choice.visa_explanation_other?

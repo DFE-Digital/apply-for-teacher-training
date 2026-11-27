@@ -30,7 +30,7 @@ RSpec.describe 'Selecting a study mode', :with_cache do
 
     when_i_select_a_site
     then_i_see_the_visa_expiry_interruption
-    when_i_click('Continue to submit this application')
+    when_i_click('Continue')
     then_i_explain_my_visa_situation
     when_i_click('Continue')
     then_i_see_my_course_choice
@@ -54,23 +54,23 @@ RSpec.describe 'Selecting a study mode', :with_cache do
   end
 
   def then_i_explain_my_visa_situation
-    expect(page).to have_text('Based on your visa expiry date, which of these applies to you?')
+    expect(page).to have_text('How will you be able to stay in the UK for the duration of this course?')
     choose 'My visa expires after the course ends'
   end
 
   def and_i_can_see_my_visa_explanation
-    expect(page).to have_text('Based on your visa expiry date, which of these applies to you?')
+    expect(page).to have_text('How will you be able to stay in the UK for the duration of this course?')
     expect(page).to have_text('My visa expires after the course ends')
   end
 
   def when_i_change_my_visa_explanation
     click_link_or_button 'Change visa explanation'
-    choose 'I will be able to renew or extend my current visa'
+    choose 'I expect to extend my current visa'
     click_link_or_button 'Continue'
   end
 
   def then_i_can_see_my_new_visa_explanation
-    expect(page).to have_text('I will be able to renew or extend my current visa')
+    expect(page).to have_text('I expect to extend my current visa')
   end
 
   def when_i_click(button)

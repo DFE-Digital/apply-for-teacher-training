@@ -26,6 +26,8 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
     it { is_expected.to delegate_method(:not_multiple_sites_or_study_modes?).to(:state_store) }
     it { is_expected.to delegate_method(:visa_expires_soon?).to(:state_store) }
     it { is_expected.to delegate_method(:not_confirmed?).to(:state_store) }
+    it { is_expected.to delegate_method(:student_or_skilled_worker_visa?).to(:state_store) }
+    it { is_expected.to delegate_method(:course_supports_visa_sponsorship?).to(:state_store) }
   end
 
   describe 'steps' do
@@ -40,6 +42,10 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
     let(:current_step_params) { { current_application_id: application_form.id } }
     let(:application_form) { create(:completed_application_form) }
+
+    before do
+      state_store.write(current_application_id: application_form.id)
+    end
 
     describe 'root_step' do
       it 'returns the :do_you_know_the_course as the root step' do
@@ -73,7 +79,11 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
       context 'when the candidate applies for a closed course' do
         before do
-          allow(state_store).to receive_messages(reapplication_limit_reached?: false, duplicate_course?: false, course_closed?: true)
+          allow(state_store).to receive_messages(
+            reapplication_limit_reached?: false,
+            duplicate_course?: false,
+            course_closed?: true,
+          )
         end
 
         it { is_expected.to branch_from(:which_course_are_you_applying_to).to(:closed_course_selection) }
@@ -81,7 +91,12 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
       context 'when the candidate applies for a course that is no longer available' do
         before do
-          allow(state_store).to receive_messages(reapplication_limit_reached?: false, duplicate_course?: false, course_closed?: false, course_unavailable?: true)
+          allow(state_store).to receive_messages(
+            reapplication_limit_reached?: false,
+            duplicate_course?: false,
+            course_closed?: false,
+            course_unavailable?: true,
+          )
         end
 
         it { is_expected.to branch_from(:which_course_are_you_applying_to).to(:full_course_selection) }
@@ -89,7 +104,13 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
       context 'when the candidate applies for a course that has only one site and study mode' do
         before do
-          allow(state_store).to receive_messages(reapplication_limit_reached?: false, duplicate_course?: false, course_closed?: false, course_unavailable?: false, not_multiple_sites_or_study_modes?: true)
+          allow(state_store).to receive_messages(
+            reapplication_limit_reached?: false,
+            duplicate_course?: false,
+            course_closed?: false,
+            course_unavailable?: false,
+            not_multiple_sites_or_study_modes?: true,
+          )
         end
 
         it { is_expected.to branch_from(:which_course_are_you_applying_to).to(:course_review) }
@@ -97,7 +118,14 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
       context 'when the candidate applies for a course that has multiple study modes' do
         before do
-          allow(state_store).to receive_messages(reapplication_limit_reached?: false, duplicate_course?: false, course_closed?: false, course_unavailable?: false, not_multiple_sites_or_study_modes?: false, multiple_study_modes?: true)
+          allow(state_store).to receive_messages(
+            reapplication_limit_reached?: false,
+            duplicate_course?: false,
+            course_closed?: false,
+            course_unavailable?: false,
+            not_multiple_sites_or_study_modes?: false,
+            multiple_study_modes?: true,
+          )
         end
 
         it { is_expected.to branch_from(:which_course_are_you_applying_to).to(:course_study_mode) }
@@ -105,15 +133,50 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
       context 'when the candidate applies for a course that has multiple course sites' do
         before do
-          allow(state_store).to receive_messages(reapplication_limit_reached?: false, duplicate_course?: false, course_closed?: false, course_unavailable?: false, not_multiple_sites_or_study_modes?: false, multiple_study_modes?: false, multiple_sites?: true)
+          allow(state_store).to receive_messages(
+            reapplication_limit_reached?: false,
+            duplicate_course?: false,
+            course_closed?: false,
+            course_unavailable?: false,
+            not_multiple_sites_or_study_modes?: false,
+            multiple_study_modes?: false,
+            multiple_sites?: true,
+          )
         end
 
         it { is_expected.to branch_from(:which_course_are_you_applying_to).to(:course_site) }
       end
 
+      context 'when the candidate requires visa sponsorship' do
+        before do
+          allow(state_store).to receive_messages(
+            reapplication_limit_reached?: false,
+            duplicate_course?: false,
+            course_closed?: false,
+            course_unavailable?: false,
+            not_multiple_sites_or_study_modes?: false,
+            multiple_study_modes?: false,
+            multiple_sites?: false,
+            student_or_skilled_worker_visa?: true,
+          )
+        end
+
+        it { is_expected.to branch_from(:which_course_are_you_applying_to).to(:visa_not_covered_interruption) }
+      end
+
       context "when the candidate's visa expires soon" do
         before do
-          allow(state_store).to receive_messages(reapplication_limit_reached?: false, duplicate_course?: false, course_closed?: false, course_unavailable?: false, not_multiple_sites_or_study_modes?: false, multiple_study_modes?: false, multiple_sites?: false, visa_expires_soon?: true)
+          allow(state_store).to receive_messages(
+            reapplication_limit_reached?: false,
+            duplicate_course?: false,
+            course_closed?: false,
+            course_unavailable?: false,
+            not_multiple_sites_or_study_modes?: false,
+            multiple_study_modes?: false,
+            multiple_sites?: false,
+            student_or_skilled_worker_visa?: false,
+            visa_expires_soon?: true,
+          )
         end
 
         it { is_expected.to branch_from(:which_course_are_you_applying_to).to(:visa_expiry_interruption) }
@@ -160,6 +223,20 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
         it { is_expected.to branch_from(:find_course_selection).to(:course_site) }
       end
 
+      context 'when the candidate requires visa sponsorship' do
+        before do
+          allow(state_store).to receive_messages(
+            reapplication_limit_reached?: false,
+            duplicate_course?: false,
+            multiple_study_modes?: false,
+            multiple_sites?: false,
+            student_or_skilled_worker_visa?: true,
+          )
+        end
+
+        it { is_expected.to branch_from(:find_course_selection).to(:visa_not_covered_interruption) }
+      end
+
       context "when the candidate's visa expires soon" do
         before do
           allow(state_store).to receive_messages(
@@ -167,6 +244,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
             duplicate_course?: false,
             multiple_study_modes?: false,
             multiple_sites?: false,
+            student_or_skilled_worker_visa?: false,
             visa_expires_soon?: true,
           )
         end
@@ -181,6 +259,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
             duplicate_course?: false,
             multiple_study_modes?: false,
             multiple_sites?: false,
+            student_or_skilled_worker_visa?: false,
             visa_expires_soon?: false,
             find_course_selected?: true,
           )
@@ -196,6 +275,7 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
             duplicate_course?: false,
             multiple_study_modes?: false,
             multiple_sites?: false,
+            student_or_skilled_worker_visa?: false,
             visa_expires_soon?: false,
             find_course_selected?: false,
             not_confirmed?: true,
@@ -215,9 +295,21 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
         it { is_expected.to branch_from(:course_study_mode).to(:course_site) }
       end
 
+      context 'when the candidate requires visa sponsorship' do
+        before do
+          allow(state_store).to receive_messages(multiple_sites?: false, student_or_skilled_worker_visa?: true)
+        end
+
+        it { is_expected.to branch_from(:course_study_mode).to(:visa_not_covered_interruption) }
+      end
+
       context "when the candidate's visa expires soon" do
         before do
-          allow(state_store).to receive_messages(multiple_sites?: false, visa_expires_soon?: true)
+          allow(state_store).to receive_messages(
+            multiple_sites?: false,
+            student_or_skilled_worker_visa?: false,
+            visa_expires_soon?: true,
+          )
         end
 
         it { is_expected.to branch_from(:course_study_mode).to(:visa_expiry_interruption) }
@@ -225,7 +317,12 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
 
       context 'when the candidate applies for a course that has only one site' do
         before do
-          allow(state_store).to receive_messages(multiple_sites?: false, visa_expires_soon?: false, not_multiple_sites?: true)
+          allow(state_store).to receive_messages(
+            multiple_sites?: false,
+            student_or_skilled_worker_visa?: false,
+            visa_expires_soon?: false,
+            not_multiple_sites?: true,
+          )
         end
 
         it { is_expected.to branch_from(:course_study_mode).to(:course_review) }
@@ -233,21 +330,33 @@ RSpec.describe CandidateInterface::CourseSelectionWizard, type: :model do
     end
 
     describe 'branching from course_site' do
+      context 'when the candidate requires visa sponsorship' do
+        before do
+          allow(state_store).to receive(:student_or_skilled_worker_visa?).and_return(true)
+        end
+
+        it { is_expected.to branch_from(:course_site).to(:visa_not_covered_interruption) }
+      end
+
       context "when the candidate's visa expires soon" do
         before do
-          allow(state_store).to receive(:visa_expires_soon?).and_return(true)
+          allow(state_store).to receive_messages(student_or_skilled_worker_visa?: false, visa_expires_soon?: true)
         end
 
         it { is_expected.to branch_from(:course_site).to(:visa_expiry_interruption) }
       end
 
-      context "when the candidate's visa does not expire soon" do
+      context 'when the candidate does not require visa sponsorship and their visa does not expire soon' do
         before do
-          allow(state_store).to receive(:visa_expires_soon?).and_return(false)
+          allow(state_store).to receive_messages(student_or_skilled_worker_visa?: false, visa_expires_soon?: false)
         end
 
         it { is_expected.to branch_from(:course_site).to(:course_review) }
       end
+    end
+
+    describe 'branching from visa_not_covered_interruption' do
+      it { is_expected.to branch_from(:visa_not_covered_interruption).to(:visa_explanation) }
     end
 
     describe 'branching from visa_expiry_interruption' do

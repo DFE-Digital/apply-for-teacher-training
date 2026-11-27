@@ -784,8 +784,11 @@ class ApplicationForm < ApplicationRecord
   end
 
   def requires_visa_sponsorship?
-    right_to_work_or_study_no? ||
-      (right_to_work_or_study_yes? && immigration_status.in?(VISAS_REQUIRING_SPONSORSHIP))
+    right_to_work_or_study_no? || student_or_skilled_worker_visa?
+  end
+
+  def student_or_skilled_worker_visa?
+    right_to_work_or_study_yes? && immigration_status.in?(VISAS_REQUIRING_SPONSORSHIP)
   end
 
   def already_applied_course_ids

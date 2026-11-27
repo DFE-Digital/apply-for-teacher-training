@@ -2297,4 +2297,36 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '.student_or_skilled_worker_visa?' do
+    context 'when the candidate does not have the right to work or study' do
+      it 'returns false' do
+        application_form = build(:application_form, right_to_work_or_study: 'no')
+        expect(application_form.student_or_skilled_worker_visa?).to be false
+      end
+    end
+
+    context 'when the candidate has the right to work or study' do
+      context 'when the candidate has a student visa' do
+        it 'returns true' do
+          application_form = build(:application_form, right_to_work_or_study: 'yes', immigration_status: 'student_visa')
+          expect(application_form.student_or_skilled_worker_visa?).to be true
+        end
+      end
+
+      context 'when the candidate has a skilled worker visa' do
+        it 'returns true' do
+          application_form = build(:application_form, right_to_work_or_study: 'yes', immigration_status: 'skilled_worker_visa')
+          expect(application_form.student_or_skilled_worker_visa?).to be true
+        end
+      end
+
+      context 'when the candidate has a different visa' do
+        it 'returns false' do
+          application_form = build(:application_form, right_to_work_or_study: 'yes', immigration_status: 'uk_ancestry_visa')
+          expect(application_form.student_or_skilled_worker_visa?).to be false
+        end
+      end
+    end
+  end
 end

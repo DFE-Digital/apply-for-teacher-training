@@ -5,36 +5,39 @@
   :visa_explanation,
   legend: { text: t('visa_expiry_form.visa_explanation_label'), tag: 'h1', size: 'l' },
 ) do %>
-  <%= f.govuk_radio_button(
-    :visa_explanation,
-    :expires_after_course,
-    link_errors: true,
-    label: { text: 'My visa expires after the course ends' },
-  ) %>
+  <% unless @wizard.student_or_skilled_worker_visa? %>
+    <%= f.govuk_radio_button(
+      :visa_explanation,
+      :expires_after_course,
+      link_errors: true,
+      label: { text: t('visa_expiry_form.options.expires_after_course') },
+    ) %>
+  <% end %>
   <%= f.govuk_radio_button(
     :visa_explanation,
     :renew,
-    label: { text: 'I will be able to renew or extend my current visa' },
+    link_errors: @wizard.student_or_skilled_worker_visa?,
+    label: { text: t('visa_expiry_form.options.renew') },
   ) %>
   <%= f.govuk_radio_button(
     :visa_explanation,
     :leads_to_permanent_visa,
-    label: { text: 'My current visa leads to indefinite leave to remain (ILR) or settled status' },
+    label: { text: t('visa_expiry_form.options.leads_to_permanent_visa') },
   ) %>
   <%= f.govuk_radio_button(
     :visa_explanation,
     :switch_to_different_visa,
-    label: { text: 'I expect to switch to a different UK visa category' },
+    label: { text: t('visa_expiry_form.options.switch_to_different_visa') },
   ) %>
 
   <%= f.govuk_radio_button(
     :visa_explanation,
     :other,
-    label: { text: 'Other' },
+    label: { text: t('visa_expiry_form.options.other') },
   ) do %>
     <%= f.govuk_text_area(
       :visa_explanation_details,
-      label: { text: 'Details', size: 's' },
+      label: { text: t('visa_expiry_form.options.details'), size: 's' },
       max_length: 200,
       count_type: :words,
       rows: 5,
@@ -44,10 +47,10 @@
   <%= f.govuk_radio_button(
     :visa_explanation,
     :not_sure,
-    label: { text: 'I’m not sure' },
+    label: { text: t('visa_expiry_form.options.not_sure') },
   ) do %>
     <p class='govuk-hint'>
-      You can submit your application, but it is unlikely to be successful.
+      <%= t('visa_expiry_form.unluckily_successful') %>
     </p>
   <% end %>
 <% end %>
